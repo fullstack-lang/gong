@@ -172,6 +172,40 @@ func (from *NextCircleShape) CopyBasicFields(to *NextCircleShape) {
 	to.Name = from.Name
 }
 
+type PerpendicularVector_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *PerpendicularVector) CopyBasicFields(to *PerpendicularVector) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type PerpendicularVectorGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PerpendicularVectorGrid) CopyBasicFields(to *PerpendicularVectorGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Plant_WOP struct {
 	// insertion point
 
@@ -260,6 +294,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenGrowthVectorShape bool
 
+	IsHiddenPerpendicularVectorGrid bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -284,6 +320,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenRotatedRhombusGridShape = from.IsHiddenRotatedRhombusGridShape
 	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
+	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

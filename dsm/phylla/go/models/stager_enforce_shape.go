@@ -256,7 +256,18 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		"GrowthVectorShape",
 	)
 
-	return n1 || n2 || n3 || n4 || n5 || n6
+	n7 := enforcePlantHasShape[*PerpendicularVectorGrid](
+		stager,
+		func() *PerpendicularVectorGrid { return new(PerpendicularVectorGrid) },
+		func(p *Plant) *PerpendicularVectorGrid { return p.PerpendicularVectorGrid },
+		func(p *Plant, shape *PerpendicularVectorGrid) { p.PerpendicularVectorGrid = shape },
+		func(p *Plant, shape *PerpendicularVectorGrid) bool {
+			return p.PerpendicularVectorGrid == shape
+		},
+		"PerpendicularVectorGrid",
+	)
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -324,7 +335,13 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"GrowthVectorShape",
 	)
 
-	return n1 || n2 || n3 || n4 || n5 || n6
+	n7 := enforcePlantShapeName[*PerpendicularVectorGrid](
+		stager,
+		func(p *Plant) *PerpendicularVectorGrid { return p.PerpendicularVectorGrid },
+		"PerpendicularVectorGrid",
+	)
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -353,7 +370,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforceRotatedRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape2, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
 		if plant.GrowthCurveRhombusGridShape != nil && plant.RotatedRhombusGridShape2 != nil && plant.PlantCircumferenceShape != nil {
-			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthCurveRhombusGridShape, plant.RotatedRhombusGridShape2, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
+			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthCurveRhombusGridShape, plant.RotatedRhombusGridShape2, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle, plant.PlantCircumferenceShape.Length) || needCommit
 		}
 
 		if plant.GrowthVectorShape != nil && plant.GrowthCurveRhombusGridShape != nil {
@@ -396,7 +413,91 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 				}
 			}
 		}
+		
+		if plant.PerpendicularVectorGrid != nil && plant.GrowthCurveRhombusGridShape != nil {
+			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
+		}
 	}
+	return
+}
+
+func enforcePerpendicularVectorGridHasVectors(stage *Stage, grid *PerpendicularVectorGrid, sourceGrid *GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
+	// The four vertices relative to the center before rotation
+	p1x, p1y := -(v1x+v2x)/2.0, -(v1y+v2y)/2.0
+	p2x, p2y := (v1x-v2x)/2.0, (v1y-v2y)/2.0
+	p3x, p3y := (v2x-v1x)/2.0, (v2y-v1y)/2.0
+	p4x, p4y := (v1x+v2x)/2.0, (v1y+v2y)/2.0
+
+	cosA := math.Cos(rotAngleRad)
+	sinA := math.Sin(rotAngleRad)
+
+	pts := []struct{ x, y float64 }{
+		{p1x*cosA - p1y*sinA, p1x*sinA + p1y*cosA},
+		{p2x*cosA - p2y*sinA, p2x*sinA + p2y*cosA},
+		{p3x*cosA - p3y*sinA, p3x*sinA + p3y*cosA},
+		{p4x*cosA - p4y*sinA, p4x*sinA + p4y*cosA},
+	}
+
+	minY := pts[0].y
+	bottomPt := pts[0]
+	for i := 1; i < len(pts); i++ {
+		if pts[i].y < minY {
+			minY = pts[i].y
+			bottomPt = pts[i]
+		}
+	}
+
+	dx := bottomPt.x
+	dy := bottomPt.y
+
+	valid := true
+	if len(grid.PerpendicularVectors) != len(sourceGrid.GrowthCurveRhombusShapes) {
+		valid = false
+	} else {
+		for i, r := range sourceGrid.GrowthCurveRhombusShapes {
+			vec := grid.PerpendicularVectors[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if vec == nil || vec.Name != expectedName {
+				valid = false
+				break
+			}
+			expectedStartX := r.X + dx
+			expectedStartY := r.Y + dy
+			if math.Abs(vec.StartX-expectedStartX) > 1e-4 || math.Abs(vec.StartY-expectedStartY) > 1e-4 ||
+				math.Abs(vec.EndX-r.X) > 1e-4 || math.Abs(vec.EndY-r.Y) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		grid.PerpendicularVectors = make([]*PerpendicularVector, len(sourceGrid.GrowthCurveRhombusShapes))
+		for i, r := range sourceGrid.GrowthCurveRhombusShapes {
+			vec := new(PerpendicularVector).Stage(stage)
+			vec.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			vec.StartX = r.X + dx
+			vec.StartY = r.Y + dy
+			vec.EndX = r.X
+			vec.EndY = r.Y
+			grid.PerpendicularVectors[i] = vec
+		}
+		needCommit = true
+	} else {
+		for i, r := range sourceGrid.GrowthCurveRhombusShapes {
+			vec := grid.PerpendicularVectors[i]
+			expectedStartX := r.X + dx
+			expectedStartY := r.Y + dy
+			if vec.StartX != expectedStartX || vec.StartY != expectedStartY || vec.EndX != r.X || vec.EndY != r.Y {
+				vec.StartX = expectedStartX
+				vec.StartY = expectedStartY
+				vec.EndX = r.X
+				vec.EndY = r.Y
+				needCommit = true
+			}
+		}
+	}
+
 	return
 }
 

@@ -81,6 +81,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct NextCircleShape
 	// insertion point per field
 
+	// Compute reverse map for named struct PerpendicularVector
+	// insertion point per field
+
+	// Compute reverse map for named struct PerpendicularVectorGrid
+	// insertion point per field
+	stage.PerpendicularVectorGrid_PerpendicularVectors_reverseMap = make(map[*PerpendicularVector]*PerpendicularVectorGrid)
+	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
+		_ = perpendicularvectorgrid
+		for _, _perpendicularvector := range perpendicularvectorgrid.PerpendicularVectors {
+			stage.PerpendicularVectorGrid_PerpendicularVectors_reverseMap[_perpendicularvector] = perpendicularvectorgrid
+		}
+	}
+
 	// Compute reverse map for named struct Plant
 	// insertion point per field
 	stage.Plant_PlantDiagrams_reverseMap = make(map[*PlantDiagram]*Plant)
@@ -159,6 +172,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.NextCircleShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PerpendicularVectors {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PerpendicularVectorGrids {
 		res = append(res, instance)
 	}
 
@@ -253,6 +274,18 @@ func (library *Library) GongCopy() GongstructIF {
 func (nextcircleshape *NextCircleShape) GongCopy() GongstructIF {
 	newInstance := new(NextCircleShape)
 	nextcircleshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (perpendicularvector *PerpendicularVector) GongCopy() GongstructIF {
+	newInstance := new(PerpendicularVector)
+	perpendicularvector.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongCopy() GongstructIF {
+	newInstance := new(PerpendicularVectorGrid)
+	perpendicularvectorgrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -400,6 +433,26 @@ func (nextcircleshape *NextCircleShape) GongGetUUID(stage *Stage) (uuid string) 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(nextcircleshape), uint64(GetOrderPointerGongstruct(stage, nextcircleshape)))
+	return
+}
+
+func (perpendicularvector *PerpendicularVector) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(perpendicularvector).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(perpendicularvector), uint64(GetOrderPointerGongstruct(stage, perpendicularvector)))
+	return
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(perpendicularvectorgrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(perpendicularvectorgrid), uint64(GetOrderPointerGongstruct(stage, perpendicularvectorgrid)))
 	return
 }
 
@@ -1086,6 +1139,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(nextcircleshapes_newInstances)
 	lenDeletedInstances += len(nextcircleshapes_deletedInstances)
+	var perpendicularvectors_newInstances []*PerpendicularVector
+	var perpendicularvectors_deletedInstances []*PerpendicularVector
+
+	// parse all staged instances and check if they have a reference
+	for perpendicularvector := range stage.PerpendicularVectors {
+		if ref, ok := stage.PerpendicularVectors_reference[perpendicularvector]; !ok {
+			perpendicularvectors_newInstances = append(perpendicularvectors_newInstances, perpendicularvector)
+			newInstancesSlice = append(newInstancesSlice, perpendicularvector.GongMarshallIdentifier(stage))
+			if stage.PerpendicularVectors_referenceOrder == nil {
+				stage.PerpendicularVectors_referenceOrder = make(map[*PerpendicularVector]uint)
+			}
+			stage.PerpendicularVectors_referenceOrder[perpendicularvector] = stage.PerpendicularVector_stagedOrder[perpendicularvector]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, perpendicularvector.GongMarshallUnstaging(stage))
+			// delete(stage.PerpendicularVectors_referenceOrder, perpendicularvector)
+			fieldInitializers, pointersInitializations := perpendicularvector.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.PerpendicularVector_stagedOrder[ref] = stage.PerpendicularVector_stagedOrder[perpendicularvector]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := perpendicularvector.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, perpendicularvector)
+			// delete(stage.PerpendicularVector_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if perpendicularvector.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", perpendicularvector.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.PerpendicularVectors_reference {
+		instance := stage.PerpendicularVectors_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.PerpendicularVectors[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			perpendicularvectors_deletedInstances = append(perpendicularvectors_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(perpendicularvectors_newInstances)
+	lenDeletedInstances += len(perpendicularvectors_deletedInstances)
+	var perpendicularvectorgrids_newInstances []*PerpendicularVectorGrid
+	var perpendicularvectorgrids_deletedInstances []*PerpendicularVectorGrid
+
+	// parse all staged instances and check if they have a reference
+	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
+		if ref, ok := stage.PerpendicularVectorGrids_reference[perpendicularvectorgrid]; !ok {
+			perpendicularvectorgrids_newInstances = append(perpendicularvectorgrids_newInstances, perpendicularvectorgrid)
+			newInstancesSlice = append(newInstancesSlice, perpendicularvectorgrid.GongMarshallIdentifier(stage))
+			if stage.PerpendicularVectorGrids_referenceOrder == nil {
+				stage.PerpendicularVectorGrids_referenceOrder = make(map[*PerpendicularVectorGrid]uint)
+			}
+			stage.PerpendicularVectorGrids_referenceOrder[perpendicularvectorgrid] = stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, perpendicularvectorgrid.GongMarshallUnstaging(stage))
+			// delete(stage.PerpendicularVectorGrids_referenceOrder, perpendicularvectorgrid)
+			fieldInitializers, pointersInitializations := perpendicularvectorgrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.PerpendicularVectorGrid_stagedOrder[ref] = stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := perpendicularvectorgrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, perpendicularvectorgrid)
+			// delete(stage.PerpendicularVectorGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if perpendicularvectorgrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", perpendicularvectorgrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.PerpendicularVectorGrids_reference {
+		instance := stage.PerpendicularVectorGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.PerpendicularVectorGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			perpendicularvectorgrids_deletedInstances = append(perpendicularvectorgrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(perpendicularvectorgrids_newInstances)
+	lenDeletedInstances += len(perpendicularvectorgrids_deletedInstances)
 	var plants_newInstances []*Plant
 	var plants_deletedInstances []*Plant
 
@@ -1561,6 +1724,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.NextCircleShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.PerpendicularVectors_reference = make(map[*PerpendicularVector]*PerpendicularVector)
+	stage.PerpendicularVectors_referenceOrder = make(map[*PerpendicularVector]uint) // diff Unstage needs the reference order
+	stage.PerpendicularVectors_instance = make(map[*PerpendicularVector]*PerpendicularVector)
+	for instance := range stage.PerpendicularVectors {
+		_copy := instance.GongCopy().(*PerpendicularVector)
+		stage.PerpendicularVectors_reference[instance] = _copy
+		stage.PerpendicularVectors_instance[_copy] = instance
+		stage.PerpendicularVectors_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.PerpendicularVectorGrids_reference = make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid)
+	stage.PerpendicularVectorGrids_referenceOrder = make(map[*PerpendicularVectorGrid]uint) // diff Unstage needs the reference order
+	stage.PerpendicularVectorGrids_instance = make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid)
+	for instance := range stage.PerpendicularVectorGrids {
+		_copy := instance.GongCopy().(*PerpendicularVectorGrid)
+		stage.PerpendicularVectorGrids_reference[instance] = _copy
+		stage.PerpendicularVectorGrids_instance[_copy] = instance
+		stage.PerpendicularVectorGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Plants_reference = make(map[*Plant]*Plant)
 	stage.Plants_referenceOrder = make(map[*Plant]uint) // diff Unstage needs the reference order
 	stage.Plants_instance = make(map[*Plant]*Plant)
@@ -1674,6 +1857,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.NextCircleShapes {
 		reference := stage.NextCircleShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PerpendicularVectors {
+		reference := stage.PerpendicularVectors_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PerpendicularVectorGrids {
+		reference := stage.PerpendicularVectorGrids_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1845,6 +2038,30 @@ func (nextcircleshape *NextCircleShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type NextCircleShape was not staged and does not have a reference order", nextcircleshape)
+		return 0
+	}
+}
+
+func (perpendicularvector *PerpendicularVector) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PerpendicularVector_stagedOrder[perpendicularvector]; ok {
+		return order
+	}
+	if order, ok := stage.PerpendicularVectors_referenceOrder[perpendicularvector]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PerpendicularVector was not staged and does not have a reference order", perpendicularvector)
+		return 0
+	}
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgrid]; ok {
+		return order
+	}
+	if order, ok := stage.PerpendicularVectorGrids_referenceOrder[perpendicularvectorgrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PerpendicularVectorGrid was not staged and does not have a reference order", perpendicularvectorgrid)
 		return 0
 	}
 }
@@ -2025,6 +2242,24 @@ func (nextcircleshape *NextCircleShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", nextcircleshape.GongGetGongstructName(), nextcircleshape.GongGetOrder(stage))
 }
 
+func (perpendicularvector *PerpendicularVector) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", perpendicularvector.GongGetGongstructName(), perpendicularvector.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (perpendicularvector *PerpendicularVector) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", perpendicularvector.GongGetGongstructName(), perpendicularvector.GongGetOrder(stage))
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", perpendicularvectorgrid.GongGetGongstructName(), perpendicularvectorgrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", perpendicularvectorgrid.GongGetGongstructName(), perpendicularvectorgrid.GongGetOrder(stage))
+}
+
 func (plant *Plant) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", plant.GongGetGongstructName(), plant.GongGetOrder(stage))
 }
@@ -2170,6 +2405,22 @@ func (nextcircleshape *NextCircleShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (perpendicularvector *PerpendicularVector) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PerpendicularVector")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvector.Name))
+	return
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvectorgrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PerpendicularVectorGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorgrid.Name))
+	return
+}
+
 func (plant *Plant) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -2282,6 +2533,18 @@ func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (nextcircleshape *NextCircleShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", nextcircleshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (perpendicularvector *PerpendicularVector) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvector.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", perpendicularvectorgrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

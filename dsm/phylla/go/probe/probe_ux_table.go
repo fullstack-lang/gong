@@ -46,6 +46,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Library](probe)
 	case "NextCircleShape":
 		updateProbeTable[*models.NextCircleShape](probe)
+	case "PerpendicularVector":
+		updateProbeTable[*models.PerpendicularVector](probe)
+	case "PerpendicularVectorGrid":
+		updateProbeTable[*models.PerpendicularVectorGrid](probe)
 	case "Plant":
 		updateProbeTable[*models.Plant](probe)
 	case "PlantCircumferenceShape":

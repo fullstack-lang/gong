@@ -815,6 +815,74 @@ func (u *NextCircleShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
+type PerpendicularVectorUnmarshaller struct{}
+
+func (u *PerpendicularVectorUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PerpendicularVector)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PerpendicularVectorUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PerpendicularVector)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type PerpendicularVectorGridUnmarshaller struct{}
+
+func (u *PerpendicularVectorGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PerpendicularVectorGrid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PerpendicularVectorGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PerpendicularVectorGrid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "PerpendicularVectors":
+		GongUnmarshallSliceOfPointers(&instance.PerpendicularVectors, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type PlantUnmarshaller struct{}
 
 func (u *PlantUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -884,6 +952,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.GrowthCurveRhombusGridShape, valueExpr, identifierMap)
 	case "GrowthVectorShape":
 		GongUnmarshallPointer(&instance.GrowthVectorShape, valueExpr, identifierMap)
+	case "PerpendicularVectorGrid":
+		GongUnmarshallPointer(&instance.PerpendicularVectorGrid, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -974,6 +1044,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenGrowthPathRhombusGridShape = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthVectorShape":
 		instance.IsHiddenGrowthVectorShape = GongExtractBool(valueExpr)
+	case "IsHiddenPerpendicularVectorGrid":
+		instance.IsHiddenPerpendicularVectorGrid = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":

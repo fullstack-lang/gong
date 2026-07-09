@@ -121,6 +121,21 @@ func (nextcircleshape *NextCircleShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PerpendicularVector
+func (perpendicularvector *PerpendicularVector) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PerpendicularVectorGrid
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &perpendicularvectorgrid.PerpendicularVectors) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Plant
 func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -138,6 +153,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.RotatedRhombusGridShape2) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveRhombusGridShape) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
+	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
 	return
 }
 

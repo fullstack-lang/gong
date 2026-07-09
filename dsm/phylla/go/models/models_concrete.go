@@ -108,3 +108,18 @@ type GrowthCurveRhombusGridShape struct {
 
 	GrowthCurveRhombusShapes []*GrowthCurveRhombusShape
 }
+
+// PerpendicularVector of a plant,
+type PerpendicularVector struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY float64
+}
+
+// PerpendicularVectorGrid of a plant,
+type PerpendicularVectorGrid struct {
+	Name string
+
+	PerpendicularVectors []*PerpendicularVector
+}

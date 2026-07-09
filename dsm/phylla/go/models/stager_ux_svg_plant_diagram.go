@@ -66,6 +66,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawGrowthPathRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
+	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
 
 	return
 }
@@ -797,4 +798,31 @@ func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *s
 	line.Presentation.Stroke = "blue"
 	line.Presentation.StrokeWidth = 4.0
 	line.Presentation.StrokeOpacity = 1.0
+}
+
+func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.PerpendicularVectorGrid == nil || plantDiagram.IsHiddenPerpendicularVectorGrid {
+		return
+	}
+
+	for _, vec := range plant.PerpendicularVectorGrid.PerpendicularVectors {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = vec.Name
+
+		svg_x1 := plantDiagram.OriginX + vec.StartX
+		svg_y1 := plantDiagram.OriginY - vec.StartY
+
+		svg_x2 := plantDiagram.OriginX + vec.EndX
+		svg_y2 := plantDiagram.OriginY - vec.EndY
+
+		line.X1 = svg_x1
+		line.Y1 = svg_y1
+		line.X2 = svg_x2
+		line.Y2 = svg_y2
+
+		line.Presentation.Stroke = "green"
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
+	}
 }

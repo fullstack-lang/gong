@@ -81,6 +81,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.nextcircleshape, probe)
 			}
+		case *PerpendicularVectorFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PerpendicularVector", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.perpendicularvector, probe)
+			}
+		case *PerpendicularVectorGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PerpendicularVectorGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.perpendicularvectorgrid, probe)
+			}
 		case *PlantFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Plant", true)
@@ -282,6 +294,32 @@ func FillUpFormFromGongstructName(
 		nextcircleshape := new(models.NextCircleShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(nextcircleshape, formGroup, probe)
+	case "PerpendicularVector":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PerpendicularVector Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PerpendicularVectorFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		perpendicularvector := new(models.PerpendicularVector)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(perpendicularvector, formGroup, probe)
+	case "PerpendicularVectorGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PerpendicularVectorGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PerpendicularVectorGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		perpendicularvectorgrid := new(models.PerpendicularVectorGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(perpendicularvectorgrid, formGroup, probe)
 	case "Plant":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

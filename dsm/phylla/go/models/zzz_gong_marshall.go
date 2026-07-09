@@ -588,6 +588,63 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(nextcircleshape.GongMarshallField(stage, "Name"))
 	}
 
+	perpendicularvectorOrdered := []*PerpendicularVector{}
+	for perpendicularvector := range stage.PerpendicularVectors {
+		perpendicularvectorOrdered = append(perpendicularvectorOrdered, perpendicularvector)
+	}
+	sort.Slice(perpendicularvectorOrdered[:], func(i, j int) bool {
+		perpendicularvectori := perpendicularvectorOrdered[i]
+		perpendicularvectorj := perpendicularvectorOrdered[j]
+		perpendicularvectori_order, oki := stage.PerpendicularVector_stagedOrder[perpendicularvectori]
+		perpendicularvectorj_order, okj := stage.PerpendicularVector_stagedOrder[perpendicularvectorj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return perpendicularvectori_order < perpendicularvectorj_order
+	})
+	if len(perpendicularvectorOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, perpendicularvector := range perpendicularvectorOrdered {
+
+		identifiersDecl.WriteString(perpendicularvector.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "EndY"))
+	}
+
+	perpendicularvectorgridOrdered := []*PerpendicularVectorGrid{}
+	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
+		perpendicularvectorgridOrdered = append(perpendicularvectorgridOrdered, perpendicularvectorgrid)
+	}
+	sort.Slice(perpendicularvectorgridOrdered[:], func(i, j int) bool {
+		perpendicularvectorgridi := perpendicularvectorgridOrdered[i]
+		perpendicularvectorgridj := perpendicularvectorgridOrdered[j]
+		perpendicularvectorgridi_order, oki := stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgridi]
+		perpendicularvectorgridj_order, okj := stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgridj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return perpendicularvectorgridi_order < perpendicularvectorgridj_order
+	})
+	if len(perpendicularvectorgridOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, perpendicularvectorgrid := range perpendicularvectorgridOrdered {
+
+		identifiersDecl.WriteString(perpendicularvectorgrid.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(perpendicularvectorgrid.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(perpendicularvectorgrid.GongMarshallField(stage, "PerpendicularVectors"))
+	}
+
 	plantOrdered := []*Plant{}
 	for plant := range stage.Plants {
 		plantOrdered = append(plantOrdered, plant)
@@ -634,6 +691,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "RotatedRhombusGridShape2"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthVectorShape"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PerpendicularVectorGrid"))
 	}
 
 	plantcircumferenceshapeOrdered := []*PlantCircumferenceShape{}
@@ -702,6 +760,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenRotatedRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthPathRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthVectorShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -873,6 +932,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, nextcircleshape := range nextcircleshapeOrdered {
 		_ = nextcircleshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, perpendicularvector := range perpendicularvectorOrdered {
+		_ = perpendicularvector
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, perpendicularvectorgrid := range perpendicularvectorgridOrdered {
+		_ = perpendicularvectorgrid
 		var setPointerField string
 		_ = setPointerField
 
@@ -1256,6 +1331,66 @@ func (nextcircleshape *NextCircleShape) GongMarshallField(stage *Stage, fieldNam
 	return
 }
 
+func (perpendicularvector *PerpendicularVector) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvector.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", perpendicularvector.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", perpendicularvector.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", perpendicularvector.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", perpendicularvector.EndY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PerpendicularVector", fieldName)
+	}
+	return
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", perpendicularvectorgrid.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(perpendicularvectorgrid.Name))
+
+	case "PerpendicularVectors":
+		var sb strings.Builder
+		for _, _perpendicularvector := range perpendicularvectorgrid.PerpendicularVectors {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", perpendicularvectorgrid.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PerpendicularVectors")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _perpendicularvector.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PerpendicularVectorGrid", fieldName)
+	}
+	return
+}
+
 func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1476,6 +1611,19 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthVectorShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "PerpendicularVectorGrid":
+		if plant.PerpendicularVectorGrid != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PerpendicularVectorGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.PerpendicularVectorGrid.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PerpendicularVectorGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Plant", fieldName)
 	}
@@ -1585,6 +1733,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenGrowthVectorShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthVectorShape))
+	case "IsHiddenPerpendicularVectorGrid":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPerpendicularVectorGrid")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGrid))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -1822,6 +1975,33 @@ func (nextcircleshape *NextCircleShape) GongMarshallAllFields(stage *Stage) (ini
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (perpendicularvector *PerpendicularVector) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(perpendicularvector.GongMarshallField(stage, "EndY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(perpendicularvectorgrid.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(perpendicularvectorgrid.GongMarshallField(stage, "PerpendicularVectors"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1850,6 +2030,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "RotatedRhombusGridShape2"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthVectorShape"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PerpendicularVectorGrid"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1888,6 +2069,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenRotatedRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthPathRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthVectorShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
