@@ -326,12 +326,12 @@ func (stager *Stager) enforcePlantDiagramRhombusGridShapeHasRhombuses() (needCom
 
 func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N, M int, v1x, v1y, v2x, v2y float64) (needCommit bool) {
 	valid := true
-	if len(grid.RhombusShapes) != N*M {
+	if len(grid.RhombusShapes) != (N+1)*M {
 		valid = false
 	} else {
 		seen := make(map[*RhombusShape]bool)
 		idx := 0
-		for i := 0; i < N; i++ {
+		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
 				r := grid.RhombusShapes[idx]
 				if seen[r] {
@@ -353,8 +353,8 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 	}
 
 	if !valid {
-		grid.RhombusShapes = make([]*RhombusShape, 0, N*M)
-		for i := 0; i < N; i++ {
+		grid.RhombusShapes = make([]*RhombusShape, 0, (N+1)*M)
+		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
 				r := new(RhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
@@ -366,7 +366,7 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 		needCommit = true
 	} else {
 		idx := 0
-		for i := 0; i < N; i++ {
+		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
 				r := grid.RhombusShapes[idx]
 				expectedX := float64(i)*v1x + float64(j)*v2x
