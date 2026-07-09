@@ -64,8 +64,6 @@ func (r *TreeAbstractTypeFields) SetComputedWidth(w int) {
 	r.computedWidth = w
 }
 
-
-
 func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
 	r.computedPrefix = p
 }

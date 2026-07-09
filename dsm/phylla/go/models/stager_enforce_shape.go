@@ -143,7 +143,7 @@ func (stager *Stager) enforcePlantDiagramHasRhombusGridShape() (needCommit bool)
 		func(pd *PlantDiagram) *RhombusGridShape { return pd.RhombusGridShape },
 		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RhombusGridShape = shape },
 		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
-			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape
+			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape || pd.GrowthPathRhombusGridShape == shape
 		},
 		"RhombusGridShape",
 	)
@@ -232,12 +232,23 @@ func (stager *Stager) enforcePlantDiagramHasRotatedShapes() (needCommit bool) {
 		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
 		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RotatedRhombusGridShape = shape },
 		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
-			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape
+			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape || pd.GrowthPathRhombusGridShape == shape
 		},
 		"RotatedRhombusGridShape",
 	)
 
-	return n1 || n2 || n3 || n4
+	n5 := enforcePlantDiagramHasShape[*RhombusGridShape](
+		stager,
+		func() *RhombusGridShape { return new(RhombusGridShape) },
+		func(pd *PlantDiagram) *RhombusGridShape { return pd.GrowthPathRhombusGridShape },
+		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.GrowthPathRhombusGridShape = shape },
+		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
+			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape || pd.GrowthPathRhombusGridShape == shape
+		},
+		"GrowthPathRhombusGridShape",
+	)
+
+	return n1 || n2 || n3 || n4 || n5
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning PlantDiagram
@@ -293,7 +304,13 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"RotatedRhombusGridShape",
 	)
 
-	return n1 || n2 || n3 || n4
+	n5 := enforcePlantDiagramShapeName[*RhombusGridShape](
+		stager,
+		func(pd *PlantDiagram) *RhombusGridShape { return pd.GrowthPathRhombusGridShape },
+		"GrowthPathRhombusGridShape",
+	)
+
+	return n1 || n2 || n3 || n4 || n5
 }
 
 // enforcePlantDiagramRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -314,17 +331,26 @@ func (stager *Stager) enforcePlantDiagramRhombusGridShapeHasRhombuses() (needCom
 
 		for _, pd := range plant.PlantDiagrams {
 			if pd.RhombusGridShape != nil {
-				needCommit = enforceRhombusGridShapeHasRhombuses(stage, pd.RhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y) || needCommit
+				needCommit = enforceRhombusGridShapeHasRhombuses(stage, pd.RhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
+			}
+			rotRad := 0.0
+			if pd.PlantCircumferenceShape != nil {
+				rotRad = pd.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 			}
 			if pd.RotatedRhombusGridShape != nil {
-				needCommit = enforceRhombusGridShapeHasRhombuses(stage, pd.RotatedRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y) || needCommit
+				needCommit = enforceRhombusGridShapeHasRhombuses(stage, pd.RotatedRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
+			}
+			if pd.GrowthPathRhombusGridShape != nil && pd.RotatedRhombusGridShape != nil && pd.PlantCircumferenceShape != nil {
+				needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, pd.GrowthPathRhombusGridShape, pd.RotatedRhombusGridShape, pd.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
 			}
 		}
 	}
 	return
 }
 
-func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N, M int, v1x, v1y, v2x, v2y float64) (needCommit bool) {
+func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N, M int, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
+	cosA := math.Cos(rotAngleRad)
+	sinA := math.Sin(rotAngleRad)
 	valid := true
 	if len(grid.RhombusShapes) != (N+1)*M {
 		valid = false
@@ -358,8 +384,10 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 			for j := 0; j < M; j++ {
 				r := new(RhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
-				r.X = float64(i)*v1x + float64(j)*v2x
-				r.Y = float64(i)*v1y + float64(j)*v2y
+				origX := float64(i)*v1x + float64(j)*v2x
+				origY := float64(i)*v1y + float64(j)*v2y
+				r.X = origX*cosA - origY*sinA
+				r.Y = origX*sinA + origY*cosA
 				grid.RhombusShapes = append(grid.RhombusShapes, r)
 			}
 		}
@@ -369,8 +397,10 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
 				r := grid.RhombusShapes[idx]
-				expectedX := float64(i)*v1x + float64(j)*v2x
-				expectedY := float64(i)*v1y + float64(j)*v2y
+				origX := float64(i)*v1x + float64(j)*v2x
+				origY := float64(i)*v1y + float64(j)*v2y
+				expectedX := origX*cosA - origY*sinA
+				expectedY := origX*sinA + origY*cosA
 				if r.X != expectedX || r.Y != expectedY {
 					r.X = expectedX
 					r.Y = expectedY
@@ -396,6 +426,13 @@ func isRhombusShapeOwnedByPlantDiagram(pd *PlantDiagram, shape *RhombusShape) bo
 	}
 	if pd.RotatedRhombusGridShape != nil {
 		for _, r := range pd.RotatedRhombusGridShape.RhombusShapes {
+			if r == shape {
+				return true
+			}
+		}
+	}
+	if pd.GrowthPathRhombusGridShape != nil {
+		for _, r := range pd.GrowthPathRhombusGridShape.RhombusShapes {
 			if r == shape {
 				return true
 			}

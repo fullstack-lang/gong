@@ -16,6 +16,7 @@ type PlantDiagram struct {
 	RotatedPlantCircumferenceShape *PlantCircumferenceShape
 	RotatedGridPathShape           *GridPathShape
 	RotatedRhombusGridShape        *RhombusGridShape
+	GrowthPathRhombusGridShape     *RhombusGridShape
 
 	IsChecked bool
 	AbstractTypeFields
