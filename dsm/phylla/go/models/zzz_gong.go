@@ -304,6 +304,38 @@ type Stage struct {
 	OnAfterNextCircleShapeDeleteCallback OnAfterDeleteInterface[NextCircleShape]
 	OnAfterNextCircleShapeReadCallback   OnAfterReadInterface[NextCircleShape]
 
+	PerpendicularVectors                map[*PerpendicularVector]struct{}
+	PerpendicularVectors_instance       map[*PerpendicularVector]*PerpendicularVector
+	PerpendicularVectors_mapString      map[string]*PerpendicularVector
+	PerpendicularVectorOrder            uint
+	PerpendicularVector_stagedOrder     map[*PerpendicularVector]uint
+	PerpendicularVector_orderStaged     map[uint]*PerpendicularVector
+	PerpendicularVectors_reference      map[*PerpendicularVector]*PerpendicularVector
+	PerpendicularVectors_referenceOrder map[*PerpendicularVector]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPerpendicularVectorCreateCallback OnAfterCreateInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorUpdateCallback OnAfterUpdateInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorDeleteCallback OnAfterDeleteInterface[PerpendicularVector]
+	OnAfterPerpendicularVectorReadCallback   OnAfterReadInterface[PerpendicularVector]
+
+	PerpendicularVectorGrids                map[*PerpendicularVectorGrid]struct{}
+	PerpendicularVectorGrids_instance       map[*PerpendicularVectorGrid]*PerpendicularVectorGrid
+	PerpendicularVectorGrids_mapString      map[string]*PerpendicularVectorGrid
+	PerpendicularVectorGridOrder            uint
+	PerpendicularVectorGrid_stagedOrder     map[*PerpendicularVectorGrid]uint
+	PerpendicularVectorGrid_orderStaged     map[uint]*PerpendicularVectorGrid
+	PerpendicularVectorGrids_reference      map[*PerpendicularVectorGrid]*PerpendicularVectorGrid
+	PerpendicularVectorGrids_referenceOrder map[*PerpendicularVectorGrid]uint
+
+	// insertion point for slice of pointers maps
+	PerpendicularVectorGrid_PerpendicularVectors_reverseMap map[*PerpendicularVector]*PerpendicularVectorGrid
+
+	OnAfterPerpendicularVectorGridCreateCallback OnAfterCreateInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridUpdateCallback OnAfterUpdateInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridDeleteCallback OnAfterDeleteInterface[PerpendicularVectorGrid]
+	OnAfterPerpendicularVectorGridReadCallback   OnAfterReadInterface[PerpendicularVectorGrid]
+
 	Plants                map[*Plant]struct{}
 	Plants_instance       map[*Plant]*Plant
 	Plants_mapString      map[string]*Plant
@@ -678,6 +710,14 @@ func (stage *Stage) Squash() {
 	stage.NextCircleShapes_instance = make(map[*NextCircleShape]*NextCircleShape)
 	stage.NextCircleShapes_referenceOrder = make(map[*NextCircleShape]uint)
 
+	stage.PerpendicularVectors_reference = make(map[*PerpendicularVector]*PerpendicularVector)
+	stage.PerpendicularVectors_instance = make(map[*PerpendicularVector]*PerpendicularVector)
+	stage.PerpendicularVectors_referenceOrder = make(map[*PerpendicularVector]uint)
+
+	stage.PerpendicularVectorGrids_reference = make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid)
+	stage.PerpendicularVectorGrids_instance = make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid)
+	stage.PerpendicularVectorGrids_referenceOrder = make(map[*PerpendicularVectorGrid]uint)
+
 	stage.Plants_reference = make(map[*Plant]*Plant)
 	stage.Plants_instance = make(map[*Plant]*Plant)
 	stage.Plants_referenceOrder = make(map[*Plant]uint)
@@ -881,6 +921,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.NextCircleShapeOrder = maxNextCircleShapeOrder + 1
 	} else {
 		stage.NextCircleShapeOrder = 0
+	}
+
+	var maxPerpendicularVectorOrder uint
+	var foundPerpendicularVector bool
+	for _, order := range stage.PerpendicularVector_stagedOrder {
+		if !foundPerpendicularVector || order > maxPerpendicularVectorOrder {
+			maxPerpendicularVectorOrder = order
+			foundPerpendicularVector = true
+		}
+	}
+	if foundPerpendicularVector {
+		stage.PerpendicularVectorOrder = maxPerpendicularVectorOrder + 1
+	} else {
+		stage.PerpendicularVectorOrder = 0
+	}
+
+	var maxPerpendicularVectorGridOrder uint
+	var foundPerpendicularVectorGrid bool
+	for _, order := range stage.PerpendicularVectorGrid_stagedOrder {
+		if !foundPerpendicularVectorGrid || order > maxPerpendicularVectorGridOrder {
+			maxPerpendicularVectorGridOrder = order
+			foundPerpendicularVectorGrid = true
+		}
+	}
+	if foundPerpendicularVectorGrid {
+		stage.PerpendicularVectorGridOrder = maxPerpendicularVectorGridOrder + 1
+	} else {
+		stage.PerpendicularVectorGridOrder = 0
 	}
 
 	var maxPlantOrder uint
@@ -1182,6 +1250,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PerpendicularVector:
+		tmp := GetStructInstancesByOrder(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PerpendicularVector implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PerpendicularVectorGrid:
+		tmp := GetStructInstancesByOrder(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PerpendicularVectorGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Plant:
 		tmp := GetStructInstancesByOrder(stage.Plants, stage.Plant_stagedOrder)
 
@@ -1317,6 +1413,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "NextCircleShape":
 		res = GetNamedStructInstances(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
+	case "PerpendicularVector":
+		res = GetNamedStructInstances(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
+	case "PerpendicularVectorGrid":
+		res = GetNamedStructInstances(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder)
 	case "Plant":
 		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
 	case "PlantCircumferenceShape":
@@ -1420,6 +1520,10 @@ type BackRepoInterface interface {
 	CheckoutLibrary(library *Library)
 	CommitNextCircleShape(nextcircleshape *NextCircleShape)
 	CheckoutNextCircleShape(nextcircleshape *NextCircleShape)
+	CommitPerpendicularVector(perpendicularvector *PerpendicularVector)
+	CheckoutPerpendicularVector(perpendicularvector *PerpendicularVector)
+	CommitPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid)
+	CheckoutPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid)
 	CommitPlant(plant *Plant)
 	CheckoutPlant(plant *Plant)
 	CommitPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
@@ -1470,6 +1574,12 @@ func NewStage(name string) (stage *Stage) {
 
 		NextCircleShapes:           make(map[*NextCircleShape]struct{}),
 		NextCircleShapes_mapString: make(map[string]*NextCircleShape),
+
+		PerpendicularVectors:           make(map[*PerpendicularVector]struct{}),
+		PerpendicularVectors_mapString: make(map[string]*PerpendicularVector),
+
+		PerpendicularVectorGrids:           make(map[*PerpendicularVectorGrid]struct{}),
+		PerpendicularVectorGrids_mapString: make(map[string]*PerpendicularVectorGrid),
 
 		Plants:           make(map[*Plant]struct{}),
 		Plants_mapString: make(map[string]*Plant),
@@ -1543,6 +1653,14 @@ func NewStage(name string) (stage *Stage) {
 		NextCircleShape_orderStaged: make(map[uint]*NextCircleShape),
 		NextCircleShapes_reference:  make(map[*NextCircleShape]*NextCircleShape),
 
+		PerpendicularVector_stagedOrder: make(map[*PerpendicularVector]uint),
+		PerpendicularVector_orderStaged: make(map[uint]*PerpendicularVector),
+		PerpendicularVectors_reference:  make(map[*PerpendicularVector]*PerpendicularVector),
+
+		PerpendicularVectorGrid_stagedOrder: make(map[*PerpendicularVectorGrid]uint),
+		PerpendicularVectorGrid_orderStaged: make(map[uint]*PerpendicularVectorGrid),
+		PerpendicularVectorGrids_reference:  make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid),
+
 		Plant_stagedOrder: make(map[*Plant]uint),
 		Plant_orderStaged: make(map[uint]*Plant),
 		Plants_reference:  make(map[*Plant]*Plant),
@@ -1591,6 +1709,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"NextCircleShape": &NextCircleShapeUnmarshaller{},
 
+			"PerpendicularVector": &PerpendicularVectorUnmarshaller{},
+
+			"PerpendicularVectorGrid": &PerpendicularVectorGridUnmarshaller{},
+
 			"Plant": &PlantUnmarshaller{},
 
 			"PlantCircumferenceShape": &PlantCircumferenceShapeUnmarshaller{},
@@ -1618,6 +1740,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "InitialRhombusShape"},
 			{name: "Library"},
 			{name: "NextCircleShape"},
+			{name: "PerpendicularVector"},
+			{name: "PerpendicularVectorGrid"},
 			{name: "Plant"},
 			{name: "PlantCircumferenceShape"},
 			{name: "PlantDiagram"},
@@ -1657,6 +1781,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Library_stagedOrder[instance]
 	case *NextCircleShape:
 		return stage.NextCircleShape_stagedOrder[instance]
+	case *PerpendicularVector:
+		return stage.PerpendicularVector_stagedOrder[instance]
+	case *PerpendicularVectorGrid:
+		return stage.PerpendicularVectorGrid_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
 	case *PlantCircumferenceShape:
@@ -1700,6 +1828,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *NextCircleShape:
 		return any(stage.NextCircleShape_orderStaged[order]).(Type)
+	case *PerpendicularVector:
+		return any(stage.PerpendicularVector_orderStaged[order]).(Type)
+	case *PerpendicularVectorGrid:
+		return any(stage.PerpendicularVectorGrid_orderStaged[order]).(Type)
 	case *Plant:
 		return any(stage.Plant_orderStaged[order]).(Type)
 	case *PlantCircumferenceShape:
@@ -1742,6 +1874,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Library_stagedOrder[instance]
 	case *NextCircleShape:
 		return stage.NextCircleShape_stagedOrder[instance]
+	case *PerpendicularVector:
+		return stage.PerpendicularVector_stagedOrder[instance]
+	case *PerpendicularVectorGrid:
+		return stage.PerpendicularVectorGrid_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
 	case *PlantCircumferenceShape:
@@ -1830,6 +1966,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["InitialRhombusShape"] = len(stage.InitialRhombusShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["NextCircleShape"] = len(stage.NextCircleShapes)
+	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
+	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGrid"] = len(stage.PerpendicularVectorGrids)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
@@ -2844,6 +2982,182 @@ func (nextcircleshape *NextCircleShape) SetName(name string) {
 	nextcircleshape.Name = name
 }
 
+// Stage puts perpendicularvector to the model stage
+func (perpendicularvector *PerpendicularVector) Stage(stage *Stage) *PerpendicularVector {
+	if _, ok := stage.PerpendicularVectors[perpendicularvector]; !ok {
+		stage.PerpendicularVectors[perpendicularvector] = struct{}{}
+		stage.PerpendicularVector_stagedOrder[perpendicularvector] = stage.PerpendicularVectorOrder
+		stage.PerpendicularVector_orderStaged[stage.PerpendicularVectorOrder] = perpendicularvector
+		stage.PerpendicularVectorOrder++
+	}
+	stage.PerpendicularVectors_mapString[perpendicularvector.Name] = perpendicularvector
+
+	return perpendicularvector
+}
+
+// StagePreserveOrder puts perpendicularvector to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PerpendicularVectorOrder
+// - update stage.PerpendicularVectorOrder accordingly
+func (perpendicularvector *PerpendicularVector) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PerpendicularVectors[perpendicularvector]; !ok {
+		stage.PerpendicularVectors[perpendicularvector] = struct{}{}
+
+		if order > stage.PerpendicularVectorOrder {
+			stage.PerpendicularVectorOrder = order
+		}
+		stage.PerpendicularVector_stagedOrder[perpendicularvector] = order
+		stage.PerpendicularVector_orderStaged[order] = perpendicularvector
+		stage.PerpendicularVectorOrder++
+	}
+	stage.PerpendicularVectors_mapString[perpendicularvector.Name] = perpendicularvector
+}
+
+// Unstage removes perpendicularvector off the model stage
+func (perpendicularvector *PerpendicularVector) Unstage(stage *Stage) *PerpendicularVector {
+	delete(stage.PerpendicularVectors, perpendicularvector)
+	// issue1150
+	// delete(stage.PerpendicularVector_stagedOrder, perpendicularvector)
+	delete(stage.PerpendicularVectors_mapString, perpendicularvector.Name)
+
+	return perpendicularvector
+}
+
+// UnstageVoid removes perpendicularvector off the model stage
+func (perpendicularvector *PerpendicularVector) UnstageVoid(stage *Stage) {
+	delete(stage.PerpendicularVectors, perpendicularvector)
+	// issue1150
+	// delete(stage.PerpendicularVector_stagedOrder, perpendicularvector)
+	delete(stage.PerpendicularVectors_mapString, perpendicularvector.Name)
+}
+
+// commit perpendicularvector to the back repo (if it is already staged)
+func (perpendicularvector *PerpendicularVector) Commit(stage *Stage) *PerpendicularVector {
+	if _, ok := stage.PerpendicularVectors[perpendicularvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPerpendicularVector(perpendicularvector)
+		}
+	}
+	return perpendicularvector
+}
+
+func (perpendicularvector *PerpendicularVector) CommitVoid(stage *Stage) {
+	perpendicularvector.Commit(stage)
+}
+
+func (perpendicularvector *PerpendicularVector) StageVoid(stage *Stage) {
+	perpendicularvector.Stage(stage)
+}
+
+// Checkout perpendicularvector to the back repo (if it is already staged)
+func (perpendicularvector *PerpendicularVector) Checkout(stage *Stage) *PerpendicularVector {
+	if _, ok := stage.PerpendicularVectors[perpendicularvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPerpendicularVector(perpendicularvector)
+		}
+	}
+	return perpendicularvector
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvector *PerpendicularVector) GetName() (res string) {
+	return perpendicularvector.Name
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvector *PerpendicularVector) SetName(name string) {
+	perpendicularvector.Name = name
+}
+
+// Stage puts perpendicularvectorgrid to the model stage
+func (perpendicularvectorgrid *PerpendicularVectorGrid) Stage(stage *Stage) *PerpendicularVectorGrid {
+	if _, ok := stage.PerpendicularVectorGrids[perpendicularvectorgrid]; !ok {
+		stage.PerpendicularVectorGrids[perpendicularvectorgrid] = struct{}{}
+		stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgrid] = stage.PerpendicularVectorGridOrder
+		stage.PerpendicularVectorGrid_orderStaged[stage.PerpendicularVectorGridOrder] = perpendicularvectorgrid
+		stage.PerpendicularVectorGridOrder++
+	}
+	stage.PerpendicularVectorGrids_mapString[perpendicularvectorgrid.Name] = perpendicularvectorgrid
+
+	return perpendicularvectorgrid
+}
+
+// StagePreserveOrder puts perpendicularvectorgrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PerpendicularVectorGridOrder
+// - update stage.PerpendicularVectorGridOrder accordingly
+func (perpendicularvectorgrid *PerpendicularVectorGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PerpendicularVectorGrids[perpendicularvectorgrid]; !ok {
+		stage.PerpendicularVectorGrids[perpendicularvectorgrid] = struct{}{}
+
+		if order > stage.PerpendicularVectorGridOrder {
+			stage.PerpendicularVectorGridOrder = order
+		}
+		stage.PerpendicularVectorGrid_stagedOrder[perpendicularvectorgrid] = order
+		stage.PerpendicularVectorGrid_orderStaged[order] = perpendicularvectorgrid
+		stage.PerpendicularVectorGridOrder++
+	}
+	stage.PerpendicularVectorGrids_mapString[perpendicularvectorgrid.Name] = perpendicularvectorgrid
+}
+
+// Unstage removes perpendicularvectorgrid off the model stage
+func (perpendicularvectorgrid *PerpendicularVectorGrid) Unstage(stage *Stage) *PerpendicularVectorGrid {
+	delete(stage.PerpendicularVectorGrids, perpendicularvectorgrid)
+	// issue1150
+	// delete(stage.PerpendicularVectorGrid_stagedOrder, perpendicularvectorgrid)
+	delete(stage.PerpendicularVectorGrids_mapString, perpendicularvectorgrid.Name)
+
+	return perpendicularvectorgrid
+}
+
+// UnstageVoid removes perpendicularvectorgrid off the model stage
+func (perpendicularvectorgrid *PerpendicularVectorGrid) UnstageVoid(stage *Stage) {
+	delete(stage.PerpendicularVectorGrids, perpendicularvectorgrid)
+	// issue1150
+	// delete(stage.PerpendicularVectorGrid_stagedOrder, perpendicularvectorgrid)
+	delete(stage.PerpendicularVectorGrids_mapString, perpendicularvectorgrid.Name)
+}
+
+// commit perpendicularvectorgrid to the back repo (if it is already staged)
+func (perpendicularvectorgrid *PerpendicularVectorGrid) Commit(stage *Stage) *PerpendicularVectorGrid {
+	if _, ok := stage.PerpendicularVectorGrids[perpendicularvectorgrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPerpendicularVectorGrid(perpendicularvectorgrid)
+		}
+	}
+	return perpendicularvectorgrid
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) CommitVoid(stage *Stage) {
+	perpendicularvectorgrid.Commit(stage)
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) StageVoid(stage *Stage) {
+	perpendicularvectorgrid.Stage(stage)
+}
+
+// Checkout perpendicularvectorgrid to the back repo (if it is already staged)
+func (perpendicularvectorgrid *PerpendicularVectorGrid) Checkout(stage *Stage) *PerpendicularVectorGrid {
+	if _, ok := stage.PerpendicularVectorGrids[perpendicularvectorgrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPerpendicularVectorGrid(perpendicularvectorgrid)
+		}
+	}
+	return perpendicularvectorgrid
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GetName() (res string) {
+	return perpendicularvectorgrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvectorgrid *PerpendicularVectorGrid) SetName(name string) {
+	perpendicularvectorgrid.Name = name
+}
+
 // Stage puts plant to the model stage
 func (plant *Plant) Stage(stage *Stage) *Plant {
 	if _, ok := stage.Plants[plant]; !ok {
@@ -3385,6 +3699,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMNextCircleShape(NextCircleShape *NextCircleShape)
+	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
+	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
@@ -3405,6 +3721,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMNextCircleShape(NextCircleShape *NextCircleShape)
+	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
+	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
@@ -3468,6 +3786,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
 	stage.NextCircleShape_stagedOrder = make(map[*NextCircleShape]uint)
 	stage.NextCircleShapeOrder = 0
+
+	stage.PerpendicularVectors = make(map[*PerpendicularVector]struct{})
+	stage.PerpendicularVectors_mapString = make(map[string]*PerpendicularVector)
+	stage.PerpendicularVector_stagedOrder = make(map[*PerpendicularVector]uint)
+	stage.PerpendicularVectorOrder = 0
+
+	stage.PerpendicularVectorGrids = make(map[*PerpendicularVectorGrid]struct{})
+	stage.PerpendicularVectorGrids_mapString = make(map[string]*PerpendicularVectorGrid)
+	stage.PerpendicularVectorGrid_stagedOrder = make(map[*PerpendicularVectorGrid]uint)
+	stage.PerpendicularVectorGridOrder = 0
 
 	stage.Plants = make(map[*Plant]struct{})
 	stage.Plants_mapString = make(map[string]*Plant)
@@ -3541,6 +3869,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.NextCircleShapes = nil
 	stage.NextCircleShapes_mapString = nil
 
+	stage.PerpendicularVectors = nil
+	stage.PerpendicularVectors_mapString = nil
+
+	stage.PerpendicularVectorGrids = nil
+	stage.PerpendicularVectorGrids_mapString = nil
+
 	stage.Plants = nil
 	stage.Plants_mapString = nil
 
@@ -3605,6 +3939,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for nextcircleshape := range stage.NextCircleShapes {
 		nextcircleshape.Unstage(stage)
+	}
+
+	for perpendicularvector := range stage.PerpendicularVectors {
+		perpendicularvector.Unstage(stage)
+	}
+
+	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
+		perpendicularvectorgrid.Unstage(stage)
 	}
 
 	for plant := range stage.Plants {
@@ -3729,6 +4071,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Librarys).(*Type)
 	case map[*NextCircleShape]any:
 		return any(&stage.NextCircleShapes).(*Type)
+	case map[*PerpendicularVector]any:
+		return any(&stage.PerpendicularVectors).(*Type)
+	case map[*PerpendicularVectorGrid]any:
+		return any(&stage.PerpendicularVectorGrids).(*Type)
 	case map[*Plant]any:
 		return any(&stage.Plants).(*Type)
 	case map[*PlantCircumferenceShape]any:
@@ -3775,6 +4121,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *NextCircleShape:
 		return any(stage.NextCircleShapes_mapString).(map[string]Type)
+	case *PerpendicularVector:
+		return any(stage.PerpendicularVectors_mapString).(map[string]Type)
+	case *PerpendicularVectorGrid:
+		return any(stage.PerpendicularVectorGrids_mapString).(map[string]Type)
 	case *Plant:
 		return any(stage.Plants_mapString).(map[string]Type)
 	case *PlantCircumferenceShape:
@@ -3821,6 +4171,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case NextCircleShape:
 		return any(&stage.NextCircleShapes).(*map[*Type]struct{})
+	case PerpendicularVector:
+		return any(&stage.PerpendicularVectors).(*map[*Type]struct{})
+	case PerpendicularVectorGrid:
+		return any(&stage.PerpendicularVectorGrids).(*map[*Type]struct{})
 	case Plant:
 		return any(&stage.Plants).(*map[*Type]struct{})
 	case PlantCircumferenceShape:
@@ -3867,6 +4221,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *NextCircleShape:
 		return any(&stage.NextCircleShapes).(*map[Type]struct{})
+	case *PerpendicularVector:
+		return any(&stage.PerpendicularVectors).(*map[Type]struct{})
+	case *PerpendicularVectorGrid:
+		return any(&stage.PerpendicularVectorGrids).(*map[Type]struct{})
 	case *Plant:
 		return any(&stage.Plants).(*map[Type]struct{})
 	case *PlantCircumferenceShape:
@@ -3913,6 +4271,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case NextCircleShape:
 		return any(&stage.NextCircleShapes_mapString).(*map[string]*Type)
+	case PerpendicularVector:
+		return any(&stage.PerpendicularVectors_mapString).(*map[string]*Type)
+	case PerpendicularVectorGrid:
+		return any(&stage.PerpendicularVectorGrids_mapString).(*map[string]*Type)
 	case Plant:
 		return any(&stage.Plants_mapString).(*map[string]*Type)
 	case PlantCircumferenceShape:
@@ -3991,6 +4353,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&NextCircleShape{
 			// Initialisation of associations
 		}).(*Type)
+	case PerpendicularVector:
+		return any(&PerpendicularVector{
+			// Initialisation of associations
+		}).(*Type)
+	case PerpendicularVectorGrid:
+		return any(&PerpendicularVectorGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of PerpendicularVector with the name of the field
+			PerpendicularVectors: []*PerpendicularVector{{Name: "PerpendicularVectors"}},
+		}).(*Type)
 	case Plant:
 		return any(&Plant{
 			// Initialisation of associations
@@ -4020,6 +4392,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			GrowthCurveRhombusGridShape: &GrowthCurveRhombusGridShape{Name: "GrowthCurveRhombusGridShape"},
 			// field is initialized with an instance of GrowthVectorShape with the name of the field
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
+			// field is initialized with an instance of PerpendicularVectorGrid with the name of the field
+			PerpendicularVectorGrid: &PerpendicularVectorGrid{Name: "PerpendicularVectorGrid"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -4112,6 +4486,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of NextCircleShape
 	case NextCircleShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PerpendicularVector
+	case PerpendicularVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PerpendicularVectorGrid
+	case PerpendicularVectorGrid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4323,6 +4707,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "PerpendicularVectorGrid":
+			res := make(map[*PerpendicularVectorGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PerpendicularVectorGrid != nil {
+					perpendicularvectorgrid_ := plant.PerpendicularVectorGrid
+					var plants []*Plant
+					_, ok := res[perpendicularvectorgrid_]
+					if ok {
+						plants = res[perpendicularvectorgrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[perpendicularvectorgrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
@@ -4451,6 +4852,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of PerpendicularVector
+	case PerpendicularVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PerpendicularVectorGrid
+	case PerpendicularVectorGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "PerpendicularVectors":
+			res := make(map[*PerpendicularVector][]*PerpendicularVectorGrid)
+			for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
+				for _, perpendicularvector_ := range perpendicularvectorgrid.PerpendicularVectors {
+					res[perpendicularvector_] = append(res[perpendicularvector_], perpendicularvectorgrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Plant
 	case Plant:
 		switch fieldname {
@@ -4530,6 +4949,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Library"
 	case *NextCircleShape:
 		res = "NextCircleShape"
+	case *PerpendicularVector:
+		res = "PerpendicularVector"
+	case *PerpendicularVectorGrid:
+		res = "PerpendicularVectorGrid"
 	case *Plant:
 		res = "Plant"
 	case *PlantCircumferenceShape:
@@ -4599,6 +5022,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "SubLibraries"
 		res = append(res, rf)
 	case *NextCircleShape:
+		var rf ReverseField
+		_ = rf
+	case *PerpendicularVector:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PerpendicularVectorGrid"
+		rf.Fieldname = "PerpendicularVectors"
+		res = append(res, rf)
+	case *PerpendicularVectorGrid:
 		var rf ReverseField
 		_ = rf
 	case *Plant:
@@ -4830,6 +5262,49 @@ func (nextcircleshape *NextCircleShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
+func (perpendicularvector *PerpendicularVector) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "PerpendicularVectors",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PerpendicularVector",
+		},
+	}
+	return
+}
+
 func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -4938,6 +5413,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthVectorShape",
 		},
+		{
+			Name:                 "PerpendicularVectorGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PerpendicularVectorGrid",
+		},
 	}
 	return
 }
@@ -5022,6 +5502,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenGrowthVectorShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPerpendicularVectorGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -5340,6 +5824,50 @@ func (nextcircleshape *NextCircleShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (perpendicularvector *PerpendicularVector) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = perpendicularvector.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", perpendicularvector.StartX)
+		res.valueFloat = perpendicularvector.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", perpendicularvector.StartY)
+		res.valueFloat = perpendicularvector.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", perpendicularvector.EndX)
+		res.valueFloat = perpendicularvector.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", perpendicularvector.EndY)
+		res.valueFloat = perpendicularvector.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = perpendicularvectorgrid.Name
+	case "PerpendicularVectors":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range perpendicularvectorgrid.PerpendicularVectors {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -5461,6 +5989,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.GrowthVectorShape.Name
 			res.ids = plant.GrowthVectorShape.GongGetUUID(stage)
 		}
+	case "PerpendicularVectorGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PerpendicularVectorGrid != nil {
+			res.valueString = plant.PerpendicularVectorGrid.Name
+			res.ids = plant.PerpendicularVectorGrid.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -5542,6 +6076,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenGrowthVectorShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthVectorShape)
 		res.valueBool = plantdiagram.IsHiddenGrowthVectorShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPerpendicularVectorGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGrid)
+		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
@@ -5821,6 +6359,50 @@ func (nextcircleshape *NextCircleShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (perpendicularvector *PerpendicularVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		perpendicularvector.Name = value.GetValueString()
+	case "StartX":
+		perpendicularvector.StartX = value.GetValueFloat()
+	case "StartY":
+		perpendicularvector.StartY = value.GetValueFloat()
+	case "EndX":
+		perpendicularvector.EndX = value.GetValueFloat()
+	case "EndY":
+		perpendicularvector.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		perpendicularvectorgrid.Name = value.GetValueString()
+	case "PerpendicularVectors":
+		perpendicularvectorgrid.PerpendicularVectors = make([]*PerpendicularVector, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PerpendicularVectors {
+					if stage.PerpendicularVector_stagedOrder[__instance__] == uint(id) {
+						perpendicularvectorgrid.PerpendicularVectors = append(perpendicularvectorgrid.PerpendicularVectors, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -5990,6 +6572,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "PerpendicularVectorGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PerpendicularVectorGrid = nil
+			for __instance__ := range stage.PerpendicularVectorGrids {
+				if stage.PerpendicularVectorGrid_stagedOrder[__instance__] == uint(id) {
+					plant.PerpendicularVectorGrid = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6044,6 +6637,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenGrowthPathRhombusGridShape = value.GetValueBool()
 	case "IsHiddenGrowthVectorShape":
 		plantdiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
+	case "IsHiddenPerpendicularVectorGrid":
+		plantdiagram.IsHiddenPerpendicularVectorGrid = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -6160,6 +6755,14 @@ func (nextcircleshape *NextCircleShape) GongGetGongstructName() string {
 	return "NextCircleShape"
 }
 
+func (perpendicularvector *PerpendicularVector) GongGetGongstructName() string {
+	return "PerpendicularVector"
+}
+
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetGongstructName() string {
+	return "PerpendicularVectorGrid"
+}
+
 func (plant *Plant) GongGetGongstructName() string {
 	return "Plant"
 }
@@ -6244,6 +6847,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
 	for nextcircleshape := range stage.NextCircleShapes {
 		stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
+	}
+
+	stage.PerpendicularVectors_mapString = make(map[string]*PerpendicularVector)
+	for perpendicularvector := range stage.PerpendicularVectors {
+		stage.PerpendicularVectors_mapString[perpendicularvector.Name] = perpendicularvector
+	}
+
+	stage.PerpendicularVectorGrids_mapString = make(map[string]*PerpendicularVectorGrid)
+	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
+		stage.PerpendicularVectorGrids_mapString[perpendicularvectorgrid.Name] = perpendicularvectorgrid
 	}
 
 	stage.Plants_mapString = make(map[string]*Plant)

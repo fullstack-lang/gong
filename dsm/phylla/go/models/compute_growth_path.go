@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCurveRhombusGridShape, sourceGrid *RotatedRhombusGridShape, angleDegree float64, sideLength float64, rhombusInsideAngle float64) (needCommit bool) {
+func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCurveRhombusGridShape, sourceGrid *RotatedRhombusGridShape, angleDegree float64, sideLength float64, rhombusInsideAngle float64, circumferenceLength float64) (needCommit bool) {
 	if sourceGrid == nil || grid == nil {
 		return false
 	}
@@ -82,9 +82,13 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCur
 		current = *next
 	}
 
-	// Now check if grid.GrowthCurveRhombusShapes matches ordered
+	// Now check if grid.GrowthCurveRhombusShapes matches ordered + translated
 	valid := true
-	if len(grid.GrowthCurveRhombusShapes) != len(ordered) {
+	expectedLen := len(ordered)
+	if expectedLen > 0 {
+		expectedLen++
+	}
+	if len(grid.GrowthCurveRhombusShapes) != expectedLen {
 		valid = false
 	} else {
 		for i, cand := range ordered {
@@ -95,16 +99,32 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCur
 				break
 			}
 		}
+		if valid && len(ordered) > 0 {
+			r := grid.GrowthCurveRhombusShapes[len(ordered)]
+			expectedName := fmt.Sprintf("%s-translated", grid.Name)
+			expectedX := ordered[0].r.X + circumferenceLength
+			expectedY := ordered[0].r.Y
+			if r == nil || r.Name != expectedName || math.Abs(r.X-expectedX) > 1e-4 || math.Abs(r.Y-expectedY) > 1e-4 {
+				valid = false
+			}
+		}
 	}
 
 	if !valid {
-		grid.GrowthCurveRhombusShapes = make([]*GrowthCurveRhombusShape, len(ordered))
+		grid.GrowthCurveRhombusShapes = make([]*GrowthCurveRhombusShape, expectedLen)
 		for i, cand := range ordered {
 			r := new(GrowthCurveRhombusShape).Stage(stage)
 			r.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			r.X = cand.r.X
 			r.Y = cand.r.Y
 			grid.GrowthCurveRhombusShapes[i] = r
+		}
+		if len(ordered) > 0 {
+			r := new(GrowthCurveRhombusShape).Stage(stage)
+			r.Name = fmt.Sprintf("%s-translated", grid.Name)
+			r.X = ordered[0].r.X + circumferenceLength
+			r.Y = ordered[0].r.Y
+			grid.GrowthCurveRhombusShapes[len(ordered)] = r
 		}
 		needCommit = true
 	}

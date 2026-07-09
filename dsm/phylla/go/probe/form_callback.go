@@ -1168,6 +1168,247 @@ func (nextcircleshapeFormCallback *NextCircleShapeFormCallback) OnSave() {
 
 	nextcircleshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__PerpendicularVectorFormCallback(
+	perpendicularvector *models.PerpendicularVector,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (perpendicularvectorFormCallback *PerpendicularVectorFormCallback) {
+	perpendicularvectorFormCallback = new(PerpendicularVectorFormCallback)
+	perpendicularvectorFormCallback.probe = probe
+	perpendicularvectorFormCallback.perpendicularvector = perpendicularvector
+	perpendicularvectorFormCallback.formGroup = formGroup
+
+	perpendicularvectorFormCallback.CreationMode = (perpendicularvector == nil)
+
+	return
+}
+
+type PerpendicularVectorFormCallback struct {
+	perpendicularvector *models.PerpendicularVector
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (perpendicularvectorFormCallback *PerpendicularVectorFormCallback) OnSave() {
+	perpendicularvectorFormCallback.probe.stageOfInterest.Lock()
+	defer perpendicularvectorFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PerpendicularVectorFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	perpendicularvectorFormCallback.probe.formStage.Checkout()
+
+	if perpendicularvectorFormCallback.perpendicularvector == nil {
+		perpendicularvectorFormCallback.perpendicularvector = new(models.PerpendicularVector).Stage(perpendicularvectorFormCallback.probe.stageOfInterest)
+	}
+	perpendicularvector_ := perpendicularvectorFormCallback.perpendicularvector
+	_ = perpendicularvector_
+
+	for _, formDiv := range perpendicularvectorFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(perpendicularvector_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(perpendicularvector_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(perpendicularvector_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(perpendicularvector_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(perpendicularvector_.EndY), formDiv)
+		case "PerpendicularVectorGrid:PerpendicularVectors":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PerpendicularVectorGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PerpendicularVectorGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PerpendicularVectorGrid](perpendicularvectorFormCallback.probe.stageOfInterest)
+			targetPerpendicularVectorGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPerpendicularVectorGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PerpendicularVectorGrid instances and update their PerpendicularVectors slice
+			for _perpendicularvectorgrid := range *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorGrid](perpendicularvectorFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(perpendicularvectorFormCallback.probe.stageOfInterest, _perpendicularvectorgrid)
+				
+				// if PerpendicularVectorGrid is selected
+				if targetPerpendicularVectorGridIDs[id] {
+					// ensure perpendicularvector_ is in _perpendicularvectorgrid.PerpendicularVectors
+					found := false
+					for _, _b := range _perpendicularvectorgrid.PerpendicularVectors {
+						if _b == perpendicularvector_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_perpendicularvectorgrid.PerpendicularVectors = append(_perpendicularvectorgrid.PerpendicularVectors, perpendicularvector_)
+						perpendicularvectorFormCallback.probe.UpdateSliceOfPointersCallback(_perpendicularvectorgrid, "PerpendicularVectors", &_perpendicularvectorgrid.PerpendicularVectors)
+					}
+				} else {
+					// ensure perpendicularvector_ is NOT in _perpendicularvectorgrid.PerpendicularVectors
+					idx := slices.Index(_perpendicularvectorgrid.PerpendicularVectors, perpendicularvector_)
+					if idx != -1 {
+						_perpendicularvectorgrid.PerpendicularVectors = slices.Delete(_perpendicularvectorgrid.PerpendicularVectors, idx, idx+1)
+						perpendicularvectorFormCallback.probe.UpdateSliceOfPointersCallback(_perpendicularvectorgrid, "PerpendicularVectors", &_perpendicularvectorgrid.PerpendicularVectors)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if perpendicularvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvector_.Unstage(perpendicularvectorFormCallback.probe.stageOfInterest)
+	}
+
+	perpendicularvectorFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PerpendicularVector](
+		perpendicularvectorFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if perpendicularvectorFormCallback.CreationMode || perpendicularvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(perpendicularvectorFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PerpendicularVectorFormCallback(
+			nil,
+			perpendicularvectorFormCallback.probe,
+			newFormGroup,
+		)
+		perpendicularvector := new(models.PerpendicularVector)
+		FillUpForm(perpendicularvector, newFormGroup, perpendicularvectorFormCallback.probe)
+		perpendicularvectorFormCallback.probe.formStage.Commit()
+	}
+
+	perpendicularvectorFormCallback.probe.ux_tree()
+}
+func __gong__New__PerpendicularVectorGridFormCallback(
+	perpendicularvectorgrid *models.PerpendicularVectorGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (perpendicularvectorgridFormCallback *PerpendicularVectorGridFormCallback) {
+	perpendicularvectorgridFormCallback = new(PerpendicularVectorGridFormCallback)
+	perpendicularvectorgridFormCallback.probe = probe
+	perpendicularvectorgridFormCallback.perpendicularvectorgrid = perpendicularvectorgrid
+	perpendicularvectorgridFormCallback.formGroup = formGroup
+
+	perpendicularvectorgridFormCallback.CreationMode = (perpendicularvectorgrid == nil)
+
+	return
+}
+
+type PerpendicularVectorGridFormCallback struct {
+	perpendicularvectorgrid *models.PerpendicularVectorGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (perpendicularvectorgridFormCallback *PerpendicularVectorGridFormCallback) OnSave() {
+	perpendicularvectorgridFormCallback.probe.stageOfInterest.Lock()
+	defer perpendicularvectorgridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PerpendicularVectorGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	perpendicularvectorgridFormCallback.probe.formStage.Checkout()
+
+	if perpendicularvectorgridFormCallback.perpendicularvectorgrid == nil {
+		perpendicularvectorgridFormCallback.perpendicularvectorgrid = new(models.PerpendicularVectorGrid).Stage(perpendicularvectorgridFormCallback.probe.stageOfInterest)
+	}
+	perpendicularvectorgrid_ := perpendicularvectorgridFormCallback.perpendicularvectorgrid
+	_ = perpendicularvectorgrid_
+
+	for _, formDiv := range perpendicularvectorgridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(perpendicularvectorgrid_.Name), formDiv)
+		case "PerpendicularVectors":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVector](perpendicularvectorgridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PerpendicularVector, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PerpendicularVector)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					perpendicularvectorgridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PerpendicularVector](perpendicularvectorgridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			perpendicularvectorgrid_.PerpendicularVectors = instanceSlice
+			perpendicularvectorgridFormCallback.probe.UpdateSliceOfPointersCallback(perpendicularvectorgrid_, "PerpendicularVectors", &perpendicularvectorgrid_.PerpendicularVectors)
+
+		}
+	}
+
+	// manage the suppress operation
+	if perpendicularvectorgridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorgrid_.Unstage(perpendicularvectorgridFormCallback.probe.stageOfInterest)
+	}
+
+	perpendicularvectorgridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PerpendicularVectorGrid](
+		perpendicularvectorgridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if perpendicularvectorgridFormCallback.CreationMode || perpendicularvectorgridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorgridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(perpendicularvectorgridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PerpendicularVectorGridFormCallback(
+			nil,
+			perpendicularvectorgridFormCallback.probe,
+			newFormGroup,
+		)
+		perpendicularvectorgrid := new(models.PerpendicularVectorGrid)
+		FillUpForm(perpendicularvectorgrid, newFormGroup, perpendicularvectorgridFormCallback.probe)
+		perpendicularvectorgridFormCallback.probe.formStage.Commit()
+	}
+
+	perpendicularvectorgridFormCallback.probe.ux_tree()
+}
 func __gong__New__PlantFormCallback(
 	plant *models.Plant,
 	probe *Probe,
@@ -1289,6 +1530,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.GrowthCurveRhombusGridShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthVectorShape":
 			FormDivSelectFieldToField(&(plant_.GrowthVectorShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PerpendicularVectorGrid":
+			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1522,6 +1765,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthPathRhombusGridShape), formDiv)
 		case "IsHiddenGrowthVectorShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthVectorShape), formDiv)
+		case "IsHiddenPerpendicularVectorGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGrid), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":

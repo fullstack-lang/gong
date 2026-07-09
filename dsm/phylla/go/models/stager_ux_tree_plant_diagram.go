@@ -420,4 +420,34 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
+
+	perpendicularVectorGrid := plant.PerpendicularVectorGrid
+	if perpendicularVectorGrid != nil {
+		node := &tree.Node{
+			Name:            perpendicularVectorGrid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(perpendicularVectorGrid, GetPointerToGongstructName[*PerpendicularVectorGrid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenPerpendicularVectorGrid = !plantDiagram.IsHiddenPerpendicularVectorGrid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenPerpendicularVectorGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
 }

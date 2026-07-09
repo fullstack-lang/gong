@@ -40,6 +40,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *NextCircleShape:
 		ok = stage.IsStagedNextCircleShape(target)
 
+	case *PerpendicularVector:
+		ok = stage.IsStagedPerpendicularVector(target)
+
+	case *PerpendicularVectorGrid:
+		ok = stage.IsStagedPerpendicularVectorGrid(target)
+
 	case *Plant:
 		ok = stage.IsStagedPlant(target)
 
@@ -100,6 +106,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *NextCircleShape:
 		ok = stage.IsStagedNextCircleShape(target)
+
+	case *PerpendicularVector:
+		ok = stage.IsStagedPerpendicularVector(target)
+
+	case *PerpendicularVectorGrid:
+		ok = stage.IsStagedPerpendicularVectorGrid(target)
 
 	case *Plant:
 		ok = stage.IsStagedPlant(target)
@@ -203,6 +215,20 @@ func (stage *Stage) IsStagedNextCircleShape(nextcircleshape *NextCircleShape) (o
 	return
 }
 
+func (stage *Stage) IsStagedPerpendicularVector(perpendicularvector *PerpendicularVector) (ok bool) {
+
+	_, ok = stage.PerpendicularVectors[perpendicularvector]
+
+	return
+}
+
+func (stage *Stage) IsStagedPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) (ok bool) {
+
+	_, ok = stage.PerpendicularVectorGrids[perpendicularvectorgrid]
+
+	return
+}
+
 func (stage *Stage) IsStagedPlant(plant *Plant) (ok bool) {
 
 	_, ok = stage.Plants[plant]
@@ -285,6 +311,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *NextCircleShape:
 		stage.StageBranchNextCircleShape(target)
+
+	case *PerpendicularVector:
+		stage.StageBranchPerpendicularVector(target)
+
+	case *PerpendicularVectorGrid:
+		stage.StageBranchPerpendicularVectorGrid(target)
 
 	case *Plant:
 		stage.StageBranchPlant(target)
@@ -487,6 +519,39 @@ func (stage *Stage) StageBranchNextCircleShape(nextcircleshape *NextCircleShape)
 
 }
 
+func (stage *Stage) StageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
+
+	// check if instance is already staged
+	if IsStaged(stage, perpendicularvector) {
+		return
+	}
+
+	perpendicularvector.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, perpendicularvectorgrid) {
+		return
+	}
+
+	perpendicularvectorgrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _perpendicularvector := range perpendicularvectorgrid.PerpendicularVectors {
+		StageBranch(stage, _perpendicularvector)
+	}
+
+}
+
 func (stage *Stage) StageBranchPlant(plant *Plant) {
 
 	// check if instance is already staged
@@ -532,6 +597,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	}
 	if plant.GrowthVectorShape != nil {
 		StageBranch(stage, plant.GrowthVectorShape)
+	}
+	if plant.PerpendicularVectorGrid != nil {
+		StageBranch(stage, plant.PerpendicularVectorGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -672,6 +740,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *NextCircleShape:
 		toT := CopyBranchNextCircleShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PerpendicularVector:
+		toT := CopyBranchPerpendicularVector(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PerpendicularVectorGrid:
+		toT := CopyBranchPerpendicularVectorGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Plant:
@@ -926,6 +1002,47 @@ func CopyBranchNextCircleShape(mapOrigCopy map[any]any, nextcircleshapeFrom *Nex
 	return
 }
 
+func CopyBranchPerpendicularVector(mapOrigCopy map[any]any, perpendicularvectorFrom *PerpendicularVector) (perpendicularvectorTo *PerpendicularVector) {
+
+	// perpendicularvectorFrom has already been copied
+	if _perpendicularvectorTo, ok := mapOrigCopy[perpendicularvectorFrom]; ok {
+		perpendicularvectorTo = _perpendicularvectorTo.(*PerpendicularVector)
+		return
+	}
+
+	perpendicularvectorTo = new(PerpendicularVector)
+	mapOrigCopy[perpendicularvectorFrom] = perpendicularvectorTo
+	perpendicularvectorFrom.CopyBasicFields(perpendicularvectorTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPerpendicularVectorGrid(mapOrigCopy map[any]any, perpendicularvectorgridFrom *PerpendicularVectorGrid) (perpendicularvectorgridTo *PerpendicularVectorGrid) {
+
+	// perpendicularvectorgridFrom has already been copied
+	if _perpendicularvectorgridTo, ok := mapOrigCopy[perpendicularvectorgridFrom]; ok {
+		perpendicularvectorgridTo = _perpendicularvectorgridTo.(*PerpendicularVectorGrid)
+		return
+	}
+
+	perpendicularvectorgridTo = new(PerpendicularVectorGrid)
+	mapOrigCopy[perpendicularvectorgridFrom] = perpendicularvectorgridTo
+	perpendicularvectorgridFrom.CopyBasicFields(perpendicularvectorgridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _perpendicularvector := range perpendicularvectorgridFrom.PerpendicularVectors {
+		perpendicularvectorgridTo.PerpendicularVectors = append(perpendicularvectorgridTo.PerpendicularVectors, CopyBranchPerpendicularVector(mapOrigCopy, _perpendicularvector))
+	}
+
+	return
+}
+
 func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant) {
 
 	// plantFrom has already been copied
@@ -974,6 +1091,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	}
 	if plantFrom.GrowthVectorShape != nil {
 		plantTo.GrowthVectorShape = CopyBranchGrowthVectorShape(mapOrigCopy, plantFrom.GrowthVectorShape)
+	}
+	if plantFrom.PerpendicularVectorGrid != nil {
+		plantTo.PerpendicularVectorGrid = CopyBranchPerpendicularVectorGrid(mapOrigCopy, plantFrom.PerpendicularVectorGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1122,6 +1242,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *NextCircleShape:
 		stage.UnstageBranchNextCircleShape(target)
+
+	case *PerpendicularVector:
+		stage.UnstageBranchPerpendicularVector(target)
+
+	case *PerpendicularVectorGrid:
+		stage.UnstageBranchPerpendicularVectorGrid(target)
 
 	case *Plant:
 		stage.UnstageBranchPlant(target)
@@ -1324,6 +1450,39 @@ func (stage *Stage) UnstageBranchNextCircleShape(nextcircleshape *NextCircleShap
 
 }
 
+func (stage *Stage) UnstageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, perpendicularvector) {
+		return
+	}
+
+	perpendicularvector.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, perpendicularvectorgrid) {
+		return
+	}
+
+	perpendicularvectorgrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _perpendicularvector := range perpendicularvectorgrid.PerpendicularVectors {
+		UnstageBranch(stage, _perpendicularvector)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 
 	// check if instance is already staged
@@ -1369,6 +1528,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	}
 	if plant.GrowthVectorShape != nil {
 		UnstageBranch(stage, plant.GrowthVectorShape)
+	}
+	if plant.PerpendicularVectorGrid != nil {
+		UnstageBranch(stage, plant.PerpendicularVectorGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1528,6 +1690,20 @@ func (reference *NextCircleShape) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
+func (reference *PerpendicularVector) GongReconstructPointersFromReferences(stage *Stage, instance *PerpendicularVector) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PerpendicularVectorGrid) GongReconstructPointersFromReferences(stage *Stage, instance *PerpendicularVectorGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.PerpendicularVectors = reference.PerpendicularVectors[:0]
+	for _, _b := range instance.PerpendicularVectors {
+		reference.PerpendicularVectors = append(reference.PerpendicularVectors, stage.PerpendicularVectors_reference[_b])
+	}
+}
+
 func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
 	// insertion point for pointers field
 	if instance.AxesShape != nil {
@@ -1565,6 +1741,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	}
 	if instance.GrowthVectorShape != nil {
 		reference.GrowthVectorShape = stage.GrowthVectorShapes_reference[instance.GrowthVectorShape]
+	}
+	if instance.PerpendicularVectorGrid != nil {
+		reference.PerpendicularVectorGrid = stage.PerpendicularVectorGrids_reference[instance.PerpendicularVectorGrid]
 	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
@@ -1686,6 +1865,23 @@ func (reference *NextCircleShape) GongReconstructPointersFromInstances(stage *St
 	// insertion point for slice of pointers fields
 }
 
+func (reference *PerpendicularVector) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PerpendicularVectorGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _PerpendicularVectors []*PerpendicularVector
+	for _, _reference := range reference.PerpendicularVectors {
+		if _instance, ok := stage.PerpendicularVectors_instance[_reference]; ok {
+			_PerpendicularVectors = append(_PerpendicularVectors, _instance)
+		}
+	}
+	reference.PerpendicularVectors = _PerpendicularVectors
+}
+
 func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.AxesShape; _reference != nil {
@@ -1758,6 +1954,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.GrowthVectorShape = nil
 		if _instance, ok := stage.GrowthVectorShapes_instance[_reference]; ok {
 			reference.GrowthVectorShape = _instance
+		}
+	}
+	if _reference := reference.PerpendicularVectorGrid; _reference != nil {
+		reference.PerpendicularVectorGrid = nil
+		if _instance, ok := stage.PerpendicularVectorGrids_instance[_reference]; ok {
+			reference.PerpendicularVectorGrid = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -2052,6 +2254,61 @@ func (nextcircleshape *NextCircleShape) GongDiff(stage *Stage, nextcircleshapeOt
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (perpendicularvector *PerpendicularVector) GongDiff(stage *Stage, perpendicularvectorOther *PerpendicularVector) (diffs []string) {
+	// insertion point for field diffs
+	if perpendicularvector.Name != perpendicularvectorOther.Name {
+		diffs = append(diffs, perpendicularvector.GongMarshallField(stage, "Name"))
+	}
+	if perpendicularvector.StartX != perpendicularvectorOther.StartX {
+		diffs = append(diffs, perpendicularvector.GongMarshallField(stage, "StartX"))
+	}
+	if perpendicularvector.StartY != perpendicularvectorOther.StartY {
+		diffs = append(diffs, perpendicularvector.GongMarshallField(stage, "StartY"))
+	}
+	if perpendicularvector.EndX != perpendicularvectorOther.EndX {
+		diffs = append(diffs, perpendicularvector.GongMarshallField(stage, "EndX"))
+	}
+	if perpendicularvector.EndY != perpendicularvectorOther.EndY {
+		diffs = append(diffs, perpendicularvector.GongMarshallField(stage, "EndY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (perpendicularvectorgrid *PerpendicularVectorGrid) GongDiff(stage *Stage, perpendicularvectorgridOther *PerpendicularVectorGrid) (diffs []string) {
+	// insertion point for field diffs
+	if perpendicularvectorgrid.Name != perpendicularvectorgridOther.Name {
+		diffs = append(diffs, perpendicularvectorgrid.GongMarshallField(stage, "Name"))
+	}
+	PerpendicularVectorsDifferent := false
+	if len(perpendicularvectorgrid.PerpendicularVectors) != len(perpendicularvectorgridOther.PerpendicularVectors) {
+		PerpendicularVectorsDifferent = true
+	} else {
+		for i := range perpendicularvectorgrid.PerpendicularVectors {
+			if (perpendicularvectorgrid.PerpendicularVectors[i] == nil) != (perpendicularvectorgridOther.PerpendicularVectors[i] == nil) {
+				PerpendicularVectorsDifferent = true
+				break
+			} else if perpendicularvectorgrid.PerpendicularVectors[i] != nil && perpendicularvectorgridOther.PerpendicularVectors[i] != nil {
+				// this is a pointer comparaison
+				if perpendicularvectorgrid.PerpendicularVectors[i] != perpendicularvectorgridOther.PerpendicularVectors[i] {
+					PerpendicularVectorsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PerpendicularVectorsDifferent {
+		ops := Diff(stage, perpendicularvectorgrid, perpendicularvectorgridOther, "PerpendicularVectors", perpendicularvectorgridOther.PerpendicularVectors, perpendicularvectorgrid.PerpendicularVectors)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	// insertion point for field diffs
 	if plant.Name != plantOther.Name {
@@ -2189,6 +2446,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "GrowthVectorShape"))
 		}
 	}
+	if (plant.PerpendicularVectorGrid == nil) != (plantOther.PerpendicularVectorGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "PerpendicularVectorGrid"))
+	} else if plant.PerpendicularVectorGrid != nil && plantOther.PerpendicularVectorGrid != nil {
+		if plant.PerpendicularVectorGrid != plantOther.PerpendicularVectorGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "PerpendicularVectorGrid"))
+		}
+	}
 
 	return
 }
@@ -2258,6 +2522,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenGrowthVectorShape != plantdiagramOther.IsHiddenGrowthVectorShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthVectorShape"))
+	}
+	if plantdiagram.IsHiddenPerpendicularVectorGrid != plantdiagramOther.IsHiddenPerpendicularVectorGrid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGrid"))
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))

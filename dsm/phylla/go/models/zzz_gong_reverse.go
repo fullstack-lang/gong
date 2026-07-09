@@ -122,6 +122,31 @@ func (inst *NextCircleShape) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
+func (inst *PerpendicularVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PerpendicularVectorGrid":
+		switch reverseField.Fieldname {
+		case "PerpendicularVectors":
+			if _perpendicularvectorgrid, ok := stage.PerpendicularVectorGrid_PerpendicularVectors_reverseMap[inst]; ok {
+				res = _perpendicularvectorgrid.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *PerpendicularVectorGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Plant) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -304,6 +329,29 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 }
 
 func (inst *NextCircleShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *PerpendicularVector) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PerpendicularVectorGrid":
+		switch reverseField.Fieldname {
+		case "PerpendicularVectors":
+			res = stage.PerpendicularVectorGrid_PerpendicularVectors_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *PerpendicularVectorGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
