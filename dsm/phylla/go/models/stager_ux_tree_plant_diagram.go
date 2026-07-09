@@ -360,4 +360,34 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	growthPathRhombusGridShape := plantDiagram.GrowthPathRhombusGridShape
+	if growthPathRhombusGridShape != nil {
+		node := &tree.Node{
+			Name:            growthPathRhombusGridShape.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(growthPathRhombusGridShape, GetPointerToGongstructName[*RhombusGridShape]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				growthPathRhombusGridShape.SetIsHidden(!growthPathRhombusGridShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if growthPathRhombusGridShape.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 }

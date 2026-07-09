@@ -556,6 +556,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "RotatedGridPathShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -1200,6 +1201,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RotatedRhombusGridShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "GrowthPathRhombusGridShape":
+		if plantdiagram.GrowthPathRhombusGridShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthPathRhombusGridShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.GrowthPathRhombusGridShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthPathRhombusGridShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PlantDiagram", fieldName)
 	}
@@ -1401,6 +1415,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "RotatedGridPathShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))

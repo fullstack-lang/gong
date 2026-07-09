@@ -383,6 +383,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.RotatedRhombusGridShape != nil {
 		StageBranch(stage, plantdiagram.RotatedRhombusGridShape)
 	}
+	if plantdiagram.GrowthPathRhombusGridShape != nil {
+		StageBranch(stage, plantdiagram.GrowthPathRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -687,6 +690,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.RotatedRhombusGridShape != nil {
 		plantdiagramTo.RotatedRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.RotatedRhombusGridShape)
 	}
+	if plantdiagramFrom.GrowthPathRhombusGridShape != nil {
+		plantdiagramTo.GrowthPathRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.GrowthPathRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -950,6 +956,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.RotatedRhombusGridShape != nil {
 		UnstageBranch(stage, plantdiagram.RotatedRhombusGridShape)
 	}
+	if plantdiagram.GrowthPathRhombusGridShape != nil {
+		UnstageBranch(stage, plantdiagram.GrowthPathRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1072,6 +1081,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.RotatedRhombusGridShape != nil {
 		reference.RotatedRhombusGridShape = stage.RhombusGridShapes_reference[instance.RotatedRhombusGridShape]
+	}
+	if instance.GrowthPathRhombusGridShape != nil {
+		reference.GrowthPathRhombusGridShape = stage.RhombusGridShapes_reference[instance.GrowthPathRhombusGridShape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -1212,6 +1224,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.RotatedRhombusGridShape = nil
 		if _instance, ok := stage.RhombusGridShapes_instance[_reference]; ok {
 			reference.RotatedRhombusGridShape = _instance
+		}
+	}
+	if _reference := reference.GrowthPathRhombusGridShape; _reference != nil {
+		reference.GrowthPathRhombusGridShape = nil
+		if _instance, ok := stage.RhombusGridShapes_instance[_reference]; ok {
+			reference.GrowthPathRhombusGridShape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -1542,6 +1560,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.RotatedRhombusGridShape != nil && plantdiagramOther.RotatedRhombusGridShape != nil {
 		if plantdiagram.RotatedRhombusGridShape != plantdiagramOther.RotatedRhombusGridShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
+		}
+	}
+	if (plantdiagram.GrowthPathRhombusGridShape == nil) != (plantdiagramOther.GrowthPathRhombusGridShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
+	} else if plantdiagram.GrowthPathRhombusGridShape != nil && plantdiagramOther.GrowthPathRhombusGridShape != nil {
+		if plantdiagram.GrowthPathRhombusGridShape != plantdiagramOther.GrowthPathRhombusGridShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
 		}
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {

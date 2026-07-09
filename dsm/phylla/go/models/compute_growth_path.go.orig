@@ -1,0 +1,121 @@
+package models
+
+import (
+	"fmt"
+	"math"
+)
+
+func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, sourceGrid *RhombusGridShape, angleDegree float64, sideLength float64) (needCommit bool) {
+	if sourceGrid == nil || grid == nil {
+		return false
+	}
+
+	angleRad := angleDegree * math.Pi / 180.0
+	cosA := math.Cos(angleRad)
+	sinA := math.Sin(angleRad)
+
+	v1x := sideLength * math.Cos(angleRad/2.0)
+	v1y := -sideLength * math.Sin(angleRad/2.0)
+	v2x := -sideLength * math.Cos(angleRad/2.0)
+	v2y := -sideLength * math.Sin(angleRad/2.0)
+
+	type rotatedRhombus struct {
+		r        *RhombusShape
+		rotatedX float64
+		rotatedY float64
+	}
+
+	var candidates []rotatedRhombus
+	for _, r := range sourceGrid.RhombusShapes {
+		// Calculate the center of the unrotated rhombus
+		cx := r.X + (v1x+v2x)/2.0
+		cy := r.Y + (v1y+v2y)/2.0
+
+		// Rotate the center to check its visual Y coordinate
+		ryCenter := cx*sinA + cy*cosA
+
+		// Keep rhombuses where the CENTER is visually above or on the origin line (SVG Y <= 0)
+		if ryCenter <= 0.0001 {
+			// For ordering and adjacency, we use the rotated center point to be consistent
+			rxCenter := cx*cosA - cy*sinA
+			candidates = append(candidates, rotatedRhombus{r: r, rotatedX: rxCenter, rotatedY: ryCenter})
+		}
+	}
+
+	if len(candidates) == 0 {
+		if len(grid.RhombusShapes) > 0 {
+			grid.RhombusShapes = nil
+			return true
+		}
+		return false
+	}
+
+	leftmost := candidates[0]
+	for _, cand := range candidates {
+		if cand.rotatedX < leftmost.rotatedX {
+			leftmost = cand
+		}
+	}
+
+	var ordered []rotatedRhombus
+	ordered = append(ordered, leftmost)
+	current := leftmost
+
+	for {
+		var next *rotatedRhombus
+		for i := range candidates {
+			cand := &candidates[i]
+			if cand.r == current.r {
+				continue
+			}
+
+			// adjacent on the right
+			if cand.rotatedX > current.rotatedX+1e-4 {
+				dx := cand.rotatedX - current.rotatedX
+				dy := cand.rotatedY - current.rotatedY
+				dist := math.Sqrt(dx*dx + dy*dy)
+				if math.Abs(dist-sideLength) < 1e-4 {
+					if next == nil || cand.rotatedX < next.rotatedX {
+						next = cand
+					}
+				}
+			}
+		}
+
+		if next == nil {
+			break
+		}
+
+		ordered = append(ordered, *next)
+		current = *next
+	}
+
+	// Now check if grid.RhombusShapes matches ordered
+	valid := true
+	if len(grid.RhombusShapes) != len(ordered) {
+		valid = false
+	} else {
+		for i, cand := range ordered {
+			r := grid.RhombusShapes[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if r == nil || r.Name != expectedName || math.Abs(r.X-cand.r.X) > 1e-4 || math.Abs(r.Y-cand.r.Y) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		grid.RhombusShapes = make([]*RhombusShape, len(ordered))
+		for i, cand := range ordered {
+			r := new(RhombusShape).Stage(stage)
+			r.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			r.X = cand.r.X
+			r.Y = cand.r.Y
+			grid.RhombusShapes[i] = r
+		}
+		needCommit = true
+	}
+
+	return needCommit
+}
