@@ -72,6 +72,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce grid path shape name", stager.enforceGridPathShapeName},
 		{"Enforce plant diagram has rhombus grid shape", stager.enforcePlantDiagramHasRhombusGridShape},
 		{"Enforce rhombus grid shape name", stager.enforceRhombusGridShapeName},
+		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantDiagramRhombusGridShapeHasRhombuses},
 		{"Enforce plant diagram has explanation text shape", stager.enforcePlantDiagramHasExplanationTextShape},
 		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName},
 		{"Enforce plant diagram has rotated shapes", stager.enforcePlantDiagramHasRotatedShapes},

@@ -510,38 +510,36 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := -length * math.Sin(angleRad/2.0)
 
-	for i := 0; i < plant.N; i++ {
-		for j := 0; j < plant.M; j++ {
-			polygon := new(svg.Polygone)
-			layer.Polygones = append(layer.Polygones, polygon)
+	for _, rhombus := range plantDiagram.RhombusGridShape.RhombusShapes {
+		polygon := new(svg.Polygone)
+		layer.Polygones = append(layer.Polygones, polygon)
 
-			polygon.Name = fmt.Sprintf("%s-%d-%d", plantDiagram.RhombusGridShape.Name, i, j)
+		polygon.Name = rhombus.Name
 
-			// Vertices for the rhombus at (i, j)
-			v0x := plantDiagram.OriginX + float64(i)*v1x + float64(j)*v2x
-			v0y := plantDiagram.OriginY + float64(i)*v1y + float64(j)*v2y
+		// Vertices for the rhombus
+		v0x := plantDiagram.OriginX + rhombus.X
+		v0y := plantDiagram.OriginY + rhombus.Y
 
-			v1_vertex_x := v0x + v1x
-			v1_vertex_y := v0y + v1y
+		v1_vertex_x := v0x + v1x
+		v1_vertex_y := v0y + v1y
 
-			v2_vertex_x := v0x + v1x + v2x
-			v2_vertex_y := v0y + v1y + v2y
+		v2_vertex_x := v0x + v1x + v2x
+		v2_vertex_y := v0y + v1y + v2y
 
-			v3_vertex_x := v0x + v2x
-			v3_vertex_y := v0y + v2y
+		v3_vertex_x := v0x + v2x
+		v3_vertex_y := v0y + v2y
 
-			polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
-				v0x, v0y,
-				v1_vertex_x, v1_vertex_y,
-				v2_vertex_x, v2_vertex_y,
-				v3_vertex_x, v3_vertex_y)
+		polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
+			v0x, v0y,
+			v1_vertex_x, v1_vertex_y,
+			v2_vertex_x, v2_vertex_y,
+			v3_vertex_x, v3_vertex_y)
 
-			polygon.Presentation.Stroke = "blue"
-			polygon.Presentation.StrokeWidth = 1.0
-			polygon.Presentation.StrokeOpacity = 0.5
-			polygon.Presentation.Color = "lightblue"
-			polygon.Presentation.FillOpacity = 0.2
-		}
+		polygon.Presentation.Stroke = "blue"
+		polygon.Presentation.StrokeWidth = 1.0
+		polygon.Presentation.StrokeOpacity = 0.5
+		polygon.Presentation.Color = "lightblue"
+		polygon.Presentation.FillOpacity = 0.2
 	}
 }
 
@@ -561,39 +559,37 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := -length * math.Sin(angleRad/2.0)
 
-	for i := 0; i < plant.N; i++ {
-		for j := 0; j < plant.M; j++ {
-			polygon := new(svg.Polygone)
-			layer.Polygones = append(layer.Polygones, polygon)
+	for _, rhombus := range plantDiagram.RotatedRhombusGridShape.RhombusShapes {
+		polygon := new(svg.Polygone)
+		layer.Polygones = append(layer.Polygones, polygon)
 
-			polygon.Name = fmt.Sprintf("%s-%d-%d", plantDiagram.RotatedRhombusGridShape.Name, i, j)
+		polygon.Name = rhombus.Name
 
-			// Vertices for the rhombus at (i, j)
-			v0x := plantDiagram.OriginX + float64(i)*v1x + float64(j)*v2x
-			v0y := plantDiagram.OriginY + float64(i)*v1y + float64(j)*v2y
+		// Vertices for the rhombus
+		v0x := plantDiagram.OriginX + rhombus.X
+		v0y := plantDiagram.OriginY + rhombus.Y
 
-			v1_vertex_x := v0x + v1x
-			v1_vertex_y := v0y + v1y
+		v1_vertex_x := v0x + v1x
+		v1_vertex_y := v0y + v1y
 
-			v2_vertex_x := v0x + v1x + v2x
-			v2_vertex_y := v0y + v1y + v2y
+		v2_vertex_x := v0x + v1x + v2x
+		v2_vertex_y := v0y + v1y + v2y
 
-			v3_vertex_x := v0x + v2x
-			v3_vertex_y := v0y + v2y
+		v3_vertex_x := v0x + v2x
+		v3_vertex_y := v0y + v2y
 
-			polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
-				v0x, v0y,
-				v1_vertex_x, v1_vertex_y,
-				v2_vertex_x, v2_vertex_y,
-				v3_vertex_x, v3_vertex_y)
+		polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
+			v0x, v0y,
+			v1_vertex_x, v1_vertex_y,
+			v2_vertex_x, v2_vertex_y,
+			v3_vertex_x, v3_vertex_y)
 
-			polygon.Presentation.Stroke = "darkblue"
-			polygon.Presentation.StrokeWidth = 1.0
-			polygon.Presentation.StrokeOpacity = 0.5
-			polygon.Presentation.Color = "lightblue"
-			polygon.Presentation.FillOpacity = 0.1
-			polygon.Presentation.StrokeDashArray = "5, 5"
-			polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
-		}
+		polygon.Presentation.Stroke = "darkblue"
+		polygon.Presentation.StrokeWidth = 1.0
+		polygon.Presentation.StrokeOpacity = 0.5
+		polygon.Presentation.Color = "lightblue"
+		polygon.Presentation.FillOpacity = 0.1
+		polygon.Presentation.StrokeDashArray = "5, 5"
+		polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 	}
 }

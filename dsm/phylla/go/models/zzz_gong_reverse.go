@@ -104,7 +104,7 @@ func (inst *PlantDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
-func (inst *ReferenceRhombus) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *RhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -113,11 +113,18 @@ func (inst *ReferenceRhombus) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
-func (inst *RhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *RhombusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "RhombusGridShape":
+		switch reverseField.Fieldname {
+		case "RhombusShapes":
+			if _rhombusgridshape, ok := stage.RhombusGridShape_RhombusShapes_reverseMap[inst]; ok {
+				res = _rhombusgridshape.Name
+			}
+		}
 	}
 	return
 }
@@ -219,7 +226,7 @@ func (inst *PlantDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	return res
 }
 
-func (inst *ReferenceRhombus) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *RhombusGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -228,11 +235,16 @@ func (inst *ReferenceRhombus) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
-func (inst *RhombusGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *RhombusShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "RhombusGridShape":
+		switch reverseField.Fieldname {
+		case "RhombusShapes":
+			res = stage.RhombusGridShape_RhombusShapes_reverseMap[inst]
+		}
 	}
 	return res
 }

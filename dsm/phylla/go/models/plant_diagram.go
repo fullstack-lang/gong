@@ -7,16 +7,15 @@ type PlantDiagram struct {
 	OriginY float64
 
 	AxesShape                      *AxesShape
-	ReferenceRhombus               *ReferenceRhombus
+	ReferenceRhombus               *RhombusShape
 	PlantCircumferenceShape        *PlantCircumferenceShape
 	GridPathShape                  *GridPathShape
 	RhombusGridShape               *RhombusGridShape
 	ExplanationTextShape           *ExplanationTextShape
-	RotatedReferenceRhombus        *ReferenceRhombus
+	RotatedReferenceRhombus        *RhombusShape
 	RotatedPlantCircumferenceShape *PlantCircumferenceShape
 	RotatedGridPathShape           *GridPathShape
 	RotatedRhombusGridShape        *RhombusGridShape
-
 
 	IsChecked bool
 	AbstractTypeFields

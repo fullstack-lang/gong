@@ -95,7 +95,7 @@ func (stager *Stager) treePlantDiagram(
 			IsNodeClickable: true,
 		}
 		referenceRhombusNode.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(referenceRhombus, GetPointerToGongstructName[*ReferenceRhombus]())
+			stager.probeForm.FillUpFormFromGongstruct(referenceRhombus, GetPointerToGongstructName[*RhombusShape]())
 			stager.stage.Commit()
 		}
 		rrVisibilityButton := &tree.Button{
@@ -247,7 +247,7 @@ func (stager *Stager) treePlantDiagram(
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(rotatedReferenceRhombus, GetPointerToGongstructName[*ReferenceRhombus]())
+			stager.probeForm.FillUpFormFromGongstruct(rotatedReferenceRhombus, GetPointerToGongstructName[*RhombusShape]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
