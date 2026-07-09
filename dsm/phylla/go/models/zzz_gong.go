@@ -2888,14 +2888,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of PlantDiagram with the name of the field
 			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
-		}).(*Type)
-	case PlantCircumferenceShape:
-		return any(&PlantCircumferenceShape{
-			// Initialisation of associations
-		}).(*Type)
-	case PlantDiagram:
-		return any(&PlantDiagram{
-			// Initialisation of associations
 			// field is initialized with an instance of AxesShape with the name of the field
 			AxesShape: &AxesShape{Name: "AxesShape"},
 			// field is initialized with an instance of RhombusShape with the name of the field
@@ -2918,6 +2910,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RotatedRhombusGridShape: &RhombusGridShape{Name: "RotatedRhombusGridShape"},
 			// field is initialized with an instance of RhombusGridShape with the name of the field
 			GrowthPathRhombusGridShape: &RhombusGridShape{Name: "GrowthPathRhombusGridShape"},
+		}).(*Type)
+	case PlantCircumferenceShape:
+		return any(&PlantCircumferenceShape{
+			// Initialisation of associations
+		}).(*Type)
+	case PlantDiagram:
+		return any(&PlantDiagram{
+			// Initialisation of associations
 		}).(*Type)
 	case RhombusGridShape:
 		return any(&RhombusGridShape{
@@ -2980,6 +2980,193 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Plant:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "AxesShape":
+			res := make(map[*AxesShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.AxesShape != nil {
+					axesshape_ := plant.AxesShape
+					var plants []*Plant
+					_, ok := res[axesshape_]
+					if ok {
+						plants = res[axesshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[axesshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ReferenceRhombus":
+			res := make(map[*RhombusShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.ReferenceRhombus != nil {
+					rhombusshape_ := plant.ReferenceRhombus
+					var plants []*Plant
+					_, ok := res[rhombusshape_]
+					if ok {
+						plants = res[rhombusshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[rhombusshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PlantCircumferenceShape":
+			res := make(map[*PlantCircumferenceShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PlantCircumferenceShape != nil {
+					plantcircumferenceshape_ := plant.PlantCircumferenceShape
+					var plants []*Plant
+					_, ok := res[plantcircumferenceshape_]
+					if ok {
+						plants = res[plantcircumferenceshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[plantcircumferenceshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "GridPathShape":
+			res := make(map[*GridPathShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.GridPathShape != nil {
+					gridpathshape_ := plant.GridPathShape
+					var plants []*Plant
+					_, ok := res[gridpathshape_]
+					if ok {
+						plants = res[gridpathshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[gridpathshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RhombusGridShape":
+			res := make(map[*RhombusGridShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.RhombusGridShape != nil {
+					rhombusgridshape_ := plant.RhombusGridShape
+					var plants []*Plant
+					_, ok := res[rhombusgridshape_]
+					if ok {
+						plants = res[rhombusgridshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[rhombusgridshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ExplanationTextShape":
+			res := make(map[*ExplanationTextShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.ExplanationTextShape != nil {
+					explanationtextshape_ := plant.ExplanationTextShape
+					var plants []*Plant
+					_, ok := res[explanationtextshape_]
+					if ok {
+						plants = res[explanationtextshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[explanationtextshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedReferenceRhombus":
+			res := make(map[*RhombusShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.RotatedReferenceRhombus != nil {
+					rhombusshape_ := plant.RotatedReferenceRhombus
+					var plants []*Plant
+					_, ok := res[rhombusshape_]
+					if ok {
+						plants = res[rhombusshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[rhombusshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedPlantCircumferenceShape":
+			res := make(map[*PlantCircumferenceShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.RotatedPlantCircumferenceShape != nil {
+					plantcircumferenceshape_ := plant.RotatedPlantCircumferenceShape
+					var plants []*Plant
+					_, ok := res[plantcircumferenceshape_]
+					if ok {
+						plants = res[plantcircumferenceshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[plantcircumferenceshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedGridPathShape":
+			res := make(map[*GridPathShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.RotatedGridPathShape != nil {
+					gridpathshape_ := plant.RotatedGridPathShape
+					var plants []*Plant
+					_, ok := res[gridpathshape_]
+					if ok {
+						plants = res[gridpathshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[gridpathshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedRhombusGridShape":
+			res := make(map[*RhombusGridShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.RotatedRhombusGridShape != nil {
+					rhombusgridshape_ := plant.RotatedRhombusGridShape
+					var plants []*Plant
+					_, ok := res[rhombusgridshape_]
+					if ok {
+						plants = res[rhombusgridshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[rhombusgridshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "GrowthPathRhombusGridShape":
+			res := make(map[*RhombusGridShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.GrowthPathRhombusGridShape != nil {
+					rhombusgridshape_ := plant.GrowthPathRhombusGridShape
+					var plants []*Plant
+					_, ok := res[rhombusgridshape_]
+					if ok {
+						plants = res[rhombusgridshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[rhombusgridshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
@@ -2990,193 +3177,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case PlantDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "AxesShape":
-			res := make(map[*AxesShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.AxesShape != nil {
-					axesshape_ := plantdiagram.AxesShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[axesshape_]
-					if ok {
-						plantdiagrams = res[axesshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[axesshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ReferenceRhombus":
-			res := make(map[*RhombusShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.ReferenceRhombus != nil {
-					rhombusshape_ := plantdiagram.ReferenceRhombus
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rhombusshape_]
-					if ok {
-						plantdiagrams = res[rhombusshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rhombusshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PlantCircumferenceShape":
-			res := make(map[*PlantCircumferenceShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.PlantCircumferenceShape != nil {
-					plantcircumferenceshape_ := plantdiagram.PlantCircumferenceShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[plantcircumferenceshape_]
-					if ok {
-						plantdiagrams = res[plantcircumferenceshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[plantcircumferenceshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "GridPathShape":
-			res := make(map[*GridPathShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.GridPathShape != nil {
-					gridpathshape_ := plantdiagram.GridPathShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[gridpathshape_]
-					if ok {
-						plantdiagrams = res[gridpathshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[gridpathshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RhombusGridShape":
-			res := make(map[*RhombusGridShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RhombusGridShape != nil {
-					rhombusgridshape_ := plantdiagram.RhombusGridShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rhombusgridshape_]
-					if ok {
-						plantdiagrams = res[rhombusgridshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rhombusgridshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ExplanationTextShape":
-			res := make(map[*ExplanationTextShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.ExplanationTextShape != nil {
-					explanationtextshape_ := plantdiagram.ExplanationTextShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[explanationtextshape_]
-					if ok {
-						plantdiagrams = res[explanationtextshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[explanationtextshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedReferenceRhombus":
-			res := make(map[*RhombusShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedReferenceRhombus != nil {
-					rhombusshape_ := plantdiagram.RotatedReferenceRhombus
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rhombusshape_]
-					if ok {
-						plantdiagrams = res[rhombusshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rhombusshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedPlantCircumferenceShape":
-			res := make(map[*PlantCircumferenceShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedPlantCircumferenceShape != nil {
-					plantcircumferenceshape_ := plantdiagram.RotatedPlantCircumferenceShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[plantcircumferenceshape_]
-					if ok {
-						plantdiagrams = res[plantcircumferenceshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[plantcircumferenceshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedGridPathShape":
-			res := make(map[*GridPathShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedGridPathShape != nil {
-					gridpathshape_ := plantdiagram.RotatedGridPathShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[gridpathshape_]
-					if ok {
-						plantdiagrams = res[gridpathshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[gridpathshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedRhombusGridShape":
-			res := make(map[*RhombusGridShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedRhombusGridShape != nil {
-					rhombusgridshape_ := plantdiagram.RotatedRhombusGridShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rhombusgridshape_]
-					if ok {
-						plantdiagrams = res[rhombusgridshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rhombusgridshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "GrowthPathRhombusGridShape":
-			res := make(map[*RhombusGridShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.GrowthPathRhombusGridShape != nil {
-					rhombusgridshape_ := plantdiagram.GrowthPathRhombusGridShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rhombusgridshape_]
-					if ok {
-						plantdiagrams = res[rhombusgridshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rhombusgridshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RhombusGridShape
 	case RhombusGridShape:
@@ -3406,10 +3406,6 @@ func (axesshape *AxesShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsWithHiddenHandle",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3424,10 +3420,6 @@ func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHe
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
 	}
 	return
 }
@@ -3439,10 +3431,6 @@ func (explanationtextshape *ExplanationTextShape) GongGetFieldHeaders() (res []G
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
 	}
 	return
 }
@@ -3453,10 +3441,6 @@ func (gridpathshape *GridPathShape) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -3510,10 +3494,6 @@ func (nextcircleshape *NextCircleShape) GongGetFieldHeaders() (res []GongFieldHe
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
 	}
 	return
 }
@@ -3565,48 +3545,6 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "PlantDiagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "PlantDiagram",
-		},
-	}
-	return
-}
-
-func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "AngleDegree",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Length",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-	}
-	return
-}
-
-func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "OriginX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "OriginY",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:                 "AxesShape",
@@ -3663,6 +3601,88 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "RhombusGridShape",
 		},
+	}
+	return
+}
+
+func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "AngleDegree",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Length",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "OriginX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OriginY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenReferenceRhombus",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPlantCircumferenceShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenGridPathShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenRhombusGridShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenExplanationTextShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenRotatedReferenceRhombus",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenRotatedPlantCircumferenceShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenRotatedGridPathShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenRotatedRhombusGridShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenGrowthPathRhombusGridShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
@@ -3687,10 +3707,6 @@ func (rhombusgridshape *RhombusGridShape) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "RhombusShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "RhombusShape",
@@ -3713,10 +3729,6 @@ func (rhombusshape *RhombusShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "Y",
 			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -3790,10 +3802,6 @@ func (axesshape *AxesShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%f", axesshape.LengthY)
 		res.valueFloat = axesshape.LengthY
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", axesshape.IsHidden)
-		res.valueBool = axesshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsWithHiddenHandle":
 		res.valueString = fmt.Sprintf("%t", axesshape.IsWithHiddenHandle)
 		res.valueBool = axesshape.IsWithHiddenHandle
@@ -3807,10 +3815,6 @@ func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stag
 	// string value of fields
 	case "Name":
 		res.valueString = circlegridshape.Name
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", circlegridshape.IsHidden)
-		res.valueBool = circlegridshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3820,10 +3824,6 @@ func (explanationtextshape *ExplanationTextShape) GongGetFieldValue(fieldName st
 	// string value of fields
 	case "Name":
 		res.valueString = explanationtextshape.Name
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", explanationtextshape.IsHidden)
-		res.valueBool = explanationtextshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3833,10 +3833,6 @@ func (gridpathshape *GridPathShape) GongGetFieldValue(fieldName string, stage *S
 	// string value of fields
 	case "Name":
 		res.valueString = gridpathshape.Name
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", gridpathshape.IsHidden)
-		res.valueBool = gridpathshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3891,10 +3887,6 @@ func (nextcircleshape *NextCircleShape) GongGetFieldValue(fieldName string, stag
 	// string value of fields
 	case "Name":
 		res.valueString = nextcircleshape.Name
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", nextcircleshape.IsHidden)
-		res.valueBool = nextcircleshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3948,6 +3940,72 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "AxesShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.AxesShape != nil {
+			res.valueString = plant.AxesShape.Name
+			res.ids = plant.AxesShape.GongGetUUID(stage)
+		}
+	case "ReferenceRhombus":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.ReferenceRhombus != nil {
+			res.valueString = plant.ReferenceRhombus.Name
+			res.ids = plant.ReferenceRhombus.GongGetUUID(stage)
+		}
+	case "PlantCircumferenceShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PlantCircumferenceShape != nil {
+			res.valueString = plant.PlantCircumferenceShape.Name
+			res.ids = plant.PlantCircumferenceShape.GongGetUUID(stage)
+		}
+	case "GridPathShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.GridPathShape != nil {
+			res.valueString = plant.GridPathShape.Name
+			res.ids = plant.GridPathShape.GongGetUUID(stage)
+		}
+	case "RhombusGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.RhombusGridShape != nil {
+			res.valueString = plant.RhombusGridShape.Name
+			res.ids = plant.RhombusGridShape.GongGetUUID(stage)
+		}
+	case "ExplanationTextShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.ExplanationTextShape != nil {
+			res.valueString = plant.ExplanationTextShape.Name
+			res.ids = plant.ExplanationTextShape.GongGetUUID(stage)
+		}
+	case "RotatedReferenceRhombus":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.RotatedReferenceRhombus != nil {
+			res.valueString = plant.RotatedReferenceRhombus.Name
+			res.ids = plant.RotatedReferenceRhombus.GongGetUUID(stage)
+		}
+	case "RotatedPlantCircumferenceShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.RotatedPlantCircumferenceShape != nil {
+			res.valueString = plant.RotatedPlantCircumferenceShape.Name
+			res.ids = plant.RotatedPlantCircumferenceShape.GongGetUUID(stage)
+		}
+	case "RotatedGridPathShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.RotatedGridPathShape != nil {
+			res.valueString = plant.RotatedGridPathShape.Name
+			res.ids = plant.RotatedGridPathShape.GongGetUUID(stage)
+		}
+	case "RotatedRhombusGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.RotatedRhombusGridShape != nil {
+			res.valueString = plant.RotatedRhombusGridShape.Name
+			res.ids = plant.RotatedRhombusGridShape.GongGetUUID(stage)
+		}
+	case "GrowthPathRhombusGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.GrowthPathRhombusGridShape != nil {
+			res.valueString = plant.GrowthPathRhombusGridShape.Name
+			res.ids = plant.GrowthPathRhombusGridShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -3965,10 +4023,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldValue(fieldN
 		res.valueString = fmt.Sprintf("%f", plantcircumferenceshape.Length)
 		res.valueFloat = plantcircumferenceshape.Length
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", plantcircumferenceshape.IsHidden)
-		res.valueBool = plantcircumferenceshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3986,72 +4040,50 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginY)
 		res.valueFloat = plantdiagram.OriginY
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "AxesShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.AxesShape != nil {
-			res.valueString = plantdiagram.AxesShape.Name
-			res.ids = plantdiagram.AxesShape.GongGetUUID(stage)
-		}
-	case "ReferenceRhombus":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.ReferenceRhombus != nil {
-			res.valueString = plantdiagram.ReferenceRhombus.Name
-			res.ids = plantdiagram.ReferenceRhombus.GongGetUUID(stage)
-		}
-	case "PlantCircumferenceShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.PlantCircumferenceShape != nil {
-			res.valueString = plantdiagram.PlantCircumferenceShape.Name
-			res.ids = plantdiagram.PlantCircumferenceShape.GongGetUUID(stage)
-		}
-	case "GridPathShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.GridPathShape != nil {
-			res.valueString = plantdiagram.GridPathShape.Name
-			res.ids = plantdiagram.GridPathShape.GongGetUUID(stage)
-		}
-	case "RhombusGridShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RhombusGridShape != nil {
-			res.valueString = plantdiagram.RhombusGridShape.Name
-			res.ids = plantdiagram.RhombusGridShape.GongGetUUID(stage)
-		}
-	case "ExplanationTextShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.ExplanationTextShape != nil {
-			res.valueString = plantdiagram.ExplanationTextShape.Name
-			res.ids = plantdiagram.ExplanationTextShape.GongGetUUID(stage)
-		}
-	case "RotatedReferenceRhombus":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedReferenceRhombus != nil {
-			res.valueString = plantdiagram.RotatedReferenceRhombus.Name
-			res.ids = plantdiagram.RotatedReferenceRhombus.GongGetUUID(stage)
-		}
-	case "RotatedPlantCircumferenceShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedPlantCircumferenceShape != nil {
-			res.valueString = plantdiagram.RotatedPlantCircumferenceShape.Name
-			res.ids = plantdiagram.RotatedPlantCircumferenceShape.GongGetUUID(stage)
-		}
-	case "RotatedGridPathShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedGridPathShape != nil {
-			res.valueString = plantdiagram.RotatedGridPathShape.Name
-			res.ids = plantdiagram.RotatedGridPathShape.GongGetUUID(stage)
-		}
-	case "RotatedRhombusGridShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedRhombusGridShape != nil {
-			res.valueString = plantdiagram.RotatedRhombusGridShape.Name
-			res.ids = plantdiagram.RotatedRhombusGridShape.GongGetUUID(stage)
-		}
-	case "GrowthPathRhombusGridShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.GrowthPathRhombusGridShape != nil {
-			res.valueString = plantdiagram.GrowthPathRhombusGridShape.Name
-			res.ids = plantdiagram.GrowthPathRhombusGridShape.GongGetUUID(stage)
-		}
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenAxesShape)
+		res.valueBool = plantdiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenReferenceRhombus":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenReferenceRhombus)
+		res.valueBool = plantdiagram.IsHiddenReferenceRhombus
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPlantCircumferenceShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPlantCircumferenceShape)
+		res.valueBool = plantdiagram.IsHiddenPlantCircumferenceShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGridPathShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGridPathShape)
+		res.valueBool = plantdiagram.IsHiddenGridPathShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRhombusGridShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRhombusGridShape)
+		res.valueBool = plantdiagram.IsHiddenRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenExplanationTextShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenExplanationTextShape)
+		res.valueBool = plantdiagram.IsHiddenExplanationTextShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedReferenceRhombus":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedReferenceRhombus)
+		res.valueBool = plantdiagram.IsHiddenRotatedReferenceRhombus
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedPlantCircumferenceShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedPlantCircumferenceShape)
+		res.valueBool = plantdiagram.IsHiddenRotatedPlantCircumferenceShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedGridPathShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedGridPathShape)
+		res.valueBool = plantdiagram.IsHiddenRotatedGridPathShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedRhombusGridShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedRhombusGridShape)
+		res.valueBool = plantdiagram.IsHiddenRotatedRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthPathRhombusGridShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthPathRhombusGridShape)
+		res.valueBool = plantdiagram.IsHiddenGrowthPathRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -4071,10 +4103,6 @@ func (rhombusgridshape *RhombusGridShape) GongGetFieldValue(fieldName string, st
 	// string value of fields
 	case "Name":
 		res.valueString = rhombusgridshape.Name
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", rhombusgridshape.IsHidden)
-		res.valueBool = rhombusgridshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RhombusShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range rhombusgridshape.RhombusShapes {
@@ -4102,10 +4130,6 @@ func (rhombusshape *RhombusShape) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%f", rhombusshape.Y)
 		res.valueFloat = rhombusshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", rhombusshape.IsHidden)
-		res.valueBool = rhombusshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4125,8 +4149,6 @@ func (axesshape *AxesShape) GongSetFieldValue(fieldName string, value GongFieldV
 		axesshape.LengthX = value.GetValueFloat()
 	case "LengthY":
 		axesshape.LengthY = value.GetValueFloat()
-	case "IsHidden":
-		axesshape.IsHidden = value.GetValueBool()
 	case "IsWithHiddenHandle":
 		axesshape.IsWithHiddenHandle = value.GetValueBool()
 	default:
@@ -4140,8 +4162,6 @@ func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, valu
 	// insertion point for per field code
 	case "Name":
 		circlegridshape.Name = value.GetValueString()
-	case "IsHidden":
-		circlegridshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4153,8 +4173,6 @@ func (explanationtextshape *ExplanationTextShape) GongSetFieldValue(fieldName st
 	// insertion point for per field code
 	case "Name":
 		explanationtextshape.Name = value.GetValueString()
-	case "IsHidden":
-		explanationtextshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4166,8 +4184,6 @@ func (gridpathshape *GridPathShape) GongSetFieldValue(fieldName string, value Go
 	// insertion point for per field code
 	case "Name":
 		gridpathshape.Name = value.GetValueString()
-	case "IsHidden":
-		gridpathshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4228,8 +4244,6 @@ func (nextcircleshape *NextCircleShape) GongSetFieldValue(fieldName string, valu
 	// insertion point for per field code
 	case "Name":
 		nextcircleshape.Name = value.GetValueString()
-	case "IsHidden":
-		nextcircleshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4273,6 +4287,127 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "AxesShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.AxesShape = nil
+			for __instance__ := range stage.AxesShapes {
+				if stage.AxesShape_stagedOrder[__instance__] == uint(id) {
+					plant.AxesShape = __instance__
+					break
+				}
+			}
+		}
+	case "ReferenceRhombus":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.ReferenceRhombus = nil
+			for __instance__ := range stage.RhombusShapes {
+				if stage.RhombusShape_stagedOrder[__instance__] == uint(id) {
+					plant.ReferenceRhombus = __instance__
+					break
+				}
+			}
+		}
+	case "PlantCircumferenceShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PlantCircumferenceShape = nil
+			for __instance__ := range stage.PlantCircumferenceShapes {
+				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
+					plant.PlantCircumferenceShape = __instance__
+					break
+				}
+			}
+		}
+	case "GridPathShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.GridPathShape = nil
+			for __instance__ := range stage.GridPathShapes {
+				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
+					plant.GridPathShape = __instance__
+					break
+				}
+			}
+		}
+	case "RhombusGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.RhombusGridShape = nil
+			for __instance__ := range stage.RhombusGridShapes {
+				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
+					plant.RhombusGridShape = __instance__
+					break
+				}
+			}
+		}
+	case "ExplanationTextShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.ExplanationTextShape = nil
+			for __instance__ := range stage.ExplanationTextShapes {
+				if stage.ExplanationTextShape_stagedOrder[__instance__] == uint(id) {
+					plant.ExplanationTextShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedReferenceRhombus":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.RotatedReferenceRhombus = nil
+			for __instance__ := range stage.RhombusShapes {
+				if stage.RhombusShape_stagedOrder[__instance__] == uint(id) {
+					plant.RotatedReferenceRhombus = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedPlantCircumferenceShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.RotatedPlantCircumferenceShape = nil
+			for __instance__ := range stage.PlantCircumferenceShapes {
+				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
+					plant.RotatedPlantCircumferenceShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedGridPathShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.RotatedGridPathShape = nil
+			for __instance__ := range stage.GridPathShapes {
+				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
+					plant.RotatedGridPathShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedRhombusGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.RotatedRhombusGridShape = nil
+			for __instance__ := range stage.RhombusGridShapes {
+				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
+					plant.RotatedRhombusGridShape = __instance__
+					break
+				}
+			}
+		}
+	case "GrowthPathRhombusGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.GrowthPathRhombusGridShape = nil
+			for __instance__ := range stage.RhombusGridShapes {
+				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
+					plant.GrowthPathRhombusGridShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4288,8 +4423,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongSetFieldValue(fieldN
 		plantcircumferenceshape.AngleDegree = value.GetValueFloat()
 	case "Length":
 		plantcircumferenceshape.Length = value.GetValueFloat()
-	case "IsHidden":
-		plantcircumferenceshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4305,127 +4438,28 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.OriginX = value.GetValueFloat()
 	case "OriginY":
 		plantdiagram.OriginY = value.GetValueFloat()
-	case "AxesShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.AxesShape = nil
-			for __instance__ := range stage.AxesShapes {
-				if stage.AxesShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.AxesShape = __instance__
-					break
-				}
-			}
-		}
-	case "ReferenceRhombus":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.ReferenceRhombus = nil
-			for __instance__ := range stage.RhombusShapes {
-				if stage.RhombusShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.ReferenceRhombus = __instance__
-					break
-				}
-			}
-		}
-	case "PlantCircumferenceShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.PlantCircumferenceShape = nil
-			for __instance__ := range stage.PlantCircumferenceShapes {
-				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.PlantCircumferenceShape = __instance__
-					break
-				}
-			}
-		}
-	case "GridPathShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.GridPathShape = nil
-			for __instance__ := range stage.GridPathShapes {
-				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.GridPathShape = __instance__
-					break
-				}
-			}
-		}
-	case "RhombusGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RhombusGridShape = nil
-			for __instance__ := range stage.RhombusGridShapes {
-				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RhombusGridShape = __instance__
-					break
-				}
-			}
-		}
-	case "ExplanationTextShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.ExplanationTextShape = nil
-			for __instance__ := range stage.ExplanationTextShapes {
-				if stage.ExplanationTextShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.ExplanationTextShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedReferenceRhombus":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedReferenceRhombus = nil
-			for __instance__ := range stage.RhombusShapes {
-				if stage.RhombusShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedReferenceRhombus = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedPlantCircumferenceShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedPlantCircumferenceShape = nil
-			for __instance__ := range stage.PlantCircumferenceShapes {
-				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedPlantCircumferenceShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedGridPathShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedGridPathShape = nil
-			for __instance__ := range stage.GridPathShapes {
-				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedGridPathShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedRhombusGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedRhombusGridShape = nil
-			for __instance__ := range stage.RhombusGridShapes {
-				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedRhombusGridShape = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthPathRhombusGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.GrowthPathRhombusGridShape = nil
-			for __instance__ := range stage.RhombusGridShapes {
-				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.GrowthPathRhombusGridShape = __instance__
-					break
-				}
-			}
-		}
+	case "IsHiddenAxesShape":
+		plantdiagram.IsHiddenAxesShape = value.GetValueBool()
+	case "IsHiddenReferenceRhombus":
+		plantdiagram.IsHiddenReferenceRhombus = value.GetValueBool()
+	case "IsHiddenPlantCircumferenceShape":
+		plantdiagram.IsHiddenPlantCircumferenceShape = value.GetValueBool()
+	case "IsHiddenGridPathShape":
+		plantdiagram.IsHiddenGridPathShape = value.GetValueBool()
+	case "IsHiddenRhombusGridShape":
+		plantdiagram.IsHiddenRhombusGridShape = value.GetValueBool()
+	case "IsHiddenExplanationTextShape":
+		plantdiagram.IsHiddenExplanationTextShape = value.GetValueBool()
+	case "IsHiddenRotatedReferenceRhombus":
+		plantdiagram.IsHiddenRotatedReferenceRhombus = value.GetValueBool()
+	case "IsHiddenRotatedPlantCircumferenceShape":
+		plantdiagram.IsHiddenRotatedPlantCircumferenceShape = value.GetValueBool()
+	case "IsHiddenRotatedGridPathShape":
+		plantdiagram.IsHiddenRotatedGridPathShape = value.GetValueBool()
+	case "IsHiddenRotatedRhombusGridShape":
+		plantdiagram.IsHiddenRotatedRhombusGridShape = value.GetValueBool()
+	case "IsHiddenGrowthPathRhombusGridShape":
+		plantdiagram.IsHiddenGrowthPathRhombusGridShape = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -4443,8 +4477,6 @@ func (rhombusgridshape *RhombusGridShape) GongSetFieldValue(fieldName string, va
 	// insertion point for per field code
 	case "Name":
 		rhombusgridshape.Name = value.GetValueString()
-	case "IsHidden":
-		rhombusgridshape.IsHidden = value.GetValueBool()
 	case "RhombusShapes":
 		rhombusgridshape.RhombusShapes = make([]*RhombusShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -4474,8 +4506,6 @@ func (rhombusshape *RhombusShape) GongSetFieldValue(fieldName string, value Gong
 		rhombusshape.X = value.GetValueFloat()
 	case "Y":
 		rhombusshape.Y = value.GetValueFloat()
-	case "IsHidden":
-		rhombusshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

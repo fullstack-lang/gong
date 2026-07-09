@@ -70,8 +70,6 @@ func (axesshapeFormCallback *AxesShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(axesshape_.LengthX), formDiv)
 		case "LengthY":
 			FormDivBasicFieldToField(&(axesshape_.LengthY), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(axesshape_.IsHidden), formDiv)
 		case "IsWithHiddenHandle":
 			FormDivBasicFieldToField(&(axesshape_.IsWithHiddenHandle), formDiv)
 		}
@@ -152,8 +150,6 @@ func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(circlegridshape_.Name), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(circlegridshape_.IsHidden), formDiv)
 		}
 	}
 
@@ -232,8 +228,6 @@ func (explanationtextshapeFormCallback *ExplanationTextShapeFormCallback) OnSave
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(explanationtextshape_.Name), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(explanationtextshape_.IsHidden), formDiv)
 		}
 	}
 
@@ -312,8 +306,6 @@ func (gridpathshapeFormCallback *GridPathShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(gridpathshape_.Name), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(gridpathshape_.IsHidden), formDiv)
 		}
 	}
 
@@ -589,8 +581,6 @@ func (nextcircleshapeFormCallback *NextCircleShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(nextcircleshape_.Name), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(nextcircleshape_.IsHidden), formDiv)
 		}
 	}
 
@@ -719,6 +709,28 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			plant_.PlantDiagrams = instanceSlice
 			plantFormCallback.probe.UpdateSliceOfPointersCallback(plant_, "PlantDiagrams", &plant_.PlantDiagrams)
 
+		case "AxesShape":
+			FormDivSelectFieldToField(&(plant_.AxesShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ReferenceRhombus":
+			FormDivSelectFieldToField(&(plant_.ReferenceRhombus), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PlantCircumferenceShape":
+			FormDivSelectFieldToField(&(plant_.PlantCircumferenceShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "GridPathShape":
+			FormDivSelectFieldToField(&(plant_.GridPathShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "RhombusGridShape":
+			FormDivSelectFieldToField(&(plant_.RhombusGridShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ExplanationTextShape":
+			FormDivSelectFieldToField(&(plant_.ExplanationTextShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedReferenceRhombus":
+			FormDivSelectFieldToField(&(plant_.RotatedReferenceRhombus), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedPlantCircumferenceShape":
+			FormDivSelectFieldToField(&(plant_.RotatedPlantCircumferenceShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedGridPathShape":
+			FormDivSelectFieldToField(&(plant_.RotatedGridPathShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedRhombusGridShape":
+			FormDivSelectFieldToField(&(plant_.RotatedRhombusGridShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthPathRhombusGridShape":
+			FormDivSelectFieldToField(&(plant_.GrowthPathRhombusGridShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -846,8 +858,6 @@ func (plantcircumferenceshapeFormCallback *PlantCircumferenceShapeFormCallback) 
 			FormDivBasicFieldToField(&(plantcircumferenceshape_.AngleDegree), formDiv)
 		case "Length":
 			FormDivBasicFieldToField(&(plantcircumferenceshape_.Length), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(plantcircumferenceshape_.IsHidden), formDiv)
 		}
 	}
 
@@ -930,28 +940,28 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.OriginX), formDiv)
 		case "OriginY":
 			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
-		case "AxesShape":
-			FormDivSelectFieldToField(&(plantdiagram_.AxesShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ReferenceRhombus":
-			FormDivSelectFieldToField(&(plantdiagram_.ReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PlantCircumferenceShape":
-			FormDivSelectFieldToField(&(plantdiagram_.PlantCircumferenceShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "GridPathShape":
-			FormDivSelectFieldToField(&(plantdiagram_.GridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "RhombusGridShape":
-			FormDivSelectFieldToField(&(plantdiagram_.RhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ExplanationTextShape":
-			FormDivSelectFieldToField(&(plantdiagram_.ExplanationTextShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedReferenceRhombus":
-			FormDivSelectFieldToField(&(plantdiagram_.RotatedReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedPlantCircumferenceShape":
-			FormDivSelectFieldToField(&(plantdiagram_.RotatedPlantCircumferenceShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedGridPathShape":
-			FormDivSelectFieldToField(&(plantdiagram_.RotatedGridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedRhombusGridShape":
-			FormDivSelectFieldToField(&(plantdiagram_.RotatedRhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthPathRhombusGridShape":
-			FormDivSelectFieldToField(&(plantdiagram_.GrowthPathRhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenAxesShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenAxesShape), formDiv)
+		case "IsHiddenReferenceRhombus":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenReferenceRhombus), formDiv)
+		case "IsHiddenPlantCircumferenceShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPlantCircumferenceShape), formDiv)
+		case "IsHiddenGridPathShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGridPathShape), formDiv)
+		case "IsHiddenRhombusGridShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRhombusGridShape), formDiv)
+		case "IsHiddenExplanationTextShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenExplanationTextShape), formDiv)
+		case "IsHiddenRotatedReferenceRhombus":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedReferenceRhombus), formDiv)
+		case "IsHiddenRotatedPlantCircumferenceShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedPlantCircumferenceShape), formDiv)
+		case "IsHiddenRotatedGridPathShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedGridPathShape), formDiv)
+		case "IsHiddenRotatedRhombusGridShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedRhombusGridShape), formDiv)
+		case "IsHiddenGrowthPathRhombusGridShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthPathRhombusGridShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -1081,8 +1091,6 @@ func (rhombusgridshapeFormCallback *RhombusGridShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(rhombusgridshape_.Name), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(rhombusgridshape_.IsHidden), formDiv)
 		case "RhombusShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RhombusShape](rhombusgridshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RhombusShape, 0)
@@ -1197,8 +1205,6 @@ func (rhombusshapeFormCallback *RhombusShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rhombusshape_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(rhombusshape_.Y), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(rhombusshape_.IsHidden), formDiv)
 		case "RhombusGridShape:RhombusShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the RhombusGridShape instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

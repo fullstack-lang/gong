@@ -320,6 +320,39 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	plant.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plant.AxesShape != nil {
+		StageBranch(stage, plant.AxesShape)
+	}
+	if plant.ReferenceRhombus != nil {
+		StageBranch(stage, plant.ReferenceRhombus)
+	}
+	if plant.PlantCircumferenceShape != nil {
+		StageBranch(stage, plant.PlantCircumferenceShape)
+	}
+	if plant.GridPathShape != nil {
+		StageBranch(stage, plant.GridPathShape)
+	}
+	if plant.RhombusGridShape != nil {
+		StageBranch(stage, plant.RhombusGridShape)
+	}
+	if plant.ExplanationTextShape != nil {
+		StageBranch(stage, plant.ExplanationTextShape)
+	}
+	if plant.RotatedReferenceRhombus != nil {
+		StageBranch(stage, plant.RotatedReferenceRhombus)
+	}
+	if plant.RotatedPlantCircumferenceShape != nil {
+		StageBranch(stage, plant.RotatedPlantCircumferenceShape)
+	}
+	if plant.RotatedGridPathShape != nil {
+		StageBranch(stage, plant.RotatedGridPathShape)
+	}
+	if plant.RotatedRhombusGridShape != nil {
+		StageBranch(stage, plant.RotatedRhombusGridShape)
+	}
+	if plant.GrowthPathRhombusGridShape != nil {
+		StageBranch(stage, plant.GrowthPathRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -353,39 +386,6 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	plantdiagram.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if plantdiagram.AxesShape != nil {
-		StageBranch(stage, plantdiagram.AxesShape)
-	}
-	if plantdiagram.ReferenceRhombus != nil {
-		StageBranch(stage, plantdiagram.ReferenceRhombus)
-	}
-	if plantdiagram.PlantCircumferenceShape != nil {
-		StageBranch(stage, plantdiagram.PlantCircumferenceShape)
-	}
-	if plantdiagram.GridPathShape != nil {
-		StageBranch(stage, plantdiagram.GridPathShape)
-	}
-	if plantdiagram.RhombusGridShape != nil {
-		StageBranch(stage, plantdiagram.RhombusGridShape)
-	}
-	if plantdiagram.ExplanationTextShape != nil {
-		StageBranch(stage, plantdiagram.ExplanationTextShape)
-	}
-	if plantdiagram.RotatedReferenceRhombus != nil {
-		StageBranch(stage, plantdiagram.RotatedReferenceRhombus)
-	}
-	if plantdiagram.RotatedPlantCircumferenceShape != nil {
-		StageBranch(stage, plantdiagram.RotatedPlantCircumferenceShape)
-	}
-	if plantdiagram.RotatedGridPathShape != nil {
-		StageBranch(stage, plantdiagram.RotatedGridPathShape)
-	}
-	if plantdiagram.RotatedRhombusGridShape != nil {
-		StageBranch(stage, plantdiagram.RotatedRhombusGridShape)
-	}
-	if plantdiagram.GrowthPathRhombusGridShape != nil {
-		StageBranch(stage, plantdiagram.GrowthPathRhombusGridShape)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -619,6 +619,39 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	plantFrom.CopyBasicFields(plantTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantFrom.AxesShape != nil {
+		plantTo.AxesShape = CopyBranchAxesShape(mapOrigCopy, plantFrom.AxesShape)
+	}
+	if plantFrom.ReferenceRhombus != nil {
+		plantTo.ReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, plantFrom.ReferenceRhombus)
+	}
+	if plantFrom.PlantCircumferenceShape != nil {
+		plantTo.PlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, plantFrom.PlantCircumferenceShape)
+	}
+	if plantFrom.GridPathShape != nil {
+		plantTo.GridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantFrom.GridPathShape)
+	}
+	if plantFrom.RhombusGridShape != nil {
+		plantTo.RhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantFrom.RhombusGridShape)
+	}
+	if plantFrom.ExplanationTextShape != nil {
+		plantTo.ExplanationTextShape = CopyBranchExplanationTextShape(mapOrigCopy, plantFrom.ExplanationTextShape)
+	}
+	if plantFrom.RotatedReferenceRhombus != nil {
+		plantTo.RotatedReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, plantFrom.RotatedReferenceRhombus)
+	}
+	if plantFrom.RotatedPlantCircumferenceShape != nil {
+		plantTo.RotatedPlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, plantFrom.RotatedPlantCircumferenceShape)
+	}
+	if plantFrom.RotatedGridPathShape != nil {
+		plantTo.RotatedGridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantFrom.RotatedGridPathShape)
+	}
+	if plantFrom.RotatedRhombusGridShape != nil {
+		plantTo.RotatedRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantFrom.RotatedRhombusGridShape)
+	}
+	if plantFrom.GrowthPathRhombusGridShape != nil {
+		plantTo.GrowthPathRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantFrom.GrowthPathRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantFrom.PlantDiagrams {
@@ -660,39 +693,6 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	plantdiagramFrom.CopyBasicFields(plantdiagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if plantdiagramFrom.AxesShape != nil {
-		plantdiagramTo.AxesShape = CopyBranchAxesShape(mapOrigCopy, plantdiagramFrom.AxesShape)
-	}
-	if plantdiagramFrom.ReferenceRhombus != nil {
-		plantdiagramTo.ReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, plantdiagramFrom.ReferenceRhombus)
-	}
-	if plantdiagramFrom.PlantCircumferenceShape != nil {
-		plantdiagramTo.PlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, plantdiagramFrom.PlantCircumferenceShape)
-	}
-	if plantdiagramFrom.GridPathShape != nil {
-		plantdiagramTo.GridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantdiagramFrom.GridPathShape)
-	}
-	if plantdiagramFrom.RhombusGridShape != nil {
-		plantdiagramTo.RhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.RhombusGridShape)
-	}
-	if plantdiagramFrom.ExplanationTextShape != nil {
-		plantdiagramTo.ExplanationTextShape = CopyBranchExplanationTextShape(mapOrigCopy, plantdiagramFrom.ExplanationTextShape)
-	}
-	if plantdiagramFrom.RotatedReferenceRhombus != nil {
-		plantdiagramTo.RotatedReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, plantdiagramFrom.RotatedReferenceRhombus)
-	}
-	if plantdiagramFrom.RotatedPlantCircumferenceShape != nil {
-		plantdiagramTo.RotatedPlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, plantdiagramFrom.RotatedPlantCircumferenceShape)
-	}
-	if plantdiagramFrom.RotatedGridPathShape != nil {
-		plantdiagramTo.RotatedGridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantdiagramFrom.RotatedGridPathShape)
-	}
-	if plantdiagramFrom.RotatedRhombusGridShape != nil {
-		plantdiagramTo.RotatedRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.RotatedRhombusGridShape)
-	}
-	if plantdiagramFrom.GrowthPathRhombusGridShape != nil {
-		plantdiagramTo.GrowthPathRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.GrowthPathRhombusGridShape)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -893,6 +893,39 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	plant.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plant.AxesShape != nil {
+		UnstageBranch(stage, plant.AxesShape)
+	}
+	if plant.ReferenceRhombus != nil {
+		UnstageBranch(stage, plant.ReferenceRhombus)
+	}
+	if plant.PlantCircumferenceShape != nil {
+		UnstageBranch(stage, plant.PlantCircumferenceShape)
+	}
+	if plant.GridPathShape != nil {
+		UnstageBranch(stage, plant.GridPathShape)
+	}
+	if plant.RhombusGridShape != nil {
+		UnstageBranch(stage, plant.RhombusGridShape)
+	}
+	if plant.ExplanationTextShape != nil {
+		UnstageBranch(stage, plant.ExplanationTextShape)
+	}
+	if plant.RotatedReferenceRhombus != nil {
+		UnstageBranch(stage, plant.RotatedReferenceRhombus)
+	}
+	if plant.RotatedPlantCircumferenceShape != nil {
+		UnstageBranch(stage, plant.RotatedPlantCircumferenceShape)
+	}
+	if plant.RotatedGridPathShape != nil {
+		UnstageBranch(stage, plant.RotatedGridPathShape)
+	}
+	if plant.RotatedRhombusGridShape != nil {
+		UnstageBranch(stage, plant.RotatedRhombusGridShape)
+	}
+	if plant.GrowthPathRhombusGridShape != nil {
+		UnstageBranch(stage, plant.GrowthPathRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -926,39 +959,6 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	plantdiagram.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if plantdiagram.AxesShape != nil {
-		UnstageBranch(stage, plantdiagram.AxesShape)
-	}
-	if plantdiagram.ReferenceRhombus != nil {
-		UnstageBranch(stage, plantdiagram.ReferenceRhombus)
-	}
-	if plantdiagram.PlantCircumferenceShape != nil {
-		UnstageBranch(stage, plantdiagram.PlantCircumferenceShape)
-	}
-	if plantdiagram.GridPathShape != nil {
-		UnstageBranch(stage, plantdiagram.GridPathShape)
-	}
-	if plantdiagram.RhombusGridShape != nil {
-		UnstageBranch(stage, plantdiagram.RhombusGridShape)
-	}
-	if plantdiagram.ExplanationTextShape != nil {
-		UnstageBranch(stage, plantdiagram.ExplanationTextShape)
-	}
-	if plantdiagram.RotatedReferenceRhombus != nil {
-		UnstageBranch(stage, plantdiagram.RotatedReferenceRhombus)
-	}
-	if plantdiagram.RotatedPlantCircumferenceShape != nil {
-		UnstageBranch(stage, plantdiagram.RotatedPlantCircumferenceShape)
-	}
-	if plantdiagram.RotatedGridPathShape != nil {
-		UnstageBranch(stage, plantdiagram.RotatedGridPathShape)
-	}
-	if plantdiagram.RotatedRhombusGridShape != nil {
-		UnstageBranch(stage, plantdiagram.RotatedRhombusGridShape)
-	}
-	if plantdiagram.GrowthPathRhombusGridShape != nil {
-		UnstageBranch(stage, plantdiagram.GrowthPathRhombusGridShape)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1038,20 +1038,6 @@ func (reference *NextCircleShape) GongReconstructPointersFromReferences(stage *S
 
 func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
 	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.PlantDiagrams = reference.PlantDiagrams[:0]
-	for _, _b := range instance.PlantDiagrams {
-		reference.PlantDiagrams = append(reference.PlantDiagrams, stage.PlantDiagrams_reference[_b])
-	}
-}
-
-func (reference *PlantCircumferenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *PlantCircumferenceShape) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
-func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *PlantDiagram) {
-	// insertion point for pointers field
 	if instance.AxesShape != nil {
 		reference.AxesShape = stage.AxesShapes_reference[instance.AxesShape]
 	}
@@ -1085,6 +1071,20 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.GrowthPathRhombusGridShape != nil {
 		reference.GrowthPathRhombusGridShape = stage.RhombusGridShapes_reference[instance.GrowthPathRhombusGridShape]
 	}
+	// insertion point for slice of pointers field
+	reference.PlantDiagrams = reference.PlantDiagrams[:0]
+	for _, _b := range instance.PlantDiagrams {
+		reference.PlantDiagrams = append(reference.PlantDiagrams, stage.PlantDiagrams_reference[_b])
+	}
+}
+
+func (reference *PlantCircumferenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *PlantCircumferenceShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *PlantDiagram) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
 
@@ -1148,23 +1148,6 @@ func (reference *NextCircleShape) GongReconstructPointersFromInstances(stage *St
 }
 
 func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _PlantDiagrams []*PlantDiagram
-	for _, _reference := range reference.PlantDiagrams {
-		if _instance, ok := stage.PlantDiagrams_instance[_reference]; ok {
-			_PlantDiagrams = append(_PlantDiagrams, _instance)
-		}
-	}
-	reference.PlantDiagrams = _PlantDiagrams
-}
-
-func (reference *PlantCircumferenceShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-}
-
-func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.AxesShape; _reference != nil {
 		reference.AxesShape = nil
@@ -1233,6 +1216,23 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _PlantDiagrams []*PlantDiagram
+	for _, _reference := range reference.PlantDiagrams {
+		if _instance, ok := stage.PlantDiagrams_instance[_reference]; ok {
+			_PlantDiagrams = append(_PlantDiagrams, _instance)
+		}
+	}
+	reference.PlantDiagrams = _PlantDiagrams
+}
+
+func (reference *PlantCircumferenceShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *RhombusGridShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1266,9 +1266,6 @@ func (axesshape *AxesShape) GongDiff(stage *Stage, axesshapeOther *AxesShape) (d
 	if axesshape.LengthY != axesshapeOther.LengthY {
 		diffs = append(diffs, axesshape.GongMarshallField(stage, "LengthY"))
 	}
-	if axesshape.IsHidden != axesshapeOther.IsHidden {
-		diffs = append(diffs, axesshape.GongMarshallField(stage, "IsHidden"))
-	}
 	if axesshape.IsWithHiddenHandle != axesshapeOther.IsWithHiddenHandle {
 		diffs = append(diffs, axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
 	}
@@ -1283,9 +1280,6 @@ func (circlegridshape *CircleGridShape) GongDiff(stage *Stage, circlegridshapeOt
 	if circlegridshape.Name != circlegridshapeOther.Name {
 		diffs = append(diffs, circlegridshape.GongMarshallField(stage, "Name"))
 	}
-	if circlegridshape.IsHidden != circlegridshapeOther.IsHidden {
-		diffs = append(diffs, circlegridshape.GongMarshallField(stage, "IsHidden"))
-	}
 
 	return
 }
@@ -1297,9 +1291,6 @@ func (explanationtextshape *ExplanationTextShape) GongDiff(stage *Stage, explana
 	if explanationtextshape.Name != explanationtextshapeOther.Name {
 		diffs = append(diffs, explanationtextshape.GongMarshallField(stage, "Name"))
 	}
-	if explanationtextshape.IsHidden != explanationtextshapeOther.IsHidden {
-		diffs = append(diffs, explanationtextshape.GongMarshallField(stage, "IsHidden"))
-	}
 
 	return
 }
@@ -1310,9 +1301,6 @@ func (gridpathshape *GridPathShape) GongDiff(stage *Stage, gridpathshapeOther *G
 	// insertion point for field diffs
 	if gridpathshape.Name != gridpathshapeOther.Name {
 		diffs = append(diffs, gridpathshape.GongMarshallField(stage, "Name"))
-	}
-	if gridpathshape.IsHidden != gridpathshapeOther.IsHidden {
-		diffs = append(diffs, gridpathshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -1393,9 +1381,6 @@ func (nextcircleshape *NextCircleShape) GongDiff(stage *Stage, nextcircleshapeOt
 	if nextcircleshape.Name != nextcircleshapeOther.Name {
 		diffs = append(diffs, nextcircleshape.GongMarshallField(stage, "Name"))
 	}
-	if nextcircleshape.IsHidden != nextcircleshapeOther.IsHidden {
-		diffs = append(diffs, nextcircleshape.GongMarshallField(stage, "IsHidden"))
-	}
 
 	return
 }
@@ -1455,6 +1440,83 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 		ops := Diff(stage, plant, plantOther, "PlantDiagrams", plantOther.PlantDiagrams, plant.PlantDiagrams)
 		diffs = append(diffs, ops)
 	}
+	if (plant.AxesShape == nil) != (plantOther.AxesShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "AxesShape"))
+	} else if plant.AxesShape != nil && plantOther.AxesShape != nil {
+		if plant.AxesShape != plantOther.AxesShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "AxesShape"))
+		}
+	}
+	if (plant.ReferenceRhombus == nil) != (plantOther.ReferenceRhombus == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ReferenceRhombus"))
+	} else if plant.ReferenceRhombus != nil && plantOther.ReferenceRhombus != nil {
+		if plant.ReferenceRhombus != plantOther.ReferenceRhombus {
+			diffs = append(diffs, plant.GongMarshallField(stage, "ReferenceRhombus"))
+		}
+	}
+	if (plant.PlantCircumferenceShape == nil) != (plantOther.PlantCircumferenceShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "PlantCircumferenceShape"))
+	} else if plant.PlantCircumferenceShape != nil && plantOther.PlantCircumferenceShape != nil {
+		if plant.PlantCircumferenceShape != plantOther.PlantCircumferenceShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "PlantCircumferenceShape"))
+		}
+	}
+	if (plant.GridPathShape == nil) != (plantOther.GridPathShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "GridPathShape"))
+	} else if plant.GridPathShape != nil && plantOther.GridPathShape != nil {
+		if plant.GridPathShape != plantOther.GridPathShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "GridPathShape"))
+		}
+	}
+	if (plant.RhombusGridShape == nil) != (plantOther.RhombusGridShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusGridShape"))
+	} else if plant.RhombusGridShape != nil && plantOther.RhombusGridShape != nil {
+		if plant.RhombusGridShape != plantOther.RhombusGridShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "RhombusGridShape"))
+		}
+	}
+	if (plant.ExplanationTextShape == nil) != (plantOther.ExplanationTextShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ExplanationTextShape"))
+	} else if plant.ExplanationTextShape != nil && plantOther.ExplanationTextShape != nil {
+		if plant.ExplanationTextShape != plantOther.ExplanationTextShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "ExplanationTextShape"))
+		}
+	}
+	if (plant.RotatedReferenceRhombus == nil) != (plantOther.RotatedReferenceRhombus == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedReferenceRhombus"))
+	} else if plant.RotatedReferenceRhombus != nil && plantOther.RotatedReferenceRhombus != nil {
+		if plant.RotatedReferenceRhombus != plantOther.RotatedReferenceRhombus {
+			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedReferenceRhombus"))
+		}
+	}
+	if (plant.RotatedPlantCircumferenceShape == nil) != (plantOther.RotatedPlantCircumferenceShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
+	} else if plant.RotatedPlantCircumferenceShape != nil && plantOther.RotatedPlantCircumferenceShape != nil {
+		if plant.RotatedPlantCircumferenceShape != plantOther.RotatedPlantCircumferenceShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
+		}
+	}
+	if (plant.RotatedGridPathShape == nil) != (plantOther.RotatedGridPathShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedGridPathShape"))
+	} else if plant.RotatedGridPathShape != nil && plantOther.RotatedGridPathShape != nil {
+		if plant.RotatedGridPathShape != plantOther.RotatedGridPathShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedGridPathShape"))
+		}
+	}
+	if (plant.RotatedRhombusGridShape == nil) != (plantOther.RotatedRhombusGridShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedRhombusGridShape"))
+	} else if plant.RotatedRhombusGridShape != nil && plantOther.RotatedRhombusGridShape != nil {
+		if plant.RotatedRhombusGridShape != plantOther.RotatedRhombusGridShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedRhombusGridShape"))
+		}
+	}
+	if (plant.GrowthPathRhombusGridShape == nil) != (plantOther.GrowthPathRhombusGridShape == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
+	} else if plant.GrowthPathRhombusGridShape != nil && plantOther.GrowthPathRhombusGridShape != nil {
+		if plant.GrowthPathRhombusGridShape != plantOther.GrowthPathRhombusGridShape {
+			diffs = append(diffs, plant.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
+		}
+	}
 
 	return
 }
@@ -1471,9 +1533,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongDiff(stage *Stage, p
 	}
 	if plantcircumferenceshape.Length != plantcircumferenceshapeOther.Length {
 		diffs = append(diffs, plantcircumferenceshape.GongMarshallField(stage, "Length"))
-	}
-	if plantcircumferenceshape.IsHidden != plantcircumferenceshapeOther.IsHidden {
-		diffs = append(diffs, plantcircumferenceshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -1492,82 +1551,38 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.OriginY != plantdiagramOther.OriginY {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginY"))
 	}
-	if (plantdiagram.AxesShape == nil) != (plantdiagramOther.AxesShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "AxesShape"))
-	} else if plantdiagram.AxesShape != nil && plantdiagramOther.AxesShape != nil {
-		if plantdiagram.AxesShape != plantdiagramOther.AxesShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "AxesShape"))
-		}
+	if plantdiagram.IsHiddenAxesShape != plantdiagramOther.IsHiddenAxesShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 	}
-	if (plantdiagram.ReferenceRhombus == nil) != (plantdiagramOther.ReferenceRhombus == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
-	} else if plantdiagram.ReferenceRhombus != nil && plantdiagramOther.ReferenceRhombus != nil {
-		if plantdiagram.ReferenceRhombus != plantdiagramOther.ReferenceRhombus {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
-		}
+	if plantdiagram.IsHiddenReferenceRhombus != plantdiagramOther.IsHiddenReferenceRhombus {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenReferenceRhombus"))
 	}
-	if (plantdiagram.PlantCircumferenceShape == nil) != (plantdiagramOther.PlantCircumferenceShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "PlantCircumferenceShape"))
-	} else if plantdiagram.PlantCircumferenceShape != nil && plantdiagramOther.PlantCircumferenceShape != nil {
-		if plantdiagram.PlantCircumferenceShape != plantdiagramOther.PlantCircumferenceShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "PlantCircumferenceShape"))
-		}
+	if plantdiagram.IsHiddenPlantCircumferenceShape != plantdiagramOther.IsHiddenPlantCircumferenceShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPlantCircumferenceShape"))
 	}
-	if (plantdiagram.GridPathShape == nil) != (plantdiagramOther.GridPathShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GridPathShape"))
-	} else if plantdiagram.GridPathShape != nil && plantdiagramOther.GridPathShape != nil {
-		if plantdiagram.GridPathShape != plantdiagramOther.GridPathShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GridPathShape"))
-		}
+	if plantdiagram.IsHiddenGridPathShape != plantdiagramOther.IsHiddenGridPathShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGridPathShape"))
 	}
-	if (plantdiagram.RhombusGridShape == nil) != (plantdiagramOther.RhombusGridShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RhombusGridShape"))
-	} else if plantdiagram.RhombusGridShape != nil && plantdiagramOther.RhombusGridShape != nil {
-		if plantdiagram.RhombusGridShape != plantdiagramOther.RhombusGridShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RhombusGridShape"))
-		}
+	if plantdiagram.IsHiddenRhombusGridShape != plantdiagramOther.IsHiddenRhombusGridShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenRhombusGridShape"))
 	}
-	if (plantdiagram.ExplanationTextShape == nil) != (plantdiagramOther.ExplanationTextShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ExplanationTextShape"))
-	} else if plantdiagram.ExplanationTextShape != nil && plantdiagramOther.ExplanationTextShape != nil {
-		if plantdiagram.ExplanationTextShape != plantdiagramOther.ExplanationTextShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ExplanationTextShape"))
-		}
+	if plantdiagram.IsHiddenExplanationTextShape != plantdiagramOther.IsHiddenExplanationTextShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenExplanationTextShape"))
 	}
-	if (plantdiagram.RotatedReferenceRhombus == nil) != (plantdiagramOther.RotatedReferenceRhombus == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedReferenceRhombus"))
-	} else if plantdiagram.RotatedReferenceRhombus != nil && plantdiagramOther.RotatedReferenceRhombus != nil {
-		if plantdiagram.RotatedReferenceRhombus != plantdiagramOther.RotatedReferenceRhombus {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedReferenceRhombus"))
-		}
+	if plantdiagram.IsHiddenRotatedReferenceRhombus != plantdiagramOther.IsHiddenRotatedReferenceRhombus {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenRotatedReferenceRhombus"))
 	}
-	if (plantdiagram.RotatedPlantCircumferenceShape == nil) != (plantdiagramOther.RotatedPlantCircumferenceShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
-	} else if plantdiagram.RotatedPlantCircumferenceShape != nil && plantdiagramOther.RotatedPlantCircumferenceShape != nil {
-		if plantdiagram.RotatedPlantCircumferenceShape != plantdiagramOther.RotatedPlantCircumferenceShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
-		}
+	if plantdiagram.IsHiddenRotatedPlantCircumferenceShape != plantdiagramOther.IsHiddenRotatedPlantCircumferenceShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenRotatedPlantCircumferenceShape"))
 	}
-	if (plantdiagram.RotatedGridPathShape == nil) != (plantdiagramOther.RotatedGridPathShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedGridPathShape"))
-	} else if plantdiagram.RotatedGridPathShape != nil && plantdiagramOther.RotatedGridPathShape != nil {
-		if plantdiagram.RotatedGridPathShape != plantdiagramOther.RotatedGridPathShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedGridPathShape"))
-		}
+	if plantdiagram.IsHiddenRotatedGridPathShape != plantdiagramOther.IsHiddenRotatedGridPathShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenRotatedGridPathShape"))
 	}
-	if (plantdiagram.RotatedRhombusGridShape == nil) != (plantdiagramOther.RotatedRhombusGridShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
-	} else if plantdiagram.RotatedRhombusGridShape != nil && plantdiagramOther.RotatedRhombusGridShape != nil {
-		if plantdiagram.RotatedRhombusGridShape != plantdiagramOther.RotatedRhombusGridShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
-		}
+	if plantdiagram.IsHiddenRotatedRhombusGridShape != plantdiagramOther.IsHiddenRotatedRhombusGridShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenRotatedRhombusGridShape"))
 	}
-	if (plantdiagram.GrowthPathRhombusGridShape == nil) != (plantdiagramOther.GrowthPathRhombusGridShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
-	} else if plantdiagram.GrowthPathRhombusGridShape != nil && plantdiagramOther.GrowthPathRhombusGridShape != nil {
-		if plantdiagram.GrowthPathRhombusGridShape != plantdiagramOther.GrowthPathRhombusGridShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthPathRhombusGridShape"))
-		}
+	if plantdiagram.IsHiddenGrowthPathRhombusGridShape != plantdiagramOther.IsHiddenGrowthPathRhombusGridShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthPathRhombusGridShape"))
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
@@ -1588,9 +1603,6 @@ func (rhombusgridshape *RhombusGridShape) GongDiff(stage *Stage, rhombusgridshap
 	// insertion point for field diffs
 	if rhombusgridshape.Name != rhombusgridshapeOther.Name {
 		diffs = append(diffs, rhombusgridshape.GongMarshallField(stage, "Name"))
-	}
-	if rhombusgridshape.IsHidden != rhombusgridshapeOther.IsHidden {
-		diffs = append(diffs, rhombusgridshape.GongMarshallField(stage, "IsHidden"))
 	}
 	RhombusShapesDifferent := false
 	if len(rhombusgridshape.RhombusShapes) != len(rhombusgridshapeOther.RhombusShapes) {
@@ -1629,9 +1641,6 @@ func (rhombusshape *RhombusShape) GongDiff(stage *Stage, rhombusshapeOther *Rhom
 	}
 	if rhombusshape.Y != rhombusshapeOther.Y {
 		diffs = append(diffs, rhombusshape.GongMarshallField(stage, "Y"))
-	}
-	if rhombusshape.IsHidden != rhombusshapeOther.IsHidden {
-		diffs = append(diffs, rhombusshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

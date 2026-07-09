@@ -6,41 +6,38 @@ import (
 	"time"
 )
 
-func enforcePlantDiagramHasShape[ShapePointerType PointerToGongstruct](
+func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
 	stager *Stager,
 	newShape func() ShapePointerType,
-	getShape func(plantDiagram *PlantDiagram) ShapePointerType,
-	setShape func(plantDiagram *PlantDiagram, shape ShapePointerType),
-	isOwned func(plantDiagram *PlantDiagram, shape ShapePointerType) bool,
+	getShape func(plant *Plant) ShapePointerType,
+	setShape func(plant *Plant, shape ShapePointerType),
+	isOwned func(plant *Plant, shape ShapePointerType) bool,
 	shapeName string,
 ) (needCommit bool) {
 	stage := stager.stage
 
-	// 1. Ensure each PlantDiagram has the shape
-	for plantDiagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-		// Since we can't compare ShapePointerType (interface constraint) directly to nil if it's nil pointer inside interface,
-		// Wait, ShapePointerType is a type parameter, so checking against a zero value is better.
-		// A zero value of a pointer is nil.
+	// 1. Ensure each Plant has the shape
+	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
 		var zero ShapePointerType
-		if getShape(plantDiagram) == zero {
+		if getShape(plant) == zero {
 			shapePointer := newShape()
 			shapePointer.StageVoid(stage)
 
-			setShape(plantDiagram, shapePointer)
+			setShape(plant, shapePointer)
 
 			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default %s for %s", shapeName, plantDiagram.Name))
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default %s for %s", shapeName, plant.Name))
 			}
 
 			needCommit = true
 		}
 	}
 
-	// 2. Ensure each Shape belongs to exactly one PlantDiagram. If orphaned, remove it.
+	// 2. Ensure each Shape belongs to exactly one Plant. If orphaned, remove it.
 	for shape := range *GetGongstructInstancesSetFromPointerType[ShapePointerType](stage) {
 		hasOwner := false
-		for plantDiagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-			if isOwned(plantDiagram, shape) {
+		for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+			if isOwned(plant, shape) {
 				hasOwner = true
 				break
 			}
@@ -57,18 +54,18 @@ func enforcePlantDiagramHasShape[ShapePointerType PointerToGongstruct](
 	return
 }
 
-func enforcePlantDiagramShapeName[ShapePointerType PointerToGongstruct](
+func enforcePlantShapeName[ShapePointerType PointerToGongstruct](
 	stager *Stager,
-	getShape func(plantDiagram *PlantDiagram) ShapePointerType,
+	getShape func(plant *Plant) ShapePointerType,
 	shapeNameSuffix string,
 ) (needCommit bool) {
 	stage := stager.stage
 
-	for plantDiagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
 		var zero ShapePointerType
-		shape := getShape(plantDiagram)
+		shape := getShape(plant)
 		if shape != zero {
-			expectedName := plantDiagram.Name + "-" + shapeNameSuffix
+			expectedName := plant.Name + "-" + shapeNameSuffix
 			if shape.GetName() != expectedName {
 				shape.SetName(expectedName)
 				if stager.probeForm != nil {
@@ -82,168 +79,168 @@ func enforcePlantDiagramShapeName[ShapePointerType PointerToGongstruct](
 	return
 }
 
-// enforceAxesShapeName ensures that the name of the AxesShape matches its owning PlantDiagram
+// enforceAxesShapeName ensures that the name of the AxesShape matches its owning Plant
 func (stager *Stager) enforceAxesShapeName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*AxesShape](
+	return enforcePlantShapeName[*AxesShape](
 		stager,
-		func(pd *PlantDiagram) *AxesShape { return pd.AxesShape },
+		func(p *Plant) *AxesShape { return p.AxesShape },
 		"AxesShape",
 	)
 }
 
-// enforceGridPathShapeName ensures that the name of the GridPathShape matches its owning PlantDiagram
+// enforceGridPathShapeName ensures that the name of the GridPathShape matches its owning Plant
 func (stager *Stager) enforceGridPathShapeName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*GridPathShape](
+	return enforcePlantShapeName[*GridPathShape](
 		stager,
-		func(pd *PlantDiagram) *GridPathShape { return pd.GridPathShape },
+		func(p *Plant) *GridPathShape { return p.GridPathShape },
 		"GridPathShape",
 	)
 }
 
-// enforcePlantCircumferenceShapeName ensures that the name of the PlantCircumferenceShape matches its owning PlantDiagram
+// enforcePlantCircumferenceShapeName ensures that the name of the PlantCircumferenceShape matches its owning Plant
 func (stager *Stager) enforcePlantCircumferenceShapeName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*PlantCircumferenceShape](
+	return enforcePlantShapeName[*PlantCircumferenceShape](
 		stager,
-		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.PlantCircumferenceShape },
+		func(p *Plant) *PlantCircumferenceShape { return p.PlantCircumferenceShape },
 		"PlantCircumferenceShape",
 	)
 }
 
-// enforcePlantDiagramHasAxes ensures that each PlantDiagram has one and only one Axes that belong to it
-func (stager *Stager) enforcePlantDiagramHasAxes() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*AxesShape](
+// enforcePlantHasAxes ensures that each Plant has one and only one Axes that belong to it
+func (stager *Stager) enforcePlantHasAxes() (needCommit bool) {
+	return enforcePlantHasShape[*AxesShape](
 		stager,
 		func() *AxesShape { return new(AxesShape) },
-		func(pd *PlantDiagram) *AxesShape { return pd.AxesShape },
-		func(pd *PlantDiagram, shape *AxesShape) { pd.AxesShape = shape },
-		func(pd *PlantDiagram, shape *AxesShape) bool { return pd.AxesShape == shape },
+		func(p *Plant) *AxesShape { return p.AxesShape },
+		func(p *Plant, shape *AxesShape) { p.AxesShape = shape },
+		func(p *Plant, shape *AxesShape) bool { return p.AxesShape == shape },
 		"AxesShape",
 	)
 }
 
-// enforcePlantDiagramHasGridPathShape ensures that each PlantDiagram has one and only one GridPathShape that belong to it
-func (stager *Stager) enforcePlantDiagramHasGridPathShape() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*GridPathShape](
+// enforcePlantHasGridPathShape ensures that each Plant has one and only one GridPathShape that belong to it
+func (stager *Stager) enforcePlantHasGridPathShape() (needCommit bool) {
+	return enforcePlantHasShape[*GridPathShape](
 		stager,
 		func() *GridPathShape { return new(GridPathShape) },
-		func(pd *PlantDiagram) *GridPathShape { return pd.GridPathShape },
-		func(pd *PlantDiagram, shape *GridPathShape) { pd.GridPathShape = shape },
-		func(pd *PlantDiagram, shape *GridPathShape) bool {
-			return pd.GridPathShape == shape || pd.RotatedGridPathShape == shape
+		func(p *Plant) *GridPathShape { return p.GridPathShape },
+		func(p *Plant, shape *GridPathShape) { p.GridPathShape = shape },
+		func(p *Plant, shape *GridPathShape) bool {
+			return p.GridPathShape == shape || p.RotatedGridPathShape == shape
 		},
 		"GridPathShape",
 	)
 }
 
-// enforcePlantDiagramHasRhombusGridShape ensures that each PlantDiagram has one and only one RhombusGridShape that belong to it
-func (stager *Stager) enforcePlantDiagramHasRhombusGridShape() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*RhombusGridShape](
+// enforcePlantHasRhombusGridShape ensures that each Plant has one and only one RhombusGridShape that belong to it
+func (stager *Stager) enforcePlantHasRhombusGridShape() (needCommit bool) {
+	return enforcePlantHasShape[*RhombusGridShape](
 		stager,
 		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.RhombusGridShape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RhombusGridShape = shape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
-			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape || pd.GrowthPathRhombusGridShape == shape
+		func(p *Plant) *RhombusGridShape { return p.RhombusGridShape },
+		func(p *Plant, shape *RhombusGridShape) { p.RhombusGridShape = shape },
+		func(p *Plant, shape *RhombusGridShape) bool {
+			return p.RhombusGridShape == shape || p.RotatedRhombusGridShape == shape || p.GrowthPathRhombusGridShape == shape
 		},
 		"RhombusGridShape",
 	)
 }
 
-// enforcePlantDiagramHasExplanationTextShape ensures that each PlantDiagram has one and only one ExplanationTextShape that belong to it
-func (stager *Stager) enforcePlantDiagramHasExplanationTextShape() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*ExplanationTextShape](
+// enforcePlantHasExplanationTextShape ensures that each Plant has one and only one ExplanationTextShape that belong to it
+func (stager *Stager) enforcePlantHasExplanationTextShape() (needCommit bool) {
+	return enforcePlantHasShape[*ExplanationTextShape](
 		stager,
 		func() *ExplanationTextShape { return new(ExplanationTextShape) },
-		func(pd *PlantDiagram) *ExplanationTextShape { return pd.ExplanationTextShape },
-		func(pd *PlantDiagram, shape *ExplanationTextShape) { pd.ExplanationTextShape = shape },
-		func(pd *PlantDiagram, shape *ExplanationTextShape) bool {
-			return pd.ExplanationTextShape == shape
+		func(p *Plant) *ExplanationTextShape { return p.ExplanationTextShape },
+		func(p *Plant, shape *ExplanationTextShape) { p.ExplanationTextShape = shape },
+		func(p *Plant, shape *ExplanationTextShape) bool {
+			return p.ExplanationTextShape == shape
 		},
 		"ExplanationTextShape",
 	)
 }
 
-// enforcePlantDiagramHasPlantCircumferenceShape ensures that each PlantDiagram has one and only one PlantCircumferenceShape that belong to it
-func (stager *Stager) enforcePlantDiagramHasPlantCircumferenceShape() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*PlantCircumferenceShape](
+// enforcePlantHasPlantCircumferenceShape ensures that each Plant has one and only one PlantCircumferenceShape that belong to it
+func (stager *Stager) enforcePlantHasPlantCircumferenceShape() (needCommit bool) {
+	return enforcePlantHasShape[*PlantCircumferenceShape](
 		stager,
 		func() *PlantCircumferenceShape { return new(PlantCircumferenceShape) },
-		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.PlantCircumferenceShape },
-		func(pd *PlantDiagram, shape *PlantCircumferenceShape) { pd.PlantCircumferenceShape = shape },
-		func(pd *PlantDiagram, shape *PlantCircumferenceShape) bool {
-			return pd.PlantCircumferenceShape == shape || pd.RotatedPlantCircumferenceShape == shape
+		func(p *Plant) *PlantCircumferenceShape { return p.PlantCircumferenceShape },
+		func(p *Plant, shape *PlantCircumferenceShape) { p.PlantCircumferenceShape = shape },
+		func(p *Plant, shape *PlantCircumferenceShape) bool {
+			return p.PlantCircumferenceShape == shape || p.RotatedPlantCircumferenceShape == shape
 		},
 		"PlantCircumferenceShape",
 	)
 }
 
-// enforcePlantDiagramHasReferenceRhombus ensures that each PlantDiagram has one and only one ReferenceRhombus that belong to it
-func (stager *Stager) enforcePlantDiagramHasReferenceRhombus() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*RhombusShape](
+// enforcePlantHasReferenceRhombus ensures that each Plant has one and only one ReferenceRhombus that belong to it
+func (stager *Stager) enforcePlantHasReferenceRhombus() (needCommit bool) {
+	return enforcePlantHasShape[*RhombusShape](
 		stager,
 		func() *RhombusShape { return new(RhombusShape) },
-		func(pd *PlantDiagram) *RhombusShape { return pd.ReferenceRhombus },
-		func(pd *PlantDiagram, shape *RhombusShape) { pd.ReferenceRhombus = shape },
-		func(pd *PlantDiagram, shape *RhombusShape) bool {
-			return isRhombusShapeOwnedByPlantDiagram(pd, shape)
+		func(p *Plant) *RhombusShape { return p.ReferenceRhombus },
+		func(p *Plant, shape *RhombusShape) { p.ReferenceRhombus = shape },
+		func(p *Plant, shape *RhombusShape) bool {
+			return isRhombusShapeOwnedByPlant(p, shape)
 		},
 		"ReferenceRhombus",
 	)
 }
 
-// enforcePlantDiagramHasRotatedShapes ensures that each PlantDiagram has its Rotated shapes
-func (stager *Stager) enforcePlantDiagramHasRotatedShapes() (needCommit bool) {
-	n1 := enforcePlantDiagramHasShape[*RhombusShape](
+// enforcePlantHasRotatedShapes ensures that each Plant has its Rotated shapes
+func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
+	n1 := enforcePlantHasShape[*RhombusShape](
 		stager,
 		func() *RhombusShape { return new(RhombusShape) },
-		func(pd *PlantDiagram) *RhombusShape { return pd.RotatedReferenceRhombus },
-		func(pd *PlantDiagram, shape *RhombusShape) { pd.RotatedReferenceRhombus = shape },
-		func(pd *PlantDiagram, shape *RhombusShape) bool {
-			return isRhombusShapeOwnedByPlantDiagram(pd, shape)
+		func(p *Plant) *RhombusShape { return p.RotatedReferenceRhombus },
+		func(p *Plant, shape *RhombusShape) { p.RotatedReferenceRhombus = shape },
+		func(p *Plant, shape *RhombusShape) bool {
+			return isRhombusShapeOwnedByPlant(p, shape)
 		},
 		"RotatedReferenceRhombus",
 	)
 
-	n2 := enforcePlantDiagramHasShape[*PlantCircumferenceShape](
+	n2 := enforcePlantHasShape[*PlantCircumferenceShape](
 		stager,
 		func() *PlantCircumferenceShape { return new(PlantCircumferenceShape) },
-		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.RotatedPlantCircumferenceShape },
-		func(pd *PlantDiagram, shape *PlantCircumferenceShape) { pd.RotatedPlantCircumferenceShape = shape },
-		func(pd *PlantDiagram, shape *PlantCircumferenceShape) bool {
-			return pd.PlantCircumferenceShape == shape || pd.RotatedPlantCircumferenceShape == shape
+		func(p *Plant) *PlantCircumferenceShape { return p.RotatedPlantCircumferenceShape },
+		func(p *Plant, shape *PlantCircumferenceShape) { p.RotatedPlantCircumferenceShape = shape },
+		func(p *Plant, shape *PlantCircumferenceShape) bool {
+			return p.PlantCircumferenceShape == shape || p.RotatedPlantCircumferenceShape == shape
 		},
 		"RotatedPlantCircumferenceShape",
 	)
 
-	n3 := enforcePlantDiagramHasShape[*GridPathShape](
+	n3 := enforcePlantHasShape[*GridPathShape](
 		stager,
 		func() *GridPathShape { return new(GridPathShape) },
-		func(pd *PlantDiagram) *GridPathShape { return pd.RotatedGridPathShape },
-		func(pd *PlantDiagram, shape *GridPathShape) { pd.RotatedGridPathShape = shape },
-		func(pd *PlantDiagram, shape *GridPathShape) bool {
-			return pd.GridPathShape == shape || pd.RotatedGridPathShape == shape
+		func(p *Plant) *GridPathShape { return p.RotatedGridPathShape },
+		func(p *Plant, shape *GridPathShape) { p.RotatedGridPathShape = shape },
+		func(p *Plant, shape *GridPathShape) bool {
+			return p.GridPathShape == shape || p.RotatedGridPathShape == shape
 		},
 		"RotatedGridPathShape",
 	)
 
-	n4 := enforcePlantDiagramHasShape[*RhombusGridShape](
+	n4 := enforcePlantHasShape[*RhombusGridShape](
 		stager,
 		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RotatedRhombusGridShape = shape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
-			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape || pd.GrowthPathRhombusGridShape == shape
+		func(p *Plant) *RhombusGridShape { return p.RotatedRhombusGridShape },
+		func(p *Plant, shape *RhombusGridShape) { p.RotatedRhombusGridShape = shape },
+		func(p *Plant, shape *RhombusGridShape) bool {
+			return p.RhombusGridShape == shape || p.RotatedRhombusGridShape == shape || p.GrowthPathRhombusGridShape == shape
 		},
 		"RotatedRhombusGridShape",
 	)
 
-	n5 := enforcePlantDiagramHasShape[*RhombusGridShape](
+	n5 := enforcePlantHasShape[*RhombusGridShape](
 		stager,
 		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.GrowthPathRhombusGridShape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.GrowthPathRhombusGridShape = shape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
-			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape || pd.GrowthPathRhombusGridShape == shape
+		func(p *Plant) *RhombusGridShape { return p.GrowthPathRhombusGridShape },
+		func(p *Plant, shape *RhombusGridShape) { p.GrowthPathRhombusGridShape = shape },
+		func(p *Plant, shape *RhombusGridShape) bool {
+			return p.RhombusGridShape == shape || p.RotatedRhombusGridShape == shape || p.GrowthPathRhombusGridShape == shape
 		},
 		"GrowthPathRhombusGridShape",
 	)
@@ -251,73 +248,72 @@ func (stager *Stager) enforcePlantDiagramHasRotatedShapes() (needCommit bool) {
 	return n1 || n2 || n3 || n4 || n5
 }
 
-// enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning PlantDiagram
+// enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
 func (stager *Stager) enforceReferenceRhombusName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*RhombusShape](
+	return enforcePlantShapeName[*RhombusShape](
 		stager,
-		func(pd *PlantDiagram) *RhombusShape { return pd.ReferenceRhombus },
+		func(p *Plant) *RhombusShape { return p.ReferenceRhombus },
 		"ReferenceRhombus",
 	)
 }
 
-// enforceRhombusGridShapeName ensures that the name of the RhombusGridShape matches its owning PlantDiagram
+// enforceRhombusGridShapeName ensures that the name of the RhombusGridShape matches its owning Plant
 func (stager *Stager) enforceRhombusGridShapeName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*RhombusGridShape](
+	return enforcePlantShapeName[*RhombusGridShape](
 		stager,
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.RhombusGridShape },
+		func(p *Plant) *RhombusGridShape { return p.RhombusGridShape },
 		"RhombusGridShape",
 	)
 }
 
-// enforceExplanationTextShapeName ensures that the name of the ExplanationTextShape matches its owning PlantDiagram
+// enforceExplanationTextShapeName ensures that the name of the ExplanationTextShape matches its owning Plant
 func (stager *Stager) enforceExplanationTextShapeName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*ExplanationTextShape](
+	return enforcePlantShapeName[*ExplanationTextShape](
 		stager,
-		func(pd *PlantDiagram) *ExplanationTextShape { return pd.ExplanationTextShape },
+		func(p *Plant) *ExplanationTextShape { return p.ExplanationTextShape },
 		"ExplanationTextShape",
 	)
 }
 
-// enforceRotatedShapesNames ensures that the name of the Rotated shapes match their owning PlantDiagram
+// enforceRotatedShapesNames ensures that the name of the Rotated shapes match their owning Plant
 func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
-	n1 := enforcePlantDiagramShapeName[*RhombusShape](
+	n1 := enforcePlantShapeName[*RhombusShape](
 		stager,
-		func(pd *PlantDiagram) *RhombusShape { return pd.RotatedReferenceRhombus },
+		func(p *Plant) *RhombusShape { return p.RotatedReferenceRhombus },
 		"RotatedReferenceRhombus",
 	)
 
-	n2 := enforcePlantDiagramShapeName[*PlantCircumferenceShape](
+	n2 := enforcePlantShapeName[*PlantCircumferenceShape](
 		stager,
-		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.RotatedPlantCircumferenceShape },
+		func(p *Plant) *PlantCircumferenceShape { return p.RotatedPlantCircumferenceShape },
 		"RotatedPlantCircumferenceShape",
 	)
 
-	n3 := enforcePlantDiagramShapeName[*GridPathShape](
+	n3 := enforcePlantShapeName[*GridPathShape](
 		stager,
-		func(pd *PlantDiagram) *GridPathShape { return pd.RotatedGridPathShape },
+		func(p *Plant) *GridPathShape { return p.RotatedGridPathShape },
 		"RotatedGridPathShape",
 	)
 
-	n4 := enforcePlantDiagramShapeName[*RhombusGridShape](
+	n4 := enforcePlantShapeName[*RhombusGridShape](
 		stager,
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
+		func(p *Plant) *RhombusGridShape { return p.RotatedRhombusGridShape },
 		"RotatedRhombusGridShape",
 	)
 
-	n5 := enforcePlantDiagramShapeName[*RhombusGridShape](
+	n5 := enforcePlantShapeName[*RhombusGridShape](
 		stager,
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.GrowthPathRhombusGridShape },
+		func(p *Plant) *RhombusGridShape { return p.GrowthPathRhombusGridShape },
 		"GrowthPathRhombusGridShape",
 	)
 
 	return n1 || n2 || n3 || n4 || n5
 }
 
-// enforcePlantDiagramRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
-func (stager *Stager) enforcePlantDiagramRhombusGridShapeHasRhombuses() (needCommit bool) {
+// enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
+func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit bool) {
 	stage := stager.stage
 
-	// We need plant N and M and angles. They are accessible via plant.PlantDiagrams
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
 		angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 		length := plant.RhombusSideLength
@@ -329,20 +325,18 @@ func (stager *Stager) enforcePlantDiagramRhombusGridShapeHasRhombuses() (needCom
 		v2x := -length * math.Cos(angleRad/2.0)
 		v2y := -length * math.Sin(angleRad/2.0)
 
-		for _, pd := range plant.PlantDiagrams {
-			if pd.RhombusGridShape != nil {
-				needCommit = enforceRhombusGridShapeHasRhombuses(stage, pd.RhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
-			}
-			rotRad := 0.0
-			if pd.PlantCircumferenceShape != nil {
-				rotRad = pd.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-			}
-			if pd.RotatedRhombusGridShape != nil {
-				needCommit = enforceRhombusGridShapeHasRhombuses(stage, pd.RotatedRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
-			}
-			if pd.GrowthPathRhombusGridShape != nil && pd.RotatedRhombusGridShape != nil && pd.PlantCircumferenceShape != nil {
-				needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, pd.GrowthPathRhombusGridShape, pd.RotatedRhombusGridShape, pd.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
-			}
+		if plant.RhombusGridShape != nil {
+			needCommit = enforceRhombusGridShapeHasRhombuses(stage, plant.RhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
+		}
+		rotRad := 0.0
+		if plant.PlantCircumferenceShape != nil {
+			rotRad = plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+		}
+		if plant.RotatedRhombusGridShape != nil {
+			needCommit = enforceRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
+		}
+		if plant.GrowthPathRhombusGridShape != nil && plant.RotatedRhombusGridShape != nil && plant.PlantCircumferenceShape != nil {
+			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthPathRhombusGridShape, plant.RotatedRhombusGridShape, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
 		}
 	}
 	return
@@ -413,26 +407,26 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 	return
 }
 
-func isRhombusShapeOwnedByPlantDiagram(pd *PlantDiagram, shape *RhombusShape) bool {
-	if pd.ReferenceRhombus == shape || pd.RotatedReferenceRhombus == shape {
+func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
+	if p.ReferenceRhombus == shape || p.RotatedReferenceRhombus == shape {
 		return true
 	}
-	if pd.RhombusGridShape != nil {
-		for _, r := range pd.RhombusGridShape.RhombusShapes {
+	if p.RhombusGridShape != nil {
+		for _, r := range p.RhombusGridShape.RhombusShapes {
 			if r == shape {
 				return true
 			}
 		}
 	}
-	if pd.RotatedRhombusGridShape != nil {
-		for _, r := range pd.RotatedRhombusGridShape.RhombusShapes {
+	if p.RotatedRhombusGridShape != nil {
+		for _, r := range p.RotatedRhombusGridShape.RhombusShapes {
 			if r == shape {
 				return true
 			}
 		}
 	}
-	if pd.GrowthPathRhombusGridShape != nil {
-		for _, r := range pd.GrowthPathRhombusGridShape.RhombusShapes {
+	if p.GrowthPathRhombusGridShape != nil {
+		for _, r := range p.GrowthPathRhombusGridShape.RhombusShapes {
 			if r == shape {
 				return true
 			}

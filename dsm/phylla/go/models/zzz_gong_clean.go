@@ -89,6 +89,17 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &plant.PlantDiagrams) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &plant.AxesShape) || modified
+	modified = GongCleanPointer(stage, &plant.ReferenceRhombus) || modified
+	modified = GongCleanPointer(stage, &plant.PlantCircumferenceShape) || modified
+	modified = GongCleanPointer(stage, &plant.GridPathShape) || modified
+	modified = GongCleanPointer(stage, &plant.RhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &plant.ExplanationTextShape) || modified
+	modified = GongCleanPointer(stage, &plant.RotatedReferenceRhombus) || modified
+	modified = GongCleanPointer(stage, &plant.RotatedPlantCircumferenceShape) || modified
+	modified = GongCleanPointer(stage, &plant.RotatedGridPathShape) || modified
+	modified = GongCleanPointer(stage, &plant.RotatedRhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &plant.GrowthPathRhombusGridShape) || modified
 	return
 }
 
@@ -103,17 +114,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongClean(stage *Stage) 
 func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &plantdiagram.AxesShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ReferenceRhombus) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.PlantCircumferenceShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.GridPathShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.RhombusGridShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ExplanationTextShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.RotatedReferenceRhombus) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.RotatedPlantCircumferenceShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.RotatedGridPathShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.RotatedRhombusGridShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.GrowthPathRhombusGridShape) || modified
 	return
 }
 

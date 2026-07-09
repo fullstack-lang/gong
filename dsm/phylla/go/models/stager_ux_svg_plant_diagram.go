@@ -54,13 +54,13 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	svg_.Layers = append(svg_.Layers, layer)
 
 	// creation of 2 transparant rects, one at each ends of the vertical
-	plantDiagram.drawAxes(stager, layer)
-	plantDiagram.drawPlantCircumferenceShape(stager, layer)
+	plantDiagram.drawAxes(stager, layer, plant)
+	plantDiagram.drawPlantCircumferenceShape(stager, layer, plant)
 	plantDiagram.drawReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawGridPathShape(stager, layer, plant)
 	plantDiagram.drawRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawExplanationTextShape(stager, layer, plant)
-	plantDiagram.drawRotatedPlantCircumferenceShape(stager, layer)
+	plantDiagram.drawRotatedPlantCircumferenceShape(stager, layer, plant)
 	plantDiagram.drawRotatedReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
 	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
@@ -71,30 +71,30 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 
 const AxisHandleBorderLength = 25
 
-func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
+func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.AxesShape.IsHidden {
+	if plantDiagram.IsHiddenAxesShape {
 		return
 	}
 
 	handleSize := float64(AxisHandleBorderLength)
-	if plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+	if plant.AxesShape.GetIsWithHiddenHandle() {
 		handleSize = 0.0
 	}
 
 	verticalAxisTopHandle := new(svg.Rect)
 	verticalAxisTopHandle.Name = "Vertical axis bottom handle"
-	if !plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+	if !plant.AxesShape.GetIsWithHiddenHandle() {
 		layer.Rects = append(layer.Rects, verticalAxisTopHandle)
 	}
 	verticalAxisTopHandle.X = plantDiagram.OriginX - handleSize/2.0
-	verticalAxisTopHandle.Y = plantDiagram.OriginY - plantDiagram.AxesShape.LengthY - handleSize
+	verticalAxisTopHandle.Y = plantDiagram.OriginY - plant.AxesShape.LengthY - handleSize
 	verticalAxisTopHandle.Width = handleSize
 	verticalAxisTopHandle.Height = handleSize
 	verticalAxisTopHandle.CanMoveVerticaly = true
 	verticalAxisTopHandle.CanMoveHorizontaly = true
 	verticalAxisTopHandle.OnMove = func(x, y float64) {
-		plantDiagram.AxesShape.LengthY = plantDiagram.OriginY - y - handleSize
+		plant.AxesShape.LengthY = plantDiagram.OriginY - y - handleSize
 		stager.stage.Commit()
 	}
 
@@ -104,7 +104,7 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
 
 	verticalAxisBottomHandle := new(svg.Rect)
 	verticalAxisBottomHandle.Name = "Vertical axis top handle"
-	if !plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+	if !plant.AxesShape.GetIsWithHiddenHandle() {
 		layer.Rects = append(layer.Rects, verticalAxisBottomHandle)
 	}
 
@@ -147,17 +147,17 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
 
 	horizontalAxisRightHandle := new(svg.Rect)
 	horizontalAxisRightHandle.Name = "Horizontal axis right handle"
-	if !plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+	if !plant.AxesShape.GetIsWithHiddenHandle() {
 		layer.Rects = append(layer.Rects, horizontalAxisRightHandle)
 	}
-	horizontalAxisRightHandle.X = plantDiagram.OriginX + plantDiagram.AxesShape.LengthX - handleSize/2.0
+	horizontalAxisRightHandle.X = plantDiagram.OriginX + plant.AxesShape.LengthX - handleSize/2.0
 	horizontalAxisRightHandle.Y = plantDiagram.OriginY - handleSize
 	horizontalAxisRightHandle.Width = handleSize
 	horizontalAxisRightHandle.Height = handleSize
 	horizontalAxisRightHandle.CanMoveHorizontaly = true
 	horizontalAxisRightHandle.CanMoveVerticaly = true
 	horizontalAxisRightHandle.OnMove = func(x, y float64) {
-		plantDiagram.AxesShape.LengthX = x - plantDiagram.OriginX + handleSize/2.0
+		plant.AxesShape.LengthX = x - plantDiagram.OriginX + handleSize/2.0
 		stager.stage.Commit()
 	}
 
@@ -193,7 +193,7 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
 }
 
 func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.ExplanationTextShape == nil || plantDiagram.ExplanationTextShape.IsHidden {
+	if plant.ExplanationTextShape == nil || plantDiagram.IsHiddenExplanationTextShape {
 		return
 	}
 
@@ -205,8 +205,8 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 	}
 
 	var endY float64 = plantDiagram.OriginY
-	angleRad := plantDiagram.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-	length := plantDiagram.PlantCircumferenceShape.Length
+	angleRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plant.PlantCircumferenceShape.Length
 	endY = plantDiagram.OriginY - length*math.Sin(angleRad)
 
 	startY := endY - float64(len(lines))*20.0 - 20.0 // Above the circumference vector
@@ -215,7 +215,7 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 	for i, lineText := range lines {
 		text := new(svg.Text)
 		layer.Texts = append(layer.Texts, text)
-		text.Name = fmt.Sprintf("%s-line-%d", plantDiagram.ExplanationTextShape.Name, i)
+		text.Name = fmt.Sprintf("%s-line-%d", plant.ExplanationTextShape.Name, i)
 		text.Content = lineText
 		text.X = startX
 		text.Y = startY + float64(i)*20.0
@@ -225,14 +225,14 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, layer *svg.Layer) {
+func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.PlantCircumferenceShape.IsHidden {
+	if plantDiagram.IsHiddenPlantCircumferenceShape {
 		return
 	}
 
-	angleRad := plantDiagram.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-	length := plantDiagram.PlantCircumferenceShape.Length
+	angleRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plant.PlantCircumferenceShape.Length
 
 	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
 	endY := plantDiagram.OriginY - length*math.Sin(angleRad) // minus because SVG y-axis is inverted
@@ -240,7 +240,7 @@ func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, la
 	line := new(svg.Line)
 	layer.Lines = append(layer.Lines, line)
 
-	line.Name = plantDiagram.PlantCircumferenceShape.Name
+	line.Name = plant.PlantCircumferenceShape.Name
 	line.X1 = plantDiagram.OriginX
 	line.Y1 = plantDiagram.OriginY
 	line.X2 = endX
@@ -252,7 +252,7 @@ func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, la
 
 func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.ReferenceRhombus == nil || plantDiagram.ReferenceRhombus.IsHidden {
+	if plant.ReferenceRhombus == nil || plantDiagram.IsHiddenReferenceRhombus {
 		return
 	}
 
@@ -278,7 +278,7 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 	polygon := new(svg.Polygone)
 	layer.Polygones = append(layer.Polygones, polygon)
 
-	polygon.Name = plantDiagram.ReferenceRhombus.Name
+	polygon.Name = plant.ReferenceRhombus.Name
 	polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
 		v0x, v0y,
 		v1x, v1y,
@@ -294,7 +294,7 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 
 func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.GridPathShape == nil || plantDiagram.GridPathShape.IsHidden {
+	if plant.GridPathShape == nil || plantDiagram.IsHiddenGridPathShape {
 		return
 	}
 
@@ -311,7 +311,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	polyline := new(svg.Polyline)
 	layer.Polylines = append(layer.Polylines, polyline)
 
-	polyline.Name = plantDiagram.GridPathShape.Name
+	polyline.Name = plant.GridPathShape.Name
 	polyline.Presentation.Stroke = "red"
 	polyline.Presentation.StrokeWidth = 2.0
 	polyline.Presentation.StrokeOpacity = 1.0
@@ -325,7 +325,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	addCircle := func(x, y float64, stepIndex int, path string) {
 		circle := new(svg.Circle)
 		layer.Circles = append(layer.Circles, circle)
-		circle.Name = fmt.Sprintf("%s-%s-step-%d", plantDiagram.GridPathShape.Name, path, stepIndex)
+		circle.Name = fmt.Sprintf("%s-%s-step-%d", plant.GridPathShape.Name, path, stepIndex)
 		circle.CX = x
 		circle.CY = y
 		circle.Radius = 4.0
@@ -355,14 +355,14 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	polyline.Points = strings.Join(points, " ")
 }
 
-func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Stager, layer *svg.Layer) {
+func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.RotatedPlantCircumferenceShape == nil || plantDiagram.RotatedPlantCircumferenceShape.IsHidden {
+	if plant.RotatedPlantCircumferenceShape == nil || plantDiagram.IsHiddenRotatedPlantCircumferenceShape {
 		return
 	}
 
-	angleRad := plantDiagram.RotatedPlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-	length := plantDiagram.RotatedPlantCircumferenceShape.Length
+	angleRad := plant.RotatedPlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plant.RotatedPlantCircumferenceShape.Length
 
 	// SVG Y-axis is inverted
 	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
@@ -371,7 +371,7 @@ func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Sta
 	line := new(svg.Line)
 	layer.Lines = append(layer.Lines, line)
 
-	line.Name = plantDiagram.RotatedPlantCircumferenceShape.Name
+	line.Name = plant.RotatedPlantCircumferenceShape.Name
 	line.X1 = plantDiagram.OriginX
 	line.Y1 = plantDiagram.OriginY
 	line.X2 = endX
@@ -385,7 +385,7 @@ func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Sta
 
 func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.RotatedReferenceRhombus == nil || plantDiagram.RotatedReferenceRhombus.IsHidden {
+	if plant.RotatedReferenceRhombus == nil || plantDiagram.IsHiddenRotatedReferenceRhombus {
 		return
 	}
 
@@ -411,7 +411,7 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	polygon := new(svg.Polygone)
 	layer.Polygones = append(layer.Polygones, polygon)
 
-	polygon.Name = plantDiagram.RotatedReferenceRhombus.Name
+	polygon.Name = plant.RotatedReferenceRhombus.Name
 	polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
 		v0x, v0y,
 		v1x, v1y,
@@ -426,12 +426,12 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	polygon.Presentation.StrokeDashArray = "5, 5"
 
 	// Add rotation transform
-	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 }
 
 func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.RotatedGridPathShape == nil || plantDiagram.RotatedGridPathShape.IsHidden {
+	if plant.RotatedGridPathShape == nil || plantDiagram.IsHiddenRotatedGridPathShape {
 		return
 	}
 
@@ -448,13 +448,13 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	polyline := new(svg.Polyline)
 	layer.Polylines = append(layer.Polylines, polyline)
 
-	polyline.Name = plantDiagram.RotatedGridPathShape.Name
+	polyline.Name = plant.RotatedGridPathShape.Name
 	polyline.Presentation.Stroke = "darkred"
 	polyline.Presentation.StrokeWidth = 2.0
 	polyline.Presentation.StrokeOpacity = 1.0
 	polyline.Presentation.FillOpacity = 0.0
 	polyline.Presentation.StrokeDashArray = "5, 5"
-	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 
 	var points []string
 	currX := plantDiagram.OriginX
@@ -464,7 +464,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	addCircle := func(x, y float64, stepIndex int, path string) {
 		circle := new(svg.Circle)
 		layer.Circles = append(layer.Circles, circle)
-		circle.Name = fmt.Sprintf("%s-%s-step-%d", plantDiagram.RotatedGridPathShape.Name, path, stepIndex)
+		circle.Name = fmt.Sprintf("%s-%s-step-%d", plant.RotatedGridPathShape.Name, path, stepIndex)
 		circle.CX = x
 		circle.CY = y
 		circle.Radius = 4.0
@@ -473,7 +473,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 		circle.Presentation.StrokeOpacity = 1.0
 		circle.Presentation.Color = "white"
 		circle.Presentation.FillOpacity = 1.0
-		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 	}
 
 	addCircle(currX, currY, 0, "start")
@@ -497,7 +497,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 
 func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.RhombusGridShape == nil || plantDiagram.RhombusGridShape.IsHidden {
+	if plant.RhombusGridShape == nil || plantDiagram.IsHiddenRhombusGridShape {
 		return
 	}
 
@@ -511,7 +511,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := -length * math.Sin(angleRad/2.0)
 
-	for _, rhombus := range plantDiagram.RhombusGridShape.RhombusShapes {
+	for _, rhombus := range plant.RhombusGridShape.RhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -572,7 +572,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 
 func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.RotatedRhombusGridShape == nil || plantDiagram.RotatedRhombusGridShape.IsHidden {
+	if plant.RotatedRhombusGridShape == nil || plantDiagram.IsHiddenRotatedRhombusGridShape {
 		return
 	}
 
@@ -587,7 +587,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	v2y := -length * math.Sin(angleRad/2.0)
 
 	
-	rotRad := plantDiagram.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	rotRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 	cosA := math.Cos(rotRad)
 	sinA := math.Sin(rotRad)
 
@@ -596,7 +596,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	v2_rot_x := v2x*cosA - v2y*sinA
 	v2_rot_y := v2x*sinA + v2y*cosA
 
-	for _, rhombus := range plantDiagram.RotatedRhombusGridShape.RhombusShapes {
+	for _, rhombus := range plant.RotatedRhombusGridShape.RhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -659,7 +659,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 
 func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plantDiagram.GrowthPathRhombusGridShape == nil || plantDiagram.GrowthPathRhombusGridShape.IsHidden {
+	if plant.GrowthPathRhombusGridShape == nil || plantDiagram.IsHiddenGrowthPathRhombusGridShape {
 		return
 	}
 
@@ -674,7 +674,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	v2y := -length * math.Sin(angleRad/2.0)
 
 	
-	rotRad := plantDiagram.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	rotRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 	cosA := math.Cos(rotRad)
 	sinA := math.Sin(rotRad)
 
@@ -683,7 +683,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	v2_rot_x := v2x*cosA - v2y*sinA
 	v2_rot_y := v2x*sinA + v2y*cosA
 
-	for _, rhombus := range plantDiagram.GrowthPathRhombusGridShape.RhombusShapes {
+	for _, rhombus := range plant.GrowthPathRhombusGridShape.RhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
