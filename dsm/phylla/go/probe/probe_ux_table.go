@@ -42,10 +42,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PlantCircumferenceShape](probe)
 	case "PlantDiagram":
 		updateProbeTable[*models.PlantDiagram](probe)
-	case "ReferenceRhombus":
-		updateProbeTable[*models.ReferenceRhombus](probe)
 	case "RhombusGridShape":
 		updateProbeTable[*models.RhombusGridShape](probe)
+	case "RhombusShape":
+		updateProbeTable[*models.RhombusShape](probe)
 	}
 }
 

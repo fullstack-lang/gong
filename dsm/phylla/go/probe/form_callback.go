@@ -1032,86 +1032,6 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 
 	plantdiagramFormCallback.probe.ux_tree()
 }
-func __gong__New__ReferenceRhombusFormCallback(
-	referencerhombus *models.ReferenceRhombus,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (referencerhombusFormCallback *ReferenceRhombusFormCallback) {
-	referencerhombusFormCallback = new(ReferenceRhombusFormCallback)
-	referencerhombusFormCallback.probe = probe
-	referencerhombusFormCallback.referencerhombus = referencerhombus
-	referencerhombusFormCallback.formGroup = formGroup
-
-	referencerhombusFormCallback.CreationMode = (referencerhombus == nil)
-
-	return
-}
-
-type ReferenceRhombusFormCallback struct {
-	referencerhombus *models.ReferenceRhombus
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (referencerhombusFormCallback *ReferenceRhombusFormCallback) OnSave() {
-	referencerhombusFormCallback.probe.stageOfInterest.Lock()
-	defer referencerhombusFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ReferenceRhombusFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	referencerhombusFormCallback.probe.formStage.Checkout()
-
-	if referencerhombusFormCallback.referencerhombus == nil {
-		referencerhombusFormCallback.referencerhombus = new(models.ReferenceRhombus).Stage(referencerhombusFormCallback.probe.stageOfInterest)
-	}
-	referencerhombus_ := referencerhombusFormCallback.referencerhombus
-	_ = referencerhombus_
-
-	for _, formDiv := range referencerhombusFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(referencerhombus_.Name), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(referencerhombus_.IsHidden), formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if referencerhombusFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		referencerhombus_.Unstage(referencerhombusFormCallback.probe.stageOfInterest)
-	}
-
-	referencerhombusFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ReferenceRhombus](
-		referencerhombusFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if referencerhombusFormCallback.CreationMode || referencerhombusFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		referencerhombusFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(referencerhombusFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ReferenceRhombusFormCallback(
-			nil,
-			referencerhombusFormCallback.probe,
-			newFormGroup,
-		)
-		referencerhombus := new(models.ReferenceRhombus)
-		FillUpForm(referencerhombus, newFormGroup, referencerhombusFormCallback.probe)
-		referencerhombusFormCallback.probe.formStage.Commit()
-	}
-
-	referencerhombusFormCallback.probe.ux_tree()
-}
 func __gong__New__RhombusGridShapeFormCallback(
 	rhombusgridshape *models.RhombusGridShape,
 	probe *Probe,
@@ -1161,6 +1081,38 @@ func (rhombusgridshapeFormCallback *RhombusGridShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rhombusgridshape_.Name), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(rhombusgridshape_.IsHidden), formDiv)
+		case "RhombusShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RhombusShape](rhombusgridshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RhombusShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RhombusShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rhombusgridshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.RhombusShape](rhombusgridshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			rhombusgridshape_.RhombusShapes = instanceSlice
+			rhombusgridshapeFormCallback.probe.UpdateSliceOfPointersCallback(rhombusgridshape_, "RhombusShapes", &rhombusgridshape_.RhombusShapes)
+
 		}
 	}
 
@@ -1191,4 +1143,133 @@ func (rhombusgridshapeFormCallback *RhombusGridShapeFormCallback) OnSave() {
 	}
 
 	rhombusgridshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__RhombusShapeFormCallback(
+	rhombusshape *models.RhombusShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rhombusshapeFormCallback *RhombusShapeFormCallback) {
+	rhombusshapeFormCallback = new(RhombusShapeFormCallback)
+	rhombusshapeFormCallback.probe = probe
+	rhombusshapeFormCallback.rhombusshape = rhombusshape
+	rhombusshapeFormCallback.formGroup = formGroup
+
+	rhombusshapeFormCallback.CreationMode = (rhombusshape == nil)
+
+	return
+}
+
+type RhombusShapeFormCallback struct {
+	rhombusshape *models.RhombusShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rhombusshapeFormCallback *RhombusShapeFormCallback) OnSave() {
+	rhombusshapeFormCallback.probe.stageOfInterest.Lock()
+	defer rhombusshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RhombusShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rhombusshapeFormCallback.probe.formStage.Checkout()
+
+	if rhombusshapeFormCallback.rhombusshape == nil {
+		rhombusshapeFormCallback.rhombusshape = new(models.RhombusShape).Stage(rhombusshapeFormCallback.probe.stageOfInterest)
+	}
+	rhombusshape_ := rhombusshapeFormCallback.rhombusshape
+	_ = rhombusshape_
+
+	for _, formDiv := range rhombusshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rhombusshape_.Name), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(rhombusshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(rhombusshape_.Y), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(rhombusshape_.IsHidden), formDiv)
+		case "RhombusGridShape:RhombusShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the RhombusGridShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target RhombusGridShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.RhombusGridShape](rhombusshapeFormCallback.probe.stageOfInterest)
+			targetRhombusGridShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetRhombusGridShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all RhombusGridShape instances and update their RhombusShapes slice
+			for _rhombusgridshape := range *models.GetGongstructInstancesSetFromPointerType[*models.RhombusGridShape](rhombusshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(rhombusshapeFormCallback.probe.stageOfInterest, _rhombusgridshape)
+				
+				// if RhombusGridShape is selected
+				if targetRhombusGridShapeIDs[id] {
+					// ensure rhombusshape_ is in _rhombusgridshape.RhombusShapes
+					found := false
+					for _, _b := range _rhombusgridshape.RhombusShapes {
+						if _b == rhombusshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_rhombusgridshape.RhombusShapes = append(_rhombusgridshape.RhombusShapes, rhombusshape_)
+						rhombusshapeFormCallback.probe.UpdateSliceOfPointersCallback(_rhombusgridshape, "RhombusShapes", &_rhombusgridshape.RhombusShapes)
+					}
+				} else {
+					// ensure rhombusshape_ is NOT in _rhombusgridshape.RhombusShapes
+					idx := slices.Index(_rhombusgridshape.RhombusShapes, rhombusshape_)
+					if idx != -1 {
+						_rhombusgridshape.RhombusShapes = slices.Delete(_rhombusgridshape.RhombusShapes, idx, idx+1)
+						rhombusshapeFormCallback.probe.UpdateSliceOfPointersCallback(_rhombusgridshape, "RhombusShapes", &_rhombusgridshape.RhombusShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if rhombusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rhombusshape_.Unstage(rhombusshapeFormCallback.probe.stageOfInterest)
+	}
+
+	rhombusshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RhombusShape](
+		rhombusshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rhombusshapeFormCallback.CreationMode || rhombusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rhombusshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rhombusshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RhombusShapeFormCallback(
+			nil,
+			rhombusshapeFormCallback.probe,
+			newFormGroup,
+		)
+		rhombusshape := new(models.RhombusShape)
+		FillUpForm(rhombusshape, newFormGroup, rhombusshapeFormCallback.probe)
+		rhombusshapeFormCallback.probe.formStage.Commit()
+	}
+
+	rhombusshapeFormCallback.probe.ux_tree()
 }

@@ -136,19 +136,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.ReferenceRhombus:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "ReferenceRhombus",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ReferenceRhombusFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.RhombusGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -156,6 +143,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "RhombusGridShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RhombusGridShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RhombusShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "RhombusShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RhombusShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

@@ -69,17 +69,17 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.plantdiagram, probe)
 			}
-		case *ReferenceRhombusFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ReferenceRhombus", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.referencerhombus, probe)
-			}
 		case *RhombusGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "RhombusGridShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.rhombusgridshape, probe)
+			}
+		case *RhombusShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RhombusShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rhombusshape, probe)
 			}
 		}
 	}
@@ -220,19 +220,6 @@ func FillUpFormFromGongstructName(
 		plantdiagram := new(models.PlantDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(plantdiagram, formGroup, probe)
-	case "ReferenceRhombus":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ReferenceRhombus Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ReferenceRhombusFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		referencerhombus := new(models.ReferenceRhombus)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(referencerhombus, formGroup, probe)
 	case "RhombusGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -246,6 +233,19 @@ func FillUpFormFromGongstructName(
 		rhombusgridshape := new(models.RhombusGridShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rhombusgridshape, formGroup, probe)
+	case "RhombusShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RhombusShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RhombusShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rhombusshape := new(models.RhombusShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rhombusshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

@@ -34,21 +34,20 @@ func (s *AxesShape) GetIsWithHiddenHandle() bool {
 	return s.IsWithHiddenHandle
 }
 
-// ReferenceRhombus of a plant,
-//
-// each plant has one ReferenceRhombus
-// the direction and distance of new cell growth.
-type ReferenceRhombus struct {
+// RhombusShape of a plant,
+type RhombusShape struct {
 	Name string
+
+	X, Y float64
 
 	Shape
 }
 
-func (s *ReferenceRhombus) SetIsHidden(isHidden bool) {
+func (s *RhombusShape) SetIsHidden(isHidden bool) {
 	s.IsHidden = isHidden
 }
 
-func (s *ReferenceRhombus) GetIsHidden() bool {
+func (s *RhombusShape) GetIsHidden() bool {
 	return s.IsHidden
 }
 
@@ -95,6 +94,8 @@ type RhombusGridShape struct {
 	Name string
 
 	Shape
+
+	RhombusShapes []*RhombusShape
 }
 
 func (s *RhombusGridShape) SetIsHidden(isHidden bool) {
