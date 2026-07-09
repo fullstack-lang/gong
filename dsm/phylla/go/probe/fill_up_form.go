@@ -296,17 +296,6 @@ func FillUpForm(
 				})
 		}
 
-	case *models.RhombusGridShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("RhombusShapes", instanceWithInferedType, &instanceWithInferedType.RhombusShapes, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
 	case *models.RhombusShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -320,17 +309,6 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.RhombusGridShape, *models.RhombusShape](
-				"RhombusGridShape",
-				"RhombusShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.RhombusGridShape) []*models.RhombusShape {
-					return owner.RhombusShapes
-				})
-		}
 
 	case *models.RotatedRhombusGridShape:
 		// insertion point

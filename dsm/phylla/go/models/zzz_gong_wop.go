@@ -269,17 +269,6 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsExpanded = from.IsExpanded
 }
 
-type RhombusGridShape_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *RhombusGridShape) CopyBasicFields(to *RhombusGridShape) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type RhombusShape_WOP struct {
 	// insertion point
 

@@ -147,14 +147,6 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by RhombusGridShape
-func (rhombusgridshape *RhombusGridShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	modified = GongCleanSlice(stage, &rhombusgridshape.RhombusShapes) || modified
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by RhombusShape
 func (rhombusshape *RhombusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
