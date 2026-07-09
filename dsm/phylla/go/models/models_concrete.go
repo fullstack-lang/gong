@@ -81,6 +81,13 @@ type GrowthCurveRhombusShape struct {
 	X, Y float64
 }
 
+// GrowthVectorShape of a plant,
+type GrowthVectorShape struct {
+	Name string
+
+	X, Y float64
+}
+
 // InitialRhombusGridShape of a plant,
 type InitialRhombusGridShape struct {
 	Name string

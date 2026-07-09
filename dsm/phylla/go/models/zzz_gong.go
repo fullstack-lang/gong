@@ -223,6 +223,21 @@ type Stage struct {
 	OnAfterGrowthCurveRhombusShapeDeleteCallback OnAfterDeleteInterface[GrowthCurveRhombusShape]
 	OnAfterGrowthCurveRhombusShapeReadCallback   OnAfterReadInterface[GrowthCurveRhombusShape]
 
+	GrowthVectorShapes                map[*GrowthVectorShape]struct{}
+	GrowthVectorShapes_instance       map[*GrowthVectorShape]*GrowthVectorShape
+	GrowthVectorShapes_mapString      map[string]*GrowthVectorShape
+	GrowthVectorShapeOrder            uint
+	GrowthVectorShape_stagedOrder     map[*GrowthVectorShape]uint
+	GrowthVectorShape_orderStaged     map[uint]*GrowthVectorShape
+	GrowthVectorShapes_reference      map[*GrowthVectorShape]*GrowthVectorShape
+	GrowthVectorShapes_referenceOrder map[*GrowthVectorShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterGrowthVectorShapeCreateCallback OnAfterCreateInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeUpdateCallback OnAfterUpdateInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeDeleteCallback OnAfterDeleteInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeReadCallback   OnAfterReadInterface[GrowthVectorShape]
+
 	InitialRhombusGridShapes                map[*InitialRhombusGridShape]struct{}
 	InitialRhombusGridShapes_instance       map[*InitialRhombusGridShape]*InitialRhombusGridShape
 	InitialRhombusGridShapes_mapString      map[string]*InitialRhombusGridShape
@@ -643,6 +658,10 @@ func (stage *Stage) Squash() {
 	stage.GrowthCurveRhombusShapes_instance = make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusShape)
 	stage.GrowthCurveRhombusShapes_referenceOrder = make(map[*GrowthCurveRhombusShape]uint)
 
+	stage.GrowthVectorShapes_reference = make(map[*GrowthVectorShape]*GrowthVectorShape)
+	stage.GrowthVectorShapes_instance = make(map[*GrowthVectorShape]*GrowthVectorShape)
+	stage.GrowthVectorShapes_referenceOrder = make(map[*GrowthVectorShape]uint)
+
 	stage.InitialRhombusGridShapes_reference = make(map[*InitialRhombusGridShape]*InitialRhombusGridShape)
 	stage.InitialRhombusGridShapes_instance = make(map[*InitialRhombusGridShape]*InitialRhombusGridShape)
 	stage.InitialRhombusGridShapes_referenceOrder = make(map[*InitialRhombusGridShape]uint)
@@ -792,6 +811,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.GrowthCurveRhombusShapeOrder = maxGrowthCurveRhombusShapeOrder + 1
 	} else {
 		stage.GrowthCurveRhombusShapeOrder = 0
+	}
+
+	var maxGrowthVectorShapeOrder uint
+	var foundGrowthVectorShape bool
+	for _, order := range stage.GrowthVectorShape_stagedOrder {
+		if !foundGrowthVectorShape || order > maxGrowthVectorShapeOrder {
+			maxGrowthVectorShapeOrder = order
+			foundGrowthVectorShape = true
+		}
+	}
+	if foundGrowthVectorShape {
+		stage.GrowthVectorShapeOrder = maxGrowthVectorShapeOrder + 1
+	} else {
+		stage.GrowthVectorShapeOrder = 0
 	}
 
 	var maxInitialRhombusGridShapeOrder uint
@@ -1079,6 +1112,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *GrowthVectorShape:
+		tmp := GetStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *GrowthVectorShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *InitialRhombusGridShape:
 		tmp := GetStructInstancesByOrder(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder)
 
@@ -1260,6 +1307,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.GrowthCurveRhombusGridShapes, stage.GrowthCurveRhombusGridShape_stagedOrder)
 	case "GrowthCurveRhombusShape":
 		res = GetNamedStructInstances(stage.GrowthCurveRhombusShapes, stage.GrowthCurveRhombusShape_stagedOrder)
+	case "GrowthVectorShape":
+		res = GetNamedStructInstances(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
 	case "InitialRhombusGridShape":
 		res = GetNamedStructInstances(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder)
 	case "InitialRhombusShape":
@@ -1361,6 +1410,8 @@ type BackRepoInterface interface {
 	CheckoutGrowthCurveRhombusGridShape(growthcurverhombusgridshape *GrowthCurveRhombusGridShape)
 	CommitGrowthCurveRhombusShape(growthcurverhombusshape *GrowthCurveRhombusShape)
 	CheckoutGrowthCurveRhombusShape(growthcurverhombusshape *GrowthCurveRhombusShape)
+	CommitGrowthVectorShape(growthvectorshape *GrowthVectorShape)
+	CheckoutGrowthVectorShape(growthvectorshape *GrowthVectorShape)
 	CommitInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape)
 	CheckoutInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape)
 	CommitInitialRhombusShape(initialrhombusshape *InitialRhombusShape)
@@ -1404,6 +1455,9 @@ func NewStage(name string) (stage *Stage) {
 
 		GrowthCurveRhombusShapes:           make(map[*GrowthCurveRhombusShape]struct{}),
 		GrowthCurveRhombusShapes_mapString: make(map[string]*GrowthCurveRhombusShape),
+
+		GrowthVectorShapes:           make(map[*GrowthVectorShape]struct{}),
+		GrowthVectorShapes_mapString: make(map[string]*GrowthVectorShape),
 
 		InitialRhombusGridShapes:           make(map[*InitialRhombusGridShape]struct{}),
 		InitialRhombusGridShapes_mapString: make(map[string]*InitialRhombusGridShape),
@@ -1469,6 +1523,10 @@ func NewStage(name string) (stage *Stage) {
 		GrowthCurveRhombusShape_orderStaged: make(map[uint]*GrowthCurveRhombusShape),
 		GrowthCurveRhombusShapes_reference:  make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusShape),
 
+		GrowthVectorShape_stagedOrder: make(map[*GrowthVectorShape]uint),
+		GrowthVectorShape_orderStaged: make(map[uint]*GrowthVectorShape),
+		GrowthVectorShapes_reference:  make(map[*GrowthVectorShape]*GrowthVectorShape),
+
 		InitialRhombusGridShape_stagedOrder: make(map[*InitialRhombusGridShape]uint),
 		InitialRhombusGridShape_orderStaged: make(map[uint]*InitialRhombusGridShape),
 		InitialRhombusGridShapes_reference:  make(map[*InitialRhombusGridShape]*InitialRhombusGridShape),
@@ -1523,6 +1581,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"GrowthCurveRhombusShape": &GrowthCurveRhombusShapeUnmarshaller{},
 
+			"GrowthVectorShape": &GrowthVectorShapeUnmarshaller{},
+
 			"InitialRhombusGridShape": &InitialRhombusGridShapeUnmarshaller{},
 
 			"InitialRhombusShape": &InitialRhombusShapeUnmarshaller{},
@@ -1553,6 +1613,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GridPathShape"},
 			{name: "GrowthCurveRhombusGridShape"},
 			{name: "GrowthCurveRhombusShape"},
+			{name: "GrowthVectorShape"},
 			{name: "InitialRhombusGridShape"},
 			{name: "InitialRhombusShape"},
 			{name: "Library"},
@@ -1586,6 +1647,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.GrowthCurveRhombusGridShape_stagedOrder[instance]
 	case *GrowthCurveRhombusShape:
 		return stage.GrowthCurveRhombusShape_stagedOrder[instance]
+	case *GrowthVectorShape:
+		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *InitialRhombusGridShape:
 		return stage.InitialRhombusGridShape_stagedOrder[instance]
 	case *InitialRhombusShape:
@@ -1627,6 +1690,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.GrowthCurveRhombusGridShape_orderStaged[order]).(Type)
 	case *GrowthCurveRhombusShape:
 		return any(stage.GrowthCurveRhombusShape_orderStaged[order]).(Type)
+	case *GrowthVectorShape:
+		return any(stage.GrowthVectorShape_orderStaged[order]).(Type)
 	case *InitialRhombusGridShape:
 		return any(stage.InitialRhombusGridShape_orderStaged[order]).(Type)
 	case *InitialRhombusShape:
@@ -1667,6 +1732,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.GrowthCurveRhombusGridShape_stagedOrder[instance]
 	case *GrowthCurveRhombusShape:
 		return stage.GrowthCurveRhombusShape_stagedOrder[instance]
+	case *GrowthVectorShape:
+		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *InitialRhombusGridShape:
 		return stage.InitialRhombusGridShape_stagedOrder[instance]
 	case *InitialRhombusShape:
@@ -1758,6 +1825,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthCurveRhombusGridShape"] = len(stage.GrowthCurveRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthCurveRhombusShape"] = len(stage.GrowthCurveRhombusShapes)
+	stage.Map_GongStructName_InstancesNb["GrowthVectorShape"] = len(stage.GrowthVectorShapes)
 	stage.Map_GongStructName_InstancesNb["InitialRhombusGridShape"] = len(stage.InitialRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["InitialRhombusShape"] = len(stage.InitialRhombusShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
@@ -2334,6 +2402,94 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (growthcurverhombusshape *GrowthCurveRhombusShape) SetName(name string) {
 	growthcurverhombusshape.Name = name
+}
+
+// Stage puts growthvectorshape to the model stage
+func (growthvectorshape *GrowthVectorShape) Stage(stage *Stage) *GrowthVectorShape {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; !ok {
+		stage.GrowthVectorShapes[growthvectorshape] = struct{}{}
+		stage.GrowthVectorShape_stagedOrder[growthvectorshape] = stage.GrowthVectorShapeOrder
+		stage.GrowthVectorShape_orderStaged[stage.GrowthVectorShapeOrder] = growthvectorshape
+		stage.GrowthVectorShapeOrder++
+	}
+	stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
+
+	return growthvectorshape
+}
+
+// StagePreserveOrder puts growthvectorshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GrowthVectorShapeOrder
+// - update stage.GrowthVectorShapeOrder accordingly
+func (growthvectorshape *GrowthVectorShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; !ok {
+		stage.GrowthVectorShapes[growthvectorshape] = struct{}{}
+
+		if order > stage.GrowthVectorShapeOrder {
+			stage.GrowthVectorShapeOrder = order
+		}
+		stage.GrowthVectorShape_stagedOrder[growthvectorshape] = order
+		stage.GrowthVectorShape_orderStaged[order] = growthvectorshape
+		stage.GrowthVectorShapeOrder++
+	}
+	stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
+}
+
+// Unstage removes growthvectorshape off the model stage
+func (growthvectorshape *GrowthVectorShape) Unstage(stage *Stage) *GrowthVectorShape {
+	delete(stage.GrowthVectorShapes, growthvectorshape)
+	// issue1150
+	// delete(stage.GrowthVectorShape_stagedOrder, growthvectorshape)
+	delete(stage.GrowthVectorShapes_mapString, growthvectorshape.Name)
+
+	return growthvectorshape
+}
+
+// UnstageVoid removes growthvectorshape off the model stage
+func (growthvectorshape *GrowthVectorShape) UnstageVoid(stage *Stage) {
+	delete(stage.GrowthVectorShapes, growthvectorshape)
+	// issue1150
+	// delete(stage.GrowthVectorShape_stagedOrder, growthvectorshape)
+	delete(stage.GrowthVectorShapes_mapString, growthvectorshape.Name)
+}
+
+// commit growthvectorshape to the back repo (if it is already staged)
+func (growthvectorshape *GrowthVectorShape) Commit(stage *Stage) *GrowthVectorShape {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGrowthVectorShape(growthvectorshape)
+		}
+	}
+	return growthvectorshape
+}
+
+func (growthvectorshape *GrowthVectorShape) CommitVoid(stage *Stage) {
+	growthvectorshape.Commit(stage)
+}
+
+func (growthvectorshape *GrowthVectorShape) StageVoid(stage *Stage) {
+	growthvectorshape.Stage(stage)
+}
+
+// Checkout growthvectorshape to the back repo (if it is already staged)
+func (growthvectorshape *GrowthVectorShape) Checkout(stage *Stage) *GrowthVectorShape {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGrowthVectorShape(growthvectorshape)
+		}
+	}
+	return growthvectorshape
+}
+
+// for satisfaction of GongStruct interface
+func (growthvectorshape *GrowthVectorShape) GetName() (res string) {
+	return growthvectorshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (growthvectorshape *GrowthVectorShape) SetName(name string) {
+	growthvectorshape.Name = name
 }
 
 // Stage puts initialrhombusgridshape to the model stage
@@ -3224,6 +3380,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
 	CreateORMGrowthCurveRhombusGridShape(GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape)
 	CreateORMGrowthCurveRhombusShape(GrowthCurveRhombusShape *GrowthCurveRhombusShape)
+	CreateORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	CreateORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
 	CreateORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
 	CreateORMLibrary(Library *Library)
@@ -3243,6 +3400,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
 	DeleteORMGrowthCurveRhombusGridShape(GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape)
 	DeleteORMGrowthCurveRhombusShape(GrowthCurveRhombusShape *GrowthCurveRhombusShape)
+	DeleteORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	DeleteORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
 	DeleteORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
 	DeleteORMLibrary(Library *Library)
@@ -3285,6 +3443,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.GrowthCurveRhombusShapes_mapString = make(map[string]*GrowthCurveRhombusShape)
 	stage.GrowthCurveRhombusShape_stagedOrder = make(map[*GrowthCurveRhombusShape]uint)
 	stage.GrowthCurveRhombusShapeOrder = 0
+
+	stage.GrowthVectorShapes = make(map[*GrowthVectorShape]struct{})
+	stage.GrowthVectorShapes_mapString = make(map[string]*GrowthVectorShape)
+	stage.GrowthVectorShape_stagedOrder = make(map[*GrowthVectorShape]uint)
+	stage.GrowthVectorShapeOrder = 0
 
 	stage.InitialRhombusGridShapes = make(map[*InitialRhombusGridShape]struct{})
 	stage.InitialRhombusGridShapes_mapString = make(map[string]*InitialRhombusGridShape)
@@ -3363,6 +3526,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.GrowthCurveRhombusShapes = nil
 	stage.GrowthCurveRhombusShapes_mapString = nil
 
+	stage.GrowthVectorShapes = nil
+	stage.GrowthVectorShapes_mapString = nil
+
 	stage.InitialRhombusGridShapes = nil
 	stage.InitialRhombusGridShapes_mapString = nil
 
@@ -3419,6 +3585,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for growthcurverhombusshape := range stage.GrowthCurveRhombusShapes {
 		growthcurverhombusshape.Unstage(stage)
+	}
+
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		growthvectorshape.Unstage(stage)
 	}
 
 	for initialrhombusgridshape := range stage.InitialRhombusGridShapes {
@@ -3549,6 +3719,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.GrowthCurveRhombusGridShapes).(*Type)
 	case map[*GrowthCurveRhombusShape]any:
 		return any(&stage.GrowthCurveRhombusShapes).(*Type)
+	case map[*GrowthVectorShape]any:
+		return any(&stage.GrowthVectorShapes).(*Type)
 	case map[*InitialRhombusGridShape]any:
 		return any(&stage.InitialRhombusGridShapes).(*Type)
 	case map[*InitialRhombusShape]any:
@@ -3593,6 +3765,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.GrowthCurveRhombusGridShapes_mapString).(map[string]Type)
 	case *GrowthCurveRhombusShape:
 		return any(stage.GrowthCurveRhombusShapes_mapString).(map[string]Type)
+	case *GrowthVectorShape:
+		return any(stage.GrowthVectorShapes_mapString).(map[string]Type)
 	case *InitialRhombusGridShape:
 		return any(stage.InitialRhombusGridShapes_mapString).(map[string]Type)
 	case *InitialRhombusShape:
@@ -3637,6 +3811,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.GrowthCurveRhombusGridShapes).(*map[*Type]struct{})
 	case GrowthCurveRhombusShape:
 		return any(&stage.GrowthCurveRhombusShapes).(*map[*Type]struct{})
+	case GrowthVectorShape:
+		return any(&stage.GrowthVectorShapes).(*map[*Type]struct{})
 	case InitialRhombusGridShape:
 		return any(&stage.InitialRhombusGridShapes).(*map[*Type]struct{})
 	case InitialRhombusShape:
@@ -3681,6 +3857,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.GrowthCurveRhombusGridShapes).(*map[Type]struct{})
 	case *GrowthCurveRhombusShape:
 		return any(&stage.GrowthCurveRhombusShapes).(*map[Type]struct{})
+	case *GrowthVectorShape:
+		return any(&stage.GrowthVectorShapes).(*map[Type]struct{})
 	case *InitialRhombusGridShape:
 		return any(&stage.InitialRhombusGridShapes).(*map[Type]struct{})
 	case *InitialRhombusShape:
@@ -3725,6 +3903,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.GrowthCurveRhombusGridShapes_mapString).(*map[string]*Type)
 	case GrowthCurveRhombusShape:
 		return any(&stage.GrowthCurveRhombusShapes_mapString).(*map[string]*Type)
+	case GrowthVectorShape:
+		return any(&stage.GrowthVectorShapes_mapString).(*map[string]*Type)
 	case InitialRhombusGridShape:
 		return any(&stage.InitialRhombusGridShapes_mapString).(*map[string]*Type)
 	case InitialRhombusShape:
@@ -3785,6 +3965,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&GrowthCurveRhombusShape{
 			// Initialisation of associations
 		}).(*Type)
+	case GrowthVectorShape:
+		return any(&GrowthVectorShape{
+			// Initialisation of associations
+		}).(*Type)
 	case InitialRhombusGridShape:
 		return any(&InitialRhombusGridShape{
 			// Initialisation of associations
@@ -3834,6 +4018,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RotatedRhombusGridShape2: &RotatedRhombusGridShape{Name: "RotatedRhombusGridShape2"},
 			// field is initialized with an instance of GrowthCurveRhombusGridShape with the name of the field
 			GrowthCurveRhombusGridShape: &GrowthCurveRhombusGridShape{Name: "GrowthCurveRhombusGridShape"},
+			// field is initialized with an instance of GrowthVectorShape with the name of the field
+			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -3901,6 +4087,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of GrowthCurveRhombusShape
 	case GrowthCurveRhombusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GrowthVectorShape
+	case GrowthVectorShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4115,6 +4306,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "GrowthVectorShape":
+			res := make(map[*GrowthVectorShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.GrowthVectorShape != nil {
+					growthvectorshape_ := plant.GrowthVectorShape
+					var plants []*Plant
+					_, ok := res[growthvectorshape_]
+					if ok {
+						plants = res[growthvectorshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[growthvectorshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
@@ -4191,6 +4399,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of GrowthCurveRhombusShape
 	case GrowthCurveRhombusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GrowthVectorShape
+	case GrowthVectorShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4307,6 +4520,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "GrowthCurveRhombusGridShape"
 	case *GrowthCurveRhombusShape:
 		res = "GrowthCurveRhombusShape"
+	case *GrowthVectorShape:
+		res = "GrowthVectorShape"
 	case *InitialRhombusGridShape:
 		res = "InitialRhombusGridShape"
 	case *InitialRhombusShape:
@@ -4365,6 +4580,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "GrowthCurveRhombusGridShape"
 		rf.Fieldname = "GrowthCurveRhombusShapes"
 		res = append(res, rf)
+	case *GrowthVectorShape:
+		var rf ReverseField
+		_ = rf
 	case *InitialRhombusGridShape:
 		var rf ReverseField
 		_ = rf
@@ -4488,6 +4706,25 @@ func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetFieldHead
 }
 
 func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -4696,6 +4933,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurveRhombusGridShape",
 		},
+		{
+			Name:                 "GrowthVectorShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthVectorShape",
+		},
 	}
 	return
 }
@@ -4776,6 +5018,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenGrowthPathRhombusGridShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenGrowthVectorShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -4987,6 +5233,23 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetFieldValue(fieldN
 	return
 }
 
+func (growthvectorshape *GrowthVectorShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = growthvectorshape.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", growthvectorshape.X)
+		res.valueFloat = growthvectorshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", growthvectorshape.Y)
+		res.valueFloat = growthvectorshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (initialrhombusgridshape *InitialRhombusGridShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -5192,6 +5455,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.GrowthCurveRhombusGridShape.Name
 			res.ids = plant.GrowthCurveRhombusGridShape.GongGetUUID(stage)
 		}
+	case "GrowthVectorShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.GrowthVectorShape != nil {
+			res.valueString = plant.GrowthVectorShape.Name
+			res.ids = plant.GrowthVectorShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -5269,6 +5538,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenGrowthPathRhombusGridShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthPathRhombusGridShape)
 		res.valueBool = plantdiagram.IsHiddenGrowthPathRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthVectorShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthVectorShape)
+		res.valueBool = plantdiagram.IsHiddenGrowthVectorShape
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
@@ -5427,6 +5700,21 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongSetFieldValue(fieldN
 		growthcurverhombusshape.X = value.GetValueFloat()
 	case "Y":
 		growthcurverhombusshape.Y = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (growthvectorshape *GrowthVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		growthvectorshape.Name = value.GetValueString()
+	case "X":
+		growthvectorshape.X = value.GetValueFloat()
+	case "Y":
+		growthvectorshape.Y = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5691,6 +5979,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "GrowthVectorShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.GrowthVectorShape = nil
+			for __instance__ := range stage.GrowthVectorShapes {
+				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
+					plant.GrowthVectorShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5743,6 +6042,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenRotatedRhombusGridShape = value.GetValueBool()
 	case "IsHiddenGrowthPathRhombusGridShape":
 		plantdiagram.IsHiddenGrowthPathRhombusGridShape = value.GetValueBool()
+	case "IsHiddenGrowthVectorShape":
+		plantdiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -5839,6 +6140,10 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetGongstructName() 
 	return "GrowthCurveRhombusShape"
 }
 
+func (growthvectorshape *GrowthVectorShape) GongGetGongstructName() string {
+	return "GrowthVectorShape"
+}
+
 func (initialrhombusgridshape *InitialRhombusGridShape) GongGetGongstructName() string {
 	return "InitialRhombusGridShape"
 }
@@ -5914,6 +6219,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.GrowthCurveRhombusShapes_mapString = make(map[string]*GrowthCurveRhombusShape)
 	for growthcurverhombusshape := range stage.GrowthCurveRhombusShapes {
 		stage.GrowthCurveRhombusShapes_mapString[growthcurverhombusshape.Name] = growthcurverhombusshape
+	}
+
+	stage.GrowthVectorShapes_mapString = make(map[string]*GrowthVectorShape)
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
 	}
 
 	stage.InitialRhombusGridShapes_mapString = make(map[string]*InitialRhombusGridShape)

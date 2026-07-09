@@ -63,6 +63,15 @@ func (inst *GrowthCurveRhombusShape) GongGetReverseFieldOwnerName(stage *Stage, 
 	return
 }
 
+func (inst *GrowthVectorShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *InitialRhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -244,6 +253,15 @@ func (inst *GrowthCurveRhombusShape) GongGetReverseFieldOwner(stage *Stage, reve
 		case "GrowthCurveRhombusShapes":
 			res = stage.GrowthCurveRhombusGridShape_GrowthCurveRhombusShapes_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *GrowthVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }

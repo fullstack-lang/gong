@@ -36,6 +36,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.GrowthCurveRhombusGridShape](probe)
 	case "GrowthCurveRhombusShape":
 		updateProbeTable[*models.GrowthCurveRhombusShape](probe)
+	case "GrowthVectorShape":
+		updateProbeTable[*models.GrowthVectorShape](probe)
 	case "InitialRhombusGridShape":
 		updateProbeTable[*models.InitialRhombusGridShape](probe)
 	case "InitialRhombusShape":
