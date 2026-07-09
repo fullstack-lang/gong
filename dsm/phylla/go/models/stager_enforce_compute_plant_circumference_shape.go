@@ -36,26 +36,24 @@ func (stager *Stager) enforceComputePlantCircumferenceShape() (needCommit bool) 
 		computedAngleDegree := math.Atan2(y, x) * 180.0 / math.Pi
 		computedLength := math.Sqrt(x*x + y*y)
 
-		for _, plantDiagram := range plant.PlantDiagrams {
-			if plantDiagram.PlantCircumferenceShape != nil {
-				if plantDiagram.PlantCircumferenceShape.AngleDegree != computedAngleDegree ||
-					plantDiagram.PlantCircumferenceShape.Length != computedLength {
+		if plant.PlantCircumferenceShape != nil {
+			if plant.PlantCircumferenceShape.AngleDegree != computedAngleDegree ||
+				plant.PlantCircumferenceShape.Length != computedLength {
 
-					plantDiagram.PlantCircumferenceShape.AngleDegree = computedAngleDegree
-					plantDiagram.PlantCircumferenceShape.Length = computedLength
+				plant.PlantCircumferenceShape.AngleDegree = computedAngleDegree
+				plant.PlantCircumferenceShape.Length = computedLength
 
-					needCommit = true
-				}
+				needCommit = true
 			}
-			if plantDiagram.RotatedPlantCircumferenceShape != nil {
-				if plantDiagram.RotatedPlantCircumferenceShape.AngleDegree != 0 ||
-					plantDiagram.RotatedPlantCircumferenceShape.Length != computedLength {
+		}
+		if plant.RotatedPlantCircumferenceShape != nil {
+			if plant.RotatedPlantCircumferenceShape.AngleDegree != 0 ||
+				plant.RotatedPlantCircumferenceShape.Length != computedLength {
 
-					plantDiagram.RotatedPlantCircumferenceShape.AngleDegree = 0
-					plantDiagram.RotatedPlantCircumferenceShape.Length = computedLength
+				plant.RotatedPlantCircumferenceShape.AngleDegree = 0
+				plant.RotatedPlantCircumferenceShape.Length = computedLength
 
-					needCommit = true
-				}
+				needCommit = true
 			}
 		}
 	}

@@ -303,7 +303,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000002_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000003_.Name = `AxesShape`
-	__LinkShape__00000003_.IdentifierMeta = ref_models.PlantDiagram{}.AxesShape
+	__LinkShape__00000003_.IdentifierMeta = ref_models.Plant{}.AxesShape
 	__LinkShape__00000003_.FieldTypeIdentifierMeta = ref_models.AxesShape{}
 	__LinkShape__00000003_.FieldOffsetX = 0.000000
 	__LinkShape__00000003_.FieldOffsetY = 0.000000
@@ -322,7 +322,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000003_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000004_.Name = `ReferenceRhombus`
-	__LinkShape__00000004_.IdentifierMeta = ref_models.PlantDiagram{}.ReferenceRhombus
+	__LinkShape__00000004_.IdentifierMeta = ref_models.Plant{}.ReferenceRhombus
 	__LinkShape__00000004_.FieldTypeIdentifierMeta = ref_models.RhombusShape{}
 	__LinkShape__00000004_.FieldOffsetX = 0.000000
 	__LinkShape__00000004_.FieldOffsetY = 0.000000
@@ -341,7 +341,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000004_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000005_.Name = `PlantCircumferenceShape`
-	__LinkShape__00000005_.IdentifierMeta = ref_models.PlantDiagram{}.PlantCircumferenceShape
+	__LinkShape__00000005_.IdentifierMeta = ref_models.Plant{}.PlantCircumferenceShape
 	__LinkShape__00000005_.FieldTypeIdentifierMeta = ref_models.PlantCircumferenceShape{}
 	__LinkShape__00000005_.FieldOffsetX = 0.000000
 	__LinkShape__00000005_.FieldOffsetY = 0.000000
@@ -360,7 +360,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000005_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000006_.Name = `GridPathShape`
-	__LinkShape__00000006_.IdentifierMeta = ref_models.PlantDiagram{}.GridPathShape
+	__LinkShape__00000006_.IdentifierMeta = ref_models.Plant{}.GridPathShape
 	__LinkShape__00000006_.FieldTypeIdentifierMeta = ref_models.GridPathShape{}
 	__LinkShape__00000006_.FieldOffsetX = 0.000000
 	__LinkShape__00000006_.FieldOffsetY = 0.000000
@@ -379,7 +379,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000006_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000007_.Name = `RhombusGridShape`
-	__LinkShape__00000007_.IdentifierMeta = ref_models.PlantDiagram{}.RhombusGridShape
+	__LinkShape__00000007_.IdentifierMeta = ref_models.Plant{}.RhombusGridShape
 	__LinkShape__00000007_.FieldTypeIdentifierMeta = ref_models.RhombusGridShape{}
 	__LinkShape__00000007_.FieldOffsetX = 0.000000
 	__LinkShape__00000007_.FieldOffsetY = 0.000000
@@ -398,7 +398,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000007_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000008_.Name = `ExplanationTextShape`
-	__LinkShape__00000008_.IdentifierMeta = ref_models.PlantDiagram{}.ExplanationTextShape
+	__LinkShape__00000008_.IdentifierMeta = ref_models.Plant{}.ExplanationTextShape
 	__LinkShape__00000008_.FieldTypeIdentifierMeta = ref_models.ExplanationTextShape{}
 	__LinkShape__00000008_.FieldOffsetX = 0.000000
 	__LinkShape__00000008_.FieldOffsetY = 0.000000
@@ -417,7 +417,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000008_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000009_.Name = `RotatedReferenceRhombus`
-	__LinkShape__00000009_.IdentifierMeta = ref_models.PlantDiagram{}.RotatedReferenceRhombus
+	__LinkShape__00000009_.IdentifierMeta = ref_models.Plant{}.RotatedReferenceRhombus
 	__LinkShape__00000009_.FieldTypeIdentifierMeta = ref_models.RhombusShape{}
 	__LinkShape__00000009_.FieldOffsetX = 0.000000
 	__LinkShape__00000009_.FieldOffsetY = 0.000000
@@ -436,7 +436,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000009_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000010_.Name = `RotatedPlantCircumferenceShape`
-	__LinkShape__00000010_.IdentifierMeta = ref_models.PlantDiagram{}.RotatedPlantCircumferenceShape
+	__LinkShape__00000010_.IdentifierMeta = ref_models.Plant{}.RotatedPlantCircumferenceShape
 	__LinkShape__00000010_.FieldTypeIdentifierMeta = ref_models.PlantCircumferenceShape{}
 	__LinkShape__00000010_.FieldOffsetX = 0.000000
 	__LinkShape__00000010_.FieldOffsetY = 0.000000
@@ -455,7 +455,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000010_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000011_.Name = `RotatedGridPathShape`
-	__LinkShape__00000011_.IdentifierMeta = ref_models.PlantDiagram{}.RotatedGridPathShape
+	__LinkShape__00000011_.IdentifierMeta = ref_models.Plant{}.RotatedGridPathShape
 	__LinkShape__00000011_.FieldTypeIdentifierMeta = ref_models.GridPathShape{}
 	__LinkShape__00000011_.FieldOffsetX = 0.000000
 	__LinkShape__00000011_.FieldOffsetY = 0.000000
@@ -474,7 +474,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000011_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000012_.Name = `RotatedRhombusGridShape`
-	__LinkShape__00000012_.IdentifierMeta = ref_models.PlantDiagram{}.RotatedRhombusGridShape
+	__LinkShape__00000012_.IdentifierMeta = ref_models.Plant{}.RotatedRhombusGridShape
 	__LinkShape__00000012_.FieldTypeIdentifierMeta = ref_models.RhombusGridShape{}
 	__LinkShape__00000012_.FieldOffsetX = 0.000000
 	__LinkShape__00000012_.FieldOffsetY = 0.000000

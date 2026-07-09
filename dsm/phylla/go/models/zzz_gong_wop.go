@@ -18,8 +18,6 @@ type AxesShape_WOP struct {
 
 	LengthY float64
 
-	IsHidden bool
-
 	IsWithHiddenHandle bool
 }
 
@@ -28,7 +26,6 @@ func (from *AxesShape) CopyBasicFields(to *AxesShape) {
 	to.Name = from.Name
 	to.LengthX = from.LengthX
 	to.LengthY = from.LengthY
-	to.IsHidden = from.IsHidden
 	to.IsWithHiddenHandle = from.IsWithHiddenHandle
 }
 
@@ -36,42 +33,33 @@ type CircleGridShape_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsHidden bool
 }
 
 func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHidden = from.IsHidden
 }
 
 type ExplanationTextShape_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsHidden bool
 }
 
 func (from *ExplanationTextShape) CopyBasicFields(to *ExplanationTextShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHidden = from.IsHidden
 }
 
 type GridPathShape_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsHidden bool
 }
 
 func (from *GridPathShape) CopyBasicFields(to *GridPathShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHidden = from.IsHidden
 }
 
 type Library_WOP struct {
@@ -104,14 +92,11 @@ type NextCircleShape_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsHidden bool
 }
 
 func (from *NextCircleShape) CopyBasicFields(to *NextCircleShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHidden = from.IsHidden
 }
 
 type Plant_WOP struct {
@@ -160,8 +145,6 @@ type PlantCircumferenceShape_WOP struct {
 	AngleDegree float64
 
 	Length float64
-
-	IsHidden bool
 }
 
 func (from *PlantCircumferenceShape) CopyBasicFields(to *PlantCircumferenceShape) {
@@ -169,7 +152,6 @@ func (from *PlantCircumferenceShape) CopyBasicFields(to *PlantCircumferenceShape
 	to.Name = from.Name
 	to.AngleDegree = from.AngleDegree
 	to.Length = from.Length
-	to.IsHidden = from.IsHidden
 }
 
 type PlantDiagram_WOP struct {
@@ -180,6 +162,28 @@ type PlantDiagram_WOP struct {
 	OriginX float64
 
 	OriginY float64
+
+	IsHiddenAxesShape bool
+
+	IsHiddenReferenceRhombus bool
+
+	IsHiddenPlantCircumferenceShape bool
+
+	IsHiddenGridPathShape bool
+
+	IsHiddenRhombusGridShape bool
+
+	IsHiddenExplanationTextShape bool
+
+	IsHiddenRotatedReferenceRhombus bool
+
+	IsHiddenRotatedPlantCircumferenceShape bool
+
+	IsHiddenRotatedGridPathShape bool
+
+	IsHiddenRotatedRhombusGridShape bool
+
+	IsHiddenGrowthPathRhombusGridShape bool
 
 	IsChecked bool
 
@@ -193,6 +197,17 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.Name = from.Name
 	to.OriginX = from.OriginX
 	to.OriginY = from.OriginY
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
+	to.IsHiddenReferenceRhombus = from.IsHiddenReferenceRhombus
+	to.IsHiddenPlantCircumferenceShape = from.IsHiddenPlantCircumferenceShape
+	to.IsHiddenGridPathShape = from.IsHiddenGridPathShape
+	to.IsHiddenRhombusGridShape = from.IsHiddenRhombusGridShape
+	to.IsHiddenExplanationTextShape = from.IsHiddenExplanationTextShape
+	to.IsHiddenRotatedReferenceRhombus = from.IsHiddenRotatedReferenceRhombus
+	to.IsHiddenRotatedPlantCircumferenceShape = from.IsHiddenRotatedPlantCircumferenceShape
+	to.IsHiddenRotatedGridPathShape = from.IsHiddenRotatedGridPathShape
+	to.IsHiddenRotatedRhombusGridShape = from.IsHiddenRotatedRhombusGridShape
+	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -202,14 +217,11 @@ type RhombusGridShape_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsHidden bool
 }
 
 func (from *RhombusGridShape) CopyBasicFields(to *RhombusGridShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHidden = from.IsHidden
 }
 
 type RhombusShape_WOP struct {
@@ -220,8 +232,6 @@ type RhombusShape_WOP struct {
 	X float64
 
 	Y float64
-
-	IsHidden bool
 }
 
 func (from *RhombusShape) CopyBasicFields(to *RhombusShape) {
@@ -229,7 +239,6 @@ func (from *RhombusShape) CopyBasicFields(to *RhombusShape) {
 	to.Name = from.Name
 	to.X = from.X
 	to.Y = from.Y
-	to.IsHidden = from.IsHidden
 }
 
 // end of insertion point

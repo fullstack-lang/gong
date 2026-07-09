@@ -489,8 +489,6 @@ func (u *AxesShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.LengthX = GongExtractFloat(valueExpr)
 	case "LengthY":
 		instance.LengthY = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	case "IsWithHiddenHandle":
 		instance.IsWithHiddenHandle = GongExtractBool(valueExpr)
 	}
@@ -522,8 +520,6 @@ func (u *CircleGridShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -553,8 +549,6 @@ func (u *ExplanationTextShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -584,8 +578,6 @@ func (u *GridPathShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -658,8 +650,6 @@ func (u *NextCircleShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -709,6 +699,28 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.IsPlantDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "PlantDiagrams":
 		GongUnmarshallSliceOfPointers(&instance.PlantDiagrams, valueExpr, identifierMap)
+	case "AxesShape":
+		GongUnmarshallPointer(&instance.AxesShape, valueExpr, identifierMap)
+	case "ReferenceRhombus":
+		GongUnmarshallPointer(&instance.ReferenceRhombus, valueExpr, identifierMap)
+	case "PlantCircumferenceShape":
+		GongUnmarshallPointer(&instance.PlantCircumferenceShape, valueExpr, identifierMap)
+	case "GridPathShape":
+		GongUnmarshallPointer(&instance.GridPathShape, valueExpr, identifierMap)
+	case "RhombusGridShape":
+		GongUnmarshallPointer(&instance.RhombusGridShape, valueExpr, identifierMap)
+	case "ExplanationTextShape":
+		GongUnmarshallPointer(&instance.ExplanationTextShape, valueExpr, identifierMap)
+	case "RotatedReferenceRhombus":
+		GongUnmarshallPointer(&instance.RotatedReferenceRhombus, valueExpr, identifierMap)
+	case "RotatedPlantCircumferenceShape":
+		GongUnmarshallPointer(&instance.RotatedPlantCircumferenceShape, valueExpr, identifierMap)
+	case "RotatedGridPathShape":
+		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
+	case "RotatedRhombusGridShape":
+		GongUnmarshallPointer(&instance.RotatedRhombusGridShape, valueExpr, identifierMap)
+	case "GrowthPathRhombusGridShape":
+		GongUnmarshallPointer(&instance.GrowthPathRhombusGridShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -742,8 +754,6 @@ func (u *PlantCircumferenceShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.AngleDegree = GongExtractFloat(valueExpr)
 	case "Length":
 		instance.Length = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -777,28 +787,28 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.OriginX = GongExtractFloat(valueExpr)
 	case "OriginY":
 		instance.OriginY = GongExtractFloat(valueExpr)
-	case "AxesShape":
-		GongUnmarshallPointer(&instance.AxesShape, valueExpr, identifierMap)
-	case "ReferenceRhombus":
-		GongUnmarshallPointer(&instance.ReferenceRhombus, valueExpr, identifierMap)
-	case "PlantCircumferenceShape":
-		GongUnmarshallPointer(&instance.PlantCircumferenceShape, valueExpr, identifierMap)
-	case "GridPathShape":
-		GongUnmarshallPointer(&instance.GridPathShape, valueExpr, identifierMap)
-	case "RhombusGridShape":
-		GongUnmarshallPointer(&instance.RhombusGridShape, valueExpr, identifierMap)
-	case "ExplanationTextShape":
-		GongUnmarshallPointer(&instance.ExplanationTextShape, valueExpr, identifierMap)
-	case "RotatedReferenceRhombus":
-		GongUnmarshallPointer(&instance.RotatedReferenceRhombus, valueExpr, identifierMap)
-	case "RotatedPlantCircumferenceShape":
-		GongUnmarshallPointer(&instance.RotatedPlantCircumferenceShape, valueExpr, identifierMap)
-	case "RotatedGridPathShape":
-		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
-	case "RotatedRhombusGridShape":
-		GongUnmarshallPointer(&instance.RotatedRhombusGridShape, valueExpr, identifierMap)
-	case "GrowthPathRhombusGridShape":
-		GongUnmarshallPointer(&instance.GrowthPathRhombusGridShape, valueExpr, identifierMap)
+	case "IsHiddenAxesShape":
+		instance.IsHiddenAxesShape = GongExtractBool(valueExpr)
+	case "IsHiddenReferenceRhombus":
+		instance.IsHiddenReferenceRhombus = GongExtractBool(valueExpr)
+	case "IsHiddenPlantCircumferenceShape":
+		instance.IsHiddenPlantCircumferenceShape = GongExtractBool(valueExpr)
+	case "IsHiddenGridPathShape":
+		instance.IsHiddenGridPathShape = GongExtractBool(valueExpr)
+	case "IsHiddenRhombusGridShape":
+		instance.IsHiddenRhombusGridShape = GongExtractBool(valueExpr)
+	case "IsHiddenExplanationTextShape":
+		instance.IsHiddenExplanationTextShape = GongExtractBool(valueExpr)
+	case "IsHiddenRotatedReferenceRhombus":
+		instance.IsHiddenRotatedReferenceRhombus = GongExtractBool(valueExpr)
+	case "IsHiddenRotatedPlantCircumferenceShape":
+		instance.IsHiddenRotatedPlantCircumferenceShape = GongExtractBool(valueExpr)
+	case "IsHiddenRotatedGridPathShape":
+		instance.IsHiddenRotatedGridPathShape = GongExtractBool(valueExpr)
+	case "IsHiddenRotatedRhombusGridShape":
+		instance.IsHiddenRotatedRhombusGridShape = GongExtractBool(valueExpr)
+	case "IsHiddenGrowthPathRhombusGridShape":
+		instance.IsHiddenGrowthPathRhombusGridShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -834,8 +844,6 @@ func (u *RhombusGridShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	case "RhombusShapes":
 		GongUnmarshallSliceOfPointers(&instance.RhombusShapes, valueExpr, identifierMap)
 	}
@@ -871,8 +879,6 @@ func (u *RhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
