@@ -446,6 +446,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(growthcurverhombusshape.GongMarshallField(stage, "Y"))
 	}
 
+	growthvectorshapeOrdered := []*GrowthVectorShape{}
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		growthvectorshapeOrdered = append(growthvectorshapeOrdered, growthvectorshape)
+	}
+	sort.Slice(growthvectorshapeOrdered[:], func(i, j int) bool {
+		growthvectorshapei := growthvectorshapeOrdered[i]
+		growthvectorshapej := growthvectorshapeOrdered[j]
+		growthvectorshapei_order, oki := stage.GrowthVectorShape_stagedOrder[growthvectorshapei]
+		growthvectorshapej_order, okj := stage.GrowthVectorShape_stagedOrder[growthvectorshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return growthvectorshapei_order < growthvectorshapej_order
+	})
+	if len(growthvectorshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, growthvectorshape := range growthvectorshapeOrdered {
+
+		identifiersDecl.WriteString(growthvectorshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Y"))
+	}
+
 	initialrhombusgridshapeOrdered := []*InitialRhombusGridShape{}
 	for initialrhombusgridshape := range stage.InitialRhombusGridShapes {
 		initialrhombusgridshapeOrdered = append(initialrhombusgridshapeOrdered, initialrhombusgridshape)
@@ -605,6 +633,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "RotatedGridPathShape"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "RotatedRhombusGridShape2"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthVectorShape"))
 	}
 
 	plantcircumferenceshapeOrdered := []*PlantCircumferenceShape{}
@@ -672,6 +701,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenRotatedGridPathShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenRotatedRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthPathRhombusGridShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthVectorShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -803,6 +833,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, growthcurverhombusshape := range growthcurverhombusshapeOrdered {
 		_ = growthcurverhombusshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, growthvectorshape := range growthvectorshapeOrdered {
+		_ = growthvectorshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1064,6 +1102,31 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongMarshallField(stage 
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GrowthCurveRhombusShape", fieldName)
+	}
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthvectorshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", growthvectorshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", growthvectorshape.Y))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GrowthVectorShape", fieldName)
 	}
 	return
 }
@@ -1400,6 +1463,19 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthCurveRhombusGridShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "GrowthVectorShape":
+		if plant.GrowthVectorShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthVectorShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.GrowthVectorShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthVectorShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Plant", fieldName)
 	}
@@ -1504,6 +1580,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenGrowthPathRhombusGridShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthPathRhombusGridShape))
+	case "IsHiddenGrowthVectorShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenGrowthVectorShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthVectorShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -1674,6 +1755,19 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongMarshallAllFields(st
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (growthvectorshape *GrowthVectorShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Y"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1755,6 +1849,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "RotatedGridPathShape"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "RotatedRhombusGridShape2"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthVectorShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1792,6 +1887,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenRotatedGridPathShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenRotatedRhombusGridShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthPathRhombusGridShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthVectorShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))

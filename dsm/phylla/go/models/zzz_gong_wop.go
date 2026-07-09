@@ -90,6 +90,23 @@ func (from *GrowthCurveRhombusShape) CopyBasicFields(to *GrowthCurveRhombusShape
 	to.Y = from.Y
 }
 
+type GrowthVectorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *GrowthVectorShape) CopyBasicFields(to *GrowthVectorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+}
+
 type InitialRhombusGridShape_WOP struct {
 	// insertion point
 
@@ -241,6 +258,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenGrowthPathRhombusGridShape bool
 
+	IsHiddenGrowthVectorShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -264,6 +283,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenRotatedGridPathShape = from.IsHiddenRotatedGridPathShape
 	to.IsHiddenRotatedRhombusGridShape = from.IsHiddenRotatedRhombusGridShape
 	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
+	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

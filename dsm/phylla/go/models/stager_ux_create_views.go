@@ -22,7 +22,7 @@ func (stager *Stager) createViews() {
 		Name:           "Tree - SVG - Form (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
-		IsSelectedView: true,
+		IsSelectedView: false,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
@@ -83,7 +83,7 @@ func (stager *Stager) createViews() {
 		Name:           "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
-		IsSelectedView: false,
+		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",

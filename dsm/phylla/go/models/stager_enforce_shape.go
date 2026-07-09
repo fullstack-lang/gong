@@ -245,7 +245,18 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		"GrowthCurveRhombusGridShape",
 	)
 
-	return n1 || n2 || n3 || n4 || n5
+	n6 := enforcePlantHasShape[*GrowthVectorShape](
+		stager,
+		func() *GrowthVectorShape { return new(GrowthVectorShape) },
+		func(p *Plant) *GrowthVectorShape { return p.GrowthVectorShape },
+		func(p *Plant, shape *GrowthVectorShape) { p.GrowthVectorShape = shape },
+		func(p *Plant, shape *GrowthVectorShape) bool {
+			return p.GrowthVectorShape == shape
+		},
+		"GrowthVectorShape",
+	)
+
+	return n1 || n2 || n3 || n4 || n5 || n6
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -307,7 +318,13 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"GrowthCurveRhombusGridShape",
 	)
 
-	return n1 || n2 || n3 || n4 || n5
+	n6 := enforcePlantShapeName[*GrowthVectorShape](
+		stager,
+		func(p *Plant) *GrowthVectorShape { return p.GrowthVectorShape },
+		"GrowthVectorShape",
+	)
+
+	return n1 || n2 || n3 || n4 || n5 || n6
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -337,6 +354,47 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 		if plant.GrowthCurveRhombusGridShape != nil && plant.RotatedRhombusGridShape2 != nil && plant.PlantCircumferenceShape != nil {
 			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthCurveRhombusGridShape, plant.RotatedRhombusGridShape2, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
+		}
+
+		if plant.GrowthVectorShape != nil && plant.GrowthCurveRhombusGridShape != nil {
+			rhombuses := plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
+			if len(rhombuses) >= 2 {
+				first := rhombuses[0]
+				var endRhombus *GrowthCurveRhombusShape
+				minDiffY := math.MaxFloat64
+				for i := 1; i < len(rhombuses); i++ {
+					r := rhombuses[i]
+					if r.Y > first.Y {
+						diff := r.Y - first.Y
+						if diff < minDiffY {
+							minDiffY = diff
+							endRhombus = r
+						}
+					}
+				}
+
+				if endRhombus != nil {
+					vx := endRhombus.X - first.X
+					vy := endRhombus.Y - first.Y
+					if plant.GrowthVectorShape.X != vx || plant.GrowthVectorShape.Y != vy {
+						plant.GrowthVectorShape.X = vx
+						plant.GrowthVectorShape.Y = vy
+						needCommit = true
+					}
+				} else {
+					if plant.GrowthVectorShape.X != 0 || plant.GrowthVectorShape.Y != 0 {
+						plant.GrowthVectorShape.X = 0
+						plant.GrowthVectorShape.Y = 0
+						needCommit = true
+					}
+				}
+			} else {
+				if plant.GrowthVectorShape.X != 0 || plant.GrowthVectorShape.Y != 0 {
+					plant.GrowthVectorShape.X = 0
+					plant.GrowthVectorShape.Y = 0
+					needCommit = true
+				}
+			}
 		}
 	}
 	return

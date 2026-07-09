@@ -51,6 +51,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.growthcurverhombusshape, probe)
 			}
+		case *GrowthVectorShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthVectorShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthvectorshape, probe)
+			}
 		case *InitialRhombusGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "InitialRhombusGridShape", true)
@@ -211,6 +217,19 @@ func FillUpFormFromGongstructName(
 		growthcurverhombusshape := new(models.GrowthCurveRhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(growthcurverhombusshape, formGroup, probe)
+	case "GrowthVectorShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthVectorShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthVectorShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthvectorshape := new(models.GrowthVectorShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthvectorshape, formGroup, probe)
 	case "InitialRhombusGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -53,4 +53,5 @@ type Plant struct {
 	RotatedRhombusGridShape2 *RotatedRhombusGridShape
 
 	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
+	GrowthVectorShape           *GrowthVectorShape
 }

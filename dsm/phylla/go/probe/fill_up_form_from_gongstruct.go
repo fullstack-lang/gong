@@ -97,6 +97,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthVectorShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthVectorShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthVectorShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.InitialRhombusGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

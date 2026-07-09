@@ -646,6 +646,39 @@ func (u *GrowthCurveRhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 	return nil
 }
 
+type GrowthVectorShapeUnmarshaller struct{}
+
+func (u *GrowthVectorShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(GrowthVectorShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *GrowthVectorShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*GrowthVectorShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
 type InitialRhombusGridShapeUnmarshaller struct{}
 
 func (u *InitialRhombusGridShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -849,6 +882,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.RotatedRhombusGridShape2, valueExpr, identifierMap)
 	case "GrowthCurveRhombusGridShape":
 		GongUnmarshallPointer(&instance.GrowthCurveRhombusGridShape, valueExpr, identifierMap)
+	case "GrowthVectorShape":
+		GongUnmarshallPointer(&instance.GrowthVectorShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -937,6 +972,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenRotatedRhombusGridShape = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthPathRhombusGridShape":
 		instance.IsHiddenGrowthPathRhombusGridShape = GongExtractBool(valueExpr)
+	case "IsHiddenGrowthVectorShape":
+		instance.IsHiddenGrowthVectorShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":

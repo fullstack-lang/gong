@@ -65,6 +65,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
 	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawGrowthPathRhombusGridShape(stager, layer, plant)
+	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
 
 	return
 }
@@ -765,4 +766,35 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 		line2.Presentation.StrokeWidth = 2.0
 		line2.Presentation.StrokeOpacity = 1.0
 			}
+}
+
+func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.GrowthVectorShape == nil || plantDiagram.IsHiddenGrowthVectorShape {
+		return
+	}
+	if plant.GrowthCurveRhombusGridShape == nil || len(plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes) < 2 {
+		return
+	}
+
+	rhombuses := plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
+	first := rhombuses[0]
+
+	line := new(svg.Line)
+	layer.Lines = append(layer.Lines, line)
+	line.Name = plant.GrowthVectorShape.Name
+
+	svg_x1 := plantDiagram.OriginX + first.X
+	svg_y1 := plantDiagram.OriginY - first.Y
+
+	svg_x2 := svg_x1 + plant.GrowthVectorShape.X
+	svg_y2 := svg_y1 - plant.GrowthVectorShape.Y
+
+	line.X1 = svg_x1
+	line.Y1 = svg_y1
+	line.X2 = svg_x2
+	line.Y2 = svg_y2
+
+	line.Presentation.Stroke = "blue"
+	line.Presentation.StrokeWidth = 4.0
+	line.Presentation.StrokeOpacity = 1.0
 }
