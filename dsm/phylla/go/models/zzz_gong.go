@@ -5812,6 +5812,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
+			Name:               "StackHeight",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
 			Name:               "RhombusInsideAngle",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6441,6 +6445,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", plant.M)
 		res.valueInt = plant.M
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "StackHeight":
+		res.valueString = fmt.Sprintf("%d", plant.StackHeight)
+		res.valueInt = plant.StackHeight
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "RhombusInsideAngle":
 		res.valueString = fmt.Sprintf("%f", plant.RhombusInsideAngle)
 		res.valueFloat = plant.RhombusInsideAngle
@@ -7034,6 +7042,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.N = int(value.GetValueInt())
 	case "M":
 		plant.M = int(value.GetValueInt())
+	case "StackHeight":
+		plant.StackHeight = int(value.GetValueInt())
 	case "RhombusInsideAngle":
 		plant.RhombusInsideAngle = value.GetValueFloat()
 	case "RhombusSideLength":

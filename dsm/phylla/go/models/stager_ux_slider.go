@@ -78,17 +78,17 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
-		// group1.Sliders = append(
-		// 	group1.Sliders,
-		// 	m.NewSlider(
-		// 		stager,
-		// 		"Z",
-		// 		1,
-		// 		120,
-		// 		1,
-		// 		&plant.Z,
-		// 	),
-		// )
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Stack Height",
+				1,
+				120,
+				1,
+				&plant.StackHeight,
+			),
+		)
 
 	}
 

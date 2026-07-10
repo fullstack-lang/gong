@@ -988,6 +988,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.N = GongExtractInt(valueExpr)
 	case "M":
 		instance.M = GongExtractInt(valueExpr)
+	case "StackHeight":
+		instance.StackHeight = GongExtractInt(valueExpr)
 	case "RhombusInsideAngle":
 		instance.RhombusInsideAngle = GongExtractFloat(valueExpr)
 	case "RhombusSideLength":
