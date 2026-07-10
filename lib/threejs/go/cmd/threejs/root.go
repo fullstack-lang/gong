@@ -11,11 +11,12 @@ import (
 )
 
 var (
-	logGINFlag         bool
-	unmarshallFromCode string
-	marshallOnCommit   string
-	embeddedDiagrams   bool
-	port               int
+	logGINFlag               bool
+	unmarshallFromCode       string
+	marshallOnCommit         string
+	embeddedDiagrams         bool
+	port                     int
+	generateStrangeFormsFlag bool
 )
 
 var rootCmd = &cobra.Command{
