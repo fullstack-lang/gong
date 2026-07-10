@@ -20,6 +20,9 @@ import (
 	ssg_stack "github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 
+	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
+	threejs_stack "github.com/fullstack-lang/gong/lib/threejs/go/stack"
+
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
 
@@ -32,9 +35,11 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	buttonStage *button.Stage // "buttonStage" is the DSM mandatory name (to be changed)
-	loadStage   *load.Stage   // mandatory
-	treeStage   *tree.Stage   // "treeStage" is the DSM mandatory name (to be changed)
+	buttonStage  *button.Stage  // "buttonStage" is the DSM mandatory name (to be changed)
+	loadStage    *load.Stage    // mandatory
+	threejsStage *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
+
+	treeStage   *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
 	sliderStage *slider.Stage
 	ssgStage    *ssg.Stage // mandatory
 	svgStage    *svg.Stage
@@ -76,6 +81,7 @@ func NewStager(
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 
@@ -90,6 +96,7 @@ func NewStager(
 		stager.load()
 		stager.ux_slider()
 		stager.ux_svg_plant_diagram()
+		stager.ux_3d_plant_diagram()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
@@ -129,4 +136,8 @@ func (stager *Stager) GetCurrentPlant() *Plant {
 
 func (stager *Stager) GetSliderStage() *slider.Stage {
 	return stager.sliderStage
+}
+
+func (stager *Stager) GetThreejsStage() *threejs.Stage {
+	return stager.threejsStage
 }

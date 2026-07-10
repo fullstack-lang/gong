@@ -139,3 +139,15 @@ for instance
 		line2.Presentation.Stroke = "black"
 		line2.Presentation.StrokeWidth = 1.0
 		line2.Presentation.StrokeOpacity = 1.0
+
+## taking into account a modification in a stack of the lib
+
+if a stack in the lib, with height 4, is modified.
+
+you need to gong generate lib/split/go/models for the height 0 stack to be affected. Indeed, height 0 stack import 
+
+lib/split/ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split
+
+## Allowed path
+
+You are always allowed to access "Download" elements
