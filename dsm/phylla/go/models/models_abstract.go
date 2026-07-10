@@ -55,5 +55,6 @@ type Plant struct {
 	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
 	GrowthVectorShape           *GrowthVectorShape
 
-	PerpendicularVectorGrid *PerpendicularVectorGrid
+	PerpendicularVectorGrid     *PerpendicularVectorGrid
+	GrowthCurveBezierShapeGrid  *GrowthCurveBezierShapeGrid
 }

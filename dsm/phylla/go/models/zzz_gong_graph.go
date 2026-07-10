@@ -19,6 +19,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
 
+	case *GrowthCurveBezierShape:
+		ok = stage.IsStagedGrowthCurveBezierShape(target)
+
+	case *GrowthCurveBezierShapeGrid:
+		ok = stage.IsStagedGrowthCurveBezierShapeGrid(target)
+
 	case *GrowthCurveRhombusGridShape:
 		ok = stage.IsStagedGrowthCurveRhombusGridShape(target)
 
@@ -85,6 +91,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
+
+	case *GrowthCurveBezierShape:
+		ok = stage.IsStagedGrowthCurveBezierShape(target)
+
+	case *GrowthCurveBezierShapeGrid:
+		ok = stage.IsStagedGrowthCurveBezierShapeGrid(target)
 
 	case *GrowthCurveRhombusGridShape:
 		ok = stage.IsStagedGrowthCurveRhombusGridShape(target)
@@ -162,6 +174,20 @@ func (stage *Stage) IsStagedExplanationTextShape(explanationtextshape *Explanati
 func (stage *Stage) IsStagedGridPathShape(gridpathshape *GridPathShape) (ok bool) {
 
 	_, ok = stage.GridPathShapes[gridpathshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedGrowthCurveBezierShape(growthcurvebeziershape *GrowthCurveBezierShape) (ok bool) {
+
+	_, ok = stage.GrowthCurveBezierShapes[growthcurvebeziershape]
+
+	return
+}
+
+func (stage *Stage) IsStagedGrowthCurveBezierShapeGrid(growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) (ok bool) {
+
+	_, ok = stage.GrowthCurveBezierShapeGrids[growthcurvebeziershapegrid]
 
 	return
 }
@@ -291,6 +317,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GridPathShape:
 		stage.StageBranchGridPathShape(target)
 
+	case *GrowthCurveBezierShape:
+		stage.StageBranchGrowthCurveBezierShape(target)
+
+	case *GrowthCurveBezierShapeGrid:
+		stage.StageBranchGrowthCurveBezierShapeGrid(target)
+
 	case *GrowthCurveRhombusGridShape:
 		stage.StageBranchGrowthCurveRhombusGridShape(target)
 
@@ -399,6 +431,39 @@ func (stage *Stage) StageBranchGridPathShape(gridpathshape *GridPathShape) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchGrowthCurveBezierShape(growthcurvebeziershape *GrowthCurveBezierShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, growthcurvebeziershape) {
+		return
+	}
+
+	growthcurvebeziershape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchGrowthCurveBezierShapeGrid(growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, growthcurvebeziershapegrid) {
+		return
+	}
+
+	growthcurvebeziershapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _growthcurvebeziershape := range growthcurvebeziershapegrid.GrowthCurveBezierShapes {
+		StageBranch(stage, _growthcurvebeziershape)
+	}
 
 }
 
@@ -601,6 +666,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.PerpendicularVectorGrid != nil {
 		StageBranch(stage, plant.PerpendicularVectorGrid)
 	}
+	if plant.GrowthCurveBezierShapeGrid != nil {
+		StageBranch(stage, plant.GrowthCurveBezierShapeGrid)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -712,6 +780,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *GridPathShape:
 		toT := CopyBranchGridPathShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GrowthCurveBezierShape:
+		toT := CopyBranchGrowthCurveBezierShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GrowthCurveBezierShapeGrid:
+		toT := CopyBranchGrowthCurveBezierShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GrowthCurveRhombusGridShape:
@@ -853,6 +929,47 @@ func CopyBranchGridPathShape(mapOrigCopy map[any]any, gridpathshapeFrom *GridPat
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchGrowthCurveBezierShape(mapOrigCopy map[any]any, growthcurvebeziershapeFrom *GrowthCurveBezierShape) (growthcurvebeziershapeTo *GrowthCurveBezierShape) {
+
+	// growthcurvebeziershapeFrom has already been copied
+	if _growthcurvebeziershapeTo, ok := mapOrigCopy[growthcurvebeziershapeFrom]; ok {
+		growthcurvebeziershapeTo = _growthcurvebeziershapeTo.(*GrowthCurveBezierShape)
+		return
+	}
+
+	growthcurvebeziershapeTo = new(GrowthCurveBezierShape)
+	mapOrigCopy[growthcurvebeziershapeFrom] = growthcurvebeziershapeTo
+	growthcurvebeziershapeFrom.CopyBasicFields(growthcurvebeziershapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchGrowthCurveBezierShapeGrid(mapOrigCopy map[any]any, growthcurvebeziershapegridFrom *GrowthCurveBezierShapeGrid) (growthcurvebeziershapegridTo *GrowthCurveBezierShapeGrid) {
+
+	// growthcurvebeziershapegridFrom has already been copied
+	if _growthcurvebeziershapegridTo, ok := mapOrigCopy[growthcurvebeziershapegridFrom]; ok {
+		growthcurvebeziershapegridTo = _growthcurvebeziershapegridTo.(*GrowthCurveBezierShapeGrid)
+		return
+	}
+
+	growthcurvebeziershapegridTo = new(GrowthCurveBezierShapeGrid)
+	mapOrigCopy[growthcurvebeziershapegridFrom] = growthcurvebeziershapegridTo
+	growthcurvebeziershapegridFrom.CopyBasicFields(growthcurvebeziershapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _growthcurvebeziershape := range growthcurvebeziershapegridFrom.GrowthCurveBezierShapes {
+		growthcurvebeziershapegridTo.GrowthCurveBezierShapes = append(growthcurvebeziershapegridTo.GrowthCurveBezierShapes, CopyBranchGrowthCurveBezierShape(mapOrigCopy, _growthcurvebeziershape))
+	}
 
 	return
 }
@@ -1095,6 +1212,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.PerpendicularVectorGrid != nil {
 		plantTo.PerpendicularVectorGrid = CopyBranchPerpendicularVectorGrid(mapOrigCopy, plantFrom.PerpendicularVectorGrid)
 	}
+	if plantFrom.GrowthCurveBezierShapeGrid != nil {
+		plantTo.GrowthCurveBezierShapeGrid = CopyBranchGrowthCurveBezierShapeGrid(mapOrigCopy, plantFrom.GrowthCurveBezierShapeGrid)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantFrom.PlantDiagrams {
@@ -1222,6 +1342,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GridPathShape:
 		stage.UnstageBranchGridPathShape(target)
 
+	case *GrowthCurveBezierShape:
+		stage.UnstageBranchGrowthCurveBezierShape(target)
+
+	case *GrowthCurveBezierShapeGrid:
+		stage.UnstageBranchGrowthCurveBezierShapeGrid(target)
+
 	case *GrowthCurveRhombusGridShape:
 		stage.UnstageBranchGrowthCurveRhombusGridShape(target)
 
@@ -1330,6 +1456,39 @@ func (stage *Stage) UnstageBranchGridPathShape(gridpathshape *GridPathShape) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchGrowthCurveBezierShape(growthcurvebeziershape *GrowthCurveBezierShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, growthcurvebeziershape) {
+		return
+	}
+
+	growthcurvebeziershape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchGrowthCurveBezierShapeGrid(growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, growthcurvebeziershapegrid) {
+		return
+	}
+
+	growthcurvebeziershapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _growthcurvebeziershape := range growthcurvebeziershapegrid.GrowthCurveBezierShapes {
+		UnstageBranch(stage, _growthcurvebeziershape)
+	}
 
 }
 
@@ -1532,6 +1691,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.PerpendicularVectorGrid != nil {
 		UnstageBranch(stage, plant.PerpendicularVectorGrid)
 	}
+	if plant.GrowthCurveBezierShapeGrid != nil {
+		UnstageBranch(stage, plant.GrowthCurveBezierShapeGrid)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -1637,6 +1799,20 @@ func (reference *ExplanationTextShape) GongReconstructPointersFromReferences(sta
 func (reference *GridPathShape) GongReconstructPointersFromReferences(stage *Stage, instance *GridPathShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+}
+
+func (reference *GrowthCurveBezierShape) GongReconstructPointersFromReferences(stage *Stage, instance *GrowthCurveBezierShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *GrowthCurveBezierShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *GrowthCurveBezierShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GrowthCurveBezierShapes = reference.GrowthCurveBezierShapes[:0]
+	for _, _b := range instance.GrowthCurveBezierShapes {
+		reference.GrowthCurveBezierShapes = append(reference.GrowthCurveBezierShapes, stage.GrowthCurveBezierShapes_reference[_b])
+	}
 }
 
 func (reference *GrowthCurveRhombusGridShape) GongReconstructPointersFromReferences(stage *Stage, instance *GrowthCurveRhombusGridShape) {
@@ -1745,6 +1921,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.PerpendicularVectorGrid != nil {
 		reference.PerpendicularVectorGrid = stage.PerpendicularVectorGrids_reference[instance.PerpendicularVectorGrid]
 	}
+	if instance.GrowthCurveBezierShapeGrid != nil {
+		reference.GrowthCurveBezierShapeGrid = stage.GrowthCurveBezierShapeGrids_reference[instance.GrowthCurveBezierShapeGrid]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
@@ -1800,6 +1979,23 @@ func (reference *ExplanationTextShape) GongReconstructPointersFromInstances(stag
 func (reference *GridPathShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+}
+
+func (reference *GrowthCurveBezierShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *GrowthCurveBezierShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GrowthCurveBezierShapes []*GrowthCurveBezierShape
+	for _, _reference := range reference.GrowthCurveBezierShapes {
+		if _instance, ok := stage.GrowthCurveBezierShapes_instance[_reference]; ok {
+			_GrowthCurveBezierShapes = append(_GrowthCurveBezierShapes, _instance)
+		}
+	}
+	reference.GrowthCurveBezierShapes = _GrowthCurveBezierShapes
 }
 
 func (reference *GrowthCurveRhombusGridShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1962,6 +2158,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.PerpendicularVectorGrid = _instance
 		}
 	}
+	if _reference := reference.GrowthCurveBezierShapeGrid; _reference != nil {
+		reference.GrowthCurveBezierShapeGrid = nil
+		if _instance, ok := stage.GrowthCurveBezierShapeGrids_instance[_reference]; ok {
+			reference.GrowthCurveBezierShapeGrid = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
@@ -2053,6 +2255,73 @@ func (gridpathshape *GridPathShape) GongDiff(stage *Stage, gridpathshapeOther *G
 	// insertion point for field diffs
 	if gridpathshape.Name != gridpathshapeOther.Name {
 		diffs = append(diffs, gridpathshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongDiff(stage *Stage, growthcurvebeziershapeOther *GrowthCurveBezierShape) (diffs []string) {
+	// insertion point for field diffs
+	if growthcurvebeziershape.Name != growthcurvebeziershapeOther.Name {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "Name"))
+	}
+	if growthcurvebeziershape.StartX != growthcurvebeziershapeOther.StartX {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "StartX"))
+	}
+	if growthcurvebeziershape.StartY != growthcurvebeziershapeOther.StartY {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "StartY"))
+	}
+	if growthcurvebeziershape.ControlPointStartX != growthcurvebeziershapeOther.ControlPointStartX {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "ControlPointStartX"))
+	}
+	if growthcurvebeziershape.ControlPointStartY != growthcurvebeziershapeOther.ControlPointStartY {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "ControlPointStartY"))
+	}
+	if growthcurvebeziershape.EndX != growthcurvebeziershapeOther.EndX {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "EndX"))
+	}
+	if growthcurvebeziershape.EndY != growthcurvebeziershapeOther.EndY {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "EndY"))
+	}
+	if growthcurvebeziershape.ControlPointEndX != growthcurvebeziershapeOther.ControlPointEndX {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "ControlPointEndX"))
+	}
+	if growthcurvebeziershape.ControlPointEndY != growthcurvebeziershapeOther.ControlPointEndY {
+		diffs = append(diffs, growthcurvebeziershape.GongMarshallField(stage, "ControlPointEndY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongDiff(stage *Stage, growthcurvebeziershapegridOther *GrowthCurveBezierShapeGrid) (diffs []string) {
+	// insertion point for field diffs
+	if growthcurvebeziershapegrid.Name != growthcurvebeziershapegridOther.Name {
+		diffs = append(diffs, growthcurvebeziershapegrid.GongMarshallField(stage, "Name"))
+	}
+	GrowthCurveBezierShapesDifferent := false
+	if len(growthcurvebeziershapegrid.GrowthCurveBezierShapes) != len(growthcurvebeziershapegridOther.GrowthCurveBezierShapes) {
+		GrowthCurveBezierShapesDifferent = true
+	} else {
+		for i := range growthcurvebeziershapegrid.GrowthCurveBezierShapes {
+			if (growthcurvebeziershapegrid.GrowthCurveBezierShapes[i] == nil) != (growthcurvebeziershapegridOther.GrowthCurveBezierShapes[i] == nil) {
+				GrowthCurveBezierShapesDifferent = true
+				break
+			} else if growthcurvebeziershapegrid.GrowthCurveBezierShapes[i] != nil && growthcurvebeziershapegridOther.GrowthCurveBezierShapes[i] != nil {
+				// this is a pointer comparaison
+				if growthcurvebeziershapegrid.GrowthCurveBezierShapes[i] != growthcurvebeziershapegridOther.GrowthCurveBezierShapes[i] {
+					GrowthCurveBezierShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GrowthCurveBezierShapesDifferent {
+		ops := Diff(stage, growthcurvebeziershapegrid, growthcurvebeziershapegridOther, "GrowthCurveBezierShapes", growthcurvebeziershapegridOther.GrowthCurveBezierShapes, growthcurvebeziershapegrid.GrowthCurveBezierShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2453,6 +2722,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "PerpendicularVectorGrid"))
 		}
 	}
+	if (plant.GrowthCurveBezierShapeGrid == nil) != (plantOther.GrowthCurveBezierShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
+	} else if plant.GrowthCurveBezierShapeGrid != nil && plantOther.GrowthCurveBezierShapeGrid != nil {
+		if plant.GrowthCurveBezierShapeGrid != plantOther.GrowthCurveBezierShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
+		}
+	}
 
 	return
 }
@@ -2525,6 +2801,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenPerpendicularVectorGrid != plantdiagramOther.IsHiddenPerpendicularVectorGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGrid"))
+	}
+	if plantdiagram.IsHiddenGrowthCurveBezierShapeGrid != plantdiagramOther.IsHiddenGrowthCurveBezierShapeGrid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))

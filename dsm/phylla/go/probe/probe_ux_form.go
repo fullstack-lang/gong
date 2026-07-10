@@ -39,6 +39,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.gridpathshape, probe)
 			}
+		case *GrowthCurveBezierShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthCurveBezierShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthcurvebeziershape, probe)
+			}
+		case *GrowthCurveBezierShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthCurveBezierShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthcurvebeziershapegrid, probe)
+			}
 		case *GrowthCurveRhombusGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "GrowthCurveRhombusGridShape", true)
@@ -203,6 +215,32 @@ func FillUpFormFromGongstructName(
 		gridpathshape := new(models.GridPathShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gridpathshape, formGroup, probe)
+	case "GrowthCurveBezierShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthCurveBezierShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurveBezierShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthcurvebeziershape := new(models.GrowthCurveBezierShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthcurvebeziershape, formGroup, probe)
+	case "GrowthCurveBezierShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthCurveBezierShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurveBezierShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthcurvebeziershapegrid := new(models.GrowthCurveBezierShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthcurvebeziershapegrid, formGroup, probe)
 	case "GrowthCurveRhombusGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

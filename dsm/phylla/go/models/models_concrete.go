@@ -123,3 +123,21 @@ type PerpendicularVectorGrid struct {
 
 	PerpendicularVectors []*PerpendicularVector
 }
+
+// GrowthCurveBezierShape of a plant,
+type GrowthCurveBezierShape struct {
+	Name string
+
+	StartX, StartY float64
+	ControlPointStartX, ControlPointStartY float64
+
+	EndX, EndY float64
+	ControlPointEndX, ControlPointEndY float64
+}
+
+// GrowthCurveBezierShapeGrid of a plant,
+type GrowthCurveBezierShapeGrid struct {
+	Name string
+
+	GrowthCurveBezierShapes []*GrowthCurveBezierShape
+}
