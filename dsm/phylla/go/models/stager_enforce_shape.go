@@ -277,8 +277,21 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		},
 		"GrowthCurveBezierShapeGrid",
 	)
+	needCommit = n8 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8
+	n9 := enforcePlantHasShape[*StackOfGrowthCurve](
+		stager,
+		func() *StackOfGrowthCurve { return new(StackOfGrowthCurve) },
+		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
+		func(p *Plant, shape *StackOfGrowthCurve) { p.StackOfGrowthCurve = shape },
+		func(p *Plant, shape *StackOfGrowthCurve) bool {
+			return p.StackOfGrowthCurve == shape
+		},
+		"StackOfGrowthCurve",
+	)
+	needCommit = n9 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8 || n9
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -357,8 +370,16 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
 		"GrowthCurveBezierShapeGrid",
 	)
+	needCommit = n8 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8
+	n9 := enforcePlantShapeName[*StackOfGrowthCurve](
+		stager,
+		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
+		"StackOfGrowthCurve",
+	)
+	needCommit = n9 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8 || n9
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -441,6 +462,10 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 				circLen = plant.PlantCircumferenceShape.Length
 			}
 			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength, circLen) || needCommit
+		}
+
+		if plant.StackOfGrowthCurve != nil && plant.GrowthCurveBezierShapeGrid != nil && plant.GrowthVectorShape != nil {
+			needCommit = enforceStackOfGrowthCurveHasShapes(stage, plant.StackOfGrowthCurve, plant.GrowthCurveBezierShapeGrid, plant.GrowthVectorShape, plant.StackHeight) || needCommit
 		}
 	}
 	return
@@ -758,6 +783,81 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 		needCommit = true
 	}
 
+	return needCommit
+}
+
+func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve, grid *GrowthCurveBezierShapeGrid, vector *GrowthVectorShape, stackHeight int) (needCommit bool) {
+	if stack == nil || grid == nil || vector == nil || stackHeight < 1 {
+		if len(stack.StackGrowthCurveBezierShapes) > 0 {
+			stack.StackGrowthCurveBezierShapes = nil
+			return true
+		}
+		return false
+	}
+	
+	baseCurves := grid.GrowthCurveBezierShapes
+	expectedTotalLen := len(baseCurves) * stackHeight
+	
+	valid := true
+	if len(stack.StackGrowthCurveBezierShapes) != expectedTotalLen {
+		valid = false
+	} else {
+		idx := 0
+		for h := 0; h < stackHeight; h++ {
+			dx := float64(h) * vector.X
+			dy := float64(h) * vector.Y
+			
+			for i, baseCurve := range baseCurves {
+				b := stack.StackGrowthCurveBezierShapes[idx]
+				expectedName := fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i)
+				
+				if b == nil || b.Name != expectedName {
+					valid = false
+					break
+				}
+				
+				if math.Abs(b.StartX-(baseCurve.StartX+dx)) > 1e-4 || math.Abs(b.StartY-(baseCurve.StartY+dy)) > 1e-4 ||
+					math.Abs(b.EndX-(baseCurve.EndX+dx)) > 1e-4 || math.Abs(b.EndY-(baseCurve.EndY+dy)) > 1e-4 ||
+					math.Abs(b.ControlPointStartX-(baseCurve.ControlPointStartX+dx)) > 1e-4 || math.Abs(b.ControlPointStartY-(baseCurve.ControlPointStartY+dy)) > 1e-4 ||
+					math.Abs(b.ControlPointEndX-(baseCurve.ControlPointEndX+dx)) > 1e-4 || math.Abs(b.ControlPointEndY-(baseCurve.ControlPointEndY+dy)) > 1e-4 {
+					valid = false
+					break
+				}
+				idx++
+			}
+			if !valid {
+				break
+			}
+		}
+	}
+	
+	if !valid {
+		stack.StackGrowthCurveBezierShapes = make([]*StackGrowthCurveBezierShape, expectedTotalLen)
+		idx := 0
+		for h := 0; h < stackHeight; h++ {
+			dx := float64(h) * vector.X
+			dy := float64(h) * vector.Y
+			
+			for i, baseCurve := range baseCurves {
+				b := new(StackGrowthCurveBezierShape).Stage(stage)
+				b.Name = fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i)
+				
+				b.StartX = baseCurve.StartX + dx
+				b.StartY = baseCurve.StartY + dy
+				b.EndX = baseCurve.EndX + dx
+				b.EndY = baseCurve.EndY + dy
+				b.ControlPointStartX = baseCurve.ControlPointStartX + dx
+				b.ControlPointStartY = baseCurve.ControlPointStartY + dy
+				b.ControlPointEndX = baseCurve.ControlPointEndX + dx
+				b.ControlPointEndY = baseCurve.ControlPointEndY + dy
+				
+				stack.StackGrowthCurveBezierShapes[idx] = b
+				idx++
+			}
+		}
+		needCommit = true
+	}
+	
 	return needCommit
 }
 

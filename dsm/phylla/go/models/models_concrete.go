@@ -141,3 +141,20 @@ type GrowthCurveBezierShapeGrid struct {
 
 	GrowthCurveBezierShapes []*GrowthCurveBezierShape
 }
+
+// StackOfGrowthCurve of a plant,
+type StackOfGrowthCurve struct {
+	Name string
+
+	StackGrowthCurveBezierShapes []*StackGrowthCurveBezierShape
+}
+
+type StackGrowthCurveBezierShape struct {
+	Name string
+
+	StartX, StartY float64
+	ControlPointStartX, ControlPointStartY float64
+
+	EndX, EndY float64
+	ControlPointEndX, ControlPointEndY float64
+}

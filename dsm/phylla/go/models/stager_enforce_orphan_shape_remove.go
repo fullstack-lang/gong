@@ -23,6 +23,11 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refGrowthCurveShape := make(map[*GrowthCurveRhombusShape]bool)
 	refPerpendicularVector := make(map[*PerpendicularVector]bool)
 
+	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
+	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
+	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
+	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
+
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
 		if plant.AxesShape != nil {
@@ -85,6 +90,24 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			for _, vec := range plant.PerpendicularVectorGrid.PerpendicularVectors {
 				if vec != nil {
 					refPerpendicularVector[vec] = true
+				}
+			}
+		}
+
+		if plant.GrowthCurveBezierShapeGrid != nil {
+			refGrowthCurveBezierShapeGrid[plant.GrowthCurveBezierShapeGrid] = true
+			for _, shape := range plant.GrowthCurveBezierShapeGrid.GrowthCurveBezierShapes {
+				if shape != nil {
+					refGrowthCurveBezierShape[shape] = true
+				}
+			}
+		}
+
+		if plant.StackOfGrowthCurve != nil {
+			refStackOfGrowthCurve[plant.StackOfGrowthCurve] = true
+			for _, shape := range plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes {
+				if shape != nil {
+					refStackGrowthCurveBezierShape[shape] = true
 				}
 			}
 		}
@@ -158,6 +181,18 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
+	for grid := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShapeGrid](stage) {
+		if !refGrowthCurveBezierShapeGrid[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for stack := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurve](stage) {
+		if !refStackOfGrowthCurve[stack] {
+			stack.Unstage(stage)
+			needCommit = true
+		}
+	}
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*RhombusShape](stage) {
 		if !refRhombusShape[shape] {
@@ -186,6 +221,18 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	for vec := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVector](stage) {
 		if !refPerpendicularVector[vec] {
 			vec.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShape](stage) {
+		if !refGrowthCurveBezierShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurveBezierShape](stage) {
+		if !refStackGrowthCurveBezierShape[shape] {
+			shape.Unstage(stage)
 			needCommit = true
 		}
 	}
