@@ -456,16 +456,17 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
 		
+		circLen := 0.0
+		if plant.PlantCircumferenceShape != nil {
+			circLen = plant.PlantCircumferenceShape.Length
+		}
+
 		if plant.GrowthCurveBezierShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
-			circLen := 0.0
-			if plant.PlantCircumferenceShape != nil {
-				circLen = plant.PlantCircumferenceShape.Length
-			}
 			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength, circLen) || needCommit
 		}
 
 		if plant.StackOfGrowthCurve != nil && plant.GrowthCurveBezierShapeGrid != nil && plant.GrowthVectorShape != nil {
-			needCommit = enforceStackOfGrowthCurveHasShapes(stage, plant.StackOfGrowthCurve, plant.GrowthCurveBezierShapeGrid, plant.GrowthVectorShape, plant.StackHeight) || needCommit
+			needCommit = enforceStackOfGrowthCurveHasShapes(stage, plant.StackOfGrowthCurve, plant.GrowthCurveBezierShapeGrid, plant.GrowthVectorShape, plant.StackHeight, circLen) || needCommit
 		}
 	}
 	return
@@ -786,8 +787,8 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 	return needCommit
 }
 
-func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve, grid *GrowthCurveBezierShapeGrid, vector *GrowthVectorShape, stackHeight int) (needCommit bool) {
-	if stack == nil || grid == nil || vector == nil || stackHeight < 1 {
+func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve, grid *GrowthCurveBezierShapeGrid, vector *GrowthVectorShape, stackHeight int, circLen float64) (needCommit bool) {
+	if stack == nil || grid == nil || vector == nil || stackHeight < 1 || circLen <= 0 {
 		if len(stack.StackGrowthCurveBezierShapes) > 0 {
 			stack.StackGrowthCurveBezierShapes = nil
 			return true
@@ -796,64 +797,90 @@ func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve,
 	}
 	
 	baseCurves := grid.GrowthCurveBezierShapes
-	expectedTotalLen := len(baseCurves) * stackHeight
+	if len(baseCurves) == 0 {
+		return false
+	}
+	
+	// baseCurves contains both the original and the +circLen translated curves.
+	// We only want the original ones (the first half).
+	numBase := len(baseCurves) / 2
+	if numBase == 0 {
+		numBase = len(baseCurves)
+	}
+	
+	type expectedShape struct {
+		name string
+		startX, startY, endX, endY float64
+		cpStartX, cpStartY, cpEndX, cpEndY float64
+	}
+	var expected []expectedShape
+	
+	for h := 0; h < stackHeight; h++ {
+		dx := float64(h) * vector.X
+		dy := float64(h) * vector.Y
+		
+		for i := 0; i < numBase; i++ {
+			baseCurve := baseCurves[i]
+			currentDX := dx
+			
+			for (baseCurve.StartX + currentDX) >= 0 {
+				currentDX -= circLen
+			}
+			
+			currentDX += circLen
+			
+			startX := baseCurve.StartX + currentDX
+			expected = append(expected, expectedShape{
+				name: fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i),
+				startX: startX,
+				startY: baseCurve.StartY + dy,
+				endX: baseCurve.EndX + currentDX,
+				endY: baseCurve.EndY + dy,
+				cpStartX: baseCurve.ControlPointStartX + currentDX,
+				cpStartY: baseCurve.ControlPointStartY + dy,
+				cpEndX: baseCurve.ControlPointEndX + currentDX,
+				cpEndY: baseCurve.ControlPointEndY + dy,
+			})
+		}
+	}
 	
 	valid := true
-	if len(stack.StackGrowthCurveBezierShapes) != expectedTotalLen {
+	if len(stack.StackGrowthCurveBezierShapes) != len(expected) {
 		valid = false
 	} else {
-		idx := 0
-		for h := 0; h < stackHeight; h++ {
-			dx := float64(h) * vector.X
-			dy := float64(h) * vector.Y
-			
-			for i, baseCurve := range baseCurves {
-				b := stack.StackGrowthCurveBezierShapes[idx]
-				expectedName := fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i)
-				
-				if b == nil || b.Name != expectedName {
-					valid = false
-					break
-				}
-				
-				if math.Abs(b.StartX-(baseCurve.StartX+dx)) > 1e-4 || math.Abs(b.StartY-(baseCurve.StartY+dy)) > 1e-4 ||
-					math.Abs(b.EndX-(baseCurve.EndX+dx)) > 1e-4 || math.Abs(b.EndY-(baseCurve.EndY+dy)) > 1e-4 ||
-					math.Abs(b.ControlPointStartX-(baseCurve.ControlPointStartX+dx)) > 1e-4 || math.Abs(b.ControlPointStartY-(baseCurve.ControlPointStartY+dy)) > 1e-4 ||
-					math.Abs(b.ControlPointEndX-(baseCurve.ControlPointEndX+dx)) > 1e-4 || math.Abs(b.ControlPointEndY-(baseCurve.ControlPointEndY+dy)) > 1e-4 {
-					valid = false
-					break
-				}
-				idx++
+		for i, exp := range expected {
+			b := stack.StackGrowthCurveBezierShapes[i]
+			if b == nil || b.Name != exp.name {
+				valid = false
+				break
 			}
-			if !valid {
+			
+			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
+				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 ||
+				math.Abs(b.ControlPointStartX-exp.cpStartX) > 1e-4 || math.Abs(b.ControlPointStartY-exp.cpStartY) > 1e-4 ||
+				math.Abs(b.ControlPointEndX-exp.cpEndX) > 1e-4 || math.Abs(b.ControlPointEndY-exp.cpEndY) > 1e-4 {
+				valid = false
 				break
 			}
 		}
 	}
 	
 	if !valid {
-		stack.StackGrowthCurveBezierShapes = make([]*StackGrowthCurveBezierShape, expectedTotalLen)
-		idx := 0
-		for h := 0; h < stackHeight; h++ {
-			dx := float64(h) * vector.X
-			dy := float64(h) * vector.Y
+		stack.StackGrowthCurveBezierShapes = make([]*StackGrowthCurveBezierShape, len(expected))
+		for i, exp := range expected {
+			b := new(StackGrowthCurveBezierShape).Stage(stage)
+			b.Name = exp.name
 			
-			for i, baseCurve := range baseCurves {
-				b := new(StackGrowthCurveBezierShape).Stage(stage)
-				b.Name = fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i)
-				
-				b.StartX = baseCurve.StartX + dx
-				b.StartY = baseCurve.StartY + dy
-				b.EndX = baseCurve.EndX + dx
-				b.EndY = baseCurve.EndY + dy
-				b.ControlPointStartX = baseCurve.ControlPointStartX + dx
-				b.ControlPointStartY = baseCurve.ControlPointStartY + dy
-				b.ControlPointEndX = baseCurve.ControlPointEndX + dx
-				b.ControlPointEndY = baseCurve.ControlPointEndY + dy
-				
-				stack.StackGrowthCurveBezierShapes[idx] = b
-				idx++
-			}
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.ControlPointStartX = exp.cpStartX
+			b.ControlPointStartY = exp.cpStartY
+			b.ControlPointEndX = exp.cpEndX
+			b.ControlPointEndY = exp.cpEndY
+			
+			stack.StackGrowthCurveBezierShapes[i] = b
 		}
 		needCommit = true
 	}
