@@ -99,6 +99,7 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 
 	stager.enforceSemantic()
 	stager.ux_svg_plant_diagram()
+	stager.ux_3d_plant_diagram()
 
 	stager.stage.CommitWithSuspendedCallbacks()
 }
