@@ -19,6 +19,7 @@ type PlantDiagram struct {
 	IsHiddenGrowthPathRhombusGridShape     bool
 	IsHiddenGrowthVectorShape              bool
 	IsHiddenPerpendicularVectorGrid        bool
+	IsHiddenGrowthCurveBezierShapeGrid     bool
 
 	IsChecked bool
 	AbstractTypeFields

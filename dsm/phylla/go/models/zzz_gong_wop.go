@@ -62,6 +62,52 @@ func (from *GridPathShape) CopyBasicFields(to *GridPathShape) {
 	to.Name = from.Name
 }
 
+type GrowthCurveBezierShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	ControlPointStartX float64
+
+	ControlPointStartY float64
+
+	EndX float64
+
+	EndY float64
+
+	ControlPointEndX float64
+
+	ControlPointEndY float64
+}
+
+func (from *GrowthCurveBezierShape) CopyBasicFields(to *GrowthCurveBezierShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.ControlPointStartX = from.ControlPointStartX
+	to.ControlPointStartY = from.ControlPointStartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.ControlPointEndX = from.ControlPointEndX
+	to.ControlPointEndY = from.ControlPointEndY
+}
+
+type GrowthCurveBezierShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *GrowthCurveBezierShapeGrid) CopyBasicFields(to *GrowthCurveBezierShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type GrowthCurveRhombusGridShape_WOP struct {
 	// insertion point
 
@@ -296,6 +342,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPerpendicularVectorGrid bool
 
+	IsHiddenGrowthCurveBezierShapeGrid bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -321,6 +369,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
+	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

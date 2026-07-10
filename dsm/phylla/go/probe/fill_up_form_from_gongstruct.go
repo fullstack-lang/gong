@@ -71,6 +71,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthCurveBezierShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthCurveBezierShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurveBezierShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthCurveBezierShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthCurveBezierShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurveBezierShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GrowthCurveRhombusGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

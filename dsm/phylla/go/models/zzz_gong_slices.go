@@ -32,6 +32,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GridPathShape
 	// insertion point per field
 
+	// Compute reverse map for named struct GrowthCurveBezierShape
+	// insertion point per field
+
+	// Compute reverse map for named struct GrowthCurveBezierShapeGrid
+	// insertion point per field
+	stage.GrowthCurveBezierShapeGrid_GrowthCurveBezierShapes_reverseMap = make(map[*GrowthCurveBezierShape]*GrowthCurveBezierShapeGrid)
+	for growthcurvebeziershapegrid := range stage.GrowthCurveBezierShapeGrids {
+		_ = growthcurvebeziershapegrid
+		for _, _growthcurvebeziershape := range growthcurvebeziershapegrid.GrowthCurveBezierShapes {
+			stage.GrowthCurveBezierShapeGrid_GrowthCurveBezierShapes_reverseMap[_growthcurvebeziershape] = growthcurvebeziershapegrid
+		}
+	}
+
 	// Compute reverse map for named struct GrowthCurveRhombusGridShape
 	// insertion point per field
 	stage.GrowthCurveRhombusGridShape_GrowthCurveRhombusShapes_reverseMap = make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusGridShape)
@@ -147,6 +160,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.GrowthCurveBezierShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GrowthCurveBezierShapeGrids {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.GrowthCurveRhombusGridShapes {
 		res = append(res, instance)
 	}
@@ -232,6 +253,18 @@ func (explanationtextshape *ExplanationTextShape) GongCopy() GongstructIF {
 func (gridpathshape *GridPathShape) GongCopy() GongstructIF {
 	newInstance := new(GridPathShape)
 	gridpathshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurveBezierShape)
+	growthcurvebeziershape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurveBezierShapeGrid)
+	growthcurvebeziershapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -363,6 +396,26 @@ func (gridpathshape *GridPathShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gridpathshape), uint64(GetOrderPointerGongstruct(stage, gridpathshape)))
+	return
+}
+
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurvebeziershape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurvebeziershape), uint64(GetOrderPointerGongstruct(stage, growthcurvebeziershape)))
+	return
+}
+
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurvebeziershapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurvebeziershapegrid), uint64(GetOrderPointerGongstruct(stage, growthcurvebeziershapegrid)))
 	return
 }
 
@@ -754,6 +807,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(gridpathshapes_newInstances)
 	lenDeletedInstances += len(gridpathshapes_deletedInstances)
+	var growthcurvebeziershapes_newInstances []*GrowthCurveBezierShape
+	var growthcurvebeziershapes_deletedInstances []*GrowthCurveBezierShape
+
+	// parse all staged instances and check if they have a reference
+	for growthcurvebeziershape := range stage.GrowthCurveBezierShapes {
+		if ref, ok := stage.GrowthCurveBezierShapes_reference[growthcurvebeziershape]; !ok {
+			growthcurvebeziershapes_newInstances = append(growthcurvebeziershapes_newInstances, growthcurvebeziershape)
+			newInstancesSlice = append(newInstancesSlice, growthcurvebeziershape.GongMarshallIdentifier(stage))
+			if stage.GrowthCurveBezierShapes_referenceOrder == nil {
+				stage.GrowthCurveBezierShapes_referenceOrder = make(map[*GrowthCurveBezierShape]uint)
+			}
+			stage.GrowthCurveBezierShapes_referenceOrder[growthcurvebeziershape] = stage.GrowthCurveBezierShape_stagedOrder[growthcurvebeziershape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurvebeziershape.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurveBezierShapes_referenceOrder, growthcurvebeziershape)
+			fieldInitializers, pointersInitializations := growthcurvebeziershape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurveBezierShape_stagedOrder[ref] = stage.GrowthCurveBezierShape_stagedOrder[growthcurvebeziershape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurvebeziershape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurvebeziershape)
+			// delete(stage.GrowthCurveBezierShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurvebeziershape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurvebeziershape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurveBezierShapes_reference {
+		instance := stage.GrowthCurveBezierShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurveBezierShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurvebeziershapes_deletedInstances = append(growthcurvebeziershapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurvebeziershapes_newInstances)
+	lenDeletedInstances += len(growthcurvebeziershapes_deletedInstances)
+	var growthcurvebeziershapegrids_newInstances []*GrowthCurveBezierShapeGrid
+	var growthcurvebeziershapegrids_deletedInstances []*GrowthCurveBezierShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for growthcurvebeziershapegrid := range stage.GrowthCurveBezierShapeGrids {
+		if ref, ok := stage.GrowthCurveBezierShapeGrids_reference[growthcurvebeziershapegrid]; !ok {
+			growthcurvebeziershapegrids_newInstances = append(growthcurvebeziershapegrids_newInstances, growthcurvebeziershapegrid)
+			newInstancesSlice = append(newInstancesSlice, growthcurvebeziershapegrid.GongMarshallIdentifier(stage))
+			if stage.GrowthCurveBezierShapeGrids_referenceOrder == nil {
+				stage.GrowthCurveBezierShapeGrids_referenceOrder = make(map[*GrowthCurveBezierShapeGrid]uint)
+			}
+			stage.GrowthCurveBezierShapeGrids_referenceOrder[growthcurvebeziershapegrid] = stage.GrowthCurveBezierShapeGrid_stagedOrder[growthcurvebeziershapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurvebeziershapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurveBezierShapeGrids_referenceOrder, growthcurvebeziershapegrid)
+			fieldInitializers, pointersInitializations := growthcurvebeziershapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurveBezierShapeGrid_stagedOrder[ref] = stage.GrowthCurveBezierShapeGrid_stagedOrder[growthcurvebeziershapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurvebeziershapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurvebeziershapegrid)
+			// delete(stage.GrowthCurveBezierShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurvebeziershapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurvebeziershapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurveBezierShapeGrids_reference {
+		instance := stage.GrowthCurveBezierShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurveBezierShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurvebeziershapegrids_deletedInstances = append(growthcurvebeziershapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurvebeziershapegrids_newInstances)
+	lenDeletedInstances += len(growthcurvebeziershapegrids_deletedInstances)
 	var growthcurverhombusgridshapes_newInstances []*GrowthCurveRhombusGridShape
 	var growthcurverhombusgridshapes_deletedInstances []*GrowthCurveRhombusGridShape
 
@@ -1654,6 +1817,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.GridPathShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.GrowthCurveBezierShapes_reference = make(map[*GrowthCurveBezierShape]*GrowthCurveBezierShape)
+	stage.GrowthCurveBezierShapes_referenceOrder = make(map[*GrowthCurveBezierShape]uint) // diff Unstage needs the reference order
+	stage.GrowthCurveBezierShapes_instance = make(map[*GrowthCurveBezierShape]*GrowthCurveBezierShape)
+	for instance := range stage.GrowthCurveBezierShapes {
+		_copy := instance.GongCopy().(*GrowthCurveBezierShape)
+		stage.GrowthCurveBezierShapes_reference[instance] = _copy
+		stage.GrowthCurveBezierShapes_instance[_copy] = instance
+		stage.GrowthCurveBezierShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GrowthCurveBezierShapeGrids_reference = make(map[*GrowthCurveBezierShapeGrid]*GrowthCurveBezierShapeGrid)
+	stage.GrowthCurveBezierShapeGrids_referenceOrder = make(map[*GrowthCurveBezierShapeGrid]uint) // diff Unstage needs the reference order
+	stage.GrowthCurveBezierShapeGrids_instance = make(map[*GrowthCurveBezierShapeGrid]*GrowthCurveBezierShapeGrid)
+	for instance := range stage.GrowthCurveBezierShapeGrids {
+		_copy := instance.GongCopy().(*GrowthCurveBezierShapeGrid)
+		stage.GrowthCurveBezierShapeGrids_reference[instance] = _copy
+		stage.GrowthCurveBezierShapeGrids_instance[_copy] = instance
+		stage.GrowthCurveBezierShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.GrowthCurveRhombusGridShapes_reference = make(map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape)
 	stage.GrowthCurveRhombusGridShapes_referenceOrder = make(map[*GrowthCurveRhombusGridShape]uint) // diff Unstage needs the reference order
 	stage.GrowthCurveRhombusGridShapes_instance = make(map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape)
@@ -1825,6 +2008,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.GrowthCurveBezierShapes {
+		reference := stage.GrowthCurveBezierShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GrowthCurveBezierShapeGrids {
+		reference := stage.GrowthCurveBezierShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.GrowthCurveRhombusGridShapes {
 		reference := stage.GrowthCurveRhombusGridShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1954,6 +2147,30 @@ func (gridpathshape *GridPathShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type GridPathShape was not staged and does not have a reference order", gridpathshape)
+		return 0
+	}
+}
+
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurveBezierShape_stagedOrder[growthcurvebeziershape]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurveBezierShapes_referenceOrder[growthcurvebeziershape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurveBezierShape was not staged and does not have a reference order", growthcurvebeziershape)
+		return 0
+	}
+}
+
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurveBezierShapeGrid_stagedOrder[growthcurvebeziershapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurveBezierShapeGrids_referenceOrder[growthcurvebeziershapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurveBezierShapeGrid was not staged and does not have a reference order", growthcurvebeziershapegrid)
 		return 0
 	}
 }
@@ -2179,6 +2396,24 @@ func (gridpathshape *GridPathShape) GongGetReferenceIdentifier(stage *Stage) str
 	return fmt.Sprintf("__%s__%08d_", gridpathshape.GongGetGongstructName(), gridpathshape.GongGetOrder(stage))
 }
 
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurvebeziershape.GongGetGongstructName(), growthcurvebeziershape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurvebeziershape.GongGetGongstructName(), growthcurvebeziershape.GongGetOrder(stage))
+}
+
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurvebeziershapegrid.GongGetGongstructName(), growthcurvebeziershapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurvebeziershapegrid.GongGetGongstructName(), growthcurvebeziershapegrid.GongGetOrder(stage))
+}
+
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", growthcurverhombusgridshape.GongGetGongstructName(), growthcurverhombusgridshape.GongGetOrder(stage))
 }
@@ -2349,6 +2584,22 @@ func (gridpathshape *GridPathShape) GongMarshallIdentifier(stage *Stage) (decl s
 	return
 }
 
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurvebeziershape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurveBezierShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurvebeziershape.Name))
+	return
+}
+
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurvebeziershapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurveBezierShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurvebeziershapegrid.Name))
+	return
+}
+
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusgridshape.GongGetIdentifier(stage))
@@ -2491,6 +2742,18 @@ func (explanationtextshape *ExplanationTextShape) GongMarshallUnstaging(stage *S
 func (gridpathshape *GridPathShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurvebeziershape *GrowthCurveBezierShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurvebeziershape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurvebeziershapegrid *GrowthCurveBezierShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurvebeziershapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

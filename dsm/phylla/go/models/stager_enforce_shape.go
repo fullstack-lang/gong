@@ -267,7 +267,18 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		"PerpendicularVectorGrid",
 	)
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7
+	n8 := enforcePlantHasShape[*GrowthCurveBezierShapeGrid](
+		stager,
+		func() *GrowthCurveBezierShapeGrid { return new(GrowthCurveBezierShapeGrid) },
+		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
+		func(p *Plant, shape *GrowthCurveBezierShapeGrid) { p.GrowthCurveBezierShapeGrid = shape },
+		func(p *Plant, shape *GrowthCurveBezierShapeGrid) bool {
+			return p.GrowthCurveBezierShapeGrid == shape
+		},
+		"GrowthCurveBezierShapeGrid",
+	)
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -341,7 +352,13 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"PerpendicularVectorGrid",
 	)
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7
+	n8 := enforcePlantShapeName[*GrowthCurveBezierShapeGrid](
+		stager,
+		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
+		"GrowthCurveBezierShapeGrid",
+	)
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -417,9 +434,14 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.PerpendicularVectorGrid != nil && plant.GrowthCurveRhombusGridShape != nil {
 			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
+		
+		if plant.GrowthCurveBezierShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
+			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength) || needCommit
+		}
 	}
 	return
 }
+
 
 func enforcePerpendicularVectorGridHasVectors(stage *Stage, grid *PerpendicularVectorGrid, sourceGrid *GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
 	// The four vertices relative to the center before rotation
@@ -638,3 +660,75 @@ func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
 	// Initial, Rotated and Growth grids no longer use generic RhombusShape.
 	return false
 }
+
+func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveBezierShapeGrid, pGrid *PerpendicularVectorGrid, sideLength float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.GrowthCurveBezierShapes) > 0 {
+			grid.GrowthCurveBezierShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	if len(grid.GrowthCurveBezierShapes) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			b := grid.GrowthCurveBezierShapes[i]
+
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if b == nil || b.Name != expectedName {
+				valid = false
+				break
+			}
+			angleRad := math.Atan2(v1.EndY-v1.StartY, v1.EndX-v1.StartX) - math.Pi/2.0
+			
+			// wait, if we consider length ratio = 0.33
+			ratio := 0.33
+			expectedCtrlStartX := v1.StartX + sideLength*ratio*math.Cos(angleRad)
+			expectedCtrlStartY := v1.StartY + sideLength*ratio*math.Sin(angleRad)
+			expectedCtrlEndX := v2.StartX + sideLength*ratio*math.Cos(angleRad+math.Pi)
+			expectedCtrlEndY := v2.StartY + sideLength*ratio*math.Sin(angleRad+math.Pi)
+
+			if math.Abs(b.StartX-v1.StartX) > 1e-4 || math.Abs(b.StartY-v1.StartY) > 1e-4 ||
+				math.Abs(b.EndX-v2.StartX) > 1e-4 || math.Abs(b.EndY-v2.StartY) > 1e-4 ||
+				math.Abs(b.ControlPointStartX-expectedCtrlStartX) > 1e-4 || math.Abs(b.ControlPointStartY-expectedCtrlStartY) > 1e-4 ||
+				math.Abs(b.ControlPointEndX-expectedCtrlEndX) > 1e-4 || math.Abs(b.ControlPointEndY-expectedCtrlEndY) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		grid.GrowthCurveBezierShapes = make([]*GrowthCurveBezierShape, expectedLen)
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			b := new(GrowthCurveBezierShape).Stage(stage)
+			b.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			
+			b.StartX = v1.StartX
+			b.StartY = v1.StartY
+			b.EndX = v2.StartX
+			b.EndY = v2.StartY
+
+			angleRad := math.Atan2(v1.EndY-v1.StartY, v1.EndX-v1.StartX) - math.Pi/2.0
+			ratio := 0.33
+			b.ControlPointStartX = b.StartX + sideLength*ratio*math.Cos(angleRad)
+			b.ControlPointStartY = b.StartY + sideLength*ratio*math.Sin(angleRad)
+			b.ControlPointEndX = b.EndX + sideLength*ratio*math.Cos(angleRad+math.Pi)
+			b.ControlPointEndY = b.EndY + sideLength*ratio*math.Sin(angleRad+math.Pi)
+
+			grid.GrowthCurveBezierShapes[i] = b
+		}
+		needCommit = true
+	}
+
+	return needCommit
+}
+

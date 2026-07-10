@@ -67,6 +67,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthPathRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
+	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 
 	return
 }
@@ -824,5 +825,29 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, la
 		line.Presentation.Stroke = "green"
 		line.Presentation.StrokeWidth = 2.0
 		line.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.GrowthCurveBezierShapeGrid == nil || plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
+		return
+	}
+
+	for _, b := range plant.GrowthCurveBezierShapeGrid.GrowthCurveBezierShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = b.Name
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f C %0.1f %0.1f, %0.1f %0.1f, %0.1f %0.1f",
+			plantDiagram.OriginX+b.StartX, plantDiagram.OriginY-b.StartY,
+			plantDiagram.OriginX+b.ControlPointStartX, plantDiagram.OriginY-b.ControlPointStartY,
+			plantDiagram.OriginX+b.ControlPointEndX, plantDiagram.OriginY-b.ControlPointEndY,
+			plantDiagram.OriginX+b.EndX, plantDiagram.OriginY-b.EndY,
+		)
+
+		path.Presentation.Stroke = "blue"
+		path.Presentation.StrokeWidth = 3.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 0.8
 	}
 }
