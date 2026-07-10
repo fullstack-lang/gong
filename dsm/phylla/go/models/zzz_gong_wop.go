@@ -261,6 +261,8 @@ type Plant_WOP struct {
 
 	M int
 
+	StackHeight int
+
 	RhombusInsideAngle float64
 
 	RhombusSideLength float64
@@ -281,6 +283,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.Name = from.Name
 	to.N = from.N
 	to.M = from.M
+	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
 	to.RhombusSideLength = from.RhombusSideLength
 	to.ShiftToNearestCircle = from.ShiftToNearestCircle

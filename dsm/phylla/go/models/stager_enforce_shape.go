@@ -436,7 +436,11 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 		
 		if plant.GrowthCurveBezierShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
-			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength) || needCommit
+			circLen := 0.0
+			if plant.PlantCircumferenceShape != nil {
+				circLen = plant.PlantCircumferenceShape.Length
+			}
+			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength, circLen) || needCommit
 		}
 	}
 	return
@@ -661,7 +665,7 @@ func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
 	return false
 }
 
-func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveBezierShapeGrid, pGrid *PerpendicularVectorGrid, sideLength float64) (needCommit bool) {
+func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveBezierShapeGrid, pGrid *PerpendicularVectorGrid, sideLength float64, circumferenceLength float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
 		if len(grid.GrowthCurveBezierShapes) > 0 {
 			grid.GrowthCurveBezierShapes = nil
@@ -671,17 +675,20 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 	}
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	expectedTotalLen := expectedLen * 2
 	valid := true
-	if len(grid.GrowthCurveBezierShapes) != expectedLen {
+	if len(grid.GrowthCurveBezierShapes) != expectedTotalLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 			b := grid.GrowthCurveBezierShapes[i]
+			bTrans := grid.GrowthCurveBezierShapes[i+expectedLen]
 
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
-			if b == nil || b.Name != expectedName {
+			expectedTransName := fmt.Sprintf("%s-translated-%d", grid.Name, i)
+			if b == nil || b.Name != expectedName || bTrans == nil || bTrans.Name != expectedTransName {
 				valid = false
 				break
 			}
@@ -701,11 +708,19 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 				valid = false
 				break
 			}
+
+			if math.Abs(bTrans.StartX-(v1.StartX+circumferenceLength)) > 1e-4 || math.Abs(bTrans.StartY-v1.StartY) > 1e-4 ||
+				math.Abs(bTrans.EndX-(v2.StartX+circumferenceLength)) > 1e-4 || math.Abs(bTrans.EndY-v2.StartY) > 1e-4 ||
+				math.Abs(bTrans.ControlPointStartX-(expectedCtrlStartX+circumferenceLength)) > 1e-4 || math.Abs(bTrans.ControlPointStartY-expectedCtrlStartY) > 1e-4 ||
+				math.Abs(bTrans.ControlPointEndX-(expectedCtrlEndX+circumferenceLength)) > 1e-4 || math.Abs(bTrans.ControlPointEndY-expectedCtrlEndY) > 1e-4 {
+				valid = false
+				break
+			}
 		}
 	}
 
 	if !valid {
-		grid.GrowthCurveBezierShapes = make([]*GrowthCurveBezierShape, expectedLen)
+		grid.GrowthCurveBezierShapes = make([]*GrowthCurveBezierShape, expectedTotalLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -725,6 +740,20 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 			b.ControlPointEndY = b.EndY + sideLength*ratio*math.Sin(angleRad+math.Pi)
 
 			grid.GrowthCurveBezierShapes[i] = b
+
+			bTrans := new(GrowthCurveBezierShape).Stage(stage)
+			bTrans.Name = fmt.Sprintf("%s-translated-%d", grid.Name, i)
+			
+			bTrans.StartX = b.StartX + circumferenceLength
+			bTrans.StartY = b.StartY
+			bTrans.EndX = b.EndX + circumferenceLength
+			bTrans.EndY = b.EndY
+			bTrans.ControlPointStartX = b.ControlPointStartX + circumferenceLength
+			bTrans.ControlPointStartY = b.ControlPointStartY
+			bTrans.ControlPointEndX = b.ControlPointEndX + circumferenceLength
+			bTrans.ControlPointEndY = b.ControlPointEndY
+
+			grid.GrowthCurveBezierShapes[i+expectedLen] = bTrans
 		}
 		needCommit = true
 	}

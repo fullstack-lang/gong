@@ -15,6 +15,8 @@ type Plant struct {
 	N int
 	M int
 
+	StackHeight int // height of growth curve stack
+
 	// RhombusInsideAngle is set by the user. It represents the inside angle (in degrees) of the
 	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
 	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
@@ -55,6 +57,6 @@ type Plant struct {
 	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
 	GrowthVectorShape           *GrowthVectorShape
 
-	PerpendicularVectorGrid     *PerpendicularVectorGrid
-	GrowthCurveBezierShapeGrid  *GrowthCurveBezierShapeGrid
+	PerpendicularVectorGrid    *PerpendicularVectorGrid
+	GrowthCurveBezierShapeGrid *GrowthCurveBezierShapeGrid
 }
