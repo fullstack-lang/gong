@@ -23,9 +23,12 @@ func executeServer() {
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
-	stack.Stage.Commit()
 
-	// generateStrangeForms(stack)
+	if generateStrangeFormsFlag {
+		generateStrangeForms(stack)
+	} else {
+		stack.Stage.Commit()
+	}
 
 	// initiates the UX loop
 	models.NewStager(
@@ -49,7 +52,80 @@ func generateStrangeForms(stack *threejs_stack.Stack) {
 			break
 		}
 	}
+	if canvas == nil {
+		canvas = (&models.Canvas{
+			Name: "Singloton",
+		}).Stage(stack.Stage)
+	}
+
 	if canvas != nil {
+		if canvas.AmbiantLight == nil {
+			canvas.AmbiantLight = (&models.AmbiantLight{
+				Name: "Ambiant Light",
+				LightAbstract: models.LightAbstract{
+					Intensity: 0.5,
+				},
+			}).Stage(stack.Stage)
+		}
+
+		if len(canvas.DirectionalLights) == 0 {
+			canvas.DirectionalLights = append(canvas.DirectionalLights, (&models.DirectionalLight{
+				Name: "Directional Light",
+				Position: models.Position{X: 10, Y: 10, Z: 10},
+				LightAbstract: models.LightAbstract{
+					Intensity: 1.0,
+				},
+				IsWithCastShadow: true,
+			}).Stage(stack.Stage))
+		}
+
+		var hasPlane bool
+		for _, m := range canvas.Meshs {
+			if m.Name == "Wall" {
+				hasPlane = true
+				break
+			}
+		}
+		if !hasPlane {
+			planeMesh := (&models.Mesh{
+				Name: "Wall",
+				Position: models.Position{X: 0, Y: 0, Z: -30},
+				PlaneGeometry: (&models.PlaneGeometry{
+					Name: "Wall Plane",
+					Width: 200,
+					Height: 200,
+					WidthSegments: 1,
+					HeightSegments: 1,
+				}).Stage(stack.Stage),
+				MeshMaterialBasic: (&models.MeshMaterialBasic{Name: "Gray", MeshMaterialAbstract: models.MeshMaterialAbstract{Color: "gray"}}).Stage(stack.Stage),
+			}).Stage(stack.Stage)
+			canvas.Meshs = append(canvas.Meshs, planeMesh)
+		}
+
+		var hasSphere bool
+		for _, m := range canvas.Meshs {
+			if m.Name == "Sphere" {
+				hasSphere = true
+				break
+			}
+		}
+		if !hasSphere {
+			sphereMesh := (&models.Mesh{
+				Name: "Sphere",
+				Position: models.Position{X: 5, Y: 5, Z: -5},
+				SphereGeometry: (&models.SphereGeometry{
+					Name: "Sphere Geometry",
+					Radius: 2,
+					WidthSegments: 32,
+					HeightSegments: 16,
+					PhiLength: math.Pi * 2,
+					ThetaLength: math.Pi,
+				}).Stage(stack.Stage),
+				MeshMaterialBasic: (&models.MeshMaterialBasic{Name: "Cyan", MeshMaterialAbstract: models.MeshMaterialAbstract{Color: "cyan"}}).Stage(stack.Stage),
+			}).Stage(stack.Stage)
+			canvas.Meshs = append(canvas.Meshs, sphereMesh)
+		}
+
 		var hasHelix bool
 		for _, m := range canvas.Meshs {
 			if m.Name == "Helix Mesh" {

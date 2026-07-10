@@ -1147,6 +1147,16 @@
             ]
         },
         {
+            "name": "lib - threejs: go run . synthetic",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/threejs/go/cmd/threejs",
+            "args": [
+                "synthetic",
+            ]
+        },
+        {
             "name": "lib - tone: Launch Chrome (tone) on 4200",
             "request": "launch",
             "type": "chrome",
