@@ -68,6 +68,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
+	plantDiagram.drawStackOfGrowthCurve(stager, layer, plant)
 
 	return
 }
@@ -849,5 +850,29 @@ func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager,
 		path.Presentation.StrokeWidth = 3.0
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.8
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.StackOfGrowthCurve == nil || plantDiagram.IsHiddenStackOfGrowthCurve {
+		return
+	}
+
+	for _, b := range plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = b.Name
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f C %0.1f %0.1f, %0.1f %0.1f, %0.1f %0.1f",
+			plantDiagram.OriginX+b.StartX, plantDiagram.OriginY-b.StartY,
+			plantDiagram.OriginX+b.ControlPointStartX, plantDiagram.OriginY-b.ControlPointStartY,
+			plantDiagram.OriginX+b.ControlPointEndX, plantDiagram.OriginY-b.ControlPointEndY,
+			plantDiagram.OriginX+b.EndX, plantDiagram.OriginY-b.EndY,
+		)
+
+		path.Presentation.Stroke = "darkcyan"
+		path.Presentation.StrokeWidth = 2.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 0.6
 	}
 }

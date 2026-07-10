@@ -347,6 +347,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenGrowthCurveBezierShapeGrid bool
 
+	IsHiddenStackOfGrowthCurve bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -373,6 +375,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
+	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -421,6 +424,52 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Name = from.Name
 	to.X = from.X
 	to.Y = from.Y
+}
+
+type StackGrowthCurveBezierShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	ControlPointStartX float64
+
+	ControlPointStartY float64
+
+	EndX float64
+
+	EndY float64
+
+	ControlPointEndX float64
+
+	ControlPointEndY float64
+}
+
+func (from *StackGrowthCurveBezierShape) CopyBasicFields(to *StackGrowthCurveBezierShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.ControlPointStartX = from.ControlPointStartX
+	to.ControlPointStartY = from.ControlPointStartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.ControlPointEndX = from.ControlPointEndX
+	to.ControlPointEndY = from.ControlPointEndY
+}
+
+type StackOfGrowthCurve_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StackOfGrowthCurve) CopyBasicFields(to *StackOfGrowthCurve) {
+	// insertion point
+	to.Name = from.Name
 }
 
 // end of insertion point

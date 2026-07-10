@@ -170,6 +170,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
 	return
 }
 
@@ -205,6 +206,21 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongClean(stage *Stage) 
 // Clean garbage collect unstaged instances that are referenced by RotatedRhombusShape
 func (rotatedrhombusshape *RotatedRhombusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackGrowthCurveBezierShape
+func (stackgrowthcurvebeziershape *StackGrowthCurveBezierShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackOfGrowthCurve
+func (stackofgrowthcurve *StackOfGrowthCurve) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &stackofgrowthcurve.StackGrowthCurveBezierShapes) || modified
 	// insertion point per field
 	return
 }

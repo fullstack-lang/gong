@@ -59,4 +59,6 @@ type Plant struct {
 
 	PerpendicularVectorGrid    *PerpendicularVectorGrid
 	GrowthCurveBezierShapeGrid *GrowthCurveBezierShapeGrid
+
+	StackOfGrowthCurve *StackOfGrowthCurve
 }
