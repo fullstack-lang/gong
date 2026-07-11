@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef } from '@angular/core';
 import { NgtCanvas } from 'angular-three/dom';
 import { extend, NgtArgs } from 'angular-three';
 import * as THREE from 'three';
@@ -55,6 +55,7 @@ export class GongthreejsSpecific {
     private threejsFrontRepoService: threejs.FrontRepoService,
     private threejsCommitNbFromBackService: threejs.CommitNbFromBackService,
     private threejsPushFromFrontNbService: threejs.PushFromFrontNbService,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -97,6 +98,7 @@ export class GongthreejsSpecific {
           canvasSingloton = instance
         }
         this.canvasSingloton = canvasSingloton
+        this.cdr.detectChanges()
       }
     )
   }

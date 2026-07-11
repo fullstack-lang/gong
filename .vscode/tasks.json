@@ -190,6 +190,21 @@
             ]
         },
         {
+            "label": "dsm - phylla: go run . edit data/stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/phylla/go/cmd/phylla"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - process: gong generate --dsm",
             "type": "shell",
             "options": {
@@ -1094,6 +1109,20 @@
                 "serve",
                 ""
             ]
+        },
+        {
+            "label": "lib - threejs: go run . synthetic",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/threejs/go/cmd/threejs"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "synthetic",
+            ],
+            "group": "build"
         },
         {
             "label": "lib - tone: go run . edit data/stage.go --out data/stage",
