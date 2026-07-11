@@ -136,6 +136,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 		stager.threejsStage.Commit()
 	} else {
-		threejs.GenerateStrangeForms(stager.threejsStage)
+		threejs.GenerateReferenceScene(stager.threejsStage)
 	}
 }

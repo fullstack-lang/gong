@@ -24,7 +24,7 @@ func executeServer() {
 	stack.Probe.Refresh()
 
 	if generateStrangeFormsFlag {
-		models.GenerateStrangeForms(stack.Stage)
+		models.GenerateReferenceScene(stack.Stage)
 	} else {
 		stack.Stage.Commit()
 	}
@@ -42,5 +42,3 @@ func executeServer() {
 		log.Fatalln(err.Error())
 	}
 }
-
-
