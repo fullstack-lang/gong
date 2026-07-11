@@ -8,9 +8,9 @@ import (
 )
 
 func (stager *Stager) ux_3d_plant_diagram() {
-	stager.threejsStage.Reset()
 
 	if false {
+		stager.threejsStage.Reset()
 
 		plant := stager.GetCurrentPlant()
 		if plant == nil {

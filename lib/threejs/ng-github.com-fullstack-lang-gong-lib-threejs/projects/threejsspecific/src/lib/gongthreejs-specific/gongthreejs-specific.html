@@ -5,14 +5,14 @@
         <ngt-ambient-light [intensity]="canvasSingloton!.AmbiantLight!.Intensity" />
       }
 
-      @for (light of canvasSingloton?.DirectionalLights; track light.Name) {
+      @for (light of canvasSingloton?.DirectionalLights; track light.ID) {
         <ngt-directional-light 
           [position]="[light.X, light.Y, light.Z]" 
           [castShadow]="light.IsWithCastShadow" 
           [intensity]="light.Intensity" />
       }
 
-      @for (mesh of canvasSingloton?.Meshs; track mesh.Name) {
+      @for (mesh of canvasSingloton?.Meshs; track mesh.ID) {
         <ngt-mesh [position]="[mesh.X, mesh.Y, mesh.Z]" castShadow receiveShadow>
           
           @if (mesh.BoxGeometry) {
@@ -56,6 +56,7 @@
         </ngt-mesh>
       }
 
+      
       <ngts-orbit-controls />
     </ng-template>
   </ngt-canvas>
