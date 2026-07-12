@@ -9274,6 +9274,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "Thickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RhombusSideLength",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -10411,6 +10415,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RhombusInsideAngle)
 		res.valueFloat = plant.RhombusInsideAngle
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Thickness":
+		res.valueString = fmt.Sprintf("%f", plant.Thickness)
+		res.valueFloat = plant.Thickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RhombusSideLength":
 		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
 		res.valueFloat = plant.RhombusSideLength
@@ -11497,6 +11505,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.StackHeight = int(value.GetValueInt())
 	case "RhombusInsideAngle":
 		plant.RhombusInsideAngle = value.GetValueFloat()
+	case "Thickness":
+		plant.Thickness = value.GetValueFloat()
 	case "RhombusSideLength":
 		plant.RhombusSideLength = value.GetValueFloat()
 	case "ComputedPrefix":

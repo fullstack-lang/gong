@@ -22,6 +22,9 @@ type Plant struct {
 	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
 	RhombusInsideAngle float64
 
+	// Thickness of the growth curve. when growth curve are stacked, each is separate from the next
+	Thickness float64
+
 	// RhombusSideLength is set by the user. It represents the physical length of the side of the
 	// fundamental diamond (rhombus) shape. It acts as the scale or distance for each step
 	// taken along the lattice paths.

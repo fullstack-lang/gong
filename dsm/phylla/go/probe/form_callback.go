@@ -2697,6 +2697,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.StackHeight), formDiv)
 		case "RhombusInsideAngle":
 			FormDivBasicFieldToField(&(plant_.RhombusInsideAngle), formDiv)
+		case "Thickness":
+			FormDivBasicFieldToField(&(plant_.Thickness), formDiv)
 		case "RhombusSideLength":
 			FormDivBasicFieldToField(&(plant_.RhombusSideLength), formDiv)
 		case "ComputedPrefix":
