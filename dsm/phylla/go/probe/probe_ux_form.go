@@ -105,6 +105,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.perpendicularvectorgrid, probe)
 			}
+		case *PerpendicularVectorGridHalfwayFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PerpendicularVectorGridHalfway", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.perpendicularvectorgridhalfway, probe)
+			}
+		case *PerpendicularVectorHalfwayFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PerpendicularVectorHalfway", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.perpendicularvectorhalfway, probe)
+			}
 		case *PlantFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Plant", true)
@@ -376,6 +388,32 @@ func FillUpFormFromGongstructName(
 		perpendicularvectorgrid := new(models.PerpendicularVectorGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(perpendicularvectorgrid, formGroup, probe)
+	case "PerpendicularVectorGridHalfway":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PerpendicularVectorGridHalfway Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PerpendicularVectorGridHalfwayFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		perpendicularvectorgridhalfway := new(models.PerpendicularVectorGridHalfway)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(perpendicularvectorgridhalfway, formGroup, probe)
+	case "PerpendicularVectorHalfway":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PerpendicularVectorHalfway Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PerpendicularVectorHalfwayFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		perpendicularvectorhalfway := new(models.PerpendicularVectorHalfway)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(perpendicularvectorhalfway, formGroup, probe)
 	case "Plant":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

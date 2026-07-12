@@ -1658,6 +1658,247 @@ func (perpendicularvectorgridFormCallback *PerpendicularVectorGridFormCallback) 
 
 	perpendicularvectorgridFormCallback.probe.ux_tree()
 }
+func __gong__New__PerpendicularVectorGridHalfwayFormCallback(
+	perpendicularvectorgridhalfway *models.PerpendicularVectorGridHalfway,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (perpendicularvectorgridhalfwayFormCallback *PerpendicularVectorGridHalfwayFormCallback) {
+	perpendicularvectorgridhalfwayFormCallback = new(PerpendicularVectorGridHalfwayFormCallback)
+	perpendicularvectorgridhalfwayFormCallback.probe = probe
+	perpendicularvectorgridhalfwayFormCallback.perpendicularvectorgridhalfway = perpendicularvectorgridhalfway
+	perpendicularvectorgridhalfwayFormCallback.formGroup = formGroup
+
+	perpendicularvectorgridhalfwayFormCallback.CreationMode = (perpendicularvectorgridhalfway == nil)
+
+	return
+}
+
+type PerpendicularVectorGridHalfwayFormCallback struct {
+	perpendicularvectorgridhalfway *models.PerpendicularVectorGridHalfway
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (perpendicularvectorgridhalfwayFormCallback *PerpendicularVectorGridHalfwayFormCallback) OnSave() {
+	perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest.Lock()
+	defer perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PerpendicularVectorGridHalfwayFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	perpendicularvectorgridhalfwayFormCallback.probe.formStage.Checkout()
+
+	if perpendicularvectorgridhalfwayFormCallback.perpendicularvectorgridhalfway == nil {
+		perpendicularvectorgridhalfwayFormCallback.perpendicularvectorgridhalfway = new(models.PerpendicularVectorGridHalfway).Stage(perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest)
+	}
+	perpendicularvectorgridhalfway_ := perpendicularvectorgridhalfwayFormCallback.perpendicularvectorgridhalfway
+	_ = perpendicularvectorgridhalfway_
+
+	for _, formDiv := range perpendicularvectorgridhalfwayFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(perpendicularvectorgridhalfway_.Name), formDiv)
+		case "PerpendicularVectorHalfways":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorHalfway](perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PerpendicularVectorHalfway, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PerpendicularVectorHalfway)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PerpendicularVectorHalfway](perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			perpendicularvectorgridhalfway_.PerpendicularVectorHalfways = instanceSlice
+			perpendicularvectorgridhalfwayFormCallback.probe.UpdateSliceOfPointersCallback(perpendicularvectorgridhalfway_, "PerpendicularVectorHalfways", &perpendicularvectorgridhalfway_.PerpendicularVectorHalfways)
+
+		}
+	}
+
+	// manage the suppress operation
+	if perpendicularvectorgridhalfwayFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorgridhalfway_.Unstage(perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest)
+	}
+
+	perpendicularvectorgridhalfwayFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PerpendicularVectorGridHalfway](
+		perpendicularvectorgridhalfwayFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if perpendicularvectorgridhalfwayFormCallback.CreationMode || perpendicularvectorgridhalfwayFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorgridhalfwayFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(perpendicularvectorgridhalfwayFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PerpendicularVectorGridHalfwayFormCallback(
+			nil,
+			perpendicularvectorgridhalfwayFormCallback.probe,
+			newFormGroup,
+		)
+		perpendicularvectorgridhalfway := new(models.PerpendicularVectorGridHalfway)
+		FillUpForm(perpendicularvectorgridhalfway, newFormGroup, perpendicularvectorgridhalfwayFormCallback.probe)
+		perpendicularvectorgridhalfwayFormCallback.probe.formStage.Commit()
+	}
+
+	perpendicularvectorgridhalfwayFormCallback.probe.ux_tree()
+}
+func __gong__New__PerpendicularVectorHalfwayFormCallback(
+	perpendicularvectorhalfway *models.PerpendicularVectorHalfway,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (perpendicularvectorhalfwayFormCallback *PerpendicularVectorHalfwayFormCallback) {
+	perpendicularvectorhalfwayFormCallback = new(PerpendicularVectorHalfwayFormCallback)
+	perpendicularvectorhalfwayFormCallback.probe = probe
+	perpendicularvectorhalfwayFormCallback.perpendicularvectorhalfway = perpendicularvectorhalfway
+	perpendicularvectorhalfwayFormCallback.formGroup = formGroup
+
+	perpendicularvectorhalfwayFormCallback.CreationMode = (perpendicularvectorhalfway == nil)
+
+	return
+}
+
+type PerpendicularVectorHalfwayFormCallback struct {
+	perpendicularvectorhalfway *models.PerpendicularVectorHalfway
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (perpendicularvectorhalfwayFormCallback *PerpendicularVectorHalfwayFormCallback) OnSave() {
+	perpendicularvectorhalfwayFormCallback.probe.stageOfInterest.Lock()
+	defer perpendicularvectorhalfwayFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PerpendicularVectorHalfwayFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	perpendicularvectorhalfwayFormCallback.probe.formStage.Checkout()
+
+	if perpendicularvectorhalfwayFormCallback.perpendicularvectorhalfway == nil {
+		perpendicularvectorhalfwayFormCallback.perpendicularvectorhalfway = new(models.PerpendicularVectorHalfway).Stage(perpendicularvectorhalfwayFormCallback.probe.stageOfInterest)
+	}
+	perpendicularvectorhalfway_ := perpendicularvectorhalfwayFormCallback.perpendicularvectorhalfway
+	_ = perpendicularvectorhalfway_
+
+	for _, formDiv := range perpendicularvectorhalfwayFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(perpendicularvectorhalfway_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(perpendicularvectorhalfway_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(perpendicularvectorhalfway_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(perpendicularvectorhalfway_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(perpendicularvectorhalfway_.EndY), formDiv)
+		case "PerpendicularVectorGridHalfway:PerpendicularVectorHalfways":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PerpendicularVectorGridHalfway instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PerpendicularVectorGridHalfway instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PerpendicularVectorGridHalfway](perpendicularvectorhalfwayFormCallback.probe.stageOfInterest)
+			targetPerpendicularVectorGridHalfwayIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPerpendicularVectorGridHalfwayIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PerpendicularVectorGridHalfway instances and update their PerpendicularVectorHalfways slice
+			for _perpendicularvectorgridhalfway := range *models.GetGongstructInstancesSetFromPointerType[*models.PerpendicularVectorGridHalfway](perpendicularvectorhalfwayFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(perpendicularvectorhalfwayFormCallback.probe.stageOfInterest, _perpendicularvectorgridhalfway)
+				
+				// if PerpendicularVectorGridHalfway is selected
+				if targetPerpendicularVectorGridHalfwayIDs[id] {
+					// ensure perpendicularvectorhalfway_ is in _perpendicularvectorgridhalfway.PerpendicularVectorHalfways
+					found := false
+					for _, _b := range _perpendicularvectorgridhalfway.PerpendicularVectorHalfways {
+						if _b == perpendicularvectorhalfway_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_perpendicularvectorgridhalfway.PerpendicularVectorHalfways = append(_perpendicularvectorgridhalfway.PerpendicularVectorHalfways, perpendicularvectorhalfway_)
+						perpendicularvectorhalfwayFormCallback.probe.UpdateSliceOfPointersCallback(_perpendicularvectorgridhalfway, "PerpendicularVectorHalfways", &_perpendicularvectorgridhalfway.PerpendicularVectorHalfways)
+					}
+				} else {
+					// ensure perpendicularvectorhalfway_ is NOT in _perpendicularvectorgridhalfway.PerpendicularVectorHalfways
+					idx := slices.Index(_perpendicularvectorgridhalfway.PerpendicularVectorHalfways, perpendicularvectorhalfway_)
+					if idx != -1 {
+						_perpendicularvectorgridhalfway.PerpendicularVectorHalfways = slices.Delete(_perpendicularvectorgridhalfway.PerpendicularVectorHalfways, idx, idx+1)
+						perpendicularvectorhalfwayFormCallback.probe.UpdateSliceOfPointersCallback(_perpendicularvectorgridhalfway, "PerpendicularVectorHalfways", &_perpendicularvectorgridhalfway.PerpendicularVectorHalfways)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if perpendicularvectorhalfwayFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorhalfway_.Unstage(perpendicularvectorhalfwayFormCallback.probe.stageOfInterest)
+	}
+
+	perpendicularvectorhalfwayFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PerpendicularVectorHalfway](
+		perpendicularvectorhalfwayFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if perpendicularvectorhalfwayFormCallback.CreationMode || perpendicularvectorhalfwayFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		perpendicularvectorhalfwayFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(perpendicularvectorhalfwayFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PerpendicularVectorHalfwayFormCallback(
+			nil,
+			perpendicularvectorhalfwayFormCallback.probe,
+			newFormGroup,
+		)
+		perpendicularvectorhalfway := new(models.PerpendicularVectorHalfway)
+		FillUpForm(perpendicularvectorhalfway, newFormGroup, perpendicularvectorhalfwayFormCallback.probe)
+		perpendicularvectorhalfwayFormCallback.probe.formStage.Commit()
+	}
+
+	perpendicularvectorhalfwayFormCallback.probe.ux_tree()
+}
 func __gong__New__PlantFormCallback(
 	plant *models.Plant,
 	probe *Probe,
@@ -1783,6 +2024,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.GrowthVectorShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "PerpendicularVectorGrid":
 			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PerpendicularVectorGridHalfway":
+			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGridHalfway), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurveBezierShapeGrid":
 			FormDivSelectFieldToField(&(plant_.GrowthCurveBezierShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurve":
@@ -2022,6 +2265,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthVectorShape), formDiv)
 		case "IsHiddenPerpendicularVectorGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGrid), formDiv)
+		case "IsHiddenPerpendicularVectorGridHalfway":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
 		case "IsHiddenGrowthCurveBezierShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurveBezierShapeGrid), formDiv)
 		case "IsHiddenStackOfGrowthCurve":

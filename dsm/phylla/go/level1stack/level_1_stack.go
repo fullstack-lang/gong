@@ -135,6 +135,8 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.NextCircleShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVector](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorGridHalfway](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorHalfway](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Plant](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PlantCircumferenceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PlantDiagram](stage)

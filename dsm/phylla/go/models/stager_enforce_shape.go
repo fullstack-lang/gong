@@ -266,6 +266,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		},
 		"PerpendicularVectorGrid",
 	)
+	needCommit = n7 || needCommit
+
+	n7_halfway := enforcePlantHasShape[*PerpendicularVectorGridHalfway](
+		stager,
+		func() *PerpendicularVectorGridHalfway { return new(PerpendicularVectorGridHalfway) },
+		func(p *Plant) *PerpendicularVectorGridHalfway { return p.PerpendicularVectorGridHalfway },
+		func(p *Plant, shape *PerpendicularVectorGridHalfway) { p.PerpendicularVectorGridHalfway = shape },
+		func(p *Plant, shape *PerpendicularVectorGridHalfway) bool {
+			return p.PerpendicularVectorGridHalfway == shape
+		},
+		"PerpendicularVectorGridHalfway",
+	)
+	needCommit = n7_halfway || needCommit
 
 	n8 := enforcePlantHasShape[*GrowthCurveBezierShapeGrid](
 		stager,
@@ -291,7 +304,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n9 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8 || n9
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n8 || n9
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -364,6 +377,14 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		func(p *Plant) *PerpendicularVectorGrid { return p.PerpendicularVectorGrid },
 		"PerpendicularVectorGrid",
 	)
+	needCommit = n7 || needCommit
+
+	n7_halfway := enforcePlantShapeName[*PerpendicularVectorGridHalfway](
+		stager,
+		func(p *Plant) *PerpendicularVectorGridHalfway { return p.PerpendicularVectorGridHalfway },
+		"PerpendicularVectorGridHalfway",
+	)
+	needCommit = n7_halfway || needCommit
 
 	n8 := enforcePlantShapeName[*GrowthCurveBezierShapeGrid](
 		stager,
@@ -379,7 +400,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n9 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n8 || n9
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n8 || n9
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -454,6 +475,10 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		
 		if plant.PerpendicularVectorGrid != nil && plant.GrowthCurveRhombusGridShape != nil {
 			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
+		}
+
+		if plant.PerpendicularVectorGridHalfway != nil && plant.PerpendicularVectorGrid != nil {
+			needCommit = enforcePerpendicularVectorGridHalfwayHasVectors(stage, plant.PerpendicularVectorGridHalfway, plant.PerpendicularVectorGrid) || needCommit
 		}
 		
 		circLen := 0.0
@@ -689,6 +714,81 @@ func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
 	}
 	// Initial, Rotated and Growth grids no longer use generic RhombusShape.
 	return false
+}
+
+func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *PerpendicularVectorGridHalfway, sourceGrid *PerpendicularVectorGrid) (needCommit bool) {
+	if sourceGrid == nil || grid == nil || len(sourceGrid.PerpendicularVectors) < 2 {
+		if len(grid.PerpendicularVectorHalfways) > 0 {
+			grid.PerpendicularVectorHalfways = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(sourceGrid.PerpendicularVectors) - 1
+	valid := true
+	if len(grid.PerpendicularVectorHalfways) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := sourceGrid.PerpendicularVectors[i]
+			v2 := sourceGrid.PerpendicularVectors[i+1]
+			vHalfway := grid.PerpendicularVectorHalfways[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if vHalfway == nil || vHalfway.Name != expectedName {
+				valid = false
+				break
+			}
+			expectedStartX := (v1.StartX + v2.StartX) / 2.0
+			expectedStartY := (v1.StartY + v2.StartY) / 2.0
+			
+			// Translation of v1
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			
+			expectedEndX := expectedStartX + dx
+			expectedEndY := expectedStartY + dy
+
+			if math.Abs(vHalfway.StartX-expectedStartX) > 1e-4 || math.Abs(vHalfway.StartY-expectedStartY) > 1e-4 ||
+				math.Abs(vHalfway.EndX-expectedEndX) > 1e-4 || math.Abs(vHalfway.EndY-expectedEndY) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, v := range grid.PerpendicularVectorHalfways {
+			if v != nil {
+				v.Unstage(stage)
+			}
+		}
+		grid.PerpendicularVectorHalfways = make([]*PerpendicularVectorHalfway, expectedLen)
+		for i := 0; i < expectedLen; i++ {
+			v1 := sourceGrid.PerpendicularVectors[i]
+			v2 := sourceGrid.PerpendicularVectors[i+1]
+
+			expectedStartX := (v1.StartX + v2.StartX) / 2.0
+			expectedStartY := (v1.StartY + v2.StartY) / 2.0
+			
+			// Translation of v1
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			
+			expectedEndX := expectedStartX + dx
+			expectedEndY := expectedStartY + dy
+
+			newVec := new(PerpendicularVectorHalfway).Stage(stage)
+			newVec.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newVec.StartX = expectedStartX
+			newVec.StartY = expectedStartY
+			newVec.EndX = expectedEndX
+			newVec.EndY = expectedEndY
+			grid.PerpendicularVectorHalfways[i] = newVec
+		}
+		needCommit = true
+	}
+	return needCommit
 }
 
 func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveBezierShapeGrid, pGrid *PerpendicularVectorGrid, sideLength float64, circumferenceLength float64) (needCommit bool) {

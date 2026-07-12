@@ -67,6 +67,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthPathRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
+	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve(stager, layer, plant)
 
@@ -828,6 +829,34 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, la
 		line.Presentation.StrokeOpacity = 1.0
 	}
 }
+
+func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.PerpendicularVectorGridHalfway == nil || plantDiagram.IsHiddenPerpendicularVectorGridHalfway {
+		return
+	}
+
+	for _, vec := range plant.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = vec.Name
+
+		svg_x1 := plantDiagram.OriginX + vec.StartX
+		svg_y1 := plantDiagram.OriginY - vec.StartY
+
+		svg_x2 := plantDiagram.OriginX + vec.EndX
+		svg_y2 := plantDiagram.OriginY - vec.EndY
+
+		line.X1 = svg_x1
+		line.Y1 = svg_y1
+		line.X2 = svg_x2
+		line.Y2 = svg_y2
+
+		line.Presentation.Stroke = "purple" // Distinct color for halfway
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
+	}
+}
+
 
 func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plant.GrowthCurveBezierShapeGrid == nil || plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
