@@ -6723,6 +6723,10 @@ func (rendered3dshape *Rendered3DShape) GongGetFieldHeaders() (res []GongFieldHe
 			Name:               "TargetZ",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "Fov",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -7476,6 +7480,10 @@ func (rendered3dshape *Rendered3DShape) GongGetFieldValue(fieldName string, stag
 		res.valueString = fmt.Sprintf("%f", rendered3dshape.TargetZ)
 		res.valueFloat = rendered3dshape.TargetZ
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Fov":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.Fov)
+		res.valueFloat = rendered3dshape.Fov
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -8204,6 +8212,8 @@ func (rendered3dshape *Rendered3DShape) GongSetFieldValue(fieldName string, valu
 		rendered3dshape.TargetY = value.GetValueFloat()
 	case "TargetZ":
 		rendered3dshape.TargetZ = value.GetValueFloat()
+	case "Fov":
+		rendered3dshape.Fov = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

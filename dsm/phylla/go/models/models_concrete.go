@@ -164,4 +164,5 @@ type Rendered3DShape struct {
 
 	ViewX, ViewY, ViewZ float64
 	TargetX, TargetY, TargetZ float64
+	Fov float64
 }

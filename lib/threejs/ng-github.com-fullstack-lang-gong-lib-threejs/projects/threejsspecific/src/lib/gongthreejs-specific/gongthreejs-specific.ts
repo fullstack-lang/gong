@@ -62,7 +62,7 @@ export class CameraUpdaterDirective implements OnChanges {
         // Use type assertion to set fov since state.camera is of type THREE.Camera 
         // which might not have 'fov' if it's not a PerspectiveCamera
         if ('fov' in camera) {
-          (camera as any).fov = this.cam.Fov ?? 50;
+          (camera as any).fov = this.cam.Fov || 50;
         }
 
         camera.updateProjectionMatrix();

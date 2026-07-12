@@ -3165,6 +3165,9 @@ func (rendered3dshape *Rendered3DShape) GongDiff(stage *Stage, rendered3dshapeOt
 	if rendered3dshape.TargetZ != rendered3dshapeOther.TargetZ {
 		diffs = append(diffs, rendered3dshape.GongMarshallField(stage, "TargetZ"))
 	}
+	if rendered3dshape.Fov != rendered3dshapeOther.Fov {
+		diffs = append(diffs, rendered3dshape.GongMarshallField(stage, "Fov"))
+	}
 
 	return
 }

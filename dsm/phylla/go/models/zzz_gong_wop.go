@@ -397,6 +397,8 @@ type Rendered3DShape_WOP struct {
 	TargetY float64
 
 	TargetZ float64
+
+	Fov float64
 }
 
 func (from *Rendered3DShape) CopyBasicFields(to *Rendered3DShape) {
@@ -408,6 +410,7 @@ func (from *Rendered3DShape) CopyBasicFields(to *Rendered3DShape) {
 	to.TargetX = from.TargetX
 	to.TargetY = from.TargetY
 	to.TargetZ = from.TargetZ
+	to.Fov = from.Fov
 }
 
 type RhombusShape_WOP struct {
