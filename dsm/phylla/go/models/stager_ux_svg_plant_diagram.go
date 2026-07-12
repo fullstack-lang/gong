@@ -69,6 +69,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
 	plantDiagram.drawStartArcShapeGrid(stager, layer, plant)
+	plantDiagram.drawEndArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve(stager, layer, plant)
 
@@ -884,6 +885,38 @@ func (plantDiagram *PlantDiagram) drawStartArcShapeGrid(stager *Stager, layer *s
 		)
 
 		path.Presentation.Stroke = "cyan"
+		path.Presentation.StrokeWidth = 3.0
+		path.Presentation.StrokeOpacity = 1.0
+		path.Presentation.FillOpacity = 0.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawEndArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.EndArcShapeGrid == nil || plantDiagram.IsHiddenEndArcShapeGrid {
+		return
+	}
+
+	for _, arc := range plant.EndArcShapeGrid.EndArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = arc.Name
+
+		sweepFlag := 0
+		if arc.SweepFlag {
+			sweepFlag = 1
+		}
+		largeArcFlag := 0
+		if arc.LargeArcFlag {
+			largeArcFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
+			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
+			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
+			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
+		)
+
+		path.Presentation.Stroke = "magenta"
 		path.Presentation.StrokeWidth = 3.0
 		path.Presentation.StrokeOpacity = 1.0
 		path.Presentation.FillOpacity = 0.0

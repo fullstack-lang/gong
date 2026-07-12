@@ -54,6 +54,21 @@ func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by EndArcShape
+func (endarcshape *EndArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EndArcShapeGrid
+func (endarcshapegrid *EndArcShapeGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &endarcshapegrid.EndArcShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ExplanationTextShape
 func (explanationtextshape *ExplanationTextShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -186,6 +201,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
 	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
 	return
