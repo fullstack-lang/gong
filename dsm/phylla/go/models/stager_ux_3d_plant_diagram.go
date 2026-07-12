@@ -202,6 +202,142 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 		}
 
+		// Torus generated from StartArcShapeV2Grid & EndArcShapeV2Grid
+		if plant.StartArcShapeV2Grid != nil && plant.EndArcShapeV2Grid != nil &&
+			len(plant.StartArcShapeV2Grid.StartArcShapesV2) > 0 {
+
+			circumference := 10.0
+			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
+				circumference = plant.PlantCircumferenceShape.Length
+			}
+			R := circumference / (2 * math.Pi)
+
+			curve := (&threejs.Curve{
+				Name: "Torus Bottom Z Curve",
+			}).Stage(stager.threejsStage)
+
+			appendArcPoints := func(x1, y1, x2, y2, r float64, sweepFlag bool, name string) {
+				dx := (x1 - x2) / 2.0
+				dy := (y1 - y2) / 2.0
+				d2 := dx*dx + dy*dy
+				var cx, cy float64
+				if d2 == 0 || r*r < d2 {
+					cx = (x1 + x2) / 2.0
+					cy = (y1 + y2) / 2.0
+					r = math.Sqrt(d2)
+				} else {
+					h := math.Sqrt(r*r/d2 - 1.0)
+					if !sweepFlag {
+						h = -h
+					}
+					cx = (x1+x2)/2.0 + h*dy
+					cy = (y1+y2)/2.0 - h*dx
+				}
+
+				startAngle := math.Atan2(y1-cy, x1-cx)
+				endAngle := math.Atan2(y2-cy, x2-cx)
+
+				if sweepFlag {
+					for endAngle < startAngle {
+						endAngle += 2 * math.Pi
+					}
+				} else {
+					for endAngle > startAngle {
+						endAngle -= 2 * math.Pi
+					}
+				}
+
+				steps := 20
+				for i := 0; i <= steps; i++ {
+					// avoid duplicating the exact start/end points of adjacent arcs
+					if i == 0 && len(curve.Points) > 0 {
+						continue
+					}
+
+					t := float64(i) / float64(steps)
+					angle := startAngle + t*(endAngle-startAngle)
+					x2d := cx + r*math.Cos(angle)
+					y2d := cy + r*math.Sin(angle)
+
+					theta := x2d / R
+					x3d := R * math.Cos(theta)
+					z3d := R * math.Sin(theta)
+					y3d := y2d
+
+					vec := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Point %d", name, i),
+						X:    x3d,
+						Y:    y3d,
+						Z:    z3d,
+					}).Stage(stager.threejsStage)
+					curve.Points = append(curve.Points, vec)
+				}
+			}
+
+			startArcs := plant.StartArcShapeV2Grid.StartArcShapesV2
+			endArcs := plant.EndArcShapeV2Grid.EndArcShapesV2
+
+			for i := 0; i < len(startArcs); i++ {
+				sa := startArcs[i]
+				appendArcPoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, sa.SweepFlag, fmt.Sprintf("StartArc %d", i))
+
+				if i < len(endArcs) {
+					ea := endArcs[i]
+					appendArcPoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, ea.SweepFlag, fmt.Sprintf("EndArc %d", i))
+				}
+			}
+
+			if len(curve.Points) > 1 {
+				thickness := plant.Thickness
+				if thickness == 0 {
+					thickness = 1.0
+				}
+
+				shape := (&threejs.Shape{
+					Name: "Torus Section Shape",
+				}).Stage(stager.threejsStage)
+
+				// A square shape. 
+				// ExtrudeGeometry maps X to the normal, Y to the binormal.
+				// We want the section to go outward by `thickness` (X: 0 to thickness)
+				// and "upward" to match the Top curve (Y: 0 to thickness)
+				pts := [][2]float64{
+					{0, 0},
+					{thickness, 0},
+					{thickness, thickness},
+					{0, thickness},
+					{0, 0},
+				}
+				for i, p := range pts {
+					v := (&threejs.Vector2{
+						Name: fmt.Sprintf("SquarePoint %d", i),
+						X:    p[0],
+						Y:    p[1],
+					}).Stage(stager.threejsStage)
+					shape.Points = append(shape.Points, v)
+				}
+
+				extrudeGeom := (&threejs.ExtrudeGeometry{
+					Name:        "Torus Extrude Geometry",
+					ExtrudePath: curve,
+					Shape:       shape,
+					Steps:       len(curve.Points) * 2,
+				}).Stage(stager.threejsStage)
+
+				torusMesh := (&threejs.Mesh{
+					Name:                 "Torus Mesh",
+					Position:             threejs.Position{X: 0, Y: 0, Z: 0},
+					ExtrudeGeometry:      extrudeGeom,
+					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+						Name:                 "Torus Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "orange"},
+					}).Stage(stager.threejsStage),
+				}).Stage(stager.threejsStage)
+
+				canvas.Meshs = append(canvas.Meshs, torusMesh)
+			}
+		}
+
 		stager.threejsStage.Commit()
 	} else {
 		threejs.GenerateReferenceScene(stager.threejsStage)
