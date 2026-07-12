@@ -1181,6 +1181,8 @@ func (u *Rendered3DShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 		instance.TargetY = GongExtractFloat(valueExpr)
 	case "TargetZ":
 		instance.TargetZ = GongExtractFloat(valueExpr)
+	case "Fov":
+		instance.Fov = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

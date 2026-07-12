@@ -2169,6 +2169,8 @@ func (rendered3dshapeFormCallback *Rendered3DShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rendered3dshape_.TargetY), formDiv)
 		case "TargetZ":
 			FormDivBasicFieldToField(&(rendered3dshape_.TargetZ), formDiv)
+		case "Fov":
+			FormDivBasicFieldToField(&(rendered3dshape_.Fov), formDiv)
 		}
 	}
 

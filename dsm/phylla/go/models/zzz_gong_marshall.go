@@ -863,6 +863,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "TargetX"))
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "TargetY"))
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "TargetZ"))
+		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "Fov"))
 	}
 
 	rhombusshapeOrdered := []*RhombusShape{}
@@ -2132,6 +2133,11 @@ func (rendered3dshape *Rendered3DShape) GongMarshallField(stage *Stage, fieldNam
 		res = strings.ReplaceAll(res, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetZ")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rendered3dshape.TargetZ))
+	case "Fov":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fov")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rendered3dshape.Fov))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Rendered3DShape", fieldName)
@@ -2586,6 +2592,7 @@ func (rendered3dshape *Rendered3DShape) GongMarshallAllFields(stage *Stage) (ini
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "TargetX"))
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "TargetY"))
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "TargetZ"))
+		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "Fov"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

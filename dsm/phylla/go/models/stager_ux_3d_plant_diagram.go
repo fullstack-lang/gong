@@ -77,6 +77,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				TargetX: checkedDiagram.Rendered3DShape.TargetX,
 				TargetY: checkedDiagram.Rendered3DShape.TargetY,
 				TargetZ: checkedDiagram.Rendered3DShape.TargetZ,
+				Fov:     checkedDiagram.Rendered3DShape.Fov,
 			}).Stage(stager.threejsStage)
 		} else {
 			canvas.Camera = (&threejs.Camera{

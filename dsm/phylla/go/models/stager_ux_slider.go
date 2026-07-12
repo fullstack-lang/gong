@@ -172,6 +172,17 @@ func (stager *Stager) ux_slider() {
 				&checkedDiagram.Rendered3DShape.TargetZ,
 			),
 		)
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"Field of View",
+				10,
+				120,
+				1,
+				&checkedDiagram.Rendered3DShape.Fov,
+			),
+		)
 	}
 
 	stager.sliderStage.Commit()
