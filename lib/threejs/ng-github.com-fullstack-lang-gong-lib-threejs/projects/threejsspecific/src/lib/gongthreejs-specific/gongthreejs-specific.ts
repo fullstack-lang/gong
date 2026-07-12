@@ -47,14 +47,38 @@ export class CameraUpdaterDirective implements OnChanges {
   private store = injectStore();
   
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['cam'] && this.cam) {
+    this.updateCamera();
+  }
+
+  updateCamera() {
+    if (this.cam) {
       const state = this.store();
       const camera = state.camera;
       const controls = state.controls as any;
-      if (camera && controls) {
+      if (camera) {
         camera.position.set(this.cam.X ?? 15, this.cam.Y ?? 15, this.cam.Z ?? 15);
+        camera.lookAt(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
+        
+        // Use type assertion to set fov since state.camera is of type THREE.Camera 
+        // which might not have 'fov' if it's not a PerspectiveCamera
+        if ('fov' in camera) {
+          (camera as any).fov = this.cam.Fov ?? 50;
+        }
+
+        camera.updateProjectionMatrix();
+      }
+      if (controls) {
         controls.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
         controls.update();
+      } else {
+        // Retry for controls
+        setTimeout(() => {
+          const c = this.store().controls as any;
+          if (c) {
+            c.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
+            c.update();
+          }
+        }, 100);
       }
     }
   }

@@ -569,6 +569,8 @@ func (u *CameraUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.TargetY = GongExtractFloat(valueExpr)
 	case "TargetZ":
 		instance.TargetZ = GongExtractFloat(valueExpr)
+	case "Fov":
+		instance.Fov = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

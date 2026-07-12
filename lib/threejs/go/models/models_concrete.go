@@ -16,6 +16,7 @@ type Camera struct {
 	TargetX float64
 	TargetY float64
 	TargetZ float64
+	Fov     float64 // Field of View (in degrees)
 }
 
 type Position struct {

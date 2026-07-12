@@ -68,6 +68,8 @@ type Camera_WOP struct {
 	TargetY float64
 
 	TargetZ float64
+
+	Fov float64
 }
 
 func (from *Camera) CopyBasicFields(to *Camera) {
@@ -79,6 +81,7 @@ func (from *Camera) CopyBasicFields(to *Camera) {
 	to.TargetX = from.TargetX
 	to.TargetY = from.TargetY
 	to.TargetZ = from.TargetZ
+	to.Fov = from.Fov
 }
 
 type Canvas_WOP struct {

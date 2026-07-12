@@ -1949,6 +1949,9 @@ func (camera *Camera) GongDiff(stage *Stage, cameraOther *Camera) (diffs []strin
 	if camera.TargetZ != cameraOther.TargetZ {
 		diffs = append(diffs, camera.GongMarshallField(stage, "TargetZ"))
 	}
+	if camera.Fov != cameraOther.Fov {
+		diffs = append(diffs, camera.GongMarshallField(stage, "Fov"))
+	}
 
 	return
 }

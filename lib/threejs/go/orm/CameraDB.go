@@ -84,6 +84,9 @@ type CameraDB struct {
 	// Declation for basic field cameraDB.TargetZ
 	TargetZ_Data sql.NullFloat64
 
+	// Declation for basic field cameraDB.Fov
+	Fov_Data sql.NullFloat64
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CameraPointersEncoding
@@ -119,6 +122,8 @@ type CameraWOP struct {
 	TargetY float64 `xlsx:"6"`
 
 	TargetZ float64 `xlsx:"7"`
+
+	Fov float64 `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -132,6 +137,7 @@ var Camera_Fields = []string{
 	"TargetX",
 	"TargetY",
 	"TargetZ",
+	"Fov",
 }
 
 type BackRepoCameraStruct struct {
@@ -427,6 +433,9 @@ func (cameraDB *CameraDB) CopyBasicFieldsFromCamera(camera *models.Camera) {
 
 	cameraDB.TargetZ_Data.Float64 = camera.TargetZ
 	cameraDB.TargetZ_Data.Valid = true
+
+	cameraDB.Fov_Data.Float64 = camera.Fov
+	cameraDB.Fov_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCamera_WOP
@@ -453,6 +462,9 @@ func (cameraDB *CameraDB) CopyBasicFieldsFromCamera_WOP(camera *models.Camera_WO
 
 	cameraDB.TargetZ_Data.Float64 = camera.TargetZ
 	cameraDB.TargetZ_Data.Valid = true
+
+	cameraDB.Fov_Data.Float64 = camera.Fov
+	cameraDB.Fov_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCameraWOP
@@ -479,6 +491,9 @@ func (cameraDB *CameraDB) CopyBasicFieldsFromCameraWOP(camera *CameraWOP) {
 
 	cameraDB.TargetZ_Data.Float64 = camera.TargetZ
 	cameraDB.TargetZ_Data.Valid = true
+
+	cameraDB.Fov_Data.Float64 = camera.Fov
+	cameraDB.Fov_Data.Valid = true
 }
 
 // CopyBasicFieldsToCamera
@@ -491,6 +506,7 @@ func (cameraDB *CameraDB) CopyBasicFieldsToCamera(camera *models.Camera) {
 	camera.TargetX = cameraDB.TargetX_Data.Float64
 	camera.TargetY = cameraDB.TargetY_Data.Float64
 	camera.TargetZ = cameraDB.TargetZ_Data.Float64
+	camera.Fov = cameraDB.Fov_Data.Float64
 }
 
 // CopyBasicFieldsToCamera_WOP
@@ -503,6 +519,7 @@ func (cameraDB *CameraDB) CopyBasicFieldsToCamera_WOP(camera *models.Camera_WOP)
 	camera.TargetX = cameraDB.TargetX_Data.Float64
 	camera.TargetY = cameraDB.TargetY_Data.Float64
 	camera.TargetZ = cameraDB.TargetZ_Data.Float64
+	camera.Fov = cameraDB.Fov_Data.Float64
 }
 
 // CopyBasicFieldsToCameraWOP
@@ -516,6 +533,7 @@ func (cameraDB *CameraDB) CopyBasicFieldsToCameraWOP(camera *CameraWOP) {
 	camera.TargetX = cameraDB.TargetX_Data.Float64
 	camera.TargetY = cameraDB.TargetY_Data.Float64
 	camera.TargetZ = cameraDB.TargetZ_Data.Float64
+	camera.Fov = cameraDB.Fov_Data.Float64
 }
 
 // Backup generates a json file from a slice of all CameraDB instances in the backrepo

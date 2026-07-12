@@ -373,6 +373,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetX"))
 		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetY"))
 		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetZ"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Fov"))
 	}
 
 	canvasOrdered := []*Canvas{}
@@ -1133,6 +1134,11 @@ func (camera *Camera) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetZ")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.TargetZ))
+	case "Fov":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fov")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.Fov))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Camera", fieldName)
@@ -1869,6 +1875,7 @@ func (camera *Camera) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetX"))
 		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetY"))
 		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetZ"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Fov"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
