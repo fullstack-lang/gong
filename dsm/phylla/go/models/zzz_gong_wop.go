@@ -431,6 +431,8 @@ type Plant_WOP struct {
 
 	RhombusInsideAngle float64
 
+	Thickness float64
+
 	RhombusSideLength float64
 
 	ComputedPrefix string
@@ -449,6 +451,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.M = from.M
 	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
+	to.Thickness = from.Thickness
 	to.RhombusSideLength = from.RhombusSideLength
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
