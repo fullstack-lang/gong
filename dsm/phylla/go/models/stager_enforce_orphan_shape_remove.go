@@ -25,9 +25,11 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPerpendicularVectorHalfway := make(map[*PerpendicularVectorHalfway]bool)
 
 	refPerpendicularVectorGridHalfway := make(map[*PerpendicularVectorGridHalfway]bool)
+	refStartArcShapeGrid := make(map[*StartArcShapeGrid]bool)
 	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
 	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
 	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
+	refStartArcShape := make(map[*StartArcShape]bool)
 	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
 	refRendered3DShape := make(map[*Rendered3DShape]bool)
 
@@ -102,6 +104,15 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			for _, vec := range plant.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
 				if vec != nil {
 					refPerpendicularVectorHalfway[vec] = true
+				}
+			}
+		}
+
+		if plant.StartArcShapeGrid != nil {
+			refStartArcShapeGrid[plant.StartArcShapeGrid] = true
+			for _, shape := range plant.StartArcShapeGrid.StartArcShapes {
+				if shape != nil {
+					refStartArcShape[shape] = true
 				}
 			}
 		}
@@ -207,6 +218,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
+	for grid := range *GetGongstructInstancesSetFromPointerType[*StartArcShapeGrid](stage) {
+		if !refStartArcShapeGrid[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for grid := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShapeGrid](stage) {
 		if !refGrowthCurveBezierShapeGrid[grid] {
 			grid.Unstage(stage)
@@ -253,6 +271,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVectorHalfway](stage) {
 		if !refPerpendicularVectorHalfway[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StartArcShape](stage) {
+		if !refStartArcShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

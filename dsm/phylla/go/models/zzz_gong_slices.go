@@ -168,6 +168,19 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct StartArcShape
+	// insertion point per field
+
+	// Compute reverse map for named struct StartArcShapeGrid
+	// insertion point per field
+	stage.StartArcShapeGrid_StartArcShapes_reverseMap = make(map[*StartArcShape]*StartArcShapeGrid)
+	for startarcshapegrid := range stage.StartArcShapeGrids {
+		_ = startarcshapegrid
+		for _, _startarcshape := range startarcshapegrid.StartArcShapes {
+			stage.StartArcShapeGrid_StartArcShapes_reverseMap[_startarcshape] = startarcshapegrid
+		}
+	}
+
 	// end of insertion point per named struct
 }
 
@@ -274,6 +287,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StackOfGrowthCurves {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StartArcShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StartArcShapeGrids {
 		res = append(res, instance)
 	}
 
@@ -434,6 +455,18 @@ func (stackgrowthcurvebeziershape *StackGrowthCurveBezierShape) GongCopy() Gongs
 func (stackofgrowthcurve *StackOfGrowthCurve) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve)
 	stackofgrowthcurve.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (startarcshape *StartArcShape) GongCopy() GongstructIF {
+	newInstance := new(StartArcShape)
+	startarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(StartArcShapeGrid)
+	startarcshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -695,6 +728,26 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetUUID(stage *Stage) (uuid st
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve), uint64(GetOrderPointerGongstruct(stage, stackofgrowthcurve)))
+	return
+}
+
+func (startarcshape *StartArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(startarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(startarcshape), uint64(GetOrderPointerGongstruct(stage, startarcshape)))
+	return
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(startarcshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(startarcshapegrid), uint64(GetOrderPointerGongstruct(stage, startarcshapegrid)))
 	return
 }
 
@@ -2146,6 +2199,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(stackofgrowthcurves_newInstances)
 	lenDeletedInstances += len(stackofgrowthcurves_deletedInstances)
+	var startarcshapes_newInstances []*StartArcShape
+	var startarcshapes_deletedInstances []*StartArcShape
+
+	// parse all staged instances and check if they have a reference
+	for startarcshape := range stage.StartArcShapes {
+		if ref, ok := stage.StartArcShapes_reference[startarcshape]; !ok {
+			startarcshapes_newInstances = append(startarcshapes_newInstances, startarcshape)
+			newInstancesSlice = append(newInstancesSlice, startarcshape.GongMarshallIdentifier(stage))
+			if stage.StartArcShapes_referenceOrder == nil {
+				stage.StartArcShapes_referenceOrder = make(map[*StartArcShape]uint)
+			}
+			stage.StartArcShapes_referenceOrder[startarcshape] = stage.StartArcShape_stagedOrder[startarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, startarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.StartArcShapes_referenceOrder, startarcshape)
+			fieldInitializers, pointersInitializations := startarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StartArcShape_stagedOrder[ref] = stage.StartArcShape_stagedOrder[startarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := startarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, startarcshape)
+			// delete(stage.StartArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if startarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", startarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StartArcShapes_reference {
+		instance := stage.StartArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StartArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			startarcshapes_deletedInstances = append(startarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(startarcshapes_newInstances)
+	lenDeletedInstances += len(startarcshapes_deletedInstances)
+	var startarcshapegrids_newInstances []*StartArcShapeGrid
+	var startarcshapegrids_deletedInstances []*StartArcShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for startarcshapegrid := range stage.StartArcShapeGrids {
+		if ref, ok := stage.StartArcShapeGrids_reference[startarcshapegrid]; !ok {
+			startarcshapegrids_newInstances = append(startarcshapegrids_newInstances, startarcshapegrid)
+			newInstancesSlice = append(newInstancesSlice, startarcshapegrid.GongMarshallIdentifier(stage))
+			if stage.StartArcShapeGrids_referenceOrder == nil {
+				stage.StartArcShapeGrids_referenceOrder = make(map[*StartArcShapeGrid]uint)
+			}
+			stage.StartArcShapeGrids_referenceOrder[startarcshapegrid] = stage.StartArcShapeGrid_stagedOrder[startarcshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, startarcshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.StartArcShapeGrids_referenceOrder, startarcshapegrid)
+			fieldInitializers, pointersInitializations := startarcshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StartArcShapeGrid_stagedOrder[ref] = stage.StartArcShapeGrid_stagedOrder[startarcshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := startarcshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, startarcshapegrid)
+			// delete(stage.StartArcShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if startarcshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", startarcshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StartArcShapeGrids_reference {
+		instance := stage.StartArcShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StartArcShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			startarcshapegrids_deletedInstances = append(startarcshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(startarcshapegrids_newInstances)
+	lenDeletedInstances += len(startarcshapegrids_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -2441,6 +2604,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StackOfGrowthCurves_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StartArcShapes_reference = make(map[*StartArcShape]*StartArcShape)
+	stage.StartArcShapes_referenceOrder = make(map[*StartArcShape]uint) // diff Unstage needs the reference order
+	stage.StartArcShapes_instance = make(map[*StartArcShape]*StartArcShape)
+	for instance := range stage.StartArcShapes {
+		_copy := instance.GongCopy().(*StartArcShape)
+		stage.StartArcShapes_reference[instance] = _copy
+		stage.StartArcShapes_instance[_copy] = instance
+		stage.StartArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.StartArcShapeGrids_reference = make(map[*StartArcShapeGrid]*StartArcShapeGrid)
+	stage.StartArcShapeGrids_referenceOrder = make(map[*StartArcShapeGrid]uint) // diff Unstage needs the reference order
+	stage.StartArcShapeGrids_instance = make(map[*StartArcShapeGrid]*StartArcShapeGrid)
+	for instance := range stage.StartArcShapeGrids {
+		_copy := instance.GongCopy().(*StartArcShapeGrid)
+		stage.StartArcShapeGrids_reference[instance] = _copy
+		stage.StartArcShapeGrids_instance[_copy] = instance
+		stage.StartArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.AxesShapes {
 		reference := stage.AxesShapes_reference[instance]
@@ -2569,6 +2752,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StackOfGrowthCurves {
 		reference := stage.StackOfGrowthCurves_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StartArcShapes {
+		reference := stage.StartArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StartArcShapeGrids {
+		reference := stage.StartArcShapeGrids_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2894,6 +3087,30 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (startarcshape *StartArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StartArcShape_stagedOrder[startarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.StartArcShapes_referenceOrder[startarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StartArcShape was not staged and does not have a reference order", startarcshape)
+		return 0
+	}
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StartArcShapeGrid_stagedOrder[startarcshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.StartArcShapeGrids_referenceOrder[startarcshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StartArcShapeGrid was not staged and does not have a reference order", startarcshapegrid)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -3133,6 +3350,24 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetReferenceIdentifier(stage *
 	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve.GongGetGongstructName(), stackofgrowthcurve.GongGetOrder(stage))
 }
 
+func (startarcshape *StartArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", startarcshape.GongGetGongstructName(), startarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (startarcshape *StartArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", startarcshape.GongGetGongstructName(), startarcshape.GongGetOrder(stage))
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", startarcshapegrid.GongGetGongstructName(), startarcshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (startarcshapegrid *StartArcShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", startarcshapegrid.GongGetGongstructName(), startarcshapegrid.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -3344,6 +3579,22 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongMarshallIdentifier(stage *Stag
 	return
 }
 
+func (startarcshape *StartArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(startarcshape.Name))
+	return
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartArcShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(startarcshapegrid.Name))
+	return
+}
+
 // insertion point for unstaging
 func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -3498,6 +3749,18 @@ func (stackgrowthcurvebeziershape *StackGrowthCurveBezierShape) GongMarshallUnst
 func (stackofgrowthcurve *StackOfGrowthCurve) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (startarcshape *StartArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (startarcshapegrid *StartArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

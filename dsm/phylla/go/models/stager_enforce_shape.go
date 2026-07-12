@@ -280,6 +280,18 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_halfway || needCommit
 
+	n7_arc := enforcePlantHasShape[*StartArcShapeGrid](
+		stager,
+		func() *StartArcShapeGrid { return new(StartArcShapeGrid) },
+		func(p *Plant) *StartArcShapeGrid { return p.StartArcShapeGrid },
+		func(p *Plant, shape *StartArcShapeGrid) { p.StartArcShapeGrid = shape },
+		func(p *Plant, shape *StartArcShapeGrid) bool {
+			return p.StartArcShapeGrid == shape
+		},
+		"StartArcShapeGrid",
+	)
+	needCommit = n7_arc || needCommit
+
 	n8 := enforcePlantHasShape[*GrowthCurveBezierShapeGrid](
 		stager,
 		func() *GrowthCurveBezierShapeGrid { return new(GrowthCurveBezierShapeGrid) },
@@ -304,7 +316,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n9 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n8 || n9
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_arc || n8 || n9
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -386,6 +398,13 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_halfway || needCommit
 
+	n7_arc := enforcePlantShapeName[*StartArcShapeGrid](
+		stager,
+		func(p *Plant) *StartArcShapeGrid { return p.StartArcShapeGrid },
+		"StartArcShapeGrid",
+	)
+	needCommit = n7_arc || needCommit
+
 	n8 := enforcePlantShapeName[*GrowthCurveBezierShapeGrid](
 		stager,
 		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
@@ -400,7 +419,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n9 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n8 || n9
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_arc || n8 || n9
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -479,6 +498,10 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 		if plant.PerpendicularVectorGridHalfway != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforcePerpendicularVectorGridHalfwayHasVectors(stage, plant.PerpendicularVectorGridHalfway, plant.PerpendicularVectorGrid) || needCommit
+		}
+		
+		if plant.StartArcShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
+			needCommit = enforceStartArcShapeGridHasShapes(stage, plant.StartArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 		
 		circLen := 0.0
@@ -715,6 +738,143 @@ func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
 	// Initial, Rotated and Growth grids no longer use generic RhombusShape.
 	return false
 }
+
+func enforceStartArcShapeGridHasShapes(stage *Stage, grid *StartArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.StartArcShapes) > 0 {
+			grid.StartArcShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	if len(grid.StartArcShapes) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			arc := grid.StartArcShapes[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if arc == nil || arc.Name != expectedName {
+				valid = false
+				break
+			}
+
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			length := math.Hypot(dx, dy)
+			if length == 0 {
+				length = 1
+			}
+			ux, uy := dx/length, dy/length
+			nx, ny := -uy, ux // Normal vector to the left
+
+			// D is the projected distance to the halfway line
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+			D := (midX-v1.StartX)*nx + (midY-v1.StartY)*ny
+
+			expectedStartX := v1.StartX
+			expectedStartY := v1.StartY
+
+			R := math.Abs(D)
+			expectedRadiusX := R
+			expectedRadiusY := R
+
+			R_dir := 1.0
+			if v2.StartY < v1.StartY {
+				R_dir = -1.0
+			}
+
+			// The center of the arc is at Start + R_dir * R * v1_dir
+			cx := expectedStartX + R_dir*R*ux
+			cy := expectedStartY + R_dir*R*uy
+
+			// The end point is Center + D * n
+			expectedEndX := cx + D*nx
+			expectedEndY := cy + D*ny
+
+			expectedSweepFlag := (D > 0)
+			if R_dir < 0 {
+				expectedSweepFlag = !expectedSweepFlag
+			}
+
+			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
+				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
+				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
+				arc.SweepFlag != expectedSweepFlag {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.StartArcShapes {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.StartArcShapes = make([]*StartArcShape, expectedLen)
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			length := math.Hypot(dx, dy)
+			if length == 0 {
+				length = 1
+			}
+			ux, uy := dx/length, dy/length
+			nx, ny := -uy, ux
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+			D := (midX-v1.StartX)*nx + (midY-v1.StartY)*ny
+
+			expectedStartX := v1.StartX
+			expectedStartY := v1.StartY
+
+			R := math.Abs(D)
+			R_dir := 1.0
+			if v2.StartY < v1.StartY {
+				R_dir = -1.0
+			}
+
+			cx := expectedStartX + R_dir*R*ux
+			cy := expectedStartY + R_dir*R*uy
+
+			expectedEndX := cx + D*nx
+			expectedEndY := cy + D*ny
+
+			sweepFlag := (D > 0)
+			if R_dir < 0 {
+				sweepFlag = !sweepFlag
+			}
+
+			newArc := new(StartArcShape).Stage(stage)
+			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newArc.StartX = expectedStartX
+			newArc.StartY = expectedStartY
+			newArc.EndX = expectedEndX
+			newArc.EndY = expectedEndY
+			newArc.RadiusX = R
+			newArc.RadiusY = R
+			newArc.SweepFlag = sweepFlag
+			newArc.LargeArcFlag = false
+			newArc.XAxisRotation = 0
+
+			grid.StartArcShapes[i] = newArc
+		}
+		needCommit = true
+	}
+	return needCommit
+}
+
 
 func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *PerpendicularVectorGridHalfway, sourceGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if sourceGrid == nil || grid == nil || len(sourceGrid.PerpendicularVectors) < 2 {

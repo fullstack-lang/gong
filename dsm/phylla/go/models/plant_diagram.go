@@ -20,6 +20,7 @@ type PlantDiagram struct {
 	IsHiddenGrowthVectorShape              bool
 	IsHiddenPerpendicularVectorGrid        bool
 	IsHiddenPerpendicularVectorGridHalfway bool
+	IsHiddenStartArcShapeGrid              bool
 	IsHiddenGrowthCurveBezierShapeGrid     bool
 	IsHiddenStackOfGrowthCurve             bool
 

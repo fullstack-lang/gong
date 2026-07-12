@@ -50,6 +50,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*RotatedRhombusShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackGrowthCurveBezierShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackOfGrowthCurve](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*StartArcShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*StartArcShapeGrid](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

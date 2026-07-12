@@ -85,6 +85,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *StackOfGrowthCurve:
 		ok = stage.IsStagedStackOfGrowthCurve(target)
 
+	case *StartArcShape:
+		ok = stage.IsStagedStartArcShape(target)
+
+	case *StartArcShapeGrid:
+		ok = stage.IsStagedStartArcShapeGrid(target)
+
 	default:
 		_ = target
 	}
@@ -172,6 +178,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StackOfGrowthCurve:
 		ok = stage.IsStagedStackOfGrowthCurve(target)
+
+	case *StartArcShape:
+		ok = stage.IsStagedStartArcShape(target)
+
+	case *StartArcShapeGrid:
+		ok = stage.IsStagedStartArcShapeGrid(target)
 
 	default:
 		_ = target
@@ -362,6 +374,20 @@ func (stage *Stage) IsStagedStackOfGrowthCurve(stackofgrowthcurve *StackOfGrowth
 	return
 }
 
+func (stage *Stage) IsStagedStartArcShape(startarcshape *StartArcShape) (ok bool) {
+
+	_, ok = stage.StartArcShapes[startarcshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) (ok bool) {
+
+	_, ok = stage.StartArcShapeGrids[startarcshapegrid]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -447,6 +473,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StackOfGrowthCurve:
 		stage.StageBranchStackOfGrowthCurve(target)
+
+	case *StartArcShape:
+		stage.StageBranchStartArcShape(target)
+
+	case *StartArcShapeGrid:
+		stage.StageBranchStartArcShapeGrid(target)
 
 	default:
 		_ = target
@@ -782,6 +814,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.PerpendicularVectorGridHalfway != nil {
 		StageBranch(stage, plant.PerpendicularVectorGridHalfway)
 	}
+	if plant.StartArcShapeGrid != nil {
+		StageBranch(stage, plant.StartArcShapeGrid)
+	}
 	if plant.GrowthCurveBezierShapeGrid != nil {
 		StageBranch(stage, plant.GrowthCurveBezierShapeGrid)
 	}
@@ -925,6 +960,39 @@ func (stage *Stage) StageBranchStackOfGrowthCurve(stackofgrowthcurve *StackOfGro
 
 }
 
+func (stage *Stage) StageBranchStartArcShape(startarcshape *StartArcShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, startarcshape) {
+		return
+	}
+
+	startarcshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, startarcshapegrid) {
+		return
+	}
+
+	startarcshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _startarcshape := range startarcshapegrid.StartArcShapes {
+		StageBranch(stage, _startarcshape)
+	}
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -1038,6 +1106,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StackOfGrowthCurve:
 		toT := CopyBranchStackOfGrowthCurve(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StartArcShape:
+		toT := CopyBranchStartArcShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StartArcShapeGrid:
+		toT := CopyBranchStartArcShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -1446,6 +1522,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.PerpendicularVectorGridHalfway != nil {
 		plantTo.PerpendicularVectorGridHalfway = CopyBranchPerpendicularVectorGridHalfway(mapOrigCopy, plantFrom.PerpendicularVectorGridHalfway)
 	}
+	if plantFrom.StartArcShapeGrid != nil {
+		plantTo.StartArcShapeGrid = CopyBranchStartArcShapeGrid(mapOrigCopy, plantFrom.StartArcShapeGrid)
+	}
 	if plantFrom.GrowthCurveBezierShapeGrid != nil {
 		plantTo.GrowthCurveBezierShapeGrid = CopyBranchGrowthCurveBezierShapeGrid(mapOrigCopy, plantFrom.GrowthCurveBezierShapeGrid)
 	}
@@ -1622,6 +1701,47 @@ func CopyBranchStackOfGrowthCurve(mapOrigCopy map[any]any, stackofgrowthcurveFro
 	return
 }
 
+func CopyBranchStartArcShape(mapOrigCopy map[any]any, startarcshapeFrom *StartArcShape) (startarcshapeTo *StartArcShape) {
+
+	// startarcshapeFrom has already been copied
+	if _startarcshapeTo, ok := mapOrigCopy[startarcshapeFrom]; ok {
+		startarcshapeTo = _startarcshapeTo.(*StartArcShape)
+		return
+	}
+
+	startarcshapeTo = new(StartArcShape)
+	mapOrigCopy[startarcshapeFrom] = startarcshapeTo
+	startarcshapeFrom.CopyBasicFields(startarcshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchStartArcShapeGrid(mapOrigCopy map[any]any, startarcshapegridFrom *StartArcShapeGrid) (startarcshapegridTo *StartArcShapeGrid) {
+
+	// startarcshapegridFrom has already been copied
+	if _startarcshapegridTo, ok := mapOrigCopy[startarcshapegridFrom]; ok {
+		startarcshapegridTo = _startarcshapegridTo.(*StartArcShapeGrid)
+		return
+	}
+
+	startarcshapegridTo = new(StartArcShapeGrid)
+	mapOrigCopy[startarcshapegridFrom] = startarcshapegridTo
+	startarcshapegridFrom.CopyBasicFields(startarcshapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _startarcshape := range startarcshapegridFrom.StartArcShapes {
+		startarcshapegridTo.StartArcShapes = append(startarcshapegridTo.StartArcShapes, CopyBranchStartArcShape(mapOrigCopy, _startarcshape))
+	}
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -1707,6 +1827,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StackOfGrowthCurve:
 		stage.UnstageBranchStackOfGrowthCurve(target)
+
+	case *StartArcShape:
+		stage.UnstageBranchStartArcShape(target)
+
+	case *StartArcShapeGrid:
+		stage.UnstageBranchStartArcShapeGrid(target)
 
 	default:
 		_ = target
@@ -2042,6 +2168,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.PerpendicularVectorGridHalfway != nil {
 		UnstageBranch(stage, plant.PerpendicularVectorGridHalfway)
 	}
+	if plant.StartArcShapeGrid != nil {
+		UnstageBranch(stage, plant.StartArcShapeGrid)
+	}
 	if plant.GrowthCurveBezierShapeGrid != nil {
 		UnstageBranch(stage, plant.GrowthCurveBezierShapeGrid)
 	}
@@ -2181,6 +2310,39 @@ func (stage *Stage) UnstageBranchStackOfGrowthCurve(stackofgrowthcurve *StackOfG
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _stackgrowthcurvebeziershape := range stackofgrowthcurve.StackGrowthCurveBezierShapes {
 		UnstageBranch(stage, _stackgrowthcurvebeziershape)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchStartArcShape(startarcshape *StartArcShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, startarcshape) {
+		return
+	}
+
+	startarcshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, startarcshapegrid) {
+		return
+	}
+
+	startarcshapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _startarcshape := range startarcshapegrid.StartArcShapes {
+		UnstageBranch(stage, _startarcshape)
 	}
 
 }
@@ -2343,6 +2505,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.PerpendicularVectorGridHalfway != nil {
 		reference.PerpendicularVectorGridHalfway = stage.PerpendicularVectorGridHalfways_reference[instance.PerpendicularVectorGridHalfway]
 	}
+	if instance.StartArcShapeGrid != nil {
+		reference.StartArcShapeGrid = stage.StartArcShapeGrids_reference[instance.StartArcShapeGrid]
+	}
 	if instance.GrowthCurveBezierShapeGrid != nil {
 		reference.GrowthCurveBezierShapeGrid = stage.GrowthCurveBezierShapeGrids_reference[instance.GrowthCurveBezierShapeGrid]
 	}
@@ -2404,6 +2569,20 @@ func (reference *StackOfGrowthCurve) GongReconstructPointersFromReferences(stage
 	reference.StackGrowthCurveBezierShapes = reference.StackGrowthCurveBezierShapes[:0]
 	for _, _b := range instance.StackGrowthCurveBezierShapes {
 		reference.StackGrowthCurveBezierShapes = append(reference.StackGrowthCurveBezierShapes, stage.StackGrowthCurveBezierShapes_reference[_b])
+	}
+}
+
+func (reference *StartArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *StartArcShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *StartArcShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *StartArcShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.StartArcShapes = reference.StartArcShapes[:0]
+	for _, _b := range instance.StartArcShapes {
+		reference.StartArcShapes = append(reference.StartArcShapes, stage.StartArcShapes_reference[_b])
 	}
 }
 
@@ -2628,6 +2807,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.PerpendicularVectorGridHalfway = _instance
 		}
 	}
+	if _reference := reference.StartArcShapeGrid; _reference != nil {
+		reference.StartArcShapeGrid = nil
+		if _instance, ok := stage.StartArcShapeGrids_instance[_reference]; ok {
+			reference.StartArcShapeGrid = _instance
+		}
+	}
 	if _reference := reference.GrowthCurveBezierShapeGrid; _reference != nil {
 		reference.GrowthCurveBezierShapeGrid = nil
 		if _instance, ok := stage.GrowthCurveBezierShapeGrids_instance[_reference]; ok {
@@ -2708,6 +2893,23 @@ func (reference *StackOfGrowthCurve) GongReconstructPointersFromInstances(stage 
 		}
 	}
 	reference.StackGrowthCurveBezierShapes = _StackGrowthCurveBezierShapes
+}
+
+func (reference *StartArcShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *StartArcShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _StartArcShapes []*StartArcShape
+	for _, _reference := range reference.StartArcShapes {
+		if _instance, ok := stage.StartArcShapes_instance[_reference]; ok {
+			_StartArcShapes = append(_StartArcShapes, _instance)
+		}
+	}
+	reference.StartArcShapes = _StartArcShapes
 }
 
 // insertion point for diff per struct
@@ -3291,6 +3493,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "PerpendicularVectorGridHalfway"))
 		}
 	}
+	if (plant.StartArcShapeGrid == nil) != (plantOther.StartArcShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "StartArcShapeGrid"))
+	} else if plant.StartArcShapeGrid != nil && plantOther.StartArcShapeGrid != nil {
+		if plant.StartArcShapeGrid != plantOther.StartArcShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "StartArcShapeGrid"))
+		}
+	}
 	if (plant.GrowthCurveBezierShapeGrid == nil) != (plantOther.GrowthCurveBezierShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 	} else if plant.GrowthCurveBezierShapeGrid != nil && plantOther.GrowthCurveBezierShapeGrid != nil {
@@ -3380,6 +3589,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenPerpendicularVectorGridHalfway != plantdiagramOther.IsHiddenPerpendicularVectorGridHalfway {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGridHalfway"))
+	}
+	if plantdiagram.IsHiddenStartArcShapeGrid != plantdiagramOther.IsHiddenStartArcShapeGrid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStartArcShapeGrid"))
 	}
 	if plantdiagram.IsHiddenGrowthCurveBezierShapeGrid != plantdiagramOther.IsHiddenGrowthCurveBezierShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
@@ -3566,6 +3778,76 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongDiff(stage *Stage, stackofgrow
 	}
 	if StackGrowthCurveBezierShapesDifferent {
 		ops := Diff(stage, stackofgrowthcurve, stackofgrowthcurveOther, "StackGrowthCurveBezierShapes", stackofgrowthcurveOther.StackGrowthCurveBezierShapes, stackofgrowthcurve.StackGrowthCurveBezierShapes)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (startarcshape *StartArcShape) GongDiff(stage *Stage, startarcshapeOther *StartArcShape) (diffs []string) {
+	// insertion point for field diffs
+	if startarcshape.Name != startarcshapeOther.Name {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "Name"))
+	}
+	if startarcshape.StartX != startarcshapeOther.StartX {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "StartX"))
+	}
+	if startarcshape.StartY != startarcshapeOther.StartY {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "StartY"))
+	}
+	if startarcshape.EndX != startarcshapeOther.EndX {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "EndX"))
+	}
+	if startarcshape.EndY != startarcshapeOther.EndY {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "EndY"))
+	}
+	if startarcshape.XAxisRotation != startarcshapeOther.XAxisRotation {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if startarcshape.LargeArcFlag != startarcshapeOther.LargeArcFlag {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if startarcshape.SweepFlag != startarcshapeOther.SweepFlag {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "SweepFlag"))
+	}
+	if startarcshape.RadiusX != startarcshapeOther.RadiusX {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "RadiusX"))
+	}
+	if startarcshape.RadiusY != startarcshapeOther.RadiusY {
+		diffs = append(diffs, startarcshape.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (startarcshapegrid *StartArcShapeGrid) GongDiff(stage *Stage, startarcshapegridOther *StartArcShapeGrid) (diffs []string) {
+	// insertion point for field diffs
+	if startarcshapegrid.Name != startarcshapegridOther.Name {
+		diffs = append(diffs, startarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+	StartArcShapesDifferent := false
+	if len(startarcshapegrid.StartArcShapes) != len(startarcshapegridOther.StartArcShapes) {
+		StartArcShapesDifferent = true
+	} else {
+		for i := range startarcshapegrid.StartArcShapes {
+			if (startarcshapegrid.StartArcShapes[i] == nil) != (startarcshapegridOther.StartArcShapes[i] == nil) {
+				StartArcShapesDifferent = true
+				break
+			} else if startarcshapegrid.StartArcShapes[i] != nil && startarcshapegridOther.StartArcShapes[i] != nil {
+				// this is a pointer comparaison
+				if startarcshapegrid.StartArcShapes[i] != startarcshapegridOther.StartArcShapes[i] {
+					StartArcShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if StartArcShapesDifferent {
+		ops := Diff(stage, startarcshapegrid, startarcshapegridOther, "StartArcShapes", startarcshapegridOther.StartArcShapes, startarcshapegrid.StartArcShapes)
 		diffs = append(diffs, ops)
 	}
 
