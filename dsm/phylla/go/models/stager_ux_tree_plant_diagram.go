@@ -481,6 +481,36 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	baseVectorShapeGrid := plant.BaseVectorShapeGrid
+	if baseVectorShapeGrid != nil {
+		node := &tree.Node{
+			Name:            baseVectorShapeGrid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(baseVectorShapeGrid, GetPointerToGongstructName[*BaseVectorShapeGrid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenBaseVectorShapeGrid = !plantDiagram.IsHiddenBaseVectorShapeGrid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenBaseVectorShapeGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	startArcShapeGrid := plant.StartArcShapeGrid
 	if startArcShapeGrid != nil {
 		node := &tree.Node{
@@ -503,6 +533,36 @@ func (stager *Stager) treePlantDiagram(
 			},
 		}
 		if plantDiagram.IsHiddenStartArcShapeGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	startArcShapeV2Grid := plant.StartArcShapeV2Grid
+	if startArcShapeV2Grid != nil {
+		node := &tree.Node{
+			Name:            startArcShapeV2Grid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(startArcShapeV2Grid, GetPointerToGongstructName[*StartArcShapeV2Grid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenStartArcShapeV2Grid = !plantDiagram.IsHiddenStartArcShapeV2Grid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenStartArcShapeV2Grid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
