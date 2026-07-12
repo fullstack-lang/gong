@@ -32,6 +32,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BaseVectorShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BaseVectorShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BaseVectorShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BaseVectorShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BaseVectorShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BaseVectorShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.CircleGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -403,6 +429,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "StartArcShapeGrid",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__StartArcShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StartArcShapeV2:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StartArcShapeV2",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartArcShapeV2FormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StartArcShapeV2Grid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StartArcShapeV2Grid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartArcShapeV2GridFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

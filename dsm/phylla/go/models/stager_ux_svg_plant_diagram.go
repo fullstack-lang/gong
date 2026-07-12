@@ -68,7 +68,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
+	plantDiagram.drawBaseVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartArcShapeGrid(stager, layer, plant)
+	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve(stager, layer, plant)
@@ -859,12 +861,66 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Sta
 	}
 }
 
+func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.BaseVectorShapeGrid == nil || plantDiagram.IsHiddenBaseVectorShapeGrid {
+		return
+	}
+
+	for _, base := range plant.BaseVectorShapeGrid.BaseVectorShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+
+		line.Name = base.Name
+
+		line.X1 = plantDiagram.OriginX + base.StartX
+		line.Y1 = plantDiagram.OriginY - base.StartY
+		line.X2 = plantDiagram.OriginX + base.EndX
+		line.Y2 = plantDiagram.OriginY - base.EndY
+
+		line.Presentation.Stroke = "blue"
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
+	}
+}
+
 func (plantDiagram *PlantDiagram) drawStartArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plant.StartArcShapeGrid == nil || plantDiagram.IsHiddenStartArcShapeGrid {
 		return
 	}
 
 	for _, arc := range plant.StartArcShapeGrid.StartArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = arc.Name
+
+		sweepFlag := 0
+		if arc.SweepFlag {
+			sweepFlag = 1
+		}
+		largeArcFlag := 0
+		if arc.LargeArcFlag {
+			largeArcFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
+			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
+			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
+			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
+		)
+
+		path.Presentation.Stroke = "cyan"
+		path.Presentation.StrokeWidth = 3.0
+		path.Presentation.StrokeOpacity = 1.0
+		path.Presentation.FillOpacity = 0.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.StartArcShapeV2Grid == nil || plantDiagram.IsHiddenStartArcShapeV2Grid {
+		return
+	}
+
+	for _, arc := range plant.StartArcShapeV2Grid.StartArcShapesV2 {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name

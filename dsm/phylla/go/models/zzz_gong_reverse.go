@@ -11,6 +11,31 @@ func (inst *AxesShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
+func (inst *BaseVectorShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "BaseVectorShapeGrid":
+		switch reverseField.Fieldname {
+		case "BaseVectorShapes":
+			if _basevectorshapegrid, ok := stage.BaseVectorShapeGrid_BaseVectorShapes_reverseMap[inst]; ok {
+				res = _basevectorshapegrid.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *CircleGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -356,8 +381,56 @@ func (inst *StartArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
+func (inst *StartArcShapeV2) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StartArcShapeV2Grid":
+		switch reverseField.Fieldname {
+		case "StartArcShapesV2":
+			if _startarcshapev2grid, ok := stage.StartArcShapeV2Grid_StartArcShapesV2_reverseMap[inst]; ok {
+				res = _startarcshapev2grid.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *StartArcShapeV2Grid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 // insertion point
 func (inst *AxesShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *BaseVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "BaseVectorShapeGrid":
+		switch reverseField.Fieldname {
+		case "BaseVectorShapes":
+			res = stage.BaseVectorShapeGrid_BaseVectorShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -679,6 +752,29 @@ func (inst *StartArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 }
 
 func (inst *StartArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *StartArcShapeV2) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StartArcShapeV2Grid":
+		switch reverseField.Fieldname {
+		case "StartArcShapesV2":
+			res = stage.StartArcShapeV2Grid_StartArcShapesV2_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *StartArcShapeV2Grid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

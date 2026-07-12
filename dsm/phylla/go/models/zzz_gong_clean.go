@@ -47,6 +47,21 @@ func (axesshape *AxesShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by BaseVectorShape
+func (basevectorshape *BaseVectorShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by BaseVectorShapeGrid
+func (basevectorshapegrid *BaseVectorShapeGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &basevectorshapegrid.BaseVectorShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by CircleGridShape
 func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -200,7 +215,9 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
+	modified = GongCleanPointer(stage, &plant.BaseVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.StartArcShapeV2Grid) || modified
 	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
@@ -277,6 +294,21 @@ func (startarcshape *StartArcShape) GongClean(stage *Stage) (modified bool) {
 func (startarcshapegrid *StartArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &startarcshapegrid.StartArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StartArcShapeV2
+func (startarcshapev2 *StartArcShapeV2) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StartArcShapeV2Grid
+func (startarcshapev2grid *StartArcShapeV2Grid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &startarcshapev2grid.StartArcShapesV2) || modified
 	// insertion point per field
 	return
 }

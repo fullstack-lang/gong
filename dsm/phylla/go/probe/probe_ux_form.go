@@ -21,6 +21,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.axesshape, probe)
 			}
+		case *BaseVectorShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BaseVectorShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.basevectorshape, probe)
+			}
+		case *BaseVectorShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BaseVectorShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.basevectorshapegrid, probe)
+			}
 		case *CircleGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "CircleGridShape", true)
@@ -195,6 +207,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.startarcshapegrid, probe)
 			}
+		case *StartArcShapeV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StartArcShapeV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.startarcshapev2, probe)
+			}
+		case *StartArcShapeV2GridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StartArcShapeV2Grid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.startarcshapev2grid, probe)
+			}
 		}
 	}
 }
@@ -230,6 +254,32 @@ func FillUpFormFromGongstructName(
 		axesshape := new(models.AxesShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(axesshape, formGroup, probe)
+	case "BaseVectorShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BaseVectorShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BaseVectorShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		basevectorshape := new(models.BaseVectorShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(basevectorshape, formGroup, probe)
+	case "BaseVectorShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BaseVectorShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BaseVectorShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		basevectorshapegrid := new(models.BaseVectorShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(basevectorshapegrid, formGroup, probe)
 	case "CircleGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -607,6 +657,32 @@ func FillUpFormFromGongstructName(
 		startarcshapegrid := new(models.StartArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(startarcshapegrid, formGroup, probe)
+	case "StartArcShapeV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StartArcShapeV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartArcShapeV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		startarcshapev2 := new(models.StartArcShapeV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(startarcshapev2, formGroup, probe)
+	case "StartArcShapeV2Grid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StartArcShapeV2Grid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartArcShapeV2GridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		startarcshapev2grid := new(models.StartArcShapeV2Grid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(startarcshapev2grid, formGroup, probe)
 	}
 	formStage.Commit()
 }

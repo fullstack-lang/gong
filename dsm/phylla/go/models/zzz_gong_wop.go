@@ -29,6 +29,40 @@ func (from *AxesShape) CopyBasicFields(to *AxesShape) {
 	to.IsWithHiddenHandle = from.IsWithHiddenHandle
 }
 
+type BaseVectorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *BaseVectorShape) CopyBasicFields(to *BaseVectorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type BaseVectorShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *BaseVectorShapeGrid) CopyBasicFields(to *BaseVectorShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type CircleGridShape_WOP struct {
 	// insertion point
 
@@ -427,7 +461,11 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPerpendicularVectorGridHalfway bool
 
+	IsHiddenBaseVectorShapeGrid bool
+
 	IsHiddenStartArcShapeGrid bool
+
+	IsHiddenStartArcShapeV2Grid bool
 
 	IsHiddenEndArcShapeGrid bool
 
@@ -461,7 +499,9 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
 	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
+	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
+	to.IsHiddenStartArcShapeV2Grid = from.IsHiddenStartArcShapeV2Grid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
 	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
@@ -638,6 +678,55 @@ type StartArcShapeGrid_WOP struct {
 }
 
 func (from *StartArcShapeGrid) CopyBasicFields(to *StartArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type StartArcShapeV2_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+
+	RadiusX float64
+
+	RadiusY float64
+}
+
+func (from *StartArcShapeV2) CopyBasicFields(to *StartArcShapeV2) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+}
+
+type StartArcShapeV2Grid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StartArcShapeV2Grid) CopyBasicFields(to *StartArcShapeV2Grid) {
 	// insertion point
 	to.Name = from.Name
 }

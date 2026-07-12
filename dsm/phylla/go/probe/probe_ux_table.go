@@ -26,6 +26,10 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "AxesShape":
 		updateProbeTable[*models.AxesShape](probe)
+	case "BaseVectorShape":
+		updateProbeTable[*models.BaseVectorShape](probe)
+	case "BaseVectorShapeGrid":
+		updateProbeTable[*models.BaseVectorShapeGrid](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
 	case "EndArcShape":
@@ -84,6 +88,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StartArcShape](probe)
 	case "StartArcShapeGrid":
 		updateProbeTable[*models.StartArcShapeGrid](probe)
+	case "StartArcShapeV2":
+		updateProbeTable[*models.StartArcShapeV2](probe)
+	case "StartArcShapeV2Grid":
+		updateProbeTable[*models.StartArcShapeV2Grid](probe)
 	}
 }
 

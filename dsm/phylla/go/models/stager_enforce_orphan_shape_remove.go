@@ -25,12 +25,16 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPerpendicularVectorHalfway := make(map[*PerpendicularVectorHalfway]bool)
 
 	refPerpendicularVectorGridHalfway := make(map[*PerpendicularVectorGridHalfway]bool)
+	refBaseVectorShapeGrid := make(map[*BaseVectorShapeGrid]bool)
 	refStartArcShapeGrid := make(map[*StartArcShapeGrid]bool)
+	refStartArcShapeV2Grid := make(map[*StartArcShapeV2Grid]bool)
 	refEndArcShapeGrid := make(map[*EndArcShapeGrid]bool)
 	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
 	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
 	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
+	refBaseVectorShape := make(map[*BaseVectorShape]bool)
 	refStartArcShape := make(map[*StartArcShape]bool)
+	refStartArcShapeV2 := make(map[*StartArcShapeV2]bool)
 	refEndArcShape := make(map[*EndArcShape]bool)
 	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
 	refRendered3DShape := make(map[*Rendered3DShape]bool)
@@ -110,11 +114,29 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
+		if plant.BaseVectorShapeGrid != nil {
+			refBaseVectorShapeGrid[plant.BaseVectorShapeGrid] = true
+			for _, shape := range plant.BaseVectorShapeGrid.BaseVectorShapes {
+				if shape != nil {
+					refBaseVectorShape[shape] = true
+				}
+			}
+		}
+
 		if plant.StartArcShapeGrid != nil {
 			refStartArcShapeGrid[plant.StartArcShapeGrid] = true
 			for _, shape := range plant.StartArcShapeGrid.StartArcShapes {
 				if shape != nil {
 					refStartArcShape[shape] = true
+				}
+			}
+		}
+
+		if plant.StartArcShapeV2Grid != nil {
+			refStartArcShapeV2Grid[plant.StartArcShapeV2Grid] = true
+			for _, shape := range plant.StartArcShapeV2Grid.StartArcShapesV2 {
+				if shape != nil {
+					refStartArcShapeV2[shape] = true
 				}
 			}
 		}
@@ -229,8 +251,22 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
+	for grid := range *GetGongstructInstancesSetFromPointerType[*BaseVectorShapeGrid](stage) {
+		if !refBaseVectorShapeGrid[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for grid := range *GetGongstructInstancesSetFromPointerType[*StartArcShapeGrid](stage) {
 		if !refStartArcShapeGrid[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for grid := range *GetGongstructInstancesSetFromPointerType[*StartArcShapeV2Grid](stage) {
+		if !refStartArcShapeV2Grid[grid] {
 			grid.Unstage(stage)
 			needCommit = true
 		}
@@ -294,8 +330,22 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
+	for shape := range *GetGongstructInstancesSetFromPointerType[*BaseVectorShape](stage) {
+		if !refBaseVectorShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for shape := range *GetGongstructInstancesSetFromPointerType[*StartArcShape](stage) {
 		if !refStartArcShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StartArcShapeV2](stage) {
+		if !refStartArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
