@@ -128,7 +128,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 		}
 
-		// tube for the stack
+		// tubes for the stack
 		if plant.StackOfGrowthCurve != nil && len(plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes) > 0 {
 			circumference := 10.0 // default fallback
 			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
@@ -136,12 +136,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 			R := circumference / (2 * math.Pi)
 
-			curve := (&threejs.Curve{
-				Name: "Growth Stack Curve",
-			}).Stage(stager.threejsStage)
+			for bezierIndex, bezier := range plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes {
+				curve := (&threejs.Curve{
+					Name: fmt.Sprintf("Growth Stack Curve %d", bezierIndex),
+				}).Stage(stager.threejsStage)
 
-			pointIndex := 0
-			for _, bezier := range plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes {
 				// interpolate 20 steps per bezier curve
 				steps := 20
 				for i := 0; i <= steps; i++ {
@@ -165,39 +164,41 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					y3d := y2d
 
 					vec := (&threejs.Vector3{
-						Name: fmt.Sprintf("Point %d", pointIndex),
+						Name: fmt.Sprintf("Point %d-%d", bezierIndex, i),
 						X:    x3d,
 						Y:    y3d,
 						Z:    z3d,
 					}).Stage(stager.threejsStage)
 					curve.Points = append(curve.Points, vec)
-					pointIndex++
 				}
-			}
 
-			if len(curve.Points) > 1 {
-				tubeGeometry := (&threejs.TubeGeometry{
-					Name:            "Growth Stack Tube Geometry",
-					Path:            curve,
-					TubularSegments: len(curve.Points) * 2,
-					Radius:          R * 0.05, // scale tube radius proportional to cylinder radius
-					RadialSegments:  16,
-					Closed:          false,
-				}).Stage(stager.threejsStage)
+				if len(curve.Points) > 1 {
+					tubeGeometry := (&threejs.TubeGeometry{
+						Name:            fmt.Sprintf("Growth Stack Tube Geometry %d", bezierIndex),
+						Path:            curve,
+						TubularSegments: len(curve.Points) * 2,
+						Radius:          R * 0.05, // scale tube radius proportional to cylinder radius
+						RadialSegments:  16,
+						Closed:          false,
+					}).Stage(stager.threejsStage)
 
-				tubeMaterial := (&threejs.MeshMaterialBasic{
-					Name:                 "Tube Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "green"},
-				}).Stage(stager.threejsStage)
+					colors := []string{"#2E8B57", "#3CB371", "#228B22", "#006400", "#556B2F"}
+					color := colors[bezierIndex%len(colors)]
 
-				tubeMesh := (&threejs.Mesh{
-					Name:              "Growth Stack Tube Mesh",
-					Position:          threejs.Position{X: 0, Y: 0, Z: 0},
-					TubeGeometry:      tubeGeometry,
-					MeshMaterialBasic: tubeMaterial,
-				}).Stage(stager.threejsStage)
+					tubeMaterial := (&threejs.MeshPhysicalMaterial{
+						Name:                 fmt.Sprintf("Tube Material %d", bezierIndex),
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					}).Stage(stager.threejsStage)
 
-				canvas.Meshs = append(canvas.Meshs, tubeMesh)
+					tubeMesh := (&threejs.Mesh{
+						Name:                 fmt.Sprintf("Growth Stack Tube Mesh %d", bezierIndex),
+						Position:             threejs.Position{X: 0, Y: 0, Z: 0},
+						TubeGeometry:         tubeGeometry,
+						MeshPhysicalMaterial: tubeMaterial,
+					}).Stage(stager.threejsStage)
+
+					canvas.Meshs = append(canvas.Meshs, tubeMesh)
+				}
 			}
 		}
 
