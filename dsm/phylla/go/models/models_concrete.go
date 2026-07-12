@@ -124,6 +124,21 @@ type PerpendicularVectorGrid struct {
 	PerpendicularVectors []*PerpendicularVector
 }
 
+// PerpendicularVectorHalfway of a plant,
+type PerpendicularVectorHalfway struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
+// PerpendicularVectorGridHalfway of a plant,
+type PerpendicularVectorGridHalfway struct {
+	Name string
+
+	PerpendicularVectorHalfways []*PerpendicularVectorHalfway
+}
+
 // GrowthCurveBezierShape of a plant,
 type GrowthCurveBezierShape struct {
 	Name string

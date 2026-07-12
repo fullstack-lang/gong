@@ -22,7 +22,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refRotatedShape := make(map[*RotatedRhombusShape]bool)
 	refGrowthCurveShape := make(map[*GrowthCurveRhombusShape]bool)
 	refPerpendicularVector := make(map[*PerpendicularVector]bool)
+	refPerpendicularVectorHalfway := make(map[*PerpendicularVectorHalfway]bool)
 
+	refPerpendicularVectorGridHalfway := make(map[*PerpendicularVectorGridHalfway]bool)
 	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
 	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
 	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
@@ -91,6 +93,15 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			for _, vec := range plant.PerpendicularVectorGrid.PerpendicularVectors {
 				if vec != nil {
 					refPerpendicularVector[vec] = true
+				}
+			}
+		}
+
+		if plant.PerpendicularVectorGridHalfway != nil {
+			refPerpendicularVectorGridHalfway[plant.PerpendicularVectorGridHalfway] = true
+			for _, vec := range plant.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
+				if vec != nil {
+					refPerpendicularVectorHalfway[vec] = true
 				}
 			}
 		}
@@ -188,6 +199,14 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
+
+	for grid := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVectorGridHalfway](stage) {
+		if !refPerpendicularVectorGridHalfway[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for grid := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShapeGrid](stage) {
 		if !refGrowthCurveBezierShapeGrid[grid] {
 			grid.Unstage(stage)
@@ -231,6 +250,14 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PerpendicularVectorHalfway](stage) {
+		if !refPerpendicularVectorHalfway[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShape](stage) {
 		if !refGrowthCurveBezierShape[shape] {
 			shape.Unstage(stage)

@@ -368,6 +368,38 @@ type Stage struct {
 	OnAfterPerpendicularVectorGridDeleteCallback OnAfterDeleteInterface[PerpendicularVectorGrid]
 	OnAfterPerpendicularVectorGridReadCallback   OnAfterReadInterface[PerpendicularVectorGrid]
 
+	PerpendicularVectorGridHalfways                map[*PerpendicularVectorGridHalfway]struct{}
+	PerpendicularVectorGridHalfways_instance       map[*PerpendicularVectorGridHalfway]*PerpendicularVectorGridHalfway
+	PerpendicularVectorGridHalfways_mapString      map[string]*PerpendicularVectorGridHalfway
+	PerpendicularVectorGridHalfwayOrder            uint
+	PerpendicularVectorGridHalfway_stagedOrder     map[*PerpendicularVectorGridHalfway]uint
+	PerpendicularVectorGridHalfway_orderStaged     map[uint]*PerpendicularVectorGridHalfway
+	PerpendicularVectorGridHalfways_reference      map[*PerpendicularVectorGridHalfway]*PerpendicularVectorGridHalfway
+	PerpendicularVectorGridHalfways_referenceOrder map[*PerpendicularVectorGridHalfway]uint
+
+	// insertion point for slice of pointers maps
+	PerpendicularVectorGridHalfway_PerpendicularVectorHalfways_reverseMap map[*PerpendicularVectorHalfway]*PerpendicularVectorGridHalfway
+
+	OnAfterPerpendicularVectorGridHalfwayCreateCallback OnAfterCreateInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayUpdateCallback OnAfterUpdateInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayDeleteCallback OnAfterDeleteInterface[PerpendicularVectorGridHalfway]
+	OnAfterPerpendicularVectorGridHalfwayReadCallback   OnAfterReadInterface[PerpendicularVectorGridHalfway]
+
+	PerpendicularVectorHalfways                map[*PerpendicularVectorHalfway]struct{}
+	PerpendicularVectorHalfways_instance       map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway
+	PerpendicularVectorHalfways_mapString      map[string]*PerpendicularVectorHalfway
+	PerpendicularVectorHalfwayOrder            uint
+	PerpendicularVectorHalfway_stagedOrder     map[*PerpendicularVectorHalfway]uint
+	PerpendicularVectorHalfway_orderStaged     map[uint]*PerpendicularVectorHalfway
+	PerpendicularVectorHalfways_reference      map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway
+	PerpendicularVectorHalfways_referenceOrder map[*PerpendicularVectorHalfway]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPerpendicularVectorHalfwayCreateCallback OnAfterCreateInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayUpdateCallback OnAfterUpdateInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayDeleteCallback OnAfterDeleteInterface[PerpendicularVectorHalfway]
+	OnAfterPerpendicularVectorHalfwayReadCallback   OnAfterReadInterface[PerpendicularVectorHalfway]
+
 	Plants                map[*Plant]struct{}
 	Plants_instance       map[*Plant]*Plant
 	Plants_mapString      map[string]*Plant
@@ -805,6 +837,14 @@ func (stage *Stage) Squash() {
 	stage.PerpendicularVectorGrids_instance = make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid)
 	stage.PerpendicularVectorGrids_referenceOrder = make(map[*PerpendicularVectorGrid]uint)
 
+	stage.PerpendicularVectorGridHalfways_reference = make(map[*PerpendicularVectorGridHalfway]*PerpendicularVectorGridHalfway)
+	stage.PerpendicularVectorGridHalfways_instance = make(map[*PerpendicularVectorGridHalfway]*PerpendicularVectorGridHalfway)
+	stage.PerpendicularVectorGridHalfways_referenceOrder = make(map[*PerpendicularVectorGridHalfway]uint)
+
+	stage.PerpendicularVectorHalfways_reference = make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway)
+	stage.PerpendicularVectorHalfways_instance = make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway)
+	stage.PerpendicularVectorHalfways_referenceOrder = make(map[*PerpendicularVectorHalfway]uint)
+
 	stage.Plants_reference = make(map[*Plant]*Plant)
 	stage.Plants_instance = make(map[*Plant]*Plant)
 	stage.Plants_referenceOrder = make(map[*Plant]uint)
@@ -1076,6 +1116,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.PerpendicularVectorGridOrder = maxPerpendicularVectorGridOrder + 1
 	} else {
 		stage.PerpendicularVectorGridOrder = 0
+	}
+
+	var maxPerpendicularVectorGridHalfwayOrder uint
+	var foundPerpendicularVectorGridHalfway bool
+	for _, order := range stage.PerpendicularVectorGridHalfway_stagedOrder {
+		if !foundPerpendicularVectorGridHalfway || order > maxPerpendicularVectorGridHalfwayOrder {
+			maxPerpendicularVectorGridHalfwayOrder = order
+			foundPerpendicularVectorGridHalfway = true
+		}
+	}
+	if foundPerpendicularVectorGridHalfway {
+		stage.PerpendicularVectorGridHalfwayOrder = maxPerpendicularVectorGridHalfwayOrder + 1
+	} else {
+		stage.PerpendicularVectorGridHalfwayOrder = 0
+	}
+
+	var maxPerpendicularVectorHalfwayOrder uint
+	var foundPerpendicularVectorHalfway bool
+	for _, order := range stage.PerpendicularVectorHalfway_stagedOrder {
+		if !foundPerpendicularVectorHalfway || order > maxPerpendicularVectorHalfwayOrder {
+			maxPerpendicularVectorHalfwayOrder = order
+			foundPerpendicularVectorHalfway = true
+		}
+	}
+	if foundPerpendicularVectorHalfway {
+		stage.PerpendicularVectorHalfwayOrder = maxPerpendicularVectorHalfwayOrder + 1
+	} else {
+		stage.PerpendicularVectorHalfwayOrder = 0
 	}
 
 	var maxPlantOrder uint
@@ -1475,6 +1543,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PerpendicularVectorGridHalfway:
+		tmp := GetStructInstancesByOrder(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PerpendicularVectorGridHalfway implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PerpendicularVectorHalfway:
+		tmp := GetStructInstancesByOrder(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PerpendicularVectorHalfway implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Plant:
 		tmp := GetStructInstancesByOrder(stage.Plants, stage.Plant_stagedOrder)
 
@@ -1660,6 +1756,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
 	case "PerpendicularVectorGrid":
 		res = GetNamedStructInstances(stage.PerpendicularVectorGrids, stage.PerpendicularVectorGrid_stagedOrder)
+	case "PerpendicularVectorGridHalfway":
+		res = GetNamedStructInstances(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
+	case "PerpendicularVectorHalfway":
+		res = GetNamedStructInstances(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
 	case "Plant":
 		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
 	case "PlantCircumferenceShape":
@@ -1777,6 +1877,10 @@ type BackRepoInterface interface {
 	CheckoutPerpendicularVector(perpendicularvector *PerpendicularVector)
 	CommitPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid)
 	CheckoutPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid)
+	CommitPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway)
+	CheckoutPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway)
+	CommitPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
+	CheckoutPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
 	CommitPlant(plant *Plant)
 	CheckoutPlant(plant *Plant)
 	CommitPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
@@ -1845,6 +1949,12 @@ func NewStage(name string) (stage *Stage) {
 
 		PerpendicularVectorGrids:           make(map[*PerpendicularVectorGrid]struct{}),
 		PerpendicularVectorGrids_mapString: make(map[string]*PerpendicularVectorGrid),
+
+		PerpendicularVectorGridHalfways:           make(map[*PerpendicularVectorGridHalfway]struct{}),
+		PerpendicularVectorGridHalfways_mapString: make(map[string]*PerpendicularVectorGridHalfway),
+
+		PerpendicularVectorHalfways:           make(map[*PerpendicularVectorHalfway]struct{}),
+		PerpendicularVectorHalfways_mapString: make(map[string]*PerpendicularVectorHalfway),
 
 		Plants:           make(map[*Plant]struct{}),
 		Plants_mapString: make(map[string]*Plant),
@@ -1943,6 +2053,14 @@ func NewStage(name string) (stage *Stage) {
 		PerpendicularVectorGrid_orderStaged: make(map[uint]*PerpendicularVectorGrid),
 		PerpendicularVectorGrids_reference:  make(map[*PerpendicularVectorGrid]*PerpendicularVectorGrid),
 
+		PerpendicularVectorGridHalfway_stagedOrder: make(map[*PerpendicularVectorGridHalfway]uint),
+		PerpendicularVectorGridHalfway_orderStaged: make(map[uint]*PerpendicularVectorGridHalfway),
+		PerpendicularVectorGridHalfways_reference:  make(map[*PerpendicularVectorGridHalfway]*PerpendicularVectorGridHalfway),
+
+		PerpendicularVectorHalfway_stagedOrder: make(map[*PerpendicularVectorHalfway]uint),
+		PerpendicularVectorHalfway_orderStaged: make(map[uint]*PerpendicularVectorHalfway),
+		PerpendicularVectorHalfways_reference:  make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway),
+
 		Plant_stagedOrder: make(map[*Plant]uint),
 		Plant_orderStaged: make(map[uint]*Plant),
 		Plants_reference:  make(map[*Plant]*Plant),
@@ -2011,6 +2129,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"PerpendicularVectorGrid": &PerpendicularVectorGridUnmarshaller{},
 
+			"PerpendicularVectorGridHalfway": &PerpendicularVectorGridHalfwayUnmarshaller{},
+
+			"PerpendicularVectorHalfway": &PerpendicularVectorHalfwayUnmarshaller{},
+
 			"Plant": &PlantUnmarshaller{},
 
 			"PlantCircumferenceShape": &PlantCircumferenceShapeUnmarshaller{},
@@ -2048,6 +2170,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "NextCircleShape"},
 			{name: "PerpendicularVector"},
 			{name: "PerpendicularVectorGrid"},
+			{name: "PerpendicularVectorGridHalfway"},
+			{name: "PerpendicularVectorHalfway"},
 			{name: "Plant"},
 			{name: "PlantCircumferenceShape"},
 			{name: "PlantDiagram"},
@@ -2098,6 +2222,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PerpendicularVector_stagedOrder[instance]
 	case *PerpendicularVectorGrid:
 		return stage.PerpendicularVectorGrid_stagedOrder[instance]
+	case *PerpendicularVectorGridHalfway:
+		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
+	case *PerpendicularVectorHalfway:
+		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
 	case *PlantCircumferenceShape:
@@ -2155,6 +2283,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PerpendicularVector_orderStaged[order]).(Type)
 	case *PerpendicularVectorGrid:
 		return any(stage.PerpendicularVectorGrid_orderStaged[order]).(Type)
+	case *PerpendicularVectorGridHalfway:
+		return any(stage.PerpendicularVectorGridHalfway_orderStaged[order]).(Type)
+	case *PerpendicularVectorHalfway:
+		return any(stage.PerpendicularVectorHalfway_orderStaged[order]).(Type)
 	case *Plant:
 		return any(stage.Plant_orderStaged[order]).(Type)
 	case *PlantCircumferenceShape:
@@ -2211,6 +2343,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PerpendicularVector_stagedOrder[instance]
 	case *PerpendicularVectorGrid:
 		return stage.PerpendicularVectorGrid_stagedOrder[instance]
+	case *PerpendicularVectorGridHalfway:
+		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
+	case *PerpendicularVectorHalfway:
+		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
 	case *PlantCircumferenceShape:
@@ -2309,6 +2445,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["NextCircleShape"] = len(stage.NextCircleShapes)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGrid"] = len(stage.PerpendicularVectorGrids)
+	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGridHalfway"] = len(stage.PerpendicularVectorGridHalfways)
+	stage.Map_GongStructName_InstancesNb["PerpendicularVectorHalfway"] = len(stage.PerpendicularVectorHalfways)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
@@ -3678,6 +3816,182 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) SetName(name string) {
 	perpendicularvectorgrid.Name = name
 }
 
+// Stage puts perpendicularvectorgridhalfway to the model stage
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) Stage(stage *Stage) *PerpendicularVectorGridHalfway {
+	if _, ok := stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway]; !ok {
+		stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway] = struct{}{}
+		stage.PerpendicularVectorGridHalfway_stagedOrder[perpendicularvectorgridhalfway] = stage.PerpendicularVectorGridHalfwayOrder
+		stage.PerpendicularVectorGridHalfway_orderStaged[stage.PerpendicularVectorGridHalfwayOrder] = perpendicularvectorgridhalfway
+		stage.PerpendicularVectorGridHalfwayOrder++
+	}
+	stage.PerpendicularVectorGridHalfways_mapString[perpendicularvectorgridhalfway.Name] = perpendicularvectorgridhalfway
+
+	return perpendicularvectorgridhalfway
+}
+
+// StagePreserveOrder puts perpendicularvectorgridhalfway to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PerpendicularVectorGridHalfwayOrder
+// - update stage.PerpendicularVectorGridHalfwayOrder accordingly
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway]; !ok {
+		stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway] = struct{}{}
+
+		if order > stage.PerpendicularVectorGridHalfwayOrder {
+			stage.PerpendicularVectorGridHalfwayOrder = order
+		}
+		stage.PerpendicularVectorGridHalfway_stagedOrder[perpendicularvectorgridhalfway] = order
+		stage.PerpendicularVectorGridHalfway_orderStaged[order] = perpendicularvectorgridhalfway
+		stage.PerpendicularVectorGridHalfwayOrder++
+	}
+	stage.PerpendicularVectorGridHalfways_mapString[perpendicularvectorgridhalfway.Name] = perpendicularvectorgridhalfway
+}
+
+// Unstage removes perpendicularvectorgridhalfway off the model stage
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) Unstage(stage *Stage) *PerpendicularVectorGridHalfway {
+	delete(stage.PerpendicularVectorGridHalfways, perpendicularvectorgridhalfway)
+	// issue1150
+	// delete(stage.PerpendicularVectorGridHalfway_stagedOrder, perpendicularvectorgridhalfway)
+	delete(stage.PerpendicularVectorGridHalfways_mapString, perpendicularvectorgridhalfway.Name)
+
+	return perpendicularvectorgridhalfway
+}
+
+// UnstageVoid removes perpendicularvectorgridhalfway off the model stage
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) UnstageVoid(stage *Stage) {
+	delete(stage.PerpendicularVectorGridHalfways, perpendicularvectorgridhalfway)
+	// issue1150
+	// delete(stage.PerpendicularVectorGridHalfway_stagedOrder, perpendicularvectorgridhalfway)
+	delete(stage.PerpendicularVectorGridHalfways_mapString, perpendicularvectorgridhalfway.Name)
+}
+
+// commit perpendicularvectorgridhalfway to the back repo (if it is already staged)
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) Commit(stage *Stage) *PerpendicularVectorGridHalfway {
+	if _, ok := stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway)
+		}
+	}
+	return perpendicularvectorgridhalfway
+}
+
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) CommitVoid(stage *Stage) {
+	perpendicularvectorgridhalfway.Commit(stage)
+}
+
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) StageVoid(stage *Stage) {
+	perpendicularvectorgridhalfway.Stage(stage)
+}
+
+// Checkout perpendicularvectorgridhalfway to the back repo (if it is already staged)
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) Checkout(stage *Stage) *PerpendicularVectorGridHalfway {
+	if _, ok := stage.PerpendicularVectorGridHalfways[perpendicularvectorgridhalfway]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway)
+		}
+	}
+	return perpendicularvectorgridhalfway
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GetName() (res string) {
+	return perpendicularvectorgridhalfway.Name
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) SetName(name string) {
+	perpendicularvectorgridhalfway.Name = name
+}
+
+// Stage puts perpendicularvectorhalfway to the model stage
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) Stage(stage *Stage) *PerpendicularVectorHalfway {
+	if _, ok := stage.PerpendicularVectorHalfways[perpendicularvectorhalfway]; !ok {
+		stage.PerpendicularVectorHalfways[perpendicularvectorhalfway] = struct{}{}
+		stage.PerpendicularVectorHalfway_stagedOrder[perpendicularvectorhalfway] = stage.PerpendicularVectorHalfwayOrder
+		stage.PerpendicularVectorHalfway_orderStaged[stage.PerpendicularVectorHalfwayOrder] = perpendicularvectorhalfway
+		stage.PerpendicularVectorHalfwayOrder++
+	}
+	stage.PerpendicularVectorHalfways_mapString[perpendicularvectorhalfway.Name] = perpendicularvectorhalfway
+
+	return perpendicularvectorhalfway
+}
+
+// StagePreserveOrder puts perpendicularvectorhalfway to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PerpendicularVectorHalfwayOrder
+// - update stage.PerpendicularVectorHalfwayOrder accordingly
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PerpendicularVectorHalfways[perpendicularvectorhalfway]; !ok {
+		stage.PerpendicularVectorHalfways[perpendicularvectorhalfway] = struct{}{}
+
+		if order > stage.PerpendicularVectorHalfwayOrder {
+			stage.PerpendicularVectorHalfwayOrder = order
+		}
+		stage.PerpendicularVectorHalfway_stagedOrder[perpendicularvectorhalfway] = order
+		stage.PerpendicularVectorHalfway_orderStaged[order] = perpendicularvectorhalfway
+		stage.PerpendicularVectorHalfwayOrder++
+	}
+	stage.PerpendicularVectorHalfways_mapString[perpendicularvectorhalfway.Name] = perpendicularvectorhalfway
+}
+
+// Unstage removes perpendicularvectorhalfway off the model stage
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) Unstage(stage *Stage) *PerpendicularVectorHalfway {
+	delete(stage.PerpendicularVectorHalfways, perpendicularvectorhalfway)
+	// issue1150
+	// delete(stage.PerpendicularVectorHalfway_stagedOrder, perpendicularvectorhalfway)
+	delete(stage.PerpendicularVectorHalfways_mapString, perpendicularvectorhalfway.Name)
+
+	return perpendicularvectorhalfway
+}
+
+// UnstageVoid removes perpendicularvectorhalfway off the model stage
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) UnstageVoid(stage *Stage) {
+	delete(stage.PerpendicularVectorHalfways, perpendicularvectorhalfway)
+	// issue1150
+	// delete(stage.PerpendicularVectorHalfway_stagedOrder, perpendicularvectorhalfway)
+	delete(stage.PerpendicularVectorHalfways_mapString, perpendicularvectorhalfway.Name)
+}
+
+// commit perpendicularvectorhalfway to the back repo (if it is already staged)
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) Commit(stage *Stage) *PerpendicularVectorHalfway {
+	if _, ok := stage.PerpendicularVectorHalfways[perpendicularvectorhalfway]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPerpendicularVectorHalfway(perpendicularvectorhalfway)
+		}
+	}
+	return perpendicularvectorhalfway
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) CommitVoid(stage *Stage) {
+	perpendicularvectorhalfway.Commit(stage)
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) StageVoid(stage *Stage) {
+	perpendicularvectorhalfway.Stage(stage)
+}
+
+// Checkout perpendicularvectorhalfway to the back repo (if it is already staged)
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) Checkout(stage *Stage) *PerpendicularVectorHalfway {
+	if _, ok := stage.PerpendicularVectorHalfways[perpendicularvectorhalfway]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPerpendicularVectorHalfway(perpendicularvectorhalfway)
+		}
+	}
+	return perpendicularvectorhalfway
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GetName() (res string) {
+	return perpendicularvectorhalfway.Name
+}
+
+// for satisfaction of GongStruct interface
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) SetName(name string) {
+	perpendicularvectorhalfway.Name = name
+}
+
 // Stage puts plant to the model stage
 func (plant *Plant) Stage(stage *Stage) *Plant {
 	if _, ok := stage.Plants[plant]; !ok {
@@ -4487,6 +4801,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMNextCircleShape(NextCircleShape *NextCircleShape)
 	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
+	CreateORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
+	CreateORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
@@ -4514,6 +4830,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMNextCircleShape(NextCircleShape *NextCircleShape)
 	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
+	DeleteORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
+	DeleteORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
@@ -4600,6 +4918,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PerpendicularVectorGrids_mapString = make(map[string]*PerpendicularVectorGrid)
 	stage.PerpendicularVectorGrid_stagedOrder = make(map[*PerpendicularVectorGrid]uint)
 	stage.PerpendicularVectorGridOrder = 0
+
+	stage.PerpendicularVectorGridHalfways = make(map[*PerpendicularVectorGridHalfway]struct{})
+	stage.PerpendicularVectorGridHalfways_mapString = make(map[string]*PerpendicularVectorGridHalfway)
+	stage.PerpendicularVectorGridHalfway_stagedOrder = make(map[*PerpendicularVectorGridHalfway]uint)
+	stage.PerpendicularVectorGridHalfwayOrder = 0
+
+	stage.PerpendicularVectorHalfways = make(map[*PerpendicularVectorHalfway]struct{})
+	stage.PerpendicularVectorHalfways_mapString = make(map[string]*PerpendicularVectorHalfway)
+	stage.PerpendicularVectorHalfway_stagedOrder = make(map[*PerpendicularVectorHalfway]uint)
+	stage.PerpendicularVectorHalfwayOrder = 0
 
 	stage.Plants = make(map[*Plant]struct{})
 	stage.Plants_mapString = make(map[string]*Plant)
@@ -4700,6 +5028,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PerpendicularVectorGrids = nil
 	stage.PerpendicularVectorGrids_mapString = nil
 
+	stage.PerpendicularVectorGridHalfways = nil
+	stage.PerpendicularVectorGridHalfways_mapString = nil
+
+	stage.PerpendicularVectorHalfways = nil
+	stage.PerpendicularVectorHalfways_mapString = nil
+
 	stage.Plants = nil
 	stage.Plants_mapString = nil
 
@@ -4789,6 +5123,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
 		perpendicularvectorgrid.Unstage(stage)
+	}
+
+	for perpendicularvectorgridhalfway := range stage.PerpendicularVectorGridHalfways {
+		perpendicularvectorgridhalfway.Unstage(stage)
+	}
+
+	for perpendicularvectorhalfway := range stage.PerpendicularVectorHalfways {
+		perpendicularvectorhalfway.Unstage(stage)
 	}
 
 	for plant := range stage.Plants {
@@ -4933,6 +5275,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PerpendicularVectors).(*Type)
 	case map[*PerpendicularVectorGrid]any:
 		return any(&stage.PerpendicularVectorGrids).(*Type)
+	case map[*PerpendicularVectorGridHalfway]any:
+		return any(&stage.PerpendicularVectorGridHalfways).(*Type)
+	case map[*PerpendicularVectorHalfway]any:
+		return any(&stage.PerpendicularVectorHalfways).(*Type)
 	case map[*Plant]any:
 		return any(&stage.Plants).(*Type)
 	case map[*PlantCircumferenceShape]any:
@@ -4993,6 +5339,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PerpendicularVectors_mapString).(map[string]Type)
 	case *PerpendicularVectorGrid:
 		return any(stage.PerpendicularVectorGrids_mapString).(map[string]Type)
+	case *PerpendicularVectorGridHalfway:
+		return any(stage.PerpendicularVectorGridHalfways_mapString).(map[string]Type)
+	case *PerpendicularVectorHalfway:
+		return any(stage.PerpendicularVectorHalfways_mapString).(map[string]Type)
 	case *Plant:
 		return any(stage.Plants_mapString).(map[string]Type)
 	case *PlantCircumferenceShape:
@@ -5053,6 +5403,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PerpendicularVectors).(*map[*Type]struct{})
 	case PerpendicularVectorGrid:
 		return any(&stage.PerpendicularVectorGrids).(*map[*Type]struct{})
+	case PerpendicularVectorGridHalfway:
+		return any(&stage.PerpendicularVectorGridHalfways).(*map[*Type]struct{})
+	case PerpendicularVectorHalfway:
+		return any(&stage.PerpendicularVectorHalfways).(*map[*Type]struct{})
 	case Plant:
 		return any(&stage.Plants).(*map[*Type]struct{})
 	case PlantCircumferenceShape:
@@ -5113,6 +5467,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PerpendicularVectors).(*map[Type]struct{})
 	case *PerpendicularVectorGrid:
 		return any(&stage.PerpendicularVectorGrids).(*map[Type]struct{})
+	case *PerpendicularVectorGridHalfway:
+		return any(&stage.PerpendicularVectorGridHalfways).(*map[Type]struct{})
+	case *PerpendicularVectorHalfway:
+		return any(&stage.PerpendicularVectorHalfways).(*map[Type]struct{})
 	case *Plant:
 		return any(&stage.Plants).(*map[Type]struct{})
 	case *PlantCircumferenceShape:
@@ -5173,6 +5531,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PerpendicularVectors_mapString).(*map[string]*Type)
 	case PerpendicularVectorGrid:
 		return any(&stage.PerpendicularVectorGrids_mapString).(*map[string]*Type)
+	case PerpendicularVectorGridHalfway:
+		return any(&stage.PerpendicularVectorGridHalfways_mapString).(*map[string]*Type)
+	case PerpendicularVectorHalfway:
+		return any(&stage.PerpendicularVectorHalfways_mapString).(*map[string]*Type)
 	case Plant:
 		return any(&stage.Plants_mapString).(*map[string]*Type)
 	case PlantCircumferenceShape:
@@ -5277,6 +5639,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of PerpendicularVector with the name of the field
 			PerpendicularVectors: []*PerpendicularVector{{Name: "PerpendicularVectors"}},
 		}).(*Type)
+	case PerpendicularVectorGridHalfway:
+		return any(&PerpendicularVectorGridHalfway{
+			// Initialisation of associations
+			// field is initialized with an instance of PerpendicularVectorHalfway with the name of the field
+			PerpendicularVectorHalfways: []*PerpendicularVectorHalfway{{Name: "PerpendicularVectorHalfways"}},
+		}).(*Type)
+	case PerpendicularVectorHalfway:
+		return any(&PerpendicularVectorHalfway{
+			// Initialisation of associations
+		}).(*Type)
 	case Plant:
 		return any(&Plant{
 			// Initialisation of associations
@@ -5308,6 +5680,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 			// field is initialized with an instance of PerpendicularVectorGrid with the name of the field
 			PerpendicularVectorGrid: &PerpendicularVectorGrid{Name: "PerpendicularVectorGrid"},
+			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
+			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
 			// field is initialized with an instance of GrowthCurveBezierShapeGrid with the name of the field
 			GrowthCurveBezierShapeGrid: &GrowthCurveBezierShapeGrid{Name: "GrowthCurveBezierShapeGrid"},
 			// field is initialized with an instance of StackOfGrowthCurve with the name of the field
@@ -5440,6 +5814,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of PerpendicularVectorGrid
 	case PerpendicularVectorGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PerpendicularVectorGridHalfway
+	case PerpendicularVectorGridHalfway:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PerpendicularVectorHalfway
+	case PerpendicularVectorHalfway:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5665,6 +6049,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[perpendicularvectorgrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PerpendicularVectorGridHalfway":
+			res := make(map[*PerpendicularVectorGridHalfway][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PerpendicularVectorGridHalfway != nil {
+					perpendicularvectorgridhalfway_ := plant.PerpendicularVectorGridHalfway
+					var plants []*Plant
+					_, ok := res[perpendicularvectorgridhalfway_]
+					if ok {
+						plants = res[perpendicularvectorgridhalfway_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[perpendicularvectorgridhalfway_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5898,6 +6299,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of PerpendicularVectorGridHalfway
+	case PerpendicularVectorGridHalfway:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "PerpendicularVectorHalfways":
+			res := make(map[*PerpendicularVectorHalfway][]*PerpendicularVectorGridHalfway)
+			for perpendicularvectorgridhalfway := range stage.PerpendicularVectorGridHalfways {
+				for _, perpendicularvectorhalfway_ := range perpendicularvectorgridhalfway.PerpendicularVectorHalfways {
+					res[perpendicularvectorhalfway_] = append(res[perpendicularvectorhalfway_], perpendicularvectorgridhalfway)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of PerpendicularVectorHalfway
+	case PerpendicularVectorHalfway:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Plant
 	case Plant:
 		switch fieldname {
@@ -6008,6 +6427,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PerpendicularVector"
 	case *PerpendicularVectorGrid:
 		res = "PerpendicularVectorGrid"
+	case *PerpendicularVectorGridHalfway:
+		res = "PerpendicularVectorGridHalfway"
+	case *PerpendicularVectorHalfway:
+		res = "PerpendicularVectorHalfway"
 	case *Plant:
 		res = "Plant"
 	case *PlantCircumferenceShape:
@@ -6103,6 +6526,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *PerpendicularVectorGrid:
 		var rf ReverseField
 		_ = rf
+	case *PerpendicularVectorGridHalfway:
+		var rf ReverseField
+		_ = rf
+	case *PerpendicularVectorHalfway:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PerpendicularVectorGridHalfway"
+		rf.Fieldname = "PerpendicularVectorHalfways"
+		res = append(res, rf)
 	case *Plant:
 		var rf ReverseField
 		_ = rf
@@ -6446,6 +6878,49 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetFieldHeaders() (r
 	return
 }
 
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "PerpendicularVectorHalfways",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PerpendicularVectorHalfway",
+		},
+	}
+	return
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6564,6 +7039,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "PerpendicularVectorGrid",
 		},
 		{
+			Name:                 "PerpendicularVectorGridHalfway",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PerpendicularVectorGridHalfway",
+		},
+		{
 			Name:                 "GrowthCurveBezierShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurveBezierShapeGrid",
@@ -6661,6 +7141,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenPerpendicularVectorGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPerpendicularVectorGridHalfway",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -7194,6 +7678,50 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetFieldValue(fieldN
 	return
 }
 
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = perpendicularvectorgridhalfway.Name
+	case "PerpendicularVectorHalfways":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range perpendicularvectorgridhalfway.PerpendicularVectorHalfways {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = perpendicularvectorhalfway.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", perpendicularvectorhalfway.StartX)
+		res.valueFloat = perpendicularvectorhalfway.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", perpendicularvectorhalfway.StartY)
+		res.valueFloat = perpendicularvectorhalfway.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", perpendicularvectorhalfway.EndX)
+		res.valueFloat = perpendicularvectorhalfway.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", perpendicularvectorhalfway.EndY)
+		res.valueFloat = perpendicularvectorhalfway.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7325,6 +7853,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.PerpendicularVectorGrid.Name
 			res.ids = plant.PerpendicularVectorGrid.GongGetUUID(stage)
 		}
+	case "PerpendicularVectorGridHalfway":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PerpendicularVectorGridHalfway != nil {
+			res.valueString = plant.PerpendicularVectorGridHalfway.Name
+			res.ids = plant.PerpendicularVectorGridHalfway.GongGetUUID(stage)
+		}
 	case "GrowthCurveBezierShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.GrowthCurveBezierShapeGrid != nil {
@@ -7422,6 +7956,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenPerpendicularVectorGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGrid)
 		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPerpendicularVectorGridHalfway":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGridHalfway)
+		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGridHalfway
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurveBezierShapeGrid)
@@ -7908,6 +8446,50 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongSetFieldValue(fieldN
 	return nil
 }
 
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		perpendicularvectorgridhalfway.Name = value.GetValueString()
+	case "PerpendicularVectorHalfways":
+		perpendicularvectorgridhalfway.PerpendicularVectorHalfways = make([]*PerpendicularVectorHalfway, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PerpendicularVectorHalfways {
+					if stage.PerpendicularVectorHalfway_stagedOrder[__instance__] == uint(id) {
+						perpendicularvectorgridhalfway.PerpendicularVectorHalfways = append(perpendicularvectorgridhalfway.PerpendicularVectorHalfways, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		perpendicularvectorhalfway.Name = value.GetValueString()
+	case "StartX":
+		perpendicularvectorhalfway.StartX = value.GetValueFloat()
+	case "StartY":
+		perpendicularvectorhalfway.StartY = value.GetValueFloat()
+	case "EndX":
+		perpendicularvectorhalfway.EndX = value.GetValueFloat()
+	case "EndY":
+		perpendicularvectorhalfway.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -8090,6 +8672,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "PerpendicularVectorGridHalfway":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PerpendicularVectorGridHalfway = nil
+			for __instance__ := range stage.PerpendicularVectorGridHalfways {
+				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
+					plant.PerpendicularVectorGridHalfway = __instance__
+					break
+				}
+			}
+		}
 	case "GrowthCurveBezierShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -8168,6 +8761,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
 	case "IsHiddenPerpendicularVectorGrid":
 		plantdiagram.IsHiddenPerpendicularVectorGrid = value.GetValueBool()
+	case "IsHiddenPerpendicularVectorGridHalfway":
+		plantdiagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		plantdiagram.IsHiddenGrowthCurveBezierShapeGrid = value.GetValueBool()
 	case "IsHiddenStackOfGrowthCurve":
@@ -8392,6 +8987,14 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongGetGongstructName() 
 	return "PerpendicularVectorGrid"
 }
 
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongGetGongstructName() string {
+	return "PerpendicularVectorGridHalfway"
+}
+
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetGongstructName() string {
+	return "PerpendicularVectorHalfway"
+}
+
 func (plant *Plant) GongGetGongstructName() string {
 	return "Plant"
 }
@@ -8508,6 +9111,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.PerpendicularVectorGrids_mapString = make(map[string]*PerpendicularVectorGrid)
 	for perpendicularvectorgrid := range stage.PerpendicularVectorGrids {
 		stage.PerpendicularVectorGrids_mapString[perpendicularvectorgrid.Name] = perpendicularvectorgrid
+	}
+
+	stage.PerpendicularVectorGridHalfways_mapString = make(map[string]*PerpendicularVectorGridHalfway)
+	for perpendicularvectorgridhalfway := range stage.PerpendicularVectorGridHalfways {
+		stage.PerpendicularVectorGridHalfways_mapString[perpendicularvectorgridhalfway.Name] = perpendicularvectorgridhalfway
+	}
+
+	stage.PerpendicularVectorHalfways_mapString = make(map[string]*PerpendicularVectorHalfway)
+	for perpendicularvectorhalfway := range stage.PerpendicularVectorHalfways {
+		stage.PerpendicularVectorHalfways_mapString[perpendicularvectorhalfway.Name] = perpendicularvectorhalfway
 	}
 
 	stage.Plants_mapString = make(map[string]*Plant)

@@ -151,6 +151,21 @@ func (perpendicularvectorgrid *PerpendicularVectorGrid) GongClean(stage *Stage) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PerpendicularVectorGridHalfway
+func (perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &perpendicularvectorgridhalfway.PerpendicularVectorHalfways) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PerpendicularVectorHalfway
+func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Plant
 func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -169,6 +184,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.GrowthCurveRhombusGridShape) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
+	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
 	return

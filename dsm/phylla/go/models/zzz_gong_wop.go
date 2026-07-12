@@ -252,6 +252,40 @@ func (from *PerpendicularVectorGrid) CopyBasicFields(to *PerpendicularVectorGrid
 	to.Name = from.Name
 }
 
+type PerpendicularVectorGridHalfway_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PerpendicularVectorGridHalfway) CopyBasicFields(to *PerpendicularVectorGridHalfway) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type PerpendicularVectorHalfway_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *PerpendicularVectorHalfway) CopyBasicFields(to *PerpendicularVectorHalfway) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
 type Plant_WOP struct {
 	// insertion point
 
@@ -345,6 +379,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPerpendicularVectorGrid bool
 
+	IsHiddenPerpendicularVectorGridHalfway bool
+
 	IsHiddenGrowthCurveBezierShapeGrid bool
 
 	IsHiddenStackOfGrowthCurve bool
@@ -374,6 +410,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
+	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
 	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
 	to.IsChecked = from.IsChecked
