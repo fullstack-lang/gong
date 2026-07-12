@@ -158,6 +158,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStartArcShapeV2GridCreateCallback != nil {
 			stage.OnAfterStartArcShapeV2GridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *TopStartArcShapeV2:
+		if stage.OnAfterTopStartArcShapeV2CreateCallback != nil {
+			stage.OnAfterTopStartArcShapeV2CreateCallback.OnAfterCreate(stage, target)
+		}
+	case *TopStartArcShapeV2Grid:
+		if stage.OnAfterTopStartArcShapeV2GridCreateCallback != nil {
+			stage.OnAfterTopStartArcShapeV2GridCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -362,6 +370,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterStartArcShapeV2GridUpdateCallback != nil {
 			stage.OnAfterStartArcShapeV2GridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *TopStartArcShapeV2:
+		newTarget := any(new).(*TopStartArcShapeV2)
+		if stage.OnAfterTopStartArcShapeV2UpdateCallback != nil {
+			stage.OnAfterTopStartArcShapeV2UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *TopStartArcShapeV2Grid:
+		newTarget := any(new).(*TopStartArcShapeV2Grid)
+		if stage.OnAfterTopStartArcShapeV2GridUpdateCallback != nil {
+			stage.OnAfterTopStartArcShapeV2GridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -562,6 +580,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*StartArcShapeV2Grid)
 			stage.OnAfterStartArcShapeV2GridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *TopStartArcShapeV2:
+		if stage.OnAfterTopStartArcShapeV2DeleteCallback != nil {
+			staged := any(staged).(*TopStartArcShapeV2)
+			stage.OnAfterTopStartArcShapeV2DeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *TopStartArcShapeV2Grid:
+		if stage.OnAfterTopStartArcShapeV2GridDeleteCallback != nil {
+			staged := any(staged).(*TopStartArcShapeV2Grid)
+			stage.OnAfterTopStartArcShapeV2GridDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -724,6 +752,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStartArcShapeV2GridReadCallback != nil {
 			stage.OnAfterStartArcShapeV2GridReadCallback.OnAfterRead(stage, target)
 		}
+	case *TopStartArcShapeV2:
+		if stage.OnAfterTopStartArcShapeV2ReadCallback != nil {
+			stage.OnAfterTopStartArcShapeV2ReadCallback.OnAfterRead(stage, target)
+		}
+	case *TopStartArcShapeV2Grid:
+		if stage.OnAfterTopStartArcShapeV2GridReadCallback != nil {
+			stage.OnAfterTopStartArcShapeV2GridReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -811,6 +847,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartArcShapeV2UpdateCallback = any(callback).(OnAfterUpdateInterface[StartArcShapeV2])
 	case *StartArcShapeV2Grid:
 		stage.OnAfterStartArcShapeV2GridUpdateCallback = any(callback).(OnAfterUpdateInterface[StartArcShapeV2Grid])
+	case *TopStartArcShapeV2:
+		stage.OnAfterTopStartArcShapeV2UpdateCallback = any(callback).(OnAfterUpdateInterface[TopStartArcShapeV2])
+	case *TopStartArcShapeV2Grid:
+		stage.OnAfterTopStartArcShapeV2GridUpdateCallback = any(callback).(OnAfterUpdateInterface[TopStartArcShapeV2Grid])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -894,6 +934,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartArcShapeV2CreateCallback = any(callback).(OnAfterCreateInterface[StartArcShapeV2])
 	case *StartArcShapeV2Grid:
 		stage.OnAfterStartArcShapeV2GridCreateCallback = any(callback).(OnAfterCreateInterface[StartArcShapeV2Grid])
+	case *TopStartArcShapeV2:
+		stage.OnAfterTopStartArcShapeV2CreateCallback = any(callback).(OnAfterCreateInterface[TopStartArcShapeV2])
+	case *TopStartArcShapeV2Grid:
+		stage.OnAfterTopStartArcShapeV2GridCreateCallback = any(callback).(OnAfterCreateInterface[TopStartArcShapeV2Grid])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -977,6 +1021,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartArcShapeV2DeleteCallback = any(callback).(OnAfterDeleteInterface[StartArcShapeV2])
 	case *StartArcShapeV2Grid:
 		stage.OnAfterStartArcShapeV2GridDeleteCallback = any(callback).(OnAfterDeleteInterface[StartArcShapeV2Grid])
+	case *TopStartArcShapeV2:
+		stage.OnAfterTopStartArcShapeV2DeleteCallback = any(callback).(OnAfterDeleteInterface[TopStartArcShapeV2])
+	case *TopStartArcShapeV2Grid:
+		stage.OnAfterTopStartArcShapeV2GridDeleteCallback = any(callback).(OnAfterDeleteInterface[TopStartArcShapeV2Grid])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -1060,5 +1108,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterStartArcShapeV2ReadCallback = any(callback).(OnAfterReadInterface[StartArcShapeV2])
 	case *StartArcShapeV2Grid:
 		stage.OnAfterStartArcShapeV2GridReadCallback = any(callback).(OnAfterReadInterface[StartArcShapeV2Grid])
+	case *TopStartArcShapeV2:
+		stage.OnAfterTopStartArcShapeV2ReadCallback = any(callback).(OnAfterReadInterface[TopStartArcShapeV2])
+	case *TopStartArcShapeV2Grid:
+		stage.OnAfterTopStartArcShapeV2GridReadCallback = any(callback).(OnAfterReadInterface[TopStartArcShapeV2Grid])
 	}
 }

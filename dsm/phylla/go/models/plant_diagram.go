@@ -24,6 +24,7 @@ type PlantDiagram struct {
 	IsHiddenArcNormalVectorShapeGrid       bool
 	IsHiddenStartArcShapeGrid              bool
 	IsHiddenStartArcShapeV2Grid            bool
+	IsHiddenTopStartArcShapeV2Grid         bool
 	IsHiddenEndArcShapeGrid                bool
 	IsHiddenEndArcShapeV2Grid              bool
 	IsHiddenGrowthCurveBezierShapeGrid     bool
