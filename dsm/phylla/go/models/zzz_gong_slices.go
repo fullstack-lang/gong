@@ -26,6 +26,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct CircleGridShape
 	// insertion point per field
 
+	// Compute reverse map for named struct EndArcShape
+	// insertion point per field
+
+	// Compute reverse map for named struct EndArcShapeGrid
+	// insertion point per field
+	stage.EndArcShapeGrid_EndArcShapes_reverseMap = make(map[*EndArcShape]*EndArcShapeGrid)
+	for endarcshapegrid := range stage.EndArcShapeGrids {
+		_ = endarcshapegrid
+		for _, _endarcshape := range endarcshapegrid.EndArcShapes {
+			stage.EndArcShapeGrid_EndArcShapes_reverseMap[_endarcshape] = endarcshapegrid
+		}
+	}
+
 	// Compute reverse map for named struct ExplanationTextShape
 	// insertion point per field
 
@@ -194,6 +207,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.EndArcShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.EndArcShapeGrids {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.ExplanationTextShapes {
 		res = append(res, instance)
 	}
@@ -311,6 +332,18 @@ func (axesshape *AxesShape) GongCopy() GongstructIF {
 func (circlegridshape *CircleGridShape) GongCopy() GongstructIF {
 	newInstance := new(CircleGridShape)
 	circlegridshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (endarcshape *EndArcShape) GongCopy() GongstructIF {
+	newInstance := new(EndArcShape)
+	endarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(EndArcShapeGrid)
+	endarcshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -488,6 +521,26 @@ func (circlegridshape *CircleGridShape) GongGetUUID(stage *Stage) (uuid string) 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(circlegridshape), uint64(GetOrderPointerGongstruct(stage, circlegridshape)))
+	return
+}
+
+func (endarcshape *EndArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(endarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshape), uint64(GetOrderPointerGongstruct(stage, endarcshape)))
+	return
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(endarcshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshapegrid), uint64(GetOrderPointerGongstruct(stage, endarcshapegrid)))
 	return
 }
 
@@ -879,6 +932,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(circlegridshapes_newInstances)
 	lenDeletedInstances += len(circlegridshapes_deletedInstances)
+	var endarcshapes_newInstances []*EndArcShape
+	var endarcshapes_deletedInstances []*EndArcShape
+
+	// parse all staged instances and check if they have a reference
+	for endarcshape := range stage.EndArcShapes {
+		if ref, ok := stage.EndArcShapes_reference[endarcshape]; !ok {
+			endarcshapes_newInstances = append(endarcshapes_newInstances, endarcshape)
+			newInstancesSlice = append(newInstancesSlice, endarcshape.GongMarshallIdentifier(stage))
+			if stage.EndArcShapes_referenceOrder == nil {
+				stage.EndArcShapes_referenceOrder = make(map[*EndArcShape]uint)
+			}
+			stage.EndArcShapes_referenceOrder[endarcshape] = stage.EndArcShape_stagedOrder[endarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, endarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.EndArcShapes_referenceOrder, endarcshape)
+			fieldInitializers, pointersInitializations := endarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.EndArcShape_stagedOrder[ref] = stage.EndArcShape_stagedOrder[endarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := endarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, endarcshape)
+			// delete(stage.EndArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if endarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", endarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.EndArcShapes_reference {
+		instance := stage.EndArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.EndArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			endarcshapes_deletedInstances = append(endarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(endarcshapes_newInstances)
+	lenDeletedInstances += len(endarcshapes_deletedInstances)
+	var endarcshapegrids_newInstances []*EndArcShapeGrid
+	var endarcshapegrids_deletedInstances []*EndArcShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for endarcshapegrid := range stage.EndArcShapeGrids {
+		if ref, ok := stage.EndArcShapeGrids_reference[endarcshapegrid]; !ok {
+			endarcshapegrids_newInstances = append(endarcshapegrids_newInstances, endarcshapegrid)
+			newInstancesSlice = append(newInstancesSlice, endarcshapegrid.GongMarshallIdentifier(stage))
+			if stage.EndArcShapeGrids_referenceOrder == nil {
+				stage.EndArcShapeGrids_referenceOrder = make(map[*EndArcShapeGrid]uint)
+			}
+			stage.EndArcShapeGrids_referenceOrder[endarcshapegrid] = stage.EndArcShapeGrid_stagedOrder[endarcshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, endarcshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.EndArcShapeGrids_referenceOrder, endarcshapegrid)
+			fieldInitializers, pointersInitializations := endarcshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.EndArcShapeGrid_stagedOrder[ref] = stage.EndArcShapeGrid_stagedOrder[endarcshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := endarcshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, endarcshapegrid)
+			// delete(stage.EndArcShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if endarcshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", endarcshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.EndArcShapeGrids_reference {
+		instance := stage.EndArcShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.EndArcShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			endarcshapegrids_deletedInstances = append(endarcshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(endarcshapegrids_newInstances)
+	lenDeletedInstances += len(endarcshapegrids_deletedInstances)
 	var explanationtextshapes_newInstances []*ExplanationTextShape
 	var explanationtextshapes_deletedInstances []*ExplanationTextShape
 
@@ -2364,6 +2527,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.CircleGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
+	stage.EndArcShapes_referenceOrder = make(map[*EndArcShape]uint) // diff Unstage needs the reference order
+	stage.EndArcShapes_instance = make(map[*EndArcShape]*EndArcShape)
+	for instance := range stage.EndArcShapes {
+		_copy := instance.GongCopy().(*EndArcShape)
+		stage.EndArcShapes_reference[instance] = _copy
+		stage.EndArcShapes_instance[_copy] = instance
+		stage.EndArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.EndArcShapeGrids_reference = make(map[*EndArcShapeGrid]*EndArcShapeGrid)
+	stage.EndArcShapeGrids_referenceOrder = make(map[*EndArcShapeGrid]uint) // diff Unstage needs the reference order
+	stage.EndArcShapeGrids_instance = make(map[*EndArcShapeGrid]*EndArcShapeGrid)
+	for instance := range stage.EndArcShapeGrids {
+		_copy := instance.GongCopy().(*EndArcShapeGrid)
+		stage.EndArcShapeGrids_reference[instance] = _copy
+		stage.EndArcShapeGrids_instance[_copy] = instance
+		stage.EndArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ExplanationTextShapes_reference = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_referenceOrder = make(map[*ExplanationTextShape]uint) // diff Unstage needs the reference order
 	stage.ExplanationTextShapes_instance = make(map[*ExplanationTextShape]*ExplanationTextShape)
@@ -2635,6 +2818,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.EndArcShapes {
+		reference := stage.EndArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.EndArcShapeGrids {
+		reference := stage.EndArcShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.ExplanationTextShapes {
 		reference := stage.ExplanationTextShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2795,6 +2988,30 @@ func (circlegridshape *CircleGridShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type CircleGridShape was not staged and does not have a reference order", circlegridshape)
+		return 0
+	}
+}
+
+func (endarcshape *EndArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.EndArcShape_stagedOrder[endarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.EndArcShapes_referenceOrder[endarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type EndArcShape was not staged and does not have a reference order", endarcshape)
+		return 0
+	}
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.EndArcShapeGrid_stagedOrder[endarcshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.EndArcShapeGrids_referenceOrder[endarcshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type EndArcShapeGrid was not staged and does not have a reference order", endarcshapegrid)
 		return 0
 	}
 }
@@ -3134,6 +3351,24 @@ func (circlegridshape *CircleGridShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", circlegridshape.GongGetGongstructName(), circlegridshape.GongGetOrder(stage))
 }
 
+func (endarcshape *EndArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshape.GongGetGongstructName(), endarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (endarcshape *EndArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshape.GongGetGongstructName(), endarcshape.GongGetOrder(stage))
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshapegrid.GongGetGongstructName(), endarcshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (endarcshapegrid *EndArcShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshapegrid.GongGetGongstructName(), endarcshapegrid.GongGetOrder(stage))
+}
+
 func (explanationtextshape *ExplanationTextShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", explanationtextshape.GongGetGongstructName(), explanationtextshape.GongGetOrder(stage))
 }
@@ -3387,6 +3622,22 @@ func (circlegridshape *CircleGridShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (endarcshape *EndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshape.Name))
+	return
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndArcShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshapegrid.Name))
+	return
+}
+
 func (explanationtextshape *ExplanationTextShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", explanationtextshape.GongGetIdentifier(stage))
@@ -3605,6 +3856,18 @@ func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (circlegridshape *CircleGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", circlegridshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (endarcshape *EndArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (endarcshapegrid *EndArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

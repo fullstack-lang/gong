@@ -60,6 +60,7 @@ type Plant struct {
 	PerpendicularVectorGrid    *PerpendicularVectorGrid
 	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
 	StartArcShapeGrid              *StartArcShapeGrid
+	EndArcShapeGrid                *EndArcShapeGrid
 	GrowthCurveBezierShapeGrid *GrowthCurveBezierShapeGrid
 
 	StackOfGrowthCurve *StackOfGrowthCurve

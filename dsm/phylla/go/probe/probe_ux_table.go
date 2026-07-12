@@ -28,6 +28,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.AxesShape](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
+	case "EndArcShape":
+		updateProbeTable[*models.EndArcShape](probe)
+	case "EndArcShapeGrid":
+		updateProbeTable[*models.EndArcShapeGrid](probe)
 	case "ExplanationTextShape":
 		updateProbeTable[*models.ExplanationTextShape](probe)
 	case "GridPathShape":

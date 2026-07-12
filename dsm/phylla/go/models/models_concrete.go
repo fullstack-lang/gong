@@ -159,6 +159,26 @@ type StartArcShapeGrid struct {
 	StartArcShapes []*StartArcShape
 }
 
+// EndArcShape of a plant,
+type EndArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+// EndArcShapeGrid of a plant,
+type EndArcShapeGrid struct {
+	Name string
+
+	EndArcShapes []*EndArcShape
+}
+
 // GrowthCurveBezierShape of a plant,
 type GrowthCurveBezierShape struct {
 	Name string

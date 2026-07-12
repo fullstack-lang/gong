@@ -40,6 +40,55 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
+type EndArcShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+
+	RadiusX float64
+
+	RadiusY float64
+}
+
+func (from *EndArcShape) CopyBasicFields(to *EndArcShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+}
+
+type EndArcShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EndArcShapeGrid) CopyBasicFields(to *EndArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type ExplanationTextShape_WOP struct {
 	// insertion point
 
@@ -383,6 +432,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenStartArcShapeGrid bool
 
+	IsHiddenEndArcShapeGrid bool
+
 	IsHiddenGrowthCurveBezierShapeGrid bool
 
 	IsHiddenStackOfGrowthCurve bool
@@ -414,6 +465,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
 	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
+	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
 	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
 	to.IsChecked = from.IsChecked
