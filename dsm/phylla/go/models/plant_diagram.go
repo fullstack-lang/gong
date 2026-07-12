@@ -24,4 +24,7 @@ type PlantDiagram struct {
 
 	IsChecked bool
 	AbstractTypeFields
+
+	Rendered3DShape *Rendered3DShape
+	
 }

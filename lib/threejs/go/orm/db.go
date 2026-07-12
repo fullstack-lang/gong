@@ -28,6 +28,10 @@ type DBLite struct {
 
 	nextIDBoxGeometryDB uint
 
+	cameraDBs map[uint]*CameraDB
+
+	nextIDCameraDB uint
+
 	canvasDBs map[uint]*CanvasDB
 
 	nextIDCanvasDB uint
@@ -98,6 +102,8 @@ func NewDBLite() *DBLite {
 
 		boxgeometryDBs: make(map[uint]*BoxGeometryDB),
 
+		cameraDBs: make(map[uint]*CameraDB),
+
 		canvasDBs: make(map[uint]*CanvasDB),
 
 		curveDBs: make(map[uint]*CurveDB),
@@ -149,6 +155,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDBoxGeometryDB++
 		v.ID = db.nextIDBoxGeometryDB
 		db.boxgeometryDBs[v.ID] = v
+	case *CameraDB:
+		db.nextIDCameraDB++
+		v.ID = db.nextIDCameraDB
+		db.cameraDBs[v.ID] = v
 	case *CanvasDB:
 		db.nextIDCanvasDB++
 		v.ID = db.nextIDCanvasDB
@@ -241,6 +251,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.ambiantlightDBs, v.ID)
 	case *BoxGeometryDB:
 		delete(db.boxgeometryDBs, v.ID)
+	case *CameraDB:
+		delete(db.cameraDBs, v.ID)
 	case *CanvasDB:
 		delete(db.canvasDBs, v.ID)
 	case *CurveDB:
@@ -294,6 +306,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *BoxGeometryDB:
 		db.boxgeometryDBs[v.ID] = v
+		return db, nil
+	case *CameraDB:
+		db.cameraDBs[v.ID] = v
 		return db, nil
 	case *CanvasDB:
 		db.canvasDBs[v.ID] = v
@@ -367,6 +382,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db BoxGeometry github.com/fullstack-lang/gong/lib/threejs/go, record not found")
+		}
+	case *CameraDB:
+		if existing, ok := db.cameraDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Camera github.com/fullstack-lang/gong/lib/threejs/go, record not found")
 		}
 	case *CanvasDB:
 		if existing, ok := db.canvasDBs[v.ID]; ok {
@@ -481,6 +502,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]BoxGeometryDB:
 		*ptr = make([]BoxGeometryDB, 0, len(db.boxgeometryDBs))
 		for _, v := range db.boxgeometryDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]CameraDB:
+		*ptr = make([]CameraDB, 0, len(db.cameraDBs))
+		for _, v := range db.cameraDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -626,6 +653,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		boxgeometryDB, _ := instanceDB.(*BoxGeometryDB)
 		*boxgeometryDB = *tmp
+
+	case *CameraDB:
+		tmp, ok := db.cameraDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Camera Unkown entry %d", i))
+		}
+
+		cameraDB, _ := instanceDB.(*CameraDB)
+		*cameraDB = *tmp
 
 	case *CanvasDB:
 		tmp, ok := db.canvasDBs[uint(i)]

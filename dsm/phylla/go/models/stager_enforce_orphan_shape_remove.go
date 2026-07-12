@@ -27,6 +27,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
 	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
 	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
+	refRendered3DShape := make(map[*Rendered3DShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
@@ -110,6 +111,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 					refStackGrowthCurveBezierShape[shape] = true
 				}
 			}
+		}
+	}
+
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
 	}
 
@@ -232,6 +239,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurveBezierShape](stage) {
 		if !refStackGrowthCurveBezierShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Rendered3DShape](stage) {
+		if !refRendered3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

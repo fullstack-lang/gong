@@ -5,6 +5,8 @@ import { AmbiantLightAPI } from './ambiantlight-api'
 
 import { BoxGeometryAPI } from './boxgeometry-api'
 
+import { CameraAPI } from './camera-api'
+
 import { CanvasAPI } from './canvas-api'
 
 import { CurveAPI } from './curve-api'
@@ -41,6 +43,8 @@ export class BackRepoData {
 	AmbiantLightAPIs = new Array<AmbiantLightAPI>()
 
 	BoxGeometryAPIs = new Array<BoxGeometryAPI>()
+
+	CameraAPIs = new Array<CameraAPI>()
 
 	CanvasAPIs = new Array<CanvasAPI>()
 
@@ -81,6 +85,8 @@ export class BackRepoData {
 		this.AmbiantLightAPIs = data?.AmbiantLightAPIs || [];
 
 		this.BoxGeometryAPIs = data?.BoxGeometryAPIs || [];
+
+		this.CameraAPIs = data?.CameraAPIs || [];
 
 		this.CanvasAPIs = data?.CanvasAPIs || [];
 

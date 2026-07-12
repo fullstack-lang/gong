@@ -2032,6 +2032,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.Rendered3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2107,6 +2109,96 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 	}
 
 	plantdiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__Rendered3DShapeFormCallback(
+	rendered3dshape *models.Rendered3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rendered3dshapeFormCallback *Rendered3DShapeFormCallback) {
+	rendered3dshapeFormCallback = new(Rendered3DShapeFormCallback)
+	rendered3dshapeFormCallback.probe = probe
+	rendered3dshapeFormCallback.rendered3dshape = rendered3dshape
+	rendered3dshapeFormCallback.formGroup = formGroup
+
+	rendered3dshapeFormCallback.CreationMode = (rendered3dshape == nil)
+
+	return
+}
+
+type Rendered3DShapeFormCallback struct {
+	rendered3dshape *models.Rendered3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rendered3dshapeFormCallback *Rendered3DShapeFormCallback) OnSave() {
+	rendered3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer rendered3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Rendered3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rendered3dshapeFormCallback.probe.formStage.Checkout()
+
+	if rendered3dshapeFormCallback.rendered3dshape == nil {
+		rendered3dshapeFormCallback.rendered3dshape = new(models.Rendered3DShape).Stage(rendered3dshapeFormCallback.probe.stageOfInterest)
+	}
+	rendered3dshape_ := rendered3dshapeFormCallback.rendered3dshape
+	_ = rendered3dshape_
+
+	for _, formDiv := range rendered3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rendered3dshape_.Name), formDiv)
+		case "ViewX":
+			FormDivBasicFieldToField(&(rendered3dshape_.ViewX), formDiv)
+		case "ViewY":
+			FormDivBasicFieldToField(&(rendered3dshape_.ViewY), formDiv)
+		case "ViewZ":
+			FormDivBasicFieldToField(&(rendered3dshape_.ViewZ), formDiv)
+		case "TargetX":
+			FormDivBasicFieldToField(&(rendered3dshape_.TargetX), formDiv)
+		case "TargetY":
+			FormDivBasicFieldToField(&(rendered3dshape_.TargetY), formDiv)
+		case "TargetZ":
+			FormDivBasicFieldToField(&(rendered3dshape_.TargetZ), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if rendered3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rendered3dshape_.Unstage(rendered3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	rendered3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Rendered3DShape](
+		rendered3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rendered3dshapeFormCallback.CreationMode || rendered3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rendered3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rendered3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Rendered3DShapeFormCallback(
+			nil,
+			rendered3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		rendered3dshape := new(models.Rendered3DShape)
+		FillUpForm(rendered3dshape, newFormGroup, rendered3dshapeFormCallback.probe)
+		rendered3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	rendered3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__RhombusShapeFormCallback(
 	rhombusshape *models.RhombusShape,

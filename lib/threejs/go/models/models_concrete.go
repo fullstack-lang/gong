@@ -6,6 +6,16 @@ type Canvas struct {
 	AmbiantLight      *AmbiantLight
 
 	Meshs []*Mesh
+
+	Camera *Camera
+}
+
+type Camera struct {
+	Name string
+	Position
+	TargetX float64
+	TargetY float64
+	TargetZ float64
 }
 
 type Position struct {

@@ -185,6 +185,14 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongClean(stage *Stage) 
 func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Rendered3DShape
+func (rendered3dshape *Rendered3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 

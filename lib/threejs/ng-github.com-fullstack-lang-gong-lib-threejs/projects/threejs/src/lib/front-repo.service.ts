@@ -13,6 +13,10 @@ import { BoxGeometryAPI } from './boxgeometry-api'
 import { BoxGeometry, CopyBoxGeometryAPIToBoxGeometry } from './boxgeometry'
 import { BoxGeometryService } from './boxgeometry.service'
 
+import { CameraAPI } from './camera-api'
+import { Camera, CopyCameraAPIToCamera } from './camera'
+import { CameraService } from './camera.service'
+
 import { CanvasAPI } from './canvas-api'
 import { Canvas, CopyCanvasAPIToCanvas } from './canvas'
 import { CanvasService } from './canvas.service'
@@ -86,6 +90,9 @@ export class FrontRepo { // insertion point sub template
 	array_BoxGeometrys = new Array<BoxGeometry>() // array of front instances
 	map_ID_BoxGeometry = new Map<number, BoxGeometry>() // map of front instances
 
+	array_Cameras = new Array<Camera>() // array of front instances
+	map_ID_Camera = new Map<number, Camera>() // map of front instances
+
 	array_Canvass = new Array<Canvas>() // array of front instances
 	map_ID_Canvas = new Map<number, Canvas>() // map of front instances
 
@@ -144,6 +151,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_AmbiantLights as unknown as Array<Type>
 			case 'BoxGeometry':
 				return this.array_BoxGeometrys as unknown as Array<Type>
+			case 'Camera':
+				return this.array_Cameras as unknown as Array<Type>
 			case 'Canvas':
 				return this.array_Canvass as unknown as Array<Type>
 			case 'Curve':
@@ -186,6 +195,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_AmbiantLight as unknown as Map<number, Type>
 			case 'BoxGeometry':
 				return this.map_ID_BoxGeometry as unknown as Map<number, Type>
+			case 'Camera':
+				return this.map_ID_Camera as unknown as Map<number, Type>
 			case 'Canvas':
 				return this.map_ID_Canvas as unknown as Map<number, Type>
 			case 'Curve':
@@ -288,6 +299,7 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private ambiantlightService: AmbiantLightService,
 		private boxgeometryService: BoxGeometryService,
+		private cameraService: CameraService,
 		private canvasService: CanvasService,
 		private curveService: CurveService,
 		private cylindergeometryService: CylinderGeometryService,
@@ -337,6 +349,7 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<AmbiantLightAPI[]>,
 		Observable<BoxGeometryAPI[]>,
+		Observable<CameraAPI[]>,
 		Observable<CanvasAPI[]>,
 		Observable<CurveAPI[]>,
 		Observable<CylinderGeometryAPI[]>,
@@ -369,6 +382,7 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.ambiantlightService.getAmbiantLights(this.Name, this.frontRepo),
 			this.boxgeometryService.getBoxGeometrys(this.Name, this.frontRepo),
+			this.cameraService.getCameras(this.Name, this.frontRepo),
 			this.canvasService.getCanvass(this.Name, this.frontRepo),
 			this.curveService.getCurves(this.Name, this.frontRepo),
 			this.cylindergeometryService.getCylinderGeometrys(this.Name, this.frontRepo),
@@ -396,6 +410,7 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						ambiantlights_,
 						boxgeometrys_,
+						cameras_,
 						canvass_,
 						curves_,
 						cylindergeometrys_,
@@ -419,6 +434,8 @@ export class FrontRepoService {
 						ambiantlights = ambiantlights_ as AmbiantLightAPI[]
 						var boxgeometrys: BoxGeometryAPI[]
 						boxgeometrys = boxgeometrys_ as BoxGeometryAPI[]
+						var cameras: CameraAPI[]
+						cameras = cameras_ as CameraAPI[]
 						var canvass: CanvasAPI[]
 						canvass = canvass_ as CanvasAPI[]
 						var curves: CurveAPI[]
@@ -474,6 +491,18 @@ export class FrontRepoService {
 								let boxgeometry = new BoxGeometry
 								this.frontRepo.array_BoxGeometrys.push(boxgeometry)
 								this.frontRepo.map_ID_BoxGeometry.set(boxgeometryAPI.ID, boxgeometry)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Cameras = []
+						this.frontRepo.map_ID_Camera.clear()
+
+						cameras.forEach(
+							cameraAPI => {
+								let camera = new Camera
+								this.frontRepo.array_Cameras.push(camera)
+								this.frontRepo.map_ID_Camera.set(cameraAPI.ID, camera)
 							}
 						)
 
@@ -678,6 +707,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						cameras.forEach(
+							cameraAPI => {
+								let camera = this.frontRepo.map_ID_Camera.get(cameraAPI.ID)
+								CopyCameraAPIToCamera(cameraAPI, camera!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						canvass.forEach(
 							canvasAPI => {
 								let canvas = this.frontRepo.map_ID_Canvas.get(canvasAPI.ID)
@@ -871,6 +908,18 @@ export class FrontRepoService {
 						let boxgeometry = new BoxGeometry
 						frontRepo.array_BoxGeometrys.push(boxgeometry)
 						frontRepo.map_ID_BoxGeometry.set(boxgeometryAPI.ID, boxgeometry)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Cameras = []
+				frontRepo.map_ID_Camera.clear()
+
+				backRepoData.CameraAPIs.forEach(
+					cameraAPI => {
+						let camera = new Camera
+						frontRepo.array_Cameras.push(camera)
+						frontRepo.map_ID_Camera.set(cameraAPI.ID, camera)
 					}
 				)
 
@@ -1075,6 +1124,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.CameraAPIs.forEach(
+					cameraAPI => {
+						let camera = frontRepo.map_ID_Camera.get(cameraAPI.ID)
+						CopyCameraAPIToCamera(cameraAPI, camera!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.CanvasAPIs.forEach(
 					canvasAPI => {
 						let canvas = frontRepo.map_ID_Canvas.get(canvasAPI.ID)
@@ -1272,48 +1329,51 @@ export function getAmbiantLightUniqueID(id: number): number {
 export function getBoxGeometryUniqueID(id: number): number {
 	return 37 * id
 }
-export function getCanvasUniqueID(id: number): number {
+export function getCameraUniqueID(id: number): number {
 	return 41 * id
 }
-export function getCurveUniqueID(id: number): number {
+export function getCanvasUniqueID(id: number): number {
 	return 43 * id
 }
-export function getCylinderGeometryUniqueID(id: number): number {
+export function getCurveUniqueID(id: number): number {
 	return 47 * id
 }
-export function getDirectionalLightUniqueID(id: number): number {
+export function getCylinderGeometryUniqueID(id: number): number {
 	return 53 * id
 }
-export function getExtrudeGeometryUniqueID(id: number): number {
+export function getDirectionalLightUniqueID(id: number): number {
 	return 59 * id
 }
-export function getMeshUniqueID(id: number): number {
+export function getExtrudeGeometryUniqueID(id: number): number {
 	return 61 * id
 }
-export function getMeshMaterialBasicUniqueID(id: number): number {
+export function getMeshUniqueID(id: number): number {
 	return 67 * id
 }
-export function getMeshPhysicalMaterialUniqueID(id: number): number {
+export function getMeshMaterialBasicUniqueID(id: number): number {
 	return 71 * id
 }
-export function getPlaneGeometryUniqueID(id: number): number {
+export function getMeshPhysicalMaterialUniqueID(id: number): number {
 	return 73 * id
 }
-export function getShapeUniqueID(id: number): number {
+export function getPlaneGeometryUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSphereGeometryUniqueID(id: number): number {
+export function getShapeUniqueID(id: number): number {
 	return 83 * id
 }
-export function getTorusGeometryUniqueID(id: number): number {
+export function getSphereGeometryUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTubeGeometryUniqueID(id: number): number {
+export function getTorusGeometryUniqueID(id: number): number {
 	return 97 * id
 }
-export function getVector2UniqueID(id: number): number {
+export function getTubeGeometryUniqueID(id: number): number {
 	return 101 * id
 }
-export function getVector3UniqueID(id: number): number {
+export function getVector2UniqueID(id: number): number {
 	return 103 * id
+}
+export function getVector3UniqueID(id: number): number {
+	return 107 * id
 }

@@ -26,6 +26,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*AmbiantLight](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*BoxGeometry](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Camera](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Canvas](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Curve](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*CylinderGeometry](stage, f, addIDs)

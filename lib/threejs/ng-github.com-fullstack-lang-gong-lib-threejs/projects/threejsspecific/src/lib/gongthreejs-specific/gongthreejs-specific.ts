@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef, ViewChild, Directive, inject, OnChanges, SimpleChanges } from '@angular/core';
 import { NgtCanvas } from 'angular-three/dom';
 import { extend, NgtArgs } from 'angular-three';
 import * as THREE from 'three';
@@ -35,11 +35,36 @@ class UndulatingTorusCurve extends THREE.Curve<THREE.Vector3> {
   }
 }
 
+import { injectStore } from 'angular-three';
+
+@Directive({
+  selector: '[cameraUpdater]',
+  standalone: true
+})
+export class CameraUpdaterDirective implements OnChanges {
+  @Input('cameraUpdater') cam: any;
+  
+  private store = injectStore();
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['cam'] && this.cam) {
+      const state = this.store();
+      const camera = state.camera;
+      const controls = state.controls as any;
+      if (camera && controls) {
+        camera.position.set(this.cam.X ?? 15, this.cam.Y ?? 15, this.cam.Z ?? 15);
+        controls.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
+        controls.update();
+      }
+    }
+  }
+}
+
 @Component({
   selector: 'lib-threejs-specific',
   templateUrl: './gongthreejs-specific.html',
   styleUrl: './gongthreejs-specific.css',
-  imports: [NgtCanvas, NgtArgs, NgtsOrbitControls],
+  imports: [NgtCanvas, NgtArgs, NgtsOrbitControls, CameraUpdaterDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -97,6 +122,7 @@ export class GongthreejsSpecific {
         for (let instance of this.frontRepo.getFrontArray<threejs.Canvas>(threejs.Canvas.GONGSTRUCT_NAME)) {
           canvasSingloton = instance
         }
+
         this.canvasSingloton = canvasSingloton
         this.cdr.detectChanges()
       }

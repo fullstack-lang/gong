@@ -49,6 +49,7 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.AmbiantLight](stage)
 	models.SetOrchestratorOnAfterUpdate[models.BoxGeometry](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Camera](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Canvas](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Curve](stage)
 	models.SetOrchestratorOnAfterUpdate[models.CylinderGeometry](stage)

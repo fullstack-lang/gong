@@ -92,6 +92,88 @@ func (stager *Stager) ux_slider() {
 
 	}
 
+	// Add sliders for PlantDiagram 3D view
+	var checkedDiagram *PlantDiagram
+	for _, diagram := range plant.PlantDiagrams {
+		if diagram.IsChecked {
+			checkedDiagram = diagram
+			break
+		}
+	}
+
+	if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+		group2 := new(m.Group).Stage(stager.sliderStage)
+		group2.Percentage = 25
+		layout.Groups = append(layout.Groups, group2)
+
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"View X",
+				-500,
+				500,
+				1,
+				&checkedDiagram.Rendered3DShape.ViewX,
+			),
+		)
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"View Y",
+				-500,
+				500,
+				1,
+				&checkedDiagram.Rendered3DShape.ViewY,
+			),
+		)
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"View Z",
+				-500,
+				500,
+				1,
+				&checkedDiagram.Rendered3DShape.ViewZ,
+			),
+		)
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"Target X",
+				-500,
+				500,
+				1,
+				&checkedDiagram.Rendered3DShape.TargetX,
+			),
+		)
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"Target Y",
+				-500,
+				500,
+				1,
+				&checkedDiagram.Rendered3DShape.TargetY,
+			),
+		)
+		group2.Sliders = append(
+			group2.Sliders,
+			m.NewSlider(
+				stager,
+				"Target Z",
+				-500,
+				500,
+				1,
+				&checkedDiagram.Rendered3DShape.TargetZ,
+			),
+		)
+	}
+
 	stager.sliderStage.Commit()
 }
 

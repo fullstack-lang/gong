@@ -1,6 +1,9 @@
 <div style="height: 100%; width: 100%;">
-  <ngt-canvas [camera]="{ position: [15, 15, 15] }" shadows>
+  <ngt-canvas shadows>
     <ng-template canvasContent>
+      <ngt-perspective-camera 
+        [position]="[canvasSingloton?.Camera?.X ?? 15, canvasSingloton?.Camera?.Y ?? 15, canvasSingloton?.Camera?.Z ?? 15]" 
+        makeDefault />
       @if (canvasSingloton?.AmbiantLight) {
         <ngt-ambient-light [intensity]="canvasSingloton!.AmbiantLight!.Intensity" />
       }
@@ -56,8 +59,9 @@
         </ngt-mesh>
       }
 
-      
-      <ngts-orbit-controls />
+      <ngts-orbit-controls 
+        [cameraUpdater]="canvasSingloton?.Camera"
+        [target]="[canvasSingloton?.Camera?.TargetX ?? 0, canvasSingloton?.Camera?.TargetY ?? 0, canvasSingloton?.Camera?.TargetZ ?? 0]" />
     </ng-template>
   </ngt-canvas>
 </div>

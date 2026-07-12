@@ -415,6 +415,21 @@ type Stage struct {
 	OnAfterPlantDiagramDeleteCallback OnAfterDeleteInterface[PlantDiagram]
 	OnAfterPlantDiagramReadCallback   OnAfterReadInterface[PlantDiagram]
 
+	Rendered3DShapes                map[*Rendered3DShape]struct{}
+	Rendered3DShapes_instance       map[*Rendered3DShape]*Rendered3DShape
+	Rendered3DShapes_mapString      map[string]*Rendered3DShape
+	Rendered3DShapeOrder            uint
+	Rendered3DShape_stagedOrder     map[*Rendered3DShape]uint
+	Rendered3DShape_orderStaged     map[uint]*Rendered3DShape
+	Rendered3DShapes_reference      map[*Rendered3DShape]*Rendered3DShape
+	Rendered3DShapes_referenceOrder map[*Rendered3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterRendered3DShapeCreateCallback OnAfterCreateInterface[Rendered3DShape]
+	OnAfterRendered3DShapeUpdateCallback OnAfterUpdateInterface[Rendered3DShape]
+	OnAfterRendered3DShapeDeleteCallback OnAfterDeleteInterface[Rendered3DShape]
+	OnAfterRendered3DShapeReadCallback   OnAfterReadInterface[Rendered3DShape]
+
 	RhombusShapes                map[*RhombusShape]struct{}
 	RhombusShapes_instance       map[*RhombusShape]*RhombusShape
 	RhombusShapes_mapString      map[string]*RhombusShape
@@ -802,6 +817,10 @@ func (stage *Stage) Squash() {
 	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
 	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
 
+	stage.Rendered3DShapes_reference = make(map[*Rendered3DShape]*Rendered3DShape)
+	stage.Rendered3DShapes_instance = make(map[*Rendered3DShape]*Rendered3DShape)
+	stage.Rendered3DShapes_referenceOrder = make(map[*Rendered3DShape]uint)
+
 	stage.RhombusShapes_reference = make(map[*RhombusShape]*RhombusShape)
 	stage.RhombusShapes_instance = make(map[*RhombusShape]*RhombusShape)
 	stage.RhombusShapes_referenceOrder = make(map[*RhombusShape]uint)
@@ -1099,6 +1118,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PlantDiagramOrder = maxPlantDiagramOrder + 1
 	} else {
 		stage.PlantDiagramOrder = 0
+	}
+
+	var maxRendered3DShapeOrder uint
+	var foundRendered3DShape bool
+	for _, order := range stage.Rendered3DShape_stagedOrder {
+		if !foundRendered3DShape || order > maxRendered3DShapeOrder {
+			maxRendered3DShapeOrder = order
+			foundRendered3DShape = true
+		}
+	}
+	if foundRendered3DShape {
+		stage.Rendered3DShapeOrder = maxRendered3DShapeOrder + 1
+	} else {
+		stage.Rendered3DShapeOrder = 0
 	}
 
 	var maxRhombusShapeOrder uint
@@ -1484,6 +1517,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Rendered3DShape:
+		tmp := GetStructInstancesByOrder(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Rendered3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *RhombusShape:
 		tmp := GetStructInstancesByOrder(stage.RhombusShapes, stage.RhombusShape_stagedOrder)
 
@@ -1619,6 +1666,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
 	case "PlantDiagram":
 		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
+	case "Rendered3DShape":
+		res = GetNamedStructInstances(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
 	case "RhombusShape":
 		res = GetNamedStructInstances(stage.RhombusShapes, stage.RhombusShape_stagedOrder)
 	case "RotatedRhombusGridShape":
@@ -1734,6 +1783,8 @@ type BackRepoInterface interface {
 	CheckoutPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
 	CommitPlantDiagram(plantdiagram *PlantDiagram)
 	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
+	CommitRendered3DShape(rendered3dshape *Rendered3DShape)
+	CheckoutRendered3DShape(rendered3dshape *Rendered3DShape)
 	CommitRhombusShape(rhombusshape *RhombusShape)
 	CheckoutRhombusShape(rhombusshape *RhombusShape)
 	CommitRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape)
@@ -1803,6 +1854,9 @@ func NewStage(name string) (stage *Stage) {
 
 		PlantDiagrams:           make(map[*PlantDiagram]struct{}),
 		PlantDiagrams_mapString: make(map[string]*PlantDiagram),
+
+		Rendered3DShapes:           make(map[*Rendered3DShape]struct{}),
+		Rendered3DShapes_mapString: make(map[string]*Rendered3DShape),
 
 		RhombusShapes:           make(map[*RhombusShape]struct{}),
 		RhombusShapes_mapString: make(map[string]*RhombusShape),
@@ -1901,6 +1955,10 @@ func NewStage(name string) (stage *Stage) {
 		PlantDiagram_orderStaged: make(map[uint]*PlantDiagram),
 		PlantDiagrams_reference:  make(map[*PlantDiagram]*PlantDiagram),
 
+		Rendered3DShape_stagedOrder: make(map[*Rendered3DShape]uint),
+		Rendered3DShape_orderStaged: make(map[uint]*Rendered3DShape),
+		Rendered3DShapes_reference:  make(map[*Rendered3DShape]*Rendered3DShape),
+
 		RhombusShape_stagedOrder: make(map[*RhombusShape]uint),
 		RhombusShape_orderStaged: make(map[uint]*RhombusShape),
 		RhombusShapes_reference:  make(map[*RhombusShape]*RhombusShape),
@@ -1959,6 +2017,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
+			"Rendered3DShape": &Rendered3DShapeUnmarshaller{},
+
 			"RhombusShape": &RhombusShapeUnmarshaller{},
 
 			"RotatedRhombusGridShape": &RotatedRhombusGridShapeUnmarshaller{},
@@ -1991,6 +2051,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Plant"},
 			{name: "PlantCircumferenceShape"},
 			{name: "PlantDiagram"},
+			{name: "Rendered3DShape"},
 			{name: "RhombusShape"},
 			{name: "RotatedRhombusGridShape"},
 			{name: "RotatedRhombusShape"},
@@ -2043,6 +2104,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
+	case *Rendered3DShape:
+		return stage.Rendered3DShape_stagedOrder[instance]
 	case *RhombusShape:
 		return stage.RhombusShape_stagedOrder[instance]
 	case *RotatedRhombusGridShape:
@@ -2098,6 +2161,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PlantCircumferenceShape_orderStaged[order]).(Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagram_orderStaged[order]).(Type)
+	case *Rendered3DShape:
+		return any(stage.Rendered3DShape_orderStaged[order]).(Type)
 	case *RhombusShape:
 		return any(stage.RhombusShape_orderStaged[order]).(Type)
 	case *RotatedRhombusGridShape:
@@ -2152,6 +2217,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
+	case *Rendered3DShape:
+		return stage.Rendered3DShape_stagedOrder[instance]
 	case *RhombusShape:
 		return stage.RhombusShape_stagedOrder[instance]
 	case *RotatedRhombusGridShape:
@@ -2245,6 +2312,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
+	stage.Map_GongStructName_InstancesNb["Rendered3DShape"] = len(stage.Rendered3DShapes)
 	stage.Map_GongStructName_InstancesNb["RhombusShape"] = len(stage.RhombusShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusGridShape"] = len(stage.RotatedRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
@@ -3874,6 +3942,94 @@ func (plantdiagram *PlantDiagram) SetName(name string) {
 	plantdiagram.Name = name
 }
 
+// Stage puts rendered3dshape to the model stage
+func (rendered3dshape *Rendered3DShape) Stage(stage *Stage) *Rendered3DShape {
+	if _, ok := stage.Rendered3DShapes[rendered3dshape]; !ok {
+		stage.Rendered3DShapes[rendered3dshape] = struct{}{}
+		stage.Rendered3DShape_stagedOrder[rendered3dshape] = stage.Rendered3DShapeOrder
+		stage.Rendered3DShape_orderStaged[stage.Rendered3DShapeOrder] = rendered3dshape
+		stage.Rendered3DShapeOrder++
+	}
+	stage.Rendered3DShapes_mapString[rendered3dshape.Name] = rendered3dshape
+
+	return rendered3dshape
+}
+
+// StagePreserveOrder puts rendered3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Rendered3DShapeOrder
+// - update stage.Rendered3DShapeOrder accordingly
+func (rendered3dshape *Rendered3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Rendered3DShapes[rendered3dshape]; !ok {
+		stage.Rendered3DShapes[rendered3dshape] = struct{}{}
+
+		if order > stage.Rendered3DShapeOrder {
+			stage.Rendered3DShapeOrder = order
+		}
+		stage.Rendered3DShape_stagedOrder[rendered3dshape] = order
+		stage.Rendered3DShape_orderStaged[order] = rendered3dshape
+		stage.Rendered3DShapeOrder++
+	}
+	stage.Rendered3DShapes_mapString[rendered3dshape.Name] = rendered3dshape
+}
+
+// Unstage removes rendered3dshape off the model stage
+func (rendered3dshape *Rendered3DShape) Unstage(stage *Stage) *Rendered3DShape {
+	delete(stage.Rendered3DShapes, rendered3dshape)
+	// issue1150
+	// delete(stage.Rendered3DShape_stagedOrder, rendered3dshape)
+	delete(stage.Rendered3DShapes_mapString, rendered3dshape.Name)
+
+	return rendered3dshape
+}
+
+// UnstageVoid removes rendered3dshape off the model stage
+func (rendered3dshape *Rendered3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Rendered3DShapes, rendered3dshape)
+	// issue1150
+	// delete(stage.Rendered3DShape_stagedOrder, rendered3dshape)
+	delete(stage.Rendered3DShapes_mapString, rendered3dshape.Name)
+}
+
+// commit rendered3dshape to the back repo (if it is already staged)
+func (rendered3dshape *Rendered3DShape) Commit(stage *Stage) *Rendered3DShape {
+	if _, ok := stage.Rendered3DShapes[rendered3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitRendered3DShape(rendered3dshape)
+		}
+	}
+	return rendered3dshape
+}
+
+func (rendered3dshape *Rendered3DShape) CommitVoid(stage *Stage) {
+	rendered3dshape.Commit(stage)
+}
+
+func (rendered3dshape *Rendered3DShape) StageVoid(stage *Stage) {
+	rendered3dshape.Stage(stage)
+}
+
+// Checkout rendered3dshape to the back repo (if it is already staged)
+func (rendered3dshape *Rendered3DShape) Checkout(stage *Stage) *Rendered3DShape {
+	if _, ok := stage.Rendered3DShapes[rendered3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutRendered3DShape(rendered3dshape)
+		}
+	}
+	return rendered3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (rendered3dshape *Rendered3DShape) GetName() (res string) {
+	return rendered3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rendered3dshape *Rendered3DShape) SetName(name string) {
+	rendered3dshape.Name = name
+}
+
 // Stage puts rhombusshape to the model stage
 func (rhombusshape *RhombusShape) Stage(stage *Stage) *RhombusShape {
 	if _, ok := stage.RhombusShapes[rhombusshape]; !ok {
@@ -4334,6 +4490,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
+	CreateORMRendered3DShape(Rendered3DShape *Rendered3DShape)
 	CreateORMRhombusShape(RhombusShape *RhombusShape)
 	CreateORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
@@ -4360,6 +4517,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
+	DeleteORMRendered3DShape(Rendered3DShape *Rendered3DShape)
 	DeleteORMRhombusShape(RhombusShape *RhombusShape)
 	DeleteORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
@@ -4458,6 +4616,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PlantDiagram_stagedOrder = make(map[*PlantDiagram]uint)
 	stage.PlantDiagramOrder = 0
 
+	stage.Rendered3DShapes = make(map[*Rendered3DShape]struct{})
+	stage.Rendered3DShapes_mapString = make(map[string]*Rendered3DShape)
+	stage.Rendered3DShape_stagedOrder = make(map[*Rendered3DShape]uint)
+	stage.Rendered3DShapeOrder = 0
+
 	stage.RhombusShapes = make(map[*RhombusShape]struct{})
 	stage.RhombusShapes_mapString = make(map[string]*RhombusShape)
 	stage.RhombusShape_stagedOrder = make(map[*RhombusShape]uint)
@@ -4545,6 +4708,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.PlantDiagrams = nil
 	stage.PlantDiagrams_mapString = nil
+
+	stage.Rendered3DShapes = nil
+	stage.Rendered3DShapes_mapString = nil
 
 	stage.RhombusShapes = nil
 	stage.RhombusShapes_mapString = nil
@@ -4635,6 +4801,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for plantdiagram := range stage.PlantDiagrams {
 		plantdiagram.Unstage(stage)
+	}
+
+	for rendered3dshape := range stage.Rendered3DShapes {
+		rendered3dshape.Unstage(stage)
 	}
 
 	for rhombusshape := range stage.RhombusShapes {
@@ -4769,6 +4939,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PlantCircumferenceShapes).(*Type)
 	case map[*PlantDiagram]any:
 		return any(&stage.PlantDiagrams).(*Type)
+	case map[*Rendered3DShape]any:
+		return any(&stage.Rendered3DShapes).(*Type)
 	case map[*RhombusShape]any:
 		return any(&stage.RhombusShapes).(*Type)
 	case map[*RotatedRhombusGridShape]any:
@@ -4827,6 +4999,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PlantCircumferenceShapes_mapString).(map[string]Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagrams_mapString).(map[string]Type)
+	case *Rendered3DShape:
+		return any(stage.Rendered3DShapes_mapString).(map[string]Type)
 	case *RhombusShape:
 		return any(stage.RhombusShapes_mapString).(map[string]Type)
 	case *RotatedRhombusGridShape:
@@ -4885,6 +5059,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PlantCircumferenceShapes).(*map[*Type]struct{})
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
+	case Rendered3DShape:
+		return any(&stage.Rendered3DShapes).(*map[*Type]struct{})
 	case RhombusShape:
 		return any(&stage.RhombusShapes).(*map[*Type]struct{})
 	case RotatedRhombusGridShape:
@@ -4943,6 +5119,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PlantCircumferenceShapes).(*map[Type]struct{})
 	case *PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[Type]struct{})
+	case *Rendered3DShape:
+		return any(&stage.Rendered3DShapes).(*map[Type]struct{})
 	case *RhombusShape:
 		return any(&stage.RhombusShapes).(*map[Type]struct{})
 	case *RotatedRhombusGridShape:
@@ -5001,6 +5179,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PlantCircumferenceShapes_mapString).(*map[string]*Type)
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
+	case Rendered3DShape:
+		return any(&stage.Rendered3DShapes_mapString).(*map[string]*Type)
 	case RhombusShape:
 		return any(&stage.RhombusShapes_mapString).(*map[string]*Type)
 	case RotatedRhombusGridShape:
@@ -5139,6 +5319,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case PlantDiagram:
 		return any(&PlantDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+		}).(*Type)
+	case Rendered3DShape:
+		return any(&Rendered3DShape{
 			// Initialisation of associations
 		}).(*Type)
 	case RhombusShape:
@@ -5526,6 +5712,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case PlantDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.Rendered3DShape != nil {
+					rendered3dshape_ := plantdiagram.Rendered3DShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						plantdiagrams = res[rendered3dshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[rendered3dshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Rendered3DShape
+	case Rendered3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of RhombusShape
 	case RhombusShape:
@@ -5713,6 +5921,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Rendered3DShape
+	case Rendered3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of RhombusShape
 	case RhombusShape:
 		switch fieldname {
@@ -5801,6 +6014,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PlantCircumferenceShape"
 	case *PlantDiagram:
 		res = "PlantDiagram"
+	case *Rendered3DShape:
+		res = "Rendered3DShape"
 	case *RhombusShape:
 		res = "RhombusShape"
 	case *RotatedRhombusGridShape:
@@ -5903,6 +6118,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Plant"
 		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
+	case *Rendered3DShape:
+		var rf ReverseField
+		_ = rf
 	case *RhombusShape:
 		var rf ReverseField
 		_ = rf
@@ -6464,6 +6682,46 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
+		},
+	}
+	return
+}
+
+func (rendered3dshape *Rendered3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ViewX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ViewY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ViewZ",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TargetX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TargetY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TargetZ",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -7179,6 +7437,45 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
 		res.valueBool = plantdiagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.Rendered3DShape != nil {
+			res.valueString = plantdiagram.Rendered3DShape.Name
+			res.ids = plantdiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (rendered3dshape *Rendered3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = rendered3dshape.Name
+	case "ViewX":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.ViewX)
+		res.valueFloat = rendered3dshape.ViewX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ViewY":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.ViewY)
+		res.valueFloat = rendered3dshape.ViewY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ViewZ":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.ViewZ)
+		res.valueFloat = rendered3dshape.ViewZ
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TargetX":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.TargetX)
+		res.valueFloat = rendered3dshape.TargetX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TargetY":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.TargetY)
+		res.valueFloat = rendered3dshape.TargetY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TargetZ":
+		res.valueString = fmt.Sprintf("%f", rendered3dshape.TargetZ)
+		res.valueFloat = rendered3dshape.TargetZ
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -7873,6 +8170,40 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		plantdiagram.IsExpanded = value.GetValueBool()
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (rendered3dshape *Rendered3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		rendered3dshape.Name = value.GetValueString()
+	case "ViewX":
+		rendered3dshape.ViewX = value.GetValueFloat()
+	case "ViewY":
+		rendered3dshape.ViewY = value.GetValueFloat()
+	case "ViewZ":
+		rendered3dshape.ViewZ = value.GetValueFloat()
+	case "TargetX":
+		rendered3dshape.TargetX = value.GetValueFloat()
+	case "TargetY":
+		rendered3dshape.TargetY = value.GetValueFloat()
+	case "TargetZ":
+		rendered3dshape.TargetZ = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8063,6 +8394,10 @@ func (plantdiagram *PlantDiagram) GongGetGongstructName() string {
 	return "PlantDiagram"
 }
 
+func (rendered3dshape *Rendered3DShape) GongGetGongstructName() string {
+	return "Rendered3DShape"
+}
+
 func (rhombusshape *RhombusShape) GongGetGongstructName() string {
 	return "RhombusShape"
 }
@@ -8178,6 +8513,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
 	for plantdiagram := range stage.PlantDiagrams {
 		stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
+	}
+
+	stage.Rendered3DShapes_mapString = make(map[string]*Rendered3DShape)
+	for rendered3dshape := range stage.Rendered3DShapes {
+		stage.Rendered3DShapes_mapString[rendered3dshape.Name] = rendered3dshape
 	}
 
 	stage.RhombusShapes_mapString = make(map[string]*RhombusShape)

@@ -114,7 +114,7 @@ type PerpendicularVector struct {
 	Name string
 
 	StartX, StartY float64
-	EndX, EndY float64
+	EndX, EndY     float64
 }
 
 // PerpendicularVectorGrid of a plant,
@@ -128,10 +128,10 @@ type PerpendicularVectorGrid struct {
 type GrowthCurveBezierShape struct {
 	Name string
 
-	StartX, StartY float64
+	StartX, StartY                         float64
 	ControlPointStartX, ControlPointStartY float64
 
-	EndX, EndY float64
+	EndX, EndY                         float64
 	ControlPointEndX, ControlPointEndY float64
 }
 
@@ -152,9 +152,16 @@ type StackOfGrowthCurve struct {
 type StackGrowthCurveBezierShape struct {
 	Name string
 
-	StartX, StartY float64
+	StartX, StartY                         float64
 	ControlPointStartX, ControlPointStartY float64
 
-	EndX, EndY float64
+	EndX, EndY                         float64
 	ControlPointEndX, ControlPointEndY float64
+}
+
+type Rendered3DShape struct {
+	Name string
+
+	ViewX, ViewY, ViewZ float64
+	TargetX, TargetY, TargetZ float64
 }

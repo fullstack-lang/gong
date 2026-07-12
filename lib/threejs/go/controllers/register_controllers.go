@@ -70,6 +70,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/boxgeometrys/:id", GetController().UpdateBoxGeometry)
 		v1.DELETE("/v1/boxgeometrys/:id", GetController().DeleteBoxGeometry)
 
+		v1.GET("/v1/cameras", GetController().GetCameras)
+		v1.GET("/v1/cameras/:id", GetController().GetCamera)
+		v1.POST("/v1/cameras", GetController().PostCamera)
+		v1.PATCH("/v1/cameras/:id", GetController().UpdateCamera)
+		v1.PUT("/v1/cameras/:id", GetController().UpdateCamera)
+		v1.DELETE("/v1/cameras/:id", GetController().DeleteCamera)
+
 		v1.GET("/v1/canvass", GetController().GetCanvass)
 		v1.GET("/v1/canvass/:id", GetController().GetCanvas)
 		v1.POST("/v1/canvass", GetController().PostCanvas)
