@@ -248,6 +248,8 @@ func (cameraFormCallback *CameraFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(camera_.TargetY), formDiv)
 		case "TargetZ":
 			FormDivBasicFieldToField(&(camera_.TargetZ), formDiv)
+		case "Fov":
+			FormDivBasicFieldToField(&(camera_.Fov), formDiv)
 		}
 	}
 

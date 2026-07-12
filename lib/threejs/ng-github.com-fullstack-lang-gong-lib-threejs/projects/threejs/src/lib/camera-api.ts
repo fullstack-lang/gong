@@ -17,6 +17,7 @@ export class CameraAPI {
 	TargetX: number = 0
 	TargetY: number = 0
 	TargetZ: number = 0
+	Fov: number = 0
 
 	// insertion point for other decls
 

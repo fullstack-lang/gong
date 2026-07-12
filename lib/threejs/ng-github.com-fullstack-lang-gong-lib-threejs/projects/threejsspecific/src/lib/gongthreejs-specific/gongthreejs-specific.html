@@ -3,6 +3,7 @@
     <ng-template canvasContent>
       <ngt-perspective-camera 
         [position]="[canvasSingloton?.Camera?.X ?? 15, canvasSingloton?.Camera?.Y ?? 15, canvasSingloton?.Camera?.Z ?? 15]" 
+        [fov]="canvasSingloton?.Camera?.Fov ?? 50"
         makeDefault />
       @if (canvasSingloton?.AmbiantLight) {
         <ngt-ambient-light [intensity]="canvasSingloton!.AmbiantLight!.Intensity" />
@@ -60,6 +61,7 @@
       }
 
       <ngts-orbit-controls 
+        makeDefault
         [cameraUpdater]="canvasSingloton?.Camera"
         [target]="[canvasSingloton?.Camera?.TargetX ?? 0, canvasSingloton?.Camera?.TargetY ?? 0, canvasSingloton?.Camera?.TargetZ ?? 0]" />
     </ng-template>

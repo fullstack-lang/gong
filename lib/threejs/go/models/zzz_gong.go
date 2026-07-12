@@ -4921,6 +4921,10 @@ func (camera *Camera) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "TargetZ",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "Fov",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -5502,6 +5506,10 @@ func (camera *Camera) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%f", camera.TargetZ)
 		res.valueFloat = camera.TargetZ
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Fov":
+		res.valueString = fmt.Sprintf("%f", camera.Fov)
+		res.valueFloat = camera.Fov
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -6012,6 +6020,8 @@ func (camera *Camera) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		camera.TargetY = value.GetValueFloat()
 	case "TargetZ":
 		camera.TargetZ = value.GetValueFloat()
+	case "Fov":
+		camera.Fov = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

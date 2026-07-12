@@ -22,6 +22,7 @@ export class Camera {
 	TargetX: number = 0
 	TargetY: number = 0
 	TargetZ: number = 0
+	Fov: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -43,6 +44,7 @@ export function CopyCameraToCameraAPI(camera: Camera, cameraAPI: CameraAPI) {
 	cameraAPI.TargetX = camera.TargetX
 	cameraAPI.TargetY = camera.TargetY
 	cameraAPI.TargetZ = camera.TargetZ
+	cameraAPI.Fov = camera.Fov
 
 	// insertion point for pointer fields encoding
 
@@ -67,6 +69,7 @@ export function CopyCameraAPIToCamera(cameraAPI: CameraAPI, camera: Camera, fron
 	camera.TargetX = cameraAPI.TargetX
 	camera.TargetY = cameraAPI.TargetY
 	camera.TargetZ = cameraAPI.TargetZ
+	camera.Fov = cameraAPI.Fov
 
 	// insertion point for pointer fields encoding
 
