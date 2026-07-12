@@ -7876,10 +7876,6 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "ShiftToNearestCircle",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -8819,10 +8815,6 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
 		res.valueFloat = plant.RhombusSideLength
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ShiftToNearestCircle":
-		res.valueString = fmt.Sprintf("%d", plant.ShiftToNearestCircle)
-		res.valueInt = plant.ShiftToNearestCircle
-		res.GongFieldValueType = GongFieldValueTypeInt
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -9715,8 +9707,6 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RhombusInsideAngle = value.GetValueFloat()
 	case "RhombusSideLength":
 		plant.RhombusSideLength = value.GetValueFloat()
-	case "ShiftToNearestCircle":
-		plant.ShiftToNearestCircle = int(value.GetValueInt())
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

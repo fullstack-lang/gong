@@ -350,8 +350,6 @@ type Plant_WOP struct {
 
 	RhombusSideLength float64
 
-	ShiftToNearestCircle int
-
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -369,7 +367,6 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
 	to.RhombusSideLength = from.RhombusSideLength
-	to.ShiftToNearestCircle = from.ShiftToNearestCircle
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected

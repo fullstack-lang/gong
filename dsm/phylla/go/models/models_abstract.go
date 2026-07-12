@@ -27,10 +27,6 @@ type Plant struct {
 	// taken along the lattice paths.
 	RhombusSideLength float64
 
-	// how many circle to go around for the front curve
-	// the front curve goes from one circle to the nearest
-	ShiftToNearestCircle int
-
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -57,11 +53,11 @@ type Plant struct {
 	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
 	GrowthVectorShape           *GrowthVectorShape
 
-	PerpendicularVectorGrid    *PerpendicularVectorGrid
+	PerpendicularVectorGrid        *PerpendicularVectorGrid
 	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
 	StartArcShapeGrid              *StartArcShapeGrid
 	EndArcShapeGrid                *EndArcShapeGrid
-	GrowthCurveBezierShapeGrid *GrowthCurveBezierShapeGrid
+	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
 
 	StackOfGrowthCurve *StackOfGrowthCurve
 }

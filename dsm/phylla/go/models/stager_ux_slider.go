@@ -71,8 +71,8 @@ func (stager *Stager) ux_slider() {
 			m.NewSlider(
 				stager,
 				"Rhombus Inside Angle",
-				60,
-				120,
+				30,
+				90,
 				1,
 				&plant.RhombusInsideAngle,
 			),

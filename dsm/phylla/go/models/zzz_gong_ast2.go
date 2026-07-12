@@ -1140,8 +1140,6 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RhombusInsideAngle = GongExtractFloat(valueExpr)
 	case "RhombusSideLength":
 		instance.RhombusSideLength = GongExtractFloat(valueExpr)
-	case "ShiftToNearestCircle":
-		instance.ShiftToNearestCircle = GongExtractInt(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
