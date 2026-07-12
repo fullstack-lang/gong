@@ -151,3 +151,17 @@ lib/split/ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullsta
 ## Allowed path
 
 You are always allowed to access "Download" elements
+
+---
+
+# Generating code for DSM projects
+
+When generating code for DSM projects (which reside in the `dsm` directory), **never use the `--stack-height=4` flag**.
+
+DSMs are stacks of height 0 and do not incorporate specific Angular component libraries directly. Using `--stack-height=4` on a DSM project will incorrectly scaffold a full Angular frontend application and create thousands of unwanted files.
+
+**Correct Command for DSM projects:**
+```bash
+gong generate --dsm
+```
+(You may append `--skipGoModCommands` if necessary, but **NEVER** `--stack-height=4`).
