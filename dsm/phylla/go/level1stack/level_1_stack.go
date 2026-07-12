@@ -126,6 +126,8 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.CircleGridShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.EndArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.EndArcShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.EndArcShapeV2](stage)
+	models.SetOrchestratorOnAfterUpdate[models.EndArcShapeV2Grid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ExplanationTextShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GridPathShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GrowthCurveBezierShape](stage)

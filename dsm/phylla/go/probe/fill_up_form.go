@@ -133,6 +133,56 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.EndArcShapeV2:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("XAxisRotation", instanceWithInferedType.XAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("LargeArcFlag", instanceWithInferedType.LargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("SweepFlag", instanceWithInferedType.SweepFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadiusX", instanceWithInferedType.RadiusX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadiusY", instanceWithInferedType.RadiusY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.EndArcShapeV2Grid, *models.EndArcShapeV2](
+				"EndArcShapeV2Grid",
+				"EndArcShapesV2",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.EndArcShapeV2Grid) []*models.EndArcShapeV2 {
+					return owner.EndArcShapesV2
+				})
+		}
+
+	case *models.EndArcShapeV2Grid:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("EndArcShapesV2", instanceWithInferedType, &instanceWithInferedType.EndArcShapesV2, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.ExplanationTextShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -451,6 +501,7 @@ func FillUpForm(
 		AssociationFieldToForm("StartArcShapeGrid", instanceWithInferedType.StartArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("StartArcShapeV2Grid", instanceWithInferedType.StartArcShapeV2Grid, formGroup, probe)
 		AssociationFieldToForm("EndArcShapeGrid", instanceWithInferedType.EndArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("EndArcShapeV2Grid", instanceWithInferedType.EndArcShapeV2Grid, formGroup, probe)
 		AssociationFieldToForm("GrowthCurveBezierShapeGrid", instanceWithInferedType.GrowthCurveBezierShapeGrid, formGroup, probe)
 		AssociationFieldToForm("StackOfGrowthCurve", instanceWithInferedType.StackOfGrowthCurve, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -527,6 +578,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenStartArcShapeV2Grid", instanceWithInferedType.IsHiddenStartArcShapeV2Grid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenEndArcShapeGrid", instanceWithInferedType.IsHiddenEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenEndArcShapeV2Grid", instanceWithInferedType.IsHiddenEndArcShapeV2Grid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenGrowthCurveBezierShapeGrid", instanceWithInferedType.IsHiddenGrowthCurveBezierShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

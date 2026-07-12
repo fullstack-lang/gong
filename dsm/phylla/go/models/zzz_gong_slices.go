@@ -52,6 +52,19 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct EndArcShapeV2
+	// insertion point per field
+
+	// Compute reverse map for named struct EndArcShapeV2Grid
+	// insertion point per field
+	stage.EndArcShapeV2Grid_EndArcShapesV2_reverseMap = make(map[*EndArcShapeV2]*EndArcShapeV2Grid)
+	for endarcshapev2grid := range stage.EndArcShapeV2Grids {
+		_ = endarcshapev2grid
+		for _, _endarcshapev2 := range endarcshapev2grid.EndArcShapesV2 {
+			stage.EndArcShapeV2Grid_EndArcShapesV2_reverseMap[_endarcshapev2] = endarcshapev2grid
+		}
+	}
+
 	// Compute reverse map for named struct ExplanationTextShape
 	// insertion point per field
 
@@ -249,6 +262,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.EndArcShapeV2s {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.EndArcShapeV2Grids {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.ExplanationTextShapes {
 		res = append(res, instance)
 	}
@@ -398,6 +419,18 @@ func (endarcshape *EndArcShape) GongCopy() GongstructIF {
 func (endarcshapegrid *EndArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(EndArcShapeGrid)
 	endarcshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (endarcshapev2 *EndArcShapeV2) GongCopy() GongstructIF {
+	newInstance := new(EndArcShapeV2)
+	endarcshapev2.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongCopy() GongstructIF {
+	newInstance := new(EndArcShapeV2Grid)
+	endarcshapev2grid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -627,6 +660,26 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshapegrid), uint64(GetOrderPointerGongstruct(stage, endarcshapegrid)))
+	return
+}
+
+func (endarcshapev2 *EndArcShapeV2) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(endarcshapev2).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshapev2), uint64(GetOrderPointerGongstruct(stage, endarcshapev2)))
+	return
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(endarcshapev2grid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(endarcshapev2grid), uint64(GetOrderPointerGongstruct(stage, endarcshapev2grid)))
 	return
 }
 
@@ -1258,6 +1311,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(endarcshapegrids_newInstances)
 	lenDeletedInstances += len(endarcshapegrids_deletedInstances)
+	var endarcshapev2s_newInstances []*EndArcShapeV2
+	var endarcshapev2s_deletedInstances []*EndArcShapeV2
+
+	// parse all staged instances and check if they have a reference
+	for endarcshapev2 := range stage.EndArcShapeV2s {
+		if ref, ok := stage.EndArcShapeV2s_reference[endarcshapev2]; !ok {
+			endarcshapev2s_newInstances = append(endarcshapev2s_newInstances, endarcshapev2)
+			newInstancesSlice = append(newInstancesSlice, endarcshapev2.GongMarshallIdentifier(stage))
+			if stage.EndArcShapeV2s_referenceOrder == nil {
+				stage.EndArcShapeV2s_referenceOrder = make(map[*EndArcShapeV2]uint)
+			}
+			stage.EndArcShapeV2s_referenceOrder[endarcshapev2] = stage.EndArcShapeV2_stagedOrder[endarcshapev2]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, endarcshapev2.GongMarshallUnstaging(stage))
+			// delete(stage.EndArcShapeV2s_referenceOrder, endarcshapev2)
+			fieldInitializers, pointersInitializations := endarcshapev2.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.EndArcShapeV2_stagedOrder[ref] = stage.EndArcShapeV2_stagedOrder[endarcshapev2]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := endarcshapev2.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, endarcshapev2)
+			// delete(stage.EndArcShapeV2_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if endarcshapev2.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", endarcshapev2.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.EndArcShapeV2s_reference {
+		instance := stage.EndArcShapeV2s_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.EndArcShapeV2s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			endarcshapev2s_deletedInstances = append(endarcshapev2s_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(endarcshapev2s_newInstances)
+	lenDeletedInstances += len(endarcshapev2s_deletedInstances)
+	var endarcshapev2grids_newInstances []*EndArcShapeV2Grid
+	var endarcshapev2grids_deletedInstances []*EndArcShapeV2Grid
+
+	// parse all staged instances and check if they have a reference
+	for endarcshapev2grid := range stage.EndArcShapeV2Grids {
+		if ref, ok := stage.EndArcShapeV2Grids_reference[endarcshapev2grid]; !ok {
+			endarcshapev2grids_newInstances = append(endarcshapev2grids_newInstances, endarcshapev2grid)
+			newInstancesSlice = append(newInstancesSlice, endarcshapev2grid.GongMarshallIdentifier(stage))
+			if stage.EndArcShapeV2Grids_referenceOrder == nil {
+				stage.EndArcShapeV2Grids_referenceOrder = make(map[*EndArcShapeV2Grid]uint)
+			}
+			stage.EndArcShapeV2Grids_referenceOrder[endarcshapev2grid] = stage.EndArcShapeV2Grid_stagedOrder[endarcshapev2grid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, endarcshapev2grid.GongMarshallUnstaging(stage))
+			// delete(stage.EndArcShapeV2Grids_referenceOrder, endarcshapev2grid)
+			fieldInitializers, pointersInitializations := endarcshapev2grid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.EndArcShapeV2Grid_stagedOrder[ref] = stage.EndArcShapeV2Grid_stagedOrder[endarcshapev2grid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := endarcshapev2grid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, endarcshapev2grid)
+			// delete(stage.EndArcShapeV2Grid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if endarcshapev2grid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", endarcshapev2grid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.EndArcShapeV2Grids_reference {
+		instance := stage.EndArcShapeV2Grids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.EndArcShapeV2Grids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			endarcshapev2grids_deletedInstances = append(endarcshapev2grids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(endarcshapev2grids_newInstances)
+	lenDeletedInstances += len(endarcshapev2grids_deletedInstances)
 	var explanationtextshapes_newInstances []*ExplanationTextShape
 	var explanationtextshapes_deletedInstances []*ExplanationTextShape
 
@@ -2893,6 +3056,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.EndArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.EndArcShapeV2s_reference = make(map[*EndArcShapeV2]*EndArcShapeV2)
+	stage.EndArcShapeV2s_referenceOrder = make(map[*EndArcShapeV2]uint) // diff Unstage needs the reference order
+	stage.EndArcShapeV2s_instance = make(map[*EndArcShapeV2]*EndArcShapeV2)
+	for instance := range stage.EndArcShapeV2s {
+		_copy := instance.GongCopy().(*EndArcShapeV2)
+		stage.EndArcShapeV2s_reference[instance] = _copy
+		stage.EndArcShapeV2s_instance[_copy] = instance
+		stage.EndArcShapeV2s_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.EndArcShapeV2Grids_reference = make(map[*EndArcShapeV2Grid]*EndArcShapeV2Grid)
+	stage.EndArcShapeV2Grids_referenceOrder = make(map[*EndArcShapeV2Grid]uint) // diff Unstage needs the reference order
+	stage.EndArcShapeV2Grids_instance = make(map[*EndArcShapeV2Grid]*EndArcShapeV2Grid)
+	for instance := range stage.EndArcShapeV2Grids {
+		_copy := instance.GongCopy().(*EndArcShapeV2Grid)
+		stage.EndArcShapeV2Grids_reference[instance] = _copy
+		stage.EndArcShapeV2Grids_instance[_copy] = instance
+		stage.EndArcShapeV2Grids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ExplanationTextShapes_reference = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_referenceOrder = make(map[*ExplanationTextShape]uint) // diff Unstage needs the reference order
 	stage.ExplanationTextShapes_instance = make(map[*ExplanationTextShape]*ExplanationTextShape)
@@ -3204,6 +3387,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.EndArcShapeV2s {
+		reference := stage.EndArcShapeV2s_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.EndArcShapeV2Grids {
+		reference := stage.EndArcShapeV2Grids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.ExplanationTextShapes {
 		reference := stage.ExplanationTextShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -3422,6 +3615,30 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type EndArcShapeGrid was not staged and does not have a reference order", endarcshapegrid)
+		return 0
+	}
+}
+
+func (endarcshapev2 *EndArcShapeV2) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.EndArcShapeV2_stagedOrder[endarcshapev2]; ok {
+		return order
+	}
+	if order, ok := stage.EndArcShapeV2s_referenceOrder[endarcshapev2]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type EndArcShapeV2 was not staged and does not have a reference order", endarcshapev2)
+		return 0
+	}
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.EndArcShapeV2Grid_stagedOrder[endarcshapev2grid]; ok {
+		return order
+	}
+	if order, ok := stage.EndArcShapeV2Grids_referenceOrder[endarcshapev2grid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type EndArcShapeV2Grid was not staged and does not have a reference order", endarcshapev2grid)
 		return 0
 	}
 }
@@ -3821,6 +4038,24 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", endarcshapegrid.GongGetGongstructName(), endarcshapegrid.GongGetOrder(stage))
 }
 
+func (endarcshapev2 *EndArcShapeV2) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshapev2.GongGetGongstructName(), endarcshapev2.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (endarcshapev2 *EndArcShapeV2) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshapev2.GongGetGongstructName(), endarcshapev2.GongGetOrder(stage))
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshapev2grid.GongGetGongstructName(), endarcshapev2grid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", endarcshapev2grid.GongGetGongstructName(), endarcshapev2grid.GongGetOrder(stage))
+}
+
 func (explanationtextshape *ExplanationTextShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", explanationtextshape.GongGetGongstructName(), explanationtextshape.GongGetOrder(stage))
 }
@@ -4124,6 +4359,22 @@ func (endarcshapegrid *EndArcShapeGrid) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (endarcshapev2 *EndArcShapeV2) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapev2.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndArcShapeV2")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshapev2.Name))
+	return
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapev2grid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EndArcShapeV2Grid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(endarcshapev2grid.Name))
+	return
+}
+
 func (explanationtextshape *ExplanationTextShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", explanationtextshape.GongGetIdentifier(stage))
@@ -4382,6 +4633,18 @@ func (endarcshape *EndArcShape) GongMarshallUnstaging(stage *Stage) (decl string
 func (endarcshapegrid *EndArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (endarcshapev2 *EndArcShapeV2) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapev2.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshapev2grid.GongGetReferenceIdentifier(stage))
 	return
 }
 

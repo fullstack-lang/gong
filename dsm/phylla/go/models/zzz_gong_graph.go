@@ -25,6 +25,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *EndArcShapeGrid:
 		ok = stage.IsStagedEndArcShapeGrid(target)
 
+	case *EndArcShapeV2:
+		ok = stage.IsStagedEndArcShapeV2(target)
+
+	case *EndArcShapeV2Grid:
+		ok = stage.IsStagedEndArcShapeV2Grid(target)
+
 	case *ExplanationTextShape:
 		ok = stage.IsStagedExplanationTextShape(target)
 
@@ -136,6 +142,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *EndArcShapeGrid:
 		ok = stage.IsStagedEndArcShapeGrid(target)
+
+	case *EndArcShapeV2:
+		ok = stage.IsStagedEndArcShapeV2(target)
+
+	case *EndArcShapeV2Grid:
+		ok = stage.IsStagedEndArcShapeV2Grid(target)
 
 	case *ExplanationTextShape:
 		ok = stage.IsStagedExplanationTextShape(target)
@@ -266,6 +278,20 @@ func (stage *Stage) IsStagedEndArcShape(endarcshape *EndArcShape) (ok bool) {
 func (stage *Stage) IsStagedEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid) (ok bool) {
 
 	_, ok = stage.EndArcShapeGrids[endarcshapegrid]
+
+	return
+}
+
+func (stage *Stage) IsStagedEndArcShapeV2(endarcshapev2 *EndArcShapeV2) (ok bool) {
+
+	_, ok = stage.EndArcShapeV2s[endarcshapev2]
+
+	return
+}
+
+func (stage *Stage) IsStagedEndArcShapeV2Grid(endarcshapev2grid *EndArcShapeV2Grid) (ok bool) {
+
+	_, ok = stage.EndArcShapeV2Grids[endarcshapev2grid]
 
 	return
 }
@@ -492,6 +518,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *EndArcShapeGrid:
 		stage.StageBranchEndArcShapeGrid(target)
 
+	case *EndArcShapeV2:
+		stage.StageBranchEndArcShapeV2(target)
+
+	case *EndArcShapeV2Grid:
+		stage.StageBranchEndArcShapeV2Grid(target)
+
 	case *ExplanationTextShape:
 		stage.StageBranchExplanationTextShape(target)
 
@@ -674,6 +706,39 @@ func (stage *Stage) StageBranchEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _endarcshape := range endarcshapegrid.EndArcShapes {
 		StageBranch(stage, _endarcshape)
+	}
+
+}
+
+func (stage *Stage) StageBranchEndArcShapeV2(endarcshapev2 *EndArcShapeV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, endarcshapev2) {
+		return
+	}
+
+	endarcshapev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchEndArcShapeV2Grid(endarcshapev2grid *EndArcShapeV2Grid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, endarcshapev2grid) {
+		return
+	}
+
+	endarcshapev2grid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _endarcshapev2 := range endarcshapev2grid.EndArcShapesV2 {
+		StageBranch(stage, _endarcshapev2)
 	}
 
 }
@@ -988,6 +1053,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.EndArcShapeGrid != nil {
 		StageBranch(stage, plant.EndArcShapeGrid)
 	}
+	if plant.EndArcShapeV2Grid != nil {
+		StageBranch(stage, plant.EndArcShapeV2Grid)
+	}
 	if plant.GrowthCurveBezierShapeGrid != nil {
 		StageBranch(stage, plant.GrowthCurveBezierShapeGrid)
 	}
@@ -1232,6 +1300,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchEndArcShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *EndArcShapeV2:
+		toT := CopyBranchEndArcShapeV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *EndArcShapeV2Grid:
+		toT := CopyBranchEndArcShapeV2Grid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *ExplanationTextShape:
 		toT := CopyBranchExplanationTextShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1466,6 +1542,47 @@ func CopyBranchEndArcShapeGrid(mapOrigCopy map[any]any, endarcshapegridFrom *End
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _endarcshape := range endarcshapegridFrom.EndArcShapes {
 		endarcshapegridTo.EndArcShapes = append(endarcshapegridTo.EndArcShapes, CopyBranchEndArcShape(mapOrigCopy, _endarcshape))
+	}
+
+	return
+}
+
+func CopyBranchEndArcShapeV2(mapOrigCopy map[any]any, endarcshapev2From *EndArcShapeV2) (endarcshapev2To *EndArcShapeV2) {
+
+	// endarcshapev2From has already been copied
+	if _endarcshapev2To, ok := mapOrigCopy[endarcshapev2From]; ok {
+		endarcshapev2To = _endarcshapev2To.(*EndArcShapeV2)
+		return
+	}
+
+	endarcshapev2To = new(EndArcShapeV2)
+	mapOrigCopy[endarcshapev2From] = endarcshapev2To
+	endarcshapev2From.CopyBasicFields(endarcshapev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchEndArcShapeV2Grid(mapOrigCopy map[any]any, endarcshapev2gridFrom *EndArcShapeV2Grid) (endarcshapev2gridTo *EndArcShapeV2Grid) {
+
+	// endarcshapev2gridFrom has already been copied
+	if _endarcshapev2gridTo, ok := mapOrigCopy[endarcshapev2gridFrom]; ok {
+		endarcshapev2gridTo = _endarcshapev2gridTo.(*EndArcShapeV2Grid)
+		return
+	}
+
+	endarcshapev2gridTo = new(EndArcShapeV2Grid)
+	mapOrigCopy[endarcshapev2gridFrom] = endarcshapev2gridTo
+	endarcshapev2gridFrom.CopyBasicFields(endarcshapev2gridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _endarcshapev2 := range endarcshapev2gridFrom.EndArcShapesV2 {
+		endarcshapev2gridTo.EndArcShapesV2 = append(endarcshapev2gridTo.EndArcShapesV2, CopyBranchEndArcShapeV2(mapOrigCopy, _endarcshapev2))
 	}
 
 	return
@@ -1844,6 +1961,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.EndArcShapeGrid != nil {
 		plantTo.EndArcShapeGrid = CopyBranchEndArcShapeGrid(mapOrigCopy, plantFrom.EndArcShapeGrid)
 	}
+	if plantFrom.EndArcShapeV2Grid != nil {
+		plantTo.EndArcShapeV2Grid = CopyBranchEndArcShapeV2Grid(mapOrigCopy, plantFrom.EndArcShapeV2Grid)
+	}
 	if plantFrom.GrowthCurveBezierShapeGrid != nil {
 		plantTo.GrowthCurveBezierShapeGrid = CopyBranchGrowthCurveBezierShapeGrid(mapOrigCopy, plantFrom.GrowthCurveBezierShapeGrid)
 	}
@@ -2128,6 +2248,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *EndArcShapeGrid:
 		stage.UnstageBranchEndArcShapeGrid(target)
 
+	case *EndArcShapeV2:
+		stage.UnstageBranchEndArcShapeV2(target)
+
+	case *EndArcShapeV2Grid:
+		stage.UnstageBranchEndArcShapeV2Grid(target)
+
 	case *ExplanationTextShape:
 		stage.UnstageBranchExplanationTextShape(target)
 
@@ -2310,6 +2436,39 @@ func (stage *Stage) UnstageBranchEndArcShapeGrid(endarcshapegrid *EndArcShapeGri
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _endarcshape := range endarcshapegrid.EndArcShapes {
 		UnstageBranch(stage, _endarcshape)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchEndArcShapeV2(endarcshapev2 *EndArcShapeV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, endarcshapev2) {
+		return
+	}
+
+	endarcshapev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchEndArcShapeV2Grid(endarcshapev2grid *EndArcShapeV2Grid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, endarcshapev2grid) {
+		return
+	}
+
+	endarcshapev2grid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _endarcshapev2 := range endarcshapev2grid.EndArcShapesV2 {
+		UnstageBranch(stage, _endarcshapev2)
 	}
 
 }
@@ -2624,6 +2783,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.EndArcShapeGrid != nil {
 		UnstageBranch(stage, plant.EndArcShapeGrid)
 	}
+	if plant.EndArcShapeV2Grid != nil {
+		UnstageBranch(stage, plant.EndArcShapeV2Grid)
+	}
 	if plant.GrowthCurveBezierShapeGrid != nil {
 		UnstageBranch(stage, plant.GrowthCurveBezierShapeGrid)
 	}
@@ -2872,6 +3034,20 @@ func (reference *EndArcShapeGrid) GongReconstructPointersFromReferences(stage *S
 	}
 }
 
+func (reference *EndArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *EndArcShapeV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *EndArcShapeV2Grid) GongReconstructPointersFromReferences(stage *Stage, instance *EndArcShapeV2Grid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.EndArcShapesV2 = reference.EndArcShapesV2[:0]
+	for _, _b := range instance.EndArcShapesV2 {
+		reference.EndArcShapesV2 = append(reference.EndArcShapesV2, stage.EndArcShapeV2s_reference[_b])
+	}
+}
+
 func (reference *ExplanationTextShape) GongReconstructPointersFromReferences(stage *Stage, instance *ExplanationTextShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -3031,6 +3207,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.EndArcShapeGrid != nil {
 		reference.EndArcShapeGrid = stage.EndArcShapeGrids_reference[instance.EndArcShapeGrid]
 	}
+	if instance.EndArcShapeV2Grid != nil {
+		reference.EndArcShapeV2Grid = stage.EndArcShapeV2Grids_reference[instance.EndArcShapeV2Grid]
+	}
 	if instance.GrowthCurveBezierShapeGrid != nil {
 		reference.GrowthCurveBezierShapeGrid = stage.GrowthCurveBezierShapeGrids_reference[instance.GrowthCurveBezierShapeGrid]
 	}
@@ -3166,6 +3345,23 @@ func (reference *EndArcShapeGrid) GongReconstructPointersFromInstances(stage *St
 		}
 	}
 	reference.EndArcShapes = _EndArcShapes
+}
+
+func (reference *EndArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *EndArcShapeV2Grid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _EndArcShapesV2 []*EndArcShapeV2
+	for _, _reference := range reference.EndArcShapesV2 {
+		if _instance, ok := stage.EndArcShapeV2s_instance[_reference]; ok {
+			_EndArcShapesV2 = append(_EndArcShapesV2, _instance)
+		}
+	}
+	reference.EndArcShapesV2 = _EndArcShapesV2
 }
 
 func (reference *ExplanationTextShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3400,6 +3596,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.EndArcShapeGrid = nil
 		if _instance, ok := stage.EndArcShapeGrids_instance[_reference]; ok {
 			reference.EndArcShapeGrid = _instance
+		}
+	}
+	if _reference := reference.EndArcShapeV2Grid; _reference != nil {
+		reference.EndArcShapeV2Grid = nil
+		if _instance, ok := stage.EndArcShapeV2Grids_instance[_reference]; ok {
+			reference.EndArcShapeV2Grid = _instance
 		}
 	}
 	if _reference := reference.GrowthCurveBezierShapeGrid; _reference != nil {
@@ -3669,6 +3871,76 @@ func (endarcshapegrid *EndArcShapeGrid) GongDiff(stage *Stage, endarcshapegridOt
 	}
 	if EndArcShapesDifferent {
 		ops := Diff(stage, endarcshapegrid, endarcshapegridOther, "EndArcShapes", endarcshapegridOther.EndArcShapes, endarcshapegrid.EndArcShapes)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (endarcshapev2 *EndArcShapeV2) GongDiff(stage *Stage, endarcshapev2Other *EndArcShapeV2) (diffs []string) {
+	// insertion point for field diffs
+	if endarcshapev2.Name != endarcshapev2Other.Name {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "Name"))
+	}
+	if endarcshapev2.StartX != endarcshapev2Other.StartX {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "StartX"))
+	}
+	if endarcshapev2.StartY != endarcshapev2Other.StartY {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "StartY"))
+	}
+	if endarcshapev2.EndX != endarcshapev2Other.EndX {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "EndX"))
+	}
+	if endarcshapev2.EndY != endarcshapev2Other.EndY {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "EndY"))
+	}
+	if endarcshapev2.XAxisRotation != endarcshapev2Other.XAxisRotation {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if endarcshapev2.LargeArcFlag != endarcshapev2Other.LargeArcFlag {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if endarcshapev2.SweepFlag != endarcshapev2Other.SweepFlag {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "SweepFlag"))
+	}
+	if endarcshapev2.RadiusX != endarcshapev2Other.RadiusX {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "RadiusX"))
+	}
+	if endarcshapev2.RadiusY != endarcshapev2Other.RadiusY {
+		diffs = append(diffs, endarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (endarcshapev2grid *EndArcShapeV2Grid) GongDiff(stage *Stage, endarcshapev2gridOther *EndArcShapeV2Grid) (diffs []string) {
+	// insertion point for field diffs
+	if endarcshapev2grid.Name != endarcshapev2gridOther.Name {
+		diffs = append(diffs, endarcshapev2grid.GongMarshallField(stage, "Name"))
+	}
+	EndArcShapesV2Different := false
+	if len(endarcshapev2grid.EndArcShapesV2) != len(endarcshapev2gridOther.EndArcShapesV2) {
+		EndArcShapesV2Different = true
+	} else {
+		for i := range endarcshapev2grid.EndArcShapesV2 {
+			if (endarcshapev2grid.EndArcShapesV2[i] == nil) != (endarcshapev2gridOther.EndArcShapesV2[i] == nil) {
+				EndArcShapesV2Different = true
+				break
+			} else if endarcshapev2grid.EndArcShapesV2[i] != nil && endarcshapev2gridOther.EndArcShapesV2[i] != nil {
+				// this is a pointer comparaison
+				if endarcshapev2grid.EndArcShapesV2[i] != endarcshapev2gridOther.EndArcShapesV2[i] {
+					EndArcShapesV2Different = true
+					break
+				}
+			}
+		}
+	}
+	if EndArcShapesV2Different {
+		ops := Diff(stage, endarcshapev2grid, endarcshapev2gridOther, "EndArcShapesV2", endarcshapev2gridOther.EndArcShapesV2, endarcshapev2grid.EndArcShapesV2)
 		diffs = append(diffs, ops)
 	}
 
@@ -4249,6 +4521,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
 		}
 	}
+	if (plant.EndArcShapeV2Grid == nil) != (plantOther.EndArcShapeV2Grid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeV2Grid"))
+	} else if plant.EndArcShapeV2Grid != nil && plantOther.EndArcShapeV2Grid != nil {
+		if plant.EndArcShapeV2Grid != plantOther.EndArcShapeV2Grid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeV2Grid"))
+		}
+	}
 	if (plant.GrowthCurveBezierShapeGrid == nil) != (plantOther.GrowthCurveBezierShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 	} else if plant.GrowthCurveBezierShapeGrid != nil && plantOther.GrowthCurveBezierShapeGrid != nil {
@@ -4350,6 +4629,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenEndArcShapeGrid != plantdiagramOther.IsHiddenEndArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
+	}
+	if plantdiagram.IsHiddenEndArcShapeV2Grid != plantdiagramOther.IsHiddenEndArcShapeV2Grid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeV2Grid"))
 	}
 	if plantdiagram.IsHiddenGrowthCurveBezierShapeGrid != plantdiagramOther.IsHiddenGrowthCurveBezierShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
