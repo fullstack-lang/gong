@@ -15,6 +15,18 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ArcNormalVectorShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ArcNormalVectorShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.arcnormalvectorshape, probe)
+			}
+		case *ArcNormalVectorShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ArcNormalVectorShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.arcnormalvectorshapegrid, probe)
+			}
 		case *AxesShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "AxesShape", true)
@@ -253,6 +265,32 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "ArcNormalVectorShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ArcNormalVectorShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ArcNormalVectorShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		arcnormalvectorshape := new(models.ArcNormalVectorShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(arcnormalvectorshape, formGroup, probe)
+	case "ArcNormalVectorShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ArcNormalVectorShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ArcNormalVectorShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		arcnormalvectorshapegrid := new(models.ArcNormalVectorShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(arcnormalvectorshapegrid, formGroup, probe)
 	case "AxesShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

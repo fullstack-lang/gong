@@ -131,6 +131,38 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	ArcNormalVectorShapes                map[*ArcNormalVectorShape]struct{}
+	ArcNormalVectorShapes_instance       map[*ArcNormalVectorShape]*ArcNormalVectorShape
+	ArcNormalVectorShapes_mapString      map[string]*ArcNormalVectorShape
+	ArcNormalVectorShapeOrder            uint
+	ArcNormalVectorShape_stagedOrder     map[*ArcNormalVectorShape]uint
+	ArcNormalVectorShape_orderStaged     map[uint]*ArcNormalVectorShape
+	ArcNormalVectorShapes_reference      map[*ArcNormalVectorShape]*ArcNormalVectorShape
+	ArcNormalVectorShapes_referenceOrder map[*ArcNormalVectorShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterArcNormalVectorShapeCreateCallback OnAfterCreateInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeUpdateCallback OnAfterUpdateInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeDeleteCallback OnAfterDeleteInterface[ArcNormalVectorShape]
+	OnAfterArcNormalVectorShapeReadCallback   OnAfterReadInterface[ArcNormalVectorShape]
+
+	ArcNormalVectorShapeGrids                map[*ArcNormalVectorShapeGrid]struct{}
+	ArcNormalVectorShapeGrids_instance       map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid
+	ArcNormalVectorShapeGrids_mapString      map[string]*ArcNormalVectorShapeGrid
+	ArcNormalVectorShapeGridOrder            uint
+	ArcNormalVectorShapeGrid_stagedOrder     map[*ArcNormalVectorShapeGrid]uint
+	ArcNormalVectorShapeGrid_orderStaged     map[uint]*ArcNormalVectorShapeGrid
+	ArcNormalVectorShapeGrids_reference      map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid
+	ArcNormalVectorShapeGrids_referenceOrder map[*ArcNormalVectorShapeGrid]uint
+
+	// insertion point for slice of pointers maps
+	ArcNormalVectorShapeGrid_ArcNormalVectorShapes_reverseMap map[*ArcNormalVectorShape]*ArcNormalVectorShapeGrid
+
+	OnAfterArcNormalVectorShapeGridCreateCallback OnAfterCreateInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridUpdateCallback OnAfterUpdateInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridDeleteCallback OnAfterDeleteInterface[ArcNormalVectorShapeGrid]
+	OnAfterArcNormalVectorShapeGridReadCallback   OnAfterReadInterface[ArcNormalVectorShapeGrid]
+
 	AxesShapes                map[*AxesShape]struct{}
 	AxesShapes_instance       map[*AxesShape]*AxesShape
 	AxesShapes_mapString      map[string]*AxesShape
@@ -937,6 +969,14 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.ArcNormalVectorShapes_reference = make(map[*ArcNormalVectorShape]*ArcNormalVectorShape)
+	stage.ArcNormalVectorShapes_instance = make(map[*ArcNormalVectorShape]*ArcNormalVectorShape)
+	stage.ArcNormalVectorShapes_referenceOrder = make(map[*ArcNormalVectorShape]uint)
+
+	stage.ArcNormalVectorShapeGrids_reference = make(map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid)
+	stage.ArcNormalVectorShapeGrids_instance = make(map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid)
+	stage.ArcNormalVectorShapeGrids_referenceOrder = make(map[*ArcNormalVectorShapeGrid]uint)
+
 	stage.AxesShapes_reference = make(map[*AxesShape]*AxesShape)
 	stage.AxesShapes_instance = make(map[*AxesShape]*AxesShape)
 	stage.AxesShapes_referenceOrder = make(map[*AxesShape]uint)
@@ -1108,6 +1148,34 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxArcNormalVectorShapeOrder uint
+	var foundArcNormalVectorShape bool
+	for _, order := range stage.ArcNormalVectorShape_stagedOrder {
+		if !foundArcNormalVectorShape || order > maxArcNormalVectorShapeOrder {
+			maxArcNormalVectorShapeOrder = order
+			foundArcNormalVectorShape = true
+		}
+	}
+	if foundArcNormalVectorShape {
+		stage.ArcNormalVectorShapeOrder = maxArcNormalVectorShapeOrder + 1
+	} else {
+		stage.ArcNormalVectorShapeOrder = 0
+	}
+
+	var maxArcNormalVectorShapeGridOrder uint
+	var foundArcNormalVectorShapeGrid bool
+	for _, order := range stage.ArcNormalVectorShapeGrid_stagedOrder {
+		if !foundArcNormalVectorShapeGrid || order > maxArcNormalVectorShapeGridOrder {
+			maxArcNormalVectorShapeGridOrder = order
+			foundArcNormalVectorShapeGrid = true
+		}
+	}
+	if foundArcNormalVectorShapeGrid {
+		stage.ArcNormalVectorShapeGridOrder = maxArcNormalVectorShapeGridOrder + 1
+	} else {
+		stage.ArcNormalVectorShapeGridOrder = 0
+	}
+
 	var maxAxesShapeOrder uint
 	var foundAxesShape bool
 	for _, order := range stage.AxesShape_stagedOrder {
@@ -1673,6 +1741,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *ArcNormalVectorShape:
+		tmp := GetStructInstancesByOrder(stage.ArcNormalVectorShapes, stage.ArcNormalVectorShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ArcNormalVectorShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ArcNormalVectorShapeGrid:
+		tmp := GetStructInstancesByOrder(stage.ArcNormalVectorShapeGrids, stage.ArcNormalVectorShapeGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ArcNormalVectorShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *AxesShape:
 		tmp := GetStructInstancesByOrder(stage.AxesShapes, stage.AxesShape_stagedOrder)
 
@@ -2206,6 +2302,10 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "ArcNormalVectorShape":
+		res = GetNamedStructInstances(stage.ArcNormalVectorShapes, stage.ArcNormalVectorShape_stagedOrder)
+	case "ArcNormalVectorShapeGrid":
+		res = GetNamedStructInstances(stage.ArcNormalVectorShapeGrids, stage.ArcNormalVectorShapeGrid_stagedOrder)
 	case "AxesShape":
 		res = GetNamedStructInstances(stage.AxesShapes, stage.AxesShape_stagedOrder)
 	case "BaseVectorShape":
@@ -2347,6 +2447,10 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape)
+	CheckoutArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape)
+	CommitArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid)
+	CheckoutArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid)
 	CommitAxesShape(axesshape *AxesShape)
 	CheckoutAxesShape(axesshape *AxesShape)
 	CommitBaseVectorShape(basevectorshape *BaseVectorShape)
@@ -2425,6 +2529,12 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		ArcNormalVectorShapes:           make(map[*ArcNormalVectorShape]struct{}),
+		ArcNormalVectorShapes_mapString: make(map[string]*ArcNormalVectorShape),
+
+		ArcNormalVectorShapeGrids:           make(map[*ArcNormalVectorShapeGrid]struct{}),
+		ArcNormalVectorShapeGrids_mapString: make(map[string]*ArcNormalVectorShapeGrid),
+
 		AxesShapes:           make(map[*AxesShape]struct{}),
 		AxesShapes_mapString: make(map[string]*AxesShape),
 
@@ -2543,6 +2653,14 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		ArcNormalVectorShape_stagedOrder: make(map[*ArcNormalVectorShape]uint),
+		ArcNormalVectorShape_orderStaged: make(map[uint]*ArcNormalVectorShape),
+		ArcNormalVectorShapes_reference:  make(map[*ArcNormalVectorShape]*ArcNormalVectorShape),
+
+		ArcNormalVectorShapeGrid_stagedOrder: make(map[*ArcNormalVectorShapeGrid]uint),
+		ArcNormalVectorShapeGrid_orderStaged: make(map[uint]*ArcNormalVectorShapeGrid),
+		ArcNormalVectorShapeGrids_reference:  make(map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid),
+
 		AxesShape_stagedOrder: make(map[*AxesShape]uint),
 		AxesShape_orderStaged: make(map[uint]*AxesShape),
 		AxesShapes_reference:  make(map[*AxesShape]*AxesShape),
@@ -2689,6 +2807,10 @@ func NewStage(name string) (stage *Stage) {
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"ArcNormalVectorShape": &ArcNormalVectorShapeUnmarshaller{},
+
+			"ArcNormalVectorShapeGrid": &ArcNormalVectorShapeGridUnmarshaller{},
+
 			"AxesShape": &AxesShapeUnmarshaller{},
 
 			"BaseVectorShape": &BaseVectorShapeUnmarshaller{},
@@ -2765,6 +2887,8 @@ func NewStage(name string) (stage *Stage) {
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "ArcNormalVectorShape"},
+			{name: "ArcNormalVectorShapeGrid"},
 			{name: "AxesShape"},
 			{name: "BaseVectorShape"},
 			{name: "BaseVectorShapeGrid"},
@@ -2812,6 +2936,10 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *ArcNormalVectorShape:
+		return stage.ArcNormalVectorShape_stagedOrder[instance]
+	case *ArcNormalVectorShapeGrid:
+		return stage.ArcNormalVectorShapeGrid_stagedOrder[instance]
 	case *AxesShape:
 		return stage.AxesShape_stagedOrder[instance]
 	case *BaseVectorShape:
@@ -2893,6 +3021,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
+	case *ArcNormalVectorShape:
+		return any(stage.ArcNormalVectorShape_orderStaged[order]).(Type)
+	case *ArcNormalVectorShapeGrid:
+		return any(stage.ArcNormalVectorShapeGrid_orderStaged[order]).(Type)
 	case *AxesShape:
 		return any(stage.AxesShape_orderStaged[order]).(Type)
 	case *BaseVectorShape:
@@ -2973,6 +3105,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *ArcNormalVectorShape:
+		return stage.ArcNormalVectorShape_stagedOrder[instance]
+	case *ArcNormalVectorShapeGrid:
+		return stage.ArcNormalVectorShapeGrid_stagedOrder[instance]
 	case *AxesShape:
 		return stage.AxesShape_stagedOrder[instance]
 	case *BaseVectorShape:
@@ -3110,6 +3246,8 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["ArcNormalVectorShape"] = len(stage.ArcNormalVectorShapes)
+	stage.Map_GongStructName_InstancesNb["ArcNormalVectorShapeGrid"] = len(stage.ArcNormalVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShape"] = len(stage.BaseVectorShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
@@ -3186,6 +3324,182 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts arcnormalvectorshape to the model stage
+func (arcnormalvectorshape *ArcNormalVectorShape) Stage(stage *Stage) *ArcNormalVectorShape {
+	if _, ok := stage.ArcNormalVectorShapes[arcnormalvectorshape]; !ok {
+		stage.ArcNormalVectorShapes[arcnormalvectorshape] = struct{}{}
+		stage.ArcNormalVectorShape_stagedOrder[arcnormalvectorshape] = stage.ArcNormalVectorShapeOrder
+		stage.ArcNormalVectorShape_orderStaged[stage.ArcNormalVectorShapeOrder] = arcnormalvectorshape
+		stage.ArcNormalVectorShapeOrder++
+	}
+	stage.ArcNormalVectorShapes_mapString[arcnormalvectorshape.Name] = arcnormalvectorshape
+
+	return arcnormalvectorshape
+}
+
+// StagePreserveOrder puts arcnormalvectorshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ArcNormalVectorShapeOrder
+// - update stage.ArcNormalVectorShapeOrder accordingly
+func (arcnormalvectorshape *ArcNormalVectorShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ArcNormalVectorShapes[arcnormalvectorshape]; !ok {
+		stage.ArcNormalVectorShapes[arcnormalvectorshape] = struct{}{}
+
+		if order > stage.ArcNormalVectorShapeOrder {
+			stage.ArcNormalVectorShapeOrder = order
+		}
+		stage.ArcNormalVectorShape_stagedOrder[arcnormalvectorshape] = order
+		stage.ArcNormalVectorShape_orderStaged[order] = arcnormalvectorshape
+		stage.ArcNormalVectorShapeOrder++
+	}
+	stage.ArcNormalVectorShapes_mapString[arcnormalvectorshape.Name] = arcnormalvectorshape
+}
+
+// Unstage removes arcnormalvectorshape off the model stage
+func (arcnormalvectorshape *ArcNormalVectorShape) Unstage(stage *Stage) *ArcNormalVectorShape {
+	delete(stage.ArcNormalVectorShapes, arcnormalvectorshape)
+	// issue1150
+	// delete(stage.ArcNormalVectorShape_stagedOrder, arcnormalvectorshape)
+	delete(stage.ArcNormalVectorShapes_mapString, arcnormalvectorshape.Name)
+
+	return arcnormalvectorshape
+}
+
+// UnstageVoid removes arcnormalvectorshape off the model stage
+func (arcnormalvectorshape *ArcNormalVectorShape) UnstageVoid(stage *Stage) {
+	delete(stage.ArcNormalVectorShapes, arcnormalvectorshape)
+	// issue1150
+	// delete(stage.ArcNormalVectorShape_stagedOrder, arcnormalvectorshape)
+	delete(stage.ArcNormalVectorShapes_mapString, arcnormalvectorshape.Name)
+}
+
+// commit arcnormalvectorshape to the back repo (if it is already staged)
+func (arcnormalvectorshape *ArcNormalVectorShape) Commit(stage *Stage) *ArcNormalVectorShape {
+	if _, ok := stage.ArcNormalVectorShapes[arcnormalvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitArcNormalVectorShape(arcnormalvectorshape)
+		}
+	}
+	return arcnormalvectorshape
+}
+
+func (arcnormalvectorshape *ArcNormalVectorShape) CommitVoid(stage *Stage) {
+	arcnormalvectorshape.Commit(stage)
+}
+
+func (arcnormalvectorshape *ArcNormalVectorShape) StageVoid(stage *Stage) {
+	arcnormalvectorshape.Stage(stage)
+}
+
+// Checkout arcnormalvectorshape to the back repo (if it is already staged)
+func (arcnormalvectorshape *ArcNormalVectorShape) Checkout(stage *Stage) *ArcNormalVectorShape {
+	if _, ok := stage.ArcNormalVectorShapes[arcnormalvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutArcNormalVectorShape(arcnormalvectorshape)
+		}
+	}
+	return arcnormalvectorshape
+}
+
+// for satisfaction of GongStruct interface
+func (arcnormalvectorshape *ArcNormalVectorShape) GetName() (res string) {
+	return arcnormalvectorshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (arcnormalvectorshape *ArcNormalVectorShape) SetName(name string) {
+	arcnormalvectorshape.Name = name
+}
+
+// Stage puts arcnormalvectorshapegrid to the model stage
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) Stage(stage *Stage) *ArcNormalVectorShapeGrid {
+	if _, ok := stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid]; !ok {
+		stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid] = struct{}{}
+		stage.ArcNormalVectorShapeGrid_stagedOrder[arcnormalvectorshapegrid] = stage.ArcNormalVectorShapeGridOrder
+		stage.ArcNormalVectorShapeGrid_orderStaged[stage.ArcNormalVectorShapeGridOrder] = arcnormalvectorshapegrid
+		stage.ArcNormalVectorShapeGridOrder++
+	}
+	stage.ArcNormalVectorShapeGrids_mapString[arcnormalvectorshapegrid.Name] = arcnormalvectorshapegrid
+
+	return arcnormalvectorshapegrid
+}
+
+// StagePreserveOrder puts arcnormalvectorshapegrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ArcNormalVectorShapeGridOrder
+// - update stage.ArcNormalVectorShapeGridOrder accordingly
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid]; !ok {
+		stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid] = struct{}{}
+
+		if order > stage.ArcNormalVectorShapeGridOrder {
+			stage.ArcNormalVectorShapeGridOrder = order
+		}
+		stage.ArcNormalVectorShapeGrid_stagedOrder[arcnormalvectorshapegrid] = order
+		stage.ArcNormalVectorShapeGrid_orderStaged[order] = arcnormalvectorshapegrid
+		stage.ArcNormalVectorShapeGridOrder++
+	}
+	stage.ArcNormalVectorShapeGrids_mapString[arcnormalvectorshapegrid.Name] = arcnormalvectorshapegrid
+}
+
+// Unstage removes arcnormalvectorshapegrid off the model stage
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) Unstage(stage *Stage) *ArcNormalVectorShapeGrid {
+	delete(stage.ArcNormalVectorShapeGrids, arcnormalvectorshapegrid)
+	// issue1150
+	// delete(stage.ArcNormalVectorShapeGrid_stagedOrder, arcnormalvectorshapegrid)
+	delete(stage.ArcNormalVectorShapeGrids_mapString, arcnormalvectorshapegrid.Name)
+
+	return arcnormalvectorshapegrid
+}
+
+// UnstageVoid removes arcnormalvectorshapegrid off the model stage
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) UnstageVoid(stage *Stage) {
+	delete(stage.ArcNormalVectorShapeGrids, arcnormalvectorshapegrid)
+	// issue1150
+	// delete(stage.ArcNormalVectorShapeGrid_stagedOrder, arcnormalvectorshapegrid)
+	delete(stage.ArcNormalVectorShapeGrids_mapString, arcnormalvectorshapegrid.Name)
+}
+
+// commit arcnormalvectorshapegrid to the back repo (if it is already staged)
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) Commit(stage *Stage) *ArcNormalVectorShapeGrid {
+	if _, ok := stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitArcNormalVectorShapeGrid(arcnormalvectorshapegrid)
+		}
+	}
+	return arcnormalvectorshapegrid
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) CommitVoid(stage *Stage) {
+	arcnormalvectorshapegrid.Commit(stage)
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) StageVoid(stage *Stage) {
+	arcnormalvectorshapegrid.Stage(stage)
+}
+
+// Checkout arcnormalvectorshapegrid to the back repo (if it is already staged)
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) Checkout(stage *Stage) *ArcNormalVectorShapeGrid {
+	if _, ok := stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutArcNormalVectorShapeGrid(arcnormalvectorshapegrid)
+		}
+	}
+	return arcnormalvectorshapegrid
+}
+
+// for satisfaction of GongStruct interface
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GetName() (res string) {
+	return arcnormalvectorshapegrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) SetName(name string) {
+	arcnormalvectorshapegrid.Name = name
+}
+
 // Stage puts axesshape to the model stage
 func (axesshape *AxesShape) Stage(stage *Stage) *AxesShape {
 	if _, ok := stage.AxesShapes[axesshape]; !ok {
@@ -6356,6 +6670,8 @@ func (startarcshapev2grid *StartArcShapeV2Grid) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMArcNormalVectorShape(ArcNormalVectorShape *ArcNormalVectorShape)
+	CreateORMArcNormalVectorShapeGrid(ArcNormalVectorShapeGrid *ArcNormalVectorShapeGrid)
 	CreateORMAxesShape(AxesShape *AxesShape)
 	CreateORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
@@ -6395,6 +6711,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMArcNormalVectorShape(ArcNormalVectorShape *ArcNormalVectorShape)
+	DeleteORMArcNormalVectorShapeGrid(ArcNormalVectorShapeGrid *ArcNormalVectorShapeGrid)
 	DeleteORMAxesShape(AxesShape *AxesShape)
 	DeleteORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
@@ -6434,6 +6752,16 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.ArcNormalVectorShapes = make(map[*ArcNormalVectorShape]struct{})
+	stage.ArcNormalVectorShapes_mapString = make(map[string]*ArcNormalVectorShape)
+	stage.ArcNormalVectorShape_stagedOrder = make(map[*ArcNormalVectorShape]uint)
+	stage.ArcNormalVectorShapeOrder = 0
+
+	stage.ArcNormalVectorShapeGrids = make(map[*ArcNormalVectorShapeGrid]struct{})
+	stage.ArcNormalVectorShapeGrids_mapString = make(map[string]*ArcNormalVectorShapeGrid)
+	stage.ArcNormalVectorShapeGrid_stagedOrder = make(map[*ArcNormalVectorShapeGrid]uint)
+	stage.ArcNormalVectorShapeGridOrder = 0
+
 	stage.AxesShapes = make(map[*AxesShape]struct{})
 	stage.AxesShapes_mapString = make(map[string]*AxesShape)
 	stage.AxesShape_stagedOrder = make(map[*AxesShape]uint)
@@ -6623,6 +6951,12 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.ArcNormalVectorShapes = nil
+	stage.ArcNormalVectorShapes_mapString = nil
+
+	stage.ArcNormalVectorShapeGrids = nil
+	stage.ArcNormalVectorShapeGrids_mapString = nil
+
 	stage.AxesShapes = nil
 	stage.AxesShapes_mapString = nil
 
@@ -6735,6 +7069,14 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for arcnormalvectorshape := range stage.ArcNormalVectorShapes {
+		arcnormalvectorshape.Unstage(stage)
+	}
+
+	for arcnormalvectorshapegrid := range stage.ArcNormalVectorShapeGrids {
+		arcnormalvectorshapegrid.Unstage(stage)
+	}
+
 	for axesshape := range stage.AxesShapes {
 		axesshape.Unstage(stage)
 	}
@@ -6955,6 +7297,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*ArcNormalVectorShape]any:
+		return any(&stage.ArcNormalVectorShapes).(*Type)
+	case map[*ArcNormalVectorShapeGrid]any:
+		return any(&stage.ArcNormalVectorShapeGrids).(*Type)
 	case map[*AxesShape]any:
 		return any(&stage.AxesShapes).(*Type)
 	case map[*BaseVectorShape]any:
@@ -7039,6 +7385,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *ArcNormalVectorShape:
+		return any(stage.ArcNormalVectorShapes_mapString).(map[string]Type)
+	case *ArcNormalVectorShapeGrid:
+		return any(stage.ArcNormalVectorShapeGrids_mapString).(map[string]Type)
 	case *AxesShape:
 		return any(stage.AxesShapes_mapString).(map[string]Type)
 	case *BaseVectorShape:
@@ -7123,6 +7473,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case ArcNormalVectorShape:
+		return any(&stage.ArcNormalVectorShapes).(*map[*Type]struct{})
+	case ArcNormalVectorShapeGrid:
+		return any(&stage.ArcNormalVectorShapeGrids).(*map[*Type]struct{})
 	case AxesShape:
 		return any(&stage.AxesShapes).(*map[*Type]struct{})
 	case BaseVectorShape:
@@ -7207,6 +7561,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *ArcNormalVectorShape:
+		return any(&stage.ArcNormalVectorShapes).(*map[Type]struct{})
+	case *ArcNormalVectorShapeGrid:
+		return any(&stage.ArcNormalVectorShapeGrids).(*map[Type]struct{})
 	case *AxesShape:
 		return any(&stage.AxesShapes).(*map[Type]struct{})
 	case *BaseVectorShape:
@@ -7291,6 +7649,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case ArcNormalVectorShape:
+		return any(&stage.ArcNormalVectorShapes_mapString).(*map[string]*Type)
+	case ArcNormalVectorShapeGrid:
+		return any(&stage.ArcNormalVectorShapeGrids_mapString).(*map[string]*Type)
 	case AxesShape:
 		return any(&stage.AxesShapes_mapString).(*map[string]*Type)
 	case BaseVectorShape:
@@ -7377,6 +7739,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case ArcNormalVectorShape:
+		return any(&ArcNormalVectorShape{
+			// Initialisation of associations
+		}).(*Type)
+	case ArcNormalVectorShapeGrid:
+		return any(&ArcNormalVectorShapeGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of ArcNormalVectorShape with the name of the field
+			ArcNormalVectorShapes: []*ArcNormalVectorShape{{Name: "ArcNormalVectorShapes"}},
+		}).(*Type)
 	case AxesShape:
 		return any(&AxesShape{
 			// Initialisation of associations
@@ -7524,6 +7896,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
 			// field is initialized with an instance of BaseVectorShapeGrid with the name of the field
 			BaseVectorShapeGrid: &BaseVectorShapeGrid{Name: "BaseVectorShapeGrid"},
+			// field is initialized with an instance of ArcNormalVectorShapeGrid with the name of the field
+			ArcNormalVectorShapeGrid: &ArcNormalVectorShapeGrid{Name: "ArcNormalVectorShapeGrid"},
 			// field is initialized with an instance of StartArcShapeGrid with the name of the field
 			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
 			// field is initialized with an instance of StartArcShapeV2Grid with the name of the field
@@ -7612,6 +7986,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of ArcNormalVectorShape
+	case ArcNormalVectorShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ArcNormalVectorShapeGrid
+	case ArcNormalVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of AxesShape
 	case AxesShape:
 		switch fieldname {
@@ -7986,6 +8370,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ArcNormalVectorShapeGrid":
+			res := make(map[*ArcNormalVectorShapeGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.ArcNormalVectorShapeGrid != nil {
+					arcnormalvectorshapegrid_ := plant.ArcNormalVectorShapeGrid
+					var plants []*Plant
+					_, ok := res[arcnormalvectorshapegrid_]
+					if ok {
+						plants = res[arcnormalvectorshapegrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[arcnormalvectorshapegrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "StartArcShapeGrid":
 			res := make(map[*StartArcShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -8181,6 +8582,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of ArcNormalVectorShape
+	case ArcNormalVectorShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ArcNormalVectorShapeGrid
+	case ArcNormalVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ArcNormalVectorShapes":
+			res := make(map[*ArcNormalVectorShape][]*ArcNormalVectorShapeGrid)
+			for arcnormalvectorshapegrid := range stage.ArcNormalVectorShapeGrids {
+				for _, arcnormalvectorshape_ := range arcnormalvectorshapegrid.ArcNormalVectorShapes {
+					res[arcnormalvectorshape_] = append(res[arcnormalvectorshape_], arcnormalvectorshapegrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of AxesShape
 	case AxesShape:
 		switch fieldname {
@@ -8492,6 +8911,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *ArcNormalVectorShape:
+		res = "ArcNormalVectorShape"
+	case *ArcNormalVectorShapeGrid:
+		res = "ArcNormalVectorShapeGrid"
 	case *AxesShape:
 		res = "AxesShape"
 	case *BaseVectorShape:
@@ -8581,6 +9004,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *ArcNormalVectorShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "ArcNormalVectorShapeGrid"
+		rf.Fieldname = "ArcNormalVectorShapes"
+		res = append(res, rf)
+	case *ArcNormalVectorShapeGrid:
+		var rf ReverseField
+		_ = rf
 	case *AxesShape:
 		var rf ReverseField
 		_ = rf
@@ -8739,6 +9171,49 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ArcNormalVectorShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ArcNormalVectorShape",
+		},
+	}
+	return
+}
+
 func (axesshape *AxesShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -9378,6 +9853,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "BaseVectorShapeGrid",
 		},
 		{
+			Name:                 "ArcNormalVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ArcNormalVectorShapeGrid",
+		},
+		{
 			Name:                 "StartArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "StartArcShapeGrid",
@@ -9503,6 +9983,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenBaseVectorShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenArcNormalVectorShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -9883,6 +10367,50 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = arcnormalvectorshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", arcnormalvectorshape.StartX)
+		res.valueFloat = arcnormalvectorshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", arcnormalvectorshape.StartY)
+		res.valueFloat = arcnormalvectorshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", arcnormalvectorshape.EndX)
+		res.valueFloat = arcnormalvectorshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", arcnormalvectorshape.EndY)
+		res.valueFloat = arcnormalvectorshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = arcnormalvectorshapegrid.Name
+	case "ArcNormalVectorShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range arcnormalvectorshapegrid.ArcNormalVectorShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (axesshape *AxesShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -10537,6 +11065,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.BaseVectorShapeGrid.Name
 			res.ids = plant.BaseVectorShapeGrid.GongGetUUID(stage)
 		}
+	case "ArcNormalVectorShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.ArcNormalVectorShapeGrid != nil {
+			res.valueString = plant.ArcNormalVectorShapeGrid.Name
+			res.ids = plant.ArcNormalVectorShapeGrid.GongGetUUID(stage)
+		}
 	case "StartArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.StartArcShapeGrid != nil {
@@ -10666,6 +11200,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenBaseVectorShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBaseVectorShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenBaseVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenArcNormalVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenArcNormalVectorShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenArcNormalVectorShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenStartArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartArcShapeGrid)
@@ -10995,6 +11533,50 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (arcnormalvectorshape *ArcNormalVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		arcnormalvectorshape.Name = value.GetValueString()
+	case "StartX":
+		arcnormalvectorshape.StartX = value.GetValueFloat()
+	case "StartY":
+		arcnormalvectorshape.StartY = value.GetValueFloat()
+	case "EndX":
+		arcnormalvectorshape.EndX = value.GetValueFloat()
+	case "EndY":
+		arcnormalvectorshape.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		arcnormalvectorshapegrid.Name = value.GetValueString()
+	case "ArcNormalVectorShapes":
+		arcnormalvectorshapegrid.ArcNormalVectorShapes = make([]*ArcNormalVectorShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ArcNormalVectorShapes {
+					if stage.ArcNormalVectorShape_stagedOrder[__instance__] == uint(id) {
+						arcnormalvectorshapegrid.ArcNormalVectorShapes = append(arcnormalvectorshapegrid.ArcNormalVectorShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (axesshape *AxesShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -11696,6 +12278,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "ArcNormalVectorShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.ArcNormalVectorShapeGrid = nil
+			for __instance__ := range stage.ArcNormalVectorShapeGrids {
+				if stage.ArcNormalVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plant.ArcNormalVectorShapeGrid = __instance__
+					break
+				}
+			}
+		}
 	case "StartArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -11822,6 +12415,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
 	case "IsHiddenBaseVectorShapeGrid":
 		plantdiagram.IsHiddenBaseVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenArcNormalVectorShapeGrid":
+		plantdiagram.IsHiddenArcNormalVectorShapeGrid = value.GetValueBool()
 	case "IsHiddenStartArcShapeGrid":
 		plantdiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenStartArcShapeV2Grid":
@@ -12102,6 +12697,14 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetGongstructName() string {
+	return "ArcNormalVectorShape"
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetGongstructName() string {
+	return "ArcNormalVectorShapeGrid"
+}
+
 func (axesshape *AxesShape) GongGetGongstructName() string {
 	return "AxesShape"
 }
@@ -12253,6 +12856,16 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.ArcNormalVectorShapes_mapString = make(map[string]*ArcNormalVectorShape)
+	for arcnormalvectorshape := range stage.ArcNormalVectorShapes {
+		stage.ArcNormalVectorShapes_mapString[arcnormalvectorshape.Name] = arcnormalvectorshape
+	}
+
+	stage.ArcNormalVectorShapeGrids_mapString = make(map[string]*ArcNormalVectorShapeGrid)
+	for arcnormalvectorshapegrid := range stage.ArcNormalVectorShapeGrids {
+		stage.ArcNormalVectorShapeGrids_mapString[arcnormalvectorshapegrid.Name] = arcnormalvectorshapegrid
+	}
+
 	stage.AxesShapes_mapString = make(map[string]*AxesShape)
 	for axesshape := range stage.AxesShapes {
 		stage.AxesShapes_mapString[axesshape.Name] = axesshape

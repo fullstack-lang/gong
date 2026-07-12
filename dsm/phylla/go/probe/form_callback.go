@@ -19,6 +19,247 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__ArcNormalVectorShapeFormCallback(
+	arcnormalvectorshape *models.ArcNormalVectorShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (arcnormalvectorshapeFormCallback *ArcNormalVectorShapeFormCallback) {
+	arcnormalvectorshapeFormCallback = new(ArcNormalVectorShapeFormCallback)
+	arcnormalvectorshapeFormCallback.probe = probe
+	arcnormalvectorshapeFormCallback.arcnormalvectorshape = arcnormalvectorshape
+	arcnormalvectorshapeFormCallback.formGroup = formGroup
+
+	arcnormalvectorshapeFormCallback.CreationMode = (arcnormalvectorshape == nil)
+
+	return
+}
+
+type ArcNormalVectorShapeFormCallback struct {
+	arcnormalvectorshape *models.ArcNormalVectorShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (arcnormalvectorshapeFormCallback *ArcNormalVectorShapeFormCallback) OnSave() {
+	arcnormalvectorshapeFormCallback.probe.stageOfInterest.Lock()
+	defer arcnormalvectorshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ArcNormalVectorShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	arcnormalvectorshapeFormCallback.probe.formStage.Checkout()
+
+	if arcnormalvectorshapeFormCallback.arcnormalvectorshape == nil {
+		arcnormalvectorshapeFormCallback.arcnormalvectorshape = new(models.ArcNormalVectorShape).Stage(arcnormalvectorshapeFormCallback.probe.stageOfInterest)
+	}
+	arcnormalvectorshape_ := arcnormalvectorshapeFormCallback.arcnormalvectorshape
+	_ = arcnormalvectorshape_
+
+	for _, formDiv := range arcnormalvectorshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(arcnormalvectorshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(arcnormalvectorshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(arcnormalvectorshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(arcnormalvectorshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(arcnormalvectorshape_.EndY), formDiv)
+		case "ArcNormalVectorShapeGrid:ArcNormalVectorShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ArcNormalVectorShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ArcNormalVectorShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ArcNormalVectorShapeGrid](arcnormalvectorshapeFormCallback.probe.stageOfInterest)
+			targetArcNormalVectorShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetArcNormalVectorShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ArcNormalVectorShapeGrid instances and update their ArcNormalVectorShapes slice
+			for _arcnormalvectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.ArcNormalVectorShapeGrid](arcnormalvectorshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(arcnormalvectorshapeFormCallback.probe.stageOfInterest, _arcnormalvectorshapegrid)
+				
+				// if ArcNormalVectorShapeGrid is selected
+				if targetArcNormalVectorShapeGridIDs[id] {
+					// ensure arcnormalvectorshape_ is in _arcnormalvectorshapegrid.ArcNormalVectorShapes
+					found := false
+					for _, _b := range _arcnormalvectorshapegrid.ArcNormalVectorShapes {
+						if _b == arcnormalvectorshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_arcnormalvectorshapegrid.ArcNormalVectorShapes = append(_arcnormalvectorshapegrid.ArcNormalVectorShapes, arcnormalvectorshape_)
+						arcnormalvectorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_arcnormalvectorshapegrid, "ArcNormalVectorShapes", &_arcnormalvectorshapegrid.ArcNormalVectorShapes)
+					}
+				} else {
+					// ensure arcnormalvectorshape_ is NOT in _arcnormalvectorshapegrid.ArcNormalVectorShapes
+					idx := slices.Index(_arcnormalvectorshapegrid.ArcNormalVectorShapes, arcnormalvectorshape_)
+					if idx != -1 {
+						_arcnormalvectorshapegrid.ArcNormalVectorShapes = slices.Delete(_arcnormalvectorshapegrid.ArcNormalVectorShapes, idx, idx+1)
+						arcnormalvectorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_arcnormalvectorshapegrid, "ArcNormalVectorShapes", &_arcnormalvectorshapegrid.ArcNormalVectorShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if arcnormalvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		arcnormalvectorshape_.Unstage(arcnormalvectorshapeFormCallback.probe.stageOfInterest)
+	}
+
+	arcnormalvectorshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ArcNormalVectorShape](
+		arcnormalvectorshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if arcnormalvectorshapeFormCallback.CreationMode || arcnormalvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		arcnormalvectorshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(arcnormalvectorshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ArcNormalVectorShapeFormCallback(
+			nil,
+			arcnormalvectorshapeFormCallback.probe,
+			newFormGroup,
+		)
+		arcnormalvectorshape := new(models.ArcNormalVectorShape)
+		FillUpForm(arcnormalvectorshape, newFormGroup, arcnormalvectorshapeFormCallback.probe)
+		arcnormalvectorshapeFormCallback.probe.formStage.Commit()
+	}
+
+	arcnormalvectorshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ArcNormalVectorShapeGridFormCallback(
+	arcnormalvectorshapegrid *models.ArcNormalVectorShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (arcnormalvectorshapegridFormCallback *ArcNormalVectorShapeGridFormCallback) {
+	arcnormalvectorshapegridFormCallback = new(ArcNormalVectorShapeGridFormCallback)
+	arcnormalvectorshapegridFormCallback.probe = probe
+	arcnormalvectorshapegridFormCallback.arcnormalvectorshapegrid = arcnormalvectorshapegrid
+	arcnormalvectorshapegridFormCallback.formGroup = formGroup
+
+	arcnormalvectorshapegridFormCallback.CreationMode = (arcnormalvectorshapegrid == nil)
+
+	return
+}
+
+type ArcNormalVectorShapeGridFormCallback struct {
+	arcnormalvectorshapegrid *models.ArcNormalVectorShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (arcnormalvectorshapegridFormCallback *ArcNormalVectorShapeGridFormCallback) OnSave() {
+	arcnormalvectorshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer arcnormalvectorshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ArcNormalVectorShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	arcnormalvectorshapegridFormCallback.probe.formStage.Checkout()
+
+	if arcnormalvectorshapegridFormCallback.arcnormalvectorshapegrid == nil {
+		arcnormalvectorshapegridFormCallback.arcnormalvectorshapegrid = new(models.ArcNormalVectorShapeGrid).Stage(arcnormalvectorshapegridFormCallback.probe.stageOfInterest)
+	}
+	arcnormalvectorshapegrid_ := arcnormalvectorshapegridFormCallback.arcnormalvectorshapegrid
+	_ = arcnormalvectorshapegrid_
+
+	for _, formDiv := range arcnormalvectorshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(arcnormalvectorshapegrid_.Name), formDiv)
+		case "ArcNormalVectorShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArcNormalVectorShape](arcnormalvectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ArcNormalVectorShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ArcNormalVectorShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					arcnormalvectorshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ArcNormalVectorShape](arcnormalvectorshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			arcnormalvectorshapegrid_.ArcNormalVectorShapes = instanceSlice
+			arcnormalvectorshapegridFormCallback.probe.UpdateSliceOfPointersCallback(arcnormalvectorshapegrid_, "ArcNormalVectorShapes", &arcnormalvectorshapegrid_.ArcNormalVectorShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if arcnormalvectorshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		arcnormalvectorshapegrid_.Unstage(arcnormalvectorshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	arcnormalvectorshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ArcNormalVectorShapeGrid](
+		arcnormalvectorshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if arcnormalvectorshapegridFormCallback.CreationMode || arcnormalvectorshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		arcnormalvectorshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(arcnormalvectorshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ArcNormalVectorShapeGridFormCallback(
+			nil,
+			arcnormalvectorshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		arcnormalvectorshapegrid := new(models.ArcNormalVectorShapeGrid)
+		FillUpForm(arcnormalvectorshapegrid, newFormGroup, arcnormalvectorshapegridFormCallback.probe)
+		arcnormalvectorshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	arcnormalvectorshapegridFormCallback.probe.ux_tree()
+}
 func __gong__New__AxesShapeFormCallback(
 	axesshape *models.AxesShape,
 	probe *Probe,
@@ -2771,6 +3012,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGridHalfway), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "BaseVectorShapeGrid":
 			FormDivSelectFieldToField(&(plant_.BaseVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ArcNormalVectorShapeGrid":
+			FormDivSelectFieldToField(&(plant_.ArcNormalVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StartArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.StartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StartArcShapeV2Grid":
@@ -3022,6 +3265,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
 		case "IsHiddenBaseVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBaseVectorShapeGrid), formDiv)
+		case "IsHiddenArcNormalVectorShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenArcNormalVectorShapeGrid), formDiv)
 		case "IsHiddenStartArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeGrid), formDiv)
 		case "IsHiddenStartArcShapeV2Grid":

@@ -40,6 +40,21 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by ArcNormalVectorShape
+func (arcnormalvectorshape *ArcNormalVectorShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ArcNormalVectorShapeGrid
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &arcnormalvectorshapegrid.ArcNormalVectorShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by AxesShape
 func (axesshape *AxesShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -231,6 +246,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
 	modified = GongCleanPointer(stage, &plant.BaseVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.ArcNormalVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StartArcShapeV2Grid) || modified
 	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified

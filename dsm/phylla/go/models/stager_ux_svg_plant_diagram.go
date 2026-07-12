@@ -69,6 +69,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
 	plantDiagram.drawBaseVectorShapeGrid(stager, layer, plant)
+	plantDiagram.drawArcNormalVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeGrid(stager, layer, plant)
@@ -879,6 +880,26 @@ func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer 
 		line.Y2 = plantDiagram.OriginY - base.EndY
 
 		line.Presentation.Stroke = "blue"
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.ArcNormalVectorShapeGrid == nil || plantDiagram.IsHiddenArcNormalVectorShapeGrid {
+		return
+	}
+
+	for _, shape := range plant.ArcNormalVectorShapeGrid.ArcNormalVectorShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = shape.Name
+		line.X1 = plantDiagram.OriginX + shape.StartX
+		line.Y1 = plantDiagram.OriginY - shape.StartY
+		line.X2 = plantDiagram.OriginX + shape.EndX
+		line.Y2 = plantDiagram.OriginY - shape.EndY
+
+		line.Presentation.Stroke = "dodgerblue"
 		line.Presentation.StrokeWidth = 2.0
 		line.Presentation.StrokeOpacity = 1.0
 	}

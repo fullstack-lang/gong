@@ -9,6 +9,40 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type ArcNormalVectorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *ArcNormalVectorShape) CopyBasicFields(to *ArcNormalVectorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type ArcNormalVectorShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ArcNormalVectorShapeGrid) CopyBasicFields(to *ArcNormalVectorShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type AxesShape_WOP struct {
 	// insertion point
 
@@ -515,6 +549,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenBaseVectorShapeGrid bool
 
+	IsHiddenArcNormalVectorShapeGrid bool
+
 	IsHiddenStartArcShapeGrid bool
 
 	IsHiddenStartArcShapeV2Grid bool
@@ -554,6 +590,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
 	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
+	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
 	to.IsHiddenStartArcShapeV2Grid = from.IsHiddenStartArcShapeV2Grid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid

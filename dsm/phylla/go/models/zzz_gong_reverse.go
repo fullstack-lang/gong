@@ -2,6 +2,31 @@
 package models
 
 // insertion point
+func (inst *ArcNormalVectorShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ArcNormalVectorShapeGrid":
+		switch reverseField.Fieldname {
+		case "ArcNormalVectorShapes":
+			if _arcnormalvectorshapegrid, ok := stage.ArcNormalVectorShapeGrid_ArcNormalVectorShapes_reverseMap[inst]; ok {
+				res = _arcnormalvectorshapegrid.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *ArcNormalVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *AxesShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -432,6 +457,29 @@ func (inst *StartArcShapeV2Grid) GongGetReverseFieldOwnerName(stage *Stage, reve
 }
 
 // insertion point
+func (inst *ArcNormalVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ArcNormalVectorShapeGrid":
+		switch reverseField.Fieldname {
+		case "ArcNormalVectorShapes":
+			res = stage.ArcNormalVectorShapeGrid_ArcNormalVectorShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *ArcNormalVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *AxesShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil

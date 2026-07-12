@@ -19,6 +19,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
+	case *models.ArcNormalVectorShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ArcNormalVectorShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ArcNormalVectorShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ArcNormalVectorShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ArcNormalVectorShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ArcNormalVectorShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AxesShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

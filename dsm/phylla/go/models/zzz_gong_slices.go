@@ -20,6 +20,19 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct ArcNormalVectorShape
+	// insertion point per field
+
+	// Compute reverse map for named struct ArcNormalVectorShapeGrid
+	// insertion point per field
+	stage.ArcNormalVectorShapeGrid_ArcNormalVectorShapes_reverseMap = make(map[*ArcNormalVectorShape]*ArcNormalVectorShapeGrid)
+	for arcnormalvectorshapegrid := range stage.ArcNormalVectorShapeGrids {
+		_ = arcnormalvectorshapegrid
+		for _, _arcnormalvectorshape := range arcnormalvectorshapegrid.ArcNormalVectorShapes {
+			stage.ArcNormalVectorShapeGrid_ArcNormalVectorShapes_reverseMap[_arcnormalvectorshape] = arcnormalvectorshapegrid
+		}
+	}
+
 	// Compute reverse map for named struct AxesShape
 	// insertion point per field
 
@@ -238,6 +251,14 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.ArcNormalVectorShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ArcNormalVectorShapeGrids {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.AxesShapes {
 		res = append(res, instance)
 	}
@@ -386,6 +407,18 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (arcnormalvectorshape *ArcNormalVectorShape) GongCopy() GongstructIF {
+	newInstance := new(ArcNormalVectorShape)
+	arcnormalvectorshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(ArcNormalVectorShapeGrid)
+	arcnormalvectorshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (axesshape *AxesShape) GongCopy() GongstructIF {
 	newInstance := new(AxesShape)
 	axesshape.CopyBasicFields(newInstance)
@@ -603,6 +636,26 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(arcnormalvectorshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arcnormalvectorshape), uint64(GetOrderPointerGongstruct(stage, arcnormalvectorshape)))
+	return
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(arcnormalvectorshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arcnormalvectorshapegrid), uint64(GetOrderPointerGongstruct(stage, arcnormalvectorshapegrid)))
+	return
+}
+
 func (axesshape *AxesShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(axesshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -981,6 +1034,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var arcnormalvectorshapes_newInstances []*ArcNormalVectorShape
+	var arcnormalvectorshapes_deletedInstances []*ArcNormalVectorShape
+
+	// parse all staged instances and check if they have a reference
+	for arcnormalvectorshape := range stage.ArcNormalVectorShapes {
+		if ref, ok := stage.ArcNormalVectorShapes_reference[arcnormalvectorshape]; !ok {
+			arcnormalvectorshapes_newInstances = append(arcnormalvectorshapes_newInstances, arcnormalvectorshape)
+			newInstancesSlice = append(newInstancesSlice, arcnormalvectorshape.GongMarshallIdentifier(stage))
+			if stage.ArcNormalVectorShapes_referenceOrder == nil {
+				stage.ArcNormalVectorShapes_referenceOrder = make(map[*ArcNormalVectorShape]uint)
+			}
+			stage.ArcNormalVectorShapes_referenceOrder[arcnormalvectorshape] = stage.ArcNormalVectorShape_stagedOrder[arcnormalvectorshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, arcnormalvectorshape.GongMarshallUnstaging(stage))
+			// delete(stage.ArcNormalVectorShapes_referenceOrder, arcnormalvectorshape)
+			fieldInitializers, pointersInitializations := arcnormalvectorshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ArcNormalVectorShape_stagedOrder[ref] = stage.ArcNormalVectorShape_stagedOrder[arcnormalvectorshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := arcnormalvectorshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, arcnormalvectorshape)
+			// delete(stage.ArcNormalVectorShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if arcnormalvectorshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", arcnormalvectorshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ArcNormalVectorShapes_reference {
+		instance := stage.ArcNormalVectorShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ArcNormalVectorShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			arcnormalvectorshapes_deletedInstances = append(arcnormalvectorshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(arcnormalvectorshapes_newInstances)
+	lenDeletedInstances += len(arcnormalvectorshapes_deletedInstances)
+	var arcnormalvectorshapegrids_newInstances []*ArcNormalVectorShapeGrid
+	var arcnormalvectorshapegrids_deletedInstances []*ArcNormalVectorShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for arcnormalvectorshapegrid := range stage.ArcNormalVectorShapeGrids {
+		if ref, ok := stage.ArcNormalVectorShapeGrids_reference[arcnormalvectorshapegrid]; !ok {
+			arcnormalvectorshapegrids_newInstances = append(arcnormalvectorshapegrids_newInstances, arcnormalvectorshapegrid)
+			newInstancesSlice = append(newInstancesSlice, arcnormalvectorshapegrid.GongMarshallIdentifier(stage))
+			if stage.ArcNormalVectorShapeGrids_referenceOrder == nil {
+				stage.ArcNormalVectorShapeGrids_referenceOrder = make(map[*ArcNormalVectorShapeGrid]uint)
+			}
+			stage.ArcNormalVectorShapeGrids_referenceOrder[arcnormalvectorshapegrid] = stage.ArcNormalVectorShapeGrid_stagedOrder[arcnormalvectorshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, arcnormalvectorshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.ArcNormalVectorShapeGrids_referenceOrder, arcnormalvectorshapegrid)
+			fieldInitializers, pointersInitializations := arcnormalvectorshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ArcNormalVectorShapeGrid_stagedOrder[ref] = stage.ArcNormalVectorShapeGrid_stagedOrder[arcnormalvectorshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := arcnormalvectorshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, arcnormalvectorshapegrid)
+			// delete(stage.ArcNormalVectorShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if arcnormalvectorshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", arcnormalvectorshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ArcNormalVectorShapeGrids_reference {
+		instance := stage.ArcNormalVectorShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ArcNormalVectorShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			arcnormalvectorshapegrids_deletedInstances = append(arcnormalvectorshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(arcnormalvectorshapegrids_newInstances)
+	lenDeletedInstances += len(arcnormalvectorshapegrids_deletedInstances)
 	var axesshapes_newInstances []*AxesShape
 	var axesshapes_deletedInstances []*AxesShape
 
@@ -2996,6 +3159,26 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.ArcNormalVectorShapes_reference = make(map[*ArcNormalVectorShape]*ArcNormalVectorShape)
+	stage.ArcNormalVectorShapes_referenceOrder = make(map[*ArcNormalVectorShape]uint) // diff Unstage needs the reference order
+	stage.ArcNormalVectorShapes_instance = make(map[*ArcNormalVectorShape]*ArcNormalVectorShape)
+	for instance := range stage.ArcNormalVectorShapes {
+		_copy := instance.GongCopy().(*ArcNormalVectorShape)
+		stage.ArcNormalVectorShapes_reference[instance] = _copy
+		stage.ArcNormalVectorShapes_instance[_copy] = instance
+		stage.ArcNormalVectorShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.ArcNormalVectorShapeGrids_reference = make(map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid)
+	stage.ArcNormalVectorShapeGrids_referenceOrder = make(map[*ArcNormalVectorShapeGrid]uint) // diff Unstage needs the reference order
+	stage.ArcNormalVectorShapeGrids_instance = make(map[*ArcNormalVectorShapeGrid]*ArcNormalVectorShapeGrid)
+	for instance := range stage.ArcNormalVectorShapeGrids {
+		_copy := instance.GongCopy().(*ArcNormalVectorShapeGrid)
+		stage.ArcNormalVectorShapeGrids_reference[instance] = _copy
+		stage.ArcNormalVectorShapeGrids_instance[_copy] = instance
+		stage.ArcNormalVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.AxesShapes_reference = make(map[*AxesShape]*AxesShape)
 	stage.AxesShapes_referenceOrder = make(map[*AxesShape]uint) // diff Unstage needs the reference order
 	stage.AxesShapes_instance = make(map[*AxesShape]*AxesShape)
@@ -3357,6 +3540,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.ArcNormalVectorShapes {
+		reference := stage.ArcNormalVectorShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ArcNormalVectorShapeGrids {
+		reference := stage.ArcNormalVectorShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.AxesShapes {
 		reference := stage.AxesShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -3547,6 +3740,30 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ArcNormalVectorShape_stagedOrder[arcnormalvectorshape]; ok {
+		return order
+	}
+	if order, ok := stage.ArcNormalVectorShapes_referenceOrder[arcnormalvectorshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ArcNormalVectorShape was not staged and does not have a reference order", arcnormalvectorshape)
+		return 0
+	}
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ArcNormalVectorShapeGrid_stagedOrder[arcnormalvectorshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.ArcNormalVectorShapeGrids_referenceOrder[arcnormalvectorshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ArcNormalVectorShapeGrid was not staged and does not have a reference order", arcnormalvectorshapegrid)
+		return 0
+	}
+}
+
 func (axesshape *AxesShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.AxesShape_stagedOrder[axesshape]; ok {
 		return order
@@ -3984,6 +4201,24 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongGetOrder(stage *Stage) uint 
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", arcnormalvectorshape.GongGetGongstructName(), arcnormalvectorshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (arcnormalvectorshape *ArcNormalVectorShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", arcnormalvectorshape.GongGetGongstructName(), arcnormalvectorshape.GongGetOrder(stage))
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", arcnormalvectorshapegrid.GongGetGongstructName(), arcnormalvectorshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", arcnormalvectorshapegrid.GongGetGongstructName(), arcnormalvectorshapegrid.GongGetOrder(stage))
+}
+
 func (axesshape *AxesShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", axesshape.GongGetGongstructName(), axesshape.GongGetOrder(stage))
 }
@@ -4311,6 +4546,22 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongGetReferenceIdentifier(stage
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArcNormalVectorShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arcnormalvectorshape.Name))
+	return
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArcNormalVectorShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(arcnormalvectorshapegrid.Name))
+	return
+}
+
 func (axesshape *AxesShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
@@ -4600,6 +4851,18 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongMarshallIdentifier(stage *St
 }
 
 // insertion point for unstaging
+func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetReferenceIdentifier(stage))
