@@ -691,6 +691,36 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	topEndArcShapeV2Grid := plant.TopEndArcShapeV2Grid
+	if topEndArcShapeV2Grid != nil {
+		node := &tree.Node{
+			Name:            topEndArcShapeV2Grid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topEndArcShapeV2Grid, GetPointerToGongstructName[*TopEndArcShapeV2Grid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopEndArcShapeV2Grid = !plantDiagram.IsHiddenTopEndArcShapeV2Grid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopEndArcShapeV2Grid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	if growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid; growthCurveBezierShapeGrid != nil {
 		node := &tree.Node{
 			Name: "GrowthCurveBezierShapeGrid",

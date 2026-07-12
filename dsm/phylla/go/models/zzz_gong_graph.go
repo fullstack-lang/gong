@@ -121,6 +121,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *StartArcShapeV2Grid:
 		ok = stage.IsStagedStartArcShapeV2Grid(target)
 
+	case *TopEndArcShapeV2:
+		ok = stage.IsStagedTopEndArcShapeV2(target)
+
+	case *TopEndArcShapeV2Grid:
+		ok = stage.IsStagedTopEndArcShapeV2Grid(target)
+
 	case *TopStartArcShapeV2:
 		ok = stage.IsStagedTopStartArcShapeV2(target)
 
@@ -250,6 +256,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StartArcShapeV2Grid:
 		ok = stage.IsStagedStartArcShapeV2Grid(target)
+
+	case *TopEndArcShapeV2:
+		ok = stage.IsStagedTopEndArcShapeV2(target)
+
+	case *TopEndArcShapeV2Grid:
+		ok = stage.IsStagedTopEndArcShapeV2Grid(target)
 
 	case *TopStartArcShapeV2:
 		ok = stage.IsStagedTopStartArcShapeV2(target)
@@ -530,6 +542,20 @@ func (stage *Stage) IsStagedStartArcShapeV2Grid(startarcshapev2grid *StartArcSha
 	return
 }
 
+func (stage *Stage) IsStagedTopEndArcShapeV2(topendarcshapev2 *TopEndArcShapeV2) (ok bool) {
+
+	_, ok = stage.TopEndArcShapeV2s[topendarcshapev2]
+
+	return
+}
+
+func (stage *Stage) IsStagedTopEndArcShapeV2Grid(topendarcshapev2grid *TopEndArcShapeV2Grid) (ok bool) {
+
+	_, ok = stage.TopEndArcShapeV2Grids[topendarcshapev2grid]
+
+	return
+}
+
 func (stage *Stage) IsStagedTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2) (ok bool) {
 
 	_, ok = stage.TopStartArcShapeV2s[topstartarcshapev2]
@@ -665,6 +691,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StartArcShapeV2Grid:
 		stage.StageBranchStartArcShapeV2Grid(target)
+
+	case *TopEndArcShapeV2:
+		stage.StageBranchTopEndArcShapeV2(target)
+
+	case *TopEndArcShapeV2Grid:
+		stage.StageBranchTopEndArcShapeV2Grid(target)
 
 	case *TopStartArcShapeV2:
 		stage.StageBranchTopStartArcShapeV2(target)
@@ -1159,6 +1191,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.EndArcShapeV2Grid != nil {
 		StageBranch(stage, plant.EndArcShapeV2Grid)
 	}
+	if plant.TopEndArcShapeV2Grid != nil {
+		StageBranch(stage, plant.TopEndArcShapeV2Grid)
+	}
 	if plant.GrowthCurveBezierShapeGrid != nil {
 		StageBranch(stage, plant.GrowthCurveBezierShapeGrid)
 	}
@@ -1368,6 +1403,39 @@ func (stage *Stage) StageBranchStartArcShapeV2Grid(startarcshapev2grid *StartArc
 
 }
 
+func (stage *Stage) StageBranchTopEndArcShapeV2(topendarcshapev2 *TopEndArcShapeV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, topendarcshapev2) {
+		return
+	}
+
+	topendarcshapev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchTopEndArcShapeV2Grid(topendarcshapev2grid *TopEndArcShapeV2Grid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, topendarcshapev2grid) {
+		return
+	}
+
+	topendarcshapev2grid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _topendarcshapev2 := range topendarcshapev2grid.TopEndArcShapesV2 {
+		StageBranch(stage, _topendarcshapev2)
+	}
+
+}
+
 func (stage *Stage) StageBranchTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2) {
 
 	// check if instance is already staged
@@ -1562,6 +1630,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StartArcShapeV2Grid:
 		toT := CopyBranchStartArcShapeV2Grid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TopEndArcShapeV2:
+		toT := CopyBranchTopEndArcShapeV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TopEndArcShapeV2Grid:
+		toT := CopyBranchTopEndArcShapeV2Grid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TopStartArcShapeV2:
@@ -2163,6 +2239,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.EndArcShapeV2Grid != nil {
 		plantTo.EndArcShapeV2Grid = CopyBranchEndArcShapeV2Grid(mapOrigCopy, plantFrom.EndArcShapeV2Grid)
 	}
+	if plantFrom.TopEndArcShapeV2Grid != nil {
+		plantTo.TopEndArcShapeV2Grid = CopyBranchTopEndArcShapeV2Grid(mapOrigCopy, plantFrom.TopEndArcShapeV2Grid)
+	}
 	if plantFrom.GrowthCurveBezierShapeGrid != nil {
 		plantTo.GrowthCurveBezierShapeGrid = CopyBranchGrowthCurveBezierShapeGrid(mapOrigCopy, plantFrom.GrowthCurveBezierShapeGrid)
 	}
@@ -2421,6 +2500,47 @@ func CopyBranchStartArcShapeV2Grid(mapOrigCopy map[any]any, startarcshapev2gridF
 	return
 }
 
+func CopyBranchTopEndArcShapeV2(mapOrigCopy map[any]any, topendarcshapev2From *TopEndArcShapeV2) (topendarcshapev2To *TopEndArcShapeV2) {
+
+	// topendarcshapev2From has already been copied
+	if _topendarcshapev2To, ok := mapOrigCopy[topendarcshapev2From]; ok {
+		topendarcshapev2To = _topendarcshapev2To.(*TopEndArcShapeV2)
+		return
+	}
+
+	topendarcshapev2To = new(TopEndArcShapeV2)
+	mapOrigCopy[topendarcshapev2From] = topendarcshapev2To
+	topendarcshapev2From.CopyBasicFields(topendarcshapev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchTopEndArcShapeV2Grid(mapOrigCopy map[any]any, topendarcshapev2gridFrom *TopEndArcShapeV2Grid) (topendarcshapev2gridTo *TopEndArcShapeV2Grid) {
+
+	// topendarcshapev2gridFrom has already been copied
+	if _topendarcshapev2gridTo, ok := mapOrigCopy[topendarcshapev2gridFrom]; ok {
+		topendarcshapev2gridTo = _topendarcshapev2gridTo.(*TopEndArcShapeV2Grid)
+		return
+	}
+
+	topendarcshapev2gridTo = new(TopEndArcShapeV2Grid)
+	mapOrigCopy[topendarcshapev2gridFrom] = topendarcshapev2gridTo
+	topendarcshapev2gridFrom.CopyBasicFields(topendarcshapev2gridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _topendarcshapev2 := range topendarcshapev2gridFrom.TopEndArcShapesV2 {
+		topendarcshapev2gridTo.TopEndArcShapesV2 = append(topendarcshapev2gridTo.TopEndArcShapesV2, CopyBranchTopEndArcShapeV2(mapOrigCopy, _topendarcshapev2))
+	}
+
+	return
+}
+
 func CopyBranchTopStartArcShapeV2(mapOrigCopy map[any]any, topstartarcshapev2From *TopStartArcShapeV2) (topstartarcshapev2To *TopStartArcShapeV2) {
 
 	// topstartarcshapev2From has already been copied
@@ -2583,6 +2703,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StartArcShapeV2Grid:
 		stage.UnstageBranchStartArcShapeV2Grid(target)
+
+	case *TopEndArcShapeV2:
+		stage.UnstageBranchTopEndArcShapeV2(target)
+
+	case *TopEndArcShapeV2Grid:
+		stage.UnstageBranchTopEndArcShapeV2Grid(target)
 
 	case *TopStartArcShapeV2:
 		stage.UnstageBranchTopStartArcShapeV2(target)
@@ -3077,6 +3203,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.EndArcShapeV2Grid != nil {
 		UnstageBranch(stage, plant.EndArcShapeV2Grid)
 	}
+	if plant.TopEndArcShapeV2Grid != nil {
+		UnstageBranch(stage, plant.TopEndArcShapeV2Grid)
+	}
 	if plant.GrowthCurveBezierShapeGrid != nil {
 		UnstageBranch(stage, plant.GrowthCurveBezierShapeGrid)
 	}
@@ -3282,6 +3411,39 @@ func (stage *Stage) UnstageBranchStartArcShapeV2Grid(startarcshapev2grid *StartA
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _startarcshapev2 := range startarcshapev2grid.StartArcShapesV2 {
 		UnstageBranch(stage, _startarcshapev2)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchTopEndArcShapeV2(topendarcshapev2 *TopEndArcShapeV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, topendarcshapev2) {
+		return
+	}
+
+	topendarcshapev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTopEndArcShapeV2Grid(topendarcshapev2grid *TopEndArcShapeV2Grid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, topendarcshapev2grid) {
+		return
+	}
+
+	topendarcshapev2grid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _topendarcshapev2 := range topendarcshapev2grid.TopEndArcShapesV2 {
+		UnstageBranch(stage, _topendarcshapev2)
 	}
 
 }
@@ -3554,6 +3716,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.EndArcShapeV2Grid != nil {
 		reference.EndArcShapeV2Grid = stage.EndArcShapeV2Grids_reference[instance.EndArcShapeV2Grid]
 	}
+	if instance.TopEndArcShapeV2Grid != nil {
+		reference.TopEndArcShapeV2Grid = stage.TopEndArcShapeV2Grids_reference[instance.TopEndArcShapeV2Grid]
+	}
 	if instance.GrowthCurveBezierShapeGrid != nil {
 		reference.GrowthCurveBezierShapeGrid = stage.GrowthCurveBezierShapeGrids_reference[instance.GrowthCurveBezierShapeGrid]
 	}
@@ -3643,6 +3808,20 @@ func (reference *StartArcShapeV2Grid) GongReconstructPointersFromReferences(stag
 	reference.StartArcShapesV2 = reference.StartArcShapesV2[:0]
 	for _, _b := range instance.StartArcShapesV2 {
 		reference.StartArcShapesV2 = append(reference.StartArcShapesV2, stage.StartArcShapeV2s_reference[_b])
+	}
+}
+
+func (reference *TopEndArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *TopEndArcShapeV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *TopEndArcShapeV2Grid) GongReconstructPointersFromReferences(stage *Stage, instance *TopEndArcShapeV2Grid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.TopEndArcShapesV2 = reference.TopEndArcShapesV2[:0]
+	for _, _b := range instance.TopEndArcShapesV2 {
+		reference.TopEndArcShapesV2 = append(reference.TopEndArcShapesV2, stage.TopEndArcShapeV2s_reference[_b])
 	}
 }
 
@@ -3991,6 +4170,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.EndArcShapeV2Grid = _instance
 		}
 	}
+	if _reference := reference.TopEndArcShapeV2Grid; _reference != nil {
+		reference.TopEndArcShapeV2Grid = nil
+		if _instance, ok := stage.TopEndArcShapeV2Grids_instance[_reference]; ok {
+			reference.TopEndArcShapeV2Grid = _instance
+		}
+	}
 	if _reference := reference.GrowthCurveBezierShapeGrid; _reference != nil {
 		reference.GrowthCurveBezierShapeGrid = nil
 		if _instance, ok := stage.GrowthCurveBezierShapeGrids_instance[_reference]; ok {
@@ -4105,6 +4290,23 @@ func (reference *StartArcShapeV2Grid) GongReconstructPointersFromInstances(stage
 		}
 	}
 	reference.StartArcShapesV2 = _StartArcShapesV2
+}
+
+func (reference *TopEndArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *TopEndArcShapeV2Grid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _TopEndArcShapesV2 []*TopEndArcShapeV2
+	for _, _reference := range reference.TopEndArcShapesV2 {
+		if _instance, ok := stage.TopEndArcShapeV2s_instance[_reference]; ok {
+			_TopEndArcShapesV2 = append(_TopEndArcShapesV2, _instance)
+		}
+	}
+	reference.TopEndArcShapesV2 = _TopEndArcShapesV2
 }
 
 func (reference *TopStartArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
@@ -5004,6 +5206,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeV2Grid"))
 		}
 	}
+	if (plant.TopEndArcShapeV2Grid == nil) != (plantOther.TopEndArcShapeV2Grid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "TopEndArcShapeV2Grid"))
+	} else if plant.TopEndArcShapeV2Grid != nil && plantOther.TopEndArcShapeV2Grid != nil {
+		if plant.TopEndArcShapeV2Grid != plantOther.TopEndArcShapeV2Grid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "TopEndArcShapeV2Grid"))
+		}
+	}
 	if (plant.GrowthCurveBezierShapeGrid == nil) != (plantOther.GrowthCurveBezierShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 	} else if plant.GrowthCurveBezierShapeGrid != nil && plantOther.GrowthCurveBezierShapeGrid != nil {
@@ -5114,6 +5323,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenEndArcShapeV2Grid != plantdiagramOther.IsHiddenEndArcShapeV2Grid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeV2Grid"))
+	}
+	if plantdiagram.IsHiddenTopEndArcShapeV2Grid != plantdiagramOther.IsHiddenTopEndArcShapeV2Grid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopEndArcShapeV2Grid"))
 	}
 	if plantdiagram.IsHiddenGrowthCurveBezierShapeGrid != plantdiagramOther.IsHiddenGrowthCurveBezierShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
@@ -5440,6 +5652,76 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongDiff(stage *Stage, startarcs
 	}
 	if StartArcShapesV2Different {
 		ops := Diff(stage, startarcshapev2grid, startarcshapev2gridOther, "StartArcShapesV2", startarcshapev2gridOther.StartArcShapesV2, startarcshapev2grid.StartArcShapesV2)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (topendarcshapev2 *TopEndArcShapeV2) GongDiff(stage *Stage, topendarcshapev2Other *TopEndArcShapeV2) (diffs []string) {
+	// insertion point for field diffs
+	if topendarcshapev2.Name != topendarcshapev2Other.Name {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "Name"))
+	}
+	if topendarcshapev2.StartX != topendarcshapev2Other.StartX {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "StartX"))
+	}
+	if topendarcshapev2.StartY != topendarcshapev2Other.StartY {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "StartY"))
+	}
+	if topendarcshapev2.EndX != topendarcshapev2Other.EndX {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "EndX"))
+	}
+	if topendarcshapev2.EndY != topendarcshapev2Other.EndY {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "EndY"))
+	}
+	if topendarcshapev2.XAxisRotation != topendarcshapev2Other.XAxisRotation {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if topendarcshapev2.LargeArcFlag != topendarcshapev2Other.LargeArcFlag {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if topendarcshapev2.SweepFlag != topendarcshapev2Other.SweepFlag {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+	}
+	if topendarcshapev2.RadiusX != topendarcshapev2Other.RadiusX {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "RadiusX"))
+	}
+	if topendarcshapev2.RadiusY != topendarcshapev2Other.RadiusY {
+		diffs = append(diffs, topendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (topendarcshapev2grid *TopEndArcShapeV2Grid) GongDiff(stage *Stage, topendarcshapev2gridOther *TopEndArcShapeV2Grid) (diffs []string) {
+	// insertion point for field diffs
+	if topendarcshapev2grid.Name != topendarcshapev2gridOther.Name {
+		diffs = append(diffs, topendarcshapev2grid.GongMarshallField(stage, "Name"))
+	}
+	TopEndArcShapesV2Different := false
+	if len(topendarcshapev2grid.TopEndArcShapesV2) != len(topendarcshapev2gridOther.TopEndArcShapesV2) {
+		TopEndArcShapesV2Different = true
+	} else {
+		for i := range topendarcshapev2grid.TopEndArcShapesV2 {
+			if (topendarcshapev2grid.TopEndArcShapesV2[i] == nil) != (topendarcshapev2gridOther.TopEndArcShapesV2[i] == nil) {
+				TopEndArcShapesV2Different = true
+				break
+			} else if topendarcshapev2grid.TopEndArcShapesV2[i] != nil && topendarcshapev2gridOther.TopEndArcShapesV2[i] != nil {
+				// this is a pointer comparaison
+				if topendarcshapev2grid.TopEndArcShapesV2[i] != topendarcshapev2gridOther.TopEndArcShapesV2[i] {
+					TopEndArcShapesV2Different = true
+					break
+				}
+			}
+		}
+	}
+	if TopEndArcShapesV2Different {
+		ops := Diff(stage, topendarcshapev2grid, topendarcshapev2gridOther, "TopEndArcShapesV2", topendarcshapev2gridOther.TopEndArcShapesV2, topendarcshapev2grid.TopEndArcShapesV2)
 		diffs = append(diffs, ops)
 	}
 

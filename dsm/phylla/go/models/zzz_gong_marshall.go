@@ -1057,6 +1057,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStartArcShapeV2Grid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndArcShapeV2Grid"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopEndArcShapeV2Grid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve"))
 	}
@@ -1136,6 +1137,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeV2Grid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeV2Grid"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopEndArcShapeV2Grid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
@@ -1443,6 +1445,68 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(startarcshapev2grid.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(startarcshapev2grid.GongMarshallField(stage, "StartArcShapesV2"))
+	}
+
+	topendarcshapev2Ordered := []*TopEndArcShapeV2{}
+	for topendarcshapev2 := range stage.TopEndArcShapeV2s {
+		topendarcshapev2Ordered = append(topendarcshapev2Ordered, topendarcshapev2)
+	}
+	sort.Slice(topendarcshapev2Ordered[:], func(i, j int) bool {
+		topendarcshapev2i := topendarcshapev2Ordered[i]
+		topendarcshapev2j := topendarcshapev2Ordered[j]
+		topendarcshapev2i_order, oki := stage.TopEndArcShapeV2_stagedOrder[topendarcshapev2i]
+		topendarcshapev2j_order, okj := stage.TopEndArcShapeV2_stagedOrder[topendarcshapev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topendarcshapev2i_order < topendarcshapev2j_order
+	})
+	if len(topendarcshapev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topendarcshapev2 := range topendarcshapev2Ordered {
+
+		identifiersDecl.WriteString(topendarcshapev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	topendarcshapev2gridOrdered := []*TopEndArcShapeV2Grid{}
+	for topendarcshapev2grid := range stage.TopEndArcShapeV2Grids {
+		topendarcshapev2gridOrdered = append(topendarcshapev2gridOrdered, topendarcshapev2grid)
+	}
+	sort.Slice(topendarcshapev2gridOrdered[:], func(i, j int) bool {
+		topendarcshapev2gridi := topendarcshapev2gridOrdered[i]
+		topendarcshapev2gridj := topendarcshapev2gridOrdered[j]
+		topendarcshapev2gridi_order, oki := stage.TopEndArcShapeV2Grid_stagedOrder[topendarcshapev2gridi]
+		topendarcshapev2gridj_order, okj := stage.TopEndArcShapeV2Grid_stagedOrder[topendarcshapev2gridj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topendarcshapev2gridi_order < topendarcshapev2gridj_order
+	})
+	if len(topendarcshapev2gridOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topendarcshapev2grid := range topendarcshapev2gridOrdered {
+
+		identifiersDecl.WriteString(topendarcshapev2grid.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "TopEndArcShapesV2"))
 	}
 
 	topstartarcshapev2Ordered := []*TopStartArcShapeV2{}
@@ -1806,6 +1870,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, startarcshapev2grid := range startarcshapev2gridOrdered {
 		_ = startarcshapev2grid
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, topendarcshapev2 := range topendarcshapev2Ordered {
+		_ = topendarcshapev2
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, topendarcshapev2grid := range topendarcshapev2gridOrdered {
+		_ = topendarcshapev2grid
 		var setPointerField string
 		_ = setPointerField
 
@@ -2989,6 +3069,19 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndArcShapeV2Grid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "TopEndArcShapeV2Grid":
+		if plant.TopEndArcShapeV2Grid != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopEndArcShapeV2Grid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.TopEndArcShapeV2Grid.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopEndArcShapeV2Grid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "GrowthCurveBezierShapeGrid":
 		if plant.GrowthCurveBezierShapeGrid != nil {
 			res = PointerFieldInitStatement
@@ -3169,6 +3262,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenEndArcShapeV2Grid")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeV2Grid))
+	case "IsHiddenTopEndArcShapeV2Grid":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTopEndArcShapeV2Grid")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenTopEndArcShapeV2Grid))
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -3585,6 +3683,91 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongMarshallField(stage *Stage, 
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StartArcShapeV2Grid", fieldName)
+	}
+	return
+}
+
+func (topendarcshapev2 *TopEndArcShapeV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendarcshapev2.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.EndY))
+	case "XAxisRotation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.XAxisRotation))
+	case "LargeArcFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", topendarcshapev2.LargeArcFlag))
+	case "SweepFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", topendarcshapev2.SweepFlag))
+	case "RadiusX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.RadiusX))
+	case "RadiusY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topendarcshapev2.RadiusY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopEndArcShapeV2", fieldName)
+	}
+	return
+}
+
+func (topendarcshapev2grid *TopEndArcShapeV2Grid) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topendarcshapev2grid.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topendarcshapev2grid.Name))
+
+	case "TopEndArcShapesV2":
+		var sb strings.Builder
+		for _, _topendarcshapev2 := range topendarcshapev2grid.TopEndArcShapesV2 {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", topendarcshapev2grid.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TopEndArcShapesV2")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _topendarcshapev2.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopEndArcShapeV2Grid", fieldName)
 	}
 	return
 }
@@ -4055,6 +4238,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStartArcShapeV2Grid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndArcShapeV2Grid"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopEndArcShapeV2Grid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve"))
 	}
@@ -4104,6 +4288,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeV2Grid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeV2Grid"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopEndArcShapeV2Grid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
@@ -4261,6 +4446,38 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongMarshallAllFields(stage *Sta
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(startarcshapev2grid.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(startarcshapev2grid.GongMarshallField(stage, "StartArcShapesV2"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (topendarcshapev2 *TopEndArcShapeV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(topendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (topendarcshapev2grid *TopEndArcShapeV2Grid) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "TopEndArcShapesV2"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

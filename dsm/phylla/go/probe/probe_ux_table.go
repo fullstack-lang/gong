@@ -100,6 +100,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StartArcShapeV2](probe)
 	case "StartArcShapeV2Grid":
 		updateProbeTable[*models.StartArcShapeV2Grid](probe)
+	case "TopEndArcShapeV2":
+		updateProbeTable[*models.TopEndArcShapeV2](probe)
+	case "TopEndArcShapeV2Grid":
+		updateProbeTable[*models.TopEndArcShapeV2Grid](probe)
 	case "TopStartArcShapeV2":
 		updateProbeTable[*models.TopStartArcShapeV2](probe)
 	case "TopStartArcShapeV2Grid":
