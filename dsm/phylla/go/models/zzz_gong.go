@@ -225,6 +225,38 @@ type Stage struct {
 	OnAfterEndArcShapeGridDeleteCallback OnAfterDeleteInterface[EndArcShapeGrid]
 	OnAfterEndArcShapeGridReadCallback   OnAfterReadInterface[EndArcShapeGrid]
 
+	EndArcShapeV2s                map[*EndArcShapeV2]struct{}
+	EndArcShapeV2s_instance       map[*EndArcShapeV2]*EndArcShapeV2
+	EndArcShapeV2s_mapString      map[string]*EndArcShapeV2
+	EndArcShapeV2Order            uint
+	EndArcShapeV2_stagedOrder     map[*EndArcShapeV2]uint
+	EndArcShapeV2_orderStaged     map[uint]*EndArcShapeV2
+	EndArcShapeV2s_reference      map[*EndArcShapeV2]*EndArcShapeV2
+	EndArcShapeV2s_referenceOrder map[*EndArcShapeV2]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEndArcShapeV2CreateCallback OnAfterCreateInterface[EndArcShapeV2]
+	OnAfterEndArcShapeV2UpdateCallback OnAfterUpdateInterface[EndArcShapeV2]
+	OnAfterEndArcShapeV2DeleteCallback OnAfterDeleteInterface[EndArcShapeV2]
+	OnAfterEndArcShapeV2ReadCallback   OnAfterReadInterface[EndArcShapeV2]
+
+	EndArcShapeV2Grids                map[*EndArcShapeV2Grid]struct{}
+	EndArcShapeV2Grids_instance       map[*EndArcShapeV2Grid]*EndArcShapeV2Grid
+	EndArcShapeV2Grids_mapString      map[string]*EndArcShapeV2Grid
+	EndArcShapeV2GridOrder            uint
+	EndArcShapeV2Grid_stagedOrder     map[*EndArcShapeV2Grid]uint
+	EndArcShapeV2Grid_orderStaged     map[uint]*EndArcShapeV2Grid
+	EndArcShapeV2Grids_reference      map[*EndArcShapeV2Grid]*EndArcShapeV2Grid
+	EndArcShapeV2Grids_referenceOrder map[*EndArcShapeV2Grid]uint
+
+	// insertion point for slice of pointers maps
+	EndArcShapeV2Grid_EndArcShapesV2_reverseMap map[*EndArcShapeV2]*EndArcShapeV2Grid
+
+	OnAfterEndArcShapeV2GridCreateCallback OnAfterCreateInterface[EndArcShapeV2Grid]
+	OnAfterEndArcShapeV2GridUpdateCallback OnAfterUpdateInterface[EndArcShapeV2Grid]
+	OnAfterEndArcShapeV2GridDeleteCallback OnAfterDeleteInterface[EndArcShapeV2Grid]
+	OnAfterEndArcShapeV2GridReadCallback   OnAfterReadInterface[EndArcShapeV2Grid]
+
 	ExplanationTextShapes                map[*ExplanationTextShape]struct{}
 	ExplanationTextShapes_instance       map[*ExplanationTextShape]*ExplanationTextShape
 	ExplanationTextShapes_mapString      map[string]*ExplanationTextShape
@@ -929,6 +961,14 @@ func (stage *Stage) Squash() {
 	stage.EndArcShapeGrids_instance = make(map[*EndArcShapeGrid]*EndArcShapeGrid)
 	stage.EndArcShapeGrids_referenceOrder = make(map[*EndArcShapeGrid]uint)
 
+	stage.EndArcShapeV2s_reference = make(map[*EndArcShapeV2]*EndArcShapeV2)
+	stage.EndArcShapeV2s_instance = make(map[*EndArcShapeV2]*EndArcShapeV2)
+	stage.EndArcShapeV2s_referenceOrder = make(map[*EndArcShapeV2]uint)
+
+	stage.EndArcShapeV2Grids_reference = make(map[*EndArcShapeV2Grid]*EndArcShapeV2Grid)
+	stage.EndArcShapeV2Grids_instance = make(map[*EndArcShapeV2Grid]*EndArcShapeV2Grid)
+	stage.EndArcShapeV2Grids_referenceOrder = make(map[*EndArcShapeV2Grid]uint)
+
 	stage.ExplanationTextShapes_reference = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_instance = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_referenceOrder = make(map[*ExplanationTextShape]uint)
@@ -1150,6 +1190,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.EndArcShapeGridOrder = maxEndArcShapeGridOrder + 1
 	} else {
 		stage.EndArcShapeGridOrder = 0
+	}
+
+	var maxEndArcShapeV2Order uint
+	var foundEndArcShapeV2 bool
+	for _, order := range stage.EndArcShapeV2_stagedOrder {
+		if !foundEndArcShapeV2 || order > maxEndArcShapeV2Order {
+			maxEndArcShapeV2Order = order
+			foundEndArcShapeV2 = true
+		}
+	}
+	if foundEndArcShapeV2 {
+		stage.EndArcShapeV2Order = maxEndArcShapeV2Order + 1
+	} else {
+		stage.EndArcShapeV2Order = 0
+	}
+
+	var maxEndArcShapeV2GridOrder uint
+	var foundEndArcShapeV2Grid bool
+	for _, order := range stage.EndArcShapeV2Grid_stagedOrder {
+		if !foundEndArcShapeV2Grid || order > maxEndArcShapeV2GridOrder {
+			maxEndArcShapeV2GridOrder = order
+			foundEndArcShapeV2Grid = true
+		}
+	}
+	if foundEndArcShapeV2Grid {
+		stage.EndArcShapeV2GridOrder = maxEndArcShapeV2GridOrder + 1
+	} else {
+		stage.EndArcShapeV2GridOrder = 0
 	}
 
 	var maxExplanationTextShapeOrder uint
@@ -1689,6 +1757,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *EndArcShapeV2:
+		tmp := GetStructInstancesByOrder(stage.EndArcShapeV2s, stage.EndArcShapeV2_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EndArcShapeV2 implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EndArcShapeV2Grid:
+		tmp := GetStructInstancesByOrder(stage.EndArcShapeV2Grids, stage.EndArcShapeV2Grid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EndArcShapeV2Grid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *ExplanationTextShape:
 		tmp := GetStructInstancesByOrder(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
 
@@ -2122,6 +2218,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 	case "EndArcShapeGrid":
 		res = GetNamedStructInstances(stage.EndArcShapeGrids, stage.EndArcShapeGrid_stagedOrder)
+	case "EndArcShapeV2":
+		res = GetNamedStructInstances(stage.EndArcShapeV2s, stage.EndArcShapeV2_stagedOrder)
+	case "EndArcShapeV2Grid":
+		res = GetNamedStructInstances(stage.EndArcShapeV2Grids, stage.EndArcShapeV2Grid_stagedOrder)
 	case "ExplanationTextShape":
 		res = GetNamedStructInstances(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
 	case "GridPathShape":
@@ -2259,6 +2359,10 @@ type BackRepoInterface interface {
 	CheckoutEndArcShape(endarcshape *EndArcShape)
 	CommitEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
 	CheckoutEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
+	CommitEndArcShapeV2(endarcshapev2 *EndArcShapeV2)
+	CheckoutEndArcShapeV2(endarcshapev2 *EndArcShapeV2)
+	CommitEndArcShapeV2Grid(endarcshapev2grid *EndArcShapeV2Grid)
+	CheckoutEndArcShapeV2Grid(endarcshapev2grid *EndArcShapeV2Grid)
 	CommitExplanationTextShape(explanationtextshape *ExplanationTextShape)
 	CheckoutExplanationTextShape(explanationtextshape *ExplanationTextShape)
 	CommitGridPathShape(gridpathshape *GridPathShape)
@@ -2338,6 +2442,12 @@ func NewStage(name string) (stage *Stage) {
 
 		EndArcShapeGrids:           make(map[*EndArcShapeGrid]struct{}),
 		EndArcShapeGrids_mapString: make(map[string]*EndArcShapeGrid),
+
+		EndArcShapeV2s:           make(map[*EndArcShapeV2]struct{}),
+		EndArcShapeV2s_mapString: make(map[string]*EndArcShapeV2),
+
+		EndArcShapeV2Grids:           make(map[*EndArcShapeV2Grid]struct{}),
+		EndArcShapeV2Grids_mapString: make(map[string]*EndArcShapeV2Grid),
 
 		ExplanationTextShapes:           make(map[*ExplanationTextShape]struct{}),
 		ExplanationTextShapes_mapString: make(map[string]*ExplanationTextShape),
@@ -2456,6 +2566,14 @@ func NewStage(name string) (stage *Stage) {
 		EndArcShapeGrid_stagedOrder: make(map[*EndArcShapeGrid]uint),
 		EndArcShapeGrid_orderStaged: make(map[uint]*EndArcShapeGrid),
 		EndArcShapeGrids_reference:  make(map[*EndArcShapeGrid]*EndArcShapeGrid),
+
+		EndArcShapeV2_stagedOrder: make(map[*EndArcShapeV2]uint),
+		EndArcShapeV2_orderStaged: make(map[uint]*EndArcShapeV2),
+		EndArcShapeV2s_reference:  make(map[*EndArcShapeV2]*EndArcShapeV2),
+
+		EndArcShapeV2Grid_stagedOrder: make(map[*EndArcShapeV2Grid]uint),
+		EndArcShapeV2Grid_orderStaged: make(map[uint]*EndArcShapeV2Grid),
+		EndArcShapeV2Grids_reference:  make(map[*EndArcShapeV2Grid]*EndArcShapeV2Grid),
 
 		ExplanationTextShape_stagedOrder: make(map[*ExplanationTextShape]uint),
 		ExplanationTextShape_orderStaged: make(map[uint]*ExplanationTextShape),
@@ -2583,6 +2701,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"EndArcShapeGrid": &EndArcShapeGridUnmarshaller{},
 
+			"EndArcShapeV2": &EndArcShapeV2Unmarshaller{},
+
+			"EndArcShapeV2Grid": &EndArcShapeV2GridUnmarshaller{},
+
 			"ExplanationTextShape": &ExplanationTextShapeUnmarshaller{},
 
 			"GridPathShape": &GridPathShapeUnmarshaller{},
@@ -2649,6 +2771,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "CircleGridShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
+			{name: "EndArcShapeV2"},
+			{name: "EndArcShapeV2Grid"},
 			{name: "ExplanationTextShape"},
 			{name: "GridPathShape"},
 			{name: "GrowthCurveBezierShape"},
@@ -2700,6 +2824,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
 		return stage.EndArcShapeGrid_stagedOrder[instance]
+	case *EndArcShapeV2:
+		return stage.EndArcShapeV2_stagedOrder[instance]
+	case *EndArcShapeV2Grid:
+		return stage.EndArcShapeV2Grid_stagedOrder[instance]
 	case *ExplanationTextShape:
 		return stage.ExplanationTextShape_stagedOrder[instance]
 	case *GridPathShape:
@@ -2777,6 +2905,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.EndArcShape_orderStaged[order]).(Type)
 	case *EndArcShapeGrid:
 		return any(stage.EndArcShapeGrid_orderStaged[order]).(Type)
+	case *EndArcShapeV2:
+		return any(stage.EndArcShapeV2_orderStaged[order]).(Type)
+	case *EndArcShapeV2Grid:
+		return any(stage.EndArcShapeV2Grid_orderStaged[order]).(Type)
 	case *ExplanationTextShape:
 		return any(stage.ExplanationTextShape_orderStaged[order]).(Type)
 	case *GridPathShape:
@@ -2853,6 +2985,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
 		return stage.EndArcShapeGrid_stagedOrder[instance]
+	case *EndArcShapeV2:
+		return stage.EndArcShapeV2_stagedOrder[instance]
+	case *EndArcShapeV2Grid:
+		return stage.EndArcShapeV2Grid_stagedOrder[instance]
 	case *ExplanationTextShape:
 		return stage.ExplanationTextShape_stagedOrder[instance]
 	case *GridPathShape:
@@ -2980,6 +3116,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["EndArcShapeV2"] = len(stage.EndArcShapeV2s)
+	stage.Map_GongStructName_InstancesNb["EndArcShapeV2Grid"] = len(stage.EndArcShapeV2Grids)
 	stage.Map_GongStructName_InstancesNb["ExplanationTextShape"] = len(stage.ExplanationTextShapes)
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthCurveBezierShape"] = len(stage.GrowthCurveBezierShapes)
@@ -3574,6 +3712,182 @@ func (endarcshapegrid *EndArcShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (endarcshapegrid *EndArcShapeGrid) SetName(name string) {
 	endarcshapegrid.Name = name
+}
+
+// Stage puts endarcshapev2 to the model stage
+func (endarcshapev2 *EndArcShapeV2) Stage(stage *Stage) *EndArcShapeV2 {
+	if _, ok := stage.EndArcShapeV2s[endarcshapev2]; !ok {
+		stage.EndArcShapeV2s[endarcshapev2] = struct{}{}
+		stage.EndArcShapeV2_stagedOrder[endarcshapev2] = stage.EndArcShapeV2Order
+		stage.EndArcShapeV2_orderStaged[stage.EndArcShapeV2Order] = endarcshapev2
+		stage.EndArcShapeV2Order++
+	}
+	stage.EndArcShapeV2s_mapString[endarcshapev2.Name] = endarcshapev2
+
+	return endarcshapev2
+}
+
+// StagePreserveOrder puts endarcshapev2 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EndArcShapeV2Order
+// - update stage.EndArcShapeV2Order accordingly
+func (endarcshapev2 *EndArcShapeV2) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EndArcShapeV2s[endarcshapev2]; !ok {
+		stage.EndArcShapeV2s[endarcshapev2] = struct{}{}
+
+		if order > stage.EndArcShapeV2Order {
+			stage.EndArcShapeV2Order = order
+		}
+		stage.EndArcShapeV2_stagedOrder[endarcshapev2] = order
+		stage.EndArcShapeV2_orderStaged[order] = endarcshapev2
+		stage.EndArcShapeV2Order++
+	}
+	stage.EndArcShapeV2s_mapString[endarcshapev2.Name] = endarcshapev2
+}
+
+// Unstage removes endarcshapev2 off the model stage
+func (endarcshapev2 *EndArcShapeV2) Unstage(stage *Stage) *EndArcShapeV2 {
+	delete(stage.EndArcShapeV2s, endarcshapev2)
+	// issue1150
+	// delete(stage.EndArcShapeV2_stagedOrder, endarcshapev2)
+	delete(stage.EndArcShapeV2s_mapString, endarcshapev2.Name)
+
+	return endarcshapev2
+}
+
+// UnstageVoid removes endarcshapev2 off the model stage
+func (endarcshapev2 *EndArcShapeV2) UnstageVoid(stage *Stage) {
+	delete(stage.EndArcShapeV2s, endarcshapev2)
+	// issue1150
+	// delete(stage.EndArcShapeV2_stagedOrder, endarcshapev2)
+	delete(stage.EndArcShapeV2s_mapString, endarcshapev2.Name)
+}
+
+// commit endarcshapev2 to the back repo (if it is already staged)
+func (endarcshapev2 *EndArcShapeV2) Commit(stage *Stage) *EndArcShapeV2 {
+	if _, ok := stage.EndArcShapeV2s[endarcshapev2]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEndArcShapeV2(endarcshapev2)
+		}
+	}
+	return endarcshapev2
+}
+
+func (endarcshapev2 *EndArcShapeV2) CommitVoid(stage *Stage) {
+	endarcshapev2.Commit(stage)
+}
+
+func (endarcshapev2 *EndArcShapeV2) StageVoid(stage *Stage) {
+	endarcshapev2.Stage(stage)
+}
+
+// Checkout endarcshapev2 to the back repo (if it is already staged)
+func (endarcshapev2 *EndArcShapeV2) Checkout(stage *Stage) *EndArcShapeV2 {
+	if _, ok := stage.EndArcShapeV2s[endarcshapev2]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEndArcShapeV2(endarcshapev2)
+		}
+	}
+	return endarcshapev2
+}
+
+// for satisfaction of GongStruct interface
+func (endarcshapev2 *EndArcShapeV2) GetName() (res string) {
+	return endarcshapev2.Name
+}
+
+// for satisfaction of GongStruct interface
+func (endarcshapev2 *EndArcShapeV2) SetName(name string) {
+	endarcshapev2.Name = name
+}
+
+// Stage puts endarcshapev2grid to the model stage
+func (endarcshapev2grid *EndArcShapeV2Grid) Stage(stage *Stage) *EndArcShapeV2Grid {
+	if _, ok := stage.EndArcShapeV2Grids[endarcshapev2grid]; !ok {
+		stage.EndArcShapeV2Grids[endarcshapev2grid] = struct{}{}
+		stage.EndArcShapeV2Grid_stagedOrder[endarcshapev2grid] = stage.EndArcShapeV2GridOrder
+		stage.EndArcShapeV2Grid_orderStaged[stage.EndArcShapeV2GridOrder] = endarcshapev2grid
+		stage.EndArcShapeV2GridOrder++
+	}
+	stage.EndArcShapeV2Grids_mapString[endarcshapev2grid.Name] = endarcshapev2grid
+
+	return endarcshapev2grid
+}
+
+// StagePreserveOrder puts endarcshapev2grid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EndArcShapeV2GridOrder
+// - update stage.EndArcShapeV2GridOrder accordingly
+func (endarcshapev2grid *EndArcShapeV2Grid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EndArcShapeV2Grids[endarcshapev2grid]; !ok {
+		stage.EndArcShapeV2Grids[endarcshapev2grid] = struct{}{}
+
+		if order > stage.EndArcShapeV2GridOrder {
+			stage.EndArcShapeV2GridOrder = order
+		}
+		stage.EndArcShapeV2Grid_stagedOrder[endarcshapev2grid] = order
+		stage.EndArcShapeV2Grid_orderStaged[order] = endarcshapev2grid
+		stage.EndArcShapeV2GridOrder++
+	}
+	stage.EndArcShapeV2Grids_mapString[endarcshapev2grid.Name] = endarcshapev2grid
+}
+
+// Unstage removes endarcshapev2grid off the model stage
+func (endarcshapev2grid *EndArcShapeV2Grid) Unstage(stage *Stage) *EndArcShapeV2Grid {
+	delete(stage.EndArcShapeV2Grids, endarcshapev2grid)
+	// issue1150
+	// delete(stage.EndArcShapeV2Grid_stagedOrder, endarcshapev2grid)
+	delete(stage.EndArcShapeV2Grids_mapString, endarcshapev2grid.Name)
+
+	return endarcshapev2grid
+}
+
+// UnstageVoid removes endarcshapev2grid off the model stage
+func (endarcshapev2grid *EndArcShapeV2Grid) UnstageVoid(stage *Stage) {
+	delete(stage.EndArcShapeV2Grids, endarcshapev2grid)
+	// issue1150
+	// delete(stage.EndArcShapeV2Grid_stagedOrder, endarcshapev2grid)
+	delete(stage.EndArcShapeV2Grids_mapString, endarcshapev2grid.Name)
+}
+
+// commit endarcshapev2grid to the back repo (if it is already staged)
+func (endarcshapev2grid *EndArcShapeV2Grid) Commit(stage *Stage) *EndArcShapeV2Grid {
+	if _, ok := stage.EndArcShapeV2Grids[endarcshapev2grid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEndArcShapeV2Grid(endarcshapev2grid)
+		}
+	}
+	return endarcshapev2grid
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) CommitVoid(stage *Stage) {
+	endarcshapev2grid.Commit(stage)
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) StageVoid(stage *Stage) {
+	endarcshapev2grid.Stage(stage)
+}
+
+// Checkout endarcshapev2grid to the back repo (if it is already staged)
+func (endarcshapev2grid *EndArcShapeV2Grid) Checkout(stage *Stage) *EndArcShapeV2Grid {
+	if _, ok := stage.EndArcShapeV2Grids[endarcshapev2grid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEndArcShapeV2Grid(endarcshapev2grid)
+		}
+	}
+	return endarcshapev2grid
+}
+
+// for satisfaction of GongStruct interface
+func (endarcshapev2grid *EndArcShapeV2Grid) GetName() (res string) {
+	return endarcshapev2grid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (endarcshapev2grid *EndArcShapeV2Grid) SetName(name string) {
+	endarcshapev2grid.Name = name
 }
 
 // Stage puts explanationtextshape to the model stage
@@ -6048,6 +6362,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
+	CreateORMEndArcShapeV2(EndArcShapeV2 *EndArcShapeV2)
+	CreateORMEndArcShapeV2Grid(EndArcShapeV2Grid *EndArcShapeV2Grid)
 	CreateORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
 	CreateORMGrowthCurveBezierShape(GrowthCurveBezierShape *GrowthCurveBezierShape)
@@ -6085,6 +6401,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
+	DeleteORMEndArcShapeV2(EndArcShapeV2 *EndArcShapeV2)
+	DeleteORMEndArcShapeV2Grid(EndArcShapeV2Grid *EndArcShapeV2Grid)
 	DeleteORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
 	DeleteORMGrowthCurveBezierShape(GrowthCurveBezierShape *GrowthCurveBezierShape)
@@ -6145,6 +6463,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.EndArcShapeGrids_mapString = make(map[string]*EndArcShapeGrid)
 	stage.EndArcShapeGrid_stagedOrder = make(map[*EndArcShapeGrid]uint)
 	stage.EndArcShapeGridOrder = 0
+
+	stage.EndArcShapeV2s = make(map[*EndArcShapeV2]struct{})
+	stage.EndArcShapeV2s_mapString = make(map[string]*EndArcShapeV2)
+	stage.EndArcShapeV2_stagedOrder = make(map[*EndArcShapeV2]uint)
+	stage.EndArcShapeV2Order = 0
+
+	stage.EndArcShapeV2Grids = make(map[*EndArcShapeV2Grid]struct{})
+	stage.EndArcShapeV2Grids_mapString = make(map[string]*EndArcShapeV2Grid)
+	stage.EndArcShapeV2Grid_stagedOrder = make(map[*EndArcShapeV2Grid]uint)
+	stage.EndArcShapeV2GridOrder = 0
 
 	stage.ExplanationTextShapes = make(map[*ExplanationTextShape]struct{})
 	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
@@ -6313,6 +6641,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.EndArcShapeGrids = nil
 	stage.EndArcShapeGrids_mapString = nil
 
+	stage.EndArcShapeV2s = nil
+	stage.EndArcShapeV2s_mapString = nil
+
+	stage.EndArcShapeV2Grids = nil
+	stage.EndArcShapeV2Grids_mapString = nil
+
 	stage.ExplanationTextShapes = nil
 	stage.ExplanationTextShapes_mapString = nil
 
@@ -6423,6 +6757,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for endarcshapegrid := range stage.EndArcShapeGrids {
 		endarcshapegrid.Unstage(stage)
+	}
+
+	for endarcshapev2 := range stage.EndArcShapeV2s {
+		endarcshapev2.Unstage(stage)
+	}
+
+	for endarcshapev2grid := range stage.EndArcShapeV2Grids {
+		endarcshapev2grid.Unstage(stage)
 	}
 
 	for explanationtextshape := range stage.ExplanationTextShapes {
@@ -6625,6 +6967,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.EndArcShapes).(*Type)
 	case map[*EndArcShapeGrid]any:
 		return any(&stage.EndArcShapeGrids).(*Type)
+	case map[*EndArcShapeV2]any:
+		return any(&stage.EndArcShapeV2s).(*Type)
+	case map[*EndArcShapeV2Grid]any:
+		return any(&stage.EndArcShapeV2Grids).(*Type)
 	case map[*ExplanationTextShape]any:
 		return any(&stage.ExplanationTextShapes).(*Type)
 	case map[*GridPathShape]any:
@@ -6705,6 +7051,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.EndArcShapes_mapString).(map[string]Type)
 	case *EndArcShapeGrid:
 		return any(stage.EndArcShapeGrids_mapString).(map[string]Type)
+	case *EndArcShapeV2:
+		return any(stage.EndArcShapeV2s_mapString).(map[string]Type)
+	case *EndArcShapeV2Grid:
+		return any(stage.EndArcShapeV2Grids_mapString).(map[string]Type)
 	case *ExplanationTextShape:
 		return any(stage.ExplanationTextShapes_mapString).(map[string]Type)
 	case *GridPathShape:
@@ -6785,6 +7135,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.EndArcShapes).(*map[*Type]struct{})
 	case EndArcShapeGrid:
 		return any(&stage.EndArcShapeGrids).(*map[*Type]struct{})
+	case EndArcShapeV2:
+		return any(&stage.EndArcShapeV2s).(*map[*Type]struct{})
+	case EndArcShapeV2Grid:
+		return any(&stage.EndArcShapeV2Grids).(*map[*Type]struct{})
 	case ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes).(*map[*Type]struct{})
 	case GridPathShape:
@@ -6865,6 +7219,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.EndArcShapes).(*map[Type]struct{})
 	case *EndArcShapeGrid:
 		return any(&stage.EndArcShapeGrids).(*map[Type]struct{})
+	case *EndArcShapeV2:
+		return any(&stage.EndArcShapeV2s).(*map[Type]struct{})
+	case *EndArcShapeV2Grid:
+		return any(&stage.EndArcShapeV2Grids).(*map[Type]struct{})
 	case *ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes).(*map[Type]struct{})
 	case *GridPathShape:
@@ -6945,6 +7303,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.EndArcShapes_mapString).(*map[string]*Type)
 	case EndArcShapeGrid:
 		return any(&stage.EndArcShapeGrids_mapString).(*map[string]*Type)
+	case EndArcShapeV2:
+		return any(&stage.EndArcShapeV2s_mapString).(*map[string]*Type)
+	case EndArcShapeV2Grid:
+		return any(&stage.EndArcShapeV2Grids_mapString).(*map[string]*Type)
 	case ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes_mapString).(*map[string]*Type)
 	case GridPathShape:
@@ -7042,6 +7404,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of EndArcShape with the name of the field
 			EndArcShapes: []*EndArcShape{{Name: "EndArcShapes"}},
+		}).(*Type)
+	case EndArcShapeV2:
+		return any(&EndArcShapeV2{
+			// Initialisation of associations
+		}).(*Type)
+	case EndArcShapeV2Grid:
+		return any(&EndArcShapeV2Grid{
+			// Initialisation of associations
+			// field is initialized with an instance of EndArcShapeV2 with the name of the field
+			EndArcShapesV2: []*EndArcShapeV2{{Name: "EndArcShapesV2"}},
 		}).(*Type)
 	case ExplanationTextShape:
 		return any(&ExplanationTextShape{
@@ -7158,6 +7530,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StartArcShapeV2Grid: &StartArcShapeV2Grid{Name: "StartArcShapeV2Grid"},
 			// field is initialized with an instance of EndArcShapeGrid with the name of the field
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
+			// field is initialized with an instance of EndArcShapeV2Grid with the name of the field
+			EndArcShapeV2Grid: &EndArcShapeV2Grid{Name: "EndArcShapeV2Grid"},
 			// field is initialized with an instance of GrowthCurveBezierShapeGrid with the name of the field
 			GrowthCurveBezierShapeGrid: &GrowthCurveBezierShapeGrid{Name: "GrowthCurveBezierShapeGrid"},
 			// field is initialized with an instance of StackOfGrowthCurve with the name of the field
@@ -7265,6 +7639,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of EndArcShapeGrid
 	case EndArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EndArcShapeV2
+	case EndArcShapeV2:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EndArcShapeV2Grid
+	case EndArcShapeV2Grid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -7653,6 +8037,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "EndArcShapeV2Grid":
+			res := make(map[*EndArcShapeV2Grid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.EndArcShapeV2Grid != nil {
+					endarcshapev2grid_ := plant.EndArcShapeV2Grid
+					var plants []*Plant
+					_, ok := res[endarcshapev2grid_]
+					if ok {
+						plants = res[endarcshapev2grid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[endarcshapev2grid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "GrowthCurveBezierShapeGrid":
 			res := make(map[*GrowthCurveBezierShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -7822,6 +8223,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for endarcshapegrid := range stage.EndArcShapeGrids {
 				for _, endarcshape_ := range endarcshapegrid.EndArcShapes {
 					res[endarcshape_] = append(res[endarcshape_], endarcshapegrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of EndArcShapeV2
+	case EndArcShapeV2:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EndArcShapeV2Grid
+	case EndArcShapeV2Grid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "EndArcShapesV2":
+			res := make(map[*EndArcShapeV2][]*EndArcShapeV2Grid)
+			for endarcshapev2grid := range stage.EndArcShapeV2Grids {
+				for _, endarcshapev2_ := range endarcshapev2grid.EndArcShapesV2 {
+					res[endarcshapev2_] = append(res[endarcshapev2_], endarcshapev2grid)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -8085,6 +8504,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "EndArcShape"
 	case *EndArcShapeGrid:
 		res = "EndArcShapeGrid"
+	case *EndArcShapeV2:
+		res = "EndArcShapeV2"
+	case *EndArcShapeV2Grid:
+		res = "EndArcShapeV2Grid"
 	case *ExplanationTextShape:
 		res = "ExplanationTextShape"
 	case *GridPathShape:
@@ -8180,6 +8603,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "EndArcShapes"
 		res = append(res, rf)
 	case *EndArcShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *EndArcShapeV2:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "EndArcShapeV2Grid"
+		rf.Fieldname = "EndArcShapesV2"
+		res = append(res, rf)
+	case *EndArcShapeV2Grid:
 		var rf ReverseField
 		_ = rf
 	case *ExplanationTextShape:
@@ -8442,6 +8874,69 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetFieldHeaders() (res []GongFieldHe
 			Name:                 "EndArcShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "EndArcShape",
+		},
+	}
+	return
+}
+
+func (endarcshapev2 *EndArcShapeV2) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "XAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "SweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "RadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "EndArcShapesV2",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "EndArcShapeV2",
 		},
 	}
 	return
@@ -8894,6 +9389,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "EndArcShapeGrid",
 		},
 		{
+			Name:                 "EndArcShapeV2Grid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EndArcShapeV2Grid",
+		},
+		{
 			Name:                 "GrowthCurveBezierShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurveBezierShapeGrid",
@@ -9011,6 +9511,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenEndArcShapeV2Grid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -9513,6 +10017,70 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (endarcshapev2 *EndArcShapeV2) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = endarcshapev2.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.StartX)
+		res.valueFloat = endarcshapev2.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.StartY)
+		res.valueFloat = endarcshapev2.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.EndX)
+		res.valueFloat = endarcshapev2.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.EndY)
+		res.valueFloat = endarcshapev2.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XAxisRotation":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.XAxisRotation)
+		res.valueFloat = endarcshapev2.XAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", endarcshapev2.LargeArcFlag)
+		res.valueBool = endarcshapev2.LargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SweepFlag":
+		res.valueString = fmt.Sprintf("%t", endarcshapev2.SweepFlag)
+		res.valueBool = endarcshapev2.SweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RadiusX":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.RadiusX)
+		res.valueFloat = endarcshapev2.RadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusY":
+		res.valueString = fmt.Sprintf("%f", endarcshapev2.RadiusY)
+		res.valueFloat = endarcshapev2.RadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = endarcshapev2grid.Name
+	case "EndArcShapesV2":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range endarcshapev2grid.EndArcShapesV2 {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (explanationtextshape *ExplanationTextShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -9979,6 +10547,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.EndArcShapeGrid.Name
 			res.ids = plant.EndArcShapeGrid.GongGetUUID(stage)
 		}
+	case "EndArcShapeV2Grid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.EndArcShapeV2Grid != nil {
+			res.valueString = plant.EndArcShapeV2Grid.Name
+			res.ids = plant.EndArcShapeV2Grid.GongGetUUID(stage)
+		}
 	case "GrowthCurveBezierShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.GrowthCurveBezierShapeGrid != nil {
@@ -10096,6 +10670,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenEndArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenEndArcShapeV2Grid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeV2Grid)
+		res.valueBool = plantdiagram.IsHiddenEndArcShapeV2Grid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurveBezierShapeGrid)
@@ -10524,6 +11102,60 @@ func (endarcshapegrid *EndArcShapeGrid) GongSetFieldValue(fieldName string, valu
 				for __instance__ := range stage.EndArcShapes {
 					if stage.EndArcShape_stagedOrder[__instance__] == uint(id) {
 						endarcshapegrid.EndArcShapes = append(endarcshapegrid.EndArcShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (endarcshapev2 *EndArcShapeV2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		endarcshapev2.Name = value.GetValueString()
+	case "StartX":
+		endarcshapev2.StartX = value.GetValueFloat()
+	case "StartY":
+		endarcshapev2.StartY = value.GetValueFloat()
+	case "EndX":
+		endarcshapev2.EndX = value.GetValueFloat()
+	case "EndY":
+		endarcshapev2.EndY = value.GetValueFloat()
+	case "XAxisRotation":
+		endarcshapev2.XAxisRotation = value.GetValueFloat()
+	case "LargeArcFlag":
+		endarcshapev2.LargeArcFlag = value.GetValueBool()
+	case "SweepFlag":
+		endarcshapev2.SweepFlag = value.GetValueBool()
+	case "RadiusX":
+		endarcshapev2.RadiusX = value.GetValueFloat()
+	case "RadiusY":
+		endarcshapev2.RadiusY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		endarcshapev2grid.Name = value.GetValueString()
+	case "EndArcShapesV2":
+		endarcshapev2grid.EndArcShapesV2 = make([]*EndArcShapeV2, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.EndArcShapeV2s {
+					if stage.EndArcShapeV2_stagedOrder[__instance__] == uint(id) {
+						endarcshapev2grid.EndArcShapesV2 = append(endarcshapev2grid.EndArcShapesV2, __instance__)
 						break
 					}
 				}
@@ -11087,6 +11719,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "EndArcShapeV2Grid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.EndArcShapeV2Grid = nil
+			for __instance__ := range stage.EndArcShapeV2Grids {
+				if stage.EndArcShapeV2Grid_stagedOrder[__instance__] == uint(id) {
+					plant.EndArcShapeV2Grid = __instance__
+					break
+				}
+			}
+		}
 	case "GrowthCurveBezierShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -11175,6 +11818,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenStartArcShapeV2Grid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
+	case "IsHiddenEndArcShapeV2Grid":
+		plantdiagram.IsHiddenEndArcShapeV2Grid = value.GetValueBool()
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		plantdiagram.IsHiddenGrowthCurveBezierShapeGrid = value.GetValueBool()
 	case "IsHiddenStackOfGrowthCurve":
@@ -11471,6 +12116,14 @@ func (endarcshapegrid *EndArcShapeGrid) GongGetGongstructName() string {
 	return "EndArcShapeGrid"
 }
 
+func (endarcshapev2 *EndArcShapeV2) GongGetGongstructName() string {
+	return "EndArcShapeV2"
+}
+
+func (endarcshapev2grid *EndArcShapeV2Grid) GongGetGongstructName() string {
+	return "EndArcShapeV2Grid"
+}
+
 func (explanationtextshape *ExplanationTextShape) GongGetGongstructName() string {
 	return "ExplanationTextShape"
 }
@@ -11618,6 +12271,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.EndArcShapeGrids_mapString = make(map[string]*EndArcShapeGrid)
 	for endarcshapegrid := range stage.EndArcShapeGrids {
 		stage.EndArcShapeGrids_mapString[endarcshapegrid.Name] = endarcshapegrid
+	}
+
+	stage.EndArcShapeV2s_mapString = make(map[string]*EndArcShapeV2)
+	for endarcshapev2 := range stage.EndArcShapeV2s {
+		stage.EndArcShapeV2s_mapString[endarcshapev2.Name] = endarcshapev2
+	}
+
+	stage.EndArcShapeV2Grids_mapString = make(map[string]*EndArcShapeV2Grid)
+	for endarcshapev2grid := range stage.EndArcShapeV2Grids {
+		stage.EndArcShapeV2Grids_mapString[endarcshapev2grid.Name] = endarcshapev2grid
 	}
 
 	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)

@@ -30,6 +30,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*CircleGridShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*EndArcShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*EndArcShapeGrid](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*EndArcShapeV2](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*EndArcShapeV2Grid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ExplanationTextShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GridPathShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GrowthCurveBezierShape](stage, f, addIDs)

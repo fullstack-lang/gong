@@ -29,6 +29,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refStartArcShapeGrid := make(map[*StartArcShapeGrid]bool)
 	refStartArcShapeV2Grid := make(map[*StartArcShapeV2Grid]bool)
 	refEndArcShapeGrid := make(map[*EndArcShapeGrid]bool)
+	refEndArcShapeV2Grid := make(map[*EndArcShapeV2Grid]bool)
 	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
 	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
 	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
@@ -36,6 +37,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refStartArcShape := make(map[*StartArcShape]bool)
 	refStartArcShapeV2 := make(map[*StartArcShapeV2]bool)
 	refEndArcShape := make(map[*EndArcShape]bool)
+	refEndArcShapeV2 := make(map[*EndArcShapeV2]bool)
 	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
 	refRendered3DShape := make(map[*Rendered3DShape]bool)
 
@@ -146,6 +148,15 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			for _, shape := range plant.EndArcShapeGrid.EndArcShapes {
 				if shape != nil {
 					refEndArcShape[shape] = true
+				}
+			}
+		}
+
+		if plant.EndArcShapeV2Grid != nil {
+			refEndArcShapeV2Grid[plant.EndArcShapeV2Grid] = true
+			for _, shape := range plant.EndArcShapeV2Grid.EndArcShapesV2 {
+				if shape != nil {
+					refEndArcShapeV2[shape] = true
 				}
 			}
 		}
@@ -279,6 +290,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
+	for grid := range *GetGongstructInstancesSetFromPointerType[*EndArcShapeV2Grid](stage) {
+		if !refEndArcShapeV2Grid[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for grid := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShapeGrid](stage) {
 		if !refGrowthCurveBezierShapeGrid[grid] {
 			grid.Unstage(stage)
@@ -353,6 +371,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*EndArcShape](stage) {
 		if !refEndArcShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EndArcShapeV2](stage) {
+		if !refEndArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

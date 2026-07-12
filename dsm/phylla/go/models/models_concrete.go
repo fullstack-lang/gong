@@ -199,6 +199,26 @@ type EndArcShapeGrid struct {
 	EndArcShapes []*EndArcShape
 }
 
+// EndArcShapeV2 of a plant,
+type EndArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+// EndArcShapeV2Grid of a plant,
+type EndArcShapeV2Grid struct {
+	Name string
+
+	EndArcShapesV2 []*EndArcShapeV2
+}
+
 // BaseVectorShape of a plant,
 type BaseVectorShape struct {
 	Name string

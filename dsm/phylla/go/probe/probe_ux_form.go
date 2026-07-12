@@ -51,6 +51,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.endarcshapegrid, probe)
 			}
+		case *EndArcShapeV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "EndArcShapeV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.endarcshapev2, probe)
+			}
+		case *EndArcShapeV2GridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "EndArcShapeV2Grid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.endarcshapev2grid, probe)
+			}
 		case *ExplanationTextShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ExplanationTextShape", true)
@@ -319,6 +331,32 @@ func FillUpFormFromGongstructName(
 		endarcshapegrid := new(models.EndArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(endarcshapegrid, formGroup, probe)
+	case "EndArcShapeV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "EndArcShapeV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EndArcShapeV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		endarcshapev2 := new(models.EndArcShapeV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(endarcshapev2, formGroup, probe)
+	case "EndArcShapeV2Grid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "EndArcShapeV2Grid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EndArcShapeV2GridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		endarcshapev2grid := new(models.EndArcShapeV2Grid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(endarcshapev2grid, formGroup, probe)
 	case "ExplanationTextShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -97,6 +97,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.EndArcShapeV2:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "EndArcShapeV2",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EndArcShapeV2FormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.EndArcShapeV2Grid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "EndArcShapeV2Grid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EndArcShapeV2GridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ExplanationTextShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
