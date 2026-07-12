@@ -1102,6 +1102,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.PerpendicularVectorGrid, valueExpr, identifierMap)
 	case "PerpendicularVectorGridHalfway":
 		GongUnmarshallPointer(&instance.PerpendicularVectorGridHalfway, valueExpr, identifierMap)
+	case "StartArcShapeGrid":
+		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
 	case "GrowthCurveBezierShapeGrid":
 		GongUnmarshallPointer(&instance.GrowthCurveBezierShapeGrid, valueExpr, identifierMap)
 	case "StackOfGrowthCurve":
@@ -1200,6 +1202,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenPerpendicularVectorGrid = GongExtractBool(valueExpr)
 	case "IsHiddenPerpendicularVectorGridHalfway":
 		instance.IsHiddenPerpendicularVectorGridHalfway = GongExtractBool(valueExpr)
+	case "IsHiddenStartArcShapeGrid":
+		instance.IsHiddenStartArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		instance.IsHiddenGrowthCurveBezierShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfGrowthCurve":
@@ -1428,6 +1432,84 @@ func (u *StackOfGrowthCurveUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 		instance.Name = GongExtractString(valueExpr)
 	case "StackGrowthCurveBezierShapes":
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveBezierShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StartArcShapeUnmarshaller struct{}
+
+func (u *StartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StartArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StartArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type StartArcShapeGridUnmarshaller struct{}
+
+func (u *StartArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StartArcShapeGrid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StartArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StartArcShapeGrid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.StartArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

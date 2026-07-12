@@ -171,6 +171,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.stackofgrowthcurve, probe)
 			}
+		case *StartArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StartArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.startarcshape, probe)
+			}
+		case *StartArcShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StartArcShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.startarcshapegrid, probe)
+			}
 		}
 	}
 }
@@ -531,6 +543,32 @@ func FillUpFormFromGongstructName(
 		stackofgrowthcurve := new(models.StackOfGrowthCurve)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofgrowthcurve, formGroup, probe)
+	case "StartArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StartArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		startarcshape := new(models.StartArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(startarcshape, formGroup, probe)
+	case "StartArcShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StartArcShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartArcShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		startarcshapegrid := new(models.StartArcShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(startarcshapegrid, formGroup, probe)
 	}
 	formStage.Commit()
 }

@@ -76,6 +76,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackGrowthCurveBezierShape](probe)
 	case "StackOfGrowthCurve":
 		updateProbeTable[*models.StackOfGrowthCurve](probe)
+	case "StartArcShape":
+		updateProbeTable[*models.StartArcShape](probe)
+	case "StartArcShapeGrid":
+		updateProbeTable[*models.StartArcShapeGrid](probe)
 	}
 }
 

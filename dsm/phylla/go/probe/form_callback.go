@@ -2026,6 +2026,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "PerpendicularVectorGridHalfway":
 			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGridHalfway), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "StartArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.StartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurveBezierShapeGrid":
 			FormDivSelectFieldToField(&(plant_.GrowthCurveBezierShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurve":
@@ -2267,6 +2269,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGrid), formDiv)
 		case "IsHiddenPerpendicularVectorGridHalfway":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
+		case "IsHiddenStartArcShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeGrid), formDiv)
 		case "IsHiddenGrowthCurveBezierShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurveBezierShapeGrid), formDiv)
 		case "IsHiddenStackOfGrowthCurve":
@@ -3014,4 +3018,255 @@ func (stackofgrowthcurveFormCallback *StackOfGrowthCurveFormCallback) OnSave() {
 	}
 
 	stackofgrowthcurveFormCallback.probe.ux_tree()
+}
+func __gong__New__StartArcShapeFormCallback(
+	startarcshape *models.StartArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (startarcshapeFormCallback *StartArcShapeFormCallback) {
+	startarcshapeFormCallback = new(StartArcShapeFormCallback)
+	startarcshapeFormCallback.probe = probe
+	startarcshapeFormCallback.startarcshape = startarcshape
+	startarcshapeFormCallback.formGroup = formGroup
+
+	startarcshapeFormCallback.CreationMode = (startarcshape == nil)
+
+	return
+}
+
+type StartArcShapeFormCallback struct {
+	startarcshape *models.StartArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (startarcshapeFormCallback *StartArcShapeFormCallback) OnSave() {
+	startarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer startarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StartArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	startarcshapeFormCallback.probe.formStage.Checkout()
+
+	if startarcshapeFormCallback.startarcshape == nil {
+		startarcshapeFormCallback.startarcshape = new(models.StartArcShape).Stage(startarcshapeFormCallback.probe.stageOfInterest)
+	}
+	startarcshape_ := startarcshapeFormCallback.startarcshape
+	_ = startarcshape_
+
+	for _, formDiv := range startarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(startarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(startarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(startarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(startarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(startarcshape_.EndY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(startarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(startarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(startarcshape_.SweepFlag), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(startarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(startarcshape_.RadiusY), formDiv)
+		case "StartArcShapeGrid:StartArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the StartArcShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target StartArcShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.StartArcShapeGrid](startarcshapeFormCallback.probe.stageOfInterest)
+			targetStartArcShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetStartArcShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all StartArcShapeGrid instances and update their StartArcShapes slice
+			for _startarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShapeGrid](startarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(startarcshapeFormCallback.probe.stageOfInterest, _startarcshapegrid)
+				
+				// if StartArcShapeGrid is selected
+				if targetStartArcShapeGridIDs[id] {
+					// ensure startarcshape_ is in _startarcshapegrid.StartArcShapes
+					found := false
+					for _, _b := range _startarcshapegrid.StartArcShapes {
+						if _b == startarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_startarcshapegrid.StartArcShapes = append(_startarcshapegrid.StartArcShapes, startarcshape_)
+						startarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_startarcshapegrid, "StartArcShapes", &_startarcshapegrid.StartArcShapes)
+					}
+				} else {
+					// ensure startarcshape_ is NOT in _startarcshapegrid.StartArcShapes
+					idx := slices.Index(_startarcshapegrid.StartArcShapes, startarcshape_)
+					if idx != -1 {
+						_startarcshapegrid.StartArcShapes = slices.Delete(_startarcshapegrid.StartArcShapes, idx, idx+1)
+						startarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_startarcshapegrid, "StartArcShapes", &_startarcshapegrid.StartArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if startarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		startarcshape_.Unstage(startarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	startarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StartArcShape](
+		startarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if startarcshapeFormCallback.CreationMode || startarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		startarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(startarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StartArcShapeFormCallback(
+			nil,
+			startarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		startarcshape := new(models.StartArcShape)
+		FillUpForm(startarcshape, newFormGroup, startarcshapeFormCallback.probe)
+		startarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	startarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__StartArcShapeGridFormCallback(
+	startarcshapegrid *models.StartArcShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (startarcshapegridFormCallback *StartArcShapeGridFormCallback) {
+	startarcshapegridFormCallback = new(StartArcShapeGridFormCallback)
+	startarcshapegridFormCallback.probe = probe
+	startarcshapegridFormCallback.startarcshapegrid = startarcshapegrid
+	startarcshapegridFormCallback.formGroup = formGroup
+
+	startarcshapegridFormCallback.CreationMode = (startarcshapegrid == nil)
+
+	return
+}
+
+type StartArcShapeGridFormCallback struct {
+	startarcshapegrid *models.StartArcShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (startarcshapegridFormCallback *StartArcShapeGridFormCallback) OnSave() {
+	startarcshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer startarcshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StartArcShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	startarcshapegridFormCallback.probe.formStage.Checkout()
+
+	if startarcshapegridFormCallback.startarcshapegrid == nil {
+		startarcshapegridFormCallback.startarcshapegrid = new(models.StartArcShapeGrid).Stage(startarcshapegridFormCallback.probe.stageOfInterest)
+	}
+	startarcshapegrid_ := startarcshapegridFormCallback.startarcshapegrid
+	_ = startarcshapegrid_
+
+	for _, formDiv := range startarcshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(startarcshapegrid_.Name), formDiv)
+		case "StartArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShape](startarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.StartArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.StartArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					startarcshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.StartArcShape](startarcshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			startarcshapegrid_.StartArcShapes = instanceSlice
+			startarcshapegridFormCallback.probe.UpdateSliceOfPointersCallback(startarcshapegrid_, "StartArcShapes", &startarcshapegrid_.StartArcShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if startarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		startarcshapegrid_.Unstage(startarcshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	startarcshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StartArcShapeGrid](
+		startarcshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if startarcshapegridFormCallback.CreationMode || startarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		startarcshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(startarcshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StartArcShapeGridFormCallback(
+			nil,
+			startarcshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		startarcshapegrid := new(models.StartArcShapeGrid)
+		FillUpForm(startarcshapegrid, newFormGroup, startarcshapegridFormCallback.probe)
+		startarcshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	startarcshapegridFormCallback.probe.ux_tree()
 }

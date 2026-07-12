@@ -110,6 +110,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStackOfGrowthCurveCreateCallback != nil {
 			stage.OnAfterStackOfGrowthCurveCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *StartArcShape:
+		if stage.OnAfterStartArcShapeCreateCallback != nil {
+			stage.OnAfterStartArcShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *StartArcShapeGrid:
+		if stage.OnAfterStartArcShapeGridCreateCallback != nil {
+			stage.OnAfterStartArcShapeGridCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -254,6 +262,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterStackOfGrowthCurveUpdateCallback != nil {
 			stage.OnAfterStackOfGrowthCurveUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *StartArcShape:
+		newTarget := any(new).(*StartArcShape)
+		if stage.OnAfterStartArcShapeUpdateCallback != nil {
+			stage.OnAfterStartArcShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *StartArcShapeGrid:
+		newTarget := any(new).(*StartArcShapeGrid)
+		if stage.OnAfterStartArcShapeGridUpdateCallback != nil {
+			stage.OnAfterStartArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -394,6 +412,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*StackOfGrowthCurve)
 			stage.OnAfterStackOfGrowthCurveDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *StartArcShape:
+		if stage.OnAfterStartArcShapeDeleteCallback != nil {
+			staged := any(staged).(*StartArcShape)
+			stage.OnAfterStartArcShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *StartArcShapeGrid:
+		if stage.OnAfterStartArcShapeGridDeleteCallback != nil {
+			staged := any(staged).(*StartArcShapeGrid)
+			stage.OnAfterStartArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -508,6 +536,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStackOfGrowthCurveReadCallback != nil {
 			stage.OnAfterStackOfGrowthCurveReadCallback.OnAfterRead(stage, target)
 		}
+	case *StartArcShape:
+		if stage.OnAfterStartArcShapeReadCallback != nil {
+			stage.OnAfterStartArcShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *StartArcShapeGrid:
+		if stage.OnAfterStartArcShapeGridReadCallback != nil {
+			stage.OnAfterStartArcShapeGridReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -571,6 +607,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStackGrowthCurveBezierShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StackGrowthCurveBezierShape])
 	case *StackOfGrowthCurve:
 		stage.OnAfterStackOfGrowthCurveUpdateCallback = any(callback).(OnAfterUpdateInterface[StackOfGrowthCurve])
+	case *StartArcShape:
+		stage.OnAfterStartArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StartArcShape])
+	case *StartArcShapeGrid:
+		stage.OnAfterStartArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[StartArcShapeGrid])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -630,6 +670,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStackGrowthCurveBezierShapeCreateCallback = any(callback).(OnAfterCreateInterface[StackGrowthCurveBezierShape])
 	case *StackOfGrowthCurve:
 		stage.OnAfterStackOfGrowthCurveCreateCallback = any(callback).(OnAfterCreateInterface[StackOfGrowthCurve])
+	case *StartArcShape:
+		stage.OnAfterStartArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[StartArcShape])
+	case *StartArcShapeGrid:
+		stage.OnAfterStartArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[StartArcShapeGrid])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -689,6 +733,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStackGrowthCurveBezierShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StackGrowthCurveBezierShape])
 	case *StackOfGrowthCurve:
 		stage.OnAfterStackOfGrowthCurveDeleteCallback = any(callback).(OnAfterDeleteInterface[StackOfGrowthCurve])
+	case *StartArcShape:
+		stage.OnAfterStartArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StartArcShape])
+	case *StartArcShapeGrid:
+		stage.OnAfterStartArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[StartArcShapeGrid])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -748,5 +796,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterStackGrowthCurveBezierShapeReadCallback = any(callback).(OnAfterReadInterface[StackGrowthCurveBezierShape])
 	case *StackOfGrowthCurve:
 		stage.OnAfterStackOfGrowthCurveReadCallback = any(callback).(OnAfterReadInterface[StackOfGrowthCurve])
+	case *StartArcShape:
+		stage.OnAfterStartArcShapeReadCallback = any(callback).(OnAfterReadInterface[StartArcShape])
+	case *StartArcShapeGrid:
+		stage.OnAfterStartArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[StartArcShapeGrid])
 	}
 }

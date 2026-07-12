@@ -139,6 +139,26 @@ type PerpendicularVectorGridHalfway struct {
 	PerpendicularVectorHalfways []*PerpendicularVectorHalfway
 }
 
+// StartArcShape of a plant,
+type StartArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+// StartArcShapeGrid of a plant,
+type StartArcShapeGrid struct {
+	Name string
+
+	StartArcShapes []*StartArcShape
+}
+
 // GrowthCurveBezierShape of a plant,
 type GrowthCurveBezierShape struct {
 	Name string
