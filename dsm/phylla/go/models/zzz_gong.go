@@ -733,6 +733,38 @@ type Stage struct {
 	OnAfterStartArcShapeV2GridDeleteCallback OnAfterDeleteInterface[StartArcShapeV2Grid]
 	OnAfterStartArcShapeV2GridReadCallback   OnAfterReadInterface[StartArcShapeV2Grid]
 
+	TopStartArcShapeV2s                map[*TopStartArcShapeV2]struct{}
+	TopStartArcShapeV2s_instance       map[*TopStartArcShapeV2]*TopStartArcShapeV2
+	TopStartArcShapeV2s_mapString      map[string]*TopStartArcShapeV2
+	TopStartArcShapeV2Order            uint
+	TopStartArcShapeV2_stagedOrder     map[*TopStartArcShapeV2]uint
+	TopStartArcShapeV2_orderStaged     map[uint]*TopStartArcShapeV2
+	TopStartArcShapeV2s_reference      map[*TopStartArcShapeV2]*TopStartArcShapeV2
+	TopStartArcShapeV2s_referenceOrder map[*TopStartArcShapeV2]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTopStartArcShapeV2CreateCallback OnAfterCreateInterface[TopStartArcShapeV2]
+	OnAfterTopStartArcShapeV2UpdateCallback OnAfterUpdateInterface[TopStartArcShapeV2]
+	OnAfterTopStartArcShapeV2DeleteCallback OnAfterDeleteInterface[TopStartArcShapeV2]
+	OnAfterTopStartArcShapeV2ReadCallback   OnAfterReadInterface[TopStartArcShapeV2]
+
+	TopStartArcShapeV2Grids                map[*TopStartArcShapeV2Grid]struct{}
+	TopStartArcShapeV2Grids_instance       map[*TopStartArcShapeV2Grid]*TopStartArcShapeV2Grid
+	TopStartArcShapeV2Grids_mapString      map[string]*TopStartArcShapeV2Grid
+	TopStartArcShapeV2GridOrder            uint
+	TopStartArcShapeV2Grid_stagedOrder     map[*TopStartArcShapeV2Grid]uint
+	TopStartArcShapeV2Grid_orderStaged     map[uint]*TopStartArcShapeV2Grid
+	TopStartArcShapeV2Grids_reference      map[*TopStartArcShapeV2Grid]*TopStartArcShapeV2Grid
+	TopStartArcShapeV2Grids_referenceOrder map[*TopStartArcShapeV2Grid]uint
+
+	// insertion point for slice of pointers maps
+	TopStartArcShapeV2Grid_TopStartArcShapesV2_reverseMap map[*TopStartArcShapeV2]*TopStartArcShapeV2Grid
+
+	OnAfterTopStartArcShapeV2GridCreateCallback OnAfterCreateInterface[TopStartArcShapeV2Grid]
+	OnAfterTopStartArcShapeV2GridUpdateCallback OnAfterUpdateInterface[TopStartArcShapeV2Grid]
+	OnAfterTopStartArcShapeV2GridDeleteCallback OnAfterDeleteInterface[TopStartArcShapeV2Grid]
+	OnAfterTopStartArcShapeV2GridReadCallback   OnAfterReadInterface[TopStartArcShapeV2Grid]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -1120,6 +1152,14 @@ func (stage *Stage) Squash() {
 	stage.StartArcShapeV2Grids_reference = make(map[*StartArcShapeV2Grid]*StartArcShapeV2Grid)
 	stage.StartArcShapeV2Grids_instance = make(map[*StartArcShapeV2Grid]*StartArcShapeV2Grid)
 	stage.StartArcShapeV2Grids_referenceOrder = make(map[*StartArcShapeV2Grid]uint)
+
+	stage.TopStartArcShapeV2s_reference = make(map[*TopStartArcShapeV2]*TopStartArcShapeV2)
+	stage.TopStartArcShapeV2s_instance = make(map[*TopStartArcShapeV2]*TopStartArcShapeV2)
+	stage.TopStartArcShapeV2s_referenceOrder = make(map[*TopStartArcShapeV2]uint)
+
+	stage.TopStartArcShapeV2Grids_reference = make(map[*TopStartArcShapeV2Grid]*TopStartArcShapeV2Grid)
+	stage.TopStartArcShapeV2Grids_instance = make(map[*TopStartArcShapeV2Grid]*TopStartArcShapeV2Grid)
+	stage.TopStartArcShapeV2Grids_referenceOrder = make(map[*TopStartArcShapeV2Grid]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -1678,6 +1718,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.StartArcShapeV2GridOrder = maxStartArcShapeV2GridOrder + 1
 	} else {
 		stage.StartArcShapeV2GridOrder = 0
+	}
+
+	var maxTopStartArcShapeV2Order uint
+	var foundTopStartArcShapeV2 bool
+	for _, order := range stage.TopStartArcShapeV2_stagedOrder {
+		if !foundTopStartArcShapeV2 || order > maxTopStartArcShapeV2Order {
+			maxTopStartArcShapeV2Order = order
+			foundTopStartArcShapeV2 = true
+		}
+	}
+	if foundTopStartArcShapeV2 {
+		stage.TopStartArcShapeV2Order = maxTopStartArcShapeV2Order + 1
+	} else {
+		stage.TopStartArcShapeV2Order = 0
+	}
+
+	var maxTopStartArcShapeV2GridOrder uint
+	var foundTopStartArcShapeV2Grid bool
+	for _, order := range stage.TopStartArcShapeV2Grid_stagedOrder {
+		if !foundTopStartArcShapeV2Grid || order > maxTopStartArcShapeV2GridOrder {
+			maxTopStartArcShapeV2GridOrder = order
+			foundTopStartArcShapeV2Grid = true
+		}
+	}
+	if foundTopStartArcShapeV2Grid {
+		stage.TopStartArcShapeV2GridOrder = maxTopStartArcShapeV2GridOrder + 1
+	} else {
+		stage.TopStartArcShapeV2GridOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -2273,6 +2341,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TopStartArcShapeV2:
+		tmp := GetStructInstancesByOrder(stage.TopStartArcShapeV2s, stage.TopStartArcShapeV2_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopStartArcShapeV2 implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TopStartArcShapeV2Grid:
+		tmp := GetStructInstancesByOrder(stage.TopStartArcShapeV2Grids, stage.TopStartArcShapeV2Grid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopStartArcShapeV2Grid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -2378,6 +2474,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StartArcShapeV2s, stage.StartArcShapeV2_stagedOrder)
 	case "StartArcShapeV2Grid":
 		res = GetNamedStructInstances(stage.StartArcShapeV2Grids, stage.StartArcShapeV2Grid_stagedOrder)
+	case "TopStartArcShapeV2":
+		res = GetNamedStructInstances(stage.TopStartArcShapeV2s, stage.TopStartArcShapeV2_stagedOrder)
+	case "TopStartArcShapeV2Grid":
+		res = GetNamedStructInstances(stage.TopStartArcShapeV2Grids, stage.TopStartArcShapeV2Grid_stagedOrder)
 	}
 
 	return
@@ -2523,6 +2623,10 @@ type BackRepoInterface interface {
 	CheckoutStartArcShapeV2(startarcshapev2 *StartArcShapeV2)
 	CommitStartArcShapeV2Grid(startarcshapev2grid *StartArcShapeV2Grid)
 	CheckoutStartArcShapeV2Grid(startarcshapev2grid *StartArcShapeV2Grid)
+	CommitTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2)
+	CheckoutTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2)
+	CommitTopStartArcShapeV2Grid(topstartarcshapev2grid *TopStartArcShapeV2Grid)
+	CheckoutTopStartArcShapeV2Grid(topstartarcshapev2grid *TopStartArcShapeV2Grid)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -2642,6 +2746,12 @@ func NewStage(name string) (stage *Stage) {
 
 		StartArcShapeV2Grids:           make(map[*StartArcShapeV2Grid]struct{}),
 		StartArcShapeV2Grids_mapString: make(map[string]*StartArcShapeV2Grid),
+
+		TopStartArcShapeV2s:           make(map[*TopStartArcShapeV2]struct{}),
+		TopStartArcShapeV2s_mapString: make(map[string]*TopStartArcShapeV2),
+
+		TopStartArcShapeV2Grids:           make(map[*TopStartArcShapeV2Grid]struct{}),
+		TopStartArcShapeV2Grids_mapString: make(map[string]*TopStartArcShapeV2Grid),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -2805,6 +2915,14 @@ func NewStage(name string) (stage *Stage) {
 		StartArcShapeV2Grid_orderStaged: make(map[uint]*StartArcShapeV2Grid),
 		StartArcShapeV2Grids_reference:  make(map[*StartArcShapeV2Grid]*StartArcShapeV2Grid),
 
+		TopStartArcShapeV2_stagedOrder: make(map[*TopStartArcShapeV2]uint),
+		TopStartArcShapeV2_orderStaged: make(map[uint]*TopStartArcShapeV2),
+		TopStartArcShapeV2s_reference:  make(map[*TopStartArcShapeV2]*TopStartArcShapeV2),
+
+		TopStartArcShapeV2Grid_stagedOrder: make(map[*TopStartArcShapeV2Grid]uint),
+		TopStartArcShapeV2Grid_orderStaged: make(map[uint]*TopStartArcShapeV2Grid),
+		TopStartArcShapeV2Grids_reference:  make(map[*TopStartArcShapeV2Grid]*TopStartArcShapeV2Grid),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"ArcNormalVectorShape": &ArcNormalVectorShapeUnmarshaller{},
@@ -2883,6 +3001,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"StartArcShapeV2Grid": &StartArcShapeV2GridUnmarshaller{},
 
+			"TopStartArcShapeV2": &TopStartArcShapeV2Unmarshaller{},
+
+			"TopStartArcShapeV2Grid": &TopStartArcShapeV2GridUnmarshaller{},
+
 			// end of insertion point
 		},
 
@@ -2925,6 +3047,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StartArcShapeGrid"},
 			{name: "StartArcShapeV2"},
 			{name: "StartArcShapeV2Grid"},
+			{name: "TopStartArcShapeV2"},
+			{name: "TopStartArcShapeV2Grid"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -3012,6 +3136,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StartArcShapeV2_stagedOrder[instance]
 	case *StartArcShapeV2Grid:
 		return stage.StartArcShapeV2Grid_stagedOrder[instance]
+	case *TopStartArcShapeV2:
+		return stage.TopStartArcShapeV2_stagedOrder[instance]
+	case *TopStartArcShapeV2Grid:
+		return stage.TopStartArcShapeV2Grid_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -3097,6 +3225,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StartArcShapeV2_orderStaged[order]).(Type)
 	case *StartArcShapeV2Grid:
 		return any(stage.StartArcShapeV2Grid_orderStaged[order]).(Type)
+	case *TopStartArcShapeV2:
+		return any(stage.TopStartArcShapeV2_orderStaged[order]).(Type)
+	case *TopStartArcShapeV2Grid:
+		return any(stage.TopStartArcShapeV2Grid_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -3181,6 +3313,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StartArcShapeV2_stagedOrder[instance]
 	case *StartArcShapeV2Grid:
 		return stage.StartArcShapeV2Grid_stagedOrder[instance]
+	case *TopStartArcShapeV2:
+		return stage.TopStartArcShapeV2_stagedOrder[instance]
+	case *TopStartArcShapeV2Grid:
+		return stage.TopStartArcShapeV2Grid_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -3284,6 +3420,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StartArcShapeGrid"] = len(stage.StartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["StartArcShapeV2"] = len(stage.StartArcShapeV2s)
 	stage.Map_GongStructName_InstancesNb["StartArcShapeV2Grid"] = len(stage.StartArcShapeV2Grids)
+	stage.Map_GongStructName_InstancesNb["TopStartArcShapeV2"] = len(stage.TopStartArcShapeV2s)
+	stage.Map_GongStructName_InstancesNb["TopStartArcShapeV2Grid"] = len(stage.TopStartArcShapeV2Grids)
 }
 
 func (stage *Stage) Checkout() {
@@ -6668,6 +6806,182 @@ func (startarcshapev2grid *StartArcShapeV2Grid) SetName(name string) {
 	startarcshapev2grid.Name = name
 }
 
+// Stage puts topstartarcshapev2 to the model stage
+func (topstartarcshapev2 *TopStartArcShapeV2) Stage(stage *Stage) *TopStartArcShapeV2 {
+	if _, ok := stage.TopStartArcShapeV2s[topstartarcshapev2]; !ok {
+		stage.TopStartArcShapeV2s[topstartarcshapev2] = struct{}{}
+		stage.TopStartArcShapeV2_stagedOrder[topstartarcshapev2] = stage.TopStartArcShapeV2Order
+		stage.TopStartArcShapeV2_orderStaged[stage.TopStartArcShapeV2Order] = topstartarcshapev2
+		stage.TopStartArcShapeV2Order++
+	}
+	stage.TopStartArcShapeV2s_mapString[topstartarcshapev2.Name] = topstartarcshapev2
+
+	return topstartarcshapev2
+}
+
+// StagePreserveOrder puts topstartarcshapev2 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopStartArcShapeV2Order
+// - update stage.TopStartArcShapeV2Order accordingly
+func (topstartarcshapev2 *TopStartArcShapeV2) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopStartArcShapeV2s[topstartarcshapev2]; !ok {
+		stage.TopStartArcShapeV2s[topstartarcshapev2] = struct{}{}
+
+		if order > stage.TopStartArcShapeV2Order {
+			stage.TopStartArcShapeV2Order = order
+		}
+		stage.TopStartArcShapeV2_stagedOrder[topstartarcshapev2] = order
+		stage.TopStartArcShapeV2_orderStaged[order] = topstartarcshapev2
+		stage.TopStartArcShapeV2Order++
+	}
+	stage.TopStartArcShapeV2s_mapString[topstartarcshapev2.Name] = topstartarcshapev2
+}
+
+// Unstage removes topstartarcshapev2 off the model stage
+func (topstartarcshapev2 *TopStartArcShapeV2) Unstage(stage *Stage) *TopStartArcShapeV2 {
+	delete(stage.TopStartArcShapeV2s, topstartarcshapev2)
+	// issue1150
+	// delete(stage.TopStartArcShapeV2_stagedOrder, topstartarcshapev2)
+	delete(stage.TopStartArcShapeV2s_mapString, topstartarcshapev2.Name)
+
+	return topstartarcshapev2
+}
+
+// UnstageVoid removes topstartarcshapev2 off the model stage
+func (topstartarcshapev2 *TopStartArcShapeV2) UnstageVoid(stage *Stage) {
+	delete(stage.TopStartArcShapeV2s, topstartarcshapev2)
+	// issue1150
+	// delete(stage.TopStartArcShapeV2_stagedOrder, topstartarcshapev2)
+	delete(stage.TopStartArcShapeV2s_mapString, topstartarcshapev2.Name)
+}
+
+// commit topstartarcshapev2 to the back repo (if it is already staged)
+func (topstartarcshapev2 *TopStartArcShapeV2) Commit(stage *Stage) *TopStartArcShapeV2 {
+	if _, ok := stage.TopStartArcShapeV2s[topstartarcshapev2]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopStartArcShapeV2(topstartarcshapev2)
+		}
+	}
+	return topstartarcshapev2
+}
+
+func (topstartarcshapev2 *TopStartArcShapeV2) CommitVoid(stage *Stage) {
+	topstartarcshapev2.Commit(stage)
+}
+
+func (topstartarcshapev2 *TopStartArcShapeV2) StageVoid(stage *Stage) {
+	topstartarcshapev2.Stage(stage)
+}
+
+// Checkout topstartarcshapev2 to the back repo (if it is already staged)
+func (topstartarcshapev2 *TopStartArcShapeV2) Checkout(stage *Stage) *TopStartArcShapeV2 {
+	if _, ok := stage.TopStartArcShapeV2s[topstartarcshapev2]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopStartArcShapeV2(topstartarcshapev2)
+		}
+	}
+	return topstartarcshapev2
+}
+
+// for satisfaction of GongStruct interface
+func (topstartarcshapev2 *TopStartArcShapeV2) GetName() (res string) {
+	return topstartarcshapev2.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topstartarcshapev2 *TopStartArcShapeV2) SetName(name string) {
+	topstartarcshapev2.Name = name
+}
+
+// Stage puts topstartarcshapev2grid to the model stage
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) Stage(stage *Stage) *TopStartArcShapeV2Grid {
+	if _, ok := stage.TopStartArcShapeV2Grids[topstartarcshapev2grid]; !ok {
+		stage.TopStartArcShapeV2Grids[topstartarcshapev2grid] = struct{}{}
+		stage.TopStartArcShapeV2Grid_stagedOrder[topstartarcshapev2grid] = stage.TopStartArcShapeV2GridOrder
+		stage.TopStartArcShapeV2Grid_orderStaged[stage.TopStartArcShapeV2GridOrder] = topstartarcshapev2grid
+		stage.TopStartArcShapeV2GridOrder++
+	}
+	stage.TopStartArcShapeV2Grids_mapString[topstartarcshapev2grid.Name] = topstartarcshapev2grid
+
+	return topstartarcshapev2grid
+}
+
+// StagePreserveOrder puts topstartarcshapev2grid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopStartArcShapeV2GridOrder
+// - update stage.TopStartArcShapeV2GridOrder accordingly
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopStartArcShapeV2Grids[topstartarcshapev2grid]; !ok {
+		stage.TopStartArcShapeV2Grids[topstartarcshapev2grid] = struct{}{}
+
+		if order > stage.TopStartArcShapeV2GridOrder {
+			stage.TopStartArcShapeV2GridOrder = order
+		}
+		stage.TopStartArcShapeV2Grid_stagedOrder[topstartarcshapev2grid] = order
+		stage.TopStartArcShapeV2Grid_orderStaged[order] = topstartarcshapev2grid
+		stage.TopStartArcShapeV2GridOrder++
+	}
+	stage.TopStartArcShapeV2Grids_mapString[topstartarcshapev2grid.Name] = topstartarcshapev2grid
+}
+
+// Unstage removes topstartarcshapev2grid off the model stage
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) Unstage(stage *Stage) *TopStartArcShapeV2Grid {
+	delete(stage.TopStartArcShapeV2Grids, topstartarcshapev2grid)
+	// issue1150
+	// delete(stage.TopStartArcShapeV2Grid_stagedOrder, topstartarcshapev2grid)
+	delete(stage.TopStartArcShapeV2Grids_mapString, topstartarcshapev2grid.Name)
+
+	return topstartarcshapev2grid
+}
+
+// UnstageVoid removes topstartarcshapev2grid off the model stage
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) UnstageVoid(stage *Stage) {
+	delete(stage.TopStartArcShapeV2Grids, topstartarcshapev2grid)
+	// issue1150
+	// delete(stage.TopStartArcShapeV2Grid_stagedOrder, topstartarcshapev2grid)
+	delete(stage.TopStartArcShapeV2Grids_mapString, topstartarcshapev2grid.Name)
+}
+
+// commit topstartarcshapev2grid to the back repo (if it is already staged)
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) Commit(stage *Stage) *TopStartArcShapeV2Grid {
+	if _, ok := stage.TopStartArcShapeV2Grids[topstartarcshapev2grid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopStartArcShapeV2Grid(topstartarcshapev2grid)
+		}
+	}
+	return topstartarcshapev2grid
+}
+
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) CommitVoid(stage *Stage) {
+	topstartarcshapev2grid.Commit(stage)
+}
+
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) StageVoid(stage *Stage) {
+	topstartarcshapev2grid.Stage(stage)
+}
+
+// Checkout topstartarcshapev2grid to the back repo (if it is already staged)
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) Checkout(stage *Stage) *TopStartArcShapeV2Grid {
+	if _, ok := stage.TopStartArcShapeV2Grids[topstartarcshapev2grid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopStartArcShapeV2Grid(topstartarcshapev2grid)
+		}
+	}
+	return topstartarcshapev2grid
+}
+
+// for satisfaction of GongStruct interface
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) GetName() (res string) {
+	return topstartarcshapev2grid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) SetName(name string) {
+	topstartarcshapev2grid.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMArcNormalVectorShape(ArcNormalVectorShape *ArcNormalVectorShape)
@@ -6708,6 +7022,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	CreateORMStartArcShapeV2(StartArcShapeV2 *StartArcShapeV2)
 	CreateORMStartArcShapeV2Grid(StartArcShapeV2Grid *StartArcShapeV2Grid)
+	CreateORMTopStartArcShapeV2(TopStartArcShapeV2 *TopStartArcShapeV2)
+	CreateORMTopStartArcShapeV2Grid(TopStartArcShapeV2Grid *TopStartArcShapeV2Grid)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -6749,6 +7065,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	DeleteORMStartArcShapeV2(StartArcShapeV2 *StartArcShapeV2)
 	DeleteORMStartArcShapeV2Grid(StartArcShapeV2Grid *StartArcShapeV2Grid)
+	DeleteORMTopStartArcShapeV2(TopStartArcShapeV2 *TopStartArcShapeV2)
+	DeleteORMTopStartArcShapeV2Grid(TopStartArcShapeV2Grid *TopStartArcShapeV2Grid)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -6942,6 +7260,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StartArcShapeV2Grid_stagedOrder = make(map[*StartArcShapeV2Grid]uint)
 	stage.StartArcShapeV2GridOrder = 0
 
+	stage.TopStartArcShapeV2s = make(map[*TopStartArcShapeV2]struct{})
+	stage.TopStartArcShapeV2s_mapString = make(map[string]*TopStartArcShapeV2)
+	stage.TopStartArcShapeV2_stagedOrder = make(map[*TopStartArcShapeV2]uint)
+	stage.TopStartArcShapeV2Order = 0
+
+	stage.TopStartArcShapeV2Grids = make(map[*TopStartArcShapeV2Grid]struct{})
+	stage.TopStartArcShapeV2Grids_mapString = make(map[string]*TopStartArcShapeV2Grid)
+	stage.TopStartArcShapeV2Grid_stagedOrder = make(map[*TopStartArcShapeV2Grid]uint)
+	stage.TopStartArcShapeV2GridOrder = 0
+
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -7064,6 +7392,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.StartArcShapeV2Grids = nil
 	stage.StartArcShapeV2Grids_mapString = nil
+
+	stage.TopStartArcShapeV2s = nil
+	stage.TopStartArcShapeV2s_mapString = nil
+
+	stage.TopStartArcShapeV2Grids = nil
+	stage.TopStartArcShapeV2Grids_mapString = nil
 
 	// end of insertion point for array nil
 }
@@ -7221,6 +7555,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		startarcshapev2grid.Unstage(stage)
 	}
 
+	for topstartarcshapev2 := range stage.TopStartArcShapeV2s {
+		topstartarcshapev2.Unstage(stage)
+	}
+
+	for topstartarcshapev2grid := range stage.TopStartArcShapeV2Grids {
+		topstartarcshapev2grid.Unstage(stage)
+	}
+
 	// end of insertion point for array nil
 }
 
@@ -7373,6 +7715,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StartArcShapeV2s).(*Type)
 	case map[*StartArcShapeV2Grid]any:
 		return any(&stage.StartArcShapeV2Grids).(*Type)
+	case map[*TopStartArcShapeV2]any:
+		return any(&stage.TopStartArcShapeV2s).(*Type)
+	case map[*TopStartArcShapeV2Grid]any:
+		return any(&stage.TopStartArcShapeV2Grids).(*Type)
 	default:
 		return nil
 	}
@@ -7461,6 +7807,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StartArcShapeV2s_mapString).(map[string]Type)
 	case *StartArcShapeV2Grid:
 		return any(stage.StartArcShapeV2Grids_mapString).(map[string]Type)
+	case *TopStartArcShapeV2:
+		return any(stage.TopStartArcShapeV2s_mapString).(map[string]Type)
+	case *TopStartArcShapeV2Grid:
+		return any(stage.TopStartArcShapeV2Grids_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -7549,6 +7899,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StartArcShapeV2s).(*map[*Type]struct{})
 	case StartArcShapeV2Grid:
 		return any(&stage.StartArcShapeV2Grids).(*map[*Type]struct{})
+	case TopStartArcShapeV2:
+		return any(&stage.TopStartArcShapeV2s).(*map[*Type]struct{})
+	case TopStartArcShapeV2Grid:
+		return any(&stage.TopStartArcShapeV2Grids).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -7637,6 +7991,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StartArcShapeV2s).(*map[Type]struct{})
 	case *StartArcShapeV2Grid:
 		return any(&stage.StartArcShapeV2Grids).(*map[Type]struct{})
+	case *TopStartArcShapeV2:
+		return any(&stage.TopStartArcShapeV2s).(*map[Type]struct{})
+	case *TopStartArcShapeV2Grid:
+		return any(&stage.TopStartArcShapeV2Grids).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -7725,6 +8083,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StartArcShapeV2s_mapString).(*map[string]*Type)
 	case StartArcShapeV2Grid:
 		return any(&stage.StartArcShapeV2Grids_mapString).(*map[string]*Type)
+	case TopStartArcShapeV2:
+		return any(&stage.TopStartArcShapeV2s_mapString).(*map[string]*Type)
+	case TopStartArcShapeV2Grid:
+		return any(&stage.TopStartArcShapeV2Grids_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -7902,6 +8264,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
 			// field is initialized with an instance of StartArcShapeV2Grid with the name of the field
 			StartArcShapeV2Grid: &StartArcShapeV2Grid{Name: "StartArcShapeV2Grid"},
+			// field is initialized with an instance of TopStartArcShapeV2Grid with the name of the field
+			TopStartArcShapeV2Grid: &TopStartArcShapeV2Grid{Name: "TopStartArcShapeV2Grid"},
 			// field is initialized with an instance of EndArcShapeGrid with the name of the field
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of EndArcShapeV2Grid with the name of the field
@@ -7968,6 +8332,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of StartArcShapeV2 with the name of the field
 			StartArcShapesV2: []*StartArcShapeV2{{Name: "StartArcShapesV2"}},
+		}).(*Type)
+	case TopStartArcShapeV2:
+		return any(&TopStartArcShapeV2{
+			// Initialisation of associations
+		}).(*Type)
+	case TopStartArcShapeV2Grid:
+		return any(&TopStartArcShapeV2Grid{
+			// Initialisation of associations
+			// field is initialized with an instance of TopStartArcShapeV2 with the name of the field
+			TopStartArcShapesV2: []*TopStartArcShapeV2{{Name: "TopStartArcShapesV2"}},
 		}).(*Type)
 	default:
 		return nil
@@ -8421,6 +8795,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TopStartArcShapeV2Grid":
+			res := make(map[*TopStartArcShapeV2Grid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.TopStartArcShapeV2Grid != nil {
+					topstartarcshapev2grid_ := plant.TopStartArcShapeV2Grid
+					var plants []*Plant
+					_, ok := res[topstartarcshapev2grid_]
+					if ok {
+						plants = res[topstartarcshapev2grid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[topstartarcshapev2grid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "EndArcShapeGrid":
 			res := make(map[*EndArcShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -8564,6 +8955,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of StartArcShapeV2Grid
 	case StartArcShapeV2Grid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopStartArcShapeV2
+	case TopStartArcShapeV2:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopStartArcShapeV2Grid
+	case TopStartArcShapeV2Grid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -8900,6 +9301,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of TopStartArcShapeV2
+	case TopStartArcShapeV2:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopStartArcShapeV2Grid
+	case TopStartArcShapeV2Grid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "TopStartArcShapesV2":
+			res := make(map[*TopStartArcShapeV2][]*TopStartArcShapeV2Grid)
+			for topstartarcshapev2grid := range stage.TopStartArcShapeV2Grids {
+				for _, topstartarcshapev2_ := range topstartarcshapev2grid.TopStartArcShapesV2 {
+					res[topstartarcshapev2_] = append(res[topstartarcshapev2_], topstartarcshapev2grid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	}
 	return nil
 }
@@ -8987,6 +9406,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StartArcShapeV2"
 	case *StartArcShapeV2Grid:
 		res = "StartArcShapeV2Grid"
+	case *TopStartArcShapeV2:
+		res = "TopStartArcShapeV2"
+	case *TopStartArcShapeV2Grid:
+		res = "TopStartArcShapeV2Grid"
 	}
 	return res
 }
@@ -9164,6 +9587,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "StartArcShapesV2"
 		res = append(res, rf)
 	case *StartArcShapeV2Grid:
+		var rf ReverseField
+		_ = rf
+	case *TopStartArcShapeV2:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "TopStartArcShapeV2Grid"
+		rf.Fieldname = "TopStartArcShapesV2"
+		res = append(res, rf)
+	case *TopStartArcShapeV2Grid:
 		var rf ReverseField
 		_ = rf
 	}
@@ -9868,6 +10300,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "StartArcShapeV2Grid",
 		},
 		{
+			Name:                 "TopStartArcShapeV2Grid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStartArcShapeV2Grid",
+		},
+		{
 			Name:                 "EndArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "EndArcShapeGrid",
@@ -9995,6 +10432,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenStartArcShapeV2Grid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartArcShapeV2Grid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -10307,6 +10748,69 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongGetFieldHeaders() (res []Gon
 			Name:                 "StartArcShapesV2",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StartArcShapeV2",
+		},
+	}
+	return
+}
+
+func (topstartarcshapev2 *TopStartArcShapeV2) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "XAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "SweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "RadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "TopStartArcShapesV2",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TopStartArcShapeV2",
 		},
 	}
 	return
@@ -11083,6 +11587,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.StartArcShapeV2Grid.Name
 			res.ids = plant.StartArcShapeV2Grid.GongGetUUID(stage)
 		}
+	case "TopStartArcShapeV2Grid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.TopStartArcShapeV2Grid != nil {
+			res.valueString = plant.TopStartArcShapeV2Grid.Name
+			res.ids = plant.TopStartArcShapeV2Grid.GongGetUUID(stage)
+		}
 	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.EndArcShapeGrid != nil {
@@ -11212,6 +11722,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenStartArcShapeV2Grid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartArcShapeV2Grid)
 		res.valueBool = plantdiagram.IsHiddenStartArcShapeV2Grid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStartArcShapeV2Grid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartArcShapeV2Grid)
+		res.valueBool = plantdiagram.IsHiddenTopStartArcShapeV2Grid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
@@ -11516,6 +12030,70 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongGetFieldValue(fieldName stri
 	case "StartArcShapesV2":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range startarcshapev2grid.StartArcShapesV2 {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (topstartarcshapev2 *TopStartArcShapeV2) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topstartarcshapev2.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.StartX)
+		res.valueFloat = topstartarcshapev2.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.StartY)
+		res.valueFloat = topstartarcshapev2.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.EndX)
+		res.valueFloat = topstartarcshapev2.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.EndY)
+		res.valueFloat = topstartarcshapev2.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XAxisRotation":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.XAxisRotation)
+		res.valueFloat = topstartarcshapev2.XAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", topstartarcshapev2.LargeArcFlag)
+		res.valueBool = topstartarcshapev2.LargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SweepFlag":
+		res.valueString = fmt.Sprintf("%t", topstartarcshapev2.SweepFlag)
+		res.valueBool = topstartarcshapev2.SweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RadiusX":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.RadiusX)
+		res.valueFloat = topstartarcshapev2.RadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusY":
+		res.valueString = fmt.Sprintf("%f", topstartarcshapev2.RadiusY)
+		res.valueFloat = topstartarcshapev2.RadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topstartarcshapev2grid.Name
+	case "TopStartArcShapesV2":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range topstartarcshapev2grid.TopStartArcShapesV2 {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -12311,6 +12889,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "TopStartArcShapeV2Grid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.TopStartArcShapeV2Grid = nil
+			for __instance__ := range stage.TopStartArcShapeV2Grids {
+				if stage.TopStartArcShapeV2Grid_stagedOrder[__instance__] == uint(id) {
+					plant.TopStartArcShapeV2Grid = __instance__
+					break
+				}
+			}
+		}
 	case "EndArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -12421,6 +13010,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenStartArcShapeV2Grid":
 		plantdiagram.IsHiddenStartArcShapeV2Grid = value.GetValueBool()
+	case "IsHiddenTopStartArcShapeV2Grid":
+		plantdiagram.IsHiddenTopStartArcShapeV2Grid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
 	case "IsHiddenEndArcShapeV2Grid":
@@ -12692,6 +13283,60 @@ func (startarcshapev2grid *StartArcShapeV2Grid) GongSetFieldValue(fieldName stri
 	return nil
 }
 
+func (topstartarcshapev2 *TopStartArcShapeV2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topstartarcshapev2.Name = value.GetValueString()
+	case "StartX":
+		topstartarcshapev2.StartX = value.GetValueFloat()
+	case "StartY":
+		topstartarcshapev2.StartY = value.GetValueFloat()
+	case "EndX":
+		topstartarcshapev2.EndX = value.GetValueFloat()
+	case "EndY":
+		topstartarcshapev2.EndY = value.GetValueFloat()
+	case "XAxisRotation":
+		topstartarcshapev2.XAxisRotation = value.GetValueFloat()
+	case "LargeArcFlag":
+		topstartarcshapev2.LargeArcFlag = value.GetValueBool()
+	case "SweepFlag":
+		topstartarcshapev2.SweepFlag = value.GetValueBool()
+	case "RadiusX":
+		topstartarcshapev2.RadiusX = value.GetValueFloat()
+	case "RadiusY":
+		topstartarcshapev2.RadiusY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topstartarcshapev2grid.Name = value.GetValueString()
+	case "TopStartArcShapesV2":
+		topstartarcshapev2grid.TopStartArcShapesV2 = make([]*TopStartArcShapeV2, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.TopStartArcShapeV2s {
+					if stage.TopStartArcShapeV2_stagedOrder[__instance__] == uint(id) {
+						topstartarcshapev2grid.TopStartArcShapesV2 = append(topstartarcshapev2grid.TopStartArcShapesV2, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -12847,6 +13492,14 @@ func (startarcshapev2 *StartArcShapeV2) GongGetGongstructName() string {
 
 func (startarcshapev2grid *StartArcShapeV2Grid) GongGetGongstructName() string {
 	return "StartArcShapeV2Grid"
+}
+
+func (topstartarcshapev2 *TopStartArcShapeV2) GongGetGongstructName() string {
+	return "TopStartArcShapeV2"
+}
+
+func (topstartarcshapev2grid *TopStartArcShapeV2Grid) GongGetGongstructName() string {
+	return "TopStartArcShapeV2Grid"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -13044,6 +13697,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.StartArcShapeV2Grids_mapString = make(map[string]*StartArcShapeV2Grid)
 	for startarcshapev2grid := range stage.StartArcShapeV2Grids {
 		stage.StartArcShapeV2Grids_mapString[startarcshapev2grid.Name] = startarcshapev2grid
+	}
+
+	stage.TopStartArcShapeV2s_mapString = make(map[string]*TopStartArcShapeV2)
+	for topstartarcshapev2 := range stage.TopStartArcShapeV2s {
+		stage.TopStartArcShapeV2s_mapString[topstartarcshapev2.Name] = topstartarcshapev2
+	}
+
+	stage.TopStartArcShapeV2Grids_mapString = make(map[string]*TopStartArcShapeV2Grid)
+	for topstartarcshapev2grid := range stage.TopStartArcShapeV2Grids {
+		stage.TopStartArcShapeV2Grids_mapString[topstartarcshapev2grid.Name] = topstartarcshapev2grid
 	}
 
 	// end of insertion point for generic get gongstruct name

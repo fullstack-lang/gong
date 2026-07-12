@@ -29,6 +29,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refArcNormalVectorShapeGrid := make(map[*ArcNormalVectorShapeGrid]bool)
 	refStartArcShapeGrid := make(map[*StartArcShapeGrid]bool)
 	refStartArcShapeV2Grid := make(map[*StartArcShapeV2Grid]bool)
+	refTopStartArcShapeV2Grid := make(map[*TopStartArcShapeV2Grid]bool)
 	refEndArcShapeGrid := make(map[*EndArcShapeGrid]bool)
 	refEndArcShapeV2Grid := make(map[*EndArcShapeV2Grid]bool)
 	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
@@ -38,6 +39,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refArcNormalVectorShape := make(map[*ArcNormalVectorShape]bool)
 	refStartArcShape := make(map[*StartArcShape]bool)
 	refStartArcShapeV2 := make(map[*StartArcShapeV2]bool)
+	refTopStartArcShapeV2 := make(map[*TopStartArcShapeV2]bool)
 	refEndArcShape := make(map[*EndArcShape]bool)
 	refEndArcShapeV2 := make(map[*EndArcShapeV2]bool)
 	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
@@ -150,6 +152,15 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			for _, shape := range plant.StartArcShapeV2Grid.StartArcShapesV2 {
 				if shape != nil {
 					refStartArcShapeV2[shape] = true
+				}
+			}
+		}
+
+		if plant.TopStartArcShapeV2Grid != nil {
+			refTopStartArcShapeV2Grid[plant.TopStartArcShapeV2Grid] = true
+			for _, shape := range plant.TopStartArcShapeV2Grid.TopStartArcShapesV2 {
+				if shape != nil {
+					refTopStartArcShapeV2[shape] = true
 				}
 			}
 		}
@@ -301,6 +312,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
+	for grid := range *GetGongstructInstancesSetFromPointerType[*TopStartArcShapeV2Grid](stage) {
+		if !refTopStartArcShapeV2Grid[grid] {
+			grid.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 	for grid := range *GetGongstructInstancesSetFromPointerType[*EndArcShapeGrid](stage) {
 		if !refEndArcShapeGrid[grid] {
 			grid.Unstage(stage)
@@ -389,6 +407,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*StartArcShapeV2](stage) {
 		if !refStartArcShapeV2[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*TopStartArcShapeV2](stage) {
+		if !refTopStartArcShapeV2[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

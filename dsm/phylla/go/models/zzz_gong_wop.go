@@ -555,6 +555,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenStartArcShapeV2Grid bool
 
+	IsHiddenTopStartArcShapeV2Grid bool
+
 	IsHiddenEndArcShapeGrid bool
 
 	IsHiddenEndArcShapeV2Grid bool
@@ -593,6 +595,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
 	to.IsHiddenStartArcShapeV2Grid = from.IsHiddenStartArcShapeV2Grid
+	to.IsHiddenTopStartArcShapeV2Grid = from.IsHiddenTopStartArcShapeV2Grid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenEndArcShapeV2Grid = from.IsHiddenEndArcShapeV2Grid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
@@ -819,6 +822,55 @@ type StartArcShapeV2Grid_WOP struct {
 }
 
 func (from *StartArcShapeV2Grid) CopyBasicFields(to *StartArcShapeV2Grid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TopStartArcShapeV2_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+
+	RadiusX float64
+
+	RadiusY float64
+}
+
+func (from *TopStartArcShapeV2) CopyBasicFields(to *TopStartArcShapeV2) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+}
+
+type TopStartArcShapeV2Grid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopStartArcShapeV2Grid) CopyBasicFields(to *TopStartArcShapeV2Grid) {
 	// insertion point
 	to.Name = from.Name
 }

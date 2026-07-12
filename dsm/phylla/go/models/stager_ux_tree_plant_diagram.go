@@ -601,6 +601,36 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	topStartArcShapeV2Grid := plant.TopStartArcShapeV2Grid
+	if topStartArcShapeV2Grid != nil {
+		node := &tree.Node{
+			Name:            topStartArcShapeV2Grid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topStartArcShapeV2Grid, GetPointerToGongstructName[*TopStartArcShapeV2Grid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopStartArcShapeV2Grid = !plantDiagram.IsHiddenTopStartArcShapeV2Grid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopStartArcShapeV2Grid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	endArcShapeGrid := plant.EndArcShapeGrid
 	if endArcShapeGrid != nil {
 		node := &tree.Node{

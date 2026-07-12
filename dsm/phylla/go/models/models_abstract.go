@@ -62,6 +62,7 @@ type Plant struct {
 	ArcNormalVectorShapeGrid       *ArcNormalVectorShapeGrid
 	StartArcShapeGrid              *StartArcShapeGrid
 	StartArcShapeV2Grid            *StartArcShapeV2Grid
+	TopStartArcShapeV2Grid         *TopStartArcShapeV2Grid
 	EndArcShapeGrid                *EndArcShapeGrid
 	EndArcShapeV2Grid              *EndArcShapeV2Grid
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
