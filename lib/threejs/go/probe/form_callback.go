@@ -189,6 +189,96 @@ func (boxgeometryFormCallback *BoxGeometryFormCallback) OnSave() {
 
 	boxgeometryFormCallback.probe.ux_tree()
 }
+func __gong__New__CameraFormCallback(
+	camera *models.Camera,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (cameraFormCallback *CameraFormCallback) {
+	cameraFormCallback = new(CameraFormCallback)
+	cameraFormCallback.probe = probe
+	cameraFormCallback.camera = camera
+	cameraFormCallback.formGroup = formGroup
+
+	cameraFormCallback.CreationMode = (camera == nil)
+
+	return
+}
+
+type CameraFormCallback struct {
+	camera *models.Camera
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (cameraFormCallback *CameraFormCallback) OnSave() {
+	cameraFormCallback.probe.stageOfInterest.Lock()
+	defer cameraFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("CameraFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	cameraFormCallback.probe.formStage.Checkout()
+
+	if cameraFormCallback.camera == nil {
+		cameraFormCallback.camera = new(models.Camera).Stage(cameraFormCallback.probe.stageOfInterest)
+	}
+	camera_ := cameraFormCallback.camera
+	_ = camera_
+
+	for _, formDiv := range cameraFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(camera_.Name), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(camera_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(camera_.Y), formDiv)
+		case "Z":
+			FormDivBasicFieldToField(&(camera_.Z), formDiv)
+		case "TargetX":
+			FormDivBasicFieldToField(&(camera_.TargetX), formDiv)
+		case "TargetY":
+			FormDivBasicFieldToField(&(camera_.TargetY), formDiv)
+		case "TargetZ":
+			FormDivBasicFieldToField(&(camera_.TargetZ), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if cameraFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		camera_.Unstage(cameraFormCallback.probe.stageOfInterest)
+	}
+
+	cameraFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Camera](
+		cameraFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if cameraFormCallback.CreationMode || cameraFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		cameraFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cameraFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__CameraFormCallback(
+			nil,
+			cameraFormCallback.probe,
+			newFormGroup,
+		)
+		camera := new(models.Camera)
+		FillUpForm(camera, newFormGroup, cameraFormCallback.probe)
+		cameraFormCallback.probe.formStage.Commit()
+	}
+
+	cameraFormCallback.probe.ux_tree()
+}
 func __gong__New__CanvasFormCallback(
 	canvas *models.Canvas,
 	probe *Probe,
@@ -302,6 +392,8 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 			canvas_.Meshs = instanceSlice
 			canvasFormCallback.probe.UpdateSliceOfPointersCallback(canvas_, "Meshs", &canvas_.Meshs)
 
+		case "Camera":
+			FormDivSelectFieldToField(&(canvas_.Camera), canvasFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 

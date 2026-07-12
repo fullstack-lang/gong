@@ -161,6 +161,21 @@ type Stage struct {
 	OnAfterBoxGeometryDeleteCallback OnAfterDeleteInterface[BoxGeometry]
 	OnAfterBoxGeometryReadCallback   OnAfterReadInterface[BoxGeometry]
 
+	Cameras                map[*Camera]struct{}
+	Cameras_instance       map[*Camera]*Camera
+	Cameras_mapString      map[string]*Camera
+	CameraOrder            uint
+	Camera_stagedOrder     map[*Camera]uint
+	Camera_orderStaged     map[uint]*Camera
+	Cameras_reference      map[*Camera]*Camera
+	Cameras_referenceOrder map[*Camera]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCameraCreateCallback OnAfterCreateInterface[Camera]
+	OnAfterCameraUpdateCallback OnAfterUpdateInterface[Camera]
+	OnAfterCameraDeleteCallback OnAfterDeleteInterface[Camera]
+	OnAfterCameraReadCallback   OnAfterReadInterface[Camera]
+
 	Canvass                map[*Canvas]struct{}
 	Canvass_instance       map[*Canvas]*Canvas
 	Canvass_mapString      map[string]*Canvas
@@ -638,6 +653,10 @@ func (stage *Stage) Squash() {
 	stage.BoxGeometrys_instance = make(map[*BoxGeometry]*BoxGeometry)
 	stage.BoxGeometrys_referenceOrder = make(map[*BoxGeometry]uint)
 
+	stage.Cameras_reference = make(map[*Camera]*Camera)
+	stage.Cameras_instance = make(map[*Camera]*Camera)
+	stage.Cameras_referenceOrder = make(map[*Camera]uint)
+
 	stage.Canvass_reference = make(map[*Canvas]*Canvas)
 	stage.Canvass_instance = make(map[*Canvas]*Canvas)
 	stage.Canvass_referenceOrder = make(map[*Canvas]uint)
@@ -751,6 +770,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.BoxGeometryOrder = maxBoxGeometryOrder + 1
 	} else {
 		stage.BoxGeometryOrder = 0
+	}
+
+	var maxCameraOrder uint
+	var foundCamera bool
+	for _, order := range stage.Camera_stagedOrder {
+		if !foundCamera || order > maxCameraOrder {
+			maxCameraOrder = order
+			foundCamera = true
+		}
+	}
+	if foundCamera {
+		stage.CameraOrder = maxCameraOrder + 1
+	} else {
+		stage.CameraOrder = 0
 	}
 
 	var maxCanvasOrder uint
@@ -1052,6 +1085,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Camera:
+		tmp := GetStructInstancesByOrder(stage.Cameras, stage.Camera_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Camera implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Canvas:
 		tmp := GetStructInstancesByOrder(stage.Canvass, stage.Canvas_stagedOrder)
 
@@ -1295,6 +1342,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.AmbiantLights, stage.AmbiantLight_stagedOrder)
 	case "BoxGeometry":
 		res = GetNamedStructInstances(stage.BoxGeometrys, stage.BoxGeometry_stagedOrder)
+	case "Camera":
+		res = GetNamedStructInstances(stage.Cameras, stage.Camera_stagedOrder)
 	case "Canvas":
 		res = GetNamedStructInstances(stage.Canvass, stage.Canvas_stagedOrder)
 	case "Curve":
@@ -1398,6 +1447,8 @@ type BackRepoInterface interface {
 	CheckoutAmbiantLight(ambiantlight *AmbiantLight)
 	CommitBoxGeometry(boxgeometry *BoxGeometry)
 	CheckoutBoxGeometry(boxgeometry *BoxGeometry)
+	CommitCamera(camera *Camera)
+	CheckoutCamera(camera *Camera)
 	CommitCanvas(canvas *Canvas)
 	CheckoutCanvas(canvas *Canvas)
 	CommitCurve(curve *Curve)
@@ -1439,6 +1490,9 @@ func NewStage(name string) (stage *Stage) {
 
 		BoxGeometrys:           make(map[*BoxGeometry]struct{}),
 		BoxGeometrys_mapString: make(map[string]*BoxGeometry),
+
+		Cameras:           make(map[*Camera]struct{}),
+		Cameras_mapString: make(map[string]*Camera),
 
 		Canvass:           make(map[*Canvas]struct{}),
 		Canvass_mapString: make(map[string]*Canvas),
@@ -1502,6 +1556,10 @@ func NewStage(name string) (stage *Stage) {
 		BoxGeometry_stagedOrder: make(map[*BoxGeometry]uint),
 		BoxGeometry_orderStaged: make(map[uint]*BoxGeometry),
 		BoxGeometrys_reference:  make(map[*BoxGeometry]*BoxGeometry),
+
+		Camera_stagedOrder: make(map[*Camera]uint),
+		Camera_orderStaged: make(map[uint]*Camera),
+		Cameras_reference:  make(map[*Camera]*Camera),
 
 		Canvas_stagedOrder: make(map[*Canvas]uint),
 		Canvas_orderStaged: make(map[uint]*Canvas),
@@ -1569,6 +1627,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"BoxGeometry": &BoxGeometryUnmarshaller{},
 
+			"Camera": &CameraUnmarshaller{},
+
 			"Canvas": &CanvasUnmarshaller{},
 
 			"Curve": &CurveUnmarshaller{},
@@ -1605,6 +1665,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AmbiantLight"},
 			{name: "BoxGeometry"},
+			{name: "Camera"},
 			{name: "Canvas"},
 			{name: "Curve"},
 			{name: "CylinderGeometry"},
@@ -1635,6 +1696,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AmbiantLight_stagedOrder[instance]
 	case *BoxGeometry:
 		return stage.BoxGeometry_stagedOrder[instance]
+	case *Camera:
+		return stage.Camera_stagedOrder[instance]
 	case *Canvas:
 		return stage.Canvas_stagedOrder[instance]
 	case *Curve:
@@ -1678,6 +1741,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.AmbiantLight_orderStaged[order]).(Type)
 	case *BoxGeometry:
 		return any(stage.BoxGeometry_orderStaged[order]).(Type)
+	case *Camera:
+		return any(stage.Camera_orderStaged[order]).(Type)
 	case *Canvas:
 		return any(stage.Canvas_orderStaged[order]).(Type)
 	case *Curve:
@@ -1720,6 +1785,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.AmbiantLight_stagedOrder[instance]
 	case *BoxGeometry:
 		return stage.BoxGeometry_stagedOrder[instance]
+	case *Camera:
+		return stage.Camera_stagedOrder[instance]
 	case *Canvas:
 		return stage.Canvas_stagedOrder[instance]
 	case *Curve:
@@ -1817,6 +1884,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AmbiantLight"] = len(stage.AmbiantLights)
 	stage.Map_GongStructName_InstancesNb["BoxGeometry"] = len(stage.BoxGeometrys)
+	stage.Map_GongStructName_InstancesNb["Camera"] = len(stage.Cameras)
 	stage.Map_GongStructName_InstancesNb["Canvas"] = len(stage.Canvass)
 	stage.Map_GongStructName_InstancesNb["Curve"] = len(stage.Curves)
 	stage.Map_GongStructName_InstancesNb["CylinderGeometry"] = len(stage.CylinderGeometrys)
@@ -2046,6 +2114,94 @@ func (boxgeometry *BoxGeometry) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (boxgeometry *BoxGeometry) SetName(name string) {
 	boxgeometry.Name = name
+}
+
+// Stage puts camera to the model stage
+func (camera *Camera) Stage(stage *Stage) *Camera {
+	if _, ok := stage.Cameras[camera]; !ok {
+		stage.Cameras[camera] = struct{}{}
+		stage.Camera_stagedOrder[camera] = stage.CameraOrder
+		stage.Camera_orderStaged[stage.CameraOrder] = camera
+		stage.CameraOrder++
+	}
+	stage.Cameras_mapString[camera.Name] = camera
+
+	return camera
+}
+
+// StagePreserveOrder puts camera to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CameraOrder
+// - update stage.CameraOrder accordingly
+func (camera *Camera) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Cameras[camera]; !ok {
+		stage.Cameras[camera] = struct{}{}
+
+		if order > stage.CameraOrder {
+			stage.CameraOrder = order
+		}
+		stage.Camera_stagedOrder[camera] = order
+		stage.Camera_orderStaged[order] = camera
+		stage.CameraOrder++
+	}
+	stage.Cameras_mapString[camera.Name] = camera
+}
+
+// Unstage removes camera off the model stage
+func (camera *Camera) Unstage(stage *Stage) *Camera {
+	delete(stage.Cameras, camera)
+	// issue1150
+	// delete(stage.Camera_stagedOrder, camera)
+	delete(stage.Cameras_mapString, camera.Name)
+
+	return camera
+}
+
+// UnstageVoid removes camera off the model stage
+func (camera *Camera) UnstageVoid(stage *Stage) {
+	delete(stage.Cameras, camera)
+	// issue1150
+	// delete(stage.Camera_stagedOrder, camera)
+	delete(stage.Cameras_mapString, camera.Name)
+}
+
+// commit camera to the back repo (if it is already staged)
+func (camera *Camera) Commit(stage *Stage) *Camera {
+	if _, ok := stage.Cameras[camera]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCamera(camera)
+		}
+	}
+	return camera
+}
+
+func (camera *Camera) CommitVoid(stage *Stage) {
+	camera.Commit(stage)
+}
+
+func (camera *Camera) StageVoid(stage *Stage) {
+	camera.Stage(stage)
+}
+
+// Checkout camera to the back repo (if it is already staged)
+func (camera *Camera) Checkout(stage *Stage) *Camera {
+	if _, ok := stage.Cameras[camera]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCamera(camera)
+		}
+	}
+	return camera
+}
+
+// for satisfaction of GongStruct interface
+func (camera *Camera) GetName() (res string) {
+	return camera.Name
+}
+
+// for satisfaction of GongStruct interface
+func (camera *Camera) SetName(name string) {
+	camera.Name = name
 }
 
 // Stage puts canvas to the model stage
@@ -3372,6 +3528,7 @@ func (vector3 *Vector3) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAmbiantLight(AmbiantLight *AmbiantLight)
 	CreateORMBoxGeometry(BoxGeometry *BoxGeometry)
+	CreateORMCamera(Camera *Camera)
 	CreateORMCanvas(Canvas *Canvas)
 	CreateORMCurve(Curve *Curve)
 	CreateORMCylinderGeometry(CylinderGeometry *CylinderGeometry)
@@ -3392,6 +3549,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAmbiantLight(AmbiantLight *AmbiantLight)
 	DeleteORMBoxGeometry(BoxGeometry *BoxGeometry)
+	DeleteORMCamera(Camera *Camera)
 	DeleteORMCanvas(Canvas *Canvas)
 	DeleteORMCurve(Curve *Curve)
 	DeleteORMCylinderGeometry(CylinderGeometry *CylinderGeometry)
@@ -3419,6 +3577,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BoxGeometrys_mapString = make(map[string]*BoxGeometry)
 	stage.BoxGeometry_stagedOrder = make(map[*BoxGeometry]uint)
 	stage.BoxGeometryOrder = 0
+
+	stage.Cameras = make(map[*Camera]struct{})
+	stage.Cameras_mapString = make(map[string]*Camera)
+	stage.Camera_stagedOrder = make(map[*Camera]uint)
+	stage.CameraOrder = 0
 
 	stage.Canvass = make(map[*Canvas]struct{})
 	stage.Canvass_mapString = make(map[string]*Canvas)
@@ -3510,6 +3673,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.BoxGeometrys = nil
 	stage.BoxGeometrys_mapString = nil
 
+	stage.Cameras = nil
+	stage.Cameras_mapString = nil
+
 	stage.Canvass = nil
 	stage.Canvass_mapString = nil
 
@@ -3565,6 +3731,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for boxgeometry := range stage.BoxGeometrys {
 		boxgeometry.Unstage(stage)
+	}
+
+	for camera := range stage.Cameras {
+		camera.Unstage(stage)
 	}
 
 	for canvas := range stage.Canvass {
@@ -3707,6 +3877,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.AmbiantLights).(*Type)
 	case map[*BoxGeometry]any:
 		return any(&stage.BoxGeometrys).(*Type)
+	case map[*Camera]any:
+		return any(&stage.Cameras).(*Type)
 	case map[*Canvas]any:
 		return any(&stage.Canvass).(*Type)
 	case map[*Curve]any:
@@ -3753,6 +3925,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.AmbiantLights_mapString).(map[string]Type)
 	case *BoxGeometry:
 		return any(stage.BoxGeometrys_mapString).(map[string]Type)
+	case *Camera:
+		return any(stage.Cameras_mapString).(map[string]Type)
 	case *Canvas:
 		return any(stage.Canvass_mapString).(map[string]Type)
 	case *Curve:
@@ -3799,6 +3973,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.AmbiantLights).(*map[*Type]struct{})
 	case BoxGeometry:
 		return any(&stage.BoxGeometrys).(*map[*Type]struct{})
+	case Camera:
+		return any(&stage.Cameras).(*map[*Type]struct{})
 	case Canvas:
 		return any(&stage.Canvass).(*map[*Type]struct{})
 	case Curve:
@@ -3845,6 +4021,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.AmbiantLights).(*map[Type]struct{})
 	case *BoxGeometry:
 		return any(&stage.BoxGeometrys).(*map[Type]struct{})
+	case *Camera:
+		return any(&stage.Cameras).(*map[Type]struct{})
 	case *Canvas:
 		return any(&stage.Canvass).(*map[Type]struct{})
 	case *Curve:
@@ -3891,6 +4069,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.AmbiantLights_mapString).(*map[string]*Type)
 	case BoxGeometry:
 		return any(&stage.BoxGeometrys_mapString).(*map[string]*Type)
+	case Camera:
+		return any(&stage.Cameras_mapString).(*map[string]*Type)
 	case Canvas:
 		return any(&stage.Canvass_mapString).(*map[string]*Type)
 	case Curve:
@@ -3943,6 +4123,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&BoxGeometry{
 			// Initialisation of associations
 		}).(*Type)
+	case Camera:
+		return any(&Camera{
+			// Initialisation of associations
+		}).(*Type)
 	case Canvas:
 		return any(&Canvas{
 			// Initialisation of associations
@@ -3952,6 +4136,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			AmbiantLight: &AmbiantLight{Name: "AmbiantLight"},
 			// field is initialized with an instance of Mesh with the name of the field
 			Meshs: []*Mesh{{Name: "Meshs"}},
+			// field is initialized with an instance of Camera with the name of the field
+			Camera: &Camera{Name: "Camera"},
 		}).(*Type)
 	case Curve:
 		return any(&Curve{
@@ -4064,6 +4250,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Camera
+	case Camera:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Canvas
 	case Canvas:
 		switch fieldname {
@@ -4082,6 +4273,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					canvass = append(canvass, canvas)
 					res[ambiantlight_] = canvass
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Camera":
+			res := make(map[*Camera][]*Canvas)
+			for canvas := range stage.Canvass {
+				if canvas.Camera != nil {
+					camera_ := canvas.Camera
+					var canvass []*Canvas
+					_, ok := res[camera_]
+					if ok {
+						canvass = res[camera_]
+					} else {
+						canvass = make([]*Canvas, 0)
+					}
+					canvass = append(canvass, canvas)
+					res[camera_] = canvass
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4385,6 +4593,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Camera
+	case Camera:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Canvas
 	case Canvas:
 		switch fieldname {
@@ -4507,6 +4720,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "AmbiantLight"
 	case *BoxGeometry:
 		res = "BoxGeometry"
+	case *Camera:
+		res = "Camera"
 	case *Canvas:
 		res = "Canvas"
 	case *Curve:
@@ -4558,6 +4773,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *BoxGeometry:
+		var rf ReverseField
+		_ = rf
+	case *Camera:
 		var rf ReverseField
 		_ = rf
 	case *Canvas:
@@ -4672,6 +4890,41 @@ func (boxgeometry *BoxGeometry) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (camera *Camera) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Z",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TargetX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TargetY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TargetZ",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (canvas *Canvas) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -4693,6 +4946,11 @@ func (canvas *Canvas) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Meshs",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Mesh",
+		},
+		{
+			Name:                 "Camera",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Camera",
 		},
 	}
 	return
@@ -5215,6 +5473,39 @@ func (boxgeometry *BoxGeometry) GongGetFieldValue(fieldName string, stage *Stage
 	return
 }
 
+func (camera *Camera) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = camera.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", camera.X)
+		res.valueFloat = camera.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", camera.Y)
+		res.valueFloat = camera.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Z":
+		res.valueString = fmt.Sprintf("%f", camera.Z)
+		res.valueFloat = camera.Z
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TargetX":
+		res.valueString = fmt.Sprintf("%f", camera.TargetX)
+		res.valueFloat = camera.TargetX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TargetY":
+		res.valueString = fmt.Sprintf("%f", camera.TargetY)
+		res.valueFloat = camera.TargetY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TargetZ":
+		res.valueString = fmt.Sprintf("%f", camera.TargetZ)
+		res.valueFloat = camera.TargetZ
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (canvas *Canvas) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -5245,6 +5536,12 @@ func (canvas *Canvas) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			}
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Camera":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if canvas.Camera != nil {
+			res.valueString = canvas.Camera.Name
+			res.ids = canvas.Camera.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5698,6 +5995,29 @@ func (boxgeometry *BoxGeometry) GongSetFieldValue(fieldName string, value GongFi
 	return nil
 }
 
+func (camera *Camera) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		camera.Name = value.GetValueString()
+	case "X":
+		camera.X = value.GetValueFloat()
+	case "Y":
+		camera.Y = value.GetValueFloat()
+	case "Z":
+		camera.Z = value.GetValueFloat()
+	case "TargetX":
+		camera.TargetX = value.GetValueFloat()
+	case "TargetY":
+		camera.TargetY = value.GetValueFloat()
+	case "TargetZ":
+		camera.TargetZ = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (canvas *Canvas) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -5739,6 +6059,17 @@ func (canvas *Canvas) GongSetFieldValue(fieldName string, value GongFieldValue, 
 						canvas.Meshs = append(canvas.Meshs, __instance__)
 						break
 					}
+				}
+			}
+		}
+	case "Camera":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			canvas.Camera = nil
+			for __instance__ := range stage.Cameras {
+				if stage.Camera_stagedOrder[__instance__] == uint(id) {
+					canvas.Camera = __instance__
+					break
 				}
 			}
 		}
@@ -6171,6 +6502,10 @@ func (boxgeometry *BoxGeometry) GongGetGongstructName() string {
 	return "BoxGeometry"
 }
 
+func (camera *Camera) GongGetGongstructName() string {
+	return "Camera"
+}
+
 func (canvas *Canvas) GongGetGongstructName() string {
 	return "Canvas"
 }
@@ -6246,6 +6581,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.BoxGeometrys_mapString = make(map[string]*BoxGeometry)
 	for boxgeometry := range stage.BoxGeometrys {
 		stage.BoxGeometrys_mapString[boxgeometry.Name] = boxgeometry
+	}
+
+	stage.Cameras_mapString = make(map[string]*Camera)
+	for camera := range stage.Cameras {
+		stage.Cameras_mapString[camera.Name] = camera
 	}
 
 	stage.Canvass_mapString = make(map[string]*Canvas)

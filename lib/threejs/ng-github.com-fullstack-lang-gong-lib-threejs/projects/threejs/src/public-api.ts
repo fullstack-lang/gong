@@ -21,6 +21,10 @@ export * from './lib/boxgeometry-api'
 export * from './lib/boxgeometry'
 export * from './lib/boxgeometry.service'
 
+export * from './lib/camera-api'
+export * from './lib/camera'
+export * from './lib/camera.service'
+
 export * from './lib/canvas-api'
 export * from './lib/canvas'
 export * from './lib/canvas.service'

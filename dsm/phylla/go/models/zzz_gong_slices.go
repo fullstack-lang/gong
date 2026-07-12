@@ -123,6 +123,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct PlantDiagram
 	// insertion point per field
 
+	// Compute reverse map for named struct Rendered3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct RhombusShape
 	// insertion point per field
 
@@ -226,6 +229,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.PlantDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Rendered3DShapes {
 		res = append(res, instance)
 	}
 
@@ -358,6 +365,12 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongCopy() GongstructIF 
 func (plantdiagram *PlantDiagram) GongCopy() GongstructIF {
 	newInstance := new(PlantDiagram)
 	plantdiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (rendered3dshape *Rendered3DShape) GongCopy() GongstructIF {
+	newInstance := new(Rendered3DShape)
+	rendered3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -569,6 +582,16 @@ func (plantdiagram *PlantDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantdiagram), uint64(GetOrderPointerGongstruct(stage, plantdiagram)))
+	return
+}
+
+func (rendered3dshape *Rendered3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(rendered3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rendered3dshape), uint64(GetOrderPointerGongstruct(stage, rendered3dshape)))
 	return
 }
 
@@ -1630,6 +1653,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(plantdiagrams_newInstances)
 	lenDeletedInstances += len(plantdiagrams_deletedInstances)
+	var rendered3dshapes_newInstances []*Rendered3DShape
+	var rendered3dshapes_deletedInstances []*Rendered3DShape
+
+	// parse all staged instances and check if they have a reference
+	for rendered3dshape := range stage.Rendered3DShapes {
+		if ref, ok := stage.Rendered3DShapes_reference[rendered3dshape]; !ok {
+			rendered3dshapes_newInstances = append(rendered3dshapes_newInstances, rendered3dshape)
+			newInstancesSlice = append(newInstancesSlice, rendered3dshape.GongMarshallIdentifier(stage))
+			if stage.Rendered3DShapes_referenceOrder == nil {
+				stage.Rendered3DShapes_referenceOrder = make(map[*Rendered3DShape]uint)
+			}
+			stage.Rendered3DShapes_referenceOrder[rendered3dshape] = stage.Rendered3DShape_stagedOrder[rendered3dshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, rendered3dshape.GongMarshallUnstaging(stage))
+			// delete(stage.Rendered3DShapes_referenceOrder, rendered3dshape)
+			fieldInitializers, pointersInitializations := rendered3dshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Rendered3DShape_stagedOrder[ref] = stage.Rendered3DShape_stagedOrder[rendered3dshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := rendered3dshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, rendered3dshape)
+			// delete(stage.Rendered3DShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if rendered3dshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", rendered3dshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Rendered3DShapes_reference {
+		instance := stage.Rendered3DShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Rendered3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			rendered3dshapes_deletedInstances = append(rendered3dshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(rendered3dshapes_newInstances)
+	lenDeletedInstances += len(rendered3dshapes_deletedInstances)
 	var rhombusshapes_newInstances []*RhombusShape
 	var rhombusshapes_deletedInstances []*RhombusShape
 
@@ -2120,6 +2198,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.PlantDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Rendered3DShapes_reference = make(map[*Rendered3DShape]*Rendered3DShape)
+	stage.Rendered3DShapes_referenceOrder = make(map[*Rendered3DShape]uint) // diff Unstage needs the reference order
+	stage.Rendered3DShapes_instance = make(map[*Rendered3DShape]*Rendered3DShape)
+	for instance := range stage.Rendered3DShapes {
+		_copy := instance.GongCopy().(*Rendered3DShape)
+		stage.Rendered3DShapes_reference[instance] = _copy
+		stage.Rendered3DShapes_instance[_copy] = instance
+		stage.Rendered3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.RhombusShapes_reference = make(map[*RhombusShape]*RhombusShape)
 	stage.RhombusShapes_referenceOrder = make(map[*RhombusShape]uint) // diff Unstage needs the reference order
 	stage.RhombusShapes_instance = make(map[*RhombusShape]*RhombusShape)
@@ -2258,6 +2346,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.PlantDiagrams {
 		reference := stage.PlantDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Rendered3DShapes {
+		reference := stage.Rendered3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2512,6 +2605,18 @@ func (plantdiagram *PlantDiagram) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (rendered3dshape *Rendered3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Rendered3DShape_stagedOrder[rendered3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.Rendered3DShapes_referenceOrder[rendered3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Rendered3DShape was not staged and does not have a reference order", rendered3dshape)
+		return 0
+	}
+}
+
 func (rhombusshape *RhombusShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.RhombusShape_stagedOrder[rhombusshape]; ok {
 		return order
@@ -2739,6 +2844,15 @@ func (plantdiagram *PlantDiagram) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
 }
 
+func (rendered3dshape *Rendered3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rendered3dshape.GongGetGongstructName(), rendered3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (rendered3dshape *Rendered3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rendered3dshape.GongGetGongstructName(), rendered3dshape.GongGetOrder(stage))
+}
+
 func (rhombusshape *RhombusShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", rhombusshape.GongGetGongstructName(), rhombusshape.GongGetOrder(stage))
 }
@@ -2931,6 +3045,14 @@ func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (rendered3dshape *Rendered3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Rendered3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rendered3dshape.Name))
+	return
+}
+
 func (rhombusshape *RhombusShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rhombusshape.GongGetIdentifier(stage))
@@ -3077,6 +3199,12 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallUnstaging(st
 func (plantdiagram *PlantDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (rendered3dshape *Rendered3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rendered3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

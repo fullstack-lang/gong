@@ -54,6 +54,13 @@ func (boxgeometry *BoxGeometry) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Camera
+func (camera *Camera) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Canvas
 func (canvas *Canvas) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -61,6 +68,7 @@ func (canvas *Canvas) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &canvas.Meshs) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &canvas.AmbiantLight) || modified
+	modified = GongCleanPointer(stage, &canvas.Camera) || modified
 	return
 }
 

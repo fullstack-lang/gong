@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *BoxGeometry:
 		ok = stage.IsStagedBoxGeometry(target)
 
+	case *Camera:
+		ok = stage.IsStagedCamera(target)
+
 	case *Canvas:
 		ok = stage.IsStagedCanvas(target)
 
@@ -73,6 +76,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *BoxGeometry:
 		ok = stage.IsStagedBoxGeometry(target)
+
+	case *Camera:
+		ok = stage.IsStagedCamera(target)
 
 	case *Canvas:
 		ok = stage.IsStagedCanvas(target)
@@ -136,6 +142,13 @@ func (stage *Stage) IsStagedAmbiantLight(ambiantlight *AmbiantLight) (ok bool) {
 func (stage *Stage) IsStagedBoxGeometry(boxgeometry *BoxGeometry) (ok bool) {
 
 	_, ok = stage.BoxGeometrys[boxgeometry]
+
+	return
+}
+
+func (stage *Stage) IsStagedCamera(camera *Camera) (ok bool) {
+
+	_, ok = stage.Cameras[camera]
 
 	return
 }
@@ -259,6 +272,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *BoxGeometry:
 		stage.StageBranchBoxGeometry(target)
 
+	case *Camera:
+		stage.StageBranchCamera(target)
+
 	case *Canvas:
 		stage.StageBranchCanvas(target)
 
@@ -340,6 +356,21 @@ func (stage *Stage) StageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 }
 
+func (stage *Stage) StageBranchCamera(camera *Camera) {
+
+	// check if instance is already staged
+	if IsStaged(stage, camera) {
+		return
+	}
+
+	camera.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
 
 	// check if instance is already staged
@@ -352,6 +383,9 @@ func (stage *Stage) StageBranchCanvas(canvas *Canvas) {
 	//insertion point for the staging of instances referenced by pointers
 	if canvas.AmbiantLight != nil {
 		StageBranch(stage, canvas.AmbiantLight)
+	}
+	if canvas.Camera != nil {
+		StageBranch(stage, canvas.Camera)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -635,6 +669,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchBoxGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Camera:
+		toT := CopyBranchCamera(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Canvas:
 		toT := CopyBranchCanvas(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -740,6 +778,25 @@ func CopyBranchBoxGeometry(mapOrigCopy map[any]any, boxgeometryFrom *BoxGeometry
 	return
 }
 
+func CopyBranchCamera(mapOrigCopy map[any]any, cameraFrom *Camera) (cameraTo *Camera) {
+
+	// cameraFrom has already been copied
+	if _cameraTo, ok := mapOrigCopy[cameraFrom]; ok {
+		cameraTo = _cameraTo.(*Camera)
+		return
+	}
+
+	cameraTo = new(Camera)
+	mapOrigCopy[cameraFrom] = cameraTo
+	cameraFrom.CopyBasicFields(cameraTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchCanvas(mapOrigCopy map[any]any, canvasFrom *Canvas) (canvasTo *Canvas) {
 
 	// canvasFrom has already been copied
@@ -755,6 +812,9 @@ func CopyBranchCanvas(mapOrigCopy map[any]any, canvasFrom *Canvas) (canvasTo *Ca
 	//insertion point for the staging of instances referenced by pointers
 	if canvasFrom.AmbiantLight != nil {
 		canvasTo.AmbiantLight = CopyBranchAmbiantLight(mapOrigCopy, canvasFrom.AmbiantLight)
+	}
+	if canvasFrom.Camera != nil {
+		canvasTo.Camera = CopyBranchCamera(mapOrigCopy, canvasFrom.Camera)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1090,6 +1150,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *BoxGeometry:
 		stage.UnstageBranchBoxGeometry(target)
 
+	case *Camera:
+		stage.UnstageBranchCamera(target)
+
 	case *Canvas:
 		stage.UnstageBranchCanvas(target)
 
@@ -1171,6 +1234,21 @@ func (stage *Stage) UnstageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 
 }
 
+func (stage *Stage) UnstageBranchCamera(camera *Camera) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, camera) {
+		return
+	}
+
+	camera.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
 
 	// check if instance is already staged
@@ -1183,6 +1261,9 @@ func (stage *Stage) UnstageBranchCanvas(canvas *Canvas) {
 	//insertion point for the staging of instances referenced by pointers
 	if canvas.AmbiantLight != nil {
 		UnstageBranch(stage, canvas.AmbiantLight)
+	}
+	if canvas.Camera != nil {
+		UnstageBranch(stage, canvas.Camera)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1458,10 +1539,18 @@ func (reference *BoxGeometry) GongReconstructPointersFromReferences(stage *Stage
 	// insertion point for slice of pointers field
 }
 
+func (reference *Camera) GongReconstructPointersFromReferences(stage *Stage, instance *Camera) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Canvas) GongReconstructPointersFromReferences(stage *Stage, instance *Canvas) {
 	// insertion point for pointers field
 	if instance.AmbiantLight != nil {
 		reference.AmbiantLight = stage.AmbiantLights_reference[instance.AmbiantLight]
+	}
+	if instance.Camera != nil {
+		reference.Camera = stage.Cameras_reference[instance.Camera]
 	}
 	// insertion point for slice of pointers field
 	reference.DirectionalLights = reference.DirectionalLights[:0]
@@ -1599,12 +1688,23 @@ func (reference *BoxGeometry) GongReconstructPointersFromInstances(stage *Stage)
 	// insertion point for slice of pointers fields
 }
 
+func (reference *Camera) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Canvas) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.AmbiantLight; _reference != nil {
 		reference.AmbiantLight = nil
 		if _instance, ok := stage.AmbiantLights_instance[_reference]; ok {
 			reference.AmbiantLight = _instance
+		}
+	}
+	if _reference := reference.Camera; _reference != nil {
+		reference.Camera = nil
+		if _instance, ok := stage.Cameras_instance[_reference]; ok {
+			reference.Camera = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -1826,6 +1926,35 @@ func (boxgeometry *BoxGeometry) GongDiff(stage *Stage, boxgeometryOther *BoxGeom
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (camera *Camera) GongDiff(stage *Stage, cameraOther *Camera) (diffs []string) {
+	// insertion point for field diffs
+	if camera.Name != cameraOther.Name {
+		diffs = append(diffs, camera.GongMarshallField(stage, "Name"))
+	}
+	if camera.X != cameraOther.X {
+		diffs = append(diffs, camera.GongMarshallField(stage, "X"))
+	}
+	if camera.Y != cameraOther.Y {
+		diffs = append(diffs, camera.GongMarshallField(stage, "Y"))
+	}
+	if camera.Z != cameraOther.Z {
+		diffs = append(diffs, camera.GongMarshallField(stage, "Z"))
+	}
+	if camera.TargetX != cameraOther.TargetX {
+		diffs = append(diffs, camera.GongMarshallField(stage, "TargetX"))
+	}
+	if camera.TargetY != cameraOther.TargetY {
+		diffs = append(diffs, camera.GongMarshallField(stage, "TargetY"))
+	}
+	if camera.TargetZ != cameraOther.TargetZ {
+		diffs = append(diffs, camera.GongMarshallField(stage, "TargetZ"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []string) {
 	// insertion point for field diffs
 	if canvas.Name != canvasOther.Name {
@@ -1879,6 +2008,13 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 	if MeshsDifferent {
 		ops := Diff(stage, canvas, canvasOther, "Meshs", canvasOther.Meshs, canvas.Meshs)
 		diffs = append(diffs, ops)
+	}
+	if (canvas.Camera == nil) != (canvasOther.Camera == nil) {
+		diffs = append(diffs, canvas.GongMarshallField(stage, "Camera"))
+	} else if canvas.Camera != nil && canvasOther.Camera != nil {
+		if canvas.Camera != canvasOther.Camera {
+			diffs = append(diffs, canvas.GongMarshallField(stage, "Camera"))
+		}
 	}
 
 	return

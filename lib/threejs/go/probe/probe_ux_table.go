@@ -28,6 +28,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.AmbiantLight](probe)
 	case "BoxGeometry":
 		updateProbeTable[*models.BoxGeometry](probe)
+	case "Camera":
+		updateProbeTable[*models.Camera](probe)
 	case "Canvas":
 		updateProbeTable[*models.Canvas](probe)
 	case "Curve":

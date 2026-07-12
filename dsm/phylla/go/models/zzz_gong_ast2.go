@@ -1138,6 +1138,49 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "Rendered3DShape":
+		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type Rendered3DShapeUnmarshaller struct{}
+
+func (u *Rendered3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Rendered3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Rendered3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Rendered3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ViewX":
+		instance.ViewX = GongExtractFloat(valueExpr)
+	case "ViewY":
+		instance.ViewY = GongExtractFloat(valueExpr)
+	case "ViewZ":
+		instance.ViewZ = GongExtractFloat(valueExpr)
+	case "TargetX":
+		instance.TargetX = GongExtractFloat(valueExpr)
+	case "TargetY":
+		instance.TargetY = GongExtractFloat(valueExpr)
+	case "TargetZ":
+		instance.TargetZ = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

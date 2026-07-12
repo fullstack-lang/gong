@@ -20,6 +20,15 @@ func (inst *BoxGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
+func (inst *Camera) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Canvas) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -194,6 +203,15 @@ func (inst *AmbiantLight) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 }
 
 func (inst *BoxGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *Camera) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

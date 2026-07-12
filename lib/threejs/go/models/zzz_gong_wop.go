@@ -52,6 +52,35 @@ func (from *BoxGeometry) CopyBasicFields(to *BoxGeometry) {
 	to.DepthSegments = from.DepthSegments
 }
 
+type Camera_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Z float64
+
+	TargetX float64
+
+	TargetY float64
+
+	TargetZ float64
+}
+
+func (from *Camera) CopyBasicFields(to *Camera) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Z = from.Z
+	to.TargetX = from.TargetX
+	to.TargetY = from.TargetY
+	to.TargetZ = from.TargetZ
+}
+
 type Canvas_WOP struct {
 	// insertion point
 

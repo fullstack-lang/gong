@@ -27,6 +27,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.boxgeometry, probe)
 			}
+		case *CameraFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Camera", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.camera, probe)
+			}
 		case *CanvasFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Canvas", true)
@@ -165,6 +171,19 @@ func FillUpFormFromGongstructName(
 		boxgeometry := new(models.BoxGeometry)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(boxgeometry, formGroup, probe)
+	case "Camera":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Camera Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CameraFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		camera := new(models.Camera)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(camera, formGroup, probe)
 	case "Canvas":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

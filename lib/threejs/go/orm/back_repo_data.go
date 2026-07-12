@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	BoxGeometryAPIs []*BoxGeometryAPI
 
+	CameraAPIs []*CameraAPI
+
 	CanvasAPIs []*CanvasAPI
 
 	CurveAPIs []*CurveAPI
@@ -67,6 +69,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		boxgeometryDB.CopyBasicFieldsToBoxGeometry_WOP(&boxgeometryAPI.BoxGeometry_WOP)
 
 		backRepoData.BoxGeometryAPIs = append(backRepoData.BoxGeometryAPIs, &boxgeometryAPI)
+	}
+
+	for _, cameraDB := range backRepo.BackRepoCamera.Map_CameraDBID_CameraDB {
+
+		var cameraAPI CameraAPI
+		cameraAPI.ID = cameraDB.ID
+		cameraAPI.CameraPointersEncoding = cameraDB.CameraPointersEncoding
+		cameraDB.CopyBasicFieldsToCamera_WOP(&cameraAPI.Camera_WOP)
+
+		backRepoData.CameraAPIs = append(backRepoData.CameraAPIs, &cameraAPI)
 	}
 
 	for _, canvasDB := range backRepo.BackRepoCanvas.Map_CanvasDBID_CanvasDB {

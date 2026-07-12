@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterBoxGeometryCreateCallback != nil {
 			stage.OnAfterBoxGeometryCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Camera:
+		if stage.OnAfterCameraCreateCallback != nil {
+			stage.OnAfterCameraCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Canvas:
 		if stage.OnAfterCanvasCreateCallback != nil {
 			stage.OnAfterCanvasCreateCallback.OnAfterCreate(stage, target)
@@ -97,6 +101,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*BoxGeometry)
 		if stage.OnAfterBoxGeometryUpdateCallback != nil {
 			stage.OnAfterBoxGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Camera:
+		newTarget := any(new).(*Camera)
+		if stage.OnAfterCameraUpdateCallback != nil {
+			stage.OnAfterCameraUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Canvas:
 		newTarget := any(new).(*Canvas)
@@ -193,6 +202,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*BoxGeometry)
 			stage.OnAfterBoxGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Camera:
+		if stage.OnAfterCameraDeleteCallback != nil {
+			staged := any(staged).(*Camera)
+			stage.OnAfterCameraDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Canvas:
 		if stage.OnAfterCanvasDeleteCallback != nil {
 			staged := any(staged).(*Canvas)
@@ -286,6 +300,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterBoxGeometryReadCallback != nil {
 			stage.OnAfterBoxGeometryReadCallback.OnAfterRead(stage, target)
 		}
+	case *Camera:
+		if stage.OnAfterCameraReadCallback != nil {
+			stage.OnAfterCameraReadCallback.OnAfterRead(stage, target)
+		}
 	case *Canvas:
 		if stage.OnAfterCanvasReadCallback != nil {
 			stage.OnAfterCanvasReadCallback.OnAfterRead(stage, target)
@@ -361,6 +379,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAmbiantLightUpdateCallback = any(callback).(OnAfterUpdateInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[BoxGeometry])
+	case *Camera:
+		stage.OnAfterCameraUpdateCallback = any(callback).(OnAfterUpdateInterface[Camera])
 	case *Canvas:
 		stage.OnAfterCanvasUpdateCallback = any(callback).(OnAfterUpdateInterface[Canvas])
 	case *Curve:
@@ -402,6 +422,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAmbiantLightCreateCallback = any(callback).(OnAfterCreateInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryCreateCallback = any(callback).(OnAfterCreateInterface[BoxGeometry])
+	case *Camera:
+		stage.OnAfterCameraCreateCallback = any(callback).(OnAfterCreateInterface[Camera])
 	case *Canvas:
 		stage.OnAfterCanvasCreateCallback = any(callback).(OnAfterCreateInterface[Canvas])
 	case *Curve:
@@ -443,6 +465,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAmbiantLightDeleteCallback = any(callback).(OnAfterDeleteInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[BoxGeometry])
+	case *Camera:
+		stage.OnAfterCameraDeleteCallback = any(callback).(OnAfterDeleteInterface[Camera])
 	case *Canvas:
 		stage.OnAfterCanvasDeleteCallback = any(callback).(OnAfterDeleteInterface[Canvas])
 	case *Curve:
@@ -484,6 +508,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterAmbiantLightReadCallback = any(callback).(OnAfterReadInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryReadCallback = any(callback).(OnAfterReadInterface[BoxGeometry])
+	case *Camera:
+		stage.OnAfterCameraReadCallback = any(callback).(OnAfterReadInterface[Camera])
 	case *Canvas:
 		stage.OnAfterCanvasReadCallback = any(callback).(OnAfterReadInterface[Canvas])
 	case *Curve:

@@ -26,6 +26,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct BoxGeometry
 	// insertion point per field
 
+	// Compute reverse map for named struct Camera
+	// insertion point per field
+
 	// Compute reverse map for named struct Canvas
 	// insertion point per field
 	stage.Canvas_DirectionalLights_reverseMap = make(map[*DirectionalLight]*Canvas)
@@ -112,6 +115,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Cameras {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Canvass {
 		res = append(res, instance)
 	}
@@ -185,6 +192,12 @@ func (ambiantlight *AmbiantLight) GongCopy() GongstructIF {
 func (boxgeometry *BoxGeometry) GongCopy() GongstructIF {
 	newInstance := new(BoxGeometry)
 	boxgeometry.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (camera *Camera) GongCopy() GongstructIF {
+	newInstance := new(Camera)
+	camera.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -296,6 +309,16 @@ func (boxgeometry *BoxGeometry) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(boxgeometry), uint64(GetOrderPointerGongstruct(stage, boxgeometry)))
+	return
+}
+
+func (camera *Camera) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(camera).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(camera), uint64(GetOrderPointerGongstruct(stage, camera)))
 	return
 }
 
@@ -577,6 +600,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(boxgeometrys_newInstances)
 	lenDeletedInstances += len(boxgeometrys_deletedInstances)
+	var cameras_newInstances []*Camera
+	var cameras_deletedInstances []*Camera
+
+	// parse all staged instances and check if they have a reference
+	for camera := range stage.Cameras {
+		if ref, ok := stage.Cameras_reference[camera]; !ok {
+			cameras_newInstances = append(cameras_newInstances, camera)
+			newInstancesSlice = append(newInstancesSlice, camera.GongMarshallIdentifier(stage))
+			if stage.Cameras_referenceOrder == nil {
+				stage.Cameras_referenceOrder = make(map[*Camera]uint)
+			}
+			stage.Cameras_referenceOrder[camera] = stage.Camera_stagedOrder[camera]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, camera.GongMarshallUnstaging(stage))
+			// delete(stage.Cameras_referenceOrder, camera)
+			fieldInitializers, pointersInitializations := camera.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Camera_stagedOrder[ref] = stage.Camera_stagedOrder[camera]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := camera.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, camera)
+			// delete(stage.Camera_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if camera.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", camera.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Cameras_reference {
+		instance := stage.Cameras_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Cameras[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			cameras_deletedInstances = append(cameras_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(cameras_newInstances)
+	lenDeletedInstances += len(cameras_deletedInstances)
 	var canvass_newInstances []*Canvas
 	var canvass_deletedInstances []*Canvas
 
@@ -1457,6 +1535,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.BoxGeometrys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Cameras_reference = make(map[*Camera]*Camera)
+	stage.Cameras_referenceOrder = make(map[*Camera]uint) // diff Unstage needs the reference order
+	stage.Cameras_instance = make(map[*Camera]*Camera)
+	for instance := range stage.Cameras {
+		_copy := instance.GongCopy().(*Camera)
+		stage.Cameras_reference[instance] = _copy
+		stage.Cameras_instance[_copy] = instance
+		stage.Cameras_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Canvass_reference = make(map[*Canvas]*Canvas)
 	stage.Canvass_referenceOrder = make(map[*Canvas]uint) // diff Unstage needs the reference order
 	stage.Canvass_instance = make(map[*Canvas]*Canvas)
@@ -1618,6 +1706,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Cameras {
+		reference := stage.Cameras_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Canvass {
 		reference := stage.Canvass_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1723,6 +1816,18 @@ func (boxgeometry *BoxGeometry) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type BoxGeometry was not staged and does not have a reference order", boxgeometry)
+		return 0
+	}
+}
+
+func (camera *Camera) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Camera_stagedOrder[camera]; ok {
+		return order
+	}
+	if order, ok := stage.Cameras_referenceOrder[camera]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Camera was not staged and does not have a reference order", camera)
 		return 0
 	}
 }
@@ -1930,6 +2035,15 @@ func (boxgeometry *BoxGeometry) GongGetReferenceIdentifier(stage *Stage) string 
 	return fmt.Sprintf("__%s__%08d_", boxgeometry.GongGetGongstructName(), boxgeometry.GongGetOrder(stage))
 }
 
+func (camera *Camera) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", camera.GongGetGongstructName(), camera.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (camera *Camera) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", camera.GongGetGongstructName(), camera.GongGetOrder(stage))
+}
+
 func (canvas *Canvas) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", canvas.GongGetGongstructName(), canvas.GongGetOrder(stage))
 }
@@ -2084,6 +2198,14 @@ func (boxgeometry *BoxGeometry) GongMarshallIdentifier(stage *Stage) (decl strin
 	return
 }
 
+func (camera *Camera) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", camera.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Camera")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(camera.Name))
+	return
+}
+
 func (canvas *Canvas) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", canvas.GongGetIdentifier(stage))
@@ -2214,6 +2336,12 @@ func (ambiantlight *AmbiantLight) GongMarshallUnstaging(stage *Stage) (decl stri
 func (boxgeometry *BoxGeometry) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", boxgeometry.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (camera *Camera) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", camera.GongGetReferenceIdentifier(stage))
 	return
 }
 

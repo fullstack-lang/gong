@@ -7,6 +7,7 @@ import { FrontRepo } from './front-repo.service';
 import { DirectionalLight } from './directionallight'
 import { AmbiantLight } from './ambiantlight'
 import { Mesh } from './mesh'
+import { Camera } from './camera'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -25,6 +26,8 @@ export class Canvas {
 	AmbiantLight?: AmbiantLight
 
 	Meshs: Array<Mesh> = []
+	Camera?: Camera
+
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -45,6 +48,13 @@ export function CopyCanvasToCanvasAPI(canvas: Canvas, canvasAPI: CanvasAPI) {
 		canvasAPI.CanvasPointersEncoding.AmbiantLightID.Int64 = canvas.AmbiantLight.ID  
 	} else {
 		canvasAPI.CanvasPointersEncoding.AmbiantLightID.Int64 = 0 		
+	}
+
+	canvasAPI.CanvasPointersEncoding.CameraID.Valid = true
+	if (canvas.Camera != undefined) {
+		canvasAPI.CanvasPointersEncoding.CameraID.Int64 = canvas.Camera.ID  
+	} else {
+		canvasAPI.CanvasPointersEncoding.CameraID.Int64 = 0 		
 	}
 
 
@@ -76,6 +86,7 @@ export function CopyCanvasAPIToCanvas(canvasAPI: CanvasAPI, canvas: Canvas, fron
 
 	// insertion point for pointer fields encoding
 	canvas.AmbiantLight = frontRepo.map_ID_AmbiantLight.get(canvasAPI.CanvasPointersEncoding.AmbiantLightID.Int64)
+	canvas.Camera = frontRepo.map_ID_Camera.get(canvasAPI.CanvasPointersEncoding.CameraID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(canvasAPI.CanvasPointersEncoding.DirectionalLights)) {

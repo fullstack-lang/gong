@@ -60,6 +60,10 @@ type CanvasPointersEncoding struct {
 
 	// field Meshs is a slice of pointers to another Struct (optional or 0..1)
 	Meshs IntSlice `gorm:"type:TEXT"`
+
+	// field Camera is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	CameraID sql.NullInt64
 }
 
 // CanvasDB describes a canvas in the database
@@ -284,6 +288,18 @@ func (backRepoCanvas *BackRepoCanvasStruct) CommitPhaseTwoInstance(backRepo *Bac
 				append(canvasDB.CanvasPointersEncoding.Meshs, int(meshAssocEnd_DB.ID))
 		}
 
+		// commit pointer value canvas.Camera translates to updating the canvas.CameraID
+		canvasDB.CameraID.Valid = true // allow for a 0 value (nil association)
+		if canvas.Camera != nil {
+			if CameraId, ok := backRepo.BackRepoCamera.Map_CameraPtr_CameraDBID[canvas.Camera]; ok {
+				canvasDB.CameraID.Int64 = int64(CameraId)
+				canvasDB.CameraID.Valid = true
+			}
+		} else {
+			canvasDB.CameraID.Int64 = 0
+			canvasDB.CameraID.Valid = true
+		}
+
 		_, err := backRepoCanvas.db.Save(canvasDB)
 		if err != nil {
 			log.Fatal(err)
@@ -433,6 +449,27 @@ func (canvasDB *CanvasDB) DecodePointers(backRepo *BackRepoStruct, canvas *model
 	canvas.Meshs = canvas.Meshs[:0]
 	for _, _Meshid := range canvasDB.CanvasPointersEncoding.Meshs {
 		canvas.Meshs = append(canvas.Meshs, backRepo.BackRepoMesh.Map_MeshDBID_MeshPtr[uint(_Meshid)])
+	}
+
+	// Camera field
+	{
+		id := canvasDB.CameraID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCamera.Map_CameraDBID_CameraPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: canvas.Camera, unknown pointer id", id)
+				canvas.Camera = nil
+			} else {
+				// updates only if field has changed
+				if canvas.Camera == nil || canvas.Camera != tmp {
+					canvas.Camera = tmp
+				}
+			}
+		} else {
+			canvas.Camera = nil
+		}
 	}
 
 }
@@ -666,6 +703,12 @@ func (backRepoCanvas *BackRepoCanvasStruct) RestorePhaseTwo() {
 		if canvasDB.AmbiantLightID.Int64 != 0 {
 			canvasDB.AmbiantLightID.Int64 = int64(BackRepoAmbiantLightid_atBckpTime_newID[uint(canvasDB.AmbiantLightID.Int64)])
 			canvasDB.AmbiantLightID.Valid = true
+		}
+
+		// reindexing Camera field
+		if canvasDB.CameraID.Int64 != 0 {
+			canvasDB.CameraID.Int64 = int64(BackRepoCameraid_atBckpTime_newID[uint(canvasDB.CameraID.Int64)])
+			canvasDB.CameraID.Valid = true
 		}
 
 		// update databse with new index encoding

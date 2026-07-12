@@ -381,6 +381,35 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsExpanded = from.IsExpanded
 }
 
+type Rendered3DShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	ViewX float64
+
+	ViewY float64
+
+	ViewZ float64
+
+	TargetX float64
+
+	TargetY float64
+
+	TargetZ float64
+}
+
+func (from *Rendered3DShape) CopyBasicFields(to *Rendered3DShape) {
+	// insertion point
+	to.Name = from.Name
+	to.ViewX = from.ViewX
+	to.ViewY = from.ViewY
+	to.ViewZ = from.ViewZ
+	to.TargetX = from.TargetX
+	to.TargetY = from.TargetY
+	to.TargetZ = from.TargetZ
+}
+
 type RhombusShape_WOP struct {
 	// insertion point
 

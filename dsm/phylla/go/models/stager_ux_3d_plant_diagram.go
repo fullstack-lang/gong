@@ -3,13 +3,14 @@ package models
 import (
 	"fmt"
 	"math"
+	"strconv"
 
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
 func (stager *Stager) ux_3d_plant_diagram() {
 
-	if false {
+	if true {
 		stager.threejsStage.Reset()
 
 		plant := stager.GetCurrentPlant()
@@ -21,6 +22,34 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		canvas := (&threejs.Canvas{
 			Name: "Plant 3D Canvas",
 		}).Stage(stager.threejsStage)
+
+		var checkedDiagram *PlantDiagram
+		for _, diagram := range plant.PlantDiagrams {
+			if diagram.IsChecked {
+				checkedDiagram = diagram
+				break
+			}
+		}
+
+		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+			canvas.Camera = (&threejs.Camera{
+				Name: "Camera",
+				Position: threejs.Position{
+					X: checkedDiagram.Rendered3DShape.ViewX,
+					Y: checkedDiagram.Rendered3DShape.ViewY,
+					Z: checkedDiagram.Rendered3DShape.ViewZ,
+				},
+			}).Stage(stager.threejsStage)
+		} else {
+			canvas.Camera = (&threejs.Camera{
+				Name: "Default Camera",
+				Position: threejs.Position{
+					X: 15,
+					Y: 15,
+					Z: 15,
+				},
+			}).Stage(stager.threejsStage)
+		}
 
 		// lights
 		dirLight := (&threejs.DirectionalLight{
@@ -37,29 +66,66 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		}).Stage(stager.threejsStage)
 		canvas.AmbiantLight = ambiantLight
 
-		// floor
-		floorMaterial := (&threejs.MeshMaterialBasic{
-			Name:                 "Floor Material",
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "lightgray"},
-		}).Stage(stager.threejsStage)
+		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+			canvas.Camera = (&threejs.Camera{
+				Name: "Camera",
+				Position: threejs.Position{
+					X: checkedDiagram.Rendered3DShape.ViewX,
+					Y: checkedDiagram.Rendered3DShape.ViewY,
+					Z: checkedDiagram.Rendered3DShape.ViewZ,
+				},
+				TargetX: checkedDiagram.Rendered3DShape.TargetX,
+				TargetY: checkedDiagram.Rendered3DShape.TargetY,
+				TargetZ: checkedDiagram.Rendered3DShape.TargetZ,
+			}).Stage(stager.threejsStage)
+		} else {
+			canvas.Camera = (&threejs.Camera{
+				Name: "Camera",
+				Position: threejs.Position{
+					X: 15,
+					Y: 15,
+					Z: 15,
+				},
+				TargetX: 0,
+				TargetY: 0,
+				TargetZ: 0,
+			}).Stage(stager.threejsStage)
+		}
+		tileSize := 10.0
+		gridSize := 10
 
-		floorGeometry := (&threejs.BoxGeometry{
-			Name:           "Floor Geometry",
-			Width:          100,
-			Height:         0.1,
-			Depth:          100,
-			WidthSegments:  1,
-			HeightSegments: 1,
-			DepthSegments:  1,
-		}).Stage(stager.threejsStage)
+		for i := -gridSize / 2; i < gridSize/2; i++ {
+			for j := -gridSize / 2; j < gridSize/2; j++ {
+				color := "white"
+				if (i+j)%2 != 0 {
+					color = "black"
+				}
 
-		floorMesh := (&threejs.Mesh{
-			Name:              "Floor Mesh",
-			Position:          threejs.Position{X: 0, Y: -0.05, Z: 0},
-			BoxGeometry:       floorGeometry,
-			MeshMaterialBasic: floorMaterial,
-		}).Stage(stager.threejsStage)
-		canvas.Meshs = append(canvas.Meshs, floorMesh)
+				tileMesh := (&threejs.Mesh{
+					Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
+					Position: threejs.Position{
+						X: float64(i)*tileSize + tileSize/2,
+						Y: -0.05,
+						Z: float64(j)*tileSize + tileSize/2,
+					},
+					BoxGeometry: (&threejs.BoxGeometry{
+						Name:           "Tile Geometry",
+						Width:          tileSize,
+						Height:         0.1,
+						Depth:          tileSize,
+						WidthSegments:  1,
+						HeightSegments: 1,
+						DepthSegments:  1,
+					}).Stage(stager.threejsStage),
+					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+						Name:                 "Tile Material " + color,
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					}).Stage(stager.threejsStage),
+				}).Stage(stager.threejsStage)
+
+				canvas.Meshs = append(canvas.Meshs, tileMesh)
+			}
+		}
 
 		// tube for the stack
 		if plant.StackOfGrowthCurve != nil && len(plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes) > 0 {

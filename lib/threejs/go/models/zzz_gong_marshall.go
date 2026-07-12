@@ -343,6 +343,38 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(boxgeometry.GongMarshallField(stage, "DepthSegments"))
 	}
 
+	cameraOrdered := []*Camera{}
+	for camera := range stage.Cameras {
+		cameraOrdered = append(cameraOrdered, camera)
+	}
+	sort.Slice(cameraOrdered[:], func(i, j int) bool {
+		camerai := cameraOrdered[i]
+		cameraj := cameraOrdered[j]
+		camerai_order, oki := stage.Camera_stagedOrder[camerai]
+		cameraj_order, okj := stage.Camera_stagedOrder[cameraj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return camerai_order < cameraj_order
+	})
+	if len(cameraOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, camera := range cameraOrdered {
+
+		identifiersDecl.WriteString(camera.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Z"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetX"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetY"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetZ"))
+	}
+
 	canvasOrdered := []*Canvas{}
 	for canvas := range stage.Canvass {
 		canvasOrdered = append(canvasOrdered, canvas)
@@ -370,6 +402,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "DirectionalLights"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "AmbiantLight"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Meshs"))
+		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Camera"))
 	}
 
 	curveOrdered := []*Curve{}
@@ -815,6 +848,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, camera := range cameraOrdered {
+		_ = camera
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, canvas := range canvasOrdered {
 		_ = canvas
 		var setPointerField string
@@ -1054,6 +1095,51 @@ func (boxgeometry *BoxGeometry) GongMarshallField(stage *Stage, fieldName string
 	return
 }
 
+func (camera *Camera) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(camera.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.Y))
+	case "Z":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.Z))
+	case "TargetX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.TargetX))
+	case "TargetY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.TargetY))
+	case "TargetZ":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", camera.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetZ")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", camera.TargetZ))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Camera", fieldName)
+	}
+	return
+}
+
 func (canvas *Canvas) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1096,6 +1182,19 @@ func (canvas *Canvas) GongMarshallField(stage *Stage, fieldName string) (res str
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Camera":
+		if canvas.Camera != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", canvas.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Camera")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", canvas.Camera.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", canvas.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Camera")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Canvas", fieldName)
 	}
@@ -1758,6 +1857,23 @@ func (boxgeometry *BoxGeometry) GongMarshallAllFields(stage *Stage) (initRes str
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (camera *Camera) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "Z"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetX"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetY"))
+		initializerStatements.WriteString(camera.GongMarshallField(stage, "TargetZ"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (canvas *Canvas) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1767,6 +1883,7 @@ func (canvas *Canvas) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "DirectionalLights"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "AmbiantLight"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Meshs"))
+		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Camera"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

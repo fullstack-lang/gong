@@ -123,6 +123,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.plantdiagram, probe)
 			}
+		case *Rendered3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Rendered3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rendered3dshape, probe)
+			}
 		case *RhombusShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "RhombusShape", true)
@@ -409,6 +415,19 @@ func FillUpFormFromGongstructName(
 		plantdiagram := new(models.PlantDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(plantdiagram, formGroup, probe)
+	case "Rendered3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Rendered3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Rendered3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rendered3dshape := new(models.Rendered3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rendered3dshape, formGroup, probe)
 	case "RhombusShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
