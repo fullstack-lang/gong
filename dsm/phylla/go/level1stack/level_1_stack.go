@@ -120,6 +120,8 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.ArcNormalVectorShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ArcNormalVectorShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.AxesShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.BaseVectorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.BaseVectorShapeGrid](stage)

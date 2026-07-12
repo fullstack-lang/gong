@@ -219,6 +219,21 @@ type EndArcShapeV2Grid struct {
 	EndArcShapesV2 []*EndArcShapeV2
 }
 
+// ArcNormalVectorShape of a plant,
+type ArcNormalVectorShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
+// ArcNormalVectorShapeGrid of a plant,
+type ArcNormalVectorShapeGrid struct {
+	Name string
+
+	ArcNormalVectorShapes []*ArcNormalVectorShape
+}
+
 // BaseVectorShape of a plant,
 type BaseVectorShape struct {
 	Name string

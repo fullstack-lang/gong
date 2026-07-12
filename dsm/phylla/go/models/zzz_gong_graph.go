@@ -7,6 +7,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *ArcNormalVectorShape:
+		ok = stage.IsStagedArcNormalVectorShape(target)
+
+	case *ArcNormalVectorShapeGrid:
+		ok = stage.IsStagedArcNormalVectorShapeGrid(target)
+
 	case *AxesShape:
 		ok = stage.IsStagedAxesShape(target)
 
@@ -125,6 +131,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *ArcNormalVectorShape:
+		ok = stage.IsStagedArcNormalVectorShape(target)
+
+	case *ArcNormalVectorShapeGrid:
+		ok = stage.IsStagedArcNormalVectorShapeGrid(target)
+
 	case *AxesShape:
 		ok = stage.IsStagedAxesShape(target)
 
@@ -240,6 +252,20 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) (ok bool) {
+
+	_, ok = stage.ArcNormalVectorShapes[arcnormalvectorshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) (ok bool) {
+
+	_, ok = stage.ArcNormalVectorShapeGrids[arcnormalvectorshapegrid]
+
+	return
+}
+
 func (stage *Stage) IsStagedAxesShape(axesshape *AxesShape) (ok bool) {
 
 	_, ok = stage.AxesShapes[axesshape]
@@ -500,6 +526,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *ArcNormalVectorShape:
+		stage.StageBranchArcNormalVectorShape(target)
+
+	case *ArcNormalVectorShapeGrid:
+		stage.StageBranchArcNormalVectorShapeGrid(target)
+
 	case *AxesShape:
 		stage.StageBranchAxesShape(target)
 
@@ -614,6 +646,39 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, arcnormalvectorshape) {
+		return
+	}
+
+	arcnormalvectorshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, arcnormalvectorshapegrid) {
+		return
+	}
+
+	arcnormalvectorshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _arcnormalvectorshape := range arcnormalvectorshapegrid.ArcNormalVectorShapes {
+		StageBranch(stage, _arcnormalvectorshape)
+	}
+
+}
+
 func (stage *Stage) StageBranchAxesShape(axesshape *AxesShape) {
 
 	// check if instance is already staged
@@ -1044,6 +1109,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.BaseVectorShapeGrid != nil {
 		StageBranch(stage, plant.BaseVectorShapeGrid)
 	}
+	if plant.ArcNormalVectorShapeGrid != nil {
+		StageBranch(stage, plant.ArcNormalVectorShapeGrid)
+	}
 	if plant.StartArcShapeGrid != nil {
 		StageBranch(stage, plant.StartArcShapeGrid)
 	}
@@ -1276,6 +1344,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *ArcNormalVectorShape:
+		toT := CopyBranchArcNormalVectorShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ArcNormalVectorShapeGrid:
+		toT := CopyBranchArcNormalVectorShapeGrid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *AxesShape:
 		toT := CopyBranchAxesShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1427,6 +1503,47 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchArcNormalVectorShape(mapOrigCopy map[any]any, arcnormalvectorshapeFrom *ArcNormalVectorShape) (arcnormalvectorshapeTo *ArcNormalVectorShape) {
+
+	// arcnormalvectorshapeFrom has already been copied
+	if _arcnormalvectorshapeTo, ok := mapOrigCopy[arcnormalvectorshapeFrom]; ok {
+		arcnormalvectorshapeTo = _arcnormalvectorshapeTo.(*ArcNormalVectorShape)
+		return
+	}
+
+	arcnormalvectorshapeTo = new(ArcNormalVectorShape)
+	mapOrigCopy[arcnormalvectorshapeFrom] = arcnormalvectorshapeTo
+	arcnormalvectorshapeFrom.CopyBasicFields(arcnormalvectorshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchArcNormalVectorShapeGrid(mapOrigCopy map[any]any, arcnormalvectorshapegridFrom *ArcNormalVectorShapeGrid) (arcnormalvectorshapegridTo *ArcNormalVectorShapeGrid) {
+
+	// arcnormalvectorshapegridFrom has already been copied
+	if _arcnormalvectorshapegridTo, ok := mapOrigCopy[arcnormalvectorshapegridFrom]; ok {
+		arcnormalvectorshapegridTo = _arcnormalvectorshapegridTo.(*ArcNormalVectorShapeGrid)
+		return
+	}
+
+	arcnormalvectorshapegridTo = new(ArcNormalVectorShapeGrid)
+	mapOrigCopy[arcnormalvectorshapegridFrom] = arcnormalvectorshapegridTo
+	arcnormalvectorshapegridFrom.CopyBasicFields(arcnormalvectorshapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _arcnormalvectorshape := range arcnormalvectorshapegridFrom.ArcNormalVectorShapes {
+		arcnormalvectorshapegridTo.ArcNormalVectorShapes = append(arcnormalvectorshapegridTo.ArcNormalVectorShapes, CopyBranchArcNormalVectorShape(mapOrigCopy, _arcnormalvectorshape))
+	}
+
+	return
+}
+
 func CopyBranchAxesShape(mapOrigCopy map[any]any, axesshapeFrom *AxesShape) (axesshapeTo *AxesShape) {
 
 	// axesshapeFrom has already been copied
@@ -1952,6 +2069,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.BaseVectorShapeGrid != nil {
 		plantTo.BaseVectorShapeGrid = CopyBranchBaseVectorShapeGrid(mapOrigCopy, plantFrom.BaseVectorShapeGrid)
 	}
+	if plantFrom.ArcNormalVectorShapeGrid != nil {
+		plantTo.ArcNormalVectorShapeGrid = CopyBranchArcNormalVectorShapeGrid(mapOrigCopy, plantFrom.ArcNormalVectorShapeGrid)
+	}
 	if plantFrom.StartArcShapeGrid != nil {
 		plantTo.StartArcShapeGrid = CopyBranchStartArcShapeGrid(mapOrigCopy, plantFrom.StartArcShapeGrid)
 	}
@@ -2230,6 +2350,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *ArcNormalVectorShape:
+		stage.UnstageBranchArcNormalVectorShape(target)
+
+	case *ArcNormalVectorShapeGrid:
+		stage.UnstageBranchArcNormalVectorShapeGrid(target)
+
 	case *AxesShape:
 		stage.UnstageBranchAxesShape(target)
 
@@ -2344,6 +2470,39 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, arcnormalvectorshape) {
+		return
+	}
+
+	arcnormalvectorshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchArcNormalVectorShapeGrid(arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, arcnormalvectorshapegrid) {
+		return
+	}
+
+	arcnormalvectorshapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _arcnormalvectorshape := range arcnormalvectorshapegrid.ArcNormalVectorShapes {
+		UnstageBranch(stage, _arcnormalvectorshape)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchAxesShape(axesshape *AxesShape) {
 
 	// check if instance is already staged
@@ -2774,6 +2933,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.BaseVectorShapeGrid != nil {
 		UnstageBranch(stage, plant.BaseVectorShapeGrid)
 	}
+	if plant.ArcNormalVectorShapeGrid != nil {
+		UnstageBranch(stage, plant.ArcNormalVectorShapeGrid)
+	}
 	if plant.StartArcShapeGrid != nil {
 		UnstageBranch(stage, plant.StartArcShapeGrid)
 	}
@@ -2996,6 +3158,20 @@ func (stage *Stage) UnstageBranchStartArcShapeV2Grid(startarcshapev2grid *StartA
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *ArcNormalVectorShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArcNormalVectorShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *ArcNormalVectorShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *ArcNormalVectorShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ArcNormalVectorShapes = reference.ArcNormalVectorShapes[:0]
+	for _, _b := range instance.ArcNormalVectorShapes {
+		reference.ArcNormalVectorShapes = append(reference.ArcNormalVectorShapes, stage.ArcNormalVectorShapes_reference[_b])
+	}
+}
+
 func (reference *AxesShape) GongReconstructPointersFromReferences(stage *Stage, instance *AxesShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -3198,6 +3374,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.BaseVectorShapeGrid != nil {
 		reference.BaseVectorShapeGrid = stage.BaseVectorShapeGrids_reference[instance.BaseVectorShapeGrid]
 	}
+	if instance.ArcNormalVectorShapeGrid != nil {
+		reference.ArcNormalVectorShapeGrid = stage.ArcNormalVectorShapeGrids_reference[instance.ArcNormalVectorShapeGrid]
+	}
 	if instance.StartArcShapeGrid != nil {
 		reference.StartArcShapeGrid = stage.StartArcShapeGrids_reference[instance.StartArcShapeGrid]
 	}
@@ -3303,6 +3482,23 @@ func (reference *StartArcShapeV2Grid) GongReconstructPointersFromReferences(stag
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *ArcNormalVectorShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ArcNormalVectorShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ArcNormalVectorShapes []*ArcNormalVectorShape
+	for _, _reference := range reference.ArcNormalVectorShapes {
+		if _instance, ok := stage.ArcNormalVectorShapes_instance[_reference]; ok {
+			_ArcNormalVectorShapes = append(_ArcNormalVectorShapes, _instance)
+		}
+	}
+	reference.ArcNormalVectorShapes = _ArcNormalVectorShapes
+}
+
 func (reference *AxesShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -3580,6 +3776,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.BaseVectorShapeGrid = _instance
 		}
 	}
+	if _reference := reference.ArcNormalVectorShapeGrid; _reference != nil {
+		reference.ArcNormalVectorShapeGrid = nil
+		if _instance, ok := stage.ArcNormalVectorShapeGrids_instance[_reference]; ok {
+			reference.ArcNormalVectorShapeGrid = _instance
+		}
+	}
 	if _reference := reference.StartArcShapeGrid; _reference != nil {
 		reference.StartArcShapeGrid = nil
 		if _instance, ok := stage.StartArcShapeGrids_instance[_reference]; ok {
@@ -3721,6 +3923,61 @@ func (reference *StartArcShapeV2Grid) GongReconstructPointersFromInstances(stage
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (arcnormalvectorshape *ArcNormalVectorShape) GongDiff(stage *Stage, arcnormalvectorshapeOther *ArcNormalVectorShape) (diffs []string) {
+	// insertion point for field diffs
+	if arcnormalvectorshape.Name != arcnormalvectorshapeOther.Name {
+		diffs = append(diffs, arcnormalvectorshape.GongMarshallField(stage, "Name"))
+	}
+	if arcnormalvectorshape.StartX != arcnormalvectorshapeOther.StartX {
+		diffs = append(diffs, arcnormalvectorshape.GongMarshallField(stage, "StartX"))
+	}
+	if arcnormalvectorshape.StartY != arcnormalvectorshapeOther.StartY {
+		diffs = append(diffs, arcnormalvectorshape.GongMarshallField(stage, "StartY"))
+	}
+	if arcnormalvectorshape.EndX != arcnormalvectorshapeOther.EndX {
+		diffs = append(diffs, arcnormalvectorshape.GongMarshallField(stage, "EndX"))
+	}
+	if arcnormalvectorshape.EndY != arcnormalvectorshapeOther.EndY {
+		diffs = append(diffs, arcnormalvectorshape.GongMarshallField(stage, "EndY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (arcnormalvectorshapegrid *ArcNormalVectorShapeGrid) GongDiff(stage *Stage, arcnormalvectorshapegridOther *ArcNormalVectorShapeGrid) (diffs []string) {
+	// insertion point for field diffs
+	if arcnormalvectorshapegrid.Name != arcnormalvectorshapegridOther.Name {
+		diffs = append(diffs, arcnormalvectorshapegrid.GongMarshallField(stage, "Name"))
+	}
+	ArcNormalVectorShapesDifferent := false
+	if len(arcnormalvectorshapegrid.ArcNormalVectorShapes) != len(arcnormalvectorshapegridOther.ArcNormalVectorShapes) {
+		ArcNormalVectorShapesDifferent = true
+	} else {
+		for i := range arcnormalvectorshapegrid.ArcNormalVectorShapes {
+			if (arcnormalvectorshapegrid.ArcNormalVectorShapes[i] == nil) != (arcnormalvectorshapegridOther.ArcNormalVectorShapes[i] == nil) {
+				ArcNormalVectorShapesDifferent = true
+				break
+			} else if arcnormalvectorshapegrid.ArcNormalVectorShapes[i] != nil && arcnormalvectorshapegridOther.ArcNormalVectorShapes[i] != nil {
+				// this is a pointer comparaison
+				if arcnormalvectorshapegrid.ArcNormalVectorShapes[i] != arcnormalvectorshapegridOther.ArcNormalVectorShapes[i] {
+					ArcNormalVectorShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ArcNormalVectorShapesDifferent {
+		ops := Diff(stage, arcnormalvectorshapegrid, arcnormalvectorshapegridOther, "ArcNormalVectorShapes", arcnormalvectorshapegridOther.ArcNormalVectorShapes, arcnormalvectorshapegrid.ArcNormalVectorShapes)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (axesshape *AxesShape) GongDiff(stage *Stage, axesshapeOther *AxesShape) (diffs []string) {
@@ -4503,6 +4760,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "BaseVectorShapeGrid"))
 		}
 	}
+	if (plant.ArcNormalVectorShapeGrid == nil) != (plantOther.ArcNormalVectorShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ArcNormalVectorShapeGrid"))
+	} else if plant.ArcNormalVectorShapeGrid != nil && plantOther.ArcNormalVectorShapeGrid != nil {
+		if plant.ArcNormalVectorShapeGrid != plantOther.ArcNormalVectorShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "ArcNormalVectorShapeGrid"))
+		}
+	}
 	if (plant.StartArcShapeGrid == nil) != (plantOther.StartArcShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "StartArcShapeGrid"))
 	} else if plant.StartArcShapeGrid != nil && plantOther.StartArcShapeGrid != nil {
@@ -4623,6 +4887,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenBaseVectorShapeGrid != plantdiagramOther.IsHiddenBaseVectorShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBaseVectorShapeGrid"))
+	}
+	if plantdiagram.IsHiddenArcNormalVectorShapeGrid != plantdiagramOther.IsHiddenArcNormalVectorShapeGrid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenArcNormalVectorShapeGrid"))
 	}
 	if plantdiagram.IsHiddenStartArcShapeGrid != plantdiagramOther.IsHiddenStartArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStartArcShapeGrid"))
