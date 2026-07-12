@@ -3631,9 +3631,6 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.RhombusSideLength != plantOther.RhombusSideLength {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusSideLength"))
 	}
-	if plant.ShiftToNearestCircle != plantOther.ShiftToNearestCircle {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftToNearestCircle"))
-	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
 	}
