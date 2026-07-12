@@ -97,6 +97,104 @@ func (from *BaseVectorShapeGrid) CopyBasicFields(to *BaseVectorShapeGrid) {
 	to.Name = from.Name
 }
 
+type BottomEndArcShapeV2_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+
+	RadiusX float64
+
+	RadiusY float64
+}
+
+func (from *BottomEndArcShapeV2) CopyBasicFields(to *BottomEndArcShapeV2) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+}
+
+type BottomEndArcShapeV2Grid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *BottomEndArcShapeV2Grid) CopyBasicFields(to *BottomEndArcShapeV2Grid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type BottomStartArcShapeV2_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+
+	RadiusX float64
+
+	RadiusY float64
+}
+
+func (from *BottomStartArcShapeV2) CopyBasicFields(to *BottomStartArcShapeV2) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+}
+
+type BottomStartArcShapeV2Grid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *BottomStartArcShapeV2Grid) CopyBasicFields(to *BottomStartArcShapeV2Grid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type CircleGridShape_WOP struct {
 	// insertion point
 
@@ -563,6 +661,10 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenTopEndArcShapeV2Grid bool
 
+	IsHiddenBottomStartArcShapeV2Grid bool
+
+	IsHiddenBottomEndArcShapeV2Grid bool
+
 	IsHiddenGrowthCurveBezierShapeGrid bool
 
 	IsHiddenStackOfGrowthCurve bool
@@ -601,6 +703,8 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenEndArcShapeV2Grid = from.IsHiddenEndArcShapeV2Grid
 	to.IsHiddenTopEndArcShapeV2Grid = from.IsHiddenTopEndArcShapeV2Grid
+	to.IsHiddenBottomStartArcShapeV2Grid = from.IsHiddenBottomStartArcShapeV2Grid
+	to.IsHiddenBottomEndArcShapeV2Grid = from.IsHiddenBottomEndArcShapeV2Grid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
 	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
 	to.IsChecked = from.IsChecked

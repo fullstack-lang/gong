@@ -631,6 +631,162 @@ func (u *BaseVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
+type BottomEndArcShapeV2Unmarshaller struct{}
+
+func (u *BottomEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomEndArcShapeV2)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BottomEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomEndArcShapeV2)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type BottomEndArcShapeV2GridUnmarshaller struct{}
+
+func (u *BottomEndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomEndArcShapeV2Grid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BottomEndArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomEndArcShapeV2Grid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "BottomEndArcShapesV2":
+		GongUnmarshallSliceOfPointers(&instance.BottomEndArcShapesV2, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type BottomStartArcShapeV2Unmarshaller struct{}
+
+func (u *BottomStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStartArcShapeV2)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BottomStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStartArcShapeV2)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type BottomStartArcShapeV2GridUnmarshaller struct{}
+
+func (u *BottomStartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStartArcShapeV2Grid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BottomStartArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStartArcShapeV2Grid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "BottomStartArcShapesV2":
+		GongUnmarshallSliceOfPointers(&instance.BottomStartArcShapesV2, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type CircleGridShapeUnmarshaller struct{}
 
 func (u *CircleGridShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1410,6 +1566,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.EndArcShapeV2Grid, valueExpr, identifierMap)
 	case "TopEndArcShapeV2Grid":
 		GongUnmarshallPointer(&instance.TopEndArcShapeV2Grid, valueExpr, identifierMap)
+	case "BottomStartArcShapeV2Grid":
+		GongUnmarshallPointer(&instance.BottomStartArcShapeV2Grid, valueExpr, identifierMap)
+	case "BottomEndArcShapeV2Grid":
+		GongUnmarshallPointer(&instance.BottomEndArcShapeV2Grid, valueExpr, identifierMap)
 	case "GrowthCurveBezierShapeGrid":
 		GongUnmarshallPointer(&instance.GrowthCurveBezierShapeGrid, valueExpr, identifierMap)
 	case "StackOfGrowthCurve":
@@ -1524,6 +1684,10 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenEndArcShapeV2Grid = GongExtractBool(valueExpr)
 	case "IsHiddenTopEndArcShapeV2Grid":
 		instance.IsHiddenTopEndArcShapeV2Grid = GongExtractBool(valueExpr)
+	case "IsHiddenBottomStartArcShapeV2Grid":
+		instance.IsHiddenBottomStartArcShapeV2Grid = GongExtractBool(valueExpr)
+	case "IsHiddenBottomEndArcShapeV2Grid":
+		instance.IsHiddenBottomEndArcShapeV2Grid = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		instance.IsHiddenGrowthCurveBezierShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfGrowthCurve":

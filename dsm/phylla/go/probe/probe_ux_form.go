@@ -45,6 +45,30 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.basevectorshapegrid, probe)
 			}
+		case *BottomEndArcShapeV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BottomEndArcShapeV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.bottomendarcshapev2, probe)
+			}
+		case *BottomEndArcShapeV2GridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BottomEndArcShapeV2Grid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.bottomendarcshapev2grid, probe)
+			}
+		case *BottomStartArcShapeV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BottomStartArcShapeV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.bottomstartarcshapev2, probe)
+			}
+		case *BottomStartArcShapeV2GridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BottomStartArcShapeV2Grid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.bottomstartarcshapev2grid, probe)
+			}
 		case *CircleGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "CircleGridShape", true)
@@ -354,6 +378,58 @@ func FillUpFormFromGongstructName(
 		basevectorshapegrid := new(models.BaseVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(basevectorshapegrid, formGroup, probe)
+	case "BottomEndArcShapeV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BottomEndArcShapeV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomEndArcShapeV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		bottomendarcshapev2 := new(models.BottomEndArcShapeV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(bottomendarcshapev2, formGroup, probe)
+	case "BottomEndArcShapeV2Grid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BottomEndArcShapeV2Grid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomEndArcShapeV2GridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		bottomendarcshapev2grid := new(models.BottomEndArcShapeV2Grid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(bottomendarcshapev2grid, formGroup, probe)
+	case "BottomStartArcShapeV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BottomStartArcShapeV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomStartArcShapeV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		bottomstartarcshapev2 := new(models.BottomStartArcShapeV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(bottomstartarcshapev2, formGroup, probe)
+	case "BottomStartArcShapeV2Grid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BottomStartArcShapeV2Grid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomStartArcShapeV2GridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		bottomstartarcshapev2grid := new(models.BottomStartArcShapeV2Grid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(bottomstartarcshapev2grid, formGroup, probe)
 	case "CircleGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

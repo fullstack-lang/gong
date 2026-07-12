@@ -77,6 +77,36 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by BottomEndArcShapeV2
+func (bottomendarcshapev2 *BottomEndArcShapeV2) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by BottomEndArcShapeV2Grid
+func (bottomendarcshapev2grid *BottomEndArcShapeV2Grid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &bottomendarcshapev2grid.BottomEndArcShapesV2) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by BottomStartArcShapeV2
+func (bottomstartarcshapev2 *BottomStartArcShapeV2) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by BottomStartArcShapeV2Grid
+func (bottomstartarcshapev2grid *BottomStartArcShapeV2Grid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &bottomstartarcshapev2grid.BottomStartArcShapesV2) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by CircleGridShape
 func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -253,6 +283,8 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.EndArcShapeV2Grid) || modified
 	modified = GongCleanPointer(stage, &plant.TopEndArcShapeV2Grid) || modified
+	modified = GongCleanPointer(stage, &plant.BottomStartArcShapeV2Grid) || modified
+	modified = GongCleanPointer(stage, &plant.BottomEndArcShapeV2Grid) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
 	return

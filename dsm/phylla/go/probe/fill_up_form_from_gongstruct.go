@@ -84,6 +84,58 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BottomEndArcShapeV2:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BottomEndArcShapeV2",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomEndArcShapeV2FormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BottomEndArcShapeV2Grid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BottomEndArcShapeV2Grid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomEndArcShapeV2GridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BottomStartArcShapeV2:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BottomStartArcShapeV2",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomStartArcShapeV2FormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BottomStartArcShapeV2Grid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BottomStartArcShapeV2Grid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BottomStartArcShapeV2GridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.CircleGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
