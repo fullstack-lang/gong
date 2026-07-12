@@ -721,6 +721,66 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	bottomStartArcShapeV2Grid := plant.BottomStartArcShapeV2Grid
+	if bottomStartArcShapeV2Grid != nil {
+		node := &tree.Node{
+			Name:            bottomStartArcShapeV2Grid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(bottomStartArcShapeV2Grid, GetPointerToGongstructName[*BottomStartArcShapeV2Grid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenBottomStartArcShapeV2Grid = !plantDiagram.IsHiddenBottomStartArcShapeV2Grid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenBottomStartArcShapeV2Grid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	bottomEndArcShapeV2Grid := plant.BottomEndArcShapeV2Grid
+	if bottomEndArcShapeV2Grid != nil {
+		node := &tree.Node{
+			Name:            bottomEndArcShapeV2Grid.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(bottomEndArcShapeV2Grid, GetPointerToGongstructName[*BottomEndArcShapeV2Grid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenBottomEndArcShapeV2Grid = !plantDiagram.IsHiddenBottomEndArcShapeV2Grid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenBottomEndArcShapeV2Grid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	if growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid; growthCurveBezierShapeGrid != nil {
 		node := &tree.Node{
 			Name: "GrowthCurveBezierShapeGrid",

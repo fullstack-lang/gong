@@ -259,6 +259,46 @@ type TopEndArcShapeV2Grid struct {
 	TopEndArcShapesV2 []*TopEndArcShapeV2
 }
 
+// BottomStartArcShapeV2 of a plant,
+type BottomStartArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+// BottomStartArcShapeV2Grid of a plant,
+type BottomStartArcShapeV2Grid struct {
+	Name string
+
+	BottomStartArcShapesV2 []*BottomStartArcShapeV2
+}
+
+// BottomEndArcShapeV2 of a plant,
+type BottomEndArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+// BottomEndArcShapeV2Grid of a plant,
+type BottomEndArcShapeV2Grid struct {
+	Name string
+
+	BottomEndArcShapesV2 []*BottomEndArcShapeV2
+}
+
 // ArcNormalVectorShape of a plant,
 type ArcNormalVectorShape struct {
 	Name string

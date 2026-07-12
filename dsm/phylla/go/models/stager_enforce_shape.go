@@ -376,6 +376,30 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
+	n7_bottom_arc_v2 := enforcePlantHasShape[*BottomStartArcShapeV2Grid](
+		stager,
+		func() *BottomStartArcShapeV2Grid { return new(BottomStartArcShapeV2Grid) },
+		func(p *Plant) *BottomStartArcShapeV2Grid { return p.BottomStartArcShapeV2Grid },
+		func(p *Plant, shape *BottomStartArcShapeV2Grid) { p.BottomStartArcShapeV2Grid = shape },
+		func(p *Plant, shape *BottomStartArcShapeV2Grid) bool {
+			return p.BottomStartArcShapeV2Grid == shape
+		},
+		"BottomStartArcShapeV2Grid",
+	)
+	needCommit = n7_bottom_arc_v2 || needCommit
+
+	n7_bottom_arc_v2_end := enforcePlantHasShape[*BottomEndArcShapeV2Grid](
+		stager,
+		func() *BottomEndArcShapeV2Grid { return new(BottomEndArcShapeV2Grid) },
+		func(p *Plant) *BottomEndArcShapeV2Grid { return p.BottomEndArcShapeV2Grid },
+		func(p *Plant, shape *BottomEndArcShapeV2Grid) { p.BottomEndArcShapeV2Grid = shape },
+		func(p *Plant, shape *BottomEndArcShapeV2Grid) bool {
+			return p.BottomEndArcShapeV2Grid == shape
+		},
+		"BottomEndArcShapeV2Grid",
+	)
+	needCommit = n7_bottom_arc_v2_end || needCommit
+
 	n8 := enforcePlantHasShape[*GrowthCurveBezierShapeGrid](
 		stager,
 		func() *GrowthCurveBezierShapeGrid { return new(GrowthCurveBezierShapeGrid) },
@@ -400,7 +424,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n9 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc || n7_arc_v2 || n7_top_arc_v2 || n7_arc_end || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n9
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc || n7_arc_v2 || n7_top_arc_v2 || n7_arc_end || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -538,6 +562,20 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
+	n7_bottom_arc_v2 := enforcePlantShapeName[*BottomStartArcShapeV2Grid](
+		stager,
+		func(p *Plant) *BottomStartArcShapeV2Grid { return p.BottomStartArcShapeV2Grid },
+		"BottomStartArcShapeV2Grid",
+	)
+	needCommit = n7_bottom_arc_v2 || needCommit
+
+	n7_bottom_arc_v2_end := enforcePlantShapeName[*BottomEndArcShapeV2Grid](
+		stager,
+		func(p *Plant) *BottomEndArcShapeV2Grid { return p.BottomEndArcShapeV2Grid },
+		"BottomEndArcShapeV2Grid",
+	)
+	needCommit = n7_bottom_arc_v2_end || needCommit
+
 	n8 := enforcePlantShapeName[*GrowthCurveBezierShapeGrid](
 		stager,
 		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
@@ -552,7 +590,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n9 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc || n7_arc_v2 || n7_top_arc_v2 || n7_arc_end || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n9
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc || n7_arc_v2 || n7_top_arc_v2 || n7_arc_end || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -663,6 +701,14 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 		if plant.TopEndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+		}
+
+		if plant.BottomStartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+			needCommit = enforceBottomStartArcShapeV2GridHasShapes(stage, plant.BottomStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+		}
+
+		if plant.BottomEndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+			needCommit = enforceBottomEndArcShapeV2GridHasShapes(stage, plant.BottomEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 		
 		circLen := 0.0
@@ -2312,3 +2358,321 @@ func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve,
 	return needCommit
 }
 
+
+func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.BottomStartArcShapesV2) > 0 {
+			grid.BottomStartArcShapesV2 = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	if len(grid.BottomStartArcShapesV2) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			arc := grid.BottomStartArcShapesV2[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if arc == nil || arc.Name != expectedName {
+				valid = false
+				break
+			}
+
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			length := math.Hypot(dx, dy)
+			if length == 0 {
+				length = 1
+			}
+			ux, uy := dx/length, dy/length
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+
+			Vx := v1.StartX - midX
+			Vy := v1.StartY - midY
+			V_sq := Vx*Vx + Vy*Vy
+			V_dot_u := Vx*ux + Vy*uy
+			if math.Abs(V_dot_u) < 1e-6 {
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
+			}
+
+			R_val := -V_sq / (2.0 * V_dot_u)
+			R := math.Abs(R_val)
+
+			cx := v1.StartX + R_val*ux
+			cy := v1.StartY + R_val*uy
+
+			AB_model_x := midX - v1.StartX
+			AB_model_y := midY - v1.StartY
+			AC_model_x := cx - v1.StartX
+			AC_model_y := cy - v1.StartY
+			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
+
+			sweepFlag := (model_cross < 0)
+
+			scale := 1.0 + thickness/R_val
+			R_new := R * math.Abs(scale)
+
+			expectedStartX := cx + scale*(v1.StartX-cx)
+			expectedStartY := cy + scale*(v1.StartY-cy)
+			expectedEndX := cx + scale*(midX-cx)
+			expectedEndY := cy + scale*(midY-cy)
+
+			expectedRadiusX := R_new
+			expectedRadiusY := R_new
+
+			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
+				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
+				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
+				arc.SweepFlag != sweepFlag {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.BottomStartArcShapesV2 {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.BottomStartArcShapesV2 = make([]*BottomStartArcShapeV2, expectedLen)
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			length := math.Hypot(dx, dy)
+			if length == 0 {
+				length = 1
+			}
+			ux, uy := dx/length, dy/length
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+
+			Vx := v1.StartX - midX
+			Vy := v1.StartY - midY
+			V_sq := Vx*Vx + Vy*Vy
+			V_dot_u := Vx*ux + Vy*uy
+			if math.Abs(V_dot_u) < 1e-6 {
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
+			}
+
+			R_val := -V_sq / (2.0 * V_dot_u)
+			R := math.Abs(R_val)
+
+			cx := v1.StartX + R_val*ux
+			cy := v1.StartY + R_val*uy
+
+			AB_model_x := midX - v1.StartX
+			AB_model_y := midY - v1.StartY
+			AC_model_x := cx - v1.StartX
+			AC_model_y := cy - v1.StartY
+			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
+
+			sweepFlag := (model_cross < 0)
+
+			scale := 1.0 + thickness/R_val
+			R_new := R * math.Abs(scale)
+
+			expectedStartX := cx + scale*(v1.StartX-cx)
+			expectedStartY := cy + scale*(v1.StartY-cy)
+			expectedEndX := cx + scale*(midX-cx)
+			expectedEndY := cy + scale*(midY-cy)
+
+			newArc := new(BottomStartArcShapeV2).Stage(stage)
+			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newArc.StartX = expectedStartX
+			newArc.StartY = expectedStartY
+			newArc.EndX = expectedEndX
+			newArc.EndY = expectedEndY
+			newArc.RadiusX = R_new
+			newArc.RadiusY = R_new
+			newArc.SweepFlag = sweepFlag
+			newArc.LargeArcFlag = false
+			newArc.XAxisRotation = 0
+
+			grid.BottomStartArcShapesV2[i] = newArc
+		}
+		needCommit = true
+	}
+	return needCommit
+}
+
+func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.BottomEndArcShapesV2) > 0 {
+			grid.BottomEndArcShapesV2 = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	if len(grid.BottomEndArcShapesV2) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			arc := grid.BottomEndArcShapesV2[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if arc == nil || arc.Name != expectedName {
+				valid = false
+				break
+			}
+
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			length := math.Hypot(dx, dy)
+			if length == 0 {
+				length = 1
+			}
+			ux, uy := dx/length, dy/length
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+
+			Vx := v1.StartX - midX
+			Vy := v1.StartY - midY
+			V_sq := Vx*Vx + Vy*Vy
+			V_dot_u := Vx*ux + Vy*uy
+			if math.Abs(V_dot_u) < 1e-6 {
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
+			}
+
+			R_val := -V_sq / (2.0 * V_dot_u)
+			R := math.Abs(R_val)
+
+			cx := v1.StartX + R_val*ux
+			cy := v1.StartY + R_val*uy
+
+			AB_model_x := midX - v1.StartX
+			AB_model_y := midY - v1.StartY
+			AC_model_x := cx - v1.StartX
+			AC_model_y := cy - v1.StartY
+			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
+			origSweepFlag := (model_cross < 0)
+
+			cx_new := 2*midX - cx
+			cy_new := 2*midY - cy
+
+			scale := 1.0 - thickness/R_val
+			R_new := R * math.Abs(scale)
+
+			expectedStartX := cx_new - scale*(v1.StartX-cx)
+			expectedStartY := cy_new - scale*(v1.StartY-cy)
+			expectedEndX := cx_new + scale*(midX-cx_new)
+			expectedEndY := cy_new + scale*(midY-cy_new)
+
+			expectedRadiusX := R_new
+			expectedRadiusY := R_new
+
+			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
+				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
+				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
+				arc.SweepFlag != origSweepFlag {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.BottomEndArcShapesV2 {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.BottomEndArcShapesV2 = make([]*BottomEndArcShapeV2, expectedLen)
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			dx := v1.EndX - v1.StartX
+			dy := v1.EndY - v1.StartY
+			length := math.Hypot(dx, dy)
+			if length == 0 {
+				length = 1
+			}
+			ux, uy := dx/length, dy/length
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+
+			Vx := v1.StartX - midX
+			Vy := v1.StartY - midY
+			V_sq := Vx*Vx + Vy*Vy
+			V_dot_u := Vx*ux + Vy*uy
+			if math.Abs(V_dot_u) < 1e-6 {
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
+			}
+
+			R_val := -V_sq / (2.0 * V_dot_u)
+			R := math.Abs(R_val)
+
+			cx := v1.StartX + R_val*ux
+			cy := v1.StartY + R_val*uy
+
+			AB_model_x := midX - v1.StartX
+			AB_model_y := midY - v1.StartY
+			AC_model_x := cx - v1.StartX
+			AC_model_y := cy - v1.StartY
+			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
+			origSweepFlag := (model_cross < 0)
+
+			cx_new := 2*midX - cx
+			cy_new := 2*midY - cy
+
+			scale := 1.0 - thickness/R_val
+			R_new := R * math.Abs(scale)
+
+			expectedStartX := cx_new - scale*(v1.StartX-cx)
+			expectedStartY := cy_new - scale*(v1.StartY-cy)
+			expectedEndX := cx_new + scale*(midX-cx_new)
+			expectedEndY := cy_new + scale*(midY-cy_new)
+
+			newArc := new(BottomEndArcShapeV2).Stage(stage)
+			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newArc.StartX = expectedStartX
+			newArc.StartY = expectedStartY
+			newArc.EndX = expectedEndX
+			newArc.EndY = expectedEndY
+			newArc.RadiusX = R_new
+			newArc.RadiusY = R_new
+			newArc.SweepFlag = origSweepFlag
+			newArc.LargeArcFlag = false
+			newArc.XAxisRotation = 0
+
+			grid.BottomEndArcShapesV2[i] = newArc
+		}
+		needCommit = true
+	}
+	return needCommit
+}

@@ -76,6 +76,8 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawEndArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawBottomStartArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawBottomEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve(stager, layer, plant)
 
@@ -1093,6 +1095,70 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 		)
 
 		path.Presentation.Stroke = "cyan"
+		path.Presentation.StrokeWidth = 3.0
+		path.Presentation.StrokeOpacity = 1.0
+		path.Presentation.FillOpacity = 0.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawBottomStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.BottomStartArcShapeV2Grid == nil || plantDiagram.IsHiddenBottomStartArcShapeV2Grid {
+		return
+	}
+
+	for _, arc := range plant.BottomStartArcShapeV2Grid.BottomStartArcShapesV2 {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = arc.Name
+
+		sweepFlag := 0
+		if arc.SweepFlag {
+			sweepFlag = 1
+		}
+		largeArcFlag := 0
+		if arc.LargeArcFlag {
+			largeArcFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
+			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
+			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
+			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
+		)
+
+		path.Presentation.Stroke = "blue"
+		path.Presentation.StrokeWidth = 3.0
+		path.Presentation.StrokeOpacity = 1.0
+		path.Presentation.FillOpacity = 0.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawBottomEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.BottomEndArcShapeV2Grid == nil || plantDiagram.IsHiddenBottomEndArcShapeV2Grid {
+		return
+	}
+
+	for _, arc := range plant.BottomEndArcShapeV2Grid.BottomEndArcShapesV2 {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = arc.Name
+
+		sweepFlag := 0
+		if arc.SweepFlag {
+			sweepFlag = 1
+		}
+		largeArcFlag := 0
+		if arc.LargeArcFlag {
+			largeArcFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
+			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
+			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
+			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
+		)
+
+		path.Presentation.Stroke = "blue"
 		path.Presentation.StrokeWidth = 3.0
 		path.Presentation.StrokeOpacity = 1.0
 		path.Presentation.FillOpacity = 0.0
