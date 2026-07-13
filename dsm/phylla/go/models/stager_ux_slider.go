@@ -83,8 +83,8 @@ func (stager *Stager) ux_slider() {
 			m.NewSlider(
 				stager,
 				"Stack Height",
-				1,
-				120,
+				0,
+				10,
 				1,
 				&plant.StackHeight,
 			),
