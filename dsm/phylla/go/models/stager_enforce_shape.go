@@ -608,21 +608,21 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		v2x := -length * math.Cos(angleRad/2.0)
 		v2y := length * math.Sin(angleRad/2.0)
 
-		if plant.InitialRhombusGridShape != nil {
+		{
 			needCommit = enforceInitialRhombusGridShapeHasRhombuses(stage, plant.InitialRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
 		}
 		rotRad := 0.0
-		if plant.PlantCircumferenceShape != nil {
+		{
 			rotRad = -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 		}
-		if plant.RotatedRhombusGridShape2 != nil {
+		{
 			needCommit = enforceRotatedRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape2, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
-		if plant.GrowthCurveRhombusGridShape != nil && plant.RotatedRhombusGridShape2 != nil && plant.PlantCircumferenceShape != nil {
+		{
 			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthCurveRhombusGridShape, plant.RotatedRhombusGridShape2, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle, plant.PlantCircumferenceShape.Length) || needCommit
 		}
 
-		if plant.GrowthVectorShape != nil && plant.GrowthCurveRhombusGridShape != nil {
+		{
 			rhombuses := plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
 			if len(rhombuses) >= 2 {
 				first := rhombuses[0]
@@ -663,35 +663,35 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			}
 		}
 
-		if plant.PerpendicularVectorGrid != nil && plant.GrowthCurveRhombusGridShape != nil {
+		{
 			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
 
-		if plant.PerpendicularVectorGridHalfway != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforcePerpendicularVectorGridHalfwayHasVectors(stage, plant.PerpendicularVectorGridHalfway, plant.PerpendicularVectorGrid) || needCommit
 		}
 
-		if plant.BaseVectorShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceBaseVectorShapeGridHasShapes(stage, plant.BaseVectorShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
-		if plant.ArcNormalVectorShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceArcNormalVectorShapeGridHasShapes(stage, plant.ArcNormalVectorShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
-		if plant.StartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceStartArcShapeV2GridHasShapes(stage, plant.StartArcShapeV2Grid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
-		if plant.TopStartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
-		if plant.EndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceEndArcShapeV2GridHasShapes(stage, plant.EndArcShapeV2Grid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
-		if plant.TopEndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
@@ -700,7 +700,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			plant.GrowthCurve2D.Name = plant.Name + "-GrowthCurve2D"
 			needCommit = true
 		}
-		if plant.GrowthCurve2D != nil {
+		{
 			if plant.GrowthCurve2D.StartArcShapeV2Grid != plant.StartArcShapeV2Grid {
 				plant.GrowthCurve2D.StartArcShapeV2Grid = plant.StartArcShapeV2Grid
 				needCommit = true
@@ -716,7 +716,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			plant.TopGrowthCurve2D.Name = plant.Name + "-TopGrowthCurve2D"
 			needCommit = true
 		}
-		if plant.TopGrowthCurve2D != nil {
+		{
 			if plant.TopGrowthCurve2D.TopStartArcShapeV2Grid != plant.TopStartArcShapeV2Grid {
 				plant.TopGrowthCurve2D.TopStartArcShapeV2Grid = plant.TopStartArcShapeV2Grid
 				needCommit = true
@@ -727,32 +727,30 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			}
 		}
 
-		if plant.BottomStartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceBottomStartArcShapeV2GridHasShapes(stage, plant.BottomStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
-		if plant.BottomEndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceBottomEndArcShapeV2GridHasShapes(stage, plant.BottomEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
 		circLen := 0.0
-		if plant.PlantCircumferenceShape != nil {
+		{
 			circLen = plant.PlantCircumferenceShape.Length
 		}
 
-		if plant.GrowthCurveBezierShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
+		{
 			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength, circLen) || needCommit
 		}
 
-
-
-		if plant.StackOfGrowthCurveV2 != nil && plant.PerpendicularVectorGrid != nil && plant.GrowthVectorShape != nil {
+		{
 			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
 		}
-		if plant.TopStackOfGrowthCurveV2 != nil && plant.PerpendicularVectorGrid != nil && plant.GrowthVectorShape != nil {
+		{
 			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
 		}
-		if plant.BottomStackOfGrowthCurveV2 != nil && plant.PerpendicularVectorGrid != nil && plant.GrowthVectorShape != nil {
+		{
 			needCommit = enforceBottomStackOfGrowthCurveV2HasShapes(stage, plant.BottomStackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
 		}
 	}
@@ -2014,8 +2012,6 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 
 	return needCommit
 }
-
-
 
 func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurveV2, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {

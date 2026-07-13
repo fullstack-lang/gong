@@ -6495,6 +6495,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.OriginY != plantdiagramOther.OriginY {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginY"))
 	}
+	if plantdiagram.IsRhombusNodesExpanded != plantdiagramOther.IsRhombusNodesExpanded {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
+	}
 	if plantdiagram.IsHiddenAxesShape != plantdiagramOther.IsHiddenAxesShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 	}

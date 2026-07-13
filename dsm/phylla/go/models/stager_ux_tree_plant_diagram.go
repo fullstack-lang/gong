@@ -43,7 +43,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	axesShape := plant.AxesShape
-	if axesShape != nil {
+	{
 		node := &tree.Node{
 			Name:            axesShape.Name,
 			IsNodeClickable: true,
@@ -92,7 +92,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	referenceRhombus := plant.ReferenceRhombus
-	if referenceRhombus != nil {
+	{
 		node := &tree.Node{
 			Name:            referenceRhombus.Name,
 			IsNodeClickable: true,
@@ -122,7 +122,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	plantCircumferenceShape := plant.PlantCircumferenceShape
-	if plantCircumferenceShape != nil {
+	{
 		node := &tree.Node{
 			Name:            plantCircumferenceShape.Name,
 			IsNodeClickable: true,
@@ -152,7 +152,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	gridPathShape := plant.GridPathShape
-	if gridPathShape != nil {
+	{
 		node := &tree.Node{
 			Name:            gridPathShape.Name,
 			IsNodeClickable: true,
@@ -182,7 +182,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	rhombusGridShape := plant.InitialRhombusGridShape
-	if rhombusGridShape != nil {
+	{
 		node := &tree.Node{
 			Name:            rhombusGridShape.Name,
 			IsNodeClickable: true,
@@ -212,7 +212,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	explanationTextShape := plant.ExplanationTextShape
-	if explanationTextShape != nil {
+	{
 		node := &tree.Node{
 			Name:            explanationTextShape.Name,
 			IsNodeClickable: true,
@@ -242,7 +242,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	rotatedReferenceRhombus := plant.RotatedReferenceRhombus
-	if rotatedReferenceRhombus != nil {
+	{
 		node := &tree.Node{
 			Name:            rotatedReferenceRhombus.Name,
 			IsNodeClickable: true,
@@ -272,7 +272,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	rotatedPlantCircumferenceShape := plant.RotatedPlantCircumferenceShape
-	if rotatedPlantCircumferenceShape != nil {
+	{
 		node := &tree.Node{
 			Name:            rotatedPlantCircumferenceShape.Name,
 			IsNodeClickable: true,
@@ -302,7 +302,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	rotatedGridPathShape := plant.RotatedGridPathShape
-	if rotatedGridPathShape != nil {
+	{
 		node := &tree.Node{
 			Name:            rotatedGridPathShape.Name,
 			IsNodeClickable: true,
@@ -332,7 +332,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	rotatedRhombusGridShape := plant.RotatedRhombusGridShape2
-	if rotatedRhombusGridShape != nil {
+	{
 		node := &tree.Node{
 			Name:            rotatedRhombusGridShape.Name,
 			IsNodeClickable: true,
@@ -362,7 +362,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	growthPathRhombusGridShape := plant.GrowthCurveRhombusGridShape
-	if growthPathRhombusGridShape != nil {
+	{
 		node := &tree.Node{
 			Name:            growthPathRhombusGridShape.Name,
 			IsNodeClickable: true,
@@ -392,7 +392,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	growthVectorShape := plant.GrowthVectorShape
-	if growthVectorShape != nil {
+	{
 		node := &tree.Node{
 			Name:            growthVectorShape.Name,
 			IsNodeClickable: true,
@@ -422,7 +422,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	perpendicularVectorGrid := plant.PerpendicularVectorGrid
-	if perpendicularVectorGrid != nil {
+	{
 		node := &tree.Node{
 			Name:            perpendicularVectorGrid.Name,
 			IsNodeClickable: true,
@@ -452,7 +452,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	perpendicularVectorGridHalfway := plant.PerpendicularVectorGridHalfway
-	if perpendicularVectorGridHalfway != nil {
+	{
 		node := &tree.Node{
 			Name:            perpendicularVectorGridHalfway.Name,
 			IsNodeClickable: true,
@@ -482,7 +482,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	baseVectorShapeGrid := plant.BaseVectorShapeGrid
-	if baseVectorShapeGrid != nil {
+	{
 		node := &tree.Node{
 			Name:            baseVectorShapeGrid.Name,
 			IsNodeClickable: true,
@@ -512,7 +512,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	arcNormalVectorShapeGrid := plant.ArcNormalVectorShapeGrid
-	if arcNormalVectorShapeGrid != nil {
+	{
 		node := &tree.Node{
 			Name:            arcNormalVectorShapeGrid.Name,
 			IsNodeClickable: true,
@@ -542,7 +542,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	startArcShapeV2Grid := plant.StartArcShapeV2Grid
-	if startArcShapeV2Grid != nil {
+	{
 		node := &tree.Node{
 			Name:            startArcShapeV2Grid.Name,
 			IsNodeClickable: true,
@@ -572,7 +572,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	topStartArcShapeV2Grid := plant.TopStartArcShapeV2Grid
-	if topStartArcShapeV2Grid != nil {
+	{
 		node := &tree.Node{
 			Name:            topStartArcShapeV2Grid.Name,
 			IsNodeClickable: true,
@@ -602,7 +602,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	endArcShapeV2Grid := plant.EndArcShapeV2Grid
-	if endArcShapeV2Grid != nil {
+	{
 		node := &tree.Node{
 			Name:            endArcShapeV2Grid.Name,
 			IsNodeClickable: true,
@@ -632,7 +632,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	topEndArcShapeV2Grid := plant.TopEndArcShapeV2Grid
-	if topEndArcShapeV2Grid != nil {
+	{
 		node := &tree.Node{
 			Name:            topEndArcShapeV2Grid.Name,
 			IsNodeClickable: true,
@@ -662,7 +662,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	bottomStartArcShapeV2Grid := plant.BottomStartArcShapeV2Grid
-	if bottomStartArcShapeV2Grid != nil {
+	{
 		node := &tree.Node{
 			Name:            bottomStartArcShapeV2Grid.Name,
 			IsNodeClickable: true,
@@ -692,7 +692,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	bottomEndArcShapeV2Grid := plant.BottomEndArcShapeV2Grid
-	if bottomEndArcShapeV2Grid != nil {
+	{
 		node := &tree.Node{
 			Name:            bottomEndArcShapeV2Grid.Name,
 			IsNodeClickable: true,
@@ -721,7 +721,8 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	if growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid; growthCurveBezierShapeGrid != nil {
+	{
+		growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid
 		node := &tree.Node{
 			Name: "GrowthCurveBezierShapeGrid",
 		}
@@ -752,9 +753,8 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-
-
-	if stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2; stackOfGrowthCurveV2 != nil {
+	{
+		stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2
 		node := &tree.Node{
 			Name: "StackOfGrowthCurveV2",
 		}
@@ -785,7 +785,8 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	if topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurveV2; topStackOfGrowthCurveV2 != nil {
+	{
+		topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurveV2
 		node := &tree.Node{
 			Name: "TopStackOfGrowthCurveV2",
 		}
@@ -816,7 +817,8 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	if bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurveV2; bottomStackOfGrowthCurveV2 != nil {
+	{
+		bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurveV2
 		node := &tree.Node{
 			Name: "BottomStackOfGrowthCurveV2",
 		}
@@ -846,7 +848,8 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
-	if growthCurve2D := plant.GrowthCurve2D; growthCurve2D != nil {
+	{
+		growthCurve2D := plant.GrowthCurve2D
 		node := &tree.Node{
 			Name: "GrowthCurve2D",
 		}
@@ -877,7 +880,8 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	if topGrowthCurve2D := plant.TopGrowthCurve2D; topGrowthCurve2D != nil {
+	{
+		topGrowthCurve2D := plant.TopGrowthCurve2D
 		node := &tree.Node{
 			Name: "TopGrowthCurve2D",
 		}

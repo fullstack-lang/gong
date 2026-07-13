@@ -208,7 +208,7 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer, pla
 }
 
 func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.ExplanationTextShape == nil || plantDiagram.IsHiddenExplanationTextShape {
+	if plantDiagram.IsHiddenExplanationTextShape {
 		return
 	}
 
@@ -267,7 +267,7 @@ func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, la
 
 func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.ReferenceRhombus == nil || plantDiagram.IsHiddenReferenceRhombus {
+	if plantDiagram.IsHiddenReferenceRhombus {
 		return
 	}
 
@@ -309,7 +309,7 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 
 func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.GridPathShape == nil || plantDiagram.IsHiddenGridPathShape {
+	if plantDiagram.IsHiddenGridPathShape {
 		return
 	}
 
@@ -372,7 +372,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 
 func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.RotatedPlantCircumferenceShape == nil || plantDiagram.IsHiddenRotatedPlantCircumferenceShape {
+	if plantDiagram.IsHiddenRotatedPlantCircumferenceShape {
 		return
 	}
 
@@ -400,7 +400,7 @@ func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Sta
 
 func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.RotatedReferenceRhombus == nil || plantDiagram.IsHiddenRotatedReferenceRhombus {
+	if plantDiagram.IsHiddenRotatedReferenceRhombus {
 		return
 	}
 
@@ -446,7 +446,7 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 
 func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.RotatedGridPathShape == nil || plantDiagram.IsHiddenRotatedGridPathShape {
+	if plantDiagram.IsHiddenRotatedGridPathShape {
 		return
 	}
 
@@ -512,7 +512,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 
 func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.InitialRhombusGridShape == nil || plantDiagram.IsHiddenRhombusGridShape {
+	if plantDiagram.IsHiddenRhombusGridShape {
 		return
 	}
 
@@ -591,7 +591,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 
 func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.RotatedRhombusGridShape2 == nil || plantDiagram.IsHiddenRotatedRhombusGridShape {
+	if plantDiagram.IsHiddenRotatedRhombusGridShape {
 		return
 	}
 
@@ -687,7 +687,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 
 func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.GrowthCurveRhombusGridShape == nil || plantDiagram.IsHiddenGrowthPathRhombusGridShape {
+	if plantDiagram.IsHiddenGrowthPathRhombusGridShape {
 		return
 	}
 
@@ -781,10 +781,10 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 }
 
 func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.GrowthVectorShape == nil || plantDiagram.IsHiddenGrowthVectorShape {
+	if plantDiagram.IsHiddenGrowthVectorShape {
 		return
 	}
-	if plant.GrowthCurveRhombusGridShape == nil || len(plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes) < 2 {
+	if len(plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes) < 2 {
 		return
 	}
 
@@ -812,7 +812,7 @@ func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *s
 }
 
 func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.PerpendicularVectorGrid == nil || plantDiagram.IsHiddenPerpendicularVectorGrid {
+	if plantDiagram.IsHiddenPerpendicularVectorGrid {
 		return
 	}
 
@@ -839,7 +839,7 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, la
 }
 
 func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.PerpendicularVectorGridHalfway == nil || plantDiagram.IsHiddenPerpendicularVectorGridHalfway {
+	if plantDiagram.IsHiddenPerpendicularVectorGridHalfway {
 		return
 	}
 
@@ -866,7 +866,7 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Sta
 }
 
 func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.BaseVectorShapeGrid == nil || plantDiagram.IsHiddenBaseVectorShapeGrid {
+	if plantDiagram.IsHiddenBaseVectorShapeGrid {
 		return
 	}
 
@@ -888,7 +888,7 @@ func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer 
 }
 
 func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.ArcNormalVectorShapeGrid == nil || plantDiagram.IsHiddenArcNormalVectorShapeGrid {
+	if plantDiagram.IsHiddenArcNormalVectorShapeGrid {
 		return
 	}
 
@@ -908,7 +908,7 @@ func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, l
 }
 
 func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.StartArcShapeV2Grid == nil || plantDiagram.IsHiddenStartArcShapeV2Grid {
+	if plantDiagram.IsHiddenStartArcShapeV2Grid {
 		return
 	}
 
@@ -940,7 +940,7 @@ func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer 
 }
 
 func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.TopStartArcShapeV2Grid == nil || plantDiagram.IsHiddenTopStartArcShapeV2Grid {
+	if plantDiagram.IsHiddenTopStartArcShapeV2Grid {
 		return
 	}
 
@@ -972,7 +972,7 @@ func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, lay
 }
 
 func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.EndArcShapeV2Grid == nil || plantDiagram.IsHiddenEndArcShapeV2Grid {
+	if plantDiagram.IsHiddenEndArcShapeV2Grid {
 		return
 	}
 
@@ -1004,7 +1004,7 @@ func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *s
 }
 
 func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.TopEndArcShapeV2Grid == nil || plantDiagram.IsHiddenTopEndArcShapeV2Grid {
+	if plantDiagram.IsHiddenTopEndArcShapeV2Grid {
 		return
 	}
 
@@ -1036,7 +1036,7 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawBottomStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.BottomStartArcShapeV2Grid == nil || plantDiagram.IsHiddenBottomStartArcShapeV2Grid {
+	if plantDiagram.IsHiddenBottomStartArcShapeV2Grid {
 		return
 	}
 
@@ -1068,7 +1068,7 @@ func (plantDiagram *PlantDiagram) drawBottomStartArcShapeV2Grid(stager *Stager, 
 }
 
 func (plantDiagram *PlantDiagram) drawBottomEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.BottomEndArcShapeV2Grid == nil || plantDiagram.IsHiddenBottomEndArcShapeV2Grid {
+	if plantDiagram.IsHiddenBottomEndArcShapeV2Grid {
 		return
 	}
 
@@ -1100,7 +1100,7 @@ func (plantDiagram *PlantDiagram) drawBottomEndArcShapeV2Grid(stager *Stager, la
 }
 
 func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.GrowthCurveBezierShapeGrid == nil || plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
+	if plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
 		return
 	}
 
@@ -1123,9 +1123,8 @@ func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager,
 	}
 }
 
-
 func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.StackOfGrowthCurveV2 == nil || plantDiagram.IsHiddenStackOfGrowthCurveV2 {
+	if plantDiagram.IsHiddenStackOfGrowthCurveV2 {
 		return
 	}
 
@@ -1183,7 +1182,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.TopStackOfGrowthCurveV2 == nil || plantDiagram.IsHiddenTopStackOfGrowthCurveV2 {
+	if plantDiagram.IsHiddenTopStackOfGrowthCurveV2 {
 		return
 	}
 
@@ -1241,7 +1240,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 }
 
 func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.BottomStackOfGrowthCurveV2 == nil || plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 {
+	if plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 {
 		return
 	}
 

@@ -6,6 +6,8 @@ type PlantDiagram struct {
 	OriginX float64
 	OriginY float64
 
+	IsRhombusNodesExpanded bool
+
 	IsHiddenAxesShape                      bool
 	IsHiddenReferenceRhombus               bool
 	IsHiddenPlantCircumferenceShape        bool
@@ -33,12 +35,11 @@ type PlantDiagram struct {
 	IsHiddenTopStackOfGrowthCurveV2        bool
 	IsHiddenBottomStackOfGrowthCurveV2     bool
 
-	IsHiddenGrowthCurve2D bool
+	IsHiddenGrowthCurve2D    bool
 	IsHiddenTopGrowthCurve2D bool
 
 	IsChecked bool
 	AbstractTypeFields
 
 	Rendered3DShape *Rendered3DShape
-	
 }
