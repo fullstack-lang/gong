@@ -32,6 +32,7 @@ type PlantDiagram struct {
 	IsHiddenBottomEndArcShapeV2Grid        bool
 	IsHiddenGrowthCurveBezierShapeGrid     bool
 	IsHiddenStackOfGrowthCurve             bool
+	IsHiddenStackOfGrowthCurveV2           bool
 
 	IsChecked bool
 	AbstractTypeFields

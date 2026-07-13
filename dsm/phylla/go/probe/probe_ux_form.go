@@ -237,11 +237,29 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.stackgrowthcurvebeziershape, probe)
 			}
+		case *StackGrowthCurveEndArcShapeV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StackGrowthCurveEndArcShapeV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stackgrowthcurveendarcshapev2, probe)
+			}
+		case *StackGrowthCurveStartArcShapeV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StackGrowthCurveStartArcShapeV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stackgrowthcurvestartarcshapev2, probe)
+			}
 		case *StackOfGrowthCurveFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "StackOfGrowthCurve", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.stackofgrowthcurve, probe)
+			}
+		case *StackOfGrowthCurveV2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StackOfGrowthCurveV2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stackofgrowthcurvev2, probe)
 			}
 		case *StartArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -794,6 +812,32 @@ func FillUpFormFromGongstructName(
 		stackgrowthcurvebeziershape := new(models.StackGrowthCurveBezierShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackgrowthcurvebeziershape, formGroup, probe)
+	case "StackGrowthCurveEndArcShapeV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackGrowthCurveEndArcShapeV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackGrowthCurveEndArcShapeV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackgrowthcurveendarcshapev2 := new(models.StackGrowthCurveEndArcShapeV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackgrowthcurveendarcshapev2, formGroup, probe)
+	case "StackGrowthCurveStartArcShapeV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackGrowthCurveStartArcShapeV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackGrowthCurveStartArcShapeV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackgrowthcurvestartarcshapev2 := new(models.StackGrowthCurveStartArcShapeV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackgrowthcurvestartarcshapev2, formGroup, probe)
 	case "StackOfGrowthCurve":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -807,6 +851,19 @@ func FillUpFormFromGongstructName(
 		stackofgrowthcurve := new(models.StackOfGrowthCurve)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofgrowthcurve, formGroup, probe)
+	case "StackOfGrowthCurveV2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackOfGrowthCurveV2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfGrowthCurveV2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackofgrowthcurvev2 := new(models.StackOfGrowthCurveV2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackofgrowthcurvev2, formGroup, probe)
 	case "StartArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -80,6 +80,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawBottomEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve(stager, layer, plant)
+	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
 
 	return
 }
@@ -1207,6 +1208,56 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve(stager *Stager, layer *
 		)
 
 		path.Presentation.Stroke = "darkcyan"
+		path.Presentation.StrokeWidth = 2.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 0.6
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plant.StackOfGrowthCurveV2 == nil || plantDiagram.IsHiddenStackOfGrowthCurveV2 {
+		return
+	}
+
+	for _, sa := range plant.StackOfGrowthCurveV2.StackGrowthCurveStartArcShapeV2s {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = sa.Name
+
+		sweepFlagStr := "0"
+		if sa.SweepFlag { sweepFlagStr = "1" }
+		largeArcFlagStr := "0"
+		if sa.LargeArcFlag { largeArcFlagStr = "1" }
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
+			plantDiagram.OriginX+sa.StartX, plantDiagram.OriginY-sa.StartY,
+			sa.RadiusX, sa.RadiusY,
+			sa.XAxisRotation, largeArcFlagStr, sweepFlagStr,
+			plantDiagram.OriginX+sa.EndX, plantDiagram.OriginY-sa.EndY,
+		)
+		path.Presentation.Stroke = "cyan"
+		path.Presentation.StrokeWidth = 2.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 0.6
+	}
+	
+	for _, ea := range plant.StackOfGrowthCurveV2.StackGrowthCurveEndArcShapeV2s {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = ea.Name
+
+		sweepFlagStr := "0"
+		if ea.SweepFlag { sweepFlagStr = "1" }
+		largeArcFlagStr := "0"
+		if ea.LargeArcFlag { largeArcFlagStr = "1" }
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
+			plantDiagram.OriginX+ea.StartX, plantDiagram.OriginY-ea.StartY,
+			ea.RadiusX, ea.RadiusY,
+			ea.XAxisRotation, largeArcFlagStr, sweepFlagStr,
+			plantDiagram.OriginX+ea.EndX, plantDiagram.OriginY-ea.EndY,
+		)
+		path.Presentation.Stroke = "purple"
 		path.Presentation.StrokeWidth = 2.0
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.6

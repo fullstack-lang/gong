@@ -364,6 +364,38 @@ type StackGrowthCurveBezierShape struct {
 	ControlPointEndX, ControlPointEndY float64
 }
 
+// StackOfGrowthCurveV2 of a plant,
+type StackOfGrowthCurveV2 struct {
+	Name string
+
+	StackGrowthCurveStartArcShapeV2s []*StackGrowthCurveStartArcShapeV2
+	StackGrowthCurveEndArcShapeV2s   []*StackGrowthCurveEndArcShapeV2
+}
+
+type StackGrowthCurveStartArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+type StackGrowthCurveEndArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
 type Rendered3DShape struct {
 	Name string
 

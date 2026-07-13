@@ -71,4 +71,5 @@ type Plant struct {
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
 
 	StackOfGrowthCurve *StackOfGrowthCurve
+	StackOfGrowthCurveV2 *StackOfGrowthCurveV2
 }
