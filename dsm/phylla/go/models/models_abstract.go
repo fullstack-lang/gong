@@ -64,13 +64,10 @@ type Plant struct {
 	TopStartArcShapeGrid         *TopStartArcShapeGrid
 	EndArcShapeGrid              *EndArcShapeGrid
 	TopEndArcShapeGrid           *TopEndArcShapeGrid
-	BottomStartArcShapeGrid      *BottomStartArcShapeGrid
-	BottomEndArcShapeGrid        *BottomEndArcShapeGrid
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
 
 	StackOfGrowthCurve       *StackOfGrowthCurve
 	TopStackOfGrowthCurve    *TopStackOfGrowthCurve
-	BottomStackOfGrowthCurve *BottomStackOfGrowthCurve
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D
