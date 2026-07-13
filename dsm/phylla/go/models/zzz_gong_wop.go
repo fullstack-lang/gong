@@ -698,13 +698,9 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenArcNormalVectorShapeGrid bool
 
-	IsHiddenStartArcShapeGrid bool
-
 	IsHiddenStartArcShapeV2Grid bool
 
 	IsHiddenTopStartArcShapeV2Grid bool
-
-	IsHiddenEndArcShapeGrid bool
 
 	IsHiddenEndArcShapeV2Grid bool
 
@@ -715,8 +711,6 @@ type PlantDiagram_WOP struct {
 	IsHiddenBottomEndArcShapeV2Grid bool
 
 	IsHiddenGrowthCurveBezierShapeGrid bool
-
-	IsHiddenStackOfGrowthCurve bool
 
 	IsHiddenStackOfGrowthCurveV2 bool
 
@@ -756,16 +750,13 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
 	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
-	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
 	to.IsHiddenStartArcShapeV2Grid = from.IsHiddenStartArcShapeV2Grid
 	to.IsHiddenTopStartArcShapeV2Grid = from.IsHiddenTopStartArcShapeV2Grid
-	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenEndArcShapeV2Grid = from.IsHiddenEndArcShapeV2Grid
 	to.IsHiddenTopEndArcShapeV2Grid = from.IsHiddenTopEndArcShapeV2Grid
 	to.IsHiddenBottomStartArcShapeV2Grid = from.IsHiddenBottomStartArcShapeV2Grid
 	to.IsHiddenBottomEndArcShapeV2Grid = from.IsHiddenBottomEndArcShapeV2Grid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
-	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
 	to.IsHiddenStackOfGrowthCurveV2 = from.IsHiddenStackOfGrowthCurveV2
 	to.IsHiddenTopStackOfGrowthCurveV2 = from.IsHiddenTopStackOfGrowthCurveV2
 	to.IsHiddenBottomStackOfGrowthCurveV2 = from.IsHiddenBottomStackOfGrowthCurveV2
@@ -853,41 +844,6 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Y = from.Y
 }
 
-type StackGrowthCurveBezierShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartX float64
-
-	StartY float64
-
-	ControlPointStartX float64
-
-	ControlPointStartY float64
-
-	EndX float64
-
-	EndY float64
-
-	ControlPointEndX float64
-
-	ControlPointEndY float64
-}
-
-func (from *StackGrowthCurveBezierShape) CopyBasicFields(to *StackGrowthCurveBezierShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.ControlPointStartX = from.ControlPointStartX
-	to.ControlPointStartY = from.ControlPointStartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.ControlPointEndX = from.ControlPointEndX
-	to.ControlPointEndY = from.ControlPointEndY
-}
-
 type StackGrowthCurveEndArcShapeV2_WOP struct {
 	// insertion point
 
@@ -962,17 +918,6 @@ func (from *StackGrowthCurveStartArcShapeV2) CopyBasicFields(to *StackGrowthCurv
 	to.SweepFlag = from.SweepFlag
 	to.RadiusX = from.RadiusX
 	to.RadiusY = from.RadiusY
-}
-
-type StackOfGrowthCurve_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *StackOfGrowthCurve) CopyBasicFields(to *StackOfGrowthCurve) {
-	// insertion point
-	to.Name = from.Name
 }
 
 type StackOfGrowthCurveV2_WOP struct {

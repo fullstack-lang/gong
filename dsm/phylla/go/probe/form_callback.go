@@ -3785,8 +3785,6 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.BottomEndArcShapeV2Grid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurveBezierShapeGrid":
 			FormDivSelectFieldToField(&(plant_.GrowthCurveBezierShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfGrowthCurve":
-			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurveV2":
 			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurveV2), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStackOfGrowthCurveV2":
@@ -4038,14 +4036,10 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBaseVectorShapeGrid), formDiv)
 		case "IsHiddenArcNormalVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenArcNormalVectorShapeGrid), formDiv)
-		case "IsHiddenStartArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeGrid), formDiv)
 		case "IsHiddenStartArcShapeV2Grid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeV2Grid), formDiv)
 		case "IsHiddenTopStartArcShapeV2Grid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStartArcShapeV2Grid), formDiv)
-		case "IsHiddenEndArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeV2Grid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeV2Grid), formDiv)
 		case "IsHiddenTopEndArcShapeV2Grid":
@@ -4056,8 +4050,6 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomEndArcShapeV2Grid), formDiv)
 		case "IsHiddenGrowthCurveBezierShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurveBezierShapeGrid), formDiv)
-		case "IsHiddenStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve), formDiv)
 		case "IsHiddenStackOfGrowthCurveV2":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurveV2), formDiv)
 		case "IsHiddenTopStackOfGrowthCurveV2":
@@ -4563,145 +4555,6 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 
 	rotatedrhombusshapeFormCallback.probe.ux_tree()
 }
-func __gong__New__StackGrowthCurveBezierShapeFormCallback(
-	stackgrowthcurvebeziershape *models.StackGrowthCurveBezierShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stackgrowthcurvebeziershapeFormCallback *StackGrowthCurveBezierShapeFormCallback) {
-	stackgrowthcurvebeziershapeFormCallback = new(StackGrowthCurveBezierShapeFormCallback)
-	stackgrowthcurvebeziershapeFormCallback.probe = probe
-	stackgrowthcurvebeziershapeFormCallback.stackgrowthcurvebeziershape = stackgrowthcurvebeziershape
-	stackgrowthcurvebeziershapeFormCallback.formGroup = formGroup
-
-	stackgrowthcurvebeziershapeFormCallback.CreationMode = (stackgrowthcurvebeziershape == nil)
-
-	return
-}
-
-type StackGrowthCurveBezierShapeFormCallback struct {
-	stackgrowthcurvebeziershape *models.StackGrowthCurveBezierShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (stackgrowthcurvebeziershapeFormCallback *StackGrowthCurveBezierShapeFormCallback) OnSave() {
-	stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest.Lock()
-	defer stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("StackGrowthCurveBezierShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	stackgrowthcurvebeziershapeFormCallback.probe.formStage.Checkout()
-
-	if stackgrowthcurvebeziershapeFormCallback.stackgrowthcurvebeziershape == nil {
-		stackgrowthcurvebeziershapeFormCallback.stackgrowthcurvebeziershape = new(models.StackGrowthCurveBezierShape).Stage(stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest)
-	}
-	stackgrowthcurvebeziershape_ := stackgrowthcurvebeziershapeFormCallback.stackgrowthcurvebeziershape
-	_ = stackgrowthcurvebeziershape_
-
-	for _, formDiv := range stackgrowthcurvebeziershapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.Name), formDiv)
-		case "StartX":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.StartX), formDiv)
-		case "StartY":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.StartY), formDiv)
-		case "ControlPointStartX":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.ControlPointStartX), formDiv)
-		case "ControlPointStartY":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.ControlPointStartY), formDiv)
-		case "EndX":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.EndX), formDiv)
-		case "EndY":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.EndY), formDiv)
-		case "ControlPointEndX":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.ControlPointEndX), formDiv)
-		case "ControlPointEndY":
-			FormDivBasicFieldToField(&(stackgrowthcurvebeziershape_.ControlPointEndY), formDiv)
-		case "StackOfGrowthCurve:StackGrowthCurveBezierShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfGrowthCurve instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target StackOfGrowthCurve instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.StackOfGrowthCurve](stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest)
-			targetStackOfGrowthCurveIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetStackOfGrowthCurveIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all StackOfGrowthCurve instances and update their StackGrowthCurveBezierShapes slice
-			for _stackofgrowthcurve := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurve](stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest, _stackofgrowthcurve)
-				
-				// if StackOfGrowthCurve is selected
-				if targetStackOfGrowthCurveIDs[id] {
-					// ensure stackgrowthcurvebeziershape_ is in _stackofgrowthcurve.StackGrowthCurveBezierShapes
-					found := false
-					for _, _b := range _stackofgrowthcurve.StackGrowthCurveBezierShapes {
-						if _b == stackgrowthcurvebeziershape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_stackofgrowthcurve.StackGrowthCurveBezierShapes = append(_stackofgrowthcurve.StackGrowthCurveBezierShapes, stackgrowthcurvebeziershape_)
-						stackgrowthcurvebeziershapeFormCallback.probe.UpdateSliceOfPointersCallback(_stackofgrowthcurve, "StackGrowthCurveBezierShapes", &_stackofgrowthcurve.StackGrowthCurveBezierShapes)
-					}
-				} else {
-					// ensure stackgrowthcurvebeziershape_ is NOT in _stackofgrowthcurve.StackGrowthCurveBezierShapes
-					idx := slices.Index(_stackofgrowthcurve.StackGrowthCurveBezierShapes, stackgrowthcurvebeziershape_)
-					if idx != -1 {
-						_stackofgrowthcurve.StackGrowthCurveBezierShapes = slices.Delete(_stackofgrowthcurve.StackGrowthCurveBezierShapes, idx, idx+1)
-						stackgrowthcurvebeziershapeFormCallback.probe.UpdateSliceOfPointersCallback(_stackofgrowthcurve, "StackGrowthCurveBezierShapes", &_stackofgrowthcurve.StackGrowthCurveBezierShapes)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if stackgrowthcurvebeziershapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		stackgrowthcurvebeziershape_.Unstage(stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest)
-	}
-
-	stackgrowthcurvebeziershapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.StackGrowthCurveBezierShape](
-		stackgrowthcurvebeziershapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if stackgrowthcurvebeziershapeFormCallback.CreationMode || stackgrowthcurvebeziershapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		stackgrowthcurvebeziershapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(stackgrowthcurvebeziershapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__StackGrowthCurveBezierShapeFormCallback(
-			nil,
-			stackgrowthcurvebeziershapeFormCallback.probe,
-			newFormGroup,
-		)
-		stackgrowthcurvebeziershape := new(models.StackGrowthCurveBezierShape)
-		FillUpForm(stackgrowthcurvebeziershape, newFormGroup, stackgrowthcurvebeziershapeFormCallback.probe)
-		stackgrowthcurvebeziershapeFormCallback.probe.formStage.Commit()
-	}
-
-	stackgrowthcurvebeziershapeFormCallback.probe.ux_tree()
-}
 func __gong__New__StackGrowthCurveEndArcShapeV2FormCallback(
 	stackgrowthcurveendarcshapev2 *models.StackGrowthCurveEndArcShapeV2,
 	probe *Probe,
@@ -4983,116 +4836,6 @@ func (stackgrowthcurvestartarcshapev2FormCallback *StackGrowthCurveStartArcShape
 	}
 
 	stackgrowthcurvestartarcshapev2FormCallback.probe.ux_tree()
-}
-func __gong__New__StackOfGrowthCurveFormCallback(
-	stackofgrowthcurve *models.StackOfGrowthCurve,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stackofgrowthcurveFormCallback *StackOfGrowthCurveFormCallback) {
-	stackofgrowthcurveFormCallback = new(StackOfGrowthCurveFormCallback)
-	stackofgrowthcurveFormCallback.probe = probe
-	stackofgrowthcurveFormCallback.stackofgrowthcurve = stackofgrowthcurve
-	stackofgrowthcurveFormCallback.formGroup = formGroup
-
-	stackofgrowthcurveFormCallback.CreationMode = (stackofgrowthcurve == nil)
-
-	return
-}
-
-type StackOfGrowthCurveFormCallback struct {
-	stackofgrowthcurve *models.StackOfGrowthCurve
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (stackofgrowthcurveFormCallback *StackOfGrowthCurveFormCallback) OnSave() {
-	stackofgrowthcurveFormCallback.probe.stageOfInterest.Lock()
-	defer stackofgrowthcurveFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("StackOfGrowthCurveFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	stackofgrowthcurveFormCallback.probe.formStage.Checkout()
-
-	if stackofgrowthcurveFormCallback.stackofgrowthcurve == nil {
-		stackofgrowthcurveFormCallback.stackofgrowthcurve = new(models.StackOfGrowthCurve).Stage(stackofgrowthcurveFormCallback.probe.stageOfInterest)
-	}
-	stackofgrowthcurve_ := stackofgrowthcurveFormCallback.stackofgrowthcurve
-	_ = stackofgrowthcurve_
-
-	for _, formDiv := range stackofgrowthcurveFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(stackofgrowthcurve_.Name), formDiv)
-		case "StackGrowthCurveBezierShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurveBezierShape](stackofgrowthcurveFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.StackGrowthCurveBezierShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.StackGrowthCurveBezierShape)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stackofgrowthcurveFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.StackGrowthCurveBezierShape](stackofgrowthcurveFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			stackofgrowthcurve_.StackGrowthCurveBezierShapes = instanceSlice
-			stackofgrowthcurveFormCallback.probe.UpdateSliceOfPointersCallback(stackofgrowthcurve_, "StackGrowthCurveBezierShapes", &stackofgrowthcurve_.StackGrowthCurveBezierShapes)
-
-		}
-	}
-
-	// manage the suppress operation
-	if stackofgrowthcurveFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		stackofgrowthcurve_.Unstage(stackofgrowthcurveFormCallback.probe.stageOfInterest)
-	}
-
-	stackofgrowthcurveFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.StackOfGrowthCurve](
-		stackofgrowthcurveFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if stackofgrowthcurveFormCallback.CreationMode || stackofgrowthcurveFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		stackofgrowthcurveFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(stackofgrowthcurveFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__StackOfGrowthCurveFormCallback(
-			nil,
-			stackofgrowthcurveFormCallback.probe,
-			newFormGroup,
-		)
-		stackofgrowthcurve := new(models.StackOfGrowthCurve)
-		FillUpForm(stackofgrowthcurve, newFormGroup, stackofgrowthcurveFormCallback.probe)
-		stackofgrowthcurveFormCallback.probe.formStage.Commit()
-	}
-
-	stackofgrowthcurveFormCallback.probe.ux_tree()
 }
 func __gong__New__StackOfGrowthCurveV2FormCallback(
 	stackofgrowthcurvev2 *models.StackOfGrowthCurveV2,

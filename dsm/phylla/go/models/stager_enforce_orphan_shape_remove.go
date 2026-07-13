@@ -34,13 +34,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refBottomStartArcShapeV2Grid := make(map[*BottomStartArcShapeV2Grid]bool)
 	refBottomEndArcShapeV2Grid := make(map[*BottomEndArcShapeV2Grid]bool)
 	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
-	refStackOfGrowthCurve := make(map[*StackOfGrowthCurve]bool)
+
 	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
 	refBaseVectorShape := make(map[*BaseVectorShape]bool)
 	refStackOfGrowthCurveV2 := make(map[*StackOfGrowthCurveV2]bool)
 	refStackGrowthCurveStartArcShapeV2 := make(map[*StackGrowthCurveStartArcShapeV2]bool)
 	refStackGrowthCurveEndArcShapeV2 := make(map[*StackGrowthCurveEndArcShapeV2]bool)
-	refStackGrowthCurveBezierShape := make(map[*StackGrowthCurveBezierShape]bool)
+
 	refTopStackOfGrowthCurveV2 := make(map[*TopStackOfGrowthCurveV2]bool)
 	refTopStackGrowthCurveStartArcShapeV2 := make(map[*TopStackGrowthCurveStartArcShapeV2]bool)
 	refTopStackGrowthCurveEndArcShapeV2 := make(map[*TopStackGrowthCurveEndArcShapeV2]bool)
@@ -212,14 +212,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.StackOfGrowthCurve != nil {
-			refStackOfGrowthCurve[plant.StackOfGrowthCurve] = true
-			for _, shape := range plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes {
-				if shape != nil {
-					refStackGrowthCurveBezierShape[shape] = true
-				}
-			}
-		}
+
 		if plant.StackOfGrowthCurveV2 != nil {
 			refStackOfGrowthCurveV2[plant.StackOfGrowthCurveV2] = true
 			for _, shape := range plant.StackOfGrowthCurveV2.StackGrowthCurveStartArcShapeV2s {
@@ -405,12 +398,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
-	for stack := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurve](stage) {
-		if !refStackOfGrowthCurve[stack] {
-			stack.Unstage(stage)
-			needCommit = true
-		}
-	}
+
 	for stack := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurveV2](stage) {
 		if !refStackOfGrowthCurveV2[stack] {
 			stack.Unstage(stage)
@@ -518,12 +506,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurveBezierShape](stage) {
-		if !refStackGrowthCurveBezierShape[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
+
 	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurveStartArcShapeV2](stage) {
 		if !refStackGrowthCurveStartArcShapeV2[shape] {
 			shape.Unstage(stage)

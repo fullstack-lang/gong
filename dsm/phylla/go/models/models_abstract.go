@@ -68,7 +68,6 @@ type Plant struct {
 	BottomEndArcShapeV2Grid        *BottomEndArcShapeV2Grid
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
 
-	StackOfGrowthCurve         *StackOfGrowthCurve
 	StackOfGrowthCurveV2       *StackOfGrowthCurveV2
 	TopStackOfGrowthCurveV2    *TopStackOfGrowthCurveV2
 	BottomStackOfGrowthCurveV2 *BottomStackOfGrowthCurveV2
