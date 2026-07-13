@@ -842,4 +842,34 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
+
+	if stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2; stackOfGrowthCurveV2 != nil {
+		node := (&tree.Node{
+			Name: "StackOfGrowthCurveV2",
+		}).Stage(stager.treeStage)
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(stackOfGrowthCurveV2, GetPointerToGongstructName[*StackOfGrowthCurveV2]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenStackOfGrowthCurveV2 = !plantDiagram.IsHiddenStackOfGrowthCurveV2
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenStackOfGrowthCurveV2 {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
 }
