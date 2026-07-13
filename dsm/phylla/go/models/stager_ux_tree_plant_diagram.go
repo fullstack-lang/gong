@@ -42,6 +42,14 @@ func (stager *Stager) treePlantDiagram(
 		stager.stage.Commit()
 	}
 
+	rhombusNodes := &tree.Node{
+		Name:            "Rhombus confs",
+		IsExpanded:      plantDiagram.IsRhombusNodesExpanded,
+		IsNodeClickable: true,
+	}
+	plantDiagramNode.Children = append(plantDiagramNode.Children, rhombusNodes)
+	rhombusNodes.OnIsCheckedChanged = stager.onIsExpandedChangeBool(&plantDiagram.IsRhombusNodesExpanded)
+
 	axesShape := plant.AxesShape
 	{
 		node := &tree.Node{
@@ -118,7 +126,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	plantCircumferenceShape := plant.PlantCircumferenceShape
@@ -148,7 +156,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	gridPathShape := plant.GridPathShape
@@ -178,7 +186,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	rhombusGridShape := plant.InitialRhombusGridShape
@@ -208,7 +216,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	explanationTextShape := plant.ExplanationTextShape
@@ -238,7 +246,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	rotatedReferenceRhombus := plant.RotatedReferenceRhombus
@@ -268,7 +276,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	rotatedPlantCircumferenceShape := plant.RotatedPlantCircumferenceShape
@@ -298,7 +306,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	rotatedGridPathShape := plant.RotatedGridPathShape
@@ -328,7 +336,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	rotatedRhombusGridShape := plant.RotatedRhombusGridShape2
@@ -358,7 +366,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	growthPathRhombusGridShape := plant.GrowthCurveRhombusGridShape
@@ -388,7 +396,7 @@ func (stager *Stager) treePlantDiagram(
 			btn.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
 	growthVectorShape := plant.GrowthVectorShape
