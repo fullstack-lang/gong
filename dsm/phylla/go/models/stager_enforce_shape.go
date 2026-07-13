@@ -304,73 +304,73 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_arc_normal || needCommit
 
-	n7_arc_v2 := enforcePlantHasShape[*StartArcShapeV2Grid](
+	n7_arc_v2 := enforcePlantHasShape[*StartArcShapeGrid](
 		stager,
-		func() *StartArcShapeV2Grid { return new(StartArcShapeV2Grid) },
-		func(p *Plant) *StartArcShapeV2Grid { return p.StartArcShapeV2Grid },
-		func(p *Plant, shape *StartArcShapeV2Grid) { p.StartArcShapeV2Grid = shape },
-		func(p *Plant, shape *StartArcShapeV2Grid) bool {
-			return p.StartArcShapeV2Grid == shape
+		func() *StartArcShapeGrid { return new(StartArcShapeGrid) },
+		func(p *Plant) *StartArcShapeGrid { return p.StartArcShapeGrid },
+		func(p *Plant, shape *StartArcShapeGrid) { p.StartArcShapeGrid = shape },
+		func(p *Plant, shape *StartArcShapeGrid) bool {
+			return p.StartArcShapeGrid == shape
 		},
 		"StartArcShapeV2Grid",
 	)
 	needCommit = n7_arc_v2 || needCommit
 
-	n7_top_arc_v2 := enforcePlantHasShape[*TopStartArcShapeV2Grid](
+	n7_top_arc_v2 := enforcePlantHasShape[*TopStartArcShapeGrid](
 		stager,
-		func() *TopStartArcShapeV2Grid { return new(TopStartArcShapeV2Grid) },
-		func(p *Plant) *TopStartArcShapeV2Grid { return p.TopStartArcShapeV2Grid },
-		func(p *Plant, shape *TopStartArcShapeV2Grid) { p.TopStartArcShapeV2Grid = shape },
-		func(p *Plant, shape *TopStartArcShapeV2Grid) bool {
-			return p.TopStartArcShapeV2Grid == shape
+		func() *TopStartArcShapeGrid { return new(TopStartArcShapeGrid) },
+		func(p *Plant) *TopStartArcShapeGrid { return p.TopStartArcShapeGrid },
+		func(p *Plant, shape *TopStartArcShapeGrid) { p.TopStartArcShapeGrid = shape },
+		func(p *Plant, shape *TopStartArcShapeGrid) bool {
+			return p.TopStartArcShapeGrid == shape
 		},
 		"TopStartArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2 || needCommit
 
-	n7_arc_v2_end := enforcePlantHasShape[*EndArcShapeV2Grid](
+	n7_arc_v2_end := enforcePlantHasShape[*EndArcShapeGrid](
 		stager,
-		func() *EndArcShapeV2Grid { return new(EndArcShapeV2Grid) },
-		func(p *Plant) *EndArcShapeV2Grid { return p.EndArcShapeV2Grid },
-		func(p *Plant, shape *EndArcShapeV2Grid) { p.EndArcShapeV2Grid = shape },
-		func(p *Plant, shape *EndArcShapeV2Grid) bool {
-			return p.EndArcShapeV2Grid == shape
+		func() *EndArcShapeGrid { return new(EndArcShapeGrid) },
+		func(p *Plant) *EndArcShapeGrid { return p.EndArcShapeGrid },
+		func(p *Plant, shape *EndArcShapeGrid) { p.EndArcShapeGrid = shape },
+		func(p *Plant, shape *EndArcShapeGrid) bool {
+			return p.EndArcShapeGrid == shape
 		},
 		"EndArcShapeV2Grid",
 	)
 	needCommit = n7_arc_v2_end || needCommit
 
-	n7_top_arc_v2_end := enforcePlantHasShape[*TopEndArcShapeV2Grid](
+	n7_top_arc_v2_end := enforcePlantHasShape[*TopEndArcShapeGrid](
 		stager,
-		func() *TopEndArcShapeV2Grid { return new(TopEndArcShapeV2Grid) },
-		func(p *Plant) *TopEndArcShapeV2Grid { return p.TopEndArcShapeV2Grid },
-		func(p *Plant, shape *TopEndArcShapeV2Grid) { p.TopEndArcShapeV2Grid = shape },
-		func(p *Plant, shape *TopEndArcShapeV2Grid) bool {
-			return p.TopEndArcShapeV2Grid == shape
+		func() *TopEndArcShapeGrid { return new(TopEndArcShapeGrid) },
+		func(p *Plant) *TopEndArcShapeGrid { return p.TopEndArcShapeGrid },
+		func(p *Plant, shape *TopEndArcShapeGrid) { p.TopEndArcShapeGrid = shape },
+		func(p *Plant, shape *TopEndArcShapeGrid) bool {
+			return p.TopEndArcShapeGrid == shape
 		},
 		"TopEndArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n7_bottom_arc_v2 := enforcePlantHasShape[*BottomStartArcShapeV2Grid](
+	n7_bottom_arc_v2 := enforcePlantHasShape[*BottomStartArcShapeGrid](
 		stager,
-		func() *BottomStartArcShapeV2Grid { return new(BottomStartArcShapeV2Grid) },
-		func(p *Plant) *BottomStartArcShapeV2Grid { return p.BottomStartArcShapeV2Grid },
-		func(p *Plant, shape *BottomStartArcShapeV2Grid) { p.BottomStartArcShapeV2Grid = shape },
-		func(p *Plant, shape *BottomStartArcShapeV2Grid) bool {
-			return p.BottomStartArcShapeV2Grid == shape
+		func() *BottomStartArcShapeGrid { return new(BottomStartArcShapeGrid) },
+		func(p *Plant) *BottomStartArcShapeGrid { return p.BottomStartArcShapeGrid },
+		func(p *Plant, shape *BottomStartArcShapeGrid) { p.BottomStartArcShapeGrid = shape },
+		func(p *Plant, shape *BottomStartArcShapeGrid) bool {
+			return p.BottomStartArcShapeGrid == shape
 		},
 		"BottomStartArcShapeV2Grid",
 	)
 	needCommit = n7_bottom_arc_v2 || needCommit
 
-	n7_bottom_arc_v2_end := enforcePlantHasShape[*BottomEndArcShapeV2Grid](
+	n7_bottom_arc_v2_end := enforcePlantHasShape[*BottomEndArcShapeGrid](
 		stager,
-		func() *BottomEndArcShapeV2Grid { return new(BottomEndArcShapeV2Grid) },
-		func(p *Plant) *BottomEndArcShapeV2Grid { return p.BottomEndArcShapeV2Grid },
-		func(p *Plant, shape *BottomEndArcShapeV2Grid) { p.BottomEndArcShapeV2Grid = shape },
-		func(p *Plant, shape *BottomEndArcShapeV2Grid) bool {
-			return p.BottomEndArcShapeV2Grid == shape
+		func() *BottomEndArcShapeGrid { return new(BottomEndArcShapeGrid) },
+		func(p *Plant) *BottomEndArcShapeGrid { return p.BottomEndArcShapeGrid },
+		func(p *Plant, shape *BottomEndArcShapeGrid) { p.BottomEndArcShapeGrid = shape },
+		func(p *Plant, shape *BottomEndArcShapeGrid) bool {
+			return p.BottomEndArcShapeGrid == shape
 		},
 		"BottomEndArcShapeV2Grid",
 	)
@@ -388,37 +388,37 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n8 || needCommit
 
-	n10 := enforcePlantHasShape[*StackOfGrowthCurveV2](
+	n10 := enforcePlantHasShape[*StackOfGrowthCurve](
 		stager,
-		func() *StackOfGrowthCurveV2 { return new(StackOfGrowthCurveV2) },
-		func(p *Plant) *StackOfGrowthCurveV2 { return p.StackOfGrowthCurveV2 },
-		func(p *Plant, shape *StackOfGrowthCurveV2) { p.StackOfGrowthCurveV2 = shape },
-		func(p *Plant, shape *StackOfGrowthCurveV2) bool {
-			return p.StackOfGrowthCurveV2 == shape
+		func() *StackOfGrowthCurve { return new(StackOfGrowthCurve) },
+		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
+		func(p *Plant, shape *StackOfGrowthCurve) { p.StackOfGrowthCurve = shape },
+		func(p *Plant, shape *StackOfGrowthCurve) bool {
+			return p.StackOfGrowthCurve == shape
 		},
 		"StackOfGrowthCurveV2",
 	)
 	needCommit = n10 || needCommit
 
-	n11 := enforcePlantHasShape[*TopStackOfGrowthCurveV2](
+	n11 := enforcePlantHasShape[*TopStackOfGrowthCurve](
 		stager,
-		func() *TopStackOfGrowthCurveV2 { return new(TopStackOfGrowthCurveV2) },
-		func(p *Plant) *TopStackOfGrowthCurveV2 { return p.TopStackOfGrowthCurveV2 },
-		func(p *Plant, shape *TopStackOfGrowthCurveV2) { p.TopStackOfGrowthCurveV2 = shape },
-		func(p *Plant, shape *TopStackOfGrowthCurveV2) bool {
-			return p.TopStackOfGrowthCurveV2 == shape
+		func() *TopStackOfGrowthCurve { return new(TopStackOfGrowthCurve) },
+		func(p *Plant) *TopStackOfGrowthCurve { return p.TopStackOfGrowthCurve },
+		func(p *Plant, shape *TopStackOfGrowthCurve) { p.TopStackOfGrowthCurve = shape },
+		func(p *Plant, shape *TopStackOfGrowthCurve) bool {
+			return p.TopStackOfGrowthCurve == shape
 		},
 		"TopStackOfGrowthCurveV2",
 	)
 	needCommit = n11 || needCommit
 
-	n12 := enforcePlantHasShape[*BottomStackOfGrowthCurveV2](
+	n12 := enforcePlantHasShape[*BottomStackOfGrowthCurve](
 		stager,
-		func() *BottomStackOfGrowthCurveV2 { return new(BottomStackOfGrowthCurveV2) },
-		func(p *Plant) *BottomStackOfGrowthCurveV2 { return p.BottomStackOfGrowthCurveV2 },
-		func(p *Plant, shape *BottomStackOfGrowthCurveV2) { p.BottomStackOfGrowthCurveV2 = shape },
-		func(p *Plant, shape *BottomStackOfGrowthCurveV2) bool {
-			return p.BottomStackOfGrowthCurveV2 == shape
+		func() *BottomStackOfGrowthCurve { return new(BottomStackOfGrowthCurve) },
+		func(p *Plant) *BottomStackOfGrowthCurve { return p.BottomStackOfGrowthCurve },
+		func(p *Plant, shape *BottomStackOfGrowthCurve) { p.BottomStackOfGrowthCurve = shape },
+		func(p *Plant, shape *BottomStackOfGrowthCurve) bool {
+			return p.BottomStackOfGrowthCurve == shape
 		},
 		"BottomStackOfGrowthCurveV2",
 	)
@@ -520,44 +520,44 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_arc_normal || needCommit
 
-	n7_arc_v2 := enforcePlantShapeName[*StartArcShapeV2Grid](
+	n7_arc_v2 := enforcePlantShapeName[*StartArcShapeGrid](
 		stager,
-		func(p *Plant) *StartArcShapeV2Grid { return p.StartArcShapeV2Grid },
+		func(p *Plant) *StartArcShapeGrid { return p.StartArcShapeGrid },
 		"StartArcShapeV2Grid",
 	)
 	needCommit = n7_arc_v2 || needCommit
 
-	n7_top_arc_v2 := enforcePlantShapeName[*TopStartArcShapeV2Grid](
+	n7_top_arc_v2 := enforcePlantShapeName[*TopStartArcShapeGrid](
 		stager,
-		func(p *Plant) *TopStartArcShapeV2Grid { return p.TopStartArcShapeV2Grid },
+		func(p *Plant) *TopStartArcShapeGrid { return p.TopStartArcShapeGrid },
 		"TopStartArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2 || needCommit
 
-	n7_arc_v2_end := enforcePlantShapeName[*EndArcShapeV2Grid](
+	n7_arc_v2_end := enforcePlantShapeName[*EndArcShapeGrid](
 		stager,
-		func(p *Plant) *EndArcShapeV2Grid { return p.EndArcShapeV2Grid },
+		func(p *Plant) *EndArcShapeGrid { return p.EndArcShapeGrid },
 		"EndArcShapeV2Grid",
 	)
 	needCommit = n7_arc_v2_end || needCommit
 
-	n7_top_arc_v2_end := enforcePlantShapeName[*TopEndArcShapeV2Grid](
+	n7_top_arc_v2_end := enforcePlantShapeName[*TopEndArcShapeGrid](
 		stager,
-		func(p *Plant) *TopEndArcShapeV2Grid { return p.TopEndArcShapeV2Grid },
+		func(p *Plant) *TopEndArcShapeGrid { return p.TopEndArcShapeGrid },
 		"TopEndArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n7_bottom_arc_v2 := enforcePlantShapeName[*BottomStartArcShapeV2Grid](
+	n7_bottom_arc_v2 := enforcePlantShapeName[*BottomStartArcShapeGrid](
 		stager,
-		func(p *Plant) *BottomStartArcShapeV2Grid { return p.BottomStartArcShapeV2Grid },
+		func(p *Plant) *BottomStartArcShapeGrid { return p.BottomStartArcShapeGrid },
 		"BottomStartArcShapeV2Grid",
 	)
 	needCommit = n7_bottom_arc_v2 || needCommit
 
-	n7_bottom_arc_v2_end := enforcePlantShapeName[*BottomEndArcShapeV2Grid](
+	n7_bottom_arc_v2_end := enforcePlantShapeName[*BottomEndArcShapeGrid](
 		stager,
-		func(p *Plant) *BottomEndArcShapeV2Grid { return p.BottomEndArcShapeV2Grid },
+		func(p *Plant) *BottomEndArcShapeGrid { return p.BottomEndArcShapeGrid },
 		"BottomEndArcShapeV2Grid",
 	)
 	needCommit = n7_bottom_arc_v2_end || needCommit
@@ -569,23 +569,23 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n8 || needCommit
 
-	n10 := enforcePlantShapeName[*StackOfGrowthCurveV2](
+	n10 := enforcePlantShapeName[*StackOfGrowthCurve](
 		stager,
-		func(p *Plant) *StackOfGrowthCurveV2 { return p.StackOfGrowthCurveV2 },
+		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
 		"StackOfGrowthCurveV2",
 	)
 	needCommit = n10 || needCommit
 
-	n11 := enforcePlantShapeName[*TopStackOfGrowthCurveV2](
+	n11 := enforcePlantShapeName[*TopStackOfGrowthCurve](
 		stager,
-		func(p *Plant) *TopStackOfGrowthCurveV2 { return p.TopStackOfGrowthCurveV2 },
+		func(p *Plant) *TopStackOfGrowthCurve { return p.TopStackOfGrowthCurve },
 		"TopStackOfGrowthCurveV2",
 	)
 	needCommit = n11 || needCommit
 
-	n12 := enforcePlantShapeName[*BottomStackOfGrowthCurveV2](
+	n12 := enforcePlantShapeName[*BottomStackOfGrowthCurve](
 		stager,
-		func(p *Plant) *BottomStackOfGrowthCurveV2 { return p.BottomStackOfGrowthCurveV2 },
+		func(p *Plant) *BottomStackOfGrowthCurve { return p.BottomStackOfGrowthCurve },
 		"BottomStackOfGrowthCurveV2",
 	)
 	needCommit = n12 || needCommit
@@ -680,19 +680,19 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceStartArcShapeV2GridHasShapes(stage, plant.StartArcShapeV2Grid, plant.PerpendicularVectorGrid) || needCommit
+			needCommit = enforceStartArcShapeV2GridHasShapes(stage, plant.StartArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
 		{
-			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
 		{
-			needCommit = enforceEndArcShapeV2GridHasShapes(stage, plant.EndArcShapeV2Grid, plant.PerpendicularVectorGrid) || needCommit
+			needCommit = enforceEndArcShapeV2GridHasShapes(stage, plant.EndArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
 		{
-			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
 		if plant.GrowthCurve2D == nil {
@@ -701,12 +701,12 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = true
 		}
 		{
-			if plant.GrowthCurve2D.StartArcShapeV2Grid != plant.StartArcShapeV2Grid {
-				plant.GrowthCurve2D.StartArcShapeV2Grid = plant.StartArcShapeV2Grid
+			if plant.GrowthCurve2D.StartArcShapeGrid != plant.StartArcShapeGrid {
+				plant.GrowthCurve2D.StartArcShapeGrid = plant.StartArcShapeGrid
 				needCommit = true
 			}
-			if plant.GrowthCurve2D.EndArcShapeV2Grid != plant.EndArcShapeV2Grid {
-				plant.GrowthCurve2D.EndArcShapeV2Grid = plant.EndArcShapeV2Grid
+			if plant.GrowthCurve2D.EndArcShapeGrid != plant.EndArcShapeGrid {
+				plant.GrowthCurve2D.EndArcShapeGrid = plant.EndArcShapeGrid
 				needCommit = true
 			}
 		}
@@ -717,22 +717,22 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = true
 		}
 		{
-			if plant.TopGrowthCurve2D.TopStartArcShapeV2Grid != plant.TopStartArcShapeV2Grid {
-				plant.TopGrowthCurve2D.TopStartArcShapeV2Grid = plant.TopStartArcShapeV2Grid
+			if plant.TopGrowthCurve2D.TopStartArcShapeGrid != plant.TopStartArcShapeGrid {
+				plant.TopGrowthCurve2D.TopStartArcShapeGrid = plant.TopStartArcShapeGrid
 				needCommit = true
 			}
-			if plant.TopGrowthCurve2D.TopEndArcShapeV2Grid != plant.TopEndArcShapeV2Grid {
-				plant.TopGrowthCurve2D.TopEndArcShapeV2Grid = plant.TopEndArcShapeV2Grid
+			if plant.TopGrowthCurve2D.TopEndArcShapeGrid != plant.TopEndArcShapeGrid {
+				plant.TopGrowthCurve2D.TopEndArcShapeGrid = plant.TopEndArcShapeGrid
 				needCommit = true
 			}
 		}
 
 		{
-			needCommit = enforceBottomStartArcShapeV2GridHasShapes(stage, plant.BottomStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+			needCommit = enforceBottomStartArcShapeV2GridHasShapes(stage, plant.BottomStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
 		{
-			needCommit = enforceBottomEndArcShapeV2GridHasShapes(stage, plant.BottomEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+			needCommit = enforceBottomEndArcShapeV2GridHasShapes(stage, plant.BottomEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
 		circLen := 0.0
@@ -745,13 +745,13 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
+			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
 		}
 		{
-			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
+			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
 		}
 		{
-			needCommit = enforceBottomStackOfGrowthCurveV2HasShapes(stage, plant.BottomStackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
+			needCommit = enforceBottomStackOfGrowthCurveV2HasShapes(stage, plant.BottomStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
 		}
 	}
 	return
@@ -1223,10 +1223,10 @@ func enforceArcNormalVectorShapeGridHasShapes(stage *Stage, grid *ArcNormalVecto
 	return needCommit
 }
 
-func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeV2Grid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
+func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.StartArcShapesV2) > 0 {
-			grid.StartArcShapesV2 = nil
+		if len(grid.StartArcShapes) > 0 {
+			grid.StartArcShapes = nil
 			return true
 		}
 		return false
@@ -1234,13 +1234,13 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeV2Grid
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
 	valid := true
-	if len(grid.StartArcShapesV2) != expectedLen {
+	if len(grid.StartArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.StartArcShapesV2[i]
+			arc := grid.StartArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if arc == nil || arc.Name != expectedName {
 				valid = false
@@ -1303,12 +1303,12 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeV2Grid
 	}
 
 	if !valid {
-		for _, s := range grid.StartArcShapesV2 {
+		for _, s := range grid.StartArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.StartArcShapesV2 = make([]*StartArcShapeV2, expectedLen)
+		grid.StartArcShapes = make([]*StartArcShape, expectedLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1356,7 +1356,7 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeV2Grid
 
 			sweepFlag := (model_cross < 0)
 
-			newArc := new(StartArcShapeV2).Stage(stage)
+			newArc := new(StartArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newArc.StartX = expectedStartX
 			newArc.StartY = expectedStartY
@@ -1368,17 +1368,17 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeV2Grid
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
 
-			grid.StartArcShapesV2[i] = newArc
+			grid.StartArcShapes[i] = newArc
 		}
 		needCommit = true
 	}
 	return needCommit
 }
 
-func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.TopStartArcShapesV2) > 0 {
-			grid.TopStartArcShapesV2 = nil
+		if len(grid.TopStartArcShapes) > 0 {
+			grid.TopStartArcShapes = nil
 			return true
 		}
 		return false
@@ -1386,13 +1386,13 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
 	valid := true
-	if len(grid.TopStartArcShapesV2) != expectedLen {
+	if len(grid.TopStartArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.TopStartArcShapesV2[i]
+			arc := grid.TopStartArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if arc == nil || arc.Name != expectedName {
 				valid = false
@@ -1458,12 +1458,12 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 	}
 
 	if !valid {
-		for _, s := range grid.TopStartArcShapesV2 {
+		for _, s := range grid.TopStartArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.TopStartArcShapesV2 = make([]*TopStartArcShapeV2, expectedLen)
+		grid.TopStartArcShapes = make([]*TopStartArcShape, expectedLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1513,7 +1513,7 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 			expectedEndX := cx + scale*(midX-cx)
 			expectedEndY := cy + scale*(midY-cy)
 
-			newArc := new(TopStartArcShapeV2).Stage(stage)
+			newArc := new(TopStartArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newArc.StartX = expectedStartX
 			newArc.StartY = expectedStartY
@@ -1525,7 +1525,7 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
 
-			grid.TopStartArcShapesV2[i] = newArc
+			grid.TopStartArcShapes[i] = newArc
 		}
 		needCommit = true
 	}
@@ -1607,10 +1607,10 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 	return needCommit
 }
 
-func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeV2Grid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
+func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.EndArcShapesV2) > 0 {
-			grid.EndArcShapesV2 = nil
+		if len(grid.EndArcShapes) > 0 {
+			grid.EndArcShapes = nil
 			return true
 		}
 		return false
@@ -1618,13 +1618,13 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeV2Grid, pG
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
 	valid := true
-	if len(grid.EndArcShapesV2) != expectedLen {
+	if len(grid.EndArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.EndArcShapesV2[i]
+			arc := grid.EndArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if arc == nil || arc.Name != expectedName {
 				valid = false
@@ -1686,12 +1686,12 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeV2Grid, pG
 	}
 
 	if !valid {
-		for _, s := range grid.EndArcShapesV2 {
+		for _, s := range grid.EndArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.EndArcShapesV2 = make([]*EndArcShapeV2, expectedLen)
+		grid.EndArcShapes = make([]*EndArcShape, expectedLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1737,7 +1737,7 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeV2Grid, pG
 			expectedEndX := midX
 			expectedEndY := midY
 
-			newArc := new(EndArcShapeV2).Stage(stage)
+			newArc := new(EndArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newArc.StartX = expectedStartX
 			newArc.StartY = expectedStartY
@@ -1749,17 +1749,17 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeV2Grid, pG
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
 
-			grid.EndArcShapesV2[i] = newArc
+			grid.EndArcShapes[i] = newArc
 		}
 		needCommit = true
 	}
 	return needCommit
 }
 
-func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.TopEndArcShapesV2) > 0 {
-			grid.TopEndArcShapesV2 = nil
+		if len(grid.TopEndArcShapes) > 0 {
+			grid.TopEndArcShapes = nil
 			return true
 		}
 		return false
@@ -1767,13 +1767,13 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeV2Gr
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
 	valid := true
-	if len(grid.TopEndArcShapesV2) != expectedLen {
+	if len(grid.TopEndArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.TopEndArcShapesV2[i]
+			arc := grid.TopEndArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if arc == nil || arc.Name != expectedName {
 				valid = false
@@ -1841,12 +1841,12 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeV2Gr
 	}
 
 	if !valid {
-		for _, s := range grid.TopEndArcShapesV2 {
+		for _, s := range grid.TopEndArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.TopEndArcShapesV2 = make([]*TopEndArcShapeV2, expectedLen)
+		grid.TopEndArcShapes = make([]*TopEndArcShape, expectedLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1898,7 +1898,7 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeV2Gr
 			expectedEndX := cx_new + scale*(midX-cx_new)
 			expectedEndY := cy_new + scale*(midY-cy_new)
 
-			newArc := new(TopEndArcShapeV2).Stage(stage)
+			newArc := new(TopEndArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newArc.StartX = expectedStartX
 			newArc.StartY = expectedStartY
@@ -1910,7 +1910,7 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeV2Gr
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
 
-			grid.TopEndArcShapesV2[i] = newArc
+			grid.TopEndArcShapes[i] = newArc
 		}
 		needCommit = true
 	}
@@ -2013,11 +2013,11 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 	return needCommit
 }
 
-func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurveV2, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurve, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {
-		if len(stack.StackGrowthCurveStartArcShapeV2s) > 0 || len(stack.StackGrowthCurveEndArcShapeV2s) > 0 {
-			stack.StackGrowthCurveStartArcShapeV2s = nil
-			stack.StackGrowthCurveEndArcShapeV2s = nil
+		if len(stack.StackGrowthCurveStartArcShapes) > 0 || len(stack.StackGrowthCurveEndArcShapes) > 0 {
+			stack.StackGrowthCurveStartArcShapes = nil
+			stack.StackGrowthCurveEndArcShapes = nil
 			return true
 		}
 		return false
@@ -2070,11 +2070,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	}
 
 	valid := true
-	if len(stack.StackGrowthCurveStartArcShapeV2s) != len(expectedStart) || len(stack.StackGrowthCurveEndArcShapeV2s) != len(expectedEnd) {
+	if len(stack.StackGrowthCurveStartArcShapes) != len(expectedStart) || len(stack.StackGrowthCurveEndArcShapes) != len(expectedEnd) {
 		valid = false
 	} else {
 		for i, exp := range expectedStart {
-			b := stack.StackGrowthCurveStartArcShapeV2s[i]
+			b := stack.StackGrowthCurveStartArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -2086,7 +2086,7 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			}
 		}
 		for i, exp := range expectedEnd {
-			b := stack.StackGrowthCurveEndArcShapeV2s[i]
+			b := stack.StackGrowthCurveEndArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -2100,9 +2100,9 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	}
 
 	if !valid {
-		stack.StackGrowthCurveStartArcShapeV2s = make([]*StackGrowthCurveStartArcShapeV2, len(expectedStart))
+		stack.StackGrowthCurveStartArcShapes = make([]*StackGrowthCurveStartArcShape, len(expectedStart))
 		for i, exp := range expectedStart {
-			b := new(StackGrowthCurveStartArcShapeV2).Stage(stage)
+			b := new(StackGrowthCurveStartArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -2113,11 +2113,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.StackGrowthCurveStartArcShapeV2s[i] = b
+			stack.StackGrowthCurveStartArcShapes[i] = b
 		}
-		stack.StackGrowthCurveEndArcShapeV2s = make([]*StackGrowthCurveEndArcShapeV2, len(expectedEnd))
+		stack.StackGrowthCurveEndArcShapes = make([]*StackGrowthCurveEndArcShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			b := new(StackGrowthCurveEndArcShapeV2).Stage(stage)
+			b := new(StackGrowthCurveEndArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -2128,7 +2128,7 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.StackGrowthCurveEndArcShapeV2s[i] = b
+			stack.StackGrowthCurveEndArcShapes[i] = b
 		}
 		needCommit = true
 	}
@@ -2136,11 +2136,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	return needCommit
 }
 
-func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrowthCurveV2, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrowthCurve, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {
-		if len(stack.TopStackGrowthCurveStartArcShapeV2s) > 0 || len(stack.TopStackGrowthCurveEndArcShapeV2s) > 0 {
-			stack.TopStackGrowthCurveStartArcShapeV2s = nil
-			stack.TopStackGrowthCurveEndArcShapeV2s = nil
+		if len(stack.TopStackGrowthCurveStartArcShapes) > 0 || len(stack.TopStackGrowthCurveEndArcShapes) > 0 {
+			stack.TopStackGrowthCurveStartArcShapes = nil
+			stack.TopStackGrowthCurveEndArcShapes = nil
 			return true
 		}
 		return false
@@ -2193,11 +2193,11 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	}
 
 	valid := true
-	if len(stack.TopStackGrowthCurveStartArcShapeV2s) != len(expectedStart) || len(stack.TopStackGrowthCurveEndArcShapeV2s) != len(expectedEnd) {
+	if len(stack.TopStackGrowthCurveStartArcShapes) != len(expectedStart) || len(stack.TopStackGrowthCurveEndArcShapes) != len(expectedEnd) {
 		valid = false
 	} else {
 		for i, exp := range expectedStart {
-			b := stack.TopStackGrowthCurveStartArcShapeV2s[i]
+			b := stack.TopStackGrowthCurveStartArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -2209,7 +2209,7 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			}
 		}
 		for i, exp := range expectedEnd {
-			b := stack.TopStackGrowthCurveEndArcShapeV2s[i]
+			b := stack.TopStackGrowthCurveEndArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -2223,9 +2223,9 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	}
 
 	if !valid {
-		stack.TopStackGrowthCurveStartArcShapeV2s = make([]*TopStackGrowthCurveStartArcShapeV2, len(expectedStart))
+		stack.TopStackGrowthCurveStartArcShapes = make([]*TopStackGrowthCurveStartArcShape, len(expectedStart))
 		for i, exp := range expectedStart {
-			b := new(TopStackGrowthCurveStartArcShapeV2).Stage(stage)
+			b := new(TopStackGrowthCurveStartArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -2236,11 +2236,11 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.TopStackGrowthCurveStartArcShapeV2s[i] = b
+			stack.TopStackGrowthCurveStartArcShapes[i] = b
 		}
-		stack.TopStackGrowthCurveEndArcShapeV2s = make([]*TopStackGrowthCurveEndArcShapeV2, len(expectedEnd))
+		stack.TopStackGrowthCurveEndArcShapes = make([]*TopStackGrowthCurveEndArcShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			b := new(TopStackGrowthCurveEndArcShapeV2).Stage(stage)
+			b := new(TopStackGrowthCurveEndArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -2251,7 +2251,7 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.TopStackGrowthCurveEndArcShapeV2s[i] = b
+			stack.TopStackGrowthCurveEndArcShapes[i] = b
 		}
 		needCommit = true
 	}
@@ -2259,11 +2259,11 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	return needCommit
 }
 
-func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStackOfGrowthCurveV2, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStackOfGrowthCurve, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {
-		if len(stack.BottomStackGrowthCurveStartArcShapeV2s) > 0 || len(stack.BottomStackGrowthCurveEndArcShapeV2s) > 0 {
-			stack.BottomStackGrowthCurveStartArcShapeV2s = nil
-			stack.BottomStackGrowthCurveEndArcShapeV2s = nil
+		if len(stack.BottomStackGrowthCurveStartArcShapes) > 0 || len(stack.BottomStackGrowthCurveEndArcShapes) > 0 {
+			stack.BottomStackGrowthCurveStartArcShapes = nil
+			stack.BottomStackGrowthCurveEndArcShapes = nil
 			return true
 		}
 		return false
@@ -2316,11 +2316,11 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 	}
 
 	valid := true
-	if len(stack.BottomStackGrowthCurveStartArcShapeV2s) != len(expectedStart) || len(stack.BottomStackGrowthCurveEndArcShapeV2s) != len(expectedEnd) {
+	if len(stack.BottomStackGrowthCurveStartArcShapes) != len(expectedStart) || len(stack.BottomStackGrowthCurveEndArcShapes) != len(expectedEnd) {
 		valid = false
 	} else {
 		for i, exp := range expectedStart {
-			b := stack.BottomStackGrowthCurveStartArcShapeV2s[i]
+			b := stack.BottomStackGrowthCurveStartArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -2332,7 +2332,7 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 			}
 		}
 		for i, exp := range expectedEnd {
-			b := stack.BottomStackGrowthCurveEndArcShapeV2s[i]
+			b := stack.BottomStackGrowthCurveEndArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -2346,9 +2346,9 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 	}
 
 	if !valid {
-		stack.BottomStackGrowthCurveStartArcShapeV2s = make([]*BottomStackGrowthCurveStartArcShapeV2, len(expectedStart))
+		stack.BottomStackGrowthCurveStartArcShapes = make([]*BottomStackGrowthCurveStartArcShape, len(expectedStart))
 		for i, exp := range expectedStart {
-			b := new(BottomStackGrowthCurveStartArcShapeV2).Stage(stage)
+			b := new(BottomStackGrowthCurveStartArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -2359,11 +2359,11 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.BottomStackGrowthCurveStartArcShapeV2s[i] = b
+			stack.BottomStackGrowthCurveStartArcShapes[i] = b
 		}
-		stack.BottomStackGrowthCurveEndArcShapeV2s = make([]*BottomStackGrowthCurveEndArcShapeV2, len(expectedEnd))
+		stack.BottomStackGrowthCurveEndArcShapes = make([]*BottomStackGrowthCurveEndArcShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			b := new(BottomStackGrowthCurveEndArcShapeV2).Stage(stage)
+			b := new(BottomStackGrowthCurveEndArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -2374,7 +2374,7 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.BottomStackGrowthCurveEndArcShapeV2s[i] = b
+			stack.BottomStackGrowthCurveEndArcShapes[i] = b
 		}
 		needCommit = true
 	}
@@ -2382,10 +2382,10 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 	return needCommit
 }
 
-func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.BottomStartArcShapesV2) > 0 {
-			grid.BottomStartArcShapesV2 = nil
+		if len(grid.BottomStartArcShapes) > 0 {
+			grid.BottomStartArcShapes = nil
 			return true
 		}
 		return false
@@ -2393,13 +2393,13 @@ func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartAr
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
 	valid := true
-	if len(grid.BottomStartArcShapesV2) != expectedLen {
+	if len(grid.BottomStartArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.BottomStartArcShapesV2[i]
+			arc := grid.BottomStartArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if arc == nil || arc.Name != expectedName {
 				valid = false
@@ -2465,12 +2465,12 @@ func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartAr
 	}
 
 	if !valid {
-		for _, s := range grid.BottomStartArcShapesV2 {
+		for _, s := range grid.BottomStartArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.BottomStartArcShapesV2 = make([]*BottomStartArcShapeV2, expectedLen)
+		grid.BottomStartArcShapes = make([]*BottomStartArcShape, expectedLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -2520,7 +2520,7 @@ func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartAr
 			expectedEndX := cx + scale*(midX-cx)
 			expectedEndY := cy + scale*(midY-cy)
 
-			newArc := new(BottomStartArcShapeV2).Stage(stage)
+			newArc := new(BottomStartArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newArc.StartX = expectedStartX
 			newArc.StartY = expectedStartY
@@ -2532,17 +2532,17 @@ func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartAr
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
 
-			grid.BottomStartArcShapesV2[i] = newArc
+			grid.BottomStartArcShapes[i] = newArc
 		}
 		needCommit = true
 	}
 	return needCommit
 }
 
-func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.BottomEndArcShapesV2) > 0 {
-			grid.BottomEndArcShapesV2 = nil
+		if len(grid.BottomEndArcShapes) > 0 {
+			grid.BottomEndArcShapes = nil
 			return true
 		}
 		return false
@@ -2550,13 +2550,13 @@ func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcSha
 
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
 	valid := true
-	if len(grid.BottomEndArcShapesV2) != expectedLen {
+	if len(grid.BottomEndArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.BottomEndArcShapesV2[i]
+			arc := grid.BottomEndArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if arc == nil || arc.Name != expectedName {
 				valid = false
@@ -2624,12 +2624,12 @@ func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcSha
 	}
 
 	if !valid {
-		for _, s := range grid.BottomEndArcShapesV2 {
+		for _, s := range grid.BottomEndArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.BottomEndArcShapesV2 = make([]*BottomEndArcShapeV2, expectedLen)
+		grid.BottomEndArcShapes = make([]*BottomEndArcShape, expectedLen)
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -2681,7 +2681,7 @@ func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcSha
 			expectedEndX := cx_new + scale*(midX-cx_new)
 			expectedEndY := cy_new + scale*(midY-cy_new)
 
-			newArc := new(BottomEndArcShapeV2).Stage(stage)
+			newArc := new(BottomEndArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newArc.StartX = expectedStartX
 			newArc.StartY = expectedStartY
@@ -2693,7 +2693,7 @@ func enforceBottomEndArcShapeV2GridHasShapes(stage *Stage, grid *BottomEndArcSha
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
 
-			grid.BottomEndArcShapesV2[i] = newArc
+			grid.BottomEndArcShapes[i] = newArc
 		}
 		needCommit = true
 	}

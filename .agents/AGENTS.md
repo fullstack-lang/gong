@@ -165,3 +165,9 @@ DSMs are stacks of height 0 and do not incorporate specific Angular component li
 gong generate --dsm
 ```
 (You may append `--skipGoModCommands` if necessary, but **NEVER** `--stack-height=4`).
+
+## Changing identifiers names
+
+gong is specificaly suited for fast refactoring. For instance, the data is stored as go code.
+
+uses gopls "rename" to propagate identifiers renaming across the code

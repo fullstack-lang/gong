@@ -139,8 +139,8 @@ type PerpendicularVectorGridHalfway struct {
 	PerpendicularVectorHalfways []*PerpendicularVectorHalfway
 }
 
-// StartArcShapeV2 of a plant,
-type StartArcShapeV2 struct {
+// StartArcShape of a plant,
+type StartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -152,15 +152,15 @@ type StartArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// StartArcShapeV2Grid of a plant,
-type StartArcShapeV2Grid struct {
+// StartArcShapeGrid of a plant,
+type StartArcShapeGrid struct {
 	Name string
 
-	StartArcShapesV2 []*StartArcShapeV2
+	StartArcShapes []*StartArcShape
 }
 
-// TopStartArcShapeV2 of a plant,
-type TopStartArcShapeV2 struct {
+// TopStartArcShape of a plant,
+type TopStartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -172,15 +172,15 @@ type TopStartArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// TopStartArcShapeV2Grid of a plant,
-type TopStartArcShapeV2Grid struct {
+// TopStartArcShapeGrid of a plant,
+type TopStartArcShapeGrid struct {
 	Name string
 
-	TopStartArcShapesV2 []*TopStartArcShapeV2
+	TopStartArcShapes []*TopStartArcShape
 }
 
-// EndArcShapeV2 of a plant,
-type EndArcShapeV2 struct {
+// EndArcShape of a plant,
+type EndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -192,15 +192,15 @@ type EndArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// EndArcShapeV2Grid of a plant,
-type EndArcShapeV2Grid struct {
+// EndArcShapeGrid of a plant,
+type EndArcShapeGrid struct {
 	Name string
 
-	EndArcShapesV2 []*EndArcShapeV2
+	EndArcShapes []*EndArcShape
 }
 
-// TopEndArcShapeV2 of a plant,
-type TopEndArcShapeV2 struct {
+// TopEndArcShape of a plant,
+type TopEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -212,15 +212,15 @@ type TopEndArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// TopEndArcShapeV2Grid of a plant,
-type TopEndArcShapeV2Grid struct {
+// TopEndArcShapeGrid of a plant,
+type TopEndArcShapeGrid struct {
 	Name string
 
-	TopEndArcShapesV2 []*TopEndArcShapeV2
+	TopEndArcShapes []*TopEndArcShape
 }
 
-// BottomStartArcShapeV2 of a plant,
-type BottomStartArcShapeV2 struct {
+// BottomStartArcShape of a plant,
+type BottomStartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -232,15 +232,15 @@ type BottomStartArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// BottomStartArcShapeV2Grid of a plant,
-type BottomStartArcShapeV2Grid struct {
+// BottomStartArcShapeGrid of a plant,
+type BottomStartArcShapeGrid struct {
 	Name string
 
-	BottomStartArcShapesV2 []*BottomStartArcShapeV2
+	BottomStartArcShapes []*BottomStartArcShape
 }
 
-// BottomEndArcShapeV2 of a plant,
-type BottomEndArcShapeV2 struct {
+// BottomEndArcShape of a plant,
+type BottomEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -252,11 +252,11 @@ type BottomEndArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// BottomEndArcShapeV2Grid of a plant,
-type BottomEndArcShapeV2Grid struct {
+// BottomEndArcShapeGrid of a plant,
+type BottomEndArcShapeGrid struct {
 	Name string
 
-	BottomEndArcShapesV2 []*BottomEndArcShapeV2
+	BottomEndArcShapes []*BottomEndArcShape
 }
 
 // ArcNormalVectorShape of a plant,
@@ -307,27 +307,15 @@ type GrowthCurveBezierShapeGrid struct {
 	GrowthCurveBezierShapes []*GrowthCurveBezierShape
 }
 
-// StackOfGrowthCurveV2 of a plant,
-type StackOfGrowthCurveV2 struct {
+// StackOfGrowthCurve of a plant,
+type StackOfGrowthCurve struct {
 	Name string
 
-	StackGrowthCurveStartArcShapeV2s []*StackGrowthCurveStartArcShapeV2
-	StackGrowthCurveEndArcShapeV2s   []*StackGrowthCurveEndArcShapeV2
+	StackGrowthCurveStartArcShapes []*StackGrowthCurveStartArcShape
+	StackGrowthCurveEndArcShapes   []*StackGrowthCurveEndArcShape
 }
 
-type StackGrowthCurveStartArcShapeV2 struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation    float64
-	LargeArcFlag     bool
-	SweepFlag        bool
-	RadiusX, RadiusY float64
-}
-
-type StackGrowthCurveEndArcShapeV2 struct {
+type StackGrowthCurveStartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -339,15 +327,7 @@ type StackGrowthCurveEndArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// TopStackOfGrowthCurveV2 of a plant,
-type TopStackOfGrowthCurveV2 struct {
-	Name string
-
-	TopStackGrowthCurveStartArcShapeV2s []*TopStackGrowthCurveStartArcShapeV2
-	TopStackGrowthCurveEndArcShapeV2s   []*TopStackGrowthCurveEndArcShapeV2
-}
-
-type TopStackGrowthCurveStartArcShapeV2 struct {
+type StackGrowthCurveEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -359,7 +339,15 @@ type TopStackGrowthCurveStartArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-type TopStackGrowthCurveEndArcShapeV2 struct {
+// TopStackOfGrowthCurve of a plant,
+type TopStackOfGrowthCurve struct {
+	Name string
+
+	TopStackGrowthCurveStartArcShapes []*TopStackGrowthCurveStartArcShape
+	TopStackGrowthCurveEndArcShapes   []*TopStackGrowthCurveEndArcShape
+}
+
+type TopStackGrowthCurveStartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -371,15 +359,7 @@ type TopStackGrowthCurveEndArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-// BottomStackOfGrowthCurveV2 of a plant,
-type BottomStackOfGrowthCurveV2 struct {
-	Name string
-
-	BottomStackGrowthCurveStartArcShapeV2s []*BottomStackGrowthCurveStartArcShapeV2
-	BottomStackGrowthCurveEndArcShapeV2s   []*BottomStackGrowthCurveEndArcShapeV2
-}
-
-type BottomStackGrowthCurveStartArcShapeV2 struct {
+type TopStackGrowthCurveEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -391,7 +371,27 @@ type BottomStackGrowthCurveStartArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
-type BottomStackGrowthCurveEndArcShapeV2 struct {
+// BottomStackOfGrowthCurve of a plant,
+type BottomStackOfGrowthCurve struct {
+	Name string
+
+	BottomStackGrowthCurveStartArcShapes []*BottomStackGrowthCurveStartArcShape
+	BottomStackGrowthCurveEndArcShapes   []*BottomStackGrowthCurveEndArcShape
+}
+
+type BottomStackGrowthCurveStartArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+	RadiusX, RadiusY float64
+}
+
+type BottomStackGrowthCurveEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -415,14 +415,14 @@ type Rendered3DShape struct {
 type GrowthCurve2D struct {
 	Name string
 
-	StartArcShapeV2Grid *StartArcShapeV2Grid
-	EndArcShapeV2Grid   *EndArcShapeV2Grid
+	StartArcShapeGrid *StartArcShapeGrid
+	EndArcShapeGrid   *EndArcShapeGrid
 }
 
 // TopGrowthCurve2D of a plant,
 type TopGrowthCurve2D struct {
 	Name string
 
-	TopStartArcShapeV2Grid *TopStartArcShapeV2Grid
-	TopEndArcShapeV2Grid   *TopEndArcShapeV2Grid
+	TopStartArcShapeGrid *TopStartArcShapeGrid
+	TopEndArcShapeGrid   *TopEndArcShapeGrid
 }

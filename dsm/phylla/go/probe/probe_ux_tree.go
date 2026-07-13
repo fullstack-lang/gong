@@ -299,21 +299,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomEndArcShapeV2":
+		case "BottomEndArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomEndArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomEndArcShape](probe.stageOfInterest)
 			count := 0
-			for _bottomendarcshapev2 := range set {
+			for _bottomendarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomendarcshapev2.GetName(),
+					Name:            _bottomendarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomendarcshapev2, probe)
+						FillUpFormFromGongstruct(_bottomendarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -323,7 +323,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomEndArcShapeV2](probe)
+				updateProbeTable[*models.BottomEndArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -331,21 +331,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomEndArcShapeV2Grid":
+		case "BottomEndArcShapeGrid":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomEndArcShapeV2Grid](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomEndArcShapeGrid](probe.stageOfInterest)
 			count := 0
-			for _bottomendarcshapev2grid := range set {
+			for _bottomendarcshapegrid := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomendarcshapev2grid.GetName(),
+					Name:            _bottomendarcshapegrid.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomendarcshapev2grid, probe)
+						FillUpFormFromGongstruct(_bottomendarcshapegrid, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -355,7 +355,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomEndArcShapeV2Grid](probe)
+				updateProbeTable[*models.BottomEndArcShapeGrid](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -363,21 +363,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomStackGrowthCurveEndArcShapeV2":
+		case "BottomStackGrowthCurveEndArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStackGrowthCurveEndArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStackGrowthCurveEndArcShape](probe.stageOfInterest)
 			count := 0
-			for _bottomstackgrowthcurveendarcshapev2 := range set {
+			for _bottomstackgrowthcurveendarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomstackgrowthcurveendarcshapev2.GetName(),
+					Name:            _bottomstackgrowthcurveendarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomstackgrowthcurveendarcshapev2, probe)
+						FillUpFormFromGongstruct(_bottomstackgrowthcurveendarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -387,7 +387,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomStackGrowthCurveEndArcShapeV2](probe)
+				updateProbeTable[*models.BottomStackGrowthCurveEndArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -395,21 +395,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomStackGrowthCurveStartArcShapeV2":
+		case "BottomStackGrowthCurveStartArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStackGrowthCurveStartArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStackGrowthCurveStartArcShape](probe.stageOfInterest)
 			count := 0
-			for _bottomstackgrowthcurvestartarcshapev2 := range set {
+			for _bottomstackgrowthcurvestartarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomstackgrowthcurvestartarcshapev2.GetName(),
+					Name:            _bottomstackgrowthcurvestartarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomstackgrowthcurvestartarcshapev2, probe)
+						FillUpFormFromGongstruct(_bottomstackgrowthcurvestartarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -419,7 +419,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomStackGrowthCurveStartArcShapeV2](probe)
+				updateProbeTable[*models.BottomStackGrowthCurveStartArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -427,21 +427,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomStackOfGrowthCurveV2":
+		case "BottomStackOfGrowthCurve":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStackOfGrowthCurveV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStackOfGrowthCurve](probe.stageOfInterest)
 			count := 0
-			for _bottomstackofgrowthcurvev2 := range set {
+			for _bottomstackofgrowthcurve := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomstackofgrowthcurvev2.GetName(),
+					Name:            _bottomstackofgrowthcurve.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomstackofgrowthcurvev2, probe)
+						FillUpFormFromGongstruct(_bottomstackofgrowthcurve, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -451,7 +451,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomStackOfGrowthCurveV2](probe)
+				updateProbeTable[*models.BottomStackOfGrowthCurve](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -459,21 +459,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomStartArcShapeV2":
+		case "BottomStartArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStartArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStartArcShape](probe.stageOfInterest)
 			count := 0
-			for _bottomstartarcshapev2 := range set {
+			for _bottomstartarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomstartarcshapev2.GetName(),
+					Name:            _bottomstartarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomstartarcshapev2, probe)
+						FillUpFormFromGongstruct(_bottomstartarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -483,7 +483,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomStartArcShapeV2](probe)
+				updateProbeTable[*models.BottomStartArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -491,21 +491,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "BottomStartArcShapeV2Grid":
+		case "BottomStartArcShapeGrid":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStartArcShapeV2Grid](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.BottomStartArcShapeGrid](probe.stageOfInterest)
 			count := 0
-			for _bottomstartarcshapev2grid := range set {
+			for _bottomstartarcshapegrid := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _bottomstartarcshapev2grid.GetName(),
+					Name:            _bottomstartarcshapegrid.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_bottomstartarcshapev2grid, probe)
+						FillUpFormFromGongstruct(_bottomstartarcshapegrid, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -515,7 +515,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.BottomStartArcShapeV2Grid](probe)
+				updateProbeTable[*models.BottomStartArcShapeGrid](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -555,21 +555,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "EndArcShapeV2":
+		case "EndArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShape](probe.stageOfInterest)
 			count := 0
-			for _endarcshapev2 := range set {
+			for _endarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _endarcshapev2.GetName(),
+					Name:            _endarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_endarcshapev2, probe)
+						FillUpFormFromGongstruct(_endarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -579,7 +579,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EndArcShapeV2](probe)
+				updateProbeTable[*models.EndArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -587,21 +587,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "EndArcShapeV2Grid":
+		case "EndArcShapeGrid":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShapeV2Grid](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.EndArcShapeGrid](probe.stageOfInterest)
 			count := 0
-			for _endarcshapev2grid := range set {
+			for _endarcshapegrid := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _endarcshapev2grid.GetName(),
+					Name:            _endarcshapegrid.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_endarcshapev2grid, probe)
+						FillUpFormFromGongstruct(_endarcshapegrid, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -611,7 +611,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.EndArcShapeV2Grid](probe)
+				updateProbeTable[*models.EndArcShapeGrid](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1355,21 +1355,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "StackGrowthCurveEndArcShapeV2":
+		case "StackGrowthCurveEndArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurveEndArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurveEndArcShape](probe.stageOfInterest)
 			count := 0
-			for _stackgrowthcurveendarcshapev2 := range set {
+			for _stackgrowthcurveendarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _stackgrowthcurveendarcshapev2.GetName(),
+					Name:            _stackgrowthcurveendarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackgrowthcurveendarcshapev2, probe)
+						FillUpFormFromGongstruct(_stackgrowthcurveendarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1379,7 +1379,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackGrowthCurveEndArcShapeV2](probe)
+				updateProbeTable[*models.StackGrowthCurveEndArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1387,21 +1387,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "StackGrowthCurveStartArcShapeV2":
+		case "StackGrowthCurveStartArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurveStartArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.StackGrowthCurveStartArcShape](probe.stageOfInterest)
 			count := 0
-			for _stackgrowthcurvestartarcshapev2 := range set {
+			for _stackgrowthcurvestartarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _stackgrowthcurvestartarcshapev2.GetName(),
+					Name:            _stackgrowthcurvestartarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackgrowthcurvestartarcshapev2, probe)
+						FillUpFormFromGongstruct(_stackgrowthcurvestartarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1411,7 +1411,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackGrowthCurveStartArcShapeV2](probe)
+				updateProbeTable[*models.StackGrowthCurveStartArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1419,21 +1419,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "StackOfGrowthCurveV2":
+		case "StackOfGrowthCurve":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurveV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.StackOfGrowthCurve](probe.stageOfInterest)
 			count := 0
-			for _stackofgrowthcurvev2 := range set {
+			for _stackofgrowthcurve := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _stackofgrowthcurvev2.GetName(),
+					Name:            _stackofgrowthcurve.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_stackofgrowthcurvev2, probe)
+						FillUpFormFromGongstruct(_stackofgrowthcurve, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1443,7 +1443,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StackOfGrowthCurveV2](probe)
+				updateProbeTable[*models.StackOfGrowthCurve](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1451,21 +1451,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "StartArcShapeV2":
+		case "StartArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShape](probe.stageOfInterest)
 			count := 0
-			for _startarcshapev2 := range set {
+			for _startarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _startarcshapev2.GetName(),
+					Name:            _startarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_startarcshapev2, probe)
+						FillUpFormFromGongstruct(_startarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1475,7 +1475,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StartArcShapeV2](probe)
+				updateProbeTable[*models.StartArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1483,21 +1483,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "StartArcShapeV2Grid":
+		case "StartArcShapeGrid":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShapeV2Grid](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.StartArcShapeGrid](probe.stageOfInterest)
 			count := 0
-			for _startarcshapev2grid := range set {
+			for _startarcshapegrid := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _startarcshapev2grid.GetName(),
+					Name:            _startarcshapegrid.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_startarcshapev2grid, probe)
+						FillUpFormFromGongstruct(_startarcshapegrid, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1507,7 +1507,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.StartArcShapeV2Grid](probe)
+				updateProbeTable[*models.StartArcShapeGrid](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1515,21 +1515,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopEndArcShapeV2":
+		case "TopEndArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShape](probe.stageOfInterest)
 			count := 0
-			for _topendarcshapev2 := range set {
+			for _topendarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topendarcshapev2.GetName(),
+					Name:            _topendarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topendarcshapev2, probe)
+						FillUpFormFromGongstruct(_topendarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1539,7 +1539,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopEndArcShapeV2](probe)
+				updateProbeTable[*models.TopEndArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1547,21 +1547,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopEndArcShapeV2Grid":
+		case "TopEndArcShapeGrid":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShapeV2Grid](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndArcShapeGrid](probe.stageOfInterest)
 			count := 0
-			for _topendarcshapev2grid := range set {
+			for _topendarcshapegrid := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topendarcshapev2grid.GetName(),
+					Name:            _topendarcshapegrid.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topendarcshapev2grid, probe)
+						FillUpFormFromGongstruct(_topendarcshapegrid, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1571,7 +1571,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopEndArcShapeV2Grid](probe)
+				updateProbeTable[*models.TopEndArcShapeGrid](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1611,21 +1611,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopStackGrowthCurveEndArcShapeV2":
+		case "TopStackGrowthCurveEndArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurveEndArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurveEndArcShape](probe.stageOfInterest)
 			count := 0
-			for _topstackgrowthcurveendarcshapev2 := range set {
+			for _topstackgrowthcurveendarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topstackgrowthcurveendarcshapev2.GetName(),
+					Name:            _topstackgrowthcurveendarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackgrowthcurveendarcshapev2, probe)
+						FillUpFormFromGongstruct(_topstackgrowthcurveendarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1635,7 +1635,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackGrowthCurveEndArcShapeV2](probe)
+				updateProbeTable[*models.TopStackGrowthCurveEndArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1643,21 +1643,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopStackGrowthCurveStartArcShapeV2":
+		case "TopStackGrowthCurveStartArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurveStartArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackGrowthCurveStartArcShape](probe.stageOfInterest)
 			count := 0
-			for _topstackgrowthcurvestartarcshapev2 := range set {
+			for _topstackgrowthcurvestartarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topstackgrowthcurvestartarcshapev2.GetName(),
+					Name:            _topstackgrowthcurvestartarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackgrowthcurvestartarcshapev2, probe)
+						FillUpFormFromGongstruct(_topstackgrowthcurvestartarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1667,7 +1667,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackGrowthCurveStartArcShapeV2](probe)
+				updateProbeTable[*models.TopStackGrowthCurveStartArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1675,21 +1675,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopStackOfGrowthCurveV2":
+		case "TopStackOfGrowthCurve":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfGrowthCurveV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStackOfGrowthCurve](probe.stageOfInterest)
 			count := 0
-			for _topstackofgrowthcurvev2 := range set {
+			for _topstackofgrowthcurve := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topstackofgrowthcurvev2.GetName(),
+					Name:            _topstackofgrowthcurve.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstackofgrowthcurvev2, probe)
+						FillUpFormFromGongstruct(_topstackofgrowthcurve, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1699,7 +1699,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStackOfGrowthCurveV2](probe)
+				updateProbeTable[*models.TopStackOfGrowthCurve](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1707,21 +1707,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopStartArcShapeV2":
+		case "TopStartArcShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShapeV2](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShape](probe.stageOfInterest)
 			count := 0
-			for _topstartarcshapev2 := range set {
+			for _topstartarcshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topstartarcshapev2.GetName(),
+					Name:            _topstartarcshape.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstartarcshapev2, probe)
+						FillUpFormFromGongstruct(_topstartarcshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1731,7 +1731,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStartArcShapeV2](probe)
+				updateProbeTable[*models.TopStartArcShape](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""
@@ -1739,21 +1739,21 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
-		case "TopStartArcShapeV2Grid":
+		case "TopStartArcShapeGrid":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShapeV2Grid](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartArcShapeGrid](probe.stageOfInterest)
 			count := 0
-			for _topstartarcshapev2grid := range set {
+			for _topstartarcshapegrid := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _topstartarcshapev2grid.GetName(),
+					Name:            _topstartarcshapegrid.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_topstartarcshapev2grid, probe)
+						FillUpFormFromGongstruct(_topstartarcshapegrid, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -1763,7 +1763,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.TopStartArcShapeV2Grid](probe)
+				updateProbeTable[*models.TopStartArcShapeGrid](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""

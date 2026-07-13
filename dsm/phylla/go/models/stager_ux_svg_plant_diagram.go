@@ -910,11 +910,11 @@ func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, l
 }
 
 func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenStartArcShapeV2Grid {
+	if plantDiagram.IsHiddenStartArcShapeGrid {
 		return
 	}
 
-	for _, arc := range plant.StartArcShapeV2Grid.StartArcShapesV2 {
+	for _, arc := range plant.StartArcShapeGrid.StartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -942,11 +942,11 @@ func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer 
 }
 
 func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenTopStartArcShapeV2Grid {
+	if plantDiagram.IsHiddenTopStartArcShapeGrid {
 		return
 	}
 
-	for _, arc := range plant.TopStartArcShapeV2Grid.TopStartArcShapesV2 {
+	for _, arc := range plant.TopStartArcShapeGrid.TopStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -974,11 +974,11 @@ func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, lay
 }
 
 func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenEndArcShapeV2Grid {
+	if plantDiagram.IsHiddenEndArcShapeGrid {
 		return
 	}
 
-	for _, arc := range plant.EndArcShapeV2Grid.EndArcShapesV2 {
+	for _, arc := range plant.EndArcShapeGrid.EndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1006,11 +1006,11 @@ func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *s
 }
 
 func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenTopEndArcShapeV2Grid {
+	if plantDiagram.IsHiddenTopEndArcShapeGrid {
 		return
 	}
 
-	for _, arc := range plant.TopEndArcShapeV2Grid.TopEndArcShapesV2 {
+	for _, arc := range plant.TopEndArcShapeGrid.TopEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1038,11 +1038,11 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawBottomStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenBottomStartArcShapeV2Grid {
+	if plantDiagram.IsHiddenBottomStartArcShapeGrid {
 		return
 	}
 
-	for _, arc := range plant.BottomStartArcShapeV2Grid.BottomStartArcShapesV2 {
+	for _, arc := range plant.BottomStartArcShapeGrid.BottomStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1070,11 +1070,11 @@ func (plantDiagram *PlantDiagram) drawBottomStartArcShapeV2Grid(stager *Stager, 
 }
 
 func (plantDiagram *PlantDiagram) drawBottomEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenBottomEndArcShapeV2Grid {
+	if plantDiagram.IsHiddenBottomEndArcShapeGrid {
 		return
 	}
 
-	for _, arc := range plant.BottomEndArcShapeV2Grid.BottomEndArcShapesV2 {
+	for _, arc := range plant.BottomEndArcShapeGrid.BottomEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1126,11 +1126,11 @@ func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager,
 }
 
 func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenStackOfGrowthCurveV2 {
+	if plantDiagram.IsHiddenStackOfGrowthCurve {
 		return
 	}
 
-	for _, sa := range plant.StackOfGrowthCurveV2.StackGrowthCurveStartArcShapeV2s {
+	for _, sa := range plant.StackOfGrowthCurve.StackGrowthCurveStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1156,7 +1156,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.StackOfGrowthCurveV2.StackGrowthCurveEndArcShapeV2s {
+	for _, ea := range plant.StackOfGrowthCurve.StackGrowthCurveEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1184,11 +1184,11 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenTopStackOfGrowthCurveV2 {
+	if plantDiagram.IsHiddenTopStackOfGrowthCurve {
 		return
 	}
 
-	for _, sa := range plant.TopStackOfGrowthCurveV2.TopStackGrowthCurveStartArcShapeV2s {
+	for _, sa := range plant.TopStackOfGrowthCurve.TopStackGrowthCurveStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1214,7 +1214,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.TopStackOfGrowthCurveV2.TopStackGrowthCurveEndArcShapeV2s {
+	for _, ea := range plant.TopStackOfGrowthCurve.TopStackGrowthCurveEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1242,11 +1242,11 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 }
 
 func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 {
+	if plantDiagram.IsHiddenBottomStackOfGrowthCurve {
 		return
 	}
 
-	for _, sa := range plant.BottomStackOfGrowthCurveV2.BottomStackGrowthCurveStartArcShapeV2s {
+	for _, sa := range plant.BottomStackOfGrowthCurve.BottomStackGrowthCurveStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1272,7 +1272,7 @@ func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager,
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.BottomStackOfGrowthCurveV2.BottomStackGrowthCurveEndArcShapeV2s {
+	for _, ea := range plant.BottomStackOfGrowthCurve.BottomStackGrowthCurveEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1304,17 +1304,17 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.L
 		return
 	}
 
-	originalStartHidden := plantDiagram.IsHiddenStartArcShapeV2Grid
-	originalEndHidden := plantDiagram.IsHiddenEndArcShapeV2Grid
+	originalStartHidden := plantDiagram.IsHiddenStartArcShapeGrid
+	originalEndHidden := plantDiagram.IsHiddenEndArcShapeGrid
 
-	plantDiagram.IsHiddenStartArcShapeV2Grid = false
-	plantDiagram.IsHiddenEndArcShapeV2Grid = false
+	plantDiagram.IsHiddenStartArcShapeGrid = false
+	plantDiagram.IsHiddenEndArcShapeGrid = false
 
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 
-	plantDiagram.IsHiddenStartArcShapeV2Grid = originalStartHidden
-	plantDiagram.IsHiddenEndArcShapeV2Grid = originalEndHidden
+	plantDiagram.IsHiddenStartArcShapeGrid = originalStartHidden
+	plantDiagram.IsHiddenEndArcShapeGrid = originalEndHidden
 }
 
 func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
@@ -1322,15 +1322,15 @@ func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *sv
 		return
 	}
 
-	originalStartHidden := plantDiagram.IsHiddenTopStartArcShapeV2Grid
-	originalEndHidden := plantDiagram.IsHiddenTopEndArcShapeV2Grid
+	originalStartHidden := plantDiagram.IsHiddenTopStartArcShapeGrid
+	originalEndHidden := plantDiagram.IsHiddenTopEndArcShapeGrid
 
-	plantDiagram.IsHiddenTopStartArcShapeV2Grid = false
-	plantDiagram.IsHiddenTopEndArcShapeV2Grid = false
+	plantDiagram.IsHiddenTopStartArcShapeGrid = false
+	plantDiagram.IsHiddenTopEndArcShapeGrid = false
 
 	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 
-	plantDiagram.IsHiddenTopStartArcShapeV2Grid = originalStartHidden
-	plantDiagram.IsHiddenTopEndArcShapeV2Grid = originalEndHidden
+	plantDiagram.IsHiddenTopStartArcShapeGrid = originalStartHidden
+	plantDiagram.IsHiddenTopEndArcShapeGrid = originalEndHidden
 }

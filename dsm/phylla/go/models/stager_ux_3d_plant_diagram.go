@@ -147,8 +147,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Torus generated from StartArcShapeV2Grid & EndArcShapeV2Grid
-		if plant.StartArcShapeV2Grid != nil && plant.EndArcShapeV2Grid != nil &&
-			len(plant.StartArcShapeV2Grid.StartArcShapesV2) > 0 {
+		if plant.StartArcShapeGrid != nil && plant.EndArcShapeGrid != nil &&
+			len(plant.StartArcShapeGrid.StartArcShapes) > 0 {
 
 			thickness := plant.Thickness
 			if thickness == 0 {
@@ -250,8 +250,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 			}
 
-			startArcs := plant.StartArcShapeV2Grid.StartArcShapesV2
-			endArcs := plant.EndArcShapeV2Grid.EndArcShapesV2
+			startArcs := plant.StartArcShapeGrid.StartArcShapes
+			endArcs := plant.EndArcShapeGrid.EndArcShapes
 
 			for i := 0; i < len(startArcs); i++ {
 				sa := startArcs[i]

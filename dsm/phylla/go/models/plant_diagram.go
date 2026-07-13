@@ -24,16 +24,16 @@ type PlantDiagram struct {
 	IsHiddenPerpendicularVectorGridHalfway bool
 	IsHiddenBaseVectorShapeGrid            bool
 	IsHiddenArcNormalVectorShapeGrid       bool
-	IsHiddenStartArcShapeV2Grid            bool
-	IsHiddenTopStartArcShapeV2Grid         bool
-	IsHiddenEndArcShapeV2Grid              bool
-	IsHiddenTopEndArcShapeV2Grid           bool
-	IsHiddenBottomStartArcShapeV2Grid      bool
-	IsHiddenBottomEndArcShapeV2Grid        bool
+	IsHiddenStartArcShapeGrid            bool
+	IsHiddenTopStartArcShapeGrid         bool
+	IsHiddenEndArcShapeGrid              bool
+	IsHiddenTopEndArcShapeGrid           bool
+	IsHiddenBottomStartArcShapeGrid      bool
+	IsHiddenBottomEndArcShapeGrid        bool
 	IsHiddenGrowthCurveBezierShapeGrid     bool
-	IsHiddenStackOfGrowthCurveV2           bool
-	IsHiddenTopStackOfGrowthCurveV2        bool
-	IsHiddenBottomStackOfGrowthCurveV2     bool
+	IsHiddenStackOfGrowthCurve           bool
+	IsHiddenTopStackOfGrowthCurve        bool
+	IsHiddenBottomStackOfGrowthCurve     bool
 
 	IsHiddenGrowthCurve2D    bool
 	IsHiddenTopGrowthCurve2D bool
