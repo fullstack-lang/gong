@@ -187,11 +187,41 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 			R := circumference / (2 * math.Pi)
 
-			curve := (&threejs.Curve{
-				Name: "Torus Bottom Z Curve",
-			}).Stage(stager.threejsStage)
+			thickness := plant.Thickness
+			if thickness == 0 {
+				thickness = 1.0
+			}
+			e := thickness * 0.05 // thickness of the shell
+			half := thickness / 2.0
 
-			appendArcPoints := func(x1, y1, x2, y2, r float64, sweepFlag bool, name string) {
+			createShape := func(name string, xMin, xMax, yMin, yMax float64) *threejs.Shape {
+				shape := (&threejs.Shape{
+					Name: "Torus " + name + " Shape",
+				}).Stage(stager.threejsStage)
+				pts := [][2]float64{
+					{xMin, yMin},
+					{xMax, yMin},
+					{xMax, yMax},
+					{xMin, yMax},
+					{xMin, yMin},
+				}
+				for i, p := range pts {
+					v := (&threejs.Vector2{
+						Name: fmt.Sprintf("SquarePoint %s %d", name, i),
+						X:    p[0],
+						Y:    p[1],
+					}).Stage(stager.threejsStage)
+					shape.Points = append(shape.Points, v)
+				}
+				return shape
+			}
+
+			bottomShape := createShape("Bottom", -half, half, -half, -half+e)
+			topShape := createShape("Top", -half, half, half-e, half)
+			innerShape := createShape("Inner", -half, -half+e, -half, half)
+			outerShape := createShape("Outer", half-e, half, -half, half)
+
+			createArcMeshes := func(x1, y1, x2, y2, r float64, sweepFlag bool, name string) {
 				dx := (x1 - x2) / 2.0
 				dy := (y1 - y2) / 2.0
 				d2 := dx*dx + dy*dy
@@ -222,13 +252,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 				}
 
+				curve := (&threejs.Curve{
+					Name: name + " Curve",
+				}).Stage(stager.threejsStage)
+
 				steps := 50
 				for i := 0; i <= steps; i++ {
-					// avoid duplicating the exact start/end points of adjacent arcs
-					if i == 0 && len(curve.Points) > 0 {
-						continue
-					}
-
 					t := float64(i) / float64(steps)
 					angle := startAngle + t*(endAngle-startAngle)
 					x2d := cx + r*math.Cos(angle)
@@ -247,6 +276,34 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}).Stage(stager.threejsStage)
 					curve.Points = append(curve.Points, vec)
 				}
+
+				if len(curve.Points) > 1 {
+					createFaceMesh := func(faceName string, color string, shape *threejs.Shape) *threejs.Mesh {
+						extrudeGeom := (&threejs.ExtrudeGeometry{
+							Name:        fmt.Sprintf("Torus %s %s Extrude", name, faceName),
+							ExtrudePath: curve,
+							Shape:       shape,
+							Steps:       len(curve.Points) * 2,
+						}).Stage(stager.threejsStage)
+
+						return (&threejs.Mesh{
+							Name:                 fmt.Sprintf("Torus %s %s Mesh", name, faceName),
+							Position:             threejs.Position{X: 0, Y: 0, Z: 0},
+							ExtrudeGeometry:      extrudeGeom,
+							MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+								Name:                 fmt.Sprintf("Torus %s %s Material", name, faceName),
+								MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+							}).Stage(stager.threejsStage),
+						}).Stage(stager.threejsStage)
+					}
+
+					bottomFace := createFaceMesh("Bottom", "#1f77b4", bottomShape)
+					topFace := createFaceMesh("Top", "#d62728", topShape)
+					innerFace := createFaceMesh("Inner", "#ff7f0e", innerShape)
+					outerFace := createFaceMesh("Outer", "#2ca02c", outerShape)
+
+					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+				}
 			}
 
 			startArcs := plant.StartArcShapeV2Grid.StartArcShapesV2
@@ -254,68 +311,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			for i := 0; i < len(startArcs); i++ {
 				sa := startArcs[i]
-				appendArcPoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, sa.SweepFlag, fmt.Sprintf("StartArc %d", i))
+				createArcMeshes(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, sa.SweepFlag, fmt.Sprintf("StartArc %d", i))
 
 				if i < len(endArcs) {
 					ea := endArcs[i]
-					appendArcPoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, ea.SweepFlag, fmt.Sprintf("EndArc %d", i))
+					createArcMeshes(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, ea.SweepFlag, fmt.Sprintf("EndArc %d", i))
 				}
-			}
-
-			if len(curve.Points) > 1 {
-				thickness := plant.Thickness
-				if thickness == 0 {
-					thickness = 1.0
-				}
-				e := thickness * 0.05 // thickness of the shell
-				half := thickness / 2.0
-
-				createFaceMesh := func(name string, color string, xMin, xMax, yMin, yMax float64) *threejs.Mesh {
-					shape := (&threejs.Shape{
-						Name: "Torus " + name + " Shape",
-					}).Stage(stager.threejsStage)
-
-					pts := [][2]float64{
-						{xMin, yMin},
-						{xMax, yMin},
-						{xMax, yMax},
-						{xMin, yMax},
-						{xMin, yMin},
-					}
-					for i, p := range pts {
-						v := (&threejs.Vector2{
-							Name: fmt.Sprintf("%s Point %d", name, i),
-							X:    p[0],
-							Y:    p[1],
-						}).Stage(stager.threejsStage)
-						shape.Points = append(shape.Points, v)
-					}
-
-					extrudeGeom := (&threejs.ExtrudeGeometry{
-						Name:        "Torus " + name + " Extrude",
-						ExtrudePath: curve,
-						Shape:       shape,
-						Steps:       len(curve.Points) * 2,
-					}).Stage(stager.threejsStage)
-
-					return (&threejs.Mesh{
-						Name:                 "Torus " + name + " Mesh",
-						Position:             threejs.Position{X: 0, Y: 0, Z: 0},
-						ExtrudeGeometry:      extrudeGeom,
-						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-							Name:                 "Torus " + name + " Material",
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-						}).Stage(stager.threejsStage),
-					}).Stage(stager.threejsStage)
-				}
-
-				// Create 4 faces centered at 0,0
-				bottomFace := createFaceMesh("Bottom", "#1f77b4", -half, half, -half, -half+e)
-				topFace := createFaceMesh("Top", "#d62728", -half, half, half-e, half)
-				innerFace := createFaceMesh("Inner", "#ff7f0e", -half, -half+e, -half, half)
-				outerFace := createFaceMesh("Outer", "#2ca02c", half-e, half, -half, half)
-
-				canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
 			}
 		}
 
