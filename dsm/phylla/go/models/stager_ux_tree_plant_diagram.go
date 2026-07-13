@@ -53,7 +53,7 @@ func (stager *Stager) treePlantDiagram(
 	axesShape := plant.AxesShape
 	{
 		node := &tree.Node{
-			Name:            axesShape.Name,
+			Name:            "Axes",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -102,7 +102,7 @@ func (stager *Stager) treePlantDiagram(
 	referenceRhombus := plant.ReferenceRhombus
 	{
 		node := &tree.Node{
-			Name:            referenceRhombus.Name,
+			Name:            "Reference Rhombus",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -132,7 +132,7 @@ func (stager *Stager) treePlantDiagram(
 	plantCircumferenceShape := plant.PlantCircumferenceShape
 	{
 		node := &tree.Node{
-			Name:            plantCircumferenceShape.Name,
+			Name:            "Plant Circumference",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -162,7 +162,7 @@ func (stager *Stager) treePlantDiagram(
 	gridPathShape := plant.GridPathShape
 	{
 		node := &tree.Node{
-			Name:            gridPathShape.Name,
+			Name:            "Grid Path",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -192,7 +192,7 @@ func (stager *Stager) treePlantDiagram(
 	rhombusGridShape := plant.InitialRhombusGridShape
 	{
 		node := &tree.Node{
-			Name:            rhombusGridShape.Name,
+			Name:            "Initial Rhombus Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -222,7 +222,7 @@ func (stager *Stager) treePlantDiagram(
 	explanationTextShape := plant.ExplanationTextShape
 	{
 		node := &tree.Node{
-			Name:            explanationTextShape.Name,
+			Name:            "Explanation Text",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -252,7 +252,7 @@ func (stager *Stager) treePlantDiagram(
 	rotatedReferenceRhombus := plant.RotatedReferenceRhombus
 	{
 		node := &tree.Node{
-			Name:            rotatedReferenceRhombus.Name,
+			Name:            "Rotated Reference Rhombus",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -282,7 +282,7 @@ func (stager *Stager) treePlantDiagram(
 	rotatedPlantCircumferenceShape := plant.RotatedPlantCircumferenceShape
 	{
 		node := &tree.Node{
-			Name:            rotatedPlantCircumferenceShape.Name,
+			Name:            "Rotated Plant Circumference",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -312,7 +312,7 @@ func (stager *Stager) treePlantDiagram(
 	rotatedGridPathShape := plant.RotatedGridPathShape
 	{
 		node := &tree.Node{
-			Name:            rotatedGridPathShape.Name,
+			Name:            "Rotated Grid Path",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -342,7 +342,7 @@ func (stager *Stager) treePlantDiagram(
 	rotatedRhombusGridShape := plant.RotatedRhombusGridShape2
 	{
 		node := &tree.Node{
-			Name:            rotatedRhombusGridShape.Name,
+			Name:            "Rotated Rhombus Grid 2",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -372,7 +372,7 @@ func (stager *Stager) treePlantDiagram(
 	growthPathRhombusGridShape := plant.GrowthCurveRhombusGridShape
 	{
 		node := &tree.Node{
-			Name:            growthPathRhombusGridShape.Name,
+			Name:            "Growth Curve Rhombus Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -402,7 +402,7 @@ func (stager *Stager) treePlantDiagram(
 	growthVectorShape := plant.GrowthVectorShape
 	{
 		node := &tree.Node{
-			Name:            growthVectorShape.Name,
+			Name:            "Growth Vector",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -432,7 +432,7 @@ func (stager *Stager) treePlantDiagram(
 	perpendicularVectorGrid := plant.PerpendicularVectorGrid
 	{
 		node := &tree.Node{
-			Name:            perpendicularVectorGrid.Name,
+			Name:            "Perpendicular Vector Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -462,7 +462,7 @@ func (stager *Stager) treePlantDiagram(
 	perpendicularVectorGridHalfway := plant.PerpendicularVectorGridHalfway
 	{
 		node := &tree.Node{
-			Name:            perpendicularVectorGridHalfway.Name,
+			Name:            "Perpendicular Vector Grid Halfway",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -492,7 +492,7 @@ func (stager *Stager) treePlantDiagram(
 	baseVectorShapeGrid := plant.BaseVectorShapeGrid
 	{
 		node := &tree.Node{
-			Name:            baseVectorShapeGrid.Name,
+			Name:            "Base Vector Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -522,7 +522,7 @@ func (stager *Stager) treePlantDiagram(
 	arcNormalVectorShapeGrid := plant.ArcNormalVectorShapeGrid
 	{
 		node := &tree.Node{
-			Name:            arcNormalVectorShapeGrid.Name,
+			Name:            "Arc Normal Vector Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -552,7 +552,7 @@ func (stager *Stager) treePlantDiagram(
 	startArcShapeV2Grid := plant.StartArcShapeV2Grid
 	{
 		node := &tree.Node{
-			Name:            startArcShapeV2Grid.Name,
+			Name:            "Start Arc V2 Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -582,7 +582,7 @@ func (stager *Stager) treePlantDiagram(
 	topStartArcShapeV2Grid := plant.TopStartArcShapeV2Grid
 	{
 		node := &tree.Node{
-			Name:            topStartArcShapeV2Grid.Name,
+			Name:            "Top Start Arc V2 Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -612,7 +612,7 @@ func (stager *Stager) treePlantDiagram(
 	endArcShapeV2Grid := plant.EndArcShapeV2Grid
 	{
 		node := &tree.Node{
-			Name:            endArcShapeV2Grid.Name,
+			Name:            "End Arc V2 Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -642,7 +642,7 @@ func (stager *Stager) treePlantDiagram(
 	topEndArcShapeV2Grid := plant.TopEndArcShapeV2Grid
 	{
 		node := &tree.Node{
-			Name:            topEndArcShapeV2Grid.Name,
+			Name:            "Top End Arc V2 Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -672,7 +672,7 @@ func (stager *Stager) treePlantDiagram(
 	bottomStartArcShapeV2Grid := plant.BottomStartArcShapeV2Grid
 	{
 		node := &tree.Node{
-			Name:            bottomStartArcShapeV2Grid.Name,
+			Name:            "Bottom Start Arc V2 Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -702,7 +702,7 @@ func (stager *Stager) treePlantDiagram(
 	bottomEndArcShapeV2Grid := plant.BottomEndArcShapeV2Grid
 	{
 		node := &tree.Node{
-			Name:            bottomEndArcShapeV2Grid.Name,
+			Name:            "Bottom End Arc V2 Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
@@ -732,7 +732,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid
 		node := &tree.Node{
-			Name: growthCurveBezierShapeGrid.Name,
+			Name: "Growth Curve Bezier Grid",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -764,7 +764,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2
 		node := &tree.Node{
-			Name: stackOfGrowthCurveV2.Name,
+			Name: "Stack Of Growth Curve V2",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -796,7 +796,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurveV2
 		node := &tree.Node{
-			Name: topStackOfGrowthCurveV2.Name,
+			Name: "Top Stack Of Growth Curve V2",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -828,7 +828,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurveV2
 		node := &tree.Node{
-			Name: bottomStackOfGrowthCurveV2.Name,
+			Name: "Bottom Stack Of Growth Curve V2",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -859,7 +859,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		growthCurve2D := plant.GrowthCurve2D
 		node := &tree.Node{
-			Name: growthCurve2D.Name,
+			Name: "Growth Curve 2D",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -891,7 +891,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		topGrowthCurve2D := plant.TopGrowthCurve2D
 		node := &tree.Node{
-			Name: topGrowthCurve2D.Name,
+			Name: "Top Growth Curve 2D",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
