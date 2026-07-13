@@ -22,8 +22,11 @@ type Plant struct {
 	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
 	RhombusInsideAngle float64
 
-	// Thickness of the growth curve. when growth curve are stacked, each is separate from the next
-	Thickness float64
+	// VerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
+	VerticalThickness float64
+
+	// thickness allong the radius
+	RadialThickness float64
 
 	// RhombusSideLength is set by the user. It represents the physical length of the side of the
 	// fundamental diamond (rhombus) shape. It acts as the scale or distance for each step
@@ -60,14 +63,14 @@ type Plant struct {
 	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
 	BaseVectorShapeGrid            *BaseVectorShapeGrid
 	ArcNormalVectorShapeGrid       *ArcNormalVectorShapeGrid
-	StartArcShapeGrid            *StartArcShapeGrid
-	TopStartArcShapeGrid         *TopStartArcShapeGrid
-	EndArcShapeGrid              *EndArcShapeGrid
-	TopEndArcShapeGrid           *TopEndArcShapeGrid
+	StartArcShapeGrid              *StartArcShapeGrid
+	TopStartArcShapeGrid           *TopStartArcShapeGrid
+	EndArcShapeGrid                *EndArcShapeGrid
+	TopEndArcShapeGrid             *TopEndArcShapeGrid
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
 
-	StackOfGrowthCurve       *StackOfGrowthCurve
-	TopStackOfGrowthCurve    *TopStackOfGrowthCurve
+	StackOfGrowthCurve    *StackOfGrowthCurve
+	TopStackOfGrowthCurve *TopStackOfGrowthCurve
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D
