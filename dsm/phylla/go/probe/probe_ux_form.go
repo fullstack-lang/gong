@@ -129,6 +129,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.gridpathshape, probe)
 			}
+		case *GrowthCurve2DFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthCurve2D", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthcurve2d, probe)
+			}
 		case *GrowthCurveBezierShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "GrowthCurveBezierShape", true)
@@ -314,6 +320,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "TopEndArcShapeV2Grid", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.topendarcshapev2grid, probe)
+			}
+		case *TopGrowthCurve2DFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopGrowthCurve2D", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topgrowthcurve2d, probe)
 			}
 		case *TopStackGrowthCurveEndArcShapeV2FormCallback:
 			if onSave.CreationMode {
@@ -614,6 +626,19 @@ func FillUpFormFromGongstructName(
 		gridpathshape := new(models.GridPathShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gridpathshape, formGroup, probe)
+	case "GrowthCurve2D":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthCurve2D Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurve2DFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthcurve2d := new(models.GrowthCurve2D)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthcurve2d, formGroup, probe)
 	case "GrowthCurveBezierShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1017,6 +1042,19 @@ func FillUpFormFromGongstructName(
 		topendarcshapev2grid := new(models.TopEndArcShapeV2Grid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topendarcshapev2grid, formGroup, probe)
+	case "TopGrowthCurve2D":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopGrowthCurve2D Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopGrowthCurve2DFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topgrowthcurve2d := new(models.TopGrowthCurve2D)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topgrowthcurve2d, formGroup, probe)
 	case "TopStackGrowthCurveEndArcShapeV2":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

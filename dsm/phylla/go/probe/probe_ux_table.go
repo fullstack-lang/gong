@@ -62,6 +62,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ExplanationTextShape](probe)
 	case "GridPathShape":
 		updateProbeTable[*models.GridPathShape](probe)
+	case "GrowthCurve2D":
+		updateProbeTable[*models.GrowthCurve2D](probe)
 	case "GrowthCurveBezierShape":
 		updateProbeTable[*models.GrowthCurveBezierShape](probe)
 	case "GrowthCurveBezierShapeGrid":
@@ -124,6 +126,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopEndArcShapeV2](probe)
 	case "TopEndArcShapeV2Grid":
 		updateProbeTable[*models.TopEndArcShapeV2Grid](probe)
+	case "TopGrowthCurve2D":
+		updateProbeTable[*models.TopGrowthCurve2D](probe)
 	case "TopStackGrowthCurveEndArcShapeV2":
 		updateProbeTable[*models.TopStackGrowthCurveEndArcShapeV2](probe)
 	case "TopStackGrowthCurveStartArcShapeV2":

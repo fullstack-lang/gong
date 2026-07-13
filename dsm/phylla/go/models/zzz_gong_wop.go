@@ -413,6 +413,17 @@ func (from *GridPathShape) CopyBasicFields(to *GridPathShape) {
 	to.Name = from.Name
 }
 
+type GrowthCurve2D_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *GrowthCurve2D) CopyBasicFields(to *GrowthCurve2D) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type GrowthCurveBezierShape_WOP struct {
 	// insertion point
 
@@ -762,6 +773,10 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenBottomStackOfGrowthCurveV2 bool
 
+	IsHiddenGrowthCurve2D bool
+
+	IsHiddenTopGrowthCurve2D bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -803,6 +818,8 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStackOfGrowthCurveV2 = from.IsHiddenStackOfGrowthCurveV2
 	to.IsHiddenTopStackOfGrowthCurveV2 = from.IsHiddenTopStackOfGrowthCurveV2
 	to.IsHiddenBottomStackOfGrowthCurveV2 = from.IsHiddenBottomStackOfGrowthCurveV2
+	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
+	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -1161,6 +1178,17 @@ type TopEndArcShapeV2Grid_WOP struct {
 }
 
 func (from *TopEndArcShapeV2Grid) CopyBasicFields(to *TopEndArcShapeV2Grid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TopGrowthCurve2D_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopGrowthCurve2D) CopyBasicFields(to *TopGrowthCurve2D) {
 	// insertion point
 	to.Name = from.Name
 }

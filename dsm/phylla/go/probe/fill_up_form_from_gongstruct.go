@@ -266,6 +266,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthCurve2D:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthCurve2D",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurve2DFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GrowthCurveBezierShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -663,6 +676,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "TopEndArcShapeV2Grid",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TopEndArcShapeV2GridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopGrowthCurve2D:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopGrowthCurve2D",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopGrowthCurve2DFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

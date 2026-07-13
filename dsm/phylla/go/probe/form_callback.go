@@ -2247,6 +2247,88 @@ func (gridpathshapeFormCallback *GridPathShapeFormCallback) OnSave() {
 
 	gridpathshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__GrowthCurve2DFormCallback(
+	growthcurve2d *models.GrowthCurve2D,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (growthcurve2dFormCallback *GrowthCurve2DFormCallback) {
+	growthcurve2dFormCallback = new(GrowthCurve2DFormCallback)
+	growthcurve2dFormCallback.probe = probe
+	growthcurve2dFormCallback.growthcurve2d = growthcurve2d
+	growthcurve2dFormCallback.formGroup = formGroup
+
+	growthcurve2dFormCallback.CreationMode = (growthcurve2d == nil)
+
+	return
+}
+
+type GrowthCurve2DFormCallback struct {
+	growthcurve2d *models.GrowthCurve2D
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (growthcurve2dFormCallback *GrowthCurve2DFormCallback) OnSave() {
+	growthcurve2dFormCallback.probe.stageOfInterest.Lock()
+	defer growthcurve2dFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("GrowthCurve2DFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	growthcurve2dFormCallback.probe.formStage.Checkout()
+
+	if growthcurve2dFormCallback.growthcurve2d == nil {
+		growthcurve2dFormCallback.growthcurve2d = new(models.GrowthCurve2D).Stage(growthcurve2dFormCallback.probe.stageOfInterest)
+	}
+	growthcurve2d_ := growthcurve2dFormCallback.growthcurve2d
+	_ = growthcurve2d_
+
+	for _, formDiv := range growthcurve2dFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(growthcurve2d_.Name), formDiv)
+		case "StartArcShapeV2Grid":
+			FormDivSelectFieldToField(&(growthcurve2d_.StartArcShapeV2Grid), growthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		case "EndArcShapeV2Grid":
+			FormDivSelectFieldToField(&(growthcurve2d_.EndArcShapeV2Grid), growthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if growthcurve2dFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		growthcurve2d_.Unstage(growthcurve2dFormCallback.probe.stageOfInterest)
+	}
+
+	growthcurve2dFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.GrowthCurve2D](
+		growthcurve2dFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if growthcurve2dFormCallback.CreationMode || growthcurve2dFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		growthcurve2dFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(growthcurve2dFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GrowthCurve2DFormCallback(
+			nil,
+			growthcurve2dFormCallback.probe,
+			newFormGroup,
+		)
+		growthcurve2d := new(models.GrowthCurve2D)
+		FillUpForm(growthcurve2d, newFormGroup, growthcurve2dFormCallback.probe)
+		growthcurve2dFormCallback.probe.formStage.Commit()
+	}
+
+	growthcurve2dFormCallback.probe.ux_tree()
+}
 func __gong__New__GrowthCurveBezierShapeFormCallback(
 	growthcurvebeziershape *models.GrowthCurveBezierShape,
 	probe *Probe,
@@ -3966,6 +4048,10 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.TopStackOfGrowthCurveV2), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "BottomStackOfGrowthCurveV2":
 			FormDivSelectFieldToField(&(plant_.BottomStackOfGrowthCurveV2), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthCurve2D":
+			FormDivSelectFieldToField(&(plant_.GrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "TopGrowthCurve2D":
+			FormDivSelectFieldToField(&(plant_.TopGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4233,6 +4319,10 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStackOfGrowthCurveV2), formDiv)
 		case "IsHiddenBottomStackOfGrowthCurveV2":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStackOfGrowthCurveV2), formDiv)
+		case "IsHiddenGrowthCurve2D":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
+		case "IsHiddenTopGrowthCurve2D":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopGrowthCurve2D), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -6153,6 +6243,88 @@ func (topendarcshapev2gridFormCallback *TopEndArcShapeV2GridFormCallback) OnSave
 	}
 
 	topendarcshapev2gridFormCallback.probe.ux_tree()
+}
+func __gong__New__TopGrowthCurve2DFormCallback(
+	topgrowthcurve2d *models.TopGrowthCurve2D,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topgrowthcurve2dFormCallback *TopGrowthCurve2DFormCallback) {
+	topgrowthcurve2dFormCallback = new(TopGrowthCurve2DFormCallback)
+	topgrowthcurve2dFormCallback.probe = probe
+	topgrowthcurve2dFormCallback.topgrowthcurve2d = topgrowthcurve2d
+	topgrowthcurve2dFormCallback.formGroup = formGroup
+
+	topgrowthcurve2dFormCallback.CreationMode = (topgrowthcurve2d == nil)
+
+	return
+}
+
+type TopGrowthCurve2DFormCallback struct {
+	topgrowthcurve2d *models.TopGrowthCurve2D
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topgrowthcurve2dFormCallback *TopGrowthCurve2DFormCallback) OnSave() {
+	topgrowthcurve2dFormCallback.probe.stageOfInterest.Lock()
+	defer topgrowthcurve2dFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopGrowthCurve2DFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topgrowthcurve2dFormCallback.probe.formStage.Checkout()
+
+	if topgrowthcurve2dFormCallback.topgrowthcurve2d == nil {
+		topgrowthcurve2dFormCallback.topgrowthcurve2d = new(models.TopGrowthCurve2D).Stage(topgrowthcurve2dFormCallback.probe.stageOfInterest)
+	}
+	topgrowthcurve2d_ := topgrowthcurve2dFormCallback.topgrowthcurve2d
+	_ = topgrowthcurve2d_
+
+	for _, formDiv := range topgrowthcurve2dFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topgrowthcurve2d_.Name), formDiv)
+		case "TopStartArcShapeV2Grid":
+			FormDivSelectFieldToField(&(topgrowthcurve2d_.TopStartArcShapeV2Grid), topgrowthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndArcShapeV2Grid":
+			FormDivSelectFieldToField(&(topgrowthcurve2d_.TopEndArcShapeV2Grid), topgrowthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if topgrowthcurve2dFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topgrowthcurve2d_.Unstage(topgrowthcurve2dFormCallback.probe.stageOfInterest)
+	}
+
+	topgrowthcurve2dFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopGrowthCurve2D](
+		topgrowthcurve2dFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topgrowthcurve2dFormCallback.CreationMode || topgrowthcurve2dFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topgrowthcurve2dFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topgrowthcurve2dFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopGrowthCurve2DFormCallback(
+			nil,
+			topgrowthcurve2dFormCallback.probe,
+			newFormGroup,
+		)
+		topgrowthcurve2d := new(models.TopGrowthCurve2D)
+		FillUpForm(topgrowthcurve2d, newFormGroup, topgrowthcurve2dFormCallback.probe)
+		topgrowthcurve2dFormCallback.probe.formStage.Commit()
+	}
+
+	topgrowthcurve2dFormCallback.probe.ux_tree()
 }
 func __gong__New__TopStackGrowthCurveEndArcShapeV2FormCallback(
 	topstackgrowthcurveendarcshapev2 *models.TopStackGrowthCurveEndArcShapeV2,
