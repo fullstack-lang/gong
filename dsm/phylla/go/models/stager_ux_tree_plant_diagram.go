@@ -732,7 +732,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid
 		node := &tree.Node{
-			Name: "GrowthCurveBezierShapeGrid",
+			Name: growthCurveBezierShapeGrid.Name,
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -764,7 +764,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2
 		node := &tree.Node{
-			Name: "StackOfGrowthCurveV2",
+			Name: stackOfGrowthCurveV2.Name,
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -796,7 +796,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurveV2
 		node := &tree.Node{
-			Name: "TopStackOfGrowthCurveV2",
+			Name: topStackOfGrowthCurveV2.Name,
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -828,7 +828,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurveV2
 		node := &tree.Node{
-			Name: "BottomStackOfGrowthCurveV2",
+			Name: bottomStackOfGrowthCurveV2.Name,
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -859,7 +859,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		growthCurve2D := plant.GrowthCurve2D
 		node := &tree.Node{
-			Name: "GrowthCurve2D",
+			Name: growthCurve2D.Name,
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
@@ -891,7 +891,7 @@ func (stager *Stager) treePlantDiagram(
 	{
 		topGrowthCurve2D := plant.TopGrowthCurve2D
 		node := &tree.Node{
-			Name: "TopGrowthCurve2D",
+			Name: topGrowthCurve2D.Name,
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
