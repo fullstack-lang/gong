@@ -352,8 +352,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-
-
 	n8 := enforcePlantHasShape[*GrowthCurveBezierShapeGrid](
 		stager,
 		func() *GrowthCurveBezierShapeGrid { return new(GrowthCurveBezierShapeGrid) },
@@ -389,7 +387,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		"TopStackOfGrowthCurveV2",
 	)
 	needCommit = n11 || needCommit
-
 
 	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11
 }
@@ -515,8 +512,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-
-
 	n8 := enforcePlantShapeName[*GrowthCurveBezierShapeGrid](
 		stager,
 		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
@@ -537,7 +532,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"TopStackOfGrowthCurveV2",
 	)
 	needCommit = n11 || needCommit
-
 
 	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11
 }
@@ -633,7 +627,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.VerticalThickness) || needCommit
 		}
 
 		{
@@ -641,7 +635,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
+			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.VerticalThickness) || needCommit
 		}
 
 		if plant.GrowthCurve2D == nil {
@@ -692,10 +686,10 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
+			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.VerticalThickness) || needCommit
 		}
 		{
-			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
+			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.VerticalThickness) || needCommit
 		}
 		{
 		}
@@ -2204,9 +2198,6 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 
 	return needCommit
 }
-
-
-
 
 func computeArcV2Geometry(v1, v2 *PerpendicularVector, offset float64, isEndArc bool) (expectedStartX, expectedStartY, expectedEndX, expectedEndY, expectedRadiusX, expectedRadiusY, xAxisRotation float64, largeArcFlag, sweepFlag bool) {
 	dx := v1.EndX - v1.StartX

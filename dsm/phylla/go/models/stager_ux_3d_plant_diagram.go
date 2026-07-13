@@ -150,7 +150,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		if plant.StartArcShapeGrid != nil && plant.EndArcShapeGrid != nil &&
 			len(plant.StartArcShapeGrid.StartArcShapes) > 0 {
 
-			thickness := plant.Thickness
+			thickness := plant.VerticalThickness
 			if thickness == 0 {
 				thickness = 1.0
 			}
@@ -276,9 +276,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}).Stage(stager.threejsStage)
 
 					return (&threejs.Mesh{
-						Name:                 fmt.Sprintf("Torus Continuous %s Mesh", faceName),
-						Position:             threejs.Position{X: 0, Y: 0, Z: 0},
-						ExtrudeGeometry:      extrudeGeom,
+						Name:            fmt.Sprintf("Torus Continuous %s Mesh", faceName),
+						Position:        threejs.Position{X: 0, Y: 0, Z: 0},
+						ExtrudeGeometry: extrudeGeom,
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 							Name:                 fmt.Sprintf("Torus Continuous %s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
@@ -298,7 +298,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		if floorMinY == math.MaxFloat64 {
 			floorMinY = 0.0
 		} else {
-			thickness := plant.Thickness
+			thickness := plant.VerticalThickness
 			if thickness == 0 {
 				thickness = 1.0
 			}

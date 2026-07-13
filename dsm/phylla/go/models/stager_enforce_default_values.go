@@ -38,9 +38,9 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.RhombusInsideAngle = 65.0
 		}
-		if plant.Thickness == 0.0 {
+		if plant.VerticalThickness == 0.0 {
 			needCommit = true
-			plant.Thickness = 10.0
+			plant.VerticalThickness = 10.0
 		}
 		if plant.Name == "" {
 			needCommit = true

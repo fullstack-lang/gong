@@ -98,7 +98,7 @@ func (stager *Stager) ux_slider() {
 				1,
 				100,
 				1,
-				&plant.Thickness,
+				&plant.VerticalThickness,
 			),
 		)
 
