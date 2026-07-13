@@ -98,6 +98,22 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		}).Stage(stager.threejsStage)
 		canvas.AmbiantLight = ambiantLight
 
+		var globalR float64
+		{
+			circumference := 10.0
+			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
+				circumference = plant.PlantCircumferenceShape.Length
+			} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+				first := pGrid.PerpendicularVectors[0]
+				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
+				circumference = last.StartX - first.StartX
+			}
+			if circumference <= 0 {
+				circumference = 10.0
+			}
+			globalR = circumference / (2 * math.Pi)
+		}
+
 		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 			canvas.Camera = (&threejs.Camera{
 				Name: "Camera",
@@ -112,19 +128,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				Fov:     checkedDiagram.Rendered3DShape.Fov,
 			}).Stage(stager.threejsStage)
 		} else {
-			circumference := 10.0
-			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
-				circumference = plant.PlantCircumferenceShape.Length
-			} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
-				first := pGrid.PerpendicularVectors[0]
-				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
-				circumference = last.StartX - first.StartX
-			}
-			if circumference <= 0 {
-				circumference = 10.0
-			}
-			R := circumference / (2 * math.Pi)
-			camDist := R * 2.5
+			camDist := globalR * 2.5
 			if camDist < 15 {
 				camDist = 15
 			}
@@ -136,56 +140,15 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					Y: camDist * 0.8,
 					Z: camDist,
 				},
-				TargetY: R,
+				TargetY: globalR,
 			}).Stage(stager.threejsStage)
 		}
-		tileSize := 10.0
-		gridSize := 10
 
-		for i := -gridSize / 2; i < gridSize/2; i++ {
-			for j := -gridSize / 2; j < gridSize/2; j++ {
-				color := "white"
-				if (i+j)%2 != 0 {
-					color = "black"
-				}
-
-				tileMesh := (&threejs.Mesh{
-					Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
-					Position: threejs.Position{
-						X: float64(i)*tileSize + tileSize/2,
-						Y: -0.05,
-						Z: float64(j)*tileSize + tileSize/2,
-					},
-					BoxGeometry: (&threejs.BoxGeometry{
-						Name:           "Tile Geometry",
-						Width:          tileSize,
-						Height:         0.1,
-						Depth:          tileSize,
-						WidthSegments:  1,
-						HeightSegments: 1,
-						DepthSegments:  1,
-					}).Stage(stager.threejsStage),
-					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-						Name:                 "Tile Material " + color,
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					}).Stage(stager.threejsStage),
-				}).Stage(stager.threejsStage)
-
-				canvas.Meshs = append(canvas.Meshs, tileMesh)
-			}
-		}
-
-
+		floorMinY := math.MaxFloat64
 
 		// Torus generated from StartArcShapeV2Grid & EndArcShapeV2Grid
 		if plant.StartArcShapeV2Grid != nil && plant.EndArcShapeV2Grid != nil &&
 			len(plant.StartArcShapeV2Grid.StartArcShapesV2) > 0 {
-
-			circumference := 10.0
-			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
-				circumference = plant.PlantCircumferenceShape.Length
-			}
-			R := circumference / (2 * math.Pi)
 
 			thickness := plant.Thickness
 			if thickness == 0 {
@@ -221,7 +184,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			innerShape := createShape("Inner", -half, -half+e, -half, half)
 			outerShape := createShape("Outer", half-e, half, -half, half)
 
-			createArcMeshes := func(x1, y1, x2, y2, r float64, sweepFlag bool, name string) {
+			curve := (&threejs.Curve{
+				Name: "Torus Continuous Curve",
+			}).Stage(stager.threejsStage)
+
+			appendArcPoints := func(x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
 				dx := (x1 - x2) / 2.0
 				dy := (y1 - y2) / 2.0
 				d2 := dx*dx + dy*dy
@@ -231,12 +198,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					cy = (y1 + y2) / 2.0
 					r = math.Sqrt(d2)
 				} else {
-					h := math.Sqrt(r*r/d2 - 1.0)
-					if !sweepFlag {
-						h = -h
+					root := math.Sqrt(r*r/d2 - 1.0)
+					if largeArcFlag == sweepFlag {
+						root = -root
 					}
-					cx = (x1+x2)/2.0 + h*dy
-					cy = (y1+y2)/2.0 - h*dx
+					cx = (x1+x2)/2.0 + root*dy
+					cy = (y1+y2)/2.0 - root*dx
 				}
 
 				startAngle := math.Atan2(y1-cy, x1-cx)
@@ -252,57 +219,34 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 				}
 
-				curve := (&threejs.Curve{
-					Name: name + " Curve",
-				}).Stage(stager.threejsStage)
-
 				steps := 50
 				for i := 0; i <= steps; i++ {
+					// avoid duplicating the exact same point if it's not the first point of the curve
+					if i == 0 && len(curve.Points) > 0 {
+						continue
+					}
+
 					t := float64(i) / float64(steps)
 					angle := startAngle + t*(endAngle-startAngle)
 					x2d := cx + r*math.Cos(angle)
 					y2d := cy + r*math.Sin(angle)
 
-					theta := x2d / R
-					x3d := R * math.Cos(theta)
-					z3d := R * math.Sin(theta)
+					theta := x2d / globalR
+					x3d := globalR * math.Cos(theta)
+					z3d := globalR * math.Sin(theta)
 					y3d := y2d
 
+					if y3d < floorMinY {
+						floorMinY = y3d
+					}
+
 					vec := (&threejs.Vector3{
-						Name: fmt.Sprintf("%s Point %d", name, i),
+						Name: fmt.Sprintf("Point %d", len(curve.Points)),
 						X:    x3d,
 						Y:    y3d,
 						Z:    z3d,
 					}).Stage(stager.threejsStage)
 					curve.Points = append(curve.Points, vec)
-				}
-
-				if len(curve.Points) > 1 {
-					createFaceMesh := func(faceName string, color string, shape *threejs.Shape) *threejs.Mesh {
-						extrudeGeom := (&threejs.ExtrudeGeometry{
-							Name:        fmt.Sprintf("Torus %s %s Extrude", name, faceName),
-							ExtrudePath: curve,
-							Shape:       shape,
-							Steps:       len(curve.Points) * 2,
-						}).Stage(stager.threejsStage)
-
-						return (&threejs.Mesh{
-							Name:                 fmt.Sprintf("Torus %s %s Mesh", name, faceName),
-							Position:             threejs.Position{X: 0, Y: 0, Z: 0},
-							ExtrudeGeometry:      extrudeGeom,
-							MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-								Name:                 fmt.Sprintf("Torus %s %s Material", name, faceName),
-								MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-							}).Stage(stager.threejsStage),
-						}).Stage(stager.threejsStage)
-					}
-
-					bottomFace := createFaceMesh("Bottom", "#1f77b4", bottomShape)
-					topFace := createFaceMesh("Top", "#d62728", topShape)
-					innerFace := createFaceMesh("Inner", "#ff7f0e", innerShape)
-					outerFace := createFaceMesh("Outer", "#2ca02c", outerShape)
-
-					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
 				}
 			}
 
@@ -311,12 +255,93 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			for i := 0; i < len(startArcs); i++ {
 				sa := startArcs[i]
-				createArcMeshes(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, sa.SweepFlag, fmt.Sprintf("StartArc %d", i))
+				// Cartesian sweep is the inverse of SVG sweep due to Y-axis mirroring
+				appendArcPoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 
 				if i < len(endArcs) {
 					ea := endArcs[i]
-					createArcMeshes(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, ea.SweepFlag, fmt.Sprintf("EndArc %d", i))
+					// Cartesian sweep is !ea.SweepFlag.
+					// Traversing backwards inverts it again, so we pass ea.SweepFlag.
+					appendArcPoints(ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag)
 				}
+			}
+
+			if len(curve.Points) > 1 {
+				createFaceMesh := func(faceName string, color string, shape *threejs.Shape) *threejs.Mesh {
+					extrudeGeom := (&threejs.ExtrudeGeometry{
+						Name:        fmt.Sprintf("Torus Continuous %s Extrude", faceName),
+						ExtrudePath: curve,
+						Shape:       shape,
+						Steps:       len(curve.Points) * 2,
+					}).Stage(stager.threejsStage)
+
+					return (&threejs.Mesh{
+						Name:                 fmt.Sprintf("Torus Continuous %s Mesh", faceName),
+						Position:             threejs.Position{X: 0, Y: 0, Z: 0},
+						ExtrudeGeometry:      extrudeGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 fmt.Sprintf("Torus Continuous %s Material", faceName),
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+						}).Stage(stager.threejsStage),
+					}).Stage(stager.threejsStage)
+				}
+
+				bottomFace := createFaceMesh("Bottom", "#1f77b4", bottomShape)
+				topFace := createFaceMesh("Top", "#d62728", topShape)
+				innerFace := createFaceMesh("Inner", "#ff7f0e", innerShape)
+				outerFace := createFaceMesh("Outer", "#2ca02c", outerShape)
+
+				canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+			}
+		}
+
+		if floorMinY == math.MaxFloat64 {
+			floorMinY = 0.0
+		} else {
+			thickness := plant.Thickness
+			if thickness == 0 {
+				thickness = 1.0
+			}
+			floorMinY = floorMinY - (thickness / 2.0)
+		}
+
+		floorSize := globalR * 2.5
+		if floorSize < 100 {
+			floorSize = 100
+		}
+		gridSize := 20
+		tileSize := floorSize / float64(gridSize)
+
+		for i := -gridSize / 2; i < gridSize/2; i++ {
+			for j := -gridSize / 2; j < gridSize/2; j++ {
+				color := "white"
+				if (i+j)%2 != 0 {
+					color = "black"
+				}
+
+				tileMesh := (&threejs.Mesh{
+					Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
+					Position: threejs.Position{
+						X: float64(i)*tileSize + tileSize/2,
+						Y: floorMinY - 0.05,
+						Z: float64(j)*tileSize + tileSize/2,
+					},
+					BoxGeometry: (&threejs.BoxGeometry{
+						Name:           "Tile Geometry",
+						Width:          tileSize,
+						Height:         0.1,
+						Depth:          tileSize,
+						WidthSegments:  1,
+						HeightSegments: 1,
+						DepthSegments:  1,
+					}).Stage(stager.threejsStage),
+					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+						Name:                 "Tile Material " + color,
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					}).Stage(stager.threejsStage),
+				}).Stage(stager.threejsStage)
+
+				canvas.Meshs = append(canvas.Meshs, tileMesh)
 			}
 		}
 
