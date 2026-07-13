@@ -304,18 +304,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_arc_normal || needCommit
 
-	n7_arc := enforcePlantHasShape[*StartArcShapeGrid](
-		stager,
-		func() *StartArcShapeGrid { return new(StartArcShapeGrid) },
-		func(p *Plant) *StartArcShapeGrid { return p.StartArcShapeGrid },
-		func(p *Plant, shape *StartArcShapeGrid) { p.StartArcShapeGrid = shape },
-		func(p *Plant, shape *StartArcShapeGrid) bool {
-			return p.StartArcShapeGrid == shape
-		},
-		"StartArcShapeGrid",
-	)
-	needCommit = n7_arc || needCommit
-
 	n7_arc_v2 := enforcePlantHasShape[*StartArcShapeV2Grid](
 		stager,
 		func() *StartArcShapeV2Grid { return new(StartArcShapeV2Grid) },
@@ -339,18 +327,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		"TopStartArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2 || needCommit
-
-	n7_arc_end := enforcePlantHasShape[*EndArcShapeGrid](
-		stager,
-		func() *EndArcShapeGrid { return new(EndArcShapeGrid) },
-		func(p *Plant) *EndArcShapeGrid { return p.EndArcShapeGrid },
-		func(p *Plant, shape *EndArcShapeGrid) { p.EndArcShapeGrid = shape },
-		func(p *Plant, shape *EndArcShapeGrid) bool {
-			return p.EndArcShapeGrid == shape
-		},
-		"EndArcShapeGrid",
-	)
-	needCommit = n7_arc_end || needCommit
 
 	n7_arc_v2_end := enforcePlantHasShape[*EndArcShapeV2Grid](
 		stager,
@@ -460,7 +436,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc || n7_arc_v2 || n7_top_arc_v2 || n7_arc_end || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9 || n10 || n11 || n12
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9 || n10 || n11 || n12
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -556,13 +532,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_arc_normal || needCommit
 
-	n7_arc := enforcePlantShapeName[*StartArcShapeGrid](
-		stager,
-		func(p *Plant) *StartArcShapeGrid { return p.StartArcShapeGrid },
-		"StartArcShapeGrid",
-	)
-	needCommit = n7_arc || needCommit
-
 	n7_arc_v2 := enforcePlantShapeName[*StartArcShapeV2Grid](
 		stager,
 		func(p *Plant) *StartArcShapeV2Grid { return p.StartArcShapeV2Grid },
@@ -576,13 +545,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"TopStartArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2 || needCommit
-
-	n7_arc_end := enforcePlantShapeName[*EndArcShapeGrid](
-		stager,
-		func(p *Plant) *EndArcShapeGrid { return p.EndArcShapeGrid },
-		"EndArcShapeGrid",
-	)
-	needCommit = n7_arc_end || needCommit
 
 	n7_arc_v2_end := enforcePlantShapeName[*EndArcShapeV2Grid](
 		stager,
@@ -647,7 +609,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc || n7_arc_v2 || n7_top_arc_v2 || n7_arc_end || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9 || n10 || n11 || n12
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9 || n10 || n11 || n12
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -719,7 +681,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 				}
 			}
 		}
-		
+
 		if plant.PerpendicularVectorGrid != nil && plant.GrowthCurveRhombusGridShape != nil {
 			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
@@ -727,31 +689,23 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.PerpendicularVectorGridHalfway != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforcePerpendicularVectorGridHalfwayHasVectors(stage, plant.PerpendicularVectorGridHalfway, plant.PerpendicularVectorGrid) || needCommit
 		}
-		
+
 		if plant.BaseVectorShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceBaseVectorShapeGridHasShapes(stage, plant.BaseVectorShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
-		
+
 		if plant.ArcNormalVectorShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceArcNormalVectorShapeGridHasShapes(stage, plant.ArcNormalVectorShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
-		
-		if plant.StartArcShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
-			needCommit = enforceStartArcShapeGridHasShapes(stage, plant.StartArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
-		}
-		
+
 		if plant.StartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceStartArcShapeV2GridHasShapes(stage, plant.StartArcShapeV2Grid, plant.PerpendicularVectorGrid) || needCommit
 		}
-		
+
 		if plant.TopStartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
-		
-		if plant.EndArcShapeGrid != nil && plant.PerpendicularVectorGrid != nil {
-			needCommit = enforceEndArcShapeGridHasShapes(stage, plant.EndArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
-		}
-		
+
 		if plant.EndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceEndArcShapeV2GridHasShapes(stage, plant.EndArcShapeV2Grid, plant.PerpendicularVectorGrid) || needCommit
 		}
@@ -792,7 +746,6 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			}
 		}
 
-
 		if plant.BottomStartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceBottomStartArcShapeV2GridHasShapes(stage, plant.BottomStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
@@ -800,7 +753,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.BottomEndArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceBottomEndArcShapeV2GridHasShapes(stage, plant.BottomEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
-		
+
 		circLen := 0.0
 		if plant.PlantCircumferenceShape != nil {
 			circLen = plant.PlantCircumferenceShape.Length
@@ -826,7 +779,6 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 	}
 	return
 }
-
 
 func enforcePerpendicularVectorGridHasVectors(stage *Stage, grid *PerpendicularVectorGrid, sourceGrid *GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
 	// The four vertices relative to the center before rotation
@@ -1294,142 +1246,6 @@ func enforceArcNormalVectorShapeGridHasShapes(stage *Stage, grid *ArcNormalVecto
 	return needCommit
 }
 
-func enforceStartArcShapeGridHasShapes(stage *Stage, grid *StartArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
-	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.StartArcShapes) > 0 {
-			grid.StartArcShapes = nil
-			return true
-		}
-		return false
-	}
-
-	expectedLen := len(pGrid.PerpendicularVectors) - 1
-	valid := true
-	if len(grid.StartArcShapes) != expectedLen {
-		valid = false
-	} else {
-		for i := 0; i < expectedLen; i++ {
-			v1 := pGrid.PerpendicularVectors[i]
-			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.StartArcShapes[i]
-			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
-			if arc == nil || arc.Name != expectedName {
-				valid = false
-				break
-			}
-
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
-			nx, ny := -uy, ux // Normal vector to the left
-
-			// D is the projected distance to the halfway line
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-			D := (midX-v1.StartX)*nx + (midY-v1.StartY)*ny
-
-			expectedStartX := v1.StartX
-			expectedStartY := v1.StartY
-
-			R := math.Abs(D)
-			expectedRadiusX := R
-			expectedRadiusY := R
-
-			R_dir := 1.0
-			if v2.StartY < v1.StartY {
-				R_dir = -1.0
-			}
-
-			// The center of the arc is at Start + R_dir * R * v1_dir
-			cx := expectedStartX + R_dir*R*ux
-			cy := expectedStartY + R_dir*R*uy
-
-			// The end point is Center + D * n
-			expectedEndX := cx + D*nx
-			expectedEndY := cy + D*ny
-
-			expectedSweepFlag := (D > 0)
-			if R_dir < 0 {
-				expectedSweepFlag = !expectedSweepFlag
-			}
-
-			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
-				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
-				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
-				arc.SweepFlag != expectedSweepFlag {
-				valid = false
-				break
-			}
-		}
-	}
-
-	if !valid {
-		for _, s := range grid.StartArcShapes {
-			if s != nil {
-				s.Unstage(stage)
-			}
-		}
-		grid.StartArcShapes = make([]*StartArcShape, expectedLen)
-		for i := 0; i < expectedLen; i++ {
-			v1 := pGrid.PerpendicularVectors[i]
-			v2 := pGrid.PerpendicularVectors[i+1]
-
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
-			nx, ny := -uy, ux
-
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-			D := (midX-v1.StartX)*nx + (midY-v1.StartY)*ny
-
-			expectedStartX := v1.StartX
-			expectedStartY := v1.StartY
-
-			R := math.Abs(D)
-			R_dir := 1.0
-			if v2.StartY < v1.StartY {
-				R_dir = -1.0
-			}
-
-			cx := expectedStartX + R_dir*R*ux
-			cy := expectedStartY + R_dir*R*uy
-
-			expectedEndX := cx + D*nx
-			expectedEndY := cy + D*ny
-
-			sweepFlag := (D > 0)
-			if R_dir < 0 {
-				sweepFlag = !sweepFlag
-			}
-
-			newArc := new(StartArcShape).Stage(stage)
-			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
-			newArc.StartX = expectedStartX
-			newArc.StartY = expectedStartY
-			newArc.EndX = expectedEndX
-			newArc.EndY = expectedEndY
-			newArc.RadiusX = R
-			newArc.RadiusY = R
-			newArc.SweepFlag = sweepFlag
-			newArc.LargeArcFlag = false
-			newArc.XAxisRotation = 0
-
-			grid.StartArcShapes[i] = newArc
-		}
-		needCommit = true
-	}
-	return needCommit
-}
-
 func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeV2Grid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
 		if len(grid.StartArcShapesV2) > 0 {
@@ -1739,143 +1555,6 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 	return needCommit
 }
 
-func enforceEndArcShapeGridHasShapes(stage *Stage, grid *EndArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
-	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.EndArcShapes) > 0 {
-			grid.EndArcShapes = nil
-			return true
-		}
-		return false
-	}
-
-	expectedLen := len(pGrid.PerpendicularVectors) - 1
-	valid := true
-	if len(grid.EndArcShapes) != expectedLen {
-		valid = false
-	} else {
-		for i := 0; i < expectedLen; i++ {
-			v1 := pGrid.PerpendicularVectors[i]
-			v2 := pGrid.PerpendicularVectors[i+1]
-			arc := grid.EndArcShapes[i]
-			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
-			if arc == nil || arc.Name != expectedName {
-				valid = false
-				break
-			}
-
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
-			nx, ny := -uy, ux
-
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-			D := (midX-v1.StartX)*nx + (midY-v1.StartY)*ny
-
-			R := math.Abs(D)
-			expectedRadiusX := R
-			expectedRadiusY := R
-
-			R_dir := 1.0
-			if v2.StartY < v1.StartY {
-				R_dir = -1.0
-			}
-
-			// Original StartArc geometry
-			cx := v1.StartX + R_dir*R*ux
-			cy := v1.StartY + R_dir*R*uy
-			origEndX := cx + D*nx
-			origEndY := cy + D*ny
-			origSweepFlag := (D > 0)
-			if R_dir < 0 {
-				origSweepFlag = !origSweepFlag
-			}
-
-			// Rotation by Pi around mid
-			expectedStartX := 2*midX - v1.StartX
-			expectedStartY := 2*midY - v1.StartY
-			expectedEndX := 2*midX - origEndX
-			expectedEndY := 2*midY - origEndY
-			expectedSweepFlag := origSweepFlag
-
-			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
-				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
-				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
-				arc.SweepFlag != expectedSweepFlag {
-				valid = false
-				break
-			}
-		}
-	}
-
-	if !valid {
-		for _, s := range grid.EndArcShapes {
-			if s != nil {
-				s.Unstage(stage)
-			}
-		}
-		grid.EndArcShapes = make([]*EndArcShape, expectedLen)
-		for i := 0; i < expectedLen; i++ {
-			v1 := pGrid.PerpendicularVectors[i]
-			v2 := pGrid.PerpendicularVectors[i+1]
-
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
-			nx, ny := -uy, ux
-
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-			D := (midX-v1.StartX)*nx + (midY-v1.StartY)*ny
-
-			R := math.Abs(D)
-			R_dir := 1.0
-			if v2.StartY < v1.StartY {
-				R_dir = -1.0
-			}
-
-			cx := v1.StartX + R_dir*R*ux
-			cy := v1.StartY + R_dir*R*uy
-			origEndX := cx + D*nx
-			origEndY := cy + D*ny
-			origSweepFlag := (D > 0)
-			if R_dir < 0 {
-				origSweepFlag = !origSweepFlag
-			}
-
-			expectedStartX := 2*midX - v1.StartX
-			expectedStartY := 2*midY - v1.StartY
-			expectedEndX := 2*midX - origEndX
-			expectedEndY := 2*midY - origEndY
-
-			newArc := new(EndArcShape).Stage(stage)
-			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
-			newArc.StartX = expectedStartX
-			newArc.StartY = expectedStartY
-			newArc.EndX = expectedEndX
-			newArc.EndY = expectedEndY
-			newArc.RadiusX = R
-			newArc.RadiusY = R
-			newArc.SweepFlag = origSweepFlag
-			newArc.LargeArcFlag = false
-			newArc.XAxisRotation = 0
-
-			grid.EndArcShapes[i] = newArc
-		}
-		needCommit = true
-	}
-	return needCommit
-}
-
-
 func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *PerpendicularVectorGridHalfway, sourceGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if sourceGrid == nil || grid == nil || len(sourceGrid.PerpendicularVectors) < 2 {
 		if len(grid.PerpendicularVectorHalfways) > 0 {
@@ -1901,11 +1580,11 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 			}
 			expectedStartX := (v1.StartX + v2.StartX) / 2.0
 			expectedStartY := (v1.StartY + v2.StartY) / 2.0
-			
+
 			// Translation of v1
 			dx := v1.EndX - v1.StartX
 			dy := v1.EndY - v1.StartY
-			
+
 			expectedEndX := expectedStartX + dx
 			expectedEndY := expectedStartY + dy
 
@@ -1930,11 +1609,11 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 
 			expectedStartX := (v1.StartX + v2.StartX) / 2.0
 			expectedStartY := (v1.StartY + v2.StartY) / 2.0
-			
+
 			// Translation of v1
 			dx := v1.EndX - v1.StartX
 			dy := v1.EndY - v1.StartY
-			
+
 			expectedEndX := expectedStartX + dx
 			expectedEndY := expectedStartY + dy
 
@@ -2289,7 +1968,7 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 				break
 			}
 			angleRad := math.Atan2(v1.EndY-v1.StartY, v1.EndX-v1.StartX) - math.Pi/2.0
-			
+
 			// wait, if we consider length ratio = 0.33
 			ratio := 0.33
 			expectedCtrlStartX := v1.StartX + sideLength*ratio*math.Cos(angleRad)
@@ -2322,7 +2001,7 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 			v2 := pGrid.PerpendicularVectors[i+1]
 			b := new(GrowthCurveBezierShape).Stage(stage)
 			b.Name = fmt.Sprintf("%s-%d", grid.Name, i)
-			
+
 			b.StartX = v1.StartX
 			b.StartY = v1.StartY
 			b.EndX = v2.StartX
@@ -2339,7 +2018,7 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 
 			bTrans := new(GrowthCurveBezierShape).Stage(stage)
 			bTrans.Name = fmt.Sprintf("%s-translated-%d", grid.Name, i)
-			
+
 			bTrans.StartX = b.StartX + circumferenceLength
 			bTrans.StartY = b.StartY
 			bTrans.EndX = b.EndX + circumferenceLength
@@ -2365,52 +2044,52 @@ func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve,
 		}
 		return false
 	}
-	
+
 	baseCurves := grid.GrowthCurveBezierShapes
 	if len(baseCurves) == 0 {
 		return false
 	}
-	
+
 	// baseCurves contains both the original and the +circLen translated curves.
 	// We only want the original ones (the first half).
 	numBase := len(baseCurves) / 2
 	if numBase == 0 {
 		numBase = len(baseCurves)
 	}
-	
+
 	type expectedShape struct {
-		name string
-		startX, startY, endX, endY float64
+		name                               string
+		startX, startY, endX, endY         float64
 		cpStartX, cpStartY, cpEndX, cpEndY float64
 	}
 	var expected []expectedShape
-	
+
 	for h := 0; h < stackHeight; h++ {
 		dx := float64(h) * vector.X
 		dy := float64(h) * vector.Y
-		
+
 		for i := 0; i < numBase; i++ {
 			baseCurve := baseCurves[i]
 			currentDX := math.Mod(dx, circLen)
 			if currentDX < 0 {
 				currentDX += circLen
 			}
-			
+
 			startX := baseCurve.StartX + currentDX
 			expected = append(expected, expectedShape{
-				name: fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i),
-				startX: startX,
-				startY: baseCurve.StartY + dy,
-				endX: baseCurve.EndX + currentDX,
-				endY: baseCurve.EndY + dy,
+				name:     fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i),
+				startX:   startX,
+				startY:   baseCurve.StartY + dy,
+				endX:     baseCurve.EndX + currentDX,
+				endY:     baseCurve.EndY + dy,
 				cpStartX: baseCurve.ControlPointStartX + currentDX,
 				cpStartY: baseCurve.ControlPointStartY + dy,
-				cpEndX: baseCurve.ControlPointEndX + currentDX,
-				cpEndY: baseCurve.ControlPointEndY + dy,
+				cpEndX:   baseCurve.ControlPointEndX + currentDX,
+				cpEndY:   baseCurve.ControlPointEndY + dy,
 			})
 		}
 	}
-	
+
 	valid := true
 	if len(stack.StackGrowthCurveBezierShapes) != len(expected) {
 		valid = false
@@ -2421,7 +2100,7 @@ func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve,
 				valid = false
 				break
 			}
-			
+
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 ||
 				math.Abs(b.ControlPointStartX-exp.cpStartX) > 1e-4 || math.Abs(b.ControlPointStartY-exp.cpStartY) > 1e-4 ||
@@ -2431,13 +2110,13 @@ func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve,
 			}
 		}
 	}
-	
+
 	if !valid {
 		stack.StackGrowthCurveBezierShapes = make([]*StackGrowthCurveBezierShape, len(expected))
 		for i, exp := range expected {
 			b := new(StackGrowthCurveBezierShape).Stage(stage)
 			b.Name = exp.name
-			
+
 			b.StartX = exp.startX
 			b.StartY = exp.startY
 			b.EndX = exp.endX
@@ -2446,12 +2125,12 @@ func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve,
 			b.ControlPointStartY = exp.cpStartY
 			b.ControlPointEndX = exp.cpEndX
 			b.ControlPointEndY = exp.cpEndY
-			
+
 			stack.StackGrowthCurveBezierShapes[i] = b
 		}
 		needCommit = true
 	}
-	
+
 	return needCommit
 }
 
@@ -2464,43 +2143,45 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 		}
 		return false
 	}
-	
+
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
-	
+
 	type expectedStartShape struct {
-		name string
+		name                       string
 		startX, startY, endX, endY float64
-		radiusX, radiusY float64
-		xAxisRotation float64
-		largeArcFlag, sweepFlag bool
+		radiusX, radiusY           float64
+		xAxisRotation              float64
+		largeArcFlag, sweepFlag    bool
 	}
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
-	
+
 	for h := 0; h < stackHeight; h++ {
 		dx := float64(h) * vector.X
 		dy := float64(h) * vector.Y
 		offset := float64(h) * thickness
-		
+
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			
+
 			currentDX := math.Mod(dx, circLen)
-			if currentDX < 0 { currentDX += circLen }
-			
+			if currentDX < 0 {
+				currentDX += circLen
+			}
+
 			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, offset, false)
 			expectedStart = append(expectedStart, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
+				name:   fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
 				startX: sX + currentDX, startY: sY + dy,
 				endX: eX + currentDX, endY: eY + dy,
 				radiusX: rX, radiusY: rY,
 				xAxisRotation: xRot, largeArcFlag: lArc, sweepFlag: swp,
 			})
-			
+
 			sX, sY, eX, eY, rX, rY, xRot, lArc, swp = computeArcV2Geometry(v1, v2, offset, true)
 			expectedEnd = append(expectedEnd, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
+				name:   fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
 				startX: sX + currentDX, startY: sY + dy,
 				endX: eX + currentDX, endY: eY + dy,
 				radiusX: rX, radiusY: rY,
@@ -2508,7 +2189,7 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			})
 		}
 	}
-	
+
 	valid := true
 	if len(stack.StackGrowthCurveStartArcShapeV2s) != len(expectedStart) || len(stack.StackGrowthCurveEndArcShapeV2s) != len(expectedEnd) {
 		valid = false
@@ -2516,21 +2197,25 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 		for i, exp := range expectedStart {
 			b := stack.StackGrowthCurveStartArcShapeV2s[i]
 			if b == nil || b.Name != exp.name {
-				valid = false; break
+				valid = false
+				break
 			}
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
-				valid = false; break
+				valid = false
+				break
 			}
 		}
 		for i, exp := range expectedEnd {
 			b := stack.StackGrowthCurveEndArcShapeV2s[i]
 			if b == nil || b.Name != exp.name {
-				valid = false; break
+				valid = false
+				break
 			}
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
-				valid = false; break
+				valid = false
+				break
 			}
 		}
 	}
@@ -2540,27 +2225,35 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 		for i, exp := range expectedStart {
 			b := new(StackGrowthCurveStartArcShapeV2).Stage(stage)
 			b.Name = exp.name
-			b.StartX = exp.startX; b.StartY = exp.startY
-			b.EndX = exp.endX; b.EndY = exp.endY
-			b.RadiusX = exp.radiusX; b.RadiusY = exp.radiusY
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
 			b.XAxisRotation = exp.xAxisRotation
-			b.LargeArcFlag = exp.largeArcFlag; b.SweepFlag = exp.sweepFlag
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
 			stack.StackGrowthCurveStartArcShapeV2s[i] = b
 		}
 		stack.StackGrowthCurveEndArcShapeV2s = make([]*StackGrowthCurveEndArcShapeV2, len(expectedEnd))
 		for i, exp := range expectedEnd {
 			b := new(StackGrowthCurveEndArcShapeV2).Stage(stage)
 			b.Name = exp.name
-			b.StartX = exp.startX; b.StartY = exp.startY
-			b.EndX = exp.endX; b.EndY = exp.endY
-			b.RadiusX = exp.radiusX; b.RadiusY = exp.radiusY
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
 			b.XAxisRotation = exp.xAxisRotation
-			b.LargeArcFlag = exp.largeArcFlag; b.SweepFlag = exp.sweepFlag
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
 			stack.StackGrowthCurveEndArcShapeV2s[i] = b
 		}
 		needCommit = true
 	}
-	
+
 	return needCommit
 }
 
@@ -2573,43 +2266,45 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 		}
 		return false
 	}
-	
+
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
-	
+
 	type expectedStartShape struct {
-		name string
+		name                       string
 		startX, startY, endX, endY float64
-		radiusX, radiusY float64
-		xAxisRotation float64
-		largeArcFlag, sweepFlag bool
+		radiusX, radiusY           float64
+		xAxisRotation              float64
+		largeArcFlag, sweepFlag    bool
 	}
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
-	
+
 	for h := 0; h < stackHeight; h++ {
 		dx := float64(h) * vector.X
 		dy := float64(h) * vector.Y
-		offset := thickness + float64(h) * thickness
-		
+		offset := thickness + float64(h)*thickness
+
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			
+
 			currentDX := math.Mod(dx, circLen)
-			if currentDX < 0 { currentDX += circLen }
-			
+			if currentDX < 0 {
+				currentDX += circLen
+			}
+
 			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, offset, false)
 			expectedStart = append(expectedStart, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
+				name:   fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
 				startX: sX + currentDX, startY: sY + dy,
 				endX: eX + currentDX, endY: eY + dy,
 				radiusX: rX, radiusY: rY,
 				xAxisRotation: xRot, largeArcFlag: lArc, sweepFlag: swp,
 			})
-			
+
 			sX, sY, eX, eY, rX, rY, xRot, lArc, swp = computeArcV2Geometry(v1, v2, offset, true)
 			expectedEnd = append(expectedEnd, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
+				name:   fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
 				startX: sX + currentDX, startY: sY + dy,
 				endX: eX + currentDX, endY: eY + dy,
 				radiusX: rX, radiusY: rY,
@@ -2617,7 +2312,7 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			})
 		}
 	}
-	
+
 	valid := true
 	if len(stack.TopStackGrowthCurveStartArcShapeV2s) != len(expectedStart) || len(stack.TopStackGrowthCurveEndArcShapeV2s) != len(expectedEnd) {
 		valid = false
@@ -2625,21 +2320,25 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 		for i, exp := range expectedStart {
 			b := stack.TopStackGrowthCurveStartArcShapeV2s[i]
 			if b == nil || b.Name != exp.name {
-				valid = false; break
+				valid = false
+				break
 			}
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
-				valid = false; break
+				valid = false
+				break
 			}
 		}
 		for i, exp := range expectedEnd {
 			b := stack.TopStackGrowthCurveEndArcShapeV2s[i]
 			if b == nil || b.Name != exp.name {
-				valid = false; break
+				valid = false
+				break
 			}
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
-				valid = false; break
+				valid = false
+				break
 			}
 		}
 	}
@@ -2649,27 +2348,35 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 		for i, exp := range expectedStart {
 			b := new(TopStackGrowthCurveStartArcShapeV2).Stage(stage)
 			b.Name = exp.name
-			b.StartX = exp.startX; b.StartY = exp.startY
-			b.EndX = exp.endX; b.EndY = exp.endY
-			b.RadiusX = exp.radiusX; b.RadiusY = exp.radiusY
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
 			b.XAxisRotation = exp.xAxisRotation
-			b.LargeArcFlag = exp.largeArcFlag; b.SweepFlag = exp.sweepFlag
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
 			stack.TopStackGrowthCurveStartArcShapeV2s[i] = b
 		}
 		stack.TopStackGrowthCurveEndArcShapeV2s = make([]*TopStackGrowthCurveEndArcShapeV2, len(expectedEnd))
 		for i, exp := range expectedEnd {
 			b := new(TopStackGrowthCurveEndArcShapeV2).Stage(stage)
 			b.Name = exp.name
-			b.StartX = exp.startX; b.StartY = exp.startY
-			b.EndX = exp.endX; b.EndY = exp.endY
-			b.RadiusX = exp.radiusX; b.RadiusY = exp.radiusY
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
 			b.XAxisRotation = exp.xAxisRotation
-			b.LargeArcFlag = exp.largeArcFlag; b.SweepFlag = exp.sweepFlag
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
 			stack.TopStackGrowthCurveEndArcShapeV2s[i] = b
 		}
 		needCommit = true
 	}
-	
+
 	return needCommit
 }
 
@@ -2682,43 +2389,45 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 		}
 		return false
 	}
-	
+
 	expectedLen := len(pGrid.PerpendicularVectors) - 1
-	
+
 	type expectedStartShape struct {
-		name string
+		name                       string
 		startX, startY, endX, endY float64
-		radiusX, radiusY float64
-		xAxisRotation float64
-		largeArcFlag, sweepFlag bool
+		radiusX, radiusY           float64
+		xAxisRotation              float64
+		largeArcFlag, sweepFlag    bool
 	}
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
-	
+
 	for h := 0; h < stackHeight; h++ {
 		dx := float64(h) * vector.X
 		dy := float64(h) * vector.Y
-		offset := -thickness + float64(h) * thickness
-		
+		offset := -thickness + float64(h)*thickness
+
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			
+
 			currentDX := math.Mod(dx, circLen)
-			if currentDX < 0 { currentDX += circLen }
-			
+			if currentDX < 0 {
+				currentDX += circLen
+			}
+
 			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, offset, false)
 			expectedStart = append(expectedStart, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
+				name:   fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
 				startX: sX + currentDX, startY: sY + dy,
 				endX: eX + currentDX, endY: eY + dy,
 				radiusX: rX, radiusY: rY,
 				xAxisRotation: xRot, largeArcFlag: lArc, sweepFlag: swp,
 			})
-			
+
 			sX, sY, eX, eY, rX, rY, xRot, lArc, swp = computeArcV2Geometry(v1, v2, offset, true)
 			expectedEnd = append(expectedEnd, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
+				name:   fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
 				startX: sX + currentDX, startY: sY + dy,
 				endX: eX + currentDX, endY: eY + dy,
 				radiusX: rX, radiusY: rY,
@@ -2726,7 +2435,7 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 			})
 		}
 	}
-	
+
 	valid := true
 	if len(stack.BottomStackGrowthCurveStartArcShapeV2s) != len(expectedStart) || len(stack.BottomStackGrowthCurveEndArcShapeV2s) != len(expectedEnd) {
 		valid = false
@@ -2734,21 +2443,25 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 		for i, exp := range expectedStart {
 			b := stack.BottomStackGrowthCurveStartArcShapeV2s[i]
 			if b == nil || b.Name != exp.name {
-				valid = false; break
+				valid = false
+				break
 			}
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
-				valid = false; break
+				valid = false
+				break
 			}
 		}
 		for i, exp := range expectedEnd {
 			b := stack.BottomStackGrowthCurveEndArcShapeV2s[i]
 			if b == nil || b.Name != exp.name {
-				valid = false; break
+				valid = false
+				break
 			}
 			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
 				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
-				valid = false; break
+				valid = false
+				break
 			}
 		}
 	}
@@ -2758,30 +2471,37 @@ func enforceBottomStackOfGrowthCurveV2HasShapes(stage *Stage, stack *BottomStack
 		for i, exp := range expectedStart {
 			b := new(BottomStackGrowthCurveStartArcShapeV2).Stage(stage)
 			b.Name = exp.name
-			b.StartX = exp.startX; b.StartY = exp.startY
-			b.EndX = exp.endX; b.EndY = exp.endY
-			b.RadiusX = exp.radiusX; b.RadiusY = exp.radiusY
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
 			b.XAxisRotation = exp.xAxisRotation
-			b.LargeArcFlag = exp.largeArcFlag; b.SweepFlag = exp.sweepFlag
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
 			stack.BottomStackGrowthCurveStartArcShapeV2s[i] = b
 		}
 		stack.BottomStackGrowthCurveEndArcShapeV2s = make([]*BottomStackGrowthCurveEndArcShapeV2, len(expectedEnd))
 		for i, exp := range expectedEnd {
 			b := new(BottomStackGrowthCurveEndArcShapeV2).Stage(stage)
 			b.Name = exp.name
-			b.StartX = exp.startX; b.StartY = exp.startY
-			b.EndX = exp.endX; b.EndY = exp.endY
-			b.RadiusX = exp.radiusX; b.RadiusY = exp.radiusY
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
 			b.XAxisRotation = exp.xAxisRotation
-			b.LargeArcFlag = exp.largeArcFlag; b.SweepFlag = exp.sweepFlag
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
 			stack.BottomStackGrowthCurveEndArcShapeV2s[i] = b
 		}
 		needCommit = true
 	}
-	
+
 	return needCommit
 }
-
 
 func enforceBottomStartArcShapeV2GridHasShapes(stage *Stage, grid *BottomStartArcShapeV2Grid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {

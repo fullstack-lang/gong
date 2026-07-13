@@ -293,55 +293,6 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
-type EndArcShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartX float64
-
-	StartY float64
-
-	EndX float64
-
-	EndY float64
-
-	XAxisRotation float64
-
-	LargeArcFlag bool
-
-	SweepFlag bool
-
-	RadiusX float64
-
-	RadiusY float64
-}
-
-func (from *EndArcShape) CopyBasicFields(to *EndArcShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-}
-
-type EndArcShapeGrid_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *EndArcShapeGrid) CopyBasicFields(to *EndArcShapeGrid) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type EndArcShapeV2_WOP struct {
 	// insertion point
 
@@ -1031,55 +982,6 @@ type StackOfGrowthCurveV2_WOP struct {
 }
 
 func (from *StackOfGrowthCurveV2) CopyBasicFields(to *StackOfGrowthCurveV2) {
-	// insertion point
-	to.Name = from.Name
-}
-
-type StartArcShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartX float64
-
-	StartY float64
-
-	EndX float64
-
-	EndY float64
-
-	XAxisRotation float64
-
-	LargeArcFlag bool
-
-	SweepFlag bool
-
-	RadiusX float64
-
-	RadiusY float64
-}
-
-func (from *StartArcShape) CopyBasicFields(to *StartArcShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.XAxisRotation = from.XAxisRotation
-	to.LargeArcFlag = from.LargeArcFlag
-	to.SweepFlag = from.SweepFlag
-	to.RadiusX = from.RadiusX
-	to.RadiusY = from.RadiusY
-}
-
-type StartArcShapeGrid_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *StartArcShapeGrid) CopyBasicFields(to *StartArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }

@@ -70,10 +70,8 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
 	plantDiagram.drawBaseVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawArcNormalVectorShapeGrid(stager, layer, plant)
-	plantDiagram.drawStartArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
-	plantDiagram.drawEndArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawBottomStartArcShapeV2Grid(stager, layer, plant)
@@ -540,8 +538,8 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 		svg_cy := plantDiagram.OriginY - rhombus.Y
 
 		// Calculate v0 (bottom-left vertex in visual SVG space) from the center
-		v0x := svg_cx - (v1x + v2x)/2.0
-		v0y := svg_cy - (v1y + v2y)/2.0
+		v0x := svg_cx - (v1x+v2x)/2.0
+		v0y := svg_cy - (v1y+v2y)/2.0
 
 		v1_vertex_x := v0x + v1x
 		v1_vertex_y := v0y + v1y
@@ -635,8 +633,8 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 		svg_cy := plantDiagram.OriginY - rhombus.Y
 
 		// Calculate v0 (bottom-left vertex in visual SVG space) from the center
-		v0x := svg_cx - (v1_rot_x + v2_rot_x)/2.0
-		v0y := svg_cy - (v1_rot_y + v2_rot_y)/2.0
+		v0x := svg_cx - (v1_rot_x+v2_rot_x)/2.0
+		v0y := svg_cy - (v1_rot_y+v2_rot_y)/2.0
 
 		v1_vertex_x := v0x + v1_rot_x
 		v1_vertex_y := v0y + v1_rot_y
@@ -659,12 +657,11 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 		polygon.Presentation.Color = "lightblue"
 		polygon.Presentation.FillOpacity = 0.1
 		polygon.Presentation.StrokeDashArray = "5, 5"
-		
+
 		// Draw a little cross at the center (which is simply svg_cx, svg_cy)
 		cx := svg_cx
 		cy := svg_cy
 
-		
 		line1 := new(svg.Line)
 		layer.Lines = append(layer.Lines, line1)
 		line1.Name = rhombus.Name + "-cross-h"
@@ -675,7 +672,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 		line1.Presentation.Stroke = "black"
 		line1.Presentation.StrokeWidth = 1.0
 		line1.Presentation.StrokeOpacity = 1.0
-		
+
 		line2 := new(svg.Line)
 		layer.Lines = append(layer.Lines, line2)
 		line2.Name = rhombus.Name + "-cross-v"
@@ -686,7 +683,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 		line2.Presentation.Stroke = "black"
 		line2.Presentation.StrokeWidth = 1.0
 		line2.Presentation.StrokeOpacity = 1.0
-			}
+	}
 }
 
 func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
@@ -732,8 +729,8 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 		svg_cy := plantDiagram.OriginY - rhombus.Y
 
 		// Calculate v0 (bottom-left vertex in visual SVG space) from the center
-		v0x := svg_cx - (v1_rot_x + v2_rot_x)/2.0
-		v0y := svg_cy - (v1_rot_y + v2_rot_y)/2.0
+		v0x := svg_cx - (v1_rot_x+v2_rot_x)/2.0
+		v0y := svg_cy - (v1_rot_y+v2_rot_y)/2.0
 
 		v1_vertex_x := v0x + v1_rot_x
 		v1_vertex_y := v0y + v1_rot_y
@@ -755,12 +752,11 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 		polygon.Presentation.StrokeOpacity = 1.0
 		polygon.Presentation.Color = "lightblue"
 		polygon.Presentation.FillOpacity = 0.0
-		
+
 		// Draw a little cross at the center (which is simply svg_cx, svg_cy)
 		cx := svg_cx
 		cy := svg_cy
 
-		
 		line1 := new(svg.Line)
 		layer.Lines = append(layer.Lines, line1)
 		line1.Name = rhombus.Name + "-cross-h"
@@ -771,7 +767,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 		line1.Presentation.Stroke = "red"
 		line1.Presentation.StrokeWidth = 2.0
 		line1.Presentation.StrokeOpacity = 1.0
-		
+
 		line2 := new(svg.Line)
 		layer.Lines = append(layer.Lines, line2)
 		line2.Name = rhombus.Name + "-cross-v"
@@ -782,7 +778,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 		line2.Presentation.Stroke = "red"
 		line2.Presentation.StrokeWidth = 2.0
 		line2.Presentation.StrokeOpacity = 1.0
-			}
+	}
 }
 
 func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer, plant *Plant) {
@@ -912,38 +908,6 @@ func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, l
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStartArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.StartArcShapeGrid == nil || plantDiagram.IsHiddenStartArcShapeGrid {
-		return
-	}
-
-	for _, arc := range plant.StartArcShapeGrid.StartArcShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-		path.Name = arc.Name
-
-		sweepFlag := 0
-		if arc.SweepFlag {
-			sweepFlag = 1
-		}
-		largeArcFlag := 0
-		if arc.LargeArcFlag {
-			largeArcFlag = 1
-		}
-
-		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
-			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
-			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
-			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
-		)
-
-		path.Presentation.Stroke = "cyan"
-		path.Presentation.StrokeWidth = 3.0
-		path.Presentation.StrokeOpacity = 1.0
-		path.Presentation.FillOpacity = 0.0
-	}
-}
-
 func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plant.StartArcShapeV2Grid == nil || plantDiagram.IsHiddenStartArcShapeV2Grid {
 		return
@@ -1002,38 +966,6 @@ func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, lay
 		)
 
 		path.Presentation.Stroke = "cyan"
-		path.Presentation.StrokeWidth = 3.0
-		path.Presentation.StrokeOpacity = 1.0
-		path.Presentation.FillOpacity = 0.0
-	}
-}
-
-func (plantDiagram *PlantDiagram) drawEndArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plant.EndArcShapeGrid == nil || plantDiagram.IsHiddenEndArcShapeGrid {
-		return
-	}
-
-	for _, arc := range plant.EndArcShapeGrid.EndArcShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-		path.Name = arc.Name
-
-		sweepFlag := 0
-		if arc.SweepFlag {
-			sweepFlag = 1
-		}
-		largeArcFlag := 0
-		if arc.LargeArcFlag {
-			largeArcFlag = 1
-		}
-
-		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
-			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
-			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
-			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
-		)
-
-		path.Presentation.Stroke = "magenta"
 		path.Presentation.StrokeWidth = 3.0
 		path.Presentation.StrokeOpacity = 1.0
 		path.Presentation.FillOpacity = 0.0
@@ -1227,9 +1159,13 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 		path.Name = sa.Name
 
 		sweepFlagStr := "0"
-		if sa.SweepFlag { sweepFlagStr = "1" }
+		if sa.SweepFlag {
+			sweepFlagStr = "1"
+		}
 		largeArcFlagStr := "0"
-		if sa.LargeArcFlag { largeArcFlagStr = "1" }
+		if sa.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
 
 		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
 			plantDiagram.OriginX+sa.StartX, plantDiagram.OriginY-sa.StartY,
@@ -1242,16 +1178,20 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.6
 	}
-	
+
 	for _, ea := range plant.StackOfGrowthCurveV2.StackGrowthCurveEndArcShapeV2s {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
 
 		sweepFlagStr := "0"
-		if ea.SweepFlag { sweepFlagStr = "1" }
+		if ea.SweepFlag {
+			sweepFlagStr = "1"
+		}
 		largeArcFlagStr := "0"
-		if ea.LargeArcFlag { largeArcFlagStr = "1" }
+		if ea.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
 
 		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
 			plantDiagram.OriginX+ea.StartX, plantDiagram.OriginY-ea.StartY,
@@ -1277,9 +1217,13 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 		path.Name = sa.Name
 
 		sweepFlagStr := "0"
-		if sa.SweepFlag { sweepFlagStr = "1" }
+		if sa.SweepFlag {
+			sweepFlagStr = "1"
+		}
 		largeArcFlagStr := "0"
-		if sa.LargeArcFlag { largeArcFlagStr = "1" }
+		if sa.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
 
 		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
 			plantDiagram.OriginX+sa.StartX, plantDiagram.OriginY-sa.StartY,
@@ -1292,16 +1236,20 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.6
 	}
-	
+
 	for _, ea := range plant.TopStackOfGrowthCurveV2.TopStackGrowthCurveEndArcShapeV2s {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
 
 		sweepFlagStr := "0"
-		if ea.SweepFlag { sweepFlagStr = "1" }
+		if ea.SweepFlag {
+			sweepFlagStr = "1"
+		}
 		largeArcFlagStr := "0"
-		if ea.LargeArcFlag { largeArcFlagStr = "1" }
+		if ea.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
 
 		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
 			plantDiagram.OriginX+ea.StartX, plantDiagram.OriginY-ea.StartY,
@@ -1327,9 +1275,13 @@ func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager,
 		path.Name = sa.Name
 
 		sweepFlagStr := "0"
-		if sa.SweepFlag { sweepFlagStr = "1" }
+		if sa.SweepFlag {
+			sweepFlagStr = "1"
+		}
 		largeArcFlagStr := "0"
-		if sa.LargeArcFlag { largeArcFlagStr = "1" }
+		if sa.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
 
 		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
 			plantDiagram.OriginX+sa.StartX, plantDiagram.OriginY-sa.StartY,
@@ -1342,16 +1294,20 @@ func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager,
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.6
 	}
-	
+
 	for _, ea := range plant.BottomStackOfGrowthCurveV2.BottomStackGrowthCurveEndArcShapeV2s {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
 
 		sweepFlagStr := "0"
-		if ea.SweepFlag { sweepFlagStr = "1" }
+		if ea.SweepFlag {
+			sweepFlagStr = "1"
+		}
 		largeArcFlagStr := "0"
-		if ea.LargeArcFlag { largeArcFlagStr = "1" }
+		if ea.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
 
 		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
 			plantDiagram.OriginX+ea.StartX, plantDiagram.OriginY-ea.StartY,
