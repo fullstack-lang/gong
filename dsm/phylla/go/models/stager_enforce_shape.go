@@ -760,6 +760,39 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}
 
+		if plant.GrowthCurve2D == nil {
+			plant.GrowthCurve2D = new(GrowthCurve2D).Stage(stage)
+			plant.GrowthCurve2D.Name = plant.Name + "-GrowthCurve2D"
+			needCommit = true
+		}
+		if plant.GrowthCurve2D != nil {
+			if plant.GrowthCurve2D.StartArcShapeV2Grid != plant.StartArcShapeV2Grid {
+				plant.GrowthCurve2D.StartArcShapeV2Grid = plant.StartArcShapeV2Grid
+				needCommit = true
+			}
+			if plant.GrowthCurve2D.EndArcShapeV2Grid != plant.EndArcShapeV2Grid {
+				plant.GrowthCurve2D.EndArcShapeV2Grid = plant.EndArcShapeV2Grid
+				needCommit = true
+			}
+		}
+
+		if plant.TopGrowthCurve2D == nil {
+			plant.TopGrowthCurve2D = new(TopGrowthCurve2D).Stage(stage)
+			plant.TopGrowthCurve2D.Name = plant.Name + "-TopGrowthCurve2D"
+			needCommit = true
+		}
+		if plant.TopGrowthCurve2D != nil {
+			if plant.TopGrowthCurve2D.TopStartArcShapeV2Grid != plant.TopStartArcShapeV2Grid {
+				plant.TopGrowthCurve2D.TopStartArcShapeV2Grid = plant.TopStartArcShapeV2Grid
+				needCommit = true
+			}
+			if plant.TopGrowthCurve2D.TopEndArcShapeV2Grid != plant.TopEndArcShapeV2Grid {
+				plant.TopGrowthCurve2D.TopEndArcShapeV2Grid = plant.TopEndArcShapeV2Grid
+				needCommit = true
+			}
+		}
+
+
 		if plant.BottomStartArcShapeV2Grid != nil && plant.PerpendicularVectorGrid != nil {
 			needCommit = enforceBottomStartArcShapeV2GridHasShapes(stage, plant.BottomStartArcShapeV2Grid, plant.PerpendicularVectorGrid, plant.Thickness) || needCommit
 		}

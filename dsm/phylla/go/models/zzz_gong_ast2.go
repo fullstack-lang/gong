@@ -1157,6 +1157,39 @@ func (u *GridPathShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	return nil
 }
 
+type GrowthCurve2DUnmarshaller struct{}
+
+func (u *GrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(GrowthCurve2D)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *GrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*GrowthCurve2D)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartArcShapeV2Grid":
+		GongUnmarshallPointer(&instance.StartArcShapeV2Grid, valueExpr, identifierMap)
+	case "EndArcShapeV2Grid":
+		GongUnmarshallPointer(&instance.EndArcShapeV2Grid, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type GrowthCurveBezierShapeUnmarshaller struct{}
 
 func (u *GrowthCurveBezierShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1707,6 +1740,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.TopStackOfGrowthCurveV2, valueExpr, identifierMap)
 	case "BottomStackOfGrowthCurveV2":
 		GongUnmarshallPointer(&instance.BottomStackOfGrowthCurveV2, valueExpr, identifierMap)
+	case "GrowthCurve2D":
+		GongUnmarshallPointer(&instance.GrowthCurve2D, valueExpr, identifierMap)
+	case "TopGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopGrowthCurve2D, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1831,6 +1868,10 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenTopStackOfGrowthCurveV2 = GongExtractBool(valueExpr)
 	case "IsHiddenBottomStackOfGrowthCurveV2":
 		instance.IsHiddenBottomStackOfGrowthCurveV2 = GongExtractBool(valueExpr)
+	case "IsHiddenGrowthCurve2D":
+		instance.IsHiddenGrowthCurve2D = GongExtractBool(valueExpr)
+	case "IsHiddenTopGrowthCurve2D":
+		instance.IsHiddenTopGrowthCurve2D = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -2416,6 +2457,39 @@ func (u *TopEndArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.Name = GongExtractString(valueExpr)
 	case "TopEndArcShapesV2":
 		GongUnmarshallSliceOfPointers(&instance.TopEndArcShapesV2, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TopGrowthCurve2DUnmarshaller struct{}
+
+func (u *TopGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopGrowthCurve2D)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopGrowthCurve2D)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "TopStartArcShapeV2Grid":
+		GongUnmarshallPointer(&instance.TopStartArcShapeV2Grid, valueExpr, identifierMap)
+	case "TopEndArcShapeV2Grid":
+		GongUnmarshallPointer(&instance.TopEndArcShapeV2Grid, valueExpr, identifierMap)
 	}
 	return nil
 }

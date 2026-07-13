@@ -74,4 +74,7 @@ type Plant struct {
 	StackOfGrowthCurveV2 *StackOfGrowthCurveV2
 	TopStackOfGrowthCurveV2 *TopStackOfGrowthCurveV2
 	BottomStackOfGrowthCurveV2 *BottomStackOfGrowthCurveV2
+
+	GrowthCurve2D *GrowthCurve2D
+	TopGrowthCurve2D *TopGrowthCurve2D
 }

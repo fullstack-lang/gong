@@ -467,3 +467,19 @@ type Rendered3DShape struct {
 	TargetX, TargetY, TargetZ float64
 	Fov float64
 }
+
+// GrowthCurve2D of a plant,
+type GrowthCurve2D struct {
+	Name string
+
+	StartArcShapeV2Grid *StartArcShapeV2Grid
+	EndArcShapeV2Grid   *EndArcShapeV2Grid
+}
+
+// TopGrowthCurve2D of a plant,
+type TopGrowthCurve2D struct {
+	Name string
+
+	TopStartArcShapeV2Grid *TopStartArcShapeV2Grid
+	TopEndArcShapeV2Grid   *TopEndArcShapeV2Grid
+}

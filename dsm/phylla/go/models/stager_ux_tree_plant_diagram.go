@@ -935,4 +935,65 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
+	if growthCurve2D := plant.GrowthCurve2D; growthCurve2D != nil {
+		node := &tree.Node{
+			Name: "GrowthCurve2D",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(growthCurve2D, GetPointerToGongstructName[*GrowthCurve2D]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenGrowthCurve2D = !plantDiagram.IsHiddenGrowthCurve2D
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenGrowthCurve2D {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	if topGrowthCurve2D := plant.TopGrowthCurve2D; topGrowthCurve2D != nil {
+		node := &tree.Node{
+			Name: "TopGrowthCurve2D",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topGrowthCurve2D, GetPointerToGongstructName[*TopGrowthCurve2D]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopGrowthCurve2D = !plantDiagram.IsHiddenTopGrowthCurve2D
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopGrowthCurve2D {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
 }
