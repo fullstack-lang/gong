@@ -210,119 +210,6 @@ type Stage struct {
 	OnAfterBaseVectorShapeGridDeleteCallback OnAfterDeleteInterface[BaseVectorShapeGrid]
 	OnAfterBaseVectorShapeGridReadCallback   OnAfterReadInterface[BaseVectorShapeGrid]
 
-	BottomEndArcShapes                map[*BottomEndArcShape]struct{}
-	BottomEndArcShapes_instance       map[*BottomEndArcShape]*BottomEndArcShape
-	BottomEndArcShapes_mapString      map[string]*BottomEndArcShape
-	BottomEndArcShapeOrder            uint
-	BottomEndArcShape_stagedOrder     map[*BottomEndArcShape]uint
-	BottomEndArcShape_orderStaged     map[uint]*BottomEndArcShape
-	BottomEndArcShapes_reference      map[*BottomEndArcShape]*BottomEndArcShape
-	BottomEndArcShapes_referenceOrder map[*BottomEndArcShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterBottomEndArcShapeCreateCallback OnAfterCreateInterface[BottomEndArcShape]
-	OnAfterBottomEndArcShapeUpdateCallback OnAfterUpdateInterface[BottomEndArcShape]
-	OnAfterBottomEndArcShapeDeleteCallback OnAfterDeleteInterface[BottomEndArcShape]
-	OnAfterBottomEndArcShapeReadCallback   OnAfterReadInterface[BottomEndArcShape]
-
-	BottomEndArcShapeGrids                map[*BottomEndArcShapeGrid]struct{}
-	BottomEndArcShapeGrids_instance       map[*BottomEndArcShapeGrid]*BottomEndArcShapeGrid
-	BottomEndArcShapeGrids_mapString      map[string]*BottomEndArcShapeGrid
-	BottomEndArcShapeGridOrder            uint
-	BottomEndArcShapeGrid_stagedOrder     map[*BottomEndArcShapeGrid]uint
-	BottomEndArcShapeGrid_orderStaged     map[uint]*BottomEndArcShapeGrid
-	BottomEndArcShapeGrids_reference      map[*BottomEndArcShapeGrid]*BottomEndArcShapeGrid
-	BottomEndArcShapeGrids_referenceOrder map[*BottomEndArcShapeGrid]uint
-
-	// insertion point for slice of pointers maps
-	BottomEndArcShapeGrid_BottomEndArcShapes_reverseMap map[*BottomEndArcShape]*BottomEndArcShapeGrid
-
-	OnAfterBottomEndArcShapeGridCreateCallback OnAfterCreateInterface[BottomEndArcShapeGrid]
-	OnAfterBottomEndArcShapeGridUpdateCallback OnAfterUpdateInterface[BottomEndArcShapeGrid]
-	OnAfterBottomEndArcShapeGridDeleteCallback OnAfterDeleteInterface[BottomEndArcShapeGrid]
-	OnAfterBottomEndArcShapeGridReadCallback   OnAfterReadInterface[BottomEndArcShapeGrid]
-
-	BottomStackGrowthCurveEndArcShapes                map[*BottomStackGrowthCurveEndArcShape]struct{}
-	BottomStackGrowthCurveEndArcShapes_instance       map[*BottomStackGrowthCurveEndArcShape]*BottomStackGrowthCurveEndArcShape
-	BottomStackGrowthCurveEndArcShapes_mapString      map[string]*BottomStackGrowthCurveEndArcShape
-	BottomStackGrowthCurveEndArcShapeOrder            uint
-	BottomStackGrowthCurveEndArcShape_stagedOrder     map[*BottomStackGrowthCurveEndArcShape]uint
-	BottomStackGrowthCurveEndArcShape_orderStaged     map[uint]*BottomStackGrowthCurveEndArcShape
-	BottomStackGrowthCurveEndArcShapes_reference      map[*BottomStackGrowthCurveEndArcShape]*BottomStackGrowthCurveEndArcShape
-	BottomStackGrowthCurveEndArcShapes_referenceOrder map[*BottomStackGrowthCurveEndArcShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterBottomStackGrowthCurveEndArcShapeCreateCallback OnAfterCreateInterface[BottomStackGrowthCurveEndArcShape]
-	OnAfterBottomStackGrowthCurveEndArcShapeUpdateCallback OnAfterUpdateInterface[BottomStackGrowthCurveEndArcShape]
-	OnAfterBottomStackGrowthCurveEndArcShapeDeleteCallback OnAfterDeleteInterface[BottomStackGrowthCurveEndArcShape]
-	OnAfterBottomStackGrowthCurveEndArcShapeReadCallback   OnAfterReadInterface[BottomStackGrowthCurveEndArcShape]
-
-	BottomStackGrowthCurveStartArcShapes                map[*BottomStackGrowthCurveStartArcShape]struct{}
-	BottomStackGrowthCurveStartArcShapes_instance       map[*BottomStackGrowthCurveStartArcShape]*BottomStackGrowthCurveStartArcShape
-	BottomStackGrowthCurveStartArcShapes_mapString      map[string]*BottomStackGrowthCurveStartArcShape
-	BottomStackGrowthCurveStartArcShapeOrder            uint
-	BottomStackGrowthCurveStartArcShape_stagedOrder     map[*BottomStackGrowthCurveStartArcShape]uint
-	BottomStackGrowthCurveStartArcShape_orderStaged     map[uint]*BottomStackGrowthCurveStartArcShape
-	BottomStackGrowthCurveStartArcShapes_reference      map[*BottomStackGrowthCurveStartArcShape]*BottomStackGrowthCurveStartArcShape
-	BottomStackGrowthCurveStartArcShapes_referenceOrder map[*BottomStackGrowthCurveStartArcShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterBottomStackGrowthCurveStartArcShapeCreateCallback OnAfterCreateInterface[BottomStackGrowthCurveStartArcShape]
-	OnAfterBottomStackGrowthCurveStartArcShapeUpdateCallback OnAfterUpdateInterface[BottomStackGrowthCurveStartArcShape]
-	OnAfterBottomStackGrowthCurveStartArcShapeDeleteCallback OnAfterDeleteInterface[BottomStackGrowthCurveStartArcShape]
-	OnAfterBottomStackGrowthCurveStartArcShapeReadCallback   OnAfterReadInterface[BottomStackGrowthCurveStartArcShape]
-
-	BottomStackOfGrowthCurves                map[*BottomStackOfGrowthCurve]struct{}
-	BottomStackOfGrowthCurves_instance       map[*BottomStackOfGrowthCurve]*BottomStackOfGrowthCurve
-	BottomStackOfGrowthCurves_mapString      map[string]*BottomStackOfGrowthCurve
-	BottomStackOfGrowthCurveOrder            uint
-	BottomStackOfGrowthCurve_stagedOrder     map[*BottomStackOfGrowthCurve]uint
-	BottomStackOfGrowthCurve_orderStaged     map[uint]*BottomStackOfGrowthCurve
-	BottomStackOfGrowthCurves_reference      map[*BottomStackOfGrowthCurve]*BottomStackOfGrowthCurve
-	BottomStackOfGrowthCurves_referenceOrder map[*BottomStackOfGrowthCurve]uint
-
-	// insertion point for slice of pointers maps
-	BottomStackOfGrowthCurve_BottomStackGrowthCurveStartArcShapes_reverseMap map[*BottomStackGrowthCurveStartArcShape]*BottomStackOfGrowthCurve
-
-	BottomStackOfGrowthCurve_BottomStackGrowthCurveEndArcShapes_reverseMap map[*BottomStackGrowthCurveEndArcShape]*BottomStackOfGrowthCurve
-
-	OnAfterBottomStackOfGrowthCurveCreateCallback OnAfterCreateInterface[BottomStackOfGrowthCurve]
-	OnAfterBottomStackOfGrowthCurveUpdateCallback OnAfterUpdateInterface[BottomStackOfGrowthCurve]
-	OnAfterBottomStackOfGrowthCurveDeleteCallback OnAfterDeleteInterface[BottomStackOfGrowthCurve]
-	OnAfterBottomStackOfGrowthCurveReadCallback   OnAfterReadInterface[BottomStackOfGrowthCurve]
-
-	BottomStartArcShapes                map[*BottomStartArcShape]struct{}
-	BottomStartArcShapes_instance       map[*BottomStartArcShape]*BottomStartArcShape
-	BottomStartArcShapes_mapString      map[string]*BottomStartArcShape
-	BottomStartArcShapeOrder            uint
-	BottomStartArcShape_stagedOrder     map[*BottomStartArcShape]uint
-	BottomStartArcShape_orderStaged     map[uint]*BottomStartArcShape
-	BottomStartArcShapes_reference      map[*BottomStartArcShape]*BottomStartArcShape
-	BottomStartArcShapes_referenceOrder map[*BottomStartArcShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterBottomStartArcShapeCreateCallback OnAfterCreateInterface[BottomStartArcShape]
-	OnAfterBottomStartArcShapeUpdateCallback OnAfterUpdateInterface[BottomStartArcShape]
-	OnAfterBottomStartArcShapeDeleteCallback OnAfterDeleteInterface[BottomStartArcShape]
-	OnAfterBottomStartArcShapeReadCallback   OnAfterReadInterface[BottomStartArcShape]
-
-	BottomStartArcShapeGrids                map[*BottomStartArcShapeGrid]struct{}
-	BottomStartArcShapeGrids_instance       map[*BottomStartArcShapeGrid]*BottomStartArcShapeGrid
-	BottomStartArcShapeGrids_mapString      map[string]*BottomStartArcShapeGrid
-	BottomStartArcShapeGridOrder            uint
-	BottomStartArcShapeGrid_stagedOrder     map[*BottomStartArcShapeGrid]uint
-	BottomStartArcShapeGrid_orderStaged     map[uint]*BottomStartArcShapeGrid
-	BottomStartArcShapeGrids_reference      map[*BottomStartArcShapeGrid]*BottomStartArcShapeGrid
-	BottomStartArcShapeGrids_referenceOrder map[*BottomStartArcShapeGrid]uint
-
-	// insertion point for slice of pointers maps
-	BottomStartArcShapeGrid_BottomStartArcShapes_reverseMap map[*BottomStartArcShape]*BottomStartArcShapeGrid
-
-	OnAfterBottomStartArcShapeGridCreateCallback OnAfterCreateInterface[BottomStartArcShapeGrid]
-	OnAfterBottomStartArcShapeGridUpdateCallback OnAfterUpdateInterface[BottomStartArcShapeGrid]
-	OnAfterBottomStartArcShapeGridDeleteCallback OnAfterDeleteInterface[BottomStartArcShapeGrid]
-	OnAfterBottomStartArcShapeGridReadCallback   OnAfterReadInterface[BottomStartArcShapeGrid]
-
 	CircleGridShapes                map[*CircleGridShape]struct{}
 	CircleGridShapes_instance       map[*CircleGridShape]*CircleGridShape
 	CircleGridShapes_mapString      map[string]*CircleGridShape
@@ -1198,34 +1085,6 @@ func (stage *Stage) Squash() {
 	stage.BaseVectorShapeGrids_instance = make(map[*BaseVectorShapeGrid]*BaseVectorShapeGrid)
 	stage.BaseVectorShapeGrids_referenceOrder = make(map[*BaseVectorShapeGrid]uint)
 
-	stage.BottomEndArcShapes_reference = make(map[*BottomEndArcShape]*BottomEndArcShape)
-	stage.BottomEndArcShapes_instance = make(map[*BottomEndArcShape]*BottomEndArcShape)
-	stage.BottomEndArcShapes_referenceOrder = make(map[*BottomEndArcShape]uint)
-
-	stage.BottomEndArcShapeGrids_reference = make(map[*BottomEndArcShapeGrid]*BottomEndArcShapeGrid)
-	stage.BottomEndArcShapeGrids_instance = make(map[*BottomEndArcShapeGrid]*BottomEndArcShapeGrid)
-	stage.BottomEndArcShapeGrids_referenceOrder = make(map[*BottomEndArcShapeGrid]uint)
-
-	stage.BottomStackGrowthCurveEndArcShapes_reference = make(map[*BottomStackGrowthCurveEndArcShape]*BottomStackGrowthCurveEndArcShape)
-	stage.BottomStackGrowthCurveEndArcShapes_instance = make(map[*BottomStackGrowthCurveEndArcShape]*BottomStackGrowthCurveEndArcShape)
-	stage.BottomStackGrowthCurveEndArcShapes_referenceOrder = make(map[*BottomStackGrowthCurveEndArcShape]uint)
-
-	stage.BottomStackGrowthCurveStartArcShapes_reference = make(map[*BottomStackGrowthCurveStartArcShape]*BottomStackGrowthCurveStartArcShape)
-	stage.BottomStackGrowthCurveStartArcShapes_instance = make(map[*BottomStackGrowthCurveStartArcShape]*BottomStackGrowthCurveStartArcShape)
-	stage.BottomStackGrowthCurveStartArcShapes_referenceOrder = make(map[*BottomStackGrowthCurveStartArcShape]uint)
-
-	stage.BottomStackOfGrowthCurves_reference = make(map[*BottomStackOfGrowthCurve]*BottomStackOfGrowthCurve)
-	stage.BottomStackOfGrowthCurves_instance = make(map[*BottomStackOfGrowthCurve]*BottomStackOfGrowthCurve)
-	stage.BottomStackOfGrowthCurves_referenceOrder = make(map[*BottomStackOfGrowthCurve]uint)
-
-	stage.BottomStartArcShapes_reference = make(map[*BottomStartArcShape]*BottomStartArcShape)
-	stage.BottomStartArcShapes_instance = make(map[*BottomStartArcShape]*BottomStartArcShape)
-	stage.BottomStartArcShapes_referenceOrder = make(map[*BottomStartArcShape]uint)
-
-	stage.BottomStartArcShapeGrids_reference = make(map[*BottomStartArcShapeGrid]*BottomStartArcShapeGrid)
-	stage.BottomStartArcShapeGrids_instance = make(map[*BottomStartArcShapeGrid]*BottomStartArcShapeGrid)
-	stage.BottomStartArcShapeGrids_referenceOrder = make(map[*BottomStartArcShapeGrid]uint)
-
 	stage.CircleGridShapes_reference = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
@@ -1477,104 +1336,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.BaseVectorShapeGridOrder = maxBaseVectorShapeGridOrder + 1
 	} else {
 		stage.BaseVectorShapeGridOrder = 0
-	}
-
-	var maxBottomEndArcShapeOrder uint
-	var foundBottomEndArcShape bool
-	for _, order := range stage.BottomEndArcShape_stagedOrder {
-		if !foundBottomEndArcShape || order > maxBottomEndArcShapeOrder {
-			maxBottomEndArcShapeOrder = order
-			foundBottomEndArcShape = true
-		}
-	}
-	if foundBottomEndArcShape {
-		stage.BottomEndArcShapeOrder = maxBottomEndArcShapeOrder + 1
-	} else {
-		stage.BottomEndArcShapeOrder = 0
-	}
-
-	var maxBottomEndArcShapeGridOrder uint
-	var foundBottomEndArcShapeGrid bool
-	for _, order := range stage.BottomEndArcShapeGrid_stagedOrder {
-		if !foundBottomEndArcShapeGrid || order > maxBottomEndArcShapeGridOrder {
-			maxBottomEndArcShapeGridOrder = order
-			foundBottomEndArcShapeGrid = true
-		}
-	}
-	if foundBottomEndArcShapeGrid {
-		stage.BottomEndArcShapeGridOrder = maxBottomEndArcShapeGridOrder + 1
-	} else {
-		stage.BottomEndArcShapeGridOrder = 0
-	}
-
-	var maxBottomStackGrowthCurveEndArcShapeOrder uint
-	var foundBottomStackGrowthCurveEndArcShape bool
-	for _, order := range stage.BottomStackGrowthCurveEndArcShape_stagedOrder {
-		if !foundBottomStackGrowthCurveEndArcShape || order > maxBottomStackGrowthCurveEndArcShapeOrder {
-			maxBottomStackGrowthCurveEndArcShapeOrder = order
-			foundBottomStackGrowthCurveEndArcShape = true
-		}
-	}
-	if foundBottomStackGrowthCurveEndArcShape {
-		stage.BottomStackGrowthCurveEndArcShapeOrder = maxBottomStackGrowthCurveEndArcShapeOrder + 1
-	} else {
-		stage.BottomStackGrowthCurveEndArcShapeOrder = 0
-	}
-
-	var maxBottomStackGrowthCurveStartArcShapeOrder uint
-	var foundBottomStackGrowthCurveStartArcShape bool
-	for _, order := range stage.BottomStackGrowthCurveStartArcShape_stagedOrder {
-		if !foundBottomStackGrowthCurveStartArcShape || order > maxBottomStackGrowthCurveStartArcShapeOrder {
-			maxBottomStackGrowthCurveStartArcShapeOrder = order
-			foundBottomStackGrowthCurveStartArcShape = true
-		}
-	}
-	if foundBottomStackGrowthCurveStartArcShape {
-		stage.BottomStackGrowthCurveStartArcShapeOrder = maxBottomStackGrowthCurveStartArcShapeOrder + 1
-	} else {
-		stage.BottomStackGrowthCurveStartArcShapeOrder = 0
-	}
-
-	var maxBottomStackOfGrowthCurveOrder uint
-	var foundBottomStackOfGrowthCurve bool
-	for _, order := range stage.BottomStackOfGrowthCurve_stagedOrder {
-		if !foundBottomStackOfGrowthCurve || order > maxBottomStackOfGrowthCurveOrder {
-			maxBottomStackOfGrowthCurveOrder = order
-			foundBottomStackOfGrowthCurve = true
-		}
-	}
-	if foundBottomStackOfGrowthCurve {
-		stage.BottomStackOfGrowthCurveOrder = maxBottomStackOfGrowthCurveOrder + 1
-	} else {
-		stage.BottomStackOfGrowthCurveOrder = 0
-	}
-
-	var maxBottomStartArcShapeOrder uint
-	var foundBottomStartArcShape bool
-	for _, order := range stage.BottomStartArcShape_stagedOrder {
-		if !foundBottomStartArcShape || order > maxBottomStartArcShapeOrder {
-			maxBottomStartArcShapeOrder = order
-			foundBottomStartArcShape = true
-		}
-	}
-	if foundBottomStartArcShape {
-		stage.BottomStartArcShapeOrder = maxBottomStartArcShapeOrder + 1
-	} else {
-		stage.BottomStartArcShapeOrder = 0
-	}
-
-	var maxBottomStartArcShapeGridOrder uint
-	var foundBottomStartArcShapeGrid bool
-	for _, order := range stage.BottomStartArcShapeGrid_stagedOrder {
-		if !foundBottomStartArcShapeGrid || order > maxBottomStartArcShapeGridOrder {
-			maxBottomStartArcShapeGridOrder = order
-			foundBottomStartArcShapeGrid = true
-		}
-	}
-	if foundBottomStartArcShapeGrid {
-		stage.BottomStartArcShapeGridOrder = maxBottomStartArcShapeGridOrder + 1
-	} else {
-		stage.BottomStartArcShapeGridOrder = 0
 	}
 
 	var maxCircleGridShapeOrder uint
@@ -2254,104 +2015,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *BottomEndArcShape:
-		tmp := GetStructInstancesByOrder(stage.BottomEndArcShapes, stage.BottomEndArcShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomEndArcShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *BottomEndArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.BottomEndArcShapeGrids, stage.BottomEndArcShapeGrid_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomEndArcShapeGrid implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *BottomStackGrowthCurveEndArcShape:
-		tmp := GetStructInstancesByOrder(stage.BottomStackGrowthCurveEndArcShapes, stage.BottomStackGrowthCurveEndArcShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomStackGrowthCurveEndArcShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *BottomStackGrowthCurveStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.BottomStackGrowthCurveStartArcShapes, stage.BottomStackGrowthCurveStartArcShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomStackGrowthCurveStartArcShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *BottomStackOfGrowthCurve:
-		tmp := GetStructInstancesByOrder(stage.BottomStackOfGrowthCurves, stage.BottomStackOfGrowthCurve_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomStackOfGrowthCurve implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *BottomStartArcShape:
-		tmp := GetStructInstancesByOrder(stage.BottomStartArcShapes, stage.BottomStartArcShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomStartArcShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *BottomStartArcShapeGrid:
-		tmp := GetStructInstancesByOrder(stage.BottomStartArcShapeGrids, stage.BottomStartArcShapeGrid_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *BottomStartArcShapeGrid implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *CircleGridShape:
 		tmp := GetStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
 
@@ -2937,20 +2600,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.BaseVectorShapes, stage.BaseVectorShape_stagedOrder)
 	case "BaseVectorShapeGrid":
 		res = GetNamedStructInstances(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder)
-	case "BottomEndArcShape":
-		res = GetNamedStructInstances(stage.BottomEndArcShapes, stage.BottomEndArcShape_stagedOrder)
-	case "BottomEndArcShapeGrid":
-		res = GetNamedStructInstances(stage.BottomEndArcShapeGrids, stage.BottomEndArcShapeGrid_stagedOrder)
-	case "BottomStackGrowthCurveEndArcShape":
-		res = GetNamedStructInstances(stage.BottomStackGrowthCurveEndArcShapes, stage.BottomStackGrowthCurveEndArcShape_stagedOrder)
-	case "BottomStackGrowthCurveStartArcShape":
-		res = GetNamedStructInstances(stage.BottomStackGrowthCurveStartArcShapes, stage.BottomStackGrowthCurveStartArcShape_stagedOrder)
-	case "BottomStackOfGrowthCurve":
-		res = GetNamedStructInstances(stage.BottomStackOfGrowthCurves, stage.BottomStackOfGrowthCurve_stagedOrder)
-	case "BottomStartArcShape":
-		res = GetNamedStructInstances(stage.BottomStartArcShapes, stage.BottomStartArcShape_stagedOrder)
-	case "BottomStartArcShapeGrid":
-		res = GetNamedStructInstances(stage.BottomStartArcShapeGrids, stage.BottomStartArcShapeGrid_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
 	case "EndArcShape":
@@ -3108,20 +2757,6 @@ type BackRepoInterface interface {
 	CheckoutBaseVectorShape(basevectorshape *BaseVectorShape)
 	CommitBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
 	CheckoutBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
-	CommitBottomEndArcShape(bottomendarcshape *BottomEndArcShape)
-	CheckoutBottomEndArcShape(bottomendarcshape *BottomEndArcShape)
-	CommitBottomEndArcShapeGrid(bottomendarcshapegrid *BottomEndArcShapeGrid)
-	CheckoutBottomEndArcShapeGrid(bottomendarcshapegrid *BottomEndArcShapeGrid)
-	CommitBottomStackGrowthCurveEndArcShape(bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape)
-	CheckoutBottomStackGrowthCurveEndArcShape(bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape)
-	CommitBottomStackGrowthCurveStartArcShape(bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape)
-	CheckoutBottomStackGrowthCurveStartArcShape(bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape)
-	CommitBottomStackOfGrowthCurve(bottomstackofgrowthcurve *BottomStackOfGrowthCurve)
-	CheckoutBottomStackOfGrowthCurve(bottomstackofgrowthcurve *BottomStackOfGrowthCurve)
-	CommitBottomStartArcShape(bottomstartarcshape *BottomStartArcShape)
-	CheckoutBottomStartArcShape(bottomstartarcshape *BottomStartArcShape)
-	CommitBottomStartArcShapeGrid(bottomstartarcshapegrid *BottomStartArcShapeGrid)
-	CheckoutBottomStartArcShapeGrid(bottomstartarcshapegrid *BottomStartArcShapeGrid)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
 	CommitEndArcShape(endarcshape *EndArcShape)
@@ -3220,27 +2855,6 @@ func NewStage(name string) (stage *Stage) {
 
 		BaseVectorShapeGrids:           make(map[*BaseVectorShapeGrid]struct{}),
 		BaseVectorShapeGrids_mapString: make(map[string]*BaseVectorShapeGrid),
-
-		BottomEndArcShapes:           make(map[*BottomEndArcShape]struct{}),
-		BottomEndArcShapes_mapString: make(map[string]*BottomEndArcShape),
-
-		BottomEndArcShapeGrids:           make(map[*BottomEndArcShapeGrid]struct{}),
-		BottomEndArcShapeGrids_mapString: make(map[string]*BottomEndArcShapeGrid),
-
-		BottomStackGrowthCurveEndArcShapes:           make(map[*BottomStackGrowthCurveEndArcShape]struct{}),
-		BottomStackGrowthCurveEndArcShapes_mapString: make(map[string]*BottomStackGrowthCurveEndArcShape),
-
-		BottomStackGrowthCurveStartArcShapes:           make(map[*BottomStackGrowthCurveStartArcShape]struct{}),
-		BottomStackGrowthCurveStartArcShapes_mapString: make(map[string]*BottomStackGrowthCurveStartArcShape),
-
-		BottomStackOfGrowthCurves:           make(map[*BottomStackOfGrowthCurve]struct{}),
-		BottomStackOfGrowthCurves_mapString: make(map[string]*BottomStackOfGrowthCurve),
-
-		BottomStartArcShapes:           make(map[*BottomStartArcShape]struct{}),
-		BottomStartArcShapes_mapString: make(map[string]*BottomStartArcShape),
-
-		BottomStartArcShapeGrids:           make(map[*BottomStartArcShapeGrid]struct{}),
-		BottomStartArcShapeGrids_mapString: make(map[string]*BottomStartArcShapeGrid),
 
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
@@ -3388,34 +3002,6 @@ func NewStage(name string) (stage *Stage) {
 		BaseVectorShapeGrid_stagedOrder: make(map[*BaseVectorShapeGrid]uint),
 		BaseVectorShapeGrid_orderStaged: make(map[uint]*BaseVectorShapeGrid),
 		BaseVectorShapeGrids_reference:  make(map[*BaseVectorShapeGrid]*BaseVectorShapeGrid),
-
-		BottomEndArcShape_stagedOrder: make(map[*BottomEndArcShape]uint),
-		BottomEndArcShape_orderStaged: make(map[uint]*BottomEndArcShape),
-		BottomEndArcShapes_reference:  make(map[*BottomEndArcShape]*BottomEndArcShape),
-
-		BottomEndArcShapeGrid_stagedOrder: make(map[*BottomEndArcShapeGrid]uint),
-		BottomEndArcShapeGrid_orderStaged: make(map[uint]*BottomEndArcShapeGrid),
-		BottomEndArcShapeGrids_reference:  make(map[*BottomEndArcShapeGrid]*BottomEndArcShapeGrid),
-
-		BottomStackGrowthCurveEndArcShape_stagedOrder: make(map[*BottomStackGrowthCurveEndArcShape]uint),
-		BottomStackGrowthCurveEndArcShape_orderStaged: make(map[uint]*BottomStackGrowthCurveEndArcShape),
-		BottomStackGrowthCurveEndArcShapes_reference:  make(map[*BottomStackGrowthCurveEndArcShape]*BottomStackGrowthCurveEndArcShape),
-
-		BottomStackGrowthCurveStartArcShape_stagedOrder: make(map[*BottomStackGrowthCurveStartArcShape]uint),
-		BottomStackGrowthCurveStartArcShape_orderStaged: make(map[uint]*BottomStackGrowthCurveStartArcShape),
-		BottomStackGrowthCurveStartArcShapes_reference:  make(map[*BottomStackGrowthCurveStartArcShape]*BottomStackGrowthCurveStartArcShape),
-
-		BottomStackOfGrowthCurve_stagedOrder: make(map[*BottomStackOfGrowthCurve]uint),
-		BottomStackOfGrowthCurve_orderStaged: make(map[uint]*BottomStackOfGrowthCurve),
-		BottomStackOfGrowthCurves_reference:  make(map[*BottomStackOfGrowthCurve]*BottomStackOfGrowthCurve),
-
-		BottomStartArcShape_stagedOrder: make(map[*BottomStartArcShape]uint),
-		BottomStartArcShape_orderStaged: make(map[uint]*BottomStartArcShape),
-		BottomStartArcShapes_reference:  make(map[*BottomStartArcShape]*BottomStartArcShape),
-
-		BottomStartArcShapeGrid_stagedOrder: make(map[*BottomStartArcShapeGrid]uint),
-		BottomStartArcShapeGrid_orderStaged: make(map[uint]*BottomStartArcShapeGrid),
-		BottomStartArcShapeGrids_reference:  make(map[*BottomStartArcShapeGrid]*BottomStartArcShapeGrid),
 
 		CircleGridShape_stagedOrder: make(map[*CircleGridShape]uint),
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
@@ -3585,20 +3171,6 @@ func NewStage(name string) (stage *Stage) {
 
 			"BaseVectorShapeGrid": &BaseVectorShapeGridUnmarshaller{},
 
-			"BottomEndArcShape": &BottomEndArcShapeUnmarshaller{},
-
-			"BottomEndArcShapeGrid": &BottomEndArcShapeGridUnmarshaller{},
-
-			"BottomStackGrowthCurveEndArcShape": &BottomStackGrowthCurveEndArcShapeUnmarshaller{},
-
-			"BottomStackGrowthCurveStartArcShape": &BottomStackGrowthCurveStartArcShapeUnmarshaller{},
-
-			"BottomStackOfGrowthCurve": &BottomStackOfGrowthCurveUnmarshaller{},
-
-			"BottomStartArcShape": &BottomStartArcShapeUnmarshaller{},
-
-			"BottomStartArcShapeGrid": &BottomStartArcShapeGridUnmarshaller{},
-
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
 			"EndArcShape": &EndArcShapeUnmarshaller{},
@@ -3686,13 +3258,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "AxesShape"},
 			{name: "BaseVectorShape"},
 			{name: "BaseVectorShapeGrid"},
-			{name: "BottomEndArcShape"},
-			{name: "BottomEndArcShapeGrid"},
-			{name: "BottomStackGrowthCurveEndArcShape"},
-			{name: "BottomStackGrowthCurveStartArcShape"},
-			{name: "BottomStackOfGrowthCurve"},
-			{name: "BottomStartArcShape"},
-			{name: "BottomStartArcShapeGrid"},
 			{name: "CircleGridShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
@@ -3753,20 +3318,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.BaseVectorShape_stagedOrder[instance]
 	case *BaseVectorShapeGrid:
 		return stage.BaseVectorShapeGrid_stagedOrder[instance]
-	case *BottomEndArcShape:
-		return stage.BottomEndArcShape_stagedOrder[instance]
-	case *BottomEndArcShapeGrid:
-		return stage.BottomEndArcShapeGrid_stagedOrder[instance]
-	case *BottomStackGrowthCurveEndArcShape:
-		return stage.BottomStackGrowthCurveEndArcShape_stagedOrder[instance]
-	case *BottomStackGrowthCurveStartArcShape:
-		return stage.BottomStackGrowthCurveStartArcShape_stagedOrder[instance]
-	case *BottomStackOfGrowthCurve:
-		return stage.BottomStackOfGrowthCurve_stagedOrder[instance]
-	case *BottomStartArcShape:
-		return stage.BottomStartArcShape_stagedOrder[instance]
-	case *BottomStartArcShapeGrid:
-		return stage.BottomStartArcShapeGrid_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
 	case *EndArcShape:
@@ -3864,20 +3415,6 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.BaseVectorShape_orderStaged[order]).(Type)
 	case *BaseVectorShapeGrid:
 		return any(stage.BaseVectorShapeGrid_orderStaged[order]).(Type)
-	case *BottomEndArcShape:
-		return any(stage.BottomEndArcShape_orderStaged[order]).(Type)
-	case *BottomEndArcShapeGrid:
-		return any(stage.BottomEndArcShapeGrid_orderStaged[order]).(Type)
-	case *BottomStackGrowthCurveEndArcShape:
-		return any(stage.BottomStackGrowthCurveEndArcShape_orderStaged[order]).(Type)
-	case *BottomStackGrowthCurveStartArcShape:
-		return any(stage.BottomStackGrowthCurveStartArcShape_orderStaged[order]).(Type)
-	case *BottomStackOfGrowthCurve:
-		return any(stage.BottomStackOfGrowthCurve_orderStaged[order]).(Type)
-	case *BottomStartArcShape:
-		return any(stage.BottomStartArcShape_orderStaged[order]).(Type)
-	case *BottomStartArcShapeGrid:
-		return any(stage.BottomStartArcShapeGrid_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
 	case *EndArcShape:
@@ -3974,20 +3511,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.BaseVectorShape_stagedOrder[instance]
 	case *BaseVectorShapeGrid:
 		return stage.BaseVectorShapeGrid_stagedOrder[instance]
-	case *BottomEndArcShape:
-		return stage.BottomEndArcShape_stagedOrder[instance]
-	case *BottomEndArcShapeGrid:
-		return stage.BottomEndArcShapeGrid_stagedOrder[instance]
-	case *BottomStackGrowthCurveEndArcShape:
-		return stage.BottomStackGrowthCurveEndArcShape_stagedOrder[instance]
-	case *BottomStackGrowthCurveStartArcShape:
-		return stage.BottomStackGrowthCurveStartArcShape_stagedOrder[instance]
-	case *BottomStackOfGrowthCurve:
-		return stage.BottomStackOfGrowthCurve_stagedOrder[instance]
-	case *BottomStartArcShape:
-		return stage.BottomStartArcShape_stagedOrder[instance]
-	case *BottomStartArcShapeGrid:
-		return stage.BottomStartArcShapeGrid_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
 	case *EndArcShape:
@@ -4136,13 +3659,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShape"] = len(stage.BaseVectorShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
-	stage.Map_GongStructName_InstancesNb["BottomEndArcShape"] = len(stage.BottomEndArcShapes)
-	stage.Map_GongStructName_InstancesNb["BottomEndArcShapeGrid"] = len(stage.BottomEndArcShapeGrids)
-	stage.Map_GongStructName_InstancesNb["BottomStackGrowthCurveEndArcShape"] = len(stage.BottomStackGrowthCurveEndArcShapes)
-	stage.Map_GongStructName_InstancesNb["BottomStackGrowthCurveStartArcShape"] = len(stage.BottomStackGrowthCurveStartArcShapes)
-	stage.Map_GongStructName_InstancesNb["BottomStackOfGrowthCurve"] = len(stage.BottomStackOfGrowthCurves)
-	stage.Map_GongStructName_InstancesNb["BottomStartArcShape"] = len(stage.BottomStartArcShapes)
-	stage.Map_GongStructName_InstancesNb["BottomStartArcShapeGrid"] = len(stage.BottomStartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
@@ -4660,622 +4176,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (basevectorshapegrid *BaseVectorShapeGrid) SetName(name string) {
 	basevectorshapegrid.Name = name
-}
-
-// Stage puts bottomendarcshape to the model stage
-func (bottomendarcshape *BottomEndArcShape) Stage(stage *Stage) *BottomEndArcShape {
-	if _, ok := stage.BottomEndArcShapes[bottomendarcshape]; !ok {
-		stage.BottomEndArcShapes[bottomendarcshape] = struct{}{}
-		stage.BottomEndArcShape_stagedOrder[bottomendarcshape] = stage.BottomEndArcShapeOrder
-		stage.BottomEndArcShape_orderStaged[stage.BottomEndArcShapeOrder] = bottomendarcshape
-		stage.BottomEndArcShapeOrder++
-	}
-	stage.BottomEndArcShapes_mapString[bottomendarcshape.Name] = bottomendarcshape
-
-	return bottomendarcshape
-}
-
-// StagePreserveOrder puts bottomendarcshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomEndArcShapeOrder
-// - update stage.BottomEndArcShapeOrder accordingly
-func (bottomendarcshape *BottomEndArcShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomEndArcShapes[bottomendarcshape]; !ok {
-		stage.BottomEndArcShapes[bottomendarcshape] = struct{}{}
-
-		if order > stage.BottomEndArcShapeOrder {
-			stage.BottomEndArcShapeOrder = order
-		}
-		stage.BottomEndArcShape_stagedOrder[bottomendarcshape] = order
-		stage.BottomEndArcShape_orderStaged[order] = bottomendarcshape
-		stage.BottomEndArcShapeOrder++
-	}
-	stage.BottomEndArcShapes_mapString[bottomendarcshape.Name] = bottomendarcshape
-}
-
-// Unstage removes bottomendarcshape off the model stage
-func (bottomendarcshape *BottomEndArcShape) Unstage(stage *Stage) *BottomEndArcShape {
-	delete(stage.BottomEndArcShapes, bottomendarcshape)
-	// issue1150
-	// delete(stage.BottomEndArcShape_stagedOrder, bottomendarcshape)
-	delete(stage.BottomEndArcShapes_mapString, bottomendarcshape.Name)
-
-	return bottomendarcshape
-}
-
-// UnstageVoid removes bottomendarcshape off the model stage
-func (bottomendarcshape *BottomEndArcShape) UnstageVoid(stage *Stage) {
-	delete(stage.BottomEndArcShapes, bottomendarcshape)
-	// issue1150
-	// delete(stage.BottomEndArcShape_stagedOrder, bottomendarcshape)
-	delete(stage.BottomEndArcShapes_mapString, bottomendarcshape.Name)
-}
-
-// commit bottomendarcshape to the back repo (if it is already staged)
-func (bottomendarcshape *BottomEndArcShape) Commit(stage *Stage) *BottomEndArcShape {
-	if _, ok := stage.BottomEndArcShapes[bottomendarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomEndArcShape(bottomendarcshape)
-		}
-	}
-	return bottomendarcshape
-}
-
-func (bottomendarcshape *BottomEndArcShape) CommitVoid(stage *Stage) {
-	bottomendarcshape.Commit(stage)
-}
-
-func (bottomendarcshape *BottomEndArcShape) StageVoid(stage *Stage) {
-	bottomendarcshape.Stage(stage)
-}
-
-// Checkout bottomendarcshape to the back repo (if it is already staged)
-func (bottomendarcshape *BottomEndArcShape) Checkout(stage *Stage) *BottomEndArcShape {
-	if _, ok := stage.BottomEndArcShapes[bottomendarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomEndArcShape(bottomendarcshape)
-		}
-	}
-	return bottomendarcshape
-}
-
-// for satisfaction of GongStruct interface
-func (bottomendarcshape *BottomEndArcShape) GetName() (res string) {
-	return bottomendarcshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomendarcshape *BottomEndArcShape) SetName(name string) {
-	bottomendarcshape.Name = name
-}
-
-// Stage puts bottomendarcshapegrid to the model stage
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) Stage(stage *Stage) *BottomEndArcShapeGrid {
-	if _, ok := stage.BottomEndArcShapeGrids[bottomendarcshapegrid]; !ok {
-		stage.BottomEndArcShapeGrids[bottomendarcshapegrid] = struct{}{}
-		stage.BottomEndArcShapeGrid_stagedOrder[bottomendarcshapegrid] = stage.BottomEndArcShapeGridOrder
-		stage.BottomEndArcShapeGrid_orderStaged[stage.BottomEndArcShapeGridOrder] = bottomendarcshapegrid
-		stage.BottomEndArcShapeGridOrder++
-	}
-	stage.BottomEndArcShapeGrids_mapString[bottomendarcshapegrid.Name] = bottomendarcshapegrid
-
-	return bottomendarcshapegrid
-}
-
-// StagePreserveOrder puts bottomendarcshapegrid to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomEndArcShapeGridOrder
-// - update stage.BottomEndArcShapeGridOrder accordingly
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomEndArcShapeGrids[bottomendarcshapegrid]; !ok {
-		stage.BottomEndArcShapeGrids[bottomendarcshapegrid] = struct{}{}
-
-		if order > stage.BottomEndArcShapeGridOrder {
-			stage.BottomEndArcShapeGridOrder = order
-		}
-		stage.BottomEndArcShapeGrid_stagedOrder[bottomendarcshapegrid] = order
-		stage.BottomEndArcShapeGrid_orderStaged[order] = bottomendarcshapegrid
-		stage.BottomEndArcShapeGridOrder++
-	}
-	stage.BottomEndArcShapeGrids_mapString[bottomendarcshapegrid.Name] = bottomendarcshapegrid
-}
-
-// Unstage removes bottomendarcshapegrid off the model stage
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) Unstage(stage *Stage) *BottomEndArcShapeGrid {
-	delete(stage.BottomEndArcShapeGrids, bottomendarcshapegrid)
-	// issue1150
-	// delete(stage.BottomEndArcShapeGrid_stagedOrder, bottomendarcshapegrid)
-	delete(stage.BottomEndArcShapeGrids_mapString, bottomendarcshapegrid.Name)
-
-	return bottomendarcshapegrid
-}
-
-// UnstageVoid removes bottomendarcshapegrid off the model stage
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) UnstageVoid(stage *Stage) {
-	delete(stage.BottomEndArcShapeGrids, bottomendarcshapegrid)
-	// issue1150
-	// delete(stage.BottomEndArcShapeGrid_stagedOrder, bottomendarcshapegrid)
-	delete(stage.BottomEndArcShapeGrids_mapString, bottomendarcshapegrid.Name)
-}
-
-// commit bottomendarcshapegrid to the back repo (if it is already staged)
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) Commit(stage *Stage) *BottomEndArcShapeGrid {
-	if _, ok := stage.BottomEndArcShapeGrids[bottomendarcshapegrid]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomEndArcShapeGrid(bottomendarcshapegrid)
-		}
-	}
-	return bottomendarcshapegrid
-}
-
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) CommitVoid(stage *Stage) {
-	bottomendarcshapegrid.Commit(stage)
-}
-
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) StageVoid(stage *Stage) {
-	bottomendarcshapegrid.Stage(stage)
-}
-
-// Checkout bottomendarcshapegrid to the back repo (if it is already staged)
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) Checkout(stage *Stage) *BottomEndArcShapeGrid {
-	if _, ok := stage.BottomEndArcShapeGrids[bottomendarcshapegrid]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomEndArcShapeGrid(bottomendarcshapegrid)
-		}
-	}
-	return bottomendarcshapegrid
-}
-
-// for satisfaction of GongStruct interface
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) GetName() (res string) {
-	return bottomendarcshapegrid.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) SetName(name string) {
-	bottomendarcshapegrid.Name = name
-}
-
-// Stage puts bottomstackgrowthcurveendarcshape to the model stage
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) Stage(stage *Stage) *BottomStackGrowthCurveEndArcShape {
-	if _, ok := stage.BottomStackGrowthCurveEndArcShapes[bottomstackgrowthcurveendarcshape]; !ok {
-		stage.BottomStackGrowthCurveEndArcShapes[bottomstackgrowthcurveendarcshape] = struct{}{}
-		stage.BottomStackGrowthCurveEndArcShape_stagedOrder[bottomstackgrowthcurveendarcshape] = stage.BottomStackGrowthCurveEndArcShapeOrder
-		stage.BottomStackGrowthCurveEndArcShape_orderStaged[stage.BottomStackGrowthCurveEndArcShapeOrder] = bottomstackgrowthcurveendarcshape
-		stage.BottomStackGrowthCurveEndArcShapeOrder++
-	}
-	stage.BottomStackGrowthCurveEndArcShapes_mapString[bottomstackgrowthcurveendarcshape.Name] = bottomstackgrowthcurveendarcshape
-
-	return bottomstackgrowthcurveendarcshape
-}
-
-// StagePreserveOrder puts bottomstackgrowthcurveendarcshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomStackGrowthCurveEndArcShapeOrder
-// - update stage.BottomStackGrowthCurveEndArcShapeOrder accordingly
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomStackGrowthCurveEndArcShapes[bottomstackgrowthcurveendarcshape]; !ok {
-		stage.BottomStackGrowthCurveEndArcShapes[bottomstackgrowthcurveendarcshape] = struct{}{}
-
-		if order > stage.BottomStackGrowthCurveEndArcShapeOrder {
-			stage.BottomStackGrowthCurveEndArcShapeOrder = order
-		}
-		stage.BottomStackGrowthCurveEndArcShape_stagedOrder[bottomstackgrowthcurveendarcshape] = order
-		stage.BottomStackGrowthCurveEndArcShape_orderStaged[order] = bottomstackgrowthcurveendarcshape
-		stage.BottomStackGrowthCurveEndArcShapeOrder++
-	}
-	stage.BottomStackGrowthCurveEndArcShapes_mapString[bottomstackgrowthcurveendarcshape.Name] = bottomstackgrowthcurveendarcshape
-}
-
-// Unstage removes bottomstackgrowthcurveendarcshape off the model stage
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) Unstage(stage *Stage) *BottomStackGrowthCurveEndArcShape {
-	delete(stage.BottomStackGrowthCurveEndArcShapes, bottomstackgrowthcurveendarcshape)
-	// issue1150
-	// delete(stage.BottomStackGrowthCurveEndArcShape_stagedOrder, bottomstackgrowthcurveendarcshape)
-	delete(stage.BottomStackGrowthCurveEndArcShapes_mapString, bottomstackgrowthcurveendarcshape.Name)
-
-	return bottomstackgrowthcurveendarcshape
-}
-
-// UnstageVoid removes bottomstackgrowthcurveendarcshape off the model stage
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) UnstageVoid(stage *Stage) {
-	delete(stage.BottomStackGrowthCurveEndArcShapes, bottomstackgrowthcurveendarcshape)
-	// issue1150
-	// delete(stage.BottomStackGrowthCurveEndArcShape_stagedOrder, bottomstackgrowthcurveendarcshape)
-	delete(stage.BottomStackGrowthCurveEndArcShapes_mapString, bottomstackgrowthcurveendarcshape.Name)
-}
-
-// commit bottomstackgrowthcurveendarcshape to the back repo (if it is already staged)
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) Commit(stage *Stage) *BottomStackGrowthCurveEndArcShape {
-	if _, ok := stage.BottomStackGrowthCurveEndArcShapes[bottomstackgrowthcurveendarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomStackGrowthCurveEndArcShape(bottomstackgrowthcurveendarcshape)
-		}
-	}
-	return bottomstackgrowthcurveendarcshape
-}
-
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) CommitVoid(stage *Stage) {
-	bottomstackgrowthcurveendarcshape.Commit(stage)
-}
-
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) StageVoid(stage *Stage) {
-	bottomstackgrowthcurveendarcshape.Stage(stage)
-}
-
-// Checkout bottomstackgrowthcurveendarcshape to the back repo (if it is already staged)
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) Checkout(stage *Stage) *BottomStackGrowthCurveEndArcShape {
-	if _, ok := stage.BottomStackGrowthCurveEndArcShapes[bottomstackgrowthcurveendarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomStackGrowthCurveEndArcShape(bottomstackgrowthcurveendarcshape)
-		}
-	}
-	return bottomstackgrowthcurveendarcshape
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) GetName() (res string) {
-	return bottomstackgrowthcurveendarcshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) SetName(name string) {
-	bottomstackgrowthcurveendarcshape.Name = name
-}
-
-// Stage puts bottomstackgrowthcurvestartarcshape to the model stage
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) Stage(stage *Stage) *BottomStackGrowthCurveStartArcShape {
-	if _, ok := stage.BottomStackGrowthCurveStartArcShapes[bottomstackgrowthcurvestartarcshape]; !ok {
-		stage.BottomStackGrowthCurveStartArcShapes[bottomstackgrowthcurvestartarcshape] = struct{}{}
-		stage.BottomStackGrowthCurveStartArcShape_stagedOrder[bottomstackgrowthcurvestartarcshape] = stage.BottomStackGrowthCurveStartArcShapeOrder
-		stage.BottomStackGrowthCurveStartArcShape_orderStaged[stage.BottomStackGrowthCurveStartArcShapeOrder] = bottomstackgrowthcurvestartarcshape
-		stage.BottomStackGrowthCurveStartArcShapeOrder++
-	}
-	stage.BottomStackGrowthCurveStartArcShapes_mapString[bottomstackgrowthcurvestartarcshape.Name] = bottomstackgrowthcurvestartarcshape
-
-	return bottomstackgrowthcurvestartarcshape
-}
-
-// StagePreserveOrder puts bottomstackgrowthcurvestartarcshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomStackGrowthCurveStartArcShapeOrder
-// - update stage.BottomStackGrowthCurveStartArcShapeOrder accordingly
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomStackGrowthCurveStartArcShapes[bottomstackgrowthcurvestartarcshape]; !ok {
-		stage.BottomStackGrowthCurveStartArcShapes[bottomstackgrowthcurvestartarcshape] = struct{}{}
-
-		if order > stage.BottomStackGrowthCurveStartArcShapeOrder {
-			stage.BottomStackGrowthCurveStartArcShapeOrder = order
-		}
-		stage.BottomStackGrowthCurveStartArcShape_stagedOrder[bottomstackgrowthcurvestartarcshape] = order
-		stage.BottomStackGrowthCurveStartArcShape_orderStaged[order] = bottomstackgrowthcurvestartarcshape
-		stage.BottomStackGrowthCurveStartArcShapeOrder++
-	}
-	stage.BottomStackGrowthCurveStartArcShapes_mapString[bottomstackgrowthcurvestartarcshape.Name] = bottomstackgrowthcurvestartarcshape
-}
-
-// Unstage removes bottomstackgrowthcurvestartarcshape off the model stage
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) Unstage(stage *Stage) *BottomStackGrowthCurveStartArcShape {
-	delete(stage.BottomStackGrowthCurveStartArcShapes, bottomstackgrowthcurvestartarcshape)
-	// issue1150
-	// delete(stage.BottomStackGrowthCurveStartArcShape_stagedOrder, bottomstackgrowthcurvestartarcshape)
-	delete(stage.BottomStackGrowthCurveStartArcShapes_mapString, bottomstackgrowthcurvestartarcshape.Name)
-
-	return bottomstackgrowthcurvestartarcshape
-}
-
-// UnstageVoid removes bottomstackgrowthcurvestartarcshape off the model stage
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) UnstageVoid(stage *Stage) {
-	delete(stage.BottomStackGrowthCurveStartArcShapes, bottomstackgrowthcurvestartarcshape)
-	// issue1150
-	// delete(stage.BottomStackGrowthCurveStartArcShape_stagedOrder, bottomstackgrowthcurvestartarcshape)
-	delete(stage.BottomStackGrowthCurveStartArcShapes_mapString, bottomstackgrowthcurvestartarcshape.Name)
-}
-
-// commit bottomstackgrowthcurvestartarcshape to the back repo (if it is already staged)
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) Commit(stage *Stage) *BottomStackGrowthCurveStartArcShape {
-	if _, ok := stage.BottomStackGrowthCurveStartArcShapes[bottomstackgrowthcurvestartarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomStackGrowthCurveStartArcShape(bottomstackgrowthcurvestartarcshape)
-		}
-	}
-	return bottomstackgrowthcurvestartarcshape
-}
-
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) CommitVoid(stage *Stage) {
-	bottomstackgrowthcurvestartarcshape.Commit(stage)
-}
-
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) StageVoid(stage *Stage) {
-	bottomstackgrowthcurvestartarcshape.Stage(stage)
-}
-
-// Checkout bottomstackgrowthcurvestartarcshape to the back repo (if it is already staged)
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) Checkout(stage *Stage) *BottomStackGrowthCurveStartArcShape {
-	if _, ok := stage.BottomStackGrowthCurveStartArcShapes[bottomstackgrowthcurvestartarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomStackGrowthCurveStartArcShape(bottomstackgrowthcurvestartarcshape)
-		}
-	}
-	return bottomstackgrowthcurvestartarcshape
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) GetName() (res string) {
-	return bottomstackgrowthcurvestartarcshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) SetName(name string) {
-	bottomstackgrowthcurvestartarcshape.Name = name
-}
-
-// Stage puts bottomstackofgrowthcurve to the model stage
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) Stage(stage *Stage) *BottomStackOfGrowthCurve {
-	if _, ok := stage.BottomStackOfGrowthCurves[bottomstackofgrowthcurve]; !ok {
-		stage.BottomStackOfGrowthCurves[bottomstackofgrowthcurve] = struct{}{}
-		stage.BottomStackOfGrowthCurve_stagedOrder[bottomstackofgrowthcurve] = stage.BottomStackOfGrowthCurveOrder
-		stage.BottomStackOfGrowthCurve_orderStaged[stage.BottomStackOfGrowthCurveOrder] = bottomstackofgrowthcurve
-		stage.BottomStackOfGrowthCurveOrder++
-	}
-	stage.BottomStackOfGrowthCurves_mapString[bottomstackofgrowthcurve.Name] = bottomstackofgrowthcurve
-
-	return bottomstackofgrowthcurve
-}
-
-// StagePreserveOrder puts bottomstackofgrowthcurve to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomStackOfGrowthCurveOrder
-// - update stage.BottomStackOfGrowthCurveOrder accordingly
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomStackOfGrowthCurves[bottomstackofgrowthcurve]; !ok {
-		stage.BottomStackOfGrowthCurves[bottomstackofgrowthcurve] = struct{}{}
-
-		if order > stage.BottomStackOfGrowthCurveOrder {
-			stage.BottomStackOfGrowthCurveOrder = order
-		}
-		stage.BottomStackOfGrowthCurve_stagedOrder[bottomstackofgrowthcurve] = order
-		stage.BottomStackOfGrowthCurve_orderStaged[order] = bottomstackofgrowthcurve
-		stage.BottomStackOfGrowthCurveOrder++
-	}
-	stage.BottomStackOfGrowthCurves_mapString[bottomstackofgrowthcurve.Name] = bottomstackofgrowthcurve
-}
-
-// Unstage removes bottomstackofgrowthcurve off the model stage
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) Unstage(stage *Stage) *BottomStackOfGrowthCurve {
-	delete(stage.BottomStackOfGrowthCurves, bottomstackofgrowthcurve)
-	// issue1150
-	// delete(stage.BottomStackOfGrowthCurve_stagedOrder, bottomstackofgrowthcurve)
-	delete(stage.BottomStackOfGrowthCurves_mapString, bottomstackofgrowthcurve.Name)
-
-	return bottomstackofgrowthcurve
-}
-
-// UnstageVoid removes bottomstackofgrowthcurve off the model stage
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) UnstageVoid(stage *Stage) {
-	delete(stage.BottomStackOfGrowthCurves, bottomstackofgrowthcurve)
-	// issue1150
-	// delete(stage.BottomStackOfGrowthCurve_stagedOrder, bottomstackofgrowthcurve)
-	delete(stage.BottomStackOfGrowthCurves_mapString, bottomstackofgrowthcurve.Name)
-}
-
-// commit bottomstackofgrowthcurve to the back repo (if it is already staged)
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) Commit(stage *Stage) *BottomStackOfGrowthCurve {
-	if _, ok := stage.BottomStackOfGrowthCurves[bottomstackofgrowthcurve]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomStackOfGrowthCurve(bottomstackofgrowthcurve)
-		}
-	}
-	return bottomstackofgrowthcurve
-}
-
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) CommitVoid(stage *Stage) {
-	bottomstackofgrowthcurve.Commit(stage)
-}
-
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) StageVoid(stage *Stage) {
-	bottomstackofgrowthcurve.Stage(stage)
-}
-
-// Checkout bottomstackofgrowthcurve to the back repo (if it is already staged)
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) Checkout(stage *Stage) *BottomStackOfGrowthCurve {
-	if _, ok := stage.BottomStackOfGrowthCurves[bottomstackofgrowthcurve]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomStackOfGrowthCurve(bottomstackofgrowthcurve)
-		}
-	}
-	return bottomstackofgrowthcurve
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) GetName() (res string) {
-	return bottomstackofgrowthcurve.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) SetName(name string) {
-	bottomstackofgrowthcurve.Name = name
-}
-
-// Stage puts bottomstartarcshape to the model stage
-func (bottomstartarcshape *BottomStartArcShape) Stage(stage *Stage) *BottomStartArcShape {
-	if _, ok := stage.BottomStartArcShapes[bottomstartarcshape]; !ok {
-		stage.BottomStartArcShapes[bottomstartarcshape] = struct{}{}
-		stage.BottomStartArcShape_stagedOrder[bottomstartarcshape] = stage.BottomStartArcShapeOrder
-		stage.BottomStartArcShape_orderStaged[stage.BottomStartArcShapeOrder] = bottomstartarcshape
-		stage.BottomStartArcShapeOrder++
-	}
-	stage.BottomStartArcShapes_mapString[bottomstartarcshape.Name] = bottomstartarcshape
-
-	return bottomstartarcshape
-}
-
-// StagePreserveOrder puts bottomstartarcshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomStartArcShapeOrder
-// - update stage.BottomStartArcShapeOrder accordingly
-func (bottomstartarcshape *BottomStartArcShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomStartArcShapes[bottomstartarcshape]; !ok {
-		stage.BottomStartArcShapes[bottomstartarcshape] = struct{}{}
-
-		if order > stage.BottomStartArcShapeOrder {
-			stage.BottomStartArcShapeOrder = order
-		}
-		stage.BottomStartArcShape_stagedOrder[bottomstartarcshape] = order
-		stage.BottomStartArcShape_orderStaged[order] = bottomstartarcshape
-		stage.BottomStartArcShapeOrder++
-	}
-	stage.BottomStartArcShapes_mapString[bottomstartarcshape.Name] = bottomstartarcshape
-}
-
-// Unstage removes bottomstartarcshape off the model stage
-func (bottomstartarcshape *BottomStartArcShape) Unstage(stage *Stage) *BottomStartArcShape {
-	delete(stage.BottomStartArcShapes, bottomstartarcshape)
-	// issue1150
-	// delete(stage.BottomStartArcShape_stagedOrder, bottomstartarcshape)
-	delete(stage.BottomStartArcShapes_mapString, bottomstartarcshape.Name)
-
-	return bottomstartarcshape
-}
-
-// UnstageVoid removes bottomstartarcshape off the model stage
-func (bottomstartarcshape *BottomStartArcShape) UnstageVoid(stage *Stage) {
-	delete(stage.BottomStartArcShapes, bottomstartarcshape)
-	// issue1150
-	// delete(stage.BottomStartArcShape_stagedOrder, bottomstartarcshape)
-	delete(stage.BottomStartArcShapes_mapString, bottomstartarcshape.Name)
-}
-
-// commit bottomstartarcshape to the back repo (if it is already staged)
-func (bottomstartarcshape *BottomStartArcShape) Commit(stage *Stage) *BottomStartArcShape {
-	if _, ok := stage.BottomStartArcShapes[bottomstartarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomStartArcShape(bottomstartarcshape)
-		}
-	}
-	return bottomstartarcshape
-}
-
-func (bottomstartarcshape *BottomStartArcShape) CommitVoid(stage *Stage) {
-	bottomstartarcshape.Commit(stage)
-}
-
-func (bottomstartarcshape *BottomStartArcShape) StageVoid(stage *Stage) {
-	bottomstartarcshape.Stage(stage)
-}
-
-// Checkout bottomstartarcshape to the back repo (if it is already staged)
-func (bottomstartarcshape *BottomStartArcShape) Checkout(stage *Stage) *BottomStartArcShape {
-	if _, ok := stage.BottomStartArcShapes[bottomstartarcshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomStartArcShape(bottomstartarcshape)
-		}
-	}
-	return bottomstartarcshape
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstartarcshape *BottomStartArcShape) GetName() (res string) {
-	return bottomstartarcshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstartarcshape *BottomStartArcShape) SetName(name string) {
-	bottomstartarcshape.Name = name
-}
-
-// Stage puts bottomstartarcshapegrid to the model stage
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) Stage(stage *Stage) *BottomStartArcShapeGrid {
-	if _, ok := stage.BottomStartArcShapeGrids[bottomstartarcshapegrid]; !ok {
-		stage.BottomStartArcShapeGrids[bottomstartarcshapegrid] = struct{}{}
-		stage.BottomStartArcShapeGrid_stagedOrder[bottomstartarcshapegrid] = stage.BottomStartArcShapeGridOrder
-		stage.BottomStartArcShapeGrid_orderStaged[stage.BottomStartArcShapeGridOrder] = bottomstartarcshapegrid
-		stage.BottomStartArcShapeGridOrder++
-	}
-	stage.BottomStartArcShapeGrids_mapString[bottomstartarcshapegrid.Name] = bottomstartarcshapegrid
-
-	return bottomstartarcshapegrid
-}
-
-// StagePreserveOrder puts bottomstartarcshapegrid to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.BottomStartArcShapeGridOrder
-// - update stage.BottomStartArcShapeGridOrder accordingly
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.BottomStartArcShapeGrids[bottomstartarcshapegrid]; !ok {
-		stage.BottomStartArcShapeGrids[bottomstartarcshapegrid] = struct{}{}
-
-		if order > stage.BottomStartArcShapeGridOrder {
-			stage.BottomStartArcShapeGridOrder = order
-		}
-		stage.BottomStartArcShapeGrid_stagedOrder[bottomstartarcshapegrid] = order
-		stage.BottomStartArcShapeGrid_orderStaged[order] = bottomstartarcshapegrid
-		stage.BottomStartArcShapeGridOrder++
-	}
-	stage.BottomStartArcShapeGrids_mapString[bottomstartarcshapegrid.Name] = bottomstartarcshapegrid
-}
-
-// Unstage removes bottomstartarcshapegrid off the model stage
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) Unstage(stage *Stage) *BottomStartArcShapeGrid {
-	delete(stage.BottomStartArcShapeGrids, bottomstartarcshapegrid)
-	// issue1150
-	// delete(stage.BottomStartArcShapeGrid_stagedOrder, bottomstartarcshapegrid)
-	delete(stage.BottomStartArcShapeGrids_mapString, bottomstartarcshapegrid.Name)
-
-	return bottomstartarcshapegrid
-}
-
-// UnstageVoid removes bottomstartarcshapegrid off the model stage
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) UnstageVoid(stage *Stage) {
-	delete(stage.BottomStartArcShapeGrids, bottomstartarcshapegrid)
-	// issue1150
-	// delete(stage.BottomStartArcShapeGrid_stagedOrder, bottomstartarcshapegrid)
-	delete(stage.BottomStartArcShapeGrids_mapString, bottomstartarcshapegrid.Name)
-}
-
-// commit bottomstartarcshapegrid to the back repo (if it is already staged)
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) Commit(stage *Stage) *BottomStartArcShapeGrid {
-	if _, ok := stage.BottomStartArcShapeGrids[bottomstartarcshapegrid]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitBottomStartArcShapeGrid(bottomstartarcshapegrid)
-		}
-	}
-	return bottomstartarcshapegrid
-}
-
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) CommitVoid(stage *Stage) {
-	bottomstartarcshapegrid.Commit(stage)
-}
-
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) StageVoid(stage *Stage) {
-	bottomstartarcshapegrid.Stage(stage)
-}
-
-// Checkout bottomstartarcshapegrid to the back repo (if it is already staged)
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) Checkout(stage *Stage) *BottomStartArcShapeGrid {
-	if _, ok := stage.BottomStartArcShapeGrids[bottomstartarcshapegrid]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutBottomStartArcShapeGrid(bottomstartarcshapegrid)
-		}
-	}
-	return bottomstartarcshapegrid
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) GetName() (res string) {
-	return bottomstartarcshapegrid.Name
-}
-
-// for satisfaction of GongStruct interface
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) SetName(name string) {
-	bottomstartarcshapegrid.Name = name
 }
 
 // Stage puts circlegridshape to the model stage
@@ -8717,13 +7617,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMAxesShape(AxesShape *AxesShape)
 	CreateORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
-	CreateORMBottomEndArcShape(BottomEndArcShape *BottomEndArcShape)
-	CreateORMBottomEndArcShapeGrid(BottomEndArcShapeGrid *BottomEndArcShapeGrid)
-	CreateORMBottomStackGrowthCurveEndArcShape(BottomStackGrowthCurveEndArcShape *BottomStackGrowthCurveEndArcShape)
-	CreateORMBottomStackGrowthCurveStartArcShape(BottomStackGrowthCurveStartArcShape *BottomStackGrowthCurveStartArcShape)
-	CreateORMBottomStackOfGrowthCurve(BottomStackOfGrowthCurve *BottomStackOfGrowthCurve)
-	CreateORMBottomStartArcShape(BottomStartArcShape *BottomStartArcShape)
-	CreateORMBottomStartArcShapeGrid(BottomStartArcShapeGrid *BottomStartArcShapeGrid)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
@@ -8771,13 +7664,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMAxesShape(AxesShape *AxesShape)
 	DeleteORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
-	DeleteORMBottomEndArcShape(BottomEndArcShape *BottomEndArcShape)
-	DeleteORMBottomEndArcShapeGrid(BottomEndArcShapeGrid *BottomEndArcShapeGrid)
-	DeleteORMBottomStackGrowthCurveEndArcShape(BottomStackGrowthCurveEndArcShape *BottomStackGrowthCurveEndArcShape)
-	DeleteORMBottomStackGrowthCurveStartArcShape(BottomStackGrowthCurveStartArcShape *BottomStackGrowthCurveStartArcShape)
-	DeleteORMBottomStackOfGrowthCurve(BottomStackOfGrowthCurve *BottomStackOfGrowthCurve)
-	DeleteORMBottomStartArcShape(BottomStartArcShape *BottomStartArcShape)
-	DeleteORMBottomStartArcShapeGrid(BottomStartArcShapeGrid *BottomStartArcShapeGrid)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
@@ -8844,41 +7730,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BaseVectorShapeGrids_mapString = make(map[string]*BaseVectorShapeGrid)
 	stage.BaseVectorShapeGrid_stagedOrder = make(map[*BaseVectorShapeGrid]uint)
 	stage.BaseVectorShapeGridOrder = 0
-
-	stage.BottomEndArcShapes = make(map[*BottomEndArcShape]struct{})
-	stage.BottomEndArcShapes_mapString = make(map[string]*BottomEndArcShape)
-	stage.BottomEndArcShape_stagedOrder = make(map[*BottomEndArcShape]uint)
-	stage.BottomEndArcShapeOrder = 0
-
-	stage.BottomEndArcShapeGrids = make(map[*BottomEndArcShapeGrid]struct{})
-	stage.BottomEndArcShapeGrids_mapString = make(map[string]*BottomEndArcShapeGrid)
-	stage.BottomEndArcShapeGrid_stagedOrder = make(map[*BottomEndArcShapeGrid]uint)
-	stage.BottomEndArcShapeGridOrder = 0
-
-	stage.BottomStackGrowthCurveEndArcShapes = make(map[*BottomStackGrowthCurveEndArcShape]struct{})
-	stage.BottomStackGrowthCurveEndArcShapes_mapString = make(map[string]*BottomStackGrowthCurveEndArcShape)
-	stage.BottomStackGrowthCurveEndArcShape_stagedOrder = make(map[*BottomStackGrowthCurveEndArcShape]uint)
-	stage.BottomStackGrowthCurveEndArcShapeOrder = 0
-
-	stage.BottomStackGrowthCurveStartArcShapes = make(map[*BottomStackGrowthCurveStartArcShape]struct{})
-	stage.BottomStackGrowthCurveStartArcShapes_mapString = make(map[string]*BottomStackGrowthCurveStartArcShape)
-	stage.BottomStackGrowthCurveStartArcShape_stagedOrder = make(map[*BottomStackGrowthCurveStartArcShape]uint)
-	stage.BottomStackGrowthCurveStartArcShapeOrder = 0
-
-	stage.BottomStackOfGrowthCurves = make(map[*BottomStackOfGrowthCurve]struct{})
-	stage.BottomStackOfGrowthCurves_mapString = make(map[string]*BottomStackOfGrowthCurve)
-	stage.BottomStackOfGrowthCurve_stagedOrder = make(map[*BottomStackOfGrowthCurve]uint)
-	stage.BottomStackOfGrowthCurveOrder = 0
-
-	stage.BottomStartArcShapes = make(map[*BottomStartArcShape]struct{})
-	stage.BottomStartArcShapes_mapString = make(map[string]*BottomStartArcShape)
-	stage.BottomStartArcShape_stagedOrder = make(map[*BottomStartArcShape]uint)
-	stage.BottomStartArcShapeOrder = 0
-
-	stage.BottomStartArcShapeGrids = make(map[*BottomStartArcShapeGrid]struct{})
-	stage.BottomStartArcShapeGrids_mapString = make(map[string]*BottomStartArcShapeGrid)
-	stage.BottomStartArcShapeGrid_stagedOrder = make(map[*BottomStartArcShapeGrid]uint)
-	stage.BottomStartArcShapeGridOrder = 0
 
 	stage.CircleGridShapes = make(map[*CircleGridShape]struct{})
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
@@ -9099,27 +7950,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.BaseVectorShapeGrids = nil
 	stage.BaseVectorShapeGrids_mapString = nil
 
-	stage.BottomEndArcShapes = nil
-	stage.BottomEndArcShapes_mapString = nil
-
-	stage.BottomEndArcShapeGrids = nil
-	stage.BottomEndArcShapeGrids_mapString = nil
-
-	stage.BottomStackGrowthCurveEndArcShapes = nil
-	stage.BottomStackGrowthCurveEndArcShapes_mapString = nil
-
-	stage.BottomStackGrowthCurveStartArcShapes = nil
-	stage.BottomStackGrowthCurveStartArcShapes_mapString = nil
-
-	stage.BottomStackOfGrowthCurves = nil
-	stage.BottomStackOfGrowthCurves_mapString = nil
-
-	stage.BottomStartArcShapes = nil
-	stage.BottomStartArcShapes_mapString = nil
-
-	stage.BottomStartArcShapeGrids = nil
-	stage.BottomStartArcShapeGrids_mapString = nil
-
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
@@ -9259,34 +8089,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for basevectorshapegrid := range stage.BaseVectorShapeGrids {
 		basevectorshapegrid.Unstage(stage)
-	}
-
-	for bottomendarcshape := range stage.BottomEndArcShapes {
-		bottomendarcshape.Unstage(stage)
-	}
-
-	for bottomendarcshapegrid := range stage.BottomEndArcShapeGrids {
-		bottomendarcshapegrid.Unstage(stage)
-	}
-
-	for bottomstackgrowthcurveendarcshape := range stage.BottomStackGrowthCurveEndArcShapes {
-		bottomstackgrowthcurveendarcshape.Unstage(stage)
-	}
-
-	for bottomstackgrowthcurvestartarcshape := range stage.BottomStackGrowthCurveStartArcShapes {
-		bottomstackgrowthcurvestartarcshape.Unstage(stage)
-	}
-
-	for bottomstackofgrowthcurve := range stage.BottomStackOfGrowthCurves {
-		bottomstackofgrowthcurve.Unstage(stage)
-	}
-
-	for bottomstartarcshape := range stage.BottomStartArcShapes {
-		bottomstartarcshape.Unstage(stage)
-	}
-
-	for bottomstartarcshapegrid := range stage.BottomStartArcShapeGrids {
-		bottomstartarcshapegrid.Unstage(stage)
 	}
 
 	for circlegridshape := range stage.CircleGridShapes {
@@ -9531,20 +8333,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.BaseVectorShapes).(*Type)
 	case map[*BaseVectorShapeGrid]any:
 		return any(&stage.BaseVectorShapeGrids).(*Type)
-	case map[*BottomEndArcShape]any:
-		return any(&stage.BottomEndArcShapes).(*Type)
-	case map[*BottomEndArcShapeGrid]any:
-		return any(&stage.BottomEndArcShapeGrids).(*Type)
-	case map[*BottomStackGrowthCurveEndArcShape]any:
-		return any(&stage.BottomStackGrowthCurveEndArcShapes).(*Type)
-	case map[*BottomStackGrowthCurveStartArcShape]any:
-		return any(&stage.BottomStackGrowthCurveStartArcShapes).(*Type)
-	case map[*BottomStackOfGrowthCurve]any:
-		return any(&stage.BottomStackOfGrowthCurves).(*Type)
-	case map[*BottomStartArcShape]any:
-		return any(&stage.BottomStartArcShapes).(*Type)
-	case map[*BottomStartArcShapeGrid]any:
-		return any(&stage.BottomStartArcShapeGrids).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
 	case map[*EndArcShape]any:
@@ -9645,20 +8433,6 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.BaseVectorShapes_mapString).(map[string]Type)
 	case *BaseVectorShapeGrid:
 		return any(stage.BaseVectorShapeGrids_mapString).(map[string]Type)
-	case *BottomEndArcShape:
-		return any(stage.BottomEndArcShapes_mapString).(map[string]Type)
-	case *BottomEndArcShapeGrid:
-		return any(stage.BottomEndArcShapeGrids_mapString).(map[string]Type)
-	case *BottomStackGrowthCurveEndArcShape:
-		return any(stage.BottomStackGrowthCurveEndArcShapes_mapString).(map[string]Type)
-	case *BottomStackGrowthCurveStartArcShape:
-		return any(stage.BottomStackGrowthCurveStartArcShapes_mapString).(map[string]Type)
-	case *BottomStackOfGrowthCurve:
-		return any(stage.BottomStackOfGrowthCurves_mapString).(map[string]Type)
-	case *BottomStartArcShape:
-		return any(stage.BottomStartArcShapes_mapString).(map[string]Type)
-	case *BottomStartArcShapeGrid:
-		return any(stage.BottomStartArcShapeGrids_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
 	case *EndArcShape:
@@ -9759,20 +8533,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.BaseVectorShapes).(*map[*Type]struct{})
 	case BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids).(*map[*Type]struct{})
-	case BottomEndArcShape:
-		return any(&stage.BottomEndArcShapes).(*map[*Type]struct{})
-	case BottomEndArcShapeGrid:
-		return any(&stage.BottomEndArcShapeGrids).(*map[*Type]struct{})
-	case BottomStackGrowthCurveEndArcShape:
-		return any(&stage.BottomStackGrowthCurveEndArcShapes).(*map[*Type]struct{})
-	case BottomStackGrowthCurveStartArcShape:
-		return any(&stage.BottomStackGrowthCurveStartArcShapes).(*map[*Type]struct{})
-	case BottomStackOfGrowthCurve:
-		return any(&stage.BottomStackOfGrowthCurves).(*map[*Type]struct{})
-	case BottomStartArcShape:
-		return any(&stage.BottomStartArcShapes).(*map[*Type]struct{})
-	case BottomStartArcShapeGrid:
-		return any(&stage.BottomStartArcShapeGrids).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
 	case EndArcShape:
@@ -9873,20 +8633,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.BaseVectorShapes).(*map[Type]struct{})
 	case *BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids).(*map[Type]struct{})
-	case *BottomEndArcShape:
-		return any(&stage.BottomEndArcShapes).(*map[Type]struct{})
-	case *BottomEndArcShapeGrid:
-		return any(&stage.BottomEndArcShapeGrids).(*map[Type]struct{})
-	case *BottomStackGrowthCurveEndArcShape:
-		return any(&stage.BottomStackGrowthCurveEndArcShapes).(*map[Type]struct{})
-	case *BottomStackGrowthCurveStartArcShape:
-		return any(&stage.BottomStackGrowthCurveStartArcShapes).(*map[Type]struct{})
-	case *BottomStackOfGrowthCurve:
-		return any(&stage.BottomStackOfGrowthCurves).(*map[Type]struct{})
-	case *BottomStartArcShape:
-		return any(&stage.BottomStartArcShapes).(*map[Type]struct{})
-	case *BottomStartArcShapeGrid:
-		return any(&stage.BottomStartArcShapeGrids).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
 	case *EndArcShape:
@@ -9987,20 +8733,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.BaseVectorShapes_mapString).(*map[string]*Type)
 	case BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids_mapString).(*map[string]*Type)
-	case BottomEndArcShape:
-		return any(&stage.BottomEndArcShapes_mapString).(*map[string]*Type)
-	case BottomEndArcShapeGrid:
-		return any(&stage.BottomEndArcShapeGrids_mapString).(*map[string]*Type)
-	case BottomStackGrowthCurveEndArcShape:
-		return any(&stage.BottomStackGrowthCurveEndArcShapes_mapString).(*map[string]*Type)
-	case BottomStackGrowthCurveStartArcShape:
-		return any(&stage.BottomStackGrowthCurveStartArcShapes_mapString).(*map[string]*Type)
-	case BottomStackOfGrowthCurve:
-		return any(&stage.BottomStackOfGrowthCurves_mapString).(*map[string]*Type)
-	case BottomStartArcShape:
-		return any(&stage.BottomStartArcShapes_mapString).(*map[string]*Type)
-	case BottomStartArcShapeGrid:
-		return any(&stage.BottomStartArcShapeGrids_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
 	case EndArcShape:
@@ -10116,42 +8848,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of BaseVectorShape with the name of the field
 			BaseVectorShapes: []*BaseVectorShape{{Name: "BaseVectorShapes"}},
-		}).(*Type)
-	case BottomEndArcShape:
-		return any(&BottomEndArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case BottomEndArcShapeGrid:
-		return any(&BottomEndArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of BottomEndArcShape with the name of the field
-			BottomEndArcShapes: []*BottomEndArcShape{{Name: "BottomEndArcShapes"}},
-		}).(*Type)
-	case BottomStackGrowthCurveEndArcShape:
-		return any(&BottomStackGrowthCurveEndArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case BottomStackGrowthCurveStartArcShape:
-		return any(&BottomStackGrowthCurveStartArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case BottomStackOfGrowthCurve:
-		return any(&BottomStackOfGrowthCurve{
-			// Initialisation of associations
-			// field is initialized with an instance of BottomStackGrowthCurveStartArcShape with the name of the field
-			BottomStackGrowthCurveStartArcShapes: []*BottomStackGrowthCurveStartArcShape{{Name: "BottomStackGrowthCurveStartArcShapes"}},
-			// field is initialized with an instance of BottomStackGrowthCurveEndArcShape with the name of the field
-			BottomStackGrowthCurveEndArcShapes: []*BottomStackGrowthCurveEndArcShape{{Name: "BottomStackGrowthCurveEndArcShapes"}},
-		}).(*Type)
-	case BottomStartArcShape:
-		return any(&BottomStartArcShape{
-			// Initialisation of associations
-		}).(*Type)
-	case BottomStartArcShapeGrid:
-		return any(&BottomStartArcShapeGrid{
-			// Initialisation of associations
-			// field is initialized with an instance of BottomStartArcShape with the name of the field
-			BottomStartArcShapes: []*BottomStartArcShape{{Name: "BottomStartArcShapes"}},
 		}).(*Type)
 	case CircleGridShape:
 		return any(&CircleGridShape{
@@ -10294,18 +8990,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
 			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
-			// field is initialized with an instance of BottomStartArcShapeGrid with the name of the field
-			BottomStartArcShapeGrid: &BottomStartArcShapeGrid{Name: "BottomStartArcShapeGrid"},
-			// field is initialized with an instance of BottomEndArcShapeGrid with the name of the field
-			BottomEndArcShapeGrid: &BottomEndArcShapeGrid{Name: "BottomEndArcShapeGrid"},
 			// field is initialized with an instance of GrowthCurveBezierShapeGrid with the name of the field
 			GrowthCurveBezierShapeGrid: &GrowthCurveBezierShapeGrid{Name: "GrowthCurveBezierShapeGrid"},
 			// field is initialized with an instance of StackOfGrowthCurve with the name of the field
 			StackOfGrowthCurve: &StackOfGrowthCurve{Name: "StackOfGrowthCurve"},
 			// field is initialized with an instance of TopStackOfGrowthCurve with the name of the field
 			TopStackOfGrowthCurve: &TopStackOfGrowthCurve{Name: "TopStackOfGrowthCurve"},
-			// field is initialized with an instance of BottomStackOfGrowthCurve with the name of the field
-			BottomStackOfGrowthCurve: &BottomStackOfGrowthCurve{Name: "BottomStackOfGrowthCurve"},
 			// field is initialized with an instance of GrowthCurve2D with the name of the field
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
 			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
@@ -10448,41 +9138,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of BaseVectorShapeGrid
 	case BaseVectorShapeGrid:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomEndArcShape
-	case BottomEndArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomEndArcShapeGrid
-	case BottomEndArcShapeGrid:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStackGrowthCurveEndArcShape
-	case BottomStackGrowthCurveEndArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStackGrowthCurveStartArcShape
-	case BottomStackGrowthCurveStartArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStackOfGrowthCurve
-	case BottomStackOfGrowthCurve:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStartArcShape
-	case BottomStartArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStartArcShapeGrid
-	case BottomStartArcShapeGrid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -10959,40 +9614,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "BottomStartArcShapeGrid":
-			res := make(map[*BottomStartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.BottomStartArcShapeGrid != nil {
-					bottomstartarcshapegrid_ := plant.BottomStartArcShapeGrid
-					var plants []*Plant
-					_, ok := res[bottomstartarcshapegrid_]
-					if ok {
-						plants = res[bottomstartarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[bottomstartarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "BottomEndArcShapeGrid":
-			res := make(map[*BottomEndArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.BottomEndArcShapeGrid != nil {
-					bottomendarcshapegrid_ := plant.BottomEndArcShapeGrid
-					var plants []*Plant
-					_, ok := res[bottomendarcshapegrid_]
-					if ok {
-						plants = res[bottomendarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[bottomendarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "GrowthCurveBezierShapeGrid":
 			res := make(map[*GrowthCurveBezierShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -11041,23 +9662,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[topstackofgrowthcurve_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "BottomStackOfGrowthCurve":
-			res := make(map[*BottomStackOfGrowthCurve][]*Plant)
-			for plant := range stage.Plants {
-				if plant.BottomStackOfGrowthCurve != nil {
-					bottomstackofgrowthcurve_ := plant.BottomStackOfGrowthCurve
-					var plants []*Plant
-					_, ok := res[bottomstackofgrowthcurve_]
-					if ok {
-						plants = res[bottomstackofgrowthcurve_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[bottomstackofgrowthcurve_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -11294,73 +9898,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for basevectorshapegrid := range stage.BaseVectorShapeGrids {
 				for _, basevectorshape_ := range basevectorshapegrid.BaseVectorShapes {
 					res[basevectorshape_] = append(res[basevectorshape_], basevectorshapegrid)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		}
-	// reverse maps of direct associations of BottomEndArcShape
-	case BottomEndArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomEndArcShapeGrid
-	case BottomEndArcShapeGrid:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "BottomEndArcShapes":
-			res := make(map[*BottomEndArcShape][]*BottomEndArcShapeGrid)
-			for bottomendarcshapegrid := range stage.BottomEndArcShapeGrids {
-				for _, bottomendarcshape_ := range bottomendarcshapegrid.BottomEndArcShapes {
-					res[bottomendarcshape_] = append(res[bottomendarcshape_], bottomendarcshapegrid)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		}
-	// reverse maps of direct associations of BottomStackGrowthCurveEndArcShape
-	case BottomStackGrowthCurveEndArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStackGrowthCurveStartArcShape
-	case BottomStackGrowthCurveStartArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStackOfGrowthCurve
-	case BottomStackOfGrowthCurve:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "BottomStackGrowthCurveStartArcShapes":
-			res := make(map[*BottomStackGrowthCurveStartArcShape][]*BottomStackOfGrowthCurve)
-			for bottomstackofgrowthcurve := range stage.BottomStackOfGrowthCurves {
-				for _, bottomstackgrowthcurvestartarcshape_ := range bottomstackofgrowthcurve.BottomStackGrowthCurveStartArcShapes {
-					res[bottomstackgrowthcurvestartarcshape_] = append(res[bottomstackgrowthcurvestartarcshape_], bottomstackofgrowthcurve)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "BottomStackGrowthCurveEndArcShapes":
-			res := make(map[*BottomStackGrowthCurveEndArcShape][]*BottomStackOfGrowthCurve)
-			for bottomstackofgrowthcurve := range stage.BottomStackOfGrowthCurves {
-				for _, bottomstackgrowthcurveendarcshape_ := range bottomstackofgrowthcurve.BottomStackGrowthCurveEndArcShapes {
-					res[bottomstackgrowthcurveendarcshape_] = append(res[bottomstackgrowthcurveendarcshape_], bottomstackofgrowthcurve)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		}
-	// reverse maps of direct associations of BottomStartArcShape
-	case BottomStartArcShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of BottomStartArcShapeGrid
-	case BottomStartArcShapeGrid:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "BottomStartArcShapes":
-			res := make(map[*BottomStartArcShape][]*BottomStartArcShapeGrid)
-			for bottomstartarcshapegrid := range stage.BottomStartArcShapeGrids {
-				for _, bottomstartarcshape_ := range bottomstartarcshapegrid.BottomStartArcShapes {
-					res[bottomstartarcshape_] = append(res[bottomstartarcshape_], bottomstartarcshapegrid)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -11717,20 +10254,6 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "BaseVectorShape"
 	case *BaseVectorShapeGrid:
 		res = "BaseVectorShapeGrid"
-	case *BottomEndArcShape:
-		res = "BottomEndArcShape"
-	case *BottomEndArcShapeGrid:
-		res = "BottomEndArcShapeGrid"
-	case *BottomStackGrowthCurveEndArcShape:
-		res = "BottomStackGrowthCurveEndArcShape"
-	case *BottomStackGrowthCurveStartArcShape:
-		res = "BottomStackGrowthCurveStartArcShape"
-	case *BottomStackOfGrowthCurve:
-		res = "BottomStackOfGrowthCurve"
-	case *BottomStartArcShape:
-		res = "BottomStartArcShape"
-	case *BottomStartArcShapeGrid:
-		res = "BottomStartArcShapeGrid"
 	case *CircleGridShape:
 		res = "CircleGridShape"
 	case *EndArcShape:
@@ -11845,39 +10368,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "BaseVectorShapes"
 		res = append(res, rf)
 	case *BaseVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *BottomEndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BottomEndArcShapeGrid"
-		rf.Fieldname = "BottomEndArcShapes"
-		res = append(res, rf)
-	case *BottomEndArcShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *BottomStackGrowthCurveEndArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BottomStackOfGrowthCurve"
-		rf.Fieldname = "BottomStackGrowthCurveEndArcShapes"
-		res = append(res, rf)
-	case *BottomStackGrowthCurveStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BottomStackOfGrowthCurve"
-		rf.Fieldname = "BottomStackGrowthCurveStartArcShapes"
-		res = append(res, rf)
-	case *BottomStackOfGrowthCurve:
-		var rf ReverseField
-		_ = rf
-	case *BottomStartArcShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "BottomStartArcShapeGrid"
-		rf.Fieldname = "BottomStartArcShapes"
-		res = append(res, rf)
-	case *BottomStartArcShapeGrid:
 		var rf ReverseField
 		_ = rf
 	case *CircleGridShape:
@@ -12157,247 +10647,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetFieldHeaders() (res []Gon
 			Name:                 "BaseVectorShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "BaseVectorShape",
-		},
-	}
-	return
-}
-
-func (bottomendarcshape *BottomEndArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StartX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StartY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "XAxisRotation",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "LargeArcFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "SweepFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "RadiusX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RadiusY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-	}
-	return
-}
-
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "BottomEndArcShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "BottomEndArcShape",
-		},
-	}
-	return
-}
-
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StartX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StartY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "XAxisRotation",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "LargeArcFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "SweepFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "RadiusX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RadiusY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-	}
-	return
-}
-
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StartX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StartY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "XAxisRotation",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "LargeArcFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "SweepFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "RadiusX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RadiusY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-	}
-	return
-}
-
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "BottomStackGrowthCurveStartArcShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "BottomStackGrowthCurveStartArcShape",
-		},
-		{
-			Name:                 "BottomStackGrowthCurveEndArcShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "BottomStackGrowthCurveEndArcShape",
-		},
-	}
-	return
-}
-
-func (bottomstartarcshape *BottomStartArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StartX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "StartY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "XAxisRotation",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "LargeArcFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "SweepFlag",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "RadiusX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RadiusY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-	}
-	return
-}
-
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "BottomStartArcShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "BottomStartArcShape",
 		},
 	}
 	return
@@ -12959,16 +11208,6 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "TopEndArcShapeGrid",
 		},
 		{
-			Name:                 "BottomStartArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "BottomStartArcShapeGrid",
-		},
-		{
-			Name:                 "BottomEndArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "BottomEndArcShapeGrid",
-		},
-		{
 			Name:                 "GrowthCurveBezierShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurveBezierShapeGrid",
@@ -12982,11 +11221,6 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "TopStackOfGrowthCurve",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TopStackOfGrowthCurve",
-		},
-		{
-			Name:                 "BottomStackOfGrowthCurve",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "BottomStackOfGrowthCurve",
 		},
 		{
 			Name:                 "GrowthCurve2D",
@@ -13870,253 +12104,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetFieldValue(fieldName stri
 	return
 }
 
-func (bottomendarcshape *BottomEndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomendarcshape.Name
-	case "StartX":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.StartX)
-		res.valueFloat = bottomendarcshape.StartX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StartY":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.StartY)
-		res.valueFloat = bottomendarcshape.StartY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndX":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.EndX)
-		res.valueFloat = bottomendarcshape.EndX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndY":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.EndY)
-		res.valueFloat = bottomendarcshape.EndY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "XAxisRotation":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.XAxisRotation)
-		res.valueFloat = bottomendarcshape.XAxisRotation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "LargeArcFlag":
-		res.valueString = fmt.Sprintf("%t", bottomendarcshape.LargeArcFlag)
-		res.valueBool = bottomendarcshape.LargeArcFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SweepFlag":
-		res.valueString = fmt.Sprintf("%t", bottomendarcshape.SweepFlag)
-		res.valueBool = bottomendarcshape.SweepFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RadiusX":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.RadiusX)
-		res.valueFloat = bottomendarcshape.RadiusX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadiusY":
-		res.valueString = fmt.Sprintf("%f", bottomendarcshape.RadiusY)
-		res.valueFloat = bottomendarcshape.RadiusY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomendarcshapegrid.Name
-	case "BottomEndArcShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range bottomendarcshapegrid.BottomEndArcShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	}
-	return
-}
-
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomstackgrowthcurveendarcshape.Name
-	case "StartX":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.StartX)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.StartX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StartY":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.StartY)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.StartY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndX":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.EndX)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.EndX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndY":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.EndY)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.EndY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "XAxisRotation":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.XAxisRotation)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.XAxisRotation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "LargeArcFlag":
-		res.valueString = fmt.Sprintf("%t", bottomstackgrowthcurveendarcshape.LargeArcFlag)
-		res.valueBool = bottomstackgrowthcurveendarcshape.LargeArcFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SweepFlag":
-		res.valueString = fmt.Sprintf("%t", bottomstackgrowthcurveendarcshape.SweepFlag)
-		res.valueBool = bottomstackgrowthcurveendarcshape.SweepFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RadiusX":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.RadiusX)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.RadiusX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadiusY":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurveendarcshape.RadiusY)
-		res.valueFloat = bottomstackgrowthcurveendarcshape.RadiusY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomstackgrowthcurvestartarcshape.Name
-	case "StartX":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.StartX)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.StartX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StartY":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.StartY)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.StartY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndX":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.EndX)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.EndX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndY":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.EndY)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.EndY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "XAxisRotation":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.XAxisRotation)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.XAxisRotation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "LargeArcFlag":
-		res.valueString = fmt.Sprintf("%t", bottomstackgrowthcurvestartarcshape.LargeArcFlag)
-		res.valueBool = bottomstackgrowthcurvestartarcshape.LargeArcFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SweepFlag":
-		res.valueString = fmt.Sprintf("%t", bottomstackgrowthcurvestartarcshape.SweepFlag)
-		res.valueBool = bottomstackgrowthcurvestartarcshape.SweepFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RadiusX":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.RadiusX)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.RadiusX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadiusY":
-		res.valueString = fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshape.RadiusY)
-		res.valueFloat = bottomstackgrowthcurvestartarcshape.RadiusY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomstackofgrowthcurve.Name
-	case "BottomStackGrowthCurveStartArcShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range bottomstackofgrowthcurve.BottomStackGrowthCurveStartArcShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "BottomStackGrowthCurveEndArcShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range bottomstackofgrowthcurve.BottomStackGrowthCurveEndArcShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	}
-	return
-}
-
-func (bottomstartarcshape *BottomStartArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomstartarcshape.Name
-	case "StartX":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.StartX)
-		res.valueFloat = bottomstartarcshape.StartX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StartY":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.StartY)
-		res.valueFloat = bottomstartarcshape.StartY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndX":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.EndX)
-		res.valueFloat = bottomstartarcshape.EndX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndY":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.EndY)
-		res.valueFloat = bottomstartarcshape.EndY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "XAxisRotation":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.XAxisRotation)
-		res.valueFloat = bottomstartarcshape.XAxisRotation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "LargeArcFlag":
-		res.valueString = fmt.Sprintf("%t", bottomstartarcshape.LargeArcFlag)
-		res.valueBool = bottomstartarcshape.LargeArcFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SweepFlag":
-		res.valueString = fmt.Sprintf("%t", bottomstartarcshape.SweepFlag)
-		res.valueBool = bottomstartarcshape.SweepFlag
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RadiusX":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.RadiusX)
-		res.valueFloat = bottomstartarcshape.RadiusX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadiusY":
-		res.valueString = fmt.Sprintf("%f", bottomstartarcshape.RadiusY)
-		res.valueFloat = bottomstartarcshape.RadiusY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = bottomstartarcshapegrid.Name
-	case "BottomStartArcShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range bottomstartarcshapegrid.BottomStartArcShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	}
-	return
-}
-
 func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -14693,18 +12680,6 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.TopEndArcShapeGrid.Name
 			res.ids = plant.TopEndArcShapeGrid.GongGetUUID(stage)
 		}
-	case "BottomStartArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.BottomStartArcShapeGrid != nil {
-			res.valueString = plant.BottomStartArcShapeGrid.Name
-			res.ids = plant.BottomStartArcShapeGrid.GongGetUUID(stage)
-		}
-	case "BottomEndArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.BottomEndArcShapeGrid != nil {
-			res.valueString = plant.BottomEndArcShapeGrid.Name
-			res.ids = plant.BottomEndArcShapeGrid.GongGetUUID(stage)
-		}
 	case "GrowthCurveBezierShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.GrowthCurveBezierShapeGrid != nil {
@@ -14722,12 +12697,6 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		if plant.TopStackOfGrowthCurve != nil {
 			res.valueString = plant.TopStackOfGrowthCurve.Name
 			res.ids = plant.TopStackOfGrowthCurve.GongGetUUID(stage)
-		}
-	case "BottomStackOfGrowthCurve":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.BottomStackOfGrowthCurve != nil {
-			res.valueString = plant.BottomStackOfGrowthCurve.Name
-			res.ids = plant.BottomStackOfGrowthCurve.GongGetUUID(stage)
 		}
 	case "GrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -15563,211 +13532,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongSetFieldValue(fieldName stri
 	return nil
 }
 
-func (bottomendarcshape *BottomEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomendarcshape.Name = value.GetValueString()
-	case "StartX":
-		bottomendarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		bottomendarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		bottomendarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		bottomendarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		bottomendarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		bottomendarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		bottomendarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		bottomendarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		bottomendarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomendarcshapegrid.Name = value.GetValueString()
-	case "BottomEndArcShapes":
-		bottomendarcshapegrid.BottomEndArcShapes = make([]*BottomEndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.BottomEndArcShapes {
-					if stage.BottomEndArcShape_stagedOrder[__instance__] == uint(id) {
-						bottomendarcshapegrid.BottomEndArcShapes = append(bottomendarcshapegrid.BottomEndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomstackgrowthcurveendarcshape.Name = value.GetValueString()
-	case "StartX":
-		bottomstackgrowthcurveendarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		bottomstackgrowthcurveendarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		bottomstackgrowthcurveendarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		bottomstackgrowthcurveendarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		bottomstackgrowthcurveendarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		bottomstackgrowthcurveendarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		bottomstackgrowthcurveendarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		bottomstackgrowthcurveendarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		bottomstackgrowthcurveendarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomstackgrowthcurvestartarcshape.Name = value.GetValueString()
-	case "StartX":
-		bottomstackgrowthcurvestartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		bottomstackgrowthcurvestartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		bottomstackgrowthcurvestartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		bottomstackgrowthcurvestartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		bottomstackgrowthcurvestartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		bottomstackgrowthcurvestartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		bottomstackgrowthcurvestartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		bottomstackgrowthcurvestartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		bottomstackgrowthcurvestartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomstackofgrowthcurve.Name = value.GetValueString()
-	case "BottomStackGrowthCurveStartArcShapes":
-		bottomstackofgrowthcurve.BottomStackGrowthCurveStartArcShapes = make([]*BottomStackGrowthCurveStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.BottomStackGrowthCurveStartArcShapes {
-					if stage.BottomStackGrowthCurveStartArcShape_stagedOrder[__instance__] == uint(id) {
-						bottomstackofgrowthcurve.BottomStackGrowthCurveStartArcShapes = append(bottomstackofgrowthcurve.BottomStackGrowthCurveStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "BottomStackGrowthCurveEndArcShapes":
-		bottomstackofgrowthcurve.BottomStackGrowthCurveEndArcShapes = make([]*BottomStackGrowthCurveEndArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.BottomStackGrowthCurveEndArcShapes {
-					if stage.BottomStackGrowthCurveEndArcShape_stagedOrder[__instance__] == uint(id) {
-						bottomstackofgrowthcurve.BottomStackGrowthCurveEndArcShapes = append(bottomstackofgrowthcurve.BottomStackGrowthCurveEndArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bottomstartarcshape *BottomStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomstartarcshape.Name = value.GetValueString()
-	case "StartX":
-		bottomstartarcshape.StartX = value.GetValueFloat()
-	case "StartY":
-		bottomstartarcshape.StartY = value.GetValueFloat()
-	case "EndX":
-		bottomstartarcshape.EndX = value.GetValueFloat()
-	case "EndY":
-		bottomstartarcshape.EndY = value.GetValueFloat()
-	case "XAxisRotation":
-		bottomstartarcshape.XAxisRotation = value.GetValueFloat()
-	case "LargeArcFlag":
-		bottomstartarcshape.LargeArcFlag = value.GetValueBool()
-	case "SweepFlag":
-		bottomstartarcshape.SweepFlag = value.GetValueBool()
-	case "RadiusX":
-		bottomstartarcshape.RadiusX = value.GetValueFloat()
-	case "RadiusY":
-		bottomstartarcshape.RadiusY = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		bottomstartarcshapegrid.Name = value.GetValueString()
-	case "BottomStartArcShapes":
-		bottomstartarcshapegrid.BottomStartArcShapes = make([]*BottomStartArcShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.BottomStartArcShapes {
-					if stage.BottomStartArcShape_stagedOrder[__instance__] == uint(id) {
-						bottomstartarcshapegrid.BottomStartArcShapes = append(bottomstartarcshapegrid.BottomStartArcShapes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
 func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -16442,28 +14206,6 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
-	case "BottomStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.BottomStartArcShapeGrid = nil
-			for __instance__ := range stage.BottomStartArcShapeGrids {
-				if stage.BottomStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.BottomStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "BottomEndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.BottomEndArcShapeGrid = nil
-			for __instance__ := range stage.BottomEndArcShapeGrids {
-				if stage.BottomEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.BottomEndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
 	case "GrowthCurveBezierShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -16493,17 +14235,6 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			for __instance__ := range stage.TopStackOfGrowthCurves {
 				if stage.TopStackOfGrowthCurve_stagedOrder[__instance__] == uint(id) {
 					plant.TopStackOfGrowthCurve = __instance__
-					break
-				}
-			}
-		}
-	case "BottomStackOfGrowthCurve":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.BottomStackOfGrowthCurve = nil
-			for __instance__ := range stage.BottomStackOfGrowthCurves {
-				if stage.BottomStackOfGrowthCurve_stagedOrder[__instance__] == uint(id) {
-					plant.BottomStackOfGrowthCurve = __instance__
 					break
 				}
 			}
@@ -17135,34 +14866,6 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetGongstructName() string {
 	return "BaseVectorShapeGrid"
 }
 
-func (bottomendarcshape *BottomEndArcShape) GongGetGongstructName() string {
-	return "BottomEndArcShape"
-}
-
-func (bottomendarcshapegrid *BottomEndArcShapeGrid) GongGetGongstructName() string {
-	return "BottomEndArcShapeGrid"
-}
-
-func (bottomstackgrowthcurveendarcshape *BottomStackGrowthCurveEndArcShape) GongGetGongstructName() string {
-	return "BottomStackGrowthCurveEndArcShape"
-}
-
-func (bottomstackgrowthcurvestartarcshape *BottomStackGrowthCurveStartArcShape) GongGetGongstructName() string {
-	return "BottomStackGrowthCurveStartArcShape"
-}
-
-func (bottomstackofgrowthcurve *BottomStackOfGrowthCurve) GongGetGongstructName() string {
-	return "BottomStackOfGrowthCurve"
-}
-
-func (bottomstartarcshape *BottomStartArcShape) GongGetGongstructName() string {
-	return "BottomStartArcShape"
-}
-
-func (bottomstartarcshapegrid *BottomStartArcShapeGrid) GongGetGongstructName() string {
-	return "BottomStartArcShapeGrid"
-}
-
 func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
@@ -17349,41 +15052,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.BaseVectorShapeGrids_mapString = make(map[string]*BaseVectorShapeGrid)
 	for basevectorshapegrid := range stage.BaseVectorShapeGrids {
 		stage.BaseVectorShapeGrids_mapString[basevectorshapegrid.Name] = basevectorshapegrid
-	}
-
-	stage.BottomEndArcShapes_mapString = make(map[string]*BottomEndArcShape)
-	for bottomendarcshape := range stage.BottomEndArcShapes {
-		stage.BottomEndArcShapes_mapString[bottomendarcshape.Name] = bottomendarcshape
-	}
-
-	stage.BottomEndArcShapeGrids_mapString = make(map[string]*BottomEndArcShapeGrid)
-	for bottomendarcshapegrid := range stage.BottomEndArcShapeGrids {
-		stage.BottomEndArcShapeGrids_mapString[bottomendarcshapegrid.Name] = bottomendarcshapegrid
-	}
-
-	stage.BottomStackGrowthCurveEndArcShapes_mapString = make(map[string]*BottomStackGrowthCurveEndArcShape)
-	for bottomstackgrowthcurveendarcshape := range stage.BottomStackGrowthCurveEndArcShapes {
-		stage.BottomStackGrowthCurveEndArcShapes_mapString[bottomstackgrowthcurveendarcshape.Name] = bottomstackgrowthcurveendarcshape
-	}
-
-	stage.BottomStackGrowthCurveStartArcShapes_mapString = make(map[string]*BottomStackGrowthCurveStartArcShape)
-	for bottomstackgrowthcurvestartarcshape := range stage.BottomStackGrowthCurveStartArcShapes {
-		stage.BottomStackGrowthCurveStartArcShapes_mapString[bottomstackgrowthcurvestartarcshape.Name] = bottomstackgrowthcurvestartarcshape
-	}
-
-	stage.BottomStackOfGrowthCurves_mapString = make(map[string]*BottomStackOfGrowthCurve)
-	for bottomstackofgrowthcurve := range stage.BottomStackOfGrowthCurves {
-		stage.BottomStackOfGrowthCurves_mapString[bottomstackofgrowthcurve.Name] = bottomstackofgrowthcurve
-	}
-
-	stage.BottomStartArcShapes_mapString = make(map[string]*BottomStartArcShape)
-	for bottomstartarcshape := range stage.BottomStartArcShapes {
-		stage.BottomStartArcShapes_mapString[bottomstartarcshape.Name] = bottomstartarcshape
-	}
-
-	stage.BottomStartArcShapeGrids_mapString = make(map[string]*BottomStartArcShapeGrid)
-	for bottomstartarcshapegrid := range stage.BottomStartArcShapeGrids {
-		stage.BottomStartArcShapeGrids_mapString[bottomstartarcshapegrid.Name] = bottomstartarcshapegrid
 	}
 
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)

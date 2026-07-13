@@ -74,12 +74,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
-	plantDiagram.drawBottomStartArcShapeV2Grid(stager, layer, plant)
-	plantDiagram.drawBottomEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawTopStackOfGrowthCurveV2(stager, layer, plant)
-	plantDiagram.drawBottomStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawTopGrowthCurve2D(stager, layer, plant)
 
@@ -1037,69 +1034,7 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawBottomStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenBottomStartArcShapeGrid {
-		return
-	}
 
-	for _, arc := range plant.BottomStartArcShapeGrid.BottomStartArcShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-		path.Name = arc.Name
-
-		sweepFlag := 0
-		if arc.SweepFlag {
-			sweepFlag = 1
-		}
-		largeArcFlag := 0
-		if arc.LargeArcFlag {
-			largeArcFlag = 1
-		}
-
-		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
-			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
-			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
-			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
-		)
-
-		path.Presentation.Stroke = "blue"
-		path.Presentation.StrokeWidth = 3.0
-		path.Presentation.StrokeOpacity = 1.0
-		path.Presentation.FillOpacity = 0.0
-	}
-}
-
-func (plantDiagram *PlantDiagram) drawBottomEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenBottomEndArcShapeGrid {
-		return
-	}
-
-	for _, arc := range plant.BottomEndArcShapeGrid.BottomEndArcShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-		path.Name = arc.Name
-
-		sweepFlag := 0
-		if arc.SweepFlag {
-			sweepFlag = 1
-		}
-		largeArcFlag := 0
-		if arc.LargeArcFlag {
-			largeArcFlag = 1
-		}
-
-		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %d %d %0.1f %0.1f",
-			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
-			arc.RadiusX, arc.RadiusY, arc.XAxisRotation, largeArcFlag, sweepFlag,
-			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
-		)
-
-		path.Presentation.Stroke = "blue"
-		path.Presentation.StrokeWidth = 3.0
-		path.Presentation.StrokeOpacity = 1.0
-		path.Presentation.FillOpacity = 0.0
-	}
-}
 
 func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
@@ -1241,63 +1176,6 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenBottomStackOfGrowthCurve {
-		return
-	}
-
-	for _, sa := range plant.BottomStackOfGrowthCurve.BottomStackGrowthCurveStartArcShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-		path.Name = sa.Name
-
-		sweepFlagStr := "0"
-		if sa.SweepFlag {
-			sweepFlagStr = "1"
-		}
-		largeArcFlagStr := "0"
-		if sa.LargeArcFlag {
-			largeArcFlagStr = "1"
-		}
-
-		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
-			plantDiagram.OriginX+sa.StartX, plantDiagram.OriginY-sa.StartY,
-			sa.RadiusX, sa.RadiusY,
-			sa.XAxisRotation, largeArcFlagStr, sweepFlagStr,
-			plantDiagram.OriginX+sa.EndX, plantDiagram.OriginY-sa.EndY,
-		)
-		path.Presentation.Stroke = "blue"
-		path.Presentation.StrokeWidth = 2.0
-		path.Presentation.FillOpacity = 0.0
-		path.Presentation.StrokeOpacity = 0.6
-	}
-
-	for _, ea := range plant.BottomStackOfGrowthCurve.BottomStackGrowthCurveEndArcShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-		path.Name = ea.Name
-
-		sweepFlagStr := "0"
-		if ea.SweepFlag {
-			sweepFlagStr = "1"
-		}
-		largeArcFlagStr := "0"
-		if ea.LargeArcFlag {
-			largeArcFlagStr = "1"
-		}
-
-		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
-			plantDiagram.OriginX+ea.StartX, plantDiagram.OriginY-ea.StartY,
-			ea.RadiusX, ea.RadiusY,
-			ea.XAxisRotation, largeArcFlagStr, sweepFlagStr,
-			plantDiagram.OriginX+ea.EndX, plantDiagram.OriginY-ea.EndY,
-		)
-		path.Presentation.Stroke = "purple"
-		path.Presentation.StrokeWidth = 2.0
-		path.Presentation.FillOpacity = 0.0
-		path.Presentation.StrokeOpacity = 0.6
-	}
-}
 
 func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenGrowthCurve2D {

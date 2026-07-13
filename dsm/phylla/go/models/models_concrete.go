@@ -219,46 +219,6 @@ type TopEndArcShapeGrid struct {
 	TopEndArcShapes []*TopEndArcShape
 }
 
-// BottomStartArcShape of a plant,
-type BottomStartArcShape struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation    float64
-	LargeArcFlag     bool
-	SweepFlag        bool
-	RadiusX, RadiusY float64
-}
-
-// BottomStartArcShapeGrid of a plant,
-type BottomStartArcShapeGrid struct {
-	Name string
-
-	BottomStartArcShapes []*BottomStartArcShape
-}
-
-// BottomEndArcShape of a plant,
-type BottomEndArcShape struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation    float64
-	LargeArcFlag     bool
-	SweepFlag        bool
-	RadiusX, RadiusY float64
-}
-
-// BottomEndArcShapeGrid of a plant,
-type BottomEndArcShapeGrid struct {
-	Name string
-
-	BottomEndArcShapes []*BottomEndArcShape
-}
-
 // ArcNormalVectorShape of a plant,
 type ArcNormalVectorShape struct {
 	Name string
@@ -360,38 +320,6 @@ type TopStackGrowthCurveStartArcShape struct {
 }
 
 type TopStackGrowthCurveEndArcShape struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation    float64
-	LargeArcFlag     bool
-	SweepFlag        bool
-	RadiusX, RadiusY float64
-}
-
-// BottomStackOfGrowthCurve of a plant,
-type BottomStackOfGrowthCurve struct {
-	Name string
-
-	BottomStackGrowthCurveStartArcShapes []*BottomStackGrowthCurveStartArcShape
-	BottomStackGrowthCurveEndArcShapes   []*BottomStackGrowthCurveEndArcShape
-}
-
-type BottomStackGrowthCurveStartArcShape struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation    float64
-	LargeArcFlag     bool
-	SweepFlag        bool
-	RadiusX, RadiusY float64
-}
-
-type BottomStackGrowthCurveEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
