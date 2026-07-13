@@ -40,29 +40,61 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					Z: checkedDiagram.Rendered3DShape.ViewZ,
 				},
 			}).Stage(stager.threejsStage)
-		} else {
+			circumference := 10.0
+			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
+				circumference = plant.PlantCircumferenceShape.Length
+			} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+				first := pGrid.PerpendicularVectors[0]
+				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
+				circumference = last.StartX - first.StartX
+			}
+			if circumference <= 0 {
+				circumference = 10.0
+			}
+			R := circumference / (2 * math.Pi)
+			camDist := R * 2.5
+			if camDist < 15 {
+				camDist = 15
+			}
+
 			canvas.Camera = (&threejs.Camera{
 				Name: "Default Camera",
 				Position: threejs.Position{
-					X: 15,
-					Y: 15,
-					Z: 15,
+					X: camDist,
+					Y: camDist * 0.8,
+					Z: camDist,
 				},
+				TargetY: R,
 			}).Stage(stager.threejsStage)
 		}
 
 		// lights
-		dirLight := (&threejs.DirectionalLight{
-			Name:             "Directional Light",
-			Position:         threejs.Position{X: 10, Y: 20, Z: 10},
-			LightAbstract:    threejs.LightAbstract{Intensity: 1.0},
+		dirLight1 := (&threejs.DirectionalLight{
+			Name:             "Directional Light 1 (Key)",
+			Position:         threejs.Position{X: 15, Y: 20, Z: 15},
+			LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
 			IsWithCastShadow: true,
 		}).Stage(stager.threejsStage)
-		canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight)
+
+		dirLight2 := (&threejs.DirectionalLight{
+			Name:             "Directional Light 2 (Fill)",
+			Position:         threejs.Position{X: -15, Y: 10, Z: -15},
+			LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
+			IsWithCastShadow: false,
+		}).Stage(stager.threejsStage)
+
+		dirLight3 := (&threejs.DirectionalLight{
+			Name:             "Directional Light 3 (Rim)",
+			Position:         threejs.Position{X: 0, Y: 30, Z: -20},
+			LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
+			IsWithCastShadow: false,
+		}).Stage(stager.threejsStage)
+
+		canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
 
 		ambiantLight := (&threejs.AmbiantLight{
 			Name:          "Ambiant Light",
-			LightAbstract: threejs.LightAbstract{Intensity: 0.5},
+			LightAbstract: threejs.LightAbstract{Intensity: 0.3},
 		}).Stage(stager.threejsStage)
 		canvas.AmbiantLight = ambiantLight
 
@@ -80,16 +112,31 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				Fov:     checkedDiagram.Rendered3DShape.Fov,
 			}).Stage(stager.threejsStage)
 		} else {
+			circumference := 10.0
+			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
+				circumference = plant.PlantCircumferenceShape.Length
+			} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+				first := pGrid.PerpendicularVectors[0]
+				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
+				circumference = last.StartX - first.StartX
+			}
+			if circumference <= 0 {
+				circumference = 10.0
+			}
+			R := circumference / (2 * math.Pi)
+			camDist := R * 2.5
+			if camDist < 15 {
+				camDist = 15
+			}
+
 			canvas.Camera = (&threejs.Camera{
 				Name: "Camera",
 				Position: threejs.Position{
-					X: 15,
-					Y: 15,
-					Z: 15,
+					X: camDist,
+					Y: camDist * 0.8,
+					Z: camDist,
 				},
-				TargetX: 0,
-				TargetY: 0,
-				TargetZ: 0,
+				TargetY: R,
 			}).Stage(stager.threejsStage)
 		}
 		tileSize := 10.0
@@ -128,79 +175,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 		}
 
-		// tubes for the stack
-		if plant.StackOfGrowthCurve != nil && len(plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes) > 0 {
-			circumference := 10.0 // default fallback
-			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
-				circumference = plant.PlantCircumferenceShape.Length
-			}
-			R := circumference / (2 * math.Pi)
 
-			for bezierIndex, bezier := range plant.StackOfGrowthCurve.StackGrowthCurveBezierShapes {
-				curve := (&threejs.Curve{
-					Name: fmt.Sprintf("Growth Stack Curve %d", bezierIndex),
-				}).Stage(stager.threejsStage)
-
-				// interpolate 20 steps per bezier curve
-				steps := 20
-				for i := 0; i <= steps; i++ {
-					t := float64(i) / float64(steps)
-
-					// cubic bezier interpolation
-					x2d := math.Pow(1-t, 3)*bezier.StartX +
-						3*math.Pow(1-t, 2)*t*bezier.ControlPointStartX +
-						3*(1-t)*math.Pow(t, 2)*bezier.ControlPointEndX +
-						math.Pow(t, 3)*bezier.EndX
-
-					y2d := math.Pow(1-t, 3)*bezier.StartY +
-						3*math.Pow(1-t, 2)*t*bezier.ControlPointStartY +
-						3*(1-t)*math.Pow(t, 2)*bezier.ControlPointEndY +
-						math.Pow(t, 3)*bezier.EndY
-
-					// wrap around the cylinder
-					theta := x2d / R
-					x3d := R * math.Cos(theta)
-					z3d := R * math.Sin(theta)
-					y3d := y2d
-
-					vec := (&threejs.Vector3{
-						Name: fmt.Sprintf("Point %d-%d", bezierIndex, i),
-						X:    x3d,
-						Y:    y3d,
-						Z:    z3d,
-					}).Stage(stager.threejsStage)
-					curve.Points = append(curve.Points, vec)
-				}
-
-				if len(curve.Points) > 1 {
-					tubeGeometry := (&threejs.TubeGeometry{
-						Name:            fmt.Sprintf("Growth Stack Tube Geometry %d", bezierIndex),
-						Path:            curve,
-						TubularSegments: len(curve.Points) * 2,
-						Radius:          R * 0.05, // scale tube radius proportional to cylinder radius
-						RadialSegments:  16,
-						Closed:          false,
-					}).Stage(stager.threejsStage)
-
-					colors := []string{"#2E8B57", "#3CB371", "#228B22", "#006400", "#556B2F"}
-					color := colors[bezierIndex%len(colors)]
-
-					tubeMaterial := (&threejs.MeshPhysicalMaterial{
-						Name:                 fmt.Sprintf("Tube Material %d", bezierIndex),
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					}).Stage(stager.threejsStage)
-
-					tubeMesh := (&threejs.Mesh{
-						Name:                 fmt.Sprintf("Growth Stack Tube Mesh %d", bezierIndex),
-						Position:             threejs.Position{X: 0, Y: 0, Z: 0},
-						TubeGeometry:         tubeGeometry,
-						MeshPhysicalMaterial: tubeMaterial,
-					}).Stage(stager.threejsStage)
-
-					canvas.Meshs = append(canvas.Meshs, tubeMesh)
-				}
-			}
-		}
 
 		// Torus generated from StartArcShapeV2Grid & EndArcShapeV2Grid
 		if plant.StartArcShapeV2Grid != nil && plant.EndArcShapeV2Grid != nil &&
@@ -247,7 +222,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 				}
 
-				steps := 20
+				steps := 50
 				for i := 0; i <= steps; i++ {
 					// avoid duplicating the exact start/end points of adjacent arcs
 					if i == 0 && len(curve.Points) > 0 {
@@ -292,49 +267,55 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				if thickness == 0 {
 					thickness = 1.0
 				}
+				e := thickness * 0.05 // thickness of the shell
+				half := thickness / 2.0
 
-				shape := (&threejs.Shape{
-					Name: "Torus Section Shape",
-				}).Stage(stager.threejsStage)
-
-				// A square shape. 
-				// ExtrudeGeometry maps X to the normal, Y to the binormal.
-				// We want the section to go outward by `thickness` (X: 0 to thickness)
-				// and "upward" to match the Top curve (Y: 0 to thickness)
-				pts := [][2]float64{
-					{0, 0},
-					{thickness, 0},
-					{thickness, thickness},
-					{0, thickness},
-					{0, 0},
-				}
-				for i, p := range pts {
-					v := (&threejs.Vector2{
-						Name: fmt.Sprintf("SquarePoint %d", i),
-						X:    p[0],
-						Y:    p[1],
+				createFaceMesh := func(name string, color string, xMin, xMax, yMin, yMax float64) *threejs.Mesh {
+					shape := (&threejs.Shape{
+						Name: "Torus " + name + " Shape",
 					}).Stage(stager.threejsStage)
-					shape.Points = append(shape.Points, v)
+
+					pts := [][2]float64{
+						{xMin, yMin},
+						{xMax, yMin},
+						{xMax, yMax},
+						{xMin, yMax},
+						{xMin, yMin},
+					}
+					for i, p := range pts {
+						v := (&threejs.Vector2{
+							Name: fmt.Sprintf("%s Point %d", name, i),
+							X:    p[0],
+							Y:    p[1],
+						}).Stage(stager.threejsStage)
+						shape.Points = append(shape.Points, v)
+					}
+
+					extrudeGeom := (&threejs.ExtrudeGeometry{
+						Name:        "Torus " + name + " Extrude",
+						ExtrudePath: curve,
+						Shape:       shape,
+						Steps:       len(curve.Points) * 2,
+					}).Stage(stager.threejsStage)
+
+					return (&threejs.Mesh{
+						Name:                 "Torus " + name + " Mesh",
+						Position:             threejs.Position{X: 0, Y: 0, Z: 0},
+						ExtrudeGeometry:      extrudeGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 "Torus " + name + " Material",
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+						}).Stage(stager.threejsStage),
+					}).Stage(stager.threejsStage)
 				}
 
-				extrudeGeom := (&threejs.ExtrudeGeometry{
-					Name:        "Torus Extrude Geometry",
-					ExtrudePath: curve,
-					Shape:       shape,
-					Steps:       len(curve.Points) * 2,
-				}).Stage(stager.threejsStage)
+				// Create 4 faces centered at 0,0
+				bottomFace := createFaceMesh("Bottom", "#1f77b4", -half, half, -half, -half+e)
+				topFace := createFaceMesh("Top", "#d62728", -half, half, half-e, half)
+				innerFace := createFaceMesh("Inner", "#ff7f0e", -half, -half+e, -half, half)
+				outerFace := createFaceMesh("Outer", "#2ca02c", half-e, half, -half, half)
 
-				torusMesh := (&threejs.Mesh{
-					Name:                 "Torus Mesh",
-					Position:             threejs.Position{X: 0, Y: 0, Z: 0},
-					ExtrudeGeometry:      extrudeGeom,
-					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-						Name:                 "Torus Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "orange"},
-					}).Stage(stager.threejsStage),
-				}).Stage(stager.threejsStage)
-
-				canvas.Meshs = append(canvas.Meshs, torusMesh)
+				canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
 			}
 		}
 
