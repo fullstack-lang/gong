@@ -60,17 +60,17 @@ type Plant struct {
 	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
 	BaseVectorShapeGrid            *BaseVectorShapeGrid
 	ArcNormalVectorShapeGrid       *ArcNormalVectorShapeGrid
-	StartArcShapeV2Grid            *StartArcShapeV2Grid
-	TopStartArcShapeV2Grid         *TopStartArcShapeV2Grid
-	EndArcShapeV2Grid              *EndArcShapeV2Grid
-	TopEndArcShapeV2Grid           *TopEndArcShapeV2Grid
-	BottomStartArcShapeV2Grid      *BottomStartArcShapeV2Grid
-	BottomEndArcShapeV2Grid        *BottomEndArcShapeV2Grid
+	StartArcShapeGrid            *StartArcShapeGrid
+	TopStartArcShapeGrid         *TopStartArcShapeGrid
+	EndArcShapeGrid              *EndArcShapeGrid
+	TopEndArcShapeGrid           *TopEndArcShapeGrid
+	BottomStartArcShapeGrid      *BottomStartArcShapeGrid
+	BottomEndArcShapeGrid        *BottomEndArcShapeGrid
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
 
-	StackOfGrowthCurveV2       *StackOfGrowthCurveV2
-	TopStackOfGrowthCurveV2    *TopStackOfGrowthCurveV2
-	BottomStackOfGrowthCurveV2 *BottomStackOfGrowthCurveV2
+	StackOfGrowthCurve       *StackOfGrowthCurve
+	TopStackOfGrowthCurve    *TopStackOfGrowthCurve
+	BottomStackOfGrowthCurve *BottomStackOfGrowthCurve
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D

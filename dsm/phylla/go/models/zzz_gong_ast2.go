@@ -631,10 +631,10 @@ func (u *BaseVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
-type BottomEndArcShapeV2Unmarshaller struct{}
+type BottomEndArcShapeUnmarshaller struct{}
 
-func (u *BottomEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomEndArcShapeV2)
+func (u *BottomEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomEndArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -649,8 +649,8 @@ func (u *BottomEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier st
 	return instance, nil
 }
 
-func (u *BottomEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomEndArcShapeV2)
+func (u *BottomEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomEndArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -678,10 +678,10 @@ func (u *BottomEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
-type BottomEndArcShapeV2GridUnmarshaller struct{}
+type BottomEndArcShapeGridUnmarshaller struct{}
 
-func (u *BottomEndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomEndArcShapeV2Grid)
+func (u *BottomEndArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomEndArcShapeGrid)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -696,23 +696,23 @@ func (u *BottomEndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifie
 	return instance, nil
 }
 
-func (u *BottomEndArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomEndArcShapeV2Grid)
+func (u *BottomEndArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomEndArcShapeGrid)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "BottomEndArcShapesV2":
-		GongUnmarshallSliceOfPointers(&instance.BottomEndArcShapesV2, valueExpr, identifierMap)
+	case "BottomEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.BottomEndArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type BottomStackGrowthCurveEndArcShapeV2Unmarshaller struct{}
+type BottomStackGrowthCurveEndArcShapeUnmarshaller struct{}
 
-func (u *BottomStackGrowthCurveEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomStackGrowthCurveEndArcShapeV2)
+func (u *BottomStackGrowthCurveEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStackGrowthCurveEndArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -727,8 +727,8 @@ func (u *BottomStackGrowthCurveEndArcShapeV2Unmarshaller) Initialize(stage *Stag
 	return instance, nil
 }
 
-func (u *BottomStackGrowthCurveEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomStackGrowthCurveEndArcShapeV2)
+func (u *BottomStackGrowthCurveEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStackGrowthCurveEndArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -756,10 +756,10 @@ func (u *BottomStackGrowthCurveEndArcShapeV2Unmarshaller) UnmarshallField(stage 
 	return nil
 }
 
-type BottomStackGrowthCurveStartArcShapeV2Unmarshaller struct{}
+type BottomStackGrowthCurveStartArcShapeUnmarshaller struct{}
 
-func (u *BottomStackGrowthCurveStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomStackGrowthCurveStartArcShapeV2)
+func (u *BottomStackGrowthCurveStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStackGrowthCurveStartArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -774,8 +774,8 @@ func (u *BottomStackGrowthCurveStartArcShapeV2Unmarshaller) Initialize(stage *St
 	return instance, nil
 }
 
-func (u *BottomStackGrowthCurveStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomStackGrowthCurveStartArcShapeV2)
+func (u *BottomStackGrowthCurveStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStackGrowthCurveStartArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -803,10 +803,10 @@ func (u *BottomStackGrowthCurveStartArcShapeV2Unmarshaller) UnmarshallField(stag
 	return nil
 }
 
-type BottomStackOfGrowthCurveV2Unmarshaller struct{}
+type BottomStackOfGrowthCurveUnmarshaller struct{}
 
-func (u *BottomStackOfGrowthCurveV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomStackOfGrowthCurveV2)
+func (u *BottomStackOfGrowthCurveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStackOfGrowthCurve)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -821,25 +821,25 @@ func (u *BottomStackOfGrowthCurveV2Unmarshaller) Initialize(stage *Stage, identi
 	return instance, nil
 }
 
-func (u *BottomStackOfGrowthCurveV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomStackOfGrowthCurveV2)
+func (u *BottomStackOfGrowthCurveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStackOfGrowthCurve)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "BottomStackGrowthCurveStartArcShapeV2s":
-		GongUnmarshallSliceOfPointers(&instance.BottomStackGrowthCurveStartArcShapeV2s, valueExpr, identifierMap)
-	case "BottomStackGrowthCurveEndArcShapeV2s":
-		GongUnmarshallSliceOfPointers(&instance.BottomStackGrowthCurveEndArcShapeV2s, valueExpr, identifierMap)
+	case "BottomStackGrowthCurveStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.BottomStackGrowthCurveStartArcShapes, valueExpr, identifierMap)
+	case "BottomStackGrowthCurveEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.BottomStackGrowthCurveEndArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type BottomStartArcShapeV2Unmarshaller struct{}
+type BottomStartArcShapeUnmarshaller struct{}
 
-func (u *BottomStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomStartArcShapeV2)
+func (u *BottomStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStartArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -854,8 +854,8 @@ func (u *BottomStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier 
 	return instance, nil
 }
 
-func (u *BottomStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomStartArcShapeV2)
+func (u *BottomStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStartArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -883,10 +883,10 @@ func (u *BottomStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i Gong
 	return nil
 }
 
-type BottomStartArcShapeV2GridUnmarshaller struct{}
+type BottomStartArcShapeGridUnmarshaller struct{}
 
-func (u *BottomStartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(BottomStartArcShapeV2Grid)
+func (u *BottomStartArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BottomStartArcShapeGrid)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -901,15 +901,15 @@ func (u *BottomStartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identif
 	return instance, nil
 }
 
-func (u *BottomStartArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*BottomStartArcShapeV2Grid)
+func (u *BottomStartArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BottomStartArcShapeGrid)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "BottomStartArcShapesV2":
-		GongUnmarshallSliceOfPointers(&instance.BottomStartArcShapesV2, valueExpr, identifierMap)
+	case "BottomStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.BottomStartArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -943,10 +943,10 @@ func (u *CircleGridShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
-type EndArcShapeV2Unmarshaller struct{}
+type EndArcShapeUnmarshaller struct{}
 
-func (u *EndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(EndArcShapeV2)
+func (u *EndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(EndArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -961,8 +961,8 @@ func (u *EndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, 
 	return instance, nil
 }
 
-func (u *EndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*EndArcShapeV2)
+func (u *EndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*EndArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -990,10 +990,10 @@ func (u *EndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	return nil
 }
 
-type EndArcShapeV2GridUnmarshaller struct{}
+type EndArcShapeGridUnmarshaller struct{}
 
-func (u *EndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(EndArcShapeV2Grid)
+func (u *EndArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(EndArcShapeGrid)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -1008,15 +1008,15 @@ func (u *EndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier stri
 	return instance, nil
 }
 
-func (u *EndArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*EndArcShapeV2Grid)
+func (u *EndArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*EndArcShapeGrid)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "EndArcShapesV2":
-		GongUnmarshallSliceOfPointers(&instance.EndArcShapesV2, valueExpr, identifierMap)
+	case "EndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.EndArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1104,10 +1104,10 @@ func (u *GrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "StartArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.StartArcShapeV2Grid, valueExpr, identifierMap)
-	case "EndArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.EndArcShapeV2Grid, valueExpr, identifierMap)
+	case "StartArcShapeGrid":
+		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
+	case "EndArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1636,26 +1636,26 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.BaseVectorShapeGrid, valueExpr, identifierMap)
 	case "ArcNormalVectorShapeGrid":
 		GongUnmarshallPointer(&instance.ArcNormalVectorShapeGrid, valueExpr, identifierMap)
-	case "StartArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.StartArcShapeV2Grid, valueExpr, identifierMap)
-	case "TopStartArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.TopStartArcShapeV2Grid, valueExpr, identifierMap)
-	case "EndArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.EndArcShapeV2Grid, valueExpr, identifierMap)
-	case "TopEndArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.TopEndArcShapeV2Grid, valueExpr, identifierMap)
-	case "BottomStartArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.BottomStartArcShapeV2Grid, valueExpr, identifierMap)
-	case "BottomEndArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.BottomEndArcShapeV2Grid, valueExpr, identifierMap)
+	case "StartArcShapeGrid":
+		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
+	case "TopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
+	case "EndArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
+	case "BottomStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.BottomStartArcShapeGrid, valueExpr, identifierMap)
+	case "BottomEndArcShapeGrid":
+		GongUnmarshallPointer(&instance.BottomEndArcShapeGrid, valueExpr, identifierMap)
 	case "GrowthCurveBezierShapeGrid":
 		GongUnmarshallPointer(&instance.GrowthCurveBezierShapeGrid, valueExpr, identifierMap)
-	case "StackOfGrowthCurveV2":
-		GongUnmarshallPointer(&instance.StackOfGrowthCurveV2, valueExpr, identifierMap)
-	case "TopStackOfGrowthCurveV2":
-		GongUnmarshallPointer(&instance.TopStackOfGrowthCurveV2, valueExpr, identifierMap)
-	case "BottomStackOfGrowthCurveV2":
-		GongUnmarshallPointer(&instance.BottomStackOfGrowthCurveV2, valueExpr, identifierMap)
+	case "StackOfGrowthCurve":
+		GongUnmarshallPointer(&instance.StackOfGrowthCurve, valueExpr, identifierMap)
+	case "TopStackOfGrowthCurve":
+		GongUnmarshallPointer(&instance.TopStackOfGrowthCurve, valueExpr, identifierMap)
+	case "BottomStackOfGrowthCurve":
+		GongUnmarshallPointer(&instance.BottomStackOfGrowthCurve, valueExpr, identifierMap)
 	case "GrowthCurve2D":
 		GongUnmarshallPointer(&instance.GrowthCurve2D, valueExpr, identifierMap)
 	case "TopGrowthCurve2D":
@@ -1760,26 +1760,26 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenBaseVectorShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenArcNormalVectorShapeGrid":
 		instance.IsHiddenArcNormalVectorShapeGrid = GongExtractBool(valueExpr)
-	case "IsHiddenStartArcShapeV2Grid":
-		instance.IsHiddenStartArcShapeV2Grid = GongExtractBool(valueExpr)
-	case "IsHiddenTopStartArcShapeV2Grid":
-		instance.IsHiddenTopStartArcShapeV2Grid = GongExtractBool(valueExpr)
-	case "IsHiddenEndArcShapeV2Grid":
-		instance.IsHiddenEndArcShapeV2Grid = GongExtractBool(valueExpr)
-	case "IsHiddenTopEndArcShapeV2Grid":
-		instance.IsHiddenTopEndArcShapeV2Grid = GongExtractBool(valueExpr)
-	case "IsHiddenBottomStartArcShapeV2Grid":
-		instance.IsHiddenBottomStartArcShapeV2Grid = GongExtractBool(valueExpr)
-	case "IsHiddenBottomEndArcShapeV2Grid":
-		instance.IsHiddenBottomEndArcShapeV2Grid = GongExtractBool(valueExpr)
+	case "IsHiddenStartArcShapeGrid":
+		instance.IsHiddenStartArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenTopStartArcShapeGrid":
+		instance.IsHiddenTopStartArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenEndArcShapeGrid":
+		instance.IsHiddenEndArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenTopEndArcShapeGrid":
+		instance.IsHiddenTopEndArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenBottomStartArcShapeGrid":
+		instance.IsHiddenBottomStartArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenBottomEndArcShapeGrid":
+		instance.IsHiddenBottomEndArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurveBezierShapeGrid":
 		instance.IsHiddenGrowthCurveBezierShapeGrid = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfGrowthCurveV2":
-		instance.IsHiddenStackOfGrowthCurveV2 = GongExtractBool(valueExpr)
-	case "IsHiddenTopStackOfGrowthCurveV2":
-		instance.IsHiddenTopStackOfGrowthCurveV2 = GongExtractBool(valueExpr)
-	case "IsHiddenBottomStackOfGrowthCurveV2":
-		instance.IsHiddenBottomStackOfGrowthCurveV2 = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfGrowthCurve":
+		instance.IsHiddenStackOfGrowthCurve = GongExtractBool(valueExpr)
+	case "IsHiddenTopStackOfGrowthCurve":
+		instance.IsHiddenTopStackOfGrowthCurve = GongExtractBool(valueExpr)
+	case "IsHiddenBottomStackOfGrowthCurve":
+		instance.IsHiddenBottomStackOfGrowthCurve = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurve2D":
 		instance.IsHiddenGrowthCurve2D = GongExtractBool(valueExpr)
 	case "IsHiddenTopGrowthCurve2D":
@@ -1936,10 +1936,10 @@ func (u *RotatedRhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
-type StackGrowthCurveEndArcShapeV2Unmarshaller struct{}
+type StackGrowthCurveEndArcShapeUnmarshaller struct{}
 
-func (u *StackGrowthCurveEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StackGrowthCurveEndArcShapeV2)
+func (u *StackGrowthCurveEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackGrowthCurveEndArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -1954,8 +1954,8 @@ func (u *StackGrowthCurveEndArcShapeV2Unmarshaller) Initialize(stage *Stage, ide
 	return instance, nil
 }
 
-func (u *StackGrowthCurveEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackGrowthCurveEndArcShapeV2)
+func (u *StackGrowthCurveEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackGrowthCurveEndArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -1983,10 +1983,10 @@ func (u *StackGrowthCurveEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage
 	return nil
 }
 
-type StackGrowthCurveStartArcShapeV2Unmarshaller struct{}
+type StackGrowthCurveStartArcShapeUnmarshaller struct{}
 
-func (u *StackGrowthCurveStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StackGrowthCurveStartArcShapeV2)
+func (u *StackGrowthCurveStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackGrowthCurveStartArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2001,8 +2001,8 @@ func (u *StackGrowthCurveStartArcShapeV2Unmarshaller) Initialize(stage *Stage, i
 	return instance, nil
 }
 
-func (u *StackGrowthCurveStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackGrowthCurveStartArcShapeV2)
+func (u *StackGrowthCurveStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackGrowthCurveStartArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2030,10 +2030,10 @@ func (u *StackGrowthCurveStartArcShapeV2Unmarshaller) UnmarshallField(stage *Sta
 	return nil
 }
 
-type StackOfGrowthCurveV2Unmarshaller struct{}
+type StackOfGrowthCurveUnmarshaller struct{}
 
-func (u *StackOfGrowthCurveV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StackOfGrowthCurveV2)
+func (u *StackOfGrowthCurveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackOfGrowthCurve)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2048,25 +2048,25 @@ func (u *StackOfGrowthCurveV2Unmarshaller) Initialize(stage *Stage, identifier s
 	return instance, nil
 }
 
-func (u *StackOfGrowthCurveV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackOfGrowthCurveV2)
+func (u *StackOfGrowthCurveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfGrowthCurve)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "StackGrowthCurveStartArcShapeV2s":
-		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveStartArcShapeV2s, valueExpr, identifierMap)
-	case "StackGrowthCurveEndArcShapeV2s":
-		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveEndArcShapeV2s, valueExpr, identifierMap)
+	case "StackGrowthCurveStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveStartArcShapes, valueExpr, identifierMap)
+	case "StackGrowthCurveEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveEndArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type StartArcShapeV2Unmarshaller struct{}
+type StartArcShapeUnmarshaller struct{}
 
-func (u *StartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StartArcShapeV2)
+func (u *StartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StartArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2081,8 +2081,8 @@ func (u *StartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string
 	return instance, nil
 }
 
-func (u *StartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StartArcShapeV2)
+func (u *StartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StartArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2110,10 +2110,10 @@ func (u *StartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
-type StartArcShapeV2GridUnmarshaller struct{}
+type StartArcShapeGridUnmarshaller struct{}
 
-func (u *StartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StartArcShapeV2Grid)
+func (u *StartArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StartArcShapeGrid)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2128,23 +2128,23 @@ func (u *StartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier st
 	return instance, nil
 }
 
-func (u *StartArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StartArcShapeV2Grid)
+func (u *StartArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StartArcShapeGrid)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "StartArcShapesV2":
-		GongUnmarshallSliceOfPointers(&instance.StartArcShapesV2, valueExpr, identifierMap)
+	case "StartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.StartArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type TopEndArcShapeV2Unmarshaller struct{}
+type TopEndArcShapeUnmarshaller struct{}
 
-func (u *TopEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopEndArcShapeV2)
+func (u *TopEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopEndArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2159,8 +2159,8 @@ func (u *TopEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier strin
 	return instance, nil
 }
 
-func (u *TopEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopEndArcShapeV2)
+func (u *TopEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopEndArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2188,10 +2188,10 @@ func (u *TopEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	return nil
 }
 
-type TopEndArcShapeV2GridUnmarshaller struct{}
+type TopEndArcShapeGridUnmarshaller struct{}
 
-func (u *TopEndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopEndArcShapeV2Grid)
+func (u *TopEndArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopEndArcShapeGrid)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2206,15 +2206,15 @@ func (u *TopEndArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier s
 	return instance, nil
 }
 
-func (u *TopEndArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopEndArcShapeV2Grid)
+func (u *TopEndArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopEndArcShapeGrid)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "TopEndArcShapesV2":
-		GongUnmarshallSliceOfPointers(&instance.TopEndArcShapesV2, valueExpr, identifierMap)
+	case "TopEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopEndArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2244,18 +2244,18 @@ func (u *TopGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "TopStartArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.TopStartArcShapeV2Grid, valueExpr, identifierMap)
-	case "TopEndArcShapeV2Grid":
-		GongUnmarshallPointer(&instance.TopEndArcShapeV2Grid, valueExpr, identifierMap)
+	case "TopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type TopStackGrowthCurveEndArcShapeV2Unmarshaller struct{}
+type TopStackGrowthCurveEndArcShapeUnmarshaller struct{}
 
-func (u *TopStackGrowthCurveEndArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStackGrowthCurveEndArcShapeV2)
+func (u *TopStackGrowthCurveEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStackGrowthCurveEndArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2270,8 +2270,8 @@ func (u *TopStackGrowthCurveEndArcShapeV2Unmarshaller) Initialize(stage *Stage, 
 	return instance, nil
 }
 
-func (u *TopStackGrowthCurveEndArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStackGrowthCurveEndArcShapeV2)
+func (u *TopStackGrowthCurveEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStackGrowthCurveEndArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2299,10 +2299,10 @@ func (u *TopStackGrowthCurveEndArcShapeV2Unmarshaller) UnmarshallField(stage *St
 	return nil
 }
 
-type TopStackGrowthCurveStartArcShapeV2Unmarshaller struct{}
+type TopStackGrowthCurveStartArcShapeUnmarshaller struct{}
 
-func (u *TopStackGrowthCurveStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStackGrowthCurveStartArcShapeV2)
+func (u *TopStackGrowthCurveStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStackGrowthCurveStartArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2317,8 +2317,8 @@ func (u *TopStackGrowthCurveStartArcShapeV2Unmarshaller) Initialize(stage *Stage
 	return instance, nil
 }
 
-func (u *TopStackGrowthCurveStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStackGrowthCurveStartArcShapeV2)
+func (u *TopStackGrowthCurveStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStackGrowthCurveStartArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2346,10 +2346,10 @@ func (u *TopStackGrowthCurveStartArcShapeV2Unmarshaller) UnmarshallField(stage *
 	return nil
 }
 
-type TopStackOfGrowthCurveV2Unmarshaller struct{}
+type TopStackOfGrowthCurveUnmarshaller struct{}
 
-func (u *TopStackOfGrowthCurveV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStackOfGrowthCurveV2)
+func (u *TopStackOfGrowthCurveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStackOfGrowthCurve)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2364,25 +2364,25 @@ func (u *TopStackOfGrowthCurveV2Unmarshaller) Initialize(stage *Stage, identifie
 	return instance, nil
 }
 
-func (u *TopStackOfGrowthCurveV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStackOfGrowthCurveV2)
+func (u *TopStackOfGrowthCurveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStackOfGrowthCurve)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "TopStackGrowthCurveStartArcShapeV2s":
-		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurveStartArcShapeV2s, valueExpr, identifierMap)
-	case "TopStackGrowthCurveEndArcShapeV2s":
-		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurveEndArcShapeV2s, valueExpr, identifierMap)
+	case "TopStackGrowthCurveStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurveStartArcShapes, valueExpr, identifierMap)
+	case "TopStackGrowthCurveEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurveEndArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type TopStartArcShapeV2Unmarshaller struct{}
+type TopStartArcShapeUnmarshaller struct{}
 
-func (u *TopStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStartArcShapeV2)
+func (u *TopStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStartArcShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2397,8 +2397,8 @@ func (u *TopStartArcShapeV2Unmarshaller) Initialize(stage *Stage, identifier str
 	return instance, nil
 }
 
-func (u *TopStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStartArcShapeV2)
+func (u *TopStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStartArcShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2426,10 +2426,10 @@ func (u *TopStartArcShapeV2Unmarshaller) UnmarshallField(stage *Stage, i Gongstr
 	return nil
 }
 
-type TopStartArcShapeV2GridUnmarshaller struct{}
+type TopStartArcShapeGridUnmarshaller struct{}
 
-func (u *TopStartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStartArcShapeV2Grid)
+func (u *TopStartArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStartArcShapeGrid)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2444,15 +2444,15 @@ func (u *TopStartArcShapeV2GridUnmarshaller) Initialize(stage *Stage, identifier
 	return instance, nil
 }
 
-func (u *TopStartArcShapeV2GridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStartArcShapeV2Grid)
+func (u *TopStartArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStartArcShapeGrid)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "TopStartArcShapesV2":
-		GongUnmarshallSliceOfPointers(&instance.TopStartArcShapesV2, valueExpr, identifierMap)
+	case "TopStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopStartArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -549,14 +549,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	startArcShapeV2Grid := plant.StartArcShapeV2Grid
+	startArcShapeV2Grid := plant.StartArcShapeGrid
 	{
 		node := &tree.Node{
-			Name:            "Start Arc V2 Grid",
+			Name:            "Start Arc Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(startArcShapeV2Grid, GetPointerToGongstructName[*StartArcShapeV2Grid]())
+			stager.probeForm.FillUpFormFromGongstruct(startArcShapeV2Grid, GetPointerToGongstructName[*StartArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -566,11 +566,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenStartArcShapeV2Grid = !plantDiagram.IsHiddenStartArcShapeV2Grid
+				plantDiagram.IsHiddenStartArcShapeGrid = !plantDiagram.IsHiddenStartArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenStartArcShapeV2Grid {
+		if plantDiagram.IsHiddenStartArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -579,14 +579,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	topStartArcShapeV2Grid := plant.TopStartArcShapeV2Grid
+	topStartArcShapeV2Grid := plant.TopStartArcShapeGrid
 	{
 		node := &tree.Node{
-			Name:            "Top Start Arc V2 Grid",
+			Name:            "Top Start Arc Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(topStartArcShapeV2Grid, GetPointerToGongstructName[*TopStartArcShapeV2Grid]())
+			stager.probeForm.FillUpFormFromGongstruct(topStartArcShapeV2Grid, GetPointerToGongstructName[*TopStartArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -596,11 +596,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenTopStartArcShapeV2Grid = !plantDiagram.IsHiddenTopStartArcShapeV2Grid
+				plantDiagram.IsHiddenTopStartArcShapeGrid = !plantDiagram.IsHiddenTopStartArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenTopStartArcShapeV2Grid {
+		if plantDiagram.IsHiddenTopStartArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -609,14 +609,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	endArcShapeV2Grid := plant.EndArcShapeV2Grid
+	endArcShapeV2Grid := plant.EndArcShapeGrid
 	{
 		node := &tree.Node{
-			Name:            "End Arc V2 Grid",
+			Name:            "End Arc Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(endArcShapeV2Grid, GetPointerToGongstructName[*EndArcShapeV2Grid]())
+			stager.probeForm.FillUpFormFromGongstruct(endArcShapeV2Grid, GetPointerToGongstructName[*EndArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -626,11 +626,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenEndArcShapeV2Grid = !plantDiagram.IsHiddenEndArcShapeV2Grid
+				plantDiagram.IsHiddenEndArcShapeGrid = !plantDiagram.IsHiddenEndArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenEndArcShapeV2Grid {
+		if plantDiagram.IsHiddenEndArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -639,14 +639,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	topEndArcShapeV2Grid := plant.TopEndArcShapeV2Grid
+	topEndArcShapeV2Grid := plant.TopEndArcShapeGrid
 	{
 		node := &tree.Node{
-			Name:            "Top End Arc V2 Grid",
+			Name:            "Top End Arc Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(topEndArcShapeV2Grid, GetPointerToGongstructName[*TopEndArcShapeV2Grid]())
+			stager.probeForm.FillUpFormFromGongstruct(topEndArcShapeV2Grid, GetPointerToGongstructName[*TopEndArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -656,11 +656,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenTopEndArcShapeV2Grid = !plantDiagram.IsHiddenTopEndArcShapeV2Grid
+				plantDiagram.IsHiddenTopEndArcShapeGrid = !plantDiagram.IsHiddenTopEndArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenTopEndArcShapeV2Grid {
+		if plantDiagram.IsHiddenTopEndArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -669,14 +669,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	bottomStartArcShapeV2Grid := plant.BottomStartArcShapeV2Grid
+	bottomStartArcShapeV2Grid := plant.BottomStartArcShapeGrid
 	{
 		node := &tree.Node{
-			Name:            "Bottom Start Arc V2 Grid",
+			Name:            "Bottom Start Arc Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(bottomStartArcShapeV2Grid, GetPointerToGongstructName[*BottomStartArcShapeV2Grid]())
+			stager.probeForm.FillUpFormFromGongstruct(bottomStartArcShapeV2Grid, GetPointerToGongstructName[*BottomStartArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -686,11 +686,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenBottomStartArcShapeV2Grid = !plantDiagram.IsHiddenBottomStartArcShapeV2Grid
+				plantDiagram.IsHiddenBottomStartArcShapeGrid = !plantDiagram.IsHiddenBottomStartArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenBottomStartArcShapeV2Grid {
+		if plantDiagram.IsHiddenBottomStartArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -699,14 +699,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	bottomEndArcShapeV2Grid := plant.BottomEndArcShapeV2Grid
+	bottomEndArcShapeV2Grid := plant.BottomEndArcShapeGrid
 	{
 		node := &tree.Node{
-			Name:            "Bottom End Arc V2 Grid",
+			Name:            "Bottom End Arc Grid",
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(bottomEndArcShapeV2Grid, GetPointerToGongstructName[*BottomEndArcShapeV2Grid]())
+			stager.probeForm.FillUpFormFromGongstruct(bottomEndArcShapeV2Grid, GetPointerToGongstructName[*BottomEndArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -716,11 +716,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenBottomEndArcShapeV2Grid = !plantDiagram.IsHiddenBottomEndArcShapeV2Grid
+				plantDiagram.IsHiddenBottomEndArcShapeGrid = !plantDiagram.IsHiddenBottomEndArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenBottomEndArcShapeV2Grid {
+		if plantDiagram.IsHiddenBottomEndArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -762,15 +762,15 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	{
-		stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2
+		stackOfGrowthCurveV2 := plant.StackOfGrowthCurve
 		node := &tree.Node{
-			Name: "Stack Of Growth Curve V2",
+			Name: "Stack Of Growth Curve",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
 		node.IsNodeClickable = true
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(stackOfGrowthCurveV2, GetPointerToGongstructName[*StackOfGrowthCurveV2]())
+			stager.probeForm.FillUpFormFromGongstruct(stackOfGrowthCurveV2, GetPointerToGongstructName[*StackOfGrowthCurve]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -780,11 +780,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenStackOfGrowthCurveV2 = !plantDiagram.IsHiddenStackOfGrowthCurveV2
+				plantDiagram.IsHiddenStackOfGrowthCurve = !plantDiagram.IsHiddenStackOfGrowthCurve
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenStackOfGrowthCurveV2 {
+		if plantDiagram.IsHiddenStackOfGrowthCurve {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -794,15 +794,15 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	{
-		topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurveV2
+		topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurve
 		node := &tree.Node{
-			Name: "Top Stack Of Growth Curve V2",
+			Name: "Top Stack Of Growth Curve",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
 		node.IsNodeClickable = true
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(topStackOfGrowthCurveV2, GetPointerToGongstructName[*TopStackOfGrowthCurveV2]())
+			stager.probeForm.FillUpFormFromGongstruct(topStackOfGrowthCurveV2, GetPointerToGongstructName[*TopStackOfGrowthCurve]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -812,11 +812,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenTopStackOfGrowthCurveV2 = !plantDiagram.IsHiddenTopStackOfGrowthCurveV2
+				plantDiagram.IsHiddenTopStackOfGrowthCurve = !plantDiagram.IsHiddenTopStackOfGrowthCurve
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenTopStackOfGrowthCurveV2 {
+		if plantDiagram.IsHiddenTopStackOfGrowthCurve {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -826,15 +826,15 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	{
-		bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurveV2
+		bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurve
 		node := &tree.Node{
-			Name: "Bottom Stack Of Growth Curve V2",
+			Name: "Bottom Stack Of Growth Curve",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
 		node.IsNodeClickable = true
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(bottomStackOfGrowthCurveV2, GetPointerToGongstructName[*BottomStackOfGrowthCurveV2]())
+			stager.probeForm.FillUpFormFromGongstruct(bottomStackOfGrowthCurveV2, GetPointerToGongstructName[*BottomStackOfGrowthCurve]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -844,11 +844,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 = !plantDiagram.IsHiddenBottomStackOfGrowthCurveV2
+				plantDiagram.IsHiddenBottomStackOfGrowthCurve = !plantDiagram.IsHiddenBottomStackOfGrowthCurve
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 {
+		if plantDiagram.IsHiddenBottomStackOfGrowthCurve {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"

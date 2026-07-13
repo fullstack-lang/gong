@@ -97,7 +97,7 @@ func (from *BaseVectorShapeGrid) CopyBasicFields(to *BaseVectorShapeGrid) {
 	to.Name = from.Name
 }
 
-type BottomEndArcShapeV2_WOP struct {
+type BottomEndArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -121,7 +121,7 @@ type BottomEndArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *BottomEndArcShapeV2) CopyBasicFields(to *BottomEndArcShapeV2) {
+func (from *BottomEndArcShape) CopyBasicFields(to *BottomEndArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -135,18 +135,18 @@ func (from *BottomEndArcShapeV2) CopyBasicFields(to *BottomEndArcShapeV2) {
 	to.RadiusY = from.RadiusY
 }
 
-type BottomEndArcShapeV2Grid_WOP struct {
+type BottomEndArcShapeGrid_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *BottomEndArcShapeV2Grid) CopyBasicFields(to *BottomEndArcShapeV2Grid) {
+func (from *BottomEndArcShapeGrid) CopyBasicFields(to *BottomEndArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
 
-type BottomStackGrowthCurveEndArcShapeV2_WOP struct {
+type BottomStackGrowthCurveEndArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -170,7 +170,7 @@ type BottomStackGrowthCurveEndArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *BottomStackGrowthCurveEndArcShapeV2) CopyBasicFields(to *BottomStackGrowthCurveEndArcShapeV2) {
+func (from *BottomStackGrowthCurveEndArcShape) CopyBasicFields(to *BottomStackGrowthCurveEndArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -184,7 +184,7 @@ func (from *BottomStackGrowthCurveEndArcShapeV2) CopyBasicFields(to *BottomStack
 	to.RadiusY = from.RadiusY
 }
 
-type BottomStackGrowthCurveStartArcShapeV2_WOP struct {
+type BottomStackGrowthCurveStartArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -208,7 +208,7 @@ type BottomStackGrowthCurveStartArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *BottomStackGrowthCurveStartArcShapeV2) CopyBasicFields(to *BottomStackGrowthCurveStartArcShapeV2) {
+func (from *BottomStackGrowthCurveStartArcShape) CopyBasicFields(to *BottomStackGrowthCurveStartArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -222,18 +222,18 @@ func (from *BottomStackGrowthCurveStartArcShapeV2) CopyBasicFields(to *BottomSta
 	to.RadiusY = from.RadiusY
 }
 
-type BottomStackOfGrowthCurveV2_WOP struct {
+type BottomStackOfGrowthCurve_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *BottomStackOfGrowthCurveV2) CopyBasicFields(to *BottomStackOfGrowthCurveV2) {
+func (from *BottomStackOfGrowthCurve) CopyBasicFields(to *BottomStackOfGrowthCurve) {
 	// insertion point
 	to.Name = from.Name
 }
 
-type BottomStartArcShapeV2_WOP struct {
+type BottomStartArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -257,7 +257,7 @@ type BottomStartArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *BottomStartArcShapeV2) CopyBasicFields(to *BottomStartArcShapeV2) {
+func (from *BottomStartArcShape) CopyBasicFields(to *BottomStartArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -271,13 +271,13 @@ func (from *BottomStartArcShapeV2) CopyBasicFields(to *BottomStartArcShapeV2) {
 	to.RadiusY = from.RadiusY
 }
 
-type BottomStartArcShapeV2Grid_WOP struct {
+type BottomStartArcShapeGrid_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *BottomStartArcShapeV2Grid) CopyBasicFields(to *BottomStartArcShapeV2Grid) {
+func (from *BottomStartArcShapeGrid) CopyBasicFields(to *BottomStartArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -293,7 +293,7 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
-type EndArcShapeV2_WOP struct {
+type EndArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -317,7 +317,7 @@ type EndArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *EndArcShapeV2) CopyBasicFields(to *EndArcShapeV2) {
+func (from *EndArcShape) CopyBasicFields(to *EndArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -331,13 +331,13 @@ func (from *EndArcShapeV2) CopyBasicFields(to *EndArcShapeV2) {
 	to.RadiusY = from.RadiusY
 }
 
-type EndArcShapeV2Grid_WOP struct {
+type EndArcShapeGrid_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *EndArcShapeV2Grid) CopyBasicFields(to *EndArcShapeV2Grid) {
+func (from *EndArcShapeGrid) CopyBasicFields(to *EndArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -700,25 +700,25 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenArcNormalVectorShapeGrid bool
 
-	IsHiddenStartArcShapeV2Grid bool
+	IsHiddenStartArcShapeGrid bool
 
-	IsHiddenTopStartArcShapeV2Grid bool
+	IsHiddenTopStartArcShapeGrid bool
 
-	IsHiddenEndArcShapeV2Grid bool
+	IsHiddenEndArcShapeGrid bool
 
-	IsHiddenTopEndArcShapeV2Grid bool
+	IsHiddenTopEndArcShapeGrid bool
 
-	IsHiddenBottomStartArcShapeV2Grid bool
+	IsHiddenBottomStartArcShapeGrid bool
 
-	IsHiddenBottomEndArcShapeV2Grid bool
+	IsHiddenBottomEndArcShapeGrid bool
 
 	IsHiddenGrowthCurveBezierShapeGrid bool
 
-	IsHiddenStackOfGrowthCurveV2 bool
+	IsHiddenStackOfGrowthCurve bool
 
-	IsHiddenTopStackOfGrowthCurveV2 bool
+	IsHiddenTopStackOfGrowthCurve bool
 
-	IsHiddenBottomStackOfGrowthCurveV2 bool
+	IsHiddenBottomStackOfGrowthCurve bool
 
 	IsHiddenGrowthCurve2D bool
 
@@ -753,16 +753,16 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
 	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
-	to.IsHiddenStartArcShapeV2Grid = from.IsHiddenStartArcShapeV2Grid
-	to.IsHiddenTopStartArcShapeV2Grid = from.IsHiddenTopStartArcShapeV2Grid
-	to.IsHiddenEndArcShapeV2Grid = from.IsHiddenEndArcShapeV2Grid
-	to.IsHiddenTopEndArcShapeV2Grid = from.IsHiddenTopEndArcShapeV2Grid
-	to.IsHiddenBottomStartArcShapeV2Grid = from.IsHiddenBottomStartArcShapeV2Grid
-	to.IsHiddenBottomEndArcShapeV2Grid = from.IsHiddenBottomEndArcShapeV2Grid
+	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
+	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
+	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
+	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
+	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
+	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
 	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
-	to.IsHiddenStackOfGrowthCurveV2 = from.IsHiddenStackOfGrowthCurveV2
-	to.IsHiddenTopStackOfGrowthCurveV2 = from.IsHiddenTopStackOfGrowthCurveV2
-	to.IsHiddenBottomStackOfGrowthCurveV2 = from.IsHiddenBottomStackOfGrowthCurveV2
+	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
+	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
+	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
 	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
 	to.IsChecked = from.IsChecked
@@ -847,7 +847,7 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Y = from.Y
 }
 
-type StackGrowthCurveEndArcShapeV2_WOP struct {
+type StackGrowthCurveEndArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -871,7 +871,7 @@ type StackGrowthCurveEndArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *StackGrowthCurveEndArcShapeV2) CopyBasicFields(to *StackGrowthCurveEndArcShapeV2) {
+func (from *StackGrowthCurveEndArcShape) CopyBasicFields(to *StackGrowthCurveEndArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -885,7 +885,7 @@ func (from *StackGrowthCurveEndArcShapeV2) CopyBasicFields(to *StackGrowthCurveE
 	to.RadiusY = from.RadiusY
 }
 
-type StackGrowthCurveStartArcShapeV2_WOP struct {
+type StackGrowthCurveStartArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -909,7 +909,7 @@ type StackGrowthCurveStartArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *StackGrowthCurveStartArcShapeV2) CopyBasicFields(to *StackGrowthCurveStartArcShapeV2) {
+func (from *StackGrowthCurveStartArcShape) CopyBasicFields(to *StackGrowthCurveStartArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -923,18 +923,18 @@ func (from *StackGrowthCurveStartArcShapeV2) CopyBasicFields(to *StackGrowthCurv
 	to.RadiusY = from.RadiusY
 }
 
-type StackOfGrowthCurveV2_WOP struct {
+type StackOfGrowthCurve_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *StackOfGrowthCurveV2) CopyBasicFields(to *StackOfGrowthCurveV2) {
+func (from *StackOfGrowthCurve) CopyBasicFields(to *StackOfGrowthCurve) {
 	// insertion point
 	to.Name = from.Name
 }
 
-type StartArcShapeV2_WOP struct {
+type StartArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -958,7 +958,7 @@ type StartArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *StartArcShapeV2) CopyBasicFields(to *StartArcShapeV2) {
+func (from *StartArcShape) CopyBasicFields(to *StartArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -972,18 +972,18 @@ func (from *StartArcShapeV2) CopyBasicFields(to *StartArcShapeV2) {
 	to.RadiusY = from.RadiusY
 }
 
-type StartArcShapeV2Grid_WOP struct {
+type StartArcShapeGrid_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *StartArcShapeV2Grid) CopyBasicFields(to *StartArcShapeV2Grid) {
+func (from *StartArcShapeGrid) CopyBasicFields(to *StartArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
 
-type TopEndArcShapeV2_WOP struct {
+type TopEndArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -1007,7 +1007,7 @@ type TopEndArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *TopEndArcShapeV2) CopyBasicFields(to *TopEndArcShapeV2) {
+func (from *TopEndArcShape) CopyBasicFields(to *TopEndArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -1021,13 +1021,13 @@ func (from *TopEndArcShapeV2) CopyBasicFields(to *TopEndArcShapeV2) {
 	to.RadiusY = from.RadiusY
 }
 
-type TopEndArcShapeV2Grid_WOP struct {
+type TopEndArcShapeGrid_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *TopEndArcShapeV2Grid) CopyBasicFields(to *TopEndArcShapeV2Grid) {
+func (from *TopEndArcShapeGrid) CopyBasicFields(to *TopEndArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -1043,7 +1043,7 @@ func (from *TopGrowthCurve2D) CopyBasicFields(to *TopGrowthCurve2D) {
 	to.Name = from.Name
 }
 
-type TopStackGrowthCurveEndArcShapeV2_WOP struct {
+type TopStackGrowthCurveEndArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -1067,7 +1067,7 @@ type TopStackGrowthCurveEndArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *TopStackGrowthCurveEndArcShapeV2) CopyBasicFields(to *TopStackGrowthCurveEndArcShapeV2) {
+func (from *TopStackGrowthCurveEndArcShape) CopyBasicFields(to *TopStackGrowthCurveEndArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -1081,7 +1081,7 @@ func (from *TopStackGrowthCurveEndArcShapeV2) CopyBasicFields(to *TopStackGrowth
 	to.RadiusY = from.RadiusY
 }
 
-type TopStackGrowthCurveStartArcShapeV2_WOP struct {
+type TopStackGrowthCurveStartArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -1105,7 +1105,7 @@ type TopStackGrowthCurveStartArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *TopStackGrowthCurveStartArcShapeV2) CopyBasicFields(to *TopStackGrowthCurveStartArcShapeV2) {
+func (from *TopStackGrowthCurveStartArcShape) CopyBasicFields(to *TopStackGrowthCurveStartArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -1119,18 +1119,18 @@ func (from *TopStackGrowthCurveStartArcShapeV2) CopyBasicFields(to *TopStackGrow
 	to.RadiusY = from.RadiusY
 }
 
-type TopStackOfGrowthCurveV2_WOP struct {
+type TopStackOfGrowthCurve_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *TopStackOfGrowthCurveV2) CopyBasicFields(to *TopStackOfGrowthCurveV2) {
+func (from *TopStackOfGrowthCurve) CopyBasicFields(to *TopStackOfGrowthCurve) {
 	// insertion point
 	to.Name = from.Name
 }
 
-type TopStartArcShapeV2_WOP struct {
+type TopStartArcShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -1154,7 +1154,7 @@ type TopStartArcShapeV2_WOP struct {
 	RadiusY float64
 }
 
-func (from *TopStartArcShapeV2) CopyBasicFields(to *TopStartArcShapeV2) {
+func (from *TopStartArcShape) CopyBasicFields(to *TopStartArcShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartX = from.StartX
@@ -1168,13 +1168,13 @@ func (from *TopStartArcShapeV2) CopyBasicFields(to *TopStartArcShapeV2) {
 	to.RadiusY = from.RadiusY
 }
 
-type TopStartArcShapeV2Grid_WOP struct {
+type TopStartArcShapeGrid_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *TopStartArcShapeV2Grid) CopyBasicFields(to *TopStartArcShapeV2Grid) {
+func (from *TopStartArcShapeGrid) CopyBasicFields(to *TopStartArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
