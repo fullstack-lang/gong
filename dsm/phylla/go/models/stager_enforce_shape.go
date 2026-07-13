@@ -388,18 +388,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n8 || needCommit
 
-	n9 := enforcePlantHasShape[*StackOfGrowthCurve](
-		stager,
-		func() *StackOfGrowthCurve { return new(StackOfGrowthCurve) },
-		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
-		func(p *Plant, shape *StackOfGrowthCurve) { p.StackOfGrowthCurve = shape },
-		func(p *Plant, shape *StackOfGrowthCurve) bool {
-			return p.StackOfGrowthCurve == shape
-		},
-		"StackOfGrowthCurve",
-	)
-	needCommit = n9 || needCommit
-
 	n10 := enforcePlantHasShape[*StackOfGrowthCurveV2](
 		stager,
 		func() *StackOfGrowthCurveV2 { return new(StackOfGrowthCurveV2) },
@@ -436,7 +424,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9 || n10 || n11 || n12
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n10 || n11 || n12
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -581,13 +569,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n8 || needCommit
 
-	n9 := enforcePlantShapeName[*StackOfGrowthCurve](
-		stager,
-		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
-		"StackOfGrowthCurve",
-	)
-	needCommit = n9 || needCommit
-
 	n10 := enforcePlantShapeName[*StackOfGrowthCurveV2](
 		stager,
 		func(p *Plant) *StackOfGrowthCurveV2 { return p.StackOfGrowthCurveV2 },
@@ -609,7 +590,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n9 || n10 || n11 || n12
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n7_bottom_arc_v2 || n7_bottom_arc_v2_end || n8 || n10 || n11 || n12
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
@@ -763,9 +744,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforceGrowthCurveBezierShapeGridHasShapes(stage, plant.GrowthCurveBezierShapeGrid, plant.PerpendicularVectorGrid, plant.RhombusSideLength, circLen) || needCommit
 		}
 
-		if plant.StackOfGrowthCurve != nil && plant.GrowthCurveBezierShapeGrid != nil && plant.GrowthVectorShape != nil {
-			needCommit = enforceStackOfGrowthCurveHasShapes(stage, plant.StackOfGrowthCurve, plant.GrowthCurveBezierShapeGrid, plant.GrowthVectorShape, plant.StackHeight, circLen) || needCommit
-		}
+
 
 		if plant.StackOfGrowthCurveV2 != nil && plant.PerpendicularVectorGrid != nil && plant.GrowthVectorShape != nil {
 			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurveV2, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.Thickness) || needCommit
@@ -2036,103 +2015,7 @@ func enforceGrowthCurveBezierShapeGridHasShapes(stage *Stage, grid *GrowthCurveB
 	return needCommit
 }
 
-func enforceStackOfGrowthCurveHasShapes(stage *Stage, stack *StackOfGrowthCurve, grid *GrowthCurveBezierShapeGrid, vector *GrowthVectorShape, stackHeight int, circLen float64) (needCommit bool) {
-	if stack == nil || grid == nil || vector == nil || stackHeight < 1 || circLen <= 0 {
-		if len(stack.StackGrowthCurveBezierShapes) > 0 {
-			stack.StackGrowthCurveBezierShapes = nil
-			return true
-		}
-		return false
-	}
 
-	baseCurves := grid.GrowthCurveBezierShapes
-	if len(baseCurves) == 0 {
-		return false
-	}
-
-	// baseCurves contains both the original and the +circLen translated curves.
-	// We only want the original ones (the first half).
-	numBase := len(baseCurves) / 2
-	if numBase == 0 {
-		numBase = len(baseCurves)
-	}
-
-	type expectedShape struct {
-		name                               string
-		startX, startY, endX, endY         float64
-		cpStartX, cpStartY, cpEndX, cpEndY float64
-	}
-	var expected []expectedShape
-
-	for h := 0; h < stackHeight; h++ {
-		dx := float64(h) * vector.X
-		dy := float64(h) * vector.Y
-
-		for i := 0; i < numBase; i++ {
-			baseCurve := baseCurves[i]
-			currentDX := math.Mod(dx, circLen)
-			if currentDX < 0 {
-				currentDX += circLen
-			}
-
-			startX := baseCurve.StartX + currentDX
-			expected = append(expected, expectedShape{
-				name:     fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i),
-				startX:   startX,
-				startY:   baseCurve.StartY + dy,
-				endX:     baseCurve.EndX + currentDX,
-				endY:     baseCurve.EndY + dy,
-				cpStartX: baseCurve.ControlPointStartX + currentDX,
-				cpStartY: baseCurve.ControlPointStartY + dy,
-				cpEndX:   baseCurve.ControlPointEndX + currentDX,
-				cpEndY:   baseCurve.ControlPointEndY + dy,
-			})
-		}
-	}
-
-	valid := true
-	if len(stack.StackGrowthCurveBezierShapes) != len(expected) {
-		valid = false
-	} else {
-		for i, exp := range expected {
-			b := stack.StackGrowthCurveBezierShapes[i]
-			if b == nil || b.Name != exp.name {
-				valid = false
-				break
-			}
-
-			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
-				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 ||
-				math.Abs(b.ControlPointStartX-exp.cpStartX) > 1e-4 || math.Abs(b.ControlPointStartY-exp.cpStartY) > 1e-4 ||
-				math.Abs(b.ControlPointEndX-exp.cpEndX) > 1e-4 || math.Abs(b.ControlPointEndY-exp.cpEndY) > 1e-4 {
-				valid = false
-				break
-			}
-		}
-	}
-
-	if !valid {
-		stack.StackGrowthCurveBezierShapes = make([]*StackGrowthCurveBezierShape, len(expected))
-		for i, exp := range expected {
-			b := new(StackGrowthCurveBezierShape).Stage(stage)
-			b.Name = exp.name
-
-			b.StartX = exp.startX
-			b.StartY = exp.startY
-			b.EndX = exp.endX
-			b.EndY = exp.endY
-			b.ControlPointStartX = exp.cpStartX
-			b.ControlPointStartY = exp.cpStartY
-			b.ControlPointEndX = exp.cpEndX
-			b.ControlPointEndY = exp.cpEndY
-
-			stack.StackGrowthCurveBezierShapes[i] = b
-		}
-		needCommit = true
-	}
-
-	return needCommit
-}
 
 func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurveV2, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {

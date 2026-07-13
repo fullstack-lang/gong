@@ -22,16 +22,13 @@ type PlantDiagram struct {
 	IsHiddenPerpendicularVectorGridHalfway bool
 	IsHiddenBaseVectorShapeGrid            bool
 	IsHiddenArcNormalVectorShapeGrid       bool
-	IsHiddenStartArcShapeGrid              bool
 	IsHiddenStartArcShapeV2Grid            bool
 	IsHiddenTopStartArcShapeV2Grid         bool
-	IsHiddenEndArcShapeGrid                bool
 	IsHiddenEndArcShapeV2Grid              bool
 	IsHiddenTopEndArcShapeV2Grid           bool
 	IsHiddenBottomStartArcShapeV2Grid      bool
 	IsHiddenBottomEndArcShapeV2Grid        bool
 	IsHiddenGrowthCurveBezierShapeGrid     bool
-	IsHiddenStackOfGrowthCurve             bool
 	IsHiddenStackOfGrowthCurveV2           bool
 	IsHiddenTopStackOfGrowthCurveV2        bool
 	IsHiddenBottomStackOfGrowthCurveV2     bool
