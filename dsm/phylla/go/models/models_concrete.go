@@ -396,6 +396,70 @@ type StackGrowthCurveEndArcShapeV2 struct {
 	RadiusX, RadiusY float64
 }
 
+// TopStackOfGrowthCurveV2 of a plant,
+type TopStackOfGrowthCurveV2 struct {
+	Name string
+
+	TopStackGrowthCurveStartArcShapeV2s []*TopStackGrowthCurveStartArcShapeV2
+	TopStackGrowthCurveEndArcShapeV2s   []*TopStackGrowthCurveEndArcShapeV2
+}
+
+type TopStackGrowthCurveStartArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+type TopStackGrowthCurveEndArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+// BottomStackOfGrowthCurveV2 of a plant,
+type BottomStackOfGrowthCurveV2 struct {
+	Name string
+
+	BottomStackGrowthCurveStartArcShapeV2s []*BottomStackGrowthCurveStartArcShapeV2
+	BottomStackGrowthCurveEndArcShapeV2s   []*BottomStackGrowthCurveEndArcShapeV2
+}
+
+type BottomStackGrowthCurveStartArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
+type BottomStackGrowthCurveEndArcShapeV2 struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation  float64
+	LargeArcFlag   bool
+	SweepFlag      bool
+	RadiusX, RadiusY float64
+}
+
 type Rendered3DShape struct {
 	Name string
 

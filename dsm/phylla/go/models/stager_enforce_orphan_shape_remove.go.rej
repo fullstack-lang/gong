@@ -1,0 +1,13 @@
+@@ -282,6 +306,12 @@
+ 	needCommit = unstageUnreachableOrphans(stager, refStackGrowthCurveStartArcShapeV2) || needCommit
+ 	needCommit = unstageUnreachableOrphans(stager, refStackGrowthCurveEndArcShapeV2) || needCommit
+ 	needCommit = unstageUnreachableOrphans(stager, refStackGrowthCurveBezierShape) || needCommit
++	needCommit = unstageUnreachableOrphans(stager, refTopStackOfGrowthCurveV2) || needCommit
++	needCommit = unstageUnreachableOrphans(stager, refTopStackGrowthCurveStartArcShapeV2) || needCommit
++	needCommit = unstageUnreachableOrphans(stager, refTopStackGrowthCurveEndArcShapeV2) || needCommit
++	needCommit = unstageUnreachableOrphans(stager, refBottomStackOfGrowthCurveV2) || needCommit
++	needCommit = unstageUnreachableOrphans(stager, refBottomStackGrowthCurveStartArcShapeV2) || needCommit
++	needCommit = unstageUnreachableOrphans(stager, refBottomStackGrowthCurveEndArcShapeV2) || needCommit
+ 	needCommit = unstageUnreachableOrphans(stager, refRendered3DShape) || needCommit
+ 
+ 	return needCommit

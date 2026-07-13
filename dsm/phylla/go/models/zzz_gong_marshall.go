@@ -489,6 +489,104 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(bottomendarcshapev2grid.GongMarshallField(stage, "BottomEndArcShapesV2"))
 	}
 
+	bottomstackgrowthcurveendarcshapev2Ordered := []*BottomStackGrowthCurveEndArcShapeV2{}
+	for bottomstackgrowthcurveendarcshapev2 := range stage.BottomStackGrowthCurveEndArcShapeV2s {
+		bottomstackgrowthcurveendarcshapev2Ordered = append(bottomstackgrowthcurveendarcshapev2Ordered, bottomstackgrowthcurveendarcshapev2)
+	}
+	sort.Slice(bottomstackgrowthcurveendarcshapev2Ordered[:], func(i, j int) bool {
+		bottomstackgrowthcurveendarcshapev2i := bottomstackgrowthcurveendarcshapev2Ordered[i]
+		bottomstackgrowthcurveendarcshapev2j := bottomstackgrowthcurveendarcshapev2Ordered[j]
+		bottomstackgrowthcurveendarcshapev2i_order, oki := stage.BottomStackGrowthCurveEndArcShapeV2_stagedOrder[bottomstackgrowthcurveendarcshapev2i]
+		bottomstackgrowthcurveendarcshapev2j_order, okj := stage.BottomStackGrowthCurveEndArcShapeV2_stagedOrder[bottomstackgrowthcurveendarcshapev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bottomstackgrowthcurveendarcshapev2i_order < bottomstackgrowthcurveendarcshapev2j_order
+	})
+	if len(bottomstackgrowthcurveendarcshapev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, bottomstackgrowthcurveendarcshapev2 := range bottomstackgrowthcurveendarcshapev2Ordered {
+
+		identifiersDecl.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	bottomstackgrowthcurvestartarcshapev2Ordered := []*BottomStackGrowthCurveStartArcShapeV2{}
+	for bottomstackgrowthcurvestartarcshapev2 := range stage.BottomStackGrowthCurveStartArcShapeV2s {
+		bottomstackgrowthcurvestartarcshapev2Ordered = append(bottomstackgrowthcurvestartarcshapev2Ordered, bottomstackgrowthcurvestartarcshapev2)
+	}
+	sort.Slice(bottomstackgrowthcurvestartarcshapev2Ordered[:], func(i, j int) bool {
+		bottomstackgrowthcurvestartarcshapev2i := bottomstackgrowthcurvestartarcshapev2Ordered[i]
+		bottomstackgrowthcurvestartarcshapev2j := bottomstackgrowthcurvestartarcshapev2Ordered[j]
+		bottomstackgrowthcurvestartarcshapev2i_order, oki := stage.BottomStackGrowthCurveStartArcShapeV2_stagedOrder[bottomstackgrowthcurvestartarcshapev2i]
+		bottomstackgrowthcurvestartarcshapev2j_order, okj := stage.BottomStackGrowthCurveStartArcShapeV2_stagedOrder[bottomstackgrowthcurvestartarcshapev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bottomstackgrowthcurvestartarcshapev2i_order < bottomstackgrowthcurvestartarcshapev2j_order
+	})
+	if len(bottomstackgrowthcurvestartarcshapev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, bottomstackgrowthcurvestartarcshapev2 := range bottomstackgrowthcurvestartarcshapev2Ordered {
+
+		identifiersDecl.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	bottomstackofgrowthcurvev2Ordered := []*BottomStackOfGrowthCurveV2{}
+	for bottomstackofgrowthcurvev2 := range stage.BottomStackOfGrowthCurveV2s {
+		bottomstackofgrowthcurvev2Ordered = append(bottomstackofgrowthcurvev2Ordered, bottomstackofgrowthcurvev2)
+	}
+	sort.Slice(bottomstackofgrowthcurvev2Ordered[:], func(i, j int) bool {
+		bottomstackofgrowthcurvev2i := bottomstackofgrowthcurvev2Ordered[i]
+		bottomstackofgrowthcurvev2j := bottomstackofgrowthcurvev2Ordered[j]
+		bottomstackofgrowthcurvev2i_order, oki := stage.BottomStackOfGrowthCurveV2_stagedOrder[bottomstackofgrowthcurvev2i]
+		bottomstackofgrowthcurvev2j_order, okj := stage.BottomStackOfGrowthCurveV2_stagedOrder[bottomstackofgrowthcurvev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bottomstackofgrowthcurvev2i_order < bottomstackofgrowthcurvev2j_order
+	})
+	if len(bottomstackofgrowthcurvev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, bottomstackofgrowthcurvev2 := range bottomstackofgrowthcurvev2Ordered {
+
+		identifiersDecl.WriteString(bottomstackofgrowthcurvev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomstackofgrowthcurvev2.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(bottomstackofgrowthcurvev2.GongMarshallField(stage, "BottomStackGrowthCurveStartArcShapeV2s"))
+		pointersInitializesStatements.WriteString(bottomstackofgrowthcurvev2.GongMarshallField(stage, "BottomStackGrowthCurveEndArcShapeV2s"))
+	}
+
 	bottomstartarcshapev2Ordered := []*BottomStartArcShapeV2{}
 	for bottomstartarcshapev2 := range stage.BottomStartArcShapeV2s {
 		bottomstartarcshapev2Ordered = append(bottomstartarcshapev2Ordered, bottomstartarcshapev2)
@@ -1187,6 +1285,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurveV2"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStackOfGrowthCurveV2"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "BottomStackOfGrowthCurveV2"))
 	}
 
 	plantcircumferenceshapeOrdered := []*PlantCircumferenceShape{}
@@ -1270,6 +1370,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurveV2"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurveV2"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurveV2"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -1737,6 +1839,104 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "TopEndArcShapesV2"))
 	}
 
+	topstackgrowthcurveendarcshapev2Ordered := []*TopStackGrowthCurveEndArcShapeV2{}
+	for topstackgrowthcurveendarcshapev2 := range stage.TopStackGrowthCurveEndArcShapeV2s {
+		topstackgrowthcurveendarcshapev2Ordered = append(topstackgrowthcurveendarcshapev2Ordered, topstackgrowthcurveendarcshapev2)
+	}
+	sort.Slice(topstackgrowthcurveendarcshapev2Ordered[:], func(i, j int) bool {
+		topstackgrowthcurveendarcshapev2i := topstackgrowthcurveendarcshapev2Ordered[i]
+		topstackgrowthcurveendarcshapev2j := topstackgrowthcurveendarcshapev2Ordered[j]
+		topstackgrowthcurveendarcshapev2i_order, oki := stage.TopStackGrowthCurveEndArcShapeV2_stagedOrder[topstackgrowthcurveendarcshapev2i]
+		topstackgrowthcurveendarcshapev2j_order, okj := stage.TopStackGrowthCurveEndArcShapeV2_stagedOrder[topstackgrowthcurveendarcshapev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topstackgrowthcurveendarcshapev2i_order < topstackgrowthcurveendarcshapev2j_order
+	})
+	if len(topstackgrowthcurveendarcshapev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topstackgrowthcurveendarcshapev2 := range topstackgrowthcurveendarcshapev2Ordered {
+
+		identifiersDecl.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	topstackgrowthcurvestartarcshapev2Ordered := []*TopStackGrowthCurveStartArcShapeV2{}
+	for topstackgrowthcurvestartarcshapev2 := range stage.TopStackGrowthCurveStartArcShapeV2s {
+		topstackgrowthcurvestartarcshapev2Ordered = append(topstackgrowthcurvestartarcshapev2Ordered, topstackgrowthcurvestartarcshapev2)
+	}
+	sort.Slice(topstackgrowthcurvestartarcshapev2Ordered[:], func(i, j int) bool {
+		topstackgrowthcurvestartarcshapev2i := topstackgrowthcurvestartarcshapev2Ordered[i]
+		topstackgrowthcurvestartarcshapev2j := topstackgrowthcurvestartarcshapev2Ordered[j]
+		topstackgrowthcurvestartarcshapev2i_order, oki := stage.TopStackGrowthCurveStartArcShapeV2_stagedOrder[topstackgrowthcurvestartarcshapev2i]
+		topstackgrowthcurvestartarcshapev2j_order, okj := stage.TopStackGrowthCurveStartArcShapeV2_stagedOrder[topstackgrowthcurvestartarcshapev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topstackgrowthcurvestartarcshapev2i_order < topstackgrowthcurvestartarcshapev2j_order
+	})
+	if len(topstackgrowthcurvestartarcshapev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topstackgrowthcurvestartarcshapev2 := range topstackgrowthcurvestartarcshapev2Ordered {
+
+		identifiersDecl.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	topstackofgrowthcurvev2Ordered := []*TopStackOfGrowthCurveV2{}
+	for topstackofgrowthcurvev2 := range stage.TopStackOfGrowthCurveV2s {
+		topstackofgrowthcurvev2Ordered = append(topstackofgrowthcurvev2Ordered, topstackofgrowthcurvev2)
+	}
+	sort.Slice(topstackofgrowthcurvev2Ordered[:], func(i, j int) bool {
+		topstackofgrowthcurvev2i := topstackofgrowthcurvev2Ordered[i]
+		topstackofgrowthcurvev2j := topstackofgrowthcurvev2Ordered[j]
+		topstackofgrowthcurvev2i_order, oki := stage.TopStackOfGrowthCurveV2_stagedOrder[topstackofgrowthcurvev2i]
+		topstackofgrowthcurvev2j_order, okj := stage.TopStackOfGrowthCurveV2_stagedOrder[topstackofgrowthcurvev2j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return topstackofgrowthcurvev2i_order < topstackofgrowthcurvev2j_order
+	})
+	if len(topstackofgrowthcurvev2Ordered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, topstackofgrowthcurvev2 := range topstackofgrowthcurvev2Ordered {
+
+		identifiersDecl.WriteString(topstackofgrowthcurvev2.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topstackofgrowthcurvev2.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(topstackofgrowthcurvev2.GongMarshallField(stage, "TopStackGrowthCurveStartArcShapeV2s"))
+		pointersInitializesStatements.WriteString(topstackofgrowthcurvev2.GongMarshallField(stage, "TopStackGrowthCurveEndArcShapeV2s"))
+	}
+
 	topstartarcshapev2Ordered := []*TopStartArcShapeV2{}
 	for topstartarcshapev2 := range stage.TopStartArcShapeV2s {
 		topstartarcshapev2Ordered = append(topstartarcshapev2Ordered, topstartarcshapev2)
@@ -1850,6 +2050,30 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, bottomendarcshapev2grid := range bottomendarcshapev2gridOrdered {
 		_ = bottomendarcshapev2grid
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, bottomstackgrowthcurveendarcshapev2 := range bottomstackgrowthcurveendarcshapev2Ordered {
+		_ = bottomstackgrowthcurveendarcshapev2
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, bottomstackgrowthcurvestartarcshapev2 := range bottomstackgrowthcurvestartarcshapev2Ordered {
+		_ = bottomstackgrowthcurvestartarcshapev2
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, bottomstackofgrowthcurvev2 := range bottomstackofgrowthcurvev2Ordered {
+		_ = bottomstackofgrowthcurvev2
 		var setPointerField string
 		_ = setPointerField
 
@@ -2176,6 +2400,30 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, topstackgrowthcurveendarcshapev2 := range topstackgrowthcurveendarcshapev2Ordered {
+		_ = topstackgrowthcurveendarcshapev2
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, topstackgrowthcurvestartarcshapev2 := range topstackgrowthcurvestartarcshapev2Ordered {
+		_ = topstackgrowthcurvestartarcshapev2
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, topstackofgrowthcurvev2 := range topstackofgrowthcurvev2Ordered {
+		_ = topstackofgrowthcurvev2
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, topstartarcshapev2 := range topstartarcshapev2Ordered {
 		_ = topstartarcshapev2
 		var setPointerField string
@@ -2477,6 +2725,161 @@ func (bottomendarcshapev2grid *BottomEndArcShapeV2Grid) GongMarshallField(stage 
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct BottomEndArcShapeV2Grid", fieldName)
+	}
+	return
+}
+
+func (bottomstackgrowthcurveendarcshapev2 *BottomStackGrowthCurveEndArcShapeV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bottomstackgrowthcurveendarcshapev2.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.EndY))
+	case "XAxisRotation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.XAxisRotation))
+	case "LargeArcFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", bottomstackgrowthcurveendarcshapev2.LargeArcFlag))
+	case "SweepFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", bottomstackgrowthcurveendarcshapev2.SweepFlag))
+	case "RadiusX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.RadiusX))
+	case "RadiusY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurveendarcshapev2.RadiusY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct BottomStackGrowthCurveEndArcShapeV2", fieldName)
+	}
+	return
+}
+
+func (bottomstackgrowthcurvestartarcshapev2 *BottomStackGrowthCurveStartArcShapeV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bottomstackgrowthcurvestartarcshapev2.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.EndY))
+	case "XAxisRotation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.XAxisRotation))
+	case "LargeArcFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", bottomstackgrowthcurvestartarcshapev2.LargeArcFlag))
+	case "SweepFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", bottomstackgrowthcurvestartarcshapev2.SweepFlag))
+	case "RadiusX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.RadiusX))
+	case "RadiusY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bottomstackgrowthcurvestartarcshapev2.RadiusY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct BottomStackGrowthCurveStartArcShapeV2", fieldName)
+	}
+	return
+}
+
+func (bottomstackofgrowthcurvev2 *BottomStackOfGrowthCurveV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bottomstackofgrowthcurvev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bottomstackofgrowthcurvev2.Name))
+
+	case "BottomStackGrowthCurveStartArcShapeV2s":
+		var sb strings.Builder
+		for _, _bottomstackgrowthcurvestartarcshapev2 := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", bottomstackofgrowthcurvev2.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "BottomStackGrowthCurveStartArcShapeV2s")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bottomstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "BottomStackGrowthCurveEndArcShapeV2s":
+		var sb strings.Builder
+		for _, _bottomstackgrowthcurveendarcshapev2 := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", bottomstackofgrowthcurvev2.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "BottomStackGrowthCurveEndArcShapeV2s")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bottomstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct BottomStackOfGrowthCurveV2", fieldName)
 	}
 	return
 }
@@ -3601,6 +4004,32 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackOfGrowthCurveV2")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "TopStackOfGrowthCurveV2":
+		if plant.TopStackOfGrowthCurveV2 != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStackOfGrowthCurveV2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.TopStackOfGrowthCurveV2.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStackOfGrowthCurveV2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "BottomStackOfGrowthCurveV2":
+		if plant.BottomStackOfGrowthCurveV2 != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomStackOfGrowthCurveV2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.BottomStackOfGrowthCurveV2.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BottomStackOfGrowthCurveV2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Plant", fieldName)
 	}
@@ -3785,6 +4214,16 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfGrowthCurveV2")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurveV2))
+	case "IsHiddenTopStackOfGrowthCurveV2":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTopStackOfGrowthCurveV2")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenTopStackOfGrowthCurveV2))
+	case "IsHiddenBottomStackOfGrowthCurveV2":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomStackOfGrowthCurveV2")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStackOfGrowthCurveV2))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -4435,6 +4874,161 @@ func (topendarcshapev2grid *TopEndArcShapeV2Grid) GongMarshallField(stage *Stage
 	return
 }
 
+func (topstackgrowthcurveendarcshapev2 *TopStackGrowthCurveEndArcShapeV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurveendarcshapev2.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.EndY))
+	case "XAxisRotation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.XAxisRotation))
+	case "LargeArcFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", topstackgrowthcurveendarcshapev2.LargeArcFlag))
+	case "SweepFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", topstackgrowthcurveendarcshapev2.SweepFlag))
+	case "RadiusX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.RadiusX))
+	case "RadiusY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurveendarcshapev2.RadiusY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopStackGrowthCurveEndArcShapeV2", fieldName)
+	}
+	return
+}
+
+func (topstackgrowthcurvestartarcshapev2 *TopStackGrowthCurveStartArcShapeV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurvestartarcshapev2.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.EndY))
+	case "XAxisRotation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.XAxisRotation))
+	case "LargeArcFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", topstackgrowthcurvestartarcshapev2.LargeArcFlag))
+	case "SweepFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", topstackgrowthcurvestartarcshapev2.SweepFlag))
+	case "RadiusX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.RadiusX))
+	case "RadiusY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", topstackgrowthcurvestartarcshapev2.RadiusY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopStackGrowthCurveStartArcShapeV2", fieldName)
+	}
+	return
+}
+
+func (topstackofgrowthcurvev2 *TopStackOfGrowthCurveV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", topstackofgrowthcurvev2.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofgrowthcurvev2.Name))
+
+	case "TopStackGrowthCurveStartArcShapeV2s":
+		var sb strings.Builder
+		for _, _topstackgrowthcurvestartarcshapev2 := range topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", topstackofgrowthcurvev2.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TopStackGrowthCurveStartArcShapeV2s")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _topstackgrowthcurvestartarcshapev2.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "TopStackGrowthCurveEndArcShapeV2s":
+		var sb strings.Builder
+		for _, _topstackgrowthcurveendarcshapev2 := range topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", topstackofgrowthcurvev2.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TopStackGrowthCurveEndArcShapeV2s")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _topstackgrowthcurveendarcshapev2.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TopStackOfGrowthCurveV2", fieldName)
+	}
+	return
+}
+
 func (topstartarcshapev2 *TopStartArcShapeV2) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -4616,6 +5210,59 @@ func (bottomendarcshapev2grid *BottomEndArcShapeV2Grid) GongMarshallAllFields(st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(bottomendarcshapev2grid.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(bottomendarcshapev2grid.GongMarshallField(stage, "BottomEndArcShapesV2"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (bottomstackgrowthcurveendarcshapev2 *BottomStackGrowthCurveEndArcShapeV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (bottomstackgrowthcurvestartarcshapev2 *BottomStackGrowthCurveStartArcShapeV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (bottomstackofgrowthcurvev2 *BottomStackOfGrowthCurveV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(bottomstackofgrowthcurvev2.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(bottomstackofgrowthcurvev2.GongMarshallField(stage, "BottomStackGrowthCurveStartArcShapeV2s"))
+		pointersInitializesStatements.WriteString(bottomstackofgrowthcurvev2.GongMarshallField(stage, "BottomStackGrowthCurveEndArcShapeV2s"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4971,6 +5618,8 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurveBezierShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurveV2"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStackOfGrowthCurveV2"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "BottomStackOfGrowthCurveV2"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -5024,6 +5673,8 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurveBezierShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurveV2"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurveV2"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurveV2"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -5264,6 +5915,59 @@ func (topendarcshapev2grid *TopEndArcShapeV2Grid) GongMarshallAllFields(stage *S
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(topendarcshapev2grid.GongMarshallField(stage, "TopEndArcShapesV2"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (topstackgrowthcurveendarcshapev2 *TopStackGrowthCurveEndArcShapeV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (topstackgrowthcurvestartarcshapev2 *TopStackGrowthCurveStartArcShapeV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "SweepFlag"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (topstackofgrowthcurvev2 *TopStackOfGrowthCurveV2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(topstackofgrowthcurvev2.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(topstackofgrowthcurvev2.GongMarshallField(stage, "TopStackGrowthCurveStartArcShapeV2s"))
+		pointersInitializesStatements.WriteString(topstackofgrowthcurvev2.GongMarshallField(stage, "TopStackGrowthCurveEndArcShapeV2s"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

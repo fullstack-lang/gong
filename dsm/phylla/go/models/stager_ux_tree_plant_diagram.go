@@ -844,9 +844,10 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	if stackOfGrowthCurveV2 := plant.StackOfGrowthCurveV2; stackOfGrowthCurveV2 != nil {
-		node := (&tree.Node{
+		node := &tree.Node{
 			Name: "StackOfGrowthCurveV2",
-		}).Stage(stager.treeStage)
+		}
+		node.IsExpanded = true
 		node.HasCheckboxButton = false
 		node.IsNodeClickable = true
 		node.OnClick = func(frontNode *tree.Node) {
@@ -865,6 +866,68 @@ func (stager *Stager) treePlantDiagram(
 			},
 		}
 		if plantDiagram.IsHiddenStackOfGrowthCurveV2 {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	if topStackOfGrowthCurveV2 := plant.TopStackOfGrowthCurveV2; topStackOfGrowthCurveV2 != nil {
+		node := &tree.Node{
+			Name: "TopStackOfGrowthCurveV2",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topStackOfGrowthCurveV2, GetPointerToGongstructName[*TopStackOfGrowthCurveV2]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopStackOfGrowthCurveV2 = !plantDiagram.IsHiddenTopStackOfGrowthCurveV2
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopStackOfGrowthCurveV2 {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	if bottomStackOfGrowthCurveV2 := plant.BottomStackOfGrowthCurveV2; bottomStackOfGrowthCurveV2 != nil {
+		node := &tree.Node{
+			Name: "BottomStackOfGrowthCurveV2",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(bottomStackOfGrowthCurveV2, GetPointerToGongstructName[*BottomStackOfGrowthCurveV2]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 = !plantDiagram.IsHiddenBottomStackOfGrowthCurveV2
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenBottomStackOfGrowthCurveV2 {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
