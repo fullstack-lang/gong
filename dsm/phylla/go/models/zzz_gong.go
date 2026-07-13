@@ -13037,6 +13037,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "IsRhombusNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsHiddenAxesShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -14771,6 +14775,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginY)
 		res.valueFloat = plantdiagram.OriginY
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsRhombusNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsRhombusNodesExpanded)
+		res.valueBool = plantdiagram.IsRhombusNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenAxesShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenAxesShape)
 		res.valueBool = plantdiagram.IsHiddenAxesShape
@@ -16552,6 +16560,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.OriginX = value.GetValueFloat()
 	case "OriginY":
 		plantdiagram.OriginY = value.GetValueFloat()
+	case "IsRhombusNodesExpanded":
+		plantdiagram.IsRhombusNodesExpanded = value.GetValueBool()
 	case "IsHiddenAxesShape":
 		plantdiagram.IsHiddenAxesShape = value.GetValueBool()
 	case "IsHiddenReferenceRhombus":
