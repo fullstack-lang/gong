@@ -139,26 +139,6 @@ type PerpendicularVectorGridHalfway struct {
 	PerpendicularVectorHalfways []*PerpendicularVectorHalfway
 }
 
-// StartArcShape of a plant,
-type StartArcShape struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
-	RadiusX, RadiusY float64
-}
-
-// StartArcShapeGrid of a plant,
-type StartArcShapeGrid struct {
-	Name string
-
-	StartArcShapes []*StartArcShape
-}
-
 // StartArcShapeV2 of a plant,
 type StartArcShapeV2 struct {
 	Name string
@@ -166,9 +146,9 @@ type StartArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -179,19 +159,6 @@ type StartArcShapeV2Grid struct {
 	StartArcShapesV2 []*StartArcShapeV2
 }
 
-// EndArcShape of a plant,
-type EndArcShape struct {
-	Name string
-
-	StartX, StartY float64
-	EndX, EndY     float64
-
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
-	RadiusX, RadiusY float64
-}
-
 // TopStartArcShapeV2 of a plant,
 type TopStartArcShapeV2 struct {
 	Name string
@@ -199,9 +166,9 @@ type TopStartArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -212,13 +179,6 @@ type TopStartArcShapeV2Grid struct {
 	TopStartArcShapesV2 []*TopStartArcShapeV2
 }
 
-// EndArcShapeGrid of a plant,
-type EndArcShapeGrid struct {
-	Name string
-
-	EndArcShapes []*EndArcShape
-}
-
 // EndArcShapeV2 of a plant,
 type EndArcShapeV2 struct {
 	Name string
@@ -226,9 +186,9 @@ type EndArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -246,9 +206,9 @@ type TopEndArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -266,9 +226,9 @@ type BottomStartArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -286,9 +246,9 @@ type BottomEndArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -378,9 +338,9 @@ type StackGrowthCurveStartArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -390,9 +350,9 @@ type StackGrowthCurveEndArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -410,9 +370,9 @@ type TopStackGrowthCurveStartArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -422,9 +382,9 @@ type TopStackGrowthCurveEndArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -442,9 +402,9 @@ type BottomStackGrowthCurveStartArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
@@ -454,18 +414,18 @@ type BottomStackGrowthCurveEndArcShapeV2 struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 
-	XAxisRotation  float64
-	LargeArcFlag   bool
-	SweepFlag      bool
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
 	RadiusX, RadiusY float64
 }
 
 type Rendered3DShape struct {
 	Name string
 
-	ViewX, ViewY, ViewZ float64
+	ViewX, ViewY, ViewZ       float64
 	TargetX, TargetY, TargetZ float64
-	Fov float64
+	Fov                       float64
 }
 
 // GrowthCurve2D of a plant,

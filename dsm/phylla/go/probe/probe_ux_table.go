@@ -50,10 +50,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.BottomStartArcShapeV2Grid](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
-	case "EndArcShape":
-		updateProbeTable[*models.EndArcShape](probe)
-	case "EndArcShapeGrid":
-		updateProbeTable[*models.EndArcShapeGrid](probe)
 	case "EndArcShapeV2":
 		updateProbeTable[*models.EndArcShapeV2](probe)
 	case "EndArcShapeV2Grid":
@@ -114,10 +110,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackOfGrowthCurve](probe)
 	case "StackOfGrowthCurveV2":
 		updateProbeTable[*models.StackOfGrowthCurveV2](probe)
-	case "StartArcShape":
-		updateProbeTable[*models.StartArcShape](probe)
-	case "StartArcShapeGrid":
-		updateProbeTable[*models.StartArcShapeGrid](probe)
 	case "StartArcShapeV2":
 		updateProbeTable[*models.StartArcShapeV2](probe)
 	case "StartArcShapeV2Grid":

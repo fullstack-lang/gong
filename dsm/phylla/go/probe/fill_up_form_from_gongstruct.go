@@ -188,32 +188,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.EndArcShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "EndArcShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EndArcShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.EndArcShapeGrid:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "EndArcShapeGrid",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EndArcShapeGridFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.EndArcShapeV2:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -598,32 +572,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "StackOfGrowthCurveV2",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__StackOfGrowthCurveV2FormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.StartArcShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "StartArcShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StartArcShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.StartArcShapeGrid:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "StartArcShapeGrid",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StartArcShapeGridFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
