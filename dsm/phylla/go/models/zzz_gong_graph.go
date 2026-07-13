@@ -28,6 +28,15 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *BottomEndArcShapeV2Grid:
 		ok = stage.IsStagedBottomEndArcShapeV2Grid(target)
 
+	case *BottomStackGrowthCurveEndArcShapeV2:
+		ok = stage.IsStagedBottomStackGrowthCurveEndArcShapeV2(target)
+
+	case *BottomStackGrowthCurveStartArcShapeV2:
+		ok = stage.IsStagedBottomStackGrowthCurveStartArcShapeV2(target)
+
+	case *BottomStackOfGrowthCurveV2:
+		ok = stage.IsStagedBottomStackOfGrowthCurveV2(target)
+
 	case *BottomStartArcShapeV2:
 		ok = stage.IsStagedBottomStartArcShapeV2(target)
 
@@ -147,6 +156,15 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *TopEndArcShapeV2Grid:
 		ok = stage.IsStagedTopEndArcShapeV2Grid(target)
+
+	case *TopStackGrowthCurveEndArcShapeV2:
+		ok = stage.IsStagedTopStackGrowthCurveEndArcShapeV2(target)
+
+	case *TopStackGrowthCurveStartArcShapeV2:
+		ok = stage.IsStagedTopStackGrowthCurveStartArcShapeV2(target)
+
+	case *TopStackOfGrowthCurveV2:
+		ok = stage.IsStagedTopStackOfGrowthCurveV2(target)
 
 	case *TopStartArcShapeV2:
 		ok = stage.IsStagedTopStartArcShapeV2(target)
@@ -185,6 +203,15 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *BottomEndArcShapeV2Grid:
 		ok = stage.IsStagedBottomEndArcShapeV2Grid(target)
 
+	case *BottomStackGrowthCurveEndArcShapeV2:
+		ok = stage.IsStagedBottomStackGrowthCurveEndArcShapeV2(target)
+
+	case *BottomStackGrowthCurveStartArcShapeV2:
+		ok = stage.IsStagedBottomStackGrowthCurveStartArcShapeV2(target)
+
+	case *BottomStackOfGrowthCurveV2:
+		ok = stage.IsStagedBottomStackOfGrowthCurveV2(target)
+
 	case *BottomStartArcShapeV2:
 		ok = stage.IsStagedBottomStartArcShapeV2(target)
 
@@ -304,6 +331,15 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *TopEndArcShapeV2Grid:
 		ok = stage.IsStagedTopEndArcShapeV2Grid(target)
+
+	case *TopStackGrowthCurveEndArcShapeV2:
+		ok = stage.IsStagedTopStackGrowthCurveEndArcShapeV2(target)
+
+	case *TopStackGrowthCurveStartArcShapeV2:
+		ok = stage.IsStagedTopStackGrowthCurveStartArcShapeV2(target)
+
+	case *TopStackOfGrowthCurveV2:
+		ok = stage.IsStagedTopStackOfGrowthCurveV2(target)
 
 	case *TopStartArcShapeV2:
 		ok = stage.IsStagedTopStartArcShapeV2(target)
@@ -363,6 +399,27 @@ func (stage *Stage) IsStagedBottomEndArcShapeV2(bottomendarcshapev2 *BottomEndAr
 func (stage *Stage) IsStagedBottomEndArcShapeV2Grid(bottomendarcshapev2grid *BottomEndArcShapeV2Grid) (ok bool) {
 
 	_, ok = stage.BottomEndArcShapeV2Grids[bottomendarcshapev2grid]
+
+	return
+}
+
+func (stage *Stage) IsStagedBottomStackGrowthCurveEndArcShapeV2(bottomstackgrowthcurveendarcshapev2 *BottomStackGrowthCurveEndArcShapeV2) (ok bool) {
+
+	_, ok = stage.BottomStackGrowthCurveEndArcShapeV2s[bottomstackgrowthcurveendarcshapev2]
+
+	return
+}
+
+func (stage *Stage) IsStagedBottomStackGrowthCurveStartArcShapeV2(bottomstackgrowthcurvestartarcshapev2 *BottomStackGrowthCurveStartArcShapeV2) (ok bool) {
+
+	_, ok = stage.BottomStackGrowthCurveStartArcShapeV2s[bottomstackgrowthcurvestartarcshapev2]
+
+	return
+}
+
+func (stage *Stage) IsStagedBottomStackOfGrowthCurveV2(bottomstackofgrowthcurvev2 *BottomStackOfGrowthCurveV2) (ok bool) {
+
+	_, ok = stage.BottomStackOfGrowthCurveV2s[bottomstackofgrowthcurvev2]
 
 	return
 }
@@ -647,6 +704,27 @@ func (stage *Stage) IsStagedTopEndArcShapeV2Grid(topendarcshapev2grid *TopEndArc
 	return
 }
 
+func (stage *Stage) IsStagedTopStackGrowthCurveEndArcShapeV2(topstackgrowthcurveendarcshapev2 *TopStackGrowthCurveEndArcShapeV2) (ok bool) {
+
+	_, ok = stage.TopStackGrowthCurveEndArcShapeV2s[topstackgrowthcurveendarcshapev2]
+
+	return
+}
+
+func (stage *Stage) IsStagedTopStackGrowthCurveStartArcShapeV2(topstackgrowthcurvestartarcshapev2 *TopStackGrowthCurveStartArcShapeV2) (ok bool) {
+
+	_, ok = stage.TopStackGrowthCurveStartArcShapeV2s[topstackgrowthcurvestartarcshapev2]
+
+	return
+}
+
+func (stage *Stage) IsStagedTopStackOfGrowthCurveV2(topstackofgrowthcurvev2 *TopStackOfGrowthCurveV2) (ok bool) {
+
+	_, ok = stage.TopStackOfGrowthCurveV2s[topstackofgrowthcurvev2]
+
+	return
+}
+
 func (stage *Stage) IsStagedTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2) (ok bool) {
 
 	_, ok = stage.TopStartArcShapeV2s[topstartarcshapev2]
@@ -689,6 +767,15 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *BottomEndArcShapeV2Grid:
 		stage.StageBranchBottomEndArcShapeV2Grid(target)
+
+	case *BottomStackGrowthCurveEndArcShapeV2:
+		stage.StageBranchBottomStackGrowthCurveEndArcShapeV2(target)
+
+	case *BottomStackGrowthCurveStartArcShapeV2:
+		stage.StageBranchBottomStackGrowthCurveStartArcShapeV2(target)
+
+	case *BottomStackOfGrowthCurveV2:
+		stage.StageBranchBottomStackOfGrowthCurveV2(target)
 
 	case *BottomStartArcShapeV2:
 		stage.StageBranchBottomStartArcShapeV2(target)
@@ -809,6 +896,15 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *TopEndArcShapeV2Grid:
 		stage.StageBranchTopEndArcShapeV2Grid(target)
+
+	case *TopStackGrowthCurveEndArcShapeV2:
+		stage.StageBranchTopStackGrowthCurveEndArcShapeV2(target)
+
+	case *TopStackGrowthCurveStartArcShapeV2:
+		stage.StageBranchTopStackGrowthCurveStartArcShapeV2(target)
+
+	case *TopStackOfGrowthCurveV2:
+		stage.StageBranchTopStackOfGrowthCurveV2(target)
 
 	case *TopStartArcShapeV2:
 		stage.StageBranchTopStartArcShapeV2(target)
@@ -932,6 +1028,57 @@ func (stage *Stage) StageBranchBottomEndArcShapeV2Grid(bottomendarcshapev2grid *
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bottomendarcshapev2 := range bottomendarcshapev2grid.BottomEndArcShapesV2 {
 		StageBranch(stage, _bottomendarcshapev2)
+	}
+
+}
+
+func (stage *Stage) StageBranchBottomStackGrowthCurveEndArcShapeV2(bottomstackgrowthcurveendarcshapev2 *BottomStackGrowthCurveEndArcShapeV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, bottomstackgrowthcurveendarcshapev2) {
+		return
+	}
+
+	bottomstackgrowthcurveendarcshapev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchBottomStackGrowthCurveStartArcShapeV2(bottomstackgrowthcurvestartarcshapev2 *BottomStackGrowthCurveStartArcShapeV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, bottomstackgrowthcurvestartarcshapev2) {
+		return
+	}
+
+	bottomstackgrowthcurvestartarcshapev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchBottomStackOfGrowthCurveV2(bottomstackofgrowthcurvev2 *BottomStackOfGrowthCurveV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, bottomstackofgrowthcurvev2) {
+		return
+	}
+
+	bottomstackofgrowthcurvev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bottomstackgrowthcurvestartarcshapev2 := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s {
+		StageBranch(stage, _bottomstackgrowthcurvestartarcshapev2)
+	}
+	for _, _bottomstackgrowthcurveendarcshapev2 := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s {
+		StageBranch(stage, _bottomstackgrowthcurveendarcshapev2)
 	}
 
 }
@@ -1387,6 +1534,12 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.StackOfGrowthCurveV2 != nil {
 		StageBranch(stage, plant.StackOfGrowthCurveV2)
 	}
+	if plant.TopStackOfGrowthCurveV2 != nil {
+		StageBranch(stage, plant.TopStackOfGrowthCurveV2)
+	}
+	if plant.BottomStackOfGrowthCurveV2 != nil {
+		StageBranch(stage, plant.BottomStackOfGrowthCurveV2)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -1674,6 +1827,57 @@ func (stage *Stage) StageBranchTopEndArcShapeV2Grid(topendarcshapev2grid *TopEnd
 
 }
 
+func (stage *Stage) StageBranchTopStackGrowthCurveEndArcShapeV2(topstackgrowthcurveendarcshapev2 *TopStackGrowthCurveEndArcShapeV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, topstackgrowthcurveendarcshapev2) {
+		return
+	}
+
+	topstackgrowthcurveendarcshapev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchTopStackGrowthCurveStartArcShapeV2(topstackgrowthcurvestartarcshapev2 *TopStackGrowthCurveStartArcShapeV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, topstackgrowthcurvestartarcshapev2) {
+		return
+	}
+
+	topstackgrowthcurvestartarcshapev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchTopStackOfGrowthCurveV2(topstackofgrowthcurvev2 *TopStackOfGrowthCurveV2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, topstackofgrowthcurvev2) {
+		return
+	}
+
+	topstackofgrowthcurvev2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _topstackgrowthcurvestartarcshapev2 := range topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s {
+		StageBranch(stage, _topstackgrowthcurvestartarcshapev2)
+	}
+	for _, _topstackgrowthcurveendarcshapev2 := range topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s {
+		StageBranch(stage, _topstackgrowthcurveendarcshapev2)
+	}
+
+}
+
 func (stage *Stage) StageBranchTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2) {
 
 	// check if instance is already staged
@@ -1744,6 +1948,18 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *BottomEndArcShapeV2Grid:
 		toT := CopyBranchBottomEndArcShapeV2Grid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *BottomStackGrowthCurveEndArcShapeV2:
+		toT := CopyBranchBottomStackGrowthCurveEndArcShapeV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *BottomStackGrowthCurveStartArcShapeV2:
+		toT := CopyBranchBottomStackGrowthCurveStartArcShapeV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *BottomStackOfGrowthCurveV2:
+		toT := CopyBranchBottomStackOfGrowthCurveV2(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *BottomStartArcShapeV2:
@@ -1906,6 +2122,18 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchTopEndArcShapeV2Grid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *TopStackGrowthCurveEndArcShapeV2:
+		toT := CopyBranchTopStackGrowthCurveEndArcShapeV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TopStackGrowthCurveStartArcShapeV2:
+		toT := CopyBranchTopStackGrowthCurveStartArcShapeV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TopStackOfGrowthCurveV2:
+		toT := CopyBranchTopStackOfGrowthCurveV2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *TopStartArcShapeV2:
 		toT := CopyBranchTopStartArcShapeV2(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -2058,6 +2286,69 @@ func CopyBranchBottomEndArcShapeV2Grid(mapOrigCopy map[any]any, bottomendarcshap
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bottomendarcshapev2 := range bottomendarcshapev2gridFrom.BottomEndArcShapesV2 {
 		bottomendarcshapev2gridTo.BottomEndArcShapesV2 = append(bottomendarcshapev2gridTo.BottomEndArcShapesV2, CopyBranchBottomEndArcShapeV2(mapOrigCopy, _bottomendarcshapev2))
+	}
+
+	return
+}
+
+func CopyBranchBottomStackGrowthCurveEndArcShapeV2(mapOrigCopy map[any]any, bottomstackgrowthcurveendarcshapev2From *BottomStackGrowthCurveEndArcShapeV2) (bottomstackgrowthcurveendarcshapev2To *BottomStackGrowthCurveEndArcShapeV2) {
+
+	// bottomstackgrowthcurveendarcshapev2From has already been copied
+	if _bottomstackgrowthcurveendarcshapev2To, ok := mapOrigCopy[bottomstackgrowthcurveendarcshapev2From]; ok {
+		bottomstackgrowthcurveendarcshapev2To = _bottomstackgrowthcurveendarcshapev2To.(*BottomStackGrowthCurveEndArcShapeV2)
+		return
+	}
+
+	bottomstackgrowthcurveendarcshapev2To = new(BottomStackGrowthCurveEndArcShapeV2)
+	mapOrigCopy[bottomstackgrowthcurveendarcshapev2From] = bottomstackgrowthcurveendarcshapev2To
+	bottomstackgrowthcurveendarcshapev2From.CopyBasicFields(bottomstackgrowthcurveendarcshapev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchBottomStackGrowthCurveStartArcShapeV2(mapOrigCopy map[any]any, bottomstackgrowthcurvestartarcshapev2From *BottomStackGrowthCurveStartArcShapeV2) (bottomstackgrowthcurvestartarcshapev2To *BottomStackGrowthCurveStartArcShapeV2) {
+
+	// bottomstackgrowthcurvestartarcshapev2From has already been copied
+	if _bottomstackgrowthcurvestartarcshapev2To, ok := mapOrigCopy[bottomstackgrowthcurvestartarcshapev2From]; ok {
+		bottomstackgrowthcurvestartarcshapev2To = _bottomstackgrowthcurvestartarcshapev2To.(*BottomStackGrowthCurveStartArcShapeV2)
+		return
+	}
+
+	bottomstackgrowthcurvestartarcshapev2To = new(BottomStackGrowthCurveStartArcShapeV2)
+	mapOrigCopy[bottomstackgrowthcurvestartarcshapev2From] = bottomstackgrowthcurvestartarcshapev2To
+	bottomstackgrowthcurvestartarcshapev2From.CopyBasicFields(bottomstackgrowthcurvestartarcshapev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchBottomStackOfGrowthCurveV2(mapOrigCopy map[any]any, bottomstackofgrowthcurvev2From *BottomStackOfGrowthCurveV2) (bottomstackofgrowthcurvev2To *BottomStackOfGrowthCurveV2) {
+
+	// bottomstackofgrowthcurvev2From has already been copied
+	if _bottomstackofgrowthcurvev2To, ok := mapOrigCopy[bottomstackofgrowthcurvev2From]; ok {
+		bottomstackofgrowthcurvev2To = _bottomstackofgrowthcurvev2To.(*BottomStackOfGrowthCurveV2)
+		return
+	}
+
+	bottomstackofgrowthcurvev2To = new(BottomStackOfGrowthCurveV2)
+	mapOrigCopy[bottomstackofgrowthcurvev2From] = bottomstackofgrowthcurvev2To
+	bottomstackofgrowthcurvev2From.CopyBasicFields(bottomstackofgrowthcurvev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bottomstackgrowthcurvestartarcshapev2 := range bottomstackofgrowthcurvev2From.BottomStackGrowthCurveStartArcShapeV2s {
+		bottomstackofgrowthcurvev2To.BottomStackGrowthCurveStartArcShapeV2s = append(bottomstackofgrowthcurvev2To.BottomStackGrowthCurveStartArcShapeV2s, CopyBranchBottomStackGrowthCurveStartArcShapeV2(mapOrigCopy, _bottomstackgrowthcurvestartarcshapev2))
+	}
+	for _, _bottomstackgrowthcurveendarcshapev2 := range bottomstackofgrowthcurvev2From.BottomStackGrowthCurveEndArcShapeV2s {
+		bottomstackofgrowthcurvev2To.BottomStackGrowthCurveEndArcShapeV2s = append(bottomstackofgrowthcurvev2To.BottomStackGrowthCurveEndArcShapeV2s, CopyBranchBottomStackGrowthCurveEndArcShapeV2(mapOrigCopy, _bottomstackgrowthcurveendarcshapev2))
 	}
 
 	return
@@ -2605,6 +2896,12 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.StackOfGrowthCurveV2 != nil {
 		plantTo.StackOfGrowthCurveV2 = CopyBranchStackOfGrowthCurveV2(mapOrigCopy, plantFrom.StackOfGrowthCurveV2)
 	}
+	if plantFrom.TopStackOfGrowthCurveV2 != nil {
+		plantTo.TopStackOfGrowthCurveV2 = CopyBranchTopStackOfGrowthCurveV2(mapOrigCopy, plantFrom.TopStackOfGrowthCurveV2)
+	}
+	if plantFrom.BottomStackOfGrowthCurveV2 != nil {
+		plantTo.BottomStackOfGrowthCurveV2 = CopyBranchBottomStackOfGrowthCurveV2(mapOrigCopy, plantFrom.BottomStackOfGrowthCurveV2)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantFrom.PlantDiagrams {
@@ -2961,6 +3258,69 @@ func CopyBranchTopEndArcShapeV2Grid(mapOrigCopy map[any]any, topendarcshapev2gri
 	return
 }
 
+func CopyBranchTopStackGrowthCurveEndArcShapeV2(mapOrigCopy map[any]any, topstackgrowthcurveendarcshapev2From *TopStackGrowthCurveEndArcShapeV2) (topstackgrowthcurveendarcshapev2To *TopStackGrowthCurveEndArcShapeV2) {
+
+	// topstackgrowthcurveendarcshapev2From has already been copied
+	if _topstackgrowthcurveendarcshapev2To, ok := mapOrigCopy[topstackgrowthcurveendarcshapev2From]; ok {
+		topstackgrowthcurveendarcshapev2To = _topstackgrowthcurveendarcshapev2To.(*TopStackGrowthCurveEndArcShapeV2)
+		return
+	}
+
+	topstackgrowthcurveendarcshapev2To = new(TopStackGrowthCurveEndArcShapeV2)
+	mapOrigCopy[topstackgrowthcurveendarcshapev2From] = topstackgrowthcurveendarcshapev2To
+	topstackgrowthcurveendarcshapev2From.CopyBasicFields(topstackgrowthcurveendarcshapev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchTopStackGrowthCurveStartArcShapeV2(mapOrigCopy map[any]any, topstackgrowthcurvestartarcshapev2From *TopStackGrowthCurveStartArcShapeV2) (topstackgrowthcurvestartarcshapev2To *TopStackGrowthCurveStartArcShapeV2) {
+
+	// topstackgrowthcurvestartarcshapev2From has already been copied
+	if _topstackgrowthcurvestartarcshapev2To, ok := mapOrigCopy[topstackgrowthcurvestartarcshapev2From]; ok {
+		topstackgrowthcurvestartarcshapev2To = _topstackgrowthcurvestartarcshapev2To.(*TopStackGrowthCurveStartArcShapeV2)
+		return
+	}
+
+	topstackgrowthcurvestartarcshapev2To = new(TopStackGrowthCurveStartArcShapeV2)
+	mapOrigCopy[topstackgrowthcurvestartarcshapev2From] = topstackgrowthcurvestartarcshapev2To
+	topstackgrowthcurvestartarcshapev2From.CopyBasicFields(topstackgrowthcurvestartarcshapev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchTopStackOfGrowthCurveV2(mapOrigCopy map[any]any, topstackofgrowthcurvev2From *TopStackOfGrowthCurveV2) (topstackofgrowthcurvev2To *TopStackOfGrowthCurveV2) {
+
+	// topstackofgrowthcurvev2From has already been copied
+	if _topstackofgrowthcurvev2To, ok := mapOrigCopy[topstackofgrowthcurvev2From]; ok {
+		topstackofgrowthcurvev2To = _topstackofgrowthcurvev2To.(*TopStackOfGrowthCurveV2)
+		return
+	}
+
+	topstackofgrowthcurvev2To = new(TopStackOfGrowthCurveV2)
+	mapOrigCopy[topstackofgrowthcurvev2From] = topstackofgrowthcurvev2To
+	topstackofgrowthcurvev2From.CopyBasicFields(topstackofgrowthcurvev2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _topstackgrowthcurvestartarcshapev2 := range topstackofgrowthcurvev2From.TopStackGrowthCurveStartArcShapeV2s {
+		topstackofgrowthcurvev2To.TopStackGrowthCurveStartArcShapeV2s = append(topstackofgrowthcurvev2To.TopStackGrowthCurveStartArcShapeV2s, CopyBranchTopStackGrowthCurveStartArcShapeV2(mapOrigCopy, _topstackgrowthcurvestartarcshapev2))
+	}
+	for _, _topstackgrowthcurveendarcshapev2 := range topstackofgrowthcurvev2From.TopStackGrowthCurveEndArcShapeV2s {
+		topstackofgrowthcurvev2To.TopStackGrowthCurveEndArcShapeV2s = append(topstackofgrowthcurvev2To.TopStackGrowthCurveEndArcShapeV2s, CopyBranchTopStackGrowthCurveEndArcShapeV2(mapOrigCopy, _topstackgrowthcurveendarcshapev2))
+	}
+
+	return
+}
+
 func CopyBranchTopStartArcShapeV2(mapOrigCopy map[any]any, topstartarcshapev2From *TopStartArcShapeV2) (topstartarcshapev2To *TopStartArcShapeV2) {
 
 	// topstartarcshapev2From has already been copied
@@ -3030,6 +3390,15 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *BottomEndArcShapeV2Grid:
 		stage.UnstageBranchBottomEndArcShapeV2Grid(target)
+
+	case *BottomStackGrowthCurveEndArcShapeV2:
+		stage.UnstageBranchBottomStackGrowthCurveEndArcShapeV2(target)
+
+	case *BottomStackGrowthCurveStartArcShapeV2:
+		stage.UnstageBranchBottomStackGrowthCurveStartArcShapeV2(target)
+
+	case *BottomStackOfGrowthCurveV2:
+		stage.UnstageBranchBottomStackOfGrowthCurveV2(target)
 
 	case *BottomStartArcShapeV2:
 		stage.UnstageBranchBottomStartArcShapeV2(target)
@@ -3150,6 +3519,15 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *TopEndArcShapeV2Grid:
 		stage.UnstageBranchTopEndArcShapeV2Grid(target)
+
+	case *TopStackGrowthCurveEndArcShapeV2:
+		stage.UnstageBranchTopStackGrowthCurveEndArcShapeV2(target)
+
+	case *TopStackGrowthCurveStartArcShapeV2:
+		stage.UnstageBranchTopStackGrowthCurveStartArcShapeV2(target)
+
+	case *TopStackOfGrowthCurveV2:
+		stage.UnstageBranchTopStackOfGrowthCurveV2(target)
 
 	case *TopStartArcShapeV2:
 		stage.UnstageBranchTopStartArcShapeV2(target)
@@ -3273,6 +3651,57 @@ func (stage *Stage) UnstageBranchBottomEndArcShapeV2Grid(bottomendarcshapev2grid
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bottomendarcshapev2 := range bottomendarcshapev2grid.BottomEndArcShapesV2 {
 		UnstageBranch(stage, _bottomendarcshapev2)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchBottomStackGrowthCurveEndArcShapeV2(bottomstackgrowthcurveendarcshapev2 *BottomStackGrowthCurveEndArcShapeV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, bottomstackgrowthcurveendarcshapev2) {
+		return
+	}
+
+	bottomstackgrowthcurveendarcshapev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchBottomStackGrowthCurveStartArcShapeV2(bottomstackgrowthcurvestartarcshapev2 *BottomStackGrowthCurveStartArcShapeV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, bottomstackgrowthcurvestartarcshapev2) {
+		return
+	}
+
+	bottomstackgrowthcurvestartarcshapev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchBottomStackOfGrowthCurveV2(bottomstackofgrowthcurvev2 *BottomStackOfGrowthCurveV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, bottomstackofgrowthcurvev2) {
+		return
+	}
+
+	bottomstackofgrowthcurvev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bottomstackgrowthcurvestartarcshapev2 := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s {
+		UnstageBranch(stage, _bottomstackgrowthcurvestartarcshapev2)
+	}
+	for _, _bottomstackgrowthcurveendarcshapev2 := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s {
+		UnstageBranch(stage, _bottomstackgrowthcurveendarcshapev2)
 	}
 
 }
@@ -3728,6 +4157,12 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.StackOfGrowthCurveV2 != nil {
 		UnstageBranch(stage, plant.StackOfGrowthCurveV2)
 	}
+	if plant.TopStackOfGrowthCurveV2 != nil {
+		UnstageBranch(stage, plant.TopStackOfGrowthCurveV2)
+	}
+	if plant.BottomStackOfGrowthCurveV2 != nil {
+		UnstageBranch(stage, plant.BottomStackOfGrowthCurveV2)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -4015,6 +4450,57 @@ func (stage *Stage) UnstageBranchTopEndArcShapeV2Grid(topendarcshapev2grid *TopE
 
 }
 
+func (stage *Stage) UnstageBranchTopStackGrowthCurveEndArcShapeV2(topstackgrowthcurveendarcshapev2 *TopStackGrowthCurveEndArcShapeV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, topstackgrowthcurveendarcshapev2) {
+		return
+	}
+
+	topstackgrowthcurveendarcshapev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTopStackGrowthCurveStartArcShapeV2(topstackgrowthcurvestartarcshapev2 *TopStackGrowthCurveStartArcShapeV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, topstackgrowthcurvestartarcshapev2) {
+		return
+	}
+
+	topstackgrowthcurvestartarcshapev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTopStackOfGrowthCurveV2(topstackofgrowthcurvev2 *TopStackOfGrowthCurveV2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, topstackofgrowthcurvev2) {
+		return
+	}
+
+	topstackofgrowthcurvev2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _topstackgrowthcurvestartarcshapev2 := range topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s {
+		UnstageBranch(stage, _topstackgrowthcurvestartarcshapev2)
+	}
+	for _, _topstackgrowthcurveendarcshapev2 := range topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s {
+		UnstageBranch(stage, _topstackgrowthcurveendarcshapev2)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchTopStartArcShapeV2(topstartarcshapev2 *TopStartArcShapeV2) {
 
 	// check if instance is already staged
@@ -4093,6 +4579,29 @@ func (reference *BottomEndArcShapeV2Grid) GongReconstructPointersFromReferences(
 	reference.BottomEndArcShapesV2 = reference.BottomEndArcShapesV2[:0]
 	for _, _b := range instance.BottomEndArcShapesV2 {
 		reference.BottomEndArcShapesV2 = append(reference.BottomEndArcShapesV2, stage.BottomEndArcShapeV2s_reference[_b])
+	}
+}
+
+func (reference *BottomStackGrowthCurveEndArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *BottomStackGrowthCurveEndArcShapeV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *BottomStackGrowthCurveStartArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *BottomStackGrowthCurveStartArcShapeV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *BottomStackOfGrowthCurveV2) GongReconstructPointersFromReferences(stage *Stage, instance *BottomStackOfGrowthCurveV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.BottomStackGrowthCurveStartArcShapeV2s = reference.BottomStackGrowthCurveStartArcShapeV2s[:0]
+	for _, _b := range instance.BottomStackGrowthCurveStartArcShapeV2s {
+		reference.BottomStackGrowthCurveStartArcShapeV2s = append(reference.BottomStackGrowthCurveStartArcShapeV2s, stage.BottomStackGrowthCurveStartArcShapeV2s_reference[_b])
+	}
+	reference.BottomStackGrowthCurveEndArcShapeV2s = reference.BottomStackGrowthCurveEndArcShapeV2s[:0]
+	for _, _b := range instance.BottomStackGrowthCurveEndArcShapeV2s {
+		reference.BottomStackGrowthCurveEndArcShapeV2s = append(reference.BottomStackGrowthCurveEndArcShapeV2s, stage.BottomStackGrowthCurveEndArcShapeV2s_reference[_b])
 	}
 }
 
@@ -4329,6 +4838,12 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.StackOfGrowthCurveV2 != nil {
 		reference.StackOfGrowthCurveV2 = stage.StackOfGrowthCurveV2s_reference[instance.StackOfGrowthCurveV2]
 	}
+	if instance.TopStackOfGrowthCurveV2 != nil {
+		reference.TopStackOfGrowthCurveV2 = stage.TopStackOfGrowthCurveV2s_reference[instance.TopStackOfGrowthCurveV2]
+	}
+	if instance.BottomStackOfGrowthCurveV2 != nil {
+		reference.BottomStackOfGrowthCurveV2 = stage.BottomStackOfGrowthCurveV2s_reference[instance.BottomStackOfGrowthCurveV2]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
@@ -4452,6 +4967,29 @@ func (reference *TopEndArcShapeV2Grid) GongReconstructPointersFromReferences(sta
 	}
 }
 
+func (reference *TopStackGrowthCurveEndArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *TopStackGrowthCurveEndArcShapeV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *TopStackGrowthCurveStartArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *TopStackGrowthCurveStartArcShapeV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *TopStackOfGrowthCurveV2) GongReconstructPointersFromReferences(stage *Stage, instance *TopStackOfGrowthCurveV2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.TopStackGrowthCurveStartArcShapeV2s = reference.TopStackGrowthCurveStartArcShapeV2s[:0]
+	for _, _b := range instance.TopStackGrowthCurveStartArcShapeV2s {
+		reference.TopStackGrowthCurveStartArcShapeV2s = append(reference.TopStackGrowthCurveStartArcShapeV2s, stage.TopStackGrowthCurveStartArcShapeV2s_reference[_b])
+	}
+	reference.TopStackGrowthCurveEndArcShapeV2s = reference.TopStackGrowthCurveEndArcShapeV2s[:0]
+	for _, _b := range instance.TopStackGrowthCurveEndArcShapeV2s {
+		reference.TopStackGrowthCurveEndArcShapeV2s = append(reference.TopStackGrowthCurveEndArcShapeV2s, stage.TopStackGrowthCurveEndArcShapeV2s_reference[_b])
+	}
+}
+
 func (reference *TopStartArcShapeV2) GongReconstructPointersFromReferences(stage *Stage, instance *TopStartArcShapeV2) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -4521,6 +5059,35 @@ func (reference *BottomEndArcShapeV2Grid) GongReconstructPointersFromInstances(s
 		}
 	}
 	reference.BottomEndArcShapesV2 = _BottomEndArcShapesV2
+}
+
+func (reference *BottomStackGrowthCurveEndArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *BottomStackGrowthCurveStartArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *BottomStackOfGrowthCurveV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _BottomStackGrowthCurveStartArcShapeV2s []*BottomStackGrowthCurveStartArcShapeV2
+	for _, _reference := range reference.BottomStackGrowthCurveStartArcShapeV2s {
+		if _instance, ok := stage.BottomStackGrowthCurveStartArcShapeV2s_instance[_reference]; ok {
+			_BottomStackGrowthCurveStartArcShapeV2s = append(_BottomStackGrowthCurveStartArcShapeV2s, _instance)
+		}
+	}
+	reference.BottomStackGrowthCurveStartArcShapeV2s = _BottomStackGrowthCurveStartArcShapeV2s
+	var _BottomStackGrowthCurveEndArcShapeV2s []*BottomStackGrowthCurveEndArcShapeV2
+	for _, _reference := range reference.BottomStackGrowthCurveEndArcShapeV2s {
+		if _instance, ok := stage.BottomStackGrowthCurveEndArcShapeV2s_instance[_reference]; ok {
+			_BottomStackGrowthCurveEndArcShapeV2s = append(_BottomStackGrowthCurveEndArcShapeV2s, _instance)
+		}
+	}
+	reference.BottomStackGrowthCurveEndArcShapeV2s = _BottomStackGrowthCurveEndArcShapeV2s
 }
 
 func (reference *BottomStartArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4867,6 +5434,18 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.StackOfGrowthCurveV2 = _instance
 		}
 	}
+	if _reference := reference.TopStackOfGrowthCurveV2; _reference != nil {
+		reference.TopStackOfGrowthCurveV2 = nil
+		if _instance, ok := stage.TopStackOfGrowthCurveV2s_instance[_reference]; ok {
+			reference.TopStackOfGrowthCurveV2 = _instance
+		}
+	}
+	if _reference := reference.BottomStackOfGrowthCurveV2; _reference != nil {
+		reference.BottomStackOfGrowthCurveV2 = nil
+		if _instance, ok := stage.BottomStackOfGrowthCurveV2s_instance[_reference]; ok {
+			reference.BottomStackOfGrowthCurveV2 = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
@@ -5015,6 +5594,35 @@ func (reference *TopEndArcShapeV2Grid) GongReconstructPointersFromInstances(stag
 		}
 	}
 	reference.TopEndArcShapesV2 = _TopEndArcShapesV2
+}
+
+func (reference *TopStackGrowthCurveEndArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *TopStackGrowthCurveStartArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *TopStackOfGrowthCurveV2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _TopStackGrowthCurveStartArcShapeV2s []*TopStackGrowthCurveStartArcShapeV2
+	for _, _reference := range reference.TopStackGrowthCurveStartArcShapeV2s {
+		if _instance, ok := stage.TopStackGrowthCurveStartArcShapeV2s_instance[_reference]; ok {
+			_TopStackGrowthCurveStartArcShapeV2s = append(_TopStackGrowthCurveStartArcShapeV2s, _instance)
+		}
+	}
+	reference.TopStackGrowthCurveStartArcShapeV2s = _TopStackGrowthCurveStartArcShapeV2s
+	var _TopStackGrowthCurveEndArcShapeV2s []*TopStackGrowthCurveEndArcShapeV2
+	for _, _reference := range reference.TopStackGrowthCurveEndArcShapeV2s {
+		if _instance, ok := stage.TopStackGrowthCurveEndArcShapeV2s_instance[_reference]; ok {
+			_TopStackGrowthCurveEndArcShapeV2s = append(_TopStackGrowthCurveEndArcShapeV2s, _instance)
+		}
+	}
+	reference.TopStackGrowthCurveEndArcShapeV2s = _TopStackGrowthCurveEndArcShapeV2s
 }
 
 func (reference *TopStartArcShapeV2) GongReconstructPointersFromInstances(stage *Stage) {
@@ -5229,6 +5837,135 @@ func (bottomendarcshapev2grid *BottomEndArcShapeV2Grid) GongDiff(stage *Stage, b
 	}
 	if BottomEndArcShapesV2Different {
 		ops := Diff(stage, bottomendarcshapev2grid, bottomendarcshapev2gridOther, "BottomEndArcShapesV2", bottomendarcshapev2gridOther.BottomEndArcShapesV2, bottomendarcshapev2grid.BottomEndArcShapesV2)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (bottomstackgrowthcurveendarcshapev2 *BottomStackGrowthCurveEndArcShapeV2) GongDiff(stage *Stage, bottomstackgrowthcurveendarcshapev2Other *BottomStackGrowthCurveEndArcShapeV2) (diffs []string) {
+	// insertion point for field diffs
+	if bottomstackgrowthcurveendarcshapev2.Name != bottomstackgrowthcurveendarcshapev2Other.Name {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "Name"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.StartX != bottomstackgrowthcurveendarcshapev2Other.StartX {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartX"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.StartY != bottomstackgrowthcurveendarcshapev2Other.StartY {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartY"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.EndX != bottomstackgrowthcurveendarcshapev2Other.EndX {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndX"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.EndY != bottomstackgrowthcurveendarcshapev2Other.EndY {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndY"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.XAxisRotation != bottomstackgrowthcurveendarcshapev2Other.XAxisRotation {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.LargeArcFlag != bottomstackgrowthcurveendarcshapev2Other.LargeArcFlag {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.SweepFlag != bottomstackgrowthcurveendarcshapev2Other.SweepFlag {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.RadiusX != bottomstackgrowthcurveendarcshapev2Other.RadiusX {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusX"))
+	}
+	if bottomstackgrowthcurveendarcshapev2.RadiusY != bottomstackgrowthcurveendarcshapev2Other.RadiusY {
+		diffs = append(diffs, bottomstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (bottomstackgrowthcurvestartarcshapev2 *BottomStackGrowthCurveStartArcShapeV2) GongDiff(stage *Stage, bottomstackgrowthcurvestartarcshapev2Other *BottomStackGrowthCurveStartArcShapeV2) (diffs []string) {
+	// insertion point for field diffs
+	if bottomstackgrowthcurvestartarcshapev2.Name != bottomstackgrowthcurvestartarcshapev2Other.Name {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "Name"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.StartX != bottomstackgrowthcurvestartarcshapev2Other.StartX {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartX"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.StartY != bottomstackgrowthcurvestartarcshapev2Other.StartY {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartY"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.EndX != bottomstackgrowthcurvestartarcshapev2Other.EndX {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndX"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.EndY != bottomstackgrowthcurvestartarcshapev2Other.EndY {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndY"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.XAxisRotation != bottomstackgrowthcurvestartarcshapev2Other.XAxisRotation {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.LargeArcFlag != bottomstackgrowthcurvestartarcshapev2Other.LargeArcFlag {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.SweepFlag != bottomstackgrowthcurvestartarcshapev2Other.SweepFlag {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "SweepFlag"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.RadiusX != bottomstackgrowthcurvestartarcshapev2Other.RadiusX {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusX"))
+	}
+	if bottomstackgrowthcurvestartarcshapev2.RadiusY != bottomstackgrowthcurvestartarcshapev2Other.RadiusY {
+		diffs = append(diffs, bottomstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (bottomstackofgrowthcurvev2 *BottomStackOfGrowthCurveV2) GongDiff(stage *Stage, bottomstackofgrowthcurvev2Other *BottomStackOfGrowthCurveV2) (diffs []string) {
+	// insertion point for field diffs
+	if bottomstackofgrowthcurvev2.Name != bottomstackofgrowthcurvev2Other.Name {
+		diffs = append(diffs, bottomstackofgrowthcurvev2.GongMarshallField(stage, "Name"))
+	}
+	BottomStackGrowthCurveStartArcShapeV2sDifferent := false
+	if len(bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s) != len(bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveStartArcShapeV2s) {
+		BottomStackGrowthCurveStartArcShapeV2sDifferent = true
+	} else {
+		for i := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s {
+			if (bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s[i] == nil) != (bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveStartArcShapeV2s[i] == nil) {
+				BottomStackGrowthCurveStartArcShapeV2sDifferent = true
+				break
+			} else if bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s[i] != nil && bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveStartArcShapeV2s[i] != nil {
+				// this is a pointer comparaison
+				if bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s[i] != bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveStartArcShapeV2s[i] {
+					BottomStackGrowthCurveStartArcShapeV2sDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if BottomStackGrowthCurveStartArcShapeV2sDifferent {
+		ops := Diff(stage, bottomstackofgrowthcurvev2, bottomstackofgrowthcurvev2Other, "BottomStackGrowthCurveStartArcShapeV2s", bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveStartArcShapeV2s, bottomstackofgrowthcurvev2.BottomStackGrowthCurveStartArcShapeV2s)
+		diffs = append(diffs, ops)
+	}
+	BottomStackGrowthCurveEndArcShapeV2sDifferent := false
+	if len(bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s) != len(bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveEndArcShapeV2s) {
+		BottomStackGrowthCurveEndArcShapeV2sDifferent = true
+	} else {
+		for i := range bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s {
+			if (bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s[i] == nil) != (bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveEndArcShapeV2s[i] == nil) {
+				BottomStackGrowthCurveEndArcShapeV2sDifferent = true
+				break
+			} else if bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s[i] != nil && bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveEndArcShapeV2s[i] != nil {
+				// this is a pointer comparaison
+				if bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s[i] != bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveEndArcShapeV2s[i] {
+					BottomStackGrowthCurveEndArcShapeV2sDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if BottomStackGrowthCurveEndArcShapeV2sDifferent {
+		ops := Diff(stage, bottomstackofgrowthcurvev2, bottomstackofgrowthcurvev2Other, "BottomStackGrowthCurveEndArcShapeV2s", bottomstackofgrowthcurvev2Other.BottomStackGrowthCurveEndArcShapeV2s, bottomstackofgrowthcurvev2.BottomStackGrowthCurveEndArcShapeV2s)
 		diffs = append(diffs, ops)
 	}
 
@@ -6096,6 +6833,20 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "StackOfGrowthCurveV2"))
 		}
 	}
+	if (plant.TopStackOfGrowthCurveV2 == nil) != (plantOther.TopStackOfGrowthCurveV2 == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "TopStackOfGrowthCurveV2"))
+	} else if plant.TopStackOfGrowthCurveV2 != nil && plantOther.TopStackOfGrowthCurveV2 != nil {
+		if plant.TopStackOfGrowthCurveV2 != plantOther.TopStackOfGrowthCurveV2 {
+			diffs = append(diffs, plant.GongMarshallField(stage, "TopStackOfGrowthCurveV2"))
+		}
+	}
+	if (plant.BottomStackOfGrowthCurveV2 == nil) != (plantOther.BottomStackOfGrowthCurveV2 == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "BottomStackOfGrowthCurveV2"))
+	} else if plant.BottomStackOfGrowthCurveV2 != nil && plantOther.BottomStackOfGrowthCurveV2 != nil {
+		if plant.BottomStackOfGrowthCurveV2 != plantOther.BottomStackOfGrowthCurveV2 {
+			diffs = append(diffs, plant.GongMarshallField(stage, "BottomStackOfGrowthCurveV2"))
+		}
+	}
 
 	return
 }
@@ -6210,6 +6961,12 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenStackOfGrowthCurveV2 != plantdiagramOther.IsHiddenStackOfGrowthCurveV2 {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurveV2"))
+	}
+	if plantdiagram.IsHiddenTopStackOfGrowthCurveV2 != plantdiagramOther.IsHiddenTopStackOfGrowthCurveV2 {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurveV2"))
+	}
+	if plantdiagram.IsHiddenBottomStackOfGrowthCurveV2 != plantdiagramOther.IsHiddenBottomStackOfGrowthCurveV2 {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurveV2"))
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
@@ -6729,6 +7486,135 @@ func (topendarcshapev2grid *TopEndArcShapeV2Grid) GongDiff(stage *Stage, topenda
 	}
 	if TopEndArcShapesV2Different {
 		ops := Diff(stage, topendarcshapev2grid, topendarcshapev2gridOther, "TopEndArcShapesV2", topendarcshapev2gridOther.TopEndArcShapesV2, topendarcshapev2grid.TopEndArcShapesV2)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (topstackgrowthcurveendarcshapev2 *TopStackGrowthCurveEndArcShapeV2) GongDiff(stage *Stage, topstackgrowthcurveendarcshapev2Other *TopStackGrowthCurveEndArcShapeV2) (diffs []string) {
+	// insertion point for field diffs
+	if topstackgrowthcurveendarcshapev2.Name != topstackgrowthcurveendarcshapev2Other.Name {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "Name"))
+	}
+	if topstackgrowthcurveendarcshapev2.StartX != topstackgrowthcurveendarcshapev2Other.StartX {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartX"))
+	}
+	if topstackgrowthcurveendarcshapev2.StartY != topstackgrowthcurveendarcshapev2Other.StartY {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "StartY"))
+	}
+	if topstackgrowthcurveendarcshapev2.EndX != topstackgrowthcurveendarcshapev2Other.EndX {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndX"))
+	}
+	if topstackgrowthcurveendarcshapev2.EndY != topstackgrowthcurveendarcshapev2Other.EndY {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "EndY"))
+	}
+	if topstackgrowthcurveendarcshapev2.XAxisRotation != topstackgrowthcurveendarcshapev2Other.XAxisRotation {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if topstackgrowthcurveendarcshapev2.LargeArcFlag != topstackgrowthcurveendarcshapev2Other.LargeArcFlag {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if topstackgrowthcurveendarcshapev2.SweepFlag != topstackgrowthcurveendarcshapev2Other.SweepFlag {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "SweepFlag"))
+	}
+	if topstackgrowthcurveendarcshapev2.RadiusX != topstackgrowthcurveendarcshapev2Other.RadiusX {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusX"))
+	}
+	if topstackgrowthcurveendarcshapev2.RadiusY != topstackgrowthcurveendarcshapev2Other.RadiusY {
+		diffs = append(diffs, topstackgrowthcurveendarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (topstackgrowthcurvestartarcshapev2 *TopStackGrowthCurveStartArcShapeV2) GongDiff(stage *Stage, topstackgrowthcurvestartarcshapev2Other *TopStackGrowthCurveStartArcShapeV2) (diffs []string) {
+	// insertion point for field diffs
+	if topstackgrowthcurvestartarcshapev2.Name != topstackgrowthcurvestartarcshapev2Other.Name {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "Name"))
+	}
+	if topstackgrowthcurvestartarcshapev2.StartX != topstackgrowthcurvestartarcshapev2Other.StartX {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartX"))
+	}
+	if topstackgrowthcurvestartarcshapev2.StartY != topstackgrowthcurvestartarcshapev2Other.StartY {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "StartY"))
+	}
+	if topstackgrowthcurvestartarcshapev2.EndX != topstackgrowthcurvestartarcshapev2Other.EndX {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndX"))
+	}
+	if topstackgrowthcurvestartarcshapev2.EndY != topstackgrowthcurvestartarcshapev2Other.EndY {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "EndY"))
+	}
+	if topstackgrowthcurvestartarcshapev2.XAxisRotation != topstackgrowthcurvestartarcshapev2Other.XAxisRotation {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if topstackgrowthcurvestartarcshapev2.LargeArcFlag != topstackgrowthcurvestartarcshapev2Other.LargeArcFlag {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if topstackgrowthcurvestartarcshapev2.SweepFlag != topstackgrowthcurvestartarcshapev2Other.SweepFlag {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "SweepFlag"))
+	}
+	if topstackgrowthcurvestartarcshapev2.RadiusX != topstackgrowthcurvestartarcshapev2Other.RadiusX {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusX"))
+	}
+	if topstackgrowthcurvestartarcshapev2.RadiusY != topstackgrowthcurvestartarcshapev2Other.RadiusY {
+		diffs = append(diffs, topstackgrowthcurvestartarcshapev2.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (topstackofgrowthcurvev2 *TopStackOfGrowthCurveV2) GongDiff(stage *Stage, topstackofgrowthcurvev2Other *TopStackOfGrowthCurveV2) (diffs []string) {
+	// insertion point for field diffs
+	if topstackofgrowthcurvev2.Name != topstackofgrowthcurvev2Other.Name {
+		diffs = append(diffs, topstackofgrowthcurvev2.GongMarshallField(stage, "Name"))
+	}
+	TopStackGrowthCurveStartArcShapeV2sDifferent := false
+	if len(topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s) != len(topstackofgrowthcurvev2Other.TopStackGrowthCurveStartArcShapeV2s) {
+		TopStackGrowthCurveStartArcShapeV2sDifferent = true
+	} else {
+		for i := range topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s {
+			if (topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s[i] == nil) != (topstackofgrowthcurvev2Other.TopStackGrowthCurveStartArcShapeV2s[i] == nil) {
+				TopStackGrowthCurveStartArcShapeV2sDifferent = true
+				break
+			} else if topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s[i] != nil && topstackofgrowthcurvev2Other.TopStackGrowthCurveStartArcShapeV2s[i] != nil {
+				// this is a pointer comparaison
+				if topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s[i] != topstackofgrowthcurvev2Other.TopStackGrowthCurveStartArcShapeV2s[i] {
+					TopStackGrowthCurveStartArcShapeV2sDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TopStackGrowthCurveStartArcShapeV2sDifferent {
+		ops := Diff(stage, topstackofgrowthcurvev2, topstackofgrowthcurvev2Other, "TopStackGrowthCurveStartArcShapeV2s", topstackofgrowthcurvev2Other.TopStackGrowthCurveStartArcShapeV2s, topstackofgrowthcurvev2.TopStackGrowthCurveStartArcShapeV2s)
+		diffs = append(diffs, ops)
+	}
+	TopStackGrowthCurveEndArcShapeV2sDifferent := false
+	if len(topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s) != len(topstackofgrowthcurvev2Other.TopStackGrowthCurveEndArcShapeV2s) {
+		TopStackGrowthCurveEndArcShapeV2sDifferent = true
+	} else {
+		for i := range topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s {
+			if (topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s[i] == nil) != (topstackofgrowthcurvev2Other.TopStackGrowthCurveEndArcShapeV2s[i] == nil) {
+				TopStackGrowthCurveEndArcShapeV2sDifferent = true
+				break
+			} else if topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s[i] != nil && topstackofgrowthcurvev2Other.TopStackGrowthCurveEndArcShapeV2s[i] != nil {
+				// this is a pointer comparaison
+				if topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s[i] != topstackofgrowthcurvev2Other.TopStackGrowthCurveEndArcShapeV2s[i] {
+					TopStackGrowthCurveEndArcShapeV2sDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TopStackGrowthCurveEndArcShapeV2sDifferent {
+		ops := Diff(stage, topstackofgrowthcurvev2, topstackofgrowthcurvev2Other, "TopStackGrowthCurveEndArcShapeV2s", topstackofgrowthcurvev2Other.TopStackGrowthCurveEndArcShapeV2s, topstackofgrowthcurvev2.TopStackGrowthCurveEndArcShapeV2s)
 		diffs = append(diffs, ops)
 	}
 
