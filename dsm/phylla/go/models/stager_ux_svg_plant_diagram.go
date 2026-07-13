@@ -80,6 +80,8 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawTopStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawBottomStackOfGrowthCurveV2(stager, layer, plant)
+	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
+	plantDiagram.drawTopGrowthCurve2D(stager, layer, plant)
 
 	return
 }
@@ -1295,4 +1297,40 @@ func (plantDiagram *PlantDiagram) drawBottomStackOfGrowthCurveV2(stager *Stager,
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.6
 	}
+}
+
+func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenGrowthCurve2D {
+		return
+	}
+
+	originalStartHidden := plantDiagram.IsHiddenStartArcShapeV2Grid
+	originalEndHidden := plantDiagram.IsHiddenEndArcShapeV2Grid
+
+	plantDiagram.IsHiddenStartArcShapeV2Grid = false
+	plantDiagram.IsHiddenEndArcShapeV2Grid = false
+
+	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
+
+	plantDiagram.IsHiddenStartArcShapeV2Grid = originalStartHidden
+	plantDiagram.IsHiddenEndArcShapeV2Grid = originalEndHidden
+}
+
+func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenTopGrowthCurve2D {
+		return
+	}
+
+	originalStartHidden := plantDiagram.IsHiddenTopStartArcShapeV2Grid
+	originalEndHidden := plantDiagram.IsHiddenTopEndArcShapeV2Grid
+
+	plantDiagram.IsHiddenTopStartArcShapeV2Grid = false
+	plantDiagram.IsHiddenTopEndArcShapeV2Grid = false
+
+	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
+
+	plantDiagram.IsHiddenTopStartArcShapeV2Grid = originalStartHidden
+	plantDiagram.IsHiddenTopEndArcShapeV2Grid = originalEndHidden
 }
