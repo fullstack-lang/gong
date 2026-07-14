@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *BoxGeometry:
 		ok = stage.IsStagedBoxGeometry(target)
 
+	case *BufferGeometry:
+		ok = stage.IsStagedBufferGeometry(target)
+
 	case *Camera:
 		ok = stage.IsStagedCamera(target)
 
@@ -51,6 +54,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *TorusGeometry:
 		ok = stage.IsStagedTorusGeometry(target)
+
+	case *Triangle:
+		ok = stage.IsStagedTriangle(target)
 
 	case *TubeGeometry:
 		ok = stage.IsStagedTubeGeometry(target)
@@ -77,6 +83,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *BoxGeometry:
 		ok = stage.IsStagedBoxGeometry(target)
 
+	case *BufferGeometry:
+		ok = stage.IsStagedBufferGeometry(target)
+
 	case *Camera:
 		ok = stage.IsStagedCamera(target)
 
@@ -115,6 +124,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *TorusGeometry:
 		ok = stage.IsStagedTorusGeometry(target)
+
+	case *Triangle:
+		ok = stage.IsStagedTriangle(target)
 
 	case *TubeGeometry:
 		ok = stage.IsStagedTubeGeometry(target)
@@ -142,6 +154,13 @@ func (stage *Stage) IsStagedAmbiantLight(ambiantlight *AmbiantLight) (ok bool) {
 func (stage *Stage) IsStagedBoxGeometry(boxgeometry *BoxGeometry) (ok bool) {
 
 	_, ok = stage.BoxGeometrys[boxgeometry]
+
+	return
+}
+
+func (stage *Stage) IsStagedBufferGeometry(buffergeometry *BufferGeometry) (ok bool) {
+
+	_, ok = stage.BufferGeometrys[buffergeometry]
 
 	return
 }
@@ -237,6 +256,13 @@ func (stage *Stage) IsStagedTorusGeometry(torusgeometry *TorusGeometry) (ok bool
 	return
 }
 
+func (stage *Stage) IsStagedTriangle(triangle *Triangle) (ok bool) {
+
+	_, ok = stage.Triangles[triangle]
+
+	return
+}
+
 func (stage *Stage) IsStagedTubeGeometry(tubegeometry *TubeGeometry) (ok bool) {
 
 	_, ok = stage.TubeGeometrys[tubegeometry]
@@ -271,6 +297,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *BoxGeometry:
 		stage.StageBranchBoxGeometry(target)
+
+	case *BufferGeometry:
+		stage.StageBranchBufferGeometry(target)
 
 	case *Camera:
 		stage.StageBranchCamera(target)
@@ -310,6 +339,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *TorusGeometry:
 		stage.StageBranchTorusGeometry(target)
+
+	case *Triangle:
+		stage.StageBranchTriangle(target)
 
 	case *TubeGeometry:
 		stage.StageBranchTubeGeometry(target)
@@ -353,6 +385,27 @@ func (stage *Stage) StageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchBufferGeometry(buffergeometry *BufferGeometry) {
+
+	// check if instance is already staged
+	if IsStaged(stage, buffergeometry) {
+		return
+	}
+
+	buffergeometry.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _vector3 := range buffergeometry.Vertices {
+		StageBranch(stage, _vector3)
+	}
+	for _, _triangle := range buffergeometry.Faces {
+		StageBranch(stage, _triangle)
+	}
 
 }
 
@@ -504,6 +557,9 @@ func (stage *Stage) StageBranchMesh(mesh *Mesh) {
 	if mesh.ExtrudeGeometry != nil {
 		StageBranch(stage, mesh.ExtrudeGeometry)
 	}
+	if mesh.BufferGeometry != nil {
+		StageBranch(stage, mesh.BufferGeometry)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -602,6 +658,21 @@ func (stage *Stage) StageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 
 }
 
+func (stage *Stage) StageBranchTriangle(triangle *Triangle) {
+
+	// check if instance is already staged
+	if IsStaged(stage, triangle) {
+		return
+	}
+
+	triangle.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 	// check if instance is already staged
@@ -669,6 +740,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchBoxGeometry(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *BufferGeometry:
+		toT := CopyBranchBufferGeometry(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Camera:
 		toT := CopyBranchCamera(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -719,6 +794,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *TorusGeometry:
 		toT := CopyBranchTorusGeometry(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Triangle:
+		toT := CopyBranchTriangle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TubeGeometry:
@@ -774,6 +853,31 @@ func CopyBranchBoxGeometry(mapOrigCopy map[any]any, boxgeometryFrom *BoxGeometry
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchBufferGeometry(mapOrigCopy map[any]any, buffergeometryFrom *BufferGeometry) (buffergeometryTo *BufferGeometry) {
+
+	// buffergeometryFrom has already been copied
+	if _buffergeometryTo, ok := mapOrigCopy[buffergeometryFrom]; ok {
+		buffergeometryTo = _buffergeometryTo.(*BufferGeometry)
+		return
+	}
+
+	buffergeometryTo = new(BufferGeometry)
+	mapOrigCopy[buffergeometryFrom] = buffergeometryTo
+	buffergeometryFrom.CopyBasicFields(buffergeometryTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _vector3 := range buffergeometryFrom.Vertices {
+		buffergeometryTo.Vertices = append(buffergeometryTo.Vertices, CopyBranchVector3(mapOrigCopy, _vector3))
+	}
+	for _, _triangle := range buffergeometryFrom.Faces {
+		buffergeometryTo.Faces = append(buffergeometryTo.Faces, CopyBranchTriangle(mapOrigCopy, _triangle))
+	}
 
 	return
 }
@@ -953,6 +1057,9 @@ func CopyBranchMesh(mapOrigCopy map[any]any, meshFrom *Mesh) (meshTo *Mesh) {
 	if meshFrom.ExtrudeGeometry != nil {
 		meshTo.ExtrudeGeometry = CopyBranchExtrudeGeometry(mapOrigCopy, meshFrom.ExtrudeGeometry)
 	}
+	if meshFrom.BufferGeometry != nil {
+		meshTo.BufferGeometry = CopyBranchBufferGeometry(mapOrigCopy, meshFrom.BufferGeometry)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1076,6 +1183,25 @@ func CopyBranchTorusGeometry(mapOrigCopy map[any]any, torusgeometryFrom *TorusGe
 	return
 }
 
+func CopyBranchTriangle(mapOrigCopy map[any]any, triangleFrom *Triangle) (triangleTo *Triangle) {
+
+	// triangleFrom has already been copied
+	if _triangleTo, ok := mapOrigCopy[triangleFrom]; ok {
+		triangleTo = _triangleTo.(*Triangle)
+		return
+	}
+
+	triangleTo = new(Triangle)
+	mapOrigCopy[triangleFrom] = triangleTo
+	triangleFrom.CopyBasicFields(triangleTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTubeGeometry(mapOrigCopy map[any]any, tubegeometryFrom *TubeGeometry) (tubegeometryTo *TubeGeometry) {
 
 	// tubegeometryFrom has already been copied
@@ -1150,6 +1276,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *BoxGeometry:
 		stage.UnstageBranchBoxGeometry(target)
 
+	case *BufferGeometry:
+		stage.UnstageBranchBufferGeometry(target)
+
 	case *Camera:
 		stage.UnstageBranchCamera(target)
 
@@ -1188,6 +1317,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *TorusGeometry:
 		stage.UnstageBranchTorusGeometry(target)
+
+	case *Triangle:
+		stage.UnstageBranchTriangle(target)
 
 	case *TubeGeometry:
 		stage.UnstageBranchTubeGeometry(target)
@@ -1231,6 +1363,27 @@ func (stage *Stage) UnstageBranchBoxGeometry(boxgeometry *BoxGeometry) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchBufferGeometry(buffergeometry *BufferGeometry) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, buffergeometry) {
+		return
+	}
+
+	buffergeometry.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _vector3 := range buffergeometry.Vertices {
+		UnstageBranch(stage, _vector3)
+	}
+	for _, _triangle := range buffergeometry.Faces {
+		UnstageBranch(stage, _triangle)
+	}
 
 }
 
@@ -1382,6 +1535,9 @@ func (stage *Stage) UnstageBranchMesh(mesh *Mesh) {
 	if mesh.ExtrudeGeometry != nil {
 		UnstageBranch(stage, mesh.ExtrudeGeometry)
 	}
+	if mesh.BufferGeometry != nil {
+		UnstageBranch(stage, mesh.BufferGeometry)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1480,6 +1636,21 @@ func (stage *Stage) UnstageBranchTorusGeometry(torusgeometry *TorusGeometry) {
 
 }
 
+func (stage *Stage) UnstageBranchTriangle(triangle *Triangle) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, triangle) {
+		return
+	}
+
+	triangle.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTubeGeometry(tubegeometry *TubeGeometry) {
 
 	// check if instance is already staged
@@ -1537,6 +1708,19 @@ func (reference *AmbiantLight) GongReconstructPointersFromReferences(stage *Stag
 func (reference *BoxGeometry) GongReconstructPointersFromReferences(stage *Stage, instance *BoxGeometry) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+}
+
+func (reference *BufferGeometry) GongReconstructPointersFromReferences(stage *Stage, instance *BufferGeometry) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Vertices = reference.Vertices[:0]
+	for _, _b := range instance.Vertices {
+		reference.Vertices = append(reference.Vertices, stage.Vector3s_reference[_b])
+	}
+	reference.Faces = reference.Faces[:0]
+	for _, _b := range instance.Faces {
+		reference.Faces = append(reference.Faces, stage.Triangles_reference[_b])
+	}
 }
 
 func (reference *Camera) GongReconstructPointersFromReferences(stage *Stage, instance *Camera) {
@@ -1622,6 +1806,9 @@ func (reference *Mesh) GongReconstructPointersFromReferences(stage *Stage, insta
 	if instance.ExtrudeGeometry != nil {
 		reference.ExtrudeGeometry = stage.ExtrudeGeometrys_reference[instance.ExtrudeGeometry]
 	}
+	if instance.BufferGeometry != nil {
+		reference.BufferGeometry = stage.BufferGeometrys_reference[instance.BufferGeometry]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -1659,6 +1846,11 @@ func (reference *TorusGeometry) GongReconstructPointersFromReferences(stage *Sta
 	// insertion point for slice of pointers field
 }
 
+func (reference *Triangle) GongReconstructPointersFromReferences(stage *Stage, instance *Triangle) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *TubeGeometry) GongReconstructPointersFromReferences(stage *Stage, instance *TubeGeometry) {
 	// insertion point for pointers field
 	if instance.Path != nil {
@@ -1686,6 +1878,25 @@ func (reference *AmbiantLight) GongReconstructPointersFromInstances(stage *Stage
 func (reference *BoxGeometry) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+}
+
+func (reference *BufferGeometry) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Vertices []*Vector3
+	for _, _reference := range reference.Vertices {
+		if _instance, ok := stage.Vector3s_instance[_reference]; ok {
+			_Vertices = append(_Vertices, _instance)
+		}
+	}
+	reference.Vertices = _Vertices
+	var _Faces []*Triangle
+	for _, _reference := range reference.Faces {
+		if _instance, ok := stage.Triangles_instance[_reference]; ok {
+			_Faces = append(_Faces, _instance)
+		}
+	}
+	reference.Faces = _Faces
 }
 
 func (reference *Camera) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1819,6 +2030,12 @@ func (reference *Mesh) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.ExtrudeGeometry = _instance
 		}
 	}
+	if _reference := reference.BufferGeometry; _reference != nil {
+		reference.BufferGeometry = nil
+		if _instance, ok := stage.BufferGeometrys_instance[_reference]; ok {
+			reference.BufferGeometry = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -1855,6 +2072,11 @@ func (reference *SphereGeometry) GongReconstructPointersFromInstances(stage *Sta
 }
 
 func (reference *TorusGeometry) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Triangle) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -1919,6 +2141,59 @@ func (boxgeometry *BoxGeometry) GongDiff(stage *Stage, boxgeometryOther *BoxGeom
 	}
 	if boxgeometry.DepthSegments != boxgeometryOther.DepthSegments {
 		diffs = append(diffs, boxgeometry.GongMarshallField(stage, "DepthSegments"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (buffergeometry *BufferGeometry) GongDiff(stage *Stage, buffergeometryOther *BufferGeometry) (diffs []string) {
+	// insertion point for field diffs
+	if buffergeometry.Name != buffergeometryOther.Name {
+		diffs = append(diffs, buffergeometry.GongMarshallField(stage, "Name"))
+	}
+	VerticesDifferent := false
+	if len(buffergeometry.Vertices) != len(buffergeometryOther.Vertices) {
+		VerticesDifferent = true
+	} else {
+		for i := range buffergeometry.Vertices {
+			if (buffergeometry.Vertices[i] == nil) != (buffergeometryOther.Vertices[i] == nil) {
+				VerticesDifferent = true
+				break
+			} else if buffergeometry.Vertices[i] != nil && buffergeometryOther.Vertices[i] != nil {
+				// this is a pointer comparaison
+				if buffergeometry.Vertices[i] != buffergeometryOther.Vertices[i] {
+					VerticesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if VerticesDifferent {
+		ops := Diff(stage, buffergeometry, buffergeometryOther, "Vertices", buffergeometryOther.Vertices, buffergeometry.Vertices)
+		diffs = append(diffs, ops)
+	}
+	FacesDifferent := false
+	if len(buffergeometry.Faces) != len(buffergeometryOther.Faces) {
+		FacesDifferent = true
+	} else {
+		for i := range buffergeometry.Faces {
+			if (buffergeometry.Faces[i] == nil) != (buffergeometryOther.Faces[i] == nil) {
+				FacesDifferent = true
+				break
+			} else if buffergeometry.Faces[i] != nil && buffergeometryOther.Faces[i] != nil {
+				// this is a pointer comparaison
+				if buffergeometry.Faces[i] != buffergeometryOther.Faces[i] {
+					FacesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FacesDifferent {
+		ops := Diff(stage, buffergeometry, buffergeometryOther, "Faces", buffergeometryOther.Faces, buffergeometry.Faces)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2223,6 +2498,13 @@ func (mesh *Mesh) GongDiff(stage *Stage, meshOther *Mesh) (diffs []string) {
 			diffs = append(diffs, mesh.GongMarshallField(stage, "ExtrudeGeometry"))
 		}
 	}
+	if (mesh.BufferGeometry == nil) != (meshOther.BufferGeometry == nil) {
+		diffs = append(diffs, mesh.GongMarshallField(stage, "BufferGeometry"))
+	} else if mesh.BufferGeometry != nil && meshOther.BufferGeometry != nil {
+		if mesh.BufferGeometry != meshOther.BufferGeometry {
+			diffs = append(diffs, mesh.GongMarshallField(stage, "BufferGeometry"))
+		}
+	}
 
 	return
 }
@@ -2375,6 +2657,26 @@ func (torusgeometry *TorusGeometry) GongDiff(stage *Stage, torusgeometryOther *T
 	}
 	if torusgeometry.Arc != torusgeometryOther.Arc {
 		diffs = append(diffs, torusgeometry.GongMarshallField(stage, "Arc"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (triangle *Triangle) GongDiff(stage *Stage, triangleOther *Triangle) (diffs []string) {
+	// insertion point for field diffs
+	if triangle.Name != triangleOther.Name {
+		diffs = append(diffs, triangle.GongMarshallField(stage, "Name"))
+	}
+	if triangle.V1 != triangleOther.V1 {
+		diffs = append(diffs, triangle.GongMarshallField(stage, "V1"))
+	}
+	if triangle.V2 != triangleOther.V2 {
+		diffs = append(diffs, triangle.GongMarshallField(stage, "V2"))
+	}
+	if triangle.V3 != triangleOther.V3 {
+		diffs = append(diffs, triangle.GongMarshallField(stage, "V3"))
 	}
 
 	return

@@ -191,55 +191,126 @@ func GenerateReferenceScene(stage *Stage) {
 	}
 
 	thicknessTorus := 1.5 // 2 * size (0.75)
-	eTorus := thicknessTorus * 0.05
+	half := thicknessTorus / 2.0
 
-	createFaceMesh := func(name string, color string, xMin, xMax, yMin, yMax float64) *Mesh {
-		shape := (&Shape{
-			Name: "Torus " + name + " Shape",
+	var bottomEdgesWavy, topEdgesWavy, innerEdgesWavy, outerEdgesWavy [][2]*Vector3
+
+	for i := 0; i <= 500; i++ {
+		t := float64(i) / 500.0
+		angle := t * math.Pi * 2
+		x := math.Cos(angle) * radius
+		z := math.Sin(angle) * radius
+		y := math.Sin(angle*waves) * amplitude + 5.0 // Add the Y:5 position offset here
+
+		// Stable coordinate system to prevent twisting:
+		// Outward vector
+		oX, oY, oZ := math.Cos(angle), 0.0, math.Sin(angle)
+		// Up vector
+		uX, uY, uZ := 0.0, 1.0, 0.0
+
+		// Bottom Left (Inner Bottom)
+		blX := x - half*oX - half*uX
+		blY := y - half*oY - half*uY
+		blZ := z - half*oZ - half*uZ
+
+		// Bottom Right (Outer Bottom)
+		brX := x + half*oX - half*uX
+		brY := y + half*oY - half*uY
+		brZ := z + half*oZ - half*uZ
+
+		// Top Left (Inner Top)
+		tlX := x - half*oX + half*uX
+		tlY := y - half*oY + half*uY
+		tlZ := z - half*oZ + half*uZ
+
+		// Top Right (Outer Top)
+		trX := x + half*oX + half*uX
+		trY := y + half*oY + half*uY
+		trZ := z + half*oZ + half*uZ
+
+		vBL := (&Vector3{Name: "Wavy BL " + strconv.Itoa(i), X: blX, Y: blY, Z: blZ}).Stage(stage)
+		vBR := (&Vector3{Name: "Wavy BR " + strconv.Itoa(i), X: brX, Y: brY, Z: brZ}).Stage(stage)
+		vTL := (&Vector3{Name: "Wavy TL " + strconv.Itoa(i), X: tlX, Y: tlY, Z: tlZ}).Stage(stage)
+		vTR := (&Vector3{Name: "Wavy TR " + strconv.Itoa(i), X: trX, Y: trY, Z: trZ}).Stage(stage)
+
+		bottomEdgesWavy = append(bottomEdgesWavy, [2]*Vector3{vBL, vBR})
+		topEdgesWavy = append(topEdgesWavy, [2]*Vector3{vTL, vTR})
+		innerEdgesWavy = append(innerEdgesWavy, [2]*Vector3{vBL, vTL})
+		outerEdgesWavy = append(outerEdgesWavy, [2]*Vector3{vBR, vTR})
+	}
+
+	createFaceMeshWavy := func(name string, color string, edges [][2]*Vector3, reverseWinding bool) *Mesh {
+		geom := (&BufferGeometry{
+			Name: "Wavy Torus " + name + " BufferGeometry",
 		}).Stage(stage)
 
-		pts := [][2]float64{
-			{xMin, yMin},
-			{xMax, yMin},
-			{xMax, yMax},
-			{xMin, yMax},
-			{xMin, yMin},
-		}
-		for i, p := range pts {
-			v := (&Vector2{
-				Name: "SquarePoint " + name + " " + strconv.Itoa(i),
-				X:    p[0],
-				Y:    p[1],
+		for i := 0; i < len(edges); i++ {
+			p1_src := edges[i][0]
+			p2_src := edges[i][1]
+
+			p1 := (&Vector3{
+				Name: p1_src.Name + " " + name + " " + strconv.Itoa(i),
+				X:    p1_src.X,
+				Y:    p1_src.Y,
+				Z:    p1_src.Z,
 			}).Stage(stage)
-			shape.Points = append(shape.Points, v)
-		}
 
-		extrudeGeom := (&ExtrudeGeometry{
-			Name:        "Torus " + name + " Extrude Geometry",
-			ExtrudePath: extrudePath,
-			Shape:       shape,
-			Steps:       500,
-		}).Stage(stage)
+			p2 := (&Vector3{
+				Name: p2_src.Name + " " + name + " " + strconv.Itoa(i),
+				X:    p2_src.X,
+				Y:    p2_src.Y,
+				Z:    p2_src.Z,
+			}).Stage(stage)
+
+			geom.Vertices = append(geom.Vertices, p1, p2)
+
+			if i < len(edges)-1 {
+				idx := i * 2
+				v1_t1, v2_t1, v3_t1 := idx, idx+1, idx+2
+				v1_t2, v2_t2, v3_t2 := idx+1, idx+3, idx+2
+
+				if reverseWinding {
+					v2_t1, v3_t1 = v3_t1, v2_t1
+					v2_t2, v3_t2 = v3_t2, v2_t2
+				}
+
+				t1 := (&Triangle{
+					Name: "Wavy T1 " + strconv.Itoa(i),
+					V1:   v1_t1,
+					V2:   v2_t1,
+					V3:   v3_t1,
+				}).Stage(stage)
+
+				t2 := (&Triangle{
+					Name: "Wavy T2 " + strconv.Itoa(i),
+					V1:   v1_t2,
+					V2:   v2_t2,
+					V3:   v3_t2,
+				}).Stage(stage)
+
+				geom.Faces = append(geom.Faces, t1, t2)
+			}
+		}
 
 		return (&Mesh{
-			Name:            "Torus " + name + " Mesh",
-			Position:        Position{X: 0, Y: 5, Z: 0},
-			ExtrudeGeometry: extrudeGeom,
+			Name:            "Wavy Torus " + name + " Mesh",
+			Position:        Position{X: 0, Y: 0, Z: 0},
+			BufferGeometry:  geom,
 			MeshPhysicalMaterial: (&MeshPhysicalMaterial{
-				Name:                 "Torus " + name + " Material",
+				Name:                 "Wavy Torus " + name + " Material",
+				Transparent:          false,
+				Opacity:              1.0,
 				MeshMaterialAbstract: MeshMaterialAbstract{Color: color},
 			}).Stage(stage),
 		}).Stage(stage)
 	}
 
-	// Create 4 faces centered at 0,0
-	half := thicknessTorus / 2.0
-	bottomFace := createFaceMesh("Bottom", "#1f77b4", -half, half, -half, -half+eTorus)
-	topFace := createFaceMesh("Top", "#d62728", -half, half, half-eTorus, half)
-	innerFace := createFaceMesh("Inner", "#ff7f0e", -half, -half+eTorus, -half, half)
-	outerFace := createFaceMesh("Outer", "#2ca02c", half-eTorus, half, -half, half)
-
-	canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+	canvas.Meshs = append(canvas.Meshs,
+		createFaceMeshWavy("Bottom", "#1f77b4", bottomEdgesWavy, false), // blue
+		createFaceMeshWavy("Top", "#d62728", topEdgesWavy, true),        // red
+		createFaceMeshWavy("Inner", "#ff7f0e", innerEdgesWavy, true),    // orange
+		createFaceMeshWavy("Outer", "#2ca02c", outerEdgesWavy, false),   // green
+	)
 
 	curvePhylla := (&Curve{
 		Name: "Phylla Like Curve",
@@ -339,82 +410,163 @@ func GenerateReferenceScene(stage *Stage) {
 	}
 
 	// Offset between GrowthCurve2D and TopGrowthCurve2D
-	dx2d := 1.147078 * scale
+	// dx2d := 1.147078 * scale
 	dy2d := 9.933993 * scale
-	thicknessPhylla := 1.5 // A custom thickness scaled nicely for radius 10.0
+	thicknessPhylla := 1.5
 
-	createFaceMeshPhylla := func(name string, color string, p1, p2, p3, p4 [2]float64) *Mesh {
-		shape := (&Shape{
-			Name: "Phylla Torus " + name + " Shape",
+	createFaceMeshPhylla := func(name string, color string, edges [][2]*Vector3, reverseWinding bool) *Mesh {
+		geom := (&BufferGeometry{
+			Name: "Phylla Torus " + name + " BufferGeometry",
 		}).Stage(stage)
 
-		pts := [][2]float64{p1, p2, p3, p4, p1}
-		for i, p := range pts {
-			v := (&Vector2{
-				Name: "Phylla SquarePoint " + name + " " + strconv.Itoa(i),
-				X:    p[0],
-				Y:    p[1],
+		// Create vertices and faces
+		for i := 0; i < len(edges); i++ {
+			p1_src := edges[i][0]
+			p2_src := edges[i][1]
+			
+			p1 := (&Vector3{
+				Name: p1_src.Name + " " + name + " " + strconv.Itoa(i),
+				X:    p1_src.X,
+				Y:    p1_src.Y,
+				Z:    p1_src.Z,
 			}).Stage(stage)
-			shape.Points = append(shape.Points, v)
-		}
 
-		extrudeGeom := (&ExtrudeGeometry{
-			Name:        "Phylla Torus " + name + " Extrude Geometry",
-			ExtrudePath: curvePhylla,
-			Shape:       shape,
-			Steps:       len(curvePhylla.Points) * 2,
-		}).Stage(stage)
+			p2 := (&Vector3{
+				Name: p2_src.Name + " " + name + " " + strconv.Itoa(i),
+				X:    p2_src.X,
+				Y:    p2_src.Y,
+				Z:    p2_src.Z,
+			}).Stage(stage)
+			
+			// Copy pointers
+			geom.Vertices = append(geom.Vertices, p1, p2)
+
+			if i < len(edges)-1 {
+				// Base indices for this segment
+				idx := i * 2
+
+				v1_t1, v2_t1, v3_t1 := idx, idx+1, idx+2
+				v1_t2, v2_t2, v3_t2 := idx+1, idx+3, idx+2
+
+				if reverseWinding {
+					v2_t1, v3_t1 = v3_t1, v2_t1
+					v2_t2, v3_t2 = v3_t2, v2_t2
+				}
+
+				// Triangle 1
+				t1 := (&Triangle{
+					Name: "T1 " + strconv.Itoa(i),
+					V1:   v1_t1,
+					V2:   v2_t1,
+					V3:   v3_t1,
+				}).Stage(stage)
+				
+				// Triangle 2
+				t2 := (&Triangle{
+					Name: "T2 " + strconv.Itoa(i),
+					V1:   v1_t2,
+					V2:   v2_t2,
+					V3:   v3_t2,
+				}).Stage(stage)
+
+				geom.Faces = append(geom.Faces, t1, t2)
+			}
+		}
 
 		return (&Mesh{
 			Name:            "Phylla Torus " + name + " Mesh",
 			Position:        Position{X: 0, Y: 0, Z: 0},
-			ExtrudeGeometry: extrudeGeom,
+			BufferGeometry:  geom,
 			MeshPhysicalMaterial: (&MeshPhysicalMaterial{
 				Name:                 "Phylla Torus " + name + " Material",
+				Transparent:          true,
+				Opacity:              0.5,
 				MeshMaterialAbstract: MeshMaterialAbstract{Color: color},
 			}).Stage(stage),
 		}).Stage(stage)
 	}
 
-	ePhylla := 0.1
+	var bottomEdges, topEdges, innerEdges, outerEdges [][2]*Vector3
 
-	// Points of the skewed rectangle matching the exact GrowthCurve2D -> TopGrowthCurve2D offsets
-	// Bottom-Left (GrowthCurve2D): 0, 0
-	// Bottom-Right: thickness, 0
-	// Top-Left (TopGrowthCurve2D): dx2d, dy2d
-	// Top-Right: dx2d + thickness, dy2d
+	for i := 0; i < len(curvePhylla.Points); i++ {
+		p := curvePhylla.Points[i]
+		
+		// The point is (x3d, y3d, z3d) which is globalR * cos(theta), y, globalR * sin(theta)
+		// We can compute theta:
+		theta := math.Atan2(p.Z, p.X)
 
-	pBL := [2]float64{0, 0}
-	pBR := [2]float64{thicknessPhylla, 0}
-	pTL := [2]float64{dx2d, dy2d}
-	pTR := [2]float64{dx2d + thicknessPhylla, dy2d}
+		// Compute the 4 corners of the cross section at this angle
+		// We enforce perfectly vertical walls by matching X and Z radially
+		
+		xBL, yBL, zBL := p.X, p.Y, p.Z
+		xBR, yBR, zBR := p.X + thicknessPhylla*math.Cos(theta), p.Y, p.Z + thicknessPhylla*math.Sin(theta)
+		
+		xTL, yTL, zTL := p.X, p.Y + dy2d, p.Z
+		xTR, yTR, zTR := p.X + thicknessPhylla*math.Cos(theta), p.Y + dy2d, p.Z + thicknessPhylla*math.Sin(theta)
 
-	// Bottom Face: thickness ePhylla
-	bottomFacePhylla := createFaceMeshPhylla("Bottom", "magenta",
-		[2]float64{pBL[0], pBL[1]},
-		[2]float64{pBR[0], pBR[1]},
-		[2]float64{pBR[0], pBR[1] + ePhylla},
-		[2]float64{pBL[0], pBL[1] + ePhylla})
+		vBL := (&Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stage)
+		vBR := (&Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stage)
+		vTL := (&Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stage)
+		vTR := (&Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stage)
 
-	topFacePhylla := createFaceMeshPhylla("Top", "yellow",
-		[2]float64{pTL[0], pTL[1] - ePhylla},
-		[2]float64{pTR[0], pTR[1] - ePhylla},
-		[2]float64{pTR[0], pTR[1]},
-		[2]float64{pTL[0], pTL[1]})
+		bottomEdges = append(bottomEdges, [2]*Vector3{vBL, vBR})
+		topEdges = append(topEdges, [2]*Vector3{vTL, vTR})
+		innerEdges = append(innerEdges, [2]*Vector3{vBL, vTL})
+		outerEdges = append(outerEdges, [2]*Vector3{vBR, vTR})
+	}
 
-	innerFacePhylla := createFaceMeshPhylla("Inner", "cyan",
-		[2]float64{pBL[0], pBL[1]},
-		[2]float64{pBL[0] + ePhylla, pBL[1]},
-		[2]float64{pTL[0] + ePhylla, pTL[1]},
-		[2]float64{pTL[0], pTL[1]})
+	canvas.Meshs = append(canvas.Meshs,
+		createFaceMeshPhylla("Bottom", "magenta", bottomEdges, false),
+		createFaceMeshPhylla("Top", "yellow", topEdges, true),
+		createFaceMeshPhylla("Inner", "cyan", innerEdges, true),
+		createFaceMeshPhylla("Outer", "lime", outerEdges, false),
+	)
 
-	outerFacePhylla := createFaceMeshPhylla("Outer", "lime",
-		[2]float64{pBR[0] - ePhylla, pBR[1]},
-		[2]float64{pBR[0], pBR[1]},
-		[2]float64{pTR[0], pTR[1]},
-		[2]float64{pTR[0] - ePhylla, pTR[1]})
+	// --- Render the 4 original curves as thin tubes so the user can see them ---
+	createTube := func(name string, color string, edges [][2]*Vector3, useLeft bool, tubeRadius float64) *Mesh {
+		curve := (&Curve{
+			Name: "Curve " + name,
+		}).Stage(stage)
 
-	canvas.Meshs = append(canvas.Meshs, bottomFacePhylla, topFacePhylla, innerFacePhylla, outerFacePhylla)
+		for i := 0; i < len(edges); i++ {
+			p := edges[i][0]
+			if !useLeft {
+				p = edges[i][1]
+			}
+			curve.Points = append(curve.Points, (&Vector3{
+				Name: "CurvePoint " + name + " " + strconv.Itoa(i),
+				X:    p.X,
+				Y:    p.Y,
+				Z:    p.Z,
+			}).Stage(stage))
+		}
+
+		tubeGeometry := (&TubeGeometry{
+			Name:            "TubeGeom " + name,
+			Path:            curve,
+			TubularSegments: 500,
+			Radius:          tubeRadius,
+			RadialSegments:  8,
+			Closed:          false,
+		}).Stage(stage)
+
+		return (&Mesh{
+			Name:              "TubeMesh " + name,
+			Position:          Position{X: 0, Y: 0, Z: 0},
+			TubeGeometry:      tubeGeometry,
+			MeshMaterialBasic: (&MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: MeshMaterialAbstract{Color: color}}).Stage(stage),
+		}).Stage(stage)
+	}
+
+	outerRadius := 0.05
+	innerRadius := outerRadius * 0.85 // 15% smaller
+
+	canvas.Meshs = append(canvas.Meshs,
+		createTube("BottomInner", "black", bottomEdges, true, innerRadius),
+		createTube("BottomOuter", "gray", bottomEdges, false, outerRadius),
+		createTube("TopInner", "darkgray", topEdges, true, innerRadius),
+		createTube("TopOuter", "lightgray", topEdges, false, outerRadius),
+	)
 
 	stage.Commit()
 }

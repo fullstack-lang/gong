@@ -51,6 +51,18 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.BufferGeometry:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Vertices", instanceWithInferedType, &instanceWithInferedType.Vertices, formGroup, probe)
+		AssociationSliceToForm("Faces", instanceWithInferedType, &instanceWithInferedType.Faces, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.Camera:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -190,6 +202,7 @@ func FillUpForm(
 		AssociationFieldToForm("PlaneGeometry", instanceWithInferedType.PlaneGeometry, formGroup, probe)
 		AssociationFieldToForm("TubeGeometry", instanceWithInferedType.TubeGeometry, formGroup, probe)
 		AssociationFieldToForm("ExtrudeGeometry", instanceWithInferedType.ExtrudeGeometry, formGroup, probe)
+		AssociationFieldToForm("BufferGeometry", instanceWithInferedType.BufferGeometry, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -312,6 +325,33 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.Triangle:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("V1", instanceWithInferedType.V1, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("V2", instanceWithInferedType.V2, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("V3", instanceWithInferedType.V3, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.BufferGeometry, *models.Triangle](
+				"BufferGeometry",
+				"Faces",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.BufferGeometry) []*models.Triangle {
+					return owner.Faces
+				})
+		}
+
 	case *models.TubeGeometry:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -371,6 +411,17 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.BufferGeometry, *models.Vector3](
+				"BufferGeometry",
+				"Vertices",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.BufferGeometry) []*models.Vector3 {
+					return owner.Vertices
+				})
+		}
 		{
 			AssociationReverseSliceToForm[*models.Curve, *models.Vector3](
 				"Curve",

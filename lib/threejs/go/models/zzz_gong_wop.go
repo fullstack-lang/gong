@@ -52,6 +52,17 @@ func (from *BoxGeometry) CopyBasicFields(to *BoxGeometry) {
 	to.DepthSegments = from.DepthSegments
 }
 
+type BufferGeometry_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *BufferGeometry) CopyBasicFields(to *BufferGeometry) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Camera_WOP struct {
 	// insertion point
 
@@ -331,6 +342,26 @@ func (from *TorusGeometry) CopyBasicFields(to *TorusGeometry) {
 	to.RadialSegments = from.RadialSegments
 	to.TubularSegments = from.TubularSegments
 	to.Arc = from.Arc
+}
+
+type Triangle_WOP struct {
+	// insertion point
+
+	Name string
+
+	V1 int
+
+	V2 int
+
+	V3 int
+}
+
+func (from *Triangle) CopyBasicFields(to *Triangle) {
+	// insertion point
+	to.Name = from.Name
+	to.V1 = from.V1
+	to.V2 = from.V2
+	to.V3 = from.V3
 }
 
 type TubeGeometry_WOP struct {

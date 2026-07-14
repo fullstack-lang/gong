@@ -28,6 +28,10 @@ type DBLite struct {
 
 	nextIDBoxGeometryDB uint
 
+	buffergeometryDBs map[uint]*BufferGeometryDB
+
+	nextIDBufferGeometryDB uint
+
 	cameraDBs map[uint]*CameraDB
 
 	nextIDCameraDB uint
@@ -80,6 +84,10 @@ type DBLite struct {
 
 	nextIDTorusGeometryDB uint
 
+	triangleDBs map[uint]*TriangleDB
+
+	nextIDTriangleDB uint
+
 	tubegeometryDBs map[uint]*TubeGeometryDB
 
 	nextIDTubeGeometryDB uint
@@ -101,6 +109,8 @@ func NewDBLite() *DBLite {
 		ambiantlightDBs: make(map[uint]*AmbiantLightDB),
 
 		boxgeometryDBs: make(map[uint]*BoxGeometryDB),
+
+		buffergeometryDBs: make(map[uint]*BufferGeometryDB),
 
 		cameraDBs: make(map[uint]*CameraDB),
 
@@ -127,6 +137,8 @@ func NewDBLite() *DBLite {
 		spheregeometryDBs: make(map[uint]*SphereGeometryDB),
 
 		torusgeometryDBs: make(map[uint]*TorusGeometryDB),
+
+		triangleDBs: make(map[uint]*TriangleDB),
 
 		tubegeometryDBs: make(map[uint]*TubeGeometryDB),
 
@@ -155,6 +167,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDBoxGeometryDB++
 		v.ID = db.nextIDBoxGeometryDB
 		db.boxgeometryDBs[v.ID] = v
+	case *BufferGeometryDB:
+		db.nextIDBufferGeometryDB++
+		v.ID = db.nextIDBufferGeometryDB
+		db.buffergeometryDBs[v.ID] = v
 	case *CameraDB:
 		db.nextIDCameraDB++
 		v.ID = db.nextIDCameraDB
@@ -207,6 +223,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDTorusGeometryDB++
 		v.ID = db.nextIDTorusGeometryDB
 		db.torusgeometryDBs[v.ID] = v
+	case *TriangleDB:
+		db.nextIDTriangleDB++
+		v.ID = db.nextIDTriangleDB
+		db.triangleDBs[v.ID] = v
 	case *TubeGeometryDB:
 		db.nextIDTubeGeometryDB++
 		v.ID = db.nextIDTubeGeometryDB
@@ -251,6 +271,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.ambiantlightDBs, v.ID)
 	case *BoxGeometryDB:
 		delete(db.boxgeometryDBs, v.ID)
+	case *BufferGeometryDB:
+		delete(db.buffergeometryDBs, v.ID)
 	case *CameraDB:
 		delete(db.cameraDBs, v.ID)
 	case *CanvasDB:
@@ -277,6 +299,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.spheregeometryDBs, v.ID)
 	case *TorusGeometryDB:
 		delete(db.torusgeometryDBs, v.ID)
+	case *TriangleDB:
+		delete(db.triangleDBs, v.ID)
 	case *TubeGeometryDB:
 		delete(db.tubegeometryDBs, v.ID)
 	case *Vector2DB:
@@ -306,6 +330,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *BoxGeometryDB:
 		db.boxgeometryDBs[v.ID] = v
+		return db, nil
+	case *BufferGeometryDB:
+		db.buffergeometryDBs[v.ID] = v
 		return db, nil
 	case *CameraDB:
 		db.cameraDBs[v.ID] = v
@@ -346,6 +373,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *TorusGeometryDB:
 		db.torusgeometryDBs[v.ID] = v
 		return db, nil
+	case *TriangleDB:
+		db.triangleDBs[v.ID] = v
+		return db, nil
 	case *TubeGeometryDB:
 		db.tubegeometryDBs[v.ID] = v
 		return db, nil
@@ -382,6 +412,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db BoxGeometry github.com/fullstack-lang/gong/lib/threejs/go, record not found")
+		}
+	case *BufferGeometryDB:
+		if existing, ok := db.buffergeometryDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db BufferGeometry github.com/fullstack-lang/gong/lib/threejs/go, record not found")
 		}
 	case *CameraDB:
 		if existing, ok := db.cameraDBs[v.ID]; ok {
@@ -461,6 +497,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db TorusGeometry github.com/fullstack-lang/gong/lib/threejs/go, record not found")
 		}
+	case *TriangleDB:
+		if existing, ok := db.triangleDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Triangle github.com/fullstack-lang/gong/lib/threejs/go, record not found")
+		}
 	case *TubeGeometryDB:
 		if existing, ok := db.tubegeometryDBs[v.ID]; ok {
 			*existing = *v
@@ -502,6 +544,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]BoxGeometryDB:
 		*ptr = make([]BoxGeometryDB, 0, len(db.boxgeometryDBs))
 		for _, v := range db.boxgeometryDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]BufferGeometryDB:
+		*ptr = make([]BufferGeometryDB, 0, len(db.buffergeometryDBs))
+		for _, v := range db.buffergeometryDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -583,6 +631,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]TriangleDB:
+		*ptr = make([]TriangleDB, 0, len(db.triangleDBs))
+		for _, v := range db.triangleDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]TubeGeometryDB:
 		*ptr = make([]TubeGeometryDB, 0, len(db.tubegeometryDBs))
 		for _, v := range db.tubegeometryDBs {
@@ -653,6 +707,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		boxgeometryDB, _ := instanceDB.(*BoxGeometryDB)
 		*boxgeometryDB = *tmp
+
+	case *BufferGeometryDB:
+		tmp, ok := db.buffergeometryDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First BufferGeometry Unkown entry %d", i))
+		}
+
+		buffergeometryDB, _ := instanceDB.(*BufferGeometryDB)
+		*buffergeometryDB = *tmp
 
 	case *CameraDB:
 		tmp, ok := db.cameraDBs[uint(i)]
@@ -783,6 +847,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		torusgeometryDB, _ := instanceDB.(*TorusGeometryDB)
 		*torusgeometryDB = *tmp
+
+	case *TriangleDB:
+		tmp, ok := db.triangleDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Triangle Unkown entry %d", i))
+		}
+
+		triangleDB, _ := instanceDB.(*TriangleDB)
+		*triangleDB = *tmp
 
 	case *TubeGeometryDB:
 		tmp, ok := db.tubegeometryDBs[uint(i)]

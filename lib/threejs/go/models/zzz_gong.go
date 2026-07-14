@@ -161,6 +161,25 @@ type Stage struct {
 	OnAfterBoxGeometryDeleteCallback OnAfterDeleteInterface[BoxGeometry]
 	OnAfterBoxGeometryReadCallback   OnAfterReadInterface[BoxGeometry]
 
+	BufferGeometrys                map[*BufferGeometry]struct{}
+	BufferGeometrys_instance       map[*BufferGeometry]*BufferGeometry
+	BufferGeometrys_mapString      map[string]*BufferGeometry
+	BufferGeometryOrder            uint
+	BufferGeometry_stagedOrder     map[*BufferGeometry]uint
+	BufferGeometry_orderStaged     map[uint]*BufferGeometry
+	BufferGeometrys_reference      map[*BufferGeometry]*BufferGeometry
+	BufferGeometrys_referenceOrder map[*BufferGeometry]uint
+
+	// insertion point for slice of pointers maps
+	BufferGeometry_Vertices_reverseMap map[*Vector3]*BufferGeometry
+
+	BufferGeometry_Faces_reverseMap map[*Triangle]*BufferGeometry
+
+	OnAfterBufferGeometryCreateCallback OnAfterCreateInterface[BufferGeometry]
+	OnAfterBufferGeometryUpdateCallback OnAfterUpdateInterface[BufferGeometry]
+	OnAfterBufferGeometryDeleteCallback OnAfterDeleteInterface[BufferGeometry]
+	OnAfterBufferGeometryReadCallback   OnAfterReadInterface[BufferGeometry]
+
 	Cameras                map[*Camera]struct{}
 	Cameras_instance       map[*Camera]*Camera
 	Cameras_mapString      map[string]*Camera
@@ -363,6 +382,21 @@ type Stage struct {
 	OnAfterTorusGeometryUpdateCallback OnAfterUpdateInterface[TorusGeometry]
 	OnAfterTorusGeometryDeleteCallback OnAfterDeleteInterface[TorusGeometry]
 	OnAfterTorusGeometryReadCallback   OnAfterReadInterface[TorusGeometry]
+
+	Triangles                map[*Triangle]struct{}
+	Triangles_instance       map[*Triangle]*Triangle
+	Triangles_mapString      map[string]*Triangle
+	TriangleOrder            uint
+	Triangle_stagedOrder     map[*Triangle]uint
+	Triangle_orderStaged     map[uint]*Triangle
+	Triangles_reference      map[*Triangle]*Triangle
+	Triangles_referenceOrder map[*Triangle]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTriangleCreateCallback OnAfterCreateInterface[Triangle]
+	OnAfterTriangleUpdateCallback OnAfterUpdateInterface[Triangle]
+	OnAfterTriangleDeleteCallback OnAfterDeleteInterface[Triangle]
+	OnAfterTriangleReadCallback   OnAfterReadInterface[Triangle]
 
 	TubeGeometrys                map[*TubeGeometry]struct{}
 	TubeGeometrys_instance       map[*TubeGeometry]*TubeGeometry
@@ -653,6 +687,10 @@ func (stage *Stage) Squash() {
 	stage.BoxGeometrys_instance = make(map[*BoxGeometry]*BoxGeometry)
 	stage.BoxGeometrys_referenceOrder = make(map[*BoxGeometry]uint)
 
+	stage.BufferGeometrys_reference = make(map[*BufferGeometry]*BufferGeometry)
+	stage.BufferGeometrys_instance = make(map[*BufferGeometry]*BufferGeometry)
+	stage.BufferGeometrys_referenceOrder = make(map[*BufferGeometry]uint)
+
 	stage.Cameras_reference = make(map[*Camera]*Camera)
 	stage.Cameras_instance = make(map[*Camera]*Camera)
 	stage.Cameras_referenceOrder = make(map[*Camera]uint)
@@ -704,6 +742,10 @@ func (stage *Stage) Squash() {
 	stage.TorusGeometrys_reference = make(map[*TorusGeometry]*TorusGeometry)
 	stage.TorusGeometrys_instance = make(map[*TorusGeometry]*TorusGeometry)
 	stage.TorusGeometrys_referenceOrder = make(map[*TorusGeometry]uint)
+
+	stage.Triangles_reference = make(map[*Triangle]*Triangle)
+	stage.Triangles_instance = make(map[*Triangle]*Triangle)
+	stage.Triangles_referenceOrder = make(map[*Triangle]uint)
 
 	stage.TubeGeometrys_reference = make(map[*TubeGeometry]*TubeGeometry)
 	stage.TubeGeometrys_instance = make(map[*TubeGeometry]*TubeGeometry)
@@ -770,6 +812,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.BoxGeometryOrder = maxBoxGeometryOrder + 1
 	} else {
 		stage.BoxGeometryOrder = 0
+	}
+
+	var maxBufferGeometryOrder uint
+	var foundBufferGeometry bool
+	for _, order := range stage.BufferGeometry_stagedOrder {
+		if !foundBufferGeometry || order > maxBufferGeometryOrder {
+			maxBufferGeometryOrder = order
+			foundBufferGeometry = true
+		}
+	}
+	if foundBufferGeometry {
+		stage.BufferGeometryOrder = maxBufferGeometryOrder + 1
+	} else {
+		stage.BufferGeometryOrder = 0
 	}
 
 	var maxCameraOrder uint
@@ -954,6 +1010,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.TorusGeometryOrder = 0
 	}
 
+	var maxTriangleOrder uint
+	var foundTriangle bool
+	for _, order := range stage.Triangle_stagedOrder {
+		if !foundTriangle || order > maxTriangleOrder {
+			maxTriangleOrder = order
+			foundTriangle = true
+		}
+	}
+	if foundTriangle {
+		stage.TriangleOrder = maxTriangleOrder + 1
+	} else {
+		stage.TriangleOrder = 0
+	}
+
 	var maxTubeGeometryOrder uint
 	var foundTubeGeometry bool
 	for _, order := range stage.TubeGeometry_stagedOrder {
@@ -1082,6 +1152,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *BoxGeometry implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *BufferGeometry:
+		tmp := GetStructInstancesByOrder(stage.BufferGeometrys, stage.BufferGeometry_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *BufferGeometry implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1267,6 +1351,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Triangle:
+		tmp := GetStructInstancesByOrder(stage.Triangles, stage.Triangle_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Triangle implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TubeGeometry:
 		tmp := GetStructInstancesByOrder(stage.TubeGeometrys, stage.TubeGeometry_stagedOrder)
 
@@ -1342,6 +1440,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.AmbiantLights, stage.AmbiantLight_stagedOrder)
 	case "BoxGeometry":
 		res = GetNamedStructInstances(stage.BoxGeometrys, stage.BoxGeometry_stagedOrder)
+	case "BufferGeometry":
+		res = GetNamedStructInstances(stage.BufferGeometrys, stage.BufferGeometry_stagedOrder)
 	case "Camera":
 		res = GetNamedStructInstances(stage.Cameras, stage.Camera_stagedOrder)
 	case "Canvas":
@@ -1368,6 +1468,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.SphereGeometrys, stage.SphereGeometry_stagedOrder)
 	case "TorusGeometry":
 		res = GetNamedStructInstances(stage.TorusGeometrys, stage.TorusGeometry_stagedOrder)
+	case "Triangle":
+		res = GetNamedStructInstances(stage.Triangles, stage.Triangle_stagedOrder)
 	case "TubeGeometry":
 		res = GetNamedStructInstances(stage.TubeGeometrys, stage.TubeGeometry_stagedOrder)
 	case "Vector2":
@@ -1447,6 +1549,8 @@ type BackRepoInterface interface {
 	CheckoutAmbiantLight(ambiantlight *AmbiantLight)
 	CommitBoxGeometry(boxgeometry *BoxGeometry)
 	CheckoutBoxGeometry(boxgeometry *BoxGeometry)
+	CommitBufferGeometry(buffergeometry *BufferGeometry)
+	CheckoutBufferGeometry(buffergeometry *BufferGeometry)
 	CommitCamera(camera *Camera)
 	CheckoutCamera(camera *Camera)
 	CommitCanvas(canvas *Canvas)
@@ -1473,6 +1577,8 @@ type BackRepoInterface interface {
 	CheckoutSphereGeometry(spheregeometry *SphereGeometry)
 	CommitTorusGeometry(torusgeometry *TorusGeometry)
 	CheckoutTorusGeometry(torusgeometry *TorusGeometry)
+	CommitTriangle(triangle *Triangle)
+	CheckoutTriangle(triangle *Triangle)
 	CommitTubeGeometry(tubegeometry *TubeGeometry)
 	CheckoutTubeGeometry(tubegeometry *TubeGeometry)
 	CommitVector2(vector2 *Vector2)
@@ -1490,6 +1596,9 @@ func NewStage(name string) (stage *Stage) {
 
 		BoxGeometrys:           make(map[*BoxGeometry]struct{}),
 		BoxGeometrys_mapString: make(map[string]*BoxGeometry),
+
+		BufferGeometrys:           make(map[*BufferGeometry]struct{}),
+		BufferGeometrys_mapString: make(map[string]*BufferGeometry),
 
 		Cameras:           make(map[*Camera]struct{}),
 		Cameras_mapString: make(map[string]*Camera),
@@ -1530,6 +1639,9 @@ func NewStage(name string) (stage *Stage) {
 		TorusGeometrys:           make(map[*TorusGeometry]struct{}),
 		TorusGeometrys_mapString: make(map[string]*TorusGeometry),
 
+		Triangles:           make(map[*Triangle]struct{}),
+		Triangles_mapString: make(map[string]*Triangle),
+
 		TubeGeometrys:           make(map[*TubeGeometry]struct{}),
 		TubeGeometrys_mapString: make(map[string]*TubeGeometry),
 
@@ -1556,6 +1668,10 @@ func NewStage(name string) (stage *Stage) {
 		BoxGeometry_stagedOrder: make(map[*BoxGeometry]uint),
 		BoxGeometry_orderStaged: make(map[uint]*BoxGeometry),
 		BoxGeometrys_reference:  make(map[*BoxGeometry]*BoxGeometry),
+
+		BufferGeometry_stagedOrder: make(map[*BufferGeometry]uint),
+		BufferGeometry_orderStaged: make(map[uint]*BufferGeometry),
+		BufferGeometrys_reference:  make(map[*BufferGeometry]*BufferGeometry),
 
 		Camera_stagedOrder: make(map[*Camera]uint),
 		Camera_orderStaged: make(map[uint]*Camera),
@@ -1609,6 +1725,10 @@ func NewStage(name string) (stage *Stage) {
 		TorusGeometry_orderStaged: make(map[uint]*TorusGeometry),
 		TorusGeometrys_reference:  make(map[*TorusGeometry]*TorusGeometry),
 
+		Triangle_stagedOrder: make(map[*Triangle]uint),
+		Triangle_orderStaged: make(map[uint]*Triangle),
+		Triangles_reference:  make(map[*Triangle]*Triangle),
+
 		TubeGeometry_stagedOrder: make(map[*TubeGeometry]uint),
 		TubeGeometry_orderStaged: make(map[uint]*TubeGeometry),
 		TubeGeometrys_reference:  make(map[*TubeGeometry]*TubeGeometry),
@@ -1626,6 +1746,8 @@ func NewStage(name string) (stage *Stage) {
 			"AmbiantLight": &AmbiantLightUnmarshaller{},
 
 			"BoxGeometry": &BoxGeometryUnmarshaller{},
+
+			"BufferGeometry": &BufferGeometryUnmarshaller{},
 
 			"Camera": &CameraUnmarshaller{},
 
@@ -1653,6 +1775,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"TorusGeometry": &TorusGeometryUnmarshaller{},
 
+			"Triangle": &TriangleUnmarshaller{},
+
 			"TubeGeometry": &TubeGeometryUnmarshaller{},
 
 			"Vector2": &Vector2Unmarshaller{},
@@ -1665,6 +1789,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AmbiantLight"},
 			{name: "BoxGeometry"},
+			{name: "BufferGeometry"},
 			{name: "Camera"},
 			{name: "Canvas"},
 			{name: "Curve"},
@@ -1678,6 +1803,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Shape"},
 			{name: "SphereGeometry"},
 			{name: "TorusGeometry"},
+			{name: "Triangle"},
 			{name: "TubeGeometry"},
 			{name: "Vector2"},
 			{name: "Vector3"},
@@ -1696,6 +1822,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AmbiantLight_stagedOrder[instance]
 	case *BoxGeometry:
 		return stage.BoxGeometry_stagedOrder[instance]
+	case *BufferGeometry:
+		return stage.BufferGeometry_stagedOrder[instance]
 	case *Camera:
 		return stage.Camera_stagedOrder[instance]
 	case *Canvas:
@@ -1722,6 +1850,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.SphereGeometry_stagedOrder[instance]
 	case *TorusGeometry:
 		return stage.TorusGeometry_stagedOrder[instance]
+	case *Triangle:
+		return stage.Triangle_stagedOrder[instance]
 	case *TubeGeometry:
 		return stage.TubeGeometry_stagedOrder[instance]
 	case *Vector2:
@@ -1741,6 +1871,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.AmbiantLight_orderStaged[order]).(Type)
 	case *BoxGeometry:
 		return any(stage.BoxGeometry_orderStaged[order]).(Type)
+	case *BufferGeometry:
+		return any(stage.BufferGeometry_orderStaged[order]).(Type)
 	case *Camera:
 		return any(stage.Camera_orderStaged[order]).(Type)
 	case *Canvas:
@@ -1767,6 +1899,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.SphereGeometry_orderStaged[order]).(Type)
 	case *TorusGeometry:
 		return any(stage.TorusGeometry_orderStaged[order]).(Type)
+	case *Triangle:
+		return any(stage.Triangle_orderStaged[order]).(Type)
 	case *TubeGeometry:
 		return any(stage.TubeGeometry_orderStaged[order]).(Type)
 	case *Vector2:
@@ -1785,6 +1919,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.AmbiantLight_stagedOrder[instance]
 	case *BoxGeometry:
 		return stage.BoxGeometry_stagedOrder[instance]
+	case *BufferGeometry:
+		return stage.BufferGeometry_stagedOrder[instance]
 	case *Camera:
 		return stage.Camera_stagedOrder[instance]
 	case *Canvas:
@@ -1811,6 +1947,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.SphereGeometry_stagedOrder[instance]
 	case *TorusGeometry:
 		return stage.TorusGeometry_stagedOrder[instance]
+	case *Triangle:
+		return stage.Triangle_stagedOrder[instance]
 	case *TubeGeometry:
 		return stage.TubeGeometry_stagedOrder[instance]
 	case *Vector2:
@@ -1884,6 +2022,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AmbiantLight"] = len(stage.AmbiantLights)
 	stage.Map_GongStructName_InstancesNb["BoxGeometry"] = len(stage.BoxGeometrys)
+	stage.Map_GongStructName_InstancesNb["BufferGeometry"] = len(stage.BufferGeometrys)
 	stage.Map_GongStructName_InstancesNb["Camera"] = len(stage.Cameras)
 	stage.Map_GongStructName_InstancesNb["Canvas"] = len(stage.Canvass)
 	stage.Map_GongStructName_InstancesNb["Curve"] = len(stage.Curves)
@@ -1897,6 +2036,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Shape"] = len(stage.Shapes)
 	stage.Map_GongStructName_InstancesNb["SphereGeometry"] = len(stage.SphereGeometrys)
 	stage.Map_GongStructName_InstancesNb["TorusGeometry"] = len(stage.TorusGeometrys)
+	stage.Map_GongStructName_InstancesNb["Triangle"] = len(stage.Triangles)
 	stage.Map_GongStructName_InstancesNb["TubeGeometry"] = len(stage.TubeGeometrys)
 	stage.Map_GongStructName_InstancesNb["Vector2"] = len(stage.Vector2s)
 	stage.Map_GongStructName_InstancesNb["Vector3"] = len(stage.Vector3s)
@@ -2114,6 +2254,94 @@ func (boxgeometry *BoxGeometry) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (boxgeometry *BoxGeometry) SetName(name string) {
 	boxgeometry.Name = name
+}
+
+// Stage puts buffergeometry to the model stage
+func (buffergeometry *BufferGeometry) Stage(stage *Stage) *BufferGeometry {
+	if _, ok := stage.BufferGeometrys[buffergeometry]; !ok {
+		stage.BufferGeometrys[buffergeometry] = struct{}{}
+		stage.BufferGeometry_stagedOrder[buffergeometry] = stage.BufferGeometryOrder
+		stage.BufferGeometry_orderStaged[stage.BufferGeometryOrder] = buffergeometry
+		stage.BufferGeometryOrder++
+	}
+	stage.BufferGeometrys_mapString[buffergeometry.Name] = buffergeometry
+
+	return buffergeometry
+}
+
+// StagePreserveOrder puts buffergeometry to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.BufferGeometryOrder
+// - update stage.BufferGeometryOrder accordingly
+func (buffergeometry *BufferGeometry) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.BufferGeometrys[buffergeometry]; !ok {
+		stage.BufferGeometrys[buffergeometry] = struct{}{}
+
+		if order > stage.BufferGeometryOrder {
+			stage.BufferGeometryOrder = order
+		}
+		stage.BufferGeometry_stagedOrder[buffergeometry] = order
+		stage.BufferGeometry_orderStaged[order] = buffergeometry
+		stage.BufferGeometryOrder++
+	}
+	stage.BufferGeometrys_mapString[buffergeometry.Name] = buffergeometry
+}
+
+// Unstage removes buffergeometry off the model stage
+func (buffergeometry *BufferGeometry) Unstage(stage *Stage) *BufferGeometry {
+	delete(stage.BufferGeometrys, buffergeometry)
+	// issue1150
+	// delete(stage.BufferGeometry_stagedOrder, buffergeometry)
+	delete(stage.BufferGeometrys_mapString, buffergeometry.Name)
+
+	return buffergeometry
+}
+
+// UnstageVoid removes buffergeometry off the model stage
+func (buffergeometry *BufferGeometry) UnstageVoid(stage *Stage) {
+	delete(stage.BufferGeometrys, buffergeometry)
+	// issue1150
+	// delete(stage.BufferGeometry_stagedOrder, buffergeometry)
+	delete(stage.BufferGeometrys_mapString, buffergeometry.Name)
+}
+
+// commit buffergeometry to the back repo (if it is already staged)
+func (buffergeometry *BufferGeometry) Commit(stage *Stage) *BufferGeometry {
+	if _, ok := stage.BufferGeometrys[buffergeometry]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitBufferGeometry(buffergeometry)
+		}
+	}
+	return buffergeometry
+}
+
+func (buffergeometry *BufferGeometry) CommitVoid(stage *Stage) {
+	buffergeometry.Commit(stage)
+}
+
+func (buffergeometry *BufferGeometry) StageVoid(stage *Stage) {
+	buffergeometry.Stage(stage)
+}
+
+// Checkout buffergeometry to the back repo (if it is already staged)
+func (buffergeometry *BufferGeometry) Checkout(stage *Stage) *BufferGeometry {
+	if _, ok := stage.BufferGeometrys[buffergeometry]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutBufferGeometry(buffergeometry)
+		}
+	}
+	return buffergeometry
+}
+
+// for satisfaction of GongStruct interface
+func (buffergeometry *BufferGeometry) GetName() (res string) {
+	return buffergeometry.Name
+}
+
+// for satisfaction of GongStruct interface
+func (buffergeometry *BufferGeometry) SetName(name string) {
+	buffergeometry.Name = name
 }
 
 // Stage puts camera to the model stage
@@ -3260,6 +3488,94 @@ func (torusgeometry *TorusGeometry) SetName(name string) {
 	torusgeometry.Name = name
 }
 
+// Stage puts triangle to the model stage
+func (triangle *Triangle) Stage(stage *Stage) *Triangle {
+	if _, ok := stage.Triangles[triangle]; !ok {
+		stage.Triangles[triangle] = struct{}{}
+		stage.Triangle_stagedOrder[triangle] = stage.TriangleOrder
+		stage.Triangle_orderStaged[stage.TriangleOrder] = triangle
+		stage.TriangleOrder++
+	}
+	stage.Triangles_mapString[triangle.Name] = triangle
+
+	return triangle
+}
+
+// StagePreserveOrder puts triangle to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TriangleOrder
+// - update stage.TriangleOrder accordingly
+func (triangle *Triangle) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Triangles[triangle]; !ok {
+		stage.Triangles[triangle] = struct{}{}
+
+		if order > stage.TriangleOrder {
+			stage.TriangleOrder = order
+		}
+		stage.Triangle_stagedOrder[triangle] = order
+		stage.Triangle_orderStaged[order] = triangle
+		stage.TriangleOrder++
+	}
+	stage.Triangles_mapString[triangle.Name] = triangle
+}
+
+// Unstage removes triangle off the model stage
+func (triangle *Triangle) Unstage(stage *Stage) *Triangle {
+	delete(stage.Triangles, triangle)
+	// issue1150
+	// delete(stage.Triangle_stagedOrder, triangle)
+	delete(stage.Triangles_mapString, triangle.Name)
+
+	return triangle
+}
+
+// UnstageVoid removes triangle off the model stage
+func (triangle *Triangle) UnstageVoid(stage *Stage) {
+	delete(stage.Triangles, triangle)
+	// issue1150
+	// delete(stage.Triangle_stagedOrder, triangle)
+	delete(stage.Triangles_mapString, triangle.Name)
+}
+
+// commit triangle to the back repo (if it is already staged)
+func (triangle *Triangle) Commit(stage *Stage) *Triangle {
+	if _, ok := stage.Triangles[triangle]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTriangle(triangle)
+		}
+	}
+	return triangle
+}
+
+func (triangle *Triangle) CommitVoid(stage *Stage) {
+	triangle.Commit(stage)
+}
+
+func (triangle *Triangle) StageVoid(stage *Stage) {
+	triangle.Stage(stage)
+}
+
+// Checkout triangle to the back repo (if it is already staged)
+func (triangle *Triangle) Checkout(stage *Stage) *Triangle {
+	if _, ok := stage.Triangles[triangle]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTriangle(triangle)
+		}
+	}
+	return triangle
+}
+
+// for satisfaction of GongStruct interface
+func (triangle *Triangle) GetName() (res string) {
+	return triangle.Name
+}
+
+// for satisfaction of GongStruct interface
+func (triangle *Triangle) SetName(name string) {
+	triangle.Name = name
+}
+
 // Stage puts tubegeometry to the model stage
 func (tubegeometry *TubeGeometry) Stage(stage *Stage) *TubeGeometry {
 	if _, ok := stage.TubeGeometrys[tubegeometry]; !ok {
@@ -3528,6 +3844,7 @@ func (vector3 *Vector3) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAmbiantLight(AmbiantLight *AmbiantLight)
 	CreateORMBoxGeometry(BoxGeometry *BoxGeometry)
+	CreateORMBufferGeometry(BufferGeometry *BufferGeometry)
 	CreateORMCamera(Camera *Camera)
 	CreateORMCanvas(Canvas *Canvas)
 	CreateORMCurve(Curve *Curve)
@@ -3541,6 +3858,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMShape(Shape *Shape)
 	CreateORMSphereGeometry(SphereGeometry *SphereGeometry)
 	CreateORMTorusGeometry(TorusGeometry *TorusGeometry)
+	CreateORMTriangle(Triangle *Triangle)
 	CreateORMTubeGeometry(TubeGeometry *TubeGeometry)
 	CreateORMVector2(Vector2 *Vector2)
 	CreateORMVector3(Vector3 *Vector3)
@@ -3549,6 +3867,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAmbiantLight(AmbiantLight *AmbiantLight)
 	DeleteORMBoxGeometry(BoxGeometry *BoxGeometry)
+	DeleteORMBufferGeometry(BufferGeometry *BufferGeometry)
 	DeleteORMCamera(Camera *Camera)
 	DeleteORMCanvas(Canvas *Canvas)
 	DeleteORMCurve(Curve *Curve)
@@ -3562,6 +3881,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMShape(Shape *Shape)
 	DeleteORMSphereGeometry(SphereGeometry *SphereGeometry)
 	DeleteORMTorusGeometry(TorusGeometry *TorusGeometry)
+	DeleteORMTriangle(Triangle *Triangle)
 	DeleteORMTubeGeometry(TubeGeometry *TubeGeometry)
 	DeleteORMVector2(Vector2 *Vector2)
 	DeleteORMVector3(Vector3 *Vector3)
@@ -3577,6 +3897,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BoxGeometrys_mapString = make(map[string]*BoxGeometry)
 	stage.BoxGeometry_stagedOrder = make(map[*BoxGeometry]uint)
 	stage.BoxGeometryOrder = 0
+
+	stage.BufferGeometrys = make(map[*BufferGeometry]struct{})
+	stage.BufferGeometrys_mapString = make(map[string]*BufferGeometry)
+	stage.BufferGeometry_stagedOrder = make(map[*BufferGeometry]uint)
+	stage.BufferGeometryOrder = 0
 
 	stage.Cameras = make(map[*Camera]struct{})
 	stage.Cameras_mapString = make(map[string]*Camera)
@@ -3643,6 +3968,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TorusGeometry_stagedOrder = make(map[*TorusGeometry]uint)
 	stage.TorusGeometryOrder = 0
 
+	stage.Triangles = make(map[*Triangle]struct{})
+	stage.Triangles_mapString = make(map[string]*Triangle)
+	stage.Triangle_stagedOrder = make(map[*Triangle]uint)
+	stage.TriangleOrder = 0
+
 	stage.TubeGeometrys = make(map[*TubeGeometry]struct{})
 	stage.TubeGeometrys_mapString = make(map[string]*TubeGeometry)
 	stage.TubeGeometry_stagedOrder = make(map[*TubeGeometry]uint)
@@ -3672,6 +4002,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.BoxGeometrys = nil
 	stage.BoxGeometrys_mapString = nil
+
+	stage.BufferGeometrys = nil
+	stage.BufferGeometrys_mapString = nil
 
 	stage.Cameras = nil
 	stage.Cameras_mapString = nil
@@ -3712,6 +4045,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.TorusGeometrys = nil
 	stage.TorusGeometrys_mapString = nil
 
+	stage.Triangles = nil
+	stage.Triangles_mapString = nil
+
 	stage.TubeGeometrys = nil
 	stage.TubeGeometrys_mapString = nil
 
@@ -3731,6 +4067,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for boxgeometry := range stage.BoxGeometrys {
 		boxgeometry.Unstage(stage)
+	}
+
+	for buffergeometry := range stage.BufferGeometrys {
+		buffergeometry.Unstage(stage)
 	}
 
 	for camera := range stage.Cameras {
@@ -3783,6 +4123,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for torusgeometry := range stage.TorusGeometrys {
 		torusgeometry.Unstage(stage)
+	}
+
+	for triangle := range stage.Triangles {
+		triangle.Unstage(stage)
 	}
 
 	for tubegeometry := range stage.TubeGeometrys {
@@ -3877,6 +4221,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.AmbiantLights).(*Type)
 	case map[*BoxGeometry]any:
 		return any(&stage.BoxGeometrys).(*Type)
+	case map[*BufferGeometry]any:
+		return any(&stage.BufferGeometrys).(*Type)
 	case map[*Camera]any:
 		return any(&stage.Cameras).(*Type)
 	case map[*Canvas]any:
@@ -3903,6 +4249,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.SphereGeometrys).(*Type)
 	case map[*TorusGeometry]any:
 		return any(&stage.TorusGeometrys).(*Type)
+	case map[*Triangle]any:
+		return any(&stage.Triangles).(*Type)
 	case map[*TubeGeometry]any:
 		return any(&stage.TubeGeometrys).(*Type)
 	case map[*Vector2]any:
@@ -3925,6 +4273,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.AmbiantLights_mapString).(map[string]Type)
 	case *BoxGeometry:
 		return any(stage.BoxGeometrys_mapString).(map[string]Type)
+	case *BufferGeometry:
+		return any(stage.BufferGeometrys_mapString).(map[string]Type)
 	case *Camera:
 		return any(stage.Cameras_mapString).(map[string]Type)
 	case *Canvas:
@@ -3951,6 +4301,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.SphereGeometrys_mapString).(map[string]Type)
 	case *TorusGeometry:
 		return any(stage.TorusGeometrys_mapString).(map[string]Type)
+	case *Triangle:
+		return any(stage.Triangles_mapString).(map[string]Type)
 	case *TubeGeometry:
 		return any(stage.TubeGeometrys_mapString).(map[string]Type)
 	case *Vector2:
@@ -3973,6 +4325,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.AmbiantLights).(*map[*Type]struct{})
 	case BoxGeometry:
 		return any(&stage.BoxGeometrys).(*map[*Type]struct{})
+	case BufferGeometry:
+		return any(&stage.BufferGeometrys).(*map[*Type]struct{})
 	case Camera:
 		return any(&stage.Cameras).(*map[*Type]struct{})
 	case Canvas:
@@ -3999,6 +4353,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.SphereGeometrys).(*map[*Type]struct{})
 	case TorusGeometry:
 		return any(&stage.TorusGeometrys).(*map[*Type]struct{})
+	case Triangle:
+		return any(&stage.Triangles).(*map[*Type]struct{})
 	case TubeGeometry:
 		return any(&stage.TubeGeometrys).(*map[*Type]struct{})
 	case Vector2:
@@ -4021,6 +4377,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.AmbiantLights).(*map[Type]struct{})
 	case *BoxGeometry:
 		return any(&stage.BoxGeometrys).(*map[Type]struct{})
+	case *BufferGeometry:
+		return any(&stage.BufferGeometrys).(*map[Type]struct{})
 	case *Camera:
 		return any(&stage.Cameras).(*map[Type]struct{})
 	case *Canvas:
@@ -4047,6 +4405,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.SphereGeometrys).(*map[Type]struct{})
 	case *TorusGeometry:
 		return any(&stage.TorusGeometrys).(*map[Type]struct{})
+	case *Triangle:
+		return any(&stage.Triangles).(*map[Type]struct{})
 	case *TubeGeometry:
 		return any(&stage.TubeGeometrys).(*map[Type]struct{})
 	case *Vector2:
@@ -4069,6 +4429,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.AmbiantLights_mapString).(*map[string]*Type)
 	case BoxGeometry:
 		return any(&stage.BoxGeometrys_mapString).(*map[string]*Type)
+	case BufferGeometry:
+		return any(&stage.BufferGeometrys_mapString).(*map[string]*Type)
 	case Camera:
 		return any(&stage.Cameras_mapString).(*map[string]*Type)
 	case Canvas:
@@ -4095,6 +4457,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.SphereGeometrys_mapString).(*map[string]*Type)
 	case TorusGeometry:
 		return any(&stage.TorusGeometrys_mapString).(*map[string]*Type)
+	case Triangle:
+		return any(&stage.Triangles_mapString).(*map[string]*Type)
 	case TubeGeometry:
 		return any(&stage.TubeGeometrys_mapString).(*map[string]*Type)
 	case Vector2:
@@ -4122,6 +4486,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case BoxGeometry:
 		return any(&BoxGeometry{
 			// Initialisation of associations
+		}).(*Type)
+	case BufferGeometry:
+		return any(&BufferGeometry{
+			// Initialisation of associations
+			// field is initialized with an instance of Vector3 with the name of the field
+			Vertices: []*Vector3{{Name: "Vertices"}},
+			// field is initialized with an instance of Triangle with the name of the field
+			Faces: []*Triangle{{Name: "Faces"}},
 		}).(*Type)
 	case Camera:
 		return any(&Camera{
@@ -4182,6 +4554,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TubeGeometry: &TubeGeometry{Name: "TubeGeometry"},
 			// field is initialized with an instance of ExtrudeGeometry with the name of the field
 			ExtrudeGeometry: &ExtrudeGeometry{Name: "ExtrudeGeometry"},
+			// field is initialized with an instance of BufferGeometry with the name of the field
+			BufferGeometry: &BufferGeometry{Name: "BufferGeometry"},
 		}).(*Type)
 	case MeshMaterialBasic:
 		return any(&MeshMaterialBasic{
@@ -4207,6 +4581,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case TorusGeometry:
 		return any(&TorusGeometry{
+			// Initialisation of associations
+		}).(*Type)
+	case Triangle:
+		return any(&Triangle{
 			// Initialisation of associations
 		}).(*Type)
 	case TubeGeometry:
@@ -4247,6 +4625,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of BoxGeometry
 	case BoxGeometry:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of BufferGeometry
+	case BufferGeometry:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4505,6 +4888,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "BufferGeometry":
+			res := make(map[*BufferGeometry][]*Mesh)
+			for mesh := range stage.Meshs {
+				if mesh.BufferGeometry != nil {
+					buffergeometry_ := mesh.BufferGeometry
+					var meshs []*Mesh
+					_, ok := res[buffergeometry_]
+					if ok {
+						meshs = res[buffergeometry_]
+					} else {
+						meshs = make([]*Mesh, 0)
+					}
+					meshs = append(meshs, mesh)
+					res[buffergeometry_] = meshs
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of MeshMaterialBasic
 	case MeshMaterialBasic:
@@ -4533,6 +4933,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of TorusGeometry
 	case TorusGeometry:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Triangle
+	case Triangle:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4592,6 +4997,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case BoxGeometry:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of BufferGeometry
+	case BufferGeometry:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Vertices":
+			res := make(map[*Vector3][]*BufferGeometry)
+			for buffergeometry := range stage.BufferGeometrys {
+				for _, vector3_ := range buffergeometry.Vertices {
+					res[vector3_] = append(res[vector3_], buffergeometry)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Faces":
+			res := make(map[*Triangle][]*BufferGeometry)
+			for buffergeometry := range stage.BufferGeometrys {
+				for _, triangle_ := range buffergeometry.Faces {
+					res[triangle_] = append(res[triangle_], buffergeometry)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Camera
 	case Camera:
@@ -4690,6 +5116,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Triangle
+	case Triangle:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TubeGeometry
 	case TubeGeometry:
 		switch fieldname {
@@ -4720,6 +5151,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "AmbiantLight"
 	case *BoxGeometry:
 		res = "BoxGeometry"
+	case *BufferGeometry:
+		res = "BufferGeometry"
 	case *Camera:
 		res = "Camera"
 	case *Canvas:
@@ -4746,6 +5179,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "SphereGeometry"
 	case *TorusGeometry:
 		res = "TorusGeometry"
+	case *Triangle:
+		res = "Triangle"
 	case *TubeGeometry:
 		res = "TubeGeometry"
 	case *Vector2:
@@ -4773,6 +5208,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *BoxGeometry:
+		var rf ReverseField
+		_ = rf
+	case *BufferGeometry:
 		var rf ReverseField
 		_ = rf
 	case *Camera:
@@ -4820,6 +5258,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *TorusGeometry:
 		var rf ReverseField
 		_ = rf
+	case *Triangle:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "BufferGeometry"
+		rf.Fieldname = "Faces"
+		res = append(res, rf)
 	case *TubeGeometry:
 		var rf ReverseField
 		_ = rf
@@ -4832,6 +5276,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Vector3:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "BufferGeometry"
+		rf.Fieldname = "Vertices"
+		res = append(res, rf)
 		rf.GongstructName = "Curve"
 		rf.Fieldname = "Points"
 		res = append(res, rf)
@@ -4885,6 +5332,27 @@ func (boxgeometry *BoxGeometry) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "DepthSegments",
 			GongFieldValueType: GongFieldValueTypeInt,
+		},
+	}
+	return
+}
+
+func (buffergeometry *BufferGeometry) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Vertices",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Vector3",
+		},
+		{
+			Name:                 "Faces",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Triangle",
 		},
 	}
 	return
@@ -5139,6 +5607,11 @@ func (mesh *Mesh) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "ExtrudeGeometry",
 		},
+		{
+			Name:                 "BufferGeometry",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "BufferGeometry",
+		},
 	}
 	return
 }
@@ -5297,6 +5770,29 @@ func (torusgeometry *TorusGeometry) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "Arc",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (triangle *Triangle) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "V1",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "V2",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "V3",
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 	}
 	return
@@ -5473,6 +5969,35 @@ func (boxgeometry *BoxGeometry) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%d", boxgeometry.DepthSegments)
 		res.valueInt = boxgeometry.DepthSegments
 		res.GongFieldValueType = GongFieldValueTypeInt
+	}
+	return
+}
+
+func (buffergeometry *BufferGeometry) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = buffergeometry.Name
+	case "Vertices":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range buffergeometry.Vertices {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Faces":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range buffergeometry.Faces {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -5740,6 +6265,12 @@ func (mesh *Mesh) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString = mesh.ExtrudeGeometry.Name
 			res.ids = mesh.ExtrudeGeometry.GongGetUUID(stage)
 		}
+	case "BufferGeometry":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if mesh.BufferGeometry != nil {
+			res.valueString = mesh.BufferGeometry.Name
+			res.ids = mesh.BufferGeometry.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -5892,6 +6423,27 @@ func (torusgeometry *TorusGeometry) GongGetFieldValue(fieldName string, stage *S
 	return
 }
 
+func (triangle *Triangle) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = triangle.Name
+	case "V1":
+		res.valueString = fmt.Sprintf("%d", triangle.V1)
+		res.valueInt = triangle.V1
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "V2":
+		res.valueString = fmt.Sprintf("%d", triangle.V2)
+		res.valueInt = triangle.V2
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "V3":
+		res.valueString = fmt.Sprintf("%d", triangle.V3)
+		res.valueInt = triangle.V3
+		res.GongFieldValueType = GongFieldValueTypeInt
+	}
+	return
+}
+
 func (tubegeometry *TubeGeometry) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -5997,6 +6549,45 @@ func (boxgeometry *BoxGeometry) GongSetFieldValue(fieldName string, value GongFi
 		boxgeometry.HeightSegments = int(value.GetValueInt())
 	case "DepthSegments":
 		boxgeometry.DepthSegments = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (buffergeometry *BufferGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		buffergeometry.Name = value.GetValueString()
+	case "Vertices":
+		buffergeometry.Vertices = make([]*Vector3, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Vector3s {
+					if stage.Vector3_stagedOrder[__instance__] == uint(id) {
+						buffergeometry.Vertices = append(buffergeometry.Vertices, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Faces":
+		buffergeometry.Faces = make([]*Triangle, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Triangles {
+					if stage.Triangle_stagedOrder[__instance__] == uint(id) {
+						buffergeometry.Faces = append(buffergeometry.Faces, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6307,6 +6898,17 @@ func (mesh *Mesh) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "BufferGeometry":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			mesh.BufferGeometry = nil
+			for __instance__ := range stage.BufferGeometrys {
+				if stage.BufferGeometry_stagedOrder[__instance__] == uint(id) {
+					mesh.BufferGeometry = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6437,6 +7039,23 @@ func (torusgeometry *TorusGeometry) GongSetFieldValue(fieldName string, value Go
 	return nil
 }
 
+func (triangle *Triangle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		triangle.Name = value.GetValueString()
+	case "V1":
+		triangle.V1 = int(value.GetValueInt())
+	case "V2":
+		triangle.V2 = int(value.GetValueInt())
+	case "V3":
+		triangle.V3 = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (tubegeometry *TubeGeometry) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -6512,6 +7131,10 @@ func (boxgeometry *BoxGeometry) GongGetGongstructName() string {
 	return "BoxGeometry"
 }
 
+func (buffergeometry *BufferGeometry) GongGetGongstructName() string {
+	return "BufferGeometry"
+}
+
 func (camera *Camera) GongGetGongstructName() string {
 	return "Camera"
 }
@@ -6564,6 +7187,10 @@ func (torusgeometry *TorusGeometry) GongGetGongstructName() string {
 	return "TorusGeometry"
 }
 
+func (triangle *Triangle) GongGetGongstructName() string {
+	return "Triangle"
+}
+
 func (tubegeometry *TubeGeometry) GongGetGongstructName() string {
 	return "TubeGeometry"
 }
@@ -6591,6 +7218,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.BoxGeometrys_mapString = make(map[string]*BoxGeometry)
 	for boxgeometry := range stage.BoxGeometrys {
 		stage.BoxGeometrys_mapString[boxgeometry.Name] = boxgeometry
+	}
+
+	stage.BufferGeometrys_mapString = make(map[string]*BufferGeometry)
+	for buffergeometry := range stage.BufferGeometrys {
+		stage.BufferGeometrys_mapString[buffergeometry.Name] = buffergeometry
 	}
 
 	stage.Cameras_mapString = make(map[string]*Camera)
@@ -6656,6 +7288,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TorusGeometrys_mapString = make(map[string]*TorusGeometry)
 	for torusgeometry := range stage.TorusGeometrys {
 		stage.TorusGeometrys_mapString[torusgeometry.Name] = torusgeometry
+	}
+
+	stage.Triangles_mapString = make(map[string]*Triangle)
+	for triangle := range stage.Triangles {
+		stage.Triangles_mapString[triangle.Name] = triangle
 	}
 
 	stage.TubeGeometrys_mapString = make(map[string]*TubeGeometry)

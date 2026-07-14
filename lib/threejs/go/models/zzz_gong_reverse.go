@@ -20,6 +20,15 @@ func (inst *BoxGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
+func (inst *BufferGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Camera) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -151,6 +160,22 @@ func (inst *TorusGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
+func (inst *Triangle) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "BufferGeometry":
+		switch reverseField.Fieldname {
+		case "Faces":
+			if _buffergeometry, ok := stage.BufferGeometry_Faces_reverseMap[inst]; ok {
+				res = _buffergeometry.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *TubeGeometry) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -181,6 +206,13 @@ func (inst *Vector3) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "BufferGeometry":
+		switch reverseField.Fieldname {
+		case "Vertices":
+			if _buffergeometry, ok := stage.BufferGeometry_Vertices_reverseMap[inst]; ok {
+				res = _buffergeometry.Name
+			}
+		}
 	case "Curve":
 		switch reverseField.Fieldname {
 		case "Points":
@@ -203,6 +235,15 @@ func (inst *AmbiantLight) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 }
 
 func (inst *BoxGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *BufferGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -338,6 +379,20 @@ func (inst *TorusGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	return res
 }
 
+func (inst *Triangle) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "BufferGeometry":
+		switch reverseField.Fieldname {
+		case "Faces":
+			res = stage.BufferGeometry_Faces_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *TubeGeometry) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -366,6 +421,11 @@ func (inst *Vector3) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "BufferGeometry":
+		switch reverseField.Fieldname {
+		case "Vertices":
+			res = stage.BufferGeometry_Vertices_reverseMap[inst]
+		}
 	case "Curve":
 		switch reverseField.Fieldname {
 		case "Points":

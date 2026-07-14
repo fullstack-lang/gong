@@ -25,6 +25,7 @@ import { TorusGeometryAPI } from './torusgeometry-api'
 import { PlaneGeometryAPI } from './planegeometry-api'
 import { TubeGeometryAPI } from './tubegeometry-api'
 import { ExtrudeGeometryAPI } from './extrudegeometry-api'
+import { BufferGeometryAPI } from './buffergeometry-api'
 
 @Injectable({
   providedIn: 'root'

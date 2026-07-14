@@ -136,6 +136,50 @@ export class GongthreejsSpecific {
     return [shape, settings];
   }
 
+  private bufferGeometryCache = new Map<number, THREE.BufferGeometry>();
+
+  getBufferGeometryArgs(bufferGeometry: threejs.BufferGeometry): THREE.BufferGeometry {
+    if (!bufferGeometry) return new THREE.BufferGeometry();
+
+    if (this.bufferGeometryCache.has(bufferGeometry.ID)) {
+      return this.bufferGeometryCache.get(bufferGeometry.ID)!;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+
+    if (bufferGeometry.Vertices && bufferGeometry.Vertices.length > 0) {
+      // The backend preserves the append order of Vertices using IntSlice.
+      // We must NOT sort by ID because IDs are assigned randomly during stage.Commit() map iteration!
+      // Sorting by ID completely scrambles the array, which breaks the Triangle face indices (V1, V2, V3).
+      const vertices = bufferGeometry.Vertices;
+      const positions = new Float32Array(vertices.length * 3);
+      
+      vertices.forEach((v, i) => {
+        positions[i * 3] = v.X;
+        positions[i * 3 + 1] = v.Y;
+        positions[i * 3 + 2] = v.Z;
+      });
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      if (bufferGeometry.Faces && bufferGeometry.Faces.length > 0) {
+        const indices = new Uint32Array(bufferGeometry.Faces.length * 3);
+        bufferGeometry.Faces.forEach((f, i) => {
+          indices[i * 3] = f.V1;
+          indices[i * 3 + 1] = f.V2;
+          indices[i * 3 + 2] = f.V3;
+        });
+        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+      }
+      
+      // Calculate normals so that MeshPhysicalMaterial can render properly
+      geometry.computeVertexNormals();
+    }
+
+    geometry.computeVertexNormals();
+    this.bufferGeometryCache.set(bufferGeometry.ID, geometry);
+    return geometry;
+  }
+
   ngOnInit(): void {
     this.threejsFrontRepoService.connectToWebSocket(this.Name).subscribe(
       frontRepo => {

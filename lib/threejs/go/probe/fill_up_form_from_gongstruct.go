@@ -45,6 +45,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.BufferGeometry:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BufferGeometry",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BufferGeometryFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Camera:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -208,6 +221,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "TorusGeometry",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TorusGeometryFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Triangle:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Triangle",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TriangleFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

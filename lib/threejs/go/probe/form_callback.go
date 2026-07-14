@@ -189,6 +189,148 @@ func (boxgeometryFormCallback *BoxGeometryFormCallback) OnSave() {
 
 	boxgeometryFormCallback.probe.ux_tree()
 }
+func __gong__New__BufferGeometryFormCallback(
+	buffergeometry *models.BufferGeometry,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (buffergeometryFormCallback *BufferGeometryFormCallback) {
+	buffergeometryFormCallback = new(BufferGeometryFormCallback)
+	buffergeometryFormCallback.probe = probe
+	buffergeometryFormCallback.buffergeometry = buffergeometry
+	buffergeometryFormCallback.formGroup = formGroup
+
+	buffergeometryFormCallback.CreationMode = (buffergeometry == nil)
+
+	return
+}
+
+type BufferGeometryFormCallback struct {
+	buffergeometry *models.BufferGeometry
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (buffergeometryFormCallback *BufferGeometryFormCallback) OnSave() {
+	buffergeometryFormCallback.probe.stageOfInterest.Lock()
+	defer buffergeometryFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("BufferGeometryFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	buffergeometryFormCallback.probe.formStage.Checkout()
+
+	if buffergeometryFormCallback.buffergeometry == nil {
+		buffergeometryFormCallback.buffergeometry = new(models.BufferGeometry).Stage(buffergeometryFormCallback.probe.stageOfInterest)
+	}
+	buffergeometry_ := buffergeometryFormCallback.buffergeometry
+	_ = buffergeometry_
+
+	for _, formDiv := range buffergeometryFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(buffergeometry_.Name), formDiv)
+		case "Vertices":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vector3](buffergeometryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Vector3, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Vector3)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					buffergeometryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Vector3](buffergeometryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			buffergeometry_.Vertices = instanceSlice
+			buffergeometryFormCallback.probe.UpdateSliceOfPointersCallback(buffergeometry_, "Vertices", &buffergeometry_.Vertices)
+
+		case "Faces":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Triangle](buffergeometryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Triangle, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Triangle)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					buffergeometryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Triangle](buffergeometryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			buffergeometry_.Faces = instanceSlice
+			buffergeometryFormCallback.probe.UpdateSliceOfPointersCallback(buffergeometry_, "Faces", &buffergeometry_.Faces)
+
+		}
+	}
+
+	// manage the suppress operation
+	if buffergeometryFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		buffergeometry_.Unstage(buffergeometryFormCallback.probe.stageOfInterest)
+	}
+
+	buffergeometryFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.BufferGeometry](
+		buffergeometryFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if buffergeometryFormCallback.CreationMode || buffergeometryFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		buffergeometryFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(buffergeometryFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__BufferGeometryFormCallback(
+			nil,
+			buffergeometryFormCallback.probe,
+			newFormGroup,
+		)
+		buffergeometry := new(models.BufferGeometry)
+		FillUpForm(buffergeometry, newFormGroup, buffergeometryFormCallback.probe)
+		buffergeometryFormCallback.probe.formStage.Commit()
+	}
+
+	buffergeometryFormCallback.probe.ux_tree()
+}
 func __gong__New__CameraFormCallback(
 	camera *models.Camera,
 	probe *Probe,
@@ -919,6 +1061,8 @@ func (meshFormCallback *MeshFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(mesh_.TubeGeometry), meshFormCallback.probe.stageOfInterest, formDiv)
 		case "ExtrudeGeometry":
 			FormDivSelectFieldToField(&(mesh_.ExtrudeGeometry), meshFormCallback.probe.stageOfInterest, formDiv)
+		case "BufferGeometry":
+			FormDivSelectFieldToField(&(mesh_.BufferGeometry), meshFormCallback.probe.stageOfInterest, formDiv)
 		case "Canvas:Meshs":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Canvas instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1539,6 +1683,135 @@ func (torusgeometryFormCallback *TorusGeometryFormCallback) OnSave() {
 
 	torusgeometryFormCallback.probe.ux_tree()
 }
+func __gong__New__TriangleFormCallback(
+	triangle *models.Triangle,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (triangleFormCallback *TriangleFormCallback) {
+	triangleFormCallback = new(TriangleFormCallback)
+	triangleFormCallback.probe = probe
+	triangleFormCallback.triangle = triangle
+	triangleFormCallback.formGroup = formGroup
+
+	triangleFormCallback.CreationMode = (triangle == nil)
+
+	return
+}
+
+type TriangleFormCallback struct {
+	triangle *models.Triangle
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (triangleFormCallback *TriangleFormCallback) OnSave() {
+	triangleFormCallback.probe.stageOfInterest.Lock()
+	defer triangleFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TriangleFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	triangleFormCallback.probe.formStage.Checkout()
+
+	if triangleFormCallback.triangle == nil {
+		triangleFormCallback.triangle = new(models.Triangle).Stage(triangleFormCallback.probe.stageOfInterest)
+	}
+	triangle_ := triangleFormCallback.triangle
+	_ = triangle_
+
+	for _, formDiv := range triangleFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(triangle_.Name), formDiv)
+		case "V1":
+			FormDivBasicFieldToField(&(triangle_.V1), formDiv)
+		case "V2":
+			FormDivBasicFieldToField(&(triangle_.V2), formDiv)
+		case "V3":
+			FormDivBasicFieldToField(&(triangle_.V3), formDiv)
+		case "BufferGeometry:Faces":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the BufferGeometry instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target BufferGeometry instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.BufferGeometry](triangleFormCallback.probe.stageOfInterest)
+			targetBufferGeometryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetBufferGeometryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all BufferGeometry instances and update their Faces slice
+			for _buffergeometry := range *models.GetGongstructInstancesSetFromPointerType[*models.BufferGeometry](triangleFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(triangleFormCallback.probe.stageOfInterest, _buffergeometry)
+				
+				// if BufferGeometry is selected
+				if targetBufferGeometryIDs[id] {
+					// ensure triangle_ is in _buffergeometry.Faces
+					found := false
+					for _, _b := range _buffergeometry.Faces {
+						if _b == triangle_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_buffergeometry.Faces = append(_buffergeometry.Faces, triangle_)
+						triangleFormCallback.probe.UpdateSliceOfPointersCallback(_buffergeometry, "Faces", &_buffergeometry.Faces)
+					}
+				} else {
+					// ensure triangle_ is NOT in _buffergeometry.Faces
+					idx := slices.Index(_buffergeometry.Faces, triangle_)
+					if idx != -1 {
+						_buffergeometry.Faces = slices.Delete(_buffergeometry.Faces, idx, idx+1)
+						triangleFormCallback.probe.UpdateSliceOfPointersCallback(_buffergeometry, "Faces", &_buffergeometry.Faces)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if triangleFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		triangle_.Unstage(triangleFormCallback.probe.stageOfInterest)
+	}
+
+	triangleFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Triangle](
+		triangleFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if triangleFormCallback.CreationMode || triangleFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		triangleFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(triangleFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TriangleFormCallback(
+			nil,
+			triangleFormCallback.probe,
+			newFormGroup,
+		)
+		triangle := new(models.Triangle)
+		FillUpForm(triangle, newFormGroup, triangleFormCallback.probe)
+		triangleFormCallback.probe.formStage.Commit()
+	}
+
+	triangleFormCallback.probe.ux_tree()
+}
 func __gong__New__TubeGeometryFormCallback(
 	tubegeometry *models.TubeGeometry,
 	probe *Probe,
@@ -1807,6 +2080,51 @@ func (vector3FormCallback *Vector3FormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vector3_.Y), formDiv)
 		case "Z":
 			FormDivBasicFieldToField(&(vector3_.Z), formDiv)
+		case "BufferGeometry:Vertices":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the BufferGeometry instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target BufferGeometry instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.BufferGeometry](vector3FormCallback.probe.stageOfInterest)
+			targetBufferGeometryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetBufferGeometryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all BufferGeometry instances and update their Vertices slice
+			for _buffergeometry := range *models.GetGongstructInstancesSetFromPointerType[*models.BufferGeometry](vector3FormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(vector3FormCallback.probe.stageOfInterest, _buffergeometry)
+				
+				// if BufferGeometry is selected
+				if targetBufferGeometryIDs[id] {
+					// ensure vector3_ is in _buffergeometry.Vertices
+					found := false
+					for _, _b := range _buffergeometry.Vertices {
+						if _b == vector3_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_buffergeometry.Vertices = append(_buffergeometry.Vertices, vector3_)
+						vector3FormCallback.probe.UpdateSliceOfPointersCallback(_buffergeometry, "Vertices", &_buffergeometry.Vertices)
+					}
+				} else {
+					// ensure vector3_ is NOT in _buffergeometry.Vertices
+					idx := slices.Index(_buffergeometry.Vertices, vector3_)
+					if idx != -1 {
+						_buffergeometry.Vertices = slices.Delete(_buffergeometry.Vertices, idx, idx+1)
+						vector3FormCallback.probe.UpdateSliceOfPointersCallback(_buffergeometry, "Vertices", &_buffergeometry.Vertices)
+					}
+				}
+			}
 		case "Curve:Points":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Curve instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

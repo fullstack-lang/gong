@@ -26,6 +26,23 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct BoxGeometry
 	// insertion point per field
 
+	// Compute reverse map for named struct BufferGeometry
+	// insertion point per field
+	stage.BufferGeometry_Vertices_reverseMap = make(map[*Vector3]*BufferGeometry)
+	for buffergeometry := range stage.BufferGeometrys {
+		_ = buffergeometry
+		for _, _vector3 := range buffergeometry.Vertices {
+			stage.BufferGeometry_Vertices_reverseMap[_vector3] = buffergeometry
+		}
+	}
+	stage.BufferGeometry_Faces_reverseMap = make(map[*Triangle]*BufferGeometry)
+	for buffergeometry := range stage.BufferGeometrys {
+		_ = buffergeometry
+		for _, _triangle := range buffergeometry.Faces {
+			stage.BufferGeometry_Faces_reverseMap[_triangle] = buffergeometry
+		}
+	}
+
 	// Compute reverse map for named struct Camera
 	// insertion point per field
 
@@ -93,6 +110,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TorusGeometry
 	// insertion point per field
 
+	// Compute reverse map for named struct Triangle
+	// insertion point per field
+
 	// Compute reverse map for named struct TubeGeometry
 	// insertion point per field
 
@@ -112,6 +132,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.BoxGeometrys {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.BufferGeometrys {
 		res = append(res, instance)
 	}
 
@@ -167,6 +191,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Triangles {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.TubeGeometrys {
 		res = append(res, instance)
 	}
@@ -192,6 +220,12 @@ func (ambiantlight *AmbiantLight) GongCopy() GongstructIF {
 func (boxgeometry *BoxGeometry) GongCopy() GongstructIF {
 	newInstance := new(BoxGeometry)
 	boxgeometry.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (buffergeometry *BufferGeometry) GongCopy() GongstructIF {
+	newInstance := new(BufferGeometry)
+	buffergeometry.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -273,6 +307,12 @@ func (torusgeometry *TorusGeometry) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (triangle *Triangle) GongCopy() GongstructIF {
+	newInstance := new(Triangle)
+	triangle.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (tubegeometry *TubeGeometry) GongCopy() GongstructIF {
 	newInstance := new(TubeGeometry)
 	tubegeometry.CopyBasicFields(newInstance)
@@ -309,6 +349,16 @@ func (boxgeometry *BoxGeometry) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(boxgeometry), uint64(GetOrderPointerGongstruct(stage, boxgeometry)))
+	return
+}
+
+func (buffergeometry *BufferGeometry) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(buffergeometry).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(buffergeometry), uint64(GetOrderPointerGongstruct(stage, buffergeometry)))
 	return
 }
 
@@ -439,6 +489,16 @@ func (torusgeometry *TorusGeometry) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torusgeometry), uint64(GetOrderPointerGongstruct(stage, torusgeometry)))
+	return
+}
+
+func (triangle *Triangle) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(triangle).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(triangle), uint64(GetOrderPointerGongstruct(stage, triangle)))
 	return
 }
 
@@ -600,6 +660,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(boxgeometrys_newInstances)
 	lenDeletedInstances += len(boxgeometrys_deletedInstances)
+	var buffergeometrys_newInstances []*BufferGeometry
+	var buffergeometrys_deletedInstances []*BufferGeometry
+
+	// parse all staged instances and check if they have a reference
+	for buffergeometry := range stage.BufferGeometrys {
+		if ref, ok := stage.BufferGeometrys_reference[buffergeometry]; !ok {
+			buffergeometrys_newInstances = append(buffergeometrys_newInstances, buffergeometry)
+			newInstancesSlice = append(newInstancesSlice, buffergeometry.GongMarshallIdentifier(stage))
+			if stage.BufferGeometrys_referenceOrder == nil {
+				stage.BufferGeometrys_referenceOrder = make(map[*BufferGeometry]uint)
+			}
+			stage.BufferGeometrys_referenceOrder[buffergeometry] = stage.BufferGeometry_stagedOrder[buffergeometry]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, buffergeometry.GongMarshallUnstaging(stage))
+			// delete(stage.BufferGeometrys_referenceOrder, buffergeometry)
+			fieldInitializers, pointersInitializations := buffergeometry.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.BufferGeometry_stagedOrder[ref] = stage.BufferGeometry_stagedOrder[buffergeometry]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := buffergeometry.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, buffergeometry)
+			// delete(stage.BufferGeometry_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if buffergeometry.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", buffergeometry.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.BufferGeometrys_reference {
+		instance := stage.BufferGeometrys_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.BufferGeometrys[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			buffergeometrys_deletedInstances = append(buffergeometrys_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(buffergeometrys_newInstances)
+	lenDeletedInstances += len(buffergeometrys_deletedInstances)
 	var cameras_newInstances []*Camera
 	var cameras_deletedInstances []*Camera
 
@@ -1315,6 +1430,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(torusgeometrys_newInstances)
 	lenDeletedInstances += len(torusgeometrys_deletedInstances)
+	var triangles_newInstances []*Triangle
+	var triangles_deletedInstances []*Triangle
+
+	// parse all staged instances and check if they have a reference
+	for triangle := range stage.Triangles {
+		if ref, ok := stage.Triangles_reference[triangle]; !ok {
+			triangles_newInstances = append(triangles_newInstances, triangle)
+			newInstancesSlice = append(newInstancesSlice, triangle.GongMarshallIdentifier(stage))
+			if stage.Triangles_referenceOrder == nil {
+				stage.Triangles_referenceOrder = make(map[*Triangle]uint)
+			}
+			stage.Triangles_referenceOrder[triangle] = stage.Triangle_stagedOrder[triangle]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, triangle.GongMarshallUnstaging(stage))
+			// delete(stage.Triangles_referenceOrder, triangle)
+			fieldInitializers, pointersInitializations := triangle.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Triangle_stagedOrder[ref] = stage.Triangle_stagedOrder[triangle]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := triangle.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, triangle)
+			// delete(stage.Triangle_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if triangle.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", triangle.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Triangles_reference {
+		instance := stage.Triangles_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Triangles[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			triangles_deletedInstances = append(triangles_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(triangles_newInstances)
+	lenDeletedInstances += len(triangles_deletedInstances)
 	var tubegeometrys_newInstances []*TubeGeometry
 	var tubegeometrys_deletedInstances []*TubeGeometry
 
@@ -1535,6 +1705,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.BoxGeometrys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.BufferGeometrys_reference = make(map[*BufferGeometry]*BufferGeometry)
+	stage.BufferGeometrys_referenceOrder = make(map[*BufferGeometry]uint) // diff Unstage needs the reference order
+	stage.BufferGeometrys_instance = make(map[*BufferGeometry]*BufferGeometry)
+	for instance := range stage.BufferGeometrys {
+		_copy := instance.GongCopy().(*BufferGeometry)
+		stage.BufferGeometrys_reference[instance] = _copy
+		stage.BufferGeometrys_instance[_copy] = instance
+		stage.BufferGeometrys_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Cameras_reference = make(map[*Camera]*Camera)
 	stage.Cameras_referenceOrder = make(map[*Camera]uint) // diff Unstage needs the reference order
 	stage.Cameras_instance = make(map[*Camera]*Camera)
@@ -1665,6 +1845,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TorusGeometrys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Triangles_reference = make(map[*Triangle]*Triangle)
+	stage.Triangles_referenceOrder = make(map[*Triangle]uint) // diff Unstage needs the reference order
+	stage.Triangles_instance = make(map[*Triangle]*Triangle)
+	for instance := range stage.Triangles {
+		_copy := instance.GongCopy().(*Triangle)
+		stage.Triangles_reference[instance] = _copy
+		stage.Triangles_instance[_copy] = instance
+		stage.Triangles_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TubeGeometrys_reference = make(map[*TubeGeometry]*TubeGeometry)
 	stage.TubeGeometrys_referenceOrder = make(map[*TubeGeometry]uint) // diff Unstage needs the reference order
 	stage.TubeGeometrys_instance = make(map[*TubeGeometry]*TubeGeometry)
@@ -1703,6 +1893,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.BoxGeometrys {
 		reference := stage.BoxGeometrys_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.BufferGeometrys {
+		reference := stage.BufferGeometrys_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1771,6 +1966,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Triangles {
+		reference := stage.Triangles_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.TubeGeometrys {
 		reference := stage.TubeGeometrys_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1816,6 +2016,18 @@ func (boxgeometry *BoxGeometry) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type BoxGeometry was not staged and does not have a reference order", boxgeometry)
+		return 0
+	}
+}
+
+func (buffergeometry *BufferGeometry) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.BufferGeometry_stagedOrder[buffergeometry]; ok {
+		return order
+	}
+	if order, ok := stage.BufferGeometrys_referenceOrder[buffergeometry]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type BufferGeometry was not staged and does not have a reference order", buffergeometry)
 		return 0
 	}
 }
@@ -1976,6 +2188,18 @@ func (torusgeometry *TorusGeometry) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (triangle *Triangle) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Triangle_stagedOrder[triangle]; ok {
+		return order
+	}
+	if order, ok := stage.Triangles_referenceOrder[triangle]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Triangle was not staged and does not have a reference order", triangle)
+		return 0
+	}
+}
+
 func (tubegeometry *TubeGeometry) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TubeGeometry_stagedOrder[tubegeometry]; ok {
 		return order
@@ -2033,6 +2257,15 @@ func (boxgeometry *BoxGeometry) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (boxgeometry *BoxGeometry) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", boxgeometry.GongGetGongstructName(), boxgeometry.GongGetOrder(stage))
+}
+
+func (buffergeometry *BufferGeometry) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", buffergeometry.GongGetGongstructName(), buffergeometry.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (buffergeometry *BufferGeometry) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", buffergeometry.GongGetGongstructName(), buffergeometry.GongGetOrder(stage))
 }
 
 func (camera *Camera) GongGetIdentifier(stage *Stage) string {
@@ -2152,6 +2385,15 @@ func (torusgeometry *TorusGeometry) GongGetReferenceIdentifier(stage *Stage) str
 	return fmt.Sprintf("__%s__%08d_", torusgeometry.GongGetGongstructName(), torusgeometry.GongGetOrder(stage))
 }
 
+func (triangle *Triangle) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", triangle.GongGetGongstructName(), triangle.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (triangle *Triangle) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", triangle.GongGetGongstructName(), triangle.GongGetOrder(stage))
+}
+
 func (tubegeometry *TubeGeometry) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", tubegeometry.GongGetGongstructName(), tubegeometry.GongGetOrder(stage))
 }
@@ -2195,6 +2437,14 @@ func (boxgeometry *BoxGeometry) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", boxgeometry.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BoxGeometry")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(boxgeometry.Name))
+	return
+}
+
+func (buffergeometry *BufferGeometry) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", buffergeometry.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "BufferGeometry")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(buffergeometry.Name))
 	return
 }
 
@@ -2302,6 +2552,14 @@ func (torusgeometry *TorusGeometry) GongMarshallIdentifier(stage *Stage) (decl s
 	return
 }
 
+func (triangle *Triangle) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", triangle.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Triangle")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(triangle.Name))
+	return
+}
+
 func (tubegeometry *TubeGeometry) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tubegeometry.GongGetIdentifier(stage))
@@ -2336,6 +2594,12 @@ func (ambiantlight *AmbiantLight) GongMarshallUnstaging(stage *Stage) (decl stri
 func (boxgeometry *BoxGeometry) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", boxgeometry.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (buffergeometry *BufferGeometry) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", buffergeometry.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -2414,6 +2678,12 @@ func (spheregeometry *SphereGeometry) GongMarshallUnstaging(stage *Stage) (decl 
 func (torusgeometry *TorusGeometry) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusgeometry.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (triangle *Triangle) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", triangle.GongGetReferenceIdentifier(stage))
 	return
 }
 

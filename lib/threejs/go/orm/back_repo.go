@@ -28,6 +28,8 @@ type BackRepoStruct struct {
 
 	BackRepoBoxGeometry BackRepoBoxGeometryStruct
 
+	BackRepoBufferGeometry BackRepoBufferGeometryStruct
+
 	BackRepoCamera BackRepoCameraStruct
 
 	BackRepoCanvas BackRepoCanvasStruct
@@ -53,6 +55,8 @@ type BackRepoStruct struct {
 	BackRepoSphereGeometry BackRepoSphereGeometryStruct
 
 	BackRepoTorusGeometry BackRepoTorusGeometryStruct
+
+	BackRepoTriangle BackRepoTriangleStruct
 
 	BackRepoTubeGeometry BackRepoTubeGeometryStruct
 
@@ -83,6 +87,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_threejs_go",
 		&AmbiantLightDB{},
 		&BoxGeometryDB{},
+		&BufferGeometryDB{},
 		&CameraDB{},
 		&CanvasDB{},
 		&CurveDB{},
@@ -96,6 +101,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&ShapeDB{},
 		&SphereGeometryDB{},
 		&TorusGeometryDB{},
+		&TriangleDB{},
 		&TubeGeometryDB{},
 		&Vector2DB{},
 		&Vector3DB{},
@@ -117,6 +123,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_BoxGeometryDBID_BoxGeometryPtr: make(map[uint]*models.BoxGeometry, 0),
 		Map_BoxGeometryDBID_BoxGeometryDB:  make(map[uint]*BoxGeometryDB, 0),
 		Map_BoxGeometryPtr_BoxGeometryDBID: make(map[*models.BoxGeometry]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoBufferGeometry = BackRepoBufferGeometryStruct{
+		Map_BufferGeometryDBID_BufferGeometryPtr: make(map[uint]*models.BufferGeometry, 0),
+		Map_BufferGeometryDBID_BufferGeometryDB:  make(map[uint]*BufferGeometryDB, 0),
+		Map_BufferGeometryPtr_BufferGeometryDBID: make(map[*models.BufferGeometry]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -225,6 +239,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
+	backRepo.BackRepoTriangle = BackRepoTriangleStruct{
+		Map_TriangleDBID_TrianglePtr: make(map[uint]*models.Triangle, 0),
+		Map_TriangleDBID_TriangleDB:  make(map[uint]*TriangleDB, 0),
+		Map_TrianglePtr_TriangleDBID: make(map[*models.Triangle]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 	backRepo.BackRepoTubeGeometry = BackRepoTubeGeometryStruct{
 		Map_TubeGeometryDBID_TubeGeometryPtr: make(map[uint]*models.TubeGeometry, 0),
 		Map_TubeGeometryDBID_TubeGeometryDB:  make(map[uint]*TubeGeometryDB, 0),
@@ -297,6 +319,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAmbiantLight.CommitPhaseOne(stage)
 	backRepo.BackRepoBoxGeometry.CommitPhaseOne(stage)
+	backRepo.BackRepoBufferGeometry.CommitPhaseOne(stage)
 	backRepo.BackRepoCamera.CommitPhaseOne(stage)
 	backRepo.BackRepoCanvas.CommitPhaseOne(stage)
 	backRepo.BackRepoCurve.CommitPhaseOne(stage)
@@ -310,6 +333,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoShape.CommitPhaseOne(stage)
 	backRepo.BackRepoSphereGeometry.CommitPhaseOne(stage)
 	backRepo.BackRepoTorusGeometry.CommitPhaseOne(stage)
+	backRepo.BackRepoTriangle.CommitPhaseOne(stage)
 	backRepo.BackRepoTubeGeometry.CommitPhaseOne(stage)
 	backRepo.BackRepoVector2.CommitPhaseOne(stage)
 	backRepo.BackRepoVector3.CommitPhaseOne(stage)
@@ -317,6 +341,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAmbiantLight.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoBoxGeometry.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoBufferGeometry.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCamera.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCanvas.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCurve.CommitPhaseTwo(backRepo)
@@ -330,6 +355,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoShape.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSphereGeometry.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTorusGeometry.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoTriangle.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTubeGeometry.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoVector2.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoVector3.CommitPhaseTwo(backRepo)
@@ -349,6 +375,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAmbiantLight.CheckoutPhaseOne()
 	backRepo.BackRepoBoxGeometry.CheckoutPhaseOne()
+	backRepo.BackRepoBufferGeometry.CheckoutPhaseOne()
 	backRepo.BackRepoCamera.CheckoutPhaseOne()
 	backRepo.BackRepoCanvas.CheckoutPhaseOne()
 	backRepo.BackRepoCurve.CheckoutPhaseOne()
@@ -362,6 +389,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoShape.CheckoutPhaseOne()
 	backRepo.BackRepoSphereGeometry.CheckoutPhaseOne()
 	backRepo.BackRepoTorusGeometry.CheckoutPhaseOne()
+	backRepo.BackRepoTriangle.CheckoutPhaseOne()
 	backRepo.BackRepoTubeGeometry.CheckoutPhaseOne()
 	backRepo.BackRepoVector2.CheckoutPhaseOne()
 	backRepo.BackRepoVector3.CheckoutPhaseOne()
@@ -369,6 +397,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAmbiantLight.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoBoxGeometry.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoBufferGeometry.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCamera.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCanvas.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCurve.CheckoutPhaseTwo(backRepo)
@@ -382,6 +411,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoShape.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSphereGeometry.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTorusGeometry.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoTriangle.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTubeGeometry.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoVector2.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoVector3.CheckoutPhaseTwo(backRepo)
@@ -394,6 +424,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	// insertion point for per struct backup
 	backRepo.BackRepoAmbiantLight.Backup(dirPath)
 	backRepo.BackRepoBoxGeometry.Backup(dirPath)
+	backRepo.BackRepoBufferGeometry.Backup(dirPath)
 	backRepo.BackRepoCamera.Backup(dirPath)
 	backRepo.BackRepoCanvas.Backup(dirPath)
 	backRepo.BackRepoCurve.Backup(dirPath)
@@ -407,6 +438,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoShape.Backup(dirPath)
 	backRepo.BackRepoSphereGeometry.Backup(dirPath)
 	backRepo.BackRepoTorusGeometry.Backup(dirPath)
+	backRepo.BackRepoTriangle.Backup(dirPath)
 	backRepo.BackRepoTubeGeometry.Backup(dirPath)
 	backRepo.BackRepoVector2.Backup(dirPath)
 	backRepo.BackRepoVector3.Backup(dirPath)
@@ -422,6 +454,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	// insertion point for per struct backup
 	backRepo.BackRepoAmbiantLight.BackupXL(file)
 	backRepo.BackRepoBoxGeometry.BackupXL(file)
+	backRepo.BackRepoBufferGeometry.BackupXL(file)
 	backRepo.BackRepoCamera.BackupXL(file)
 	backRepo.BackRepoCanvas.BackupXL(file)
 	backRepo.BackRepoCurve.BackupXL(file)
@@ -435,6 +468,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoShape.BackupXL(file)
 	backRepo.BackRepoSphereGeometry.BackupXL(file)
 	backRepo.BackRepoTorusGeometry.BackupXL(file)
+	backRepo.BackRepoTriangle.BackupXL(file)
 	backRepo.BackRepoTubeGeometry.BackupXL(file)
 	backRepo.BackRepoVector2.BackupXL(file)
 	backRepo.BackRepoVector3.BackupXL(file)
@@ -464,6 +498,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	// insertion point for per struct backup
 	backRepo.BackRepoAmbiantLight.RestorePhaseOne(dirPath)
 	backRepo.BackRepoBoxGeometry.RestorePhaseOne(dirPath)
+	backRepo.BackRepoBufferGeometry.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCamera.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCanvas.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCurve.RestorePhaseOne(dirPath)
@@ -477,6 +512,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoShape.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSphereGeometry.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTorusGeometry.RestorePhaseOne(dirPath)
+	backRepo.BackRepoTriangle.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTubeGeometry.RestorePhaseOne(dirPath)
 	backRepo.BackRepoVector2.RestorePhaseOne(dirPath)
 	backRepo.BackRepoVector3.RestorePhaseOne(dirPath)
@@ -488,6 +524,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	// insertion point for per struct backup
 	backRepo.BackRepoAmbiantLight.RestorePhaseTwo()
 	backRepo.BackRepoBoxGeometry.RestorePhaseTwo()
+	backRepo.BackRepoBufferGeometry.RestorePhaseTwo()
 	backRepo.BackRepoCamera.RestorePhaseTwo()
 	backRepo.BackRepoCanvas.RestorePhaseTwo()
 	backRepo.BackRepoCurve.RestorePhaseTwo()
@@ -501,6 +538,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoShape.RestorePhaseTwo()
 	backRepo.BackRepoSphereGeometry.RestorePhaseTwo()
 	backRepo.BackRepoTorusGeometry.RestorePhaseTwo()
+	backRepo.BackRepoTriangle.RestorePhaseTwo()
 	backRepo.BackRepoTubeGeometry.RestorePhaseTwo()
 	backRepo.BackRepoVector2.RestorePhaseTwo()
 	backRepo.BackRepoVector3.RestorePhaseTwo()
@@ -533,6 +571,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	// insertion point for per struct backup
 	backRepo.BackRepoAmbiantLight.RestoreXLPhaseOne(file)
 	backRepo.BackRepoBoxGeometry.RestoreXLPhaseOne(file)
+	backRepo.BackRepoBufferGeometry.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCamera.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCanvas.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCurve.RestoreXLPhaseOne(file)
@@ -546,6 +585,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoShape.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSphereGeometry.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTorusGeometry.RestoreXLPhaseOne(file)
+	backRepo.BackRepoTriangle.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTubeGeometry.RestoreXLPhaseOne(file)
 	backRepo.BackRepoVector2.RestoreXLPhaseOne(file)
 	backRepo.BackRepoVector3.RestoreXLPhaseOne(file)
