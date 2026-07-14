@@ -170,7 +170,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			// We will use BufferGeometry directly, no need for 2D shapes
 
 			curve := (&threejs.Curve{
-				Name: "Torus Continuous Curve",
+				Name: "Torus Continuous Curve Base",
 			}).Stage(stager.threejsStage)
 
 			appendArcPoints := func(x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
@@ -226,7 +226,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 
 					vec := (&threejs.Vector3{
-						Name: fmt.Sprintf("Point %d", len(curve.Points)),
+						Name: fmt.Sprintf("Base Point %d", len(curve.Points)),
 						X:    x3d,
 						Y:    y3d,
 						Z:    z3d,
@@ -251,7 +251,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			if len(curve.Points) > 1 {
 				createFaceMesh := func(faceName string, color string, edges [][2]*threejs.Vector3, reverseWinding bool) *threejs.Mesh {
 					geom := (&threejs.BufferGeometry{
-						Name: fmt.Sprintf("Torus Continuous %s BufferGeometry", faceName),
+						Name: fmt.Sprintf("%s BufferGeometry", faceName),
 					}).Stage(stager.threejsStage)
 
 					for i := 0; i < len(edges); i++ {
@@ -304,46 +304,82 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 
 					return (&threejs.Mesh{
-						Name:            fmt.Sprintf("Torus Continuous %s Mesh", faceName),
+						Name:            fmt.Sprintf("%s Mesh", faceName),
 						Position:        threejs.Position{X: 0, Y: 0, Z: 0},
 						BufferGeometry:  geom,
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-							Name:                 fmt.Sprintf("Torus Continuous %s Material", faceName),
+							Name:                 fmt.Sprintf("%s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
 						}).Stage(stager.threejsStage),
 					}).Stage(stager.threejsStage)
 				}
 
-				var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
-
-				for i := 0; i < len(curve.Points); i++ {
-					p := curve.Points[i]
-					
-					theta := math.Atan2(p.Z, p.X)
-
-					xBL, yBL, zBL := p.X, p.Y, p.Z
-					xBR, yBR, zBR := p.X + thickness*math.Cos(theta), p.Y, p.Z + thickness*math.Sin(theta)
-					
-					xTL, yTL, zTL := p.X, p.Y + dy2d, p.Z
-					xTR, yTR, zTR := p.X + thickness*math.Cos(theta), p.Y + dy2d, p.Z + thickness*math.Sin(theta)
-
-					vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
-					vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
-					vTL := (&threejs.Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stager.threejsStage)
-					vTR := (&threejs.Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stager.threejsStage)
-
-					bottomEdges = append(bottomEdges, [2]*threejs.Vector3{vBL, vBR})
-					topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
-					innerEdges = append(innerEdges, [2]*threejs.Vector3{vBL, vTL})
-					outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
+				stackHeight := plant.StackHeight
+				if stackHeight <= 0 {
+					stackHeight = 1
 				}
 
-				bottomFace := createFaceMesh("Bottom", "#1f77b4", bottomEdges, false) // blue
-				topFace := createFaceMesh("Top", "#d62728", topEdges, true) // red
-				innerFace := createFaceMesh("Inner", "#ff7f0e", innerEdges, true) // orange
-				outerFace := createFaceMesh("Outer", "#2ca02c", outerEdges, false) // green
+				var growthVectorX, growthVectorY float64
+				if plant.GrowthVectorShape != nil {
+					growthVectorX = plant.GrowthVectorShape.X
+					growthVectorY = plant.GrowthVectorShape.Y
+				}
 
-				canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+				for h := 0; h < stackHeight; h++ {
+					dx := float64(h) * growthVectorX
+					dy := float64(h) * growthVectorY
+
+					thetaOffset := dx / globalR
+
+					var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
+
+					for i := 0; i < len(curve.Points); i++ {
+						p := curve.Points[i]
+
+						thetaBase := math.Atan2(p.Z, p.X)
+						theta := thetaBase + thetaOffset
+
+						yBase := p.Y + dy
+
+						rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
+						rOuter := rBase + thickness
+
+						xBL := rBase * math.Cos(theta)
+						zBL := rBase * math.Sin(theta)
+						yBL := yBase
+
+						xBR := rOuter * math.Cos(theta)
+						zBR := rOuter * math.Sin(theta)
+						yBR := yBase
+
+						xTL := xBL
+						zTL := zBL
+						yTL := yBase + dy2d
+
+						xTR := xBR
+						zTR := zBR
+						yTR := yBase + dy2d
+
+						vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
+						vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
+						vTL := (&threejs.Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stager.threejsStage)
+						vTR := (&threejs.Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stager.threejsStage)
+
+						bottomEdges = append(bottomEdges, [2]*threejs.Vector3{vBL, vBR})
+						topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
+						innerEdges = append(innerEdges, [2]*threejs.Vector3{vBL, vTL})
+						outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
+					}
+
+					namePrefix := fmt.Sprintf("Torus Continuous Layer %d", h)
+
+					bottomFace := createFaceMesh(namePrefix+" Bottom", "#1f77b4", bottomEdges, false) // blue
+					topFace := createFaceMesh(namePrefix+" Top", "#d62728", topEdges, true)         // red
+					innerFace := createFaceMesh(namePrefix+" Inner", "#ff7f0e", innerEdges, true)   // orange
+					outerFace := createFaceMesh(namePrefix+" Outer", "#2ca02c", outerEdges, false)  // green
+
+					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+				}
 			}
 		}
 
