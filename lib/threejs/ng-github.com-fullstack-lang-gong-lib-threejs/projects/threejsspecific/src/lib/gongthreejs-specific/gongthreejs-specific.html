@@ -40,8 +40,11 @@
           @if (mesh.ExtrudeGeometry) {
             <ngt-extrude-geometry *args="getExtrudeArgs(mesh.ExtrudeGeometry)" />
           }
+          @if (mesh.BufferGeometry) {
+            <ngt-primitive *args="[getBufferGeometryArgs(mesh.BufferGeometry)]" attach="geometry" />
+          }
 
-          @if (!mesh.BoxGeometry && !mesh.CylinderGeometry && !mesh.SphereGeometry && !mesh.TorusGeometry && !mesh.PlaneGeometry && !mesh.TubeGeometry && !mesh.ExtrudeGeometry) {
+          @if (!mesh.BoxGeometry && !mesh.CylinderGeometry && !mesh.SphereGeometry && !mesh.TorusGeometry && !mesh.PlaneGeometry && !mesh.TubeGeometry && !mesh.ExtrudeGeometry && !mesh.BufferGeometry) {
             <!-- Using box geometry as fallback since Geometry isn't linked in Mesh struct yet -->
             <ngt-box-geometry *args="[2, 2, 2]" />
           }
@@ -55,7 +58,8 @@
               [color]="mesh.MeshPhysicalMaterial.Color"
               [transparent]="mesh.MeshPhysicalMaterial.Transparent"
               [opacity]="mesh.MeshPhysicalMaterial.Opacity"
-              [wireframe]="mesh.MeshPhysicalMaterial.Wireframe" />
+              [wireframe]="mesh.MeshPhysicalMaterial.Wireframe"
+              [side]="2" />
           }
         </ngt-mesh>
       }

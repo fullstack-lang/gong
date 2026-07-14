@@ -532,6 +532,39 @@ func (u *BoxGeometryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	return nil
 }
 
+type BufferGeometryUnmarshaller struct{}
+
+func (u *BufferGeometryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(BufferGeometry)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *BufferGeometryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*BufferGeometry)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Vertices":
+		GongUnmarshallSliceOfPointers(&instance.Vertices, valueExpr, identifierMap)
+	case "Faces":
+		GongUnmarshallSliceOfPointers(&instance.Faces, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type CameraUnmarshaller struct{}
 
 func (u *CameraUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -811,6 +844,8 @@ func (u *MeshUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallPointer(&instance.TubeGeometry, valueExpr, identifierMap)
 	case "ExtrudeGeometry":
 		GongUnmarshallPointer(&instance.ExtrudeGeometry, valueExpr, identifierMap)
+	case "BufferGeometry":
+		GongUnmarshallPointer(&instance.BufferGeometry, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1031,6 +1066,41 @@ func (u *TorusGeometryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.TubularSegments = GongExtractInt(valueExpr)
 	case "Arc":
 		instance.Arc = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type TriangleUnmarshaller struct{}
+
+func (u *TriangleUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Triangle)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TriangleUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Triangle)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "V1":
+		instance.V1 = GongExtractInt(valueExpr)
+	case "V2":
+		instance.V2 = GongExtractInt(valueExpr)
+	case "V3":
+		instance.V3 = GongExtractInt(valueExpr)
 	}
 	return nil
 }

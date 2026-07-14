@@ -13,6 +13,7 @@ import { TorusGeometry } from './torusgeometry'
 import { PlaneGeometry } from './planegeometry'
 import { TubeGeometry } from './tubegeometry'
 import { ExtrudeGeometry } from './extrudegeometry'
+import { BufferGeometry } from './buffergeometry'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -47,6 +48,8 @@ export class Mesh {
 	TubeGeometry?: TubeGeometry
 
 	ExtrudeGeometry?: ExtrudeGeometry
+
+	BufferGeometry?: BufferGeometry
 
 
 	CreatedAt?: string
@@ -129,6 +132,13 @@ export function CopyMeshToMeshAPI(mesh: Mesh, meshAPI: MeshAPI) {
 		meshAPI.MeshPointersEncoding.ExtrudeGeometryID.Int64 = 0 		
 	}
 
+	meshAPI.MeshPointersEncoding.BufferGeometryID.Valid = true
+	if (mesh.BufferGeometry != undefined) {
+		meshAPI.MeshPointersEncoding.BufferGeometryID.Int64 = mesh.BufferGeometry.ID  
+	} else {
+		meshAPI.MeshPointersEncoding.BufferGeometryID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 }
@@ -159,6 +169,7 @@ export function CopyMeshAPIToMesh(meshAPI: MeshAPI, mesh: Mesh, frontRepo: Front
 	mesh.PlaneGeometry = frontRepo.map_ID_PlaneGeometry.get(meshAPI.MeshPointersEncoding.PlaneGeometryID.Int64)
 	mesh.TubeGeometry = frontRepo.map_ID_TubeGeometry.get(meshAPI.MeshPointersEncoding.TubeGeometryID.Int64)
 	mesh.ExtrudeGeometry = frontRepo.map_ID_ExtrudeGeometry.get(meshAPI.MeshPointersEncoding.ExtrudeGeometryID.Int64)
+	mesh.BufferGeometry = frontRepo.map_ID_BufferGeometry.get(meshAPI.MeshPointersEncoding.BufferGeometryID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

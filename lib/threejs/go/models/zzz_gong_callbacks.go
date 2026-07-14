@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterBoxGeometryCreateCallback != nil {
 			stage.OnAfterBoxGeometryCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *BufferGeometry:
+		if stage.OnAfterBufferGeometryCreateCallback != nil {
+			stage.OnAfterBufferGeometryCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Camera:
 		if stage.OnAfterCameraCreateCallback != nil {
 			stage.OnAfterCameraCreateCallback.OnAfterCreate(stage, target)
@@ -66,6 +70,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTorusGeometryCreateCallback != nil {
 			stage.OnAfterTorusGeometryCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Triangle:
+		if stage.OnAfterTriangleCreateCallback != nil {
+			stage.OnAfterTriangleCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *TubeGeometry:
 		if stage.OnAfterTubeGeometryCreateCallback != nil {
 			stage.OnAfterTubeGeometryCreateCallback.OnAfterCreate(stage, target)
@@ -101,6 +109,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*BoxGeometry)
 		if stage.OnAfterBoxGeometryUpdateCallback != nil {
 			stage.OnAfterBoxGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *BufferGeometry:
+		newTarget := any(new).(*BufferGeometry)
+		if stage.OnAfterBufferGeometryUpdateCallback != nil {
+			stage.OnAfterBufferGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Camera:
 		newTarget := any(new).(*Camera)
@@ -167,6 +180,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterTorusGeometryUpdateCallback != nil {
 			stage.OnAfterTorusGeometryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Triangle:
+		newTarget := any(new).(*Triangle)
+		if stage.OnAfterTriangleUpdateCallback != nil {
+			stage.OnAfterTriangleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *TubeGeometry:
 		newTarget := any(new).(*TubeGeometry)
 		if stage.OnAfterTubeGeometryUpdateCallback != nil {
@@ -201,6 +219,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterBoxGeometryDeleteCallback != nil {
 			staged := any(staged).(*BoxGeometry)
 			stage.OnAfterBoxGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *BufferGeometry:
+		if stage.OnAfterBufferGeometryDeleteCallback != nil {
+			staged := any(staged).(*BufferGeometry)
+			stage.OnAfterBufferGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Camera:
 		if stage.OnAfterCameraDeleteCallback != nil {
@@ -267,6 +290,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*TorusGeometry)
 			stage.OnAfterTorusGeometryDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Triangle:
+		if stage.OnAfterTriangleDeleteCallback != nil {
+			staged := any(staged).(*Triangle)
+			stage.OnAfterTriangleDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *TubeGeometry:
 		if stage.OnAfterTubeGeometryDeleteCallback != nil {
 			staged := any(staged).(*TubeGeometry)
@@ -299,6 +327,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *BoxGeometry:
 		if stage.OnAfterBoxGeometryReadCallback != nil {
 			stage.OnAfterBoxGeometryReadCallback.OnAfterRead(stage, target)
+		}
+	case *BufferGeometry:
+		if stage.OnAfterBufferGeometryReadCallback != nil {
+			stage.OnAfterBufferGeometryReadCallback.OnAfterRead(stage, target)
 		}
 	case *Camera:
 		if stage.OnAfterCameraReadCallback != nil {
@@ -352,6 +384,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTorusGeometryReadCallback != nil {
 			stage.OnAfterTorusGeometryReadCallback.OnAfterRead(stage, target)
 		}
+	case *Triangle:
+		if stage.OnAfterTriangleReadCallback != nil {
+			stage.OnAfterTriangleReadCallback.OnAfterRead(stage, target)
+		}
 	case *TubeGeometry:
 		if stage.OnAfterTubeGeometryReadCallback != nil {
 			stage.OnAfterTubeGeometryReadCallback.OnAfterRead(stage, target)
@@ -379,6 +415,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAmbiantLightUpdateCallback = any(callback).(OnAfterUpdateInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[BoxGeometry])
+	case *BufferGeometry:
+		stage.OnAfterBufferGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[BufferGeometry])
 	case *Camera:
 		stage.OnAfterCameraUpdateCallback = any(callback).(OnAfterUpdateInterface[Camera])
 	case *Canvas:
@@ -405,6 +443,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterSphereGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[SphereGeometry])
 	case *TorusGeometry:
 		stage.OnAfterTorusGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[TorusGeometry])
+	case *Triangle:
+		stage.OnAfterTriangleUpdateCallback = any(callback).(OnAfterUpdateInterface[Triangle])
 	case *TubeGeometry:
 		stage.OnAfterTubeGeometryUpdateCallback = any(callback).(OnAfterUpdateInterface[TubeGeometry])
 	case *Vector2:
@@ -422,6 +462,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAmbiantLightCreateCallback = any(callback).(OnAfterCreateInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryCreateCallback = any(callback).(OnAfterCreateInterface[BoxGeometry])
+	case *BufferGeometry:
+		stage.OnAfterBufferGeometryCreateCallback = any(callback).(OnAfterCreateInterface[BufferGeometry])
 	case *Camera:
 		stage.OnAfterCameraCreateCallback = any(callback).(OnAfterCreateInterface[Camera])
 	case *Canvas:
@@ -448,6 +490,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterSphereGeometryCreateCallback = any(callback).(OnAfterCreateInterface[SphereGeometry])
 	case *TorusGeometry:
 		stage.OnAfterTorusGeometryCreateCallback = any(callback).(OnAfterCreateInterface[TorusGeometry])
+	case *Triangle:
+		stage.OnAfterTriangleCreateCallback = any(callback).(OnAfterCreateInterface[Triangle])
 	case *TubeGeometry:
 		stage.OnAfterTubeGeometryCreateCallback = any(callback).(OnAfterCreateInterface[TubeGeometry])
 	case *Vector2:
@@ -465,6 +509,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAmbiantLightDeleteCallback = any(callback).(OnAfterDeleteInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[BoxGeometry])
+	case *BufferGeometry:
+		stage.OnAfterBufferGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[BufferGeometry])
 	case *Camera:
 		stage.OnAfterCameraDeleteCallback = any(callback).(OnAfterDeleteInterface[Camera])
 	case *Canvas:
@@ -491,6 +537,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterSphereGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[SphereGeometry])
 	case *TorusGeometry:
 		stage.OnAfterTorusGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[TorusGeometry])
+	case *Triangle:
+		stage.OnAfterTriangleDeleteCallback = any(callback).(OnAfterDeleteInterface[Triangle])
 	case *TubeGeometry:
 		stage.OnAfterTubeGeometryDeleteCallback = any(callback).(OnAfterDeleteInterface[TubeGeometry])
 	case *Vector2:
@@ -508,6 +556,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterAmbiantLightReadCallback = any(callback).(OnAfterReadInterface[AmbiantLight])
 	case *BoxGeometry:
 		stage.OnAfterBoxGeometryReadCallback = any(callback).(OnAfterReadInterface[BoxGeometry])
+	case *BufferGeometry:
+		stage.OnAfterBufferGeometryReadCallback = any(callback).(OnAfterReadInterface[BufferGeometry])
 	case *Camera:
 		stage.OnAfterCameraReadCallback = any(callback).(OnAfterReadInterface[Camera])
 	case *Canvas:
@@ -534,6 +584,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterSphereGeometryReadCallback = any(callback).(OnAfterReadInterface[SphereGeometry])
 	case *TorusGeometry:
 		stage.OnAfterTorusGeometryReadCallback = any(callback).(OnAfterReadInterface[TorusGeometry])
+	case *Triangle:
+		stage.OnAfterTriangleReadCallback = any(callback).(OnAfterReadInterface[Triangle])
 	case *TubeGeometry:
 		stage.OnAfterTubeGeometryReadCallback = any(callback).(OnAfterReadInterface[TubeGeometry])
 	case *Vector2:

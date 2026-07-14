@@ -5,6 +5,8 @@ import { AmbiantLightAPI } from './ambiantlight-api'
 
 import { BoxGeometryAPI } from './boxgeometry-api'
 
+import { BufferGeometryAPI } from './buffergeometry-api'
+
 import { CameraAPI } from './camera-api'
 
 import { CanvasAPI } from './canvas-api'
@@ -31,6 +33,8 @@ import { SphereGeometryAPI } from './spheregeometry-api'
 
 import { TorusGeometryAPI } from './torusgeometry-api'
 
+import { TriangleAPI } from './triangle-api'
+
 import { TubeGeometryAPI } from './tubegeometry-api'
 
 import { Vector2API } from './vector2-api'
@@ -43,6 +47,8 @@ export class BackRepoData {
 	AmbiantLightAPIs = new Array<AmbiantLightAPI>()
 
 	BoxGeometryAPIs = new Array<BoxGeometryAPI>()
+
+	BufferGeometryAPIs = new Array<BufferGeometryAPI>()
 
 	CameraAPIs = new Array<CameraAPI>()
 
@@ -70,6 +76,8 @@ export class BackRepoData {
 
 	TorusGeometryAPIs = new Array<TorusGeometryAPI>()
 
+	TriangleAPIs = new Array<TriangleAPI>()
+
 	TubeGeometryAPIs = new Array<TubeGeometryAPI>()
 
 	Vector2APIs = new Array<Vector2API>()
@@ -85,6 +93,8 @@ export class BackRepoData {
 		this.AmbiantLightAPIs = data?.AmbiantLightAPIs || [];
 
 		this.BoxGeometryAPIs = data?.BoxGeometryAPIs || [];
+
+		this.BufferGeometryAPIs = data?.BufferGeometryAPIs || [];
 
 		this.CameraAPIs = data?.CameraAPIs || [];
 
@@ -111,6 +121,8 @@ export class BackRepoData {
 		this.SphereGeometryAPIs = data?.SphereGeometryAPIs || [];
 
 		this.TorusGeometryAPIs = data?.TorusGeometryAPIs || [];
+
+		this.TriangleAPIs = data?.TriangleAPIs || [];
 
 		this.TubeGeometryAPIs = data?.TubeGeometryAPIs || [];
 

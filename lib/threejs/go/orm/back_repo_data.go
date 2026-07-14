@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	BoxGeometryAPIs []*BoxGeometryAPI
 
+	BufferGeometryAPIs []*BufferGeometryAPI
+
 	CameraAPIs []*CameraAPI
 
 	CanvasAPIs []*CanvasAPI
@@ -33,6 +35,8 @@ type BackRepoData struct {
 	SphereGeometryAPIs []*SphereGeometryAPI
 
 	TorusGeometryAPIs []*TorusGeometryAPI
+
+	TriangleAPIs []*TriangleAPI
 
 	TubeGeometryAPIs []*TubeGeometryAPI
 
@@ -69,6 +73,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		boxgeometryDB.CopyBasicFieldsToBoxGeometry_WOP(&boxgeometryAPI.BoxGeometry_WOP)
 
 		backRepoData.BoxGeometryAPIs = append(backRepoData.BoxGeometryAPIs, &boxgeometryAPI)
+	}
+
+	for _, buffergeometryDB := range backRepo.BackRepoBufferGeometry.Map_BufferGeometryDBID_BufferGeometryDB {
+
+		var buffergeometryAPI BufferGeometryAPI
+		buffergeometryAPI.ID = buffergeometryDB.ID
+		buffergeometryAPI.BufferGeometryPointersEncoding = buffergeometryDB.BufferGeometryPointersEncoding
+		buffergeometryDB.CopyBasicFieldsToBufferGeometry_WOP(&buffergeometryAPI.BufferGeometry_WOP)
+
+		backRepoData.BufferGeometryAPIs = append(backRepoData.BufferGeometryAPIs, &buffergeometryAPI)
 	}
 
 	for _, cameraDB := range backRepo.BackRepoCamera.Map_CameraDBID_CameraDB {
@@ -199,6 +213,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		torusgeometryDB.CopyBasicFieldsToTorusGeometry_WOP(&torusgeometryAPI.TorusGeometry_WOP)
 
 		backRepoData.TorusGeometryAPIs = append(backRepoData.TorusGeometryAPIs, &torusgeometryAPI)
+	}
+
+	for _, triangleDB := range backRepo.BackRepoTriangle.Map_TriangleDBID_TriangleDB {
+
+		var triangleAPI TriangleAPI
+		triangleAPI.ID = triangleDB.ID
+		triangleAPI.TrianglePointersEncoding = triangleDB.TrianglePointersEncoding
+		triangleDB.CopyBasicFieldsToTriangle_WOP(&triangleAPI.Triangle_WOP)
+
+		backRepoData.TriangleAPIs = append(backRepoData.TriangleAPIs, &triangleAPI)
 	}
 
 	for _, tubegeometryDB := range backRepo.BackRepoTubeGeometry.Map_TubeGeometryDBID_TubeGeometryDB {

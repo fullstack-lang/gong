@@ -70,6 +70,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/boxgeometrys/:id", GetController().UpdateBoxGeometry)
 		v1.DELETE("/v1/boxgeometrys/:id", GetController().DeleteBoxGeometry)
 
+		v1.GET("/v1/buffergeometrys", GetController().GetBufferGeometrys)
+		v1.GET("/v1/buffergeometrys/:id", GetController().GetBufferGeometry)
+		v1.POST("/v1/buffergeometrys", GetController().PostBufferGeometry)
+		v1.PATCH("/v1/buffergeometrys/:id", GetController().UpdateBufferGeometry)
+		v1.PUT("/v1/buffergeometrys/:id", GetController().UpdateBufferGeometry)
+		v1.DELETE("/v1/buffergeometrys/:id", GetController().DeleteBufferGeometry)
+
 		v1.GET("/v1/cameras", GetController().GetCameras)
 		v1.GET("/v1/cameras/:id", GetController().GetCamera)
 		v1.POST("/v1/cameras", GetController().PostCamera)
@@ -160,6 +167,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/torusgeometrys/:id", GetController().UpdateTorusGeometry)
 		v1.PUT("/v1/torusgeometrys/:id", GetController().UpdateTorusGeometry)
 		v1.DELETE("/v1/torusgeometrys/:id", GetController().DeleteTorusGeometry)
+
+		v1.GET("/v1/triangles", GetController().GetTriangles)
+		v1.GET("/v1/triangles/:id", GetController().GetTriangle)
+		v1.POST("/v1/triangles", GetController().PostTriangle)
+		v1.PATCH("/v1/triangles/:id", GetController().UpdateTriangle)
+		v1.PUT("/v1/triangles/:id", GetController().UpdateTriangle)
+		v1.DELETE("/v1/triangles/:id", GetController().DeleteTriangle)
 
 		v1.GET("/v1/tubegeometrys", GetController().GetTubeGeometrys)
 		v1.GET("/v1/tubegeometrys/:id", GetController().GetTubeGeometry)

@@ -71,6 +71,7 @@ type Mesh struct {
 	PlaneGeometry    *PlaneGeometry
 	TubeGeometry     *TubeGeometry
 	ExtrudeGeometry  *ExtrudeGeometry
+	BufferGeometry   *BufferGeometry
 }
 
 type CylinderGeometry struct {

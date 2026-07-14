@@ -21,6 +21,10 @@ export * from './lib/boxgeometry-api'
 export * from './lib/boxgeometry'
 export * from './lib/boxgeometry.service'
 
+export * from './lib/buffergeometry-api'
+export * from './lib/buffergeometry'
+export * from './lib/buffergeometry.service'
+
 export * from './lib/camera-api'
 export * from './lib/camera'
 export * from './lib/camera.service'
@@ -72,6 +76,10 @@ export * from './lib/spheregeometry.service'
 export * from './lib/torusgeometry-api'
 export * from './lib/torusgeometry'
 export * from './lib/torusgeometry.service'
+
+export * from './lib/triangle-api'
+export * from './lib/triangle'
+export * from './lib/triangle.service'
 
 export * from './lib/tubegeometry-api'
 export * from './lib/tubegeometry'

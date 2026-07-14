@@ -343,6 +343,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(boxgeometry.GongMarshallField(stage, "DepthSegments"))
 	}
 
+	buffergeometryOrdered := []*BufferGeometry{}
+	for buffergeometry := range stage.BufferGeometrys {
+		buffergeometryOrdered = append(buffergeometryOrdered, buffergeometry)
+	}
+	sort.Slice(buffergeometryOrdered[:], func(i, j int) bool {
+		buffergeometryi := buffergeometryOrdered[i]
+		buffergeometryj := buffergeometryOrdered[j]
+		buffergeometryi_order, oki := stage.BufferGeometry_stagedOrder[buffergeometryi]
+		buffergeometryj_order, okj := stage.BufferGeometry_stagedOrder[buffergeometryj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return buffergeometryi_order < buffergeometryj_order
+	})
+	if len(buffergeometryOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, buffergeometry := range buffergeometryOrdered {
+
+		identifiersDecl.WriteString(buffergeometry.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(buffergeometry.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(buffergeometry.GongMarshallField(stage, "Vertices"))
+		pointersInitializesStatements.WriteString(buffergeometry.GongMarshallField(stage, "Faces"))
+	}
+
 	cameraOrdered := []*Camera{}
 	for camera := range stage.Cameras {
 		cameraOrdered = append(cameraOrdered, camera)
@@ -563,6 +591,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "PlaneGeometry"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "TubeGeometry"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "ExtrudeGeometry"))
+		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "BufferGeometry"))
 	}
 
 	meshmaterialbasicOrdered := []*MeshMaterialBasic{}
@@ -744,6 +773,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(torusgeometry.GongMarshallField(stage, "Arc"))
 	}
 
+	triangleOrdered := []*Triangle{}
+	for triangle := range stage.Triangles {
+		triangleOrdered = append(triangleOrdered, triangle)
+	}
+	sort.Slice(triangleOrdered[:], func(i, j int) bool {
+		trianglei := triangleOrdered[i]
+		trianglej := triangleOrdered[j]
+		trianglei_order, oki := stage.Triangle_stagedOrder[trianglei]
+		trianglej_order, okj := stage.Triangle_stagedOrder[trianglej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return trianglei_order < trianglej_order
+	})
+	if len(triangleOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, triangle := range triangleOrdered {
+
+		identifiersDecl.WriteString(triangle.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "V1"))
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "V2"))
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "V3"))
+	}
+
 	tubegeometryOrdered := []*TubeGeometry{}
 	for tubegeometry := range stage.TubeGeometrys {
 		tubegeometryOrdered = append(tubegeometryOrdered, tubegeometry)
@@ -849,6 +907,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, buffergeometry := range buffergeometryOrdered {
+		_ = buffergeometry
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, camera := range cameraOrdered {
 		_ = camera
 		var setPointerField string
@@ -947,6 +1013,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, torusgeometry := range torusgeometryOrdered {
 		_ = torusgeometry
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, triangle := range triangleOrdered {
+		_ = triangle
 		var setPointerField string
 		_ = setPointerField
 
@@ -1092,6 +1166,41 @@ func (boxgeometry *BoxGeometry) GongMarshallField(stage *Stage, fieldName string
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct BoxGeometry", fieldName)
+	}
+	return
+}
+
+func (buffergeometry *BufferGeometry) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", buffergeometry.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(buffergeometry.Name))
+
+	case "Vertices":
+		var sb strings.Builder
+		for _, _vector3 := range buffergeometry.Vertices {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", buffergeometry.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Vertices")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _vector3.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Faces":
+		var sb strings.Builder
+		for _, _triangle := range buffergeometry.Faces {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", buffergeometry.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Faces")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _triangle.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct BufferGeometry", fieldName)
 	}
 	return
 }
@@ -1514,6 +1623,19 @@ func (mesh *Mesh) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ExtrudeGeometry")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "BufferGeometry":
+		if mesh.BufferGeometry != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", mesh.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BufferGeometry")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", mesh.BufferGeometry.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", mesh.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BufferGeometry")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Mesh", fieldName)
 	}
@@ -1730,6 +1852,36 @@ func (torusgeometry *TorusGeometry) GongMarshallField(stage *Stage, fieldName st
 	return
 }
 
+func (triangle *Triangle) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", triangle.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(triangle.Name))
+	case "V1":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", triangle.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "V1")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", triangle.V1))
+	case "V2":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", triangle.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "V2")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", triangle.V2))
+	case "V3":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", triangle.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "V3")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", triangle.V3))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Triangle", fieldName)
+	}
+	return
+}
+
 func (tubegeometry *TubeGeometry) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1863,6 +2015,19 @@ func (boxgeometry *BoxGeometry) GongMarshallAllFields(stage *Stage) (initRes str
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (buffergeometry *BufferGeometry) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(buffergeometry.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(buffergeometry.GongMarshallField(stage, "Vertices"))
+		pointersInitializesStatements.WriteString(buffergeometry.GongMarshallField(stage, "Faces"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (camera *Camera) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1975,6 +2140,7 @@ func (mesh *Mesh) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "PlaneGeometry"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "TubeGeometry"))
 		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "ExtrudeGeometry"))
+		pointersInitializesStatements.WriteString(mesh.GongMarshallField(stage, "BufferGeometry"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2064,6 +2230,20 @@ func (torusgeometry *TorusGeometry) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(torusgeometry.GongMarshallField(stage, "RadialSegments"))
 		initializerStatements.WriteString(torusgeometry.GongMarshallField(stage, "TubularSegments"))
 		initializerStatements.WriteString(torusgeometry.GongMarshallField(stage, "Arc"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (triangle *Triangle) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "V1"))
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "V2"))
+		initializerStatements.WriteString(triangle.GongMarshallField(stage, "V3"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

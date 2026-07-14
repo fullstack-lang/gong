@@ -13,6 +13,10 @@ import { BoxGeometryAPI } from './boxgeometry-api'
 import { BoxGeometry, CopyBoxGeometryAPIToBoxGeometry } from './boxgeometry'
 import { BoxGeometryService } from './boxgeometry.service'
 
+import { BufferGeometryAPI } from './buffergeometry-api'
+import { BufferGeometry, CopyBufferGeometryAPIToBufferGeometry } from './buffergeometry'
+import { BufferGeometryService } from './buffergeometry.service'
+
 import { CameraAPI } from './camera-api'
 import { Camera, CopyCameraAPIToCamera } from './camera'
 import { CameraService } from './camera.service'
@@ -65,6 +69,10 @@ import { TorusGeometryAPI } from './torusgeometry-api'
 import { TorusGeometry, CopyTorusGeometryAPIToTorusGeometry } from './torusgeometry'
 import { TorusGeometryService } from './torusgeometry.service'
 
+import { TriangleAPI } from './triangle-api'
+import { Triangle, CopyTriangleAPIToTriangle } from './triangle'
+import { TriangleService } from './triangle.service'
+
 import { TubeGeometryAPI } from './tubegeometry-api'
 import { TubeGeometry, CopyTubeGeometryAPIToTubeGeometry } from './tubegeometry'
 import { TubeGeometryService } from './tubegeometry.service'
@@ -89,6 +97,9 @@ export class FrontRepo { // insertion point sub template
 
 	array_BoxGeometrys = new Array<BoxGeometry>() // array of front instances
 	map_ID_BoxGeometry = new Map<number, BoxGeometry>() // map of front instances
+
+	array_BufferGeometrys = new Array<BufferGeometry>() // array of front instances
+	map_ID_BufferGeometry = new Map<number, BufferGeometry>() // map of front instances
 
 	array_Cameras = new Array<Camera>() // array of front instances
 	map_ID_Camera = new Map<number, Camera>() // map of front instances
@@ -129,6 +140,9 @@ export class FrontRepo { // insertion point sub template
 	array_TorusGeometrys = new Array<TorusGeometry>() // array of front instances
 	map_ID_TorusGeometry = new Map<number, TorusGeometry>() // map of front instances
 
+	array_Triangles = new Array<Triangle>() // array of front instances
+	map_ID_Triangle = new Map<number, Triangle>() // map of front instances
+
 	array_TubeGeometrys = new Array<TubeGeometry>() // array of front instances
 	map_ID_TubeGeometry = new Map<number, TubeGeometry>() // map of front instances
 
@@ -151,6 +165,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_AmbiantLights as unknown as Array<Type>
 			case 'BoxGeometry':
 				return this.array_BoxGeometrys as unknown as Array<Type>
+			case 'BufferGeometry':
+				return this.array_BufferGeometrys as unknown as Array<Type>
 			case 'Camera':
 				return this.array_Cameras as unknown as Array<Type>
 			case 'Canvas':
@@ -177,6 +193,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_SphereGeometrys as unknown as Array<Type>
 			case 'TorusGeometry':
 				return this.array_TorusGeometrys as unknown as Array<Type>
+			case 'Triangle':
+				return this.array_Triangles as unknown as Array<Type>
 			case 'TubeGeometry':
 				return this.array_TubeGeometrys as unknown as Array<Type>
 			case 'Vector2':
@@ -195,6 +213,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_AmbiantLight as unknown as Map<number, Type>
 			case 'BoxGeometry':
 				return this.map_ID_BoxGeometry as unknown as Map<number, Type>
+			case 'BufferGeometry':
+				return this.map_ID_BufferGeometry as unknown as Map<number, Type>
 			case 'Camera':
 				return this.map_ID_Camera as unknown as Map<number, Type>
 			case 'Canvas':
@@ -221,6 +241,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_SphereGeometry as unknown as Map<number, Type>
 			case 'TorusGeometry':
 				return this.map_ID_TorusGeometry as unknown as Map<number, Type>
+			case 'Triangle':
+				return this.map_ID_Triangle as unknown as Map<number, Type>
 			case 'TubeGeometry':
 				return this.map_ID_TubeGeometry as unknown as Map<number, Type>
 			case 'Vector2':
@@ -299,6 +321,7 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private ambiantlightService: AmbiantLightService,
 		private boxgeometryService: BoxGeometryService,
+		private buffergeometryService: BufferGeometryService,
 		private cameraService: CameraService,
 		private canvasService: CanvasService,
 		private curveService: CurveService,
@@ -312,6 +335,7 @@ export class FrontRepoService {
 		private shapeService: ShapeService,
 		private spheregeometryService: SphereGeometryService,
 		private torusgeometryService: TorusGeometryService,
+		private triangleService: TriangleService,
 		private tubegeometryService: TubeGeometryService,
 		private vector2Service: Vector2Service,
 		private vector3Service: Vector3Service,
@@ -349,6 +373,7 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<AmbiantLightAPI[]>,
 		Observable<BoxGeometryAPI[]>,
+		Observable<BufferGeometryAPI[]>,
 		Observable<CameraAPI[]>,
 		Observable<CanvasAPI[]>,
 		Observable<CurveAPI[]>,
@@ -362,6 +387,7 @@ export class FrontRepoService {
 		Observable<ShapeAPI[]>,
 		Observable<SphereGeometryAPI[]>,
 		Observable<TorusGeometryAPI[]>,
+		Observable<TriangleAPI[]>,
 		Observable<TubeGeometryAPI[]>,
 		Observable<Vector2API[]>,
 		Observable<Vector3API[]>,
@@ -382,6 +408,7 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.ambiantlightService.getAmbiantLights(this.Name, this.frontRepo),
 			this.boxgeometryService.getBoxGeometrys(this.Name, this.frontRepo),
+			this.buffergeometryService.getBufferGeometrys(this.Name, this.frontRepo),
 			this.cameraService.getCameras(this.Name, this.frontRepo),
 			this.canvasService.getCanvass(this.Name, this.frontRepo),
 			this.curveService.getCurves(this.Name, this.frontRepo),
@@ -395,6 +422,7 @@ export class FrontRepoService {
 			this.shapeService.getShapes(this.Name, this.frontRepo),
 			this.spheregeometryService.getSphereGeometrys(this.Name, this.frontRepo),
 			this.torusgeometryService.getTorusGeometrys(this.Name, this.frontRepo),
+			this.triangleService.getTriangles(this.Name, this.frontRepo),
 			this.tubegeometryService.getTubeGeometrys(this.Name, this.frontRepo),
 			this.vector2Service.getVector2s(this.Name, this.frontRepo),
 			this.vector3Service.getVector3s(this.Name, this.frontRepo),
@@ -410,6 +438,7 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						ambiantlights_,
 						boxgeometrys_,
+						buffergeometrys_,
 						cameras_,
 						canvass_,
 						curves_,
@@ -423,6 +452,7 @@ export class FrontRepoService {
 						shapes_,
 						spheregeometrys_,
 						torusgeometrys_,
+						triangles_,
 						tubegeometrys_,
 						vector2s_,
 						vector3s_,
@@ -434,6 +464,8 @@ export class FrontRepoService {
 						ambiantlights = ambiantlights_ as AmbiantLightAPI[]
 						var boxgeometrys: BoxGeometryAPI[]
 						boxgeometrys = boxgeometrys_ as BoxGeometryAPI[]
+						var buffergeometrys: BufferGeometryAPI[]
+						buffergeometrys = buffergeometrys_ as BufferGeometryAPI[]
 						var cameras: CameraAPI[]
 						cameras = cameras_ as CameraAPI[]
 						var canvass: CanvasAPI[]
@@ -460,6 +492,8 @@ export class FrontRepoService {
 						spheregeometrys = spheregeometrys_ as SphereGeometryAPI[]
 						var torusgeometrys: TorusGeometryAPI[]
 						torusgeometrys = torusgeometrys_ as TorusGeometryAPI[]
+						var triangles: TriangleAPI[]
+						triangles = triangles_ as TriangleAPI[]
 						var tubegeometrys: TubeGeometryAPI[]
 						tubegeometrys = tubegeometrys_ as TubeGeometryAPI[]
 						var vector2s: Vector2API[]
@@ -491,6 +525,18 @@ export class FrontRepoService {
 								let boxgeometry = new BoxGeometry
 								this.frontRepo.array_BoxGeometrys.push(boxgeometry)
 								this.frontRepo.map_ID_BoxGeometry.set(boxgeometryAPI.ID, boxgeometry)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_BufferGeometrys = []
+						this.frontRepo.map_ID_BufferGeometry.clear()
+
+						buffergeometrys.forEach(
+							buffergeometryAPI => {
+								let buffergeometry = new BufferGeometry
+								this.frontRepo.array_BufferGeometrys.push(buffergeometry)
+								this.frontRepo.map_ID_BufferGeometry.set(buffergeometryAPI.ID, buffergeometry)
 							}
 						)
 
@@ -651,6 +697,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_Triangles = []
+						this.frontRepo.map_ID_Triangle.clear()
+
+						triangles.forEach(
+							triangleAPI => {
+								let triangle = new Triangle
+								this.frontRepo.array_Triangles.push(triangle)
+								this.frontRepo.map_ID_Triangle.set(triangleAPI.ID, triangle)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_TubeGeometrys = []
 						this.frontRepo.map_ID_TubeGeometry.clear()
 
@@ -703,6 +761,14 @@ export class FrontRepoService {
 							boxgeometryAPI => {
 								let boxgeometry = this.frontRepo.map_ID_BoxGeometry.get(boxgeometryAPI.ID)
 								CopyBoxGeometryAPIToBoxGeometry(boxgeometryAPI, boxgeometry!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						buffergeometrys.forEach(
+							buffergeometryAPI => {
+								let buffergeometry = this.frontRepo.map_ID_BufferGeometry.get(buffergeometryAPI.ID)
+								CopyBufferGeometryAPIToBufferGeometry(buffergeometryAPI, buffergeometry!, this.frontRepo)
 							}
 						)
 
@@ -811,6 +877,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						triangles.forEach(
+							triangleAPI => {
+								let triangle = this.frontRepo.map_ID_Triangle.get(triangleAPI.ID)
+								CopyTriangleAPIToTriangle(triangleAPI, triangle!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						tubegeometrys.forEach(
 							tubegeometryAPI => {
 								let tubegeometry = this.frontRepo.map_ID_TubeGeometry.get(tubegeometryAPI.ID)
@@ -908,6 +982,18 @@ export class FrontRepoService {
 						let boxgeometry = new BoxGeometry
 						frontRepo.array_BoxGeometrys.push(boxgeometry)
 						frontRepo.map_ID_BoxGeometry.set(boxgeometryAPI.ID, boxgeometry)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_BufferGeometrys = []
+				frontRepo.map_ID_BufferGeometry.clear()
+
+				backRepoData.BufferGeometryAPIs.forEach(
+					buffergeometryAPI => {
+						let buffergeometry = new BufferGeometry
+						frontRepo.array_BufferGeometrys.push(buffergeometry)
+						frontRepo.map_ID_BufferGeometry.set(buffergeometryAPI.ID, buffergeometry)
 					}
 				)
 
@@ -1068,6 +1154,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Triangles = []
+				frontRepo.map_ID_Triangle.clear()
+
+				backRepoData.TriangleAPIs.forEach(
+					triangleAPI => {
+						let triangle = new Triangle
+						frontRepo.array_Triangles.push(triangle)
+						frontRepo.map_ID_Triangle.set(triangleAPI.ID, triangle)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_TubeGeometrys = []
 				frontRepo.map_ID_TubeGeometry.clear()
 
@@ -1120,6 +1218,14 @@ export class FrontRepoService {
 					boxgeometryAPI => {
 						let boxgeometry = frontRepo.map_ID_BoxGeometry.get(boxgeometryAPI.ID)
 						CopyBoxGeometryAPIToBoxGeometry(boxgeometryAPI, boxgeometry!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.BufferGeometryAPIs.forEach(
+					buffergeometryAPI => {
+						let buffergeometry = frontRepo.map_ID_BufferGeometry.get(buffergeometryAPI.ID)
+						CopyBufferGeometryAPIToBufferGeometry(buffergeometryAPI, buffergeometry!, frontRepo)
 					}
 				)
 
@@ -1228,6 +1334,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.TriangleAPIs.forEach(
+					triangleAPI => {
+						let triangle = frontRepo.map_ID_Triangle.get(triangleAPI.ID)
+						CopyTriangleAPIToTriangle(triangleAPI, triangle!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.TubeGeometryAPIs.forEach(
 					tubegeometryAPI => {
 						let tubegeometry = frontRepo.map_ID_TubeGeometry.get(tubegeometryAPI.ID)
@@ -1329,51 +1443,57 @@ export function getAmbiantLightUniqueID(id: number): number {
 export function getBoxGeometryUniqueID(id: number): number {
 	return 37 * id
 }
-export function getCameraUniqueID(id: number): number {
+export function getBufferGeometryUniqueID(id: number): number {
 	return 41 * id
 }
-export function getCanvasUniqueID(id: number): number {
+export function getCameraUniqueID(id: number): number {
 	return 43 * id
 }
-export function getCurveUniqueID(id: number): number {
+export function getCanvasUniqueID(id: number): number {
 	return 47 * id
 }
-export function getCylinderGeometryUniqueID(id: number): number {
+export function getCurveUniqueID(id: number): number {
 	return 53 * id
 }
-export function getDirectionalLightUniqueID(id: number): number {
+export function getCylinderGeometryUniqueID(id: number): number {
 	return 59 * id
 }
-export function getExtrudeGeometryUniqueID(id: number): number {
+export function getDirectionalLightUniqueID(id: number): number {
 	return 61 * id
 }
-export function getMeshUniqueID(id: number): number {
+export function getExtrudeGeometryUniqueID(id: number): number {
 	return 67 * id
 }
-export function getMeshMaterialBasicUniqueID(id: number): number {
+export function getMeshUniqueID(id: number): number {
 	return 71 * id
 }
-export function getMeshPhysicalMaterialUniqueID(id: number): number {
+export function getMeshMaterialBasicUniqueID(id: number): number {
 	return 73 * id
 }
-export function getPlaneGeometryUniqueID(id: number): number {
+export function getMeshPhysicalMaterialUniqueID(id: number): number {
 	return 79 * id
 }
-export function getShapeUniqueID(id: number): number {
+export function getPlaneGeometryUniqueID(id: number): number {
 	return 83 * id
 }
-export function getSphereGeometryUniqueID(id: number): number {
+export function getShapeUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTorusGeometryUniqueID(id: number): number {
+export function getSphereGeometryUniqueID(id: number): number {
 	return 97 * id
 }
-export function getTubeGeometryUniqueID(id: number): number {
+export function getTorusGeometryUniqueID(id: number): number {
 	return 101 * id
 }
-export function getVector2UniqueID(id: number): number {
+export function getTriangleUniqueID(id: number): number {
 	return 103 * id
 }
-export function getVector3UniqueID(id: number): number {
+export function getTubeGeometryUniqueID(id: number): number {
 	return 107 * id
+}
+export function getVector2UniqueID(id: number): number {
+	return 109 * id
+}
+export function getVector3UniqueID(id: number): number {
+	return 113 * id
 }

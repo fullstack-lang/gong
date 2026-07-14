@@ -28,6 +28,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.AmbiantLight](probe)
 	case "BoxGeometry":
 		updateProbeTable[*models.BoxGeometry](probe)
+	case "BufferGeometry":
+		updateProbeTable[*models.BufferGeometry](probe)
 	case "Camera":
 		updateProbeTable[*models.Camera](probe)
 	case "Canvas":
@@ -54,6 +56,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.SphereGeometry](probe)
 	case "TorusGeometry":
 		updateProbeTable[*models.TorusGeometry](probe)
+	case "Triangle":
+		updateProbeTable[*models.Triangle](probe)
 	case "TubeGeometry":
 		updateProbeTable[*models.TubeGeometry](probe)
 	case "Vector2":

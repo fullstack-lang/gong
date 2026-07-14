@@ -54,6 +54,15 @@ func (boxgeometry *BoxGeometry) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by BufferGeometry
+func (buffergeometry *BufferGeometry) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &buffergeometry.Vertices) || modified
+	modified = GongCleanSlice(stage, &buffergeometry.Faces) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Camera
 func (camera *Camera) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -116,6 +125,7 @@ func (mesh *Mesh) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &mesh.PlaneGeometry) || modified
 	modified = GongCleanPointer(stage, &mesh.TubeGeometry) || modified
 	modified = GongCleanPointer(stage, &mesh.ExtrudeGeometry) || modified
+	modified = GongCleanPointer(stage, &mesh.BufferGeometry) || modified
 	return
 }
 
@@ -157,6 +167,13 @@ func (spheregeometry *SphereGeometry) GongClean(stage *Stage) (modified bool) {
 
 // Clean garbage collect unstaged instances that are referenced by TorusGeometry
 func (torusgeometry *TorusGeometry) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Triangle
+func (triangle *Triangle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

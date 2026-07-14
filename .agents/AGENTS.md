@@ -171,3 +171,7 @@ gong generate --dsm
 gong is specificaly suited for fast refactoring. For instance, the data is stored as go code.
 
 uses gopls "rename" to propagate identifiers renaming across the code
+
+## interacting with current executable
+
+DO NOT kill current working process.

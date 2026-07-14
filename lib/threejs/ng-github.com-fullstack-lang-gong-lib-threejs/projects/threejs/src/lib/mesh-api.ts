@@ -8,6 +8,7 @@ import { TorusGeometryAPI } from './torusgeometry-api'
 import { PlaneGeometryAPI } from './planegeometry-api'
 import { TubeGeometryAPI } from './tubegeometry-api'
 import { ExtrudeGeometryAPI } from './extrudegeometry-api'
+import { BufferGeometryAPI } from './buffergeometry-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -51,5 +52,7 @@ export class MeshPointersEncoding {
 	TubeGeometryID: NullInt64 = new NullInt64 // if pointer is null, TubeGeometry.ID = 0
 
 	ExtrudeGeometryID: NullInt64 = new NullInt64 // if pointer is null, ExtrudeGeometry.ID = 0
+
+	BufferGeometryID: NullInt64 = new NullInt64 // if pointer is null, BufferGeometry.ID = 0
 
 }

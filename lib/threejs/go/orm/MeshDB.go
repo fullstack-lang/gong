@@ -86,6 +86,10 @@ type MeshPointersEncoding struct {
 	// field ExtrudeGeometry is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	ExtrudeGeometryID sql.NullInt64
+
+	// field BufferGeometry is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	BufferGeometryID sql.NullInt64
 }
 
 // MeshDB describes a mesh in the database
@@ -388,6 +392,18 @@ func (backRepoMesh *BackRepoMeshStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			meshDB.ExtrudeGeometryID.Valid = true
 		}
 
+		// commit pointer value mesh.BufferGeometry translates to updating the mesh.BufferGeometryID
+		meshDB.BufferGeometryID.Valid = true // allow for a 0 value (nil association)
+		if mesh.BufferGeometry != nil {
+			if BufferGeometryId, ok := backRepo.BackRepoBufferGeometry.Map_BufferGeometryPtr_BufferGeometryDBID[mesh.BufferGeometry]; ok {
+				meshDB.BufferGeometryID.Int64 = int64(BufferGeometryId)
+				meshDB.BufferGeometryID.Valid = true
+			}
+		} else {
+			meshDB.BufferGeometryID.Int64 = 0
+			meshDB.BufferGeometryID.Valid = true
+		}
+
 		_, err := backRepoMesh.db.Save(meshDB)
 		if err != nil {
 			log.Fatal(err)
@@ -686,6 +702,27 @@ func (meshDB *MeshDB) DecodePointers(backRepo *BackRepoStruct, mesh *models.Mesh
 			}
 		} else {
 			mesh.ExtrudeGeometry = nil
+		}
+	}
+
+	// BufferGeometry field
+	{
+		id := meshDB.BufferGeometryID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoBufferGeometry.Map_BufferGeometryDBID_BufferGeometryPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: mesh.BufferGeometry, unknown pointer id", id)
+				mesh.BufferGeometry = nil
+			} else {
+				// updates only if field has changed
+				if mesh.BufferGeometry == nil || mesh.BufferGeometry != tmp {
+					mesh.BufferGeometry = tmp
+				}
+			}
+		} else {
+			mesh.BufferGeometry = nil
 		}
 	}
 
@@ -1004,6 +1041,12 @@ func (backRepoMesh *BackRepoMeshStruct) RestorePhaseTwo() {
 		if meshDB.ExtrudeGeometryID.Int64 != 0 {
 			meshDB.ExtrudeGeometryID.Int64 = int64(BackRepoExtrudeGeometryid_atBckpTime_newID[uint(meshDB.ExtrudeGeometryID.Int64)])
 			meshDB.ExtrudeGeometryID.Valid = true
+		}
+
+		// reindexing BufferGeometry field
+		if meshDB.BufferGeometryID.Int64 != 0 {
+			meshDB.BufferGeometryID.Int64 = int64(BackRepoBufferGeometryid_atBckpTime_newID[uint(meshDB.BufferGeometryID.Int64)])
+			meshDB.BufferGeometryID.Valid = true
 		}
 
 		// update databse with new index encoding

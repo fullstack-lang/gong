@@ -27,6 +27,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.boxgeometry, probe)
 			}
+		case *BufferGeometryFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "BufferGeometry", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.buffergeometry, probe)
+			}
 		case *CameraFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Camera", true)
@@ -105,6 +111,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.torusgeometry, probe)
 			}
+		case *TriangleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Triangle", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.triangle, probe)
+			}
 		case *TubeGeometryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TubeGeometry", true)
@@ -171,6 +183,19 @@ func FillUpFormFromGongstructName(
 		boxgeometry := new(models.BoxGeometry)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(boxgeometry, formGroup, probe)
+	case "BufferGeometry":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "BufferGeometry Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BufferGeometryFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		buffergeometry := new(models.BufferGeometry)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(buffergeometry, formGroup, probe)
 	case "Camera":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -340,6 +365,19 @@ func FillUpFormFromGongstructName(
 		torusgeometry := new(models.TorusGeometry)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(torusgeometry, formGroup, probe)
+	case "Triangle":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Triangle Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TriangleFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		triangle := new(models.Triangle)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(triangle, formGroup, probe)
 	case "TubeGeometry":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
