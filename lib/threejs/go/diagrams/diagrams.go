@@ -183,7 +183,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
