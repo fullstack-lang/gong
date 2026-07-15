@@ -73,6 +73,7 @@ interface FlatNode {
   styleUrl: './tree-specific.component.css'
 })
 export class TreeSpecificComponent implements OnInit, AfterViewChecked {
+  static __ngt_html__ = true;
 
   @Input() Name: string = ""
 
