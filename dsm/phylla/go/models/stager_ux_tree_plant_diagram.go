@@ -17,6 +17,9 @@ func (stager *Stager) treePlantDiagram(
 		HasCheckboxButton: true,
 		IsChecked:         plantDiagram.IsChecked,
 		IsInEditMode:      plantDiagram.isInRenameMode,
+		HasToolTip:        true,
+		ToolTipPosition:   tree.Right,
+		ToolTipText:       "Check to select the diagram",
 	}
 	*parentNodes = append(*parentNodes, plantDiagramNode)
 
@@ -48,7 +51,7 @@ func (stager *Stager) treePlantDiagram(
 		IsNodeClickable: true,
 	}
 	plantDiagramNode.Children = append(plantDiagramNode.Children, rhombusNodes)
-	rhombusNodes.OnIsCheckedChanged = stager.onIsExpandedChangeBool(&plantDiagram.IsRhombusNodesExpanded)
+	rhombusNodes.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plantDiagram.IsRhombusNodesExpanded)
 
 	axesShape := plant.AxesShape
 	{
@@ -669,8 +672,6 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-
-
 	{
 		growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid
 		node := &tree.Node{
@@ -766,7 +767,6 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
-
 
 	{
 		growthCurve2D := plant.GrowthCurve2D
