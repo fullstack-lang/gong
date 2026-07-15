@@ -76,11 +76,6 @@ type ModelPkg struct {
 	NgSpecificLibrarySourceCodeDirectory string
 
 	// MaterialLibDatamodelTargetPath is the "<pkgName>datamodel/src/lib"
-	//
-	// gong generate regenerates at each compilation a material angular library "<pkgName>datamodel" for
-	// having the code related to inclusion of the gongdoc stack and the gong stack
-	// for docmenting the stack with UML diagrams (gongdoc) and providing a meta inspection
-	// of the declarations of the stack
 	MaterialLibDatamodelTargetPath string
 }
 
