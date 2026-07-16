@@ -1978,7 +1978,7 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	for h := 0; h < stackHeight; h++ {
 		dx := float64(h) * vector.X
 		dy := float64(h) * vector.Y
-		offset := float64(h) * thickness
+		offset := 0.0
 
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
@@ -2101,7 +2101,7 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	for h := 0; h < stackHeight; h++ {
 		dx := float64(h) * vector.X
 		dy := float64(h) * vector.Y
-		offset := thickness + float64(h)*thickness
+		offset := thickness
 
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]

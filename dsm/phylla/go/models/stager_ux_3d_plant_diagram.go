@@ -326,6 +326,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 							Name:                 fmt.Sprintf("%s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+							Transparent:          true,
+							Opacity:              0.5,
 						}).Stage(stager.threejsStage),
 					}).Stage(stager.threejsStage)
 				}
@@ -403,6 +405,51 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					outerFace := createFaceMesh(namePrefix+" Outer", "#2ca02c", outerEdges, false)  // green
 
 					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+					
+					createTube := func(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
+						curve := (&threejs.Curve{
+							Name: "Curve " + name,
+						}).Stage(stager.threejsStage)
+				
+						for i := 0; i < len(edges); i++ {
+							p := edges[i][0]
+							if !useLeft {
+								p = edges[i][1]
+							}
+							curve.Points = append(curve.Points, (&threejs.Vector3{
+								Name: "CurvePoint " + name + " " + strconv.Itoa(i),
+								X:    p.X,
+								Y:    p.Y,
+								Z:    p.Z,
+							}).Stage(stager.threejsStage))
+						}
+				
+						tubeGeometry := (&threejs.TubeGeometry{
+							Name:            "TubeGeom " + name,
+							Path:            curve,
+							TubularSegments: 500,
+							Radius:          tubeRadius,
+							RadialSegments:  8,
+							Closed:          false,
+						}).Stage(stager.threejsStage)
+				
+						return (&threejs.Mesh{
+							Name:              "TubeMesh " + name,
+							Position:          threejs.Position{X: 0, Y: 0, Z: 0},
+							TubeGeometry:      tubeGeometry,
+							MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
+						}).Stage(stager.threejsStage)
+					}
+					
+					outerRadius := 0.1
+					innerRadius := outerRadius * 0.85
+					
+					canvas.Meshs = append(canvas.Meshs,
+						createTube(namePrefix+" BottomInner", "black", bottomEdges, true, innerRadius),
+						createTube(namePrefix+" BottomOuter", "gray", bottomEdges, false, outerRadius),
+						createTube(namePrefix+" TopInner", "darkgray", topEdges, true, innerRadius),
+						createTube(namePrefix+" TopOuter", "lightgray", topEdges, false, outerRadius),
+					)
 				}
 			}
 		}
