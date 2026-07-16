@@ -77,6 +77,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawShiftedLeftStackOfGrowthCurveV2(stager, layer, plant)
+	plantDiagram.drawShiftedLeftStackOfNormalVector(stager, layer, plant)
 	plantDiagram.drawTopStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawTopGrowthCurve2D(stager, layer, plant)
@@ -1269,5 +1270,25 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfGrowthCurveV2(stager *St
 		path.Presentation.StrokeWidth = 2.0
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 0.6
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfNormalVector(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenShiftedLeftStackOfNormalVector {
+		return
+	}
+
+	for _, vec := range plant.ShiftedLeftStackOfNormalVector.ShiftedLeftStackNormalVectors {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = vec.Name
+		line.X1 = plantDiagram.OriginX + vec.StartX
+		line.Y1 = plantDiagram.OriginY - vec.StartY
+		line.X2 = plantDiagram.OriginX + vec.EndX
+		line.Y2 = plantDiagram.OriginY - vec.EndY
+
+		line.Presentation.Stroke = "green"
+		line.Presentation.StrokeWidth = 1.0
+		line.Presentation.StrokeOpacity = 0.5
 	}
 }

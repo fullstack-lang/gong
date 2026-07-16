@@ -35,6 +35,7 @@ type PlantDiagram struct {
 	IsHiddenTopStackOfGrowthCurve        bool
 	IsHiddenBottomStackOfGrowthCurve     bool
 	IsHiddenShiftedLeftStackOfGrowthCurve bool
+	IsHiddenShiftedLeftStackOfNormalVector bool
 
 	IsHiddenGrowthCurve2D    bool
 	IsHiddenTopGrowthCurve2D bool

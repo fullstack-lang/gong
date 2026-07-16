@@ -213,11 +213,23 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.shiftedleftstackgrowthcurvestartarcshape, probe)
 			}
+		case *ShiftedLeftStackNormalVectorFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ShiftedLeftStackNormalVector", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.shiftedleftstacknormalvector, probe)
+			}
 		case *ShiftedLeftStackOfGrowthCurveFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ShiftedLeftStackOfGrowthCurve", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.shiftedleftstackofgrowthcurve, probe)
+			}
+		case *ShiftedLeftStackOfNormalVectorFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ShiftedLeftStackOfNormalVector", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.shiftedleftstackofnormalvector, probe)
 			}
 		case *StackGrowthCurveEndArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -748,6 +760,19 @@ func FillUpFormFromGongstructName(
 		shiftedleftstackgrowthcurvestartarcshape := new(models.ShiftedLeftStackGrowthCurveStartArcShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(shiftedleftstackgrowthcurvestartarcshape, formGroup, probe)
+	case "ShiftedLeftStackNormalVector":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ShiftedLeftStackNormalVector Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedLeftStackNormalVectorFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		shiftedleftstacknormalvector := new(models.ShiftedLeftStackNormalVector)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(shiftedleftstacknormalvector, formGroup, probe)
 	case "ShiftedLeftStackOfGrowthCurve":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -761,6 +786,19 @@ func FillUpFormFromGongstructName(
 		shiftedleftstackofgrowthcurve := new(models.ShiftedLeftStackOfGrowthCurve)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(shiftedleftstackofgrowthcurve, formGroup, probe)
+	case "ShiftedLeftStackOfNormalVector":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ShiftedLeftStackOfNormalVector Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedLeftStackOfNormalVectorFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		shiftedleftstackofnormalvector := new(models.ShiftedLeftStackOfNormalVector)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(shiftedleftstackofnormalvector, formGroup, probe)
 	case "StackGrowthCurveEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

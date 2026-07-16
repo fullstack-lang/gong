@@ -249,6 +249,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
 	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedLeftStackOfGrowthCurve) || modified
+	modified = GongCleanPointer(stage, &plant.ShiftedLeftStackOfNormalVector) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.TopGrowthCurve2D) || modified
 	return
@@ -312,11 +313,26 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ShiftedLeftStackNormalVector
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ShiftedLeftStackOfGrowthCurve
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes) || modified
 	modified = GongCleanSlice(stage, &shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ShiftedLeftStackOfNormalVector
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors) || modified
 	// insertion point per field
 	return
 }

@@ -407,3 +407,84 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 	}
 	return needCommit
 }
+
+func enforceShiftedLeftStackOfNormalVectorHasShapes(stage *Stage, stack *ShiftedLeftStackOfNormalVector, nGrid *ArcNormalVectorShapeGrid, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+	if stack == nil || nGrid == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(nGrid.ArcNormalVectorShapes) == 0 || len(pGrid.PerpendicularVectors) == 0 {
+		if len(stack.ShiftedLeftStackNormalVectors) > 0 {
+			stack.ShiftedLeftStackNormalVectors = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(nGrid.ArcNormalVectorShapes)
+
+	type expectedShape struct {
+		name                       string
+		startX, startY, endX, endY float64
+	}
+	var expected []expectedShape
+
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+
+	for h := 0; h < stackHeight; h++ {
+		dx := float64(h)*vector.X + float64(h)*thickness*vx
+		dy := float64(h)*vector.Y + float64(h)*thickness*vy
+
+		for i := 0; i < expectedLen; i++ {
+			vec := nGrid.ArcNormalVectorShapes[i]
+
+			currentDX := math.Mod(dx, circLen)
+			if currentDX < 0 {
+				currentDX += circLen
+			}
+
+			expected = append(expected, expectedShape{
+				name:   fmt.Sprintf("%s-layer-%d-%d", stack.Name, h, i),
+				startX: vec.StartX + currentDX - circLen, startY: vec.StartY + dy,
+				endX: vec.EndX + currentDX - circLen, endY: vec.EndY + dy,
+			})
+		}
+	}
+
+	valid := true
+	if len(stack.ShiftedLeftStackNormalVectors) != len(expected) {
+		valid = false
+	} else {
+		for i, exp := range expected {
+			b := stack.ShiftedLeftStackNormalVectors[i]
+			if b == nil || b.Name != exp.name {
+				valid = false
+				break
+			}
+			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
+				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		stack.ShiftedLeftStackNormalVectors = make([]*ShiftedLeftStackNormalVector, len(expected))
+		for i, exp := range expected {
+			b := new(ShiftedLeftStackNormalVector).Stage(stage)
+			b.Name = exp.name
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			stack.ShiftedLeftStackNormalVectors[i] = b
+		}
+		needCommit = true
+	}
+
+	return needCommit
+}

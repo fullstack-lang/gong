@@ -540,6 +540,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenShiftedLeftStackOfGrowthCurve bool
 
+	IsHiddenShiftedLeftStackOfNormalVector bool
+
 	IsHiddenGrowthCurve2D bool
 
 	IsHiddenTopGrowthCurve2D bool
@@ -584,6 +586,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
 	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
 	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
+	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
 	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
 	to.IsChecked = from.IsChecked
@@ -744,6 +747,29 @@ func (from *ShiftedLeftStackGrowthCurveStartArcShape) CopyBasicFields(to *Shifte
 	to.RadiusY = from.RadiusY
 }
 
+type ShiftedLeftStackNormalVector_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *ShiftedLeftStackNormalVector) CopyBasicFields(to *ShiftedLeftStackNormalVector) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
 type ShiftedLeftStackOfGrowthCurve_WOP struct {
 	// insertion point
 
@@ -751,6 +777,17 @@ type ShiftedLeftStackOfGrowthCurve_WOP struct {
 }
 
 func (from *ShiftedLeftStackOfGrowthCurve) CopyBasicFields(to *ShiftedLeftStackOfGrowthCurve) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type ShiftedLeftStackOfNormalVector_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ShiftedLeftStackOfNormalVector) CopyBasicFields(to *ShiftedLeftStackOfNormalVector) {
 	// insertion point
 	to.Name = from.Name
 }

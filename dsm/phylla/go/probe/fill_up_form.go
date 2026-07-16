@@ -513,6 +513,7 @@ func FillUpForm(
 		AssociationFieldToForm("StackOfGrowthCurve", instanceWithInferedType.StackOfGrowthCurve, formGroup, probe)
 		AssociationFieldToForm("TopStackOfGrowthCurve", instanceWithInferedType.TopStackOfGrowthCurve, formGroup, probe)
 		AssociationFieldToForm("ShiftedLeftStackOfGrowthCurve", instanceWithInferedType.ShiftedLeftStackOfGrowthCurve, formGroup, probe)
+		AssociationFieldToForm("ShiftedLeftStackOfNormalVector", instanceWithInferedType.ShiftedLeftStackOfNormalVector, formGroup, probe)
 		AssociationFieldToForm("GrowthCurve2D", instanceWithInferedType.GrowthCurve2D, formGroup, probe)
 		AssociationFieldToForm("TopGrowthCurve2D", instanceWithInferedType.TopGrowthCurve2D, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -609,6 +610,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenBottomStackOfGrowthCurve", instanceWithInferedType.IsHiddenBottomStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenShiftedLeftStackOfGrowthCurve", instanceWithInferedType.IsHiddenShiftedLeftStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedLeftStackOfNormalVector", instanceWithInferedType.IsHiddenShiftedLeftStackOfNormalVector, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenGrowthCurve2D", instanceWithInferedType.IsHiddenGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -790,12 +793,52 @@ func FillUpForm(
 				})
 		}
 
+	case *models.ShiftedLeftStackNormalVector:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.ShiftedLeftStackOfNormalVector, *models.ShiftedLeftStackNormalVector](
+				"ShiftedLeftStackOfNormalVector",
+				"ShiftedLeftStackNormalVectors",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.ShiftedLeftStackOfNormalVector) []*models.ShiftedLeftStackNormalVector {
+					return owner.ShiftedLeftStackNormalVectors
+				})
+		}
+
 	case *models.ShiftedLeftStackOfGrowthCurve:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("ShiftedLeftStackGrowthCurveStartArcShapes", instanceWithInferedType, &instanceWithInferedType.ShiftedLeftStackGrowthCurveStartArcShapes, formGroup, probe)
 		AssociationSliceToForm("ShiftedLeftStackGrowthCurveEndArcShapes", instanceWithInferedType, &instanceWithInferedType.ShiftedLeftStackGrowthCurveEndArcShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.ShiftedLeftStackOfNormalVector:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("ShiftedLeftStackNormalVectors", instanceWithInferedType, &instanceWithInferedType.ShiftedLeftStackNormalVectors, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

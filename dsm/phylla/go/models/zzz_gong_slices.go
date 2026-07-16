@@ -203,6 +203,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct ShiftedLeftStackGrowthCurveStartArcShape
 	// insertion point per field
 
+	// Compute reverse map for named struct ShiftedLeftStackNormalVector
+	// insertion point per field
+
 	// Compute reverse map for named struct ShiftedLeftStackOfGrowthCurve
 	// insertion point per field
 	stage.ShiftedLeftStackOfGrowthCurve_ShiftedLeftStackGrowthCurveStartArcShapes_reverseMap = make(map[*ShiftedLeftStackGrowthCurveStartArcShape]*ShiftedLeftStackOfGrowthCurve)
@@ -217,6 +220,16 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = shiftedleftstackofgrowthcurve
 		for _, _shiftedleftstackgrowthcurveendarcshape := range shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes {
 			stage.ShiftedLeftStackOfGrowthCurve_ShiftedLeftStackGrowthCurveEndArcShapes_reverseMap[_shiftedleftstackgrowthcurveendarcshape] = shiftedleftstackofgrowthcurve
+		}
+	}
+
+	// Compute reverse map for named struct ShiftedLeftStackOfNormalVector
+	// insertion point per field
+	stage.ShiftedLeftStackOfNormalVector_ShiftedLeftStackNormalVectors_reverseMap = make(map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackOfNormalVector)
+	for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
+		_ = shiftedleftstackofnormalvector
+		for _, _shiftedleftstacknormalvector := range shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
+			stage.ShiftedLeftStackOfNormalVector_ShiftedLeftStackNormalVectors_reverseMap[_shiftedleftstacknormalvector] = shiftedleftstackofnormalvector
 		}
 	}
 
@@ -445,7 +458,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.ShiftedLeftStackNormalVectors {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.ShiftedLeftStackOfGrowthCurves {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ShiftedLeftStackOfNormalVectors {
 		res = append(res, instance)
 	}
 
@@ -703,9 +724,21 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return newInstance
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongCopy() GongstructIF {
+	newInstance := new(ShiftedLeftStackNormalVector)
+	shiftedleftstacknormalvector.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongCopy() GongstructIF {
 	newInstance := new(ShiftedLeftStackOfGrowthCurve)
 	shiftedleftstackofgrowthcurve.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongCopy() GongstructIF {
+	newInstance := new(ShiftedLeftStackOfNormalVector)
+	shiftedleftstackofnormalvector.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1118,6 +1151,16 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(shiftedleftstacknormalvector).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstacknormalvector), uint64(GetOrderPointerGongstruct(stage, shiftedleftstacknormalvector)))
+	return
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(shiftedleftstackofgrowthcurve).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -1125,6 +1168,16 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetUUID(
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstackofgrowthcurve), uint64(GetOrderPointerGongstruct(stage, shiftedleftstackofgrowthcurve)))
+	return
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(shiftedleftstackofnormalvector).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedleftstackofnormalvector), uint64(GetOrderPointerGongstruct(stage, shiftedleftstackofnormalvector)))
 	return
 }
 
@@ -3091,6 +3144,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(shiftedleftstackgrowthcurvestartarcshapes_newInstances)
 	lenDeletedInstances += len(shiftedleftstackgrowthcurvestartarcshapes_deletedInstances)
+	var shiftedleftstacknormalvectors_newInstances []*ShiftedLeftStackNormalVector
+	var shiftedleftstacknormalvectors_deletedInstances []*ShiftedLeftStackNormalVector
+
+	// parse all staged instances and check if they have a reference
+	for shiftedleftstacknormalvector := range stage.ShiftedLeftStackNormalVectors {
+		if ref, ok := stage.ShiftedLeftStackNormalVectors_reference[shiftedleftstacknormalvector]; !ok {
+			shiftedleftstacknormalvectors_newInstances = append(shiftedleftstacknormalvectors_newInstances, shiftedleftstacknormalvector)
+			newInstancesSlice = append(newInstancesSlice, shiftedleftstacknormalvector.GongMarshallIdentifier(stage))
+			if stage.ShiftedLeftStackNormalVectors_referenceOrder == nil {
+				stage.ShiftedLeftStackNormalVectors_referenceOrder = make(map[*ShiftedLeftStackNormalVector]uint)
+			}
+			stage.ShiftedLeftStackNormalVectors_referenceOrder[shiftedleftstacknormalvector] = stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvector]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, shiftedleftstacknormalvector.GongMarshallUnstaging(stage))
+			// delete(stage.ShiftedLeftStackNormalVectors_referenceOrder, shiftedleftstacknormalvector)
+			fieldInitializers, pointersInitializations := shiftedleftstacknormalvector.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ShiftedLeftStackNormalVector_stagedOrder[ref] = stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvector]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := shiftedleftstacknormalvector.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, shiftedleftstacknormalvector)
+			// delete(stage.ShiftedLeftStackNormalVector_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if shiftedleftstacknormalvector.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", shiftedleftstacknormalvector.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ShiftedLeftStackNormalVectors_reference {
+		instance := stage.ShiftedLeftStackNormalVectors_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ShiftedLeftStackNormalVectors[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			shiftedleftstacknormalvectors_deletedInstances = append(shiftedleftstacknormalvectors_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(shiftedleftstacknormalvectors_newInstances)
+	lenDeletedInstances += len(shiftedleftstacknormalvectors_deletedInstances)
 	var shiftedleftstackofgrowthcurves_newInstances []*ShiftedLeftStackOfGrowthCurve
 	var shiftedleftstackofgrowthcurves_deletedInstances []*ShiftedLeftStackOfGrowthCurve
 
@@ -3146,6 +3254,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(shiftedleftstackofgrowthcurves_newInstances)
 	lenDeletedInstances += len(shiftedleftstackofgrowthcurves_deletedInstances)
+	var shiftedleftstackofnormalvectors_newInstances []*ShiftedLeftStackOfNormalVector
+	var shiftedleftstackofnormalvectors_deletedInstances []*ShiftedLeftStackOfNormalVector
+
+	// parse all staged instances and check if they have a reference
+	for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
+		if ref, ok := stage.ShiftedLeftStackOfNormalVectors_reference[shiftedleftstackofnormalvector]; !ok {
+			shiftedleftstackofnormalvectors_newInstances = append(shiftedleftstackofnormalvectors_newInstances, shiftedleftstackofnormalvector)
+			newInstancesSlice = append(newInstancesSlice, shiftedleftstackofnormalvector.GongMarshallIdentifier(stage))
+			if stage.ShiftedLeftStackOfNormalVectors_referenceOrder == nil {
+				stage.ShiftedLeftStackOfNormalVectors_referenceOrder = make(map[*ShiftedLeftStackOfNormalVector]uint)
+			}
+			stage.ShiftedLeftStackOfNormalVectors_referenceOrder[shiftedleftstackofnormalvector] = stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvector]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, shiftedleftstackofnormalvector.GongMarshallUnstaging(stage))
+			// delete(stage.ShiftedLeftStackOfNormalVectors_referenceOrder, shiftedleftstackofnormalvector)
+			fieldInitializers, pointersInitializations := shiftedleftstackofnormalvector.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ShiftedLeftStackOfNormalVector_stagedOrder[ref] = stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvector]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := shiftedleftstackofnormalvector.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, shiftedleftstackofnormalvector)
+			// delete(stage.ShiftedLeftStackOfNormalVector_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if shiftedleftstackofnormalvector.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", shiftedleftstackofnormalvector.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ShiftedLeftStackOfNormalVectors_reference {
+		instance := stage.ShiftedLeftStackOfNormalVectors_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ShiftedLeftStackOfNormalVectors[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			shiftedleftstackofnormalvectors_deletedInstances = append(shiftedleftstackofnormalvectors_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(shiftedleftstackofnormalvectors_newInstances)
+	lenDeletedInstances += len(shiftedleftstackofnormalvectors_deletedInstances)
 	var stackgrowthcurveendarcshapes_newInstances []*StackGrowthCurveEndArcShape
 	var stackgrowthcurveendarcshapes_deletedInstances []*StackGrowthCurveEndArcShape
 
@@ -4226,6 +4389,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ShiftedLeftStackGrowthCurveStartArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ShiftedLeftStackNormalVectors_reference = make(map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector)
+	stage.ShiftedLeftStackNormalVectors_referenceOrder = make(map[*ShiftedLeftStackNormalVector]uint) // diff Unstage needs the reference order
+	stage.ShiftedLeftStackNormalVectors_instance = make(map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector)
+	for instance := range stage.ShiftedLeftStackNormalVectors {
+		_copy := instance.GongCopy().(*ShiftedLeftStackNormalVector)
+		stage.ShiftedLeftStackNormalVectors_reference[instance] = _copy
+		stage.ShiftedLeftStackNormalVectors_instance[_copy] = instance
+		stage.ShiftedLeftStackNormalVectors_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ShiftedLeftStackOfGrowthCurves_reference = make(map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve)
 	stage.ShiftedLeftStackOfGrowthCurves_referenceOrder = make(map[*ShiftedLeftStackOfGrowthCurve]uint) // diff Unstage needs the reference order
 	stage.ShiftedLeftStackOfGrowthCurves_instance = make(map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve)
@@ -4234,6 +4407,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ShiftedLeftStackOfGrowthCurves_reference[instance] = _copy
 		stage.ShiftedLeftStackOfGrowthCurves_instance[_copy] = instance
 		stage.ShiftedLeftStackOfGrowthCurves_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.ShiftedLeftStackOfNormalVectors_reference = make(map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector)
+	stage.ShiftedLeftStackOfNormalVectors_referenceOrder = make(map[*ShiftedLeftStackOfNormalVector]uint) // diff Unstage needs the reference order
+	stage.ShiftedLeftStackOfNormalVectors_instance = make(map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector)
+	for instance := range stage.ShiftedLeftStackOfNormalVectors {
+		_copy := instance.GongCopy().(*ShiftedLeftStackOfNormalVector)
+		stage.ShiftedLeftStackOfNormalVectors_reference[instance] = _copy
+		stage.ShiftedLeftStackOfNormalVectors_instance[_copy] = instance
+		stage.ShiftedLeftStackOfNormalVectors_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.StackGrowthCurveEndArcShapes_reference = make(map[*StackGrowthCurveEndArcShape]*StackGrowthCurveEndArcShape)
@@ -4532,8 +4715,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.ShiftedLeftStackNormalVectors {
+		reference := stage.ShiftedLeftStackNormalVectors_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.ShiftedLeftStackOfGrowthCurves {
 		reference := stage.ShiftedLeftStackOfGrowthCurves_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ShiftedLeftStackOfNormalVectors {
+		reference := stage.ShiftedLeftStackOfNormalVectors_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5008,6 +5201,18 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	}
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvector]; ok {
+		return order
+	}
+	if order, ok := stage.ShiftedLeftStackNormalVectors_referenceOrder[shiftedleftstacknormalvector]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ShiftedLeftStackNormalVector was not staged and does not have a reference order", shiftedleftstacknormalvector)
+		return 0
+	}
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ShiftedLeftStackOfGrowthCurve_stagedOrder[shiftedleftstackofgrowthcurve]; ok {
 		return order
@@ -5016,6 +5221,18 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetOrder
 		return order
 	} else {
 		log.Printf("instance %p of type ShiftedLeftStackOfGrowthCurve was not staged and does not have a reference order", shiftedleftstackofgrowthcurve)
+		return 0
+	}
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvector]; ok {
+		return order
+	}
+	if order, ok := stage.ShiftedLeftStackOfNormalVectors_referenceOrder[shiftedleftstackofnormalvector]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ShiftedLeftStackOfNormalVector was not staged and does not have a reference order", shiftedleftstackofnormalvector)
 		return 0
 	}
 }
@@ -5478,6 +5695,15 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return fmt.Sprintf("__%s__%08d_", shiftedleftstackgrowthcurvestartarcshape.GongGetGongstructName(), shiftedleftstackgrowthcurvestartarcshape.GongGetOrder(stage))
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedleftstacknormalvector.GongGetGongstructName(), shiftedleftstacknormalvector.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedleftstacknormalvector.GongGetGongstructName(), shiftedleftstacknormalvector.GongGetOrder(stage))
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", shiftedleftstackofgrowthcurve.GongGetGongstructName(), shiftedleftstackofgrowthcurve.GongGetOrder(stage))
 }
@@ -5485,6 +5711,15 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetIdent
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", shiftedleftstackofgrowthcurve.GongGetGongstructName(), shiftedleftstackofgrowthcurve.GongGetOrder(stage))
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedleftstackofnormalvector.GongGetGongstructName(), shiftedleftstackofnormalvector.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedleftstackofnormalvector.GongGetGongstructName(), shiftedleftstackofnormalvector.GongGetOrder(stage))
 }
 
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongGetIdentifier(stage *Stage) string {
@@ -5871,11 +6106,27 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackNormalVector")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstacknormalvector.Name))
+	return
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackofgrowthcurve.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackOfGrowthCurve")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofgrowthcurve.Name))
+	return
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackofnormalvector.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedLeftStackOfNormalVector")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofnormalvector.Name))
 	return
 }
 
@@ -6182,9 +6433,21 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstacknormalvector.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackofgrowthcurve.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackofnormalvector.GongGetReferenceIdentifier(stage))
 	return
 }
 

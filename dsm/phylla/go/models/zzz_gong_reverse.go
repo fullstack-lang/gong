@@ -397,7 +397,32 @@ func (inst *ShiftedLeftStackGrowthCurveStartArcShape) GongGetReverseFieldOwnerNa
 	return
 }
 
+func (inst *ShiftedLeftStackNormalVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ShiftedLeftStackOfNormalVector":
+		switch reverseField.Fieldname {
+		case "ShiftedLeftStackNormalVectors":
+			if _shiftedleftstackofnormalvector, ok := stage.ShiftedLeftStackOfNormalVector_ShiftedLeftStackNormalVectors_reverseMap[inst]; ok {
+				res = _shiftedleftstackofnormalvector.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *ShiftedLeftStackOfGrowthCurve) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *ShiftedLeftStackOfNormalVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -940,7 +965,30 @@ func (inst *ShiftedLeftStackGrowthCurveStartArcShape) GongGetReverseFieldOwner(s
 	return res
 }
 
+func (inst *ShiftedLeftStackNormalVector) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ShiftedLeftStackOfNormalVector":
+		switch reverseField.Fieldname {
+		case "ShiftedLeftStackNormalVectors":
+			res = stage.ShiftedLeftStackOfNormalVector_ShiftedLeftStackNormalVectors_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *ShiftedLeftStackOfGrowthCurve) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *ShiftedLeftStackOfNormalVector) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
