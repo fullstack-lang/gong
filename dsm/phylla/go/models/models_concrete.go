@@ -446,3 +446,20 @@ type TopGrowthCurve2D struct {
 	TopStartArcShapeGrid *TopStartArcShapeGrid
 	TopEndArcShapeGrid   *TopEndArcShapeGrid
 }
+
+type HalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}
+
+type HalfwayArcShapeGrid struct {
+	Name string
+	HalfwayArcShapes []*HalfwayArcShape
+}

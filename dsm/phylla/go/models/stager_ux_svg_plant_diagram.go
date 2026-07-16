@@ -75,7 +75,8 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawShiftedBottomTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawTopMidArcVectorShapeGrid(stager, layer, plant)
-		plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawHalfwayArcShapeGrid(stager, layer, plant)
+	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
@@ -1039,8 +1040,6 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 	}
 }
 
-
-
 func (plantDiagram *PlantDiagram) drawGrowthCurveBezierShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
 		return
@@ -1181,7 +1180,6 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 	}
 }
 
-
 func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenGrowthCurve2D {
 		return
@@ -1296,7 +1294,6 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfNormalVector(stager *Sta
 	}
 }
 
-
 func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid {
 		return
@@ -1328,7 +1325,6 @@ func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager
 		path.Presentation.StrokeOpacity = 1.0
 	}
 }
-
 
 func (plantDiagram *PlantDiagram) drawMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenMidArcVectorShapeGrid {
@@ -1371,5 +1367,44 @@ func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, l
 		line.Presentation.Stroke = "black"
 		line.Presentation.StrokeWidth = 2.0
 		line.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenHalfwayArcShapeGrid {
+		return
+	}
+
+	for _, base := range plant.HalfwayArcShapeGrid.HalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = base.Name
+
+		pathStartX := plantDiagram.OriginX + base.StartX
+		pathStartY := plantDiagram.OriginY - base.StartY
+		pathEndX := plantDiagram.OriginX + base.EndX
+		pathEndY := plantDiagram.OriginY - base.EndY
+
+		largeArcFlag := 0
+		if base.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if base.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			base.RadiusX, base.RadiusY,
+			base.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "blue"
+		path.Presentation.StrokeWidth = 3.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
 	}
 }
