@@ -769,6 +769,38 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	{
+		shiftedLeftStackOfGrowthCurve := plant.ShiftedLeftStackOfGrowthCurve
+		node := &tree.Node{
+			Name: "Shifted Left Stack Of Growth Curve",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(shiftedLeftStackOfGrowthCurve, GetPointerToGongstructName[*ShiftedLeftStackOfGrowthCurve]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve = !plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	{
 		growthCurve2D := plant.GrowthCurve2D
 		node := &tree.Node{
 			Name: "Growth Curve 2D",

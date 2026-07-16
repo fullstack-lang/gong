@@ -387,7 +387,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n11 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11
+	n12 := enforcePlantHasShape[*ShiftedLeftStackOfGrowthCurve](
+		stager,
+		func() *ShiftedLeftStackOfGrowthCurve { return new(ShiftedLeftStackOfGrowthCurve) },
+		func(p *Plant) *ShiftedLeftStackOfGrowthCurve { return p.ShiftedLeftStackOfGrowthCurve },
+		func(p *Plant, shape *ShiftedLeftStackOfGrowthCurve) { p.ShiftedLeftStackOfGrowthCurve = shape },
+		func(p *Plant, shape *ShiftedLeftStackOfGrowthCurve) bool {
+			return p.ShiftedLeftStackOfGrowthCurve == shape
+		},
+		"ShiftedLeftStackOfGrowthCurve",
+	)
+	needCommit = n12 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11 || n12
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant

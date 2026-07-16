@@ -364,3 +364,135 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 
 	return needCommit
 }
+
+func enforceShiftedLeftStackOfGrowthCurveV2HasShapes(stage *Stage, stack *ShiftedLeftStackOfGrowthCurve, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+	if stack == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {
+		if len(stack.ShiftedLeftStackGrowthCurveStartArcShapes) > 0 || len(stack.ShiftedLeftStackGrowthCurveEndArcShapes) > 0 {
+			stack.ShiftedLeftStackGrowthCurveStartArcShapes = nil
+			stack.ShiftedLeftStackGrowthCurveEndArcShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+
+	type expectedStartShape struct {
+		name                       string
+		startX, startY, endX, endY float64
+		radiusX, radiusY           float64
+		xAxisRotation              float64
+		largeArcFlag, sweepFlag    bool
+	}
+	var expectedStart []expectedStartShape
+	var expectedEnd []expectedStartShape
+
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+
+	for h := 0; h < stackHeight; h++ {
+		dx := float64(h)*vector.X + float64(h)*thickness*vx
+		dy := float64(h)*vector.Y + float64(h)*thickness*vy
+		offset := 0.0
+
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			currentDX := math.Mod(dx, circLen)
+			if currentDX < 0 {
+				currentDX += circLen
+			}
+
+			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, offset, false)
+			expectedStart = append(expectedStart, expectedStartShape{
+				name:   fmt.Sprintf("%s-layer-start-%d-%d", stack.Name, h, i),
+				startX: sX + currentDX - circLen, startY: sY + dy,
+				endX: eX + currentDX - circLen, endY: eY + dy,
+				radiusX: rX, radiusY: rY,
+				xAxisRotation: xRot, largeArcFlag: lArc, sweepFlag: swp,
+			})
+
+			sX, sY, eX, eY, rX, rY, xRot, lArc, swp = computeArcV2Geometry(v1, v2, offset, true)
+			expectedEnd = append(expectedEnd, expectedStartShape{
+				name:   fmt.Sprintf("%s-layer-end-%d-%d", stack.Name, h, i),
+				startX: sX + currentDX - circLen, startY: sY + dy,
+				endX: eX + currentDX - circLen, endY: eY + dy,
+				radiusX: rX, radiusY: rY,
+				xAxisRotation: xRot, largeArcFlag: lArc, sweepFlag: swp,
+			})
+		}
+	}
+
+	valid := true
+	if len(stack.ShiftedLeftStackGrowthCurveStartArcShapes) != len(expectedStart) || len(stack.ShiftedLeftStackGrowthCurveEndArcShapes) != len(expectedEnd) {
+		valid = false
+	} else {
+		for i, exp := range expectedStart {
+			b := stack.ShiftedLeftStackGrowthCurveStartArcShapes[i]
+			if b == nil || b.Name != exp.name {
+				valid = false
+				break
+			}
+			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
+				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+		for i, exp := range expectedEnd {
+			b := stack.ShiftedLeftStackGrowthCurveEndArcShapes[i]
+			if b == nil || b.Name != exp.name {
+				valid = false
+				break
+			}
+			if math.Abs(b.StartX-exp.startX) > 1e-4 || math.Abs(b.StartY-exp.startY) > 1e-4 ||
+				math.Abs(b.EndX-exp.endX) > 1e-4 || math.Abs(b.EndY-exp.endY) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		stack.ShiftedLeftStackGrowthCurveStartArcShapes = make([]*ShiftedLeftStackGrowthCurveStartArcShape, len(expectedStart))
+		for i, exp := range expectedStart {
+			b := new(ShiftedLeftStackGrowthCurveStartArcShape).Stage(stage)
+			b.Name = exp.name
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
+			b.XAxisRotation = exp.xAxisRotation
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
+			stack.ShiftedLeftStackGrowthCurveStartArcShapes[i] = b
+		}
+		stack.ShiftedLeftStackGrowthCurveEndArcShapes = make([]*ShiftedLeftStackGrowthCurveEndArcShape, len(expectedEnd))
+		for i, exp := range expectedEnd {
+			b := new(ShiftedLeftStackGrowthCurveEndArcShape).Stage(stage)
+			b.Name = exp.name
+			b.StartX = exp.startX
+			b.StartY = exp.startY
+			b.EndX = exp.endX
+			b.EndY = exp.endY
+			b.RadiusX = exp.radiusX
+			b.RadiusY = exp.radiusY
+			b.XAxisRotation = exp.xAxisRotation
+			b.LargeArcFlag = exp.largeArcFlag
+			b.SweepFlag = exp.sweepFlag
+			stack.ShiftedLeftStackGrowthCurveEndArcShapes[i] = b
+		}
+		needCommit = true
+	}
+
+	return needCommit
+}

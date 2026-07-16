@@ -158,6 +158,14 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.TopStackOfGrowthCurve != nil {
 			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
+		if plant.ShiftedLeftStackOfGrowthCurve == nil {
+			plant.ShiftedLeftStackOfGrowthCurve = new(ShiftedLeftStackOfGrowthCurve).Stage(stage)
+			plant.ShiftedLeftStackOfGrowthCurve.Name = plant.Name + "-ShiftedLeftStackOfGrowthCurve"
+			needCommit = true
+		}
+		{
+			needCommit = enforceShiftedLeftStackOfGrowthCurveV2HasShapes(stage, plant.ShiftedLeftStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+		}
 		{
 		}
 	}

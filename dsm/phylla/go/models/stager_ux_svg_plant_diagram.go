@@ -76,6 +76,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
+	plantDiagram.drawShiftedLeftStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawTopStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawTopGrowthCurve2D(stager, layer, plant)
@@ -1211,4 +1212,62 @@ func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *sv
 
 	plantDiagram.IsHiddenTopStartArcShapeGrid = originalStartHidden
 	plantDiagram.IsHiddenTopEndArcShapeGrid = originalEndHidden
+}
+
+func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve {
+		return
+	}
+
+	for _, sa := range plant.ShiftedLeftStackOfGrowthCurve.ShiftedLeftStackGrowthCurveStartArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = sa.Name
+
+		sweepFlagStr := "0"
+		if sa.SweepFlag {
+			sweepFlagStr = "1"
+		}
+		largeArcFlagStr := "0"
+		if sa.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
+			plantDiagram.OriginX+sa.StartX, plantDiagram.OriginY-sa.StartY,
+			sa.RadiusX, sa.RadiusY,
+			sa.XAxisRotation, largeArcFlagStr, sweepFlagStr,
+			plantDiagram.OriginX+sa.EndX, plantDiagram.OriginY-sa.EndY,
+		)
+		path.Presentation.Stroke = "blue"
+		path.Presentation.StrokeWidth = 2.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 0.6
+	}
+
+	for _, ea := range plant.ShiftedLeftStackOfGrowthCurve.ShiftedLeftStackGrowthCurveEndArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = ea.Name
+
+		sweepFlagStr := "0"
+		if ea.SweepFlag {
+			sweepFlagStr = "1"
+		}
+		largeArcFlagStr := "0"
+		if ea.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
+			plantDiagram.OriginX+ea.StartX, plantDiagram.OriginY-ea.StartY,
+			ea.RadiusX, ea.RadiusY,
+			ea.XAxisRotation, largeArcFlagStr, sweepFlagStr,
+			plantDiagram.OriginX+ea.EndX, plantDiagram.OriginY-ea.EndY,
+		)
+		path.Presentation.Stroke = "purple"
+		path.Presentation.StrokeWidth = 2.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 0.6
+	}
 }
