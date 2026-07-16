@@ -620,6 +620,38 @@ type Stage struct {
 	OnAfterRotatedRhombusShapeDeleteCallback OnAfterDeleteInterface[RotatedRhombusShape]
 	OnAfterRotatedRhombusShapeReadCallback   OnAfterReadInterface[RotatedRhombusShape]
 
+	ShiftedBottomTopStartArcShapes                map[*ShiftedBottomTopStartArcShape]struct{}
+	ShiftedBottomTopStartArcShapes_instance       map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape
+	ShiftedBottomTopStartArcShapes_mapString      map[string]*ShiftedBottomTopStartArcShape
+	ShiftedBottomTopStartArcShapeOrder            uint
+	ShiftedBottomTopStartArcShape_stagedOrder     map[*ShiftedBottomTopStartArcShape]uint
+	ShiftedBottomTopStartArcShape_orderStaged     map[uint]*ShiftedBottomTopStartArcShape
+	ShiftedBottomTopStartArcShapes_reference      map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape
+	ShiftedBottomTopStartArcShapes_referenceOrder map[*ShiftedBottomTopStartArcShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterShiftedBottomTopStartArcShapeCreateCallback OnAfterCreateInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeUpdateCallback OnAfterUpdateInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeDeleteCallback OnAfterDeleteInterface[ShiftedBottomTopStartArcShape]
+	OnAfterShiftedBottomTopStartArcShapeReadCallback   OnAfterReadInterface[ShiftedBottomTopStartArcShape]
+
+	ShiftedBottomTopStartArcShapeGrids                map[*ShiftedBottomTopStartArcShapeGrid]struct{}
+	ShiftedBottomTopStartArcShapeGrids_instance       map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid
+	ShiftedBottomTopStartArcShapeGrids_mapString      map[string]*ShiftedBottomTopStartArcShapeGrid
+	ShiftedBottomTopStartArcShapeGridOrder            uint
+	ShiftedBottomTopStartArcShapeGrid_stagedOrder     map[*ShiftedBottomTopStartArcShapeGrid]uint
+	ShiftedBottomTopStartArcShapeGrid_orderStaged     map[uint]*ShiftedBottomTopStartArcShapeGrid
+	ShiftedBottomTopStartArcShapeGrids_reference      map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid
+	ShiftedBottomTopStartArcShapeGrids_referenceOrder map[*ShiftedBottomTopStartArcShapeGrid]uint
+
+	// insertion point for slice of pointers maps
+	ShiftedBottomTopStartArcShapeGrid_ShiftedBottomTopStartArcShapes_reverseMap map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShapeGrid
+
+	OnAfterShiftedBottomTopStartArcShapeGridCreateCallback OnAfterCreateInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridUpdateCallback OnAfterUpdateInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridDeleteCallback OnAfterDeleteInterface[ShiftedBottomTopStartArcShapeGrid]
+	OnAfterShiftedBottomTopStartArcShapeGridReadCallback   OnAfterReadInterface[ShiftedBottomTopStartArcShapeGrid]
+
 	ShiftedLeftStackGrowthCurveEndArcShapes                map[*ShiftedLeftStackGrowthCurveEndArcShape]struct{}
 	ShiftedLeftStackGrowthCurveEndArcShapes_instance       map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape
 	ShiftedLeftStackGrowthCurveEndArcShapes_mapString      map[string]*ShiftedLeftStackGrowthCurveEndArcShape
@@ -1270,6 +1302,14 @@ func (stage *Stage) Squash() {
 	stage.RotatedRhombusShapes_instance = make(map[*RotatedRhombusShape]*RotatedRhombusShape)
 	stage.RotatedRhombusShapes_referenceOrder = make(map[*RotatedRhombusShape]uint)
 
+	stage.ShiftedBottomTopStartArcShapes_reference = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
+	stage.ShiftedBottomTopStartArcShapes_instance = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
+	stage.ShiftedBottomTopStartArcShapes_referenceOrder = make(map[*ShiftedBottomTopStartArcShape]uint)
+
+	stage.ShiftedBottomTopStartArcShapeGrids_reference = make(map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid)
+	stage.ShiftedBottomTopStartArcShapeGrids_instance = make(map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid)
+	stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder = make(map[*ShiftedBottomTopStartArcShapeGrid]uint)
+
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_reference = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape)
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_instance = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape)
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_referenceOrder = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]uint)
@@ -1801,6 +1841,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.RotatedRhombusShapeOrder = maxRotatedRhombusShapeOrder + 1
 	} else {
 		stage.RotatedRhombusShapeOrder = 0
+	}
+
+	var maxShiftedBottomTopStartArcShapeOrder uint
+	var foundShiftedBottomTopStartArcShape bool
+	for _, order := range stage.ShiftedBottomTopStartArcShape_stagedOrder {
+		if !foundShiftedBottomTopStartArcShape || order > maxShiftedBottomTopStartArcShapeOrder {
+			maxShiftedBottomTopStartArcShapeOrder = order
+			foundShiftedBottomTopStartArcShape = true
+		}
+	}
+	if foundShiftedBottomTopStartArcShape {
+		stage.ShiftedBottomTopStartArcShapeOrder = maxShiftedBottomTopStartArcShapeOrder + 1
+	} else {
+		stage.ShiftedBottomTopStartArcShapeOrder = 0
+	}
+
+	var maxShiftedBottomTopStartArcShapeGridOrder uint
+	var foundShiftedBottomTopStartArcShapeGrid bool
+	for _, order := range stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder {
+		if !foundShiftedBottomTopStartArcShapeGrid || order > maxShiftedBottomTopStartArcShapeGridOrder {
+			maxShiftedBottomTopStartArcShapeGridOrder = order
+			foundShiftedBottomTopStartArcShapeGrid = true
+		}
+	}
+	if foundShiftedBottomTopStartArcShapeGrid {
+		stage.ShiftedBottomTopStartArcShapeGridOrder = maxShiftedBottomTopStartArcShapeGridOrder + 1
+	} else {
+		stage.ShiftedBottomTopStartArcShapeGridOrder = 0
 	}
 
 	var maxShiftedLeftStackGrowthCurveEndArcShapeOrder uint
@@ -2550,6 +2618,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ShiftedBottomTopStartArcShape:
+		tmp := GetStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ShiftedBottomTopStartArcShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ShiftedBottomTopStartArcShapeGrid:
+		tmp := GetStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapeGrids, stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ShiftedBottomTopStartArcShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder)
 
@@ -2893,6 +2989,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder)
 	case "RotatedRhombusShape":
 		res = GetNamedStructInstances(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
+	case "ShiftedBottomTopStartArcShape":
+		res = GetNamedStructInstances(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
+	case "ShiftedBottomTopStartArcShapeGrid":
+		res = GetNamedStructInstances(stage.ShiftedBottomTopStartArcShapeGrids, stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder)
 	case "ShiftedLeftStackGrowthCurveEndArcShape":
 		res = GetNamedStructInstances(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder)
 	case "ShiftedLeftStackGrowthCurveStartArcShape":
@@ -3060,6 +3160,10 @@ type BackRepoInterface interface {
 	CheckoutRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape)
 	CommitRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
 	CheckoutRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
+	CommitShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
+	CheckoutShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
+	CommitShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid)
+	CheckoutShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid)
 	CommitShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape)
 	CheckoutShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape)
 	CommitShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape)
@@ -3194,6 +3298,12 @@ func NewStage(name string) (stage *Stage) {
 
 		RotatedRhombusShapes:           make(map[*RotatedRhombusShape]struct{}),
 		RotatedRhombusShapes_mapString: make(map[string]*RotatedRhombusShape),
+
+		ShiftedBottomTopStartArcShapes:           make(map[*ShiftedBottomTopStartArcShape]struct{}),
+		ShiftedBottomTopStartArcShapes_mapString: make(map[string]*ShiftedBottomTopStartArcShape),
+
+		ShiftedBottomTopStartArcShapeGrids:           make(map[*ShiftedBottomTopStartArcShapeGrid]struct{}),
+		ShiftedBottomTopStartArcShapeGrids_mapString: make(map[string]*ShiftedBottomTopStartArcShapeGrid),
 
 		ShiftedLeftStackGrowthCurveEndArcShapes:           make(map[*ShiftedLeftStackGrowthCurveEndArcShape]struct{}),
 		ShiftedLeftStackGrowthCurveEndArcShapes_mapString: make(map[string]*ShiftedLeftStackGrowthCurveEndArcShape),
@@ -3383,6 +3493,14 @@ func NewStage(name string) (stage *Stage) {
 		RotatedRhombusShape_orderStaged: make(map[uint]*RotatedRhombusShape),
 		RotatedRhombusShapes_reference:  make(map[*RotatedRhombusShape]*RotatedRhombusShape),
 
+		ShiftedBottomTopStartArcShape_stagedOrder: make(map[*ShiftedBottomTopStartArcShape]uint),
+		ShiftedBottomTopStartArcShape_orderStaged: make(map[uint]*ShiftedBottomTopStartArcShape),
+		ShiftedBottomTopStartArcShapes_reference:  make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape),
+
+		ShiftedBottomTopStartArcShapeGrid_stagedOrder: make(map[*ShiftedBottomTopStartArcShapeGrid]uint),
+		ShiftedBottomTopStartArcShapeGrid_orderStaged: make(map[uint]*ShiftedBottomTopStartArcShapeGrid),
+		ShiftedBottomTopStartArcShapeGrids_reference:  make(map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid),
+
 		ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder: make(map[*ShiftedLeftStackGrowthCurveEndArcShape]uint),
 		ShiftedLeftStackGrowthCurveEndArcShape_orderStaged: make(map[uint]*ShiftedLeftStackGrowthCurveEndArcShape),
 		ShiftedLeftStackGrowthCurveEndArcShapes_reference:  make(map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape),
@@ -3519,6 +3637,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"RotatedRhombusShape": &RotatedRhombusShapeUnmarshaller{},
 
+			"ShiftedBottomTopStartArcShape": &ShiftedBottomTopStartArcShapeUnmarshaller{},
+
+			"ShiftedBottomTopStartArcShapeGrid": &ShiftedBottomTopStartArcShapeGridUnmarshaller{},
+
 			"ShiftedLeftStackGrowthCurveEndArcShape": &ShiftedLeftStackGrowthCurveEndArcShapeUnmarshaller{},
 
 			"ShiftedLeftStackGrowthCurveStartArcShape": &ShiftedLeftStackGrowthCurveStartArcShapeUnmarshaller{},
@@ -3590,6 +3712,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "RhombusShape"},
 			{name: "RotatedRhombusGridShape"},
 			{name: "RotatedRhombusShape"},
+			{name: "ShiftedBottomTopStartArcShape"},
+			{name: "ShiftedBottomTopStartArcShapeGrid"},
 			{name: "ShiftedLeftStackGrowthCurveEndArcShape"},
 			{name: "ShiftedLeftStackGrowthCurveStartArcShape"},
 			{name: "ShiftedLeftStackNormalVector"},
@@ -3681,6 +3805,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.RotatedRhombusGridShape_stagedOrder[instance]
 	case *RotatedRhombusShape:
 		return stage.RotatedRhombusShape_stagedOrder[instance]
+	case *ShiftedBottomTopStartArcShape:
+		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
+	case *ShiftedBottomTopStartArcShapeGrid:
+		return stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[instance]
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		return stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -3788,6 +3916,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.RotatedRhombusGridShape_orderStaged[order]).(Type)
 	case *RotatedRhombusShape:
 		return any(stage.RotatedRhombusShape_orderStaged[order]).(Type)
+	case *ShiftedBottomTopStartArcShape:
+		return any(stage.ShiftedBottomTopStartArcShape_orderStaged[order]).(Type)
+	case *ShiftedBottomTopStartArcShapeGrid:
+		return any(stage.ShiftedBottomTopStartArcShapeGrid_orderStaged[order]).(Type)
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		return any(stage.ShiftedLeftStackGrowthCurveEndArcShape_orderStaged[order]).(Type)
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -3894,6 +4026,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.RotatedRhombusGridShape_stagedOrder[instance]
 	case *RotatedRhombusShape:
 		return stage.RotatedRhombusShape_stagedOrder[instance]
+	case *ShiftedBottomTopStartArcShape:
+		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
+	case *ShiftedBottomTopStartArcShapeGrid:
+		return stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[instance]
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		return stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -4026,6 +4162,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["RhombusShape"] = len(stage.RhombusShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusGridShape"] = len(stage.RotatedRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
+	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShape"] = len(stage.ShiftedBottomTopStartArcShapes)
+	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShapeGrid"] = len(stage.ShiftedBottomTopStartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackGrowthCurveEndArcShape"] = len(stage.ShiftedLeftStackGrowthCurveEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackGrowthCurveStartArcShape"] = len(stage.ShiftedLeftStackGrowthCurveStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackNormalVector"] = len(stage.ShiftedLeftStackNormalVectors)
@@ -6812,6 +6950,182 @@ func (rotatedrhombusshape *RotatedRhombusShape) SetName(name string) {
 	rotatedrhombusshape.Name = name
 }
 
+// Stage puts shiftedbottomtopstartarcshape to the model stage
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Stage(stage *Stage) *ShiftedBottomTopStartArcShape {
+	if _, ok := stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]; !ok {
+		stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape] = struct{}{}
+		stage.ShiftedBottomTopStartArcShape_stagedOrder[shiftedbottomtopstartarcshape] = stage.ShiftedBottomTopStartArcShapeOrder
+		stage.ShiftedBottomTopStartArcShape_orderStaged[stage.ShiftedBottomTopStartArcShapeOrder] = shiftedbottomtopstartarcshape
+		stage.ShiftedBottomTopStartArcShapeOrder++
+	}
+	stage.ShiftedBottomTopStartArcShapes_mapString[shiftedbottomtopstartarcshape.Name] = shiftedbottomtopstartarcshape
+
+	return shiftedbottomtopstartarcshape
+}
+
+// StagePreserveOrder puts shiftedbottomtopstartarcshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ShiftedBottomTopStartArcShapeOrder
+// - update stage.ShiftedBottomTopStartArcShapeOrder accordingly
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]; !ok {
+		stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape] = struct{}{}
+
+		if order > stage.ShiftedBottomTopStartArcShapeOrder {
+			stage.ShiftedBottomTopStartArcShapeOrder = order
+		}
+		stage.ShiftedBottomTopStartArcShape_stagedOrder[shiftedbottomtopstartarcshape] = order
+		stage.ShiftedBottomTopStartArcShape_orderStaged[order] = shiftedbottomtopstartarcshape
+		stage.ShiftedBottomTopStartArcShapeOrder++
+	}
+	stage.ShiftedBottomTopStartArcShapes_mapString[shiftedbottomtopstartarcshape.Name] = shiftedbottomtopstartarcshape
+}
+
+// Unstage removes shiftedbottomtopstartarcshape off the model stage
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Unstage(stage *Stage) *ShiftedBottomTopStartArcShape {
+	delete(stage.ShiftedBottomTopStartArcShapes, shiftedbottomtopstartarcshape)
+	// issue1150
+	// delete(stage.ShiftedBottomTopStartArcShape_stagedOrder, shiftedbottomtopstartarcshape)
+	delete(stage.ShiftedBottomTopStartArcShapes_mapString, shiftedbottomtopstartarcshape.Name)
+
+	return shiftedbottomtopstartarcshape
+}
+
+// UnstageVoid removes shiftedbottomtopstartarcshape off the model stage
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) UnstageVoid(stage *Stage) {
+	delete(stage.ShiftedBottomTopStartArcShapes, shiftedbottomtopstartarcshape)
+	// issue1150
+	// delete(stage.ShiftedBottomTopStartArcShape_stagedOrder, shiftedbottomtopstartarcshape)
+	delete(stage.ShiftedBottomTopStartArcShapes_mapString, shiftedbottomtopstartarcshape.Name)
+}
+
+// commit shiftedbottomtopstartarcshape to the back repo (if it is already staged)
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Commit(stage *Stage) *ShiftedBottomTopStartArcShape {
+	if _, ok := stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape)
+		}
+	}
+	return shiftedbottomtopstartarcshape
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) CommitVoid(stage *Stage) {
+	shiftedbottomtopstartarcshape.Commit(stage)
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) StageVoid(stage *Stage) {
+	shiftedbottomtopstartarcshape.Stage(stage)
+}
+
+// Checkout shiftedbottomtopstartarcshape to the back repo (if it is already staged)
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Checkout(stage *Stage) *ShiftedBottomTopStartArcShape {
+	if _, ok := stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape)
+		}
+	}
+	return shiftedbottomtopstartarcshape
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GetName() (res string) {
+	return shiftedbottomtopstartarcshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) SetName(name string) {
+	shiftedbottomtopstartarcshape.Name = name
+}
+
+// Stage puts shiftedbottomtopstartarcshapegrid to the model stage
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Stage(stage *Stage) *ShiftedBottomTopStartArcShapeGrid {
+	if _, ok := stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid]; !ok {
+		stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid] = struct{}{}
+		stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[shiftedbottomtopstartarcshapegrid] = stage.ShiftedBottomTopStartArcShapeGridOrder
+		stage.ShiftedBottomTopStartArcShapeGrid_orderStaged[stage.ShiftedBottomTopStartArcShapeGridOrder] = shiftedbottomtopstartarcshapegrid
+		stage.ShiftedBottomTopStartArcShapeGridOrder++
+	}
+	stage.ShiftedBottomTopStartArcShapeGrids_mapString[shiftedbottomtopstartarcshapegrid.Name] = shiftedbottomtopstartarcshapegrid
+
+	return shiftedbottomtopstartarcshapegrid
+}
+
+// StagePreserveOrder puts shiftedbottomtopstartarcshapegrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ShiftedBottomTopStartArcShapeGridOrder
+// - update stage.ShiftedBottomTopStartArcShapeGridOrder accordingly
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid]; !ok {
+		stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid] = struct{}{}
+
+		if order > stage.ShiftedBottomTopStartArcShapeGridOrder {
+			stage.ShiftedBottomTopStartArcShapeGridOrder = order
+		}
+		stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[shiftedbottomtopstartarcshapegrid] = order
+		stage.ShiftedBottomTopStartArcShapeGrid_orderStaged[order] = shiftedbottomtopstartarcshapegrid
+		stage.ShiftedBottomTopStartArcShapeGridOrder++
+	}
+	stage.ShiftedBottomTopStartArcShapeGrids_mapString[shiftedbottomtopstartarcshapegrid.Name] = shiftedbottomtopstartarcshapegrid
+}
+
+// Unstage removes shiftedbottomtopstartarcshapegrid off the model stage
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Unstage(stage *Stage) *ShiftedBottomTopStartArcShapeGrid {
+	delete(stage.ShiftedBottomTopStartArcShapeGrids, shiftedbottomtopstartarcshapegrid)
+	// issue1150
+	// delete(stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder, shiftedbottomtopstartarcshapegrid)
+	delete(stage.ShiftedBottomTopStartArcShapeGrids_mapString, shiftedbottomtopstartarcshapegrid.Name)
+
+	return shiftedbottomtopstartarcshapegrid
+}
+
+// UnstageVoid removes shiftedbottomtopstartarcshapegrid off the model stage
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) UnstageVoid(stage *Stage) {
+	delete(stage.ShiftedBottomTopStartArcShapeGrids, shiftedbottomtopstartarcshapegrid)
+	// issue1150
+	// delete(stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder, shiftedbottomtopstartarcshapegrid)
+	delete(stage.ShiftedBottomTopStartArcShapeGrids_mapString, shiftedbottomtopstartarcshapegrid.Name)
+}
+
+// commit shiftedbottomtopstartarcshapegrid to the back repo (if it is already staged)
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Commit(stage *Stage) *ShiftedBottomTopStartArcShapeGrid {
+	if _, ok := stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid)
+		}
+	}
+	return shiftedbottomtopstartarcshapegrid
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) CommitVoid(stage *Stage) {
+	shiftedbottomtopstartarcshapegrid.Commit(stage)
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) StageVoid(stage *Stage) {
+	shiftedbottomtopstartarcshapegrid.Stage(stage)
+}
+
+// Checkout shiftedbottomtopstartarcshapegrid to the back repo (if it is already staged)
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) Checkout(stage *Stage) *ShiftedBottomTopStartArcShapeGrid {
+	if _, ok := stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid)
+		}
+	}
+	return shiftedbottomtopstartarcshapegrid
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GetName() (res string) {
+	return shiftedbottomtopstartarcshapegrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) SetName(name string) {
+	shiftedbottomtopstartarcshapegrid.Name = name
+}
+
 // Stage puts shiftedleftstackgrowthcurveendarcshape to the model stage
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) Stage(stage *Stage) *ShiftedLeftStackGrowthCurveEndArcShape {
 	if _, ok := stage.ShiftedLeftStackGrowthCurveEndArcShapes[shiftedleftstackgrowthcurveendarcshape]; !ok {
@@ -8429,6 +8743,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRhombusShape(RhombusShape *RhombusShape)
 	CreateORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
+	CreateORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
+	CreateORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
 	CreateORMShiftedLeftStackGrowthCurveEndArcShape(ShiftedLeftStackGrowthCurveEndArcShape *ShiftedLeftStackGrowthCurveEndArcShape)
 	CreateORMShiftedLeftStackGrowthCurveStartArcShape(ShiftedLeftStackGrowthCurveStartArcShape *ShiftedLeftStackGrowthCurveStartArcShape)
 	CreateORMShiftedLeftStackNormalVector(ShiftedLeftStackNormalVector *ShiftedLeftStackNormalVector)
@@ -8481,6 +8797,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRhombusShape(RhombusShape *RhombusShape)
 	DeleteORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
+	DeleteORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
+	DeleteORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
 	DeleteORMShiftedLeftStackGrowthCurveEndArcShape(ShiftedLeftStackGrowthCurveEndArcShape *ShiftedLeftStackGrowthCurveEndArcShape)
 	DeleteORMShiftedLeftStackGrowthCurveStartArcShape(ShiftedLeftStackGrowthCurveStartArcShape *ShiftedLeftStackGrowthCurveStartArcShape)
 	DeleteORMShiftedLeftStackNormalVector(ShiftedLeftStackNormalVector *ShiftedLeftStackNormalVector)
@@ -8656,6 +8974,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.RotatedRhombusShapes_mapString = make(map[string]*RotatedRhombusShape)
 	stage.RotatedRhombusShape_stagedOrder = make(map[*RotatedRhombusShape]uint)
 	stage.RotatedRhombusShapeOrder = 0
+
+	stage.ShiftedBottomTopStartArcShapes = make(map[*ShiftedBottomTopStartArcShape]struct{})
+	stage.ShiftedBottomTopStartArcShapes_mapString = make(map[string]*ShiftedBottomTopStartArcShape)
+	stage.ShiftedBottomTopStartArcShape_stagedOrder = make(map[*ShiftedBottomTopStartArcShape]uint)
+	stage.ShiftedBottomTopStartArcShapeOrder = 0
+
+	stage.ShiftedBottomTopStartArcShapeGrids = make(map[*ShiftedBottomTopStartArcShapeGrid]struct{})
+	stage.ShiftedBottomTopStartArcShapeGrids_mapString = make(map[string]*ShiftedBottomTopStartArcShapeGrid)
+	stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder = make(map[*ShiftedBottomTopStartArcShapeGrid]uint)
+	stage.ShiftedBottomTopStartArcShapeGridOrder = 0
 
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]struct{})
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString = make(map[string]*ShiftedLeftStackGrowthCurveEndArcShape)
@@ -8849,6 +9177,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.RotatedRhombusShapes = nil
 	stage.RotatedRhombusShapes_mapString = nil
 
+	stage.ShiftedBottomTopStartArcShapes = nil
+	stage.ShiftedBottomTopStartArcShapes_mapString = nil
+
+	stage.ShiftedBottomTopStartArcShapeGrids = nil
+	stage.ShiftedBottomTopStartArcShapeGrids_mapString = nil
+
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes = nil
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString = nil
 
@@ -9029,6 +9363,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for rotatedrhombusshape := range stage.RotatedRhombusShapes {
 		rotatedrhombusshape.Unstage(stage)
+	}
+
+	for shiftedbottomtopstartarcshape := range stage.ShiftedBottomTopStartArcShapes {
+		shiftedbottomtopstartarcshape.Unstage(stage)
+	}
+
+	for shiftedbottomtopstartarcshapegrid := range stage.ShiftedBottomTopStartArcShapeGrids {
+		shiftedbottomtopstartarcshapegrid.Unstage(stage)
 	}
 
 	for shiftedleftstackgrowthcurveendarcshape := range stage.ShiftedLeftStackGrowthCurveEndArcShapes {
@@ -9241,6 +9583,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.RotatedRhombusGridShapes).(*Type)
 	case map[*RotatedRhombusShape]any:
 		return any(&stage.RotatedRhombusShapes).(*Type)
+	case map[*ShiftedBottomTopStartArcShape]any:
+		return any(&stage.ShiftedBottomTopStartArcShapes).(*Type)
+	case map[*ShiftedBottomTopStartArcShapeGrid]any:
+		return any(&stage.ShiftedBottomTopStartArcShapeGrids).(*Type)
 	case map[*ShiftedLeftStackGrowthCurveEndArcShape]any:
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*Type)
 	case map[*ShiftedLeftStackGrowthCurveStartArcShape]any:
@@ -9351,6 +9697,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.RotatedRhombusGridShapes_mapString).(map[string]Type)
 	case *RotatedRhombusShape:
 		return any(stage.RotatedRhombusShapes_mapString).(map[string]Type)
+	case *ShiftedBottomTopStartArcShape:
+		return any(stage.ShiftedBottomTopStartArcShapes_mapString).(map[string]Type)
+	case *ShiftedBottomTopStartArcShapeGrid:
+		return any(stage.ShiftedBottomTopStartArcShapeGrids_mapString).(map[string]Type)
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		return any(stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString).(map[string]Type)
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -9461,6 +9811,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.RotatedRhombusGridShapes).(*map[*Type]struct{})
 	case RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes).(*map[*Type]struct{})
+	case ShiftedBottomTopStartArcShape:
+		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[*Type]struct{})
+	case ShiftedBottomTopStartArcShapeGrid:
+		return any(&stage.ShiftedBottomTopStartArcShapeGrids).(*map[*Type]struct{})
 	case ShiftedLeftStackGrowthCurveEndArcShape:
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*map[*Type]struct{})
 	case ShiftedLeftStackGrowthCurveStartArcShape:
@@ -9571,6 +9925,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.RotatedRhombusGridShapes).(*map[Type]struct{})
 	case *RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes).(*map[Type]struct{})
+	case *ShiftedBottomTopStartArcShape:
+		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[Type]struct{})
+	case *ShiftedBottomTopStartArcShapeGrid:
+		return any(&stage.ShiftedBottomTopStartArcShapeGrids).(*map[Type]struct{})
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*map[Type]struct{})
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -9681,6 +10039,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.RotatedRhombusGridShapes_mapString).(*map[string]*Type)
 	case RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes_mapString).(*map[string]*Type)
+	case ShiftedBottomTopStartArcShape:
+		return any(&stage.ShiftedBottomTopStartArcShapes_mapString).(*map[string]*Type)
+	case ShiftedBottomTopStartArcShapeGrid:
+		return any(&stage.ShiftedBottomTopStartArcShapeGrids_mapString).(*map[string]*Type)
 	case ShiftedLeftStackGrowthCurveEndArcShape:
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString).(*map[string]*Type)
 	case ShiftedLeftStackGrowthCurveStartArcShape:
@@ -9892,6 +10254,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
 			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
 			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
+			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
+			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
 			// field is initialized with an instance of EndArcShapeGrid with the name of the field
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
@@ -9938,6 +10302,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case RotatedRhombusShape:
 		return any(&RotatedRhombusShape{
 			// Initialisation of associations
+		}).(*Type)
+	case ShiftedBottomTopStartArcShape:
+		return any(&ShiftedBottomTopStartArcShape{
+			// Initialisation of associations
+		}).(*Type)
+	case ShiftedBottomTopStartArcShapeGrid:
+		return any(&ShiftedBottomTopStartArcShapeGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of ShiftedBottomTopStartArcShape with the name of the field
+			ShiftedBottomTopStartArcShapes: []*ShiftedBottomTopStartArcShape{{Name: "ShiftedBottomTopStartArcShapes"}},
 		}).(*Type)
 	case ShiftedLeftStackGrowthCurveEndArcShape:
 		return any(&ShiftedLeftStackGrowthCurveEndArcShape{
@@ -10516,6 +10890,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ShiftedBottomTopStartArcShapeGrid":
+			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.ShiftedBottomTopStartArcShapeGrid != nil {
+					shiftedbottomtopstartarcshapegrid_ := plant.ShiftedBottomTopStartArcShapeGrid
+					var plants []*Plant
+					_, ok := res[shiftedbottomtopstartarcshapegrid_]
+					if ok {
+						plants = res[shiftedbottomtopstartarcshapegrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[shiftedbottomtopstartarcshapegrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "EndArcShapeGrid":
 			res := make(map[*EndArcShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -10714,6 +11105,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of RotatedRhombusShape
 	case RotatedRhombusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ShiftedBottomTopStartArcShape
+	case ShiftedBottomTopStartArcShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ShiftedBottomTopStartArcShapeGrid
+	case ShiftedBottomTopStartArcShapeGrid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -11107,6 +11508,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ShiftedBottomTopStartArcShape
+	case ShiftedBottomTopStartArcShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ShiftedBottomTopStartArcShapeGrid
+	case ShiftedBottomTopStartArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ShiftedBottomTopStartArcShapes":
+			res := make(map[*ShiftedBottomTopStartArcShape][]*ShiftedBottomTopStartArcShapeGrid)
+			for shiftedbottomtopstartarcshapegrid := range stage.ShiftedBottomTopStartArcShapeGrids {
+				for _, shiftedbottomtopstartarcshape_ := range shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+					res[shiftedbottomtopstartarcshape_] = append(res[shiftedbottomtopstartarcshape_], shiftedbottomtopstartarcshapegrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of ShiftedLeftStackGrowthCurveEndArcShape
 	case ShiftedLeftStackGrowthCurveEndArcShape:
 		switch fieldname {
@@ -11350,6 +11769,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "RotatedRhombusGridShape"
 	case *RotatedRhombusShape:
 		res = "RotatedRhombusShape"
+	case *ShiftedBottomTopStartArcShape:
+		res = "ShiftedBottomTopStartArcShape"
+	case *ShiftedBottomTopStartArcShapeGrid:
+		res = "ShiftedBottomTopStartArcShapeGrid"
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		res = "ShiftedLeftStackGrowthCurveEndArcShape"
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -11532,6 +11955,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "RotatedRhombusGridShape"
 		rf.Fieldname = "RotatedRhombusShapes"
 		res = append(res, rf)
+	case *ShiftedBottomTopStartArcShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "ShiftedBottomTopStartArcShapeGrid"
+		rf.Fieldname = "ShiftedBottomTopStartArcShapes"
+		res = append(res, rf)
+	case *ShiftedBottomTopStartArcShapeGrid:
+		var rf ReverseField
+		_ = rf
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		var rf ReverseField
 		_ = rf
@@ -12280,6 +12712,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "TopStartArcShapeGrid",
 		},
 		{
+			Name:                 "ShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedBottomTopStartArcShapeGrid",
+		},
+		{
 			Name:                 "EndArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "EndArcShapeGrid",
@@ -12439,6 +12876,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsHiddenEndArcShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -12595,6 +13036,69 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldHeaders() (res []Gon
 		{
 			Name:               "Y",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "XAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "SweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "RadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ShiftedBottomTopStartArcShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ShiftedBottomTopStartArcShape",
 		},
 	}
 	return
@@ -13930,6 +14434,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.TopStartArcShapeGrid.Name
 			res.ids = plant.TopStartArcShapeGrid.GongGetUUID(stage)
 		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.ShiftedBottomTopStartArcShapeGrid != nil {
+			res.valueString = plant.ShiftedBottomTopStartArcShapeGrid.Name
+			res.ids = plant.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
+		}
 	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.EndArcShapeGrid != nil {
@@ -14094,6 +14604,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenTopStartArcShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenEndArcShapeGrid
@@ -14248,6 +14762,70 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldValue(fieldName stri
 		res.valueString = fmt.Sprintf("%f", rotatedrhombusshape.Y)
 		res.valueFloat = rotatedrhombusshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = shiftedbottomtopstartarcshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.StartX)
+		res.valueFloat = shiftedbottomtopstartarcshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.StartY)
+		res.valueFloat = shiftedbottomtopstartarcshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.EndX)
+		res.valueFloat = shiftedbottomtopstartarcshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.EndY)
+		res.valueFloat = shiftedbottomtopstartarcshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XAxisRotation":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.XAxisRotation)
+		res.valueFloat = shiftedbottomtopstartarcshape.XAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", shiftedbottomtopstartarcshape.LargeArcFlag)
+		res.valueBool = shiftedbottomtopstartarcshape.LargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SweepFlag":
+		res.valueString = fmt.Sprintf("%t", shiftedbottomtopstartarcshape.SweepFlag)
+		res.valueBool = shiftedbottomtopstartarcshape.SweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RadiusX":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.RadiusX)
+		res.valueFloat = shiftedbottomtopstartarcshape.RadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusY":
+		res.valueString = fmt.Sprintf("%f", shiftedbottomtopstartarcshape.RadiusY)
+		res.valueFloat = shiftedbottomtopstartarcshape.RadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = shiftedbottomtopstartarcshapegrid.Name
+	case "ShiftedBottomTopStartArcShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -15631,6 +16209,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.ShiftedBottomTopStartArcShapeGrid = nil
+			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
+				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plant.ShiftedBottomTopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
 	case "EndArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -15798,6 +16387,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenTopStartArcShapeGrid":
 		plantdiagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
 	case "IsHiddenTopEndArcShapeGrid":
@@ -15919,6 +16510,60 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongSetFieldValue(fieldName stri
 		rotatedrhombusshape.X = value.GetValueFloat()
 	case "Y":
 		rotatedrhombusshape.Y = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		shiftedbottomtopstartarcshape.Name = value.GetValueString()
+	case "StartX":
+		shiftedbottomtopstartarcshape.StartX = value.GetValueFloat()
+	case "StartY":
+		shiftedbottomtopstartarcshape.StartY = value.GetValueFloat()
+	case "EndX":
+		shiftedbottomtopstartarcshape.EndX = value.GetValueFloat()
+	case "EndY":
+		shiftedbottomtopstartarcshape.EndY = value.GetValueFloat()
+	case "XAxisRotation":
+		shiftedbottomtopstartarcshape.XAxisRotation = value.GetValueFloat()
+	case "LargeArcFlag":
+		shiftedbottomtopstartarcshape.LargeArcFlag = value.GetValueBool()
+	case "SweepFlag":
+		shiftedbottomtopstartarcshape.SweepFlag = value.GetValueBool()
+	case "RadiusX":
+		shiftedbottomtopstartarcshape.RadiusX = value.GetValueFloat()
+	case "RadiusY":
+		shiftedbottomtopstartarcshape.RadiusY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		shiftedbottomtopstartarcshapegrid.Name = value.GetValueString()
+	case "ShiftedBottomTopStartArcShapes":
+		shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes = make([]*ShiftedBottomTopStartArcShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ShiftedBottomTopStartArcShapes {
+					if stage.ShiftedBottomTopStartArcShape_stagedOrder[__instance__] == uint(id) {
+						shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes = append(shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -16584,6 +17229,14 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetGongstructName() string {
 	return "RotatedRhombusShape"
 }
 
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetGongstructName() string {
+	return "ShiftedBottomTopStartArcShape"
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetGongstructName() string {
+	return "ShiftedBottomTopStartArcShapeGrid"
+}
+
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongGetGongstructName() string {
 	return "ShiftedLeftStackGrowthCurveEndArcShape"
 }
@@ -16816,6 +17469,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.RotatedRhombusShapes_mapString = make(map[string]*RotatedRhombusShape)
 	for rotatedrhombusshape := range stage.RotatedRhombusShapes {
 		stage.RotatedRhombusShapes_mapString[rotatedrhombusshape.Name] = rotatedrhombusshape
+	}
+
+	stage.ShiftedBottomTopStartArcShapes_mapString = make(map[string]*ShiftedBottomTopStartArcShape)
+	for shiftedbottomtopstartarcshape := range stage.ShiftedBottomTopStartArcShapes {
+		stage.ShiftedBottomTopStartArcShapes_mapString[shiftedbottomtopstartarcshape.Name] = shiftedbottomtopstartarcshape
+	}
+
+	stage.ShiftedBottomTopStartArcShapeGrids_mapString = make(map[string]*ShiftedBottomTopStartArcShapeGrid)
+	for shiftedbottomtopstartarcshapegrid := range stage.ShiftedBottomTopStartArcShapeGrids {
+		stage.ShiftedBottomTopStartArcShapeGrids_mapString[shiftedbottomtopstartarcshapegrid.Name] = shiftedbottomtopstartarcshapegrid
 	}
 
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString = make(map[string]*ShiftedLeftStackGrowthCurveEndArcShape)

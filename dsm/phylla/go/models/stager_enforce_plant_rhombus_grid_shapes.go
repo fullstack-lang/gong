@@ -97,6 +97,15 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
 
+		if plant.ShiftedBottomTopStartArcShapeGrid == nil {
+			plant.ShiftedBottomTopStartArcShapeGrid = new(ShiftedBottomTopStartArcShapeGrid).Stage(stage)
+			plant.ShiftedBottomTopStartArcShapeGrid.Name = plant.Name + "-ShiftedBottomTopStartArcShapeGrid"
+			needCommit = true
+		}
+		{
+			needCommit = enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage, plant.ShiftedBottomTopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+		}
+
 		{
 			needCommit = enforceEndArcShapeV2GridHasShapes(stage, plant.EndArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}

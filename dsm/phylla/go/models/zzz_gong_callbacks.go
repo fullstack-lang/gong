@@ -130,6 +130,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRotatedRhombusShapeCreateCallback != nil {
 			stage.OnAfterRotatedRhombusShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ShiftedBottomTopStartArcShape:
+		if stage.OnAfterShiftedBottomTopStartArcShapeCreateCallback != nil {
+			stage.OnAfterShiftedBottomTopStartArcShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *ShiftedBottomTopStartArcShapeGrid:
+		if stage.OnAfterShiftedBottomTopStartArcShapeGridCreateCallback != nil {
+			stage.OnAfterShiftedBottomTopStartArcShapeGridCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		if stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeCreateCallback != nil {
 			stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeCreateCallback.OnAfterCreate(stage, target)
@@ -370,6 +378,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*RotatedRhombusShape)
 		if stage.OnAfterRotatedRhombusShapeUpdateCallback != nil {
 			stage.OnAfterRotatedRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ShiftedBottomTopStartArcShape:
+		newTarget := any(new).(*ShiftedBottomTopStartArcShape)
+		if stage.OnAfterShiftedBottomTopStartArcShapeUpdateCallback != nil {
+			stage.OnAfterShiftedBottomTopStartArcShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ShiftedBottomTopStartArcShapeGrid:
+		newTarget := any(new).(*ShiftedBottomTopStartArcShapeGrid)
+		if stage.OnAfterShiftedBottomTopStartArcShapeGridUpdateCallback != nil {
+			stage.OnAfterShiftedBottomTopStartArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		newTarget := any(new).(*ShiftedLeftStackGrowthCurveEndArcShape)
@@ -626,6 +644,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*RotatedRhombusShape)
 			stage.OnAfterRotatedRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ShiftedBottomTopStartArcShape:
+		if stage.OnAfterShiftedBottomTopStartArcShapeDeleteCallback != nil {
+			staged := any(staged).(*ShiftedBottomTopStartArcShape)
+			stage.OnAfterShiftedBottomTopStartArcShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *ShiftedBottomTopStartArcShapeGrid:
+		if stage.OnAfterShiftedBottomTopStartArcShapeGridDeleteCallback != nil {
+			staged := any(staged).(*ShiftedBottomTopStartArcShapeGrid)
+			stage.OnAfterShiftedBottomTopStartArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		if stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeDeleteCallback != nil {
 			staged := any(staged).(*ShiftedLeftStackGrowthCurveEndArcShape)
@@ -850,6 +878,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRotatedRhombusShapeReadCallback != nil {
 			stage.OnAfterRotatedRhombusShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *ShiftedBottomTopStartArcShape:
+		if stage.OnAfterShiftedBottomTopStartArcShapeReadCallback != nil {
+			stage.OnAfterShiftedBottomTopStartArcShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *ShiftedBottomTopStartArcShapeGrid:
+		if stage.OnAfterShiftedBottomTopStartArcShapeGridReadCallback != nil {
+			stage.OnAfterShiftedBottomTopStartArcShapeGridReadCallback.OnAfterRead(stage, target)
+		}
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		if stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeReadCallback != nil {
 			stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeReadCallback.OnAfterRead(stage, target)
@@ -995,6 +1031,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
 		stage.OnAfterRotatedRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusShape])
+	case *ShiftedBottomTopStartArcShape:
+		stage.OnAfterShiftedBottomTopStartArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ShiftedBottomTopStartArcShape])
+	case *ShiftedBottomTopStartArcShapeGrid:
+		stage.OnAfterShiftedBottomTopStartArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[ShiftedBottomTopStartArcShapeGrid])
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ShiftedLeftStackGrowthCurveEndArcShape])
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -1100,6 +1140,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
 		stage.OnAfterRotatedRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusShape])
+	case *ShiftedBottomTopStartArcShape:
+		stage.OnAfterShiftedBottomTopStartArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[ShiftedBottomTopStartArcShape])
+	case *ShiftedBottomTopStartArcShapeGrid:
+		stage.OnAfterShiftedBottomTopStartArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[ShiftedBottomTopStartArcShapeGrid])
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[ShiftedLeftStackGrowthCurveEndArcShape])
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -1205,6 +1249,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
 		stage.OnAfterRotatedRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusShape])
+	case *ShiftedBottomTopStartArcShape:
+		stage.OnAfterShiftedBottomTopStartArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ShiftedBottomTopStartArcShape])
+	case *ShiftedBottomTopStartArcShapeGrid:
+		stage.OnAfterShiftedBottomTopStartArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[ShiftedBottomTopStartArcShapeGrid])
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ShiftedLeftStackGrowthCurveEndArcShape])
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
@@ -1310,6 +1358,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRotatedRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
 		stage.OnAfterRotatedRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusShape])
+	case *ShiftedBottomTopStartArcShape:
+		stage.OnAfterShiftedBottomTopStartArcShapeReadCallback = any(callback).(OnAfterReadInterface[ShiftedBottomTopStartArcShape])
+	case *ShiftedBottomTopStartArcShapeGrid:
+		stage.OnAfterShiftedBottomTopStartArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[ShiftedBottomTopStartArcShapeGrid])
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		stage.OnAfterShiftedLeftStackGrowthCurveEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[ShiftedLeftStackGrowthCurveEndArcShape])
 	case *ShiftedLeftStackGrowthCurveStartArcShape:

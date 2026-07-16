@@ -2851,6 +2851,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.StartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStartArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.TopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedBottomTopStartArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.ShiftedBottomTopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "EndArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndArcShapeGrid":
@@ -3116,6 +3118,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeGrid), formDiv)
 		case "IsHiddenTopStartArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStartArcShapeGrid), formDiv)
+		case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedBottomTopStartArcShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
 		case "IsHiddenTopEndArcShapeGrid":
@@ -3634,6 +3638,257 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 	}
 
 	rotatedrhombusshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ShiftedBottomTopStartArcShapeFormCallback(
+	shiftedbottomtopstartarcshape *models.ShiftedBottomTopStartArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedbottomtopstartarcshapeFormCallback *ShiftedBottomTopStartArcShapeFormCallback) {
+	shiftedbottomtopstartarcshapeFormCallback = new(ShiftedBottomTopStartArcShapeFormCallback)
+	shiftedbottomtopstartarcshapeFormCallback.probe = probe
+	shiftedbottomtopstartarcshapeFormCallback.shiftedbottomtopstartarcshape = shiftedbottomtopstartarcshape
+	shiftedbottomtopstartarcshapeFormCallback.formGroup = formGroup
+
+	shiftedbottomtopstartarcshapeFormCallback.CreationMode = (shiftedbottomtopstartarcshape == nil)
+
+	return
+}
+
+type ShiftedBottomTopStartArcShapeFormCallback struct {
+	shiftedbottomtopstartarcshape *models.ShiftedBottomTopStartArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedbottomtopstartarcshapeFormCallback *ShiftedBottomTopStartArcShapeFormCallback) OnSave() {
+	shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedBottomTopStartArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedbottomtopstartarcshapeFormCallback.probe.formStage.Checkout()
+
+	if shiftedbottomtopstartarcshapeFormCallback.shiftedbottomtopstartarcshape == nil {
+		shiftedbottomtopstartarcshapeFormCallback.shiftedbottomtopstartarcshape = new(models.ShiftedBottomTopStartArcShape).Stage(shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest)
+	}
+	shiftedbottomtopstartarcshape_ := shiftedbottomtopstartarcshapeFormCallback.shiftedbottomtopstartarcshape
+	_ = shiftedbottomtopstartarcshape_
+
+	for _, formDiv := range shiftedbottomtopstartarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.EndY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.SweepFlag), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshape_.RadiusY), formDiv)
+		case "ShiftedBottomTopStartArcShapeGrid:ShiftedBottomTopStartArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedBottomTopStartArcShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ShiftedBottomTopStartArcShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedBottomTopStartArcShapeGrid](shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest)
+			targetShiftedBottomTopStartArcShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetShiftedBottomTopStartArcShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ShiftedBottomTopStartArcShapeGrid instances and update their ShiftedBottomTopStartArcShapes slice
+			for _shiftedbottomtopstartarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedBottomTopStartArcShapeGrid](shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest, _shiftedbottomtopstartarcshapegrid)
+				
+				// if ShiftedBottomTopStartArcShapeGrid is selected
+				if targetShiftedBottomTopStartArcShapeGridIDs[id] {
+					// ensure shiftedbottomtopstartarcshape_ is in _shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes
+					found := false
+					for _, _b := range _shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+						if _b == shiftedbottomtopstartarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes = append(_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes, shiftedbottomtopstartarcshape_)
+						shiftedbottomtopstartarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedbottomtopstartarcshapegrid, "ShiftedBottomTopStartArcShapes", &_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes)
+					}
+				} else {
+					// ensure shiftedbottomtopstartarcshape_ is NOT in _shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes
+					idx := slices.Index(_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes, shiftedbottomtopstartarcshape_)
+					if idx != -1 {
+						_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes = slices.Delete(_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes, idx, idx+1)
+						shiftedbottomtopstartarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedbottomtopstartarcshapegrid, "ShiftedBottomTopStartArcShapes", &_shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedbottomtopstartarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedbottomtopstartarcshape_.Unstage(shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedbottomtopstartarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedBottomTopStartArcShape](
+		shiftedbottomtopstartarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedbottomtopstartarcshapeFormCallback.CreationMode || shiftedbottomtopstartarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedbottomtopstartarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedbottomtopstartarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedBottomTopStartArcShapeFormCallback(
+			nil,
+			shiftedbottomtopstartarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedbottomtopstartarcshape := new(models.ShiftedBottomTopStartArcShape)
+		FillUpForm(shiftedbottomtopstartarcshape, newFormGroup, shiftedbottomtopstartarcshapeFormCallback.probe)
+		shiftedbottomtopstartarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedbottomtopstartarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ShiftedBottomTopStartArcShapeGridFormCallback(
+	shiftedbottomtopstartarcshapegrid *models.ShiftedBottomTopStartArcShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedbottomtopstartarcshapegridFormCallback *ShiftedBottomTopStartArcShapeGridFormCallback) {
+	shiftedbottomtopstartarcshapegridFormCallback = new(ShiftedBottomTopStartArcShapeGridFormCallback)
+	shiftedbottomtopstartarcshapegridFormCallback.probe = probe
+	shiftedbottomtopstartarcshapegridFormCallback.shiftedbottomtopstartarcshapegrid = shiftedbottomtopstartarcshapegrid
+	shiftedbottomtopstartarcshapegridFormCallback.formGroup = formGroup
+
+	shiftedbottomtopstartarcshapegridFormCallback.CreationMode = (shiftedbottomtopstartarcshapegrid == nil)
+
+	return
+}
+
+type ShiftedBottomTopStartArcShapeGridFormCallback struct {
+	shiftedbottomtopstartarcshapegrid *models.ShiftedBottomTopStartArcShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedbottomtopstartarcshapegridFormCallback *ShiftedBottomTopStartArcShapeGridFormCallback) OnSave() {
+	shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedBottomTopStartArcShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedbottomtopstartarcshapegridFormCallback.probe.formStage.Checkout()
+
+	if shiftedbottomtopstartarcshapegridFormCallback.shiftedbottomtopstartarcshapegrid == nil {
+		shiftedbottomtopstartarcshapegridFormCallback.shiftedbottomtopstartarcshapegrid = new(models.ShiftedBottomTopStartArcShapeGrid).Stage(shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest)
+	}
+	shiftedbottomtopstartarcshapegrid_ := shiftedbottomtopstartarcshapegridFormCallback.shiftedbottomtopstartarcshapegrid
+	_ = shiftedbottomtopstartarcshapegrid_
+
+	for _, formDiv := range shiftedbottomtopstartarcshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedbottomtopstartarcshapegrid_.Name), formDiv)
+		case "ShiftedBottomTopStartArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedBottomTopStartArcShape](shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ShiftedBottomTopStartArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ShiftedBottomTopStartArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedBottomTopStartArcShape](shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			shiftedbottomtopstartarcshapegrid_.ShiftedBottomTopStartArcShapes = instanceSlice
+			shiftedbottomtopstartarcshapegridFormCallback.probe.UpdateSliceOfPointersCallback(shiftedbottomtopstartarcshapegrid_, "ShiftedBottomTopStartArcShapes", &shiftedbottomtopstartarcshapegrid_.ShiftedBottomTopStartArcShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedbottomtopstartarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedbottomtopstartarcshapegrid_.Unstage(shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedbottomtopstartarcshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedBottomTopStartArcShapeGrid](
+		shiftedbottomtopstartarcshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedbottomtopstartarcshapegridFormCallback.CreationMode || shiftedbottomtopstartarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedbottomtopstartarcshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedbottomtopstartarcshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedBottomTopStartArcShapeGridFormCallback(
+			nil,
+			shiftedbottomtopstartarcshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedbottomtopstartarcshapegrid := new(models.ShiftedBottomTopStartArcShapeGrid)
+		FillUpForm(shiftedbottomtopstartarcshapegrid, newFormGroup, shiftedbottomtopstartarcshapegridFormCallback.probe)
+		shiftedbottomtopstartarcshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedbottomtopstartarcshapegridFormCallback.probe.ux_tree()
 }
 func __gong__New__ShiftedLeftStackGrowthCurveEndArcShapeFormCallback(
 	shiftedleftstackgrowthcurveendarcshape *models.ShiftedLeftStackGrowthCurveEndArcShape,

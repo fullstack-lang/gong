@@ -530,3 +530,92 @@ func computeArcV2Geometry(v1, v2 *PerpendicularVector, offset float64, isEndArc 
 
 	return
 }
+
+func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *ShiftedBottomTopStartArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.ShiftedBottomTopStartArcShapes) > 0 {
+			grid.ShiftedBottomTopStartArcShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+	
+	dx := -thickness * vx
+	dy := -thickness * vy
+
+	if len(grid.ShiftedBottomTopStartArcShapes) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			arc := grid.ShiftedBottomTopStartArcShapes[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if arc == nil || arc.Name != expectedName {
+				valid = false
+				break
+			}
+
+			sX, sY, eX, eY, rX, rY, _, _, swp := computeArcV2Geometry(v1, v2, thickness, false)
+
+			expectedStartX := sX + dx
+			expectedStartY := sY + dy
+			expectedEndX := eX + dx
+			expectedEndY := eY + dy
+			expectedRadiusX := rX
+			expectedRadiusY := rY
+
+			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
+				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
+				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
+				arc.SweepFlag != swp {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.ShiftedBottomTopStartArcShapes {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.ShiftedBottomTopStartArcShapes = make([]*ShiftedBottomTopStartArcShape, expectedLen)
+
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, thickness, false)
+
+			newArc := new(ShiftedBottomTopStartArcShape).Stage(stage)
+			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newArc.StartX = sX + dx
+			newArc.StartY = sY + dy
+			newArc.EndX = eX + dx
+			newArc.EndY = eY + dy
+			newArc.RadiusX = rX
+			newArc.RadiusY = rY
+			newArc.SweepFlag = swp
+			newArc.LargeArcFlag = lArc
+			newArc.XAxisRotation = xRot
+
+			grid.ShiftedBottomTopStartArcShapes[i] = newArc
+		}
+		needCommit = true
+	}
+	return needCommit
+}

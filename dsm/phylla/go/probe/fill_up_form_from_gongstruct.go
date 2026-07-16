@@ -422,6 +422,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ShiftedBottomTopStartArcShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ShiftedBottomTopStartArcShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedBottomTopStartArcShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ShiftedBottomTopStartArcShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ShiftedBottomTopStartArcShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedBottomTopStartArcShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ShiftedLeftStackGrowthCurveEndArcShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

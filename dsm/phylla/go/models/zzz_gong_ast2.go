@@ -1359,6 +1359,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
 	case "TopStartArcShapeGrid":
 		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
+	case "ShiftedBottomTopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.ShiftedBottomTopStartArcShapeGrid, valueExpr, identifierMap)
 	case "EndArcShapeGrid":
 		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
 	case "TopEndArcShapeGrid":
@@ -1481,6 +1483,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenStartArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenTopStartArcShapeGrid":
 		instance.IsHiddenTopStartArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		instance.IsHiddenShiftedBottomTopStartArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenEndArcShapeGrid":
 		instance.IsHiddenEndArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenTopEndArcShapeGrid":
@@ -1653,6 +1657,84 @@ func (u *RotatedRhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type ShiftedBottomTopStartArcShapeUnmarshaller struct{}
+
+func (u *ShiftedBottomTopStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ShiftedBottomTopStartArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ShiftedBottomTopStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ShiftedBottomTopStartArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type ShiftedBottomTopStartArcShapeGridUnmarshaller struct{}
+
+func (u *ShiftedBottomTopStartArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ShiftedBottomTopStartArcShapeGrid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ShiftedBottomTopStartArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ShiftedBottomTopStartArcShapeGrid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ShiftedBottomTopStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.ShiftedBottomTopStartArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

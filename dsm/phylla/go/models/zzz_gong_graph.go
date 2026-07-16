@@ -100,6 +100,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *RotatedRhombusShape:
 		ok = stage.IsStagedRotatedRhombusShape(target)
 
+	case *ShiftedBottomTopStartArcShape:
+		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
+
+	case *ShiftedBottomTopStartArcShapeGrid:
+		ok = stage.IsStagedShiftedBottomTopStartArcShapeGrid(target)
+
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		ok = stage.IsStagedShiftedLeftStackGrowthCurveEndArcShape(target)
 
@@ -256,6 +262,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *RotatedRhombusShape:
 		ok = stage.IsStagedRotatedRhombusShape(target)
+
+	case *ShiftedBottomTopStartArcShape:
+		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
+
+	case *ShiftedBottomTopStartArcShapeGrid:
+		ok = stage.IsStagedShiftedBottomTopStartArcShapeGrid(target)
 
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		ok = stage.IsStagedShiftedLeftStackGrowthCurveEndArcShape(target)
@@ -535,6 +547,20 @@ func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhom
 	return
 }
 
+func (stage *Stage) IsStagedShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) (ok bool) {
+
+	_, ok = stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) (ok bool) {
+
+	_, ok = stage.ShiftedBottomTopStartArcShapeGrids[shiftedbottomtopstartarcshapegrid]
+
+	return
+}
+
 func (stage *Stage) IsStagedShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) (ok bool) {
 
 	_, ok = stage.ShiftedLeftStackGrowthCurveEndArcShapes[shiftedleftstackgrowthcurveendarcshape]
@@ -761,6 +787,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RotatedRhombusShape:
 		stage.StageBranchRotatedRhombusShape(target)
+
+	case *ShiftedBottomTopStartArcShape:
+		stage.StageBranchShiftedBottomTopStartArcShape(target)
+
+	case *ShiftedBottomTopStartArcShapeGrid:
+		stage.StageBranchShiftedBottomTopStartArcShapeGrid(target)
 
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		stage.StageBranchShiftedLeftStackGrowthCurveEndArcShape(target)
@@ -1282,6 +1314,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.TopStartArcShapeGrid != nil {
 		StageBranch(stage, plant.TopStartArcShapeGrid)
 	}
+	if plant.ShiftedBottomTopStartArcShapeGrid != nil {
+		StageBranch(stage, plant.ShiftedBottomTopStartArcShapeGrid)
+	}
 	if plant.EndArcShapeGrid != nil {
 		StageBranch(stage, plant.EndArcShapeGrid)
 	}
@@ -1410,6 +1445,39 @@ func (stage *Stage) StageBranchRotatedRhombusShape(rotatedrhombusshape *RotatedR
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, shiftedbottomtopstartarcshape) {
+		return
+	}
+
+	shiftedbottomtopstartarcshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, shiftedbottomtopstartarcshapegrid) {
+		return
+	}
+
+	shiftedbottomtopstartarcshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _shiftedbottomtopstartarcshape := range shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+		StageBranch(stage, _shiftedbottomtopstartarcshape)
+	}
 
 }
 
@@ -1852,6 +1920,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *RotatedRhombusShape:
 		toT := CopyBranchRotatedRhombusShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ShiftedBottomTopStartArcShape:
+		toT := CopyBranchShiftedBottomTopStartArcShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ShiftedBottomTopStartArcShapeGrid:
+		toT := CopyBranchShiftedBottomTopStartArcShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
@@ -2492,6 +2568,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.TopStartArcShapeGrid != nil {
 		plantTo.TopStartArcShapeGrid = CopyBranchTopStartArcShapeGrid(mapOrigCopy, plantFrom.TopStartArcShapeGrid)
 	}
+	if plantFrom.ShiftedBottomTopStartArcShapeGrid != nil {
+		plantTo.ShiftedBottomTopStartArcShapeGrid = CopyBranchShiftedBottomTopStartArcShapeGrid(mapOrigCopy, plantFrom.ShiftedBottomTopStartArcShapeGrid)
+	}
 	if plantFrom.EndArcShapeGrid != nil {
 		plantTo.EndArcShapeGrid = CopyBranchEndArcShapeGrid(mapOrigCopy, plantFrom.EndArcShapeGrid)
 	}
@@ -2644,6 +2723,47 @@ func CopyBranchRotatedRhombusShape(mapOrigCopy map[any]any, rotatedrhombusshapeF
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchShiftedBottomTopStartArcShape(mapOrigCopy map[any]any, shiftedbottomtopstartarcshapeFrom *ShiftedBottomTopStartArcShape) (shiftedbottomtopstartarcshapeTo *ShiftedBottomTopStartArcShape) {
+
+	// shiftedbottomtopstartarcshapeFrom has already been copied
+	if _shiftedbottomtopstartarcshapeTo, ok := mapOrigCopy[shiftedbottomtopstartarcshapeFrom]; ok {
+		shiftedbottomtopstartarcshapeTo = _shiftedbottomtopstartarcshapeTo.(*ShiftedBottomTopStartArcShape)
+		return
+	}
+
+	shiftedbottomtopstartarcshapeTo = new(ShiftedBottomTopStartArcShape)
+	mapOrigCopy[shiftedbottomtopstartarcshapeFrom] = shiftedbottomtopstartarcshapeTo
+	shiftedbottomtopstartarcshapeFrom.CopyBasicFields(shiftedbottomtopstartarcshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchShiftedBottomTopStartArcShapeGrid(mapOrigCopy map[any]any, shiftedbottomtopstartarcshapegridFrom *ShiftedBottomTopStartArcShapeGrid) (shiftedbottomtopstartarcshapegridTo *ShiftedBottomTopStartArcShapeGrid) {
+
+	// shiftedbottomtopstartarcshapegridFrom has already been copied
+	if _shiftedbottomtopstartarcshapegridTo, ok := mapOrigCopy[shiftedbottomtopstartarcshapegridFrom]; ok {
+		shiftedbottomtopstartarcshapegridTo = _shiftedbottomtopstartarcshapegridTo.(*ShiftedBottomTopStartArcShapeGrid)
+		return
+	}
+
+	shiftedbottomtopstartarcshapegridTo = new(ShiftedBottomTopStartArcShapeGrid)
+	mapOrigCopy[shiftedbottomtopstartarcshapegridFrom] = shiftedbottomtopstartarcshapegridTo
+	shiftedbottomtopstartarcshapegridFrom.CopyBasicFields(shiftedbottomtopstartarcshapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _shiftedbottomtopstartarcshape := range shiftedbottomtopstartarcshapegridFrom.ShiftedBottomTopStartArcShapes {
+		shiftedbottomtopstartarcshapegridTo.ShiftedBottomTopStartArcShapes = append(shiftedbottomtopstartarcshapegridTo.ShiftedBottomTopStartArcShapes, CopyBranchShiftedBottomTopStartArcShape(mapOrigCopy, _shiftedbottomtopstartarcshape))
+	}
 
 	return
 }
@@ -3126,6 +3246,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RotatedRhombusShape:
 		stage.UnstageBranchRotatedRhombusShape(target)
+
+	case *ShiftedBottomTopStartArcShape:
+		stage.UnstageBranchShiftedBottomTopStartArcShape(target)
+
+	case *ShiftedBottomTopStartArcShapeGrid:
+		stage.UnstageBranchShiftedBottomTopStartArcShapeGrid(target)
 
 	case *ShiftedLeftStackGrowthCurveEndArcShape:
 		stage.UnstageBranchShiftedLeftStackGrowthCurveEndArcShape(target)
@@ -3647,6 +3773,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.TopStartArcShapeGrid != nil {
 		UnstageBranch(stage, plant.TopStartArcShapeGrid)
 	}
+	if plant.ShiftedBottomTopStartArcShapeGrid != nil {
+		UnstageBranch(stage, plant.ShiftedBottomTopStartArcShapeGrid)
+	}
 	if plant.EndArcShapeGrid != nil {
 		UnstageBranch(stage, plant.EndArcShapeGrid)
 	}
@@ -3775,6 +3904,39 @@ func (stage *Stage) UnstageBranchRotatedRhombusShape(rotatedrhombusshape *Rotate
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, shiftedbottomtopstartarcshape) {
+		return
+	}
+
+	shiftedbottomtopstartarcshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, shiftedbottomtopstartarcshapegrid) {
+		return
+	}
+
+	shiftedbottomtopstartarcshapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _shiftedbottomtopstartarcshape := range shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+		UnstageBranch(stage, _shiftedbottomtopstartarcshape)
+	}
 
 }
 
@@ -4307,6 +4469,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.TopStartArcShapeGrid != nil {
 		reference.TopStartArcShapeGrid = stage.TopStartArcShapeGrids_reference[instance.TopStartArcShapeGrid]
 	}
+	if instance.ShiftedBottomTopStartArcShapeGrid != nil {
+		reference.ShiftedBottomTopStartArcShapeGrid = stage.ShiftedBottomTopStartArcShapeGrids_reference[instance.ShiftedBottomTopStartArcShapeGrid]
+	}
 	if instance.EndArcShapeGrid != nil {
 		reference.EndArcShapeGrid = stage.EndArcShapeGrids_reference[instance.EndArcShapeGrid]
 	}
@@ -4376,6 +4541,20 @@ func (reference *RotatedRhombusGridShape) GongReconstructPointersFromReferences(
 func (reference *RotatedRhombusShape) GongReconstructPointersFromReferences(stage *Stage, instance *RotatedRhombusShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+}
+
+func (reference *ShiftedBottomTopStartArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedBottomTopStartArcShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *ShiftedBottomTopStartArcShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedBottomTopStartArcShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ShiftedBottomTopStartArcShapes = reference.ShiftedBottomTopStartArcShapes[:0]
+	for _, _b := range instance.ShiftedBottomTopStartArcShapes {
+		reference.ShiftedBottomTopStartArcShapes = append(reference.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShapes_reference[_b])
+	}
 }
 
 func (reference *ShiftedLeftStackGrowthCurveEndArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedLeftStackGrowthCurveEndArcShape) {
@@ -4827,6 +5006,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.TopStartArcShapeGrid = _instance
 		}
 	}
+	if _reference := reference.ShiftedBottomTopStartArcShapeGrid; _reference != nil {
+		reference.ShiftedBottomTopStartArcShapeGrid = nil
+		if _instance, ok := stage.ShiftedBottomTopStartArcShapeGrids_instance[_reference]; ok {
+			reference.ShiftedBottomTopStartArcShapeGrid = _instance
+		}
+	}
 	if _reference := reference.EndArcShapeGrid; _reference != nil {
 		reference.EndArcShapeGrid = nil
 		if _instance, ok := stage.EndArcShapeGrids_instance[_reference]; ok {
@@ -4932,6 +5117,23 @@ func (reference *RotatedRhombusGridShape) GongReconstructPointersFromInstances(s
 func (reference *RotatedRhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+}
+
+func (reference *ShiftedBottomTopStartArcShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ShiftedBottomTopStartArcShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ShiftedBottomTopStartArcShapes []*ShiftedBottomTopStartArcShape
+	for _, _reference := range reference.ShiftedBottomTopStartArcShapes {
+		if _instance, ok := stage.ShiftedBottomTopStartArcShapes_instance[_reference]; ok {
+			_ShiftedBottomTopStartArcShapes = append(_ShiftedBottomTopStartArcShapes, _instance)
+		}
+	}
+	reference.ShiftedBottomTopStartArcShapes = _ShiftedBottomTopStartArcShapes
 }
 
 func (reference *ShiftedLeftStackGrowthCurveEndArcShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -5923,6 +6125,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "TopStartArcShapeGrid"))
 		}
 	}
+	if (plant.ShiftedBottomTopStartArcShapeGrid == nil) != (plantOther.ShiftedBottomTopStartArcShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedBottomTopStartArcShapeGrid"))
+	} else if plant.ShiftedBottomTopStartArcShapeGrid != nil && plantOther.ShiftedBottomTopStartArcShapeGrid != nil {
+		if plant.ShiftedBottomTopStartArcShapeGrid != plantOther.ShiftedBottomTopStartArcShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedBottomTopStartArcShapeGrid"))
+		}
+	}
 	if (plant.EndArcShapeGrid == nil) != (plantOther.EndArcShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
 	} else if plant.EndArcShapeGrid != nil && plantOther.EndArcShapeGrid != nil {
@@ -6077,6 +6286,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenTopStartArcShapeGrid != plantdiagramOther.IsHiddenTopStartArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeGrid"))
 	}
+	if plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid != plantdiagramOther.IsHiddenShiftedBottomTopStartArcShapeGrid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedBottomTopStartArcShapeGrid"))
+	}
 	if plantdiagram.IsHiddenEndArcShapeGrid != plantdiagramOther.IsHiddenEndArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
 	}
@@ -6226,6 +6438,76 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongDiff(stage *Stage, rotatedrh
 	}
 	if rotatedrhombusshape.Y != rotatedrhombusshapeOther.Y {
 		diffs = append(diffs, rotatedrhombusshape.GongMarshallField(stage, "Y"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongDiff(stage *Stage, shiftedbottomtopstartarcshapeOther *ShiftedBottomTopStartArcShape) (diffs []string) {
+	// insertion point for field diffs
+	if shiftedbottomtopstartarcshape.Name != shiftedbottomtopstartarcshapeOther.Name {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "Name"))
+	}
+	if shiftedbottomtopstartarcshape.StartX != shiftedbottomtopstartarcshapeOther.StartX {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "StartX"))
+	}
+	if shiftedbottomtopstartarcshape.StartY != shiftedbottomtopstartarcshapeOther.StartY {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "StartY"))
+	}
+	if shiftedbottomtopstartarcshape.EndX != shiftedbottomtopstartarcshapeOther.EndX {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "EndX"))
+	}
+	if shiftedbottomtopstartarcshape.EndY != shiftedbottomtopstartarcshapeOther.EndY {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "EndY"))
+	}
+	if shiftedbottomtopstartarcshape.XAxisRotation != shiftedbottomtopstartarcshapeOther.XAxisRotation {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if shiftedbottomtopstartarcshape.LargeArcFlag != shiftedbottomtopstartarcshapeOther.LargeArcFlag {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if shiftedbottomtopstartarcshape.SweepFlag != shiftedbottomtopstartarcshapeOther.SweepFlag {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "SweepFlag"))
+	}
+	if shiftedbottomtopstartarcshape.RadiusX != shiftedbottomtopstartarcshapeOther.RadiusX {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "RadiusX"))
+	}
+	if shiftedbottomtopstartarcshape.RadiusY != shiftedbottomtopstartarcshapeOther.RadiusY {
+		diffs = append(diffs, shiftedbottomtopstartarcshape.GongMarshallField(stage, "RadiusY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongDiff(stage *Stage, shiftedbottomtopstartarcshapegridOther *ShiftedBottomTopStartArcShapeGrid) (diffs []string) {
+	// insertion point for field diffs
+	if shiftedbottomtopstartarcshapegrid.Name != shiftedbottomtopstartarcshapegridOther.Name {
+		diffs = append(diffs, shiftedbottomtopstartarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+	ShiftedBottomTopStartArcShapesDifferent := false
+	if len(shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes) != len(shiftedbottomtopstartarcshapegridOther.ShiftedBottomTopStartArcShapes) {
+		ShiftedBottomTopStartArcShapesDifferent = true
+	} else {
+		for i := range shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+			if (shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes[i] == nil) != (shiftedbottomtopstartarcshapegridOther.ShiftedBottomTopStartArcShapes[i] == nil) {
+				ShiftedBottomTopStartArcShapesDifferent = true
+				break
+			} else if shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes[i] != nil && shiftedbottomtopstartarcshapegridOther.ShiftedBottomTopStartArcShapes[i] != nil {
+				// this is a pointer comparaison
+				if shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes[i] != shiftedbottomtopstartarcshapegridOther.ShiftedBottomTopStartArcShapes[i] {
+					ShiftedBottomTopStartArcShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ShiftedBottomTopStartArcShapesDifferent {
+		ops := Diff(stage, shiftedbottomtopstartarcshapegrid, shiftedbottomtopstartarcshapegridOther, "ShiftedBottomTopStartArcShapes", shiftedbottomtopstartarcshapegridOther.ShiftedBottomTopStartArcShapes, shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return

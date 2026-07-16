@@ -365,6 +365,31 @@ func (inst *RotatedRhombusShape) GongGetReverseFieldOwnerName(stage *Stage, reve
 	return
 }
 
+func (inst *ShiftedBottomTopStartArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ShiftedBottomTopStartArcShapeGrid":
+		switch reverseField.Fieldname {
+		case "ShiftedBottomTopStartArcShapes":
+			if _shiftedbottomtopstartarcshapegrid, ok := stage.ShiftedBottomTopStartArcShapeGrid_ShiftedBottomTopStartArcShapes_reverseMap[inst]; ok {
+				res = _shiftedbottomtopstartarcshapegrid.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *ShiftedBottomTopStartArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *ShiftedLeftStackGrowthCurveEndArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -933,6 +958,29 @@ func (inst *RotatedRhombusShape) GongGetReverseFieldOwner(stage *Stage, reverseF
 		case "RotatedRhombusShapes":
 			res = stage.RotatedRhombusGridShape_RotatedRhombusShapes_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *ShiftedBottomTopStartArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ShiftedBottomTopStartArcShapeGrid":
+		switch reverseField.Fieldname {
+		case "ShiftedBottomTopStartArcShapes":
+			res = stage.ShiftedBottomTopStartArcShapeGrid_ShiftedBottomTopStartArcShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *ShiftedBottomTopStartArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }

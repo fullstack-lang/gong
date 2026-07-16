@@ -201,6 +201,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.rotatedrhombusshape, probe)
 			}
+		case *ShiftedBottomTopStartArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ShiftedBottomTopStartArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.shiftedbottomtopstartarcshape, probe)
+			}
+		case *ShiftedBottomTopStartArcShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ShiftedBottomTopStartArcShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.shiftedbottomtopstartarcshapegrid, probe)
+			}
 		case *ShiftedLeftStackGrowthCurveEndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ShiftedLeftStackGrowthCurveEndArcShape", true)
@@ -734,6 +746,32 @@ func FillUpFormFromGongstructName(
 		rotatedrhombusshape := new(models.RotatedRhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rotatedrhombusshape, formGroup, probe)
+	case "ShiftedBottomTopStartArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ShiftedBottomTopStartArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedBottomTopStartArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		shiftedbottomtopstartarcshape := new(models.ShiftedBottomTopStartArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(shiftedbottomtopstartarcshape, formGroup, probe)
+	case "ShiftedBottomTopStartArcShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ShiftedBottomTopStartArcShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedBottomTopStartArcShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		shiftedbottomtopstartarcshapegrid := new(models.ShiftedBottomTopStartArcShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(shiftedbottomtopstartarcshapegrid, formGroup, probe)
 	case "ShiftedLeftStackGrowthCurveEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
