@@ -197,6 +197,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct RotatedRhombusShape
 	// insertion point per field
 
+	// Compute reverse map for named struct ShiftedBottomTopStartArcShape
+	// insertion point per field
+
+	// Compute reverse map for named struct ShiftedBottomTopStartArcShapeGrid
+	// insertion point per field
+	stage.ShiftedBottomTopStartArcShapeGrid_ShiftedBottomTopStartArcShapes_reverseMap = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShapeGrid)
+	for shiftedbottomtopstartarcshapegrid := range stage.ShiftedBottomTopStartArcShapeGrids {
+		_ = shiftedbottomtopstartarcshapegrid
+		for _, _shiftedbottomtopstartarcshape := range shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes {
+			stage.ShiftedBottomTopStartArcShapeGrid_ShiftedBottomTopStartArcShapes_reverseMap[_shiftedbottomtopstartarcshape] = shiftedbottomtopstartarcshapegrid
+		}
+	}
+
 	// Compute reverse map for named struct ShiftedLeftStackGrowthCurveEndArcShape
 	// insertion point per field
 
@@ -447,6 +460,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.RotatedRhombusShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ShiftedBottomTopStartArcShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ShiftedBottomTopStartArcShapeGrids {
 		res = append(res, instance)
 	}
 
@@ -709,6 +730,18 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongCopy() GongstructIF 
 func (rotatedrhombusshape *RotatedRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedRhombusShape)
 	rotatedrhombusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongCopy() GongstructIF {
+	newInstance := new(ShiftedBottomTopStartArcShape)
+	shiftedbottomtopstartarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(ShiftedBottomTopStartArcShapeGrid)
+	shiftedbottomtopstartarcshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1128,6 +1161,26 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetUUID(stage *Stage) (uuid 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedrhombusshape), uint64(GetOrderPointerGongstruct(stage, rotatedrhombusshape)))
+	return
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(shiftedbottomtopstartarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedbottomtopstartarcshape), uint64(GetOrderPointerGongstruct(stage, shiftedbottomtopstartarcshape)))
+	return
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(shiftedbottomtopstartarcshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(shiftedbottomtopstartarcshapegrid), uint64(GetOrderPointerGongstruct(stage, shiftedbottomtopstartarcshapegrid)))
 	return
 }
 
@@ -3034,6 +3087,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rotatedrhombusshapes_newInstances)
 	lenDeletedInstances += len(rotatedrhombusshapes_deletedInstances)
+	var shiftedbottomtopstartarcshapes_newInstances []*ShiftedBottomTopStartArcShape
+	var shiftedbottomtopstartarcshapes_deletedInstances []*ShiftedBottomTopStartArcShape
+
+	// parse all staged instances and check if they have a reference
+	for shiftedbottomtopstartarcshape := range stage.ShiftedBottomTopStartArcShapes {
+		if ref, ok := stage.ShiftedBottomTopStartArcShapes_reference[shiftedbottomtopstartarcshape]; !ok {
+			shiftedbottomtopstartarcshapes_newInstances = append(shiftedbottomtopstartarcshapes_newInstances, shiftedbottomtopstartarcshape)
+			newInstancesSlice = append(newInstancesSlice, shiftedbottomtopstartarcshape.GongMarshallIdentifier(stage))
+			if stage.ShiftedBottomTopStartArcShapes_referenceOrder == nil {
+				stage.ShiftedBottomTopStartArcShapes_referenceOrder = make(map[*ShiftedBottomTopStartArcShape]uint)
+			}
+			stage.ShiftedBottomTopStartArcShapes_referenceOrder[shiftedbottomtopstartarcshape] = stage.ShiftedBottomTopStartArcShape_stagedOrder[shiftedbottomtopstartarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, shiftedbottomtopstartarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.ShiftedBottomTopStartArcShapes_referenceOrder, shiftedbottomtopstartarcshape)
+			fieldInitializers, pointersInitializations := shiftedbottomtopstartarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ShiftedBottomTopStartArcShape_stagedOrder[ref] = stage.ShiftedBottomTopStartArcShape_stagedOrder[shiftedbottomtopstartarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := shiftedbottomtopstartarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, shiftedbottomtopstartarcshape)
+			// delete(stage.ShiftedBottomTopStartArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if shiftedbottomtopstartarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", shiftedbottomtopstartarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ShiftedBottomTopStartArcShapes_reference {
+		instance := stage.ShiftedBottomTopStartArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ShiftedBottomTopStartArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			shiftedbottomtopstartarcshapes_deletedInstances = append(shiftedbottomtopstartarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(shiftedbottomtopstartarcshapes_newInstances)
+	lenDeletedInstances += len(shiftedbottomtopstartarcshapes_deletedInstances)
+	var shiftedbottomtopstartarcshapegrids_newInstances []*ShiftedBottomTopStartArcShapeGrid
+	var shiftedbottomtopstartarcshapegrids_deletedInstances []*ShiftedBottomTopStartArcShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for shiftedbottomtopstartarcshapegrid := range stage.ShiftedBottomTopStartArcShapeGrids {
+		if ref, ok := stage.ShiftedBottomTopStartArcShapeGrids_reference[shiftedbottomtopstartarcshapegrid]; !ok {
+			shiftedbottomtopstartarcshapegrids_newInstances = append(shiftedbottomtopstartarcshapegrids_newInstances, shiftedbottomtopstartarcshapegrid)
+			newInstancesSlice = append(newInstancesSlice, shiftedbottomtopstartarcshapegrid.GongMarshallIdentifier(stage))
+			if stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder == nil {
+				stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder = make(map[*ShiftedBottomTopStartArcShapeGrid]uint)
+			}
+			stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder[shiftedbottomtopstartarcshapegrid] = stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[shiftedbottomtopstartarcshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, shiftedbottomtopstartarcshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder, shiftedbottomtopstartarcshapegrid)
+			fieldInitializers, pointersInitializations := shiftedbottomtopstartarcshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[ref] = stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[shiftedbottomtopstartarcshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := shiftedbottomtopstartarcshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, shiftedbottomtopstartarcshapegrid)
+			// delete(stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if shiftedbottomtopstartarcshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", shiftedbottomtopstartarcshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ShiftedBottomTopStartArcShapeGrids_reference {
+		instance := stage.ShiftedBottomTopStartArcShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ShiftedBottomTopStartArcShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			shiftedbottomtopstartarcshapegrids_deletedInstances = append(shiftedbottomtopstartarcshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(shiftedbottomtopstartarcshapegrids_newInstances)
+	lenDeletedInstances += len(shiftedbottomtopstartarcshapegrids_deletedInstances)
 	var shiftedleftstackgrowthcurveendarcshapes_newInstances []*ShiftedLeftStackGrowthCurveEndArcShape
 	var shiftedleftstackgrowthcurveendarcshapes_deletedInstances []*ShiftedLeftStackGrowthCurveEndArcShape
 
@@ -4369,6 +4532,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.RotatedRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ShiftedBottomTopStartArcShapes_reference = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
+	stage.ShiftedBottomTopStartArcShapes_referenceOrder = make(map[*ShiftedBottomTopStartArcShape]uint) // diff Unstage needs the reference order
+	stage.ShiftedBottomTopStartArcShapes_instance = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
+	for instance := range stage.ShiftedBottomTopStartArcShapes {
+		_copy := instance.GongCopy().(*ShiftedBottomTopStartArcShape)
+		stage.ShiftedBottomTopStartArcShapes_reference[instance] = _copy
+		stage.ShiftedBottomTopStartArcShapes_instance[_copy] = instance
+		stage.ShiftedBottomTopStartArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.ShiftedBottomTopStartArcShapeGrids_reference = make(map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid)
+	stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder = make(map[*ShiftedBottomTopStartArcShapeGrid]uint) // diff Unstage needs the reference order
+	stage.ShiftedBottomTopStartArcShapeGrids_instance = make(map[*ShiftedBottomTopStartArcShapeGrid]*ShiftedBottomTopStartArcShapeGrid)
+	for instance := range stage.ShiftedBottomTopStartArcShapeGrids {
+		_copy := instance.GongCopy().(*ShiftedBottomTopStartArcShapeGrid)
+		stage.ShiftedBottomTopStartArcShapeGrids_reference[instance] = _copy
+		stage.ShiftedBottomTopStartArcShapeGrids_instance[_copy] = instance
+		stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_reference = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape)
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_referenceOrder = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]uint) // diff Unstage needs the reference order
 	stage.ShiftedLeftStackGrowthCurveEndArcShapes_instance = make(map[*ShiftedLeftStackGrowthCurveEndArcShape]*ShiftedLeftStackGrowthCurveEndArcShape)
@@ -4702,6 +4885,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.RotatedRhombusShapes {
 		reference := stage.RotatedRhombusShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ShiftedBottomTopStartArcShapes {
+		reference := stage.ShiftedBottomTopStartArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ShiftedBottomTopStartArcShapeGrids {
+		reference := stage.ShiftedBottomTopStartArcShapeGrids_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5173,6 +5366,30 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetOrder(stage *Stage) uint 
 		return order
 	} else {
 		log.Printf("instance %p of type RotatedRhombusShape was not staged and does not have a reference order", rotatedrhombusshape)
+		return 0
+	}
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ShiftedBottomTopStartArcShape_stagedOrder[shiftedbottomtopstartarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.ShiftedBottomTopStartArcShapes_referenceOrder[shiftedbottomtopstartarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ShiftedBottomTopStartArcShape was not staged and does not have a reference order", shiftedbottomtopstartarcshape)
+		return 0
+	}
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[shiftedbottomtopstartarcshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.ShiftedBottomTopStartArcShapeGrids_referenceOrder[shiftedbottomtopstartarcshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ShiftedBottomTopStartArcShapeGrid was not staged and does not have a reference order", shiftedbottomtopstartarcshapegrid)
 		return 0
 	}
 }
@@ -5677,6 +5894,24 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetReferenceIdentifier(stage
 	return fmt.Sprintf("__%s__%08d_", rotatedrhombusshape.GongGetGongstructName(), rotatedrhombusshape.GongGetOrder(stage))
 }
 
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedbottomtopstartarcshape.GongGetGongstructName(), shiftedbottomtopstartarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedbottomtopstartarcshape.GongGetGongstructName(), shiftedbottomtopstartarcshape.GongGetOrder(stage))
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedbottomtopstartarcshapegrid.GongGetGongstructName(), shiftedbottomtopstartarcshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", shiftedbottomtopstartarcshapegrid.GongGetGongstructName(), shiftedbottomtopstartarcshapegrid.GongGetOrder(stage))
+}
+
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", shiftedleftstackgrowthcurveendarcshape.GongGetGongstructName(), shiftedleftstackgrowthcurveendarcshape.GongGetOrder(stage))
 }
@@ -6090,6 +6325,22 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallIdentifier(stage *St
 	return
 }
 
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedBottomTopStartArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedbottomtopstartarcshape.Name))
+	return
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ShiftedBottomTopStartArcShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedbottomtopstartarcshapegrid.Name))
+	return
+}
+
 func (shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedleftstackgrowthcurveendarcshape.GongGetIdentifier(stage))
@@ -6418,6 +6669,18 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallUnstaging(st
 func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

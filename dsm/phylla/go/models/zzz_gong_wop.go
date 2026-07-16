@@ -522,6 +522,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenTopStartArcShapeGrid bool
 
+	IsHiddenShiftedBottomTopStartArcShapeGrid bool
+
 	IsHiddenEndArcShapeGrid bool
 
 	IsHiddenTopEndArcShapeGrid bool
@@ -577,6 +579,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
 	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
+	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
@@ -669,6 +672,55 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Name = from.Name
 	to.X = from.X
 	to.Y = from.Y
+}
+
+type ShiftedBottomTopStartArcShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+
+	RadiusX float64
+
+	RadiusY float64
+}
+
+func (from *ShiftedBottomTopStartArcShape) CopyBasicFields(to *ShiftedBottomTopStartArcShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+}
+
+type ShiftedBottomTopStartArcShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ShiftedBottomTopStartArcShapeGrid) CopyBasicFields(to *ShiftedBottomTopStartArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type ShiftedLeftStackGrowthCurveEndArcShape_WOP struct {

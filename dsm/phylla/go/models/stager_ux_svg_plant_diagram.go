@@ -72,6 +72,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawArcNormalVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawShiftedBottomTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
@@ -1290,5 +1291,38 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfNormalVector(stager *Sta
 		line.Presentation.Stroke = "green"
 		line.Presentation.StrokeWidth = 1.0
 		line.Presentation.StrokeOpacity = 0.5
+	}
+}
+
+
+func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid {
+		return
+	}
+
+	for _, arc := range plant.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+		path.Name = arc.Name
+
+		sweepFlagStr := "0"
+		if arc.SweepFlag {
+			sweepFlagStr = "1"
+		}
+		largeArcFlagStr := "0"
+		if arc.LargeArcFlag {
+			largeArcFlagStr = "1"
+		}
+
+		path.Definition = fmt.Sprintf("M %0.1f %0.1f A %0.1f %0.1f %0.1f %s %s %0.1f %0.1f",
+			plantDiagram.OriginX+arc.StartX, plantDiagram.OriginY-arc.StartY,
+			arc.RadiusX, arc.RadiusY,
+			arc.XAxisRotation, largeArcFlagStr, sweepFlagStr,
+			plantDiagram.OriginX+arc.EndX, plantDiagram.OriginY-arc.EndY,
+		)
+		path.Presentation.Stroke = "blue"
+		path.Presentation.StrokeWidth = 2.0
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
 	}
 }
