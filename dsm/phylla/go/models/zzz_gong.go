@@ -432,6 +432,38 @@ type Stage struct {
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
 	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
 
+	MidArcVectorShapes                map[*MidArcVectorShape]struct{}
+	MidArcVectorShapes_instance       map[*MidArcVectorShape]*MidArcVectorShape
+	MidArcVectorShapes_mapString      map[string]*MidArcVectorShape
+	MidArcVectorShapeOrder            uint
+	MidArcVectorShape_stagedOrder     map[*MidArcVectorShape]uint
+	MidArcVectorShape_orderStaged     map[uint]*MidArcVectorShape
+	MidArcVectorShapes_reference      map[*MidArcVectorShape]*MidArcVectorShape
+	MidArcVectorShapes_referenceOrder map[*MidArcVectorShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMidArcVectorShapeCreateCallback OnAfterCreateInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeUpdateCallback OnAfterUpdateInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeDeleteCallback OnAfterDeleteInterface[MidArcVectorShape]
+	OnAfterMidArcVectorShapeReadCallback   OnAfterReadInterface[MidArcVectorShape]
+
+	MidArcVectorShapeGrids                map[*MidArcVectorShapeGrid]struct{}
+	MidArcVectorShapeGrids_instance       map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid
+	MidArcVectorShapeGrids_mapString      map[string]*MidArcVectorShapeGrid
+	MidArcVectorShapeGridOrder            uint
+	MidArcVectorShapeGrid_stagedOrder     map[*MidArcVectorShapeGrid]uint
+	MidArcVectorShapeGrid_orderStaged     map[uint]*MidArcVectorShapeGrid
+	MidArcVectorShapeGrids_reference      map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid
+	MidArcVectorShapeGrids_referenceOrder map[*MidArcVectorShapeGrid]uint
+
+	// insertion point for slice of pointers maps
+	MidArcVectorShapeGrid_MidArcVectorShapes_reverseMap map[*MidArcVectorShape]*MidArcVectorShapeGrid
+
+	OnAfterMidArcVectorShapeGridCreateCallback OnAfterCreateInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridUpdateCallback OnAfterUpdateInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[MidArcVectorShapeGrid]
+	OnAfterMidArcVectorShapeGridReadCallback   OnAfterReadInterface[MidArcVectorShapeGrid]
+
 	NextCircleShapes                map[*NextCircleShape]struct{}
 	NextCircleShapes_instance       map[*NextCircleShape]*NextCircleShape
 	NextCircleShapes_mapString      map[string]*NextCircleShape
@@ -861,6 +893,38 @@ type Stage struct {
 	OnAfterTopGrowthCurve2DDeleteCallback OnAfterDeleteInterface[TopGrowthCurve2D]
 	OnAfterTopGrowthCurve2DReadCallback   OnAfterReadInterface[TopGrowthCurve2D]
 
+	TopMidArcVectorShapes                map[*TopMidArcVectorShape]struct{}
+	TopMidArcVectorShapes_instance       map[*TopMidArcVectorShape]*TopMidArcVectorShape
+	TopMidArcVectorShapes_mapString      map[string]*TopMidArcVectorShape
+	TopMidArcVectorShapeOrder            uint
+	TopMidArcVectorShape_stagedOrder     map[*TopMidArcVectorShape]uint
+	TopMidArcVectorShape_orderStaged     map[uint]*TopMidArcVectorShape
+	TopMidArcVectorShapes_reference      map[*TopMidArcVectorShape]*TopMidArcVectorShape
+	TopMidArcVectorShapes_referenceOrder map[*TopMidArcVectorShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTopMidArcVectorShapeCreateCallback OnAfterCreateInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeUpdateCallback OnAfterUpdateInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeDeleteCallback OnAfterDeleteInterface[TopMidArcVectorShape]
+	OnAfterTopMidArcVectorShapeReadCallback   OnAfterReadInterface[TopMidArcVectorShape]
+
+	TopMidArcVectorShapeGrids                map[*TopMidArcVectorShapeGrid]struct{}
+	TopMidArcVectorShapeGrids_instance       map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid
+	TopMidArcVectorShapeGrids_mapString      map[string]*TopMidArcVectorShapeGrid
+	TopMidArcVectorShapeGridOrder            uint
+	TopMidArcVectorShapeGrid_stagedOrder     map[*TopMidArcVectorShapeGrid]uint
+	TopMidArcVectorShapeGrid_orderStaged     map[uint]*TopMidArcVectorShapeGrid
+	TopMidArcVectorShapeGrids_reference      map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid
+	TopMidArcVectorShapeGrids_referenceOrder map[*TopMidArcVectorShapeGrid]uint
+
+	// insertion point for slice of pointers maps
+	TopMidArcVectorShapeGrid_TopMidArcVectorShapes_reverseMap map[*TopMidArcVectorShape]*TopMidArcVectorShapeGrid
+
+	OnAfterTopMidArcVectorShapeGridCreateCallback OnAfterCreateInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridUpdateCallback OnAfterUpdateInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[TopMidArcVectorShapeGrid]
+	OnAfterTopMidArcVectorShapeGridReadCallback   OnAfterReadInterface[TopMidArcVectorShapeGrid]
+
 	TopStackGrowthCurveEndArcShapes                map[*TopStackGrowthCurveEndArcShape]struct{}
 	TopStackGrowthCurveEndArcShapes_instance       map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape
 	TopStackGrowthCurveEndArcShapes_mapString      map[string]*TopStackGrowthCurveEndArcShape
@@ -1254,6 +1318,14 @@ func (stage *Stage) Squash() {
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
 
+	stage.MidArcVectorShapes_reference = make(map[*MidArcVectorShape]*MidArcVectorShape)
+	stage.MidArcVectorShapes_instance = make(map[*MidArcVectorShape]*MidArcVectorShape)
+	stage.MidArcVectorShapes_referenceOrder = make(map[*MidArcVectorShape]uint)
+
+	stage.MidArcVectorShapeGrids_reference = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
+	stage.MidArcVectorShapeGrids_instance = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
+	stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint)
+
 	stage.NextCircleShapes_reference = make(map[*NextCircleShape]*NextCircleShape)
 	stage.NextCircleShapes_instance = make(map[*NextCircleShape]*NextCircleShape)
 	stage.NextCircleShapes_referenceOrder = make(map[*NextCircleShape]uint)
@@ -1361,6 +1433,14 @@ func (stage *Stage) Squash() {
 	stage.TopGrowthCurve2Ds_reference = make(map[*TopGrowthCurve2D]*TopGrowthCurve2D)
 	stage.TopGrowthCurve2Ds_instance = make(map[*TopGrowthCurve2D]*TopGrowthCurve2D)
 	stage.TopGrowthCurve2Ds_referenceOrder = make(map[*TopGrowthCurve2D]uint)
+
+	stage.TopMidArcVectorShapes_reference = make(map[*TopMidArcVectorShape]*TopMidArcVectorShape)
+	stage.TopMidArcVectorShapes_instance = make(map[*TopMidArcVectorShape]*TopMidArcVectorShape)
+	stage.TopMidArcVectorShapes_referenceOrder = make(map[*TopMidArcVectorShape]uint)
+
+	stage.TopMidArcVectorShapeGrids_reference = make(map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid)
+	stage.TopMidArcVectorShapeGrids_instance = make(map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid)
+	stage.TopMidArcVectorShapeGrids_referenceOrder = make(map[*TopMidArcVectorShapeGrid]uint)
 
 	stage.TopStackGrowthCurveEndArcShapes_reference = make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape)
 	stage.TopStackGrowthCurveEndArcShapes_instance = make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape)
@@ -1673,6 +1753,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.LibraryOrder = maxLibraryOrder + 1
 	} else {
 		stage.LibraryOrder = 0
+	}
+
+	var maxMidArcVectorShapeOrder uint
+	var foundMidArcVectorShape bool
+	for _, order := range stage.MidArcVectorShape_stagedOrder {
+		if !foundMidArcVectorShape || order > maxMidArcVectorShapeOrder {
+			maxMidArcVectorShapeOrder = order
+			foundMidArcVectorShape = true
+		}
+	}
+	if foundMidArcVectorShape {
+		stage.MidArcVectorShapeOrder = maxMidArcVectorShapeOrder + 1
+	} else {
+		stage.MidArcVectorShapeOrder = 0
+	}
+
+	var maxMidArcVectorShapeGridOrder uint
+	var foundMidArcVectorShapeGrid bool
+	for _, order := range stage.MidArcVectorShapeGrid_stagedOrder {
+		if !foundMidArcVectorShapeGrid || order > maxMidArcVectorShapeGridOrder {
+			maxMidArcVectorShapeGridOrder = order
+			foundMidArcVectorShapeGrid = true
+		}
+	}
+	if foundMidArcVectorShapeGrid {
+		stage.MidArcVectorShapeGridOrder = maxMidArcVectorShapeGridOrder + 1
+	} else {
+		stage.MidArcVectorShapeGridOrder = 0
 	}
 
 	var maxNextCircleShapeOrder uint
@@ -2051,6 +2159,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.TopGrowthCurve2DOrder = maxTopGrowthCurve2DOrder + 1
 	} else {
 		stage.TopGrowthCurve2DOrder = 0
+	}
+
+	var maxTopMidArcVectorShapeOrder uint
+	var foundTopMidArcVectorShape bool
+	for _, order := range stage.TopMidArcVectorShape_stagedOrder {
+		if !foundTopMidArcVectorShape || order > maxTopMidArcVectorShapeOrder {
+			maxTopMidArcVectorShapeOrder = order
+			foundTopMidArcVectorShape = true
+		}
+	}
+	if foundTopMidArcVectorShape {
+		stage.TopMidArcVectorShapeOrder = maxTopMidArcVectorShapeOrder + 1
+	} else {
+		stage.TopMidArcVectorShapeOrder = 0
+	}
+
+	var maxTopMidArcVectorShapeGridOrder uint
+	var foundTopMidArcVectorShapeGrid bool
+	for _, order := range stage.TopMidArcVectorShapeGrid_stagedOrder {
+		if !foundTopMidArcVectorShapeGrid || order > maxTopMidArcVectorShapeGridOrder {
+			maxTopMidArcVectorShapeGridOrder = order
+			foundTopMidArcVectorShapeGrid = true
+		}
+	}
+	if foundTopMidArcVectorShapeGrid {
+		stage.TopMidArcVectorShapeGridOrder = maxTopMidArcVectorShapeGridOrder + 1
+	} else {
+		stage.TopMidArcVectorShapeGridOrder = 0
 	}
 
 	var maxTopStackGrowthCurveEndArcShapeOrder uint
@@ -2450,6 +2586,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *MidArcVectorShape:
+		tmp := GetStructInstancesByOrder(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *MidArcVectorShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *MidArcVectorShapeGrid:
+		tmp := GetStructInstancesByOrder(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *MidArcVectorShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *NextCircleShape:
 		tmp := GetStructInstancesByOrder(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
 
@@ -2828,6 +2992,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TopMidArcVectorShape:
+		tmp := GetStructInstancesByOrder(stage.TopMidArcVectorShapes, stage.TopMidArcVectorShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopMidArcVectorShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TopMidArcVectorShapeGrid:
+		tmp := GetStructInstancesByOrder(stage.TopMidArcVectorShapeGrids, stage.TopMidArcVectorShapeGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopMidArcVectorShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TopStackGrowthCurveEndArcShape:
 		tmp := GetStructInstancesByOrder(stage.TopStackGrowthCurveEndArcShapes, stage.TopStackGrowthCurveEndArcShape_stagedOrder)
 
@@ -2965,6 +3157,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.InitialRhombusShapes, stage.InitialRhombusShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
+	case "MidArcVectorShape":
+		res = GetNamedStructInstances(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
+	case "MidArcVectorShapeGrid":
+		res = GetNamedStructInstances(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
 	case "NextCircleShape":
 		res = GetNamedStructInstances(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
 	case "PerpendicularVector":
@@ -3019,6 +3215,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TopEndArcShapeGrids, stage.TopEndArcShapeGrid_stagedOrder)
 	case "TopGrowthCurve2D":
 		res = GetNamedStructInstances(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder)
+	case "TopMidArcVectorShape":
+		res = GetNamedStructInstances(stage.TopMidArcVectorShapes, stage.TopMidArcVectorShape_stagedOrder)
+	case "TopMidArcVectorShapeGrid":
+		res = GetNamedStructInstances(stage.TopMidArcVectorShapeGrids, stage.TopMidArcVectorShapeGrid_stagedOrder)
 	case "TopStackGrowthCurveEndArcShape":
 		res = GetNamedStructInstances(stage.TopStackGrowthCurveEndArcShapes, stage.TopStackGrowthCurveEndArcShape_stagedOrder)
 	case "TopStackGrowthCurveStartArcShape":
@@ -3136,6 +3336,10 @@ type BackRepoInterface interface {
 	CheckoutInitialRhombusShape(initialrhombusshape *InitialRhombusShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
+	CommitMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
+	CheckoutMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
+	CommitMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
+	CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
 	CommitNextCircleShape(nextcircleshape *NextCircleShape)
 	CheckoutNextCircleShape(nextcircleshape *NextCircleShape)
 	CommitPerpendicularVector(perpendicularvector *PerpendicularVector)
@@ -3190,6 +3394,10 @@ type BackRepoInterface interface {
 	CheckoutTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
 	CommitTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D)
 	CheckoutTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D)
+	CommitTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape)
+	CheckoutTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape)
+	CommitTopMidArcVectorShapeGrid(topmidarcvectorshapegrid *TopMidArcVectorShapeGrid)
+	CheckoutTopMidArcVectorShapeGrid(topmidarcvectorshapegrid *TopMidArcVectorShapeGrid)
 	CommitTopStackGrowthCurveEndArcShape(topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape)
 	CheckoutTopStackGrowthCurveEndArcShape(topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape)
 	CommitTopStackGrowthCurveStartArcShape(topstackgrowthcurvestartarcshape *TopStackGrowthCurveStartArcShape)
@@ -3262,6 +3470,12 @@ func NewStage(name string) (stage *Stage) {
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
+
+		MidArcVectorShapes:           make(map[*MidArcVectorShape]struct{}),
+		MidArcVectorShapes_mapString: make(map[string]*MidArcVectorShape),
+
+		MidArcVectorShapeGrids:           make(map[*MidArcVectorShapeGrid]struct{}),
+		MidArcVectorShapeGrids_mapString: make(map[string]*MidArcVectorShapeGrid),
 
 		NextCircleShapes:           make(map[*NextCircleShape]struct{}),
 		NextCircleShapes_mapString: make(map[string]*NextCircleShape),
@@ -3343,6 +3557,12 @@ func NewStage(name string) (stage *Stage) {
 
 		TopGrowthCurve2Ds:           make(map[*TopGrowthCurve2D]struct{}),
 		TopGrowthCurve2Ds_mapString: make(map[string]*TopGrowthCurve2D),
+
+		TopMidArcVectorShapes:           make(map[*TopMidArcVectorShape]struct{}),
+		TopMidArcVectorShapes_mapString: make(map[string]*TopMidArcVectorShape),
+
+		TopMidArcVectorShapeGrids:           make(map[*TopMidArcVectorShapeGrid]struct{}),
+		TopMidArcVectorShapeGrids_mapString: make(map[string]*TopMidArcVectorShapeGrid),
 
 		TopStackGrowthCurveEndArcShapes:           make(map[*TopStackGrowthCurveEndArcShape]struct{}),
 		TopStackGrowthCurveEndArcShapes_mapString: make(map[string]*TopStackGrowthCurveEndArcShape),
@@ -3444,6 +3664,14 @@ func NewStage(name string) (stage *Stage) {
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
+
+		MidArcVectorShape_stagedOrder: make(map[*MidArcVectorShape]uint),
+		MidArcVectorShape_orderStaged: make(map[uint]*MidArcVectorShape),
+		MidArcVectorShapes_reference:  make(map[*MidArcVectorShape]*MidArcVectorShape),
+
+		MidArcVectorShapeGrid_stagedOrder: make(map[*MidArcVectorShapeGrid]uint),
+		MidArcVectorShapeGrid_orderStaged: make(map[uint]*MidArcVectorShapeGrid),
+		MidArcVectorShapeGrids_reference:  make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid),
 
 		NextCircleShape_stagedOrder: make(map[*NextCircleShape]uint),
 		NextCircleShape_orderStaged: make(map[uint]*NextCircleShape),
@@ -3553,6 +3781,14 @@ func NewStage(name string) (stage *Stage) {
 		TopGrowthCurve2D_orderStaged: make(map[uint]*TopGrowthCurve2D),
 		TopGrowthCurve2Ds_reference:  make(map[*TopGrowthCurve2D]*TopGrowthCurve2D),
 
+		TopMidArcVectorShape_stagedOrder: make(map[*TopMidArcVectorShape]uint),
+		TopMidArcVectorShape_orderStaged: make(map[uint]*TopMidArcVectorShape),
+		TopMidArcVectorShapes_reference:  make(map[*TopMidArcVectorShape]*TopMidArcVectorShape),
+
+		TopMidArcVectorShapeGrid_stagedOrder: make(map[*TopMidArcVectorShapeGrid]uint),
+		TopMidArcVectorShapeGrid_orderStaged: make(map[uint]*TopMidArcVectorShapeGrid),
+		TopMidArcVectorShapeGrids_reference:  make(map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid),
+
 		TopStackGrowthCurveEndArcShape_stagedOrder: make(map[*TopStackGrowthCurveEndArcShape]uint),
 		TopStackGrowthCurveEndArcShape_orderStaged: make(map[uint]*TopStackGrowthCurveEndArcShape),
 		TopStackGrowthCurveEndArcShapes_reference:  make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape),
@@ -3613,6 +3849,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"Library": &LibraryUnmarshaller{},
 
+			"MidArcVectorShape": &MidArcVectorShapeUnmarshaller{},
+
+			"MidArcVectorShapeGrid": &MidArcVectorShapeGridUnmarshaller{},
+
 			"NextCircleShape": &NextCircleShapeUnmarshaller{},
 
 			"PerpendicularVector": &PerpendicularVectorUnmarshaller{},
@@ -3667,6 +3907,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"TopGrowthCurve2D": &TopGrowthCurve2DUnmarshaller{},
 
+			"TopMidArcVectorShape": &TopMidArcVectorShapeUnmarshaller{},
+
+			"TopMidArcVectorShapeGrid": &TopMidArcVectorShapeGridUnmarshaller{},
+
 			"TopStackGrowthCurveEndArcShape": &TopStackGrowthCurveEndArcShapeUnmarshaller{},
 
 			"TopStackGrowthCurveStartArcShape": &TopStackGrowthCurveStartArcShapeUnmarshaller{},
@@ -3700,6 +3944,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "InitialRhombusGridShape"},
 			{name: "InitialRhombusShape"},
 			{name: "Library"},
+			{name: "MidArcVectorShape"},
+			{name: "MidArcVectorShapeGrid"},
 			{name: "NextCircleShape"},
 			{name: "PerpendicularVector"},
 			{name: "PerpendicularVectorGrid"},
@@ -3727,6 +3973,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TopEndArcShape"},
 			{name: "TopEndArcShapeGrid"},
 			{name: "TopGrowthCurve2D"},
+			{name: "TopMidArcVectorShape"},
+			{name: "TopMidArcVectorShapeGrid"},
 			{name: "TopStackGrowthCurveEndArcShape"},
 			{name: "TopStackGrowthCurveStartArcShape"},
 			{name: "TopStackOfGrowthCurve"},
@@ -3781,6 +4029,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.InitialRhombusShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *MidArcVectorShape:
+		return stage.MidArcVectorShape_stagedOrder[instance]
+	case *MidArcVectorShapeGrid:
+		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
 	case *NextCircleShape:
 		return stage.NextCircleShape_stagedOrder[instance]
 	case *PerpendicularVector:
@@ -3835,6 +4087,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TopEndArcShapeGrid_stagedOrder[instance]
 	case *TopGrowthCurve2D:
 		return stage.TopGrowthCurve2D_stagedOrder[instance]
+	case *TopMidArcVectorShape:
+		return stage.TopMidArcVectorShape_stagedOrder[instance]
+	case *TopMidArcVectorShapeGrid:
+		return stage.TopMidArcVectorShapeGrid_stagedOrder[instance]
 	case *TopStackGrowthCurveEndArcShape:
 		return stage.TopStackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *TopStackGrowthCurveStartArcShape:
@@ -3892,6 +4148,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.InitialRhombusShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
+	case *MidArcVectorShape:
+		return any(stage.MidArcVectorShape_orderStaged[order]).(Type)
+	case *MidArcVectorShapeGrid:
+		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
 	case *NextCircleShape:
 		return any(stage.NextCircleShape_orderStaged[order]).(Type)
 	case *PerpendicularVector:
@@ -3946,6 +4206,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TopEndArcShapeGrid_orderStaged[order]).(Type)
 	case *TopGrowthCurve2D:
 		return any(stage.TopGrowthCurve2D_orderStaged[order]).(Type)
+	case *TopMidArcVectorShape:
+		return any(stage.TopMidArcVectorShape_orderStaged[order]).(Type)
+	case *TopMidArcVectorShapeGrid:
+		return any(stage.TopMidArcVectorShapeGrid_orderStaged[order]).(Type)
 	case *TopStackGrowthCurveEndArcShape:
 		return any(stage.TopStackGrowthCurveEndArcShape_orderStaged[order]).(Type)
 	case *TopStackGrowthCurveStartArcShape:
@@ -4002,6 +4266,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.InitialRhombusShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *MidArcVectorShape:
+		return stage.MidArcVectorShape_stagedOrder[instance]
+	case *MidArcVectorShapeGrid:
+		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
 	case *NextCircleShape:
 		return stage.NextCircleShape_stagedOrder[instance]
 	case *PerpendicularVector:
@@ -4056,6 +4324,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TopEndArcShapeGrid_stagedOrder[instance]
 	case *TopGrowthCurve2D:
 		return stage.TopGrowthCurve2D_stagedOrder[instance]
+	case *TopMidArcVectorShape:
+		return stage.TopMidArcVectorShape_stagedOrder[instance]
+	case *TopMidArcVectorShapeGrid:
+		return stage.TopMidArcVectorShapeGrid_stagedOrder[instance]
 	case *TopStackGrowthCurveEndArcShape:
 		return stage.TopStackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *TopStackGrowthCurveStartArcShape:
@@ -4150,6 +4422,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["InitialRhombusGridShape"] = len(stage.InitialRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["InitialRhombusShape"] = len(stage.InitialRhombusShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
+	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
+	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["NextCircleShape"] = len(stage.NextCircleShapes)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGrid"] = len(stage.PerpendicularVectorGrids)
@@ -4177,6 +4451,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TopEndArcShape"] = len(stage.TopEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShapeGrid"] = len(stage.TopEndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopGrowthCurve2D"] = len(stage.TopGrowthCurve2Ds)
+	stage.Map_GongStructName_InstancesNb["TopMidArcVectorShape"] = len(stage.TopMidArcVectorShapes)
+	stage.Map_GongStructName_InstancesNb["TopMidArcVectorShapeGrid"] = len(stage.TopMidArcVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopStackGrowthCurveEndArcShape"] = len(stage.TopStackGrowthCurveEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopStackGrowthCurveStartArcShape"] = len(stage.TopStackGrowthCurveStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopStackOfGrowthCurve"] = len(stage.TopStackOfGrowthCurves)
@@ -5892,6 +6168,182 @@ func (library *Library) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (library *Library) SetName(name string) {
 	library.Name = name
+}
+
+// Stage puts midarcvectorshape to the model stage
+func (midarcvectorshape *MidArcVectorShape) Stage(stage *Stage) *MidArcVectorShape {
+	if _, ok := stage.MidArcVectorShapes[midarcvectorshape]; !ok {
+		stage.MidArcVectorShapes[midarcvectorshape] = struct{}{}
+		stage.MidArcVectorShape_stagedOrder[midarcvectorshape] = stage.MidArcVectorShapeOrder
+		stage.MidArcVectorShape_orderStaged[stage.MidArcVectorShapeOrder] = midarcvectorshape
+		stage.MidArcVectorShapeOrder++
+	}
+	stage.MidArcVectorShapes_mapString[midarcvectorshape.Name] = midarcvectorshape
+
+	return midarcvectorshape
+}
+
+// StagePreserveOrder puts midarcvectorshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MidArcVectorShapeOrder
+// - update stage.MidArcVectorShapeOrder accordingly
+func (midarcvectorshape *MidArcVectorShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.MidArcVectorShapes[midarcvectorshape]; !ok {
+		stage.MidArcVectorShapes[midarcvectorshape] = struct{}{}
+
+		if order > stage.MidArcVectorShapeOrder {
+			stage.MidArcVectorShapeOrder = order
+		}
+		stage.MidArcVectorShape_stagedOrder[midarcvectorshape] = order
+		stage.MidArcVectorShape_orderStaged[order] = midarcvectorshape
+		stage.MidArcVectorShapeOrder++
+	}
+	stage.MidArcVectorShapes_mapString[midarcvectorshape.Name] = midarcvectorshape
+}
+
+// Unstage removes midarcvectorshape off the model stage
+func (midarcvectorshape *MidArcVectorShape) Unstage(stage *Stage) *MidArcVectorShape {
+	delete(stage.MidArcVectorShapes, midarcvectorshape)
+	// issue1150
+	// delete(stage.MidArcVectorShape_stagedOrder, midarcvectorshape)
+	delete(stage.MidArcVectorShapes_mapString, midarcvectorshape.Name)
+
+	return midarcvectorshape
+}
+
+// UnstageVoid removes midarcvectorshape off the model stage
+func (midarcvectorshape *MidArcVectorShape) UnstageVoid(stage *Stage) {
+	delete(stage.MidArcVectorShapes, midarcvectorshape)
+	// issue1150
+	// delete(stage.MidArcVectorShape_stagedOrder, midarcvectorshape)
+	delete(stage.MidArcVectorShapes_mapString, midarcvectorshape.Name)
+}
+
+// commit midarcvectorshape to the back repo (if it is already staged)
+func (midarcvectorshape *MidArcVectorShape) Commit(stage *Stage) *MidArcVectorShape {
+	if _, ok := stage.MidArcVectorShapes[midarcvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMidArcVectorShape(midarcvectorshape)
+		}
+	}
+	return midarcvectorshape
+}
+
+func (midarcvectorshape *MidArcVectorShape) CommitVoid(stage *Stage) {
+	midarcvectorshape.Commit(stage)
+}
+
+func (midarcvectorshape *MidArcVectorShape) StageVoid(stage *Stage) {
+	midarcvectorshape.Stage(stage)
+}
+
+// Checkout midarcvectorshape to the back repo (if it is already staged)
+func (midarcvectorshape *MidArcVectorShape) Checkout(stage *Stage) *MidArcVectorShape {
+	if _, ok := stage.MidArcVectorShapes[midarcvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMidArcVectorShape(midarcvectorshape)
+		}
+	}
+	return midarcvectorshape
+}
+
+// for satisfaction of GongStruct interface
+func (midarcvectorshape *MidArcVectorShape) GetName() (res string) {
+	return midarcvectorshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (midarcvectorshape *MidArcVectorShape) SetName(name string) {
+	midarcvectorshape.Name = name
+}
+
+// Stage puts midarcvectorshapegrid to the model stage
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) Stage(stage *Stage) *MidArcVectorShapeGrid {
+	if _, ok := stage.MidArcVectorShapeGrids[midarcvectorshapegrid]; !ok {
+		stage.MidArcVectorShapeGrids[midarcvectorshapegrid] = struct{}{}
+		stage.MidArcVectorShapeGrid_stagedOrder[midarcvectorshapegrid] = stage.MidArcVectorShapeGridOrder
+		stage.MidArcVectorShapeGrid_orderStaged[stage.MidArcVectorShapeGridOrder] = midarcvectorshapegrid
+		stage.MidArcVectorShapeGridOrder++
+	}
+	stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
+
+	return midarcvectorshapegrid
+}
+
+// StagePreserveOrder puts midarcvectorshapegrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MidArcVectorShapeGridOrder
+// - update stage.MidArcVectorShapeGridOrder accordingly
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.MidArcVectorShapeGrids[midarcvectorshapegrid]; !ok {
+		stage.MidArcVectorShapeGrids[midarcvectorshapegrid] = struct{}{}
+
+		if order > stage.MidArcVectorShapeGridOrder {
+			stage.MidArcVectorShapeGridOrder = order
+		}
+		stage.MidArcVectorShapeGrid_stagedOrder[midarcvectorshapegrid] = order
+		stage.MidArcVectorShapeGrid_orderStaged[order] = midarcvectorshapegrid
+		stage.MidArcVectorShapeGridOrder++
+	}
+	stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
+}
+
+// Unstage removes midarcvectorshapegrid off the model stage
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) Unstage(stage *Stage) *MidArcVectorShapeGrid {
+	delete(stage.MidArcVectorShapeGrids, midarcvectorshapegrid)
+	// issue1150
+	// delete(stage.MidArcVectorShapeGrid_stagedOrder, midarcvectorshapegrid)
+	delete(stage.MidArcVectorShapeGrids_mapString, midarcvectorshapegrid.Name)
+
+	return midarcvectorshapegrid
+}
+
+// UnstageVoid removes midarcvectorshapegrid off the model stage
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) UnstageVoid(stage *Stage) {
+	delete(stage.MidArcVectorShapeGrids, midarcvectorshapegrid)
+	// issue1150
+	// delete(stage.MidArcVectorShapeGrid_stagedOrder, midarcvectorshapegrid)
+	delete(stage.MidArcVectorShapeGrids_mapString, midarcvectorshapegrid.Name)
+}
+
+// commit midarcvectorshapegrid to the back repo (if it is already staged)
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) Commit(stage *Stage) *MidArcVectorShapeGrid {
+	if _, ok := stage.MidArcVectorShapeGrids[midarcvectorshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMidArcVectorShapeGrid(midarcvectorshapegrid)
+		}
+	}
+	return midarcvectorshapegrid
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) CommitVoid(stage *Stage) {
+	midarcvectorshapegrid.Commit(stage)
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) StageVoid(stage *Stage) {
+	midarcvectorshapegrid.Stage(stage)
+}
+
+// Checkout midarcvectorshapegrid to the back repo (if it is already staged)
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) Checkout(stage *Stage) *MidArcVectorShapeGrid {
+	if _, ok := stage.MidArcVectorShapeGrids[midarcvectorshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid)
+		}
+	}
+	return midarcvectorshapegrid
+}
+
+// for satisfaction of GongStruct interface
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GetName() (res string) {
+	return midarcvectorshapegrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) SetName(name string) {
+	midarcvectorshapegrid.Name = name
 }
 
 // Stage puts nextcircleshape to the model stage
@@ -8270,6 +8722,182 @@ func (topgrowthcurve2d *TopGrowthCurve2D) SetName(name string) {
 	topgrowthcurve2d.Name = name
 }
 
+// Stage puts topmidarcvectorshape to the model stage
+func (topmidarcvectorshape *TopMidArcVectorShape) Stage(stage *Stage) *TopMidArcVectorShape {
+	if _, ok := stage.TopMidArcVectorShapes[topmidarcvectorshape]; !ok {
+		stage.TopMidArcVectorShapes[topmidarcvectorshape] = struct{}{}
+		stage.TopMidArcVectorShape_stagedOrder[topmidarcvectorshape] = stage.TopMidArcVectorShapeOrder
+		stage.TopMidArcVectorShape_orderStaged[stage.TopMidArcVectorShapeOrder] = topmidarcvectorshape
+		stage.TopMidArcVectorShapeOrder++
+	}
+	stage.TopMidArcVectorShapes_mapString[topmidarcvectorshape.Name] = topmidarcvectorshape
+
+	return topmidarcvectorshape
+}
+
+// StagePreserveOrder puts topmidarcvectorshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopMidArcVectorShapeOrder
+// - update stage.TopMidArcVectorShapeOrder accordingly
+func (topmidarcvectorshape *TopMidArcVectorShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopMidArcVectorShapes[topmidarcvectorshape]; !ok {
+		stage.TopMidArcVectorShapes[topmidarcvectorshape] = struct{}{}
+
+		if order > stage.TopMidArcVectorShapeOrder {
+			stage.TopMidArcVectorShapeOrder = order
+		}
+		stage.TopMidArcVectorShape_stagedOrder[topmidarcvectorshape] = order
+		stage.TopMidArcVectorShape_orderStaged[order] = topmidarcvectorshape
+		stage.TopMidArcVectorShapeOrder++
+	}
+	stage.TopMidArcVectorShapes_mapString[topmidarcvectorshape.Name] = topmidarcvectorshape
+}
+
+// Unstage removes topmidarcvectorshape off the model stage
+func (topmidarcvectorshape *TopMidArcVectorShape) Unstage(stage *Stage) *TopMidArcVectorShape {
+	delete(stage.TopMidArcVectorShapes, topmidarcvectorshape)
+	// issue1150
+	// delete(stage.TopMidArcVectorShape_stagedOrder, topmidarcvectorshape)
+	delete(stage.TopMidArcVectorShapes_mapString, topmidarcvectorshape.Name)
+
+	return topmidarcvectorshape
+}
+
+// UnstageVoid removes topmidarcvectorshape off the model stage
+func (topmidarcvectorshape *TopMidArcVectorShape) UnstageVoid(stage *Stage) {
+	delete(stage.TopMidArcVectorShapes, topmidarcvectorshape)
+	// issue1150
+	// delete(stage.TopMidArcVectorShape_stagedOrder, topmidarcvectorshape)
+	delete(stage.TopMidArcVectorShapes_mapString, topmidarcvectorshape.Name)
+}
+
+// commit topmidarcvectorshape to the back repo (if it is already staged)
+func (topmidarcvectorshape *TopMidArcVectorShape) Commit(stage *Stage) *TopMidArcVectorShape {
+	if _, ok := stage.TopMidArcVectorShapes[topmidarcvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopMidArcVectorShape(topmidarcvectorshape)
+		}
+	}
+	return topmidarcvectorshape
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) CommitVoid(stage *Stage) {
+	topmidarcvectorshape.Commit(stage)
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) StageVoid(stage *Stage) {
+	topmidarcvectorshape.Stage(stage)
+}
+
+// Checkout topmidarcvectorshape to the back repo (if it is already staged)
+func (topmidarcvectorshape *TopMidArcVectorShape) Checkout(stage *Stage) *TopMidArcVectorShape {
+	if _, ok := stage.TopMidArcVectorShapes[topmidarcvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopMidArcVectorShape(topmidarcvectorshape)
+		}
+	}
+	return topmidarcvectorshape
+}
+
+// for satisfaction of GongStruct interface
+func (topmidarcvectorshape *TopMidArcVectorShape) GetName() (res string) {
+	return topmidarcvectorshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topmidarcvectorshape *TopMidArcVectorShape) SetName(name string) {
+	topmidarcvectorshape.Name = name
+}
+
+// Stage puts topmidarcvectorshapegrid to the model stage
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) Stage(stage *Stage) *TopMidArcVectorShapeGrid {
+	if _, ok := stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid]; !ok {
+		stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid] = struct{}{}
+		stage.TopMidArcVectorShapeGrid_stagedOrder[topmidarcvectorshapegrid] = stage.TopMidArcVectorShapeGridOrder
+		stage.TopMidArcVectorShapeGrid_orderStaged[stage.TopMidArcVectorShapeGridOrder] = topmidarcvectorshapegrid
+		stage.TopMidArcVectorShapeGridOrder++
+	}
+	stage.TopMidArcVectorShapeGrids_mapString[topmidarcvectorshapegrid.Name] = topmidarcvectorshapegrid
+
+	return topmidarcvectorshapegrid
+}
+
+// StagePreserveOrder puts topmidarcvectorshapegrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopMidArcVectorShapeGridOrder
+// - update stage.TopMidArcVectorShapeGridOrder accordingly
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid]; !ok {
+		stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid] = struct{}{}
+
+		if order > stage.TopMidArcVectorShapeGridOrder {
+			stage.TopMidArcVectorShapeGridOrder = order
+		}
+		stage.TopMidArcVectorShapeGrid_stagedOrder[topmidarcvectorshapegrid] = order
+		stage.TopMidArcVectorShapeGrid_orderStaged[order] = topmidarcvectorshapegrid
+		stage.TopMidArcVectorShapeGridOrder++
+	}
+	stage.TopMidArcVectorShapeGrids_mapString[topmidarcvectorshapegrid.Name] = topmidarcvectorshapegrid
+}
+
+// Unstage removes topmidarcvectorshapegrid off the model stage
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) Unstage(stage *Stage) *TopMidArcVectorShapeGrid {
+	delete(stage.TopMidArcVectorShapeGrids, topmidarcvectorshapegrid)
+	// issue1150
+	// delete(stage.TopMidArcVectorShapeGrid_stagedOrder, topmidarcvectorshapegrid)
+	delete(stage.TopMidArcVectorShapeGrids_mapString, topmidarcvectorshapegrid.Name)
+
+	return topmidarcvectorshapegrid
+}
+
+// UnstageVoid removes topmidarcvectorshapegrid off the model stage
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) UnstageVoid(stage *Stage) {
+	delete(stage.TopMidArcVectorShapeGrids, topmidarcvectorshapegrid)
+	// issue1150
+	// delete(stage.TopMidArcVectorShapeGrid_stagedOrder, topmidarcvectorshapegrid)
+	delete(stage.TopMidArcVectorShapeGrids_mapString, topmidarcvectorshapegrid.Name)
+}
+
+// commit topmidarcvectorshapegrid to the back repo (if it is already staged)
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) Commit(stage *Stage) *TopMidArcVectorShapeGrid {
+	if _, ok := stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopMidArcVectorShapeGrid(topmidarcvectorshapegrid)
+		}
+	}
+	return topmidarcvectorshapegrid
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) CommitVoid(stage *Stage) {
+	topmidarcvectorshapegrid.Commit(stage)
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) StageVoid(stage *Stage) {
+	topmidarcvectorshapegrid.Stage(stage)
+}
+
+// Checkout topmidarcvectorshapegrid to the back repo (if it is already staged)
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) Checkout(stage *Stage) *TopMidArcVectorShapeGrid {
+	if _, ok := stage.TopMidArcVectorShapeGrids[topmidarcvectorshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopMidArcVectorShapeGrid(topmidarcvectorshapegrid)
+		}
+	}
+	return topmidarcvectorshapegrid
+}
+
+// for satisfaction of GongStruct interface
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GetName() (res string) {
+	return topmidarcvectorshapegrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) SetName(name string) {
+	topmidarcvectorshapegrid.Name = name
+}
+
 // Stage puts topstackgrowthcurveendarcshape to the model stage
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) Stage(stage *Stage) *TopStackGrowthCurveEndArcShape {
 	if _, ok := stage.TopStackGrowthCurveEndArcShapes[topstackgrowthcurveendarcshape]; !ok {
@@ -8731,6 +9359,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
 	CreateORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
 	CreateORMLibrary(Library *Library)
+	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
+	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
 	CreateORMNextCircleShape(NextCircleShape *NextCircleShape)
 	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
@@ -8758,6 +9388,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	CreateORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	CreateORMTopGrowthCurve2D(TopGrowthCurve2D *TopGrowthCurve2D)
+	CreateORMTopMidArcVectorShape(TopMidArcVectorShape *TopMidArcVectorShape)
+	CreateORMTopMidArcVectorShapeGrid(TopMidArcVectorShapeGrid *TopMidArcVectorShapeGrid)
 	CreateORMTopStackGrowthCurveEndArcShape(TopStackGrowthCurveEndArcShape *TopStackGrowthCurveEndArcShape)
 	CreateORMTopStackGrowthCurveStartArcShape(TopStackGrowthCurveStartArcShape *TopStackGrowthCurveStartArcShape)
 	CreateORMTopStackOfGrowthCurve(TopStackOfGrowthCurve *TopStackOfGrowthCurve)
@@ -8785,6 +9417,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
 	DeleteORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
 	DeleteORMLibrary(Library *Library)
+	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
+	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
 	DeleteORMNextCircleShape(NextCircleShape *NextCircleShape)
 	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
@@ -8812,6 +9446,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	DeleteORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	DeleteORMTopGrowthCurve2D(TopGrowthCurve2D *TopGrowthCurve2D)
+	DeleteORMTopMidArcVectorShape(TopMidArcVectorShape *TopMidArcVectorShape)
+	DeleteORMTopMidArcVectorShapeGrid(TopMidArcVectorShapeGrid *TopMidArcVectorShapeGrid)
 	DeleteORMTopStackGrowthCurveEndArcShape(TopStackGrowthCurveEndArcShape *TopStackGrowthCurveEndArcShape)
 	DeleteORMTopStackGrowthCurveStartArcShape(TopStackGrowthCurveStartArcShape *TopStackGrowthCurveStartArcShape)
 	DeleteORMTopStackOfGrowthCurve(TopStackOfGrowthCurve *TopStackOfGrowthCurve)
@@ -8914,6 +9550,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Librarys_mapString = make(map[string]*Library)
 	stage.Library_stagedOrder = make(map[*Library]uint)
 	stage.LibraryOrder = 0
+
+	stage.MidArcVectorShapes = make(map[*MidArcVectorShape]struct{})
+	stage.MidArcVectorShapes_mapString = make(map[string]*MidArcVectorShape)
+	stage.MidArcVectorShape_stagedOrder = make(map[*MidArcVectorShape]uint)
+	stage.MidArcVectorShapeOrder = 0
+
+	stage.MidArcVectorShapeGrids = make(map[*MidArcVectorShapeGrid]struct{})
+	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
+	stage.MidArcVectorShapeGrid_stagedOrder = make(map[*MidArcVectorShapeGrid]uint)
+	stage.MidArcVectorShapeGridOrder = 0
 
 	stage.NextCircleShapes = make(map[*NextCircleShape]struct{})
 	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
@@ -9050,6 +9696,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TopGrowthCurve2D_stagedOrder = make(map[*TopGrowthCurve2D]uint)
 	stage.TopGrowthCurve2DOrder = 0
 
+	stage.TopMidArcVectorShapes = make(map[*TopMidArcVectorShape]struct{})
+	stage.TopMidArcVectorShapes_mapString = make(map[string]*TopMidArcVectorShape)
+	stage.TopMidArcVectorShape_stagedOrder = make(map[*TopMidArcVectorShape]uint)
+	stage.TopMidArcVectorShapeOrder = 0
+
+	stage.TopMidArcVectorShapeGrids = make(map[*TopMidArcVectorShapeGrid]struct{})
+	stage.TopMidArcVectorShapeGrids_mapString = make(map[string]*TopMidArcVectorShapeGrid)
+	stage.TopMidArcVectorShapeGrid_stagedOrder = make(map[*TopMidArcVectorShapeGrid]uint)
+	stage.TopMidArcVectorShapeGridOrder = 0
+
 	stage.TopStackGrowthCurveEndArcShapes = make(map[*TopStackGrowthCurveEndArcShape]struct{})
 	stage.TopStackGrowthCurveEndArcShapes_mapString = make(map[string]*TopStackGrowthCurveEndArcShape)
 	stage.TopStackGrowthCurveEndArcShape_stagedOrder = make(map[*TopStackGrowthCurveEndArcShape]uint)
@@ -9141,6 +9797,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
+	stage.MidArcVectorShapes = nil
+	stage.MidArcVectorShapes_mapString = nil
+
+	stage.MidArcVectorShapeGrids = nil
+	stage.MidArcVectorShapeGrids_mapString = nil
+
 	stage.NextCircleShapes = nil
 	stage.NextCircleShapes_mapString = nil
 
@@ -9221,6 +9883,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.TopGrowthCurve2Ds = nil
 	stage.TopGrowthCurve2Ds_mapString = nil
+
+	stage.TopMidArcVectorShapes = nil
+	stage.TopMidArcVectorShapes_mapString = nil
+
+	stage.TopMidArcVectorShapeGrids = nil
+	stage.TopMidArcVectorShapeGrids_mapString = nil
 
 	stage.TopStackGrowthCurveEndArcShapes = nil
 	stage.TopStackGrowthCurveEndArcShapes_mapString = nil
@@ -9315,6 +9983,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for library := range stage.Librarys {
 		library.Unstage(stage)
+	}
+
+	for midarcvectorshape := range stage.MidArcVectorShapes {
+		midarcvectorshape.Unstage(stage)
+	}
+
+	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
+		midarcvectorshapegrid.Unstage(stage)
 	}
 
 	for nextcircleshape := range stage.NextCircleShapes {
@@ -9423,6 +10099,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
 		topgrowthcurve2d.Unstage(stage)
+	}
+
+	for topmidarcvectorshape := range stage.TopMidArcVectorShapes {
+		topmidarcvectorshape.Unstage(stage)
+	}
+
+	for topmidarcvectorshapegrid := range stage.TopMidArcVectorShapeGrids {
+		topmidarcvectorshapegrid.Unstage(stage)
 	}
 
 	for topstackgrowthcurveendarcshape := range stage.TopStackGrowthCurveEndArcShapes {
@@ -9559,6 +10243,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.InitialRhombusShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
+	case map[*MidArcVectorShape]any:
+		return any(&stage.MidArcVectorShapes).(*Type)
+	case map[*MidArcVectorShapeGrid]any:
+		return any(&stage.MidArcVectorShapeGrids).(*Type)
 	case map[*NextCircleShape]any:
 		return any(&stage.NextCircleShapes).(*Type)
 	case map[*PerpendicularVector]any:
@@ -9613,6 +10301,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TopEndArcShapeGrids).(*Type)
 	case map[*TopGrowthCurve2D]any:
 		return any(&stage.TopGrowthCurve2Ds).(*Type)
+	case map[*TopMidArcVectorShape]any:
+		return any(&stage.TopMidArcVectorShapes).(*Type)
+	case map[*TopMidArcVectorShapeGrid]any:
+		return any(&stage.TopMidArcVectorShapeGrids).(*Type)
 	case map[*TopStackGrowthCurveEndArcShape]any:
 		return any(&stage.TopStackGrowthCurveEndArcShapes).(*Type)
 	case map[*TopStackGrowthCurveStartArcShape]any:
@@ -9673,6 +10365,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.InitialRhombusShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
+	case *MidArcVectorShape:
+		return any(stage.MidArcVectorShapes_mapString).(map[string]Type)
+	case *MidArcVectorShapeGrid:
+		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
 	case *NextCircleShape:
 		return any(stage.NextCircleShapes_mapString).(map[string]Type)
 	case *PerpendicularVector:
@@ -9727,6 +10423,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TopEndArcShapeGrids_mapString).(map[string]Type)
 	case *TopGrowthCurve2D:
 		return any(stage.TopGrowthCurve2Ds_mapString).(map[string]Type)
+	case *TopMidArcVectorShape:
+		return any(stage.TopMidArcVectorShapes_mapString).(map[string]Type)
+	case *TopMidArcVectorShapeGrid:
+		return any(stage.TopMidArcVectorShapeGrids_mapString).(map[string]Type)
 	case *TopStackGrowthCurveEndArcShape:
 		return any(stage.TopStackGrowthCurveEndArcShapes_mapString).(map[string]Type)
 	case *TopStackGrowthCurveStartArcShape:
@@ -9787,6 +10487,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.InitialRhombusShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
+	case MidArcVectorShape:
+		return any(&stage.MidArcVectorShapes).(*map[*Type]struct{})
+	case MidArcVectorShapeGrid:
+		return any(&stage.MidArcVectorShapeGrids).(*map[*Type]struct{})
 	case NextCircleShape:
 		return any(&stage.NextCircleShapes).(*map[*Type]struct{})
 	case PerpendicularVector:
@@ -9841,6 +10545,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TopEndArcShapeGrids).(*map[*Type]struct{})
 	case TopGrowthCurve2D:
 		return any(&stage.TopGrowthCurve2Ds).(*map[*Type]struct{})
+	case TopMidArcVectorShape:
+		return any(&stage.TopMidArcVectorShapes).(*map[*Type]struct{})
+	case TopMidArcVectorShapeGrid:
+		return any(&stage.TopMidArcVectorShapeGrids).(*map[*Type]struct{})
 	case TopStackGrowthCurveEndArcShape:
 		return any(&stage.TopStackGrowthCurveEndArcShapes).(*map[*Type]struct{})
 	case TopStackGrowthCurveStartArcShape:
@@ -9901,6 +10609,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.InitialRhombusShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
+	case *MidArcVectorShape:
+		return any(&stage.MidArcVectorShapes).(*map[Type]struct{})
+	case *MidArcVectorShapeGrid:
+		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
 	case *NextCircleShape:
 		return any(&stage.NextCircleShapes).(*map[Type]struct{})
 	case *PerpendicularVector:
@@ -9955,6 +10667,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TopEndArcShapeGrids).(*map[Type]struct{})
 	case *TopGrowthCurve2D:
 		return any(&stage.TopGrowthCurve2Ds).(*map[Type]struct{})
+	case *TopMidArcVectorShape:
+		return any(&stage.TopMidArcVectorShapes).(*map[Type]struct{})
+	case *TopMidArcVectorShapeGrid:
+		return any(&stage.TopMidArcVectorShapeGrids).(*map[Type]struct{})
 	case *TopStackGrowthCurveEndArcShape:
 		return any(&stage.TopStackGrowthCurveEndArcShapes).(*map[Type]struct{})
 	case *TopStackGrowthCurveStartArcShape:
@@ -10015,6 +10731,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.InitialRhombusShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
+	case MidArcVectorShape:
+		return any(&stage.MidArcVectorShapes_mapString).(*map[string]*Type)
+	case MidArcVectorShapeGrid:
+		return any(&stage.MidArcVectorShapeGrids_mapString).(*map[string]*Type)
 	case NextCircleShape:
 		return any(&stage.NextCircleShapes_mapString).(*map[string]*Type)
 	case PerpendicularVector:
@@ -10069,6 +10789,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TopEndArcShapeGrids_mapString).(*map[string]*Type)
 	case TopGrowthCurve2D:
 		return any(&stage.TopGrowthCurve2Ds_mapString).(*map[string]*Type)
+	case TopMidArcVectorShape:
+		return any(&stage.TopMidArcVectorShapes_mapString).(*map[string]*Type)
+	case TopMidArcVectorShapeGrid:
+		return any(&stage.TopMidArcVectorShapeGrids_mapString).(*map[string]*Type)
 	case TopStackGrowthCurveEndArcShape:
 		return any(&stage.TopStackGrowthCurveEndArcShapes_mapString).(*map[string]*Type)
 	case TopStackGrowthCurveStartArcShape:
@@ -10189,6 +10913,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Plant with the name of the field
 			Plants: []*Plant{{Name: "Plants"}},
 		}).(*Type)
+	case MidArcVectorShape:
+		return any(&MidArcVectorShape{
+			// Initialisation of associations
+		}).(*Type)
+	case MidArcVectorShapeGrid:
+		return any(&MidArcVectorShapeGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of MidArcVectorShape with the name of the field
+			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
+		}).(*Type)
 	case NextCircleShape:
 		return any(&NextCircleShape{
 			// Initialisation of associations
@@ -10256,6 +10990,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
 			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
 			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
+			// field is initialized with an instance of MidArcVectorShapeGrid with the name of the field
+			MidArcVectorShapeGrid: &MidArcVectorShapeGrid{Name: "MidArcVectorShapeGrid"},
+			// field is initialized with an instance of TopMidArcVectorShapeGrid with the name of the field
+			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
 			// field is initialized with an instance of EndArcShapeGrid with the name of the field
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
@@ -10382,6 +11120,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
 			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
 			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
+		}).(*Type)
+	case TopMidArcVectorShape:
+		return any(&TopMidArcVectorShape{
+			// Initialisation of associations
+		}).(*Type)
+	case TopMidArcVectorShapeGrid:
+		return any(&TopMidArcVectorShapeGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of TopMidArcVectorShape with the name of the field
+			TopMidArcVectorShapes: []*TopMidArcVectorShape{{Name: "TopMidArcVectorShapes"}},
 		}).(*Type)
 	case TopStackGrowthCurveEndArcShape:
 		return any(&TopStackGrowthCurveEndArcShape{
@@ -10552,6 +11300,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MidArcVectorShape
+	case MidArcVectorShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MidArcVectorShapeGrid
+	case MidArcVectorShapeGrid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -10907,6 +11665,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "MidArcVectorShapeGrid":
+			res := make(map[*MidArcVectorShapeGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.MidArcVectorShapeGrid != nil {
+					midarcvectorshapegrid_ := plant.MidArcVectorShapeGrid
+					var plants []*Plant
+					_, ok := res[midarcvectorshapegrid_]
+					if ok {
+						plants = res[midarcvectorshapegrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[midarcvectorshapegrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopMidArcVectorShapeGrid":
+			res := make(map[*TopMidArcVectorShapeGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.TopMidArcVectorShapeGrid != nil {
+					topmidarcvectorshapegrid_ := plant.TopMidArcVectorShapeGrid
+					var plants []*Plant
+					_, ok := res[topmidarcvectorshapegrid_]
+					if ok {
+						plants = res[topmidarcvectorshapegrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[topmidarcvectorshapegrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "EndArcShapeGrid":
 			res := make(map[*EndArcShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -11217,6 +12009,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of TopMidArcVectorShape
+	case TopMidArcVectorShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopMidArcVectorShapeGrid
+	case TopMidArcVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TopStackGrowthCurveEndArcShape
 	case TopStackGrowthCurveEndArcShape:
 		switch fieldname {
@@ -11412,6 +12214,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for library := range stage.Librarys {
 				for _, plant_ := range library.Plants {
 					res[plant_] = append(res[plant_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of MidArcVectorShape
+	case MidArcVectorShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MidArcVectorShapeGrid
+	case MidArcVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "MidArcVectorShapes":
+			res := make(map[*MidArcVectorShape][]*MidArcVectorShapeGrid)
+			for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
+				for _, midarcvectorshape_ := range midarcvectorshapegrid.MidArcVectorShapes {
+					res[midarcvectorshape_] = append(res[midarcvectorshape_], midarcvectorshapegrid)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -11647,6 +12467,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TopMidArcVectorShape
+	case TopMidArcVectorShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopMidArcVectorShapeGrid
+	case TopMidArcVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "TopMidArcVectorShapes":
+			res := make(map[*TopMidArcVectorShape][]*TopMidArcVectorShapeGrid)
+			for topmidarcvectorshapegrid := range stage.TopMidArcVectorShapeGrids {
+				for _, topmidarcvectorshape_ := range topmidarcvectorshapegrid.TopMidArcVectorShapes {
+					res[topmidarcvectorshape_] = append(res[topmidarcvectorshape_], topmidarcvectorshapegrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of TopStackGrowthCurveEndArcShape
 	case TopStackGrowthCurveEndArcShape:
 		switch fieldname {
@@ -11745,6 +12583,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "InitialRhombusShape"
 	case *Library:
 		res = "Library"
+	case *MidArcVectorShape:
+		res = "MidArcVectorShape"
+	case *MidArcVectorShapeGrid:
+		res = "MidArcVectorShapeGrid"
 	case *NextCircleShape:
 		res = "NextCircleShape"
 	case *PerpendicularVector:
@@ -11799,6 +12641,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TopEndArcShapeGrid"
 	case *TopGrowthCurve2D:
 		res = "TopGrowthCurve2D"
+	case *TopMidArcVectorShape:
+		res = "TopMidArcVectorShape"
+	case *TopMidArcVectorShapeGrid:
+		res = "TopMidArcVectorShapeGrid"
 	case *TopStackGrowthCurveEndArcShape:
 		res = "TopStackGrowthCurveEndArcShape"
 	case *TopStackGrowthCurveStartArcShape:
@@ -11904,6 +12750,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibraries"
 		res = append(res, rf)
+	case *MidArcVectorShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "MidArcVectorShapeGrid"
+		rf.Fieldname = "MidArcVectorShapes"
+		res = append(res, rf)
+	case *MidArcVectorShapeGrid:
+		var rf ReverseField
+		_ = rf
 	case *NextCircleShape:
 		var rf ReverseField
 		_ = rf
@@ -12022,6 +12877,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *TopGrowthCurve2D:
+		var rf ReverseField
+		_ = rf
+	case *TopMidArcVectorShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "TopMidArcVectorShapeGrid"
+		rf.Fieldname = "TopMidArcVectorShapes"
+		res = append(res, rf)
+	case *TopMidArcVectorShapeGrid:
 		var rf ReverseField
 		_ = rf
 	case *TopStackGrowthCurveEndArcShape:
@@ -12468,6 +13332,49 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (midarcvectorshape *MidArcVectorShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "MidArcVectorShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "MidArcVectorShape",
+		},
+	}
+	return
+}
+
 func (nextcircleshape *NextCircleShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -12717,6 +13624,16 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "ShiftedBottomTopStartArcShapeGrid",
 		},
 		{
+			Name:                 "MidArcVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "MidArcVectorShapeGrid",
+		},
+		{
+			Name:                 "TopMidArcVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopMidArcVectorShapeGrid",
+		},
+		{
 			Name:                 "EndArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "EndArcShapeGrid",
@@ -12877,6 +13794,14 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenMidArcVectorShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopMidArcVectorShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -13519,6 +14444,49 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetFieldHeaders() (res []GongField
 			Name:                 "TopEndArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TopEndArcShapeGrid",
+		},
+	}
+	return
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "TopMidArcVectorShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TopMidArcVectorShape",
 		},
 	}
 	return
@@ -14172,6 +15140,50 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	return
 }
 
+func (midarcvectorshape *MidArcVectorShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = midarcvectorshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", midarcvectorshape.StartX)
+		res.valueFloat = midarcvectorshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", midarcvectorshape.StartY)
+		res.valueFloat = midarcvectorshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", midarcvectorshape.EndX)
+		res.valueFloat = midarcvectorshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", midarcvectorshape.EndY)
+		res.valueFloat = midarcvectorshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = midarcvectorshapegrid.Name
+	case "MidArcVectorShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range midarcvectorshapegrid.MidArcVectorShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (nextcircleshape *NextCircleShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -14440,6 +15452,18 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.ShiftedBottomTopStartArcShapeGrid.Name
 			res.ids = plant.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
 		}
+	case "MidArcVectorShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.MidArcVectorShapeGrid != nil {
+			res.valueString = plant.MidArcVectorShapeGrid.Name
+			res.ids = plant.MidArcVectorShapeGrid.GongGetUUID(stage)
+		}
+	case "TopMidArcVectorShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.TopMidArcVectorShapeGrid != nil {
+			res.valueString = plant.TopMidArcVectorShapeGrid.Name
+			res.ids = plant.TopMidArcVectorShapeGrid.GongGetUUID(stage)
+		}
 	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.EndArcShapeGrid != nil {
@@ -14607,6 +15631,14 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenMidArcVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenMidArcVectorShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenMidArcVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopMidArcVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopMidArcVectorShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenTopMidArcVectorShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
@@ -15261,6 +16293,50 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetFieldValue(fieldName string, st
 	return
 }
 
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topmidarcvectorshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", topmidarcvectorshape.StartX)
+		res.valueFloat = topmidarcvectorshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", topmidarcvectorshape.StartY)
+		res.valueFloat = topmidarcvectorshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", topmidarcvectorshape.EndX)
+		res.valueFloat = topmidarcvectorshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", topmidarcvectorshape.EndY)
+		res.valueFloat = topmidarcvectorshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topmidarcvectorshapegrid.Name
+	case "TopMidArcVectorShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range topmidarcvectorshapegrid.TopMidArcVectorShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -15871,6 +16947,50 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
+func (midarcvectorshape *MidArcVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		midarcvectorshape.Name = value.GetValueString()
+	case "StartX":
+		midarcvectorshape.StartX = value.GetValueFloat()
+	case "StartY":
+		midarcvectorshape.StartY = value.GetValueFloat()
+	case "EndX":
+		midarcvectorshape.EndX = value.GetValueFloat()
+	case "EndY":
+		midarcvectorshape.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		midarcvectorshapegrid.Name = value.GetValueString()
+	case "MidArcVectorShapes":
+		midarcvectorshapegrid.MidArcVectorShapes = make([]*MidArcVectorShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.MidArcVectorShapes {
+					if stage.MidArcVectorShape_stagedOrder[__instance__] == uint(id) {
+						midarcvectorshapegrid.MidArcVectorShapes = append(midarcvectorshapegrid.MidArcVectorShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (nextcircleshape *NextCircleShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -16220,6 +17340,28 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "MidArcVectorShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.MidArcVectorShapeGrid = nil
+			for __instance__ := range stage.MidArcVectorShapeGrids {
+				if stage.MidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plant.MidArcVectorShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopMidArcVectorShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.TopMidArcVectorShapeGrid = nil
+			for __instance__ := range stage.TopMidArcVectorShapeGrids {
+				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plant.TopMidArcVectorShapeGrid = __instance__
+					break
+				}
+			}
+		}
 	case "EndArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -16389,6 +17531,10 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
 		plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenMidArcVectorShapeGrid":
+		plantdiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenTopMidArcVectorShapeGrid":
+		plantdiagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
 	case "IsHiddenTopEndArcShapeGrid":
@@ -16949,6 +18095,50 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongSetFieldValue(fieldName string, va
 	return nil
 }
 
+func (topmidarcvectorshape *TopMidArcVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topmidarcvectorshape.Name = value.GetValueString()
+	case "StartX":
+		topmidarcvectorshape.StartX = value.GetValueFloat()
+	case "StartY":
+		topmidarcvectorshape.StartY = value.GetValueFloat()
+	case "EndX":
+		topmidarcvectorshape.EndX = value.GetValueFloat()
+	case "EndY":
+		topmidarcvectorshape.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topmidarcvectorshapegrid.Name = value.GetValueString()
+	case "TopMidArcVectorShapes":
+		topmidarcvectorshapegrid.TopMidArcVectorShapes = make([]*TopMidArcVectorShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.TopMidArcVectorShapes {
+					if stage.TopMidArcVectorShape_stagedOrder[__instance__] == uint(id) {
+						topmidarcvectorshapegrid.TopMidArcVectorShapes = append(topmidarcvectorshapegrid.TopMidArcVectorShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -17181,6 +18371,14 @@ func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
 
+func (midarcvectorshape *MidArcVectorShape) GongGetGongstructName() string {
+	return "MidArcVectorShape"
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetGongstructName() string {
+	return "MidArcVectorShapeGrid"
+}
+
 func (nextcircleshape *NextCircleShape) GongGetGongstructName() string {
 	return "NextCircleShape"
 }
@@ -17287,6 +18485,14 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongGetGongstructName() string {
 
 func (topgrowthcurve2d *TopGrowthCurve2D) GongGetGongstructName() string {
 	return "TopGrowthCurve2D"
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetGongstructName() string {
+	return "TopMidArcVectorShape"
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetGongstructName() string {
+	return "TopMidArcVectorShapeGrid"
 }
 
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetGongstructName() string {
@@ -17409,6 +18615,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Librarys_mapString = make(map[string]*Library)
 	for library := range stage.Librarys {
 		stage.Librarys_mapString[library.Name] = library
+	}
+
+	stage.MidArcVectorShapes_mapString = make(map[string]*MidArcVectorShape)
+	for midarcvectorshape := range stage.MidArcVectorShapes {
+		stage.MidArcVectorShapes_mapString[midarcvectorshape.Name] = midarcvectorshape
+	}
+
+	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
+	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
+		stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
 	}
 
 	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
@@ -17544,6 +18760,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TopGrowthCurve2Ds_mapString = make(map[string]*TopGrowthCurve2D)
 	for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
 		stage.TopGrowthCurve2Ds_mapString[topgrowthcurve2d.Name] = topgrowthcurve2d
+	}
+
+	stage.TopMidArcVectorShapes_mapString = make(map[string]*TopMidArcVectorShape)
+	for topmidarcvectorshape := range stage.TopMidArcVectorShapes {
+		stage.TopMidArcVectorShapes_mapString[topmidarcvectorshape.Name] = topmidarcvectorshape
+	}
+
+	stage.TopMidArcVectorShapeGrids_mapString = make(map[string]*TopMidArcVectorShapeGrid)
+	for topmidarcvectorshapegrid := range stage.TopMidArcVectorShapeGrids {
+		stage.TopMidArcVectorShapeGrids_mapString[topmidarcvectorshapegrid.Name] = topmidarcvectorshapegrid
 	}
 
 	stage.TopStackGrowthCurveEndArcShapes_mapString = make(map[string]*TopStackGrowthCurveEndArcShape)

@@ -2154,6 +2154,247 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 
 	libraryFormCallback.probe.ux_tree()
 }
+func __gong__New__MidArcVectorShapeFormCallback(
+	midarcvectorshape *models.MidArcVectorShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (midarcvectorshapeFormCallback *MidArcVectorShapeFormCallback) {
+	midarcvectorshapeFormCallback = new(MidArcVectorShapeFormCallback)
+	midarcvectorshapeFormCallback.probe = probe
+	midarcvectorshapeFormCallback.midarcvectorshape = midarcvectorshape
+	midarcvectorshapeFormCallback.formGroup = formGroup
+
+	midarcvectorshapeFormCallback.CreationMode = (midarcvectorshape == nil)
+
+	return
+}
+
+type MidArcVectorShapeFormCallback struct {
+	midarcvectorshape *models.MidArcVectorShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (midarcvectorshapeFormCallback *MidArcVectorShapeFormCallback) OnSave() {
+	midarcvectorshapeFormCallback.probe.stageOfInterest.Lock()
+	defer midarcvectorshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("MidArcVectorShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	midarcvectorshapeFormCallback.probe.formStage.Checkout()
+
+	if midarcvectorshapeFormCallback.midarcvectorshape == nil {
+		midarcvectorshapeFormCallback.midarcvectorshape = new(models.MidArcVectorShape).Stage(midarcvectorshapeFormCallback.probe.stageOfInterest)
+	}
+	midarcvectorshape_ := midarcvectorshapeFormCallback.midarcvectorshape
+	_ = midarcvectorshape_
+
+	for _, formDiv := range midarcvectorshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(midarcvectorshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(midarcvectorshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(midarcvectorshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(midarcvectorshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(midarcvectorshape_.EndY), formDiv)
+		case "MidArcVectorShapeGrid:MidArcVectorShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the MidArcVectorShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target MidArcVectorShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.MidArcVectorShapeGrid](midarcvectorshapeFormCallback.probe.stageOfInterest)
+			targetMidArcVectorShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetMidArcVectorShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all MidArcVectorShapeGrid instances and update their MidArcVectorShapes slice
+			for _midarcvectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.MidArcVectorShapeGrid](midarcvectorshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(midarcvectorshapeFormCallback.probe.stageOfInterest, _midarcvectorshapegrid)
+				
+				// if MidArcVectorShapeGrid is selected
+				if targetMidArcVectorShapeGridIDs[id] {
+					// ensure midarcvectorshape_ is in _midarcvectorshapegrid.MidArcVectorShapes
+					found := false
+					for _, _b := range _midarcvectorshapegrid.MidArcVectorShapes {
+						if _b == midarcvectorshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_midarcvectorshapegrid.MidArcVectorShapes = append(_midarcvectorshapegrid.MidArcVectorShapes, midarcvectorshape_)
+						midarcvectorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_midarcvectorshapegrid, "MidArcVectorShapes", &_midarcvectorshapegrid.MidArcVectorShapes)
+					}
+				} else {
+					// ensure midarcvectorshape_ is NOT in _midarcvectorshapegrid.MidArcVectorShapes
+					idx := slices.Index(_midarcvectorshapegrid.MidArcVectorShapes, midarcvectorshape_)
+					if idx != -1 {
+						_midarcvectorshapegrid.MidArcVectorShapes = slices.Delete(_midarcvectorshapegrid.MidArcVectorShapes, idx, idx+1)
+						midarcvectorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_midarcvectorshapegrid, "MidArcVectorShapes", &_midarcvectorshapegrid.MidArcVectorShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if midarcvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		midarcvectorshape_.Unstage(midarcvectorshapeFormCallback.probe.stageOfInterest)
+	}
+
+	midarcvectorshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.MidArcVectorShape](
+		midarcvectorshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if midarcvectorshapeFormCallback.CreationMode || midarcvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		midarcvectorshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(midarcvectorshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__MidArcVectorShapeFormCallback(
+			nil,
+			midarcvectorshapeFormCallback.probe,
+			newFormGroup,
+		)
+		midarcvectorshape := new(models.MidArcVectorShape)
+		FillUpForm(midarcvectorshape, newFormGroup, midarcvectorshapeFormCallback.probe)
+		midarcvectorshapeFormCallback.probe.formStage.Commit()
+	}
+
+	midarcvectorshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__MidArcVectorShapeGridFormCallback(
+	midarcvectorshapegrid *models.MidArcVectorShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (midarcvectorshapegridFormCallback *MidArcVectorShapeGridFormCallback) {
+	midarcvectorshapegridFormCallback = new(MidArcVectorShapeGridFormCallback)
+	midarcvectorshapegridFormCallback.probe = probe
+	midarcvectorshapegridFormCallback.midarcvectorshapegrid = midarcvectorshapegrid
+	midarcvectorshapegridFormCallback.formGroup = formGroup
+
+	midarcvectorshapegridFormCallback.CreationMode = (midarcvectorshapegrid == nil)
+
+	return
+}
+
+type MidArcVectorShapeGridFormCallback struct {
+	midarcvectorshapegrid *models.MidArcVectorShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (midarcvectorshapegridFormCallback *MidArcVectorShapeGridFormCallback) OnSave() {
+	midarcvectorshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer midarcvectorshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("MidArcVectorShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	midarcvectorshapegridFormCallback.probe.formStage.Checkout()
+
+	if midarcvectorshapegridFormCallback.midarcvectorshapegrid == nil {
+		midarcvectorshapegridFormCallback.midarcvectorshapegrid = new(models.MidArcVectorShapeGrid).Stage(midarcvectorshapegridFormCallback.probe.stageOfInterest)
+	}
+	midarcvectorshapegrid_ := midarcvectorshapegridFormCallback.midarcvectorshapegrid
+	_ = midarcvectorshapegrid_
+
+	for _, formDiv := range midarcvectorshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(midarcvectorshapegrid_.Name), formDiv)
+		case "MidArcVectorShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MidArcVectorShape](midarcvectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.MidArcVectorShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.MidArcVectorShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					midarcvectorshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.MidArcVectorShape](midarcvectorshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			midarcvectorshapegrid_.MidArcVectorShapes = instanceSlice
+			midarcvectorshapegridFormCallback.probe.UpdateSliceOfPointersCallback(midarcvectorshapegrid_, "MidArcVectorShapes", &midarcvectorshapegrid_.MidArcVectorShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if midarcvectorshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		midarcvectorshapegrid_.Unstage(midarcvectorshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	midarcvectorshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.MidArcVectorShapeGrid](
+		midarcvectorshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if midarcvectorshapegridFormCallback.CreationMode || midarcvectorshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		midarcvectorshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(midarcvectorshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__MidArcVectorShapeGridFormCallback(
+			nil,
+			midarcvectorshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
+		FillUpForm(midarcvectorshapegrid, newFormGroup, midarcvectorshapegridFormCallback.probe)
+		midarcvectorshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	midarcvectorshapegridFormCallback.probe.ux_tree()
+}
 func __gong__New__NextCircleShapeFormCallback(
 	nextcircleshape *models.NextCircleShape,
 	probe *Probe,
@@ -2853,6 +3094,10 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.TopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedBottomTopStartArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.ShiftedBottomTopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "MidArcVectorShapeGrid":
+			FormDivSelectFieldToField(&(plant_.MidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "TopMidArcVectorShapeGrid":
+			FormDivSelectFieldToField(&(plant_.TopMidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "EndArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndArcShapeGrid":
@@ -3120,6 +3365,10 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStartArcShapeGrid), formDiv)
 		case "IsHiddenShiftedBottomTopStartArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedBottomTopStartArcShapeGrid), formDiv)
+		case "IsHiddenMidArcVectorShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
+		case "IsHiddenTopMidArcVectorShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
 		case "IsHiddenTopEndArcShapeGrid":
@@ -5562,6 +5811,247 @@ func (topgrowthcurve2dFormCallback *TopGrowthCurve2DFormCallback) OnSave() {
 	}
 
 	topgrowthcurve2dFormCallback.probe.ux_tree()
+}
+func __gong__New__TopMidArcVectorShapeFormCallback(
+	topmidarcvectorshape *models.TopMidArcVectorShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topmidarcvectorshapeFormCallback *TopMidArcVectorShapeFormCallback) {
+	topmidarcvectorshapeFormCallback = new(TopMidArcVectorShapeFormCallback)
+	topmidarcvectorshapeFormCallback.probe = probe
+	topmidarcvectorshapeFormCallback.topmidarcvectorshape = topmidarcvectorshape
+	topmidarcvectorshapeFormCallback.formGroup = formGroup
+
+	topmidarcvectorshapeFormCallback.CreationMode = (topmidarcvectorshape == nil)
+
+	return
+}
+
+type TopMidArcVectorShapeFormCallback struct {
+	topmidarcvectorshape *models.TopMidArcVectorShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topmidarcvectorshapeFormCallback *TopMidArcVectorShapeFormCallback) OnSave() {
+	topmidarcvectorshapeFormCallback.probe.stageOfInterest.Lock()
+	defer topmidarcvectorshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopMidArcVectorShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topmidarcvectorshapeFormCallback.probe.formStage.Checkout()
+
+	if topmidarcvectorshapeFormCallback.topmidarcvectorshape == nil {
+		topmidarcvectorshapeFormCallback.topmidarcvectorshape = new(models.TopMidArcVectorShape).Stage(topmidarcvectorshapeFormCallback.probe.stageOfInterest)
+	}
+	topmidarcvectorshape_ := topmidarcvectorshapeFormCallback.topmidarcvectorshape
+	_ = topmidarcvectorshape_
+
+	for _, formDiv := range topmidarcvectorshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topmidarcvectorshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(topmidarcvectorshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(topmidarcvectorshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(topmidarcvectorshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(topmidarcvectorshape_.EndY), formDiv)
+		case "TopMidArcVectorShapeGrid:TopMidArcVectorShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the TopMidArcVectorShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target TopMidArcVectorShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.TopMidArcVectorShapeGrid](topmidarcvectorshapeFormCallback.probe.stageOfInterest)
+			targetTopMidArcVectorShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetTopMidArcVectorShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all TopMidArcVectorShapeGrid instances and update their TopMidArcVectorShapes slice
+			for _topmidarcvectorshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopMidArcVectorShapeGrid](topmidarcvectorshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(topmidarcvectorshapeFormCallback.probe.stageOfInterest, _topmidarcvectorshapegrid)
+				
+				// if TopMidArcVectorShapeGrid is selected
+				if targetTopMidArcVectorShapeGridIDs[id] {
+					// ensure topmidarcvectorshape_ is in _topmidarcvectorshapegrid.TopMidArcVectorShapes
+					found := false
+					for _, _b := range _topmidarcvectorshapegrid.TopMidArcVectorShapes {
+						if _b == topmidarcvectorshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_topmidarcvectorshapegrid.TopMidArcVectorShapes = append(_topmidarcvectorshapegrid.TopMidArcVectorShapes, topmidarcvectorshape_)
+						topmidarcvectorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_topmidarcvectorshapegrid, "TopMidArcVectorShapes", &_topmidarcvectorshapegrid.TopMidArcVectorShapes)
+					}
+				} else {
+					// ensure topmidarcvectorshape_ is NOT in _topmidarcvectorshapegrid.TopMidArcVectorShapes
+					idx := slices.Index(_topmidarcvectorshapegrid.TopMidArcVectorShapes, topmidarcvectorshape_)
+					if idx != -1 {
+						_topmidarcvectorshapegrid.TopMidArcVectorShapes = slices.Delete(_topmidarcvectorshapegrid.TopMidArcVectorShapes, idx, idx+1)
+						topmidarcvectorshapeFormCallback.probe.UpdateSliceOfPointersCallback(_topmidarcvectorshapegrid, "TopMidArcVectorShapes", &_topmidarcvectorshapegrid.TopMidArcVectorShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if topmidarcvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topmidarcvectorshape_.Unstage(topmidarcvectorshapeFormCallback.probe.stageOfInterest)
+	}
+
+	topmidarcvectorshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopMidArcVectorShape](
+		topmidarcvectorshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topmidarcvectorshapeFormCallback.CreationMode || topmidarcvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topmidarcvectorshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topmidarcvectorshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopMidArcVectorShapeFormCallback(
+			nil,
+			topmidarcvectorshapeFormCallback.probe,
+			newFormGroup,
+		)
+		topmidarcvectorshape := new(models.TopMidArcVectorShape)
+		FillUpForm(topmidarcvectorshape, newFormGroup, topmidarcvectorshapeFormCallback.probe)
+		topmidarcvectorshapeFormCallback.probe.formStage.Commit()
+	}
+
+	topmidarcvectorshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__TopMidArcVectorShapeGridFormCallback(
+	topmidarcvectorshapegrid *models.TopMidArcVectorShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topmidarcvectorshapegridFormCallback *TopMidArcVectorShapeGridFormCallback) {
+	topmidarcvectorshapegridFormCallback = new(TopMidArcVectorShapeGridFormCallback)
+	topmidarcvectorshapegridFormCallback.probe = probe
+	topmidarcvectorshapegridFormCallback.topmidarcvectorshapegrid = topmidarcvectorshapegrid
+	topmidarcvectorshapegridFormCallback.formGroup = formGroup
+
+	topmidarcvectorshapegridFormCallback.CreationMode = (topmidarcvectorshapegrid == nil)
+
+	return
+}
+
+type TopMidArcVectorShapeGridFormCallback struct {
+	topmidarcvectorshapegrid *models.TopMidArcVectorShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topmidarcvectorshapegridFormCallback *TopMidArcVectorShapeGridFormCallback) OnSave() {
+	topmidarcvectorshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer topmidarcvectorshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopMidArcVectorShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topmidarcvectorshapegridFormCallback.probe.formStage.Checkout()
+
+	if topmidarcvectorshapegridFormCallback.topmidarcvectorshapegrid == nil {
+		topmidarcvectorshapegridFormCallback.topmidarcvectorshapegrid = new(models.TopMidArcVectorShapeGrid).Stage(topmidarcvectorshapegridFormCallback.probe.stageOfInterest)
+	}
+	topmidarcvectorshapegrid_ := topmidarcvectorshapegridFormCallback.topmidarcvectorshapegrid
+	_ = topmidarcvectorshapegrid_
+
+	for _, formDiv := range topmidarcvectorshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topmidarcvectorshapegrid_.Name), formDiv)
+		case "TopMidArcVectorShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopMidArcVectorShape](topmidarcvectorshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TopMidArcVectorShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TopMidArcVectorShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					topmidarcvectorshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TopMidArcVectorShape](topmidarcvectorshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			topmidarcvectorshapegrid_.TopMidArcVectorShapes = instanceSlice
+			topmidarcvectorshapegridFormCallback.probe.UpdateSliceOfPointersCallback(topmidarcvectorshapegrid_, "TopMidArcVectorShapes", &topmidarcvectorshapegrid_.TopMidArcVectorShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if topmidarcvectorshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topmidarcvectorshapegrid_.Unstage(topmidarcvectorshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	topmidarcvectorshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopMidArcVectorShapeGrid](
+		topmidarcvectorshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topmidarcvectorshapegridFormCallback.CreationMode || topmidarcvectorshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topmidarcvectorshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topmidarcvectorshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopMidArcVectorShapeGridFormCallback(
+			nil,
+			topmidarcvectorshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		topmidarcvectorshapegrid := new(models.TopMidArcVectorShapeGrid)
+		FillUpForm(topmidarcvectorshapegrid, newFormGroup, topmidarcvectorshapegridFormCallback.probe)
+		topmidarcvectorshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	topmidarcvectorshapegridFormCallback.probe.ux_tree()
 }
 func __gong__New__TopStackGrowthCurveEndArcShapeFormCallback(
 	topstackgrowthcurveendarcshape *models.TopStackGrowthCurveEndArcShape,

@@ -286,6 +286,34 @@ type ShiftedBottomTopStartArcShape struct {
 	RadiusX, RadiusY float64
 }
 
+// MidArcVectorShapeGrid of a plant,
+type MidArcVectorShapeGrid struct {
+	Name string
+
+	MidArcVectorShapes []*MidArcVectorShape
+}
+
+type MidArcVectorShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
+// TopMidArcVectorShapeGrid of a plant,
+type TopMidArcVectorShapeGrid struct {
+	Name string
+
+	TopMidArcVectorShapes []*TopMidArcVectorShape
+}
+
+type TopMidArcVectorShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
 // ShiftedLeftStackOfNormalVector of a plant,
 type ShiftedLeftStackOfNormalVector struct {
 	Name string

@@ -114,6 +114,25 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
 
+		if plant.MidArcVectorShapeGrid == nil {
+			plant.MidArcVectorShapeGrid = new(MidArcVectorShapeGrid).Stage(stage)
+			plant.MidArcVectorShapeGrid.Name = plant.Name + "-MidArcVectorShapeGrid"
+			needCommit = true
+		}
+		{
+			needCommit = enforceMidArcVectorShapeGridHasShapes(stage, plant.MidArcVectorShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+		}
+
+		if plant.TopMidArcVectorShapeGrid == nil {
+			plant.TopMidArcVectorShapeGrid = new(TopMidArcVectorShapeGrid).Stage(stage)
+			plant.TopMidArcVectorShapeGrid.Name = plant.Name + "-TopMidArcVectorShapeGrid"
+			needCommit = true
+		}
+		{
+			needCommit = enforceTopMidArcVectorShapeGridHasShapes(stage, plant.TopMidArcVectorShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+		}
+
+
 		if plant.GrowthCurve2D == nil {
 			plant.GrowthCurve2D = new(GrowthCurve2D).Stage(stage)
 			plant.GrowthCurve2D.Name = plant.Name + "-GrowthCurve2D"

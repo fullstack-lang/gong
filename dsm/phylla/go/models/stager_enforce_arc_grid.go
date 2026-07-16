@@ -619,3 +619,189 @@ func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *Shi
 	}
 	return needCommit
 }
+
+func enforceMidArcVectorShapeGridHasShapes(stage *Stage, grid *MidArcVectorShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.MidArcVectorShapes) > 0 {
+			grid.MidArcVectorShapes = nil
+			return true
+		}
+		return false
+	}
+
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+	
+	dx := -thickness * vx
+	dy := -thickness * vy
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	if len(grid.MidArcVectorShapes) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			s := grid.MidArcVectorShapes[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if s == nil || s.Name != expectedName {
+				valid = false
+				break
+			}
+
+			_, _, eX, eY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
+			eX = eX + dx
+			eY = eY + dy
+			_, _, eX2, eY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
+
+			if math.Abs(s.StartX-eX) > 1e-4 || math.Abs(s.StartY-eY) > 1e-4 ||
+				math.Abs(s.EndX-eX2) > 1e-4 || math.Abs(s.EndY-eY2) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.MidArcVectorShapes {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.MidArcVectorShapes = make([]*MidArcVectorShape, expectedLen)
+
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			_, _, eX, eY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
+			eX = eX + dx
+			eY = eY + dy
+			_, _, eX2, eY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
+
+			newShape := new(MidArcVectorShape).Stage(stage)
+			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newShape.StartX = eX
+			newShape.StartY = eY
+			newShape.EndX = eX2
+			newShape.EndY = eY2
+
+			grid.MidArcVectorShapes[i] = newShape
+		}
+		needCommit = true
+	}
+	return needCommit
+}
+
+func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVectorShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.TopMidArcVectorShapes) > 0 {
+			grid.TopMidArcVectorShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+	
+	dx := -thickness * vx
+	dy := -thickness * vy
+
+	if len(grid.TopMidArcVectorShapes) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			s := grid.TopMidArcVectorShapes[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if s == nil || s.Name != expectedName {
+				valid = false
+				break
+			}
+
+			// TopMidArcVectorShape is a pure translation of MidArcVectorShape
+			// by 'thickness' along the perpendicular vector v2.
+			_, _, mX, mY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
+			mX = mX + dx
+			mY = mY + dy
+			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
+
+			vx2 := v2.EndX - v2.StartX
+			vy2 := v2.EndY - v2.StartY
+			v2Len := math.Hypot(vx2, vy2)
+			if v2Len == 0 { v2Len = 1 }
+			vx2, vy2 = vx2/v2Len, vy2/v2Len
+
+			eX := mX + thickness * vx2
+			eY := mY + thickness * vy2
+			eX2 := mX2 + thickness * vx2
+			eY2 := mY2 + thickness * vy2
+
+			if math.Abs(s.StartX-eX) > 1e-4 || math.Abs(s.StartY-eY) > 1e-4 ||
+				math.Abs(s.EndX-eX2) > 1e-4 || math.Abs(s.EndY-eY2) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.TopMidArcVectorShapes {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.TopMidArcVectorShapes = make([]*TopMidArcVectorShape, expectedLen)
+
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			// TopMidArcVectorShape is a pure translation of MidArcVectorShape
+			// by 'thickness' along the perpendicular vector v2.
+			_, _, mX, mY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
+			mX = mX + dx
+			mY = mY + dy
+			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
+
+			vx2 := v2.EndX - v2.StartX
+			vy2 := v2.EndY - v2.StartY
+			v2Len := math.Hypot(vx2, vy2)
+			if v2Len == 0 { v2Len = 1 }
+			vx2, vy2 = vx2/v2Len, vy2/v2Len
+
+			eX := mX + thickness * vx2
+			eY := mY + thickness * vy2
+			eX2 := mX2 + thickness * vx2
+			eY2 := mY2 + thickness * vy2
+
+			newShape := new(TopMidArcVectorShape).Stage(stage)
+			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newShape.StartX = eX
+			newShape.StartY = eY
+			newShape.EndX = eX2
+			newShape.EndY = eY2
+
+			grid.TopMidArcVectorShapes[i] = newShape
+		}
+		needCommit = true
+	}
+	return needCommit
+}

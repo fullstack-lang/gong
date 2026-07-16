@@ -387,6 +387,30 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n11 || needCommit
 
+	n15 := enforcePlantHasShape[*MidArcVectorShapeGrid](
+		stager,
+		func() *MidArcVectorShapeGrid { return new(MidArcVectorShapeGrid) },
+		func(p *Plant) *MidArcVectorShapeGrid { return p.MidArcVectorShapeGrid },
+		func(p *Plant, shape *MidArcVectorShapeGrid) { p.MidArcVectorShapeGrid = shape },
+		func(p *Plant, shape *MidArcVectorShapeGrid) bool {
+			return p.MidArcVectorShapeGrid == shape
+		},
+		"MidArcVectorShapeGrid",
+	)
+	needCommit = n15 || needCommit
+
+	n16 := enforcePlantHasShape[*TopMidArcVectorShapeGrid](
+		stager,
+		func() *TopMidArcVectorShapeGrid { return new(TopMidArcVectorShapeGrid) },
+		func(p *Plant) *TopMidArcVectorShapeGrid { return p.TopMidArcVectorShapeGrid },
+		func(p *Plant, shape *TopMidArcVectorShapeGrid) { p.TopMidArcVectorShapeGrid = shape },
+		func(p *Plant, shape *TopMidArcVectorShapeGrid) bool {
+			return p.TopMidArcVectorShapeGrid == shape
+		},
+		"TopMidArcVectorShapeGrid",
+	)
+	needCommit = n16 || needCommit
+
 	n14 := enforcePlantHasShape[*ShiftedBottomTopStartArcShapeGrid](
 		stager,
 		func() *ShiftedBottomTopStartArcShapeGrid { return new(ShiftedBottomTopStartArcShapeGrid) },
@@ -423,7 +447,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11 || n12 || n13 || n14
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11 || n12 || n13 || n14 || n15 || n16
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant

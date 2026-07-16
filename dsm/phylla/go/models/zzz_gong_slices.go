@@ -133,6 +133,19 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct MidArcVectorShape
+	// insertion point per field
+
+	// Compute reverse map for named struct MidArcVectorShapeGrid
+	// insertion point per field
+	stage.MidArcVectorShapeGrid_MidArcVectorShapes_reverseMap = make(map[*MidArcVectorShape]*MidArcVectorShapeGrid)
+	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
+		_ = midarcvectorshapegrid
+		for _, _midarcvectorshape := range midarcvectorshapegrid.MidArcVectorShapes {
+			stage.MidArcVectorShapeGrid_MidArcVectorShapes_reverseMap[_midarcvectorshape] = midarcvectorshapegrid
+		}
+	}
+
 	// Compute reverse map for named struct NextCircleShape
 	// insertion point per field
 
@@ -298,6 +311,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TopGrowthCurve2D
 	// insertion point per field
 
+	// Compute reverse map for named struct TopMidArcVectorShape
+	// insertion point per field
+
+	// Compute reverse map for named struct TopMidArcVectorShapeGrid
+	// insertion point per field
+	stage.TopMidArcVectorShapeGrid_TopMidArcVectorShapes_reverseMap = make(map[*TopMidArcVectorShape]*TopMidArcVectorShapeGrid)
+	for topmidarcvectorshapegrid := range stage.TopMidArcVectorShapeGrids {
+		_ = topmidarcvectorshapegrid
+		for _, _topmidarcvectorshape := range topmidarcvectorshapegrid.TopMidArcVectorShapes {
+			stage.TopMidArcVectorShapeGrid_TopMidArcVectorShapes_reverseMap[_topmidarcvectorshape] = topmidarcvectorshapegrid
+		}
+	}
+
 	// Compute reverse map for named struct TopStackGrowthCurveEndArcShape
 	// insertion point per field
 
@@ -415,6 +441,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.MidArcVectorShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.MidArcVectorShapeGrids {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.NextCircleShapes {
 		res = append(res, instance)
 	}
@@ -520,6 +554,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.TopGrowthCurve2Ds {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TopMidArcVectorShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TopMidArcVectorShapeGrids {
 		res = append(res, instance)
 	}
 
@@ -658,6 +700,18 @@ func (initialrhombusshape *InitialRhombusShape) GongCopy() GongstructIF {
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
 	library.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongCopy() GongstructIF {
+	newInstance := new(MidArcVectorShape)
+	midarcvectorshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(MidArcVectorShapeGrid)
+	midarcvectorshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -820,6 +874,18 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongCopy() GongstructIF {
 func (topgrowthcurve2d *TopGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(TopGrowthCurve2D)
 	topgrowthcurve2d.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongCopy() GongstructIF {
+	newInstance := new(TopMidArcVectorShape)
+	topmidarcvectorshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(TopMidArcVectorShapeGrid)
+	topmidarcvectorshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1041,6 +1107,26 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(GetOrderPointerGongstruct(stage, library)))
+	return
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(midarcvectorshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midarcvectorshape), uint64(GetOrderPointerGongstruct(stage, midarcvectorshape)))
+	return
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(midarcvectorshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midarcvectorshapegrid), uint64(GetOrderPointerGongstruct(stage, midarcvectorshapegrid)))
 	return
 }
 
@@ -1311,6 +1397,26 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetUUID(stage *Stage) (uuid string
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topgrowthcurve2d), uint64(GetOrderPointerGongstruct(stage, topgrowthcurve2d)))
+	return
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(topmidarcvectorshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topmidarcvectorshape), uint64(GetOrderPointerGongstruct(stage, topmidarcvectorshape)))
+	return
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(topmidarcvectorshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topmidarcvectorshapegrid), uint64(GetOrderPointerGongstruct(stage, topmidarcvectorshapegrid)))
 	return
 }
 
@@ -2427,6 +2533,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var midarcvectorshapes_newInstances []*MidArcVectorShape
+	var midarcvectorshapes_deletedInstances []*MidArcVectorShape
+
+	// parse all staged instances and check if they have a reference
+	for midarcvectorshape := range stage.MidArcVectorShapes {
+		if ref, ok := stage.MidArcVectorShapes_reference[midarcvectorshape]; !ok {
+			midarcvectorshapes_newInstances = append(midarcvectorshapes_newInstances, midarcvectorshape)
+			newInstancesSlice = append(newInstancesSlice, midarcvectorshape.GongMarshallIdentifier(stage))
+			if stage.MidArcVectorShapes_referenceOrder == nil {
+				stage.MidArcVectorShapes_referenceOrder = make(map[*MidArcVectorShape]uint)
+			}
+			stage.MidArcVectorShapes_referenceOrder[midarcvectorshape] = stage.MidArcVectorShape_stagedOrder[midarcvectorshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, midarcvectorshape.GongMarshallUnstaging(stage))
+			// delete(stage.MidArcVectorShapes_referenceOrder, midarcvectorshape)
+			fieldInitializers, pointersInitializations := midarcvectorshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.MidArcVectorShape_stagedOrder[ref] = stage.MidArcVectorShape_stagedOrder[midarcvectorshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := midarcvectorshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, midarcvectorshape)
+			// delete(stage.MidArcVectorShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if midarcvectorshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", midarcvectorshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.MidArcVectorShapes_reference {
+		instance := stage.MidArcVectorShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.MidArcVectorShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			midarcvectorshapes_deletedInstances = append(midarcvectorshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(midarcvectorshapes_newInstances)
+	lenDeletedInstances += len(midarcvectorshapes_deletedInstances)
+	var midarcvectorshapegrids_newInstances []*MidArcVectorShapeGrid
+	var midarcvectorshapegrids_deletedInstances []*MidArcVectorShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
+		if ref, ok := stage.MidArcVectorShapeGrids_reference[midarcvectorshapegrid]; !ok {
+			midarcvectorshapegrids_newInstances = append(midarcvectorshapegrids_newInstances, midarcvectorshapegrid)
+			newInstancesSlice = append(newInstancesSlice, midarcvectorshapegrid.GongMarshallIdentifier(stage))
+			if stage.MidArcVectorShapeGrids_referenceOrder == nil {
+				stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint)
+			}
+			stage.MidArcVectorShapeGrids_referenceOrder[midarcvectorshapegrid] = stage.MidArcVectorShapeGrid_stagedOrder[midarcvectorshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, midarcvectorshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.MidArcVectorShapeGrids_referenceOrder, midarcvectorshapegrid)
+			fieldInitializers, pointersInitializations := midarcvectorshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.MidArcVectorShapeGrid_stagedOrder[ref] = stage.MidArcVectorShapeGrid_stagedOrder[midarcvectorshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := midarcvectorshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, midarcvectorshapegrid)
+			// delete(stage.MidArcVectorShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if midarcvectorshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", midarcvectorshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.MidArcVectorShapeGrids_reference {
+		instance := stage.MidArcVectorShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.MidArcVectorShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			midarcvectorshapegrids_deletedInstances = append(midarcvectorshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(midarcvectorshapegrids_newInstances)
+	lenDeletedInstances += len(midarcvectorshapegrids_deletedInstances)
 	var nextcircleshapes_newInstances []*NextCircleShape
 	var nextcircleshapes_deletedInstances []*NextCircleShape
 
@@ -3912,6 +4128,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(topgrowthcurve2ds_newInstances)
 	lenDeletedInstances += len(topgrowthcurve2ds_deletedInstances)
+	var topmidarcvectorshapes_newInstances []*TopMidArcVectorShape
+	var topmidarcvectorshapes_deletedInstances []*TopMidArcVectorShape
+
+	// parse all staged instances and check if they have a reference
+	for topmidarcvectorshape := range stage.TopMidArcVectorShapes {
+		if ref, ok := stage.TopMidArcVectorShapes_reference[topmidarcvectorshape]; !ok {
+			topmidarcvectorshapes_newInstances = append(topmidarcvectorshapes_newInstances, topmidarcvectorshape)
+			newInstancesSlice = append(newInstancesSlice, topmidarcvectorshape.GongMarshallIdentifier(stage))
+			if stage.TopMidArcVectorShapes_referenceOrder == nil {
+				stage.TopMidArcVectorShapes_referenceOrder = make(map[*TopMidArcVectorShape]uint)
+			}
+			stage.TopMidArcVectorShapes_referenceOrder[topmidarcvectorshape] = stage.TopMidArcVectorShape_stagedOrder[topmidarcvectorshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, topmidarcvectorshape.GongMarshallUnstaging(stage))
+			// delete(stage.TopMidArcVectorShapes_referenceOrder, topmidarcvectorshape)
+			fieldInitializers, pointersInitializations := topmidarcvectorshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TopMidArcVectorShape_stagedOrder[ref] = stage.TopMidArcVectorShape_stagedOrder[topmidarcvectorshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := topmidarcvectorshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, topmidarcvectorshape)
+			// delete(stage.TopMidArcVectorShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if topmidarcvectorshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", topmidarcvectorshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TopMidArcVectorShapes_reference {
+		instance := stage.TopMidArcVectorShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TopMidArcVectorShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			topmidarcvectorshapes_deletedInstances = append(topmidarcvectorshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(topmidarcvectorshapes_newInstances)
+	lenDeletedInstances += len(topmidarcvectorshapes_deletedInstances)
+	var topmidarcvectorshapegrids_newInstances []*TopMidArcVectorShapeGrid
+	var topmidarcvectorshapegrids_deletedInstances []*TopMidArcVectorShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for topmidarcvectorshapegrid := range stage.TopMidArcVectorShapeGrids {
+		if ref, ok := stage.TopMidArcVectorShapeGrids_reference[topmidarcvectorshapegrid]; !ok {
+			topmidarcvectorshapegrids_newInstances = append(topmidarcvectorshapegrids_newInstances, topmidarcvectorshapegrid)
+			newInstancesSlice = append(newInstancesSlice, topmidarcvectorshapegrid.GongMarshallIdentifier(stage))
+			if stage.TopMidArcVectorShapeGrids_referenceOrder == nil {
+				stage.TopMidArcVectorShapeGrids_referenceOrder = make(map[*TopMidArcVectorShapeGrid]uint)
+			}
+			stage.TopMidArcVectorShapeGrids_referenceOrder[topmidarcvectorshapegrid] = stage.TopMidArcVectorShapeGrid_stagedOrder[topmidarcvectorshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, topmidarcvectorshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.TopMidArcVectorShapeGrids_referenceOrder, topmidarcvectorshapegrid)
+			fieldInitializers, pointersInitializations := topmidarcvectorshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TopMidArcVectorShapeGrid_stagedOrder[ref] = stage.TopMidArcVectorShapeGrid_stagedOrder[topmidarcvectorshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := topmidarcvectorshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, topmidarcvectorshapegrid)
+			// delete(stage.TopMidArcVectorShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if topmidarcvectorshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", topmidarcvectorshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TopMidArcVectorShapeGrids_reference {
+		instance := stage.TopMidArcVectorShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TopMidArcVectorShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			topmidarcvectorshapegrids_deletedInstances = append(topmidarcvectorshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(topmidarcvectorshapegrids_newInstances)
+	lenDeletedInstances += len(topmidarcvectorshapegrids_deletedInstances)
 	var topstackgrowthcurveendarcshapes_newInstances []*TopStackGrowthCurveEndArcShape
 	var topstackgrowthcurveendarcshapes_deletedInstances []*TopStackGrowthCurveEndArcShape
 
@@ -4412,6 +4738,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.MidArcVectorShapes_reference = make(map[*MidArcVectorShape]*MidArcVectorShape)
+	stage.MidArcVectorShapes_referenceOrder = make(map[*MidArcVectorShape]uint) // diff Unstage needs the reference order
+	stage.MidArcVectorShapes_instance = make(map[*MidArcVectorShape]*MidArcVectorShape)
+	for instance := range stage.MidArcVectorShapes {
+		_copy := instance.GongCopy().(*MidArcVectorShape)
+		stage.MidArcVectorShapes_reference[instance] = _copy
+		stage.MidArcVectorShapes_instance[_copy] = instance
+		stage.MidArcVectorShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.MidArcVectorShapeGrids_reference = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
+	stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint) // diff Unstage needs the reference order
+	stage.MidArcVectorShapeGrids_instance = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
+	for instance := range stage.MidArcVectorShapeGrids {
+		_copy := instance.GongCopy().(*MidArcVectorShapeGrid)
+		stage.MidArcVectorShapeGrids_reference[instance] = _copy
+		stage.MidArcVectorShapeGrids_instance[_copy] = instance
+		stage.MidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.NextCircleShapes_reference = make(map[*NextCircleShape]*NextCircleShape)
 	stage.NextCircleShapes_referenceOrder = make(map[*NextCircleShape]uint) // diff Unstage needs the reference order
 	stage.NextCircleShapes_instance = make(map[*NextCircleShape]*NextCircleShape)
@@ -4682,6 +5028,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TopGrowthCurve2Ds_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TopMidArcVectorShapes_reference = make(map[*TopMidArcVectorShape]*TopMidArcVectorShape)
+	stage.TopMidArcVectorShapes_referenceOrder = make(map[*TopMidArcVectorShape]uint) // diff Unstage needs the reference order
+	stage.TopMidArcVectorShapes_instance = make(map[*TopMidArcVectorShape]*TopMidArcVectorShape)
+	for instance := range stage.TopMidArcVectorShapes {
+		_copy := instance.GongCopy().(*TopMidArcVectorShape)
+		stage.TopMidArcVectorShapes_reference[instance] = _copy
+		stage.TopMidArcVectorShapes_instance[_copy] = instance
+		stage.TopMidArcVectorShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.TopMidArcVectorShapeGrids_reference = make(map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid)
+	stage.TopMidArcVectorShapeGrids_referenceOrder = make(map[*TopMidArcVectorShapeGrid]uint) // diff Unstage needs the reference order
+	stage.TopMidArcVectorShapeGrids_instance = make(map[*TopMidArcVectorShapeGrid]*TopMidArcVectorShapeGrid)
+	for instance := range stage.TopMidArcVectorShapeGrids {
+		_copy := instance.GongCopy().(*TopMidArcVectorShapeGrid)
+		stage.TopMidArcVectorShapeGrids_reference[instance] = _copy
+		stage.TopMidArcVectorShapeGrids_instance[_copy] = instance
+		stage.TopMidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TopStackGrowthCurveEndArcShapes_reference = make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape)
 	stage.TopStackGrowthCurveEndArcShapes_referenceOrder = make(map[*TopStackGrowthCurveEndArcShape]uint) // diff Unstage needs the reference order
 	stage.TopStackGrowthCurveEndArcShapes_instance = make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape)
@@ -4828,6 +5194,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.MidArcVectorShapes {
+		reference := stage.MidArcVectorShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.MidArcVectorShapeGrids {
+		reference := stage.MidArcVectorShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.NextCircleShapes {
 		reference := stage.NextCircleShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -4960,6 +5336,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.TopGrowthCurve2Ds {
 		reference := stage.TopGrowthCurve2Ds_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TopMidArcVectorShapes {
+		reference := stage.TopMidArcVectorShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TopMidArcVectorShapeGrids {
+		reference := stage.TopMidArcVectorShapeGrids_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5222,6 +5608,30 @@ func (library *Library) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
+		return 0
+	}
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.MidArcVectorShape_stagedOrder[midarcvectorshape]; ok {
+		return order
+	}
+	if order, ok := stage.MidArcVectorShapes_referenceOrder[midarcvectorshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type MidArcVectorShape was not staged and does not have a reference order", midarcvectorshape)
+		return 0
+	}
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.MidArcVectorShapeGrid_stagedOrder[midarcvectorshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.MidArcVectorShapeGrids_referenceOrder[midarcvectorshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type MidArcVectorShapeGrid was not staged and does not have a reference order", midarcvectorshapegrid)
 		return 0
 	}
 }
@@ -5550,6 +5960,30 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TopMidArcVectorShape_stagedOrder[topmidarcvectorshape]; ok {
+		return order
+	}
+	if order, ok := stage.TopMidArcVectorShapes_referenceOrder[topmidarcvectorshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TopMidArcVectorShape was not staged and does not have a reference order", topmidarcvectorshape)
+		return 0
+	}
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TopMidArcVectorShapeGrid_stagedOrder[topmidarcvectorshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.TopMidArcVectorShapeGrids_referenceOrder[topmidarcvectorshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TopMidArcVectorShapeGrid was not staged and does not have a reference order", topmidarcvectorshapegrid)
+		return 0
+	}
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TopStackGrowthCurveEndArcShape_stagedOrder[topstackgrowthcurveendarcshape]; ok {
 		return order
@@ -5784,6 +6218,24 @@ func (library *Library) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", midarcvectorshape.GongGetGongstructName(), midarcvectorshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (midarcvectorshape *MidArcVectorShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", midarcvectorshape.GongGetGongstructName(), midarcvectorshape.GongGetOrder(stage))
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", midarcvectorshapegrid.GongGetGongstructName(), midarcvectorshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", midarcvectorshapegrid.GongGetGongstructName(), midarcvectorshapegrid.GongGetOrder(stage))
 }
 
 func (nextcircleshape *NextCircleShape) GongGetIdentifier(stage *Stage) string {
@@ -6029,6 +6481,24 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetReferenceIdentifier(stage *Stag
 	return fmt.Sprintf("__%s__%08d_", topgrowthcurve2d.GongGetGongstructName(), topgrowthcurve2d.GongGetOrder(stage))
 }
 
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topmidarcvectorshape.GongGetGongstructName(), topmidarcvectorshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (topmidarcvectorshape *TopMidArcVectorShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topmidarcvectorshape.GongGetGongstructName(), topmidarcvectorshape.GongGetOrder(stage))
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topmidarcvectorshapegrid.GongGetGongstructName(), topmidarcvectorshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topmidarcvectorshapegrid.GongGetGongstructName(), topmidarcvectorshapegrid.GongGetOrder(stage))
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", topstackgrowthcurveendarcshape.GongGetGongstructName(), topstackgrowthcurveendarcshape.GongGetOrder(stage))
 }
@@ -6226,6 +6696,22 @@ func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	return
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MidArcVectorShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midarcvectorshape.Name))
+	return
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MidArcVectorShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(midarcvectorshapegrid.Name))
 	return
 }
 
@@ -6445,6 +6931,22 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongMarshallIdentifier(stage *Stage) (
 	return
 }
 
+func (topmidarcvectorshape *TopMidArcVectorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topmidarcvectorshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopMidArcVectorShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topmidarcvectorshape.Name))
+	return
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topmidarcvectorshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopMidArcVectorShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topmidarcvectorshapegrid.Name))
+	return
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurveendarcshape.GongGetIdentifier(stage))
@@ -6597,6 +7099,18 @@ func (initialrhombusshape *InitialRhombusShape) GongMarshallUnstaging(stage *Sta
 func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (midarcvectorshape *MidArcVectorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -6759,6 +7273,18 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongMarshallUnstaging(stage *Stage
 func (topgrowthcurve2d *TopGrowthCurve2D) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topgrowthcurve2d.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (topmidarcvectorshape *TopMidArcVectorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topmidarcvectorshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topmidarcvectorshapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

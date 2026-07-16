@@ -372,6 +372,46 @@ func FillUpForm(
 				})
 		}
 
+	case *models.MidArcVectorShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.MidArcVectorShapeGrid, *models.MidArcVectorShape](
+				"MidArcVectorShapeGrid",
+				"MidArcVectorShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.MidArcVectorShapeGrid) []*models.MidArcVectorShape {
+					return owner.MidArcVectorShapes
+				})
+		}
+
+	case *models.MidArcVectorShapeGrid:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("MidArcVectorShapes", instanceWithInferedType, &instanceWithInferedType.MidArcVectorShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.NextCircleShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -508,6 +548,8 @@ func FillUpForm(
 		AssociationFieldToForm("StartArcShapeGrid", instanceWithInferedType.StartArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("TopStartArcShapeGrid", instanceWithInferedType.TopStartArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("ShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.ShiftedBottomTopStartArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("MidArcVectorShapeGrid", instanceWithInferedType.MidArcVectorShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopMidArcVectorShapeGrid", instanceWithInferedType.TopMidArcVectorShapeGrid, formGroup, probe)
 		AssociationFieldToForm("EndArcShapeGrid", instanceWithInferedType.EndArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("TopEndArcShapeGrid", instanceWithInferedType.TopEndArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("GrowthCurveBezierShapeGrid", instanceWithInferedType.GrowthCurveBezierShapeGrid, formGroup, probe)
@@ -595,6 +637,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenTopStartArcShapeGrid", instanceWithInferedType.IsHiddenTopStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.IsHiddenShiftedBottomTopStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenMidArcVectorShapeGrid", instanceWithInferedType.IsHiddenMidArcVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopMidArcVectorShapeGrid", instanceWithInferedType.IsHiddenTopMidArcVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenEndArcShapeGrid", instanceWithInferedType.IsHiddenEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1094,6 +1140,46 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("TopStartArcShapeGrid", instanceWithInferedType.TopStartArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("TopEndArcShapeGrid", instanceWithInferedType.TopEndArcShapeGrid, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.TopMidArcVectorShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.TopMidArcVectorShapeGrid, *models.TopMidArcVectorShape](
+				"TopMidArcVectorShapeGrid",
+				"TopMidArcVectorShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.TopMidArcVectorShapeGrid) []*models.TopMidArcVectorShape {
+					return owner.TopMidArcVectorShapes
+				})
+		}
+
+	case *models.TopMidArcVectorShapeGrid:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("TopMidArcVectorShapes", instanceWithInferedType, &instanceWithInferedType.TopMidArcVectorShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

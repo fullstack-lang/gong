@@ -129,6 +129,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.library, probe)
 			}
+		case *MidArcVectorShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "MidArcVectorShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.midarcvectorshape, probe)
+			}
+		case *MidArcVectorShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "MidArcVectorShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.midarcvectorshapegrid, probe)
+			}
 		case *NextCircleShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "NextCircleShape", true)
@@ -290,6 +302,18 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "TopGrowthCurve2D", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.topgrowthcurve2d, probe)
+			}
+		case *TopMidArcVectorShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopMidArcVectorShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topmidarcvectorshape, probe)
+			}
+		case *TopMidArcVectorShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopMidArcVectorShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topmidarcvectorshapegrid, probe)
 			}
 		case *TopStackGrowthCurveEndArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -590,6 +614,32 @@ func FillUpFormFromGongstructName(
 		library := new(models.Library)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(library, formGroup, probe)
+	case "MidArcVectorShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "MidArcVectorShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MidArcVectorShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		midarcvectorshape := new(models.MidArcVectorShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(midarcvectorshape, formGroup, probe)
+	case "MidArcVectorShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "MidArcVectorShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MidArcVectorShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(midarcvectorshapegrid, formGroup, probe)
 	case "NextCircleShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -941,6 +991,32 @@ func FillUpFormFromGongstructName(
 		topgrowthcurve2d := new(models.TopGrowthCurve2D)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topgrowthcurve2d, formGroup, probe)
+	case "TopMidArcVectorShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopMidArcVectorShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopMidArcVectorShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topmidarcvectorshape := new(models.TopMidArcVectorShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topmidarcvectorshape, formGroup, probe)
+	case "TopMidArcVectorShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopMidArcVectorShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopMidArcVectorShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topmidarcvectorshapegrid := new(models.TopMidArcVectorShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topmidarcvectorshapegrid, formGroup, probe)
 	case "TopStackGrowthCurveEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

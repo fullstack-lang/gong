@@ -73,7 +73,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawShiftedBottomTopStartArcShapeV2Grid(stager, layer, plant)
-	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
+	plantDiagram.drawTopMidArcVectorShapeGrid(stager, layer, plant)
+		plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
@@ -1324,5 +1326,50 @@ func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager
 		path.Presentation.StrokeWidth = 2.0
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+
+func (plantDiagram *PlantDiagram) drawMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenMidArcVectorShapeGrid {
+		return
+	}
+
+	for _, base := range plant.MidArcVectorShapeGrid.MidArcVectorShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+
+		line.Name = base.Name
+
+		line.X1 = plantDiagram.OriginX + base.StartX
+		line.Y1 = plantDiagram.OriginY - base.StartY
+		line.X2 = plantDiagram.OriginX + base.EndX
+		line.Y2 = plantDiagram.OriginY - base.EndY
+
+		line.Presentation.Stroke = "black"
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenTopMidArcVectorShapeGrid {
+		return
+	}
+
+	for _, base := range plant.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+
+		line.Name = base.Name
+
+		line.X1 = plantDiagram.OriginX + base.StartX
+		line.Y1 = plantDiagram.OriginY - base.StartY
+		line.X2 = plantDiagram.OriginX + base.EndX
+		line.Y2 = plantDiagram.OriginY - base.EndY
+
+		line.Presentation.Stroke = "black"
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
 	}
 }

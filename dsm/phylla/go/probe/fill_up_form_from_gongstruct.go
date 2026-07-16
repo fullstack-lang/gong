@@ -266,6 +266,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.MidArcVectorShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "MidArcVectorShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MidArcVectorShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.MidArcVectorShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "MidArcVectorShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MidArcVectorShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.NextCircleShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -611,6 +637,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "TopGrowthCurve2D",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TopGrowthCurve2DFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopMidArcVectorShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopMidArcVectorShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopMidArcVectorShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopMidArcVectorShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopMidArcVectorShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopMidArcVectorShapeGridFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

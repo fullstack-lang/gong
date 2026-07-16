@@ -67,6 +67,8 @@ type Plant struct {
 	StartArcShapeGrid              *StartArcShapeGrid
 	TopStartArcShapeGrid           *TopStartArcShapeGrid
 	ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid
+	MidArcVectorShapeGrid          *MidArcVectorShapeGrid
+	TopMidArcVectorShapeGrid       *TopMidArcVectorShapeGrid
 	EndArcShapeGrid                *EndArcShapeGrid
 	TopEndArcShapeGrid             *TopEndArcShapeGrid
 	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
