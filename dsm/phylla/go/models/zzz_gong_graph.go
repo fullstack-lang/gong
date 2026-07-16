@@ -55,6 +55,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *GrowthVectorShape:
 		ok = stage.IsStagedGrowthVectorShape(target)
 
+	case *HalfwayArcShape:
+		ok = stage.IsStagedHalfwayArcShape(target)
+
+	case *HalfwayArcShapeGrid:
+		ok = stage.IsStagedHalfwayArcShapeGrid(target)
+
 	case *InitialRhombusGridShape:
 		ok = stage.IsStagedInitialRhombusGridShape(target)
 
@@ -229,6 +235,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *GrowthVectorShape:
 		ok = stage.IsStagedGrowthVectorShape(target)
+
+	case *HalfwayArcShape:
+		ok = stage.IsStagedHalfwayArcShape(target)
+
+	case *HalfwayArcShapeGrid:
+		ok = stage.IsStagedHalfwayArcShapeGrid(target)
 
 	case *InitialRhombusGridShape:
 		ok = stage.IsStagedInitialRhombusGridShape(target)
@@ -462,6 +474,20 @@ func (stage *Stage) IsStagedGrowthCurveRhombusShape(growthcurverhombusshape *Gro
 func (stage *Stage) IsStagedGrowthVectorShape(growthvectorshape *GrowthVectorShape) (ok bool) {
 
 	_, ok = stage.GrowthVectorShapes[growthvectorshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedHalfwayArcShape(halfwayarcshape *HalfwayArcShape) (ok bool) {
+
+	_, ok = stage.HalfwayArcShapes[halfwayarcshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedHalfwayArcShapeGrid(halfwayarcshapegrid *HalfwayArcShapeGrid) (ok bool) {
+
+	_, ok = stage.HalfwayArcShapeGrids[halfwayarcshapegrid]
 
 	return
 }
@@ -794,6 +820,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *GrowthVectorShape:
 		stage.StageBranchGrowthVectorShape(target)
+
+	case *HalfwayArcShape:
+		stage.StageBranchHalfwayArcShape(target)
+
+	case *HalfwayArcShapeGrid:
+		stage.StageBranchHalfwayArcShapeGrid(target)
 
 	case *InitialRhombusGridShape:
 		stage.StageBranchInitialRhombusGridShape(target)
@@ -1179,6 +1211,39 @@ func (stage *Stage) StageBranchGrowthVectorShape(growthvectorshape *GrowthVector
 
 }
 
+func (stage *Stage) StageBranchHalfwayArcShape(halfwayarcshape *HalfwayArcShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, halfwayarcshape) {
+		return
+	}
+
+	halfwayarcshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchHalfwayArcShapeGrid(halfwayarcshapegrid *HalfwayArcShapeGrid) {
+
+	// check if instance is already staged
+	if IsStaged(stage, halfwayarcshapegrid) {
+		return
+	}
+
+	halfwayarcshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _halfwayarcshape := range halfwayarcshapegrid.HalfwayArcShapes {
+		StageBranch(stage, _halfwayarcshape)
+	}
+
+}
+
 func (stage *Stage) StageBranchInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape) {
 
 	// check if instance is already staged
@@ -1419,6 +1484,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	}
 	if plant.TopMidArcVectorShapeGrid != nil {
 		StageBranch(stage, plant.TopMidArcVectorShapeGrid)
+	}
+	if plant.HalfwayArcShapeGrid != nil {
+		StageBranch(stage, plant.HalfwayArcShapeGrid)
 	}
 	if plant.EndArcShapeGrid != nil {
 		StageBranch(stage, plant.EndArcShapeGrid)
@@ -1998,6 +2066,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchGrowthVectorShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *HalfwayArcShape:
+		toT := CopyBranchHalfwayArcShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *HalfwayArcShapeGrid:
+		toT := CopyBranchHalfwayArcShapeGrid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *InitialRhombusGridShape:
 		toT := CopyBranchInitialRhombusGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -2486,6 +2562,47 @@ func CopyBranchGrowthVectorShape(mapOrigCopy map[any]any, growthvectorshapeFrom 
 	return
 }
 
+func CopyBranchHalfwayArcShape(mapOrigCopy map[any]any, halfwayarcshapeFrom *HalfwayArcShape) (halfwayarcshapeTo *HalfwayArcShape) {
+
+	// halfwayarcshapeFrom has already been copied
+	if _halfwayarcshapeTo, ok := mapOrigCopy[halfwayarcshapeFrom]; ok {
+		halfwayarcshapeTo = _halfwayarcshapeTo.(*HalfwayArcShape)
+		return
+	}
+
+	halfwayarcshapeTo = new(HalfwayArcShape)
+	mapOrigCopy[halfwayarcshapeFrom] = halfwayarcshapeTo
+	halfwayarcshapeFrom.CopyBasicFields(halfwayarcshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchHalfwayArcShapeGrid(mapOrigCopy map[any]any, halfwayarcshapegridFrom *HalfwayArcShapeGrid) (halfwayarcshapegridTo *HalfwayArcShapeGrid) {
+
+	// halfwayarcshapegridFrom has already been copied
+	if _halfwayarcshapegridTo, ok := mapOrigCopy[halfwayarcshapegridFrom]; ok {
+		halfwayarcshapegridTo = _halfwayarcshapegridTo.(*HalfwayArcShapeGrid)
+		return
+	}
+
+	halfwayarcshapegridTo = new(HalfwayArcShapeGrid)
+	mapOrigCopy[halfwayarcshapegridFrom] = halfwayarcshapegridTo
+	halfwayarcshapegridFrom.CopyBasicFields(halfwayarcshapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _halfwayarcshape := range halfwayarcshapegridFrom.HalfwayArcShapes {
+		halfwayarcshapegridTo.HalfwayArcShapes = append(halfwayarcshapegridTo.HalfwayArcShapes, CopyBranchHalfwayArcShape(mapOrigCopy, _halfwayarcshape))
+	}
+
+	return
+}
+
 func CopyBranchInitialRhombusGridShape(mapOrigCopy map[any]any, initialrhombusgridshapeFrom *InitialRhombusGridShape) (initialrhombusgridshapeTo *InitialRhombusGridShape) {
 
 	// initialrhombusgridshapeFrom has already been copied
@@ -2769,6 +2886,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	}
 	if plantFrom.TopMidArcVectorShapeGrid != nil {
 		plantTo.TopMidArcVectorShapeGrid = CopyBranchTopMidArcVectorShapeGrid(mapOrigCopy, plantFrom.TopMidArcVectorShapeGrid)
+	}
+	if plantFrom.HalfwayArcShapeGrid != nil {
+		plantTo.HalfwayArcShapeGrid = CopyBranchHalfwayArcShapeGrid(mapOrigCopy, plantFrom.HalfwayArcShapeGrid)
 	}
 	if plantFrom.EndArcShapeGrid != nil {
 		plantTo.EndArcShapeGrid = CopyBranchEndArcShapeGrid(mapOrigCopy, plantFrom.EndArcShapeGrid)
@@ -3442,6 +3562,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GrowthVectorShape:
 		stage.UnstageBranchGrowthVectorShape(target)
 
+	case *HalfwayArcShape:
+		stage.UnstageBranchHalfwayArcShape(target)
+
+	case *HalfwayArcShapeGrid:
+		stage.UnstageBranchHalfwayArcShapeGrid(target)
+
 	case *InitialRhombusGridShape:
 		stage.UnstageBranchInitialRhombusGridShape(target)
 
@@ -3826,6 +3952,39 @@ func (stage *Stage) UnstageBranchGrowthVectorShape(growthvectorshape *GrowthVect
 
 }
 
+func (stage *Stage) UnstageBranchHalfwayArcShape(halfwayarcshape *HalfwayArcShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, halfwayarcshape) {
+		return
+	}
+
+	halfwayarcshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchHalfwayArcShapeGrid(halfwayarcshapegrid *HalfwayArcShapeGrid) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, halfwayarcshapegrid) {
+		return
+	}
+
+	halfwayarcshapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _halfwayarcshape := range halfwayarcshapegrid.HalfwayArcShapes {
+		UnstageBranch(stage, _halfwayarcshape)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape) {
 
 	// check if instance is already staged
@@ -4066,6 +4225,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	}
 	if plant.TopMidArcVectorShapeGrid != nil {
 		UnstageBranch(stage, plant.TopMidArcVectorShapeGrid)
+	}
+	if plant.HalfwayArcShapeGrid != nil {
+		UnstageBranch(stage, plant.HalfwayArcShapeGrid)
 	}
 	if plant.EndArcShapeGrid != nil {
 		UnstageBranch(stage, plant.EndArcShapeGrid)
@@ -4677,6 +4839,20 @@ func (reference *GrowthVectorShape) GongReconstructPointersFromReferences(stage 
 	// insertion point for slice of pointers field
 }
 
+func (reference *HalfwayArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *HalfwayArcShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *HalfwayArcShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *HalfwayArcShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.HalfwayArcShapes = reference.HalfwayArcShapes[:0]
+	for _, _b := range instance.HalfwayArcShapes {
+		reference.HalfwayArcShapes = append(reference.HalfwayArcShapes, stage.HalfwayArcShapes_reference[_b])
+	}
+}
+
 func (reference *InitialRhombusGridShape) GongReconstructPointersFromReferences(stage *Stage, instance *InitialRhombusGridShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -4815,6 +4991,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	}
 	if instance.TopMidArcVectorShapeGrid != nil {
 		reference.TopMidArcVectorShapeGrid = stage.TopMidArcVectorShapeGrids_reference[instance.TopMidArcVectorShapeGrid]
+	}
+	if instance.HalfwayArcShapeGrid != nil {
+		reference.HalfwayArcShapeGrid = stage.HalfwayArcShapeGrids_reference[instance.HalfwayArcShapeGrid]
 	}
 	if instance.EndArcShapeGrid != nil {
 		reference.EndArcShapeGrid = stage.EndArcShapeGrids_reference[instance.EndArcShapeGrid]
@@ -5179,6 +5358,23 @@ func (reference *GrowthVectorShape) GongReconstructPointersFromInstances(stage *
 	// insertion point for slice of pointers fields
 }
 
+func (reference *HalfwayArcShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *HalfwayArcShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _HalfwayArcShapes []*HalfwayArcShape
+	for _, _reference := range reference.HalfwayArcShapes {
+		if _instance, ok := stage.HalfwayArcShapes_instance[_reference]; ok {
+			_HalfwayArcShapes = append(_HalfwayArcShapes, _instance)
+		}
+	}
+	reference.HalfwayArcShapes = _HalfwayArcShapes
+}
+
 func (reference *InitialRhombusGridShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -5397,6 +5593,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.TopMidArcVectorShapeGrid = nil
 		if _instance, ok := stage.TopMidArcVectorShapeGrids_instance[_reference]; ok {
 			reference.TopMidArcVectorShapeGrid = _instance
+		}
+	}
+	if _reference := reference.HalfwayArcShapeGrid; _reference != nil {
+		reference.HalfwayArcShapeGrid = nil
+		if _instance, ok := stage.HalfwayArcShapeGrids_instance[_reference]; ok {
+			reference.HalfwayArcShapeGrid = _instance
 		}
 	}
 	if _reference := reference.EndArcShapeGrid; _reference != nil {
@@ -6106,6 +6308,76 @@ func (growthvectorshape *GrowthVectorShape) GongDiff(stage *Stage, growthvectors
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (halfwayarcshape *HalfwayArcShape) GongDiff(stage *Stage, halfwayarcshapeOther *HalfwayArcShape) (diffs []string) {
+	// insertion point for field diffs
+	if halfwayarcshape.Name != halfwayarcshapeOther.Name {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "Name"))
+	}
+	if halfwayarcshape.StartX != halfwayarcshapeOther.StartX {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "StartX"))
+	}
+	if halfwayarcshape.StartY != halfwayarcshapeOther.StartY {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "StartY"))
+	}
+	if halfwayarcshape.EndX != halfwayarcshapeOther.EndX {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "EndX"))
+	}
+	if halfwayarcshape.EndY != halfwayarcshapeOther.EndY {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "EndY"))
+	}
+	if halfwayarcshape.RadiusX != halfwayarcshapeOther.RadiusX {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "RadiusX"))
+	}
+	if halfwayarcshape.RadiusY != halfwayarcshapeOther.RadiusY {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "RadiusY"))
+	}
+	if halfwayarcshape.XAxisRotation != halfwayarcshapeOther.XAxisRotation {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "XAxisRotation"))
+	}
+	if halfwayarcshape.LargeArcFlag != halfwayarcshapeOther.LargeArcFlag {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "LargeArcFlag"))
+	}
+	if halfwayarcshape.SweepFlag != halfwayarcshapeOther.SweepFlag {
+		diffs = append(diffs, halfwayarcshape.GongMarshallField(stage, "SweepFlag"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongDiff(stage *Stage, halfwayarcshapegridOther *HalfwayArcShapeGrid) (diffs []string) {
+	// insertion point for field diffs
+	if halfwayarcshapegrid.Name != halfwayarcshapegridOther.Name {
+		diffs = append(diffs, halfwayarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+	HalfwayArcShapesDifferent := false
+	if len(halfwayarcshapegrid.HalfwayArcShapes) != len(halfwayarcshapegridOther.HalfwayArcShapes) {
+		HalfwayArcShapesDifferent = true
+	} else {
+		for i := range halfwayarcshapegrid.HalfwayArcShapes {
+			if (halfwayarcshapegrid.HalfwayArcShapes[i] == nil) != (halfwayarcshapegridOther.HalfwayArcShapes[i] == nil) {
+				HalfwayArcShapesDifferent = true
+				break
+			} else if halfwayarcshapegrid.HalfwayArcShapes[i] != nil && halfwayarcshapegridOther.HalfwayArcShapes[i] != nil {
+				// this is a pointer comparaison
+				if halfwayarcshapegrid.HalfwayArcShapes[i] != halfwayarcshapegridOther.HalfwayArcShapes[i] {
+					HalfwayArcShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if HalfwayArcShapesDifferent {
+		ops := Diff(stage, halfwayarcshapegrid, halfwayarcshapegridOther, "HalfwayArcShapes", halfwayarcshapegridOther.HalfwayArcShapes, halfwayarcshapegrid.HalfwayArcShapes)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (initialrhombusgridshape *InitialRhombusGridShape) GongDiff(stage *Stage, initialrhombusgridshapeOther *InitialRhombusGridShape) (diffs []string) {
 	// insertion point for field diffs
 	if initialrhombusgridshape.Name != initialrhombusgridshapeOther.Name {
@@ -6605,6 +6877,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "TopMidArcVectorShapeGrid"))
 		}
 	}
+	if (plant.HalfwayArcShapeGrid == nil) != (plantOther.HalfwayArcShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "HalfwayArcShapeGrid"))
+	} else if plant.HalfwayArcShapeGrid != nil && plantOther.HalfwayArcShapeGrid != nil {
+		if plant.HalfwayArcShapeGrid != plantOther.HalfwayArcShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "HalfwayArcShapeGrid"))
+		}
+	}
 	if (plant.EndArcShapeGrid == nil) != (plantOther.EndArcShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
 	} else if plant.EndArcShapeGrid != nil && plantOther.EndArcShapeGrid != nil {
@@ -6767,6 +7046,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenTopMidArcVectorShapeGrid != plantdiagramOther.IsHiddenTopMidArcVectorShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopMidArcVectorShapeGrid"))
+	}
+	if plantdiagram.IsHiddenHalfwayArcShapeGrid != plantdiagramOther.IsHiddenHalfwayArcShapeGrid {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenHalfwayArcShapeGrid"))
 	}
 	if plantdiagram.IsHiddenEndArcShapeGrid != plantdiagramOther.IsHiddenEndArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))

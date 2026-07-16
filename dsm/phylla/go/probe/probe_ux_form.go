@@ -111,6 +111,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.growthvectorshape, probe)
 			}
+		case *HalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "HalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.halfwayarcshape, probe)
+			}
+		case *HalfwayArcShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "HalfwayArcShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.halfwayarcshapegrid, probe)
+			}
 		case *InitialRhombusGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "InitialRhombusGridShape", true)
@@ -575,6 +587,32 @@ func FillUpFormFromGongstructName(
 		growthvectorshape := new(models.GrowthVectorShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(growthvectorshape, formGroup, probe)
+	case "HalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "HalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__HalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		halfwayarcshape := new(models.HalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(halfwayarcshape, formGroup, probe)
+	case "HalfwayArcShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "HalfwayArcShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__HalfwayArcShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		halfwayarcshapegrid := new(models.HalfwayArcShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(halfwayarcshapegrid, formGroup, probe)
 	case "InitialRhombusGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -56,6 +56,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.GrowthCurveRhombusShape](probe)
 	case "GrowthVectorShape":
 		updateProbeTable[*models.GrowthVectorShape](probe)
+	case "HalfwayArcShape":
+		updateProbeTable[*models.HalfwayArcShape](probe)
+	case "HalfwayArcShapeGrid":
+		updateProbeTable[*models.HalfwayArcShapeGrid](probe)
 	case "InitialRhombusGridShape":
 		updateProbeTable[*models.InitialRhombusGridShape](probe)
 	case "InitialRhombusShape":

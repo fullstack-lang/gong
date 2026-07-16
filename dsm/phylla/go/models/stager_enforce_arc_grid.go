@@ -805,3 +805,195 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 	}
 	return needCommit
 }
+
+
+func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
+		if len(grid.HalfwayArcShapes) > 0 {
+			grid.HalfwayArcShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(pGrid.PerpendicularVectors) - 1
+	valid := true
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+	
+	dx := -thickness * vx
+	dy := -thickness * vy
+
+	if len(grid.HalfwayArcShapes) != expectedLen {
+		valid = false
+	} else {
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+			s := grid.HalfwayArcShapes[i]
+			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
+			if s == nil || s.Name != expectedName {
+				valid = false
+				break
+			}
+
+			sX, sY, _, _, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, false)
+			_, _, mX, mY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
+			mX = mX + dx
+			mY = mY + dy
+			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
+			
+			endX := (mX + mX2) / 2.0
+			endY := (mY + mY2) / 2.0
+
+			v1_dx := v1.EndX - v1.StartX
+			v1_dy := v1.EndY - v1.StartY
+			length := math.Hypot(v1_dx, v1_dy)
+			if length == 0 { length = 1 }
+			ux, uy := v1_dx/length, v1_dy/length
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+
+			Vx := v1.StartX - midX
+			Vy := v1.StartY - midY
+			V_sq := Vx*Vx + Vy*Vy
+			V_dot_u := Vx*ux + Vy*uy
+			if math.Abs(V_dot_u) < 1e-6 {
+				if V_dot_u >= 0 { V_dot_u = 1e-6 } else { V_dot_u = -1e-6 }
+			}
+
+			R_val := -V_sq / (2.0 * V_dot_u)
+			cx := v1.StartX + R_val*ux
+			cy := v1.StartY + R_val*uy
+
+			nx := cx - sX
+			ny := cy - sY
+			nLen := math.Hypot(nx, ny)
+			if nLen == 0 { nLen = 1 }
+			nx, ny = nx/nLen, ny/nLen
+
+			vX := sX - endX
+			vY := sY - endY
+			distSq := vX*vX + vY*vY
+			dot := vX*nx + vY*ny
+			t := 0.0
+			if dot != 0 {
+				t = -distSq / (2.0 * dot)
+			}
+			R_new := math.Abs(t)
+
+			cx_new := sX + t*nx
+			cy_new := sY + t*ny
+
+			AB_x := endX - sX
+			AB_y := endY - sY
+			AC_x := cx_new - sX
+			AC_y := cy_new - sY
+			new_cross := AB_x*AC_y - AB_y*AC_x
+			sweepFlag := (new_cross < 0)
+
+			if math.Abs(s.StartX-sX) > 1e-4 || math.Abs(s.StartY-sY) > 1e-4 ||
+				math.Abs(s.EndX-endX) > 1e-4 || math.Abs(s.EndY-endY) > 1e-4 ||
+				math.Abs(s.RadiusX-R_new) > 1e-4 || s.SweepFlag != sweepFlag {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		for _, s := range grid.HalfwayArcShapes {
+			if s != nil {
+				s.Unstage(stage)
+			}
+		}
+		grid.HalfwayArcShapes = make([]*HalfwayArcShape, expectedLen)
+
+		for i := 0; i < expectedLen; i++ {
+			v1 := pGrid.PerpendicularVectors[i]
+			v2 := pGrid.PerpendicularVectors[i+1]
+
+			sX, sY, _, _, _, _, xAxisRotation, _, _ := computeArcV2Geometry(v1, v2, 0.0, false)
+
+			_, _, mX, mY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
+			mX = mX + dx
+			mY = mY + dy
+			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
+			
+			endX := (mX + mX2) / 2.0
+			endY := (mY + mY2) / 2.0
+
+			v1_dx := v1.EndX - v1.StartX
+			v1_dy := v1.EndY - v1.StartY
+			length := math.Hypot(v1_dx, v1_dy)
+			if length == 0 { length = 1 }
+			ux, uy := v1_dx/length, v1_dy/length
+
+			midX := (v1.StartX + v2.StartX) / 2.0
+			midY := (v1.StartY + v2.StartY) / 2.0
+
+			Vx := v1.StartX - midX
+			Vy := v1.StartY - midY
+			V_sq := Vx*Vx + Vy*Vy
+			V_dot_u := Vx*ux + Vy*uy
+			if math.Abs(V_dot_u) < 1e-6 {
+				if V_dot_u >= 0 { V_dot_u = 1e-6 } else { V_dot_u = -1e-6 }
+			}
+
+			R_val := -V_sq / (2.0 * V_dot_u)
+			cx := v1.StartX + R_val*ux
+			cy := v1.StartY + R_val*uy
+
+			nx := cx - sX
+			ny := cy - sY
+			nLen := math.Hypot(nx, ny)
+			if nLen == 0 { nLen = 1 }
+			nx, ny = nx/nLen, ny/nLen
+
+			vX := sX - endX
+			vY := sY - endY
+			distSq := vX*vX + vY*vY
+			dot := vX*nx + vY*ny
+			t := 0.0
+			if dot != 0 {
+				t = -distSq / (2.0 * dot)
+			}
+			R_new := math.Abs(t)
+
+			cx_new := sX + t*nx
+			cy_new := sY + t*ny
+
+			AB_x := endX - sX
+			AB_y := endY - sY
+			AC_x := cx_new - sX
+			AC_y := cy_new - sY
+			new_cross := AB_x*AC_y - AB_y*AC_x
+			sweepFlag := (new_cross < 0)
+
+			newShape := new(HalfwayArcShape).Stage(stage)
+			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
+			newShape.StartX = sX
+			newShape.StartY = sY
+			newShape.EndX = endX
+			newShape.EndY = endY
+			newShape.RadiusX = R_new
+			newShape.RadiusY = R_new
+			newShape.XAxisRotation = xAxisRotation
+			newShape.LargeArcFlag = false
+			newShape.SweepFlag = sweepFlag
+
+			grid.HalfwayArcShapes[i] = newShape
+		}
+		needCommit = true
+	}
+	return needCommit
+}
+
+

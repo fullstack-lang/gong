@@ -1720,6 +1720,257 @@ func (growthvectorshapeFormCallback *GrowthVectorShapeFormCallback) OnSave() {
 
 	growthvectorshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__HalfwayArcShapeFormCallback(
+	halfwayarcshape *models.HalfwayArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (halfwayarcshapeFormCallback *HalfwayArcShapeFormCallback) {
+	halfwayarcshapeFormCallback = new(HalfwayArcShapeFormCallback)
+	halfwayarcshapeFormCallback.probe = probe
+	halfwayarcshapeFormCallback.halfwayarcshape = halfwayarcshape
+	halfwayarcshapeFormCallback.formGroup = formGroup
+
+	halfwayarcshapeFormCallback.CreationMode = (halfwayarcshape == nil)
+
+	return
+}
+
+type HalfwayArcShapeFormCallback struct {
+	halfwayarcshape *models.HalfwayArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (halfwayarcshapeFormCallback *HalfwayArcShapeFormCallback) OnSave() {
+	halfwayarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer halfwayarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("HalfwayArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	halfwayarcshapeFormCallback.probe.formStage.Checkout()
+
+	if halfwayarcshapeFormCallback.halfwayarcshape == nil {
+		halfwayarcshapeFormCallback.halfwayarcshape = new(models.HalfwayArcShape).Stage(halfwayarcshapeFormCallback.probe.stageOfInterest)
+	}
+	halfwayarcshape_ := halfwayarcshapeFormCallback.halfwayarcshape
+	_ = halfwayarcshape_
+
+	for _, formDiv := range halfwayarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(halfwayarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(halfwayarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(halfwayarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(halfwayarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(halfwayarcshape_.EndY), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(halfwayarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(halfwayarcshape_.RadiusY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(halfwayarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(halfwayarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(halfwayarcshape_.SweepFlag), formDiv)
+		case "HalfwayArcShapeGrid:HalfwayArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the HalfwayArcShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target HalfwayArcShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.HalfwayArcShapeGrid](halfwayarcshapeFormCallback.probe.stageOfInterest)
+			targetHalfwayArcShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetHalfwayArcShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all HalfwayArcShapeGrid instances and update their HalfwayArcShapes slice
+			for _halfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.HalfwayArcShapeGrid](halfwayarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(halfwayarcshapeFormCallback.probe.stageOfInterest, _halfwayarcshapegrid)
+				
+				// if HalfwayArcShapeGrid is selected
+				if targetHalfwayArcShapeGridIDs[id] {
+					// ensure halfwayarcshape_ is in _halfwayarcshapegrid.HalfwayArcShapes
+					found := false
+					for _, _b := range _halfwayarcshapegrid.HalfwayArcShapes {
+						if _b == halfwayarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_halfwayarcshapegrid.HalfwayArcShapes = append(_halfwayarcshapegrid.HalfwayArcShapes, halfwayarcshape_)
+						halfwayarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_halfwayarcshapegrid, "HalfwayArcShapes", &_halfwayarcshapegrid.HalfwayArcShapes)
+					}
+				} else {
+					// ensure halfwayarcshape_ is NOT in _halfwayarcshapegrid.HalfwayArcShapes
+					idx := slices.Index(_halfwayarcshapegrid.HalfwayArcShapes, halfwayarcshape_)
+					if idx != -1 {
+						_halfwayarcshapegrid.HalfwayArcShapes = slices.Delete(_halfwayarcshapegrid.HalfwayArcShapes, idx, idx+1)
+						halfwayarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_halfwayarcshapegrid, "HalfwayArcShapes", &_halfwayarcshapegrid.HalfwayArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if halfwayarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		halfwayarcshape_.Unstage(halfwayarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	halfwayarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.HalfwayArcShape](
+		halfwayarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if halfwayarcshapeFormCallback.CreationMode || halfwayarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		halfwayarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(halfwayarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__HalfwayArcShapeFormCallback(
+			nil,
+			halfwayarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		halfwayarcshape := new(models.HalfwayArcShape)
+		FillUpForm(halfwayarcshape, newFormGroup, halfwayarcshapeFormCallback.probe)
+		halfwayarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	halfwayarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__HalfwayArcShapeGridFormCallback(
+	halfwayarcshapegrid *models.HalfwayArcShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (halfwayarcshapegridFormCallback *HalfwayArcShapeGridFormCallback) {
+	halfwayarcshapegridFormCallback = new(HalfwayArcShapeGridFormCallback)
+	halfwayarcshapegridFormCallback.probe = probe
+	halfwayarcshapegridFormCallback.halfwayarcshapegrid = halfwayarcshapegrid
+	halfwayarcshapegridFormCallback.formGroup = formGroup
+
+	halfwayarcshapegridFormCallback.CreationMode = (halfwayarcshapegrid == nil)
+
+	return
+}
+
+type HalfwayArcShapeGridFormCallback struct {
+	halfwayarcshapegrid *models.HalfwayArcShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (halfwayarcshapegridFormCallback *HalfwayArcShapeGridFormCallback) OnSave() {
+	halfwayarcshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer halfwayarcshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("HalfwayArcShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	halfwayarcshapegridFormCallback.probe.formStage.Checkout()
+
+	if halfwayarcshapegridFormCallback.halfwayarcshapegrid == nil {
+		halfwayarcshapegridFormCallback.halfwayarcshapegrid = new(models.HalfwayArcShapeGrid).Stage(halfwayarcshapegridFormCallback.probe.stageOfInterest)
+	}
+	halfwayarcshapegrid_ := halfwayarcshapegridFormCallback.halfwayarcshapegrid
+	_ = halfwayarcshapegrid_
+
+	for _, formDiv := range halfwayarcshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(halfwayarcshapegrid_.Name), formDiv)
+		case "HalfwayArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.HalfwayArcShape](halfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.HalfwayArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.HalfwayArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					halfwayarcshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.HalfwayArcShape](halfwayarcshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			halfwayarcshapegrid_.HalfwayArcShapes = instanceSlice
+			halfwayarcshapegridFormCallback.probe.UpdateSliceOfPointersCallback(halfwayarcshapegrid_, "HalfwayArcShapes", &halfwayarcshapegrid_.HalfwayArcShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if halfwayarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		halfwayarcshapegrid_.Unstage(halfwayarcshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	halfwayarcshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.HalfwayArcShapeGrid](
+		halfwayarcshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if halfwayarcshapegridFormCallback.CreationMode || halfwayarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		halfwayarcshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(halfwayarcshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__HalfwayArcShapeGridFormCallback(
+			nil,
+			halfwayarcshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		halfwayarcshapegrid := new(models.HalfwayArcShapeGrid)
+		FillUpForm(halfwayarcshapegrid, newFormGroup, halfwayarcshapegridFormCallback.probe)
+		halfwayarcshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	halfwayarcshapegridFormCallback.probe.ux_tree()
+}
 func __gong__New__InitialRhombusGridShapeFormCallback(
 	initialrhombusgridshape *models.InitialRhombusGridShape,
 	probe *Probe,
@@ -3098,6 +3349,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.MidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopMidArcVectorShapeGrid":
 			FormDivSelectFieldToField(&(plant_.TopMidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "HalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.HalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "EndArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndArcShapeGrid":
@@ -3369,6 +3622,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
 		case "IsHiddenTopMidArcVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
+		case "IsHiddenHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenHalfwayArcShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
 		case "IsHiddenTopEndArcShapeGrid":
