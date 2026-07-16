@@ -343,9 +343,23 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					growthVectorY = plant.GrowthVectorShape.Y
 				}
 
+				var vx, vy float64
+				if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+					vFirst := pGrid.PerpendicularVectors[0]
+					vx = vFirst.EndX - vFirst.StartX
+					vy = vFirst.EndY - vFirst.StartY
+					vLen := math.Hypot(vx, vy)
+					if vLen == 0 {
+						vLen = 1
+					}
+					vx, vy = vx/vLen, vy/vLen
+				}
+
+				verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+
 				for h := 0; h < stackHeight; h++ {
-					dx := float64(h) * growthVectorX
-					dy := float64(h) * growthVectorY
+					dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+					dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy
 
 					thetaOffset := dx / globalR
 

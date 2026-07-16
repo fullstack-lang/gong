@@ -1404,6 +1404,17 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 			}
 		}
 		grid.TopStartArcShapes = make([]*TopStartArcShape, expectedLen)
+		vFirst := pGrid.PerpendicularVectors[0]
+		vx := vFirst.EndX - vFirst.StartX
+		vy := vFirst.EndY - vFirst.StartY
+		vLen := math.Hypot(vx, vy)
+		if vLen == 0 {
+			vLen = 1
+		}
+		vx, vy = vx/vLen, vy/vLen
+		dx_thick := thickness * vx
+		dy_thick := thickness * vy
+
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1445,13 +1456,13 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 
 			sweepFlag := (model_cross < 0)
 
-			scale := 1.0 - thickness/R_val
-			R_new := R * math.Abs(scale)
+			expectedStartX := v1.StartX + dx_thick
+			expectedStartY := v1.StartY + dy_thick
+			expectedEndX := midX + dx_thick
+			expectedEndY := midY + dy_thick
 
-			expectedStartX := cx + scale*(v1.StartX-cx)
-			expectedStartY := cy + scale*(v1.StartY-cy)
-			expectedEndX := cx + scale*(midX-cx)
-			expectedEndY := cy + scale*(midY-cy)
+			expectedRadiusX := R
+			expectedRadiusY := R
 
 			newArc := new(TopStartArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
@@ -1459,8 +1470,8 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 			newArc.StartY = expectedStartY
 			newArc.EndX = expectedEndX
 			newArc.EndY = expectedEndY
-			newArc.RadiusX = R_new
-			newArc.RadiusY = R_new
+			newArc.RadiusX = expectedRadiusX
+			newArc.RadiusY = expectedRadiusY
 			newArc.SweepFlag = sweepFlag
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
@@ -1710,6 +1721,17 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 	if len(grid.TopEndArcShapes) != expectedLen {
 		valid = false
 	} else {
+		vFirst := pGrid.PerpendicularVectors[0]
+		vx := vFirst.EndX - vFirst.StartX
+		vy := vFirst.EndY - vFirst.StartY
+		vLen := math.Hypot(vx, vy)
+		if vLen == 0 {
+			vLen = 1
+		}
+		vx, vy = vx/vLen, vy/vLen
+		dx_thick := thickness * vx
+		dy_thick := thickness * vy
+
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1756,19 +1778,13 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
 			origSweepFlag := (model_cross < 0)
 
-			cx_new := 2*midX - cx
-			cy_new := 2*midY - cy
+			expectedStartX := 2*midX - v1.StartX + dx_thick
+			expectedStartY := 2*midY - v1.StartY + dy_thick
+			expectedEndX := midX + dx_thick
+			expectedEndY := midY + dy_thick
 
-			scale := 1.0 + thickness/R_val
-			R_new := R * math.Abs(scale)
-
-			expectedStartX := cx_new - scale*(v1.StartX-cx)
-			expectedStartY := cy_new - scale*(v1.StartY-cy)
-			expectedEndX := cx_new + scale*(midX-cx_new)
-			expectedEndY := cy_new + scale*(midY-cy_new)
-
-			expectedRadiusX := R_new
-			expectedRadiusY := R_new
+			expectedRadiusX := R
+			expectedRadiusY := R
 
 			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
 				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
@@ -1787,6 +1803,17 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 			}
 		}
 		grid.TopEndArcShapes = make([]*TopEndArcShape, expectedLen)
+		vFirst := pGrid.PerpendicularVectors[0]
+		vx := vFirst.EndX - vFirst.StartX
+		vy := vFirst.EndY - vFirst.StartY
+		vLen := math.Hypot(vx, vy)
+		if vLen == 0 {
+			vLen = 1
+		}
+		vx, vy = vx/vLen, vy/vLen
+		dx_thick := thickness * vx
+		dy_thick := thickness * vy
+
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -1827,16 +1854,13 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
 			origSweepFlag := (model_cross < 0)
 
-			cx_new := 2*midX - cx
-			cy_new := 2*midY - cy
+			expectedStartX := 2*midX - v1.StartX + dx_thick
+			expectedStartY := 2*midY - v1.StartY + dy_thick
+			expectedEndX := midX + dx_thick
+			expectedEndY := midY + dy_thick
 
-			scale := 1.0 + thickness/R_val
-			R_new := R * math.Abs(scale)
-
-			expectedStartX := cx_new - scale*(v1.StartX-cx)
-			expectedStartY := cy_new - scale*(v1.StartY-cy)
-			expectedEndX := cx_new + scale*(midX-cx_new)
-			expectedEndY := cy_new + scale*(midY-cy_new)
+			expectedRadiusX := R
+			expectedRadiusY := R
 
 			newArc := new(TopEndArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
@@ -1844,8 +1868,8 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 			newArc.StartY = expectedStartY
 			newArc.EndX = expectedEndX
 			newArc.EndY = expectedEndY
-			newArc.RadiusX = R_new
-			newArc.RadiusY = R_new
+			newArc.RadiusX = expectedRadiusX
+			newArc.RadiusY = expectedRadiusY
 			newArc.SweepFlag = origSweepFlag
 			newArc.LargeArcFlag = false
 			newArc.XAxisRotation = 0
@@ -1975,9 +1999,18 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
 
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+
 	for h := 0; h < stackHeight; h++ {
-		dx := float64(h) * vector.X
-		dy := float64(h) * vector.Y
+		dx := float64(h)*vector.X + float64(h)*thickness*vx
+		dy := float64(h)*vector.Y + float64(h)*thickness*vy
 		offset := 0.0
 
 		for i := 0; i < expectedLen; i++ {
@@ -2098,10 +2131,19 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	var expectedStart []expectedStartShape
 	var expectedEnd []expectedStartShape
 
+	vFirst := pGrid.PerpendicularVectors[0]
+	vx := vFirst.EndX - vFirst.StartX
+	vy := vFirst.EndY - vFirst.StartY
+	vLen := math.Hypot(vx, vy)
+	if vLen == 0 {
+		vLen = 1
+	}
+	vx, vy = vx/vLen, vy/vLen
+
 	for h := 0; h < stackHeight; h++ {
-		dx := float64(h) * vector.X
-		dy := float64(h) * vector.Y
-		offset := thickness
+		dx := float64(h)*vector.X + float64(h)*thickness*vx + thickness*vx
+		dy := float64(h)*vector.Y + float64(h)*thickness*vy + thickness*vy
+		offset := 0.0
 
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
