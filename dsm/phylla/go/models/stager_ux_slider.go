@@ -94,11 +94,11 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Thickness",
-				1,
-				100,
-				1,
-				&plant.VerticalThickness,
+				"Relative Vertical Thickness",
+				0.01,
+				0.3,
+				0.01,
+				&plant.RelativeVerticalThickness,
 			),
 		)
 

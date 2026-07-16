@@ -995,7 +995,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "VerticalThickness"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialThickness"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
@@ -2801,11 +2801,11 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RhombusInsideAngle))
-	case "VerticalThickness":
+	case "RelativeVerticalThickness":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VerticalThickness")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.VerticalThickness))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeVerticalThickness")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeVerticalThickness))
 	case "RadialThickness":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -4466,7 +4466,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "VerticalThickness"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialThickness"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))

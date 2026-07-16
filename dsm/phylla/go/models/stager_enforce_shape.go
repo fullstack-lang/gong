@@ -627,7 +627,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.VerticalThickness) || needCommit
+			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness * plant.RhombusSideLength) || needCommit
 		}
 
 		{
@@ -635,7 +635,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.VerticalThickness) || needCommit
+			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness * plant.RhombusSideLength) || needCommit
 		}
 
 		if plant.GrowthCurve2D == nil {
@@ -686,10 +686,10 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.VerticalThickness) || needCommit
+			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness * plant.RhombusSideLength) || needCommit
 		}
-		{
-			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.VerticalThickness) || needCommit
+		if plant.TopStackOfGrowthCurve != nil {
+			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness * plant.RhombusSideLength) || needCommit
 		}
 		{
 		}

@@ -174,7 +174,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			curve := (&threejs.Curve{
 				Name: "Torus Continuous Curve Base",
 			}).Stage(stager.threejsStage)
-			
+
 			topCurve := (&threejs.Curve{
 				Name: "Torus Continuous Curve Top",
 			}).Stage(stager.threejsStage)
@@ -320,9 +320,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 
 					return (&threejs.Mesh{
-						Name:            fmt.Sprintf("%s Mesh", faceName),
-						Position:        threejs.Position{X: 0, Y: 0, Z: 0},
-						BufferGeometry:  geom,
+						Name:           fmt.Sprintf("%s Mesh", faceName),
+						Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+						BufferGeometry: geom,
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 							Name:                 fmt.Sprintf("%s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
@@ -357,7 +357,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 						thetaBase := math.Atan2(p.Z, p.X)
 						theta := thetaBase + thetaOffset
-						
+
 						thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
 						thetaTop := thetaBaseTop + thetaOffset
 
@@ -366,7 +366,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 						rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
 						rOuter := rBase + thickness
-						
+
 						rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
 						rOuterTop := rBaseTop + thickness
 
@@ -400,17 +400,17 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					namePrefix := fmt.Sprintf("Torus Continuous Layer %d", h)
 
 					bottomFace := createFaceMesh(namePrefix+" Bottom", "#1f77b4", bottomEdges, false) // blue
-					topFace := createFaceMesh(namePrefix+" Top", "#d62728", topEdges, true)         // red
-					innerFace := createFaceMesh(namePrefix+" Inner", "#ff7f0e", innerEdges, true)   // orange
-					outerFace := createFaceMesh(namePrefix+" Outer", "#2ca02c", outerEdges, false)  // green
+					topFace := createFaceMesh(namePrefix+" Top", "#d62728", topEdges, true)           // red
+					innerFace := createFaceMesh(namePrefix+" Inner", "#ff7f0e", innerEdges, true)     // orange
+					outerFace := createFaceMesh(namePrefix+" Outer", "#2ca02c", outerEdges, false)    // green
 
 					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
-					
+
 					createTube := func(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
 						curve := (&threejs.Curve{
 							Name: "Curve " + name,
 						}).Stage(stager.threejsStage)
-				
+
 						for i := 0; i < len(edges); i++ {
 							p := edges[i][0]
 							if !useLeft {
@@ -423,7 +423,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 								Z:    p.Z,
 							}).Stage(stager.threejsStage))
 						}
-				
+
 						tubeGeometry := (&threejs.TubeGeometry{
 							Name:            "TubeGeom " + name,
 							Path:            curve,
@@ -432,7 +432,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							RadialSegments:  8,
 							Closed:          false,
 						}).Stage(stager.threejsStage)
-				
+
 						return (&threejs.Mesh{
 							Name:              "TubeMesh " + name,
 							Position:          threejs.Position{X: 0, Y: 0, Z: 0},
@@ -440,10 +440,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
 						}).Stage(stager.threejsStage)
 					}
-					
+
 					outerRadius := 0.1
 					innerRadius := outerRadius * 0.85
-					
+
 					canvas.Meshs = append(canvas.Meshs,
 						createTube(namePrefix+" BottomInner", "black", bottomEdges, true, innerRadius),
 						createTube(namePrefix+" BottomOuter", "gray", bottomEdges, false, outerRadius),
@@ -457,9 +457,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		if floorMinY == math.MaxFloat64 {
 			floorMinY = 0.0
 		} else {
-			thickness := plant.VerticalThickness
+			thickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
 			if thickness == 0 {
-				thickness = 1.0
+				thickness = 5.0
 			}
 			floorMinY = floorMinY - (thickness / 2.0)
 		}

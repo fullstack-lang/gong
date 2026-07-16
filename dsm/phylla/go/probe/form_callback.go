@@ -2769,8 +2769,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.StackHeight), formDiv)
 		case "RhombusInsideAngle":
 			FormDivBasicFieldToField(&(plant_.RhombusInsideAngle), formDiv)
-		case "VerticalThickness":
-			FormDivBasicFieldToField(&(plant_.VerticalThickness), formDiv)
+		case "RelativeVerticalThickness":
+			FormDivBasicFieldToField(&(plant_.RelativeVerticalThickness), formDiv)
 		case "RadialThickness":
 			FormDivBasicFieldToField(&(plant_.RadialThickness), formDiv)
 		case "RhombusSideLength":

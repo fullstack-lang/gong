@@ -22,8 +22,9 @@ type Plant struct {
 	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
 	RhombusInsideAngle float64
 
-	// VerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
-	VerticalThickness float64
+	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
+	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
+	RelativeVerticalThickness float64
 
 	// thickness allong the radius
 	RadialThickness float64
