@@ -769,6 +769,38 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	{
+		shiftedLeftStackOfPerpendicularVector := plant.ShiftedLeftStackOfNormalVector
+		node := &tree.Node{
+			Name: "Shifted Left Stack Of Perpendicular Vector",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(shiftedLeftStackOfPerpendicularVector, GetPointerToGongstructName[*ShiftedLeftStackOfNormalVector]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenShiftedLeftStackOfNormalVector = !plantDiagram.IsHiddenShiftedLeftStackOfNormalVector
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenShiftedLeftStackOfNormalVector {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	{
 		shiftedLeftStackOfGrowthCurve := plant.ShiftedLeftStackOfGrowthCurve
 		node := &tree.Node{
 			Name: "Shifted Left Stack Of Growth Curve",

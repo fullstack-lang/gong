@@ -267,6 +267,20 @@ type GrowthCurveBezierShapeGrid struct {
 	GrowthCurveBezierShapes []*GrowthCurveBezierShape
 }
 
+// ShiftedLeftStackOfNormalVector of a plant,
+type ShiftedLeftStackOfNormalVector struct {
+	Name string
+
+	ShiftedLeftStackNormalVectors []*ShiftedLeftStackNormalVector
+}
+
+type ShiftedLeftStackNormalVector struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
 // StackOfGrowthCurve of a plant,
 type StackOfGrowthCurve struct {
 	Name string

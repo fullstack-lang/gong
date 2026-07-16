@@ -2863,6 +2863,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.TopStackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedLeftStackOfGrowthCurve":
 			FormDivSelectFieldToField(&(plant_.ShiftedLeftStackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftStackOfNormalVector":
+			FormDivSelectFieldToField(&(plant_.ShiftedLeftStackOfNormalVector), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2D":
 			FormDivSelectFieldToField(&(plant_.GrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopGrowthCurve2D":
@@ -3132,6 +3134,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
 		case "IsHiddenShiftedLeftStackOfGrowthCurve":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfGrowthCurve), formDiv)
+		case "IsHiddenShiftedLeftStackOfNormalVector":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
 		case "IsHiddenGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
 		case "IsHiddenTopGrowthCurve2D":
@@ -3913,6 +3917,137 @@ func (shiftedleftstackgrowthcurvestartarcshapeFormCallback *ShiftedLeftStackGrow
 
 	shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__ShiftedLeftStackNormalVectorFormCallback(
+	shiftedleftstacknormalvector *models.ShiftedLeftStackNormalVector,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedleftstacknormalvectorFormCallback *ShiftedLeftStackNormalVectorFormCallback) {
+	shiftedleftstacknormalvectorFormCallback = new(ShiftedLeftStackNormalVectorFormCallback)
+	shiftedleftstacknormalvectorFormCallback.probe = probe
+	shiftedleftstacknormalvectorFormCallback.shiftedleftstacknormalvector = shiftedleftstacknormalvector
+	shiftedleftstacknormalvectorFormCallback.formGroup = formGroup
+
+	shiftedleftstacknormalvectorFormCallback.CreationMode = (shiftedleftstacknormalvector == nil)
+
+	return
+}
+
+type ShiftedLeftStackNormalVectorFormCallback struct {
+	shiftedleftstacknormalvector *models.ShiftedLeftStackNormalVector
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedleftstacknormalvectorFormCallback *ShiftedLeftStackNormalVectorFormCallback) OnSave() {
+	shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedLeftStackNormalVectorFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedleftstacknormalvectorFormCallback.probe.formStage.Checkout()
+
+	if shiftedleftstacknormalvectorFormCallback.shiftedleftstacknormalvector == nil {
+		shiftedleftstacknormalvectorFormCallback.shiftedleftstacknormalvector = new(models.ShiftedLeftStackNormalVector).Stage(shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest)
+	}
+	shiftedleftstacknormalvector_ := shiftedleftstacknormalvectorFormCallback.shiftedleftstacknormalvector
+	_ = shiftedleftstacknormalvector_
+
+	for _, formDiv := range shiftedleftstacknormalvectorFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedleftstacknormalvector_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(shiftedleftstacknormalvector_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(shiftedleftstacknormalvector_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(shiftedleftstacknormalvector_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(shiftedleftstacknormalvector_.EndY), formDiv)
+		case "ShiftedLeftStackOfNormalVector:ShiftedLeftStackNormalVectors":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftStackOfNormalVector instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ShiftedLeftStackOfNormalVector instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedLeftStackOfNormalVector](shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest)
+			targetShiftedLeftStackOfNormalVectorIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetShiftedLeftStackOfNormalVectorIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ShiftedLeftStackOfNormalVector instances and update their ShiftedLeftStackNormalVectors slice
+			for _shiftedleftstackofnormalvector := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackOfNormalVector](shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest, _shiftedleftstackofnormalvector)
+				
+				// if ShiftedLeftStackOfNormalVector is selected
+				if targetShiftedLeftStackOfNormalVectorIDs[id] {
+					// ensure shiftedleftstacknormalvector_ is in _shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors
+					found := false
+					for _, _b := range _shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
+						if _b == shiftedleftstacknormalvector_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors = append(_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors, shiftedleftstacknormalvector_)
+						shiftedleftstacknormalvectorFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedleftstackofnormalvector, "ShiftedLeftStackNormalVectors", &_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors)
+					}
+				} else {
+					// ensure shiftedleftstacknormalvector_ is NOT in _shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors
+					idx := slices.Index(_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors, shiftedleftstacknormalvector_)
+					if idx != -1 {
+						_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors = slices.Delete(_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors, idx, idx+1)
+						shiftedleftstacknormalvectorFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedleftstackofnormalvector, "ShiftedLeftStackNormalVectors", &_shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedleftstacknormalvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstacknormalvector_.Unstage(shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedleftstacknormalvectorFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedLeftStackNormalVector](
+		shiftedleftstacknormalvectorFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedleftstacknormalvectorFormCallback.CreationMode || shiftedleftstacknormalvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstacknormalvectorFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedleftstacknormalvectorFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedLeftStackNormalVectorFormCallback(
+			nil,
+			shiftedleftstacknormalvectorFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedleftstacknormalvector := new(models.ShiftedLeftStackNormalVector)
+		FillUpForm(shiftedleftstacknormalvector, newFormGroup, shiftedleftstacknormalvectorFormCallback.probe)
+		shiftedleftstacknormalvectorFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedleftstacknormalvectorFormCallback.probe.ux_tree()
+}
 func __gong__New__ShiftedLeftStackOfGrowthCurveFormCallback(
 	shiftedleftstackofgrowthcurve *models.ShiftedLeftStackOfGrowthCurve,
 	probe *Probe,
@@ -4054,6 +4189,116 @@ func (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFo
 	}
 
 	shiftedleftstackofgrowthcurveFormCallback.probe.ux_tree()
+}
+func __gong__New__ShiftedLeftStackOfNormalVectorFormCallback(
+	shiftedleftstackofnormalvector *models.ShiftedLeftStackOfNormalVector,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedleftstackofnormalvectorFormCallback *ShiftedLeftStackOfNormalVectorFormCallback) {
+	shiftedleftstackofnormalvectorFormCallback = new(ShiftedLeftStackOfNormalVectorFormCallback)
+	shiftedleftstackofnormalvectorFormCallback.probe = probe
+	shiftedleftstackofnormalvectorFormCallback.shiftedleftstackofnormalvector = shiftedleftstackofnormalvector
+	shiftedleftstackofnormalvectorFormCallback.formGroup = formGroup
+
+	shiftedleftstackofnormalvectorFormCallback.CreationMode = (shiftedleftstackofnormalvector == nil)
+
+	return
+}
+
+type ShiftedLeftStackOfNormalVectorFormCallback struct {
+	shiftedleftstackofnormalvector *models.ShiftedLeftStackOfNormalVector
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedleftstackofnormalvectorFormCallback *ShiftedLeftStackOfNormalVectorFormCallback) OnSave() {
+	shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedLeftStackOfNormalVectorFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedleftstackofnormalvectorFormCallback.probe.formStage.Checkout()
+
+	if shiftedleftstackofnormalvectorFormCallback.shiftedleftstackofnormalvector == nil {
+		shiftedleftstackofnormalvectorFormCallback.shiftedleftstackofnormalvector = new(models.ShiftedLeftStackOfNormalVector).Stage(shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest)
+	}
+	shiftedleftstackofnormalvector_ := shiftedleftstackofnormalvectorFormCallback.shiftedleftstackofnormalvector
+	_ = shiftedleftstackofnormalvector_
+
+	for _, formDiv := range shiftedleftstackofnormalvectorFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedleftstackofnormalvector_.Name), formDiv)
+		case "ShiftedLeftStackNormalVectors":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackNormalVector](shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ShiftedLeftStackNormalVector, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ShiftedLeftStackNormalVector)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedLeftStackNormalVector](shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			shiftedleftstackofnormalvector_.ShiftedLeftStackNormalVectors = instanceSlice
+			shiftedleftstackofnormalvectorFormCallback.probe.UpdateSliceOfPointersCallback(shiftedleftstackofnormalvector_, "ShiftedLeftStackNormalVectors", &shiftedleftstackofnormalvector_.ShiftedLeftStackNormalVectors)
+
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedleftstackofnormalvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackofnormalvector_.Unstage(shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedleftstackofnormalvectorFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedLeftStackOfNormalVector](
+		shiftedleftstackofnormalvectorFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedleftstackofnormalvectorFormCallback.CreationMode || shiftedleftstackofnormalvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackofnormalvectorFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedleftstackofnormalvectorFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedLeftStackOfNormalVectorFormCallback(
+			nil,
+			shiftedleftstackofnormalvectorFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedleftstackofnormalvector := new(models.ShiftedLeftStackOfNormalVector)
+		FillUpForm(shiftedleftstackofnormalvector, newFormGroup, shiftedleftstackofnormalvectorFormCallback.probe)
+		shiftedleftstackofnormalvectorFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedleftstackofnormalvectorFormCallback.probe.ux_tree()
 }
 func __gong__New__StackGrowthCurveEndArcShapeFormCallback(
 	stackgrowthcurveendarcshape *models.StackGrowthCurveEndArcShape,

@@ -650,6 +650,21 @@ type Stage struct {
 	OnAfterShiftedLeftStackGrowthCurveStartArcShapeDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackGrowthCurveStartArcShape]
 	OnAfterShiftedLeftStackGrowthCurveStartArcShapeReadCallback   OnAfterReadInterface[ShiftedLeftStackGrowthCurveStartArcShape]
 
+	ShiftedLeftStackNormalVectors                map[*ShiftedLeftStackNormalVector]struct{}
+	ShiftedLeftStackNormalVectors_instance       map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector
+	ShiftedLeftStackNormalVectors_mapString      map[string]*ShiftedLeftStackNormalVector
+	ShiftedLeftStackNormalVectorOrder            uint
+	ShiftedLeftStackNormalVector_stagedOrder     map[*ShiftedLeftStackNormalVector]uint
+	ShiftedLeftStackNormalVector_orderStaged     map[uint]*ShiftedLeftStackNormalVector
+	ShiftedLeftStackNormalVectors_reference      map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector
+	ShiftedLeftStackNormalVectors_referenceOrder map[*ShiftedLeftStackNormalVector]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterShiftedLeftStackNormalVectorCreateCallback OnAfterCreateInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackNormalVector]
+	OnAfterShiftedLeftStackNormalVectorReadCallback   OnAfterReadInterface[ShiftedLeftStackNormalVector]
+
 	ShiftedLeftStackOfGrowthCurves                map[*ShiftedLeftStackOfGrowthCurve]struct{}
 	ShiftedLeftStackOfGrowthCurves_instance       map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve
 	ShiftedLeftStackOfGrowthCurves_mapString      map[string]*ShiftedLeftStackOfGrowthCurve
@@ -668,6 +683,23 @@ type Stage struct {
 	OnAfterShiftedLeftStackOfGrowthCurveUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackOfGrowthCurve]
 	OnAfterShiftedLeftStackOfGrowthCurveDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackOfGrowthCurve]
 	OnAfterShiftedLeftStackOfGrowthCurveReadCallback   OnAfterReadInterface[ShiftedLeftStackOfGrowthCurve]
+
+	ShiftedLeftStackOfNormalVectors                map[*ShiftedLeftStackOfNormalVector]struct{}
+	ShiftedLeftStackOfNormalVectors_instance       map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector
+	ShiftedLeftStackOfNormalVectors_mapString      map[string]*ShiftedLeftStackOfNormalVector
+	ShiftedLeftStackOfNormalVectorOrder            uint
+	ShiftedLeftStackOfNormalVector_stagedOrder     map[*ShiftedLeftStackOfNormalVector]uint
+	ShiftedLeftStackOfNormalVector_orderStaged     map[uint]*ShiftedLeftStackOfNormalVector
+	ShiftedLeftStackOfNormalVectors_reference      map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector
+	ShiftedLeftStackOfNormalVectors_referenceOrder map[*ShiftedLeftStackOfNormalVector]uint
+
+	// insertion point for slice of pointers maps
+	ShiftedLeftStackOfNormalVector_ShiftedLeftStackNormalVectors_reverseMap map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackOfNormalVector
+
+	OnAfterShiftedLeftStackOfNormalVectorCreateCallback OnAfterCreateInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorUpdateCallback OnAfterUpdateInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorDeleteCallback OnAfterDeleteInterface[ShiftedLeftStackOfNormalVector]
+	OnAfterShiftedLeftStackOfNormalVectorReadCallback   OnAfterReadInterface[ShiftedLeftStackOfNormalVector]
 
 	StackGrowthCurveEndArcShapes                map[*StackGrowthCurveEndArcShape]struct{}
 	StackGrowthCurveEndArcShapes_instance       map[*StackGrowthCurveEndArcShape]*StackGrowthCurveEndArcShape
@@ -1246,9 +1278,17 @@ func (stage *Stage) Squash() {
 	stage.ShiftedLeftStackGrowthCurveStartArcShapes_instance = make(map[*ShiftedLeftStackGrowthCurveStartArcShape]*ShiftedLeftStackGrowthCurveStartArcShape)
 	stage.ShiftedLeftStackGrowthCurveStartArcShapes_referenceOrder = make(map[*ShiftedLeftStackGrowthCurveStartArcShape]uint)
 
+	stage.ShiftedLeftStackNormalVectors_reference = make(map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector)
+	stage.ShiftedLeftStackNormalVectors_instance = make(map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector)
+	stage.ShiftedLeftStackNormalVectors_referenceOrder = make(map[*ShiftedLeftStackNormalVector]uint)
+
 	stage.ShiftedLeftStackOfGrowthCurves_reference = make(map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve)
 	stage.ShiftedLeftStackOfGrowthCurves_instance = make(map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve)
 	stage.ShiftedLeftStackOfGrowthCurves_referenceOrder = make(map[*ShiftedLeftStackOfGrowthCurve]uint)
+
+	stage.ShiftedLeftStackOfNormalVectors_reference = make(map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector)
+	stage.ShiftedLeftStackOfNormalVectors_instance = make(map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector)
+	stage.ShiftedLeftStackOfNormalVectors_referenceOrder = make(map[*ShiftedLeftStackOfNormalVector]uint)
 
 	stage.StackGrowthCurveEndArcShapes_reference = make(map[*StackGrowthCurveEndArcShape]*StackGrowthCurveEndArcShape)
 	stage.StackGrowthCurveEndArcShapes_instance = make(map[*StackGrowthCurveEndArcShape]*StackGrowthCurveEndArcShape)
@@ -1791,6 +1831,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ShiftedLeftStackGrowthCurveStartArcShapeOrder = 0
 	}
 
+	var maxShiftedLeftStackNormalVectorOrder uint
+	var foundShiftedLeftStackNormalVector bool
+	for _, order := range stage.ShiftedLeftStackNormalVector_stagedOrder {
+		if !foundShiftedLeftStackNormalVector || order > maxShiftedLeftStackNormalVectorOrder {
+			maxShiftedLeftStackNormalVectorOrder = order
+			foundShiftedLeftStackNormalVector = true
+		}
+	}
+	if foundShiftedLeftStackNormalVector {
+		stage.ShiftedLeftStackNormalVectorOrder = maxShiftedLeftStackNormalVectorOrder + 1
+	} else {
+		stage.ShiftedLeftStackNormalVectorOrder = 0
+	}
+
 	var maxShiftedLeftStackOfGrowthCurveOrder uint
 	var foundShiftedLeftStackOfGrowthCurve bool
 	for _, order := range stage.ShiftedLeftStackOfGrowthCurve_stagedOrder {
@@ -1803,6 +1857,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ShiftedLeftStackOfGrowthCurveOrder = maxShiftedLeftStackOfGrowthCurveOrder + 1
 	} else {
 		stage.ShiftedLeftStackOfGrowthCurveOrder = 0
+	}
+
+	var maxShiftedLeftStackOfNormalVectorOrder uint
+	var foundShiftedLeftStackOfNormalVector bool
+	for _, order := range stage.ShiftedLeftStackOfNormalVector_stagedOrder {
+		if !foundShiftedLeftStackOfNormalVector || order > maxShiftedLeftStackOfNormalVectorOrder {
+			maxShiftedLeftStackOfNormalVectorOrder = order
+			foundShiftedLeftStackOfNormalVector = true
+		}
+	}
+	if foundShiftedLeftStackOfNormalVector {
+		stage.ShiftedLeftStackOfNormalVectorOrder = maxShiftedLeftStackOfNormalVectorOrder + 1
+	} else {
+		stage.ShiftedLeftStackOfNormalVectorOrder = 0
 	}
 
 	var maxStackGrowthCurveEndArcShapeOrder uint
@@ -2510,6 +2578,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ShiftedLeftStackNormalVector:
+		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVector_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ShiftedLeftStackNormalVector implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *ShiftedLeftStackOfGrowthCurve:
 		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackOfGrowthCurves, stage.ShiftedLeftStackOfGrowthCurve_stagedOrder)
 
@@ -2521,6 +2603,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *ShiftedLeftStackOfGrowthCurve implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ShiftedLeftStackOfNormalVector:
+		tmp := GetStructInstancesByOrder(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ShiftedLeftStackOfNormalVector implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -2801,8 +2897,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ShiftedLeftStackGrowthCurveEndArcShapes, stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder)
 	case "ShiftedLeftStackGrowthCurveStartArcShape":
 		res = GetNamedStructInstances(stage.ShiftedLeftStackGrowthCurveStartArcShapes, stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder)
+	case "ShiftedLeftStackNormalVector":
+		res = GetNamedStructInstances(stage.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVector_stagedOrder)
 	case "ShiftedLeftStackOfGrowthCurve":
 		res = GetNamedStructInstances(stage.ShiftedLeftStackOfGrowthCurves, stage.ShiftedLeftStackOfGrowthCurve_stagedOrder)
+	case "ShiftedLeftStackOfNormalVector":
+		res = GetNamedStructInstances(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder)
 	case "StackGrowthCurveEndArcShape":
 		res = GetNamedStructInstances(stage.StackGrowthCurveEndArcShapes, stage.StackGrowthCurveEndArcShape_stagedOrder)
 	case "StackGrowthCurveStartArcShape":
@@ -2964,8 +3064,12 @@ type BackRepoInterface interface {
 	CheckoutShiftedLeftStackGrowthCurveEndArcShape(shiftedleftstackgrowthcurveendarcshape *ShiftedLeftStackGrowthCurveEndArcShape)
 	CommitShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape)
 	CheckoutShiftedLeftStackGrowthCurveStartArcShape(shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStartArcShape)
+	CommitShiftedLeftStackNormalVector(shiftedleftstacknormalvector *ShiftedLeftStackNormalVector)
+	CheckoutShiftedLeftStackNormalVector(shiftedleftstacknormalvector *ShiftedLeftStackNormalVector)
 	CommitShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve)
 	CheckoutShiftedLeftStackOfGrowthCurve(shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve)
+	CommitShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector)
+	CheckoutShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector)
 	CommitStackGrowthCurveEndArcShape(stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape)
 	CheckoutStackGrowthCurveEndArcShape(stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape)
 	CommitStackGrowthCurveStartArcShape(stackgrowthcurvestartarcshape *StackGrowthCurveStartArcShape)
@@ -3097,8 +3201,14 @@ func NewStage(name string) (stage *Stage) {
 		ShiftedLeftStackGrowthCurveStartArcShapes:           make(map[*ShiftedLeftStackGrowthCurveStartArcShape]struct{}),
 		ShiftedLeftStackGrowthCurveStartArcShapes_mapString: make(map[string]*ShiftedLeftStackGrowthCurveStartArcShape),
 
+		ShiftedLeftStackNormalVectors:           make(map[*ShiftedLeftStackNormalVector]struct{}),
+		ShiftedLeftStackNormalVectors_mapString: make(map[string]*ShiftedLeftStackNormalVector),
+
 		ShiftedLeftStackOfGrowthCurves:           make(map[*ShiftedLeftStackOfGrowthCurve]struct{}),
 		ShiftedLeftStackOfGrowthCurves_mapString: make(map[string]*ShiftedLeftStackOfGrowthCurve),
+
+		ShiftedLeftStackOfNormalVectors:           make(map[*ShiftedLeftStackOfNormalVector]struct{}),
+		ShiftedLeftStackOfNormalVectors_mapString: make(map[string]*ShiftedLeftStackOfNormalVector),
 
 		StackGrowthCurveEndArcShapes:           make(map[*StackGrowthCurveEndArcShape]struct{}),
 		StackGrowthCurveEndArcShapes_mapString: make(map[string]*StackGrowthCurveEndArcShape),
@@ -3281,9 +3391,17 @@ func NewStage(name string) (stage *Stage) {
 		ShiftedLeftStackGrowthCurveStartArcShape_orderStaged: make(map[uint]*ShiftedLeftStackGrowthCurveStartArcShape),
 		ShiftedLeftStackGrowthCurveStartArcShapes_reference:  make(map[*ShiftedLeftStackGrowthCurveStartArcShape]*ShiftedLeftStackGrowthCurveStartArcShape),
 
+		ShiftedLeftStackNormalVector_stagedOrder: make(map[*ShiftedLeftStackNormalVector]uint),
+		ShiftedLeftStackNormalVector_orderStaged: make(map[uint]*ShiftedLeftStackNormalVector),
+		ShiftedLeftStackNormalVectors_reference:  make(map[*ShiftedLeftStackNormalVector]*ShiftedLeftStackNormalVector),
+
 		ShiftedLeftStackOfGrowthCurve_stagedOrder: make(map[*ShiftedLeftStackOfGrowthCurve]uint),
 		ShiftedLeftStackOfGrowthCurve_orderStaged: make(map[uint]*ShiftedLeftStackOfGrowthCurve),
 		ShiftedLeftStackOfGrowthCurves_reference:  make(map[*ShiftedLeftStackOfGrowthCurve]*ShiftedLeftStackOfGrowthCurve),
+
+		ShiftedLeftStackOfNormalVector_stagedOrder: make(map[*ShiftedLeftStackOfNormalVector]uint),
+		ShiftedLeftStackOfNormalVector_orderStaged: make(map[uint]*ShiftedLeftStackOfNormalVector),
+		ShiftedLeftStackOfNormalVectors_reference:  make(map[*ShiftedLeftStackOfNormalVector]*ShiftedLeftStackOfNormalVector),
 
 		StackGrowthCurveEndArcShape_stagedOrder: make(map[*StackGrowthCurveEndArcShape]uint),
 		StackGrowthCurveEndArcShape_orderStaged: make(map[uint]*StackGrowthCurveEndArcShape),
@@ -3405,7 +3523,11 @@ func NewStage(name string) (stage *Stage) {
 
 			"ShiftedLeftStackGrowthCurveStartArcShape": &ShiftedLeftStackGrowthCurveStartArcShapeUnmarshaller{},
 
+			"ShiftedLeftStackNormalVector": &ShiftedLeftStackNormalVectorUnmarshaller{},
+
 			"ShiftedLeftStackOfGrowthCurve": &ShiftedLeftStackOfGrowthCurveUnmarshaller{},
+
+			"ShiftedLeftStackOfNormalVector": &ShiftedLeftStackOfNormalVectorUnmarshaller{},
 
 			"StackGrowthCurveEndArcShape": &StackGrowthCurveEndArcShapeUnmarshaller{},
 
@@ -3470,7 +3592,9 @@ func NewStage(name string) (stage *Stage) {
 			{name: "RotatedRhombusShape"},
 			{name: "ShiftedLeftStackGrowthCurveEndArcShape"},
 			{name: "ShiftedLeftStackGrowthCurveStartArcShape"},
+			{name: "ShiftedLeftStackNormalVector"},
 			{name: "ShiftedLeftStackOfGrowthCurve"},
+			{name: "ShiftedLeftStackOfNormalVector"},
 			{name: "StackGrowthCurveEndArcShape"},
 			{name: "StackGrowthCurveStartArcShape"},
 			{name: "StackOfGrowthCurve"},
@@ -3561,8 +3685,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
 		return stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder[instance]
+	case *ShiftedLeftStackNormalVector:
+		return stage.ShiftedLeftStackNormalVector_stagedOrder[instance]
 	case *ShiftedLeftStackOfGrowthCurve:
 		return stage.ShiftedLeftStackOfGrowthCurve_stagedOrder[instance]
+	case *ShiftedLeftStackOfNormalVector:
+		return stage.ShiftedLeftStackOfNormalVector_stagedOrder[instance]
 	case *StackGrowthCurveEndArcShape:
 		return stage.StackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *StackGrowthCurveStartArcShape:
@@ -3664,8 +3792,12 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ShiftedLeftStackGrowthCurveEndArcShape_orderStaged[order]).(Type)
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
 		return any(stage.ShiftedLeftStackGrowthCurveStartArcShape_orderStaged[order]).(Type)
+	case *ShiftedLeftStackNormalVector:
+		return any(stage.ShiftedLeftStackNormalVector_orderStaged[order]).(Type)
 	case *ShiftedLeftStackOfGrowthCurve:
 		return any(stage.ShiftedLeftStackOfGrowthCurve_orderStaged[order]).(Type)
+	case *ShiftedLeftStackOfNormalVector:
+		return any(stage.ShiftedLeftStackOfNormalVector_orderStaged[order]).(Type)
 	case *StackGrowthCurveEndArcShape:
 		return any(stage.StackGrowthCurveEndArcShape_orderStaged[order]).(Type)
 	case *StackGrowthCurveStartArcShape:
@@ -3766,8 +3898,12 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
 		return stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder[instance]
+	case *ShiftedLeftStackNormalVector:
+		return stage.ShiftedLeftStackNormalVector_stagedOrder[instance]
 	case *ShiftedLeftStackOfGrowthCurve:
 		return stage.ShiftedLeftStackOfGrowthCurve_stagedOrder[instance]
+	case *ShiftedLeftStackOfNormalVector:
+		return stage.ShiftedLeftStackOfNormalVector_stagedOrder[instance]
 	case *StackGrowthCurveEndArcShape:
 		return stage.StackGrowthCurveEndArcShape_stagedOrder[instance]
 	case *StackGrowthCurveStartArcShape:
@@ -3892,7 +4028,9 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackGrowthCurveEndArcShape"] = len(stage.ShiftedLeftStackGrowthCurveEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackGrowthCurveStartArcShape"] = len(stage.ShiftedLeftStackGrowthCurveStartArcShapes)
+	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackNormalVector"] = len(stage.ShiftedLeftStackNormalVectors)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackOfGrowthCurve"] = len(stage.ShiftedLeftStackOfGrowthCurves)
+	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackOfNormalVector"] = len(stage.ShiftedLeftStackOfNormalVectors)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurveEndArcShape"] = len(stage.StackGrowthCurveEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurveStartArcShape"] = len(stage.StackGrowthCurveStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve"] = len(stage.StackOfGrowthCurves)
@@ -6850,6 +6988,94 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	shiftedleftstackgrowthcurvestartarcshape.Name = name
 }
 
+// Stage puts shiftedleftstacknormalvector to the model stage
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) Stage(stage *Stage) *ShiftedLeftStackNormalVector {
+	if _, ok := stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector]; !ok {
+		stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector] = struct{}{}
+		stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvector] = stage.ShiftedLeftStackNormalVectorOrder
+		stage.ShiftedLeftStackNormalVector_orderStaged[stage.ShiftedLeftStackNormalVectorOrder] = shiftedleftstacknormalvector
+		stage.ShiftedLeftStackNormalVectorOrder++
+	}
+	stage.ShiftedLeftStackNormalVectors_mapString[shiftedleftstacknormalvector.Name] = shiftedleftstacknormalvector
+
+	return shiftedleftstacknormalvector
+}
+
+// StagePreserveOrder puts shiftedleftstacknormalvector to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ShiftedLeftStackNormalVectorOrder
+// - update stage.ShiftedLeftStackNormalVectorOrder accordingly
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector]; !ok {
+		stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector] = struct{}{}
+
+		if order > stage.ShiftedLeftStackNormalVectorOrder {
+			stage.ShiftedLeftStackNormalVectorOrder = order
+		}
+		stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvector] = order
+		stage.ShiftedLeftStackNormalVector_orderStaged[order] = shiftedleftstacknormalvector
+		stage.ShiftedLeftStackNormalVectorOrder++
+	}
+	stage.ShiftedLeftStackNormalVectors_mapString[shiftedleftstacknormalvector.Name] = shiftedleftstacknormalvector
+}
+
+// Unstage removes shiftedleftstacknormalvector off the model stage
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) Unstage(stage *Stage) *ShiftedLeftStackNormalVector {
+	delete(stage.ShiftedLeftStackNormalVectors, shiftedleftstacknormalvector)
+	// issue1150
+	// delete(stage.ShiftedLeftStackNormalVector_stagedOrder, shiftedleftstacknormalvector)
+	delete(stage.ShiftedLeftStackNormalVectors_mapString, shiftedleftstacknormalvector.Name)
+
+	return shiftedleftstacknormalvector
+}
+
+// UnstageVoid removes shiftedleftstacknormalvector off the model stage
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) UnstageVoid(stage *Stage) {
+	delete(stage.ShiftedLeftStackNormalVectors, shiftedleftstacknormalvector)
+	// issue1150
+	// delete(stage.ShiftedLeftStackNormalVector_stagedOrder, shiftedleftstacknormalvector)
+	delete(stage.ShiftedLeftStackNormalVectors_mapString, shiftedleftstacknormalvector.Name)
+}
+
+// commit shiftedleftstacknormalvector to the back repo (if it is already staged)
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) Commit(stage *Stage) *ShiftedLeftStackNormalVector {
+	if _, ok := stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitShiftedLeftStackNormalVector(shiftedleftstacknormalvector)
+		}
+	}
+	return shiftedleftstacknormalvector
+}
+
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) CommitVoid(stage *Stage) {
+	shiftedleftstacknormalvector.Commit(stage)
+}
+
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) StageVoid(stage *Stage) {
+	shiftedleftstacknormalvector.Stage(stage)
+}
+
+// Checkout shiftedleftstacknormalvector to the back repo (if it is already staged)
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) Checkout(stage *Stage) *ShiftedLeftStackNormalVector {
+	if _, ok := stage.ShiftedLeftStackNormalVectors[shiftedleftstacknormalvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutShiftedLeftStackNormalVector(shiftedleftstacknormalvector)
+		}
+	}
+	return shiftedleftstacknormalvector
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GetName() (res string) {
+	return shiftedleftstacknormalvector.Name
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) SetName(name string) {
+	shiftedleftstacknormalvector.Name = name
+}
+
 // Stage puts shiftedleftstackofgrowthcurve to the model stage
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) Stage(stage *Stage) *ShiftedLeftStackOfGrowthCurve {
 	if _, ok := stage.ShiftedLeftStackOfGrowthCurves[shiftedleftstackofgrowthcurve]; !ok {
@@ -6936,6 +7162,94 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GetName() (r
 // for satisfaction of GongStruct interface
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) SetName(name string) {
 	shiftedleftstackofgrowthcurve.Name = name
+}
+
+// Stage puts shiftedleftstackofnormalvector to the model stage
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) Stage(stage *Stage) *ShiftedLeftStackOfNormalVector {
+	if _, ok := stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector]; !ok {
+		stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector] = struct{}{}
+		stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvector] = stage.ShiftedLeftStackOfNormalVectorOrder
+		stage.ShiftedLeftStackOfNormalVector_orderStaged[stage.ShiftedLeftStackOfNormalVectorOrder] = shiftedleftstackofnormalvector
+		stage.ShiftedLeftStackOfNormalVectorOrder++
+	}
+	stage.ShiftedLeftStackOfNormalVectors_mapString[shiftedleftstackofnormalvector.Name] = shiftedleftstackofnormalvector
+
+	return shiftedleftstackofnormalvector
+}
+
+// StagePreserveOrder puts shiftedleftstackofnormalvector to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ShiftedLeftStackOfNormalVectorOrder
+// - update stage.ShiftedLeftStackOfNormalVectorOrder accordingly
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector]; !ok {
+		stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector] = struct{}{}
+
+		if order > stage.ShiftedLeftStackOfNormalVectorOrder {
+			stage.ShiftedLeftStackOfNormalVectorOrder = order
+		}
+		stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvector] = order
+		stage.ShiftedLeftStackOfNormalVector_orderStaged[order] = shiftedleftstackofnormalvector
+		stage.ShiftedLeftStackOfNormalVectorOrder++
+	}
+	stage.ShiftedLeftStackOfNormalVectors_mapString[shiftedleftstackofnormalvector.Name] = shiftedleftstackofnormalvector
+}
+
+// Unstage removes shiftedleftstackofnormalvector off the model stage
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) Unstage(stage *Stage) *ShiftedLeftStackOfNormalVector {
+	delete(stage.ShiftedLeftStackOfNormalVectors, shiftedleftstackofnormalvector)
+	// issue1150
+	// delete(stage.ShiftedLeftStackOfNormalVector_stagedOrder, shiftedleftstackofnormalvector)
+	delete(stage.ShiftedLeftStackOfNormalVectors_mapString, shiftedleftstackofnormalvector.Name)
+
+	return shiftedleftstackofnormalvector
+}
+
+// UnstageVoid removes shiftedleftstackofnormalvector off the model stage
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) UnstageVoid(stage *Stage) {
+	delete(stage.ShiftedLeftStackOfNormalVectors, shiftedleftstackofnormalvector)
+	// issue1150
+	// delete(stage.ShiftedLeftStackOfNormalVector_stagedOrder, shiftedleftstackofnormalvector)
+	delete(stage.ShiftedLeftStackOfNormalVectors_mapString, shiftedleftstackofnormalvector.Name)
+}
+
+// commit shiftedleftstackofnormalvector to the back repo (if it is already staged)
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) Commit(stage *Stage) *ShiftedLeftStackOfNormalVector {
+	if _, ok := stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector)
+		}
+	}
+	return shiftedleftstackofnormalvector
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) CommitVoid(stage *Stage) {
+	shiftedleftstackofnormalvector.Commit(stage)
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) StageVoid(stage *Stage) {
+	shiftedleftstackofnormalvector.Stage(stage)
+}
+
+// Checkout shiftedleftstackofnormalvector to the back repo (if it is already staged)
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) Checkout(stage *Stage) *ShiftedLeftStackOfNormalVector {
+	if _, ok := stage.ShiftedLeftStackOfNormalVectors[shiftedleftstackofnormalvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector)
+		}
+	}
+	return shiftedleftstackofnormalvector
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GetName() (res string) {
+	return shiftedleftstackofnormalvector.Name
+}
+
+// for satisfaction of GongStruct interface
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) SetName(name string) {
+	shiftedleftstackofnormalvector.Name = name
 }
 
 // Stage puts stackgrowthcurveendarcshape to the model stage
@@ -8117,7 +8431,9 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
 	CreateORMShiftedLeftStackGrowthCurveEndArcShape(ShiftedLeftStackGrowthCurveEndArcShape *ShiftedLeftStackGrowthCurveEndArcShape)
 	CreateORMShiftedLeftStackGrowthCurveStartArcShape(ShiftedLeftStackGrowthCurveStartArcShape *ShiftedLeftStackGrowthCurveStartArcShape)
+	CreateORMShiftedLeftStackNormalVector(ShiftedLeftStackNormalVector *ShiftedLeftStackNormalVector)
 	CreateORMShiftedLeftStackOfGrowthCurve(ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve)
+	CreateORMShiftedLeftStackOfNormalVector(ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector)
 	CreateORMStackGrowthCurveEndArcShape(StackGrowthCurveEndArcShape *StackGrowthCurveEndArcShape)
 	CreateORMStackGrowthCurveStartArcShape(StackGrowthCurveStartArcShape *StackGrowthCurveStartArcShape)
 	CreateORMStackOfGrowthCurve(StackOfGrowthCurve *StackOfGrowthCurve)
@@ -8167,7 +8483,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
 	DeleteORMShiftedLeftStackGrowthCurveEndArcShape(ShiftedLeftStackGrowthCurveEndArcShape *ShiftedLeftStackGrowthCurveEndArcShape)
 	DeleteORMShiftedLeftStackGrowthCurveStartArcShape(ShiftedLeftStackGrowthCurveStartArcShape *ShiftedLeftStackGrowthCurveStartArcShape)
+	DeleteORMShiftedLeftStackNormalVector(ShiftedLeftStackNormalVector *ShiftedLeftStackNormalVector)
 	DeleteORMShiftedLeftStackOfGrowthCurve(ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve)
+	DeleteORMShiftedLeftStackOfNormalVector(ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector)
 	DeleteORMStackGrowthCurveEndArcShape(StackGrowthCurveEndArcShape *StackGrowthCurveEndArcShape)
 	DeleteORMStackGrowthCurveStartArcShape(StackGrowthCurveStartArcShape *StackGrowthCurveStartArcShape)
 	DeleteORMStackOfGrowthCurve(StackOfGrowthCurve *StackOfGrowthCurve)
@@ -8349,10 +8667,20 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ShiftedLeftStackGrowthCurveStartArcShape_stagedOrder = make(map[*ShiftedLeftStackGrowthCurveStartArcShape]uint)
 	stage.ShiftedLeftStackGrowthCurveStartArcShapeOrder = 0
 
+	stage.ShiftedLeftStackNormalVectors = make(map[*ShiftedLeftStackNormalVector]struct{})
+	stage.ShiftedLeftStackNormalVectors_mapString = make(map[string]*ShiftedLeftStackNormalVector)
+	stage.ShiftedLeftStackNormalVector_stagedOrder = make(map[*ShiftedLeftStackNormalVector]uint)
+	stage.ShiftedLeftStackNormalVectorOrder = 0
+
 	stage.ShiftedLeftStackOfGrowthCurves = make(map[*ShiftedLeftStackOfGrowthCurve]struct{})
 	stage.ShiftedLeftStackOfGrowthCurves_mapString = make(map[string]*ShiftedLeftStackOfGrowthCurve)
 	stage.ShiftedLeftStackOfGrowthCurve_stagedOrder = make(map[*ShiftedLeftStackOfGrowthCurve]uint)
 	stage.ShiftedLeftStackOfGrowthCurveOrder = 0
+
+	stage.ShiftedLeftStackOfNormalVectors = make(map[*ShiftedLeftStackOfNormalVector]struct{})
+	stage.ShiftedLeftStackOfNormalVectors_mapString = make(map[string]*ShiftedLeftStackOfNormalVector)
+	stage.ShiftedLeftStackOfNormalVector_stagedOrder = make(map[*ShiftedLeftStackOfNormalVector]uint)
+	stage.ShiftedLeftStackOfNormalVectorOrder = 0
 
 	stage.StackGrowthCurveEndArcShapes = make(map[*StackGrowthCurveEndArcShape]struct{})
 	stage.StackGrowthCurveEndArcShapes_mapString = make(map[string]*StackGrowthCurveEndArcShape)
@@ -8527,8 +8855,14 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.ShiftedLeftStackGrowthCurveStartArcShapes = nil
 	stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString = nil
 
+	stage.ShiftedLeftStackNormalVectors = nil
+	stage.ShiftedLeftStackNormalVectors_mapString = nil
+
 	stage.ShiftedLeftStackOfGrowthCurves = nil
 	stage.ShiftedLeftStackOfGrowthCurves_mapString = nil
+
+	stage.ShiftedLeftStackOfNormalVectors = nil
+	stage.ShiftedLeftStackOfNormalVectors_mapString = nil
 
 	stage.StackGrowthCurveEndArcShapes = nil
 	stage.StackGrowthCurveEndArcShapes_mapString = nil
@@ -8705,8 +9039,16 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		shiftedleftstackgrowthcurvestartarcshape.Unstage(stage)
 	}
 
+	for shiftedleftstacknormalvector := range stage.ShiftedLeftStackNormalVectors {
+		shiftedleftstacknormalvector.Unstage(stage)
+	}
+
 	for shiftedleftstackofgrowthcurve := range stage.ShiftedLeftStackOfGrowthCurves {
 		shiftedleftstackofgrowthcurve.Unstage(stage)
+	}
+
+	for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
+		shiftedleftstackofnormalvector.Unstage(stage)
 	}
 
 	for stackgrowthcurveendarcshape := range stage.StackGrowthCurveEndArcShapes {
@@ -8903,8 +9245,12 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*Type)
 	case map[*ShiftedLeftStackGrowthCurveStartArcShape]any:
 		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes).(*Type)
+	case map[*ShiftedLeftStackNormalVector]any:
+		return any(&stage.ShiftedLeftStackNormalVectors).(*Type)
 	case map[*ShiftedLeftStackOfGrowthCurve]any:
 		return any(&stage.ShiftedLeftStackOfGrowthCurves).(*Type)
+	case map[*ShiftedLeftStackOfNormalVector]any:
+		return any(&stage.ShiftedLeftStackOfNormalVectors).(*Type)
 	case map[*StackGrowthCurveEndArcShape]any:
 		return any(&stage.StackGrowthCurveEndArcShapes).(*Type)
 	case map[*StackGrowthCurveStartArcShape]any:
@@ -9009,8 +9355,12 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString).(map[string]Type)
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
 		return any(stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString).(map[string]Type)
+	case *ShiftedLeftStackNormalVector:
+		return any(stage.ShiftedLeftStackNormalVectors_mapString).(map[string]Type)
 	case *ShiftedLeftStackOfGrowthCurve:
 		return any(stage.ShiftedLeftStackOfGrowthCurves_mapString).(map[string]Type)
+	case *ShiftedLeftStackOfNormalVector:
+		return any(stage.ShiftedLeftStackOfNormalVectors_mapString).(map[string]Type)
 	case *StackGrowthCurveEndArcShape:
 		return any(stage.StackGrowthCurveEndArcShapes_mapString).(map[string]Type)
 	case *StackGrowthCurveStartArcShape:
@@ -9115,8 +9465,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*map[*Type]struct{})
 	case ShiftedLeftStackGrowthCurveStartArcShape:
 		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes).(*map[*Type]struct{})
+	case ShiftedLeftStackNormalVector:
+		return any(&stage.ShiftedLeftStackNormalVectors).(*map[*Type]struct{})
 	case ShiftedLeftStackOfGrowthCurve:
 		return any(&stage.ShiftedLeftStackOfGrowthCurves).(*map[*Type]struct{})
+	case ShiftedLeftStackOfNormalVector:
+		return any(&stage.ShiftedLeftStackOfNormalVectors).(*map[*Type]struct{})
 	case StackGrowthCurveEndArcShape:
 		return any(&stage.StackGrowthCurveEndArcShapes).(*map[*Type]struct{})
 	case StackGrowthCurveStartArcShape:
@@ -9221,8 +9575,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes).(*map[Type]struct{})
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
 		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes).(*map[Type]struct{})
+	case *ShiftedLeftStackNormalVector:
+		return any(&stage.ShiftedLeftStackNormalVectors).(*map[Type]struct{})
 	case *ShiftedLeftStackOfGrowthCurve:
 		return any(&stage.ShiftedLeftStackOfGrowthCurves).(*map[Type]struct{})
+	case *ShiftedLeftStackOfNormalVector:
+		return any(&stage.ShiftedLeftStackOfNormalVectors).(*map[Type]struct{})
 	case *StackGrowthCurveEndArcShape:
 		return any(&stage.StackGrowthCurveEndArcShapes).(*map[Type]struct{})
 	case *StackGrowthCurveStartArcShape:
@@ -9327,8 +9685,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ShiftedLeftStackGrowthCurveEndArcShapes_mapString).(*map[string]*Type)
 	case ShiftedLeftStackGrowthCurveStartArcShape:
 		return any(&stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString).(*map[string]*Type)
+	case ShiftedLeftStackNormalVector:
+		return any(&stage.ShiftedLeftStackNormalVectors_mapString).(*map[string]*Type)
 	case ShiftedLeftStackOfGrowthCurve:
 		return any(&stage.ShiftedLeftStackOfGrowthCurves_mapString).(*map[string]*Type)
+	case ShiftedLeftStackOfNormalVector:
+		return any(&stage.ShiftedLeftStackOfNormalVectors_mapString).(*map[string]*Type)
 	case StackGrowthCurveEndArcShape:
 		return any(&stage.StackGrowthCurveEndArcShapes_mapString).(*map[string]*Type)
 	case StackGrowthCurveStartArcShape:
@@ -9542,6 +9904,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TopStackOfGrowthCurve: &TopStackOfGrowthCurve{Name: "TopStackOfGrowthCurve"},
 			// field is initialized with an instance of ShiftedLeftStackOfGrowthCurve with the name of the field
 			ShiftedLeftStackOfGrowthCurve: &ShiftedLeftStackOfGrowthCurve{Name: "ShiftedLeftStackOfGrowthCurve"},
+			// field is initialized with an instance of ShiftedLeftStackOfNormalVector with the name of the field
+			ShiftedLeftStackOfNormalVector: &ShiftedLeftStackOfNormalVector{Name: "ShiftedLeftStackOfNormalVector"},
 			// field is initialized with an instance of GrowthCurve2D with the name of the field
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
 			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
@@ -9583,6 +9947,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&ShiftedLeftStackGrowthCurveStartArcShape{
 			// Initialisation of associations
 		}).(*Type)
+	case ShiftedLeftStackNormalVector:
+		return any(&ShiftedLeftStackNormalVector{
+			// Initialisation of associations
+		}).(*Type)
 	case ShiftedLeftStackOfGrowthCurve:
 		return any(&ShiftedLeftStackOfGrowthCurve{
 			// Initialisation of associations
@@ -9590,6 +9958,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ShiftedLeftStackGrowthCurveStartArcShapes: []*ShiftedLeftStackGrowthCurveStartArcShape{{Name: "ShiftedLeftStackGrowthCurveStartArcShapes"}},
 			// field is initialized with an instance of ShiftedLeftStackGrowthCurveEndArcShape with the name of the field
 			ShiftedLeftStackGrowthCurveEndArcShapes: []*ShiftedLeftStackGrowthCurveEndArcShape{{Name: "ShiftedLeftStackGrowthCurveEndArcShapes"}},
+		}).(*Type)
+	case ShiftedLeftStackOfNormalVector:
+		return any(&ShiftedLeftStackOfNormalVector{
+			// Initialisation of associations
+			// field is initialized with an instance of ShiftedLeftStackNormalVector with the name of the field
+			ShiftedLeftStackNormalVectors: []*ShiftedLeftStackNormalVector{{Name: "ShiftedLeftStackNormalVectors"}},
 		}).(*Type)
 	case StackGrowthCurveEndArcShape:
 		return any(&StackGrowthCurveEndArcShape{
@@ -10244,6 +10618,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ShiftedLeftStackOfNormalVector":
+			res := make(map[*ShiftedLeftStackOfNormalVector][]*Plant)
+			for plant := range stage.Plants {
+				if plant.ShiftedLeftStackOfNormalVector != nil {
+					shiftedleftstackofnormalvector_ := plant.ShiftedLeftStackOfNormalVector
+					var plants []*Plant
+					_, ok := res[shiftedleftstackofnormalvector_]
+					if ok {
+						plants = res[shiftedleftstackofnormalvector_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[shiftedleftstackofnormalvector_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2D":
 			res := make(map[*GrowthCurve2D][]*Plant)
 			for plant := range stage.Plants {
@@ -10336,8 +10727,18 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ShiftedLeftStackNormalVector
+	case ShiftedLeftStackNormalVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of ShiftedLeftStackOfGrowthCurve
 	case ShiftedLeftStackOfGrowthCurve:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ShiftedLeftStackOfNormalVector
+	case ShiftedLeftStackOfNormalVector:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -10716,6 +11117,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ShiftedLeftStackNormalVector
+	case ShiftedLeftStackNormalVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of ShiftedLeftStackOfGrowthCurve
 	case ShiftedLeftStackOfGrowthCurve:
 		switch fieldname {
@@ -10733,6 +11139,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for shiftedleftstackofgrowthcurve := range stage.ShiftedLeftStackOfGrowthCurves {
 				for _, shiftedleftstackgrowthcurveendarcshape_ := range shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes {
 					res[shiftedleftstackgrowthcurveendarcshape_] = append(res[shiftedleftstackgrowthcurveendarcshape_], shiftedleftstackofgrowthcurve)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ShiftedLeftStackOfNormalVector
+	case ShiftedLeftStackOfNormalVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ShiftedLeftStackNormalVectors":
+			res := make(map[*ShiftedLeftStackNormalVector][]*ShiftedLeftStackOfNormalVector)
+			for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
+				for _, shiftedleftstacknormalvector_ := range shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
+					res[shiftedleftstacknormalvector_] = append(res[shiftedleftstacknormalvector_], shiftedleftstackofnormalvector)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -10935,8 +11354,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ShiftedLeftStackGrowthCurveEndArcShape"
 	case *ShiftedLeftStackGrowthCurveStartArcShape:
 		res = "ShiftedLeftStackGrowthCurveStartArcShape"
+	case *ShiftedLeftStackNormalVector:
+		res = "ShiftedLeftStackNormalVector"
 	case *ShiftedLeftStackOfGrowthCurve:
 		res = "ShiftedLeftStackOfGrowthCurve"
+	case *ShiftedLeftStackOfNormalVector:
+		res = "ShiftedLeftStackOfNormalVector"
 	case *StackGrowthCurveEndArcShape:
 		res = "StackGrowthCurveEndArcShape"
 	case *StackGrowthCurveStartArcShape:
@@ -11121,7 +11544,16 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "ShiftedLeftStackOfGrowthCurve"
 		rf.Fieldname = "ShiftedLeftStackGrowthCurveStartArcShapes"
 		res = append(res, rf)
+	case *ShiftedLeftStackNormalVector:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "ShiftedLeftStackOfNormalVector"
+		rf.Fieldname = "ShiftedLeftStackNormalVectors"
+		res = append(res, rf)
 	case *ShiftedLeftStackOfGrowthCurve:
+		var rf ReverseField
+		_ = rf
+	case *ShiftedLeftStackOfNormalVector:
 		var rf ReverseField
 		_ = rf
 	case *StackGrowthCurveEndArcShape:
@@ -11878,6 +12310,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "ShiftedLeftStackOfGrowthCurve",
 		},
 		{
+			Name:                 "ShiftedLeftStackOfNormalVector",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedLeftStackOfNormalVector",
+		},
+		{
 			Name:                 "GrowthCurve2D",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurve2D",
@@ -12035,6 +12472,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -12253,6 +12694,33 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -12269,6 +12737,22 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetField
 			Name:                 "ShiftedLeftStackGrowthCurveEndArcShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ShiftedLeftStackGrowthCurveEndArcShape",
+		},
+	}
+	return
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ShiftedLeftStackNormalVectors",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ShiftedLeftStackNormalVector",
 		},
 	}
 	return
@@ -13482,6 +13966,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.ShiftedLeftStackOfGrowthCurve.Name
 			res.ids = plant.ShiftedLeftStackOfGrowthCurve.GongGetUUID(stage)
 		}
+	case "ShiftedLeftStackOfNormalVector":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.ShiftedLeftStackOfNormalVector != nil {
+			res.valueString = plant.ShiftedLeftStackOfNormalVector.Name
+			res.ids = plant.ShiftedLeftStackOfNormalVector.GongGetUUID(stage)
+		}
 	case "GrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.GrowthCurve2D != nil {
@@ -13639,6 +14129,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenShiftedLeftStackOfGrowthCurve":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve)
 		res.valueBool = plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfNormalVector)
+		res.valueBool = plantdiagram.IsHiddenShiftedLeftStackOfNormalVector
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenGrowthCurve2D":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2D)
@@ -13848,6 +14342,31 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = shiftedleftstacknormalvector.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", shiftedleftstacknormalvector.StartX)
+		res.valueFloat = shiftedleftstacknormalvector.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", shiftedleftstacknormalvector.StartY)
+		res.valueFloat = shiftedleftstacknormalvector.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", shiftedleftstacknormalvector.EndX)
+		res.valueFloat = shiftedleftstacknormalvector.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", shiftedleftstacknormalvector.EndY)
+		res.valueFloat = shiftedleftstacknormalvector.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -13866,6 +14385,25 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetField
 	case "ShiftedLeftStackGrowthCurveEndArcShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = shiftedleftstackofnormalvector.Name
+	case "ShiftedLeftStackNormalVectors":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -15159,6 +15697,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "ShiftedLeftStackOfNormalVector":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.ShiftedLeftStackOfNormalVector = nil
+			for __instance__ := range stage.ShiftedLeftStackOfNormalVectors {
+				if stage.ShiftedLeftStackOfNormalVector_stagedOrder[__instance__] == uint(id) {
+					plant.ShiftedLeftStackOfNormalVector = __instance__
+					break
+				}
+			}
+		}
 	case "GrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -15267,6 +15816,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
 	case "IsHiddenShiftedLeftStackOfGrowthCurve":
 		plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		plantdiagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
 	case "IsHiddenGrowthCurve2D":
 		plantdiagram.IsHiddenGrowthCurve2D = value.GetValueBool()
 	case "IsHiddenTopGrowthCurve2D":
@@ -15432,6 +15983,25 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return nil
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		shiftedleftstacknormalvector.Name = value.GetValueString()
+	case "StartX":
+		shiftedleftstacknormalvector.StartX = value.GetValueFloat()
+	case "StartY":
+		shiftedleftstacknormalvector.StartY = value.GetValueFloat()
+	case "EndX":
+		shiftedleftstacknormalvector.EndX = value.GetValueFloat()
+	case "EndY":
+		shiftedleftstacknormalvector.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -15460,6 +16030,31 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongSetField
 				for __instance__ := range stage.ShiftedLeftStackGrowthCurveEndArcShapes {
 					if stage.ShiftedLeftStackGrowthCurveEndArcShape_stagedOrder[__instance__] == uint(id) {
 						shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes = append(shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		shiftedleftstackofnormalvector.Name = value.GetValueString()
+	case "ShiftedLeftStackNormalVectors":
+		shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors = make([]*ShiftedLeftStackNormalVector, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ShiftedLeftStackNormalVectors {
+					if stage.ShiftedLeftStackNormalVector_stagedOrder[__instance__] == uint(id) {
+						shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors = append(shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors, __instance__)
 						break
 					}
 				}
@@ -15997,8 +16592,16 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return "ShiftedLeftStackGrowthCurveStartArcShape"
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongGetGongstructName() string {
+	return "ShiftedLeftStackNormalVector"
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongGetGongstructName() string {
 	return "ShiftedLeftStackOfGrowthCurve"
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetGongstructName() string {
+	return "ShiftedLeftStackOfNormalVector"
 }
 
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongGetGongstructName() string {
@@ -16225,9 +16828,19 @@ func (stage *Stage) ResetMapStrings() {
 		stage.ShiftedLeftStackGrowthCurveStartArcShapes_mapString[shiftedleftstackgrowthcurvestartarcshape.Name] = shiftedleftstackgrowthcurvestartarcshape
 	}
 
+	stage.ShiftedLeftStackNormalVectors_mapString = make(map[string]*ShiftedLeftStackNormalVector)
+	for shiftedleftstacknormalvector := range stage.ShiftedLeftStackNormalVectors {
+		stage.ShiftedLeftStackNormalVectors_mapString[shiftedleftstacknormalvector.Name] = shiftedleftstacknormalvector
+	}
+
 	stage.ShiftedLeftStackOfGrowthCurves_mapString = make(map[string]*ShiftedLeftStackOfGrowthCurve)
 	for shiftedleftstackofgrowthcurve := range stage.ShiftedLeftStackOfGrowthCurves {
 		stage.ShiftedLeftStackOfGrowthCurves_mapString[shiftedleftstackofgrowthcurve.Name] = shiftedleftstackofgrowthcurve
+	}
+
+	stage.ShiftedLeftStackOfNormalVectors_mapString = make(map[string]*ShiftedLeftStackOfNormalVector)
+	for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
+		stage.ShiftedLeftStackOfNormalVectors_mapString[shiftedleftstackofnormalvector.Name] = shiftedleftstackofnormalvector
 	}
 
 	stage.StackGrowthCurveEndArcShapes_mapString = make(map[string]*StackGrowthCurveEndArcShape)

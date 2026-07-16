@@ -90,8 +90,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ShiftedLeftStackGrowthCurveEndArcShape](probe)
 	case "ShiftedLeftStackGrowthCurveStartArcShape":
 		updateProbeTable[*models.ShiftedLeftStackGrowthCurveStartArcShape](probe)
+	case "ShiftedLeftStackNormalVector":
+		updateProbeTable[*models.ShiftedLeftStackNormalVector](probe)
 	case "ShiftedLeftStackOfGrowthCurve":
 		updateProbeTable[*models.ShiftedLeftStackOfGrowthCurve](probe)
+	case "ShiftedLeftStackOfNormalVector":
+		updateProbeTable[*models.ShiftedLeftStackOfNormalVector](probe)
 	case "StackGrowthCurveEndArcShape":
 		updateProbeTable[*models.StackGrowthCurveEndArcShape](probe)
 	case "StackGrowthCurveStartArcShape":

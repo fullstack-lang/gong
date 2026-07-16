@@ -1027,6 +1027,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStackOfGrowthCurve"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfGrowthCurve"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfNormalVector"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopGrowthCurve2D"))
 	}
@@ -1113,6 +1114,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
@@ -1307,6 +1309,36 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(shiftedleftstackgrowthcurvestartarcshape.GongMarshallField(stage, "RadiusY"))
 	}
 
+	shiftedleftstacknormalvectorOrdered := []*ShiftedLeftStackNormalVector{}
+	for shiftedleftstacknormalvector := range stage.ShiftedLeftStackNormalVectors {
+		shiftedleftstacknormalvectorOrdered = append(shiftedleftstacknormalvectorOrdered, shiftedleftstacknormalvector)
+	}
+	sort.Slice(shiftedleftstacknormalvectorOrdered[:], func(i, j int) bool {
+		shiftedleftstacknormalvectori := shiftedleftstacknormalvectorOrdered[i]
+		shiftedleftstacknormalvectorj := shiftedleftstacknormalvectorOrdered[j]
+		shiftedleftstacknormalvectori_order, oki := stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvectori]
+		shiftedleftstacknormalvectorj_order, okj := stage.ShiftedLeftStackNormalVector_stagedOrder[shiftedleftstacknormalvectorj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return shiftedleftstacknormalvectori_order < shiftedleftstacknormalvectorj_order
+	})
+	if len(shiftedleftstacknormalvectorOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, shiftedleftstacknormalvector := range shiftedleftstacknormalvectorOrdered {
+
+		identifiersDecl.WriteString(shiftedleftstacknormalvector.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "EndY"))
+	}
+
 	shiftedleftstackofgrowthcurveOrdered := []*ShiftedLeftStackOfGrowthCurve{}
 	for shiftedleftstackofgrowthcurve := range stage.ShiftedLeftStackOfGrowthCurves {
 		shiftedleftstackofgrowthcurveOrdered = append(shiftedleftstackofgrowthcurveOrdered, shiftedleftstackofgrowthcurve)
@@ -1333,6 +1365,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(shiftedleftstackofgrowthcurve.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(shiftedleftstackofgrowthcurve.GongMarshallField(stage, "ShiftedLeftStackGrowthCurveStartArcShapes"))
 		pointersInitializesStatements.WriteString(shiftedleftstackofgrowthcurve.GongMarshallField(stage, "ShiftedLeftStackGrowthCurveEndArcShapes"))
+	}
+
+	shiftedleftstackofnormalvectorOrdered := []*ShiftedLeftStackOfNormalVector{}
+	for shiftedleftstackofnormalvector := range stage.ShiftedLeftStackOfNormalVectors {
+		shiftedleftstackofnormalvectorOrdered = append(shiftedleftstackofnormalvectorOrdered, shiftedleftstackofnormalvector)
+	}
+	sort.Slice(shiftedleftstackofnormalvectorOrdered[:], func(i, j int) bool {
+		shiftedleftstackofnormalvectori := shiftedleftstackofnormalvectorOrdered[i]
+		shiftedleftstackofnormalvectorj := shiftedleftstackofnormalvectorOrdered[j]
+		shiftedleftstackofnormalvectori_order, oki := stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvectori]
+		shiftedleftstackofnormalvectorj_order, okj := stage.ShiftedLeftStackOfNormalVector_stagedOrder[shiftedleftstackofnormalvectorj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return shiftedleftstackofnormalvectori_order < shiftedleftstackofnormalvectorj_order
+	})
+	if len(shiftedleftstackofnormalvectorOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, shiftedleftstackofnormalvector := range shiftedleftstackofnormalvectorOrdered {
+
+		identifiersDecl.WriteString(shiftedleftstackofnormalvector.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(shiftedleftstackofnormalvector.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(shiftedleftstackofnormalvector.GongMarshallField(stage, "ShiftedLeftStackNormalVectors"))
 	}
 
 	stackgrowthcurveendarcshapeOrdered := []*StackGrowthCurveEndArcShape{}
@@ -2010,8 +2069,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, shiftedleftstacknormalvector := range shiftedleftstacknormalvectorOrdered {
+		_ = shiftedleftstacknormalvector
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, shiftedleftstackofgrowthcurve := range shiftedleftstackofgrowthcurveOrdered {
 		_ = shiftedleftstackofgrowthcurve
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, shiftedleftstackofnormalvector := range shiftedleftstackofnormalvectorOrdered {
+		_ = shiftedleftstackofnormalvector
 		var setPointerField string
 		_ = setPointerField
 
@@ -3283,6 +3358,19 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfGrowthCurve")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ShiftedLeftStackOfNormalVector":
+		if plant.ShiftedLeftStackOfNormalVector != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfNormalVector")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.ShiftedLeftStackOfNormalVector.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfNormalVector")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "GrowthCurve2D":
 		if plant.GrowthCurve2D != nil {
 			res = PointerFieldInitStatement
@@ -3498,6 +3586,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenShiftedLeftStackOfGrowthCurve")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve))
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenShiftedLeftStackOfNormalVector")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfNormalVector))
 	case "IsHiddenGrowthCurve2D":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -3788,6 +3881,41 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	return
 }
 
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstacknormalvector.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", shiftedleftstacknormalvector.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", shiftedleftstacknormalvector.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", shiftedleftstacknormalvector.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstacknormalvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", shiftedleftstacknormalvector.EndY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftStackNormalVector", fieldName)
+	}
+	return
+}
+
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3819,6 +3947,31 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshall
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftStackOfGrowthCurve", fieldName)
+	}
+	return
+}
+
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", shiftedleftstackofnormalvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(shiftedleftstackofnormalvector.Name))
+
+	case "ShiftedLeftStackNormalVectors":
+		var sb strings.Builder
+		for _, _shiftedleftstacknormalvector := range shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", shiftedleftstackofnormalvector.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ShiftedLeftStackNormalVectors")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _shiftedleftstacknormalvector.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ShiftedLeftStackOfNormalVector", fieldName)
 	}
 	return
 }
@@ -4795,6 +4948,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStackOfGrowthCurve"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfGrowthCurve"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfNormalVector"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopGrowthCurve2D"))
 	}
@@ -4851,6 +5005,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
@@ -4958,6 +5113,21 @@ func (shiftedleftstackgrowthcurvestartarcshape *ShiftedLeftStackGrowthCurveStart
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (shiftedleftstacknormalvector *ShiftedLeftStackNormalVector) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(shiftedleftstacknormalvector.GongMarshallField(stage, "EndY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -4966,6 +5136,18 @@ func (shiftedleftstackofgrowthcurve *ShiftedLeftStackOfGrowthCurve) GongMarshall
 		initializerStatements.WriteString(shiftedleftstackofgrowthcurve.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(shiftedleftstackofgrowthcurve.GongMarshallField(stage, "ShiftedLeftStackGrowthCurveStartArcShapes"))
 		pointersInitializesStatements.WriteString(shiftedleftstackofgrowthcurve.GongMarshallField(stage, "ShiftedLeftStackGrowthCurveEndArcShapes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(shiftedleftstackofnormalvector.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(shiftedleftstackofnormalvector.GongMarshallField(stage, "ShiftedLeftStackNormalVectors"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
