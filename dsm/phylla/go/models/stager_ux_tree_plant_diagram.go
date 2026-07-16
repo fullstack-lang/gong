@@ -612,6 +612,70 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	midArcVectorShapeGrid := plant.MidArcVectorShapeGrid
+	{
+		node := &tree.Node{
+			Name: "Mid Arc Vector Shape Grid",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(midArcVectorShapeGrid, GetPointerToGongstructName[*MidArcVectorShapeGrid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenMidArcVectorShapeGrid = !plantDiagram.IsHiddenMidArcVectorShapeGrid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenMidArcVectorShapeGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	topMidArcVectorShapeGrid := plant.TopMidArcVectorShapeGrid
+	{
+		node := &tree.Node{
+			Name: "Top Mid Arc Vector Shape Grid",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topMidArcVectorShapeGrid, GetPointerToGongstructName[*TopMidArcVectorShapeGrid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopMidArcVectorShapeGrid = !plantDiagram.IsHiddenTopMidArcVectorShapeGrid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopMidArcVectorShapeGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	endArcShapeV2Grid := plant.EndArcShapeGrid
 	{
 		node := &tree.Node{

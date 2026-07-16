@@ -183,6 +183,21 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by MidArcVectorShape
+func (midarcvectorshape *MidArcVectorShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by MidArcVectorShapeGrid
+func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &midarcvectorshapegrid.MidArcVectorShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by NextCircleShape
 func (nextcircleshape *NextCircleShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -244,6 +259,8 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopStartArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedBottomTopStartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.MidArcVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.TopMidArcVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopEndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified
@@ -412,6 +429,21 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongClean(stage *Stage) (modified bool
 	// insertion point per field
 	modified = GongCleanPointer(stage, &topgrowthcurve2d.TopStartArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &topgrowthcurve2d.TopEndArcShapeGrid) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TopMidArcVectorShape
+func (topmidarcvectorshape *TopMidArcVectorShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TopMidArcVectorShapeGrid
+func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &topmidarcvectorshapegrid.TopMidArcVectorShapes) || modified
+	// insertion point per field
 	return
 }
 

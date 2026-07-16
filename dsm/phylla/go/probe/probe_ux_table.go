@@ -62,6 +62,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.InitialRhombusShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
+	case "MidArcVectorShape":
+		updateProbeTable[*models.MidArcVectorShape](probe)
+	case "MidArcVectorShapeGrid":
+		updateProbeTable[*models.MidArcVectorShapeGrid](probe)
 	case "NextCircleShape":
 		updateProbeTable[*models.NextCircleShape](probe)
 	case "PerpendicularVector":
@@ -116,6 +120,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopEndArcShapeGrid](probe)
 	case "TopGrowthCurve2D":
 		updateProbeTable[*models.TopGrowthCurve2D](probe)
+	case "TopMidArcVectorShape":
+		updateProbeTable[*models.TopMidArcVectorShape](probe)
+	case "TopMidArcVectorShapeGrid":
+		updateProbeTable[*models.TopMidArcVectorShapeGrid](probe)
 	case "TopStackGrowthCurveEndArcShape":
 		updateProbeTable[*models.TopStackGrowthCurveEndArcShape](probe)
 	case "TopStackGrowthCurveStartArcShape":

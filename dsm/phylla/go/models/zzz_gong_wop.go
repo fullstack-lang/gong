@@ -335,6 +335,40 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsRootLibrary = from.IsRootLibrary
 }
 
+type MidArcVectorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *MidArcVectorShape) CopyBasicFields(to *MidArcVectorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type MidArcVectorShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *MidArcVectorShapeGrid) CopyBasicFields(to *MidArcVectorShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type NextCircleShape_WOP struct {
 	// insertion point
 
@@ -524,6 +558,10 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenShiftedBottomTopStartArcShapeGrid bool
 
+	IsHiddenMidArcVectorShapeGrid bool
+
+	IsHiddenTopMidArcVectorShapeGrid bool
+
 	IsHiddenEndArcShapeGrid bool
 
 	IsHiddenTopEndArcShapeGrid bool
@@ -580,6 +618,8 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
 	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
 	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
+	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
+	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
@@ -1036,6 +1076,40 @@ type TopGrowthCurve2D_WOP struct {
 }
 
 func (from *TopGrowthCurve2D) CopyBasicFields(to *TopGrowthCurve2D) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TopMidArcVectorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *TopMidArcVectorShape) CopyBasicFields(to *TopMidArcVectorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type TopMidArcVectorShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopMidArcVectorShapeGrid) CopyBasicFields(to *TopMidArcVectorShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }
