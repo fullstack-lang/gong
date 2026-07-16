@@ -181,58 +181,19 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 				break
 			}
 
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
+			sX, sY, eX, eY, rX, rY, _, _, swp := computeArcV2Geometry(v1, v2, thickness, false)
 
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-
-			Vx := v1.StartX - midX
-			Vy := v1.StartY - midY
-			V_sq := Vx*Vx + Vy*Vy
-			V_dot_u := Vx*ux + Vy*uy
-			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 {
-					V_dot_u = 1e-6
-				} else {
-					V_dot_u = -1e-6
-				}
-			}
-
-			R_val := -V_sq / (2.0 * V_dot_u)
-			R := math.Abs(R_val)
-
-			cx := v1.StartX + R_val*ux
-			cy := v1.StartY + R_val*uy
-
-			AB_model_x := midX - v1.StartX
-			AB_model_y := midY - v1.StartY
-			AC_model_x := cx - v1.StartX
-			AC_model_y := cy - v1.StartY
-			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
-
-			sweepFlag := (model_cross < 0)
-
-			scale := 1.0 - thickness/R_val
-			R_new := R * math.Abs(scale)
-
-			expectedStartX := cx + scale*(v1.StartX-cx)
-			expectedStartY := cy + scale*(v1.StartY-cy)
-			expectedEndX := cx + scale*(midX-cx)
-			expectedEndY := cy + scale*(midY-cy)
-
-			expectedRadiusX := R_new
-			expectedRadiusY := R_new
+			expectedStartX := sX
+			expectedStartY := sY
+			expectedEndX := eX
+			expectedEndY := eY
+			expectedRadiusX := rX
+			expectedRadiusY := rY
 
 			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
 				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
 				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
-				arc.SweepFlag != sweepFlag {
+				arc.SweepFlag != swp {
 				valid = false
 				break
 			}
@@ -246,77 +207,24 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 			}
 		}
 		grid.TopStartArcShapes = make([]*TopStartArcShape, expectedLen)
-		vFirst := pGrid.PerpendicularVectors[0]
-		vx := vFirst.EndX - vFirst.StartX
-		vy := vFirst.EndY - vFirst.StartY
-		vLen := math.Hypot(vx, vy)
-		if vLen == 0 {
-			vLen = 1
-		}
-		vx, vy = vx/vLen, vy/vLen
-		dx_thick := thickness * vx
-		dy_thick := thickness * vy
 
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
-
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-
-			Vx := v1.StartX - midX
-			Vy := v1.StartY - midY
-			V_sq := Vx*Vx + Vy*Vy
-			V_dot_u := Vx*ux + Vy*uy
-			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 {
-					V_dot_u = 1e-6
-				} else {
-					V_dot_u = -1e-6
-				}
-			}
-
-			R_val := -V_sq / (2.0 * V_dot_u)
-			R := math.Abs(R_val)
-
-			cx := v1.StartX + R_val*ux
-			cy := v1.StartY + R_val*uy
-
-			AB_model_x := midX - v1.StartX
-			AB_model_y := midY - v1.StartY
-			AC_model_x := cx - v1.StartX
-			AC_model_y := cy - v1.StartY
-			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
-
-			sweepFlag := (model_cross < 0)
-
-			expectedStartX := v1.StartX + dx_thick
-			expectedStartY := v1.StartY + dy_thick
-			expectedEndX := midX + dx_thick
-			expectedEndY := midY + dy_thick
-
-			expectedRadiusX := R
-			expectedRadiusY := R
+			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, thickness, false)
 
 			newArc := new(TopStartArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
-			newArc.StartX = expectedStartX
-			newArc.StartY = expectedStartY
-			newArc.EndX = expectedEndX
-			newArc.EndY = expectedEndY
-			newArc.RadiusX = expectedRadiusX
-			newArc.RadiusY = expectedRadiusY
-			newArc.SweepFlag = sweepFlag
-			newArc.LargeArcFlag = false
-			newArc.XAxisRotation = 0
+			newArc.StartX = sX
+			newArc.StartY = sY
+			newArc.EndX = eX
+			newArc.EndY = eY
+			newArc.RadiusX = rX
+			newArc.RadiusY = rY
+			newArc.SweepFlag = swp
+			newArc.LargeArcFlag = lArc
+			newArc.XAxisRotation = xRot
 
 			grid.TopStartArcShapes[i] = newArc
 		}
@@ -488,17 +396,6 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 	if len(grid.TopEndArcShapes) != expectedLen {
 		valid = false
 	} else {
-		vFirst := pGrid.PerpendicularVectors[0]
-		vx := vFirst.EndX - vFirst.StartX
-		vy := vFirst.EndY - vFirst.StartY
-		vLen := math.Hypot(vx, vy)
-		if vLen == 0 {
-			vLen = 1
-		}
-		vx, vy = vx/vLen, vy/vLen
-		dx_thick := thickness * vx
-		dy_thick := thickness * vy
-
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
@@ -509,54 +406,19 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 				break
 			}
 
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
+			sX, sY, eX, eY, rX, rY, _, _, swp := computeArcV2Geometry(v1, v2, thickness, true)
 
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-
-			Vx := v1.StartX - midX
-			Vy := v1.StartY - midY
-			V_sq := Vx*Vx + Vy*Vy
-			V_dot_u := Vx*ux + Vy*uy
-			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 {
-					V_dot_u = 1e-6
-				} else {
-					V_dot_u = -1e-6
-				}
-			}
-
-			R_val := -V_sq / (2.0 * V_dot_u)
-			R := math.Abs(R_val)
-
-			cx := v1.StartX + R_val*ux
-			cy := v1.StartY + R_val*uy
-
-			AB_model_x := midX - v1.StartX
-			AB_model_y := midY - v1.StartY
-			AC_model_x := cx - v1.StartX
-			AC_model_y := cy - v1.StartY
-			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
-			origSweepFlag := (model_cross < 0)
-
-			expectedStartX := 2*midX - v1.StartX + dx_thick
-			expectedStartY := 2*midY - v1.StartY + dy_thick
-			expectedEndX := midX + dx_thick
-			expectedEndY := midY + dy_thick
-
-			expectedRadiusX := R
-			expectedRadiusY := R
+			expectedStartX := sX
+			expectedStartY := sY
+			expectedEndX := eX
+			expectedEndY := eY
+			expectedRadiusX := rX
+			expectedRadiusY := rY
 
 			if math.Abs(arc.StartX-expectedStartX) > 1e-4 || math.Abs(arc.StartY-expectedStartY) > 1e-4 ||
 				math.Abs(arc.EndX-expectedEndX) > 1e-4 || math.Abs(arc.EndY-expectedEndY) > 1e-4 ||
 				math.Abs(arc.RadiusX-expectedRadiusX) > 1e-4 || math.Abs(arc.RadiusY-expectedRadiusY) > 1e-4 ||
-				arc.SweepFlag != origSweepFlag {
+				arc.SweepFlag != swp {
 				valid = false
 				break
 			}
@@ -570,76 +432,24 @@ func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid
 			}
 		}
 		grid.TopEndArcShapes = make([]*TopEndArcShape, expectedLen)
-		vFirst := pGrid.PerpendicularVectors[0]
-		vx := vFirst.EndX - vFirst.StartX
-		vy := vFirst.EndY - vFirst.StartY
-		vLen := math.Hypot(vx, vy)
-		if vLen == 0 {
-			vLen = 1
-		}
-		vx, vy = vx/vLen, vy/vLen
-		dx_thick := thickness * vx
-		dy_thick := thickness * vy
 
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
-			dx := v1.EndX - v1.StartX
-			dy := v1.EndY - v1.StartY
-			length := math.Hypot(dx, dy)
-			if length == 0 {
-				length = 1
-			}
-			ux, uy := dx/length, dy/length
-
-			midX := (v1.StartX + v2.StartX) / 2.0
-			midY := (v1.StartY + v2.StartY) / 2.0
-
-			Vx := v1.StartX - midX
-			Vy := v1.StartY - midY
-			V_sq := Vx*Vx + Vy*Vy
-			V_dot_u := Vx*ux + Vy*uy
-			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 {
-					V_dot_u = 1e-6
-				} else {
-					V_dot_u = -1e-6
-				}
-			}
-
-			R_val := -V_sq / (2.0 * V_dot_u)
-			R := math.Abs(R_val)
-
-			cx := v1.StartX + R_val*ux
-			cy := v1.StartY + R_val*uy
-
-			AB_model_x := midX - v1.StartX
-			AB_model_y := midY - v1.StartY
-			AC_model_x := cx - v1.StartX
-			AC_model_y := cy - v1.StartY
-			model_cross := AB_model_x*AC_model_y - AB_model_y*AC_model_x
-			origSweepFlag := (model_cross < 0)
-
-			expectedStartX := 2*midX - v1.StartX + dx_thick
-			expectedStartY := 2*midY - v1.StartY + dy_thick
-			expectedEndX := midX + dx_thick
-			expectedEndY := midY + dy_thick
-
-			expectedRadiusX := R
-			expectedRadiusY := R
+			sX, sY, eX, eY, rX, rY, xRot, lArc, swp := computeArcV2Geometry(v1, v2, thickness, true)
 
 			newArc := new(TopEndArcShape).Stage(stage)
 			newArc.Name = fmt.Sprintf("%s-%d", grid.Name, i)
-			newArc.StartX = expectedStartX
-			newArc.StartY = expectedStartY
-			newArc.EndX = expectedEndX
-			newArc.EndY = expectedEndY
-			newArc.RadiusX = expectedRadiusX
-			newArc.RadiusY = expectedRadiusY
-			newArc.SweepFlag = origSweepFlag
-			newArc.LargeArcFlag = false
-			newArc.XAxisRotation = 0
+			newArc.StartX = sX
+			newArc.StartY = sY
+			newArc.EndX = eX
+			newArc.EndY = eY
+			newArc.RadiusX = rX
+			newArc.RadiusY = rY
+			newArc.SweepFlag = swp
+			newArc.LargeArcFlag = lArc
+			newArc.XAxisRotation = xRot
 
 			grid.TopEndArcShapes[i] = newArc
 		}
