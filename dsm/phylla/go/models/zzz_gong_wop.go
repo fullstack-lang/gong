@@ -157,6 +157,55 @@ func (from *EndArcShapeGrid) CopyBasicFields(to *EndArcShapeGrid) {
 	to.Name = from.Name
 }
 
+type EndHalfwayArcShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	RadiusX float64
+
+	RadiusY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+}
+
+func (from *EndHalfwayArcShape) CopyBasicFields(to *EndHalfwayArcShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+}
+
+type EndHalfwayArcShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EndHalfwayArcShapeGrid) CopyBasicFields(to *EndHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type ExplanationTextShape_WOP struct {
 	// insertion point
 
@@ -613,6 +662,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenHalfwayArcShapeGrid bool
 
+	IsHiddenEndHalfwayArcShapeGrid bool
+
 	IsHiddenEndArcShapeGrid bool
 
 	IsHiddenTopEndArcShapeGrid bool
@@ -672,6 +723,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
 	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
 	to.IsHiddenHalfwayArcShapeGrid = from.IsHiddenHalfwayArcShapeGrid
+	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid

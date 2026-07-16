@@ -38,6 +38,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEndArcShapeGridCreateCallback != nil {
 			stage.OnAfterEndArcShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *EndHalfwayArcShape:
+		if stage.OnAfterEndHalfwayArcShapeCreateCallback != nil {
+			stage.OnAfterEndHalfwayArcShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *EndHalfwayArcShapeGrid:
+		if stage.OnAfterEndHalfwayArcShapeGridCreateCallback != nil {
+			stage.OnAfterEndHalfwayArcShapeGridCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *ExplanationTextShape:
 		if stage.OnAfterExplanationTextShapeCreateCallback != nil {
 			stage.OnAfterExplanationTextShapeCreateCallback.OnAfterCreate(stage, target)
@@ -287,6 +295,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*EndArcShapeGrid)
 		if stage.OnAfterEndArcShapeGridUpdateCallback != nil {
 			stage.OnAfterEndArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *EndHalfwayArcShape:
+		newTarget := any(new).(*EndHalfwayArcShape)
+		if stage.OnAfterEndHalfwayArcShapeUpdateCallback != nil {
+			stage.OnAfterEndHalfwayArcShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *EndHalfwayArcShapeGrid:
+		newTarget := any(new).(*EndHalfwayArcShapeGrid)
+		if stage.OnAfterEndHalfwayArcShapeGridUpdateCallback != nil {
+			stage.OnAfterEndHalfwayArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ExplanationTextShape:
 		newTarget := any(new).(*ExplanationTextShape)
@@ -583,6 +601,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*EndArcShapeGrid)
 			stage.OnAfterEndArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *EndHalfwayArcShape:
+		if stage.OnAfterEndHalfwayArcShapeDeleteCallback != nil {
+			staged := any(staged).(*EndHalfwayArcShape)
+			stage.OnAfterEndHalfwayArcShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *EndHalfwayArcShapeGrid:
+		if stage.OnAfterEndHalfwayArcShapeGridDeleteCallback != nil {
+			staged := any(staged).(*EndHalfwayArcShapeGrid)
+			stage.OnAfterEndHalfwayArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *ExplanationTextShape:
 		if stage.OnAfterExplanationTextShapeDeleteCallback != nil {
 			staged := any(staged).(*ExplanationTextShape)
@@ -870,6 +898,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEndArcShapeGridReadCallback != nil {
 			stage.OnAfterEndArcShapeGridReadCallback.OnAfterRead(stage, target)
 		}
+	case *EndHalfwayArcShape:
+		if stage.OnAfterEndHalfwayArcShapeReadCallback != nil {
+			stage.OnAfterEndHalfwayArcShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *EndHalfwayArcShapeGrid:
+		if stage.OnAfterEndHalfwayArcShapeGridReadCallback != nil {
+			stage.OnAfterEndHalfwayArcShapeGridReadCallback.OnAfterRead(stage, target)
+		}
 	case *ExplanationTextShape:
 		if stage.OnAfterExplanationTextShapeReadCallback != nil {
 			stage.OnAfterExplanationTextShapeReadCallback.OnAfterRead(stage, target)
@@ -1093,6 +1129,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EndArcShape])
 	case *EndArcShapeGrid:
 		stage.OnAfterEndArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[EndArcShapeGrid])
+	case *EndHalfwayArcShape:
+		stage.OnAfterEndHalfwayArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EndHalfwayArcShape])
+	case *EndHalfwayArcShapeGrid:
+		stage.OnAfterEndHalfwayArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExplanationTextShape])
 	case *GridPathShape:
@@ -1214,6 +1254,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[EndArcShape])
 	case *EndArcShapeGrid:
 		stage.OnAfterEndArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[EndArcShapeGrid])
+	case *EndHalfwayArcShape:
+		stage.OnAfterEndHalfwayArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[EndHalfwayArcShape])
+	case *EndHalfwayArcShapeGrid:
+		stage.OnAfterEndHalfwayArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExplanationTextShape])
 	case *GridPathShape:
@@ -1335,6 +1379,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EndArcShape])
 	case *EndArcShapeGrid:
 		stage.OnAfterEndArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[EndArcShapeGrid])
+	case *EndHalfwayArcShape:
+		stage.OnAfterEndHalfwayArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EndHalfwayArcShape])
+	case *EndHalfwayArcShapeGrid:
+		stage.OnAfterEndHalfwayArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExplanationTextShape])
 	case *GridPathShape:
@@ -1456,6 +1504,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[EndArcShape])
 	case *EndArcShapeGrid:
 		stage.OnAfterEndArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[EndArcShapeGrid])
+	case *EndHalfwayArcShape:
+		stage.OnAfterEndHalfwayArcShapeReadCallback = any(callback).(OnAfterReadInterface[EndHalfwayArcShape])
+	case *EndHalfwayArcShapeGrid:
+		stage.OnAfterEndHalfwayArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeReadCallback = any(callback).(OnAfterReadInterface[ExplanationTextShape])
 	case *GridPathShape:

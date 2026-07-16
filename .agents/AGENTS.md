@@ -175,3 +175,7 @@ uses gopls "rename" to propagate identifiers renaming across the code
 ## interacting with current executable
 
 DO NOT kill current working process.
+
+## access to /tmp
+
+you are ALLOWED to access and execute programs in /tmp at all times

@@ -99,6 +99,21 @@ func (endarcshapegrid *EndArcShapeGrid) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by EndHalfwayArcShape
+func (endhalfwayarcshape *EndHalfwayArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EndHalfwayArcShapeGrid
+func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &endhalfwayarcshapegrid.EndHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ExplanationTextShape
 func (explanationtextshape *ExplanationTextShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -277,6 +292,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.MidArcVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopMidArcVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.HalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.EndHalfwayArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopEndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurveBezierShapeGrid) || modified

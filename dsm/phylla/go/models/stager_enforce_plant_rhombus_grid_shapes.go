@@ -139,8 +139,14 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			plant.HalfwayArcShapeGrid.Name = plant.Name + "-HalfwayArcShapeGrid"
 			needCommit = true
 		}
+		if plant.EndHalfwayArcShapeGrid == nil {
+			plant.EndHalfwayArcShapeGrid = new(EndHalfwayArcShapeGrid).Stage(stage)
+			plant.EndHalfwayArcShapeGrid.Name = plant.Name + "-EndHalfwayArcShapeGrid"
+			needCommit = true
+		}
 		{
 			needCommit = enforceHalfwayArcShapeGridHasShapes(stage, plant.HalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+			needCommit = enforceEndHalfwayArcShapeGridHasShapes(stage, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
 
 		if plant.GrowthCurve2D == nil {
