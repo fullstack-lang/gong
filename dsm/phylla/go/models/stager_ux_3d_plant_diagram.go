@@ -159,8 +159,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			topStartArcs := tgc.TopStartArcShapeGrid.TopStartArcShapes
 
-			// dx2d := topStartArcs[0].StartX - startArcs[0].StartX
-			dy2d := topStartArcs[0].StartY - startArcs[0].StartY
+			var topEndArcs []*TopEndArcShape
+			if tgc.TopEndArcShapeGrid != nil {
+				topEndArcs = tgc.TopEndArcShapeGrid.TopEndArcShapes
+			}
 
 			thickness := plant.RadialThickness
 			if thickness == 0 {
@@ -172,8 +174,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			curve := (&threejs.Curve{
 				Name: "Torus Continuous Curve Base",
 			}).Stage(stager.threejsStage)
+			
+			topCurve := (&threejs.Curve{
+				Name: "Torus Continuous Curve Top",
+			}).Stage(stager.threejsStage)
 
-			appendArcPoints := func(x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
+			appendArcPoints := func(targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
 				dx := (x1 - x2) / 2.0
 				dy := (y1 - y2) / 2.0
 				d2 := dx*dx + dy*dy
@@ -207,7 +213,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				steps := 50
 				for i := 0; i <= steps; i++ {
 					// avoid duplicating the exact same point if it's not the first point of the curve
-					if i == 0 && len(curve.Points) > 0 {
+					if i == 0 && len(targetCurve.Points) > 0 {
 						continue
 					}
 
@@ -226,29 +232,39 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 
 					vec := (&threejs.Vector3{
-						Name: fmt.Sprintf("Base Point %d", len(curve.Points)),
+						Name: fmt.Sprintf("Base Point %d", len(targetCurve.Points)),
 						X:    x3d,
 						Y:    y3d,
 						Z:    z3d,
 					}).Stage(stager.threejsStage)
-					curve.Points = append(curve.Points, vec)
+					targetCurve.Points = append(targetCurve.Points, vec)
 				}
 			}
 
 			for i := 0; i < len(startArcs); i++ {
 				sa := startArcs[i]
 				// Cartesian sweep is the inverse of SVG sweep due to Y-axis mirroring
-				appendArcPoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+				appendArcPoints(curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 
 				if i < len(endArcs) {
 					ea := endArcs[i]
 					// Cartesian sweep is !ea.SweepFlag.
 					// Traversing backwards inverts it again, so we pass ea.SweepFlag.
-					appendArcPoints(ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag)
+					appendArcPoints(curve, ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag)
 				}
 			}
 
-			if len(curve.Points) > 1 {
+			for i := 0; i < len(topStartArcs); i++ {
+				tsa := topStartArcs[i]
+				appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
+
+				if i < len(topEndArcs) {
+					tea := topEndArcs[i]
+					appendArcPoints(topCurve, tea.EndX, tea.EndY, tea.StartX, tea.StartY, tea.RadiusX, tea.SweepFlag, tea.LargeArcFlag)
+				}
+			}
+
+			if len(curve.Points) > 1 && len(topCurve.Points) > 1 {
 				createFaceMesh := func(faceName string, color string, edges [][2]*threejs.Vector3, reverseWinding bool) *threejs.Mesh {
 					geom := (&threejs.BufferGeometry{
 						Name: fmt.Sprintf("%s BufferGeometry", faceName),
@@ -333,16 +349,24 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 					var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
 
-					for i := 0; i < len(curve.Points); i++ {
+					for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
 						p := curve.Points[i]
+						pTop := topCurve.Points[i]
 
 						thetaBase := math.Atan2(p.Z, p.X)
 						theta := thetaBase + thetaOffset
+						
+						thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
+						thetaTop := thetaBaseTop + thetaOffset
 
 						yBase := p.Y + dy
+						yBaseTop := pTop.Y + dy
 
 						rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
 						rOuter := rBase + thickness
+						
+						rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
+						rOuterTop := rBaseTop + thickness
 
 						xBL := rBase * math.Cos(theta)
 						zBL := rBase * math.Sin(theta)
@@ -352,13 +376,13 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						zBR := rOuter * math.Sin(theta)
 						yBR := yBase
 
-						xTL := xBL
-						zTL := zBL
-						yTL := yBase + dy2d
+						xTL := rBaseTop * math.Cos(thetaTop)
+						zTL := rBaseTop * math.Sin(thetaTop)
+						yTL := yBaseTop
 
-						xTR := xBR
-						zTR := zBR
-						yTR := yBase + dy2d
+						xTR := rOuterTop * math.Cos(thetaTop)
+						zTR := rOuterTop * math.Sin(thetaTop)
+						yTR := yBaseTop
 
 						vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
 						vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
