@@ -2861,6 +2861,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStackOfGrowthCurve":
 			FormDivSelectFieldToField(&(plant_.TopStackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftStackOfGrowthCurve":
+			FormDivSelectFieldToField(&(plant_.ShiftedLeftStackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2D":
 			FormDivSelectFieldToField(&(plant_.GrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopGrowthCurve2D":
@@ -3128,6 +3130,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStackOfGrowthCurve), formDiv)
 		case "IsHiddenBottomStackOfGrowthCurve":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
+		case "IsHiddenShiftedLeftStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfGrowthCurve), formDiv)
 		case "IsHiddenGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
 		case "IsHiddenTopGrowthCurve2D":
@@ -3626,6 +3630,430 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 	}
 
 	rotatedrhombusshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ShiftedLeftStackGrowthCurveEndArcShapeFormCallback(
+	shiftedleftstackgrowthcurveendarcshape *models.ShiftedLeftStackGrowthCurveEndArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedleftstackgrowthcurveendarcshapeFormCallback *ShiftedLeftStackGrowthCurveEndArcShapeFormCallback) {
+	shiftedleftstackgrowthcurveendarcshapeFormCallback = new(ShiftedLeftStackGrowthCurveEndArcShapeFormCallback)
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.probe = probe
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.shiftedleftstackgrowthcurveendarcshape = shiftedleftstackgrowthcurveendarcshape
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.formGroup = formGroup
+
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.CreationMode = (shiftedleftstackgrowthcurveendarcshape == nil)
+
+	return
+}
+
+type ShiftedLeftStackGrowthCurveEndArcShapeFormCallback struct {
+	shiftedleftstackgrowthcurveendarcshape *models.ShiftedLeftStackGrowthCurveEndArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedleftstackgrowthcurveendarcshapeFormCallback *ShiftedLeftStackGrowthCurveEndArcShapeFormCallback) OnSave() {
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedLeftStackGrowthCurveEndArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.formStage.Checkout()
+
+	if shiftedleftstackgrowthcurveendarcshapeFormCallback.shiftedleftstackgrowthcurveendarcshape == nil {
+		shiftedleftstackgrowthcurveendarcshapeFormCallback.shiftedleftstackgrowthcurveendarcshape = new(models.ShiftedLeftStackGrowthCurveEndArcShape).Stage(shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest)
+	}
+	shiftedleftstackgrowthcurveendarcshape_ := shiftedleftstackgrowthcurveendarcshapeFormCallback.shiftedleftstackgrowthcurveendarcshape
+	_ = shiftedleftstackgrowthcurveendarcshape_
+
+	for _, formDiv := range shiftedleftstackgrowthcurveendarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.EndY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.SweepFlag), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurveendarcshape_.RadiusY), formDiv)
+		case "ShiftedLeftStackOfGrowthCurve:ShiftedLeftStackGrowthCurveEndArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftStackOfGrowthCurve instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ShiftedLeftStackOfGrowthCurve instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedLeftStackOfGrowthCurve](shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest)
+			targetShiftedLeftStackOfGrowthCurveIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetShiftedLeftStackOfGrowthCurveIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ShiftedLeftStackOfGrowthCurve instances and update their ShiftedLeftStackGrowthCurveEndArcShapes slice
+			for _shiftedleftstackofgrowthcurve := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackOfGrowthCurve](shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest, _shiftedleftstackofgrowthcurve)
+				
+				// if ShiftedLeftStackOfGrowthCurve is selected
+				if targetShiftedLeftStackOfGrowthCurveIDs[id] {
+					// ensure shiftedleftstackgrowthcurveendarcshape_ is in _shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes
+					found := false
+					for _, _b := range _shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes {
+						if _b == shiftedleftstackgrowthcurveendarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes = append(_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes, shiftedleftstackgrowthcurveendarcshape_)
+						shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedleftstackofgrowthcurve, "ShiftedLeftStackGrowthCurveEndArcShapes", &_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes)
+					}
+				} else {
+					// ensure shiftedleftstackgrowthcurveendarcshape_ is NOT in _shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes
+					idx := slices.Index(_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes, shiftedleftstackgrowthcurveendarcshape_)
+					if idx != -1 {
+						_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes = slices.Delete(_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes, idx, idx+1)
+						shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedleftstackofgrowthcurve, "ShiftedLeftStackGrowthCurveEndArcShapes", &_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveEndArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedleftstackgrowthcurveendarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackgrowthcurveendarcshape_.Unstage(shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedLeftStackGrowthCurveEndArcShape](
+		shiftedleftstackgrowthcurveendarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedleftstackgrowthcurveendarcshapeFormCallback.CreationMode || shiftedleftstackgrowthcurveendarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedLeftStackGrowthCurveEndArcShapeFormCallback(
+			nil,
+			shiftedleftstackgrowthcurveendarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedleftstackgrowthcurveendarcshape := new(models.ShiftedLeftStackGrowthCurveEndArcShape)
+		FillUpForm(shiftedleftstackgrowthcurveendarcshape, newFormGroup, shiftedleftstackgrowthcurveendarcshapeFormCallback.probe)
+		shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedleftstackgrowthcurveendarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ShiftedLeftStackGrowthCurveStartArcShapeFormCallback(
+	shiftedleftstackgrowthcurvestartarcshape *models.ShiftedLeftStackGrowthCurveStartArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedleftstackgrowthcurvestartarcshapeFormCallback *ShiftedLeftStackGrowthCurveStartArcShapeFormCallback) {
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback = new(ShiftedLeftStackGrowthCurveStartArcShapeFormCallback)
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe = probe
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.shiftedleftstackgrowthcurvestartarcshape = shiftedleftstackgrowthcurvestartarcshape
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.formGroup = formGroup
+
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.CreationMode = (shiftedleftstackgrowthcurvestartarcshape == nil)
+
+	return
+}
+
+type ShiftedLeftStackGrowthCurveStartArcShapeFormCallback struct {
+	shiftedleftstackgrowthcurvestartarcshape *models.ShiftedLeftStackGrowthCurveStartArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedleftstackgrowthcurvestartarcshapeFormCallback *ShiftedLeftStackGrowthCurveStartArcShapeFormCallback) OnSave() {
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedLeftStackGrowthCurveStartArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.formStage.Checkout()
+
+	if shiftedleftstackgrowthcurvestartarcshapeFormCallback.shiftedleftstackgrowthcurvestartarcshape == nil {
+		shiftedleftstackgrowthcurvestartarcshapeFormCallback.shiftedleftstackgrowthcurvestartarcshape = new(models.ShiftedLeftStackGrowthCurveStartArcShape).Stage(shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest)
+	}
+	shiftedleftstackgrowthcurvestartarcshape_ := shiftedleftstackgrowthcurvestartarcshapeFormCallback.shiftedleftstackgrowthcurvestartarcshape
+	_ = shiftedleftstackgrowthcurvestartarcshape_
+
+	for _, formDiv := range shiftedleftstackgrowthcurvestartarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.EndY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.SweepFlag), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(shiftedleftstackgrowthcurvestartarcshape_.RadiusY), formDiv)
+		case "ShiftedLeftStackOfGrowthCurve:ShiftedLeftStackGrowthCurveStartArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ShiftedLeftStackOfGrowthCurve instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ShiftedLeftStackOfGrowthCurve instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedLeftStackOfGrowthCurve](shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest)
+			targetShiftedLeftStackOfGrowthCurveIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetShiftedLeftStackOfGrowthCurveIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ShiftedLeftStackOfGrowthCurve instances and update their ShiftedLeftStackGrowthCurveStartArcShapes slice
+			for _shiftedleftstackofgrowthcurve := range *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackOfGrowthCurve](shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest, _shiftedleftstackofgrowthcurve)
+				
+				// if ShiftedLeftStackOfGrowthCurve is selected
+				if targetShiftedLeftStackOfGrowthCurveIDs[id] {
+					// ensure shiftedleftstackgrowthcurvestartarcshape_ is in _shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes
+					found := false
+					for _, _b := range _shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes {
+						if _b == shiftedleftstackgrowthcurvestartarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes = append(_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes, shiftedleftstackgrowthcurvestartarcshape_)
+						shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedleftstackofgrowthcurve, "ShiftedLeftStackGrowthCurveStartArcShapes", &_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes)
+					}
+				} else {
+					// ensure shiftedleftstackgrowthcurvestartarcshape_ is NOT in _shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes
+					idx := slices.Index(_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes, shiftedleftstackgrowthcurvestartarcshape_)
+					if idx != -1 {
+						_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes = slices.Delete(_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes, idx, idx+1)
+						shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_shiftedleftstackofgrowthcurve, "ShiftedLeftStackGrowthCurveStartArcShapes", &_shiftedleftstackofgrowthcurve.ShiftedLeftStackGrowthCurveStartArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedleftstackgrowthcurvestartarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackgrowthcurvestartarcshape_.Unstage(shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedLeftStackGrowthCurveStartArcShape](
+		shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedleftstackgrowthcurvestartarcshapeFormCallback.CreationMode || shiftedleftstackgrowthcurvestartarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedLeftStackGrowthCurveStartArcShapeFormCallback(
+			nil,
+			shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedleftstackgrowthcurvestartarcshape := new(models.ShiftedLeftStackGrowthCurveStartArcShape)
+		FillUpForm(shiftedleftstackgrowthcurvestartarcshape, newFormGroup, shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe)
+		shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedleftstackgrowthcurvestartarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ShiftedLeftStackOfGrowthCurveFormCallback(
+	shiftedleftstackofgrowthcurve *models.ShiftedLeftStackOfGrowthCurve,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFormCallback) {
+	shiftedleftstackofgrowthcurveFormCallback = new(ShiftedLeftStackOfGrowthCurveFormCallback)
+	shiftedleftstackofgrowthcurveFormCallback.probe = probe
+	shiftedleftstackofgrowthcurveFormCallback.shiftedleftstackofgrowthcurve = shiftedleftstackofgrowthcurve
+	shiftedleftstackofgrowthcurveFormCallback.formGroup = formGroup
+
+	shiftedleftstackofgrowthcurveFormCallback.CreationMode = (shiftedleftstackofgrowthcurve == nil)
+
+	return
+}
+
+type ShiftedLeftStackOfGrowthCurveFormCallback struct {
+	shiftedleftstackofgrowthcurve *models.ShiftedLeftStackOfGrowthCurve
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (shiftedleftstackofgrowthcurveFormCallback *ShiftedLeftStackOfGrowthCurveFormCallback) OnSave() {
+	shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.Lock()
+	defer shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ShiftedLeftStackOfGrowthCurveFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	shiftedleftstackofgrowthcurveFormCallback.probe.formStage.Checkout()
+
+	if shiftedleftstackofgrowthcurveFormCallback.shiftedleftstackofgrowthcurve == nil {
+		shiftedleftstackofgrowthcurveFormCallback.shiftedleftstackofgrowthcurve = new(models.ShiftedLeftStackOfGrowthCurve).Stage(shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+	}
+	shiftedleftstackofgrowthcurve_ := shiftedleftstackofgrowthcurveFormCallback.shiftedleftstackofgrowthcurve
+	_ = shiftedleftstackofgrowthcurve_
+
+	for _, formDiv := range shiftedleftstackofgrowthcurveFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(shiftedleftstackofgrowthcurve_.Name), formDiv)
+		case "ShiftedLeftStackGrowthCurveStartArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackGrowthCurveStartArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ShiftedLeftStackGrowthCurveStartArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ShiftedLeftStackGrowthCurveStartArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedLeftStackGrowthCurveStartArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			shiftedleftstackofgrowthcurve_.ShiftedLeftStackGrowthCurveStartArcShapes = instanceSlice
+			shiftedleftstackofgrowthcurveFormCallback.probe.UpdateSliceOfPointersCallback(shiftedleftstackofgrowthcurve_, "ShiftedLeftStackGrowthCurveStartArcShapes", &shiftedleftstackofgrowthcurve_.ShiftedLeftStackGrowthCurveStartArcShapes)
+
+		case "ShiftedLeftStackGrowthCurveEndArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ShiftedLeftStackGrowthCurveEndArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ShiftedLeftStackGrowthCurveEndArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ShiftedLeftStackGrowthCurveEndArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ShiftedLeftStackGrowthCurveEndArcShape](shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			shiftedleftstackofgrowthcurve_.ShiftedLeftStackGrowthCurveEndArcShapes = instanceSlice
+			shiftedleftstackofgrowthcurveFormCallback.probe.UpdateSliceOfPointersCallback(shiftedleftstackofgrowthcurve_, "ShiftedLeftStackGrowthCurveEndArcShapes", &shiftedleftstackofgrowthcurve_.ShiftedLeftStackGrowthCurveEndArcShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if shiftedleftstackofgrowthcurveFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackofgrowthcurve_.Unstage(shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest)
+	}
+
+	shiftedleftstackofgrowthcurveFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ShiftedLeftStackOfGrowthCurve](
+		shiftedleftstackofgrowthcurveFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if shiftedleftstackofgrowthcurveFormCallback.CreationMode || shiftedleftstackofgrowthcurveFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		shiftedleftstackofgrowthcurveFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(shiftedleftstackofgrowthcurveFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ShiftedLeftStackOfGrowthCurveFormCallback(
+			nil,
+			shiftedleftstackofgrowthcurveFormCallback.probe,
+			newFormGroup,
+		)
+		shiftedleftstackofgrowthcurve := new(models.ShiftedLeftStackOfGrowthCurve)
+		FillUpForm(shiftedleftstackofgrowthcurve, newFormGroup, shiftedleftstackofgrowthcurveFormCallback.probe)
+		shiftedleftstackofgrowthcurveFormCallback.probe.formStage.Commit()
+	}
+
+	shiftedleftstackofgrowthcurveFormCallback.probe.ux_tree()
 }
 func __gong__New__StackGrowthCurveEndArcShapeFormCallback(
 	stackgrowthcurveendarcshape *models.StackGrowthCurveEndArcShape,

@@ -72,6 +72,7 @@ type Plant struct {
 
 	StackOfGrowthCurve    *StackOfGrowthCurve
 	TopStackOfGrowthCurve *TopStackOfGrowthCurve
+	ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D

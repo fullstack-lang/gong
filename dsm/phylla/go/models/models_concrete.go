@@ -307,6 +307,13 @@ type TopStackOfGrowthCurve struct {
 	TopStackGrowthCurveEndArcShapes   []*TopStackGrowthCurveEndArcShape
 }
 
+// ShiftedLeftStackOfGrowthCurve of a plant,
+type ShiftedLeftStackOfGrowthCurve struct {
+	Name string
+
+	ShiftedLeftStackGrowthCurveStartArcShapes []*ShiftedLeftStackGrowthCurveStartArcShape
+	ShiftedLeftStackGrowthCurveEndArcShapes   []*ShiftedLeftStackGrowthCurveEndArcShape
+}
 type TopStackGrowthCurveStartArcShape struct {
 	Name string
 
@@ -320,6 +327,30 @@ type TopStackGrowthCurveStartArcShape struct {
 }
 
 type TopStackGrowthCurveEndArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+	RadiusX, RadiusY float64
+}
+
+type ShiftedLeftStackGrowthCurveStartArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+	RadiusX, RadiusY float64
+}
+
+type ShiftedLeftStackGrowthCurveEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
