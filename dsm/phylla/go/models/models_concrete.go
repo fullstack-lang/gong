@@ -435,16 +435,16 @@ type Rendered3DShape struct {
 type GrowthCurve2D struct {
 	Name string
 
-	StartArcShapeGrid *StartArcShapeGrid
-	EndArcShapeGrid   *EndArcShapeGrid
+	StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid
+	EndHalfwayArcShapeGrid   *EndHalfwayArcShapeGrid
 }
 
 // TopGrowthCurve2D of a plant,
 type TopGrowthCurve2D struct {
 	Name string
 
-	TopStartArcShapeGrid *TopStartArcShapeGrid
-	TopEndArcShapeGrid   *TopEndArcShapeGrid
+	TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid
+	TopEndHalfwayArcShapeGrid   *TopEndHalfwayArcShapeGrid
 }
 
 type StartHalfwayArcShape struct {

@@ -12324,10 +12324,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case GrowthCurve2D:
 		return any(&GrowthCurve2D{
 			// Initialisation of associations
-			// field is initialized with an instance of StartArcShapeGrid with the name of the field
-			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
-			// field is initialized with an instance of EndArcShapeGrid with the name of the field
-			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
+			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
+			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
+			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
 		}).(*Type)
 	case GrowthCurveBezierShape:
 		return any(&GrowthCurveBezierShape{
@@ -12602,10 +12602,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case TopGrowthCurve2D:
 		return any(&TopGrowthCurve2D{
 			// Initialisation of associations
-			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
-			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
-			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
-			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
+			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
+			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
+			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
 		}).(*Type)
 	case TopMidArcVectorShape:
 		return any(&TopMidArcVectorShape{
@@ -12734,37 +12734,37 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case GrowthCurve2D:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "StartArcShapeGrid":
-			res := make(map[*StartArcShapeGrid][]*GrowthCurve2D)
+		case "StartHalfwayArcShapeGrid":
+			res := make(map[*StartHalfwayArcShapeGrid][]*GrowthCurve2D)
 			for growthcurve2d := range stage.GrowthCurve2Ds {
-				if growthcurve2d.StartArcShapeGrid != nil {
-					startarcshapegrid_ := growthcurve2d.StartArcShapeGrid
+				if growthcurve2d.StartHalfwayArcShapeGrid != nil {
+					starthalfwayarcshapegrid_ := growthcurve2d.StartHalfwayArcShapeGrid
 					var growthcurve2ds []*GrowthCurve2D
-					_, ok := res[startarcshapegrid_]
+					_, ok := res[starthalfwayarcshapegrid_]
 					if ok {
-						growthcurve2ds = res[startarcshapegrid_]
+						growthcurve2ds = res[starthalfwayarcshapegrid_]
 					} else {
 						growthcurve2ds = make([]*GrowthCurve2D, 0)
 					}
 					growthcurve2ds = append(growthcurve2ds, growthcurve2d)
-					res[startarcshapegrid_] = growthcurve2ds
+					res[starthalfwayarcshapegrid_] = growthcurve2ds
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "EndArcShapeGrid":
-			res := make(map[*EndArcShapeGrid][]*GrowthCurve2D)
+		case "EndHalfwayArcShapeGrid":
+			res := make(map[*EndHalfwayArcShapeGrid][]*GrowthCurve2D)
 			for growthcurve2d := range stage.GrowthCurve2Ds {
-				if growthcurve2d.EndArcShapeGrid != nil {
-					endarcshapegrid_ := growthcurve2d.EndArcShapeGrid
+				if growthcurve2d.EndHalfwayArcShapeGrid != nil {
+					endhalfwayarcshapegrid_ := growthcurve2d.EndHalfwayArcShapeGrid
 					var growthcurve2ds []*GrowthCurve2D
-					_, ok := res[endarcshapegrid_]
+					_, ok := res[endhalfwayarcshapegrid_]
 					if ok {
-						growthcurve2ds = res[endarcshapegrid_]
+						growthcurve2ds = res[endhalfwayarcshapegrid_]
 					} else {
 						growthcurve2ds = make([]*GrowthCurve2D, 0)
 					}
 					growthcurve2ds = append(growthcurve2ds, growthcurve2d)
-					res[endarcshapegrid_] = growthcurve2ds
+					res[endhalfwayarcshapegrid_] = growthcurve2ds
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -13568,37 +13568,37 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case TopGrowthCurve2D:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "TopStartArcShapeGrid":
-			res := make(map[*TopStartArcShapeGrid][]*TopGrowthCurve2D)
+		case "TopStartHalfwayArcShapeGrid":
+			res := make(map[*TopStartHalfwayArcShapeGrid][]*TopGrowthCurve2D)
 			for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
-				if topgrowthcurve2d.TopStartArcShapeGrid != nil {
-					topstartarcshapegrid_ := topgrowthcurve2d.TopStartArcShapeGrid
+				if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != nil {
+					topstarthalfwayarcshapegrid_ := topgrowthcurve2d.TopStartHalfwayArcShapeGrid
 					var topgrowthcurve2ds []*TopGrowthCurve2D
-					_, ok := res[topstartarcshapegrid_]
+					_, ok := res[topstarthalfwayarcshapegrid_]
 					if ok {
-						topgrowthcurve2ds = res[topstartarcshapegrid_]
+						topgrowthcurve2ds = res[topstarthalfwayarcshapegrid_]
 					} else {
 						topgrowthcurve2ds = make([]*TopGrowthCurve2D, 0)
 					}
 					topgrowthcurve2ds = append(topgrowthcurve2ds, topgrowthcurve2d)
-					res[topstartarcshapegrid_] = topgrowthcurve2ds
+					res[topstarthalfwayarcshapegrid_] = topgrowthcurve2ds
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TopEndArcShapeGrid":
-			res := make(map[*TopEndArcShapeGrid][]*TopGrowthCurve2D)
+		case "TopEndHalfwayArcShapeGrid":
+			res := make(map[*TopEndHalfwayArcShapeGrid][]*TopGrowthCurve2D)
 			for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
-				if topgrowthcurve2d.TopEndArcShapeGrid != nil {
-					topendarcshapegrid_ := topgrowthcurve2d.TopEndArcShapeGrid
+				if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != nil {
+					topendhalfwayarcshapegrid_ := topgrowthcurve2d.TopEndHalfwayArcShapeGrid
 					var topgrowthcurve2ds []*TopGrowthCurve2D
-					_, ok := res[topendarcshapegrid_]
+					_, ok := res[topendhalfwayarcshapegrid_]
 					if ok {
-						topgrowthcurve2ds = res[topendarcshapegrid_]
+						topgrowthcurve2ds = res[topendhalfwayarcshapegrid_]
 					} else {
 						topgrowthcurve2ds = make([]*TopGrowthCurve2D, 0)
 					}
 					topgrowthcurve2ds = append(topgrowthcurve2ds, topgrowthcurve2d)
-					res[topendarcshapegrid_] = topgrowthcurve2ds
+					res[topendhalfwayarcshapegrid_] = topgrowthcurve2ds
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -14921,14 +14921,14 @@ func (growthcurve2d *GrowthCurve2D) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "StartArcShapeGrid",
+			Name:                 "StartHalfwayArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StartArcShapeGrid",
+			TargetGongstructName: "StartHalfwayArcShapeGrid",
 		},
 		{
-			Name:                 "EndArcShapeGrid",
+			Name:                 "EndHalfwayArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "EndArcShapeGrid",
+			TargetGongstructName: "EndHalfwayArcShapeGrid",
 		},
 	}
 	return
@@ -16389,14 +16389,14 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "TopStartArcShapeGrid",
+			Name:                 "TopStartHalfwayArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStartArcShapeGrid",
+			TargetGongstructName: "TopStartHalfwayArcShapeGrid",
 		},
 		{
-			Name:                 "TopEndArcShapeGrid",
+			Name:                 "TopEndHalfwayArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopEndArcShapeGrid",
+			TargetGongstructName: "TopEndHalfwayArcShapeGrid",
 		},
 	}
 	return
@@ -17010,17 +17010,17 @@ func (growthcurve2d *GrowthCurve2D) GongGetFieldValue(fieldName string, stage *S
 	// string value of fields
 	case "Name":
 		res.valueString = growthcurve2d.Name
-	case "StartArcShapeGrid":
+	case "StartHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if growthcurve2d.StartArcShapeGrid != nil {
-			res.valueString = growthcurve2d.StartArcShapeGrid.Name
-			res.ids = growthcurve2d.StartArcShapeGrid.GongGetUUID(stage)
+		if growthcurve2d.StartHalfwayArcShapeGrid != nil {
+			res.valueString = growthcurve2d.StartHalfwayArcShapeGrid.Name
+			res.ids = growthcurve2d.StartHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
-	case "EndArcShapeGrid":
+	case "EndHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if growthcurve2d.EndArcShapeGrid != nil {
-			res.valueString = growthcurve2d.EndArcShapeGrid.Name
-			res.ids = growthcurve2d.EndArcShapeGrid.GongGetUUID(stage)
+		if growthcurve2d.EndHalfwayArcShapeGrid != nil {
+			res.valueString = growthcurve2d.EndHalfwayArcShapeGrid.Name
+			res.ids = growthcurve2d.EndHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	}
 	return
@@ -18525,17 +18525,17 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongGetFieldValue(fieldName string, st
 	// string value of fields
 	case "Name":
 		res.valueString = topgrowthcurve2d.Name
-	case "TopStartArcShapeGrid":
+	case "TopStartHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if topgrowthcurve2d.TopStartArcShapeGrid != nil {
-			res.valueString = topgrowthcurve2d.TopStartArcShapeGrid.Name
-			res.ids = topgrowthcurve2d.TopStartArcShapeGrid.GongGetUUID(stage)
+		if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != nil {
+			res.valueString = topgrowthcurve2d.TopStartHalfwayArcShapeGrid.Name
+			res.ids = topgrowthcurve2d.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
-	case "TopEndArcShapeGrid":
+	case "TopEndHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if topgrowthcurve2d.TopEndArcShapeGrid != nil {
-			res.valueString = topgrowthcurve2d.TopEndArcShapeGrid.Name
-			res.ids = topgrowthcurve2d.TopEndArcShapeGrid.GongGetUUID(stage)
+		if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != nil {
+			res.valueString = topgrowthcurve2d.TopEndHalfwayArcShapeGrid.Name
+			res.ids = topgrowthcurve2d.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	}
 	return
@@ -19089,24 +19089,24 @@ func (growthcurve2d *GrowthCurve2D) GongSetFieldValue(fieldName string, value Go
 	// insertion point for per field code
 	case "Name":
 		growthcurve2d.Name = value.GetValueString()
-	case "StartArcShapeGrid":
+	case "StartHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			growthcurve2d.StartArcShapeGrid = nil
-			for __instance__ := range stage.StartArcShapeGrids {
-				if stage.StartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					growthcurve2d.StartArcShapeGrid = __instance__
+			growthcurve2d.StartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.StartHalfwayArcShapeGrids {
+				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					growthcurve2d.StartHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
 		}
-	case "EndArcShapeGrid":
+	case "EndHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			growthcurve2d.EndArcShapeGrid = nil
-			for __instance__ := range stage.EndArcShapeGrids {
-				if stage.EndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					growthcurve2d.EndArcShapeGrid = __instance__
+			growthcurve2d.EndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.EndHalfwayArcShapeGrids {
+				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					growthcurve2d.EndHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -20593,24 +20593,24 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongSetFieldValue(fieldName string, va
 	// insertion point for per field code
 	case "Name":
 		topgrowthcurve2d.Name = value.GetValueString()
-	case "TopStartArcShapeGrid":
+	case "TopStartHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			topgrowthcurve2d.TopStartArcShapeGrid = nil
-			for __instance__ := range stage.TopStartArcShapeGrids {
-				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					topgrowthcurve2d.TopStartArcShapeGrid = __instance__
+			topgrowthcurve2d.TopStartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
+				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					topgrowthcurve2d.TopStartHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
 		}
-	case "TopEndArcShapeGrid":
+	case "TopEndHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			topgrowthcurve2d.TopEndArcShapeGrid = nil
-			for __instance__ := range stage.TopEndArcShapeGrids {
-				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					topgrowthcurve2d.TopEndArcShapeGrid = __instance__
+			topgrowthcurve2d.TopEndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
+				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					topgrowthcurve2d.TopEndHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}

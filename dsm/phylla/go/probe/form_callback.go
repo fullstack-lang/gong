@@ -1368,10 +1368,10 @@ func (growthcurve2dFormCallback *GrowthCurve2DFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(growthcurve2d_.Name), formDiv)
-		case "StartArcShapeGrid":
-			FormDivSelectFieldToField(&(growthcurve2d_.StartArcShapeGrid), growthcurve2dFormCallback.probe.stageOfInterest, formDiv)
-		case "EndArcShapeGrid":
-			FormDivSelectFieldToField(&(growthcurve2d_.EndArcShapeGrid), growthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		case "StartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(growthcurve2d_.StartHalfwayArcShapeGrid), growthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		case "EndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(growthcurve2d_.EndHalfwayArcShapeGrid), growthcurve2dFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 
@@ -6546,10 +6546,10 @@ func (topgrowthcurve2dFormCallback *TopGrowthCurve2DFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(topgrowthcurve2d_.Name), formDiv)
-		case "TopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(topgrowthcurve2d_.TopStartArcShapeGrid), topgrowthcurve2dFormCallback.probe.stageOfInterest, formDiv)
-		case "TopEndArcShapeGrid":
-			FormDivSelectFieldToField(&(topgrowthcurve2d_.TopEndArcShapeGrid), topgrowthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(topgrowthcurve2d_.TopStartHalfwayArcShapeGrid), topgrowthcurve2dFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(topgrowthcurve2d_.TopEndHalfwayArcShapeGrid), topgrowthcurve2dFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 

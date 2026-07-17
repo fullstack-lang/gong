@@ -1248,11 +1248,11 @@ func (stage *Stage) StageBranchGrowthCurve2D(growthcurve2d *GrowthCurve2D) {
 	growthcurve2d.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if growthcurve2d.StartArcShapeGrid != nil {
-		StageBranch(stage, growthcurve2d.StartArcShapeGrid)
+	if growthcurve2d.StartHalfwayArcShapeGrid != nil {
+		StageBranch(stage, growthcurve2d.StartHalfwayArcShapeGrid)
 	}
-	if growthcurve2d.EndArcShapeGrid != nil {
-		StageBranch(stage, growthcurve2d.EndArcShapeGrid)
+	if growthcurve2d.EndHalfwayArcShapeGrid != nil {
+		StageBranch(stage, growthcurve2d.EndHalfwayArcShapeGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2034,11 +2034,11 @@ func (stage *Stage) StageBranchTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve
 	topgrowthcurve2d.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if topgrowthcurve2d.TopStartArcShapeGrid != nil {
-		StageBranch(stage, topgrowthcurve2d.TopStartArcShapeGrid)
+	if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != nil {
+		StageBranch(stage, topgrowthcurve2d.TopStartHalfwayArcShapeGrid)
 	}
-	if topgrowthcurve2d.TopEndArcShapeGrid != nil {
-		StageBranch(stage, topgrowthcurve2d.TopEndArcShapeGrid)
+	if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != nil {
+		StageBranch(stage, topgrowthcurve2d.TopEndHalfwayArcShapeGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2718,11 +2718,11 @@ func CopyBranchGrowthCurve2D(mapOrigCopy map[any]any, growthcurve2dFrom *GrowthC
 	growthcurve2dFrom.CopyBasicFields(growthcurve2dTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if growthcurve2dFrom.StartArcShapeGrid != nil {
-		growthcurve2dTo.StartArcShapeGrid = CopyBranchStartArcShapeGrid(mapOrigCopy, growthcurve2dFrom.StartArcShapeGrid)
+	if growthcurve2dFrom.StartHalfwayArcShapeGrid != nil {
+		growthcurve2dTo.StartHalfwayArcShapeGrid = CopyBranchStartHalfwayArcShapeGrid(mapOrigCopy, growthcurve2dFrom.StartHalfwayArcShapeGrid)
 	}
-	if growthcurve2dFrom.EndArcShapeGrid != nil {
-		growthcurve2dTo.EndArcShapeGrid = CopyBranchEndArcShapeGrid(mapOrigCopy, growthcurve2dFrom.EndArcShapeGrid)
+	if growthcurve2dFrom.EndHalfwayArcShapeGrid != nil {
+		growthcurve2dTo.EndHalfwayArcShapeGrid = CopyBranchEndHalfwayArcShapeGrid(mapOrigCopy, growthcurve2dFrom.EndHalfwayArcShapeGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3668,11 +3668,11 @@ func CopyBranchTopGrowthCurve2D(mapOrigCopy map[any]any, topgrowthcurve2dFrom *T
 	topgrowthcurve2dFrom.CopyBasicFields(topgrowthcurve2dTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if topgrowthcurve2dFrom.TopStartArcShapeGrid != nil {
-		topgrowthcurve2dTo.TopStartArcShapeGrid = CopyBranchTopStartArcShapeGrid(mapOrigCopy, topgrowthcurve2dFrom.TopStartArcShapeGrid)
+	if topgrowthcurve2dFrom.TopStartHalfwayArcShapeGrid != nil {
+		topgrowthcurve2dTo.TopStartHalfwayArcShapeGrid = CopyBranchTopStartHalfwayArcShapeGrid(mapOrigCopy, topgrowthcurve2dFrom.TopStartHalfwayArcShapeGrid)
 	}
-	if topgrowthcurve2dFrom.TopEndArcShapeGrid != nil {
-		topgrowthcurve2dTo.TopEndArcShapeGrid = CopyBranchTopEndArcShapeGrid(mapOrigCopy, topgrowthcurve2dFrom.TopEndArcShapeGrid)
+	if topgrowthcurve2dFrom.TopEndHalfwayArcShapeGrid != nil {
+		topgrowthcurve2dTo.TopEndHalfwayArcShapeGrid = CopyBranchTopEndHalfwayArcShapeGrid(mapOrigCopy, topgrowthcurve2dFrom.TopEndHalfwayArcShapeGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4271,11 +4271,11 @@ func (stage *Stage) UnstageBranchGrowthCurve2D(growthcurve2d *GrowthCurve2D) {
 	growthcurve2d.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if growthcurve2d.StartArcShapeGrid != nil {
-		UnstageBranch(stage, growthcurve2d.StartArcShapeGrid)
+	if growthcurve2d.StartHalfwayArcShapeGrid != nil {
+		UnstageBranch(stage, growthcurve2d.StartHalfwayArcShapeGrid)
 	}
-	if growthcurve2d.EndArcShapeGrid != nil {
-		UnstageBranch(stage, growthcurve2d.EndArcShapeGrid)
+	if growthcurve2d.EndHalfwayArcShapeGrid != nil {
+		UnstageBranch(stage, growthcurve2d.EndHalfwayArcShapeGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5057,11 +5057,11 @@ func (stage *Stage) UnstageBranchTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCur
 	topgrowthcurve2d.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if topgrowthcurve2d.TopStartArcShapeGrid != nil {
-		UnstageBranch(stage, topgrowthcurve2d.TopStartArcShapeGrid)
+	if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != nil {
+		UnstageBranch(stage, topgrowthcurve2d.TopStartHalfwayArcShapeGrid)
 	}
-	if topgrowthcurve2d.TopEndArcShapeGrid != nil {
-		UnstageBranch(stage, topgrowthcurve2d.TopEndArcShapeGrid)
+	if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != nil {
+		UnstageBranch(stage, topgrowthcurve2d.TopEndHalfwayArcShapeGrid)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5297,11 +5297,11 @@ func (reference *GridPathShape) GongReconstructPointersFromReferences(stage *Sta
 
 func (reference *GrowthCurve2D) GongReconstructPointersFromReferences(stage *Stage, instance *GrowthCurve2D) {
 	// insertion point for pointers field
-	if instance.StartArcShapeGrid != nil {
-		reference.StartArcShapeGrid = stage.StartArcShapeGrids_reference[instance.StartArcShapeGrid]
+	if instance.StartHalfwayArcShapeGrid != nil {
+		reference.StartHalfwayArcShapeGrid = stage.StartHalfwayArcShapeGrids_reference[instance.StartHalfwayArcShapeGrid]
 	}
-	if instance.EndArcShapeGrid != nil {
-		reference.EndArcShapeGrid = stage.EndArcShapeGrids_reference[instance.EndArcShapeGrid]
+	if instance.EndHalfwayArcShapeGrid != nil {
+		reference.EndHalfwayArcShapeGrid = stage.EndHalfwayArcShapeGrids_reference[instance.EndHalfwayArcShapeGrid]
 	}
 	// insertion point for slice of pointers field
 }
@@ -5693,11 +5693,11 @@ func (reference *TopEndHalfwayArcShapeGrid) GongReconstructPointersFromReference
 
 func (reference *TopGrowthCurve2D) GongReconstructPointersFromReferences(stage *Stage, instance *TopGrowthCurve2D) {
 	// insertion point for pointers field
-	if instance.TopStartArcShapeGrid != nil {
-		reference.TopStartArcShapeGrid = stage.TopStartArcShapeGrids_reference[instance.TopStartArcShapeGrid]
+	if instance.TopStartHalfwayArcShapeGrid != nil {
+		reference.TopStartHalfwayArcShapeGrid = stage.TopStartHalfwayArcShapeGrids_reference[instance.TopStartHalfwayArcShapeGrid]
 	}
-	if instance.TopEndArcShapeGrid != nil {
-		reference.TopEndArcShapeGrid = stage.TopEndArcShapeGrids_reference[instance.TopEndArcShapeGrid]
+	if instance.TopEndHalfwayArcShapeGrid != nil {
+		reference.TopEndHalfwayArcShapeGrid = stage.TopEndHalfwayArcShapeGrids_reference[instance.TopEndHalfwayArcShapeGrid]
 	}
 	// insertion point for slice of pointers field
 }
@@ -5858,16 +5858,16 @@ func (reference *GridPathShape) GongReconstructPointersFromInstances(stage *Stag
 
 func (reference *GrowthCurve2D) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.StartArcShapeGrid; _reference != nil {
-		reference.StartArcShapeGrid = nil
-		if _instance, ok := stage.StartArcShapeGrids_instance[_reference]; ok {
-			reference.StartArcShapeGrid = _instance
+	if _reference := reference.StartHalfwayArcShapeGrid; _reference != nil {
+		reference.StartHalfwayArcShapeGrid = nil
+		if _instance, ok := stage.StartHalfwayArcShapeGrids_instance[_reference]; ok {
+			reference.StartHalfwayArcShapeGrid = _instance
 		}
 	}
-	if _reference := reference.EndArcShapeGrid; _reference != nil {
-		reference.EndArcShapeGrid = nil
-		if _instance, ok := stage.EndArcShapeGrids_instance[_reference]; ok {
-			reference.EndArcShapeGrid = _instance
+	if _reference := reference.EndHalfwayArcShapeGrid; _reference != nil {
+		reference.EndHalfwayArcShapeGrid = nil
+		if _instance, ok := stage.EndHalfwayArcShapeGrids_instance[_reference]; ok {
+			reference.EndHalfwayArcShapeGrid = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -6425,16 +6425,16 @@ func (reference *TopEndHalfwayArcShapeGrid) GongReconstructPointersFromInstances
 
 func (reference *TopGrowthCurve2D) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.TopStartArcShapeGrid; _reference != nil {
-		reference.TopStartArcShapeGrid = nil
-		if _instance, ok := stage.TopStartArcShapeGrids_instance[_reference]; ok {
-			reference.TopStartArcShapeGrid = _instance
+	if _reference := reference.TopStartHalfwayArcShapeGrid; _reference != nil {
+		reference.TopStartHalfwayArcShapeGrid = nil
+		if _instance, ok := stage.TopStartHalfwayArcShapeGrids_instance[_reference]; ok {
+			reference.TopStartHalfwayArcShapeGrid = _instance
 		}
 	}
-	if _reference := reference.TopEndArcShapeGrid; _reference != nil {
-		reference.TopEndArcShapeGrid = nil
-		if _instance, ok := stage.TopEndArcShapeGrids_instance[_reference]; ok {
-			reference.TopEndArcShapeGrid = _instance
+	if _reference := reference.TopEndHalfwayArcShapeGrid; _reference != nil {
+		reference.TopEndHalfwayArcShapeGrid = nil
+		if _instance, ok := stage.TopEndHalfwayArcShapeGrids_instance[_reference]; ok {
+			reference.TopEndHalfwayArcShapeGrid = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -6831,18 +6831,18 @@ func (growthcurve2d *GrowthCurve2D) GongDiff(stage *Stage, growthcurve2dOther *G
 	if growthcurve2d.Name != growthcurve2dOther.Name {
 		diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "Name"))
 	}
-	if (growthcurve2d.StartArcShapeGrid == nil) != (growthcurve2dOther.StartArcShapeGrid == nil) {
-		diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "StartArcShapeGrid"))
-	} else if growthcurve2d.StartArcShapeGrid != nil && growthcurve2dOther.StartArcShapeGrid != nil {
-		if growthcurve2d.StartArcShapeGrid != growthcurve2dOther.StartArcShapeGrid {
-			diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "StartArcShapeGrid"))
+	if (growthcurve2d.StartHalfwayArcShapeGrid == nil) != (growthcurve2dOther.StartHalfwayArcShapeGrid == nil) {
+		diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "StartHalfwayArcShapeGrid"))
+	} else if growthcurve2d.StartHalfwayArcShapeGrid != nil && growthcurve2dOther.StartHalfwayArcShapeGrid != nil {
+		if growthcurve2d.StartHalfwayArcShapeGrid != growthcurve2dOther.StartHalfwayArcShapeGrid {
+			diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "StartHalfwayArcShapeGrid"))
 		}
 	}
-	if (growthcurve2d.EndArcShapeGrid == nil) != (growthcurve2dOther.EndArcShapeGrid == nil) {
-		diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "EndArcShapeGrid"))
-	} else if growthcurve2d.EndArcShapeGrid != nil && growthcurve2dOther.EndArcShapeGrid != nil {
-		if growthcurve2d.EndArcShapeGrid != growthcurve2dOther.EndArcShapeGrid {
-			diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "EndArcShapeGrid"))
+	if (growthcurve2d.EndHalfwayArcShapeGrid == nil) != (growthcurve2dOther.EndHalfwayArcShapeGrid == nil) {
+		diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "EndHalfwayArcShapeGrid"))
+	} else if growthcurve2d.EndHalfwayArcShapeGrid != nil && growthcurve2dOther.EndHalfwayArcShapeGrid != nil {
+		if growthcurve2d.EndHalfwayArcShapeGrid != growthcurve2dOther.EndHalfwayArcShapeGrid {
+			diffs = append(diffs, growthcurve2d.GongMarshallField(stage, "EndHalfwayArcShapeGrid"))
 		}
 	}
 
@@ -8510,18 +8510,18 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongDiff(stage *Stage, topgrowthcurve2
 	if topgrowthcurve2d.Name != topgrowthcurve2dOther.Name {
 		diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "Name"))
 	}
-	if (topgrowthcurve2d.TopStartArcShapeGrid == nil) != (topgrowthcurve2dOther.TopStartArcShapeGrid == nil) {
-		diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopStartArcShapeGrid"))
-	} else if topgrowthcurve2d.TopStartArcShapeGrid != nil && topgrowthcurve2dOther.TopStartArcShapeGrid != nil {
-		if topgrowthcurve2d.TopStartArcShapeGrid != topgrowthcurve2dOther.TopStartArcShapeGrid {
-			diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopStartArcShapeGrid"))
+	if (topgrowthcurve2d.TopStartHalfwayArcShapeGrid == nil) != (topgrowthcurve2dOther.TopStartHalfwayArcShapeGrid == nil) {
+		diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopStartHalfwayArcShapeGrid"))
+	} else if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != nil && topgrowthcurve2dOther.TopStartHalfwayArcShapeGrid != nil {
+		if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != topgrowthcurve2dOther.TopStartHalfwayArcShapeGrid {
+			diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopStartHalfwayArcShapeGrid"))
 		}
 	}
-	if (topgrowthcurve2d.TopEndArcShapeGrid == nil) != (topgrowthcurve2dOther.TopEndArcShapeGrid == nil) {
-		diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopEndArcShapeGrid"))
-	} else if topgrowthcurve2d.TopEndArcShapeGrid != nil && topgrowthcurve2dOther.TopEndArcShapeGrid != nil {
-		if topgrowthcurve2d.TopEndArcShapeGrid != topgrowthcurve2dOther.TopEndArcShapeGrid {
-			diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopEndArcShapeGrid"))
+	if (topgrowthcurve2d.TopEndHalfwayArcShapeGrid == nil) != (topgrowthcurve2dOther.TopEndHalfwayArcShapeGrid == nil) {
+		diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
+	} else if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != nil && topgrowthcurve2dOther.TopEndHalfwayArcShapeGrid != nil {
+		if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != topgrowthcurve2dOther.TopEndHalfwayArcShapeGrid {
+			diffs = append(diffs, topgrowthcurve2d.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
 		}
 	}
 

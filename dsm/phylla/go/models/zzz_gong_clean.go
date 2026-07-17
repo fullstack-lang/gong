@@ -132,8 +132,8 @@ func (gridpathshape *GridPathShape) GongClean(stage *Stage) (modified bool) {
 func (growthcurve2d *GrowthCurve2D) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &growthcurve2d.StartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &growthcurve2d.EndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &growthcurve2d.StartHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &growthcurve2d.EndHalfwayArcShapeGrid) || modified
 	return
 }
 
@@ -476,8 +476,8 @@ func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongClean(stage *Sta
 func (topgrowthcurve2d *TopGrowthCurve2D) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &topgrowthcurve2d.TopStartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &topgrowthcurve2d.TopEndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &topgrowthcurve2d.TopStartHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &topgrowthcurve2d.TopEndHalfwayArcShapeGrid) || modified
 	return
 }
 
