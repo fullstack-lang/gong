@@ -75,6 +75,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*StartHalfwayArcShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopEndArcShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopEndArcShapeGrid](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*TopEndHalfwayArcShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*TopEndHalfwayArcShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopGrowthCurve2D](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopMidArcVectorShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopMidArcVectorShapeGrid](stage, f, addIDs)
@@ -83,6 +85,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*TopStackOfGrowthCurve](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopStartArcShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopStartArcShapeGrid](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*TopStartHalfwayArcShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*TopStartHalfwayArcShapeGrid](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

@@ -942,6 +942,38 @@ type Stage struct {
 	OnAfterTopEndArcShapeGridDeleteCallback OnAfterDeleteInterface[TopEndArcShapeGrid]
 	OnAfterTopEndArcShapeGridReadCallback   OnAfterReadInterface[TopEndArcShapeGrid]
 
+	TopEndHalfwayArcShapes                map[*TopEndHalfwayArcShape]struct{}
+	TopEndHalfwayArcShapes_instance       map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShape
+	TopEndHalfwayArcShapes_mapString      map[string]*TopEndHalfwayArcShape
+	TopEndHalfwayArcShapeOrder            uint
+	TopEndHalfwayArcShape_stagedOrder     map[*TopEndHalfwayArcShape]uint
+	TopEndHalfwayArcShape_orderStaged     map[uint]*TopEndHalfwayArcShape
+	TopEndHalfwayArcShapes_reference      map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShape
+	TopEndHalfwayArcShapes_referenceOrder map[*TopEndHalfwayArcShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTopEndHalfwayArcShapeCreateCallback OnAfterCreateInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[TopEndHalfwayArcShape]
+	OnAfterTopEndHalfwayArcShapeReadCallback   OnAfterReadInterface[TopEndHalfwayArcShape]
+
+	TopEndHalfwayArcShapeGrids                map[*TopEndHalfwayArcShapeGrid]struct{}
+	TopEndHalfwayArcShapeGrids_instance       map[*TopEndHalfwayArcShapeGrid]*TopEndHalfwayArcShapeGrid
+	TopEndHalfwayArcShapeGrids_mapString      map[string]*TopEndHalfwayArcShapeGrid
+	TopEndHalfwayArcShapeGridOrder            uint
+	TopEndHalfwayArcShapeGrid_stagedOrder     map[*TopEndHalfwayArcShapeGrid]uint
+	TopEndHalfwayArcShapeGrid_orderStaged     map[uint]*TopEndHalfwayArcShapeGrid
+	TopEndHalfwayArcShapeGrids_reference      map[*TopEndHalfwayArcShapeGrid]*TopEndHalfwayArcShapeGrid
+	TopEndHalfwayArcShapeGrids_referenceOrder map[*TopEndHalfwayArcShapeGrid]uint
+
+	// insertion point for slice of pointers maps
+	TopEndHalfwayArcShapeGrid_TopEndHalfwayArcShapes_reverseMap map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShapeGrid
+
+	OnAfterTopEndHalfwayArcShapeGridCreateCallback OnAfterCreateInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[TopEndHalfwayArcShapeGrid]
+	OnAfterTopEndHalfwayArcShapeGridReadCallback   OnAfterReadInterface[TopEndHalfwayArcShapeGrid]
+
 	TopGrowthCurve2Ds                map[*TopGrowthCurve2D]struct{}
 	TopGrowthCurve2Ds_instance       map[*TopGrowthCurve2D]*TopGrowthCurve2D
 	TopGrowthCurve2Ds_mapString      map[string]*TopGrowthCurve2D
@@ -1069,6 +1101,38 @@ type Stage struct {
 	OnAfterTopStartArcShapeGridUpdateCallback OnAfterUpdateInterface[TopStartArcShapeGrid]
 	OnAfterTopStartArcShapeGridDeleteCallback OnAfterDeleteInterface[TopStartArcShapeGrid]
 	OnAfterTopStartArcShapeGridReadCallback   OnAfterReadInterface[TopStartArcShapeGrid]
+
+	TopStartHalfwayArcShapes                map[*TopStartHalfwayArcShape]struct{}
+	TopStartHalfwayArcShapes_instance       map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShape
+	TopStartHalfwayArcShapes_mapString      map[string]*TopStartHalfwayArcShape
+	TopStartHalfwayArcShapeOrder            uint
+	TopStartHalfwayArcShape_stagedOrder     map[*TopStartHalfwayArcShape]uint
+	TopStartHalfwayArcShape_orderStaged     map[uint]*TopStartHalfwayArcShape
+	TopStartHalfwayArcShapes_reference      map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShape
+	TopStartHalfwayArcShapes_referenceOrder map[*TopStartHalfwayArcShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTopStartHalfwayArcShapeCreateCallback OnAfterCreateInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeUpdateCallback OnAfterUpdateInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[TopStartHalfwayArcShape]
+	OnAfterTopStartHalfwayArcShapeReadCallback   OnAfterReadInterface[TopStartHalfwayArcShape]
+
+	TopStartHalfwayArcShapeGrids                map[*TopStartHalfwayArcShapeGrid]struct{}
+	TopStartHalfwayArcShapeGrids_instance       map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid
+	TopStartHalfwayArcShapeGrids_mapString      map[string]*TopStartHalfwayArcShapeGrid
+	TopStartHalfwayArcShapeGridOrder            uint
+	TopStartHalfwayArcShapeGrid_stagedOrder     map[*TopStartHalfwayArcShapeGrid]uint
+	TopStartHalfwayArcShapeGrid_orderStaged     map[uint]*TopStartHalfwayArcShapeGrid
+	TopStartHalfwayArcShapeGrids_reference      map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid
+	TopStartHalfwayArcShapeGrids_referenceOrder map[*TopStartHalfwayArcShapeGrid]uint
+
+	// insertion point for slice of pointers maps
+	TopStartHalfwayArcShapeGrid_TopStartHalfwayArcShapes_reverseMap map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShapeGrid
+
+	OnAfterTopStartHalfwayArcShapeGridCreateCallback OnAfterCreateInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[TopStartHalfwayArcShapeGrid]
+	OnAfterTopStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[TopStartHalfwayArcShapeGrid]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -1510,6 +1574,14 @@ func (stage *Stage) Squash() {
 	stage.TopEndArcShapeGrids_instance = make(map[*TopEndArcShapeGrid]*TopEndArcShapeGrid)
 	stage.TopEndArcShapeGrids_referenceOrder = make(map[*TopEndArcShapeGrid]uint)
 
+	stage.TopEndHalfwayArcShapes_reference = make(map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShape)
+	stage.TopEndHalfwayArcShapes_instance = make(map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShape)
+	stage.TopEndHalfwayArcShapes_referenceOrder = make(map[*TopEndHalfwayArcShape]uint)
+
+	stage.TopEndHalfwayArcShapeGrids_reference = make(map[*TopEndHalfwayArcShapeGrid]*TopEndHalfwayArcShapeGrid)
+	stage.TopEndHalfwayArcShapeGrids_instance = make(map[*TopEndHalfwayArcShapeGrid]*TopEndHalfwayArcShapeGrid)
+	stage.TopEndHalfwayArcShapeGrids_referenceOrder = make(map[*TopEndHalfwayArcShapeGrid]uint)
+
 	stage.TopGrowthCurve2Ds_reference = make(map[*TopGrowthCurve2D]*TopGrowthCurve2D)
 	stage.TopGrowthCurve2Ds_instance = make(map[*TopGrowthCurve2D]*TopGrowthCurve2D)
 	stage.TopGrowthCurve2Ds_referenceOrder = make(map[*TopGrowthCurve2D]uint)
@@ -1541,6 +1613,14 @@ func (stage *Stage) Squash() {
 	stage.TopStartArcShapeGrids_reference = make(map[*TopStartArcShapeGrid]*TopStartArcShapeGrid)
 	stage.TopStartArcShapeGrids_instance = make(map[*TopStartArcShapeGrid]*TopStartArcShapeGrid)
 	stage.TopStartArcShapeGrids_referenceOrder = make(map[*TopStartArcShapeGrid]uint)
+
+	stage.TopStartHalfwayArcShapes_reference = make(map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShape)
+	stage.TopStartHalfwayArcShapes_instance = make(map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShape)
+	stage.TopStartHalfwayArcShapes_referenceOrder = make(map[*TopStartHalfwayArcShape]uint)
+
+	stage.TopStartHalfwayArcShapeGrids_reference = make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid)
+	stage.TopStartHalfwayArcShapeGrids_instance = make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid)
+	stage.TopStartHalfwayArcShapeGrids_referenceOrder = make(map[*TopStartHalfwayArcShapeGrid]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -2283,6 +2363,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.TopEndArcShapeGridOrder = 0
 	}
 
+	var maxTopEndHalfwayArcShapeOrder uint
+	var foundTopEndHalfwayArcShape bool
+	for _, order := range stage.TopEndHalfwayArcShape_stagedOrder {
+		if !foundTopEndHalfwayArcShape || order > maxTopEndHalfwayArcShapeOrder {
+			maxTopEndHalfwayArcShapeOrder = order
+			foundTopEndHalfwayArcShape = true
+		}
+	}
+	if foundTopEndHalfwayArcShape {
+		stage.TopEndHalfwayArcShapeOrder = maxTopEndHalfwayArcShapeOrder + 1
+	} else {
+		stage.TopEndHalfwayArcShapeOrder = 0
+	}
+
+	var maxTopEndHalfwayArcShapeGridOrder uint
+	var foundTopEndHalfwayArcShapeGrid bool
+	for _, order := range stage.TopEndHalfwayArcShapeGrid_stagedOrder {
+		if !foundTopEndHalfwayArcShapeGrid || order > maxTopEndHalfwayArcShapeGridOrder {
+			maxTopEndHalfwayArcShapeGridOrder = order
+			foundTopEndHalfwayArcShapeGrid = true
+		}
+	}
+	if foundTopEndHalfwayArcShapeGrid {
+		stage.TopEndHalfwayArcShapeGridOrder = maxTopEndHalfwayArcShapeGridOrder + 1
+	} else {
+		stage.TopEndHalfwayArcShapeGridOrder = 0
+	}
+
 	var maxTopGrowthCurve2DOrder uint
 	var foundTopGrowthCurve2D bool
 	for _, order := range stage.TopGrowthCurve2D_stagedOrder {
@@ -2393,6 +2501,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.TopStartArcShapeGridOrder = maxTopStartArcShapeGridOrder + 1
 	} else {
 		stage.TopStartArcShapeGridOrder = 0
+	}
+
+	var maxTopStartHalfwayArcShapeOrder uint
+	var foundTopStartHalfwayArcShape bool
+	for _, order := range stage.TopStartHalfwayArcShape_stagedOrder {
+		if !foundTopStartHalfwayArcShape || order > maxTopStartHalfwayArcShapeOrder {
+			maxTopStartHalfwayArcShapeOrder = order
+			foundTopStartHalfwayArcShape = true
+		}
+	}
+	if foundTopStartHalfwayArcShape {
+		stage.TopStartHalfwayArcShapeOrder = maxTopStartHalfwayArcShapeOrder + 1
+	} else {
+		stage.TopStartHalfwayArcShapeOrder = 0
+	}
+
+	var maxTopStartHalfwayArcShapeGridOrder uint
+	var foundTopStartHalfwayArcShapeGrid bool
+	for _, order := range stage.TopStartHalfwayArcShapeGrid_stagedOrder {
+		if !foundTopStartHalfwayArcShapeGrid || order > maxTopStartHalfwayArcShapeGridOrder {
+			maxTopStartHalfwayArcShapeGridOrder = order
+			foundTopStartHalfwayArcShapeGrid = true
+		}
+	}
+	if foundTopStartHalfwayArcShapeGrid {
+		stage.TopStartHalfwayArcShapeGridOrder = maxTopStartHalfwayArcShapeGridOrder + 1
+	} else {
+		stage.TopStartHalfwayArcShapeGridOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -3170,6 +3306,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TopEndHalfwayArcShape:
+		tmp := GetStructInstancesByOrder(stage.TopEndHalfwayArcShapes, stage.TopEndHalfwayArcShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopEndHalfwayArcShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TopEndHalfwayArcShapeGrid:
+		tmp := GetStructInstancesByOrder(stage.TopEndHalfwayArcShapeGrids, stage.TopEndHalfwayArcShapeGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopEndHalfwayArcShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TopGrowthCurve2D:
 		tmp := GetStructInstancesByOrder(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder)
 
@@ -3279,6 +3443,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *TopStartArcShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TopStartHalfwayArcShape:
+		tmp := GetStructInstancesByOrder(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopStartHalfwayArcShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TopStartHalfwayArcShapeGrid:
+		tmp := GetStructInstancesByOrder(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TopStartHalfwayArcShapeGrid implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -3413,6 +3605,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 	case "TopEndArcShapeGrid":
 		res = GetNamedStructInstances(stage.TopEndArcShapeGrids, stage.TopEndArcShapeGrid_stagedOrder)
+	case "TopEndHalfwayArcShape":
+		res = GetNamedStructInstances(stage.TopEndHalfwayArcShapes, stage.TopEndHalfwayArcShape_stagedOrder)
+	case "TopEndHalfwayArcShapeGrid":
+		res = GetNamedStructInstances(stage.TopEndHalfwayArcShapeGrids, stage.TopEndHalfwayArcShapeGrid_stagedOrder)
 	case "TopGrowthCurve2D":
 		res = GetNamedStructInstances(stage.TopGrowthCurve2Ds, stage.TopGrowthCurve2D_stagedOrder)
 	case "TopMidArcVectorShape":
@@ -3429,6 +3625,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TopStartArcShapes, stage.TopStartArcShape_stagedOrder)
 	case "TopStartArcShapeGrid":
 		res = GetNamedStructInstances(stage.TopStartArcShapeGrids, stage.TopStartArcShapeGrid_stagedOrder)
+	case "TopStartHalfwayArcShape":
+		res = GetNamedStructInstances(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
+	case "TopStartHalfwayArcShapeGrid":
+		res = GetNamedStructInstances(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
 	}
 
 	return
@@ -3600,6 +3800,10 @@ type BackRepoInterface interface {
 	CheckoutTopEndArcShape(topendarcshape *TopEndArcShape)
 	CommitTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
 	CheckoutTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
+	CommitTopEndHalfwayArcShape(topendhalfwayarcshape *TopEndHalfwayArcShape)
+	CheckoutTopEndHalfwayArcShape(topendhalfwayarcshape *TopEndHalfwayArcShape)
+	CommitTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid)
+	CheckoutTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid)
 	CommitTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D)
 	CheckoutTopGrowthCurve2D(topgrowthcurve2d *TopGrowthCurve2D)
 	CommitTopMidArcVectorShape(topmidarcvectorshape *TopMidArcVectorShape)
@@ -3616,6 +3820,10 @@ type BackRepoInterface interface {
 	CheckoutTopStartArcShape(topstartarcshape *TopStartArcShape)
 	CommitTopStartArcShapeGrid(topstartarcshapegrid *TopStartArcShapeGrid)
 	CheckoutTopStartArcShapeGrid(topstartarcshapegrid *TopStartArcShapeGrid)
+	CommitTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape)
+	CheckoutTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape)
+	CommitTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid)
+	CheckoutTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -3775,6 +3983,12 @@ func NewStage(name string) (stage *Stage) {
 		TopEndArcShapeGrids:           make(map[*TopEndArcShapeGrid]struct{}),
 		TopEndArcShapeGrids_mapString: make(map[string]*TopEndArcShapeGrid),
 
+		TopEndHalfwayArcShapes:           make(map[*TopEndHalfwayArcShape]struct{}),
+		TopEndHalfwayArcShapes_mapString: make(map[string]*TopEndHalfwayArcShape),
+
+		TopEndHalfwayArcShapeGrids:           make(map[*TopEndHalfwayArcShapeGrid]struct{}),
+		TopEndHalfwayArcShapeGrids_mapString: make(map[string]*TopEndHalfwayArcShapeGrid),
+
 		TopGrowthCurve2Ds:           make(map[*TopGrowthCurve2D]struct{}),
 		TopGrowthCurve2Ds_mapString: make(map[string]*TopGrowthCurve2D),
 
@@ -3798,6 +4012,12 @@ func NewStage(name string) (stage *Stage) {
 
 		TopStartArcShapeGrids:           make(map[*TopStartArcShapeGrid]struct{}),
 		TopStartArcShapeGrids_mapString: make(map[string]*TopStartArcShapeGrid),
+
+		TopStartHalfwayArcShapes:           make(map[*TopStartHalfwayArcShape]struct{}),
+		TopStartHalfwayArcShapes_mapString: make(map[string]*TopStartHalfwayArcShape),
+
+		TopStartHalfwayArcShapeGrids:           make(map[*TopStartHalfwayArcShapeGrid]struct{}),
+		TopStartHalfwayArcShapeGrids_mapString: make(map[string]*TopStartHalfwayArcShapeGrid),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -4013,6 +4233,14 @@ func NewStage(name string) (stage *Stage) {
 		TopEndArcShapeGrid_orderStaged: make(map[uint]*TopEndArcShapeGrid),
 		TopEndArcShapeGrids_reference:  make(map[*TopEndArcShapeGrid]*TopEndArcShapeGrid),
 
+		TopEndHalfwayArcShape_stagedOrder: make(map[*TopEndHalfwayArcShape]uint),
+		TopEndHalfwayArcShape_orderStaged: make(map[uint]*TopEndHalfwayArcShape),
+		TopEndHalfwayArcShapes_reference:  make(map[*TopEndHalfwayArcShape]*TopEndHalfwayArcShape),
+
+		TopEndHalfwayArcShapeGrid_stagedOrder: make(map[*TopEndHalfwayArcShapeGrid]uint),
+		TopEndHalfwayArcShapeGrid_orderStaged: make(map[uint]*TopEndHalfwayArcShapeGrid),
+		TopEndHalfwayArcShapeGrids_reference:  make(map[*TopEndHalfwayArcShapeGrid]*TopEndHalfwayArcShapeGrid),
+
 		TopGrowthCurve2D_stagedOrder: make(map[*TopGrowthCurve2D]uint),
 		TopGrowthCurve2D_orderStaged: make(map[uint]*TopGrowthCurve2D),
 		TopGrowthCurve2Ds_reference:  make(map[*TopGrowthCurve2D]*TopGrowthCurve2D),
@@ -4044,6 +4272,14 @@ func NewStage(name string) (stage *Stage) {
 		TopStartArcShapeGrid_stagedOrder: make(map[*TopStartArcShapeGrid]uint),
 		TopStartArcShapeGrid_orderStaged: make(map[uint]*TopStartArcShapeGrid),
 		TopStartArcShapeGrids_reference:  make(map[*TopStartArcShapeGrid]*TopStartArcShapeGrid),
+
+		TopStartHalfwayArcShape_stagedOrder: make(map[*TopStartHalfwayArcShape]uint),
+		TopStartHalfwayArcShape_orderStaged: make(map[uint]*TopStartHalfwayArcShape),
+		TopStartHalfwayArcShapes_reference:  make(map[*TopStartHalfwayArcShape]*TopStartHalfwayArcShape),
+
+		TopStartHalfwayArcShapeGrid_stagedOrder: make(map[*TopStartHalfwayArcShapeGrid]uint),
+		TopStartHalfwayArcShapeGrid_orderStaged: make(map[uint]*TopStartHalfwayArcShapeGrid),
+		TopStartHalfwayArcShapeGrids_reference:  make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -4149,6 +4385,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"TopEndArcShapeGrid": &TopEndArcShapeGridUnmarshaller{},
 
+			"TopEndHalfwayArcShape": &TopEndHalfwayArcShapeUnmarshaller{},
+
+			"TopEndHalfwayArcShapeGrid": &TopEndHalfwayArcShapeGridUnmarshaller{},
+
 			"TopGrowthCurve2D": &TopGrowthCurve2DUnmarshaller{},
 
 			"TopMidArcVectorShape": &TopMidArcVectorShapeUnmarshaller{},
@@ -4164,6 +4404,10 @@ func NewStage(name string) (stage *Stage) {
 			"TopStartArcShape": &TopStartArcShapeUnmarshaller{},
 
 			"TopStartArcShapeGrid": &TopStartArcShapeGridUnmarshaller{},
+
+			"TopStartHalfwayArcShape": &TopStartHalfwayArcShapeUnmarshaller{},
+
+			"TopStartHalfwayArcShapeGrid": &TopStartHalfwayArcShapeGridUnmarshaller{},
 
 			// end of insertion point
 		},
@@ -4220,6 +4464,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StartHalfwayArcShapeGrid"},
 			{name: "TopEndArcShape"},
 			{name: "TopEndArcShapeGrid"},
+			{name: "TopEndHalfwayArcShape"},
+			{name: "TopEndHalfwayArcShapeGrid"},
 			{name: "TopGrowthCurve2D"},
 			{name: "TopMidArcVectorShape"},
 			{name: "TopMidArcVectorShapeGrid"},
@@ -4228,6 +4474,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TopStackOfGrowthCurve"},
 			{name: "TopStartArcShape"},
 			{name: "TopStartArcShapeGrid"},
+			{name: "TopStartHalfwayArcShape"},
+			{name: "TopStartHalfwayArcShapeGrid"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -4341,6 +4589,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
 		return stage.TopEndArcShapeGrid_stagedOrder[instance]
+	case *TopEndHalfwayArcShape:
+		return stage.TopEndHalfwayArcShape_stagedOrder[instance]
+	case *TopEndHalfwayArcShapeGrid:
+		return stage.TopEndHalfwayArcShapeGrid_stagedOrder[instance]
 	case *TopGrowthCurve2D:
 		return stage.TopGrowthCurve2D_stagedOrder[instance]
 	case *TopMidArcVectorShape:
@@ -4357,6 +4609,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TopStartArcShape_stagedOrder[instance]
 	case *TopStartArcShapeGrid:
 		return stage.TopStartArcShapeGrid_stagedOrder[instance]
+	case *TopStartHalfwayArcShape:
+		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
+	case *TopStartHalfwayArcShapeGrid:
+		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -4468,6 +4724,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TopEndArcShape_orderStaged[order]).(Type)
 	case *TopEndArcShapeGrid:
 		return any(stage.TopEndArcShapeGrid_orderStaged[order]).(Type)
+	case *TopEndHalfwayArcShape:
+		return any(stage.TopEndHalfwayArcShape_orderStaged[order]).(Type)
+	case *TopEndHalfwayArcShapeGrid:
+		return any(stage.TopEndHalfwayArcShapeGrid_orderStaged[order]).(Type)
 	case *TopGrowthCurve2D:
 		return any(stage.TopGrowthCurve2D_orderStaged[order]).(Type)
 	case *TopMidArcVectorShape:
@@ -4484,6 +4744,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TopStartArcShape_orderStaged[order]).(Type)
 	case *TopStartArcShapeGrid:
 		return any(stage.TopStartArcShapeGrid_orderStaged[order]).(Type)
+	case *TopStartHalfwayArcShape:
+		return any(stage.TopStartHalfwayArcShape_orderStaged[order]).(Type)
+	case *TopStartHalfwayArcShapeGrid:
+		return any(stage.TopStartHalfwayArcShapeGrid_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -4594,6 +4858,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
 		return stage.TopEndArcShapeGrid_stagedOrder[instance]
+	case *TopEndHalfwayArcShape:
+		return stage.TopEndHalfwayArcShape_stagedOrder[instance]
+	case *TopEndHalfwayArcShapeGrid:
+		return stage.TopEndHalfwayArcShapeGrid_stagedOrder[instance]
 	case *TopGrowthCurve2D:
 		return stage.TopGrowthCurve2D_stagedOrder[instance]
 	case *TopMidArcVectorShape:
@@ -4610,6 +4878,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TopStartArcShape_stagedOrder[instance]
 	case *TopStartArcShapeGrid:
 		return stage.TopStartArcShapeGrid_stagedOrder[instance]
+	case *TopStartHalfwayArcShape:
+		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
+	case *TopStartHalfwayArcShapeGrid:
+		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -4726,6 +4998,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShapeGrid"] = len(stage.StartHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShape"] = len(stage.TopEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShapeGrid"] = len(stage.TopEndArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["TopEndHalfwayArcShape"] = len(stage.TopEndHalfwayArcShapes)
+	stage.Map_GongStructName_InstancesNb["TopEndHalfwayArcShapeGrid"] = len(stage.TopEndHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopGrowthCurve2D"] = len(stage.TopGrowthCurve2Ds)
 	stage.Map_GongStructName_InstancesNb["TopMidArcVectorShape"] = len(stage.TopMidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["TopMidArcVectorShapeGrid"] = len(stage.TopMidArcVectorShapeGrids)
@@ -4734,6 +5008,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TopStackOfGrowthCurve"] = len(stage.TopStackOfGrowthCurves)
 	stage.Map_GongStructName_InstancesNb["TopStartArcShape"] = len(stage.TopStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopStartArcShapeGrid"] = len(stage.TopStartArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShape"] = len(stage.TopStartHalfwayArcShapes)
+	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShapeGrid"] = len(stage.TopStartHalfwayArcShapeGrids)
 }
 
 func (stage *Stage) Checkout() {
@@ -9262,6 +9538,182 @@ func (topendarcshapegrid *TopEndArcShapeGrid) SetName(name string) {
 	topendarcshapegrid.Name = name
 }
 
+// Stage puts topendhalfwayarcshape to the model stage
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) Stage(stage *Stage) *TopEndHalfwayArcShape {
+	if _, ok := stage.TopEndHalfwayArcShapes[topendhalfwayarcshape]; !ok {
+		stage.TopEndHalfwayArcShapes[topendhalfwayarcshape] = struct{}{}
+		stage.TopEndHalfwayArcShape_stagedOrder[topendhalfwayarcshape] = stage.TopEndHalfwayArcShapeOrder
+		stage.TopEndHalfwayArcShape_orderStaged[stage.TopEndHalfwayArcShapeOrder] = topendhalfwayarcshape
+		stage.TopEndHalfwayArcShapeOrder++
+	}
+	stage.TopEndHalfwayArcShapes_mapString[topendhalfwayarcshape.Name] = topendhalfwayarcshape
+
+	return topendhalfwayarcshape
+}
+
+// StagePreserveOrder puts topendhalfwayarcshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopEndHalfwayArcShapeOrder
+// - update stage.TopEndHalfwayArcShapeOrder accordingly
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopEndHalfwayArcShapes[topendhalfwayarcshape]; !ok {
+		stage.TopEndHalfwayArcShapes[topendhalfwayarcshape] = struct{}{}
+
+		if order > stage.TopEndHalfwayArcShapeOrder {
+			stage.TopEndHalfwayArcShapeOrder = order
+		}
+		stage.TopEndHalfwayArcShape_stagedOrder[topendhalfwayarcshape] = order
+		stage.TopEndHalfwayArcShape_orderStaged[order] = topendhalfwayarcshape
+		stage.TopEndHalfwayArcShapeOrder++
+	}
+	stage.TopEndHalfwayArcShapes_mapString[topendhalfwayarcshape.Name] = topendhalfwayarcshape
+}
+
+// Unstage removes topendhalfwayarcshape off the model stage
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) Unstage(stage *Stage) *TopEndHalfwayArcShape {
+	delete(stage.TopEndHalfwayArcShapes, topendhalfwayarcshape)
+	// issue1150
+	// delete(stage.TopEndHalfwayArcShape_stagedOrder, topendhalfwayarcshape)
+	delete(stage.TopEndHalfwayArcShapes_mapString, topendhalfwayarcshape.Name)
+
+	return topendhalfwayarcshape
+}
+
+// UnstageVoid removes topendhalfwayarcshape off the model stage
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) UnstageVoid(stage *Stage) {
+	delete(stage.TopEndHalfwayArcShapes, topendhalfwayarcshape)
+	// issue1150
+	// delete(stage.TopEndHalfwayArcShape_stagedOrder, topendhalfwayarcshape)
+	delete(stage.TopEndHalfwayArcShapes_mapString, topendhalfwayarcshape.Name)
+}
+
+// commit topendhalfwayarcshape to the back repo (if it is already staged)
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) Commit(stage *Stage) *TopEndHalfwayArcShape {
+	if _, ok := stage.TopEndHalfwayArcShapes[topendhalfwayarcshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopEndHalfwayArcShape(topendhalfwayarcshape)
+		}
+	}
+	return topendhalfwayarcshape
+}
+
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) CommitVoid(stage *Stage) {
+	topendhalfwayarcshape.Commit(stage)
+}
+
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) StageVoid(stage *Stage) {
+	topendhalfwayarcshape.Stage(stage)
+}
+
+// Checkout topendhalfwayarcshape to the back repo (if it is already staged)
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) Checkout(stage *Stage) *TopEndHalfwayArcShape {
+	if _, ok := stage.TopEndHalfwayArcShapes[topendhalfwayarcshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopEndHalfwayArcShape(topendhalfwayarcshape)
+		}
+	}
+	return topendhalfwayarcshape
+}
+
+// for satisfaction of GongStruct interface
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GetName() (res string) {
+	return topendhalfwayarcshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) SetName(name string) {
+	topendhalfwayarcshape.Name = name
+}
+
+// Stage puts topendhalfwayarcshapegrid to the model stage
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) Stage(stage *Stage) *TopEndHalfwayArcShapeGrid {
+	if _, ok := stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid]; !ok {
+		stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid] = struct{}{}
+		stage.TopEndHalfwayArcShapeGrid_stagedOrder[topendhalfwayarcshapegrid] = stage.TopEndHalfwayArcShapeGridOrder
+		stage.TopEndHalfwayArcShapeGrid_orderStaged[stage.TopEndHalfwayArcShapeGridOrder] = topendhalfwayarcshapegrid
+		stage.TopEndHalfwayArcShapeGridOrder++
+	}
+	stage.TopEndHalfwayArcShapeGrids_mapString[topendhalfwayarcshapegrid.Name] = topendhalfwayarcshapegrid
+
+	return topendhalfwayarcshapegrid
+}
+
+// StagePreserveOrder puts topendhalfwayarcshapegrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopEndHalfwayArcShapeGridOrder
+// - update stage.TopEndHalfwayArcShapeGridOrder accordingly
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid]; !ok {
+		stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid] = struct{}{}
+
+		if order > stage.TopEndHalfwayArcShapeGridOrder {
+			stage.TopEndHalfwayArcShapeGridOrder = order
+		}
+		stage.TopEndHalfwayArcShapeGrid_stagedOrder[topendhalfwayarcshapegrid] = order
+		stage.TopEndHalfwayArcShapeGrid_orderStaged[order] = topendhalfwayarcshapegrid
+		stage.TopEndHalfwayArcShapeGridOrder++
+	}
+	stage.TopEndHalfwayArcShapeGrids_mapString[topendhalfwayarcshapegrid.Name] = topendhalfwayarcshapegrid
+}
+
+// Unstage removes topendhalfwayarcshapegrid off the model stage
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) Unstage(stage *Stage) *TopEndHalfwayArcShapeGrid {
+	delete(stage.TopEndHalfwayArcShapeGrids, topendhalfwayarcshapegrid)
+	// issue1150
+	// delete(stage.TopEndHalfwayArcShapeGrid_stagedOrder, topendhalfwayarcshapegrid)
+	delete(stage.TopEndHalfwayArcShapeGrids_mapString, topendhalfwayarcshapegrid.Name)
+
+	return topendhalfwayarcshapegrid
+}
+
+// UnstageVoid removes topendhalfwayarcshapegrid off the model stage
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) UnstageVoid(stage *Stage) {
+	delete(stage.TopEndHalfwayArcShapeGrids, topendhalfwayarcshapegrid)
+	// issue1150
+	// delete(stage.TopEndHalfwayArcShapeGrid_stagedOrder, topendhalfwayarcshapegrid)
+	delete(stage.TopEndHalfwayArcShapeGrids_mapString, topendhalfwayarcshapegrid.Name)
+}
+
+// commit topendhalfwayarcshapegrid to the back repo (if it is already staged)
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) Commit(stage *Stage) *TopEndHalfwayArcShapeGrid {
+	if _, ok := stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid)
+		}
+	}
+	return topendhalfwayarcshapegrid
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) CommitVoid(stage *Stage) {
+	topendhalfwayarcshapegrid.Commit(stage)
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) StageVoid(stage *Stage) {
+	topendhalfwayarcshapegrid.Stage(stage)
+}
+
+// Checkout topendhalfwayarcshapegrid to the back repo (if it is already staged)
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) Checkout(stage *Stage) *TopEndHalfwayArcShapeGrid {
+	if _, ok := stage.TopEndHalfwayArcShapeGrids[topendhalfwayarcshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopEndHalfwayArcShapeGrid(topendhalfwayarcshapegrid)
+		}
+	}
+	return topendhalfwayarcshapegrid
+}
+
+// for satisfaction of GongStruct interface
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GetName() (res string) {
+	return topendhalfwayarcshapegrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) SetName(name string) {
+	topendhalfwayarcshapegrid.Name = name
+}
+
 // Stage puts topgrowthcurve2d to the model stage
 func (topgrowthcurve2d *TopGrowthCurve2D) Stage(stage *Stage) *TopGrowthCurve2D {
 	if _, ok := stage.TopGrowthCurve2Ds[topgrowthcurve2d]; !ok {
@@ -9966,6 +10418,182 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) SetName(name string) {
 	topstartarcshapegrid.Name = name
 }
 
+// Stage puts topstarthalfwayarcshape to the model stage
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) Stage(stage *Stage) *TopStartHalfwayArcShape {
+	if _, ok := stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape]; !ok {
+		stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape] = struct{}{}
+		stage.TopStartHalfwayArcShape_stagedOrder[topstarthalfwayarcshape] = stage.TopStartHalfwayArcShapeOrder
+		stage.TopStartHalfwayArcShape_orderStaged[stage.TopStartHalfwayArcShapeOrder] = topstarthalfwayarcshape
+		stage.TopStartHalfwayArcShapeOrder++
+	}
+	stage.TopStartHalfwayArcShapes_mapString[topstarthalfwayarcshape.Name] = topstarthalfwayarcshape
+
+	return topstarthalfwayarcshape
+}
+
+// StagePreserveOrder puts topstarthalfwayarcshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopStartHalfwayArcShapeOrder
+// - update stage.TopStartHalfwayArcShapeOrder accordingly
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape]; !ok {
+		stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape] = struct{}{}
+
+		if order > stage.TopStartHalfwayArcShapeOrder {
+			stage.TopStartHalfwayArcShapeOrder = order
+		}
+		stage.TopStartHalfwayArcShape_stagedOrder[topstarthalfwayarcshape] = order
+		stage.TopStartHalfwayArcShape_orderStaged[order] = topstarthalfwayarcshape
+		stage.TopStartHalfwayArcShapeOrder++
+	}
+	stage.TopStartHalfwayArcShapes_mapString[topstarthalfwayarcshape.Name] = topstarthalfwayarcshape
+}
+
+// Unstage removes topstarthalfwayarcshape off the model stage
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) Unstage(stage *Stage) *TopStartHalfwayArcShape {
+	delete(stage.TopStartHalfwayArcShapes, topstarthalfwayarcshape)
+	// issue1150
+	// delete(stage.TopStartHalfwayArcShape_stagedOrder, topstarthalfwayarcshape)
+	delete(stage.TopStartHalfwayArcShapes_mapString, topstarthalfwayarcshape.Name)
+
+	return topstarthalfwayarcshape
+}
+
+// UnstageVoid removes topstarthalfwayarcshape off the model stage
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) UnstageVoid(stage *Stage) {
+	delete(stage.TopStartHalfwayArcShapes, topstarthalfwayarcshape)
+	// issue1150
+	// delete(stage.TopStartHalfwayArcShape_stagedOrder, topstarthalfwayarcshape)
+	delete(stage.TopStartHalfwayArcShapes_mapString, topstarthalfwayarcshape.Name)
+}
+
+// commit topstarthalfwayarcshape to the back repo (if it is already staged)
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) Commit(stage *Stage) *TopStartHalfwayArcShape {
+	if _, ok := stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopStartHalfwayArcShape(topstarthalfwayarcshape)
+		}
+	}
+	return topstarthalfwayarcshape
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) CommitVoid(stage *Stage) {
+	topstarthalfwayarcshape.Commit(stage)
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) StageVoid(stage *Stage) {
+	topstarthalfwayarcshape.Stage(stage)
+}
+
+// Checkout topstarthalfwayarcshape to the back repo (if it is already staged)
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) Checkout(stage *Stage) *TopStartHalfwayArcShape {
+	if _, ok := stage.TopStartHalfwayArcShapes[topstarthalfwayarcshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopStartHalfwayArcShape(topstarthalfwayarcshape)
+		}
+	}
+	return topstarthalfwayarcshape
+}
+
+// for satisfaction of GongStruct interface
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GetName() (res string) {
+	return topstarthalfwayarcshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) SetName(name string) {
+	topstarthalfwayarcshape.Name = name
+}
+
+// Stage puts topstarthalfwayarcshapegrid to the model stage
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) Stage(stage *Stage) *TopStartHalfwayArcShapeGrid {
+	if _, ok := stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid]; !ok {
+		stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid] = struct{}{}
+		stage.TopStartHalfwayArcShapeGrid_stagedOrder[topstarthalfwayarcshapegrid] = stage.TopStartHalfwayArcShapeGridOrder
+		stage.TopStartHalfwayArcShapeGrid_orderStaged[stage.TopStartHalfwayArcShapeGridOrder] = topstarthalfwayarcshapegrid
+		stage.TopStartHalfwayArcShapeGridOrder++
+	}
+	stage.TopStartHalfwayArcShapeGrids_mapString[topstarthalfwayarcshapegrid.Name] = topstarthalfwayarcshapegrid
+
+	return topstarthalfwayarcshapegrid
+}
+
+// StagePreserveOrder puts topstarthalfwayarcshapegrid to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TopStartHalfwayArcShapeGridOrder
+// - update stage.TopStartHalfwayArcShapeGridOrder accordingly
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid]; !ok {
+		stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid] = struct{}{}
+
+		if order > stage.TopStartHalfwayArcShapeGridOrder {
+			stage.TopStartHalfwayArcShapeGridOrder = order
+		}
+		stage.TopStartHalfwayArcShapeGrid_stagedOrder[topstarthalfwayarcshapegrid] = order
+		stage.TopStartHalfwayArcShapeGrid_orderStaged[order] = topstarthalfwayarcshapegrid
+		stage.TopStartHalfwayArcShapeGridOrder++
+	}
+	stage.TopStartHalfwayArcShapeGrids_mapString[topstarthalfwayarcshapegrid.Name] = topstarthalfwayarcshapegrid
+}
+
+// Unstage removes topstarthalfwayarcshapegrid off the model stage
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) Unstage(stage *Stage) *TopStartHalfwayArcShapeGrid {
+	delete(stage.TopStartHalfwayArcShapeGrids, topstarthalfwayarcshapegrid)
+	// issue1150
+	// delete(stage.TopStartHalfwayArcShapeGrid_stagedOrder, topstarthalfwayarcshapegrid)
+	delete(stage.TopStartHalfwayArcShapeGrids_mapString, topstarthalfwayarcshapegrid.Name)
+
+	return topstarthalfwayarcshapegrid
+}
+
+// UnstageVoid removes topstarthalfwayarcshapegrid off the model stage
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) UnstageVoid(stage *Stage) {
+	delete(stage.TopStartHalfwayArcShapeGrids, topstarthalfwayarcshapegrid)
+	// issue1150
+	// delete(stage.TopStartHalfwayArcShapeGrid_stagedOrder, topstarthalfwayarcshapegrid)
+	delete(stage.TopStartHalfwayArcShapeGrids_mapString, topstarthalfwayarcshapegrid.Name)
+}
+
+// commit topstarthalfwayarcshapegrid to the back repo (if it is already staged)
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) Commit(stage *Stage) *TopStartHalfwayArcShapeGrid {
+	if _, ok := stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid)
+		}
+	}
+	return topstarthalfwayarcshapegrid
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) CommitVoid(stage *Stage) {
+	topstarthalfwayarcshapegrid.Commit(stage)
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) StageVoid(stage *Stage) {
+	topstarthalfwayarcshapegrid.Stage(stage)
+}
+
+// Checkout topstarthalfwayarcshapegrid to the back repo (if it is already staged)
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) Checkout(stage *Stage) *TopStartHalfwayArcShapeGrid {
+	if _, ok := stage.TopStartHalfwayArcShapeGrids[topstarthalfwayarcshapegrid]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid)
+		}
+	}
+	return topstarthalfwayarcshapegrid
+}
+
+// for satisfaction of GongStruct interface
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GetName() (res string) {
+	return topstarthalfwayarcshapegrid.Name
+}
+
+// for satisfaction of GongStruct interface
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) SetName(name string) {
+	topstarthalfwayarcshapegrid.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMArcNormalVectorShape(ArcNormalVectorShape *ArcNormalVectorShape)
@@ -10019,6 +10647,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
 	CreateORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	CreateORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
+	CreateORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
+	CreateORMTopEndHalfwayArcShapeGrid(TopEndHalfwayArcShapeGrid *TopEndHalfwayArcShapeGrid)
 	CreateORMTopGrowthCurve2D(TopGrowthCurve2D *TopGrowthCurve2D)
 	CreateORMTopMidArcVectorShape(TopMidArcVectorShape *TopMidArcVectorShape)
 	CreateORMTopMidArcVectorShapeGrid(TopMidArcVectorShapeGrid *TopMidArcVectorShapeGrid)
@@ -10027,6 +10657,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTopStackOfGrowthCurve(TopStackOfGrowthCurve *TopStackOfGrowthCurve)
 	CreateORMTopStartArcShape(TopStartArcShape *TopStartArcShape)
 	CreateORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
+	CreateORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
+	CreateORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -10081,6 +10713,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
 	DeleteORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	DeleteORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
+	DeleteORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
+	DeleteORMTopEndHalfwayArcShapeGrid(TopEndHalfwayArcShapeGrid *TopEndHalfwayArcShapeGrid)
 	DeleteORMTopGrowthCurve2D(TopGrowthCurve2D *TopGrowthCurve2D)
 	DeleteORMTopMidArcVectorShape(TopMidArcVectorShape *TopMidArcVectorShape)
 	DeleteORMTopMidArcVectorShapeGrid(TopMidArcVectorShapeGrid *TopMidArcVectorShapeGrid)
@@ -10089,6 +10723,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTopStackOfGrowthCurve(TopStackOfGrowthCurve *TopStackOfGrowthCurve)
 	DeleteORMTopStartArcShape(TopStartArcShape *TopStartArcShape)
 	DeleteORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
+	DeleteORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
+	DeleteORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -10347,6 +10983,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TopEndArcShapeGrid_stagedOrder = make(map[*TopEndArcShapeGrid]uint)
 	stage.TopEndArcShapeGridOrder = 0
 
+	stage.TopEndHalfwayArcShapes = make(map[*TopEndHalfwayArcShape]struct{})
+	stage.TopEndHalfwayArcShapes_mapString = make(map[string]*TopEndHalfwayArcShape)
+	stage.TopEndHalfwayArcShape_stagedOrder = make(map[*TopEndHalfwayArcShape]uint)
+	stage.TopEndHalfwayArcShapeOrder = 0
+
+	stage.TopEndHalfwayArcShapeGrids = make(map[*TopEndHalfwayArcShapeGrid]struct{})
+	stage.TopEndHalfwayArcShapeGrids_mapString = make(map[string]*TopEndHalfwayArcShapeGrid)
+	stage.TopEndHalfwayArcShapeGrid_stagedOrder = make(map[*TopEndHalfwayArcShapeGrid]uint)
+	stage.TopEndHalfwayArcShapeGridOrder = 0
+
 	stage.TopGrowthCurve2Ds = make(map[*TopGrowthCurve2D]struct{})
 	stage.TopGrowthCurve2Ds_mapString = make(map[string]*TopGrowthCurve2D)
 	stage.TopGrowthCurve2D_stagedOrder = make(map[*TopGrowthCurve2D]uint)
@@ -10386,6 +11032,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TopStartArcShapeGrids_mapString = make(map[string]*TopStartArcShapeGrid)
 	stage.TopStartArcShapeGrid_stagedOrder = make(map[*TopStartArcShapeGrid]uint)
 	stage.TopStartArcShapeGridOrder = 0
+
+	stage.TopStartHalfwayArcShapes = make(map[*TopStartHalfwayArcShape]struct{})
+	stage.TopStartHalfwayArcShapes_mapString = make(map[string]*TopStartHalfwayArcShape)
+	stage.TopStartHalfwayArcShape_stagedOrder = make(map[*TopStartHalfwayArcShape]uint)
+	stage.TopStartHalfwayArcShapeOrder = 0
+
+	stage.TopStartHalfwayArcShapeGrids = make(map[*TopStartHalfwayArcShapeGrid]struct{})
+	stage.TopStartHalfwayArcShapeGrids_mapString = make(map[string]*TopStartHalfwayArcShapeGrid)
+	stage.TopStartHalfwayArcShapeGrid_stagedOrder = make(map[*TopStartHalfwayArcShapeGrid]uint)
+	stage.TopStartHalfwayArcShapeGridOrder = 0
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -10549,6 +11205,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.TopEndArcShapeGrids = nil
 	stage.TopEndArcShapeGrids_mapString = nil
 
+	stage.TopEndHalfwayArcShapes = nil
+	stage.TopEndHalfwayArcShapes_mapString = nil
+
+	stage.TopEndHalfwayArcShapeGrids = nil
+	stage.TopEndHalfwayArcShapeGrids_mapString = nil
+
 	stage.TopGrowthCurve2Ds = nil
 	stage.TopGrowthCurve2Ds_mapString = nil
 
@@ -10572,6 +11234,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.TopStartArcShapeGrids = nil
 	stage.TopStartArcShapeGrids_mapString = nil
+
+	stage.TopStartHalfwayArcShapes = nil
+	stage.TopStartHalfwayArcShapes_mapString = nil
+
+	stage.TopStartHalfwayArcShapeGrids = nil
+	stage.TopStartHalfwayArcShapeGrids_mapString = nil
 
 	// end of insertion point for array nil
 }
@@ -10781,6 +11449,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		topendarcshapegrid.Unstage(stage)
 	}
 
+	for topendhalfwayarcshape := range stage.TopEndHalfwayArcShapes {
+		topendhalfwayarcshape.Unstage(stage)
+	}
+
+	for topendhalfwayarcshapegrid := range stage.TopEndHalfwayArcShapeGrids {
+		topendhalfwayarcshapegrid.Unstage(stage)
+	}
+
 	for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
 		topgrowthcurve2d.Unstage(stage)
 	}
@@ -10811,6 +11487,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for topstartarcshapegrid := range stage.TopStartArcShapeGrids {
 		topstartarcshapegrid.Unstage(stage)
+	}
+
+	for topstarthalfwayarcshape := range stage.TopStartHalfwayArcShapes {
+		topstarthalfwayarcshape.Unstage(stage)
+	}
+
+	for topstarthalfwayarcshapegrid := range stage.TopStartHalfwayArcShapeGrids {
+		topstarthalfwayarcshapegrid.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -10991,6 +11675,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TopEndArcShapes).(*Type)
 	case map[*TopEndArcShapeGrid]any:
 		return any(&stage.TopEndArcShapeGrids).(*Type)
+	case map[*TopEndHalfwayArcShape]any:
+		return any(&stage.TopEndHalfwayArcShapes).(*Type)
+	case map[*TopEndHalfwayArcShapeGrid]any:
+		return any(&stage.TopEndHalfwayArcShapeGrids).(*Type)
 	case map[*TopGrowthCurve2D]any:
 		return any(&stage.TopGrowthCurve2Ds).(*Type)
 	case map[*TopMidArcVectorShape]any:
@@ -11007,6 +11695,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TopStartArcShapes).(*Type)
 	case map[*TopStartArcShapeGrid]any:
 		return any(&stage.TopStartArcShapeGrids).(*Type)
+	case map[*TopStartHalfwayArcShape]any:
+		return any(&stage.TopStartHalfwayArcShapes).(*Type)
+	case map[*TopStartHalfwayArcShapeGrid]any:
+		return any(&stage.TopStartHalfwayArcShapeGrids).(*Type)
 	default:
 		return nil
 	}
@@ -11121,6 +11813,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TopEndArcShapes_mapString).(map[string]Type)
 	case *TopEndArcShapeGrid:
 		return any(stage.TopEndArcShapeGrids_mapString).(map[string]Type)
+	case *TopEndHalfwayArcShape:
+		return any(stage.TopEndHalfwayArcShapes_mapString).(map[string]Type)
+	case *TopEndHalfwayArcShapeGrid:
+		return any(stage.TopEndHalfwayArcShapeGrids_mapString).(map[string]Type)
 	case *TopGrowthCurve2D:
 		return any(stage.TopGrowthCurve2Ds_mapString).(map[string]Type)
 	case *TopMidArcVectorShape:
@@ -11137,6 +11833,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TopStartArcShapes_mapString).(map[string]Type)
 	case *TopStartArcShapeGrid:
 		return any(stage.TopStartArcShapeGrids_mapString).(map[string]Type)
+	case *TopStartHalfwayArcShape:
+		return any(stage.TopStartHalfwayArcShapes_mapString).(map[string]Type)
+	case *TopStartHalfwayArcShapeGrid:
+		return any(stage.TopStartHalfwayArcShapeGrids_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -11251,6 +11951,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TopEndArcShapes).(*map[*Type]struct{})
 	case TopEndArcShapeGrid:
 		return any(&stage.TopEndArcShapeGrids).(*map[*Type]struct{})
+	case TopEndHalfwayArcShape:
+		return any(&stage.TopEndHalfwayArcShapes).(*map[*Type]struct{})
+	case TopEndHalfwayArcShapeGrid:
+		return any(&stage.TopEndHalfwayArcShapeGrids).(*map[*Type]struct{})
 	case TopGrowthCurve2D:
 		return any(&stage.TopGrowthCurve2Ds).(*map[*Type]struct{})
 	case TopMidArcVectorShape:
@@ -11267,6 +11971,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TopStartArcShapes).(*map[*Type]struct{})
 	case TopStartArcShapeGrid:
 		return any(&stage.TopStartArcShapeGrids).(*map[*Type]struct{})
+	case TopStartHalfwayArcShape:
+		return any(&stage.TopStartHalfwayArcShapes).(*map[*Type]struct{})
+	case TopStartHalfwayArcShapeGrid:
+		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -11381,6 +12089,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TopEndArcShapes).(*map[Type]struct{})
 	case *TopEndArcShapeGrid:
 		return any(&stage.TopEndArcShapeGrids).(*map[Type]struct{})
+	case *TopEndHalfwayArcShape:
+		return any(&stage.TopEndHalfwayArcShapes).(*map[Type]struct{})
+	case *TopEndHalfwayArcShapeGrid:
+		return any(&stage.TopEndHalfwayArcShapeGrids).(*map[Type]struct{})
 	case *TopGrowthCurve2D:
 		return any(&stage.TopGrowthCurve2Ds).(*map[Type]struct{})
 	case *TopMidArcVectorShape:
@@ -11397,6 +12109,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TopStartArcShapes).(*map[Type]struct{})
 	case *TopStartArcShapeGrid:
 		return any(&stage.TopStartArcShapeGrids).(*map[Type]struct{})
+	case *TopStartHalfwayArcShape:
+		return any(&stage.TopStartHalfwayArcShapes).(*map[Type]struct{})
+	case *TopStartHalfwayArcShapeGrid:
+		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -11511,6 +12227,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TopEndArcShapes_mapString).(*map[string]*Type)
 	case TopEndArcShapeGrid:
 		return any(&stage.TopEndArcShapeGrids_mapString).(*map[string]*Type)
+	case TopEndHalfwayArcShape:
+		return any(&stage.TopEndHalfwayArcShapes_mapString).(*map[string]*Type)
+	case TopEndHalfwayArcShapeGrid:
+		return any(&stage.TopEndHalfwayArcShapeGrids_mapString).(*map[string]*Type)
 	case TopGrowthCurve2D:
 		return any(&stage.TopGrowthCurve2Ds_mapString).(*map[string]*Type)
 	case TopMidArcVectorShape:
@@ -11527,6 +12247,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TopStartArcShapes_mapString).(*map[string]*Type)
 	case TopStartArcShapeGrid:
 		return any(&stage.TopStartArcShapeGrids_mapString).(*map[string]*Type)
+	case TopStartHalfwayArcShape:
+		return any(&stage.TopStartHalfwayArcShapes_mapString).(*map[string]*Type)
+	case TopStartHalfwayArcShapeGrid:
+		return any(&stage.TopStartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -11730,8 +12454,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
 			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
 			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
+			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
 			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
 			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
+			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
 			// field is initialized with an instance of EndArcShapeGrid with the name of the field
 			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
@@ -11861,6 +12589,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of TopEndArcShape with the name of the field
 			TopEndArcShapes: []*TopEndArcShape{{Name: "TopEndArcShapes"}},
 		}).(*Type)
+	case TopEndHalfwayArcShape:
+		return any(&TopEndHalfwayArcShape{
+			// Initialisation of associations
+		}).(*Type)
+	case TopEndHalfwayArcShapeGrid:
+		return any(&TopEndHalfwayArcShapeGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of TopEndHalfwayArcShape with the name of the field
+			TopEndHalfwayArcShapes: []*TopEndHalfwayArcShape{{Name: "TopEndHalfwayArcShapes"}},
+		}).(*Type)
 	case TopGrowthCurve2D:
 		return any(&TopGrowthCurve2D{
 			// Initialisation of associations
@@ -11904,6 +12642,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of TopStartArcShape with the name of the field
 			TopStartArcShapes: []*TopStartArcShape{{Name: "TopStartArcShapes"}},
+		}).(*Type)
+	case TopStartHalfwayArcShape:
+		return any(&TopStartHalfwayArcShape{
+			// Initialisation of associations
+		}).(*Type)
+	case TopStartHalfwayArcShapeGrid:
+		return any(&TopStartHalfwayArcShapeGrid{
+			// Initialisation of associations
+			// field is initialized with an instance of TopStartHalfwayArcShape with the name of the field
+			TopStartHalfwayArcShapes: []*TopStartHalfwayArcShape{{Name: "TopStartHalfwayArcShapes"}},
 		}).(*Type)
 	default:
 		return nil
@@ -12474,6 +13222,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TopStartHalfwayArcShapeGrid":
+			res := make(map[*TopStartHalfwayArcShapeGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.TopStartHalfwayArcShapeGrid != nil {
+					topstarthalfwayarcshapegrid_ := plant.TopStartHalfwayArcShapeGrid
+					var plants []*Plant
+					_, ok := res[topstarthalfwayarcshapegrid_]
+					if ok {
+						plants = res[topstarthalfwayarcshapegrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[topstarthalfwayarcshapegrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "EndHalfwayArcShapeGrid":
 			res := make(map[*EndHalfwayArcShapeGrid][]*Plant)
 			for plant := range stage.Plants {
@@ -12488,6 +13253,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[endhalfwayarcshapegrid_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopEndHalfwayArcShapeGrid":
+			res := make(map[*TopEndHalfwayArcShapeGrid][]*Plant)
+			for plant := range stage.Plants {
+				if plant.TopEndHalfwayArcShapeGrid != nil {
+					topendhalfwayarcshapegrid_ := plant.TopEndHalfwayArcShapeGrid
+					var plants []*Plant
+					_, ok := res[topendhalfwayarcshapegrid_]
+					if ok {
+						plants = res[topendhalfwayarcshapegrid_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[topendhalfwayarcshapegrid_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -12772,6 +13554,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TopEndHalfwayArcShape
+	case TopEndHalfwayArcShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopEndHalfwayArcShapeGrid
+	case TopEndHalfwayArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TopGrowthCurve2D
 	case TopGrowthCurve2D:
 		switch fieldname {
@@ -12843,6 +13635,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of TopStartArcShapeGrid
 	case TopStartArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopStartHalfwayArcShape
+	case TopStartHalfwayArcShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopStartHalfwayArcShapeGrid
+	case TopStartHalfwayArcShapeGrid:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -13300,6 +14102,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of TopEndHalfwayArcShape
+	case TopEndHalfwayArcShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopEndHalfwayArcShapeGrid
+	case TopEndHalfwayArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "TopEndHalfwayArcShapes":
+			res := make(map[*TopEndHalfwayArcShape][]*TopEndHalfwayArcShapeGrid)
+			for topendhalfwayarcshapegrid := range stage.TopEndHalfwayArcShapeGrids {
+				for _, topendhalfwayarcshape_ := range topendhalfwayarcshapegrid.TopEndHalfwayArcShapes {
+					res[topendhalfwayarcshape_] = append(res[topendhalfwayarcshape_], topendhalfwayarcshapegrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of TopGrowthCurve2D
 	case TopGrowthCurve2D:
 		switch fieldname {
@@ -13368,6 +14188,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for topstartarcshapegrid := range stage.TopStartArcShapeGrids {
 				for _, topstartarcshape_ := range topstartarcshapegrid.TopStartArcShapes {
 					res[topstartarcshape_] = append(res[topstartarcshape_], topstartarcshapegrid)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of TopStartHalfwayArcShape
+	case TopStartHalfwayArcShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TopStartHalfwayArcShapeGrid
+	case TopStartHalfwayArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "TopStartHalfwayArcShapes":
+			res := make(map[*TopStartHalfwayArcShape][]*TopStartHalfwayArcShapeGrid)
+			for topstarthalfwayarcshapegrid := range stage.TopStartHalfwayArcShapeGrids {
+				for _, topstarthalfwayarcshape_ := range topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes {
+					res[topstarthalfwayarcshape_] = append(res[topstarthalfwayarcshape_], topstarthalfwayarcshapegrid)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -13485,6 +14323,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TopEndArcShape"
 	case *TopEndArcShapeGrid:
 		res = "TopEndArcShapeGrid"
+	case *TopEndHalfwayArcShape:
+		res = "TopEndHalfwayArcShape"
+	case *TopEndHalfwayArcShapeGrid:
+		res = "TopEndHalfwayArcShapeGrid"
 	case *TopGrowthCurve2D:
 		res = "TopGrowthCurve2D"
 	case *TopMidArcVectorShape:
@@ -13501,6 +14343,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TopStartArcShape"
 	case *TopStartArcShapeGrid:
 		res = "TopStartArcShapeGrid"
+	case *TopStartHalfwayArcShape:
+		res = "TopStartHalfwayArcShape"
+	case *TopStartHalfwayArcShapeGrid:
+		res = "TopStartHalfwayArcShapeGrid"
 	}
 	return res
 }
@@ -13740,6 +14586,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *TopEndArcShapeGrid:
 		var rf ReverseField
 		_ = rf
+	case *TopEndHalfwayArcShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "TopEndHalfwayArcShapeGrid"
+		rf.Fieldname = "TopEndHalfwayArcShapes"
+		res = append(res, rf)
+	case *TopEndHalfwayArcShapeGrid:
+		var rf ReverseField
+		_ = rf
 	case *TopGrowthCurve2D:
 		var rf ReverseField
 		_ = rf
@@ -13774,6 +14629,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "TopStartArcShapes"
 		res = append(res, rf)
 	case *TopStartArcShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *TopStartHalfwayArcShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "TopStartHalfwayArcShapeGrid"
+		rf.Fieldname = "TopStartHalfwayArcShapes"
+		res = append(res, rf)
+	case *TopStartHalfwayArcShapeGrid:
 		var rf ReverseField
 		_ = rf
 	}
@@ -14566,9 +15430,19 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "StartHalfwayArcShapeGrid",
 		},
 		{
+			Name:                 "TopStartHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStartHalfwayArcShapeGrid",
+		},
+		{
 			Name:                 "EndHalfwayArcShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "EndHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "TopEndHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopEndHalfwayArcShapeGrid",
 		},
 		{
 			Name:                 "EndArcShapeGrid",
@@ -14742,11 +15616,19 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenHalfwayArcShapeGrid",
+			Name:               "IsHiddenStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsHiddenEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -15436,6 +16318,69 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongGetFieldHeaders() (res []GongF
 	return
 }
 
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "XAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "SweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "TopEndHalfwayArcShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TopEndHalfwayArcShape",
+		},
+	}
+	return
+}
+
 func (topgrowthcurve2d *TopGrowthCurve2D) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -15673,6 +16618,69 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) GongGetFieldHeaders() (res []G
 			Name:                 "TopStartArcShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TopStartArcShape",
+		},
+	}
+	return
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "XAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "SweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "TopStartHalfwayArcShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TopStartHalfwayArcShape",
 		},
 	}
 	return
@@ -16542,11 +17550,23 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.StartHalfwayArcShapeGrid.Name
 			res.ids = plant.StartHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
+	case "TopStartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.TopStartHalfwayArcShapeGrid != nil {
+			res.valueString = plant.TopStartHalfwayArcShapeGrid.Name
+			res.ids = plant.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
 	case "EndHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.EndHalfwayArcShapeGrid != nil {
 			res.valueString = plant.EndHalfwayArcShapeGrid.Name
 			res.ids = plant.EndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.TopEndHalfwayArcShapeGrid != nil {
+			res.valueString = plant.TopEndHalfwayArcShapeGrid.Name
+			res.ids = plant.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -16724,13 +17744,21 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopMidArcVectorShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenTopMidArcVectorShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenHalfwayArcShapeGrid
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartHalfwayArcShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenStartHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenEndHalfwayArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndHalfwayArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenEndHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid)
+		res.valueBool = plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
@@ -17428,6 +18456,70 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongGetFieldValue(fieldName string
 	return
 }
 
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topendhalfwayarcshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.StartX)
+		res.valueFloat = topendhalfwayarcshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.StartY)
+		res.valueFloat = topendhalfwayarcshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.EndX)
+		res.valueFloat = topendhalfwayarcshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.EndY)
+		res.valueFloat = topendhalfwayarcshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusX":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.RadiusX)
+		res.valueFloat = topendhalfwayarcshape.RadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusY":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.RadiusY)
+		res.valueFloat = topendhalfwayarcshape.RadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XAxisRotation":
+		res.valueString = fmt.Sprintf("%f", topendhalfwayarcshape.XAxisRotation)
+		res.valueFloat = topendhalfwayarcshape.XAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", topendhalfwayarcshape.LargeArcFlag)
+		res.valueBool = topendhalfwayarcshape.LargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SweepFlag":
+		res.valueString = fmt.Sprintf("%t", topendhalfwayarcshape.SweepFlag)
+		res.valueBool = topendhalfwayarcshape.SweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topendhalfwayarcshapegrid.Name
+	case "TopEndHalfwayArcShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range topendhalfwayarcshapegrid.TopEndHalfwayArcShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (topgrowthcurve2d *TopGrowthCurve2D) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -17665,6 +18757,70 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) GongGetFieldValue(fieldName st
 	case "TopStartArcShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range topstartarcshapegrid.TopStartArcShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topstarthalfwayarcshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.StartX)
+		res.valueFloat = topstarthalfwayarcshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.StartY)
+		res.valueFloat = topstarthalfwayarcshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.EndX)
+		res.valueFloat = topstarthalfwayarcshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.EndY)
+		res.valueFloat = topstarthalfwayarcshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusX":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.RadiusX)
+		res.valueFloat = topstarthalfwayarcshape.RadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadiusY":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.RadiusY)
+		res.valueFloat = topstarthalfwayarcshape.RadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XAxisRotation":
+		res.valueString = fmt.Sprintf("%f", topstarthalfwayarcshape.XAxisRotation)
+		res.valueFloat = topstarthalfwayarcshape.XAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", topstarthalfwayarcshape.LargeArcFlag)
+		res.valueBool = topstarthalfwayarcshape.LargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SweepFlag":
+		res.valueString = fmt.Sprintf("%t", topstarthalfwayarcshape.SweepFlag)
+		res.valueBool = topstarthalfwayarcshape.SweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = topstarthalfwayarcshapegrid.Name
+	case "TopStartHalfwayArcShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -18583,6 +19739,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "TopStartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.TopStartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
+				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plant.TopStartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
 	case "EndHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -18590,6 +19757,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			for __instance__ := range stage.EndHalfwayArcShapeGrids {
 				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
 					plant.EndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.TopEndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
+				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plant.TopEndHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -18767,10 +19945,14 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
 	case "IsHiddenTopMidArcVectorShapeGrid":
 		plantdiagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		plantdiagram.IsHiddenStartHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid = value.GetValueBool()
 	case "IsHiddenEndHalfwayArcShapeGrid":
 		plantdiagram.IsHiddenEndHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
 	case "IsHiddenTopEndArcShapeGrid":
@@ -19352,6 +20534,60 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongSetFieldValue(fieldName string
 	return nil
 }
 
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topendhalfwayarcshape.Name = value.GetValueString()
+	case "StartX":
+		topendhalfwayarcshape.StartX = value.GetValueFloat()
+	case "StartY":
+		topendhalfwayarcshape.StartY = value.GetValueFloat()
+	case "EndX":
+		topendhalfwayarcshape.EndX = value.GetValueFloat()
+	case "EndY":
+		topendhalfwayarcshape.EndY = value.GetValueFloat()
+	case "RadiusX":
+		topendhalfwayarcshape.RadiusX = value.GetValueFloat()
+	case "RadiusY":
+		topendhalfwayarcshape.RadiusY = value.GetValueFloat()
+	case "XAxisRotation":
+		topendhalfwayarcshape.XAxisRotation = value.GetValueFloat()
+	case "LargeArcFlag":
+		topendhalfwayarcshape.LargeArcFlag = value.GetValueBool()
+	case "SweepFlag":
+		topendhalfwayarcshape.SweepFlag = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topendhalfwayarcshapegrid.Name = value.GetValueString()
+	case "TopEndHalfwayArcShapes":
+		topendhalfwayarcshapegrid.TopEndHalfwayArcShapes = make([]*TopEndHalfwayArcShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.TopEndHalfwayArcShapes {
+					if stage.TopEndHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
+						topendhalfwayarcshapegrid.TopEndHalfwayArcShapes = append(topendhalfwayarcshapegrid.TopEndHalfwayArcShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (topgrowthcurve2d *TopGrowthCurve2D) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -19580,6 +20816,60 @@ func (topstartarcshapegrid *TopStartArcShapeGrid) GongSetFieldValue(fieldName st
 	return nil
 }
 
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topstarthalfwayarcshape.Name = value.GetValueString()
+	case "StartX":
+		topstarthalfwayarcshape.StartX = value.GetValueFloat()
+	case "StartY":
+		topstarthalfwayarcshape.StartY = value.GetValueFloat()
+	case "EndX":
+		topstarthalfwayarcshape.EndX = value.GetValueFloat()
+	case "EndY":
+		topstarthalfwayarcshape.EndY = value.GetValueFloat()
+	case "RadiusX":
+		topstarthalfwayarcshape.RadiusX = value.GetValueFloat()
+	case "RadiusY":
+		topstarthalfwayarcshape.RadiusY = value.GetValueFloat()
+	case "XAxisRotation":
+		topstarthalfwayarcshape.XAxisRotation = value.GetValueFloat()
+	case "LargeArcFlag":
+		topstarthalfwayarcshape.LargeArcFlag = value.GetValueBool()
+	case "SweepFlag":
+		topstarthalfwayarcshape.SweepFlag = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		topstarthalfwayarcshapegrid.Name = value.GetValueString()
+	case "TopStartHalfwayArcShapes":
+		topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes = make([]*TopStartHalfwayArcShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.TopStartHalfwayArcShapes {
+					if stage.TopStartHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
+						topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes = append(topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -19789,6 +21079,14 @@ func (topendarcshapegrid *TopEndArcShapeGrid) GongGetGongstructName() string {
 	return "TopEndArcShapeGrid"
 }
 
+func (topendhalfwayarcshape *TopEndHalfwayArcShape) GongGetGongstructName() string {
+	return "TopEndHalfwayArcShape"
+}
+
+func (topendhalfwayarcshapegrid *TopEndHalfwayArcShapeGrid) GongGetGongstructName() string {
+	return "TopEndHalfwayArcShapeGrid"
+}
+
 func (topgrowthcurve2d *TopGrowthCurve2D) GongGetGongstructName() string {
 	return "TopGrowthCurve2D"
 }
@@ -19819,6 +21117,14 @@ func (topstartarcshape *TopStartArcShape) GongGetGongstructName() string {
 
 func (topstartarcshapegrid *TopStartArcShapeGrid) GongGetGongstructName() string {
 	return "TopStartArcShapeGrid"
+}
+
+func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongGetGongstructName() string {
+	return "TopStartHalfwayArcShape"
+}
+
+func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetGongstructName() string {
+	return "TopStartHalfwayArcShapeGrid"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -20083,6 +21389,16 @@ func (stage *Stage) ResetMapStrings() {
 		stage.TopEndArcShapeGrids_mapString[topendarcshapegrid.Name] = topendarcshapegrid
 	}
 
+	stage.TopEndHalfwayArcShapes_mapString = make(map[string]*TopEndHalfwayArcShape)
+	for topendhalfwayarcshape := range stage.TopEndHalfwayArcShapes {
+		stage.TopEndHalfwayArcShapes_mapString[topendhalfwayarcshape.Name] = topendhalfwayarcshape
+	}
+
+	stage.TopEndHalfwayArcShapeGrids_mapString = make(map[string]*TopEndHalfwayArcShapeGrid)
+	for topendhalfwayarcshapegrid := range stage.TopEndHalfwayArcShapeGrids {
+		stage.TopEndHalfwayArcShapeGrids_mapString[topendhalfwayarcshapegrid.Name] = topendhalfwayarcshapegrid
+	}
+
 	stage.TopGrowthCurve2Ds_mapString = make(map[string]*TopGrowthCurve2D)
 	for topgrowthcurve2d := range stage.TopGrowthCurve2Ds {
 		stage.TopGrowthCurve2Ds_mapString[topgrowthcurve2d.Name] = topgrowthcurve2d
@@ -20121,6 +21437,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TopStartArcShapeGrids_mapString = make(map[string]*TopStartArcShapeGrid)
 	for topstartarcshapegrid := range stage.TopStartArcShapeGrids {
 		stage.TopStartArcShapeGrids_mapString[topstartarcshapegrid.Name] = topstartarcshapegrid
+	}
+
+	stage.TopStartHalfwayArcShapes_mapString = make(map[string]*TopStartHalfwayArcShape)
+	for topstarthalfwayarcshape := range stage.TopStartHalfwayArcShapes {
+		stage.TopStartHalfwayArcShapes_mapString[topstarthalfwayarcshape.Name] = topstarthalfwayarcshape
+	}
+
+	stage.TopStartHalfwayArcShapeGrids_mapString = make(map[string]*TopStartHalfwayArcShapeGrid)
+	for topstarthalfwayarcshapegrid := range stage.TopStartHalfwayArcShapeGrids {
+		stage.TopStartHalfwayArcShapeGrids_mapString[topstarthalfwayarcshapegrid.Name] = topstarthalfwayarcshapegrid
 	}
 
 	// end of insertion point for generic get gongstruct name

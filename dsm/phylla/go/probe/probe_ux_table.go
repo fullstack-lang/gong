@@ -126,6 +126,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopEndArcShape](probe)
 	case "TopEndArcShapeGrid":
 		updateProbeTable[*models.TopEndArcShapeGrid](probe)
+	case "TopEndHalfwayArcShape":
+		updateProbeTable[*models.TopEndHalfwayArcShape](probe)
+	case "TopEndHalfwayArcShapeGrid":
+		updateProbeTable[*models.TopEndHalfwayArcShapeGrid](probe)
 	case "TopGrowthCurve2D":
 		updateProbeTable[*models.TopGrowthCurve2D](probe)
 	case "TopMidArcVectorShape":
@@ -142,6 +146,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopStartArcShape](probe)
 	case "TopStartArcShapeGrid":
 		updateProbeTable[*models.TopStartArcShapeGrid](probe)
+	case "TopStartHalfwayArcShape":
+		updateProbeTable[*models.TopStartHalfwayArcShape](probe)
+	case "TopStartHalfwayArcShapeGrid":
+		updateProbeTable[*models.TopStartHalfwayArcShapeGrid](probe)
 	}
 }
 

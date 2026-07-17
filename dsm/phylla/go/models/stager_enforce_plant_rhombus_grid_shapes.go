@@ -134,7 +134,12 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 		if plant.StartHalfwayArcShapeGrid == nil {
 			plant.StartHalfwayArcShapeGrid = new(StartHalfwayArcShapeGrid).Stage(stage)
-			plant.StartHalfwayArcShapeGrid.Name = plant.Name + "-HalfwayArcShapeGrid"
+			plant.StartHalfwayArcShapeGrid.Name = plant.Name + "-StartHalfwayArcShapeGrid"
+			needCommit = true
+		}
+		if plant.TopStartHalfwayArcShapeGrid == nil {
+			plant.TopStartHalfwayArcShapeGrid = new(TopStartHalfwayArcShapeGrid).Stage(stage)
+			plant.TopStartHalfwayArcShapeGrid.Name = plant.Name + "-TopStartHalfwayArcShapeGrid"
 			needCommit = true
 		}
 		if plant.EndHalfwayArcShapeGrid == nil {
@@ -142,9 +147,16 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			plant.EndHalfwayArcShapeGrid.Name = plant.Name + "-EndHalfwayArcShapeGrid"
 			needCommit = true
 		}
+		if plant.TopEndHalfwayArcShapeGrid == nil {
+			plant.TopEndHalfwayArcShapeGrid = new(TopEndHalfwayArcShapeGrid).Stage(stage)
+			plant.TopEndHalfwayArcShapeGrid.Name = plant.Name + "-TopEndHalfwayArcShapeGrid"
+			needCommit = true
+		}
 		{
 			needCommit = enforceHalfwayArcShapeGridHasShapes(stage, plant.StartHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+			needCommit = enforceTopStartHalfwayArcShapeGridHasShapes(stage, plant.TopStartHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 			needCommit = enforceEndHalfwayArcShapeGridHasShapes(stage, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+			needCommit = enforceTopEndHalfwayArcShapeGridHasShapes(stage, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
 
 		if plant.GrowthCurve2D == nil {

@@ -480,3 +480,37 @@ type EndHalfwayArcShape struct {
 	LargeArcFlag     bool
 	SweepFlag        bool
 }
+
+type TopStartHalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}
+
+type TopStartHalfwayArcShapeGrid struct {
+	Name                     string
+	TopStartHalfwayArcShapes []*TopStartHalfwayArcShape
+}
+
+type TopEndHalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}
+
+type TopEndHalfwayArcShapeGrid struct {
+	Name                   string
+	TopEndHalfwayArcShapes []*TopEndHalfwayArcShape
+}

@@ -611,9 +611,13 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenTopMidArcVectorShapeGrid bool
 
-	IsHiddenHalfwayArcShapeGrid bool
+	IsHiddenStartHalfwayArcShapeGrid bool
+
+	IsHiddenTopStartHalfwayArcShapeGrid bool
 
 	IsHiddenEndHalfwayArcShapeGrid bool
+
+	IsHiddenTopEndHalfwayArcShapeGrid bool
 
 	IsHiddenEndArcShapeGrid bool
 
@@ -673,8 +677,10 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
 	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
 	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
-	to.IsHiddenHalfwayArcShapeGrid = from.IsHiddenHalfwayArcShapeGrid
+	to.IsHiddenStartHalfwayArcShapeGrid = from.IsHiddenStartHalfwayArcShapeGrid
+	to.IsHiddenTopStartHalfwayArcShapeGrid = from.IsHiddenTopStartHalfwayArcShapeGrid
 	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
+	to.IsHiddenTopEndHalfwayArcShapeGrid = from.IsHiddenTopEndHalfwayArcShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
@@ -1173,6 +1179,55 @@ func (from *TopEndArcShapeGrid) CopyBasicFields(to *TopEndArcShapeGrid) {
 	to.Name = from.Name
 }
 
+type TopEndHalfwayArcShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	RadiusX float64
+
+	RadiusY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+}
+
+func (from *TopEndHalfwayArcShape) CopyBasicFields(to *TopEndHalfwayArcShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+}
+
+type TopEndHalfwayArcShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopEndHalfwayArcShapeGrid) CopyBasicFields(to *TopEndHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type TopGrowthCurve2D_WOP struct {
 	// insertion point
 
@@ -1350,6 +1405,55 @@ type TopStartArcShapeGrid_WOP struct {
 }
 
 func (from *TopStartArcShapeGrid) CopyBasicFields(to *TopStartArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TopStartHalfwayArcShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+
+	RadiusX float64
+
+	RadiusY float64
+
+	XAxisRotation float64
+
+	LargeArcFlag bool
+
+	SweepFlag bool
+}
+
+func (from *TopStartHalfwayArcShape) CopyBasicFields(to *TopStartHalfwayArcShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+	to.RadiusX = from.RadiusX
+	to.RadiusY = from.RadiusY
+	to.XAxisRotation = from.XAxisRotation
+	to.LargeArcFlag = from.LargeArcFlag
+	to.SweepFlag = from.SweepFlag
+}
+
+type TopStartHalfwayArcShapeGrid_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TopStartHalfwayArcShapeGrid) CopyBasicFields(to *TopStartHalfwayArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
 }

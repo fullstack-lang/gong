@@ -725,11 +725,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				plantDiagram.IsHiddenHalfwayArcShapeGrid = !plantDiagram.IsHiddenHalfwayArcShapeGrid
+				plantDiagram.IsHiddenStartHalfwayArcShapeGrid = !plantDiagram.IsHiddenStartHalfwayArcShapeGrid
 				stager.stage.Commit()
 			},
 		}
-		if plantDiagram.IsHiddenHalfwayArcShapeGrid {
+		if plantDiagram.IsHiddenStartHalfwayArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"
@@ -737,6 +737,39 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
+
+	topStartHalfwayArcShapeGrid := plant.TopStartHalfwayArcShapeGrid
+	{
+		node := &tree.Node{
+			Name: "Top Start Halfway Arc Shape Grid",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topStartHalfwayArcShapeGrid, GetPointerToGongstructName[*TopStartHalfwayArcShapeGrid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid = !plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	endHalfwayArcShapeGrid := plant.EndHalfwayArcShapeGrid
 	{
 		node := &tree.Node{
@@ -761,6 +794,38 @@ func (stager *Stager) treePlantDiagram(
 			},
 		}
 		if plantDiagram.IsHiddenEndHalfwayArcShapeGrid {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	topEndHalfwayArcShapeGrid := plant.TopEndHalfwayArcShapeGrid
+	{
+		node := &tree.Node{
+			Name: "Top End Halfway Arc Shape Grid",
+		}
+		node.IsExpanded = true
+		node.HasCheckboxButton = false
+		node.IsNodeClickable = true
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(topEndHalfwayArcShapeGrid, GetPointerToGongstructName[*TopEndHalfwayArcShapeGrid]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid = !plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid
+				stager.stage.Commit()
+			},
+		}
+		if plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"

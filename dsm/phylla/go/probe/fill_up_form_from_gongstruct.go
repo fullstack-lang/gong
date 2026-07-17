@@ -682,6 +682,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopEndHalfwayArcShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopEndHalfwayArcShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopEndHalfwayArcShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopEndHalfwayArcShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopEndHalfwayArcShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopEndHalfwayArcShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TopGrowthCurve2D:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -780,6 +806,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "TopStartArcShapeGrid",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TopStartArcShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopStartHalfwayArcShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopStartHalfwayArcShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStartHalfwayArcShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TopStartHalfwayArcShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TopStartHalfwayArcShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStartHalfwayArcShapeGridFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

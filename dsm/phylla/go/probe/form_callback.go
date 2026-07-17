@@ -3351,8 +3351,12 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.TopMidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StartHalfwayArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.StartHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.TopStartHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "EndHalfwayArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.EndHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.TopEndHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "EndArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndArcShapeGrid":
@@ -3624,10 +3628,14 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
 		case "IsHiddenTopMidArcVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
-		case "IsHiddenHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenStartHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopStartHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStartHalfwayArcShapeGrid), formDiv)
 		case "IsHiddenEndHalfwayArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopEndHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopEndHalfwayArcShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
 		case "IsHiddenTopEndArcShapeGrid":
@@ -6240,6 +6248,257 @@ func (topendarcshapegridFormCallback *TopEndArcShapeGridFormCallback) OnSave() {
 
 	topendarcshapegridFormCallback.probe.ux_tree()
 }
+func __gong__New__TopEndHalfwayArcShapeFormCallback(
+	topendhalfwayarcshape *models.TopEndHalfwayArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topendhalfwayarcshapeFormCallback *TopEndHalfwayArcShapeFormCallback) {
+	topendhalfwayarcshapeFormCallback = new(TopEndHalfwayArcShapeFormCallback)
+	topendhalfwayarcshapeFormCallback.probe = probe
+	topendhalfwayarcshapeFormCallback.topendhalfwayarcshape = topendhalfwayarcshape
+	topendhalfwayarcshapeFormCallback.formGroup = formGroup
+
+	topendhalfwayarcshapeFormCallback.CreationMode = (topendhalfwayarcshape == nil)
+
+	return
+}
+
+type TopEndHalfwayArcShapeFormCallback struct {
+	topendhalfwayarcshape *models.TopEndHalfwayArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topendhalfwayarcshapeFormCallback *TopEndHalfwayArcShapeFormCallback) OnSave() {
+	topendhalfwayarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer topendhalfwayarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopEndHalfwayArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topendhalfwayarcshapeFormCallback.probe.formStage.Checkout()
+
+	if topendhalfwayarcshapeFormCallback.topendhalfwayarcshape == nil {
+		topendhalfwayarcshapeFormCallback.topendhalfwayarcshape = new(models.TopEndHalfwayArcShape).Stage(topendhalfwayarcshapeFormCallback.probe.stageOfInterest)
+	}
+	topendhalfwayarcshape_ := topendhalfwayarcshapeFormCallback.topendhalfwayarcshape
+	_ = topendhalfwayarcshape_
+
+	for _, formDiv := range topendhalfwayarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.EndY), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.RadiusY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(topendhalfwayarcshape_.SweepFlag), formDiv)
+		case "TopEndHalfwayArcShapeGrid:TopEndHalfwayArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the TopEndHalfwayArcShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target TopEndHalfwayArcShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.TopEndHalfwayArcShapeGrid](topendhalfwayarcshapeFormCallback.probe.stageOfInterest)
+			targetTopEndHalfwayArcShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetTopEndHalfwayArcShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all TopEndHalfwayArcShapeGrid instances and update their TopEndHalfwayArcShapes slice
+			for _topendhalfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopEndHalfwayArcShapeGrid](topendhalfwayarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(topendhalfwayarcshapeFormCallback.probe.stageOfInterest, _topendhalfwayarcshapegrid)
+				
+				// if TopEndHalfwayArcShapeGrid is selected
+				if targetTopEndHalfwayArcShapeGridIDs[id] {
+					// ensure topendhalfwayarcshape_ is in _topendhalfwayarcshapegrid.TopEndHalfwayArcShapes
+					found := false
+					for _, _b := range _topendhalfwayarcshapegrid.TopEndHalfwayArcShapes {
+						if _b == topendhalfwayarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes = append(_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes, topendhalfwayarcshape_)
+						topendhalfwayarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_topendhalfwayarcshapegrid, "TopEndHalfwayArcShapes", &_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes)
+					}
+				} else {
+					// ensure topendhalfwayarcshape_ is NOT in _topendhalfwayarcshapegrid.TopEndHalfwayArcShapes
+					idx := slices.Index(_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes, topendhalfwayarcshape_)
+					if idx != -1 {
+						_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes = slices.Delete(_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes, idx, idx+1)
+						topendhalfwayarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_topendhalfwayarcshapegrid, "TopEndHalfwayArcShapes", &_topendhalfwayarcshapegrid.TopEndHalfwayArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if topendhalfwayarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topendhalfwayarcshape_.Unstage(topendhalfwayarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	topendhalfwayarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopEndHalfwayArcShape](
+		topendhalfwayarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topendhalfwayarcshapeFormCallback.CreationMode || topendhalfwayarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topendhalfwayarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topendhalfwayarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopEndHalfwayArcShapeFormCallback(
+			nil,
+			topendhalfwayarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		topendhalfwayarcshape := new(models.TopEndHalfwayArcShape)
+		FillUpForm(topendhalfwayarcshape, newFormGroup, topendhalfwayarcshapeFormCallback.probe)
+		topendhalfwayarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	topendhalfwayarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__TopEndHalfwayArcShapeGridFormCallback(
+	topendhalfwayarcshapegrid *models.TopEndHalfwayArcShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topendhalfwayarcshapegridFormCallback *TopEndHalfwayArcShapeGridFormCallback) {
+	topendhalfwayarcshapegridFormCallback = new(TopEndHalfwayArcShapeGridFormCallback)
+	topendhalfwayarcshapegridFormCallback.probe = probe
+	topendhalfwayarcshapegridFormCallback.topendhalfwayarcshapegrid = topendhalfwayarcshapegrid
+	topendhalfwayarcshapegridFormCallback.formGroup = formGroup
+
+	topendhalfwayarcshapegridFormCallback.CreationMode = (topendhalfwayarcshapegrid == nil)
+
+	return
+}
+
+type TopEndHalfwayArcShapeGridFormCallback struct {
+	topendhalfwayarcshapegrid *models.TopEndHalfwayArcShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topendhalfwayarcshapegridFormCallback *TopEndHalfwayArcShapeGridFormCallback) OnSave() {
+	topendhalfwayarcshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer topendhalfwayarcshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopEndHalfwayArcShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topendhalfwayarcshapegridFormCallback.probe.formStage.Checkout()
+
+	if topendhalfwayarcshapegridFormCallback.topendhalfwayarcshapegrid == nil {
+		topendhalfwayarcshapegridFormCallback.topendhalfwayarcshapegrid = new(models.TopEndHalfwayArcShapeGrid).Stage(topendhalfwayarcshapegridFormCallback.probe.stageOfInterest)
+	}
+	topendhalfwayarcshapegrid_ := topendhalfwayarcshapegridFormCallback.topendhalfwayarcshapegrid
+	_ = topendhalfwayarcshapegrid_
+
+	for _, formDiv := range topendhalfwayarcshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topendhalfwayarcshapegrid_.Name), formDiv)
+		case "TopEndHalfwayArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopEndHalfwayArcShape](topendhalfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TopEndHalfwayArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TopEndHalfwayArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					topendhalfwayarcshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TopEndHalfwayArcShape](topendhalfwayarcshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			topendhalfwayarcshapegrid_.TopEndHalfwayArcShapes = instanceSlice
+			topendhalfwayarcshapegridFormCallback.probe.UpdateSliceOfPointersCallback(topendhalfwayarcshapegrid_, "TopEndHalfwayArcShapes", &topendhalfwayarcshapegrid_.TopEndHalfwayArcShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if topendhalfwayarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topendhalfwayarcshapegrid_.Unstage(topendhalfwayarcshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	topendhalfwayarcshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopEndHalfwayArcShapeGrid](
+		topendhalfwayarcshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topendhalfwayarcshapegridFormCallback.CreationMode || topendhalfwayarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topendhalfwayarcshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topendhalfwayarcshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopEndHalfwayArcShapeGridFormCallback(
+			nil,
+			topendhalfwayarcshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		topendhalfwayarcshapegrid := new(models.TopEndHalfwayArcShapeGrid)
+		FillUpForm(topendhalfwayarcshapegrid, newFormGroup, topendhalfwayarcshapegridFormCallback.probe)
+		topendhalfwayarcshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	topendhalfwayarcshapegridFormCallback.probe.ux_tree()
+}
 func __gong__New__TopGrowthCurve2DFormCallback(
 	topgrowthcurve2d *models.TopGrowthCurve2D,
 	probe *Probe,
@@ -7237,4 +7496,255 @@ func (topstartarcshapegridFormCallback *TopStartArcShapeGridFormCallback) OnSave
 	}
 
 	topstartarcshapegridFormCallback.probe.ux_tree()
+}
+func __gong__New__TopStartHalfwayArcShapeFormCallback(
+	topstarthalfwayarcshape *models.TopStartHalfwayArcShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topstarthalfwayarcshapeFormCallback *TopStartHalfwayArcShapeFormCallback) {
+	topstarthalfwayarcshapeFormCallback = new(TopStartHalfwayArcShapeFormCallback)
+	topstarthalfwayarcshapeFormCallback.probe = probe
+	topstarthalfwayarcshapeFormCallback.topstarthalfwayarcshape = topstarthalfwayarcshape
+	topstarthalfwayarcshapeFormCallback.formGroup = formGroup
+
+	topstarthalfwayarcshapeFormCallback.CreationMode = (topstarthalfwayarcshape == nil)
+
+	return
+}
+
+type TopStartHalfwayArcShapeFormCallback struct {
+	topstarthalfwayarcshape *models.TopStartHalfwayArcShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topstarthalfwayarcshapeFormCallback *TopStartHalfwayArcShapeFormCallback) OnSave() {
+	topstarthalfwayarcshapeFormCallback.probe.stageOfInterest.Lock()
+	defer topstarthalfwayarcshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopStartHalfwayArcShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topstarthalfwayarcshapeFormCallback.probe.formStage.Checkout()
+
+	if topstarthalfwayarcshapeFormCallback.topstarthalfwayarcshape == nil {
+		topstarthalfwayarcshapeFormCallback.topstarthalfwayarcshape = new(models.TopStartHalfwayArcShape).Stage(topstarthalfwayarcshapeFormCallback.probe.stageOfInterest)
+	}
+	topstarthalfwayarcshape_ := topstarthalfwayarcshapeFormCallback.topstarthalfwayarcshape
+	_ = topstarthalfwayarcshape_
+
+	for _, formDiv := range topstarthalfwayarcshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.EndY), formDiv)
+		case "RadiusX":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.RadiusX), formDiv)
+		case "RadiusY":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.RadiusY), formDiv)
+		case "XAxisRotation":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.XAxisRotation), formDiv)
+		case "LargeArcFlag":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.LargeArcFlag), formDiv)
+		case "SweepFlag":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshape_.SweepFlag), formDiv)
+		case "TopStartHalfwayArcShapeGrid:TopStartHalfwayArcShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the TopStartHalfwayArcShapeGrid instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target TopStartHalfwayArcShapeGrid instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.TopStartHalfwayArcShapeGrid](topstarthalfwayarcshapeFormCallback.probe.stageOfInterest)
+			targetTopStartHalfwayArcShapeGridIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetTopStartHalfwayArcShapeGridIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all TopStartHalfwayArcShapeGrid instances and update their TopStartHalfwayArcShapes slice
+			for _topstarthalfwayarcshapegrid := range *models.GetGongstructInstancesSetFromPointerType[*models.TopStartHalfwayArcShapeGrid](topstarthalfwayarcshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(topstarthalfwayarcshapeFormCallback.probe.stageOfInterest, _topstarthalfwayarcshapegrid)
+				
+				// if TopStartHalfwayArcShapeGrid is selected
+				if targetTopStartHalfwayArcShapeGridIDs[id] {
+					// ensure topstarthalfwayarcshape_ is in _topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes
+					found := false
+					for _, _b := range _topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes {
+						if _b == topstarthalfwayarcshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes = append(_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes, topstarthalfwayarcshape_)
+						topstarthalfwayarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_topstarthalfwayarcshapegrid, "TopStartHalfwayArcShapes", &_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes)
+					}
+				} else {
+					// ensure topstarthalfwayarcshape_ is NOT in _topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes
+					idx := slices.Index(_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes, topstarthalfwayarcshape_)
+					if idx != -1 {
+						_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes = slices.Delete(_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes, idx, idx+1)
+						topstarthalfwayarcshapeFormCallback.probe.UpdateSliceOfPointersCallback(_topstarthalfwayarcshapegrid, "TopStartHalfwayArcShapes", &_topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if topstarthalfwayarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topstarthalfwayarcshape_.Unstage(topstarthalfwayarcshapeFormCallback.probe.stageOfInterest)
+	}
+
+	topstarthalfwayarcshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopStartHalfwayArcShape](
+		topstarthalfwayarcshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topstarthalfwayarcshapeFormCallback.CreationMode || topstarthalfwayarcshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topstarthalfwayarcshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topstarthalfwayarcshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopStartHalfwayArcShapeFormCallback(
+			nil,
+			topstarthalfwayarcshapeFormCallback.probe,
+			newFormGroup,
+		)
+		topstarthalfwayarcshape := new(models.TopStartHalfwayArcShape)
+		FillUpForm(topstarthalfwayarcshape, newFormGroup, topstarthalfwayarcshapeFormCallback.probe)
+		topstarthalfwayarcshapeFormCallback.probe.formStage.Commit()
+	}
+
+	topstarthalfwayarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__TopStartHalfwayArcShapeGridFormCallback(
+	topstarthalfwayarcshapegrid *models.TopStartHalfwayArcShapeGrid,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCallback) {
+	topstarthalfwayarcshapegridFormCallback = new(TopStartHalfwayArcShapeGridFormCallback)
+	topstarthalfwayarcshapegridFormCallback.probe = probe
+	topstarthalfwayarcshapegridFormCallback.topstarthalfwayarcshapegrid = topstarthalfwayarcshapegrid
+	topstarthalfwayarcshapegridFormCallback.formGroup = formGroup
+
+	topstarthalfwayarcshapegridFormCallback.CreationMode = (topstarthalfwayarcshapegrid == nil)
+
+	return
+}
+
+type TopStartHalfwayArcShapeGridFormCallback struct {
+	topstarthalfwayarcshapegrid *models.TopStartHalfwayArcShapeGrid
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCallback) OnSave() {
+	topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest.Lock()
+	defer topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TopStartHalfwayArcShapeGridFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	topstarthalfwayarcshapegridFormCallback.probe.formStage.Checkout()
+
+	if topstarthalfwayarcshapegridFormCallback.topstarthalfwayarcshapegrid == nil {
+		topstarthalfwayarcshapegridFormCallback.topstarthalfwayarcshapegrid = new(models.TopStartHalfwayArcShapeGrid).Stage(topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest)
+	}
+	topstarthalfwayarcshapegrid_ := topstarthalfwayarcshapegridFormCallback.topstarthalfwayarcshapegrid
+	_ = topstarthalfwayarcshapegrid_
+
+	for _, formDiv := range topstarthalfwayarcshapegridFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(topstarthalfwayarcshapegrid_.Name), formDiv)
+		case "TopStartHalfwayArcShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TopStartHalfwayArcShape](topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TopStartHalfwayArcShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TopStartHalfwayArcShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TopStartHalfwayArcShape](topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			topstarthalfwayarcshapegrid_.TopStartHalfwayArcShapes = instanceSlice
+			topstarthalfwayarcshapegridFormCallback.probe.UpdateSliceOfPointersCallback(topstarthalfwayarcshapegrid_, "TopStartHalfwayArcShapes", &topstarthalfwayarcshapegrid_.TopStartHalfwayArcShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if topstarthalfwayarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topstarthalfwayarcshapegrid_.Unstage(topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest)
+	}
+
+	topstarthalfwayarcshapegridFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TopStartHalfwayArcShapeGrid](
+		topstarthalfwayarcshapegridFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if topstarthalfwayarcshapegridFormCallback.CreationMode || topstarthalfwayarcshapegridFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		topstarthalfwayarcshapegridFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(topstarthalfwayarcshapegridFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TopStartHalfwayArcShapeGridFormCallback(
+			nil,
+			topstarthalfwayarcshapegridFormCallback.probe,
+			newFormGroup,
+		)
+		topstarthalfwayarcshapegrid := new(models.TopStartHalfwayArcShapeGrid)
+		FillUpForm(topstarthalfwayarcshapegrid, newFormGroup, topstarthalfwayarcshapegridFormCallback.probe)
+		topstarthalfwayarcshapegridFormCallback.probe.formStage.Commit()
+	}
+
+	topstarthalfwayarcshapegridFormCallback.probe.ux_tree()
 }
