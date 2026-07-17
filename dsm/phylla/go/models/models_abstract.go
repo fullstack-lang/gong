@@ -60,12 +60,13 @@ type Plant struct {
 	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
 	GrowthVectorShape           *GrowthVectorShape
 
-	PerpendicularVectorGrid           *PerpendicularVectorGrid
-	PerpendicularVectorGridHalfway    *PerpendicularVectorGridHalfway
-	BaseVectorShapeGrid               *BaseVectorShapeGrid
-	ArcNormalVectorShapeGrid          *ArcNormalVectorShapeGrid
-	StartArcShapeGrid                 *StartArcShapeGrid
-	TopStartArcShapeGrid              *TopStartArcShapeGrid
+	PerpendicularVectorGrid        *PerpendicularVectorGrid
+	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
+	BaseVectorShapeGrid            *BaseVectorShapeGrid
+	ArcNormalVectorShapeGrid       *ArcNormalVectorShapeGrid
+	StartArcShapeGrid              *StartArcShapeGrid
+	TopStartArcShapeGrid           *TopStartArcShapeGrid
+
 	ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid
 	MidArcVectorShapeGrid             *MidArcVectorShapeGrid
 	TopMidArcVectorShapeGrid          *TopMidArcVectorShapeGrid

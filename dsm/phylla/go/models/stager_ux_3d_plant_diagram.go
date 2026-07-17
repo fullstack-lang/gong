@@ -41,9 +41,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				},
 			}).Stage(stager.threejsStage)
 			circumference := 10.0
-			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
+			if plant.PlantCircumferenceShape.Length > 0 {
 				circumference = plant.PlantCircumferenceShape.Length
-			} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+			} else if pGrid := plant.PerpendicularVectorGrid; len(pGrid.PerpendicularVectors) > 0 {
 				first := pGrid.PerpendicularVectors[0]
 				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
 				circumference = last.StartX - first.StartX
@@ -101,9 +101,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		var globalR float64
 		{
 			circumference := 10.0
-			if plant.PlantCircumferenceShape != nil && plant.PlantCircumferenceShape.Length > 0 {
+			if plant.PlantCircumferenceShape.Length > 0 {
 				circumference = plant.PlantCircumferenceShape.Length
-			} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+			} else if pGrid := plant.PerpendicularVectorGrid; len(pGrid.PerpendicularVectors) > 0 {
 				first := pGrid.PerpendicularVectors[0]
 				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
 				circumference = last.StartX - first.StartX
@@ -147,9 +147,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Torus generated from GrowthCurve2D and TopGrowthCurve2D
-		if plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
-			plant.GrowthCurve2D.StartArcShapeGrid != nil && len(plant.GrowthCurve2D.StartArcShapeGrid.StartArcShapes) > 0 &&
-			plant.TopGrowthCurve2D.TopStartArcShapeGrid != nil && len(plant.TopGrowthCurve2D.TopStartArcShapeGrid.TopStartArcShapes) > 0 {
+		if len(plant.GrowthCurve2D.StartArcShapeGrid.StartArcShapes) > 0 &&
+			len(plant.TopGrowthCurve2D.TopStartArcShapeGrid.TopStartArcShapes) > 0 {
 
 			gc := plant.GrowthCurve2D
 			tgc := plant.TopGrowthCurve2D
@@ -159,10 +158,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			topStartArcs := tgc.TopStartArcShapeGrid.TopStartArcShapes
 
-			var topEndArcs []*TopEndArcShape
-			if tgc.TopEndArcShapeGrid != nil {
-				topEndArcs = tgc.TopEndArcShapeGrid.TopEndArcShapes
-			}
+			topEndArcs := tgc.TopEndArcShapeGrid.TopEndArcShapes
 
 			thickness := plant.RadialThickness
 			if thickness == 0 {
@@ -338,13 +334,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 
 				var growthVectorX, growthVectorY float64
-				if plant.GrowthVectorShape != nil {
-					growthVectorX = plant.GrowthVectorShape.X
-					growthVectorY = plant.GrowthVectorShape.Y
-				}
+				growthVectorX = plant.GrowthVectorShape.X
+				growthVectorY = plant.GrowthVectorShape.Y
 
 				var vx, vy float64
-				if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
+				if len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+					pGrid := plant.PerpendicularVectorGrid
 					vFirst := pGrid.PerpendicularVectors[0]
 					vx = vFirst.EndX - vFirst.StartX
 					vy = vFirst.EndY - vFirst.StartY
