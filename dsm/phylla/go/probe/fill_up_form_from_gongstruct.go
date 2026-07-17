@@ -253,32 +253,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.HalfwayArcShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "HalfwayArcShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__HalfwayArcShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.HalfwayArcShapeGrid:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "HalfwayArcShapeGrid",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__HalfwayArcShapeGridFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.InitialRhombusGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -650,6 +624,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "StartArcShapeGrid",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__StartArcShapeGridFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StartHalfwayArcShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StartHalfwayArcShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartHalfwayArcShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StartHalfwayArcShapeGrid:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StartHalfwayArcShapeGrid",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StartHalfwayArcShapeGridFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

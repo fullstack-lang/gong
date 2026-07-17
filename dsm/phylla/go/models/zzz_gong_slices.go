@@ -116,19 +116,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GrowthVectorShape
 	// insertion point per field
 
-	// Compute reverse map for named struct HalfwayArcShape
-	// insertion point per field
-
-	// Compute reverse map for named struct HalfwayArcShapeGrid
-	// insertion point per field
-	stage.HalfwayArcShapeGrid_HalfwayArcShapes_reverseMap = make(map[*HalfwayArcShape]*HalfwayArcShapeGrid)
-	for halfwayarcshapegrid := range stage.HalfwayArcShapeGrids {
-		_ = halfwayarcshapegrid
-		for _, _halfwayarcshape := range halfwayarcshapegrid.HalfwayArcShapes {
-			stage.HalfwayArcShapeGrid_HalfwayArcShapes_reverseMap[_halfwayarcshape] = halfwayarcshapegrid
-		}
-	}
-
 	// Compute reverse map for named struct InitialRhombusGridShape
 	// insertion point per field
 	stage.InitialRhombusGridShape_InitialRhombusShapes_reverseMap = make(map[*InitialRhombusShape]*InitialRhombusGridShape)
@@ -321,6 +308,19 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct StartHalfwayArcShape
+	// insertion point per field
+
+	// Compute reverse map for named struct StartHalfwayArcShapeGrid
+	// insertion point per field
+	stage.StartHalfwayArcShapeGrid_StartHalfwayArcShapes_reverseMap = make(map[*StartHalfwayArcShape]*StartHalfwayArcShapeGrid)
+	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
+		_ = starthalfwayarcshapegrid
+		for _, _starthalfwayarcshape := range starthalfwayarcshapegrid.StartHalfwayArcShapes {
+			stage.StartHalfwayArcShapeGrid_StartHalfwayArcShapes_reverseMap[_starthalfwayarcshape] = starthalfwayarcshapegrid
+		}
+	}
+
 	// Compute reverse map for named struct TopEndArcShape
 	// insertion point per field
 
@@ -463,14 +463,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.HalfwayArcShapes {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.HalfwayArcShapeGrids {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.InitialRhombusGridShapes {
 		res = append(res, instance)
 	}
@@ -584,6 +576,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StartArcShapeGrids {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StartHalfwayArcShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StartHalfwayArcShapeGrids {
 		res = append(res, instance)
 	}
 
@@ -736,18 +736,6 @@ func (growthcurverhombusshape *GrowthCurveRhombusShape) GongCopy() GongstructIF 
 func (growthvectorshape *GrowthVectorShape) GongCopy() GongstructIF {
 	newInstance := new(GrowthVectorShape)
 	growthvectorshape.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (halfwayarcshape *HalfwayArcShape) GongCopy() GongstructIF {
-	newInstance := new(HalfwayArcShape)
-	halfwayarcshape.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongCopy() GongstructIF {
-	newInstance := new(HalfwayArcShapeGrid)
-	halfwayarcshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -922,6 +910,18 @@ func (startarcshape *StartArcShape) GongCopy() GongstructIF {
 func (startarcshapegrid *StartArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(StartArcShapeGrid)
 	startarcshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (starthalfwayarcshape *StartHalfwayArcShape) GongCopy() GongstructIF {
+	newInstance := new(StartHalfwayArcShape)
+	starthalfwayarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongCopy() GongstructIF {
+	newInstance := new(StartHalfwayArcShapeGrid)
+	starthalfwayarcshapegrid.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1163,26 +1163,6 @@ func (growthvectorshape *GrowthVectorShape) GongGetUUID(stage *Stage) (uuid stri
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthvectorshape), uint64(GetOrderPointerGongstruct(stage, growthvectorshape)))
-	return
-}
-
-func (halfwayarcshape *HalfwayArcShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(halfwayarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(halfwayarcshape), uint64(GetOrderPointerGongstruct(stage, halfwayarcshape)))
-	return
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(halfwayarcshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(halfwayarcshapegrid), uint64(GetOrderPointerGongstruct(stage, halfwayarcshapegrid)))
 	return
 }
 
@@ -1473,6 +1453,26 @@ func (startarcshapegrid *StartArcShapeGrid) GongGetUUID(stage *Stage) (uuid stri
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(startarcshapegrid), uint64(GetOrderPointerGongstruct(stage, startarcshapegrid)))
+	return
+}
+
+func (starthalfwayarcshape *StartHalfwayArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(starthalfwayarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(starthalfwayarcshape), uint64(GetOrderPointerGongstruct(stage, starthalfwayarcshape)))
+	return
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(starthalfwayarcshapegrid).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(starthalfwayarcshapegrid), uint64(GetOrderPointerGongstruct(stage, starthalfwayarcshapegrid)))
 	return
 }
 
@@ -2584,116 +2584,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(growthvectorshapes_newInstances)
 	lenDeletedInstances += len(growthvectorshapes_deletedInstances)
-	var halfwayarcshapes_newInstances []*HalfwayArcShape
-	var halfwayarcshapes_deletedInstances []*HalfwayArcShape
-
-	// parse all staged instances and check if they have a reference
-	for halfwayarcshape := range stage.HalfwayArcShapes {
-		if ref, ok := stage.HalfwayArcShapes_reference[halfwayarcshape]; !ok {
-			halfwayarcshapes_newInstances = append(halfwayarcshapes_newInstances, halfwayarcshape)
-			newInstancesSlice = append(newInstancesSlice, halfwayarcshape.GongMarshallIdentifier(stage))
-			if stage.HalfwayArcShapes_referenceOrder == nil {
-				stage.HalfwayArcShapes_referenceOrder = make(map[*HalfwayArcShape]uint)
-			}
-			stage.HalfwayArcShapes_referenceOrder[halfwayarcshape] = stage.HalfwayArcShape_stagedOrder[halfwayarcshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, halfwayarcshape.GongMarshallUnstaging(stage))
-			// delete(stage.HalfwayArcShapes_referenceOrder, halfwayarcshape)
-			fieldInitializers, pointersInitializations := halfwayarcshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.HalfwayArcShape_stagedOrder[ref] = stage.HalfwayArcShape_stagedOrder[halfwayarcshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := halfwayarcshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, halfwayarcshape)
-			// delete(stage.HalfwayArcShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if halfwayarcshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", halfwayarcshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.HalfwayArcShapes_reference {
-		instance := stage.HalfwayArcShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.HalfwayArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			halfwayarcshapes_deletedInstances = append(halfwayarcshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(halfwayarcshapes_newInstances)
-	lenDeletedInstances += len(halfwayarcshapes_deletedInstances)
-	var halfwayarcshapegrids_newInstances []*HalfwayArcShapeGrid
-	var halfwayarcshapegrids_deletedInstances []*HalfwayArcShapeGrid
-
-	// parse all staged instances and check if they have a reference
-	for halfwayarcshapegrid := range stage.HalfwayArcShapeGrids {
-		if ref, ok := stage.HalfwayArcShapeGrids_reference[halfwayarcshapegrid]; !ok {
-			halfwayarcshapegrids_newInstances = append(halfwayarcshapegrids_newInstances, halfwayarcshapegrid)
-			newInstancesSlice = append(newInstancesSlice, halfwayarcshapegrid.GongMarshallIdentifier(stage))
-			if stage.HalfwayArcShapeGrids_referenceOrder == nil {
-				stage.HalfwayArcShapeGrids_referenceOrder = make(map[*HalfwayArcShapeGrid]uint)
-			}
-			stage.HalfwayArcShapeGrids_referenceOrder[halfwayarcshapegrid] = stage.HalfwayArcShapeGrid_stagedOrder[halfwayarcshapegrid]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, halfwayarcshapegrid.GongMarshallUnstaging(stage))
-			// delete(stage.HalfwayArcShapeGrids_referenceOrder, halfwayarcshapegrid)
-			fieldInitializers, pointersInitializations := halfwayarcshapegrid.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.HalfwayArcShapeGrid_stagedOrder[ref] = stage.HalfwayArcShapeGrid_stagedOrder[halfwayarcshapegrid]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := halfwayarcshapegrid.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, halfwayarcshapegrid)
-			// delete(stage.HalfwayArcShapeGrid_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if halfwayarcshapegrid.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", halfwayarcshapegrid.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.HalfwayArcShapeGrids_reference {
-		instance := stage.HalfwayArcShapeGrids_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.HalfwayArcShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			halfwayarcshapegrids_deletedInstances = append(halfwayarcshapegrids_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(halfwayarcshapegrids_newInstances)
-	lenDeletedInstances += len(halfwayarcshapegrids_deletedInstances)
 	var initialrhombusgridshapes_newInstances []*InitialRhombusGridShape
 	var initialrhombusgridshapes_deletedInstances []*InitialRhombusGridShape
 
@@ -4289,6 +4179,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(startarcshapegrids_newInstances)
 	lenDeletedInstances += len(startarcshapegrids_deletedInstances)
+	var starthalfwayarcshapes_newInstances []*StartHalfwayArcShape
+	var starthalfwayarcshapes_deletedInstances []*StartHalfwayArcShape
+
+	// parse all staged instances and check if they have a reference
+	for starthalfwayarcshape := range stage.StartHalfwayArcShapes {
+		if ref, ok := stage.StartHalfwayArcShapes_reference[starthalfwayarcshape]; !ok {
+			starthalfwayarcshapes_newInstances = append(starthalfwayarcshapes_newInstances, starthalfwayarcshape)
+			newInstancesSlice = append(newInstancesSlice, starthalfwayarcshape.GongMarshallIdentifier(stage))
+			if stage.StartHalfwayArcShapes_referenceOrder == nil {
+				stage.StartHalfwayArcShapes_referenceOrder = make(map[*StartHalfwayArcShape]uint)
+			}
+			stage.StartHalfwayArcShapes_referenceOrder[starthalfwayarcshape] = stage.StartHalfwayArcShape_stagedOrder[starthalfwayarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, starthalfwayarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.StartHalfwayArcShapes_referenceOrder, starthalfwayarcshape)
+			fieldInitializers, pointersInitializations := starthalfwayarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StartHalfwayArcShape_stagedOrder[ref] = stage.StartHalfwayArcShape_stagedOrder[starthalfwayarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := starthalfwayarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, starthalfwayarcshape)
+			// delete(stage.StartHalfwayArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if starthalfwayarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", starthalfwayarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StartHalfwayArcShapes_reference {
+		instance := stage.StartHalfwayArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StartHalfwayArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			starthalfwayarcshapes_deletedInstances = append(starthalfwayarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(starthalfwayarcshapes_newInstances)
+	lenDeletedInstances += len(starthalfwayarcshapes_deletedInstances)
+	var starthalfwayarcshapegrids_newInstances []*StartHalfwayArcShapeGrid
+	var starthalfwayarcshapegrids_deletedInstances []*StartHalfwayArcShapeGrid
+
+	// parse all staged instances and check if they have a reference
+	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
+		if ref, ok := stage.StartHalfwayArcShapeGrids_reference[starthalfwayarcshapegrid]; !ok {
+			starthalfwayarcshapegrids_newInstances = append(starthalfwayarcshapegrids_newInstances, starthalfwayarcshapegrid)
+			newInstancesSlice = append(newInstancesSlice, starthalfwayarcshapegrid.GongMarshallIdentifier(stage))
+			if stage.StartHalfwayArcShapeGrids_referenceOrder == nil {
+				stage.StartHalfwayArcShapeGrids_referenceOrder = make(map[*StartHalfwayArcShapeGrid]uint)
+			}
+			stage.StartHalfwayArcShapeGrids_referenceOrder[starthalfwayarcshapegrid] = stage.StartHalfwayArcShapeGrid_stagedOrder[starthalfwayarcshapegrid]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, starthalfwayarcshapegrid.GongMarshallUnstaging(stage))
+			// delete(stage.StartHalfwayArcShapeGrids_referenceOrder, starthalfwayarcshapegrid)
+			fieldInitializers, pointersInitializations := starthalfwayarcshapegrid.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StartHalfwayArcShapeGrid_stagedOrder[ref] = stage.StartHalfwayArcShapeGrid_stagedOrder[starthalfwayarcshapegrid]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := starthalfwayarcshapegrid.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, starthalfwayarcshapegrid)
+			// delete(stage.StartHalfwayArcShapeGrid_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if starthalfwayarcshapegrid.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", starthalfwayarcshapegrid.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StartHalfwayArcShapeGrids_reference {
+		instance := stage.StartHalfwayArcShapeGrids_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StartHalfwayArcShapeGrids[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			starthalfwayarcshapegrids_deletedInstances = append(starthalfwayarcshapegrids_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(starthalfwayarcshapegrids_newInstances)
+	lenDeletedInstances += len(starthalfwayarcshapegrids_deletedInstances)
 	var topendarcshapes_newInstances []*TopEndArcShape
 	var topendarcshapes_deletedInstances []*TopEndArcShape
 
@@ -5054,26 +5054,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.GrowthVectorShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.HalfwayArcShapes_reference = make(map[*HalfwayArcShape]*HalfwayArcShape)
-	stage.HalfwayArcShapes_referenceOrder = make(map[*HalfwayArcShape]uint) // diff Unstage needs the reference order
-	stage.HalfwayArcShapes_instance = make(map[*HalfwayArcShape]*HalfwayArcShape)
-	for instance := range stage.HalfwayArcShapes {
-		_copy := instance.GongCopy().(*HalfwayArcShape)
-		stage.HalfwayArcShapes_reference[instance] = _copy
-		stage.HalfwayArcShapes_instance[_copy] = instance
-		stage.HalfwayArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.HalfwayArcShapeGrids_reference = make(map[*HalfwayArcShapeGrid]*HalfwayArcShapeGrid)
-	stage.HalfwayArcShapeGrids_referenceOrder = make(map[*HalfwayArcShapeGrid]uint) // diff Unstage needs the reference order
-	stage.HalfwayArcShapeGrids_instance = make(map[*HalfwayArcShapeGrid]*HalfwayArcShapeGrid)
-	for instance := range stage.HalfwayArcShapeGrids {
-		_copy := instance.GongCopy().(*HalfwayArcShapeGrid)
-		stage.HalfwayArcShapeGrids_reference[instance] = _copy
-		stage.HalfwayArcShapeGrids_instance[_copy] = instance
-		stage.HalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.InitialRhombusGridShapes_reference = make(map[*InitialRhombusGridShape]*InitialRhombusGridShape)
 	stage.InitialRhombusGridShapes_referenceOrder = make(map[*InitialRhombusGridShape]uint) // diff Unstage needs the reference order
 	stage.InitialRhombusGridShapes_instance = make(map[*InitialRhombusGridShape]*InitialRhombusGridShape)
@@ -5364,6 +5344,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StartArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StartHalfwayArcShapes_reference = make(map[*StartHalfwayArcShape]*StartHalfwayArcShape)
+	stage.StartHalfwayArcShapes_referenceOrder = make(map[*StartHalfwayArcShape]uint) // diff Unstage needs the reference order
+	stage.StartHalfwayArcShapes_instance = make(map[*StartHalfwayArcShape]*StartHalfwayArcShape)
+	for instance := range stage.StartHalfwayArcShapes {
+		_copy := instance.GongCopy().(*StartHalfwayArcShape)
+		stage.StartHalfwayArcShapes_reference[instance] = _copy
+		stage.StartHalfwayArcShapes_instance[_copy] = instance
+		stage.StartHalfwayArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.StartHalfwayArcShapeGrids_reference = make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid)
+	stage.StartHalfwayArcShapeGrids_referenceOrder = make(map[*StartHalfwayArcShapeGrid]uint) // diff Unstage needs the reference order
+	stage.StartHalfwayArcShapeGrids_instance = make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid)
+	for instance := range stage.StartHalfwayArcShapeGrids {
+		_copy := instance.GongCopy().(*StartHalfwayArcShapeGrid)
+		stage.StartHalfwayArcShapeGrids_reference[instance] = _copy
+		stage.StartHalfwayArcShapeGrids_instance[_copy] = instance
+		stage.StartHalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_referenceOrder = make(map[*TopEndArcShape]uint) // diff Unstage needs the reference order
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
@@ -5555,16 +5555,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.HalfwayArcShapes {
-		reference := stage.HalfwayArcShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.HalfwayArcShapeGrids {
-		reference := stage.HalfwayArcShapeGrids_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.InitialRhombusGridShapes {
 		reference := stage.InitialRhombusGridShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -5707,6 +5697,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StartArcShapeGrids {
 		reference := stage.StartArcShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StartHalfwayArcShapes {
+		reference := stage.StartHalfwayArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StartHalfwayArcShapeGrids {
+		reference := stage.StartHalfwayArcShapeGrids_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5982,30 +5982,6 @@ func (growthvectorshape *GrowthVectorShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type GrowthVectorShape was not staged and does not have a reference order", growthvectorshape)
-		return 0
-	}
-}
-
-func (halfwayarcshape *HalfwayArcShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.HalfwayArcShape_stagedOrder[halfwayarcshape]; ok {
-		return order
-	}
-	if order, ok := stage.HalfwayArcShapes_referenceOrder[halfwayarcshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type HalfwayArcShape was not staged and does not have a reference order", halfwayarcshape)
-		return 0
-	}
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.HalfwayArcShapeGrid_stagedOrder[halfwayarcshapegrid]; ok {
-		return order
-	}
-	if order, ok := stage.HalfwayArcShapeGrids_referenceOrder[halfwayarcshapegrid]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type HalfwayArcShapeGrid was not staged and does not have a reference order", halfwayarcshapegrid)
 		return 0
 	}
 }
@@ -6358,6 +6334,30 @@ func (startarcshapegrid *StartArcShapeGrid) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (starthalfwayarcshape *StartHalfwayArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StartHalfwayArcShape_stagedOrder[starthalfwayarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.StartHalfwayArcShapes_referenceOrder[starthalfwayarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StartHalfwayArcShape was not staged and does not have a reference order", starthalfwayarcshape)
+		return 0
+	}
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StartHalfwayArcShapeGrid_stagedOrder[starthalfwayarcshapegrid]; ok {
+		return order
+	}
+	if order, ok := stage.StartHalfwayArcShapeGrids_referenceOrder[starthalfwayarcshapegrid]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StartHalfwayArcShapeGrid was not staged and does not have a reference order", starthalfwayarcshapegrid)
+		return 0
+	}
+}
+
 func (topendarcshape *TopEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TopEndArcShape_stagedOrder[topendarcshape]; ok {
 		return order
@@ -6645,24 +6645,6 @@ func (growthvectorshape *GrowthVectorShape) GongGetReferenceIdentifier(stage *St
 	return fmt.Sprintf("__%s__%08d_", growthvectorshape.GongGetGongstructName(), growthvectorshape.GongGetOrder(stage))
 }
 
-func (halfwayarcshape *HalfwayArcShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", halfwayarcshape.GongGetGongstructName(), halfwayarcshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (halfwayarcshape *HalfwayArcShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", halfwayarcshape.GongGetGongstructName(), halfwayarcshape.GongGetOrder(stage))
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", halfwayarcshapegrid.GongGetGongstructName(), halfwayarcshapegrid.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", halfwayarcshapegrid.GongGetGongstructName(), halfwayarcshapegrid.GongGetOrder(stage))
-}
-
 func (initialrhombusgridshape *InitialRhombusGridShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", initialrhombusgridshape.GongGetGongstructName(), initialrhombusgridshape.GongGetOrder(stage))
 }
@@ -6924,6 +6906,24 @@ func (startarcshapegrid *StartArcShapeGrid) GongGetReferenceIdentifier(stage *St
 	return fmt.Sprintf("__%s__%08d_", startarcshapegrid.GongGetGongstructName(), startarcshapegrid.GongGetOrder(stage))
 }
 
+func (starthalfwayarcshape *StartHalfwayArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", starthalfwayarcshape.GongGetGongstructName(), starthalfwayarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (starthalfwayarcshape *StartHalfwayArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", starthalfwayarcshape.GongGetGongstructName(), starthalfwayarcshape.GongGetOrder(stage))
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", starthalfwayarcshapegrid.GongGetGongstructName(), starthalfwayarcshapegrid.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", starthalfwayarcshapegrid.GongGetGongstructName(), starthalfwayarcshapegrid.GongGetOrder(stage))
+}
+
 func (topendarcshape *TopEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", topendarcshape.GongGetGongstructName(), topendarcshape.GongGetOrder(stage))
 }
@@ -7161,22 +7161,6 @@ func (growthvectorshape *GrowthVectorShape) GongMarshallIdentifier(stage *Stage)
 	return
 }
 
-func (halfwayarcshape *HalfwayArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "HalfwayArcShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(halfwayarcshape.Name))
-	return
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", halfwayarcshapegrid.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "HalfwayArcShapeGrid")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(halfwayarcshapegrid.Name))
-	return
-}
-
 func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusgridshape.GongGetIdentifier(stage))
@@ -7409,6 +7393,22 @@ func (startarcshapegrid *StartArcShapeGrid) GongMarshallIdentifier(stage *Stage)
 	return
 }
 
+func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartHalfwayArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshape.Name))
+	return
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshapegrid.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StartHalfwayArcShapeGrid")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshapegrid.Name))
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendarcshape.GongGetIdentifier(stage))
@@ -7598,18 +7598,6 @@ func (growthvectorshape *GrowthVectorShape) GongMarshallUnstaging(stage *Stage) 
 	return
 }
 
-func (halfwayarcshape *HalfwayArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", halfwayarcshape.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", halfwayarcshapegrid.GongGetReferenceIdentifier(stage))
-	return
-}
-
 func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusgridshape.GongGetReferenceIdentifier(stage))
@@ -7781,6 +7769,18 @@ func (startarcshape *StartArcShape) GongMarshallUnstaging(stage *Stage) (decl st
 func (startarcshapegrid *StartArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", startarcshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshapegrid.GongGetReferenceIdentifier(stage))
 	return
 }
 

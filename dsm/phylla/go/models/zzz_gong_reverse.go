@@ -206,31 +206,6 @@ func (inst *GrowthVectorShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
-func (inst *HalfwayArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "HalfwayArcShapeGrid":
-		switch reverseField.Fieldname {
-		case "HalfwayArcShapes":
-			if _halfwayarcshapegrid, ok := stage.HalfwayArcShapeGrid_HalfwayArcShapes_reverseMap[inst]; ok {
-				res = _halfwayarcshapegrid.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *HalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *InitialRhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -597,6 +572,31 @@ func (inst *StartArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
+func (inst *StartHalfwayArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StartHalfwayArcShapeGrid":
+		switch reverseField.Fieldname {
+		case "StartHalfwayArcShapes":
+			if _starthalfwayarcshapegrid, ok := stage.StartHalfwayArcShapeGrid_StartHalfwayArcShapes_reverseMap[inst]; ok {
+				res = _starthalfwayarcshapegrid.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *StartHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *TopEndArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -907,29 +907,6 @@ func (inst *GrowthCurveRhombusShape) GongGetReverseFieldOwner(stage *Stage, reve
 }
 
 func (inst *GrowthVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
-func (inst *HalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "HalfwayArcShapeGrid":
-		switch reverseField.Fieldname {
-		case "HalfwayArcShapes":
-			res = stage.HalfwayArcShapeGrid_HalfwayArcShapes_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *HalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1266,6 +1243,29 @@ func (inst *StartArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 }
 
 func (inst *StartArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *StartHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StartHalfwayArcShapeGrid":
+		switch reverseField.Fieldname {
+		case "StartHalfwayArcShapes":
+			res = stage.StartHalfwayArcShapeGrid_StartHalfwayArcShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *StartHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

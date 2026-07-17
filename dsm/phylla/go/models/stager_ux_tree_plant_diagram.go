@@ -706,17 +706,16 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	
-	halfwayArcShapeGrid := plant.HalfwayArcShapeGrid
+	startHalfwayArcShapeGrid := plant.StartHalfwayArcShapeGrid
 	{
 		node := &tree.Node{
-			Name: "Halfway Arc Shape Grid",
+			Name: "Start Halfway Arc Shape Grid",
 		}
 		node.IsExpanded = true
 		node.HasCheckboxButton = false
 		node.IsNodeClickable = true
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(halfwayArcShapeGrid, GetPointerToGongstructName[*HalfwayArcShapeGrid]())
+			stager.probeForm.FillUpFormFromGongstruct(startHalfwayArcShapeGrid, GetPointerToGongstructName[*StartHalfwayArcShapeGrid]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -769,7 +768,6 @@ func (stager *Stager) treePlantDiagram(
 		node.Buttons = append(node.Buttons, btn)
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
-
 
 	endArcShapeV2Grid := plant.EndArcShapeGrid
 	{
