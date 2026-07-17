@@ -321,6 +321,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.topendarcshapegrid, probe)
 			}
+		case *TopEndHalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopEndHalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topendhalfwayarcshape, probe)
+			}
+		case *TopEndHalfwayArcShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopEndHalfwayArcShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topendhalfwayarcshapegrid, probe)
+			}
 		case *TopGrowthCurve2DFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TopGrowthCurve2D", true)
@@ -368,6 +380,18 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "TopStartArcShapeGrid", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.topstartarcshapegrid, probe)
+			}
+		case *TopStartHalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopStartHalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topstarthalfwayarcshape, probe)
+			}
+		case *TopStartHalfwayArcShapeGridFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopStartHalfwayArcShapeGrid", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topstarthalfwayarcshapegrid, probe)
 			}
 		}
 	}
@@ -1054,6 +1078,32 @@ func FillUpFormFromGongstructName(
 		topendarcshapegrid := new(models.TopEndArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topendarcshapegrid, formGroup, probe)
+	case "TopEndHalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopEndHalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopEndHalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topendhalfwayarcshape := new(models.TopEndHalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topendhalfwayarcshape, formGroup, probe)
+	case "TopEndHalfwayArcShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopEndHalfwayArcShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopEndHalfwayArcShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topendhalfwayarcshapegrid := new(models.TopEndHalfwayArcShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topendhalfwayarcshapegrid, formGroup, probe)
 	case "TopGrowthCurve2D":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1158,6 +1208,32 @@ func FillUpFormFromGongstructName(
 		topstartarcshapegrid := new(models.TopStartArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topstartarcshapegrid, formGroup, probe)
+	case "TopStartHalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopStartHalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStartHalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topstarthalfwayarcshape := new(models.TopStartHalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topstarthalfwayarcshape, formGroup, probe)
+	case "TopStartHalfwayArcShapeGrid":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopStartHalfwayArcShapeGrid Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStartHalfwayArcShapeGridFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topstarthalfwayarcshapegrid := new(models.TopStartHalfwayArcShapeGrid)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topstarthalfwayarcshapegrid, formGroup, probe)
 	}
 	formStage.Commit()
 }

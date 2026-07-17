@@ -171,6 +171,8 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.StartHalfwayArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopEndArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopEndArcShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TopEndHalfwayArcShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TopEndHalfwayArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopGrowthCurve2D](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopMidArcVectorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopMidArcVectorShapeGrid](stage)
@@ -179,6 +181,8 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.TopStackOfGrowthCurve](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopStartArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopStartArcShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShapeGrid](stage)
 
 	return
 }

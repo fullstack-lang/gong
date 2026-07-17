@@ -76,7 +76,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawTopMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartHalfwayArcShapeGrid(stager, layer, plant)
+	plantDiagram.drawTopStartHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndHalfwayArcShapeGrid(stager, layer, plant)
+	plantDiagram.drawTopEndHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurveBezierShapeGrid(stager, layer, plant)
@@ -1372,7 +1374,7 @@ func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, l
 }
 
 func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenHalfwayArcShapeGrid {
+	if plantDiagram.IsHiddenStartHalfwayArcShapeGrid {
 		return
 	}
 
@@ -1416,6 +1418,84 @@ func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, lay
 	}
 
 	for _, base := range plant.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = base.Name
+
+		pathStartX := plantDiagram.OriginX + base.StartX
+		pathStartY := plantDiagram.OriginY - base.StartY
+		pathEndX := plantDiagram.OriginX + base.EndX
+		pathEndY := plantDiagram.OriginY - base.EndY
+
+		largeArcFlag := 0
+		if base.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if base.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			base.RadiusX, base.RadiusY,
+			base.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "green"
+		path.Presentation.StrokeWidth = 1.5
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenStartHalfwayArcShapeGrid {
+		return
+	}
+
+	for _, base := range plant.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = base.Name
+
+		pathStartX := plantDiagram.OriginX + base.StartX
+		pathStartY := plantDiagram.OriginY - base.StartY
+		pathEndX := plantDiagram.OriginX + base.EndX
+		pathEndY := plantDiagram.OriginY - base.EndY
+
+		largeArcFlag := 0
+		if base.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if base.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			base.RadiusX, base.RadiusY,
+			base.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "green"
+		path.Presentation.StrokeWidth = 1.5
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid {
+		return
+	}
+
+	for _, base := range plant.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 

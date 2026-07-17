@@ -1513,8 +1513,12 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.TopMidArcVectorShapeGrid, valueExpr, identifierMap)
 	case "StartHalfwayArcShapeGrid":
 		GongUnmarshallPointer(&instance.StartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopStartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartHalfwayArcShapeGrid, valueExpr, identifierMap)
 	case "EndHalfwayArcShapeGrid":
 		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
 	case "EndArcShapeGrid":
 		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
 	case "TopEndArcShapeGrid":
@@ -1643,10 +1647,14 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenMidArcVectorShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenTopMidArcVectorShapeGrid":
 		instance.IsHiddenTopMidArcVectorShapeGrid = GongExtractBool(valueExpr)
-	case "IsHiddenHalfwayArcShapeGrid":
-		instance.IsHiddenHalfwayArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		instance.IsHiddenStartHalfwayArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		instance.IsHiddenTopStartHalfwayArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenEndHalfwayArcShapeGrid":
 		instance.IsHiddenEndHalfwayArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		instance.IsHiddenTopEndHalfwayArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenEndArcShapeGrid":
 		instance.IsHiddenEndArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenTopEndArcShapeGrid":
@@ -2457,6 +2465,84 @@ func (u *TopEndArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 	return nil
 }
 
+type TopEndHalfwayArcShapeUnmarshaller struct{}
+
+func (u *TopEndHalfwayArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopEndHalfwayArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopEndHalfwayArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopEndHalfwayArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type TopEndHalfwayArcShapeGridUnmarshaller struct{}
+
+func (u *TopEndHalfwayArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopEndHalfwayArcShapeGrid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopEndHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopEndHalfwayArcShapeGrid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "TopEndHalfwayArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopEndHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type TopGrowthCurve2DUnmarshaller struct{}
 
 func (u *TopGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2759,6 +2845,84 @@ func (u *TopStartArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.Name = GongExtractString(valueExpr)
 	case "TopStartArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.TopStartArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TopStartHalfwayArcShapeUnmarshaller struct{}
+
+func (u *TopStartHalfwayArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStartHalfwayArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopStartHalfwayArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStartHalfwayArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type TopStartHalfwayArcShapeGridUnmarshaller struct{}
+
+func (u *TopStartHalfwayArcShapeGridUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStartHalfwayArcShapeGrid)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopStartHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStartHalfwayArcShapeGrid)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "TopStartHalfwayArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopStartHalfwayArcShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
