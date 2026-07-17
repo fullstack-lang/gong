@@ -60,24 +60,24 @@ type Plant struct {
 	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
 	GrowthVectorShape           *GrowthVectorShape
 
-	PerpendicularVectorGrid        *PerpendicularVectorGrid
-	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
-	BaseVectorShapeGrid            *BaseVectorShapeGrid
-	ArcNormalVectorShapeGrid       *ArcNormalVectorShapeGrid
-	StartArcShapeGrid              *StartArcShapeGrid
-	TopStartArcShapeGrid           *TopStartArcShapeGrid
+	PerpendicularVectorGrid           *PerpendicularVectorGrid
+	PerpendicularVectorGridHalfway    *PerpendicularVectorGridHalfway
+	BaseVectorShapeGrid               *BaseVectorShapeGrid
+	ArcNormalVectorShapeGrid          *ArcNormalVectorShapeGrid
+	StartArcShapeGrid                 *StartArcShapeGrid
+	TopStartArcShapeGrid              *TopStartArcShapeGrid
 	ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid
-	MidArcVectorShapeGrid          *MidArcVectorShapeGrid
-	TopMidArcVectorShapeGrid       *TopMidArcVectorShapeGrid
-	HalfwayArcShapeGrid            *HalfwayArcShapeGrid
-	EndHalfwayArcShapeGrid         *EndHalfwayArcShapeGrid
-	EndArcShapeGrid                *EndArcShapeGrid
-	TopEndArcShapeGrid             *TopEndArcShapeGrid
-	GrowthCurveBezierShapeGrid     *GrowthCurveBezierShapeGrid
+	MidArcVectorShapeGrid             *MidArcVectorShapeGrid
+	TopMidArcVectorShapeGrid          *TopMidArcVectorShapeGrid
+	StartHalfwayArcShapeGrid          *StartHalfwayArcShapeGrid
+	EndHalfwayArcShapeGrid            *EndHalfwayArcShapeGrid
+	EndArcShapeGrid                   *EndArcShapeGrid
+	TopEndArcShapeGrid                *TopEndArcShapeGrid
+	GrowthCurveBezierShapeGrid        *GrowthCurveBezierShapeGrid
 
-	StackOfGrowthCurve    *StackOfGrowthCurve
-	TopStackOfGrowthCurve *TopStackOfGrowthCurve
-	ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve
+	StackOfGrowthCurve             *StackOfGrowthCurve
+	TopStackOfGrowthCurve          *TopStackOfGrowthCurve
+	ShiftedLeftStackOfGrowthCurve  *ShiftedLeftStackOfGrowthCurve
 	ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector
 
 	GrowthCurve2D    *GrowthCurve2D

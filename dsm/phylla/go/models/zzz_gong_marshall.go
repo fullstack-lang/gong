@@ -801,68 +801,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Y"))
 	}
 
-	halfwayarcshapeOrdered := []*HalfwayArcShape{}
-	for halfwayarcshape := range stage.HalfwayArcShapes {
-		halfwayarcshapeOrdered = append(halfwayarcshapeOrdered, halfwayarcshape)
-	}
-	sort.Slice(halfwayarcshapeOrdered[:], func(i, j int) bool {
-		halfwayarcshapei := halfwayarcshapeOrdered[i]
-		halfwayarcshapej := halfwayarcshapeOrdered[j]
-		halfwayarcshapei_order, oki := stage.HalfwayArcShape_stagedOrder[halfwayarcshapei]
-		halfwayarcshapej_order, okj := stage.HalfwayArcShape_stagedOrder[halfwayarcshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return halfwayarcshapei_order < halfwayarcshapej_order
-	})
-	if len(halfwayarcshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, halfwayarcshape := range halfwayarcshapeOrdered {
-
-		identifiersDecl.WriteString(halfwayarcshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "StartX"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "StartY"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "EndX"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "EndY"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "RadiusX"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "RadiusY"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "XAxisRotation"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "LargeArcFlag"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "SweepFlag"))
-	}
-
-	halfwayarcshapegridOrdered := []*HalfwayArcShapeGrid{}
-	for halfwayarcshapegrid := range stage.HalfwayArcShapeGrids {
-		halfwayarcshapegridOrdered = append(halfwayarcshapegridOrdered, halfwayarcshapegrid)
-	}
-	sort.Slice(halfwayarcshapegridOrdered[:], func(i, j int) bool {
-		halfwayarcshapegridi := halfwayarcshapegridOrdered[i]
-		halfwayarcshapegridj := halfwayarcshapegridOrdered[j]
-		halfwayarcshapegridi_order, oki := stage.HalfwayArcShapeGrid_stagedOrder[halfwayarcshapegridi]
-		halfwayarcshapegridj_order, okj := stage.HalfwayArcShapeGrid_stagedOrder[halfwayarcshapegridj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return halfwayarcshapegridi_order < halfwayarcshapegridj_order
-	})
-	if len(halfwayarcshapegridOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, halfwayarcshapegrid := range halfwayarcshapegridOrdered {
-
-		identifiersDecl.WriteString(halfwayarcshapegrid.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(halfwayarcshapegrid.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(halfwayarcshapegrid.GongMarshallField(stage, "HalfwayArcShapes"))
-	}
-
 	initialrhombusgridshapeOrdered := []*InitialRhombusGridShape{}
 	for initialrhombusgridshape := range stage.InitialRhombusGridShapes {
 		initialrhombusgridshapeOrdered = append(initialrhombusgridshapeOrdered, initialrhombusgridshape)
@@ -1205,7 +1143,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedBottomTopStartArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "MidArcVectorShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopMidArcVectorShapeGrid"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "HalfwayArcShapeGrid"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StartHalfwayArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndHalfwayArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopEndArcShapeGrid"))
@@ -1807,6 +1745,68 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(startarcshapegrid.GongMarshallField(stage, "StartArcShapes"))
 	}
 
+	starthalfwayarcshapeOrdered := []*StartHalfwayArcShape{}
+	for starthalfwayarcshape := range stage.StartHalfwayArcShapes {
+		starthalfwayarcshapeOrdered = append(starthalfwayarcshapeOrdered, starthalfwayarcshape)
+	}
+	sort.Slice(starthalfwayarcshapeOrdered[:], func(i, j int) bool {
+		starthalfwayarcshapei := starthalfwayarcshapeOrdered[i]
+		starthalfwayarcshapej := starthalfwayarcshapeOrdered[j]
+		starthalfwayarcshapei_order, oki := stage.StartHalfwayArcShape_stagedOrder[starthalfwayarcshapei]
+		starthalfwayarcshapej_order, okj := stage.StartHalfwayArcShape_stagedOrder[starthalfwayarcshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return starthalfwayarcshapei_order < starthalfwayarcshapej_order
+	})
+	if len(starthalfwayarcshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, starthalfwayarcshape := range starthalfwayarcshapeOrdered {
+
+		identifiersDecl.WriteString(starthalfwayarcshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "RadiusY"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "SweepFlag"))
+	}
+
+	starthalfwayarcshapegridOrdered := []*StartHalfwayArcShapeGrid{}
+	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
+		starthalfwayarcshapegridOrdered = append(starthalfwayarcshapegridOrdered, starthalfwayarcshapegrid)
+	}
+	sort.Slice(starthalfwayarcshapegridOrdered[:], func(i, j int) bool {
+		starthalfwayarcshapegridi := starthalfwayarcshapegridOrdered[i]
+		starthalfwayarcshapegridj := starthalfwayarcshapegridOrdered[j]
+		starthalfwayarcshapegridi_order, oki := stage.StartHalfwayArcShapeGrid_stagedOrder[starthalfwayarcshapegridi]
+		starthalfwayarcshapegridj_order, okj := stage.StartHalfwayArcShapeGrid_stagedOrder[starthalfwayarcshapegridj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return starthalfwayarcshapegridi_order < starthalfwayarcshapegridj_order
+	})
+	if len(starthalfwayarcshapegridOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, starthalfwayarcshapegrid := range starthalfwayarcshapegridOrdered {
+
+		identifiersDecl.WriteString(starthalfwayarcshapegrid.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(starthalfwayarcshapegrid.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(starthalfwayarcshapegrid.GongMarshallField(stage, "StartHalfwayArcShapes"))
+	}
+
 	topendarcshapeOrdered := []*TopEndArcShape{}
 	for topendarcshape := range stage.TopEndArcShapes {
 		topendarcshapeOrdered = append(topendarcshapeOrdered, topendarcshape)
@@ -2259,22 +2259,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, halfwayarcshape := range halfwayarcshapeOrdered {
-		_ = halfwayarcshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, halfwayarcshapegrid := range halfwayarcshapegridOrdered {
-		_ = halfwayarcshapegrid
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, initialrhombusgridshape := range initialrhombusgridshapeOrdered {
 		_ = initialrhombusgridshape
 		var setPointerField string
@@ -2501,6 +2485,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, startarcshapegrid := range startarcshapegridOrdered {
 		_ = startarcshapegrid
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, starthalfwayarcshape := range starthalfwayarcshapeOrdered {
+		_ = starthalfwayarcshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, starthalfwayarcshapegrid := range starthalfwayarcshapegridOrdered {
+		_ = starthalfwayarcshapegrid
 		var setPointerField string
 		_ = setPointerField
 
@@ -3202,91 +3202,6 @@ func (growthvectorshape *GrowthVectorShape) GongMarshallField(stage *Stage, fiel
 	return
 }
 
-func (halfwayarcshape *HalfwayArcShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(halfwayarcshape.Name))
-	case "StartX":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.StartX))
-	case "StartY":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.StartY))
-	case "EndX":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.EndX))
-	case "EndY":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.EndY))
-	case "RadiusX":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.RadiusX))
-	case "RadiusY":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.RadiusY))
-	case "XAxisRotation":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", halfwayarcshape.XAxisRotation))
-	case "LargeArcFlag":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", halfwayarcshape.LargeArcFlag))
-	case "SweepFlag":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", halfwayarcshape.SweepFlag))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct HalfwayArcShape", fieldName)
-	}
-	return
-}
-
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", halfwayarcshapegrid.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(halfwayarcshapegrid.Name))
-
-	case "HalfwayArcShapes":
-		var sb strings.Builder
-		for _, _halfwayarcshape := range halfwayarcshapegrid.HalfwayArcShapes {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", halfwayarcshapegrid.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "HalfwayArcShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _halfwayarcshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	default:
-		log.Panicf("Unknown field %s for Gongstruct HalfwayArcShapeGrid", fieldName)
-	}
-	return
-}
-
 func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3939,17 +3854,17 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopMidArcVectorShapeGrid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "HalfwayArcShapeGrid":
-		if plant.HalfwayArcShapeGrid != nil {
+	case "StartHalfwayArcShapeGrid":
+		if plant.StartHalfwayArcShapeGrid != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HalfwayArcShapeGrid")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.HalfwayArcShapeGrid.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartHalfwayArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.StartHalfwayArcShapeGrid.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HalfwayArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartHalfwayArcShapeGrid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "EndHalfwayArcShapeGrid":
@@ -5011,6 +4926,91 @@ func (startarcshapegrid *StartArcShapeGrid) GongMarshallField(stage *Stage, fiel
 	return
 }
 
+func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshape.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.EndY))
+	case "RadiusX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.RadiusX))
+	case "RadiusY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadiusY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.RadiusY))
+	case "XAxisRotation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XAxisRotation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", starthalfwayarcshape.XAxisRotation))
+	case "LargeArcFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LargeArcFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", starthalfwayarcshape.LargeArcFlag))
+	case "SweepFlag":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SweepFlag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", starthalfwayarcshape.SweepFlag))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StartHalfwayArcShape", fieldName)
+	}
+	return
+}
+
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", starthalfwayarcshapegrid.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(starthalfwayarcshapegrid.Name))
+
+	case "StartHalfwayArcShapes":
+		var sb strings.Builder
+		for _, _starthalfwayarcshape := range starthalfwayarcshapegrid.StartHalfwayArcShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", starthalfwayarcshapegrid.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "StartHalfwayArcShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _starthalfwayarcshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StartHalfwayArcShapeGrid", fieldName)
+	}
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -5685,38 +5685,6 @@ func (growthvectorshape *GrowthVectorShape) GongMarshallAllFields(stage *Stage) 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (halfwayarcshape *HalfwayArcShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "StartX"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "StartY"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "EndX"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "EndY"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "RadiusX"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "RadiusY"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "XAxisRotation"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "LargeArcFlag"))
-		initializerStatements.WriteString(halfwayarcshape.GongMarshallField(stage, "SweepFlag"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (halfwayarcshapegrid *HalfwayArcShapeGrid) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(halfwayarcshapegrid.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(halfwayarcshapegrid.GongMarshallField(stage, "HalfwayArcShapes"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
 func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -5891,7 +5859,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedBottomTopStartArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "MidArcVectorShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopMidArcVectorShapeGrid"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "HalfwayArcShapeGrid"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StartHalfwayArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndHalfwayArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "EndArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopEndArcShapeGrid"))
@@ -6221,6 +6189,38 @@ func (startarcshapegrid *StartArcShapeGrid) GongMarshallAllFields(stage *Stage) 
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(startarcshapegrid.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(startarcshapegrid.GongMarshallField(stage, "StartArcShapes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "EndY"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "RadiusX"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "RadiusY"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "XAxisRotation"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "LargeArcFlag"))
+		initializerStatements.WriteString(starthalfwayarcshape.GongMarshallField(stage, "SweepFlag"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(starthalfwayarcshapegrid.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(starthalfwayarcshapegrid.GongMarshallField(stage, "StartHalfwayArcShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

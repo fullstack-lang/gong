@@ -75,7 +75,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawShiftedBottomTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawTopMidArcVectorShapeGrid(stager, layer, plant)
-	plantDiagram.drawHalfwayArcShapeGrid(stager, layer, plant)
+	plantDiagram.drawStartHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
@@ -1371,12 +1371,12 @@ func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, l
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenHalfwayArcShapeGrid {
 		return
 	}
 
-	for _, base := range plant.HalfwayArcShapeGrid.HalfwayArcShapes {
+	for _, base := range plant.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 

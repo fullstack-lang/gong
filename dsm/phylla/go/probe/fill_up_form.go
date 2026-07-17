@@ -353,56 +353,6 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
-	case *models.HalfwayArcShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RadiusX", instanceWithInferedType.RadiusX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RadiusY", instanceWithInferedType.RadiusY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("XAxisRotation", instanceWithInferedType.XAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("LargeArcFlag", instanceWithInferedType.LargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("SweepFlag", instanceWithInferedType.SweepFlag, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.HalfwayArcShapeGrid, *models.HalfwayArcShape](
-				"HalfwayArcShapeGrid",
-				"HalfwayArcShapes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.HalfwayArcShapeGrid) []*models.HalfwayArcShape {
-					return owner.HalfwayArcShapes
-				})
-		}
-
-	case *models.HalfwayArcShapeGrid:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("HalfwayArcShapes", instanceWithInferedType, &instanceWithInferedType.HalfwayArcShapes, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
 	case *models.InitialRhombusGridShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -650,7 +600,7 @@ func FillUpForm(
 		AssociationFieldToForm("ShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.ShiftedBottomTopStartArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("MidArcVectorShapeGrid", instanceWithInferedType.MidArcVectorShapeGrid, formGroup, probe)
 		AssociationFieldToForm("TopMidArcVectorShapeGrid", instanceWithInferedType.TopMidArcVectorShapeGrid, formGroup, probe)
-		AssociationFieldToForm("HalfwayArcShapeGrid", instanceWithInferedType.HalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("StartHalfwayArcShapeGrid", instanceWithInferedType.StartHalfwayArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("EndHalfwayArcShapeGrid", instanceWithInferedType.EndHalfwayArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("EndArcShapeGrid", instanceWithInferedType.EndArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("TopEndArcShapeGrid", instanceWithInferedType.TopEndArcShapeGrid, formGroup, probe)
@@ -1184,6 +1134,56 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("StartArcShapes", instanceWithInferedType, &instanceWithInferedType.StartArcShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.StartHalfwayArcShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadiusX", instanceWithInferedType.RadiusX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadiusY", instanceWithInferedType.RadiusY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("XAxisRotation", instanceWithInferedType.XAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("LargeArcFlag", instanceWithInferedType.LargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("SweepFlag", instanceWithInferedType.SweepFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.StartHalfwayArcShapeGrid, *models.StartHalfwayArcShape](
+				"StartHalfwayArcShapeGrid",
+				"StartHalfwayArcShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StartHalfwayArcShapeGrid) []*models.StartHalfwayArcShape {
+					return owner.StartHalfwayArcShapes
+				})
+		}
+
+	case *models.StartHalfwayArcShapeGrid:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("StartHalfwayArcShapes", instanceWithInferedType, &instanceWithInferedType.StartHalfwayArcShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

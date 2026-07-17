@@ -551,7 +551,7 @@ func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *Shi
 		vLen = 1
 	}
 	vx, vy = vx/vLen, vy/vLen
-	
+
 	dx := -thickness * vx
 	dy := -thickness * vy
 
@@ -637,7 +637,7 @@ func enforceMidArcVectorShapeGridHasShapes(stage *Stage, grid *MidArcVectorShape
 		vLen = 1
 	}
 	vx, vy = vx/vLen, vy/vLen
-	
+
 	dx := -thickness * vx
 	dy := -thickness * vy
 
@@ -719,7 +719,7 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 		vLen = 1
 	}
 	vx, vy = vx/vLen, vy/vLen
-	
+
 	dx := -thickness * vx
 	dy := -thickness * vy
 
@@ -746,13 +746,15 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 			vx2 := v2.EndX - v2.StartX
 			vy2 := v2.EndY - v2.StartY
 			v2Len := math.Hypot(vx2, vy2)
-			if v2Len == 0 { v2Len = 1 }
+			if v2Len == 0 {
+				v2Len = 1
+			}
 			vx2, vy2 = vx2/v2Len, vy2/v2Len
 
-			eX := mX + thickness * vx2
-			eY := mY + thickness * vy2
-			eX2 := mX2 + thickness * vx2
-			eY2 := mY2 + thickness * vy2
+			eX := mX + thickness*vx2
+			eY := mY + thickness*vy2
+			eX2 := mX2 + thickness*vx2
+			eY2 := mY2 + thickness*vy2
 
 			if math.Abs(s.StartX-eX) > 1e-4 || math.Abs(s.StartY-eY) > 1e-4 ||
 				math.Abs(s.EndX-eX2) > 1e-4 || math.Abs(s.EndY-eY2) > 1e-4 {
@@ -784,13 +786,15 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 			vx2 := v2.EndX - v2.StartX
 			vy2 := v2.EndY - v2.StartY
 			v2Len := math.Hypot(vx2, vy2)
-			if v2Len == 0 { v2Len = 1 }
+			if v2Len == 0 {
+				v2Len = 1
+			}
 			vx2, vy2 = vx2/v2Len, vy2/v2Len
 
-			eX := mX + thickness * vx2
-			eY := mY + thickness * vy2
-			eX2 := mX2 + thickness * vx2
-			eY2 := mY2 + thickness * vy2
+			eX := mX + thickness*vx2
+			eY := mY + thickness*vy2
+			eX2 := mX2 + thickness*vx2
+			eY2 := mY2 + thickness*vy2
 
 			newShape := new(TopMidArcVectorShape).Stage(stage)
 			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
@@ -806,11 +810,10 @@ func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVecto
 	return needCommit
 }
 
-
-func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
+func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *StartHalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if grid != nil && len(grid.HalfwayArcShapes) > 0 {
-			grid.HalfwayArcShapes = nil
+		if grid != nil && len(grid.StartHalfwayArcShapes) > 0 {
+			grid.StartHalfwayArcShapes = nil
 			return true
 		}
 		return false
@@ -826,17 +829,17 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 		vLen = 1
 	}
 	vx, vy = vx/vLen, vy/vLen
-	
+
 	dx := -thickness * vx
 	dy := -thickness * vy
 
-	if len(grid.HalfwayArcShapes) != expectedLen {
+	if len(grid.StartHalfwayArcShapes) != expectedLen {
 		valid = false
 	} else {
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
-			s := grid.HalfwayArcShapes[i]
+			s := grid.StartHalfwayArcShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if s == nil || s.Name != expectedName {
 				valid = false
@@ -848,14 +851,16 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			mX = mX + dx
 			mY = mY + dy
 			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
-			
+
 			endX := (mX + mX2) / 2.0
 			endY := (mY + mY2) / 2.0
 
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
 			length := math.Hypot(v1_dx, v1_dy)
-			if length == 0 { length = 1 }
+			if length == 0 {
+				length = 1
+			}
 			ux, uy := v1_dx/length, v1_dy/length
 
 			midX := (v1.StartX + v2.StartX) / 2.0
@@ -866,7 +871,11 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			V_sq := Vx*Vx + Vy*Vy
 			V_dot_u := Vx*ux + Vy*uy
 			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 { V_dot_u = 1e-6 } else { V_dot_u = -1e-6 }
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
 			}
 
 			R_val := -V_sq / (2.0 * V_dot_u)
@@ -876,7 +885,9 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			nx := cx - sX
 			ny := cy - sY
 			nLen := math.Hypot(nx, ny)
-			if nLen == 0 { nLen = 1 }
+			if nLen == 0 {
+				nLen = 1
+			}
 			nx, ny = nx/nLen, ny/nLen
 
 			vX := sX - endX
@@ -909,12 +920,12 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 	}
 
 	if !valid {
-		for _, s := range grid.HalfwayArcShapes {
+		for _, s := range grid.StartHalfwayArcShapes {
 			if s != nil {
 				s.Unstage(stage)
 			}
 		}
-		grid.HalfwayArcShapes = make([]*HalfwayArcShape, expectedLen)
+		grid.StartHalfwayArcShapes = make([]*StartHalfwayArcShape, expectedLen)
 
 		for i := 0; i < expectedLen; i++ {
 			v1 := pGrid.PerpendicularVectors[i]
@@ -926,14 +937,16 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			mX = mX + dx
 			mY = mY + dy
 			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
-			
+
 			endX := (mX + mX2) / 2.0
 			endY := (mY + mY2) / 2.0
 
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
 			length := math.Hypot(v1_dx, v1_dy)
-			if length == 0 { length = 1 }
+			if length == 0 {
+				length = 1
+			}
 			ux, uy := v1_dx/length, v1_dy/length
 
 			midX := (v1.StartX + v2.StartX) / 2.0
@@ -944,7 +957,11 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			V_sq := Vx*Vx + Vy*Vy
 			V_dot_u := Vx*ux + Vy*uy
 			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 { V_dot_u = 1e-6 } else { V_dot_u = -1e-6 }
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
 			}
 
 			R_val := -V_sq / (2.0 * V_dot_u)
@@ -954,7 +971,9 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			nx := cx - sX
 			ny := cy - sY
 			nLen := math.Hypot(nx, ny)
-			if nLen == 0 { nLen = 1 }
+			if nLen == 0 {
+				nLen = 1
+			}
 			nx, ny = nx/nLen, ny/nLen
 
 			vX := sX - endX
@@ -977,7 +996,7 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			new_cross := AB_x*AC_y - AB_y*AC_x
 			sweepFlag := (new_cross < 0)
 
-			newShape := new(HalfwayArcShape).Stage(stage)
+			newShape := new(StartHalfwayArcShape).Stage(stage)
 			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			newShape.StartX = sX
 			newShape.StartY = sY
@@ -989,14 +1008,12 @@ func enforceHalfwayArcShapeGridHasShapes(stage *Stage, grid *HalfwayArcShapeGrid
 			newShape.LargeArcFlag = false
 			newShape.SweepFlag = sweepFlag
 
-			grid.HalfwayArcShapes[i] = newShape
+			grid.StartHalfwayArcShapes[i] = newShape
 		}
 		needCommit = true
 	}
 	return needCommit
 }
-
-
 
 func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
@@ -1017,7 +1034,7 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 		vLen = 1
 	}
 	vx, vy = vx/vLen, vy/vLen
-	
+
 	dx := -thickness * vx
 	dy := -thickness * vy
 
@@ -1052,7 +1069,9 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
 			length := math.Hypot(v1_dx, v1_dy)
-			if length == 0 { length = 1 }
+			if length == 0 {
+				length = 1
+			}
 			ux, uy := v1_dx/length, v1_dy/length
 
 			Vx := v1.StartX - midX
@@ -1060,7 +1079,11 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 			V_sq := Vx*Vx + Vy*Vy
 			V_dot_u := Vx*ux + Vy*uy
 			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 { V_dot_u = 1e-6 } else { V_dot_u = -1e-6 }
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
 			}
 
 			R_val := -V_sq / (2.0 * V_dot_u)
@@ -1073,7 +1096,9 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 			nx := cx_end_arc - endX
 			ny := cy_end_arc - endY
 			nLen := math.Hypot(nx, ny)
-			if nLen == 0 { nLen = 1 }
+			if nLen == 0 {
+				nLen = 1
+			}
 			nx, ny = nx/nLen, ny/nLen
 
 			vX := endX - sX
@@ -1132,7 +1157,9 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
 			length := math.Hypot(v1_dx, v1_dy)
-			if length == 0 { length = 1 }
+			if length == 0 {
+				length = 1
+			}
 			ux, uy := v1_dx/length, v1_dy/length
 
 			Vx := v1.StartX - midX
@@ -1140,7 +1167,11 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 			V_sq := Vx*Vx + Vy*Vy
 			V_dot_u := Vx*ux + Vy*uy
 			if math.Abs(V_dot_u) < 1e-6 {
-				if V_dot_u >= 0 { V_dot_u = 1e-6 } else { V_dot_u = -1e-6 }
+				if V_dot_u >= 0 {
+					V_dot_u = 1e-6
+				} else {
+					V_dot_u = -1e-6
+				}
 			}
 
 			R_val := -V_sq / (2.0 * V_dot_u)
@@ -1153,7 +1184,9 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 			nx := cx_end_arc - endX
 			ny := cy_end_arc - endY
 			nLen := math.Hypot(nx, ny)
-			if nLen == 0 { nLen = 1 }
+			if nLen == 0 {
+				nLen = 1
+			}
 			nx, ny = nx/nLen, ny/nLen
 
 			vX := endX - sX
@@ -1196,4 +1229,3 @@ func enforceEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *EndHalfwayArcSha
 	}
 	return needCommit
 }
-

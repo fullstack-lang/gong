@@ -447,7 +447,7 @@ type TopGrowthCurve2D struct {
 	TopEndArcShapeGrid   *TopEndArcShapeGrid
 }
 
-type HalfwayArcShape struct {
+type StartHalfwayArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -459,13 +459,13 @@ type HalfwayArcShape struct {
 	SweepFlag        bool
 }
 
-type HalfwayArcShapeGrid struct {
-	Name string
-	HalfwayArcShapes []*HalfwayArcShape
+type StartHalfwayArcShapeGrid struct {
+	Name                  string
+	StartHalfwayArcShapes []*StartHalfwayArcShape
 }
 
 type EndHalfwayArcShapeGrid struct {
-	Name string
+	Name                string
 	EndHalfwayArcShapes []*EndHalfwayArcShape
 }
 
@@ -480,4 +480,3 @@ type EndHalfwayArcShape struct {
 	LargeArcFlag     bool
 	SweepFlag        bool
 }
-
