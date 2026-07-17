@@ -239,52 +239,6 @@ func (from *GrowthCurve2D) CopyBasicFields(to *GrowthCurve2D) {
 	to.Name = from.Name
 }
 
-type GrowthCurveBezierShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartX float64
-
-	StartY float64
-
-	ControlPointStartX float64
-
-	ControlPointStartY float64
-
-	EndX float64
-
-	EndY float64
-
-	ControlPointEndX float64
-
-	ControlPointEndY float64
-}
-
-func (from *GrowthCurveBezierShape) CopyBasicFields(to *GrowthCurveBezierShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartX = from.StartX
-	to.StartY = from.StartY
-	to.ControlPointStartX = from.ControlPointStartX
-	to.ControlPointStartY = from.ControlPointStartY
-	to.EndX = from.EndX
-	to.EndY = from.EndY
-	to.ControlPointEndX = from.ControlPointEndX
-	to.ControlPointEndY = from.ControlPointEndY
-}
-
-type GrowthCurveBezierShapeGrid_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *GrowthCurveBezierShapeGrid) CopyBasicFields(to *GrowthCurveBezierShapeGrid) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type GrowthCurveRhombusGridShape_WOP struct {
 	// insertion point
 
@@ -627,8 +581,6 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenBottomEndArcShapeGrid bool
 
-	IsHiddenGrowthCurveBezierShapeGrid bool
-
 	IsHiddenStackOfGrowthCurve bool
 
 	IsHiddenTopStackOfGrowthCurve bool
@@ -685,7 +637,6 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
 	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
-	to.IsHiddenGrowthCurveBezierShapeGrid = from.IsHiddenGrowthCurveBezierShapeGrid
 	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
 	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
 	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve

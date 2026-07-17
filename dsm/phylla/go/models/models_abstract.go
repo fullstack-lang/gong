@@ -64,20 +64,21 @@ type Plant struct {
 	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
 	BaseVectorShapeGrid            *BaseVectorShapeGrid
 	ArcNormalVectorShapeGrid       *ArcNormalVectorShapeGrid
-	StartArcShapeGrid              *StartArcShapeGrid
-	TopStartArcShapeGrid           *TopStartArcShapeGrid
+
+	// used to construe the xxxHalfwayArcShapeGrid (x)
+	StartArcShapeGrid    *StartArcShapeGrid
+	TopStartArcShapeGrid *TopStartArcShapeGrid
+	EndArcShapeGrid      *EndArcShapeGrid
+	TopEndArcShapeGrid   *TopEndArcShapeGrid
 
 	ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid
 	MidArcVectorShapeGrid             *MidArcVectorShapeGrid
 	TopMidArcVectorShapeGrid          *TopMidArcVectorShapeGrid
-	StartHalfwayArcShapeGrid          *StartHalfwayArcShapeGrid
-	TopStartHalfwayArcShapeGrid       *TopStartHalfwayArcShapeGrid
-	EndHalfwayArcShapeGrid            *EndHalfwayArcShapeGrid
 
-	TopEndHalfwayArcShapeGrid  *TopEndHalfwayArcShapeGrid
-	EndArcShapeGrid            *EndArcShapeGrid
-	TopEndArcShapeGrid         *TopEndArcShapeGrid
-	GrowthCurveBezierShapeGrid *GrowthCurveBezierShapeGrid
+	StartHalfwayArcShapeGrid    *StartHalfwayArcShapeGrid
+	TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid
+	EndHalfwayArcShapeGrid      *EndHalfwayArcShapeGrid
+	TopEndHalfwayArcShapeGrid   *TopEndHalfwayArcShapeGrid
 
 	StackOfGrowthCurve             *StackOfGrowthCurve
 	TopStackOfGrowthCurve          *TopStackOfGrowthCurve

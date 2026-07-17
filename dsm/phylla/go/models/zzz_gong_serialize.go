@@ -37,8 +37,6 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*ExplanationTextShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GridPathShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GrowthCurve2D](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*GrowthCurveBezierShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*GrowthCurveBezierShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GrowthCurveRhombusGridShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GrowthCurveRhombusShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GrowthVectorShape](stage, f, addIDs)

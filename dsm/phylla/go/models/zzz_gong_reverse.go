@@ -147,31 +147,6 @@ func (inst *GrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *GrowthCurveBezierShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "GrowthCurveBezierShapeGrid":
-		switch reverseField.Fieldname {
-		case "GrowthCurveBezierShapes":
-			if _growthcurvebeziershapegrid, ok := stage.GrowthCurveBezierShapeGrid_GrowthCurveBezierShapes_reverseMap[inst]; ok {
-				res = _growthcurvebeziershapegrid.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *GrowthCurveBezierShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *GrowthCurveRhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -902,29 +877,6 @@ func (inst *GridPathShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 }
 
 func (inst *GrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
-func (inst *GrowthCurveBezierShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "GrowthCurveBezierShapeGrid":
-		switch reverseField.Fieldname {
-		case "GrowthCurveBezierShapes":
-			res = stage.GrowthCurveBezierShapeGrid_GrowthCurveBezierShapes_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *GrowthCurveBezierShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

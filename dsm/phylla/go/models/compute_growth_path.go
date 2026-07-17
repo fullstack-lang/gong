@@ -10,10 +10,6 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCur
 		return false
 	}
 
-
-
-
-
 	type rotatedRhombus struct {
 		r        *RotatedRhombusShape
 		rotatedX float64

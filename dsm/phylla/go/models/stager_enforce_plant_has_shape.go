@@ -351,18 +351,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n8 := enforcePlantHasShape[*GrowthCurveBezierShapeGrid](
-		stager,
-		func() *GrowthCurveBezierShapeGrid { return new(GrowthCurveBezierShapeGrid) },
-		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
-		func(p *Plant, shape *GrowthCurveBezierShapeGrid) { p.GrowthCurveBezierShapeGrid = shape },
-		func(p *Plant, shape *GrowthCurveBezierShapeGrid) bool {
-			return p.GrowthCurveBezierShapeGrid == shape
-		},
-		"GrowthCurveBezierShapeGrid",
-	)
-	needCommit = n8 || needCommit
-
 	n10 := enforcePlantHasShape[*StackOfGrowthCurve](
 		stager,
 		func() *StackOfGrowthCurve { return new(StackOfGrowthCurve) },
@@ -447,7 +435,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11 || n12 || n13 || n14 || n15 || n16
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -571,13 +559,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n8 := enforcePlantShapeName[*GrowthCurveBezierShapeGrid](
-		stager,
-		func(p *Plant) *GrowthCurveBezierShapeGrid { return p.GrowthCurveBezierShapeGrid },
-		"GrowthCurveBezierShapeGrid",
-	)
-	needCommit = n8 || needCommit
-
 	n10 := enforcePlantShapeName[*StackOfGrowthCurve](
 		stager,
 		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
@@ -592,7 +573,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n11 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n8 || n10 || n11
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed

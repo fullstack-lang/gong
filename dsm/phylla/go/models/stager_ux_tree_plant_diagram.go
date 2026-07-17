@@ -895,38 +895,6 @@ func (stager *Stager) treePlantDiagram(
 	}
 
 	{
-		growthCurveBezierShapeGrid := plant.GrowthCurveBezierShapeGrid
-		node := &tree.Node{
-			Name: "Growth Curve Bezier Grid",
-		}
-		node.IsExpanded = true
-		node.HasCheckboxButton = false
-		node.IsNodeClickable = true
-		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(growthCurveBezierShapeGrid, GetPointerToGongstructName[*GrowthCurveBezierShapeGrid]())
-			stager.stage.Commit()
-		}
-		btn := &tree.Button{
-			Name:            "Hide",
-			Icon:            string(buttons.BUTTON_visibility_off),
-			ToolTipText:     "Hide from diagram",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-			OnClick: func() {
-				plantDiagram.IsHiddenGrowthCurveBezierShapeGrid = !plantDiagram.IsHiddenGrowthCurveBezierShapeGrid
-				stager.stage.Commit()
-			},
-		}
-		if plantDiagram.IsHiddenGrowthCurveBezierShapeGrid {
-			btn.Icon = string(buttons.BUTTON_visibility)
-			btn.Name = "Show"
-			btn.ToolTipText = "Show on diagram"
-		}
-		node.Buttons = append(node.Buttons, btn)
-		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
-	}
-
-	{
 		stackOfGrowthCurveV2 := plant.StackOfGrowthCurve
 		node := &tree.Node{
 			Name: "Stack Of Growth Curve",
