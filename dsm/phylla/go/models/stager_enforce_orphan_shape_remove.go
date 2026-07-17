@@ -31,9 +31,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refTopStartArcShapeV2Grid := make(map[*TopStartArcShapeGrid]bool)
 	refEndArcShapeV2Grid := make(map[*EndArcShapeGrid]bool)
 	refTopEndArcShapeV2Grid := make(map[*TopEndArcShapeGrid]bool)
-	refGrowthCurveBezierShapeGrid := make(map[*GrowthCurveBezierShapeGrid]bool)
 
-	refGrowthCurveBezierShape := make(map[*GrowthCurveBezierShape]bool)
 	refBaseVectorShape := make(map[*BaseVectorShape]bool)
 	refStackOfGrowthCurveV2 := make(map[*StackOfGrowthCurve]bool)
 	refStackGrowthCurveStartArcShapeV2 := make(map[*StackGrowthCurveStartArcShape]bool)
@@ -185,15 +183,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			for _, shape := range plant.TopEndArcShapeGrid.TopEndArcShapes {
 				if shape != nil {
 					refTopEndArcShapeV2[shape] = true
-				}
-			}
-		}
-
-		if plant.GrowthCurveBezierShapeGrid != nil {
-			refGrowthCurveBezierShapeGrid[plant.GrowthCurveBezierShapeGrid] = true
-			for _, shape := range plant.GrowthCurveBezierShapeGrid.GrowthCurveBezierShapes {
-				if shape != nil {
-					refGrowthCurveBezierShape[shape] = true
 				}
 			}
 		}
@@ -395,13 +384,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	for grid := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShapeGrid](stage) {
-		if !refGrowthCurveBezierShapeGrid[grid] {
-			grid.Unstage(stage)
-			needCommit = true
-		}
-	}
-
 	for stack := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurve](stage) {
 		if !refStackOfGrowthCurveV2[stack] {
 			stack.Unstage(stage)
@@ -484,13 +466,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*TopEndArcShape](stage) {
 		if !refTopEndArcShapeV2[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
-
-	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurveBezierShape](stage) {
-		if !refGrowthCurveBezierShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
