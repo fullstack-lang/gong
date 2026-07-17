@@ -147,18 +147,18 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Torus generated from GrowthCurve2D and TopGrowthCurve2D
-		if len(plant.GrowthCurve2D.StartArcShapeGrid.StartArcShapes) > 0 &&
-			len(plant.TopGrowthCurve2D.TopStartArcShapeGrid.TopStartArcShapes) > 0 {
+		if len(plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) > 0 &&
+			len(plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
 
 			gc := plant.GrowthCurve2D
 			tgc := plant.TopGrowthCurve2D
 
-			startArcs := gc.StartArcShapeGrid.StartArcShapes
-			endArcs := gc.EndArcShapeGrid.EndArcShapes
+			startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
+			endArcs := gc.EndHalfwayArcShapeGrid.EndHalfwayArcShapes
 
-			topStartArcs := tgc.TopStartArcShapeGrid.TopStartArcShapes
+			topStartArcs := tgc.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes
 
-			topEndArcs := tgc.TopEndArcShapeGrid.TopEndArcShapes
+			topEndArcs := tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
 
 			thickness := plant.RadialThickness
 			if thickness == 0 {
@@ -245,8 +245,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				if i < len(endArcs) {
 					ea := endArcs[i]
 					// Cartesian sweep is !ea.SweepFlag.
-					// Traversing backwards inverts it again, so we pass ea.SweepFlag.
-					appendArcPoints(curve, ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag)
+					// Traversing forwards, so we pass !ea.SweepFlag.
+					appendArcPoints(curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 				}
 			}
 
@@ -255,8 +255,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
 
 				if i < len(topEndArcs) {
-					tea := topEndArcs[i]
-					appendArcPoints(topCurve, tea.EndX, tea.EndY, tea.StartX, tea.StartY, tea.RadiusX, tea.SweepFlag, tea.LargeArcFlag)
+					ea := topEndArcs[i]
+					// Traversing forwards
+					appendArcPoints(topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 				}
 			}
 

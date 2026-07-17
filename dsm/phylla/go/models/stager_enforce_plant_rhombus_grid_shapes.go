@@ -165,12 +165,12 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = true
 		}
 		{
-			if plant.GrowthCurve2D.StartArcShapeGrid != plant.StartArcShapeGrid {
-				plant.GrowthCurve2D.StartArcShapeGrid = plant.StartArcShapeGrid
+			if plant.GrowthCurve2D.StartHalfwayArcShapeGrid != plant.StartHalfwayArcShapeGrid {
+				plant.GrowthCurve2D.StartHalfwayArcShapeGrid = plant.StartHalfwayArcShapeGrid
 				needCommit = true
 			}
-			if plant.GrowthCurve2D.EndArcShapeGrid != plant.EndArcShapeGrid {
-				plant.GrowthCurve2D.EndArcShapeGrid = plant.EndArcShapeGrid
+			if plant.GrowthCurve2D.EndHalfwayArcShapeGrid != plant.EndHalfwayArcShapeGrid {
+				plant.GrowthCurve2D.EndHalfwayArcShapeGrid = plant.EndHalfwayArcShapeGrid
 				needCommit = true
 			}
 		}
@@ -181,12 +181,12 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = true
 		}
 		{
-			if plant.TopGrowthCurve2D.TopStartArcShapeGrid != plant.TopStartArcShapeGrid {
-				plant.TopGrowthCurve2D.TopStartArcShapeGrid = plant.TopStartArcShapeGrid
+			if plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != plant.TopStartHalfwayArcShapeGrid {
+				plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid = plant.TopStartHalfwayArcShapeGrid
 				needCommit = true
 			}
-			if plant.TopGrowthCurve2D.TopEndArcShapeGrid != plant.TopEndArcShapeGrid {
-				plant.TopGrowthCurve2D.TopEndArcShapeGrid = plant.TopEndArcShapeGrid
+			if plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != plant.TopEndHalfwayArcShapeGrid {
+				plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid = plant.TopEndHalfwayArcShapeGrid
 				needCommit = true
 			}
 		}

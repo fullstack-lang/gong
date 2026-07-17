@@ -247,8 +247,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("StartArcShapeGrid", instanceWithInferedType.StartArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("EndArcShapeGrid", instanceWithInferedType.EndArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("StartHalfwayArcShapeGrid", instanceWithInferedType.StartHalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("EndHalfwayArcShapeGrid", instanceWithInferedType.EndHalfwayArcShapeGrid, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1300,8 +1300,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("TopStartArcShapeGrid", instanceWithInferedType.TopStartArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("TopEndArcShapeGrid", instanceWithInferedType.TopEndArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopStartHalfwayArcShapeGrid", instanceWithInferedType.TopStartHalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopEndHalfwayArcShapeGrid", instanceWithInferedType.TopEndHalfwayArcShapeGrid, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

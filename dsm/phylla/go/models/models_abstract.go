@@ -73,10 +73,11 @@ type Plant struct {
 	StartHalfwayArcShapeGrid          *StartHalfwayArcShapeGrid
 	TopStartHalfwayArcShapeGrid       *TopStartHalfwayArcShapeGrid
 	EndHalfwayArcShapeGrid            *EndHalfwayArcShapeGrid
-	TopEndHalfwayArcShapeGrid         *TopEndHalfwayArcShapeGrid
-	EndArcShapeGrid                   *EndArcShapeGrid
-	TopEndArcShapeGrid                *TopEndArcShapeGrid
-	GrowthCurveBezierShapeGrid        *GrowthCurveBezierShapeGrid
+
+	TopEndHalfwayArcShapeGrid  *TopEndHalfwayArcShapeGrid
+	EndArcShapeGrid            *EndArcShapeGrid
+	TopEndArcShapeGrid         *TopEndArcShapeGrid
+	GrowthCurveBezierShapeGrid *GrowthCurveBezierShapeGrid
 
 	StackOfGrowthCurve             *StackOfGrowthCurve
 	TopStackOfGrowthCurve          *TopStackOfGrowthCurve

@@ -653,8 +653,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(growthcurve2d.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "StartArcShapeGrid"))
-		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "EndArcShapeGrid"))
+		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "StartHalfwayArcShapeGrid"))
+		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "EndHalfwayArcShapeGrid"))
 	}
 
 	growthcurvebeziershapeOrdered := []*GrowthCurveBezierShape{}
@@ -1959,8 +1959,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopStartArcShapeGrid"))
-		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopEndArcShapeGrid"))
+		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopStartHalfwayArcShapeGrid"))
+		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
 	}
 
 	topmidarcvectorshapeOrdered := []*TopMidArcVectorShape{}
@@ -3175,30 +3175,30 @@ func (growthcurve2d *GrowthCurve2D) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2d.Name))
 
-	case "StartArcShapeGrid":
-		if growthcurve2d.StartArcShapeGrid != nil {
+	case "StartHalfwayArcShapeGrid":
+		if growthcurve2d.StartHalfwayArcShapeGrid != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartArcShapeGrid")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", growthcurve2d.StartArcShapeGrid.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartHalfwayArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", growthcurve2d.StartHalfwayArcShapeGrid.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartHalfwayArcShapeGrid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "EndArcShapeGrid":
-		if growthcurve2d.EndArcShapeGrid != nil {
+	case "EndHalfwayArcShapeGrid":
+		if growthcurve2d.EndHalfwayArcShapeGrid != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndArcShapeGrid")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", growthcurve2d.EndArcShapeGrid.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndHalfwayArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", growthcurve2d.EndHalfwayArcShapeGrid.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", growthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndHalfwayArcShapeGrid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -5386,30 +5386,30 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topgrowthcurve2d.Name))
 
-	case "TopStartArcShapeGrid":
-		if topgrowthcurve2d.TopStartArcShapeGrid != nil {
+	case "TopStartHalfwayArcShapeGrid":
+		if topgrowthcurve2d.TopStartHalfwayArcShapeGrid != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", topgrowthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStartArcShapeGrid")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", topgrowthcurve2d.TopStartArcShapeGrid.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStartHalfwayArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", topgrowthcurve2d.TopStartHalfwayArcShapeGrid.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", topgrowthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStartArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStartHalfwayArcShapeGrid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "TopEndArcShapeGrid":
-		if topgrowthcurve2d.TopEndArcShapeGrid != nil {
+	case "TopEndHalfwayArcShapeGrid":
+		if topgrowthcurve2d.TopEndHalfwayArcShapeGrid != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", topgrowthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopEndArcShapeGrid")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", topgrowthcurve2d.TopEndArcShapeGrid.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopEndHalfwayArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", topgrowthcurve2d.TopEndHalfwayArcShapeGrid.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", topgrowthcurve2d.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopEndArcShapeGrid")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopEndHalfwayArcShapeGrid")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -5975,8 +5975,8 @@ func (growthcurve2d *GrowthCurve2D) GongMarshallAllFields(stage *Stage) (initRes
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(growthcurve2d.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "StartArcShapeGrid"))
-		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "EndArcShapeGrid"))
+		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "StartHalfwayArcShapeGrid"))
+		pointersInitializesStatements.WriteString(growthcurve2d.GongMarshallField(stage, "EndHalfwayArcShapeGrid"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6666,8 +6666,8 @@ func (topgrowthcurve2d *TopGrowthCurve2D) GongMarshallAllFields(stage *Stage) (i
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopStartArcShapeGrid"))
-		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopEndArcShapeGrid"))
+		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopStartHalfwayArcShapeGrid"))
+		pointersInitializesStatements.WriteString(topgrowthcurve2d.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

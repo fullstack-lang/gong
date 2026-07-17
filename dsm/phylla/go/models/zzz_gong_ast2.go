@@ -899,10 +899,10 @@ func (u *GrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "StartArcShapeGrid":
-		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
-	case "EndArcShapeGrid":
-		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
+	case "StartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.StartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "EndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2568,10 +2568,10 @@ func (u *TopGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "TopStartArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
-	case "TopEndArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
+	case "TopStartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
 	}
 	return nil
 }
