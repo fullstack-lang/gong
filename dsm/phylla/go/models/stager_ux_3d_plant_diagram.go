@@ -330,9 +330,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 
 				stackHeight := plant.StackHeight
-				if stackHeight <= 0 {
-					stackHeight = 1
-				}
 
 				var growthVectorX, growthVectorY float64
 				growthVectorX = plant.GrowthVectorShape.X
