@@ -698,6 +698,17 @@ func (from *RhombusShape) CopyBasicFields(to *RhombusShape) {
 	to.Y = from.Y
 }
 
+type RhombusStuff_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *RhombusStuff) CopyBasicFields(to *RhombusStuff) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type RotatedRhombusGridShape_WOP struct {
 	// insertion point
 

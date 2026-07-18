@@ -41,8 +41,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				},
 			}).Stage(stager.threejsStage)
 			circumference := 10.0
-			if plant.PlantCircumferenceShape.Length > 0 {
-				circumference = plant.PlantCircumferenceShape.Length
+			if plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
+				circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
 			} else if pGrid := plant.PerpendicularVectorGrid; len(pGrid.PerpendicularVectors) > 0 {
 				first := pGrid.PerpendicularVectors[0]
 				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
@@ -101,8 +101,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		var globalR float64
 		{
 			circumference := 10.0
-			if plant.PlantCircumferenceShape.Length > 0 {
-				circumference = plant.PlantCircumferenceShape.Length
+			if plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
+				circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
 			} else if pGrid := plant.PerpendicularVectorGrid; len(pGrid.PerpendicularVectors) > 0 {
 				first := pGrid.PerpendicularVectors[0]
 				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]

@@ -102,7 +102,7 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	referenceRhombus := plant.ReferenceRhombus
+	referenceRhombus := plant.RhombusStuff.ReferenceRhombus
 	{
 		node := &tree.Node{
 			Name:            "Reference Rhombus",
@@ -132,7 +132,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	plantCircumferenceShape := plant.PlantCircumferenceShape
+	plantCircumferenceShape := plant.RhombusStuff.PlantCircumferenceShape
 	{
 		node := &tree.Node{
 			Name:            "Plant Circumference",
@@ -162,7 +162,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	gridPathShape := plant.GridPathShape
+	gridPathShape := plant.RhombusStuff.GridPathShape
 	{
 		node := &tree.Node{
 			Name:            "Grid Path",
@@ -192,7 +192,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	rhombusGridShape := plant.InitialRhombusGridShape
+	rhombusGridShape := plant.RhombusStuff.InitialRhombusGridShape
 	{
 		node := &tree.Node{
 			Name:            "Initial Rhombus Grid",
@@ -222,7 +222,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	explanationTextShape := plant.ExplanationTextShape
+	explanationTextShape := plant.RhombusStuff.ExplanationTextShape
 	{
 		node := &tree.Node{
 			Name:            "Explanation Text",
@@ -252,7 +252,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	rotatedReferenceRhombus := plant.RotatedReferenceRhombus
+	rotatedReferenceRhombus := plant.RhombusStuff.RotatedReferenceRhombus
 	{
 		node := &tree.Node{
 			Name:            "Rotated Reference Rhombus",
@@ -282,7 +282,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	rotatedPlantCircumferenceShape := plant.RotatedPlantCircumferenceShape
+	rotatedPlantCircumferenceShape := plant.RhombusStuff.RotatedPlantCircumferenceShape
 	{
 		node := &tree.Node{
 			Name:            "Rotated Plant Circumference",
@@ -312,7 +312,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	rotatedGridPathShape := plant.RotatedGridPathShape
+	rotatedGridPathShape := plant.RhombusStuff.RotatedGridPathShape
 	{
 		node := &tree.Node{
 			Name:            "Rotated Grid Path",
@@ -342,7 +342,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	rotatedRhombusGridShape := plant.RotatedRhombusGridShape2
+	rotatedRhombusGridShape := plant.RhombusStuff.RotatedRhombusGridShape2
 	{
 		node := &tree.Node{
 			Name:            "Rotated Rhombus Grid 2",
@@ -372,7 +372,7 @@ func (stager *Stager) treePlantDiagram(
 		rhombusNodes.Children = append(rhombusNodes.Children, node)
 	}
 
-	growthPathRhombusGridShape := plant.GrowthCurveRhombusGridShape
+	growthPathRhombusGridShape := plant.RhombusStuff.GrowthCurveRhombusGridShape
 	{
 		node := &tree.Node{
 			Name:            "Growth Curve Rhombus Grid",

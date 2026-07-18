@@ -91,7 +91,7 @@ func (stager *Stager) enforceAxesShapeName() (needCommit bool) {
 func (stager *Stager) enforceGridPathShapeName() (needCommit bool) {
 	return enforcePlantShapeName[*GridPathShape](
 		stager,
-		func(p *Plant) *GridPathShape { return p.GridPathShape },
+		func(p *Plant) *GridPathShape { return p.RhombusStuff.GridPathShape },
 		"GridPathShape",
 	)
 }
@@ -100,7 +100,7 @@ func (stager *Stager) enforceGridPathShapeName() (needCommit bool) {
 func (stager *Stager) enforcePlantCircumferenceShapeName() (needCommit bool) {
 	return enforcePlantShapeName[*PlantCircumferenceShape](
 		stager,
-		func(p *Plant) *PlantCircumferenceShape { return p.PlantCircumferenceShape },
+		func(p *Plant) *PlantCircumferenceShape { return p.RhombusStuff.PlantCircumferenceShape },
 		"PlantCircumferenceShape",
 	)
 }
@@ -122,10 +122,10 @@ func (stager *Stager) enforcePlantHasGridPathShape() (needCommit bool) {
 	return enforcePlantHasShape[*GridPathShape](
 		stager,
 		func() *GridPathShape { return new(GridPathShape) },
-		func(p *Plant) *GridPathShape { return p.GridPathShape },
-		func(p *Plant, shape *GridPathShape) { p.GridPathShape = shape },
+		func(p *Plant) *GridPathShape { return p.RhombusStuff.GridPathShape },
+		func(p *Plant, shape *GridPathShape) { p.RhombusStuff.GridPathShape = shape },
 		func(p *Plant, shape *GridPathShape) bool {
-			return p.GridPathShape == shape || p.RotatedGridPathShape == shape
+			return p.RhombusStuff.GridPathShape == shape || p.RhombusStuff.RotatedGridPathShape == shape
 		},
 		"GridPathShape",
 	)
@@ -136,10 +136,10 @@ func (stager *Stager) enforcePlantHasInitialRhombusGridShape() (needCommit bool)
 	return enforcePlantHasShape[*InitialRhombusGridShape](
 		stager,
 		func() *InitialRhombusGridShape { return new(InitialRhombusGridShape) },
-		func(p *Plant) *InitialRhombusGridShape { return p.InitialRhombusGridShape },
-		func(p *Plant, shape *InitialRhombusGridShape) { p.InitialRhombusGridShape = shape },
+		func(p *Plant) *InitialRhombusGridShape { return p.RhombusStuff.InitialRhombusGridShape },
+		func(p *Plant, shape *InitialRhombusGridShape) { p.RhombusStuff.InitialRhombusGridShape = shape },
 		func(p *Plant, shape *InitialRhombusGridShape) bool {
-			return p.InitialRhombusGridShape == shape
+			return p.RhombusStuff.InitialRhombusGridShape == shape
 		},
 		"InitialRhombusGridShape",
 	)
@@ -150,10 +150,10 @@ func (stager *Stager) enforcePlantHasExplanationTextShape() (needCommit bool) {
 	return enforcePlantHasShape[*ExplanationTextShape](
 		stager,
 		func() *ExplanationTextShape { return new(ExplanationTextShape) },
-		func(p *Plant) *ExplanationTextShape { return p.ExplanationTextShape },
-		func(p *Plant, shape *ExplanationTextShape) { p.ExplanationTextShape = shape },
+		func(p *Plant) *ExplanationTextShape { return p.RhombusStuff.ExplanationTextShape },
+		func(p *Plant, shape *ExplanationTextShape) { p.RhombusStuff.ExplanationTextShape = shape },
 		func(p *Plant, shape *ExplanationTextShape) bool {
-			return p.ExplanationTextShape == shape
+			return p.RhombusStuff.ExplanationTextShape == shape
 		},
 		"ExplanationTextShape",
 	)
@@ -164,10 +164,10 @@ func (stager *Stager) enforcePlantHasPlantCircumferenceShape() (needCommit bool)
 	return enforcePlantHasShape[*PlantCircumferenceShape](
 		stager,
 		func() *PlantCircumferenceShape { return new(PlantCircumferenceShape) },
-		func(p *Plant) *PlantCircumferenceShape { return p.PlantCircumferenceShape },
-		func(p *Plant, shape *PlantCircumferenceShape) { p.PlantCircumferenceShape = shape },
+		func(p *Plant) *PlantCircumferenceShape { return p.RhombusStuff.PlantCircumferenceShape },
+		func(p *Plant, shape *PlantCircumferenceShape) { p.RhombusStuff.PlantCircumferenceShape = shape },
 		func(p *Plant, shape *PlantCircumferenceShape) bool {
-			return p.PlantCircumferenceShape == shape || p.RotatedPlantCircumferenceShape == shape
+			return p.RhombusStuff.PlantCircumferenceShape == shape || p.RhombusStuff.RotatedPlantCircumferenceShape == shape
 		},
 		"PlantCircumferenceShape",
 	)
@@ -178,8 +178,8 @@ func (stager *Stager) enforcePlantHasReferenceRhombus() (needCommit bool) {
 	return enforcePlantHasShape[*RhombusShape](
 		stager,
 		func() *RhombusShape { return new(RhombusShape) },
-		func(p *Plant) *RhombusShape { return p.ReferenceRhombus },
-		func(p *Plant, shape *RhombusShape) { p.ReferenceRhombus = shape },
+		func(p *Plant) *RhombusShape { return p.RhombusStuff.ReferenceRhombus },
+		func(p *Plant, shape *RhombusShape) { p.RhombusStuff.ReferenceRhombus = shape },
 		func(p *Plant, shape *RhombusShape) bool {
 			return isRhombusShapeOwnedByPlant(p, shape)
 		},
@@ -192,8 +192,8 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	n1 := enforcePlantHasShape[*RhombusShape](
 		stager,
 		func() *RhombusShape { return new(RhombusShape) },
-		func(p *Plant) *RhombusShape { return p.RotatedReferenceRhombus },
-		func(p *Plant, shape *RhombusShape) { p.RotatedReferenceRhombus = shape },
+		func(p *Plant) *RhombusShape { return p.RhombusStuff.RotatedReferenceRhombus },
+		func(p *Plant, shape *RhombusShape) { p.RhombusStuff.RotatedReferenceRhombus = shape },
 		func(p *Plant, shape *RhombusShape) bool {
 			return isRhombusShapeOwnedByPlant(p, shape)
 		},
@@ -203,10 +203,10 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	n2 := enforcePlantHasShape[*PlantCircumferenceShape](
 		stager,
 		func() *PlantCircumferenceShape { return new(PlantCircumferenceShape) },
-		func(p *Plant) *PlantCircumferenceShape { return p.RotatedPlantCircumferenceShape },
-		func(p *Plant, shape *PlantCircumferenceShape) { p.RotatedPlantCircumferenceShape = shape },
+		func(p *Plant) *PlantCircumferenceShape { return p.RhombusStuff.RotatedPlantCircumferenceShape },
+		func(p *Plant, shape *PlantCircumferenceShape) { p.RhombusStuff.RotatedPlantCircumferenceShape = shape },
 		func(p *Plant, shape *PlantCircumferenceShape) bool {
-			return p.PlantCircumferenceShape == shape || p.RotatedPlantCircumferenceShape == shape
+			return p.RhombusStuff.PlantCircumferenceShape == shape || p.RhombusStuff.RotatedPlantCircumferenceShape == shape
 		},
 		"RotatedPlantCircumferenceShape",
 	)
@@ -214,10 +214,10 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	n3 := enforcePlantHasShape[*GridPathShape](
 		stager,
 		func() *GridPathShape { return new(GridPathShape) },
-		func(p *Plant) *GridPathShape { return p.RotatedGridPathShape },
-		func(p *Plant, shape *GridPathShape) { p.RotatedGridPathShape = shape },
+		func(p *Plant) *GridPathShape { return p.RhombusStuff.RotatedGridPathShape },
+		func(p *Plant, shape *GridPathShape) { p.RhombusStuff.RotatedGridPathShape = shape },
 		func(p *Plant, shape *GridPathShape) bool {
-			return p.GridPathShape == shape || p.RotatedGridPathShape == shape
+			return p.RhombusStuff.GridPathShape == shape || p.RhombusStuff.RotatedGridPathShape == shape
 		},
 		"RotatedGridPathShape",
 	)
@@ -225,10 +225,10 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	n4 := enforcePlantHasShape[*RotatedRhombusGridShape](
 		stager,
 		func() *RotatedRhombusGridShape { return new(RotatedRhombusGridShape) },
-		func(p *Plant) *RotatedRhombusGridShape { return p.RotatedRhombusGridShape2 },
-		func(p *Plant, shape *RotatedRhombusGridShape) { p.RotatedRhombusGridShape2 = shape },
+		func(p *Plant) *RotatedRhombusGridShape { return p.RhombusStuff.RotatedRhombusGridShape2 },
+		func(p *Plant, shape *RotatedRhombusGridShape) { p.RhombusStuff.RotatedRhombusGridShape2 = shape },
 		func(p *Plant, shape *RotatedRhombusGridShape) bool {
-			return p.RotatedRhombusGridShape2 == shape
+			return p.RhombusStuff.RotatedRhombusGridShape2 == shape
 		},
 		"RotatedRhombusGridShape",
 	)
@@ -236,10 +236,10 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	n5 := enforcePlantHasShape[*GrowthCurveRhombusGridShape](
 		stager,
 		func() *GrowthCurveRhombusGridShape { return new(GrowthCurveRhombusGridShape) },
-		func(p *Plant) *GrowthCurveRhombusGridShape { return p.GrowthCurveRhombusGridShape },
-		func(p *Plant, shape *GrowthCurveRhombusGridShape) { p.GrowthCurveRhombusGridShape = shape },
+		func(p *Plant) *GrowthCurveRhombusGridShape { return p.RhombusStuff.GrowthCurveRhombusGridShape },
+		func(p *Plant, shape *GrowthCurveRhombusGridShape) { p.RhombusStuff.GrowthCurveRhombusGridShape = shape },
 		func(p *Plant, shape *GrowthCurveRhombusGridShape) bool {
-			return p.GrowthCurveRhombusGridShape == shape
+			return p.RhombusStuff.GrowthCurveRhombusGridShape == shape
 		},
 		"GrowthCurveRhombusGridShape",
 	)
@@ -442,7 +442,7 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 func (stager *Stager) enforceReferenceRhombusName() (needCommit bool) {
 	return enforcePlantShapeName[*RhombusShape](
 		stager,
-		func(p *Plant) *RhombusShape { return p.ReferenceRhombus },
+		func(p *Plant) *RhombusShape { return p.RhombusStuff.ReferenceRhombus },
 		"ReferenceRhombus",
 	)
 }
@@ -451,7 +451,7 @@ func (stager *Stager) enforceReferenceRhombusName() (needCommit bool) {
 func (stager *Stager) enforceInitialRhombusGridShapeName() (needCommit bool) {
 	return enforcePlantShapeName[*InitialRhombusGridShape](
 		stager,
-		func(p *Plant) *InitialRhombusGridShape { return p.InitialRhombusGridShape },
+		func(p *Plant) *InitialRhombusGridShape { return p.RhombusStuff.InitialRhombusGridShape },
 		"InitialRhombusGridShape",
 	)
 }
@@ -460,7 +460,7 @@ func (stager *Stager) enforceInitialRhombusGridShapeName() (needCommit bool) {
 func (stager *Stager) enforceExplanationTextShapeName() (needCommit bool) {
 	return enforcePlantShapeName[*ExplanationTextShape](
 		stager,
-		func(p *Plant) *ExplanationTextShape { return p.ExplanationTextShape },
+		func(p *Plant) *ExplanationTextShape { return p.RhombusStuff.ExplanationTextShape },
 		"ExplanationTextShape",
 	)
 }
@@ -469,31 +469,31 @@ func (stager *Stager) enforceExplanationTextShapeName() (needCommit bool) {
 func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	n1 := enforcePlantShapeName[*RhombusShape](
 		stager,
-		func(p *Plant) *RhombusShape { return p.RotatedReferenceRhombus },
+		func(p *Plant) *RhombusShape { return p.RhombusStuff.RotatedReferenceRhombus },
 		"RotatedReferenceRhombus",
 	)
 
 	n2 := enforcePlantShapeName[*PlantCircumferenceShape](
 		stager,
-		func(p *Plant) *PlantCircumferenceShape { return p.RotatedPlantCircumferenceShape },
+		func(p *Plant) *PlantCircumferenceShape { return p.RhombusStuff.RotatedPlantCircumferenceShape },
 		"RotatedPlantCircumferenceShape",
 	)
 
 	n3 := enforcePlantShapeName[*GridPathShape](
 		stager,
-		func(p *Plant) *GridPathShape { return p.RotatedGridPathShape },
+		func(p *Plant) *GridPathShape { return p.RhombusStuff.RotatedGridPathShape },
 		"RotatedGridPathShape",
 	)
 
 	n4 := enforcePlantShapeName[*RotatedRhombusGridShape](
 		stager,
-		func(p *Plant) *RotatedRhombusGridShape { return p.RotatedRhombusGridShape2 },
+		func(p *Plant) *RotatedRhombusGridShape { return p.RhombusStuff.RotatedRhombusGridShape2 },
 		"RotatedRhombusGridShape",
 	)
 
 	n5 := enforcePlantShapeName[*GrowthCurveRhombusGridShape](
 		stager,
-		func(p *Plant) *GrowthCurveRhombusGridShape { return p.GrowthCurveRhombusGridShape },
+		func(p *Plant) *GrowthCurveRhombusGridShape { return p.RhombusStuff.GrowthCurveRhombusGridShape },
 		"GrowthCurveRhombusGridShape",
 	)
 
@@ -578,7 +578,7 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
 func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
-	if p.ReferenceRhombus == shape || p.RotatedReferenceRhombus == shape {
+	if p.RhombusStuff.ReferenceRhombus == shape || p.RhombusStuff.RotatedReferenceRhombus == shape {
 		return true
 	}
 	// Initial, Rotated and Growth grids no longer use generic RhombusShape.

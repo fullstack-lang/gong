@@ -67,13 +67,14 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce plant has diagram", stager.enforcePlantHasDiagram},
 		{"Enforce plant has axes", stager.enforcePlantHasAxes},
 		{"Enforce axes shape name", stager.enforceAxesShapeName},
+		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff},
+		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName},
 		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus},
 		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName},
 		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape},
 		{"Enforce grid path shape name", stager.enforceGridPathShapeName},
 		{"Enforce plant has initial rhombus grid shape", stager.enforcePlantHasInitialRhombusGridShape},
 		{"Enforce initial rhombus grid shape name", stager.enforceInitialRhombusGridShapeName},
-		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
 		{"Enforce plant has explanation text shape", stager.enforcePlantHasExplanationTextShape},
 		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName},
 		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes},
@@ -81,6 +82,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape},
 		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape},
 		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName},
+		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
 		{"Enforce plant diagram rendered 3d shape", stager.enforcePlantDiagramRendered3DShape},
 
 		// concrete semantic check

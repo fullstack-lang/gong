@@ -241,16 +241,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &plant.PlantDiagrams) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plant.AxesShape) || modified
-	modified = GongCleanPointer(stage, &plant.ReferenceRhombus) || modified
-	modified = GongCleanPointer(stage, &plant.PlantCircumferenceShape) || modified
-	modified = GongCleanPointer(stage, &plant.GridPathShape) || modified
-	modified = GongCleanPointer(stage, &plant.InitialRhombusGridShape) || modified
-	modified = GongCleanPointer(stage, &plant.ExplanationTextShape) || modified
-	modified = GongCleanPointer(stage, &plant.RotatedReferenceRhombus) || modified
-	modified = GongCleanPointer(stage, &plant.RotatedPlantCircumferenceShape) || modified
-	modified = GongCleanPointer(stage, &plant.RotatedGridPathShape) || modified
-	modified = GongCleanPointer(stage, &plant.RotatedRhombusGridShape2) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthCurveRhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &plant.RhombusStuff) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
 	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
@@ -258,6 +249,8 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.ArcNormalVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopStartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plant.TopEndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedBottomTopStartArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.MidArcVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopMidArcVectorShapeGrid) || modified
@@ -265,8 +258,6 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.TopStartHalfwayArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.EndHalfwayArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.TopEndHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopEndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve) || modified
 	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedLeftStackOfGrowthCurve) || modified
@@ -302,6 +293,23 @@ func (rendered3dshape *Rendered3DShape) GongClean(stage *Stage) (modified bool) 
 func (rhombusshape *RhombusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RhombusStuff
+func (rhombusstuff *RhombusStuff) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &rhombusstuff.ReferenceRhombus) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.PlantCircumferenceShape) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.GridPathShape) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.InitialRhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.ExplanationTextShape) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.RotatedReferenceRhombus) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.RotatedPlantCircumferenceShape) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.RotatedGridPathShape) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.RotatedRhombusGridShape2) || modified
+	modified = GongCleanPointer(stage, &rhombusstuff.GrowthCurveRhombusGridShape) || modified
 	return
 }
 

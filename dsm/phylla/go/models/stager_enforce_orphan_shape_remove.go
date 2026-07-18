@@ -63,56 +63,59 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if plant.AxesShape != nil {
 			refAxes[plant.AxesShape] = true
 		}
-		if plant.ReferenceRhombus != nil {
-			refRhombusShape[plant.ReferenceRhombus] = true
+		if plant.RhombusStuff != nil {
+			if plant.RhombusStuff.ReferenceRhombus != nil {
+				refRhombusShape[plant.RhombusStuff.ReferenceRhombus] = true
+			}
+			if plant.RhombusStuff.PlantCircumferenceShape != nil {
+				refPlantCirc[plant.RhombusStuff.PlantCircumferenceShape] = true
+			}
+			if plant.RhombusStuff.GridPathShape != nil {
+				refGridPath[plant.RhombusStuff.GridPathShape] = true
+			}
+			if plant.RhombusStuff.ExplanationTextShape != nil {
+				refExplanation[plant.RhombusStuff.ExplanationTextShape] = true
+			}
+			if plant.RhombusStuff.RotatedReferenceRhombus != nil {
+				refRhombusShape[plant.RhombusStuff.RotatedReferenceRhombus] = true
+			}
+			if plant.RhombusStuff.RotatedPlantCircumferenceShape != nil {
+				refPlantCirc[plant.RhombusStuff.RotatedPlantCircumferenceShape] = true
+			}
+			if plant.RhombusStuff.RotatedGridPathShape != nil {
+				refGridPath[plant.RhombusStuff.RotatedGridPathShape] = true
+			}
+
+			if plant.RhombusStuff.InitialRhombusGridShape != nil {
+				refInitialGrid[plant.RhombusStuff.InitialRhombusGridShape] = true
+				for _, shape := range plant.RhombusStuff.InitialRhombusGridShape.InitialRhombusShapes {
+					if shape != nil {
+						refInitialShape[shape] = true
+					}
+				}
+			}
+
+			if plant.RhombusStuff.RotatedRhombusGridShape2 != nil {
+				refRotatedGrid[plant.RhombusStuff.RotatedRhombusGridShape2] = true
+				for _, shape := range plant.RhombusStuff.RotatedRhombusGridShape2.RotatedRhombusShapes {
+					if shape != nil {
+						refRotatedShape[shape] = true
+					}
+				}
+			}
+
+			if plant.RhombusStuff.GrowthCurveRhombusGridShape != nil {
+				refGrowthCurveGrid[plant.RhombusStuff.GrowthCurveRhombusGridShape] = true
+				for _, shape := range plant.RhombusStuff.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes {
+					if shape != nil {
+						refGrowthCurveShape[shape] = true
+					}
+				}
+			}
 		}
-		if plant.PlantCircumferenceShape != nil {
-			refPlantCirc[plant.PlantCircumferenceShape] = true
-		}
-		if plant.GridPathShape != nil {
-			refGridPath[plant.GridPathShape] = true
-		}
-		if plant.ExplanationTextShape != nil {
-			refExplanation[plant.ExplanationTextShape] = true
-		}
-		if plant.RotatedReferenceRhombus != nil {
-			refRhombusShape[plant.RotatedReferenceRhombus] = true
-		}
-		if plant.RotatedPlantCircumferenceShape != nil {
-			refPlantCirc[plant.RotatedPlantCircumferenceShape] = true
-		}
-		if plant.RotatedGridPathShape != nil {
-			refGridPath[plant.RotatedGridPathShape] = true
-		}
+
 		if plant.GrowthVectorShape != nil {
 			refGrowthVector[plant.GrowthVectorShape] = true
-		}
-
-		if plant.InitialRhombusGridShape != nil {
-			refInitialGrid[plant.InitialRhombusGridShape] = true
-			for _, shape := range plant.InitialRhombusGridShape.InitialRhombusShapes {
-				if shape != nil {
-					refInitialShape[shape] = true
-				}
-			}
-		}
-
-		if plant.RotatedRhombusGridShape2 != nil {
-			refRotatedGrid[plant.RotatedRhombusGridShape2] = true
-			for _, shape := range plant.RotatedRhombusGridShape2.RotatedRhombusShapes {
-				if shape != nil {
-					refRotatedShape[shape] = true
-				}
-			}
-		}
-
-		if plant.GrowthCurveRhombusGridShape != nil {
-			refGrowthCurveGrid[plant.GrowthCurveRhombusGridShape] = true
-			for _, shape := range plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes {
-				if shape != nil {
-					refGrowthCurveShape[shape] = true
-				}
-			}
 		}
 
 		if plant.PerpendicularVectorGrid != nil {

@@ -100,6 +100,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *RhombusShape:
 		ok = stage.IsStagedRhombusShape(target)
 
+	case *RhombusStuff:
+		ok = stage.IsStagedRhombusStuff(target)
+
 	case *RotatedRhombusGridShape:
 		ok = stage.IsStagedRotatedRhombusGridShape(target)
 
@@ -292,6 +295,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *RhombusShape:
 		ok = stage.IsStagedRhombusShape(target)
+
+	case *RhombusStuff:
+		ok = stage.IsStagedRhombusStuff(target)
 
 	case *RotatedRhombusGridShape:
 		ok = stage.IsStagedRotatedRhombusGridShape(target)
@@ -607,6 +613,13 @@ func (stage *Stage) IsStagedRhombusShape(rhombusshape *RhombusShape) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedRhombusStuff(rhombusstuff *RhombusStuff) (ok bool) {
+
+	_, ok = stage.RhombusStuffs[rhombusstuff]
+
+	return
+}
+
 func (stage *Stage) IsStagedRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape) (ok bool) {
 
 	_, ok = stage.RotatedRhombusGridShapes[rotatedrhombusgridshape]
@@ -917,6 +930,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RhombusShape:
 		stage.StageBranchRhombusShape(target)
+
+	case *RhombusStuff:
+		stage.StageBranchRhombusStuff(target)
 
 	case *RotatedRhombusGridShape:
 		stage.StageBranchRotatedRhombusGridShape(target)
@@ -1456,35 +1472,8 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.AxesShape != nil {
 		StageBranch(stage, plant.AxesShape)
 	}
-	if plant.ReferenceRhombus != nil {
-		StageBranch(stage, plant.ReferenceRhombus)
-	}
-	if plant.PlantCircumferenceShape != nil {
-		StageBranch(stage, plant.PlantCircumferenceShape)
-	}
-	if plant.GridPathShape != nil {
-		StageBranch(stage, plant.GridPathShape)
-	}
-	if plant.InitialRhombusGridShape != nil {
-		StageBranch(stage, plant.InitialRhombusGridShape)
-	}
-	if plant.ExplanationTextShape != nil {
-		StageBranch(stage, plant.ExplanationTextShape)
-	}
-	if plant.RotatedReferenceRhombus != nil {
-		StageBranch(stage, plant.RotatedReferenceRhombus)
-	}
-	if plant.RotatedPlantCircumferenceShape != nil {
-		StageBranch(stage, plant.RotatedPlantCircumferenceShape)
-	}
-	if plant.RotatedGridPathShape != nil {
-		StageBranch(stage, plant.RotatedGridPathShape)
-	}
-	if plant.RotatedRhombusGridShape2 != nil {
-		StageBranch(stage, plant.RotatedRhombusGridShape2)
-	}
-	if plant.GrowthCurveRhombusGridShape != nil {
-		StageBranch(stage, plant.GrowthCurveRhombusGridShape)
+	if plant.RhombusStuff != nil {
+		StageBranch(stage, plant.RhombusStuff)
 	}
 	if plant.GrowthVectorShape != nil {
 		StageBranch(stage, plant.GrowthVectorShape)
@@ -1507,6 +1496,12 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.TopStartArcShapeGrid != nil {
 		StageBranch(stage, plant.TopStartArcShapeGrid)
 	}
+	if plant.EndArcShapeGrid != nil {
+		StageBranch(stage, plant.EndArcShapeGrid)
+	}
+	if plant.TopEndArcShapeGrid != nil {
+		StageBranch(stage, plant.TopEndArcShapeGrid)
+	}
 	if plant.ShiftedBottomTopStartArcShapeGrid != nil {
 		StageBranch(stage, plant.ShiftedBottomTopStartArcShapeGrid)
 	}
@@ -1527,12 +1522,6 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	}
 	if plant.TopEndHalfwayArcShapeGrid != nil {
 		StageBranch(stage, plant.TopEndHalfwayArcShapeGrid)
-	}
-	if plant.EndArcShapeGrid != nil {
-		StageBranch(stage, plant.EndArcShapeGrid)
-	}
-	if plant.TopEndArcShapeGrid != nil {
-		StageBranch(stage, plant.TopEndArcShapeGrid)
 	}
 	if plant.StackOfGrowthCurve != nil {
 		StageBranch(stage, plant.StackOfGrowthCurve)
@@ -1618,6 +1607,51 @@ func (stage *Stage) StageBranchRhombusShape(rhombusshape *RhombusShape) {
 	rhombusshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchRhombusStuff(rhombusstuff *RhombusStuff) {
+
+	// check if instance is already staged
+	if IsStaged(stage, rhombusstuff) {
+		return
+	}
+
+	rhombusstuff.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if rhombusstuff.ReferenceRhombus != nil {
+		StageBranch(stage, rhombusstuff.ReferenceRhombus)
+	}
+	if rhombusstuff.PlantCircumferenceShape != nil {
+		StageBranch(stage, rhombusstuff.PlantCircumferenceShape)
+	}
+	if rhombusstuff.GridPathShape != nil {
+		StageBranch(stage, rhombusstuff.GridPathShape)
+	}
+	if rhombusstuff.InitialRhombusGridShape != nil {
+		StageBranch(stage, rhombusstuff.InitialRhombusGridShape)
+	}
+	if rhombusstuff.ExplanationTextShape != nil {
+		StageBranch(stage, rhombusstuff.ExplanationTextShape)
+	}
+	if rhombusstuff.RotatedReferenceRhombus != nil {
+		StageBranch(stage, rhombusstuff.RotatedReferenceRhombus)
+	}
+	if rhombusstuff.RotatedPlantCircumferenceShape != nil {
+		StageBranch(stage, rhombusstuff.RotatedPlantCircumferenceShape)
+	}
+	if rhombusstuff.RotatedGridPathShape != nil {
+		StageBranch(stage, rhombusstuff.RotatedGridPathShape)
+	}
+	if rhombusstuff.RotatedRhombusGridShape2 != nil {
+		StageBranch(stage, rhombusstuff.RotatedRhombusGridShape2)
+	}
+	if rhombusstuff.GrowthCurveRhombusGridShape != nil {
+		StageBranch(stage, rhombusstuff.GrowthCurveRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2260,6 +2294,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *RhombusShape:
 		toT := CopyBranchRhombusShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *RhombusStuff:
+		toT := CopyBranchRhombusStuff(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *RotatedRhombusGridShape:
@@ -2938,35 +2976,8 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.AxesShape != nil {
 		plantTo.AxesShape = CopyBranchAxesShape(mapOrigCopy, plantFrom.AxesShape)
 	}
-	if plantFrom.ReferenceRhombus != nil {
-		plantTo.ReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, plantFrom.ReferenceRhombus)
-	}
-	if plantFrom.PlantCircumferenceShape != nil {
-		plantTo.PlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, plantFrom.PlantCircumferenceShape)
-	}
-	if plantFrom.GridPathShape != nil {
-		plantTo.GridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantFrom.GridPathShape)
-	}
-	if plantFrom.InitialRhombusGridShape != nil {
-		plantTo.InitialRhombusGridShape = CopyBranchInitialRhombusGridShape(mapOrigCopy, plantFrom.InitialRhombusGridShape)
-	}
-	if plantFrom.ExplanationTextShape != nil {
-		plantTo.ExplanationTextShape = CopyBranchExplanationTextShape(mapOrigCopy, plantFrom.ExplanationTextShape)
-	}
-	if plantFrom.RotatedReferenceRhombus != nil {
-		plantTo.RotatedReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, plantFrom.RotatedReferenceRhombus)
-	}
-	if plantFrom.RotatedPlantCircumferenceShape != nil {
-		plantTo.RotatedPlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, plantFrom.RotatedPlantCircumferenceShape)
-	}
-	if plantFrom.RotatedGridPathShape != nil {
-		plantTo.RotatedGridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantFrom.RotatedGridPathShape)
-	}
-	if plantFrom.RotatedRhombusGridShape2 != nil {
-		plantTo.RotatedRhombusGridShape2 = CopyBranchRotatedRhombusGridShape(mapOrigCopy, plantFrom.RotatedRhombusGridShape2)
-	}
-	if plantFrom.GrowthCurveRhombusGridShape != nil {
-		plantTo.GrowthCurveRhombusGridShape = CopyBranchGrowthCurveRhombusGridShape(mapOrigCopy, plantFrom.GrowthCurveRhombusGridShape)
+	if plantFrom.RhombusStuff != nil {
+		plantTo.RhombusStuff = CopyBranchRhombusStuff(mapOrigCopy, plantFrom.RhombusStuff)
 	}
 	if plantFrom.GrowthVectorShape != nil {
 		plantTo.GrowthVectorShape = CopyBranchGrowthVectorShape(mapOrigCopy, plantFrom.GrowthVectorShape)
@@ -2989,6 +3000,12 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.TopStartArcShapeGrid != nil {
 		plantTo.TopStartArcShapeGrid = CopyBranchTopStartArcShapeGrid(mapOrigCopy, plantFrom.TopStartArcShapeGrid)
 	}
+	if plantFrom.EndArcShapeGrid != nil {
+		plantTo.EndArcShapeGrid = CopyBranchEndArcShapeGrid(mapOrigCopy, plantFrom.EndArcShapeGrid)
+	}
+	if plantFrom.TopEndArcShapeGrid != nil {
+		plantTo.TopEndArcShapeGrid = CopyBranchTopEndArcShapeGrid(mapOrigCopy, plantFrom.TopEndArcShapeGrid)
+	}
 	if plantFrom.ShiftedBottomTopStartArcShapeGrid != nil {
 		plantTo.ShiftedBottomTopStartArcShapeGrid = CopyBranchShiftedBottomTopStartArcShapeGrid(mapOrigCopy, plantFrom.ShiftedBottomTopStartArcShapeGrid)
 	}
@@ -3009,12 +3026,6 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	}
 	if plantFrom.TopEndHalfwayArcShapeGrid != nil {
 		plantTo.TopEndHalfwayArcShapeGrid = CopyBranchTopEndHalfwayArcShapeGrid(mapOrigCopy, plantFrom.TopEndHalfwayArcShapeGrid)
-	}
-	if plantFrom.EndArcShapeGrid != nil {
-		plantTo.EndArcShapeGrid = CopyBranchEndArcShapeGrid(mapOrigCopy, plantFrom.EndArcShapeGrid)
-	}
-	if plantFrom.TopEndArcShapeGrid != nil {
-		plantTo.TopEndArcShapeGrid = CopyBranchTopEndArcShapeGrid(mapOrigCopy, plantFrom.TopEndArcShapeGrid)
 	}
 	if plantFrom.StackOfGrowthCurve != nil {
 		plantTo.StackOfGrowthCurve = CopyBranchStackOfGrowthCurve(mapOrigCopy, plantFrom.StackOfGrowthCurve)
@@ -3116,6 +3127,55 @@ func CopyBranchRhombusShape(mapOrigCopy map[any]any, rhombusshapeFrom *RhombusSh
 	rhombusshapeFrom.CopyBasicFields(rhombusshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchRhombusStuff(mapOrigCopy map[any]any, rhombusstuffFrom *RhombusStuff) (rhombusstuffTo *RhombusStuff) {
+
+	// rhombusstuffFrom has already been copied
+	if _rhombusstuffTo, ok := mapOrigCopy[rhombusstuffFrom]; ok {
+		rhombusstuffTo = _rhombusstuffTo.(*RhombusStuff)
+		return
+	}
+
+	rhombusstuffTo = new(RhombusStuff)
+	mapOrigCopy[rhombusstuffFrom] = rhombusstuffTo
+	rhombusstuffFrom.CopyBasicFields(rhombusstuffTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if rhombusstuffFrom.ReferenceRhombus != nil {
+		rhombusstuffTo.ReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, rhombusstuffFrom.ReferenceRhombus)
+	}
+	if rhombusstuffFrom.PlantCircumferenceShape != nil {
+		rhombusstuffTo.PlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, rhombusstuffFrom.PlantCircumferenceShape)
+	}
+	if rhombusstuffFrom.GridPathShape != nil {
+		rhombusstuffTo.GridPathShape = CopyBranchGridPathShape(mapOrigCopy, rhombusstuffFrom.GridPathShape)
+	}
+	if rhombusstuffFrom.InitialRhombusGridShape != nil {
+		rhombusstuffTo.InitialRhombusGridShape = CopyBranchInitialRhombusGridShape(mapOrigCopy, rhombusstuffFrom.InitialRhombusGridShape)
+	}
+	if rhombusstuffFrom.ExplanationTextShape != nil {
+		rhombusstuffTo.ExplanationTextShape = CopyBranchExplanationTextShape(mapOrigCopy, rhombusstuffFrom.ExplanationTextShape)
+	}
+	if rhombusstuffFrom.RotatedReferenceRhombus != nil {
+		rhombusstuffTo.RotatedReferenceRhombus = CopyBranchRhombusShape(mapOrigCopy, rhombusstuffFrom.RotatedReferenceRhombus)
+	}
+	if rhombusstuffFrom.RotatedPlantCircumferenceShape != nil {
+		rhombusstuffTo.RotatedPlantCircumferenceShape = CopyBranchPlantCircumferenceShape(mapOrigCopy, rhombusstuffFrom.RotatedPlantCircumferenceShape)
+	}
+	if rhombusstuffFrom.RotatedGridPathShape != nil {
+		rhombusstuffTo.RotatedGridPathShape = CopyBranchGridPathShape(mapOrigCopy, rhombusstuffFrom.RotatedGridPathShape)
+	}
+	if rhombusstuffFrom.RotatedRhombusGridShape2 != nil {
+		rhombusstuffTo.RotatedRhombusGridShape2 = CopyBranchRotatedRhombusGridShape(mapOrigCopy, rhombusstuffFrom.RotatedRhombusGridShape2)
+	}
+	if rhombusstuffFrom.GrowthCurveRhombusGridShape != nil {
+		rhombusstuffTo.GrowthCurveRhombusGridShape = CopyBranchGrowthCurveRhombusGridShape(mapOrigCopy, rhombusstuffFrom.GrowthCurveRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -3847,6 +3907,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *RhombusShape:
 		stage.UnstageBranchRhombusShape(target)
 
+	case *RhombusStuff:
+		stage.UnstageBranchRhombusStuff(target)
+
 	case *RotatedRhombusGridShape:
 		stage.UnstageBranchRotatedRhombusGridShape(target)
 
@@ -4385,35 +4448,8 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.AxesShape != nil {
 		UnstageBranch(stage, plant.AxesShape)
 	}
-	if plant.ReferenceRhombus != nil {
-		UnstageBranch(stage, plant.ReferenceRhombus)
-	}
-	if plant.PlantCircumferenceShape != nil {
-		UnstageBranch(stage, plant.PlantCircumferenceShape)
-	}
-	if plant.GridPathShape != nil {
-		UnstageBranch(stage, plant.GridPathShape)
-	}
-	if plant.InitialRhombusGridShape != nil {
-		UnstageBranch(stage, plant.InitialRhombusGridShape)
-	}
-	if plant.ExplanationTextShape != nil {
-		UnstageBranch(stage, plant.ExplanationTextShape)
-	}
-	if plant.RotatedReferenceRhombus != nil {
-		UnstageBranch(stage, plant.RotatedReferenceRhombus)
-	}
-	if plant.RotatedPlantCircumferenceShape != nil {
-		UnstageBranch(stage, plant.RotatedPlantCircumferenceShape)
-	}
-	if plant.RotatedGridPathShape != nil {
-		UnstageBranch(stage, plant.RotatedGridPathShape)
-	}
-	if plant.RotatedRhombusGridShape2 != nil {
-		UnstageBranch(stage, plant.RotatedRhombusGridShape2)
-	}
-	if plant.GrowthCurveRhombusGridShape != nil {
-		UnstageBranch(stage, plant.GrowthCurveRhombusGridShape)
+	if plant.RhombusStuff != nil {
+		UnstageBranch(stage, plant.RhombusStuff)
 	}
 	if plant.GrowthVectorShape != nil {
 		UnstageBranch(stage, plant.GrowthVectorShape)
@@ -4436,6 +4472,12 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.TopStartArcShapeGrid != nil {
 		UnstageBranch(stage, plant.TopStartArcShapeGrid)
 	}
+	if plant.EndArcShapeGrid != nil {
+		UnstageBranch(stage, plant.EndArcShapeGrid)
+	}
+	if plant.TopEndArcShapeGrid != nil {
+		UnstageBranch(stage, plant.TopEndArcShapeGrid)
+	}
 	if plant.ShiftedBottomTopStartArcShapeGrid != nil {
 		UnstageBranch(stage, plant.ShiftedBottomTopStartArcShapeGrid)
 	}
@@ -4456,12 +4498,6 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	}
 	if plant.TopEndHalfwayArcShapeGrid != nil {
 		UnstageBranch(stage, plant.TopEndHalfwayArcShapeGrid)
-	}
-	if plant.EndArcShapeGrid != nil {
-		UnstageBranch(stage, plant.EndArcShapeGrid)
-	}
-	if plant.TopEndArcShapeGrid != nil {
-		UnstageBranch(stage, plant.TopEndArcShapeGrid)
 	}
 	if plant.StackOfGrowthCurve != nil {
 		UnstageBranch(stage, plant.StackOfGrowthCurve)
@@ -4547,6 +4583,51 @@ func (stage *Stage) UnstageBranchRhombusShape(rhombusshape *RhombusShape) {
 	rhombusshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchRhombusStuff(rhombusstuff *RhombusStuff) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, rhombusstuff) {
+		return
+	}
+
+	rhombusstuff.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if rhombusstuff.ReferenceRhombus != nil {
+		UnstageBranch(stage, rhombusstuff.ReferenceRhombus)
+	}
+	if rhombusstuff.PlantCircumferenceShape != nil {
+		UnstageBranch(stage, rhombusstuff.PlantCircumferenceShape)
+	}
+	if rhombusstuff.GridPathShape != nil {
+		UnstageBranch(stage, rhombusstuff.GridPathShape)
+	}
+	if rhombusstuff.InitialRhombusGridShape != nil {
+		UnstageBranch(stage, rhombusstuff.InitialRhombusGridShape)
+	}
+	if rhombusstuff.ExplanationTextShape != nil {
+		UnstageBranch(stage, rhombusstuff.ExplanationTextShape)
+	}
+	if rhombusstuff.RotatedReferenceRhombus != nil {
+		UnstageBranch(stage, rhombusstuff.RotatedReferenceRhombus)
+	}
+	if rhombusstuff.RotatedPlantCircumferenceShape != nil {
+		UnstageBranch(stage, rhombusstuff.RotatedPlantCircumferenceShape)
+	}
+	if rhombusstuff.RotatedGridPathShape != nil {
+		UnstageBranch(stage, rhombusstuff.RotatedGridPathShape)
+	}
+	if rhombusstuff.RotatedRhombusGridShape2 != nil {
+		UnstageBranch(stage, rhombusstuff.RotatedRhombusGridShape2)
+	}
+	if rhombusstuff.GrowthCurveRhombusGridShape != nil {
+		UnstageBranch(stage, rhombusstuff.GrowthCurveRhombusGridShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -5242,35 +5323,8 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.AxesShape != nil {
 		reference.AxesShape = stage.AxesShapes_reference[instance.AxesShape]
 	}
-	if instance.ReferenceRhombus != nil {
-		reference.ReferenceRhombus = stage.RhombusShapes_reference[instance.ReferenceRhombus]
-	}
-	if instance.PlantCircumferenceShape != nil {
-		reference.PlantCircumferenceShape = stage.PlantCircumferenceShapes_reference[instance.PlantCircumferenceShape]
-	}
-	if instance.GridPathShape != nil {
-		reference.GridPathShape = stage.GridPathShapes_reference[instance.GridPathShape]
-	}
-	if instance.InitialRhombusGridShape != nil {
-		reference.InitialRhombusGridShape = stage.InitialRhombusGridShapes_reference[instance.InitialRhombusGridShape]
-	}
-	if instance.ExplanationTextShape != nil {
-		reference.ExplanationTextShape = stage.ExplanationTextShapes_reference[instance.ExplanationTextShape]
-	}
-	if instance.RotatedReferenceRhombus != nil {
-		reference.RotatedReferenceRhombus = stage.RhombusShapes_reference[instance.RotatedReferenceRhombus]
-	}
-	if instance.RotatedPlantCircumferenceShape != nil {
-		reference.RotatedPlantCircumferenceShape = stage.PlantCircumferenceShapes_reference[instance.RotatedPlantCircumferenceShape]
-	}
-	if instance.RotatedGridPathShape != nil {
-		reference.RotatedGridPathShape = stage.GridPathShapes_reference[instance.RotatedGridPathShape]
-	}
-	if instance.RotatedRhombusGridShape2 != nil {
-		reference.RotatedRhombusGridShape2 = stage.RotatedRhombusGridShapes_reference[instance.RotatedRhombusGridShape2]
-	}
-	if instance.GrowthCurveRhombusGridShape != nil {
-		reference.GrowthCurveRhombusGridShape = stage.GrowthCurveRhombusGridShapes_reference[instance.GrowthCurveRhombusGridShape]
+	if instance.RhombusStuff != nil {
+		reference.RhombusStuff = stage.RhombusStuffs_reference[instance.RhombusStuff]
 	}
 	if instance.GrowthVectorShape != nil {
 		reference.GrowthVectorShape = stage.GrowthVectorShapes_reference[instance.GrowthVectorShape]
@@ -5293,6 +5347,12 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.TopStartArcShapeGrid != nil {
 		reference.TopStartArcShapeGrid = stage.TopStartArcShapeGrids_reference[instance.TopStartArcShapeGrid]
 	}
+	if instance.EndArcShapeGrid != nil {
+		reference.EndArcShapeGrid = stage.EndArcShapeGrids_reference[instance.EndArcShapeGrid]
+	}
+	if instance.TopEndArcShapeGrid != nil {
+		reference.TopEndArcShapeGrid = stage.TopEndArcShapeGrids_reference[instance.TopEndArcShapeGrid]
+	}
 	if instance.ShiftedBottomTopStartArcShapeGrid != nil {
 		reference.ShiftedBottomTopStartArcShapeGrid = stage.ShiftedBottomTopStartArcShapeGrids_reference[instance.ShiftedBottomTopStartArcShapeGrid]
 	}
@@ -5313,12 +5373,6 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	}
 	if instance.TopEndHalfwayArcShapeGrid != nil {
 		reference.TopEndHalfwayArcShapeGrid = stage.TopEndHalfwayArcShapeGrids_reference[instance.TopEndHalfwayArcShapeGrid]
-	}
-	if instance.EndArcShapeGrid != nil {
-		reference.EndArcShapeGrid = stage.EndArcShapeGrids_reference[instance.EndArcShapeGrid]
-	}
-	if instance.TopEndArcShapeGrid != nil {
-		reference.TopEndArcShapeGrid = stage.TopEndArcShapeGrids_reference[instance.TopEndArcShapeGrid]
 	}
 	if instance.StackOfGrowthCurve != nil {
 		reference.StackOfGrowthCurve = stage.StackOfGrowthCurves_reference[instance.StackOfGrowthCurve]
@@ -5365,6 +5419,41 @@ func (reference *Rendered3DShape) GongReconstructPointersFromReferences(stage *S
 
 func (reference *RhombusShape) GongReconstructPointersFromReferences(stage *Stage, instance *RhombusShape) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *RhombusStuff) GongReconstructPointersFromReferences(stage *Stage, instance *RhombusStuff) {
+	// insertion point for pointers field
+	if instance.ReferenceRhombus != nil {
+		reference.ReferenceRhombus = stage.RhombusShapes_reference[instance.ReferenceRhombus]
+	}
+	if instance.PlantCircumferenceShape != nil {
+		reference.PlantCircumferenceShape = stage.PlantCircumferenceShapes_reference[instance.PlantCircumferenceShape]
+	}
+	if instance.GridPathShape != nil {
+		reference.GridPathShape = stage.GridPathShapes_reference[instance.GridPathShape]
+	}
+	if instance.InitialRhombusGridShape != nil {
+		reference.InitialRhombusGridShape = stage.InitialRhombusGridShapes_reference[instance.InitialRhombusGridShape]
+	}
+	if instance.ExplanationTextShape != nil {
+		reference.ExplanationTextShape = stage.ExplanationTextShapes_reference[instance.ExplanationTextShape]
+	}
+	if instance.RotatedReferenceRhombus != nil {
+		reference.RotatedReferenceRhombus = stage.RhombusShapes_reference[instance.RotatedReferenceRhombus]
+	}
+	if instance.RotatedPlantCircumferenceShape != nil {
+		reference.RotatedPlantCircumferenceShape = stage.PlantCircumferenceShapes_reference[instance.RotatedPlantCircumferenceShape]
+	}
+	if instance.RotatedGridPathShape != nil {
+		reference.RotatedGridPathShape = stage.GridPathShapes_reference[instance.RotatedGridPathShape]
+	}
+	if instance.RotatedRhombusGridShape2 != nil {
+		reference.RotatedRhombusGridShape2 = stage.RotatedRhombusGridShapes_reference[instance.RotatedRhombusGridShape2]
+	}
+	if instance.GrowthCurveRhombusGridShape != nil {
+		reference.GrowthCurveRhombusGridShape = stage.GrowthCurveRhombusGridShapes_reference[instance.GrowthCurveRhombusGridShape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -5816,64 +5905,10 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.AxesShape = _instance
 		}
 	}
-	if _reference := reference.ReferenceRhombus; _reference != nil {
-		reference.ReferenceRhombus = nil
-		if _instance, ok := stage.RhombusShapes_instance[_reference]; ok {
-			reference.ReferenceRhombus = _instance
-		}
-	}
-	if _reference := reference.PlantCircumferenceShape; _reference != nil {
-		reference.PlantCircumferenceShape = nil
-		if _instance, ok := stage.PlantCircumferenceShapes_instance[_reference]; ok {
-			reference.PlantCircumferenceShape = _instance
-		}
-	}
-	if _reference := reference.GridPathShape; _reference != nil {
-		reference.GridPathShape = nil
-		if _instance, ok := stage.GridPathShapes_instance[_reference]; ok {
-			reference.GridPathShape = _instance
-		}
-	}
-	if _reference := reference.InitialRhombusGridShape; _reference != nil {
-		reference.InitialRhombusGridShape = nil
-		if _instance, ok := stage.InitialRhombusGridShapes_instance[_reference]; ok {
-			reference.InitialRhombusGridShape = _instance
-		}
-	}
-	if _reference := reference.ExplanationTextShape; _reference != nil {
-		reference.ExplanationTextShape = nil
-		if _instance, ok := stage.ExplanationTextShapes_instance[_reference]; ok {
-			reference.ExplanationTextShape = _instance
-		}
-	}
-	if _reference := reference.RotatedReferenceRhombus; _reference != nil {
-		reference.RotatedReferenceRhombus = nil
-		if _instance, ok := stage.RhombusShapes_instance[_reference]; ok {
-			reference.RotatedReferenceRhombus = _instance
-		}
-	}
-	if _reference := reference.RotatedPlantCircumferenceShape; _reference != nil {
-		reference.RotatedPlantCircumferenceShape = nil
-		if _instance, ok := stage.PlantCircumferenceShapes_instance[_reference]; ok {
-			reference.RotatedPlantCircumferenceShape = _instance
-		}
-	}
-	if _reference := reference.RotatedGridPathShape; _reference != nil {
-		reference.RotatedGridPathShape = nil
-		if _instance, ok := stage.GridPathShapes_instance[_reference]; ok {
-			reference.RotatedGridPathShape = _instance
-		}
-	}
-	if _reference := reference.RotatedRhombusGridShape2; _reference != nil {
-		reference.RotatedRhombusGridShape2 = nil
-		if _instance, ok := stage.RotatedRhombusGridShapes_instance[_reference]; ok {
-			reference.RotatedRhombusGridShape2 = _instance
-		}
-	}
-	if _reference := reference.GrowthCurveRhombusGridShape; _reference != nil {
-		reference.GrowthCurveRhombusGridShape = nil
-		if _instance, ok := stage.GrowthCurveRhombusGridShapes_instance[_reference]; ok {
-			reference.GrowthCurveRhombusGridShape = _instance
+	if _reference := reference.RhombusStuff; _reference != nil {
+		reference.RhombusStuff = nil
+		if _instance, ok := stage.RhombusStuffs_instance[_reference]; ok {
+			reference.RhombusStuff = _instance
 		}
 	}
 	if _reference := reference.GrowthVectorShape; _reference != nil {
@@ -5918,6 +5953,18 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.TopStartArcShapeGrid = _instance
 		}
 	}
+	if _reference := reference.EndArcShapeGrid; _reference != nil {
+		reference.EndArcShapeGrid = nil
+		if _instance, ok := stage.EndArcShapeGrids_instance[_reference]; ok {
+			reference.EndArcShapeGrid = _instance
+		}
+	}
+	if _reference := reference.TopEndArcShapeGrid; _reference != nil {
+		reference.TopEndArcShapeGrid = nil
+		if _instance, ok := stage.TopEndArcShapeGrids_instance[_reference]; ok {
+			reference.TopEndArcShapeGrid = _instance
+		}
+	}
 	if _reference := reference.ShiftedBottomTopStartArcShapeGrid; _reference != nil {
 		reference.ShiftedBottomTopStartArcShapeGrid = nil
 		if _instance, ok := stage.ShiftedBottomTopStartArcShapeGrids_instance[_reference]; ok {
@@ -5958,18 +6005,6 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.TopEndHalfwayArcShapeGrid = nil
 		if _instance, ok := stage.TopEndHalfwayArcShapeGrids_instance[_reference]; ok {
 			reference.TopEndHalfwayArcShapeGrid = _instance
-		}
-	}
-	if _reference := reference.EndArcShapeGrid; _reference != nil {
-		reference.EndArcShapeGrid = nil
-		if _instance, ok := stage.EndArcShapeGrids_instance[_reference]; ok {
-			reference.EndArcShapeGrid = _instance
-		}
-	}
-	if _reference := reference.TopEndArcShapeGrid; _reference != nil {
-		reference.TopEndArcShapeGrid = nil
-		if _instance, ok := stage.TopEndArcShapeGrids_instance[_reference]; ok {
-			reference.TopEndArcShapeGrid = _instance
 		}
 	}
 	if _reference := reference.StackOfGrowthCurve; _reference != nil {
@@ -6041,6 +6076,71 @@ func (reference *Rendered3DShape) GongReconstructPointersFromInstances(stage *St
 
 func (reference *RhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *RhombusStuff) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.ReferenceRhombus; _reference != nil {
+		reference.ReferenceRhombus = nil
+		if _instance, ok := stage.RhombusShapes_instance[_reference]; ok {
+			reference.ReferenceRhombus = _instance
+		}
+	}
+	if _reference := reference.PlantCircumferenceShape; _reference != nil {
+		reference.PlantCircumferenceShape = nil
+		if _instance, ok := stage.PlantCircumferenceShapes_instance[_reference]; ok {
+			reference.PlantCircumferenceShape = _instance
+		}
+	}
+	if _reference := reference.GridPathShape; _reference != nil {
+		reference.GridPathShape = nil
+		if _instance, ok := stage.GridPathShapes_instance[_reference]; ok {
+			reference.GridPathShape = _instance
+		}
+	}
+	if _reference := reference.InitialRhombusGridShape; _reference != nil {
+		reference.InitialRhombusGridShape = nil
+		if _instance, ok := stage.InitialRhombusGridShapes_instance[_reference]; ok {
+			reference.InitialRhombusGridShape = _instance
+		}
+	}
+	if _reference := reference.ExplanationTextShape; _reference != nil {
+		reference.ExplanationTextShape = nil
+		if _instance, ok := stage.ExplanationTextShapes_instance[_reference]; ok {
+			reference.ExplanationTextShape = _instance
+		}
+	}
+	if _reference := reference.RotatedReferenceRhombus; _reference != nil {
+		reference.RotatedReferenceRhombus = nil
+		if _instance, ok := stage.RhombusShapes_instance[_reference]; ok {
+			reference.RotatedReferenceRhombus = _instance
+		}
+	}
+	if _reference := reference.RotatedPlantCircumferenceShape; _reference != nil {
+		reference.RotatedPlantCircumferenceShape = nil
+		if _instance, ok := stage.PlantCircumferenceShapes_instance[_reference]; ok {
+			reference.RotatedPlantCircumferenceShape = _instance
+		}
+	}
+	if _reference := reference.RotatedGridPathShape; _reference != nil {
+		reference.RotatedGridPathShape = nil
+		if _instance, ok := stage.GridPathShapes_instance[_reference]; ok {
+			reference.RotatedGridPathShape = _instance
+		}
+	}
+	if _reference := reference.RotatedRhombusGridShape2; _reference != nil {
+		reference.RotatedRhombusGridShape2 = nil
+		if _instance, ok := stage.RotatedRhombusGridShapes_instance[_reference]; ok {
+			reference.RotatedRhombusGridShape2 = _instance
+		}
+	}
+	if _reference := reference.GrowthCurveRhombusGridShape; _reference != nil {
+		reference.GrowthCurveRhombusGridShape = nil
+		if _instance, ok := stage.GrowthCurveRhombusGridShapes_instance[_reference]; ok {
+			reference.GrowthCurveRhombusGridShape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -7074,74 +7174,11 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "AxesShape"))
 		}
 	}
-	if (plant.ReferenceRhombus == nil) != (plantOther.ReferenceRhombus == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ReferenceRhombus"))
-	} else if plant.ReferenceRhombus != nil && plantOther.ReferenceRhombus != nil {
-		if plant.ReferenceRhombus != plantOther.ReferenceRhombus {
-			diffs = append(diffs, plant.GongMarshallField(stage, "ReferenceRhombus"))
-		}
-	}
-	if (plant.PlantCircumferenceShape == nil) != (plantOther.PlantCircumferenceShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "PlantCircumferenceShape"))
-	} else if plant.PlantCircumferenceShape != nil && plantOther.PlantCircumferenceShape != nil {
-		if plant.PlantCircumferenceShape != plantOther.PlantCircumferenceShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "PlantCircumferenceShape"))
-		}
-	}
-	if (plant.GridPathShape == nil) != (plantOther.GridPathShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "GridPathShape"))
-	} else if plant.GridPathShape != nil && plantOther.GridPathShape != nil {
-		if plant.GridPathShape != plantOther.GridPathShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "GridPathShape"))
-		}
-	}
-	if (plant.InitialRhombusGridShape == nil) != (plantOther.InitialRhombusGridShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "InitialRhombusGridShape"))
-	} else if plant.InitialRhombusGridShape != nil && plantOther.InitialRhombusGridShape != nil {
-		if plant.InitialRhombusGridShape != plantOther.InitialRhombusGridShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "InitialRhombusGridShape"))
-		}
-	}
-	if (plant.ExplanationTextShape == nil) != (plantOther.ExplanationTextShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ExplanationTextShape"))
-	} else if plant.ExplanationTextShape != nil && plantOther.ExplanationTextShape != nil {
-		if plant.ExplanationTextShape != plantOther.ExplanationTextShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "ExplanationTextShape"))
-		}
-	}
-	if (plant.RotatedReferenceRhombus == nil) != (plantOther.RotatedReferenceRhombus == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedReferenceRhombus"))
-	} else if plant.RotatedReferenceRhombus != nil && plantOther.RotatedReferenceRhombus != nil {
-		if plant.RotatedReferenceRhombus != plantOther.RotatedReferenceRhombus {
-			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedReferenceRhombus"))
-		}
-	}
-	if (plant.RotatedPlantCircumferenceShape == nil) != (plantOther.RotatedPlantCircumferenceShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
-	} else if plant.RotatedPlantCircumferenceShape != nil && plantOther.RotatedPlantCircumferenceShape != nil {
-		if plant.RotatedPlantCircumferenceShape != plantOther.RotatedPlantCircumferenceShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
-		}
-	}
-	if (plant.RotatedGridPathShape == nil) != (plantOther.RotatedGridPathShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedGridPathShape"))
-	} else if plant.RotatedGridPathShape != nil && plantOther.RotatedGridPathShape != nil {
-		if plant.RotatedGridPathShape != plantOther.RotatedGridPathShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedGridPathShape"))
-		}
-	}
-	if (plant.RotatedRhombusGridShape2 == nil) != (plantOther.RotatedRhombusGridShape2 == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RotatedRhombusGridShape2"))
-	} else if plant.RotatedRhombusGridShape2 != nil && plantOther.RotatedRhombusGridShape2 != nil {
-		if plant.RotatedRhombusGridShape2 != plantOther.RotatedRhombusGridShape2 {
-			diffs = append(diffs, plant.GongMarshallField(stage, "RotatedRhombusGridShape2"))
-		}
-	}
-	if (plant.GrowthCurveRhombusGridShape == nil) != (plantOther.GrowthCurveRhombusGridShape == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
-	} else if plant.GrowthCurveRhombusGridShape != nil && plantOther.GrowthCurveRhombusGridShape != nil {
-		if plant.GrowthCurveRhombusGridShape != plantOther.GrowthCurveRhombusGridShape {
-			diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
+	if (plant.RhombusStuff == nil) != (plantOther.RhombusStuff == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusStuff"))
+	} else if plant.RhombusStuff != nil && plantOther.RhombusStuff != nil {
+		if plant.RhombusStuff != plantOther.RhombusStuff {
+			diffs = append(diffs, plant.GongMarshallField(stage, "RhombusStuff"))
 		}
 	}
 	if (plant.GrowthVectorShape == nil) != (plantOther.GrowthVectorShape == nil) {
@@ -7193,6 +7230,20 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "TopStartArcShapeGrid"))
 		}
 	}
+	if (plant.EndArcShapeGrid == nil) != (plantOther.EndArcShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
+	} else if plant.EndArcShapeGrid != nil && plantOther.EndArcShapeGrid != nil {
+		if plant.EndArcShapeGrid != plantOther.EndArcShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
+		}
+	}
+	if (plant.TopEndArcShapeGrid == nil) != (plantOther.TopEndArcShapeGrid == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "TopEndArcShapeGrid"))
+	} else if plant.TopEndArcShapeGrid != nil && plantOther.TopEndArcShapeGrid != nil {
+		if plant.TopEndArcShapeGrid != plantOther.TopEndArcShapeGrid {
+			diffs = append(diffs, plant.GongMarshallField(stage, "TopEndArcShapeGrid"))
+		}
+	}
 	if (plant.ShiftedBottomTopStartArcShapeGrid == nil) != (plantOther.ShiftedBottomTopStartArcShapeGrid == nil) {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedBottomTopStartArcShapeGrid"))
 	} else if plant.ShiftedBottomTopStartArcShapeGrid != nil && plantOther.ShiftedBottomTopStartArcShapeGrid != nil {
@@ -7240,20 +7291,6 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	} else if plant.TopEndHalfwayArcShapeGrid != nil && plantOther.TopEndHalfwayArcShapeGrid != nil {
 		if plant.TopEndHalfwayArcShapeGrid != plantOther.TopEndHalfwayArcShapeGrid {
 			diffs = append(diffs, plant.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
-		}
-	}
-	if (plant.EndArcShapeGrid == nil) != (plantOther.EndArcShapeGrid == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
-	} else if plant.EndArcShapeGrid != nil && plantOther.EndArcShapeGrid != nil {
-		if plant.EndArcShapeGrid != plantOther.EndArcShapeGrid {
-			diffs = append(diffs, plant.GongMarshallField(stage, "EndArcShapeGrid"))
-		}
-	}
-	if (plant.TopEndArcShapeGrid == nil) != (plantOther.TopEndArcShapeGrid == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "TopEndArcShapeGrid"))
-	} else if plant.TopEndArcShapeGrid != nil && plantOther.TopEndArcShapeGrid != nil {
-		if plant.TopEndArcShapeGrid != plantOther.TopEndArcShapeGrid {
-			diffs = append(diffs, plant.GongMarshallField(stage, "TopEndArcShapeGrid"))
 		}
 	}
 	if (plant.StackOfGrowthCurve == nil) != (plantOther.StackOfGrowthCurve == nil) {
@@ -7507,6 +7544,87 @@ func (rhombusshape *RhombusShape) GongDiff(stage *Stage, rhombusshapeOther *Rhom
 	}
 	if rhombusshape.Y != rhombusshapeOther.Y {
 		diffs = append(diffs, rhombusshape.GongMarshallField(stage, "Y"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (rhombusstuff *RhombusStuff) GongDiff(stage *Stage, rhombusstuffOther *RhombusStuff) (diffs []string) {
+	// insertion point for field diffs
+	if rhombusstuff.Name != rhombusstuffOther.Name {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "Name"))
+	}
+	if (rhombusstuff.ReferenceRhombus == nil) != (rhombusstuffOther.ReferenceRhombus == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "ReferenceRhombus"))
+	} else if rhombusstuff.ReferenceRhombus != nil && rhombusstuffOther.ReferenceRhombus != nil {
+		if rhombusstuff.ReferenceRhombus != rhombusstuffOther.ReferenceRhombus {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "ReferenceRhombus"))
+		}
+	}
+	if (rhombusstuff.PlantCircumferenceShape == nil) != (rhombusstuffOther.PlantCircumferenceShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "PlantCircumferenceShape"))
+	} else if rhombusstuff.PlantCircumferenceShape != nil && rhombusstuffOther.PlantCircumferenceShape != nil {
+		if rhombusstuff.PlantCircumferenceShape != rhombusstuffOther.PlantCircumferenceShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "PlantCircumferenceShape"))
+		}
+	}
+	if (rhombusstuff.GridPathShape == nil) != (rhombusstuffOther.GridPathShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "GridPathShape"))
+	} else if rhombusstuff.GridPathShape != nil && rhombusstuffOther.GridPathShape != nil {
+		if rhombusstuff.GridPathShape != rhombusstuffOther.GridPathShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "GridPathShape"))
+		}
+	}
+	if (rhombusstuff.InitialRhombusGridShape == nil) != (rhombusstuffOther.InitialRhombusGridShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "InitialRhombusGridShape"))
+	} else if rhombusstuff.InitialRhombusGridShape != nil && rhombusstuffOther.InitialRhombusGridShape != nil {
+		if rhombusstuff.InitialRhombusGridShape != rhombusstuffOther.InitialRhombusGridShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "InitialRhombusGridShape"))
+		}
+	}
+	if (rhombusstuff.ExplanationTextShape == nil) != (rhombusstuffOther.ExplanationTextShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "ExplanationTextShape"))
+	} else if rhombusstuff.ExplanationTextShape != nil && rhombusstuffOther.ExplanationTextShape != nil {
+		if rhombusstuff.ExplanationTextShape != rhombusstuffOther.ExplanationTextShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "ExplanationTextShape"))
+		}
+	}
+	if (rhombusstuff.RotatedReferenceRhombus == nil) != (rhombusstuffOther.RotatedReferenceRhombus == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedReferenceRhombus"))
+	} else if rhombusstuff.RotatedReferenceRhombus != nil && rhombusstuffOther.RotatedReferenceRhombus != nil {
+		if rhombusstuff.RotatedReferenceRhombus != rhombusstuffOther.RotatedReferenceRhombus {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedReferenceRhombus"))
+		}
+	}
+	if (rhombusstuff.RotatedPlantCircumferenceShape == nil) != (rhombusstuffOther.RotatedPlantCircumferenceShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
+	} else if rhombusstuff.RotatedPlantCircumferenceShape != nil && rhombusstuffOther.RotatedPlantCircumferenceShape != nil {
+		if rhombusstuff.RotatedPlantCircumferenceShape != rhombusstuffOther.RotatedPlantCircumferenceShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedPlantCircumferenceShape"))
+		}
+	}
+	if (rhombusstuff.RotatedGridPathShape == nil) != (rhombusstuffOther.RotatedGridPathShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedGridPathShape"))
+	} else if rhombusstuff.RotatedGridPathShape != nil && rhombusstuffOther.RotatedGridPathShape != nil {
+		if rhombusstuff.RotatedGridPathShape != rhombusstuffOther.RotatedGridPathShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedGridPathShape"))
+		}
+	}
+	if (rhombusstuff.RotatedRhombusGridShape2 == nil) != (rhombusstuffOther.RotatedRhombusGridShape2 == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedRhombusGridShape2"))
+	} else if rhombusstuff.RotatedRhombusGridShape2 != nil && rhombusstuffOther.RotatedRhombusGridShape2 != nil {
+		if rhombusstuff.RotatedRhombusGridShape2 != rhombusstuffOther.RotatedRhombusGridShape2 {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "RotatedRhombusGridShape2"))
+		}
+	}
+	if (rhombusstuff.GrowthCurveRhombusGridShape == nil) != (rhombusstuffOther.GrowthCurveRhombusGridShape == nil) {
+		diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
+	} else if rhombusstuff.GrowthCurveRhombusGridShape != nil && rhombusstuffOther.GrowthCurveRhombusGridShape != nil {
+		if rhombusstuff.GrowthCurveRhombusGridShape != rhombusstuffOther.GrowthCurveRhombusGridShape {
+			diffs = append(diffs, rhombusstuff.GongMarshallField(stage, "GrowthCurveRhombusGridShape"))
+		}
 	}
 
 	return

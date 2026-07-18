@@ -227,8 +227,8 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 	}
 
 	var endY float64 = plantDiagram.OriginY
-	angleRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-	length := plant.PlantCircumferenceShape.Length
+	angleRad := plant.RhombusStuff.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plant.RhombusStuff.PlantCircumferenceShape.Length
 	endY = plantDiagram.OriginY - length*math.Sin(angleRad)
 
 	startY := endY - float64(len(lines))*20.0 - 20.0 // Above the circumference vector
@@ -237,7 +237,7 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 	for i, lineText := range lines {
 		text := new(svg.Text)
 		layer.Texts = append(layer.Texts, text)
-		text.Name = fmt.Sprintf("%s-line-%d", plant.ExplanationTextShape.Name, i)
+		text.Name = fmt.Sprintf("%s-line-%d", plant.RhombusStuff.ExplanationTextShape.Name, i)
 		text.Content = lineText
 		text.X = startX
 		text.Y = startY + float64(i)*20.0
@@ -253,8 +253,8 @@ func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, la
 		return
 	}
 
-	angleRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-	length := plant.PlantCircumferenceShape.Length
+	angleRad := plant.RhombusStuff.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plant.RhombusStuff.PlantCircumferenceShape.Length
 
 	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
 	endY := plantDiagram.OriginY - length*math.Sin(angleRad) // minus because SVG y-axis is inverted
@@ -262,7 +262,7 @@ func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, la
 	line := new(svg.Line)
 	layer.Lines = append(layer.Lines, line)
 
-	line.Name = plant.PlantCircumferenceShape.Name
+	line.Name = plant.RhombusStuff.PlantCircumferenceShape.Name
 	line.X1 = plantDiagram.OriginX
 	line.Y1 = plantDiagram.OriginY
 	line.X2 = endX
@@ -300,7 +300,7 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 	polygon := new(svg.Polygone)
 	layer.Polygones = append(layer.Polygones, polygon)
 
-	polygon.Name = plant.ReferenceRhombus.Name
+	polygon.Name = plant.RhombusStuff.ReferenceRhombus.Name
 	polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
 		v0x, v0y,
 		v1x, v1y,
@@ -333,7 +333,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	polyline := new(svg.Polyline)
 	layer.Polylines = append(layer.Polylines, polyline)
 
-	polyline.Name = plant.GridPathShape.Name
+	polyline.Name = plant.RhombusStuff.GridPathShape.Name
 	polyline.Presentation.Stroke = "red"
 	polyline.Presentation.StrokeWidth = 2.0
 	polyline.Presentation.StrokeOpacity = 1.0
@@ -347,7 +347,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	addCircle := func(x, y float64, stepIndex int, path string) {
 		circle := new(svg.Circle)
 		layer.Circles = append(layer.Circles, circle)
-		circle.Name = fmt.Sprintf("%s-%s-step-%d", plant.GridPathShape.Name, path, stepIndex)
+		circle.Name = fmt.Sprintf("%s-%s-step-%d", plant.RhombusStuff.GridPathShape.Name, path, stepIndex)
 		circle.CX = x
 		circle.CY = y
 		circle.Radius = 4.0
@@ -383,8 +383,8 @@ func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Sta
 		return
 	}
 
-	angleRad := plant.RotatedPlantCircumferenceShape.AngleDegree * math.Pi / 180.0
-	length := plant.RotatedPlantCircumferenceShape.Length
+	angleRad := plant.RhombusStuff.RotatedPlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plant.RhombusStuff.RotatedPlantCircumferenceShape.Length
 
 	// SVG Y-axis is inverted
 	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
@@ -393,7 +393,7 @@ func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Sta
 	line := new(svg.Line)
 	layer.Lines = append(layer.Lines, line)
 
-	line.Name = plant.RotatedPlantCircumferenceShape.Name
+	line.Name = plant.RhombusStuff.RotatedPlantCircumferenceShape.Name
 	line.X1 = plantDiagram.OriginX
 	line.Y1 = plantDiagram.OriginY
 	line.X2 = endX
@@ -433,7 +433,7 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	polygon := new(svg.Polygone)
 	layer.Polygones = append(layer.Polygones, polygon)
 
-	polygon.Name = plant.RotatedReferenceRhombus.Name
+	polygon.Name = plant.RhombusStuff.RotatedReferenceRhombus.Name
 	polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
 		v0x, v0y,
 		v1x, v1y,
@@ -448,7 +448,7 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	polygon.Presentation.StrokeDashArray = "5, 5"
 
 	// Add rotation transform
-	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.RhombusStuff.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 }
 
 func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
@@ -470,13 +470,13 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	polyline := new(svg.Polyline)
 	layer.Polylines = append(layer.Polylines, polyline)
 
-	polyline.Name = plant.RotatedGridPathShape.Name
+	polyline.Name = plant.RhombusStuff.RotatedGridPathShape.Name
 	polyline.Presentation.Stroke = "darkred"
 	polyline.Presentation.StrokeWidth = 2.0
 	polyline.Presentation.StrokeOpacity = 1.0
 	polyline.Presentation.FillOpacity = 0.0
 	polyline.Presentation.StrokeDashArray = "5, 5"
-	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.RhombusStuff.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 
 	var points []string
 	currX := plantDiagram.OriginX
@@ -486,7 +486,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	addCircle := func(x, y float64, stepIndex int, path string) {
 		circle := new(svg.Circle)
 		layer.Circles = append(layer.Circles, circle)
-		circle.Name = fmt.Sprintf("%s-%s-step-%d", plant.RotatedGridPathShape.Name, path, stepIndex)
+		circle.Name = fmt.Sprintf("%s-%s-step-%d", plant.RhombusStuff.RotatedGridPathShape.Name, path, stepIndex)
 		circle.CX = x
 		circle.CY = y
 		circle.Radius = 4.0
@@ -495,7 +495,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 		circle.Presentation.StrokeOpacity = 1.0
 		circle.Presentation.Color = "white"
 		circle.Presentation.FillOpacity = 1.0
-		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.RhombusStuff.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 	}
 
 	addCircle(currX, currY, 0, "start")
@@ -533,7 +533,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := -length * math.Sin(angleRad/2.0)
 
-	for _, rhombus := range plant.InitialRhombusGridShape.InitialRhombusShapes {
+	for _, rhombus := range plant.RhombusStuff.InitialRhombusGridShape.InitialRhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -612,7 +612,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := length * math.Sin(angleRad/2.0)
 
-	rotRad := -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	rotRad := -plant.RhombusStuff.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 	cosA := math.Cos(rotRad)
 	sinA := math.Sin(rotRad)
 
@@ -628,7 +628,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	v2_rot_x := v2_cart_rot_x
 	v2_rot_y := -v2_cart_rot_y
 
-	for _, rhombus := range plant.RotatedRhombusGridShape2.RotatedRhombusShapes {
+	for _, rhombus := range plant.RhombusStuff.RotatedRhombusGridShape2.RotatedRhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -708,7 +708,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := length * math.Sin(angleRad/2.0)
 
-	rotRad := -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	rotRad := -plant.RhombusStuff.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 	cosA := math.Cos(rotRad)
 	sinA := math.Sin(rotRad)
 
@@ -724,7 +724,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	v2_rot_x := v2_cart_rot_x
 	v2_rot_y := -v2_cart_rot_y
 
-	for _, rhombus := range plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes {
+	for _, rhombus := range plant.RhombusStuff.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -791,11 +791,11 @@ func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *s
 	if plantDiagram.IsHiddenGrowthVectorShape {
 		return
 	}
-	if len(plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes) < 2 {
+	if len(plant.RhombusStuff.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes) < 2 {
 		return
 	}
 
-	rhombuses := plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
+	rhombuses := plant.RhombusStuff.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
 	first := rhombuses[0]
 
 	line := new(svg.Line)

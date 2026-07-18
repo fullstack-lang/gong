@@ -130,6 +130,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRhombusShapeCreateCallback != nil {
 			stage.OnAfterRhombusShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *RhombusStuff:
+		if stage.OnAfterRhombusStuffCreateCallback != nil {
+			stage.OnAfterRhombusStuffCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *RotatedRhombusGridShape:
 		if stage.OnAfterRotatedRhombusGridShapeCreateCallback != nil {
 			stage.OnAfterRotatedRhombusGridShapeCreateCallback.OnAfterCreate(stage, target)
@@ -418,6 +422,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*RhombusShape)
 		if stage.OnAfterRhombusShapeUpdateCallback != nil {
 			stage.OnAfterRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *RhombusStuff:
+		newTarget := any(new).(*RhombusStuff)
+		if stage.OnAfterRhombusStuffUpdateCallback != nil {
+			stage.OnAfterRhombusStuffUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *RotatedRhombusGridShape:
 		newTarget := any(new).(*RotatedRhombusGridShape)
@@ -734,6 +743,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*RhombusShape)
 			stage.OnAfterRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *RhombusStuff:
+		if stage.OnAfterRhombusStuffDeleteCallback != nil {
+			staged := any(staged).(*RhombusStuff)
+			stage.OnAfterRhombusStuffDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *RotatedRhombusGridShape:
 		if stage.OnAfterRotatedRhombusGridShapeDeleteCallback != nil {
 			staged := any(staged).(*RotatedRhombusGridShape)
@@ -1018,6 +1032,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRhombusShapeReadCallback != nil {
 			stage.OnAfterRhombusShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *RhombusStuff:
+		if stage.OnAfterRhombusStuffReadCallback != nil {
+			stage.OnAfterRhombusStuffReadCallback.OnAfterRead(stage, target)
+		}
 	case *RotatedRhombusGridShape:
 		if stage.OnAfterRotatedRhombusGridShapeReadCallback != nil {
 			stage.OnAfterRotatedRhombusGridShapeReadCallback.OnAfterRead(stage, target)
@@ -1211,6 +1229,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRendered3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Rendered3DShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RhombusShape])
+	case *RhombusStuff:
+		stage.OnAfterRhombusStuffUpdateCallback = any(callback).(OnAfterUpdateInterface[RhombusStuff])
 	case *RotatedRhombusGridShape:
 		stage.OnAfterRotatedRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
@@ -1340,6 +1360,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRendered3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Rendered3DShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[RhombusShape])
+	case *RhombusStuff:
+		stage.OnAfterRhombusStuffCreateCallback = any(callback).(OnAfterCreateInterface[RhombusStuff])
 	case *RotatedRhombusGridShape:
 		stage.OnAfterRotatedRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
@@ -1469,6 +1491,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRendered3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Rendered3DShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RhombusShape])
+	case *RhombusStuff:
+		stage.OnAfterRhombusStuffDeleteCallback = any(callback).(OnAfterDeleteInterface[RhombusStuff])
 	case *RotatedRhombusGridShape:
 		stage.OnAfterRotatedRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:
@@ -1598,6 +1622,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRendered3DShapeReadCallback = any(callback).(OnAfterReadInterface[Rendered3DShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[RhombusShape])
+	case *RhombusStuff:
+		stage.OnAfterRhombusStuffReadCallback = any(callback).(OnAfterReadInterface[RhombusStuff])
 	case *RotatedRhombusGridShape:
 		stage.OnAfterRotatedRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusGridShape])
 	case *RotatedRhombusShape:

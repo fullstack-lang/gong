@@ -1395,26 +1395,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallSliceOfPointers(&instance.PlantDiagrams, valueExpr, identifierMap)
 	case "AxesShape":
 		GongUnmarshallPointer(&instance.AxesShape, valueExpr, identifierMap)
-	case "ReferenceRhombus":
-		GongUnmarshallPointer(&instance.ReferenceRhombus, valueExpr, identifierMap)
-	case "PlantCircumferenceShape":
-		GongUnmarshallPointer(&instance.PlantCircumferenceShape, valueExpr, identifierMap)
-	case "GridPathShape":
-		GongUnmarshallPointer(&instance.GridPathShape, valueExpr, identifierMap)
-	case "InitialRhombusGridShape":
-		GongUnmarshallPointer(&instance.InitialRhombusGridShape, valueExpr, identifierMap)
-	case "ExplanationTextShape":
-		GongUnmarshallPointer(&instance.ExplanationTextShape, valueExpr, identifierMap)
-	case "RotatedReferenceRhombus":
-		GongUnmarshallPointer(&instance.RotatedReferenceRhombus, valueExpr, identifierMap)
-	case "RotatedPlantCircumferenceShape":
-		GongUnmarshallPointer(&instance.RotatedPlantCircumferenceShape, valueExpr, identifierMap)
-	case "RotatedGridPathShape":
-		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
-	case "RotatedRhombusGridShape2":
-		GongUnmarshallPointer(&instance.RotatedRhombusGridShape2, valueExpr, identifierMap)
-	case "GrowthCurveRhombusGridShape":
-		GongUnmarshallPointer(&instance.GrowthCurveRhombusGridShape, valueExpr, identifierMap)
+	case "RhombusStuff":
+		GongUnmarshallPointer(&instance.RhombusStuff, valueExpr, identifierMap)
 	case "GrowthVectorShape":
 		GongUnmarshallPointer(&instance.GrowthVectorShape, valueExpr, identifierMap)
 	case "PerpendicularVectorGrid":
@@ -1429,6 +1411,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
 	case "TopStartArcShapeGrid":
 		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
+	case "EndArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
 	case "ShiftedBottomTopStartArcShapeGrid":
 		GongUnmarshallPointer(&instance.ShiftedBottomTopStartArcShapeGrid, valueExpr, identifierMap)
 	case "MidArcVectorShapeGrid":
@@ -1443,10 +1429,6 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
 	case "TopEndHalfwayArcShapeGrid":
 		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "EndArcShapeGrid":
-		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
-	case "TopEndArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
 	case "StackOfGrowthCurve":
 		GongUnmarshallPointer(&instance.StackOfGrowthCurve, valueExpr, identifierMap)
 	case "TopStackOfGrowthCurve":
@@ -1683,6 +1665,55 @@ func (u *RhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type RhombusStuffUnmarshaller struct{}
+
+func (u *RhombusStuffUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(RhombusStuff)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *RhombusStuffUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RhombusStuff)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ReferenceRhombus":
+		GongUnmarshallPointer(&instance.ReferenceRhombus, valueExpr, identifierMap)
+	case "PlantCircumferenceShape":
+		GongUnmarshallPointer(&instance.PlantCircumferenceShape, valueExpr, identifierMap)
+	case "GridPathShape":
+		GongUnmarshallPointer(&instance.GridPathShape, valueExpr, identifierMap)
+	case "InitialRhombusGridShape":
+		GongUnmarshallPointer(&instance.InitialRhombusGridShape, valueExpr, identifierMap)
+	case "ExplanationTextShape":
+		GongUnmarshallPointer(&instance.ExplanationTextShape, valueExpr, identifierMap)
+	case "RotatedReferenceRhombus":
+		GongUnmarshallPointer(&instance.RotatedReferenceRhombus, valueExpr, identifierMap)
+	case "RotatedPlantCircumferenceShape":
+		GongUnmarshallPointer(&instance.RotatedPlantCircumferenceShape, valueExpr, identifierMap)
+	case "RotatedGridPathShape":
+		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
+	case "RotatedRhombusGridShape2":
+		GongUnmarshallPointer(&instance.RotatedRhombusGridShape2, valueExpr, identifierMap)
+	case "GrowthCurveRhombusGridShape":
+		GongUnmarshallPointer(&instance.GrowthCurveRhombusGridShape, valueExpr, identifierMap)
 	}
 	return nil
 }

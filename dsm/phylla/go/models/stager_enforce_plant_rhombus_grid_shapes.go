@@ -19,21 +19,21 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		v2y := length * math.Sin(angleRad/2.0)
 
 		{
-			needCommit = enforceInitialRhombusGridShapeHasRhombuses(stage, plant.InitialRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
+			needCommit = enforceInitialRhombusGridShapeHasRhombuses(stage, plant.RhombusStuff.InitialRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
 		}
 		rotRad := 0.0
 		{
-			rotRad = -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+			rotRad = -plant.RhombusStuff.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 		}
 		{
-			needCommit = enforceRotatedRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape2, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
+			needCommit = enforceRotatedRhombusGridShapeHasRhombuses(stage, plant.RhombusStuff.RotatedRhombusGridShape2, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
 		{
-			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthCurveRhombusGridShape, plant.RotatedRhombusGridShape2, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle, plant.PlantCircumferenceShape.Length) || needCommit
+			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.RhombusStuff.GrowthCurveRhombusGridShape, plant.RhombusStuff.RotatedRhombusGridShape2, plant.RhombusStuff.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle, plant.RhombusStuff.PlantCircumferenceShape.Length) || needCommit
 		}
 
 		{
-			rhombuses := plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
+			rhombuses := plant.RhombusStuff.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes
 			if len(rhombuses) >= 2 {
 				first := rhombuses[0]
 				var endRhombus *GrowthCurveRhombusShape
@@ -74,7 +74,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
+			needCommit = enforcePerpendicularVectorGridHasVectors(stage, plant.PerpendicularVectorGrid, plant.RhombusStuff.GrowthCurveRhombusGridShape, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
 
 		{
@@ -199,7 +199,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 		circLen := 0.0
 		{
-			circLen = plant.PlantCircumferenceShape.Length
+			circLen = plant.RhombusStuff.PlantCircumferenceShape.Length
 		}
 
 		{
