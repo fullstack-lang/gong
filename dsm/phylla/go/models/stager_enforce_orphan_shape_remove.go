@@ -8,7 +8,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPlantCirc := make(map[*PlantCircumferenceShape]bool)
 	refGridPath := make(map[*GridPathShape]bool)
 	refCircleGrid := make(map[*CircleGridShape]bool)
-	refNextCircle := make(map[*NextCircleShape]bool)
 	refExplanation := make(map[*ExplanationTextShape]bool)
 	refGrowthVector := make(map[*GrowthVectorShape]bool)
 
@@ -290,12 +289,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *GetGongstructInstancesSetFromPointerType[*CircleGridShape](stage) {
 		if !refCircleGrid[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
-	for shape := range *GetGongstructInstancesSetFromPointerType[*NextCircleShape](stage) {
-		if !refNextCircle[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

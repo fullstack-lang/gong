@@ -247,15 +247,6 @@ func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, re
 	return
 }
 
-func (inst *NextCircleShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *PerpendicularVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -978,15 +969,6 @@ func (inst *MidArcVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 }
 
 func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
-func (inst *NextCircleShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

@@ -464,21 +464,6 @@ type Stage struct {
 	OnAfterMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[MidArcVectorShapeGrid]
 	OnAfterMidArcVectorShapeGridReadCallback   OnAfterReadInterface[MidArcVectorShapeGrid]
 
-	NextCircleShapes                map[*NextCircleShape]struct{}
-	NextCircleShapes_instance       map[*NextCircleShape]*NextCircleShape
-	NextCircleShapes_mapString      map[string]*NextCircleShape
-	NextCircleShapeOrder            uint
-	NextCircleShape_stagedOrder     map[*NextCircleShape]uint
-	NextCircleShape_orderStaged     map[uint]*NextCircleShape
-	NextCircleShapes_reference      map[*NextCircleShape]*NextCircleShape
-	NextCircleShapes_referenceOrder map[*NextCircleShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterNextCircleShapeCreateCallback OnAfterCreateInterface[NextCircleShape]
-	OnAfterNextCircleShapeUpdateCallback OnAfterUpdateInterface[NextCircleShape]
-	OnAfterNextCircleShapeDeleteCallback OnAfterDeleteInterface[NextCircleShape]
-	OnAfterNextCircleShapeReadCallback   OnAfterReadInterface[NextCircleShape]
-
 	PerpendicularVectors                map[*PerpendicularVector]struct{}
 	PerpendicularVectors_instance       map[*PerpendicularVector]*PerpendicularVector
 	PerpendicularVectors_mapString      map[string]*PerpendicularVector
@@ -1437,10 +1422,6 @@ func (stage *Stage) Squash() {
 	stage.MidArcVectorShapeGrids_instance = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint)
 
-	stage.NextCircleShapes_reference = make(map[*NextCircleShape]*NextCircleShape)
-	stage.NextCircleShapes_instance = make(map[*NextCircleShape]*NextCircleShape)
-	stage.NextCircleShapes_referenceOrder = make(map[*NextCircleShape]uint)
-
 	stage.PerpendicularVectors_reference = make(map[*PerpendicularVector]*PerpendicularVector)
 	stage.PerpendicularVectors_instance = make(map[*PerpendicularVector]*PerpendicularVector)
 	stage.PerpendicularVectors_referenceOrder = make(map[*PerpendicularVector]uint)
@@ -1920,20 +1901,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.MidArcVectorShapeGridOrder = maxMidArcVectorShapeGridOrder + 1
 	} else {
 		stage.MidArcVectorShapeGridOrder = 0
-	}
-
-	var maxNextCircleShapeOrder uint
-	var foundNextCircleShape bool
-	for _, order := range stage.NextCircleShape_stagedOrder {
-		if !foundNextCircleShape || order > maxNextCircleShapeOrder {
-			maxNextCircleShapeOrder = order
-			foundNextCircleShape = true
-		}
-	}
-	if foundNextCircleShape {
-		stage.NextCircleShapeOrder = maxNextCircleShapeOrder + 1
-	} else {
-		stage.NextCircleShapeOrder = 0
 	}
 
 	var maxPerpendicularVectorOrder uint
@@ -2851,20 +2818,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *NextCircleShape:
-		tmp := GetStructInstancesByOrder(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *NextCircleShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *PerpendicularVector:
 		tmp := GetStructInstancesByOrder(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
 
@@ -3496,8 +3449,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
 	case "MidArcVectorShapeGrid":
 		res = GetNamedStructInstances(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
-	case "NextCircleShape":
-		res = GetNamedStructInstances(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
 	case "PerpendicularVector":
 		res = GetNamedStructInstances(stage.PerpendicularVectors, stage.PerpendicularVector_stagedOrder)
 	case "PerpendicularVectorGrid":
@@ -3689,8 +3640,6 @@ type BackRepoInterface interface {
 	CheckoutMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
 	CommitMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
 	CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
-	CommitNextCircleShape(nextcircleshape *NextCircleShape)
-	CheckoutNextCircleShape(nextcircleshape *NextCircleShape)
 	CommitPerpendicularVector(perpendicularvector *PerpendicularVector)
 	CheckoutPerpendicularVector(perpendicularvector *PerpendicularVector)
 	CommitPerpendicularVectorGrid(perpendicularvectorgrid *PerpendicularVectorGrid)
@@ -3839,9 +3788,6 @@ func NewStage(name string) (stage *Stage) {
 
 		MidArcVectorShapeGrids:           make(map[*MidArcVectorShapeGrid]struct{}),
 		MidArcVectorShapeGrids_mapString: make(map[string]*MidArcVectorShapeGrid),
-
-		NextCircleShapes:           make(map[*NextCircleShape]struct{}),
-		NextCircleShapes_mapString: make(map[string]*NextCircleShape),
 
 		PerpendicularVectors:           make(map[*PerpendicularVector]struct{}),
 		PerpendicularVectors_mapString: make(map[string]*PerpendicularVector),
@@ -4057,10 +4003,6 @@ func NewStage(name string) (stage *Stage) {
 		MidArcVectorShapeGrid_orderStaged: make(map[uint]*MidArcVectorShapeGrid),
 		MidArcVectorShapeGrids_reference:  make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid),
 
-		NextCircleShape_stagedOrder: make(map[*NextCircleShape]uint),
-		NextCircleShape_orderStaged: make(map[uint]*NextCircleShape),
-		NextCircleShapes_reference:  make(map[*NextCircleShape]*NextCircleShape),
-
 		PerpendicularVector_stagedOrder: make(map[*PerpendicularVector]uint),
 		PerpendicularVector_orderStaged: make(map[uint]*PerpendicularVector),
 		PerpendicularVectors_reference:  make(map[*PerpendicularVector]*PerpendicularVector),
@@ -4265,8 +4207,6 @@ func NewStage(name string) (stage *Stage) {
 
 			"MidArcVectorShapeGrid": &MidArcVectorShapeGridUnmarshaller{},
 
-			"NextCircleShape": &NextCircleShapeUnmarshaller{},
-
 			"PerpendicularVector": &PerpendicularVectorUnmarshaller{},
 
 			"PerpendicularVectorGrid": &PerpendicularVectorGridUnmarshaller{},
@@ -4372,7 +4312,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Library"},
 			{name: "MidArcVectorShape"},
 			{name: "MidArcVectorShapeGrid"},
-			{name: "NextCircleShape"},
 			{name: "PerpendicularVector"},
 			{name: "PerpendicularVectorGrid"},
 			{name: "PerpendicularVectorGridHalfway"},
@@ -4466,8 +4405,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.MidArcVectorShape_stagedOrder[instance]
 	case *MidArcVectorShapeGrid:
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
-	case *NextCircleShape:
-		return stage.NextCircleShape_stagedOrder[instance]
 	case *PerpendicularVector:
 		return stage.PerpendicularVector_stagedOrder[instance]
 	case *PerpendicularVectorGrid:
@@ -4599,8 +4536,6 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.MidArcVectorShape_orderStaged[order]).(Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
-	case *NextCircleShape:
-		return any(stage.NextCircleShape_orderStaged[order]).(Type)
 	case *PerpendicularVector:
 		return any(stage.PerpendicularVector_orderStaged[order]).(Type)
 	case *PerpendicularVectorGrid:
@@ -4731,8 +4666,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.MidArcVectorShape_stagedOrder[instance]
 	case *MidArcVectorShapeGrid:
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
-	case *NextCircleShape:
-		return stage.NextCircleShape_stagedOrder[instance]
 	case *PerpendicularVector:
 		return stage.PerpendicularVector_stagedOrder[instance]
 	case *PerpendicularVectorGrid:
@@ -4899,7 +4832,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
-	stage.Map_GongStructName_InstancesNb["NextCircleShape"] = len(stage.NextCircleShapes)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGrid"] = len(stage.PerpendicularVectorGrids)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGridHalfway"] = len(stage.PerpendicularVectorGridHalfways)
@@ -6826,94 +6758,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) SetName(name string) {
 	midarcvectorshapegrid.Name = name
-}
-
-// Stage puts nextcircleshape to the model stage
-func (nextcircleshape *NextCircleShape) Stage(stage *Stage) *NextCircleShape {
-	if _, ok := stage.NextCircleShapes[nextcircleshape]; !ok {
-		stage.NextCircleShapes[nextcircleshape] = struct{}{}
-		stage.NextCircleShape_stagedOrder[nextcircleshape] = stage.NextCircleShapeOrder
-		stage.NextCircleShape_orderStaged[stage.NextCircleShapeOrder] = nextcircleshape
-		stage.NextCircleShapeOrder++
-	}
-	stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
-
-	return nextcircleshape
-}
-
-// StagePreserveOrder puts nextcircleshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.NextCircleShapeOrder
-// - update stage.NextCircleShapeOrder accordingly
-func (nextcircleshape *NextCircleShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.NextCircleShapes[nextcircleshape]; !ok {
-		stage.NextCircleShapes[nextcircleshape] = struct{}{}
-
-		if order > stage.NextCircleShapeOrder {
-			stage.NextCircleShapeOrder = order
-		}
-		stage.NextCircleShape_stagedOrder[nextcircleshape] = order
-		stage.NextCircleShape_orderStaged[order] = nextcircleshape
-		stage.NextCircleShapeOrder++
-	}
-	stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
-}
-
-// Unstage removes nextcircleshape off the model stage
-func (nextcircleshape *NextCircleShape) Unstage(stage *Stage) *NextCircleShape {
-	delete(stage.NextCircleShapes, nextcircleshape)
-	// issue1150
-	// delete(stage.NextCircleShape_stagedOrder, nextcircleshape)
-	delete(stage.NextCircleShapes_mapString, nextcircleshape.Name)
-
-	return nextcircleshape
-}
-
-// UnstageVoid removes nextcircleshape off the model stage
-func (nextcircleshape *NextCircleShape) UnstageVoid(stage *Stage) {
-	delete(stage.NextCircleShapes, nextcircleshape)
-	// issue1150
-	// delete(stage.NextCircleShape_stagedOrder, nextcircleshape)
-	delete(stage.NextCircleShapes_mapString, nextcircleshape.Name)
-}
-
-// commit nextcircleshape to the back repo (if it is already staged)
-func (nextcircleshape *NextCircleShape) Commit(stage *Stage) *NextCircleShape {
-	if _, ok := stage.NextCircleShapes[nextcircleshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNextCircleShape(nextcircleshape)
-		}
-	}
-	return nextcircleshape
-}
-
-func (nextcircleshape *NextCircleShape) CommitVoid(stage *Stage) {
-	nextcircleshape.Commit(stage)
-}
-
-func (nextcircleshape *NextCircleShape) StageVoid(stage *Stage) {
-	nextcircleshape.Stage(stage)
-}
-
-// Checkout nextcircleshape to the back repo (if it is already staged)
-func (nextcircleshape *NextCircleShape) Checkout(stage *Stage) *NextCircleShape {
-	if _, ok := stage.NextCircleShapes[nextcircleshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNextCircleShape(nextcircleshape)
-		}
-	}
-	return nextcircleshape
-}
-
-// for satisfaction of GongStruct interface
-func (nextcircleshape *NextCircleShape) GetName() (res string) {
-	return nextcircleshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (nextcircleshape *NextCircleShape) SetName(name string) {
-	nextcircleshape.Name = name
 }
 
 // Stage puts perpendicularvector to the model stage
@@ -10459,7 +10303,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLibrary(Library *Library)
 	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
-	CreateORMNextCircleShape(NextCircleShape *NextCircleShape)
 	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	CreateORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
@@ -10524,7 +10367,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
-	DeleteORMNextCircleShape(NextCircleShape *NextCircleShape)
 	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	DeleteORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
@@ -10672,11 +10514,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrid_stagedOrder = make(map[*MidArcVectorShapeGrid]uint)
 	stage.MidArcVectorShapeGridOrder = 0
-
-	stage.NextCircleShapes = make(map[*NextCircleShape]struct{})
-	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
-	stage.NextCircleShape_stagedOrder = make(map[*NextCircleShape]uint)
-	stage.NextCircleShapeOrder = 0
 
 	stage.PerpendicularVectors = make(map[*PerpendicularVector]struct{})
 	stage.PerpendicularVectors_mapString = make(map[string]*PerpendicularVector)
@@ -10950,9 +10787,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.MidArcVectorShapeGrids = nil
 	stage.MidArcVectorShapeGrids_mapString = nil
 
-	stage.NextCircleShapes = nil
-	stage.NextCircleShapes_mapString = nil
-
 	stage.PerpendicularVectors = nil
 	stage.PerpendicularVectors_mapString = nil
 
@@ -11159,10 +10993,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		midarcvectorshapegrid.Unstage(stage)
-	}
-
-	for nextcircleshape := range stage.NextCircleShapes {
-		nextcircleshape.Unstage(stage)
 	}
 
 	for perpendicularvector := range stage.PerpendicularVectors {
@@ -11443,8 +11273,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.MidArcVectorShapes).(*Type)
 	case map[*MidArcVectorShapeGrid]any:
 		return any(&stage.MidArcVectorShapeGrids).(*Type)
-	case map[*NextCircleShape]any:
-		return any(&stage.NextCircleShapes).(*Type)
 	case map[*PerpendicularVector]any:
 		return any(&stage.PerpendicularVectors).(*Type)
 	case map[*PerpendicularVectorGrid]any:
@@ -11579,8 +11407,6 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.MidArcVectorShapes_mapString).(map[string]Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
-	case *NextCircleShape:
-		return any(stage.NextCircleShapes_mapString).(map[string]Type)
 	case *PerpendicularVector:
 		return any(stage.PerpendicularVectors_mapString).(map[string]Type)
 	case *PerpendicularVectorGrid:
@@ -11715,8 +11541,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.MidArcVectorShapes).(*map[*Type]struct{})
 	case MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[*Type]struct{})
-	case NextCircleShape:
-		return any(&stage.NextCircleShapes).(*map[*Type]struct{})
 	case PerpendicularVector:
 		return any(&stage.PerpendicularVectors).(*map[*Type]struct{})
 	case PerpendicularVectorGrid:
@@ -11851,8 +11675,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.MidArcVectorShapes).(*map[Type]struct{})
 	case *MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
-	case *NextCircleShape:
-		return any(&stage.NextCircleShapes).(*map[Type]struct{})
 	case *PerpendicularVector:
 		return any(&stage.PerpendicularVectors).(*map[Type]struct{})
 	case *PerpendicularVectorGrid:
@@ -11987,8 +11809,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.MidArcVectorShapes_mapString).(*map[string]*Type)
 	case MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids_mapString).(*map[string]*Type)
-	case NextCircleShape:
-		return any(&stage.NextCircleShapes_mapString).(*map[string]*Type)
 	case PerpendicularVector:
 		return any(&stage.PerpendicularVectors_mapString).(*map[string]*Type)
 	case PerpendicularVectorGrid:
@@ -12188,10 +12008,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of MidArcVectorShape with the name of the field
 			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
-		}).(*Type)
-	case NextCircleShape:
-		return any(&NextCircleShape{
-			// Initialisation of associations
 		}).(*Type)
 	case PerpendicularVector:
 		return any(&PerpendicularVector{
@@ -12618,11 +12434,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of MidArcVectorShapeGrid
 	case MidArcVectorShapeGrid:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of NextCircleShape
-	case NextCircleShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -13647,11 +13458,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of NextCircleShape
-	case NextCircleShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of PerpendicularVector
 	case PerpendicularVector:
 		switch fieldname {
@@ -14057,8 +13863,6 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "MidArcVectorShape"
 	case *MidArcVectorShapeGrid:
 		res = "MidArcVectorShapeGrid"
-	case *NextCircleShape:
-		res = "NextCircleShape"
 	case *PerpendicularVector:
 		res = "PerpendicularVector"
 	case *PerpendicularVectorGrid:
@@ -14241,9 +14045,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "MidArcVectorShapes"
 		res = append(res, rf)
 	case *MidArcVectorShapeGrid:
-		var rf ReverseField
-		_ = rf
-	case *NextCircleShape:
 		var rf ReverseField
 		_ = rf
 	case *PerpendicularVector:
@@ -14888,17 +14689,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldHeaders() (res [
 			Name:                 "MidArcVectorShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "MidArcVectorShape",
-		},
-	}
-	return
-}
-
-func (nextcircleshape *NextCircleShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -16934,15 +16724,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldValue(fieldName 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	}
-	return
-}
-
-func (nextcircleshape *NextCircleShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = nextcircleshape.Name
 	}
 	return
 }
@@ -18984,17 +18765,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongSetFieldValue(fieldName 
 	return nil
 }
 
-func (nextcircleshape *NextCircleShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		nextcircleshape.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
 func (perpendicularvector *PerpendicularVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -20595,10 +20365,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetGongstructName() stri
 	return "MidArcVectorShapeGrid"
 }
 
-func (nextcircleshape *NextCircleShape) GongGetGongstructName() string {
-	return "NextCircleShape"
-}
-
 func (perpendicularvector *PerpendicularVector) GongGetGongstructName() string {
 	return "PerpendicularVector"
 }
@@ -20869,11 +20635,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
-	}
-
-	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
-	for nextcircleshape := range stage.NextCircleShapes {
-		stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
 	}
 
 	stage.PerpendicularVectors_mapString = make(map[string]*PerpendicularVector)

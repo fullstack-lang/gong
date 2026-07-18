@@ -141,12 +141,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.midarcvectorshapegrid, probe)
 			}
-		case *NextCircleShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NextCircleShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.nextcircleshape, probe)
-			}
 		case *PerpendicularVectorFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PerpendicularVector", true)
@@ -682,19 +676,6 @@ func FillUpFormFromGongstructName(
 		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(midarcvectorshapegrid, formGroup, probe)
-	case "NextCircleShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "NextCircleShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NextCircleShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		nextcircleshape := new(models.NextCircleShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(nextcircleshape, formGroup, probe)
 	case "PerpendicularVector":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

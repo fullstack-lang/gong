@@ -292,19 +292,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.NextCircleShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "NextCircleShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NextCircleShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PerpendicularVector:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

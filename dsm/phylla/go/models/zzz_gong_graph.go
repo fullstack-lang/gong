@@ -70,9 +70,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
 
-	case *NextCircleShape:
-		ok = stage.IsStagedNextCircleShape(target)
-
 	case *PerpendicularVector:
 		ok = stage.IsStagedPerpendicularVector(target)
 
@@ -265,9 +262,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
-
-	case *NextCircleShape:
-		ok = stage.IsStagedNextCircleShape(target)
 
 	case *PerpendicularVector:
 		ok = stage.IsStagedPerpendicularVector(target)
@@ -539,13 +533,6 @@ func (stage *Stage) IsStagedMidArcVectorShape(midarcvectorshape *MidArcVectorSha
 func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
 
 	_, ok = stage.MidArcVectorShapeGrids[midarcvectorshapegrid]
-
-	return
-}
-
-func (stage *Stage) IsStagedNextCircleShape(nextcircleshape *NextCircleShape) (ok bool) {
-
-	_, ok = stage.NextCircleShapes[nextcircleshape]
 
 	return
 }
@@ -900,9 +887,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MidArcVectorShapeGrid:
 		stage.StageBranchMidArcVectorShapeGrid(target)
-
-	case *NextCircleShape:
-		stage.StageBranchNextCircleShape(target)
 
 	case *PerpendicularVector:
 		stage.StageBranchPerpendicularVector(target)
@@ -1375,21 +1359,6 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 	for _, _midarcvectorshape := range midarcvectorshapegrid.MidArcVectorShapes {
 		StageBranch(stage, _midarcvectorshape)
 	}
-
-}
-
-func (stage *Stage) StageBranchNextCircleShape(nextcircleshape *NextCircleShape) {
-
-	// check if instance is already staged
-	if IsStaged(stage, nextcircleshape) {
-		return
-	}
-
-	nextcircleshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2256,10 +2225,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchMidArcVectorShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *NextCircleShape:
-		toT := CopyBranchNextCircleShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *PerpendicularVector:
 		toT := CopyBranchPerpendicularVector(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -2855,25 +2820,6 @@ func CopyBranchMidArcVectorShapeGrid(mapOrigCopy map[any]any, midarcvectorshapeg
 	for _, _midarcvectorshape := range midarcvectorshapegridFrom.MidArcVectorShapes {
 		midarcvectorshapegridTo.MidArcVectorShapes = append(midarcvectorshapegridTo.MidArcVectorShapes, CopyBranchMidArcVectorShape(mapOrigCopy, _midarcvectorshape))
 	}
-
-	return
-}
-
-func CopyBranchNextCircleShape(mapOrigCopy map[any]any, nextcircleshapeFrom *NextCircleShape) (nextcircleshapeTo *NextCircleShape) {
-
-	// nextcircleshapeFrom has already been copied
-	if _nextcircleshapeTo, ok := mapOrigCopy[nextcircleshapeFrom]; ok {
-		nextcircleshapeTo = _nextcircleshapeTo.(*NextCircleShape)
-		return
-	}
-
-	nextcircleshapeTo = new(NextCircleShape)
-	mapOrigCopy[nextcircleshapeFrom] = nextcircleshapeTo
-	nextcircleshapeFrom.CopyBasicFields(nextcircleshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -3877,9 +3823,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MidArcVectorShapeGrid:
 		stage.UnstageBranchMidArcVectorShapeGrid(target)
 
-	case *NextCircleShape:
-		stage.UnstageBranchNextCircleShape(target)
-
 	case *PerpendicularVector:
 		stage.UnstageBranchPerpendicularVector(target)
 
@@ -4351,21 +4294,6 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 	for _, _midarcvectorshape := range midarcvectorshapegrid.MidArcVectorShapes {
 		UnstageBranch(stage, _midarcvectorshape)
 	}
-
-}
-
-func (stage *Stage) UnstageBranchNextCircleShape(nextcircleshape *NextCircleShape) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, nextcircleshape) {
-		return
-	}
-
-	nextcircleshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -5285,11 +5213,6 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromReferences(st
 	}
 }
 
-func (reference *NextCircleShape) GongReconstructPointersFromReferences(stage *Stage, instance *NextCircleShape) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-}
-
 func (reference *PerpendicularVector) GongReconstructPointersFromReferences(stage *Stage, instance *PerpendicularVector) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -5856,11 +5779,6 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromInstances(sta
 		}
 	}
 	reference.MidArcVectorShapes = _MidArcVectorShapes
-}
-
-func (reference *NextCircleShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
 }
 
 func (reference *PerpendicularVector) GongReconstructPointersFromInstances(stage *Stage) {
@@ -6980,17 +6898,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongDiff(stage *Stage, midar
 	if MidArcVectorShapesDifferent {
 		ops := Diff(stage, midarcvectorshapegrid, midarcvectorshapegridOther, "MidArcVectorShapes", midarcvectorshapegridOther.MidArcVectorShapes, midarcvectorshapegrid.MidArcVectorShapes)
 		diffs = append(diffs, ops)
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (nextcircleshape *NextCircleShape) GongDiff(stage *Stage, nextcircleshapeOther *NextCircleShape) (diffs []string) {
-	// insertion point for field diffs
-	if nextcircleshape.Name != nextcircleshapeOther.Name {
-		diffs = append(diffs, nextcircleshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
