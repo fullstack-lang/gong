@@ -1427,7 +1427,7 @@ func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, lay
 }
 
 func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenStartHalfwayArcShapeGrid {
+	if plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid {
 		return
 	}
 

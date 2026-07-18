@@ -1266,14 +1266,27 @@ func enforceTopStartHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopStartHal
 				break
 			}
 
-			sX, sY, _, _, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, false)
+			sX, sY, _, _, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
 			_, _, mX, mY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
 			mX = mX + dx
 			mY = mY + dy
 			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
 
-			endX := (mX + mX2) / 2.0
-			endY := (mY + mY2) / 2.0
+			vx2 := v2.EndX - v2.StartX
+			vy2 := v2.EndY - v2.StartY
+			v2Len := math.Hypot(vx2, vy2)
+			if v2Len == 0 {
+				v2Len = 1
+			}
+			vx2, vy2 = vx2/v2Len, vy2/v2Len
+
+			eX := mX + thickness*vx2
+			eY := mY + thickness*vy2
+			eX2 := mX2 + thickness*vx2
+			eY2 := mY2 + thickness*vy2
+
+			endX := (eX + eX2) / 2.0
+			endY := (eY + eY2) / 2.0
 
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
@@ -1329,8 +1342,6 @@ func enforceTopStartHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopStartHal
 			AC_y := cy_new - sY
 			new_cross := AB_x*AC_y - AB_y*AC_x
 			sweepFlag := (new_cross < 0)
-			sX, sY = sX+dx, sY+dy
-			endX, endY = endX+dx, endY+dy
 
 			if math.Abs(s.StartX-sX) > 1e-4 || math.Abs(s.StartY-sY) > 1e-4 ||
 				math.Abs(s.EndX-endX) > 1e-4 || math.Abs(s.EndY-endY) > 1e-4 ||
@@ -1353,15 +1364,28 @@ func enforceTopStartHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopStartHal
 			v1 := pGrid.PerpendicularVectors[i]
 			v2 := pGrid.PerpendicularVectors[i+1]
 
-			sX, sY, _, _, _, _, xAxisRotation, _, _ := computeArcV2Geometry(v1, v2, 0.0, false)
+			sX, sY, _, _, _, _, xAxisRotation, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
 
 			_, _, mX, mY, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
 			mX = mX + dx
 			mY = mY + dy
 			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
 
-			endX := (mX + mX2) / 2.0
-			endY := (mY + mY2) / 2.0
+			vx2 := v2.EndX - v2.StartX
+			vy2 := v2.EndY - v2.StartY
+			v2Len := math.Hypot(vx2, vy2)
+			if v2Len == 0 {
+				v2Len = 1
+			}
+			vx2, vy2 = vx2/v2Len, vy2/v2Len
+
+			eX := mX + thickness*vx2
+			eY := mY + thickness*vy2
+			eX2 := mX2 + thickness*vx2
+			eY2 := mY2 + thickness*vy2
+
+			endX := (eX + eX2) / 2.0
+			endY := (eY + eY2) / 2.0
 
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
@@ -1417,8 +1441,6 @@ func enforceTopStartHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopStartHal
 			AC_y := cy_new - sY
 			new_cross := AB_x*AC_y - AB_y*AC_x
 			sweepFlag := (new_cross < 0)
-			sX, sY = sX+dx, sY+dy
-			endX, endY = endX+dx, endY+dy
 
 			newShape := new(TopStartHalfwayArcShape).Stage(stage)
 			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
@@ -1480,14 +1502,30 @@ func enforceTopEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopEndHalfway
 			mX = mX + dx
 			mY = mY + dy
 			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
-			sX := (mX + mX2) / 2.0
-			sY := (mY + mY2) / 2.0
 
-			// Compute End Point (B): start point of EndArcShapeGrid
+			vx2 := v2.EndX - v2.StartX
+			vy2 := v2.EndY - v2.StartY
+			v2Len := math.Hypot(vx2, vy2)
+			if v2Len == 0 {
+				v2Len = 1
+			}
+			vx2, vy2 = vx2/v2Len, vy2/v2Len
+
+			eX := mX + thickness*vx2
+			eY := mY + thickness*vy2
+			eX2 := mX2 + thickness*vx2
+			eY2 := mY2 + thickness*vy2
+
+			sX := (eX + eX2) / 2.0
+			sY := (eY + eY2) / 2.0
+
+			// Compute End Point (B): start point of TopEndArcShapeGrid
+			endX_tmp, endY_tmp, _, _, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, true)
+			endX := endX_tmp
+			endY := endY_tmp
+
 			midX := (v1.StartX + v2.StartX) / 2.0
 			midY := (v1.StartY + v2.StartY) / 2.0
-			endX := 2*midX - v1.StartX
-			endY := 2*midY - v1.StartY
 
 			// Compute normal at End Point (B): pointing to center of EndArcShapeGrid
 			v1_dx := v1.EndX - v1.StartX
@@ -1544,8 +1582,6 @@ func enforceTopEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopEndHalfway
 			AC_y := cy_new - sY
 			new_cross := AB_x*AC_y - AB_y*AC_x
 			sweepFlag := (new_cross < 0)
-			sX, sY = sX+dx, sY+dy
-			endX, endY = endX+dx, endY+dy
 
 			if math.Abs(s.StartX-sX) > 1e-4 || math.Abs(s.StartY-sY) > 1e-4 ||
 				math.Abs(s.EndX-endX) > 1e-4 || math.Abs(s.EndY-endY) > 1e-4 ||
@@ -1572,13 +1608,29 @@ func enforceTopEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopEndHalfway
 			mX = mX + dx
 			mY = mY + dy
 			_, _, mX2, mY2, _, _, _, _, _ := computeArcV2Geometry(v1, v2, 0.0, true)
-			sX := (mX + mX2) / 2.0
-			sY := (mY + mY2) / 2.0
+
+			vx2 := v2.EndX - v2.StartX
+			vy2 := v2.EndY - v2.StartY
+			v2Len := math.Hypot(vx2, vy2)
+			if v2Len == 0 {
+				v2Len = 1
+			}
+			vx2, vy2 = vx2/v2Len, vy2/v2Len
+
+			eX := mX + thickness*vx2
+			eY := mY + thickness*vy2
+			eX2 := mX2 + thickness*vx2
+			eY2 := mY2 + thickness*vy2
+
+			sX := (eX + eX2) / 2.0
+			sY := (eY + eY2) / 2.0
+
+			endX_tmp, endY_tmp, _, _, _, _, _, _, _ := computeArcV2Geometry(v1, v2, thickness, true)
+			endX := endX_tmp
+			endY := endY_tmp
 
 			midX := (v1.StartX + v2.StartX) / 2.0
 			midY := (v1.StartY + v2.StartY) / 2.0
-			endX := 2*midX - v1.StartX
-			endY := 2*midY - v1.StartY
 
 			v1_dx := v1.EndX - v1.StartX
 			v1_dy := v1.EndY - v1.StartY
@@ -1634,10 +1686,8 @@ func enforceTopEndHalfwayArcShapeGridHasShapes(stage *Stage, grid *TopEndHalfway
 			AC_y := cy_new - sY
 			new_cross := AB_x*AC_y - AB_y*AC_x
 			sweepFlag := (new_cross < 0)
-			sX, sY = sX+dx, sY+dy
-			endX, endY = endX+dx, endY+dy
 
-			_, _, _, _, _, _, xAxisRotation, _, _ := computeArcV2Geometry(v1, v2, 0.0, false)
+			_, _, _, _, _, _, xAxisRotation, _, _ := computeArcV2Geometry(v1, v2, thickness, false)
 
 			newShape := new(TopEndHalfwayArcShape).Stage(stage)
 			newShape.Name = fmt.Sprintf("%s-%d", grid.Name, i)
