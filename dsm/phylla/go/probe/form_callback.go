@@ -3060,26 +3060,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 
 		case "AxesShape":
 			FormDivSelectFieldToField(&(plant_.AxesShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "ReferenceRhombus":
-			FormDivSelectFieldToField(&(plant_.ReferenceRhombus), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "PlantCircumferenceShape":
-			FormDivSelectFieldToField(&(plant_.PlantCircumferenceShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "GridPathShape":
-			FormDivSelectFieldToField(&(plant_.GridPathShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "InitialRhombusGridShape":
-			FormDivSelectFieldToField(&(plant_.InitialRhombusGridShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "ExplanationTextShape":
-			FormDivSelectFieldToField(&(plant_.ExplanationTextShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedReferenceRhombus":
-			FormDivSelectFieldToField(&(plant_.RotatedReferenceRhombus), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedPlantCircumferenceShape":
-			FormDivSelectFieldToField(&(plant_.RotatedPlantCircumferenceShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedGridPathShape":
-			FormDivSelectFieldToField(&(plant_.RotatedGridPathShape), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedRhombusGridShape2":
-			FormDivSelectFieldToField(&(plant_.RotatedRhombusGridShape2), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthCurveRhombusGridShape":
-			FormDivSelectFieldToField(&(plant_.GrowthCurveRhombusGridShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "RhombusStuff":
+			FormDivSelectFieldToField(&(plant_.RhombusStuff), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthVectorShape":
 			FormDivSelectFieldToField(&(plant_.GrowthVectorShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "PerpendicularVectorGrid":
@@ -3094,6 +3076,10 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.StartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStartArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.TopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "EndArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndArcShapeGrid":
+			FormDivSelectFieldToField(&(plant_.TopEndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedBottomTopStartArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.ShiftedBottomTopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "MidArcVectorShapeGrid":
@@ -3108,10 +3094,6 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.EndHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndHalfwayArcShapeGrid":
 			FormDivSelectFieldToField(&(plant_.TopEndHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "EndArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "TopEndArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.TopEndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurve":
 			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStackOfGrowthCurve":
@@ -3664,6 +3646,104 @@ func (rhombusshapeFormCallback *RhombusShapeFormCallback) OnSave() {
 	}
 
 	rhombusshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__RhombusStuffFormCallback(
+	rhombusstuff *models.RhombusStuff,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rhombusstuffFormCallback *RhombusStuffFormCallback) {
+	rhombusstuffFormCallback = new(RhombusStuffFormCallback)
+	rhombusstuffFormCallback.probe = probe
+	rhombusstuffFormCallback.rhombusstuff = rhombusstuff
+	rhombusstuffFormCallback.formGroup = formGroup
+
+	rhombusstuffFormCallback.CreationMode = (rhombusstuff == nil)
+
+	return
+}
+
+type RhombusStuffFormCallback struct {
+	rhombusstuff *models.RhombusStuff
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rhombusstuffFormCallback *RhombusStuffFormCallback) OnSave() {
+	rhombusstuffFormCallback.probe.stageOfInterest.Lock()
+	defer rhombusstuffFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RhombusStuffFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rhombusstuffFormCallback.probe.formStage.Checkout()
+
+	if rhombusstuffFormCallback.rhombusstuff == nil {
+		rhombusstuffFormCallback.rhombusstuff = new(models.RhombusStuff).Stage(rhombusstuffFormCallback.probe.stageOfInterest)
+	}
+	rhombusstuff_ := rhombusstuffFormCallback.rhombusstuff
+	_ = rhombusstuff_
+
+	for _, formDiv := range rhombusstuffFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rhombusstuff_.Name), formDiv)
+		case "ReferenceRhombus":
+			FormDivSelectFieldToField(&(rhombusstuff_.ReferenceRhombus), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "PlantCircumferenceShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.PlantCircumferenceShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "GridPathShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.GridPathShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "InitialRhombusGridShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.InitialRhombusGridShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "ExplanationTextShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.ExplanationTextShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedReferenceRhombus":
+			FormDivSelectFieldToField(&(rhombusstuff_.RotatedReferenceRhombus), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedPlantCircumferenceShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.RotatedPlantCircumferenceShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedGridPathShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.RotatedGridPathShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedRhombusGridShape2":
+			FormDivSelectFieldToField(&(rhombusstuff_.RotatedRhombusGridShape2), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthCurveRhombusGridShape":
+			FormDivSelectFieldToField(&(rhombusstuff_.GrowthCurveRhombusGridShape), rhombusstuffFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if rhombusstuffFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rhombusstuff_.Unstage(rhombusstuffFormCallback.probe.stageOfInterest)
+	}
+
+	rhombusstuffFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RhombusStuff](
+		rhombusstuffFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rhombusstuffFormCallback.CreationMode || rhombusstuffFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rhombusstuffFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rhombusstuffFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RhombusStuffFormCallback(
+			nil,
+			rhombusstuffFormCallback.probe,
+			newFormGroup,
+		)
+		rhombusstuff := new(models.RhombusStuff)
+		FillUpForm(rhombusstuff, newFormGroup, rhombusstuffFormCallback.probe)
+		rhombusstuffFormCallback.probe.formStage.Commit()
+	}
+
+	rhombusstuffFormCallback.probe.ux_tree()
 }
 func __gong__New__RotatedRhombusGridShapeFormCallback(
 	rotatedrhombusgridshape *models.RotatedRhombusGridShape,

@@ -422,6 +422,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RhombusStuff:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "RhombusStuff",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RhombusStuffFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.RotatedRhombusGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

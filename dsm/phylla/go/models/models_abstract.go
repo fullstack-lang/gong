@@ -42,23 +42,11 @@ type Plant struct {
 	IsPlantDiagramsNodeExpanded bool
 	PlantDiagrams               []*PlantDiagram
 
-	AxesShape               *AxesShape
-	ReferenceRhombus        *RhombusShape
-	PlantCircumferenceShape *PlantCircumferenceShape
-	GridPathShape           *GridPathShape
+	AxesShape *AxesShape
 
-	InitialRhombusGridShape *InitialRhombusGridShape
+	RhombusStuff *RhombusStuff
 
-	ExplanationTextShape    *ExplanationTextShape
-	RotatedReferenceRhombus *RhombusShape
-
-	RotatedPlantCircumferenceShape *PlantCircumferenceShape
-	RotatedGridPathShape           *GridPathShape
-
-	RotatedRhombusGridShape2 *RotatedRhombusGridShape
-
-	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
-	GrowthVectorShape           *GrowthVectorShape
+	GrowthVectorShape *GrowthVectorShape
 
 	PerpendicularVectorGrid        *PerpendicularVectorGrid
 	PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway
@@ -87,4 +75,18 @@ type Plant struct {
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D
+}
+
+type RhombusStuff struct {
+	Name                           string
+	ReferenceRhombus               *RhombusShape
+	PlantCircumferenceShape        *PlantCircumferenceShape
+	GridPathShape                  *GridPathShape
+	InitialRhombusGridShape        *InitialRhombusGridShape
+	ExplanationTextShape           *ExplanationTextShape
+	RotatedReferenceRhombus        *RhombusShape
+	RotatedPlantCircumferenceShape *PlantCircumferenceShape
+	RotatedGridPathShape           *GridPathShape
+	RotatedRhombusGridShape2       *RotatedRhombusGridShape
+	GrowthCurveRhombusGridShape    *GrowthCurveRhombusGridShape
 }
