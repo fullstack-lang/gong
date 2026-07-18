@@ -90,10 +90,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMidArcVectorShapeGridCreateCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *NextCircleShape:
-		if stage.OnAfterNextCircleShapeCreateCallback != nil {
-			stage.OnAfterNextCircleShapeCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *PerpendicularVector:
 		if stage.OnAfterPerpendicularVectorCreateCallback != nil {
 			stage.OnAfterPerpendicularVectorCreateCallback.OnAfterCreate(stage, target)
@@ -372,11 +368,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*MidArcVectorShapeGrid)
 		if stage.OnAfterMidArcVectorShapeGridUpdateCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *NextCircleShape:
-		newTarget := any(new).(*NextCircleShape)
-		if stage.OnAfterNextCircleShapeUpdateCallback != nil {
-			stage.OnAfterNextCircleShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PerpendicularVector:
 		newTarget := any(new).(*PerpendicularVector)
@@ -693,11 +684,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*MidArcVectorShapeGrid)
 			stage.OnAfterMidArcVectorShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *NextCircleShape:
-		if stage.OnAfterNextCircleShapeDeleteCallback != nil {
-			staged := any(staged).(*NextCircleShape)
-			stage.OnAfterNextCircleShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *PerpendicularVector:
 		if stage.OnAfterPerpendicularVectorDeleteCallback != nil {
 			staged := any(staged).(*PerpendicularVector)
@@ -992,10 +978,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMidArcVectorShapeGridReadCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridReadCallback.OnAfterRead(stage, target)
 		}
-	case *NextCircleShape:
-		if stage.OnAfterNextCircleShapeReadCallback != nil {
-			stage.OnAfterNextCircleShapeReadCallback.OnAfterRead(stage, target)
-		}
 	case *PerpendicularVector:
 		if stage.OnAfterPerpendicularVectorReadCallback != nil {
 			stage.OnAfterPerpendicularVectorReadCallback.OnAfterRead(stage, target)
@@ -1209,8 +1191,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShapeGrid])
-	case *NextCircleShape:
-		stage.OnAfterNextCircleShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NextCircleShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorUpdateCallback = any(callback).(OnAfterUpdateInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:
@@ -1340,8 +1320,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShapeGrid])
-	case *NextCircleShape:
-		stage.OnAfterNextCircleShapeCreateCallback = any(callback).(OnAfterCreateInterface[NextCircleShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorCreateCallback = any(callback).(OnAfterCreateInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:
@@ -1471,8 +1449,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShapeGrid])
-	case *NextCircleShape:
-		stage.OnAfterNextCircleShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NextCircleShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorDeleteCallback = any(callback).(OnAfterDeleteInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:
@@ -1602,8 +1578,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterMidArcVectorShapeReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShapeGrid])
-	case *NextCircleShape:
-		stage.OnAfterNextCircleShapeReadCallback = any(callback).(OnAfterReadInterface[NextCircleShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorReadCallback = any(callback).(OnAfterReadInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:

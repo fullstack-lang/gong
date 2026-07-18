@@ -66,8 +66,6 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.MidArcVectorShape](probe)
 	case "MidArcVectorShapeGrid":
 		updateProbeTable[*models.MidArcVectorShapeGrid](probe)
-	case "NextCircleShape":
-		updateProbeTable[*models.NextCircleShape](probe)
 	case "PerpendicularVector":
 		updateProbeTable[*models.PerpendicularVector](probe)
 	case "PerpendicularVectorGrid":

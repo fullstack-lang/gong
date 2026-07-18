@@ -885,32 +885,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(midarcvectorshapegrid.GongMarshallField(stage, "MidArcVectorShapes"))
 	}
 
-	nextcircleshapeOrdered := []*NextCircleShape{}
-	for nextcircleshape := range stage.NextCircleShapes {
-		nextcircleshapeOrdered = append(nextcircleshapeOrdered, nextcircleshape)
-	}
-	sort.Slice(nextcircleshapeOrdered[:], func(i, j int) bool {
-		nextcircleshapei := nextcircleshapeOrdered[i]
-		nextcircleshapej := nextcircleshapeOrdered[j]
-		nextcircleshapei_order, oki := stage.NextCircleShape_stagedOrder[nextcircleshapei]
-		nextcircleshapej_order, okj := stage.NextCircleShape_stagedOrder[nextcircleshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return nextcircleshapei_order < nextcircleshapej_order
-	})
-	if len(nextcircleshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, nextcircleshape := range nextcircleshapeOrdered {
-
-		identifiersDecl.WriteString(nextcircleshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(nextcircleshape.GongMarshallField(stage, "Name"))
-	}
-
 	perpendicularvectorOrdered := []*PerpendicularVector{}
 	for perpendicularvector := range stage.PerpendicularVectors {
 		perpendicularvectorOrdered = append(perpendicularvectorOrdered, perpendicularvector)
@@ -2375,14 +2349,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, nextcircleshape := range nextcircleshapeOrdered {
-		_ = nextcircleshape
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, perpendicularvector := range perpendicularvectorOrdered {
 		_ = perpendicularvector
 		var setPointerField string
@@ -3404,21 +3370,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallField(stage *Sta
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct MidArcVectorShapeGrid", fieldName)
-	}
-	return
-}
-
-func (nextcircleshape *NextCircleShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", nextcircleshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(nextcircleshape.Name))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct NextCircleShape", fieldName)
 	}
 	return
 }
@@ -5971,17 +5922,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallAllFields(stage 
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(midarcvectorshapegrid.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(midarcvectorshapegrid.GongMarshallField(stage, "MidArcVectorShapes"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (nextcircleshape *NextCircleShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(nextcircleshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

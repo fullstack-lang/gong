@@ -372,17 +372,6 @@ func (from *MidArcVectorShapeGrid) CopyBasicFields(to *MidArcVectorShapeGrid) {
 	to.Name = from.Name
 }
 
-type NextCircleShape_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *NextCircleShape) CopyBasicFields(to *NextCircleShape) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type PerpendicularVector_WOP struct {
 	// insertion point
 

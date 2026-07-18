@@ -414,16 +414,6 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
-	case *models.NextCircleShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
 	case *models.PerpendicularVector:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,

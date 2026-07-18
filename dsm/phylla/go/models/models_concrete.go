@@ -50,11 +50,6 @@ type CircleGridShape struct {
 	Name string
 }
 
-// NextCircleShape of a plant,
-type NextCircleShape struct {
-	Name string
-}
-
 // ExplanationTextShape of a plant,
 type ExplanationTextShape struct {
 	Name string

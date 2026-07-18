@@ -198,13 +198,6 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongClean(stage *Stage) (mod
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by NextCircleShape
-func (nextcircleshape *NextCircleShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by PerpendicularVector
 func (perpendicularvector *PerpendicularVector) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
