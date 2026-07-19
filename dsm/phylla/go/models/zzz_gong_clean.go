@@ -272,6 +272,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.TorusStackShape) || modified
 	return
 }
 
@@ -530,6 +531,13 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongClean(stage *Stage) 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TorusStackShape
+func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }

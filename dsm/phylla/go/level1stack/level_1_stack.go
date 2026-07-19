@@ -181,6 +181,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.TopStartArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TorusStackShape](stage)
 
 	return
 }

@@ -3313,6 +3313,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
 		case "IsHiddenTopGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopGrowthCurve2D), formDiv)
+		case "IsHiddenTorusStackShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -3321,6 +3323,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.Rendered3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusStackShape":
+			FormDivSelectFieldToField(&(plantdiagram_.TorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -7498,4 +7502,82 @@ func (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCa
 	}
 
 	topstarthalfwayarcshapegridFormCallback.probe.ux_tree()
+}
+func __gong__New__TorusStackShapeFormCallback(
+	torusstackshape *models.TorusStackShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (torusstackshapeFormCallback *TorusStackShapeFormCallback) {
+	torusstackshapeFormCallback = new(TorusStackShapeFormCallback)
+	torusstackshapeFormCallback.probe = probe
+	torusstackshapeFormCallback.torusstackshape = torusstackshape
+	torusstackshapeFormCallback.formGroup = formGroup
+
+	torusstackshapeFormCallback.CreationMode = (torusstackshape == nil)
+
+	return
+}
+
+type TorusStackShapeFormCallback struct {
+	torusstackshape *models.TorusStackShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (torusstackshapeFormCallback *TorusStackShapeFormCallback) OnSave() {
+	torusstackshapeFormCallback.probe.stageOfInterest.Lock()
+	defer torusstackshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TorusStackShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	torusstackshapeFormCallback.probe.formStage.Checkout()
+
+	if torusstackshapeFormCallback.torusstackshape == nil {
+		torusstackshapeFormCallback.torusstackshape = new(models.TorusStackShape).Stage(torusstackshapeFormCallback.probe.stageOfInterest)
+	}
+	torusstackshape_ := torusstackshapeFormCallback.torusstackshape
+	_ = torusstackshape_
+
+	for _, formDiv := range torusstackshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(torusstackshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if torusstackshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		torusstackshape_.Unstage(torusstackshapeFormCallback.probe.stageOfInterest)
+	}
+
+	torusstackshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TorusStackShape](
+		torusstackshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if torusstackshapeFormCallback.CreationMode || torusstackshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		torusstackshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(torusstackshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TorusStackShapeFormCallback(
+			nil,
+			torusstackshapeFormCallback.probe,
+			newFormGroup,
+		)
+		torusstackshape := new(models.TorusStackShape)
+		FillUpForm(torusstackshape, newFormGroup, torusstackshapeFormCallback.probe)
+		torusstackshapeFormCallback.probe.formStage.Commit()
+	}
+
+	torusstackshapeFormCallback.probe.ux_tree()
 }

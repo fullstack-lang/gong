@@ -491,3 +491,8 @@ type TopEndHalfwayArcShapeGrid struct {
 	Name                   string
 	TopEndHalfwayArcShapes []*TopEndHalfwayArcShape
 }
+
+// TorusStackShape of a plant,
+type TorusStackShape struct {
+	Name string
+}

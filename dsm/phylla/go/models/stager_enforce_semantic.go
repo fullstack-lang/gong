@@ -84,6 +84,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName},
 		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
 		{"Enforce plant diagram rendered 3d shape", stager.enforcePlantDiagramRendered3DShape},
+		{"Enforce plant diagram torus stack shape", stager.enforcePlantDiagramTorusStackShape},
 
 		// concrete semantic check
 

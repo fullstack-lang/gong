@@ -153,4 +153,5 @@ func (stager *Stager) treePlantDiagram(
 
 	appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve", plant.StackOfGrowthCurve, &plantDiagram.IsHiddenStackOfGrowthCurve)
 	appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve", plant.TopStackOfGrowthCurve, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
+	appendDiagramNode(stager, plantDiagramNode, "3D Torus Stack", plantDiagram.TorusStackShape, &plantDiagram.IsHiddenTorusStackShape)
 }
