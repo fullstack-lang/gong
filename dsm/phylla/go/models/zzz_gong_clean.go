@@ -259,6 +259,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.TopGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
 	return
 }
 
@@ -384,6 +385,20 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by StackGrowthCurve2DRibbonEndShape
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackGrowthCurve2DRibbonStartShape
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by StackGrowthCurve2DStartHalfwayArcShape
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -419,6 +434,15 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongClean(stage *Stage) (modif
 	// insertion point per field
 	modified = GongCleanSlice(stage, &stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes) || modified
 	modified = GongCleanSlice(stage, &stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackOfGrowthCurve2DRibbon
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes) || modified
+	modified = GongCleanSlice(stage, &stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes) || modified
 	// insertion point per field
 	return
 }

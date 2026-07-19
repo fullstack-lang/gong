@@ -65,6 +65,10 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refTopStackGrowthCurve2DStartHalfwayArcShape := make(map[*TopStackGrowthCurve2DStartHalfwayArcShape]bool)
 	refTopStackGrowthCurve2DEndHalfwayArcShape := make(map[*TopStackGrowthCurve2DEndHalfwayArcShape]bool)
 
+	refStackOfGrowthCurve2DRibbon := make(map[*StackOfGrowthCurve2DRibbon]bool)
+	refStackGrowthCurve2DRibbonStartShape := make(map[*StackGrowthCurve2DRibbonStartShape]bool)
+	refStackGrowthCurve2DRibbonEndShape := make(map[*StackGrowthCurve2DRibbonEndShape]bool)
+
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
 		if plant.AxesShape != nil {
@@ -240,15 +244,21 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 		if plant.TopStackOfGrowthCurve2D != nil {
 			refTopStackOfGrowthCurve2D[plant.TopStackOfGrowthCurve2D] = true
-			for _, shape := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
-				if shape != nil {
-					refTopStackGrowthCurve2DStartHalfwayArcShape[shape] = true
-				}
+			for _, start := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
+				refTopStackGrowthCurve2DStartHalfwayArcShape[start] = true
 			}
-			for _, shape := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
-				if shape != nil {
-					refTopStackGrowthCurve2DEndHalfwayArcShape[shape] = true
-				}
+			for _, end := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
+				refTopStackGrowthCurve2DEndHalfwayArcShape[end] = true
+			}
+		}
+
+		if plant.StackOfGrowthCurve2DRibbon != nil {
+			refStackOfGrowthCurve2DRibbon[plant.StackOfGrowthCurve2DRibbon] = true
+			for _, start := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
+				refStackGrowthCurve2DRibbonStartShape[start] = true
+			}
+			for _, end := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
+				refStackGrowthCurve2DRibbonEndShape[end] = true
 			}
 		}
 
@@ -646,5 +656,26 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	return
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StackOfGrowthCurve2DRibbon](stage) {
+		if !refStackOfGrowthCurve2DRibbon[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DRibbonStartShape](stage) {
+		if !refStackGrowthCurve2DRibbonStartShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DRibbonEndShape](stage) {
+		if !refStackGrowthCurve2DRibbonEndShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	return needCommit
 }

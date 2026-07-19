@@ -170,6 +170,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeCreateCallback != nil {
 			stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *StackGrowthCurve2DRibbonEndShape:
+		if stage.OnAfterStackGrowthCurve2DRibbonEndShapeCreateCallback != nil {
+			stage.OnAfterStackGrowthCurve2DRibbonEndShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *StackGrowthCurve2DRibbonStartShape:
+		if stage.OnAfterStackGrowthCurve2DRibbonStartShapeCreateCallback != nil {
+			stage.OnAfterStackGrowthCurve2DRibbonStartShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		if stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeCreateCallback != nil {
 			stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeCreateCallback.OnAfterCreate(stage, target)
@@ -189,6 +197,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *StackOfGrowthCurve2D:
 		if stage.OnAfterStackOfGrowthCurve2DCreateCallback != nil {
 			stage.OnAfterStackOfGrowthCurve2DCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *StackOfGrowthCurve2DRibbon:
+		if stage.OnAfterStackOfGrowthCurve2DRibbonCreateCallback != nil {
+			stage.OnAfterStackOfGrowthCurve2DRibbonCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *StartArcShape:
 		if stage.OnAfterStartArcShapeCreateCallback != nil {
@@ -497,6 +509,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback != nil {
 			stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *StackGrowthCurve2DRibbonEndShape:
+		newTarget := any(new).(*StackGrowthCurve2DRibbonEndShape)
+		if stage.OnAfterStackGrowthCurve2DRibbonEndShapeUpdateCallback != nil {
+			stage.OnAfterStackGrowthCurve2DRibbonEndShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *StackGrowthCurve2DRibbonStartShape:
+		newTarget := any(new).(*StackGrowthCurve2DRibbonStartShape)
+		if stage.OnAfterStackGrowthCurve2DRibbonStartShapeUpdateCallback != nil {
+			stage.OnAfterStackGrowthCurve2DRibbonStartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		newTarget := any(new).(*StackGrowthCurve2DStartHalfwayArcShape)
 		if stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeUpdateCallback != nil {
@@ -521,6 +543,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*StackOfGrowthCurve2D)
 		if stage.OnAfterStackOfGrowthCurve2DUpdateCallback != nil {
 			stage.OnAfterStackOfGrowthCurve2DUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *StackOfGrowthCurve2DRibbon:
+		newTarget := any(new).(*StackOfGrowthCurve2DRibbon)
+		if stage.OnAfterStackOfGrowthCurve2DRibbonUpdateCallback != nil {
+			stage.OnAfterStackOfGrowthCurve2DRibbonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *StartArcShape:
 		newTarget := any(new).(*StartArcShape)
@@ -847,6 +874,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*StackGrowthCurve2DEndHalfwayArcShape)
 			stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *StackGrowthCurve2DRibbonEndShape:
+		if stage.OnAfterStackGrowthCurve2DRibbonEndShapeDeleteCallback != nil {
+			staged := any(staged).(*StackGrowthCurve2DRibbonEndShape)
+			stage.OnAfterStackGrowthCurve2DRibbonEndShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *StackGrowthCurve2DRibbonStartShape:
+		if stage.OnAfterStackGrowthCurve2DRibbonStartShapeDeleteCallback != nil {
+			staged := any(staged).(*StackGrowthCurve2DRibbonStartShape)
+			stage.OnAfterStackGrowthCurve2DRibbonStartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		if stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeDeleteCallback != nil {
 			staged := any(staged).(*StackGrowthCurve2DStartHalfwayArcShape)
@@ -871,6 +908,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterStackOfGrowthCurve2DDeleteCallback != nil {
 			staged := any(staged).(*StackOfGrowthCurve2D)
 			stage.OnAfterStackOfGrowthCurve2DDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *StackOfGrowthCurve2DRibbon:
+		if stage.OnAfterStackOfGrowthCurve2DRibbonDeleteCallback != nil {
+			staged := any(staged).(*StackOfGrowthCurve2DRibbon)
+			stage.OnAfterStackOfGrowthCurve2DRibbonDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *StartArcShape:
 		if stage.OnAfterStartArcShapeDeleteCallback != nil {
@@ -1156,6 +1198,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeReadCallback != nil {
 			stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *StackGrowthCurve2DRibbonEndShape:
+		if stage.OnAfterStackGrowthCurve2DRibbonEndShapeReadCallback != nil {
+			stage.OnAfterStackGrowthCurve2DRibbonEndShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *StackGrowthCurve2DRibbonStartShape:
+		if stage.OnAfterStackGrowthCurve2DRibbonStartShapeReadCallback != nil {
+			stage.OnAfterStackGrowthCurve2DRibbonStartShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		if stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeReadCallback != nil {
 			stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeReadCallback.OnAfterRead(stage, target)
@@ -1175,6 +1225,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *StackOfGrowthCurve2D:
 		if stage.OnAfterStackOfGrowthCurve2DReadCallback != nil {
 			stage.OnAfterStackOfGrowthCurve2DReadCallback.OnAfterRead(stage, target)
+		}
+	case *StackOfGrowthCurve2DRibbon:
+		if stage.OnAfterStackOfGrowthCurve2DRibbonReadCallback != nil {
+			stage.OnAfterStackOfGrowthCurve2DRibbonReadCallback.OnAfterRead(stage, target)
 		}
 	case *StartArcShape:
 		if stage.OnAfterStartArcShapeReadCallback != nil {
@@ -1357,6 +1411,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterShiftedLeftStackOfNormalVectorUpdateCallback = any(callback).(OnAfterUpdateInterface[ShiftedLeftStackOfNormalVector])
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StackGrowthCurve2DEndHalfwayArcShape])
+	case *StackGrowthCurve2DRibbonEndShape:
+		stage.OnAfterStackGrowthCurve2DRibbonEndShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StackGrowthCurve2DRibbonEndShape])
+	case *StackGrowthCurve2DRibbonStartShape:
+		stage.OnAfterStackGrowthCurve2DRibbonStartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StackGrowthCurve2DRibbonStartShape])
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StackGrowthCurve2DStartHalfwayArcShape])
 	case *StackGrowthCurveEndArcShape:
@@ -1367,6 +1425,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStackOfGrowthCurveUpdateCallback = any(callback).(OnAfterUpdateInterface[StackOfGrowthCurve])
 	case *StackOfGrowthCurve2D:
 		stage.OnAfterStackOfGrowthCurve2DUpdateCallback = any(callback).(OnAfterUpdateInterface[StackOfGrowthCurve2D])
+	case *StackOfGrowthCurve2DRibbon:
+		stage.OnAfterStackOfGrowthCurve2DRibbonUpdateCallback = any(callback).(OnAfterUpdateInterface[StackOfGrowthCurve2DRibbon])
 	case *StartArcShape:
 		stage.OnAfterStartArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StartArcShape])
 	case *StartArcShapeGrid:
@@ -1500,6 +1560,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterShiftedLeftStackOfNormalVectorCreateCallback = any(callback).(OnAfterCreateInterface[ShiftedLeftStackOfNormalVector])
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[StackGrowthCurve2DEndHalfwayArcShape])
+	case *StackGrowthCurve2DRibbonEndShape:
+		stage.OnAfterStackGrowthCurve2DRibbonEndShapeCreateCallback = any(callback).(OnAfterCreateInterface[StackGrowthCurve2DRibbonEndShape])
+	case *StackGrowthCurve2DRibbonStartShape:
+		stage.OnAfterStackGrowthCurve2DRibbonStartShapeCreateCallback = any(callback).(OnAfterCreateInterface[StackGrowthCurve2DRibbonStartShape])
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[StackGrowthCurve2DStartHalfwayArcShape])
 	case *StackGrowthCurveEndArcShape:
@@ -1510,6 +1574,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStackOfGrowthCurveCreateCallback = any(callback).(OnAfterCreateInterface[StackOfGrowthCurve])
 	case *StackOfGrowthCurve2D:
 		stage.OnAfterStackOfGrowthCurve2DCreateCallback = any(callback).(OnAfterCreateInterface[StackOfGrowthCurve2D])
+	case *StackOfGrowthCurve2DRibbon:
+		stage.OnAfterStackOfGrowthCurve2DRibbonCreateCallback = any(callback).(OnAfterCreateInterface[StackOfGrowthCurve2DRibbon])
 	case *StartArcShape:
 		stage.OnAfterStartArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[StartArcShape])
 	case *StartArcShapeGrid:
@@ -1643,6 +1709,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterShiftedLeftStackOfNormalVectorDeleteCallback = any(callback).(OnAfterDeleteInterface[ShiftedLeftStackOfNormalVector])
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StackGrowthCurve2DEndHalfwayArcShape])
+	case *StackGrowthCurve2DRibbonEndShape:
+		stage.OnAfterStackGrowthCurve2DRibbonEndShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StackGrowthCurve2DRibbonEndShape])
+	case *StackGrowthCurve2DRibbonStartShape:
+		stage.OnAfterStackGrowthCurve2DRibbonStartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StackGrowthCurve2DRibbonStartShape])
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StackGrowthCurve2DStartHalfwayArcShape])
 	case *StackGrowthCurveEndArcShape:
@@ -1653,6 +1723,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStackOfGrowthCurveDeleteCallback = any(callback).(OnAfterDeleteInterface[StackOfGrowthCurve])
 	case *StackOfGrowthCurve2D:
 		stage.OnAfterStackOfGrowthCurve2DDeleteCallback = any(callback).(OnAfterDeleteInterface[StackOfGrowthCurve2D])
+	case *StackOfGrowthCurve2DRibbon:
+		stage.OnAfterStackOfGrowthCurve2DRibbonDeleteCallback = any(callback).(OnAfterDeleteInterface[StackOfGrowthCurve2DRibbon])
 	case *StartArcShape:
 		stage.OnAfterStartArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StartArcShape])
 	case *StartArcShapeGrid:
@@ -1786,6 +1858,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterShiftedLeftStackOfNormalVectorReadCallback = any(callback).(OnAfterReadInterface[ShiftedLeftStackOfNormalVector])
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DEndHalfwayArcShapeReadCallback = any(callback).(OnAfterReadInterface[StackGrowthCurve2DEndHalfwayArcShape])
+	case *StackGrowthCurve2DRibbonEndShape:
+		stage.OnAfterStackGrowthCurve2DRibbonEndShapeReadCallback = any(callback).(OnAfterReadInterface[StackGrowthCurve2DRibbonEndShape])
+	case *StackGrowthCurve2DRibbonStartShape:
+		stage.OnAfterStackGrowthCurve2DRibbonStartShapeReadCallback = any(callback).(OnAfterReadInterface[StackGrowthCurve2DRibbonStartShape])
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		stage.OnAfterStackGrowthCurve2DStartHalfwayArcShapeReadCallback = any(callback).(OnAfterReadInterface[StackGrowthCurve2DStartHalfwayArcShape])
 	case *StackGrowthCurveEndArcShape:
@@ -1796,6 +1872,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterStackOfGrowthCurveReadCallback = any(callback).(OnAfterReadInterface[StackOfGrowthCurve])
 	case *StackOfGrowthCurve2D:
 		stage.OnAfterStackOfGrowthCurve2DReadCallback = any(callback).(OnAfterReadInterface[StackOfGrowthCurve2D])
+	case *StackOfGrowthCurve2DRibbon:
+		stage.OnAfterStackOfGrowthCurve2DRibbonReadCallback = any(callback).(OnAfterReadInterface[StackOfGrowthCurve2DRibbon])
 	case *StartArcShape:
 		stage.OnAfterStartArcShapeReadCallback = any(callback).(OnAfterReadInterface[StartArcShape])
 	case *StartArcShapeGrid:

@@ -629,3 +629,159 @@ func enforceTopStackOfGrowthCurve2DHasShapes(stage *Stage, stack *TopStackOfGrow
 
 	return needCommit
 }
+
+func enforceStackOfGrowthCurve2DRibbonHasShapes(
+	stage *Stage,
+	ribbonStack *StackOfGrowthCurve2DRibbon,
+	bottomStack *StackOfGrowthCurve2D,
+	topStack *TopStackOfGrowthCurve2D,
+) (needCommit bool) {
+	if bottomStack == nil || topStack == nil {
+		return false
+	}
+
+	type expectedStartShape struct {
+		name string
+		bottomStartX, bottomStartY float64
+		bottomEndX, bottomEndY     float64
+		bottomRadiusX, bottomRadiusY float64
+		bottomXAxisRotation        float64
+		bottomLargeArcFlag         bool
+		bottomSweepFlag            bool
+
+		topStartX, topStartY float64
+		topEndX, topEndY     float64
+		topRadiusX, topRadiusY float64
+		topXAxisRotation     float64
+		topLargeArcFlag      bool
+		topSweepFlag         bool
+	}
+
+	var expectedStart []expectedStartShape
+	var expectedEnd []expectedStartShape
+
+	if len(bottomStack.StackGrowthCurve2DStartHalfwayArcShapes) == len(topStack.TopStackGrowthCurve2DStartHalfwayArcShapes) &&
+		len(bottomStack.StackGrowthCurve2DEndHalfwayArcShapes) == len(topStack.TopStackGrowthCurve2DEndHalfwayArcShapes) {
+
+		for i := range bottomStack.StackGrowthCurve2DStartHalfwayArcShapes {
+			b := bottomStack.StackGrowthCurve2DStartHalfwayArcShapes[i]
+			t := topStack.TopStackGrowthCurve2DStartHalfwayArcShapes[i]
+			expectedStart = append(expectedStart, expectedStartShape{
+				name: fmt.Sprintf("%s-layer-start-%d", ribbonStack.Name, i),
+				bottomStartX: b.StartX, bottomStartY: b.StartY,
+				bottomEndX: b.EndX, bottomEndY: b.EndY,
+				bottomRadiusX: b.RadiusX, bottomRadiusY: b.RadiusY,
+				bottomXAxisRotation: b.XAxisRotation, bottomLargeArcFlag: b.LargeArcFlag, bottomSweepFlag: b.SweepFlag,
+
+				topStartX: t.StartX, topStartY: t.StartY,
+				topEndX: t.EndX, topEndY: t.EndY,
+				topRadiusX: t.RadiusX, topRadiusY: t.RadiusY,
+				topXAxisRotation: t.XAxisRotation, topLargeArcFlag: t.LargeArcFlag, topSweepFlag: t.SweepFlag,
+			})
+		}
+
+		for i := range bottomStack.StackGrowthCurve2DEndHalfwayArcShapes {
+			b := bottomStack.StackGrowthCurve2DEndHalfwayArcShapes[i]
+			t := topStack.TopStackGrowthCurve2DEndHalfwayArcShapes[i]
+			expectedEnd = append(expectedEnd, expectedStartShape{
+				name: fmt.Sprintf("%s-layer-end-%d", ribbonStack.Name, i),
+				bottomStartX: b.StartX, bottomStartY: b.StartY,
+				bottomEndX: b.EndX, bottomEndY: b.EndY,
+				bottomRadiusX: b.RadiusX, bottomRadiusY: b.RadiusY,
+				bottomXAxisRotation: b.XAxisRotation, bottomLargeArcFlag: b.LargeArcFlag, bottomSweepFlag: b.SweepFlag,
+
+				topStartX: t.StartX, topStartY: t.StartY,
+				topEndX: t.EndX, topEndY: t.EndY,
+				topRadiusX: t.RadiusX, topRadiusY: t.RadiusY,
+				topXAxisRotation: t.XAxisRotation, topLargeArcFlag: t.LargeArcFlag, topSweepFlag: t.SweepFlag,
+			})
+		}
+	}
+
+	valid := true
+	if len(ribbonStack.StackGrowthCurve2DRibbonStartShapes) != len(expectedStart) || len(ribbonStack.StackGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
+		valid = false
+	} else {
+		for i, exp := range expectedStart {
+			r := ribbonStack.StackGrowthCurve2DRibbonStartShapes[i]
+			if r == nil || r.Name != exp.name {
+				valid = false
+				break
+			}
+			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+		for i, exp := range expectedEnd {
+			r := ribbonStack.StackGrowthCurve2DRibbonEndShapes[i]
+			if r == nil || r.Name != exp.name {
+				valid = false
+				break
+			}
+			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 {
+				valid = false
+				break
+			}
+		}
+	}
+
+	if !valid {
+		ribbonStack.StackGrowthCurve2DRibbonStartShapes = make([]*StackGrowthCurve2DRibbonStartShape, len(expectedStart))
+		for i, exp := range expectedStart {
+			r := new(StackGrowthCurve2DRibbonStartShape).Stage(stage)
+			r.Name = exp.name
+			r.BottomStartX = exp.bottomStartX
+			r.BottomStartY = exp.bottomStartY
+			r.BottomEndX = exp.bottomEndX
+			r.BottomEndY = exp.bottomEndY
+			r.BottomRadiusX = exp.bottomRadiusX
+			r.BottomRadiusY = exp.bottomRadiusY
+			r.BottomXAxisRotation = exp.bottomXAxisRotation
+			r.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			r.BottomSweepFlag = exp.bottomSweepFlag
+
+			r.TopStartX = exp.topStartX
+			r.TopStartY = exp.topStartY
+			r.TopEndX = exp.topEndX
+			r.TopEndY = exp.topEndY
+			r.TopRadiusX = exp.topRadiusX
+			r.TopRadiusY = exp.topRadiusY
+			r.TopXAxisRotation = exp.topXAxisRotation
+			r.TopLargeArcFlag = exp.topLargeArcFlag
+			r.TopSweepFlag = exp.topSweepFlag
+
+			ribbonStack.StackGrowthCurve2DRibbonStartShapes[i] = r
+		}
+
+		ribbonStack.StackGrowthCurve2DRibbonEndShapes = make([]*StackGrowthCurve2DRibbonEndShape, len(expectedEnd))
+		for i, exp := range expectedEnd {
+			r := new(StackGrowthCurve2DRibbonEndShape).Stage(stage)
+			r.Name = exp.name
+			r.BottomStartX = exp.bottomStartX
+			r.BottomStartY = exp.bottomStartY
+			r.BottomEndX = exp.bottomEndX
+			r.BottomEndY = exp.bottomEndY
+			r.BottomRadiusX = exp.bottomRadiusX
+			r.BottomRadiusY = exp.bottomRadiusY
+			r.BottomXAxisRotation = exp.bottomXAxisRotation
+			r.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			r.BottomSweepFlag = exp.bottomSweepFlag
+
+			r.TopStartX = exp.topStartX
+			r.TopStartY = exp.topStartY
+			r.TopEndX = exp.topEndX
+			r.TopEndY = exp.topEndY
+			r.TopRadiusX = exp.topRadiusX
+			r.TopRadiusY = exp.topRadiusY
+			r.TopXAxisRotation = exp.topXAxisRotation
+			r.TopLargeArcFlag = exp.topLargeArcFlag
+			r.TopSweepFlag = exp.topSweepFlag
+
+			ribbonStack.StackGrowthCurve2DRibbonEndShapes[i] = r
+		}
+		needCommit = true
+	}
+
+	return needCommit
+}

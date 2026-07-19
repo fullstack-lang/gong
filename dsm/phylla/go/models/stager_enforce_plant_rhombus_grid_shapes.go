@@ -214,6 +214,9 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.TopStackOfGrowthCurve2D != nil {
 			needCommit = enforceTopStackOfGrowthCurve2DHasShapes(stage, plant.TopStackOfGrowthCurve2D, plant.TopStartHalfwayArcShapeGrid, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.StackHeight, circLen, plant.RelativeCuttedStackFloorHeight*plant.RhombusSideLength) || needCommit
 		}
+		if plant.StackOfGrowthCurve2DRibbon != nil {
+			needCommit = enforceStackOfGrowthCurve2DRibbonHasShapes(stage, plant.StackOfGrowthCurve2DRibbon, plant.StackOfGrowthCurve2D, plant.TopStackOfGrowthCurve2D) || needCommit
+		}
 		if plant.ShiftedLeftStackOfNormalVector == nil {
 			plant.ShiftedLeftStackOfNormalVector = new(ShiftedLeftStackOfNormalVector).Stage(stage)
 			plant.ShiftedLeftStackOfNormalVector.Name = plant.Name + "-ShiftedLeftStackOfNormalVector"
