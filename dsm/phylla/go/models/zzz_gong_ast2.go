@@ -1350,8 +1350,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RhombusInsideAngle = GongExtractFloat(valueExpr)
 	case "RelativeVerticalThickness":
 		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
-	case "RadialThickness":
-		instance.RadialThickness = GongExtractFloat(valueExpr)
+	case "RelativeRadialThickness":
+		instance.RelativeRadialThickness = GongExtractFloat(valueExpr)
 	case "RhombusSideLength":
 		instance.RhombusSideLength = GongExtractFloat(valueExpr)
 	case "RelativeCuttedStackFloorHeight":

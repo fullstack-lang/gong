@@ -27,7 +27,8 @@ type Plant struct {
 	RelativeVerticalThickness float64
 
 	// thickness allong the radius
-	RadialThickness float64
+	// radial with of the solid torus is RelativeRadialThickness x RhombusSideLength
+	RelativeRadialThickness float64
 
 	// RhombusSideLength is set by the user. It represents the physical length of the side of the
 	// fundamental diamond (rhombus) shape. It acts as the scale or distance for each step

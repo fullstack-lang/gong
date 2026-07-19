@@ -146,8 +146,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 		floorMinY := math.MaxFloat64
 
-
-
 		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape) &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
@@ -172,7 +170,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
 			}
 
-			thickness := plant.RadialThickness
+			thickness := plant.RelativeRadialThickness * plant.RhombusSideLength
 			if thickness == 0 {
 				thickness = 5.0
 			}

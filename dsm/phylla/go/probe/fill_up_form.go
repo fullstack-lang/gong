@@ -508,7 +508,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeVerticalThickness", instanceWithInferedType.RelativeVerticalThickness, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RadialThickness", instanceWithInferedType.RadialThickness, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("RelativeRadialThickness", instanceWithInferedType.RelativeRadialThickness, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RhombusSideLength", instanceWithInferedType.RhombusSideLength, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
