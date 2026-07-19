@@ -7,6 +7,7 @@ type PlantDiagram struct {
 	OriginY float64
 
 	IsRhombusNodesExpanded bool
+	IsArcNodesExpanded     bool
 
 	IsHiddenAxesShape                         bool
 	IsHiddenReferenceRhombus                  bool
