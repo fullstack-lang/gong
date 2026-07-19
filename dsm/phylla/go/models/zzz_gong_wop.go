@@ -586,6 +586,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenTopGrowthCurve2D bool
 
+	IsHiddenTorusStackShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -636,6 +638,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
 	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
+	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -1408,6 +1411,17 @@ type TopStartHalfwayArcShapeGrid_WOP struct {
 }
 
 func (from *TopStartHalfwayArcShapeGrid) CopyBasicFields(to *TopStartHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TorusStackShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TorusStackShape) CopyBasicFields(to *TorusStackShape) {
 	// insertion point
 	to.Name = from.Name
 }

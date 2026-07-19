@@ -399,6 +399,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct TorusStackShape
+	// insertion point per field
+
 	// end of insertion point per named struct
 }
 
@@ -645,6 +648,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.TopStartHalfwayArcShapeGrids {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TorusStackShapes {
 		res = append(res, instance)
 	}
 
@@ -1015,6 +1022,12 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongCopy() GongstructIF 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopStartHalfwayArcShapeGrid)
 	topstarthalfwayarcshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
+	newInstance := new(TorusStackShape)
+	torusstackshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1626,6 +1639,16 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetUUID(stag
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstarthalfwayarcshapegrid), uint64(GetOrderPointerGongstruct(stage, topstarthalfwayarcshapegrid)))
+	return
+}
+
+func (torusstackshape *TorusStackShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(torusstackshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torusstackshape), uint64(GetOrderPointerGongstruct(stage, torusstackshape)))
 	return
 }
 
@@ -5002,6 +5025,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(topstarthalfwayarcshapegrids_newInstances)
 	lenDeletedInstances += len(topstarthalfwayarcshapegrids_deletedInstances)
+	var torusstackshapes_newInstances []*TorusStackShape
+	var torusstackshapes_deletedInstances []*TorusStackShape
+
+	// parse all staged instances and check if they have a reference
+	for torusstackshape := range stage.TorusStackShapes {
+		if ref, ok := stage.TorusStackShapes_reference[torusstackshape]; !ok {
+			torusstackshapes_newInstances = append(torusstackshapes_newInstances, torusstackshape)
+			newInstancesSlice = append(newInstancesSlice, torusstackshape.GongMarshallIdentifier(stage))
+			if stage.TorusStackShapes_referenceOrder == nil {
+				stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint)
+			}
+			stage.TorusStackShapes_referenceOrder[torusstackshape] = stage.TorusStackShape_stagedOrder[torusstackshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, torusstackshape.GongMarshallUnstaging(stage))
+			// delete(stage.TorusStackShapes_referenceOrder, torusstackshape)
+			fieldInitializers, pointersInitializations := torusstackshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TorusStackShape_stagedOrder[ref] = stage.TorusStackShape_stagedOrder[torusstackshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := torusstackshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, torusstackshape)
+			// delete(stage.TorusStackShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if torusstackshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", torusstackshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TorusStackShapes_reference {
+		instance := stage.TorusStackShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TorusStackShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			torusstackshapes_deletedInstances = append(torusstackshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(torusstackshapes_newInstances)
+	lenDeletedInstances += len(torusstackshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -5647,6 +5725,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TopStartHalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TorusStackShapes_reference = make(map[*TorusStackShape]*TorusStackShape)
+	stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint) // diff Unstage needs the reference order
+	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
+	for instance := range stage.TorusStackShapes {
+		_copy := instance.GongCopy().(*TorusStackShape)
+		stage.TorusStackShapes_reference[instance] = _copy
+		stage.TorusStackShapes_instance[_copy] = instance
+		stage.TorusStackShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.ArcNormalVectorShapes {
 		reference := stage.ArcNormalVectorShapes_reference[instance]
@@ -5950,6 +6038,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.TopStartHalfwayArcShapeGrids {
 		reference := stage.TopStartHalfwayArcShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TorusStackShapes {
+		reference := stage.TorusStackShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6695,6 +6788,18 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetOrder(sta
 	}
 }
 
+func (torusstackshape *TorusStackShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TorusStackShape_stagedOrder[torusstackshape]; ok {
+		return order
+	}
+	if order, ok := stage.TorusStackShapes_referenceOrder[torusstackshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TorusStackShape was not staged and does not have a reference order", torusstackshape)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -7249,6 +7354,15 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetReference
 	return fmt.Sprintf("__%s__%08d_", topstarthalfwayarcshapegrid.GongGetGongstructName(), topstarthalfwayarcshapegrid.GongGetOrder(stage))
 }
 
+func (torusstackshape *TorusStackShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", torusstackshape.GongGetGongstructName(), torusstackshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (torusstackshape *TorusStackShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", torusstackshape.GongGetGongstructName(), torusstackshape.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -7740,6 +7854,14 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallIden
 	return
 }
 
+func (torusstackshape *TorusStackShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusstackshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TorusStackShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusstackshape.Name))
+	return
+}
+
 // insertion point for unstaging
 func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -8104,6 +8226,12 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongMarshallUnstaging(st
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstarthalfwayarcshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (torusstackshape *TorusStackShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusstackshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

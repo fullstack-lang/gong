@@ -147,18 +147,28 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Torus generated from GrowthCurve2D and TopGrowthCurve2D
-		if len(plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) > 0 &&
+		if checkedDiagram != nil && !checkedDiagram.IsHiddenTorusStackShape &&
+			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
+			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
+			plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
+			len(plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) > 0 &&
 			len(plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
 
 			gc := plant.GrowthCurve2D
 			tgc := plant.TopGrowthCurve2D
 
 			startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
-			endArcs := gc.EndHalfwayArcShapeGrid.EndHalfwayArcShapes
+			var endArcs []*EndHalfwayArcShape
+			if gc.EndHalfwayArcShapeGrid != nil {
+				endArcs = gc.EndHalfwayArcShapeGrid.EndHalfwayArcShapes
+			}
 
 			topStartArcs := tgc.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes
 
-			topEndArcs := tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
+			var topEndArcs []*TopEndHalfwayArcShape
+			if tgc.TopEndHalfwayArcShapeGrid != nil {
+				topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
+			}
 
 			thickness := plant.RadialThickness
 			if thickness == 0 {

@@ -46,9 +46,11 @@ type PlantDiagram struct {
 
 	IsHiddenGrowthCurve2D    bool
 	IsHiddenTopGrowthCurve2D bool
+	IsHiddenTorusStackShape bool
 
 	IsChecked bool
 	AbstractTypeFields
 
 	Rendered3DShape *Rendered3DShape
+	TorusStackShape *TorusStackShape
 }
