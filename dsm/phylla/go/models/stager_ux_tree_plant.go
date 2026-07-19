@@ -42,24 +42,15 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 		OnClick: func() {
 			stager.loadStage.Reset()
 			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
-			
-			// Mockup of STL file generation in memory
-			stlContent := "solid plant\n" +
-				"  facet normal 0 0 0\n" +
-				"    outer loop\n" +
-				"      vertex 0 0 0\n" +
-				"      vertex 1 0 0\n" +
-				"      vertex 0 1 0\n" +
-				"    endloop\n" +
-				"  endfacet\n" +
-				"endsolid plant\n"
-			
+
+			// Generate the actual STL content
+			stlContent := GenerateSTL(plant)
+
 			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
 			fileToDownload.Name = plant.Name + ".stl"
 			stager.loadStage.Commit()
 		},
 	}
-	plantNode.Buttons = append(plantNode.Buttons, downloadBtn)
 
 	confPlants := ItemButtonConfiguration[
 		PlantDiagram, *PlantDiagram, // AT, PAT (Added Element)
@@ -73,6 +64,8 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 		IsButtonInMenu:                     true,
 	}
 	addCreateItemButton(stager, confPlants)
+
+	plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 
 	// Add Plant Diagram Button
 	diagramsNode := &tree.Node{
