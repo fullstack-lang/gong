@@ -141,16 +141,16 @@ func (stager *Stager) treePlantDiagram(
 	appendDiagramNode(stager, arcNodes, "Top Mid Arc Vector Shape Grid", plant.TopMidArcVectorShapeGrid, &plantDiagram.IsHiddenTopMidArcVectorShapeGrid)
 	appendDiagramNode(stager, arcNodes, "End Arc Grid", plant.EndArcShapeGrid, &plantDiagram.IsHiddenEndArcShapeGrid)
 	appendDiagramNode(stager, arcNodes, "Top End Arc Grid", plant.TopEndArcShapeGrid, &plantDiagram.IsHiddenTopEndArcShapeGrid)
-	appendDiagramNode(stager, arcNodes, "Stack Of Growth Curve", plant.StackOfGrowthCurve, &plantDiagram.IsHiddenStackOfGrowthCurve)
-	appendDiagramNode(stager, arcNodes, "Top Stack Of Growth Curve", plant.TopStackOfGrowthCurve, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
 	appendDiagramNode(stager, arcNodes, "Shifted Left Stack Of Perpendicular Vector", plant.ShiftedLeftStackOfNormalVector, &plantDiagram.IsHiddenShiftedLeftStackOfNormalVector)
 	appendDiagramNode(stager, arcNodes, "Shifted Left Stack Of Growth Curve", plant.ShiftedLeftStackOfGrowthCurve, &plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve)
+	appendDiagramNode(stager, arcNodes, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
+	appendDiagramNode(stager, arcNodes, "Top Growth Curve 2D", plant.TopGrowthCurve2D, &plantDiagram.IsHiddenTopGrowthCurve2D)
 
 	appendDiagramNode(stager, plantDiagramNode, "Start Halfway Arc Shape Grid", plant.StartHalfwayArcShapeGrid, &plantDiagram.IsHiddenStartHalfwayArcShapeGrid)
 	appendDiagramNode(stager, plantDiagramNode, "Top Start Halfway Arc Shape Grid", plant.TopStartHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid)
 	appendDiagramNode(stager, plantDiagramNode, "End Halfway Arc Shape Grid", plant.EndHalfwayArcShapeGrid, &plantDiagram.IsHiddenEndHalfwayArcShapeGrid)
 	appendDiagramNode(stager, plantDiagramNode, "Top End Halfway Arc Shape Grid", plant.TopEndHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid)
 
-	appendDiagramNode(stager, plantDiagramNode, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
-	appendDiagramNode(stager, plantDiagramNode, "Top Growth Curve 2D", plant.TopGrowthCurve2D, &plantDiagram.IsHiddenTopGrowthCurve2D)
+	appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve", plant.StackOfGrowthCurve, &plantDiagram.IsHiddenStackOfGrowthCurve)
+	appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve", plant.TopStackOfGrowthCurve, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
 }
