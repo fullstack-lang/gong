@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
+func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DView bool) {
 	plantNode := &tree.Node{
 		Name:            plant.Name,
 		IsExpanded:      plant.IsExpanded,
@@ -79,6 +79,6 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 	diagramsNode.OnClick = onNodeClicked(stager, plant)
 
 	for _, plantDiagram := range plant.PlantDiagrams {
-		stager.treePlantDiagram(plant, plantDiagram, &diagramsNode.Children)
+		stager.treePlantDiagram(plant, plantDiagram, &diagramsNode.Children, is3DView)
 	}
 }

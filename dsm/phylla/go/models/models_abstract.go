@@ -34,6 +34,10 @@ type Plant struct {
 	// taken along the lattice paths.
 	RhombusSideLength float64
 
+	// For laser cutting the torus forms, they will be stack on top of another, without the rotation
+	// CuttedStackFloorHeight is the distance between each ribbon
+	CuttedStackFloorHeight float64
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
