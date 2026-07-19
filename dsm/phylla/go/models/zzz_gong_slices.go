@@ -259,6 +259,12 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct StackGrowthCurve2DEndHalfwayArcShape
+	// insertion point per field
+
+	// Compute reverse map for named struct StackGrowthCurve2DStartHalfwayArcShape
+	// insertion point per field
+
 	// Compute reverse map for named struct StackGrowthCurveEndArcShape
 	// insertion point per field
 
@@ -279,6 +285,23 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = stackofgrowthcurve
 		for _, _stackgrowthcurveendarcshape := range stackofgrowthcurve.StackGrowthCurveEndArcShapes {
 			stage.StackOfGrowthCurve_StackGrowthCurveEndArcShapes_reverseMap[_stackgrowthcurveendarcshape] = stackofgrowthcurve
+		}
+	}
+
+	// Compute reverse map for named struct StackOfGrowthCurve2D
+	// insertion point per field
+	stage.StackOfGrowthCurve2D_StackGrowthCurve2DStartHalfwayArcShapes_reverseMap = make(map[*StackGrowthCurve2DStartHalfwayArcShape]*StackOfGrowthCurve2D)
+	for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
+		_ = stackofgrowthcurve2d
+		for _, _stackgrowthcurve2dstarthalfwayarcshape := range stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes {
+			stage.StackOfGrowthCurve2D_StackGrowthCurve2DStartHalfwayArcShapes_reverseMap[_stackgrowthcurve2dstarthalfwayarcshape] = stackofgrowthcurve2d
+		}
+	}
+	stage.StackOfGrowthCurve2D_StackGrowthCurve2DEndHalfwayArcShapes_reverseMap = make(map[*StackGrowthCurve2DEndHalfwayArcShape]*StackOfGrowthCurve2D)
+	for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
+		_ = stackofgrowthcurve2d
+		for _, _stackgrowthcurve2dendhalfwayarcshape := range stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes {
+			stage.StackOfGrowthCurve2D_StackGrowthCurve2DEndHalfwayArcShapes_reverseMap[_stackgrowthcurve2dendhalfwayarcshape] = stackofgrowthcurve2d
 		}
 	}
 
@@ -350,6 +373,12 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct TopStackGrowthCurve2DEndHalfwayArcShape
+	// insertion point per field
+
+	// Compute reverse map for named struct TopStackGrowthCurve2DStartHalfwayArcShape
+	// insertion point per field
+
 	// Compute reverse map for named struct TopStackGrowthCurveEndArcShape
 	// insertion point per field
 
@@ -370,6 +399,23 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = topstackofgrowthcurve
 		for _, _topstackgrowthcurveendarcshape := range topstackofgrowthcurve.TopStackGrowthCurveEndArcShapes {
 			stage.TopStackOfGrowthCurve_TopStackGrowthCurveEndArcShapes_reverseMap[_topstackgrowthcurveendarcshape] = topstackofgrowthcurve
+		}
+	}
+
+	// Compute reverse map for named struct TopStackOfGrowthCurve2D
+	// insertion point per field
+	stage.TopStackOfGrowthCurve2D_TopStackGrowthCurve2DStartHalfwayArcShapes_reverseMap = make(map[*TopStackGrowthCurve2DStartHalfwayArcShape]*TopStackOfGrowthCurve2D)
+	for topstackofgrowthcurve2d := range stage.TopStackOfGrowthCurve2Ds {
+		_ = topstackofgrowthcurve2d
+		for _, _topstackgrowthcurve2dstarthalfwayarcshape := range topstackofgrowthcurve2d.TopStackGrowthCurve2DStartHalfwayArcShapes {
+			stage.TopStackOfGrowthCurve2D_TopStackGrowthCurve2DStartHalfwayArcShapes_reverseMap[_topstackgrowthcurve2dstarthalfwayarcshape] = topstackofgrowthcurve2d
+		}
+	}
+	stage.TopStackOfGrowthCurve2D_TopStackGrowthCurve2DEndHalfwayArcShapes_reverseMap = make(map[*TopStackGrowthCurve2DEndHalfwayArcShape]*TopStackOfGrowthCurve2D)
+	for topstackofgrowthcurve2d := range stage.TopStackOfGrowthCurve2Ds {
+		_ = topstackofgrowthcurve2d
+		for _, _topstackgrowthcurve2dendhalfwayarcshape := range topstackofgrowthcurve2d.TopStackGrowthCurve2DEndHalfwayArcShapes {
+			stage.TopStackOfGrowthCurve2D_TopStackGrowthCurve2DEndHalfwayArcShapes_reverseMap[_topstackgrowthcurve2dendhalfwayarcshape] = topstackofgrowthcurve2d
 		}
 	}
 
@@ -567,6 +613,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.StackGrowthCurveEndArcShapes {
 		res = append(res, instance)
 	}
@@ -576,6 +630,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StackOfGrowthCurves {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StackOfGrowthCurve2Ds {
 		res = append(res, instance)
 	}
 
@@ -623,6 +681,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.TopStackGrowthCurveEndArcShapes {
 		res = append(res, instance)
 	}
@@ -632,6 +698,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.TopStackOfGrowthCurves {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TopStackOfGrowthCurve2Ds {
 		res = append(res, instance)
 	}
 
@@ -899,6 +969,18 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongCopy()
 	return newInstance
 }
 
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongCopy() GongstructIF {
+	newInstance := new(StackGrowthCurve2DEndHalfwayArcShape)
+	stackgrowthcurve2dendhalfwayarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongCopy() GongstructIF {
+	newInstance := new(StackGrowthCurve2DStartHalfwayArcShape)
+	stackgrowthcurve2dstarthalfwayarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(StackGrowthCurveEndArcShape)
 	stackgrowthcurveendarcshape.CopyBasicFields(newInstance)
@@ -914,6 +996,12 @@ func (stackgrowthcurvestartarcshape *StackGrowthCurveStartArcShape) GongCopy() G
 func (stackofgrowthcurve *StackOfGrowthCurve) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve)
 	stackofgrowthcurve.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongCopy() GongstructIF {
+	newInstance := new(StackOfGrowthCurve2D)
+	stackofgrowthcurve2d.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -983,6 +1071,18 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongCopy() GongstructI
 	return newInstance
 }
 
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongCopy() GongstructIF {
+	newInstance := new(TopStackGrowthCurve2DEndHalfwayArcShape)
+	topstackgrowthcurve2dendhalfwayarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongCopy() GongstructIF {
+	newInstance := new(TopStackGrowthCurve2DStartHalfwayArcShape)
+	topstackgrowthcurve2dstarthalfwayarcshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongCopy() GongstructIF {
 	newInstance := new(TopStackGrowthCurveEndArcShape)
 	topstackgrowthcurveendarcshape.CopyBasicFields(newInstance)
@@ -998,6 +1098,12 @@ func (topstackgrowthcurvestartarcshape *TopStackGrowthCurveStartArcShape) GongCo
 func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongCopy() GongstructIF {
 	newInstance := new(TopStackOfGrowthCurve)
 	topstackofgrowthcurve.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongCopy() GongstructIF {
+	newInstance := new(TopStackOfGrowthCurve2D)
+	topstackofgrowthcurve2d.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1432,6 +1538,26 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetUUI
 	return
 }
 
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackgrowthcurve2dendhalfwayarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackgrowthcurve2dendhalfwayarcshape), uint64(GetOrderPointerGongstruct(stage, stackgrowthcurve2dendhalfwayarcshape)))
+	return
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackgrowthcurve2dstarthalfwayarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackgrowthcurve2dstarthalfwayarcshape), uint64(GetOrderPointerGongstruct(stage, stackgrowthcurve2dstarthalfwayarcshape)))
+	return
+}
+
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(stackgrowthcurveendarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -1459,6 +1585,16 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetUUID(stage *Stage) (uuid st
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve), uint64(GetOrderPointerGongstruct(stage, stackofgrowthcurve)))
+	return
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackofgrowthcurve2d).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2d), uint64(GetOrderPointerGongstruct(stage, stackofgrowthcurve2d)))
 	return
 }
 
@@ -1572,6 +1708,26 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetUUID(stage *Sta
 	return
 }
 
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(topstackgrowthcurve2dendhalfwayarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackgrowthcurve2dendhalfwayarcshape), uint64(GetOrderPointerGongstruct(stage, topstackgrowthcurve2dendhalfwayarcshape)))
+	return
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(topstackgrowthcurve2dstarthalfwayarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackgrowthcurve2dstarthalfwayarcshape), uint64(GetOrderPointerGongstruct(stage, topstackgrowthcurve2dstarthalfwayarcshape)))
+	return
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(topstackgrowthcurveendarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -1599,6 +1755,16 @@ func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongGetUUID(stage *Stage) (u
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackofgrowthcurve), uint64(GetOrderPointerGongstruct(stage, topstackofgrowthcurve)))
+	return
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(topstackofgrowthcurve2d).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstackofgrowthcurve2d), uint64(GetOrderPointerGongstruct(stage, topstackofgrowthcurve2d)))
 	return
 }
 
@@ -3870,6 +4036,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(shiftedleftstackofnormalvectors_newInstances)
 	lenDeletedInstances += len(shiftedleftstackofnormalvectors_deletedInstances)
+	var stackgrowthcurve2dendhalfwayarcshapes_newInstances []*StackGrowthCurve2DEndHalfwayArcShape
+	var stackgrowthcurve2dendhalfwayarcshapes_deletedInstances []*StackGrowthCurve2DEndHalfwayArcShape
+
+	// parse all staged instances and check if they have a reference
+	for stackgrowthcurve2dendhalfwayarcshape := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
+		if ref, ok := stage.StackGrowthCurve2DEndHalfwayArcShapes_reference[stackgrowthcurve2dendhalfwayarcshape]; !ok {
+			stackgrowthcurve2dendhalfwayarcshapes_newInstances = append(stackgrowthcurve2dendhalfwayarcshapes_newInstances, stackgrowthcurve2dendhalfwayarcshape)
+			newInstancesSlice = append(newInstancesSlice, stackgrowthcurve2dendhalfwayarcshape.GongMarshallIdentifier(stage))
+			if stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder == nil {
+				stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder = make(map[*StackGrowthCurve2DEndHalfwayArcShape]uint)
+			}
+			stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder[stackgrowthcurve2dendhalfwayarcshape] = stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[stackgrowthcurve2dendhalfwayarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stackgrowthcurve2dendhalfwayarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder, stackgrowthcurve2dendhalfwayarcshape)
+			fieldInitializers, pointersInitializations := stackgrowthcurve2dendhalfwayarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[ref] = stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[stackgrowthcurve2dendhalfwayarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stackgrowthcurve2dendhalfwayarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stackgrowthcurve2dendhalfwayarcshape)
+			// delete(stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stackgrowthcurve2dendhalfwayarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stackgrowthcurve2dendhalfwayarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StackGrowthCurve2DEndHalfwayArcShapes_reference {
+		instance := stage.StackGrowthCurve2DEndHalfwayArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StackGrowthCurve2DEndHalfwayArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stackgrowthcurve2dendhalfwayarcshapes_deletedInstances = append(stackgrowthcurve2dendhalfwayarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stackgrowthcurve2dendhalfwayarcshapes_newInstances)
+	lenDeletedInstances += len(stackgrowthcurve2dendhalfwayarcshapes_deletedInstances)
+	var stackgrowthcurve2dstarthalfwayarcshapes_newInstances []*StackGrowthCurve2DStartHalfwayArcShape
+	var stackgrowthcurve2dstarthalfwayarcshapes_deletedInstances []*StackGrowthCurve2DStartHalfwayArcShape
+
+	// parse all staged instances and check if they have a reference
+	for stackgrowthcurve2dstarthalfwayarcshape := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
+		if ref, ok := stage.StackGrowthCurve2DStartHalfwayArcShapes_reference[stackgrowthcurve2dstarthalfwayarcshape]; !ok {
+			stackgrowthcurve2dstarthalfwayarcshapes_newInstances = append(stackgrowthcurve2dstarthalfwayarcshapes_newInstances, stackgrowthcurve2dstarthalfwayarcshape)
+			newInstancesSlice = append(newInstancesSlice, stackgrowthcurve2dstarthalfwayarcshape.GongMarshallIdentifier(stage))
+			if stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder == nil {
+				stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder = make(map[*StackGrowthCurve2DStartHalfwayArcShape]uint)
+			}
+			stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder[stackgrowthcurve2dstarthalfwayarcshape] = stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[stackgrowthcurve2dstarthalfwayarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stackgrowthcurve2dstarthalfwayarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder, stackgrowthcurve2dstarthalfwayarcshape)
+			fieldInitializers, pointersInitializations := stackgrowthcurve2dstarthalfwayarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[ref] = stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[stackgrowthcurve2dstarthalfwayarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stackgrowthcurve2dstarthalfwayarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stackgrowthcurve2dstarthalfwayarcshape)
+			// delete(stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stackgrowthcurve2dstarthalfwayarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stackgrowthcurve2dstarthalfwayarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StackGrowthCurve2DStartHalfwayArcShapes_reference {
+		instance := stage.StackGrowthCurve2DStartHalfwayArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StackGrowthCurve2DStartHalfwayArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stackgrowthcurve2dstarthalfwayarcshapes_deletedInstances = append(stackgrowthcurve2dstarthalfwayarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stackgrowthcurve2dstarthalfwayarcshapes_newInstances)
+	lenDeletedInstances += len(stackgrowthcurve2dstarthalfwayarcshapes_deletedInstances)
 	var stackgrowthcurveendarcshapes_newInstances []*StackGrowthCurveEndArcShape
 	var stackgrowthcurveendarcshapes_deletedInstances []*StackGrowthCurveEndArcShape
 
@@ -4035,6 +4311,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(stackofgrowthcurves_newInstances)
 	lenDeletedInstances += len(stackofgrowthcurves_deletedInstances)
+	var stackofgrowthcurve2ds_newInstances []*StackOfGrowthCurve2D
+	var stackofgrowthcurve2ds_deletedInstances []*StackOfGrowthCurve2D
+
+	// parse all staged instances and check if they have a reference
+	for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
+		if ref, ok := stage.StackOfGrowthCurve2Ds_reference[stackofgrowthcurve2d]; !ok {
+			stackofgrowthcurve2ds_newInstances = append(stackofgrowthcurve2ds_newInstances, stackofgrowthcurve2d)
+			newInstancesSlice = append(newInstancesSlice, stackofgrowthcurve2d.GongMarshallIdentifier(stage))
+			if stage.StackOfGrowthCurve2Ds_referenceOrder == nil {
+				stage.StackOfGrowthCurve2Ds_referenceOrder = make(map[*StackOfGrowthCurve2D]uint)
+			}
+			stage.StackOfGrowthCurve2Ds_referenceOrder[stackofgrowthcurve2d] = stage.StackOfGrowthCurve2D_stagedOrder[stackofgrowthcurve2d]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stackofgrowthcurve2d.GongMarshallUnstaging(stage))
+			// delete(stage.StackOfGrowthCurve2Ds_referenceOrder, stackofgrowthcurve2d)
+			fieldInitializers, pointersInitializations := stackofgrowthcurve2d.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StackOfGrowthCurve2D_stagedOrder[ref] = stage.StackOfGrowthCurve2D_stagedOrder[stackofgrowthcurve2d]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stackofgrowthcurve2d.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stackofgrowthcurve2d)
+			// delete(stage.StackOfGrowthCurve2D_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stackofgrowthcurve2d.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stackofgrowthcurve2d.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StackOfGrowthCurve2Ds_reference {
+		instance := stage.StackOfGrowthCurve2Ds_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StackOfGrowthCurve2Ds[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stackofgrowthcurve2ds_deletedInstances = append(stackofgrowthcurve2ds_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stackofgrowthcurve2ds_newInstances)
+	lenDeletedInstances += len(stackofgrowthcurve2ds_deletedInstances)
 	var startarcshapes_newInstances []*StartArcShape
 	var startarcshapes_deletedInstances []*StartArcShape
 
@@ -4640,6 +4971,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(topmidarcvectorshapegrids_newInstances)
 	lenDeletedInstances += len(topmidarcvectorshapegrids_deletedInstances)
+	var topstackgrowthcurve2dendhalfwayarcshapes_newInstances []*TopStackGrowthCurve2DEndHalfwayArcShape
+	var topstackgrowthcurve2dendhalfwayarcshapes_deletedInstances []*TopStackGrowthCurve2DEndHalfwayArcShape
+
+	// parse all staged instances and check if they have a reference
+	for topstackgrowthcurve2dendhalfwayarcshape := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
+		if ref, ok := stage.TopStackGrowthCurve2DEndHalfwayArcShapes_reference[topstackgrowthcurve2dendhalfwayarcshape]; !ok {
+			topstackgrowthcurve2dendhalfwayarcshapes_newInstances = append(topstackgrowthcurve2dendhalfwayarcshapes_newInstances, topstackgrowthcurve2dendhalfwayarcshape)
+			newInstancesSlice = append(newInstancesSlice, topstackgrowthcurve2dendhalfwayarcshape.GongMarshallIdentifier(stage))
+			if stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder == nil {
+				stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder = make(map[*TopStackGrowthCurve2DEndHalfwayArcShape]uint)
+			}
+			stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder[topstackgrowthcurve2dendhalfwayarcshape] = stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder[topstackgrowthcurve2dendhalfwayarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, topstackgrowthcurve2dendhalfwayarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder, topstackgrowthcurve2dendhalfwayarcshape)
+			fieldInitializers, pointersInitializations := topstackgrowthcurve2dendhalfwayarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder[ref] = stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder[topstackgrowthcurve2dendhalfwayarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := topstackgrowthcurve2dendhalfwayarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, topstackgrowthcurve2dendhalfwayarcshape)
+			// delete(stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if topstackgrowthcurve2dendhalfwayarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", topstackgrowthcurve2dendhalfwayarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes_reference {
+		instance := stage.TopStackGrowthCurve2DEndHalfwayArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TopStackGrowthCurve2DEndHalfwayArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			topstackgrowthcurve2dendhalfwayarcshapes_deletedInstances = append(topstackgrowthcurve2dendhalfwayarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(topstackgrowthcurve2dendhalfwayarcshapes_newInstances)
+	lenDeletedInstances += len(topstackgrowthcurve2dendhalfwayarcshapes_deletedInstances)
+	var topstackgrowthcurve2dstarthalfwayarcshapes_newInstances []*TopStackGrowthCurve2DStartHalfwayArcShape
+	var topstackgrowthcurve2dstarthalfwayarcshapes_deletedInstances []*TopStackGrowthCurve2DStartHalfwayArcShape
+
+	// parse all staged instances and check if they have a reference
+	for topstackgrowthcurve2dstarthalfwayarcshape := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
+		if ref, ok := stage.TopStackGrowthCurve2DStartHalfwayArcShapes_reference[topstackgrowthcurve2dstarthalfwayarcshape]; !ok {
+			topstackgrowthcurve2dstarthalfwayarcshapes_newInstances = append(topstackgrowthcurve2dstarthalfwayarcshapes_newInstances, topstackgrowthcurve2dstarthalfwayarcshape)
+			newInstancesSlice = append(newInstancesSlice, topstackgrowthcurve2dstarthalfwayarcshape.GongMarshallIdentifier(stage))
+			if stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder == nil {
+				stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder = make(map[*TopStackGrowthCurve2DStartHalfwayArcShape]uint)
+			}
+			stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder[topstackgrowthcurve2dstarthalfwayarcshape] = stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder[topstackgrowthcurve2dstarthalfwayarcshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, topstackgrowthcurve2dstarthalfwayarcshape.GongMarshallUnstaging(stage))
+			// delete(stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder, topstackgrowthcurve2dstarthalfwayarcshape)
+			fieldInitializers, pointersInitializations := topstackgrowthcurve2dstarthalfwayarcshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder[ref] = stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder[topstackgrowthcurve2dstarthalfwayarcshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := topstackgrowthcurve2dstarthalfwayarcshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, topstackgrowthcurve2dstarthalfwayarcshape)
+			// delete(stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if topstackgrowthcurve2dstarthalfwayarcshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", topstackgrowthcurve2dstarthalfwayarcshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes_reference {
+		instance := stage.TopStackGrowthCurve2DStartHalfwayArcShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TopStackGrowthCurve2DStartHalfwayArcShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			topstackgrowthcurve2dstarthalfwayarcshapes_deletedInstances = append(topstackgrowthcurve2dstarthalfwayarcshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(topstackgrowthcurve2dstarthalfwayarcshapes_newInstances)
+	lenDeletedInstances += len(topstackgrowthcurve2dstarthalfwayarcshapes_deletedInstances)
 	var topstackgrowthcurveendarcshapes_newInstances []*TopStackGrowthCurveEndArcShape
 	var topstackgrowthcurveendarcshapes_deletedInstances []*TopStackGrowthCurveEndArcShape
 
@@ -4805,6 +5246,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(topstackofgrowthcurves_newInstances)
 	lenDeletedInstances += len(topstackofgrowthcurves_deletedInstances)
+	var topstackofgrowthcurve2ds_newInstances []*TopStackOfGrowthCurve2D
+	var topstackofgrowthcurve2ds_deletedInstances []*TopStackOfGrowthCurve2D
+
+	// parse all staged instances and check if they have a reference
+	for topstackofgrowthcurve2d := range stage.TopStackOfGrowthCurve2Ds {
+		if ref, ok := stage.TopStackOfGrowthCurve2Ds_reference[topstackofgrowthcurve2d]; !ok {
+			topstackofgrowthcurve2ds_newInstances = append(topstackofgrowthcurve2ds_newInstances, topstackofgrowthcurve2d)
+			newInstancesSlice = append(newInstancesSlice, topstackofgrowthcurve2d.GongMarshallIdentifier(stage))
+			if stage.TopStackOfGrowthCurve2Ds_referenceOrder == nil {
+				stage.TopStackOfGrowthCurve2Ds_referenceOrder = make(map[*TopStackOfGrowthCurve2D]uint)
+			}
+			stage.TopStackOfGrowthCurve2Ds_referenceOrder[topstackofgrowthcurve2d] = stage.TopStackOfGrowthCurve2D_stagedOrder[topstackofgrowthcurve2d]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, topstackofgrowthcurve2d.GongMarshallUnstaging(stage))
+			// delete(stage.TopStackOfGrowthCurve2Ds_referenceOrder, topstackofgrowthcurve2d)
+			fieldInitializers, pointersInitializations := topstackofgrowthcurve2d.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TopStackOfGrowthCurve2D_stagedOrder[ref] = stage.TopStackOfGrowthCurve2D_stagedOrder[topstackofgrowthcurve2d]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := topstackofgrowthcurve2d.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, topstackofgrowthcurve2d)
+			// delete(stage.TopStackOfGrowthCurve2D_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if topstackofgrowthcurve2d.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", topstackofgrowthcurve2d.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TopStackOfGrowthCurve2Ds_reference {
+		instance := stage.TopStackOfGrowthCurve2Ds_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TopStackOfGrowthCurve2Ds[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			topstackofgrowthcurve2ds_deletedInstances = append(topstackofgrowthcurve2ds_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(topstackofgrowthcurve2ds_newInstances)
+	lenDeletedInstances += len(topstackofgrowthcurve2ds_deletedInstances)
 	var topstartarcshapes_newInstances []*TopStartArcShape
 	var topstartarcshapes_deletedInstances []*TopStartArcShape
 
@@ -5515,6 +6011,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ShiftedLeftStackOfNormalVectors_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StackGrowthCurve2DEndHalfwayArcShapes_reference = make(map[*StackGrowthCurve2DEndHalfwayArcShape]*StackGrowthCurve2DEndHalfwayArcShape)
+	stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder = make(map[*StackGrowthCurve2DEndHalfwayArcShape]uint) // diff Unstage needs the reference order
+	stage.StackGrowthCurve2DEndHalfwayArcShapes_instance = make(map[*StackGrowthCurve2DEndHalfwayArcShape]*StackGrowthCurve2DEndHalfwayArcShape)
+	for instance := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
+		_copy := instance.GongCopy().(*StackGrowthCurve2DEndHalfwayArcShape)
+		stage.StackGrowthCurve2DEndHalfwayArcShapes_reference[instance] = _copy
+		stage.StackGrowthCurve2DEndHalfwayArcShapes_instance[_copy] = instance
+		stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.StackGrowthCurve2DStartHalfwayArcShapes_reference = make(map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape)
+	stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder = make(map[*StackGrowthCurve2DStartHalfwayArcShape]uint) // diff Unstage needs the reference order
+	stage.StackGrowthCurve2DStartHalfwayArcShapes_instance = make(map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape)
+	for instance := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
+		_copy := instance.GongCopy().(*StackGrowthCurve2DStartHalfwayArcShape)
+		stage.StackGrowthCurve2DStartHalfwayArcShapes_reference[instance] = _copy
+		stage.StackGrowthCurve2DStartHalfwayArcShapes_instance[_copy] = instance
+		stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.StackGrowthCurveEndArcShapes_reference = make(map[*StackGrowthCurveEndArcShape]*StackGrowthCurveEndArcShape)
 	stage.StackGrowthCurveEndArcShapes_referenceOrder = make(map[*StackGrowthCurveEndArcShape]uint) // diff Unstage needs the reference order
 	stage.StackGrowthCurveEndArcShapes_instance = make(map[*StackGrowthCurveEndArcShape]*StackGrowthCurveEndArcShape)
@@ -5543,6 +6059,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StackOfGrowthCurves_reference[instance] = _copy
 		stage.StackOfGrowthCurves_instance[_copy] = instance
 		stage.StackOfGrowthCurves_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.StackOfGrowthCurve2Ds_reference = make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D)
+	stage.StackOfGrowthCurve2Ds_referenceOrder = make(map[*StackOfGrowthCurve2D]uint) // diff Unstage needs the reference order
+	stage.StackOfGrowthCurve2Ds_instance = make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D)
+	for instance := range stage.StackOfGrowthCurve2Ds {
+		_copy := instance.GongCopy().(*StackOfGrowthCurve2D)
+		stage.StackOfGrowthCurve2Ds_reference[instance] = _copy
+		stage.StackOfGrowthCurve2Ds_instance[_copy] = instance
+		stage.StackOfGrowthCurve2Ds_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.StartArcShapes_reference = make(map[*StartArcShape]*StartArcShape)
@@ -5655,6 +6181,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TopMidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TopStackGrowthCurve2DEndHalfwayArcShapes_reference = make(map[*TopStackGrowthCurve2DEndHalfwayArcShape]*TopStackGrowthCurve2DEndHalfwayArcShape)
+	stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder = make(map[*TopStackGrowthCurve2DEndHalfwayArcShape]uint) // diff Unstage needs the reference order
+	stage.TopStackGrowthCurve2DEndHalfwayArcShapes_instance = make(map[*TopStackGrowthCurve2DEndHalfwayArcShape]*TopStackGrowthCurve2DEndHalfwayArcShape)
+	for instance := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
+		_copy := instance.GongCopy().(*TopStackGrowthCurve2DEndHalfwayArcShape)
+		stage.TopStackGrowthCurve2DEndHalfwayArcShapes_reference[instance] = _copy
+		stage.TopStackGrowthCurve2DEndHalfwayArcShapes_instance[_copy] = instance
+		stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.TopStackGrowthCurve2DStartHalfwayArcShapes_reference = make(map[*TopStackGrowthCurve2DStartHalfwayArcShape]*TopStackGrowthCurve2DStartHalfwayArcShape)
+	stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder = make(map[*TopStackGrowthCurve2DStartHalfwayArcShape]uint) // diff Unstage needs the reference order
+	stage.TopStackGrowthCurve2DStartHalfwayArcShapes_instance = make(map[*TopStackGrowthCurve2DStartHalfwayArcShape]*TopStackGrowthCurve2DStartHalfwayArcShape)
+	for instance := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
+		_copy := instance.GongCopy().(*TopStackGrowthCurve2DStartHalfwayArcShape)
+		stage.TopStackGrowthCurve2DStartHalfwayArcShapes_reference[instance] = _copy
+		stage.TopStackGrowthCurve2DStartHalfwayArcShapes_instance[_copy] = instance
+		stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TopStackGrowthCurveEndArcShapes_reference = make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape)
 	stage.TopStackGrowthCurveEndArcShapes_referenceOrder = make(map[*TopStackGrowthCurveEndArcShape]uint) // diff Unstage needs the reference order
 	stage.TopStackGrowthCurveEndArcShapes_instance = make(map[*TopStackGrowthCurveEndArcShape]*TopStackGrowthCurveEndArcShape)
@@ -5683,6 +6229,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TopStackOfGrowthCurves_reference[instance] = _copy
 		stage.TopStackOfGrowthCurves_instance[_copy] = instance
 		stage.TopStackOfGrowthCurves_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.TopStackOfGrowthCurve2Ds_reference = make(map[*TopStackOfGrowthCurve2D]*TopStackOfGrowthCurve2D)
+	stage.TopStackOfGrowthCurve2Ds_referenceOrder = make(map[*TopStackOfGrowthCurve2D]uint) // diff Unstage needs the reference order
+	stage.TopStackOfGrowthCurve2Ds_instance = make(map[*TopStackOfGrowthCurve2D]*TopStackOfGrowthCurve2D)
+	for instance := range stage.TopStackOfGrowthCurve2Ds {
+		_copy := instance.GongCopy().(*TopStackOfGrowthCurve2D)
+		stage.TopStackOfGrowthCurve2Ds_reference[instance] = _copy
+		stage.TopStackOfGrowthCurve2Ds_instance[_copy] = instance
+		stage.TopStackOfGrowthCurve2Ds_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.TopStartArcShapes_reference = make(map[*TopStartArcShape]*TopStartArcShape)
@@ -5936,6 +6492,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
+		reference := stage.StackGrowthCurve2DEndHalfwayArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
+		reference := stage.StackGrowthCurve2DStartHalfwayArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.StackGrowthCurveEndArcShapes {
 		reference := stage.StackGrowthCurveEndArcShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -5948,6 +6514,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StackOfGrowthCurves {
 		reference := stage.StackOfGrowthCurves_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StackOfGrowthCurve2Ds {
+		reference := stage.StackOfGrowthCurve2Ds_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6006,6 +6577,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.TopStackGrowthCurve2DEndHalfwayArcShapes {
+		reference := stage.TopStackGrowthCurve2DEndHalfwayArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TopStackGrowthCurve2DStartHalfwayArcShapes {
+		reference := stage.TopStackGrowthCurve2DStartHalfwayArcShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.TopStackGrowthCurveEndArcShapes {
 		reference := stage.TopStackGrowthCurveEndArcShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -6018,6 +6599,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.TopStackOfGrowthCurves {
 		reference := stage.TopStackOfGrowthCurves_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TopStackOfGrowthCurve2Ds {
+		reference := stage.TopStackOfGrowthCurve2Ds_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6536,6 +7122,30 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetOrd
 	}
 }
 
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[stackgrowthcurve2dendhalfwayarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder[stackgrowthcurve2dendhalfwayarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackGrowthCurve2DEndHalfwayArcShape was not staged and does not have a reference order", stackgrowthcurve2dendhalfwayarcshape)
+		return 0
+	}
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[stackgrowthcurve2dstarthalfwayarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder[stackgrowthcurve2dstarthalfwayarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackGrowthCurve2DStartHalfwayArcShape was not staged and does not have a reference order", stackgrowthcurve2dstarthalfwayarcshape)
+		return 0
+	}
+}
+
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.StackGrowthCurveEndArcShape_stagedOrder[stackgrowthcurveendarcshape]; ok {
 		return order
@@ -6568,6 +7178,18 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type StackOfGrowthCurve was not staged and does not have a reference order", stackofgrowthcurve)
+		return 0
+	}
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackOfGrowthCurve2D_stagedOrder[stackofgrowthcurve2d]; ok {
+		return order
+	}
+	if order, ok := stage.StackOfGrowthCurve2Ds_referenceOrder[stackofgrowthcurve2d]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackOfGrowthCurve2D was not staged and does not have a reference order", stackofgrowthcurve2d)
 		return 0
 	}
 }
@@ -6704,6 +7326,30 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetOrder(stage *St
 	}
 }
 
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TopStackGrowthCurve2DEndHalfwayArcShape_stagedOrder[topstackgrowthcurve2dendhalfwayarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.TopStackGrowthCurve2DEndHalfwayArcShapes_referenceOrder[topstackgrowthcurve2dendhalfwayarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TopStackGrowthCurve2DEndHalfwayArcShape was not staged and does not have a reference order", topstackgrowthcurve2dendhalfwayarcshape)
+		return 0
+	}
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TopStackGrowthCurve2DStartHalfwayArcShape_stagedOrder[topstackgrowthcurve2dstarthalfwayarcshape]; ok {
+		return order
+	}
+	if order, ok := stage.TopStackGrowthCurve2DStartHalfwayArcShapes_referenceOrder[topstackgrowthcurve2dstarthalfwayarcshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TopStackGrowthCurve2DStartHalfwayArcShape was not staged and does not have a reference order", topstackgrowthcurve2dstarthalfwayarcshape)
+		return 0
+	}
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TopStackGrowthCurveEndArcShape_stagedOrder[topstackgrowthcurveendarcshape]; ok {
 		return order
@@ -6736,6 +7382,18 @@ func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongGetOrder(stage *Stage) u
 		return order
 	} else {
 		log.Printf("instance %p of type TopStackOfGrowthCurve was not staged and does not have a reference order", topstackofgrowthcurve)
+		return 0
+	}
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TopStackOfGrowthCurve2D_stagedOrder[topstackofgrowthcurve2d]; ok {
+		return order
+	}
+	if order, ok := stage.TopStackOfGrowthCurve2Ds_referenceOrder[topstackofgrowthcurve2d]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TopStackOfGrowthCurve2D was not staged and does not have a reference order", topstackofgrowthcurve2d)
 		return 0
 	}
 }
@@ -7165,6 +7823,24 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongGetRef
 	return fmt.Sprintf("__%s__%08d_", shiftedleftstackofnormalvector.GongGetGongstructName(), shiftedleftstackofnormalvector.GongGetOrder(stage))
 }
 
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackgrowthcurve2dendhalfwayarcshape.GongGetGongstructName(), stackgrowthcurve2dendhalfwayarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackgrowthcurve2dendhalfwayarcshape.GongGetGongstructName(), stackgrowthcurve2dendhalfwayarcshape.GongGetOrder(stage))
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackgrowthcurve2dstarthalfwayarcshape.GongGetGongstructName(), stackgrowthcurve2dstarthalfwayarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackgrowthcurve2dstarthalfwayarcshape.GongGetGongstructName(), stackgrowthcurve2dstarthalfwayarcshape.GongGetOrder(stage))
+}
+
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stackgrowthcurveendarcshape.GongGetGongstructName(), stackgrowthcurveendarcshape.GongGetOrder(stage))
 }
@@ -7190,6 +7866,15 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetIdentifier(stage *Stage) st
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (stackofgrowthcurve *StackOfGrowthCurve) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve.GongGetGongstructName(), stackofgrowthcurve.GongGetOrder(stage))
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2d.GongGetGongstructName(), stackofgrowthcurve2d.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2d.GongGetGongstructName(), stackofgrowthcurve2d.GongGetOrder(stage))
 }
 
 func (startarcshape *StartArcShape) GongGetIdentifier(stage *Stage) string {
@@ -7291,6 +7976,24 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongGetReferenceIdenti
 	return fmt.Sprintf("__%s__%08d_", topmidarcvectorshapegrid.GongGetGongstructName(), topmidarcvectorshapegrid.GongGetOrder(stage))
 }
 
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topstackgrowthcurve2dendhalfwayarcshape.GongGetGongstructName(), topstackgrowthcurve2dendhalfwayarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topstackgrowthcurve2dendhalfwayarcshape.GongGetGongstructName(), topstackgrowthcurve2dendhalfwayarcshape.GongGetOrder(stage))
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topstackgrowthcurve2dstarthalfwayarcshape.GongGetGongstructName(), topstackgrowthcurve2dstarthalfwayarcshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topstackgrowthcurve2dstarthalfwayarcshape.GongGetGongstructName(), topstackgrowthcurve2dstarthalfwayarcshape.GongGetOrder(stage))
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", topstackgrowthcurveendarcshape.GongGetGongstructName(), topstackgrowthcurveendarcshape.GongGetOrder(stage))
 }
@@ -7316,6 +8019,15 @@ func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongGetIdentifier(stage *Sta
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", topstackofgrowthcurve.GongGetGongstructName(), topstackofgrowthcurve.GongGetOrder(stage))
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topstackofgrowthcurve2d.GongGetGongstructName(), topstackofgrowthcurve2d.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", topstackofgrowthcurve2d.GongGetGongstructName(), topstackofgrowthcurve2d.GongGetOrder(stage))
 }
 
 func (topstartarcshape *TopStartArcShape) GongGetIdentifier(stage *Stage) string {
@@ -7686,6 +8398,22 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarsha
 	return
 }
 
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackGrowthCurve2DEndHalfwayArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dendhalfwayarcshape.Name))
+	return
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackGrowthCurve2DStartHalfwayArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackgrowthcurve2dstarthalfwayarcshape.Name))
+	return
+}
+
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurveendarcshape.GongGetIdentifier(stage))
@@ -7707,6 +8435,14 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongMarshallIdentifier(stage *Stag
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfGrowthCurve")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve.Name))
+	return
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2d.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfGrowthCurve2D")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2d.Name))
 	return
 }
 
@@ -7798,6 +8534,22 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongMarshallIdentifier
 	return
 }
 
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurve2dendhalfwayarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackGrowthCurve2DEndHalfwayArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurve2dendhalfwayarcshape.Name))
+	return
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurve2dstarthalfwayarcshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackGrowthCurve2DStartHalfwayArcShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackgrowthcurve2dstarthalfwayarcshape.Name))
+	return
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurveendarcshape.GongGetIdentifier(stage))
@@ -7819,6 +8571,14 @@ func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongMarshallIdentifier(stage
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofgrowthcurve.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackOfGrowthCurve")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofgrowthcurve.Name))
+	return
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofgrowthcurve2d.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TopStackOfGrowthCurve2D")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(topstackofgrowthcurve2d.Name))
 	return
 }
 
@@ -8103,6 +8863,18 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongMarsha
 	return
 }
 
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dendhalfwayarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurve2dstarthalfwayarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackgrowthcurveendarcshape.GongGetReferenceIdentifier(stage))
@@ -8118,6 +8890,12 @@ func (stackgrowthcurvestartarcshape *StackGrowthCurveStartArcShape) GongMarshall
 func (stackofgrowthcurve *StackOfGrowthCurve) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2d.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -8187,6 +8965,18 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongMarshallUnstaging(
 	return
 }
 
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurve2dendhalfwayarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurve2dstarthalfwayarcshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackgrowthcurveendarcshape.GongGetReferenceIdentifier(stage))
@@ -8202,6 +8992,12 @@ func (topstackgrowthcurvestartarcshape *TopStackGrowthCurveStartArcShape) GongMa
 func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofgrowthcurve.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstackofgrowthcurve2d.GongGetReferenceIdentifier(stage))
 	return
 }
 

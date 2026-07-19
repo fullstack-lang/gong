@@ -496,3 +496,67 @@ type TopEndHalfwayArcShapeGrid struct {
 type TorusStackShape struct {
 	Name string
 }
+
+// StackOfGrowthCurve2D of a plant,
+type StackOfGrowthCurve2D struct {
+	Name string
+
+	StackGrowthCurve2DStartHalfwayArcShapes []*StackGrowthCurve2DStartHalfwayArcShape
+	StackGrowthCurve2DEndHalfwayArcShapes   []*StackGrowthCurve2DEndHalfwayArcShape
+}
+
+// TopStackOfGrowthCurve2D of a plant,
+type TopStackOfGrowthCurve2D struct {
+	Name string
+
+	TopStackGrowthCurve2DStartHalfwayArcShapes []*TopStackGrowthCurve2DStartHalfwayArcShape
+	TopStackGrowthCurve2DEndHalfwayArcShapes   []*TopStackGrowthCurve2DEndHalfwayArcShape
+}
+
+type StackGrowthCurve2DStartHalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}
+
+type StackGrowthCurve2DEndHalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}
+
+type TopStackGrowthCurve2DStartHalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}
+
+type TopStackGrowthCurve2DEndHalfwayArcShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+
+	RadiusX, RadiusY float64
+	XAxisRotation    float64
+	LargeArcFlag     bool
+	SweepFlag        bool
+}

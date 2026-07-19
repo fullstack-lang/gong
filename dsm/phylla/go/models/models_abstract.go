@@ -79,6 +79,9 @@ type Plant struct {
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D
+
+	StackOfGrowthCurve2D    *StackOfGrowthCurve2D
+	TopStackOfGrowthCurve2D *TopStackOfGrowthCurve2D
 }
 
 type RhombusStuff struct {

@@ -435,7 +435,31 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n12 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16
+	n17 := enforcePlantHasShape[*StackOfGrowthCurve2D](
+		stager,
+		func() *StackOfGrowthCurve2D { return new(StackOfGrowthCurve2D) },
+		func(p *Plant) *StackOfGrowthCurve2D { return p.StackOfGrowthCurve2D },
+		func(p *Plant, shape *StackOfGrowthCurve2D) { p.StackOfGrowthCurve2D = shape },
+		func(p *Plant, shape *StackOfGrowthCurve2D) bool {
+			return p.StackOfGrowthCurve2D == shape
+		},
+		"StackOfGrowthCurve2D",
+	)
+	needCommit = n17 || needCommit
+
+	n18 := enforcePlantHasShape[*TopStackOfGrowthCurve2D](
+		stager,
+		func() *TopStackOfGrowthCurve2D { return new(TopStackOfGrowthCurve2D) },
+		func(p *Plant) *TopStackOfGrowthCurve2D { return p.TopStackOfGrowthCurve2D },
+		func(p *Plant, shape *TopStackOfGrowthCurve2D) { p.TopStackOfGrowthCurve2D = shape },
+		func(p *Plant, shape *TopStackOfGrowthCurve2D) bool {
+			return p.TopStackOfGrowthCurve2D == shape
+		},
+		"TopStackOfGrowthCurve2D",
+	)
+	needCommit = n18 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16 || n17 || n18
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -573,7 +597,21 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n11 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11
+	n12 := enforcePlantShapeName[*StackOfGrowthCurve2D](
+		stager,
+		func(p *Plant) *StackOfGrowthCurve2D { return p.StackOfGrowthCurve2D },
+		"StackOfGrowthCurve2D",
+	)
+	needCommit = n12 || needCommit
+
+	n13 := enforcePlantShapeName[*TopStackOfGrowthCurve2D](
+		stager,
+		func(p *Plant) *TopStackOfGrowthCurve2D { return p.TopStackOfGrowthCurve2D },
+		"TopStackOfGrowthCurve2D",
+	)
+	needCommit = n13 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed

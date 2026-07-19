@@ -255,6 +255,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.shiftedleftstackofnormalvector, probe)
 			}
+		case *StackGrowthCurve2DEndHalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StackGrowthCurve2DEndHalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stackgrowthcurve2dendhalfwayarcshape, probe)
+			}
+		case *StackGrowthCurve2DStartHalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StackGrowthCurve2DStartHalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stackgrowthcurve2dstarthalfwayarcshape, probe)
+			}
 		case *StackGrowthCurveEndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "StackGrowthCurveEndArcShape", true)
@@ -272,6 +284,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "StackOfGrowthCurve", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.stackofgrowthcurve, probe)
+			}
+		case *StackOfGrowthCurve2DFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StackOfGrowthCurve2D", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stackofgrowthcurve2d, probe)
 			}
 		case *StartArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -339,6 +357,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.topmidarcvectorshapegrid, probe)
 			}
+		case *TopStackGrowthCurve2DEndHalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopStackGrowthCurve2DEndHalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topstackgrowthcurve2dendhalfwayarcshape, probe)
+			}
+		case *TopStackGrowthCurve2DStartHalfwayArcShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopStackGrowthCurve2DStartHalfwayArcShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topstackgrowthcurve2dstarthalfwayarcshape, probe)
+			}
 		case *TopStackGrowthCurveEndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TopStackGrowthCurveEndArcShape", true)
@@ -356,6 +386,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "TopStackOfGrowthCurve", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.topstackofgrowthcurve, probe)
+			}
+		case *TopStackOfGrowthCurve2DFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TopStackOfGrowthCurve2D", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.topstackofgrowthcurve2d, probe)
 			}
 		case *TopStartArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -929,6 +965,32 @@ func FillUpFormFromGongstructName(
 		shiftedleftstackofnormalvector := new(models.ShiftedLeftStackOfNormalVector)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(shiftedleftstackofnormalvector, formGroup, probe)
+	case "StackGrowthCurve2DEndHalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackGrowthCurve2DEndHalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackGrowthCurve2DEndHalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackgrowthcurve2dendhalfwayarcshape := new(models.StackGrowthCurve2DEndHalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackgrowthcurve2dendhalfwayarcshape, formGroup, probe)
+	case "StackGrowthCurve2DStartHalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackGrowthCurve2DStartHalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackGrowthCurve2DStartHalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackgrowthcurve2dstarthalfwayarcshape := new(models.StackGrowthCurve2DStartHalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackgrowthcurve2dstarthalfwayarcshape, formGroup, probe)
 	case "StackGrowthCurveEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -968,6 +1030,19 @@ func FillUpFormFromGongstructName(
 		stackofgrowthcurve := new(models.StackOfGrowthCurve)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofgrowthcurve, formGroup, probe)
+	case "StackOfGrowthCurve2D":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StackOfGrowthCurve2D Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfGrowthCurve2DFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stackofgrowthcurve2d := new(models.StackOfGrowthCurve2D)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stackofgrowthcurve2d, formGroup, probe)
 	case "StartArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1111,6 +1186,32 @@ func FillUpFormFromGongstructName(
 		topmidarcvectorshapegrid := new(models.TopMidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topmidarcvectorshapegrid, formGroup, probe)
+	case "TopStackGrowthCurve2DEndHalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopStackGrowthCurve2DEndHalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStackGrowthCurve2DEndHalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topstackgrowthcurve2dendhalfwayarcshape := new(models.TopStackGrowthCurve2DEndHalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topstackgrowthcurve2dendhalfwayarcshape, formGroup, probe)
+	case "TopStackGrowthCurve2DStartHalfwayArcShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopStackGrowthCurve2DStartHalfwayArcShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStackGrowthCurve2DStartHalfwayArcShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topstackgrowthcurve2dstarthalfwayarcshape := new(models.TopStackGrowthCurve2DStartHalfwayArcShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topstackgrowthcurve2dstarthalfwayarcshape, formGroup, probe)
 	case "TopStackGrowthCurveEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1150,6 +1251,19 @@ func FillUpFormFromGongstructName(
 		topstackofgrowthcurve := new(models.TopStackOfGrowthCurve)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topstackofgrowthcurve, formGroup, probe)
+	case "TopStackOfGrowthCurve2D":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TopStackOfGrowthCurve2D Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TopStackOfGrowthCurve2DFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		topstackofgrowthcurve2d := new(models.TopStackOfGrowthCurve2D)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(topstackofgrowthcurve2d, formGroup, probe)
 	case "TopStartArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
