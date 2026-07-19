@@ -1542,7 +1542,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer
 			largeArcFlag, sweepFlag,
 			pathEndX, pathEndY)
 
-		path.Presentation.Stroke = "green"
+		path.Presentation.Stroke = "blue"
 		path.Presentation.StrokeWidth = 1.5
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 1.0
@@ -1575,7 +1575,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer
 			largeArcFlag, sweepFlag,
 			pathEndX, pathEndY)
 
-		path.Presentation.Stroke = "green"
+		path.Presentation.Stroke = "blue"
 		path.Presentation.StrokeWidth = 1.5
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 1.0
@@ -1618,7 +1618,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, la
 			largeArcFlag, sweepFlag,
 			pathEndX, pathEndY)
 
-		path.Presentation.Stroke = "green"
+		path.Presentation.Stroke = "red"
 		path.Presentation.StrokeWidth = 1.5
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 1.0
@@ -1651,7 +1651,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, la
 			largeArcFlag, sweepFlag,
 			pathEndX, pathEndY)
 
-		path.Presentation.Stroke = "green"
+		path.Presentation.Stroke = "red"
 		path.Presentation.StrokeWidth = 1.5
 		path.Presentation.FillOpacity = 0.0
 		path.Presentation.StrokeOpacity = 1.0
