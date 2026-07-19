@@ -2940,8 +2940,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.RadialThickness), formDiv)
 		case "RhombusSideLength":
 			FormDivBasicFieldToField(&(plant_.RhombusSideLength), formDiv)
-		case "CuttedStackFloorHeight":
-			FormDivBasicFieldToField(&(plant_.CuttedStackFloorHeight), formDiv)
+		case "RelativeCuttedStackFloorHeight":
+			FormDivBasicFieldToField(&(plant_.RelativeCuttedStackFloorHeight), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":

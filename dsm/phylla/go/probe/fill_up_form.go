@@ -512,7 +512,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RhombusSideLength", instanceWithInferedType.RhombusSideLength, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("CuttedStackFloorHeight", instanceWithInferedType.CuttedStackFloorHeight, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("RelativeCuttedStackFloorHeight", instanceWithInferedType.RelativeCuttedStackFloorHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
