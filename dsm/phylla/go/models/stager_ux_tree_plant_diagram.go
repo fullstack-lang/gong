@@ -163,5 +163,6 @@ func (stager *Stager) treePlantDiagram(
 
 	if is3DView {
 		appendDiagramNode(stager, plantDiagramNode, "3D Torus Stack", plantDiagram.TorusStackShape, &plantDiagram.IsHiddenTorusStackShape)
+		appendDiagramNode(stager, plantDiagramNode, "Discrete Torus Stack", plantDiagram.DiscreteTorusStackShape, &plantDiagram.IsHiddenDiscreteTorusStackShape)
 	}
 }

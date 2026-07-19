@@ -108,6 +108,40 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
+type DiscreteTorusShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	CenterY float64
+
+	Radius float64
+
+	TubeRadius float64
+
+	Color string
+}
+
+func (from *DiscreteTorusShape) CopyBasicFields(to *DiscreteTorusShape) {
+	// insertion point
+	to.Name = from.Name
+	to.CenterY = from.CenterY
+	to.Radius = from.Radius
+	to.TubeRadius = from.TubeRadius
+	to.Color = from.Color
+}
+
+type DiscreteTorusStackShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *DiscreteTorusStackShape) CopyBasicFields(to *DiscreteTorusStackShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type EndArcShape_WOP struct {
 	// insertion point
 
@@ -597,6 +631,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenTorusStackShape bool
 
+	IsHiddenDiscreteTorusStackShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -651,6 +687,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
 	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
+	to.IsHiddenDiscreteTorusStackShape = from.IsHiddenDiscreteTorusStackShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

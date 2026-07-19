@@ -69,6 +69,10 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refStackGrowthCurve2DRibbonStartShape := make(map[*StackGrowthCurve2DRibbonStartShape]bool)
 	refStackGrowthCurve2DRibbonEndShape := make(map[*StackGrowthCurve2DRibbonEndShape]bool)
 
+	refTorusStackShape := make(map[*TorusStackShape]bool)
+	refDiscreteTorusStackShape := make(map[*DiscreteTorusStackShape]bool)
+	refDiscreteTorusShape := make(map[*DiscreteTorusShape]bool)
+
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
 		if plant.AxesShape != nil {
@@ -312,6 +316,15 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
+		}
+		if diagram.TorusStackShape != nil {
+			refTorusStackShape[diagram.TorusStackShape] = true
+		}
+		if diagram.DiscreteTorusStackShape != nil {
+			refDiscreteTorusStackShape[diagram.DiscreteTorusStackShape] = true
+			for _, t := range diagram.DiscreteTorusStackShape.DiscreteTorusShapes {
+				refDiscreteTorusShape[t] = true
+			}
 		}
 	}
 
@@ -672,6 +685,27 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*StackGrowthCurve2DRibbonEndShape](stage) {
 		if !refStackGrowthCurve2DRibbonEndShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusStackShape](stage) {
+		if !refTorusStackShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*DiscreteTorusStackShape](stage) {
+		if !refDiscreteTorusStackShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*DiscreteTorusShape](stage) {
+		if !refDiscreteTorusShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

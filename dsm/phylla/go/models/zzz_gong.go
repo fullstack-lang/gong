@@ -225,6 +225,38 @@ type Stage struct {
 	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
 	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
 
+	DiscreteTorusShapes                map[*DiscreteTorusShape]struct{}
+	DiscreteTorusShapes_instance       map[*DiscreteTorusShape]*DiscreteTorusShape
+	DiscreteTorusShapes_mapString      map[string]*DiscreteTorusShape
+	DiscreteTorusShapeOrder            uint
+	DiscreteTorusShape_stagedOrder     map[*DiscreteTorusShape]uint
+	DiscreteTorusShape_orderStaged     map[uint]*DiscreteTorusShape
+	DiscreteTorusShapes_reference      map[*DiscreteTorusShape]*DiscreteTorusShape
+	DiscreteTorusShapes_referenceOrder map[*DiscreteTorusShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDiscreteTorusShapeCreateCallback OnAfterCreateInterface[DiscreteTorusShape]
+	OnAfterDiscreteTorusShapeUpdateCallback OnAfterUpdateInterface[DiscreteTorusShape]
+	OnAfterDiscreteTorusShapeDeleteCallback OnAfterDeleteInterface[DiscreteTorusShape]
+	OnAfterDiscreteTorusShapeReadCallback   OnAfterReadInterface[DiscreteTorusShape]
+
+	DiscreteTorusStackShapes                map[*DiscreteTorusStackShape]struct{}
+	DiscreteTorusStackShapes_instance       map[*DiscreteTorusStackShape]*DiscreteTorusStackShape
+	DiscreteTorusStackShapes_mapString      map[string]*DiscreteTorusStackShape
+	DiscreteTorusStackShapeOrder            uint
+	DiscreteTorusStackShape_stagedOrder     map[*DiscreteTorusStackShape]uint
+	DiscreteTorusStackShape_orderStaged     map[uint]*DiscreteTorusStackShape
+	DiscreteTorusStackShapes_reference      map[*DiscreteTorusStackShape]*DiscreteTorusStackShape
+	DiscreteTorusStackShapes_referenceOrder map[*DiscreteTorusStackShape]uint
+
+	// insertion point for slice of pointers maps
+	DiscreteTorusStackShape_DiscreteTorusShapes_reverseMap map[*DiscreteTorusShape]*DiscreteTorusStackShape
+
+	OnAfterDiscreteTorusStackShapeCreateCallback OnAfterCreateInterface[DiscreteTorusStackShape]
+	OnAfterDiscreteTorusStackShapeUpdateCallback OnAfterUpdateInterface[DiscreteTorusStackShape]
+	OnAfterDiscreteTorusStackShapeDeleteCallback OnAfterDeleteInterface[DiscreteTorusStackShape]
+	OnAfterDiscreteTorusStackShapeReadCallback   OnAfterReadInterface[DiscreteTorusStackShape]
+
 	EndArcShapes                map[*EndArcShape]struct{}
 	EndArcShapes_instance       map[*EndArcShape]*EndArcShape
 	EndArcShapes_mapString      map[string]*EndArcShape
@@ -1524,6 +1556,14 @@ func (stage *Stage) Squash() {
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
 
+	stage.DiscreteTorusShapes_reference = make(map[*DiscreteTorusShape]*DiscreteTorusShape)
+	stage.DiscreteTorusShapes_instance = make(map[*DiscreteTorusShape]*DiscreteTorusShape)
+	stage.DiscreteTorusShapes_referenceOrder = make(map[*DiscreteTorusShape]uint)
+
+	stage.DiscreteTorusStackShapes_reference = make(map[*DiscreteTorusStackShape]*DiscreteTorusStackShape)
+	stage.DiscreteTorusStackShapes_instance = make(map[*DiscreteTorusStackShape]*DiscreteTorusStackShape)
+	stage.DiscreteTorusStackShapes_referenceOrder = make(map[*DiscreteTorusStackShape]uint)
+
 	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_instance = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_referenceOrder = make(map[*EndArcShape]uint)
@@ -1893,6 +1933,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.CircleGridShapeOrder = maxCircleGridShapeOrder + 1
 	} else {
 		stage.CircleGridShapeOrder = 0
+	}
+
+	var maxDiscreteTorusShapeOrder uint
+	var foundDiscreteTorusShape bool
+	for _, order := range stage.DiscreteTorusShape_stagedOrder {
+		if !foundDiscreteTorusShape || order > maxDiscreteTorusShapeOrder {
+			maxDiscreteTorusShapeOrder = order
+			foundDiscreteTorusShape = true
+		}
+	}
+	if foundDiscreteTorusShape {
+		stage.DiscreteTorusShapeOrder = maxDiscreteTorusShapeOrder + 1
+	} else {
+		stage.DiscreteTorusShapeOrder = 0
+	}
+
+	var maxDiscreteTorusStackShapeOrder uint
+	var foundDiscreteTorusStackShape bool
+	for _, order := range stage.DiscreteTorusStackShape_stagedOrder {
+		if !foundDiscreteTorusStackShape || order > maxDiscreteTorusStackShapeOrder {
+			maxDiscreteTorusStackShapeOrder = order
+			foundDiscreteTorusStackShape = true
+		}
+	}
+	if foundDiscreteTorusStackShape {
+		stage.DiscreteTorusStackShapeOrder = maxDiscreteTorusStackShapeOrder + 1
+	} else {
+		stage.DiscreteTorusStackShapeOrder = 0
 	}
 
 	var maxEndArcShapeOrder uint
@@ -2950,6 +3018,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *DiscreteTorusShape:
+		tmp := GetStructInstancesByOrder(stage.DiscreteTorusShapes, stage.DiscreteTorusShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DiscreteTorusShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *DiscreteTorusStackShape:
+		tmp := GetStructInstancesByOrder(stage.DiscreteTorusStackShapes, stage.DiscreteTorusStackShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DiscreteTorusStackShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *EndArcShape:
 		tmp := GetStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 
@@ -3901,6 +3997,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+	case "DiscreteTorusShape":
+		res = GetNamedStructInstances(stage.DiscreteTorusShapes, stage.DiscreteTorusShape_stagedOrder)
+	case "DiscreteTorusStackShape":
+		res = GetNamedStructInstances(stage.DiscreteTorusStackShapes, stage.DiscreteTorusStackShape_stagedOrder)
 	case "EndArcShape":
 		res = GetNamedStructInstances(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 	case "EndArcShapeGrid":
@@ -4112,6 +4212,10 @@ type BackRepoInterface interface {
 	CheckoutBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
+	CommitDiscreteTorusShape(discretetorusshape *DiscreteTorusShape)
+	CheckoutDiscreteTorusShape(discretetorusshape *DiscreteTorusShape)
+	CommitDiscreteTorusStackShape(discretetorusstackshape *DiscreteTorusStackShape)
+	CheckoutDiscreteTorusStackShape(discretetorusstackshape *DiscreteTorusStackShape)
 	CommitEndArcShape(endarcshape *EndArcShape)
 	CheckoutEndArcShape(endarcshape *EndArcShape)
 	CommitEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
@@ -4265,6 +4369,12 @@ func NewStage(name string) (stage *Stage) {
 
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
+
+		DiscreteTorusShapes:           make(map[*DiscreteTorusShape]struct{}),
+		DiscreteTorusShapes_mapString: make(map[string]*DiscreteTorusShape),
+
+		DiscreteTorusStackShapes:           make(map[*DiscreteTorusStackShape]struct{}),
+		DiscreteTorusStackShapes_mapString: make(map[string]*DiscreteTorusStackShape),
 
 		EndArcShapes:           make(map[*EndArcShape]struct{}),
 		EndArcShapes_mapString: make(map[string]*EndArcShape),
@@ -4494,6 +4604,14 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShape_stagedOrder: make(map[*CircleGridShape]uint),
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
 		CircleGridShapes_reference:  make(map[*CircleGridShape]*CircleGridShape),
+
+		DiscreteTorusShape_stagedOrder: make(map[*DiscreteTorusShape]uint),
+		DiscreteTorusShape_orderStaged: make(map[uint]*DiscreteTorusShape),
+		DiscreteTorusShapes_reference:  make(map[*DiscreteTorusShape]*DiscreteTorusShape),
+
+		DiscreteTorusStackShape_stagedOrder: make(map[*DiscreteTorusStackShape]uint),
+		DiscreteTorusStackShape_orderStaged: make(map[uint]*DiscreteTorusStackShape),
+		DiscreteTorusStackShapes_reference:  make(map[*DiscreteTorusStackShape]*DiscreteTorusStackShape),
 
 		EndArcShape_stagedOrder: make(map[*EndArcShape]uint),
 		EndArcShape_orderStaged: make(map[uint]*EndArcShape),
@@ -4769,6 +4887,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
+			"DiscreteTorusShape": &DiscreteTorusShapeUnmarshaller{},
+
+			"DiscreteTorusStackShape": &DiscreteTorusStackShapeUnmarshaller{},
+
 			"EndArcShape": &EndArcShapeUnmarshaller{},
 
 			"EndArcShapeGrid": &EndArcShapeGridUnmarshaller{},
@@ -4909,6 +5031,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "BaseVectorShape"},
 			{name: "BaseVectorShapeGrid"},
 			{name: "CircleGridShape"},
+			{name: "DiscreteTorusShape"},
+			{name: "DiscreteTorusStackShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
 			{name: "EndHalfwayArcShape"},
@@ -4997,6 +5121,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.BaseVectorShapeGrid_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *DiscreteTorusShape:
+		return stage.DiscreteTorusShape_stagedOrder[instance]
+	case *DiscreteTorusStackShape:
+		return stage.DiscreteTorusStackShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -5148,6 +5276,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.BaseVectorShapeGrid_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
+	case *DiscreteTorusShape:
+		return any(stage.DiscreteTorusShape_orderStaged[order]).(Type)
+	case *DiscreteTorusStackShape:
+		return any(stage.DiscreteTorusStackShape_orderStaged[order]).(Type)
 	case *EndArcShape:
 		return any(stage.EndArcShape_orderStaged[order]).(Type)
 	case *EndArcShapeGrid:
@@ -5298,6 +5430,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.BaseVectorShapeGrid_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *DiscreteTorusShape:
+		return stage.DiscreteTorusShape_stagedOrder[instance]
+	case *DiscreteTorusStackShape:
+		return stage.DiscreteTorusStackShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -5499,6 +5635,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["BaseVectorShape"] = len(stage.BaseVectorShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
+	stage.Map_GongStructName_InstancesNb["DiscreteTorusShape"] = len(stage.DiscreteTorusShapes)
+	stage.Map_GongStructName_InstancesNb["DiscreteTorusStackShape"] = len(stage.DiscreteTorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShape"] = len(stage.EndHalfwayArcShapes)
@@ -6130,6 +6268,182 @@ func (circlegridshape *CircleGridShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (circlegridshape *CircleGridShape) SetName(name string) {
 	circlegridshape.Name = name
+}
+
+// Stage puts discretetorusshape to the model stage
+func (discretetorusshape *DiscreteTorusShape) Stage(stage *Stage) *DiscreteTorusShape {
+	if _, ok := stage.DiscreteTorusShapes[discretetorusshape]; !ok {
+		stage.DiscreteTorusShapes[discretetorusshape] = struct{}{}
+		stage.DiscreteTorusShape_stagedOrder[discretetorusshape] = stage.DiscreteTorusShapeOrder
+		stage.DiscreteTorusShape_orderStaged[stage.DiscreteTorusShapeOrder] = discretetorusshape
+		stage.DiscreteTorusShapeOrder++
+	}
+	stage.DiscreteTorusShapes_mapString[discretetorusshape.Name] = discretetorusshape
+
+	return discretetorusshape
+}
+
+// StagePreserveOrder puts discretetorusshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiscreteTorusShapeOrder
+// - update stage.DiscreteTorusShapeOrder accordingly
+func (discretetorusshape *DiscreteTorusShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DiscreteTorusShapes[discretetorusshape]; !ok {
+		stage.DiscreteTorusShapes[discretetorusshape] = struct{}{}
+
+		if order > stage.DiscreteTorusShapeOrder {
+			stage.DiscreteTorusShapeOrder = order
+		}
+		stage.DiscreteTorusShape_stagedOrder[discretetorusshape] = order
+		stage.DiscreteTorusShape_orderStaged[order] = discretetorusshape
+		stage.DiscreteTorusShapeOrder++
+	}
+	stage.DiscreteTorusShapes_mapString[discretetorusshape.Name] = discretetorusshape
+}
+
+// Unstage removes discretetorusshape off the model stage
+func (discretetorusshape *DiscreteTorusShape) Unstage(stage *Stage) *DiscreteTorusShape {
+	delete(stage.DiscreteTorusShapes, discretetorusshape)
+	// issue1150
+	// delete(stage.DiscreteTorusShape_stagedOrder, discretetorusshape)
+	delete(stage.DiscreteTorusShapes_mapString, discretetorusshape.Name)
+
+	return discretetorusshape
+}
+
+// UnstageVoid removes discretetorusshape off the model stage
+func (discretetorusshape *DiscreteTorusShape) UnstageVoid(stage *Stage) {
+	delete(stage.DiscreteTorusShapes, discretetorusshape)
+	// issue1150
+	// delete(stage.DiscreteTorusShape_stagedOrder, discretetorusshape)
+	delete(stage.DiscreteTorusShapes_mapString, discretetorusshape.Name)
+}
+
+// commit discretetorusshape to the back repo (if it is already staged)
+func (discretetorusshape *DiscreteTorusShape) Commit(stage *Stage) *DiscreteTorusShape {
+	if _, ok := stage.DiscreteTorusShapes[discretetorusshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDiscreteTorusShape(discretetorusshape)
+		}
+	}
+	return discretetorusshape
+}
+
+func (discretetorusshape *DiscreteTorusShape) CommitVoid(stage *Stage) {
+	discretetorusshape.Commit(stage)
+}
+
+func (discretetorusshape *DiscreteTorusShape) StageVoid(stage *Stage) {
+	discretetorusshape.Stage(stage)
+}
+
+// Checkout discretetorusshape to the back repo (if it is already staged)
+func (discretetorusshape *DiscreteTorusShape) Checkout(stage *Stage) *DiscreteTorusShape {
+	if _, ok := stage.DiscreteTorusShapes[discretetorusshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDiscreteTorusShape(discretetorusshape)
+		}
+	}
+	return discretetorusshape
+}
+
+// for satisfaction of GongStruct interface
+func (discretetorusshape *DiscreteTorusShape) GetName() (res string) {
+	return discretetorusshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (discretetorusshape *DiscreteTorusShape) SetName(name string) {
+	discretetorusshape.Name = name
+}
+
+// Stage puts discretetorusstackshape to the model stage
+func (discretetorusstackshape *DiscreteTorusStackShape) Stage(stage *Stage) *DiscreteTorusStackShape {
+	if _, ok := stage.DiscreteTorusStackShapes[discretetorusstackshape]; !ok {
+		stage.DiscreteTorusStackShapes[discretetorusstackshape] = struct{}{}
+		stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshape] = stage.DiscreteTorusStackShapeOrder
+		stage.DiscreteTorusStackShape_orderStaged[stage.DiscreteTorusStackShapeOrder] = discretetorusstackshape
+		stage.DiscreteTorusStackShapeOrder++
+	}
+	stage.DiscreteTorusStackShapes_mapString[discretetorusstackshape.Name] = discretetorusstackshape
+
+	return discretetorusstackshape
+}
+
+// StagePreserveOrder puts discretetorusstackshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiscreteTorusStackShapeOrder
+// - update stage.DiscreteTorusStackShapeOrder accordingly
+func (discretetorusstackshape *DiscreteTorusStackShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DiscreteTorusStackShapes[discretetorusstackshape]; !ok {
+		stage.DiscreteTorusStackShapes[discretetorusstackshape] = struct{}{}
+
+		if order > stage.DiscreteTorusStackShapeOrder {
+			stage.DiscreteTorusStackShapeOrder = order
+		}
+		stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshape] = order
+		stage.DiscreteTorusStackShape_orderStaged[order] = discretetorusstackshape
+		stage.DiscreteTorusStackShapeOrder++
+	}
+	stage.DiscreteTorusStackShapes_mapString[discretetorusstackshape.Name] = discretetorusstackshape
+}
+
+// Unstage removes discretetorusstackshape off the model stage
+func (discretetorusstackshape *DiscreteTorusStackShape) Unstage(stage *Stage) *DiscreteTorusStackShape {
+	delete(stage.DiscreteTorusStackShapes, discretetorusstackshape)
+	// issue1150
+	// delete(stage.DiscreteTorusStackShape_stagedOrder, discretetorusstackshape)
+	delete(stage.DiscreteTorusStackShapes_mapString, discretetorusstackshape.Name)
+
+	return discretetorusstackshape
+}
+
+// UnstageVoid removes discretetorusstackshape off the model stage
+func (discretetorusstackshape *DiscreteTorusStackShape) UnstageVoid(stage *Stage) {
+	delete(stage.DiscreteTorusStackShapes, discretetorusstackshape)
+	// issue1150
+	// delete(stage.DiscreteTorusStackShape_stagedOrder, discretetorusstackshape)
+	delete(stage.DiscreteTorusStackShapes_mapString, discretetorusstackshape.Name)
+}
+
+// commit discretetorusstackshape to the back repo (if it is already staged)
+func (discretetorusstackshape *DiscreteTorusStackShape) Commit(stage *Stage) *DiscreteTorusStackShape {
+	if _, ok := stage.DiscreteTorusStackShapes[discretetorusstackshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDiscreteTorusStackShape(discretetorusstackshape)
+		}
+	}
+	return discretetorusstackshape
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) CommitVoid(stage *Stage) {
+	discretetorusstackshape.Commit(stage)
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) StageVoid(stage *Stage) {
+	discretetorusstackshape.Stage(stage)
+}
+
+// Checkout discretetorusstackshape to the back repo (if it is already staged)
+func (discretetorusstackshape *DiscreteTorusStackShape) Checkout(stage *Stage) *DiscreteTorusStackShape {
+	if _, ok := stage.DiscreteTorusStackShapes[discretetorusstackshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDiscreteTorusStackShape(discretetorusstackshape)
+		}
+	}
+	return discretetorusstackshape
+}
+
+// for satisfaction of GongStruct interface
+func (discretetorusstackshape *DiscreteTorusStackShape) GetName() (res string) {
+	return discretetorusstackshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (discretetorusstackshape *DiscreteTorusStackShape) SetName(name string) {
+	discretetorusstackshape.Name = name
 }
 
 // Stage puts endarcshape to the model stage
@@ -11860,6 +12174,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
+	CreateORMDiscreteTorusShape(DiscreteTorusShape *DiscreteTorusShape)
+	CreateORMDiscreteTorusStackShape(DiscreteTorusStackShape *DiscreteTorusStackShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	CreateORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
@@ -11934,6 +12250,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
+	DeleteORMDiscreteTorusShape(DiscreteTorusShape *DiscreteTorusShape)
+	DeleteORMDiscreteTorusStackShape(DiscreteTorusStackShape *DiscreteTorusStackShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	DeleteORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
@@ -12031,6 +12349,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
 	stage.CircleGridShape_stagedOrder = make(map[*CircleGridShape]uint)
 	stage.CircleGridShapeOrder = 0
+
+	stage.DiscreteTorusShapes = make(map[*DiscreteTorusShape]struct{})
+	stage.DiscreteTorusShapes_mapString = make(map[string]*DiscreteTorusShape)
+	stage.DiscreteTorusShape_stagedOrder = make(map[*DiscreteTorusShape]uint)
+	stage.DiscreteTorusShapeOrder = 0
+
+	stage.DiscreteTorusStackShapes = make(map[*DiscreteTorusStackShape]struct{})
+	stage.DiscreteTorusStackShapes_mapString = make(map[string]*DiscreteTorusStackShape)
+	stage.DiscreteTorusStackShape_stagedOrder = make(map[*DiscreteTorusStackShape]uint)
+	stage.DiscreteTorusStackShapeOrder = 0
 
 	stage.EndArcShapes = make(map[*EndArcShape]struct{})
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)
@@ -12384,6 +12712,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
+	stage.DiscreteTorusShapes = nil
+	stage.DiscreteTorusShapes_mapString = nil
+
+	stage.DiscreteTorusStackShapes = nil
+	stage.DiscreteTorusStackShapes_mapString = nil
+
 	stage.EndArcShapes = nil
 	stage.EndArcShapes_mapString = nil
 
@@ -12605,6 +12939,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for circlegridshape := range stage.CircleGridShapes {
 		circlegridshape.Unstage(stage)
+	}
+
+	for discretetorusshape := range stage.DiscreteTorusShapes {
+		discretetorusshape.Unstage(stage)
+	}
+
+	for discretetorusstackshape := range stage.DiscreteTorusStackShapes {
+		discretetorusstackshape.Unstage(stage)
 	}
 
 	for endarcshape := range stage.EndArcShapes {
@@ -12955,6 +13297,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.BaseVectorShapeGrids).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
+	case map[*DiscreteTorusShape]any:
+		return any(&stage.DiscreteTorusShapes).(*Type)
+	case map[*DiscreteTorusStackShape]any:
+		return any(&stage.DiscreteTorusStackShapes).(*Type)
 	case map[*EndArcShape]any:
 		return any(&stage.EndArcShapes).(*Type)
 	case map[*EndArcShapeGrid]any:
@@ -13109,6 +13455,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.BaseVectorShapeGrids_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
+	case *DiscreteTorusShape:
+		return any(stage.DiscreteTorusShapes_mapString).(map[string]Type)
+	case *DiscreteTorusStackShape:
+		return any(stage.DiscreteTorusStackShapes_mapString).(map[string]Type)
 	case *EndArcShape:
 		return any(stage.EndArcShapes_mapString).(map[string]Type)
 	case *EndArcShapeGrid:
@@ -13263,6 +13613,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.BaseVectorShapeGrids).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
+	case DiscreteTorusShape:
+		return any(&stage.DiscreteTorusShapes).(*map[*Type]struct{})
+	case DiscreteTorusStackShape:
+		return any(&stage.DiscreteTorusStackShapes).(*map[*Type]struct{})
 	case EndArcShape:
 		return any(&stage.EndArcShapes).(*map[*Type]struct{})
 	case EndArcShapeGrid:
@@ -13417,6 +13771,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.BaseVectorShapeGrids).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
+	case *DiscreteTorusShape:
+		return any(&stage.DiscreteTorusShapes).(*map[Type]struct{})
+	case *DiscreteTorusStackShape:
+		return any(&stage.DiscreteTorusStackShapes).(*map[Type]struct{})
 	case *EndArcShape:
 		return any(&stage.EndArcShapes).(*map[Type]struct{})
 	case *EndArcShapeGrid:
@@ -13571,6 +13929,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.BaseVectorShapeGrids_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
+	case DiscreteTorusShape:
+		return any(&stage.DiscreteTorusShapes_mapString).(*map[string]*Type)
+	case DiscreteTorusStackShape:
+		return any(&stage.DiscreteTorusStackShapes_mapString).(*map[string]*Type)
 	case EndArcShape:
 		return any(&stage.EndArcShapes_mapString).(*map[string]*Type)
 	case EndArcShapeGrid:
@@ -13743,6 +14105,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&CircleGridShape{
 			// Initialisation of associations
 		}).(*Type)
+	case DiscreteTorusShape:
+		return any(&DiscreteTorusShape{
+			// Initialisation of associations
+		}).(*Type)
+	case DiscreteTorusStackShape:
+		return any(&DiscreteTorusStackShape{
+			// Initialisation of associations
+			// field is initialized with an instance of DiscreteTorusShape with the name of the field
+			DiscreteTorusShapes: []*DiscreteTorusShape{{Name: "DiscreteTorusShapes"}},
+		}).(*Type)
 	case EndArcShape:
 		return any(&EndArcShape{
 			// Initialisation of associations
@@ -13912,6 +14284,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 			// field is initialized with an instance of TorusStackShape with the name of the field
 			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
+			// field is initialized with an instance of DiscreteTorusStackShape with the name of the field
+			DiscreteTorusStackShape: &DiscreteTorusStackShape{Name: "DiscreteTorusStackShape"},
 		}).(*Type)
 	case Rendered3DShape:
 		return any(&Rendered3DShape{
@@ -14197,6 +14571,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of CircleGridShape
 	case CircleGridShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DiscreteTorusShape
+	case DiscreteTorusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DiscreteTorusStackShape
+	case DiscreteTorusStackShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -14836,6 +15220,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "DiscreteTorusStackShape":
+			res := make(map[*DiscreteTorusStackShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.DiscreteTorusStackShape != nil {
+					discretetorusstackshape_ := plantdiagram.DiscreteTorusStackShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[discretetorusstackshape_]
+					if ok {
+						plantdiagrams = res[discretetorusstackshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[discretetorusstackshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Rendered3DShape
 	case Rendered3DShape:
@@ -15316,6 +15717,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case CircleGridShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DiscreteTorusShape
+	case DiscreteTorusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DiscreteTorusStackShape
+	case DiscreteTorusStackShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "DiscreteTorusShapes":
+			res := make(map[*DiscreteTorusShape][]*DiscreteTorusStackShape)
+			for discretetorusstackshape := range stage.DiscreteTorusStackShapes {
+				for _, discretetorusshape_ := range discretetorusstackshape.DiscreteTorusShapes {
+					res[discretetorusshape_] = append(res[discretetorusshape_], discretetorusstackshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of EndArcShape
 	case EndArcShape:
@@ -15921,6 +16340,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "BaseVectorShapeGrid"
 	case *CircleGridShape:
 		res = "CircleGridShape"
+	case *DiscreteTorusShape:
+		res = "DiscreteTorusShape"
+	case *DiscreteTorusStackShape:
+		res = "DiscreteTorusStackShape"
 	case *EndArcShape:
 		res = "EndArcShape"
 	case *EndArcShapeGrid:
@@ -16090,6 +16513,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *CircleGridShape:
+		var rf ReverseField
+		_ = rf
+	case *DiscreteTorusShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiscreteTorusStackShape"
+		rf.Fieldname = "DiscreteTorusShapes"
+		res = append(res, rf)
+	case *DiscreteTorusStackShape:
 		var rf ReverseField
 		_ = rf
 	case *EndArcShape:
@@ -16503,6 +16935,49 @@ func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHe
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (discretetorusshape *DiscreteTorusShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "CenterY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Radius",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TubeRadius",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "DiscreteTorusShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DiscreteTorusShape",
 		},
 	}
 	return
@@ -17338,6 +17813,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenDiscreteTorusStackShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -17358,6 +17837,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "TorusStackShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TorusStackShape",
+		},
+		{
+			Name:                 "DiscreteTorusStackShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DiscreteTorusStackShape",
 		},
 	}
 	return
@@ -19011,6 +19495,48 @@ func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (discretetorusshape *DiscreteTorusShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = discretetorusshape.Name
+	case "CenterY":
+		res.valueString = fmt.Sprintf("%f", discretetorusshape.CenterY)
+		res.valueFloat = discretetorusshape.CenterY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Radius":
+		res.valueString = fmt.Sprintf("%f", discretetorusshape.Radius)
+		res.valueFloat = discretetorusshape.Radius
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TubeRadius":
+		res.valueString = fmt.Sprintf("%f", discretetorusshape.TubeRadius)
+		res.valueFloat = discretetorusshape.TubeRadius
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Color":
+		res.valueString = discretetorusshape.Color
+	}
+	return
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = discretetorusstackshape.Name
+	case "DiscreteTorusShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range discretetorusstackshape.DiscreteTorusShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (endarcshape *EndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -19869,6 +20395,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
 		res.valueBool = plantdiagram.IsHiddenTorusStackShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenDiscreteTorusStackShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenDiscreteTorusStackShape)
+		res.valueBool = plantdiagram.IsHiddenDiscreteTorusStackShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -19890,6 +20420,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.TorusStackShape != nil {
 			res.valueString = plantdiagram.TorusStackShape.Name
 			res.ids = plantdiagram.TorusStackShape.GongGetUUID(stage)
+		}
+	case "DiscreteTorusStackShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.DiscreteTorusStackShape != nil {
+			res.valueString = plantdiagram.DiscreteTorusStackShape.Name
+			res.ids = plantdiagram.DiscreteTorusStackShape.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21528,6 +22064,50 @@ func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (discretetorusshape *DiscreteTorusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		discretetorusshape.Name = value.GetValueString()
+	case "CenterY":
+		discretetorusshape.CenterY = value.GetValueFloat()
+	case "Radius":
+		discretetorusshape.Radius = value.GetValueFloat()
+	case "TubeRadius":
+		discretetorusshape.TubeRadius = value.GetValueFloat()
+	case "Color":
+		discretetorusshape.Color = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		discretetorusstackshape.Name = value.GetValueString()
+	case "DiscreteTorusShapes":
+		discretetorusstackshape.DiscreteTorusShapes = make([]*DiscreteTorusShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DiscreteTorusShapes {
+					if stage.DiscreteTorusShape_stagedOrder[__instance__] == uint(id) {
+						discretetorusstackshape.DiscreteTorusShapes = append(discretetorusstackshape.DiscreteTorusShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (endarcshape *EndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -22421,6 +23001,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
+	case "IsHiddenDiscreteTorusStackShape":
+		plantdiagram.IsHiddenDiscreteTorusStackShape = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -22445,6 +23027,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.TorusStackShapes {
 				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.TorusStackShape = __instance__
+					break
+				}
+			}
+		}
+	case "DiscreteTorusStackShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.DiscreteTorusStackShape = nil
+			for __instance__ := range stage.DiscreteTorusStackShapes {
+				if stage.DiscreteTorusStackShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.DiscreteTorusStackShape = __instance__
 					break
 				}
 			}
@@ -23813,6 +24406,14 @@ func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
 
+func (discretetorusshape *DiscreteTorusShape) GongGetGongstructName() string {
+	return "DiscreteTorusShape"
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetGongstructName() string {
+	return "DiscreteTorusStackShape"
+}
+
 func (endarcshape *EndArcShape) GongGetGongstructName() string {
 	return "EndArcShape"
 }
@@ -24108,6 +24709,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
 	for circlegridshape := range stage.CircleGridShapes {
 		stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
+	}
+
+	stage.DiscreteTorusShapes_mapString = make(map[string]*DiscreteTorusShape)
+	for discretetorusshape := range stage.DiscreteTorusShapes {
+		stage.DiscreteTorusShapes_mapString[discretetorusshape.Name] = discretetorusshape
+	}
+
+	stage.DiscreteTorusStackShapes_mapString = make(map[string]*DiscreteTorusStackShape)
+	for discretetorusstackshape := range stage.DiscreteTorusStackShapes {
+		stage.DiscreteTorusStackShapes_mapString[discretetorusstackshape.Name] = discretetorusstackshape
 	}
 
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)

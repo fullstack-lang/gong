@@ -84,6 +84,21 @@ func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by DiscreteTorusShape
+func (discretetorusshape *DiscreteTorusShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DiscreteTorusStackShape
+func (discretetorusstackshape *DiscreteTorusStackShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &discretetorusstackshape.DiscreteTorusShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by EndArcShape
 func (endarcshape *EndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -276,6 +291,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.TorusStackShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.DiscreteTorusStackShape) || modified
 	return
 }
 

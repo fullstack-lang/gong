@@ -52,6 +52,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct CircleGridShape
 	// insertion point per field
 
+	// Compute reverse map for named struct DiscreteTorusShape
+	// insertion point per field
+
+	// Compute reverse map for named struct DiscreteTorusStackShape
+	// insertion point per field
+	stage.DiscreteTorusStackShape_DiscreteTorusShapes_reverseMap = make(map[*DiscreteTorusShape]*DiscreteTorusStackShape)
+	for discretetorusstackshape := range stage.DiscreteTorusStackShapes {
+		_ = discretetorusstackshape
+		for _, _discretetorusshape := range discretetorusstackshape.DiscreteTorusShapes {
+			stage.DiscreteTorusStackShape_DiscreteTorusShapes_reverseMap[_discretetorusshape] = discretetorusstackshape
+		}
+	}
+
 	// Compute reverse map for named struct EndArcShape
 	// insertion point per field
 
@@ -500,6 +513,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DiscreteTorusShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.DiscreteTorusStackShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.EndArcShapes {
 		res = append(res, instance)
 	}
@@ -797,6 +818,18 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongCopy() GongstructIF {
 func (circlegridshape *CircleGridShape) GongCopy() GongstructIF {
 	newInstance := new(CircleGridShape)
 	circlegridshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (discretetorusshape *DiscreteTorusShape) GongCopy() GongstructIF {
+	newInstance := new(DiscreteTorusShape)
+	discretetorusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongCopy() GongstructIF {
+	newInstance := new(DiscreteTorusStackShape)
+	discretetorusstackshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1248,6 +1281,26 @@ func (circlegridshape *CircleGridShape) GongGetUUID(stage *Stage) (uuid string) 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(circlegridshape), uint64(GetOrderPointerGongstruct(stage, circlegridshape)))
+	return
+}
+
+func (discretetorusshape *DiscreteTorusShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(discretetorusshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(discretetorusshape), uint64(GetOrderPointerGongstruct(stage, discretetorusshape)))
+	return
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(discretetorusstackshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(discretetorusstackshape), uint64(GetOrderPointerGongstruct(stage, discretetorusstackshape)))
 	return
 }
 
@@ -2249,6 +2302,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(circlegridshapes_newInstances)
 	lenDeletedInstances += len(circlegridshapes_deletedInstances)
+	var discretetorusshapes_newInstances []*DiscreteTorusShape
+	var discretetorusshapes_deletedInstances []*DiscreteTorusShape
+
+	// parse all staged instances and check if they have a reference
+	for discretetorusshape := range stage.DiscreteTorusShapes {
+		if ref, ok := stage.DiscreteTorusShapes_reference[discretetorusshape]; !ok {
+			discretetorusshapes_newInstances = append(discretetorusshapes_newInstances, discretetorusshape)
+			newInstancesSlice = append(newInstancesSlice, discretetorusshape.GongMarshallIdentifier(stage))
+			if stage.DiscreteTorusShapes_referenceOrder == nil {
+				stage.DiscreteTorusShapes_referenceOrder = make(map[*DiscreteTorusShape]uint)
+			}
+			stage.DiscreteTorusShapes_referenceOrder[discretetorusshape] = stage.DiscreteTorusShape_stagedOrder[discretetorusshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, discretetorusshape.GongMarshallUnstaging(stage))
+			// delete(stage.DiscreteTorusShapes_referenceOrder, discretetorusshape)
+			fieldInitializers, pointersInitializations := discretetorusshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DiscreteTorusShape_stagedOrder[ref] = stage.DiscreteTorusShape_stagedOrder[discretetorusshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := discretetorusshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, discretetorusshape)
+			// delete(stage.DiscreteTorusShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if discretetorusshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", discretetorusshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DiscreteTorusShapes_reference {
+		instance := stage.DiscreteTorusShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiscreteTorusShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			discretetorusshapes_deletedInstances = append(discretetorusshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(discretetorusshapes_newInstances)
+	lenDeletedInstances += len(discretetorusshapes_deletedInstances)
+	var discretetorusstackshapes_newInstances []*DiscreteTorusStackShape
+	var discretetorusstackshapes_deletedInstances []*DiscreteTorusStackShape
+
+	// parse all staged instances and check if they have a reference
+	for discretetorusstackshape := range stage.DiscreteTorusStackShapes {
+		if ref, ok := stage.DiscreteTorusStackShapes_reference[discretetorusstackshape]; !ok {
+			discretetorusstackshapes_newInstances = append(discretetorusstackshapes_newInstances, discretetorusstackshape)
+			newInstancesSlice = append(newInstancesSlice, discretetorusstackshape.GongMarshallIdentifier(stage))
+			if stage.DiscreteTorusStackShapes_referenceOrder == nil {
+				stage.DiscreteTorusStackShapes_referenceOrder = make(map[*DiscreteTorusStackShape]uint)
+			}
+			stage.DiscreteTorusStackShapes_referenceOrder[discretetorusstackshape] = stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, discretetorusstackshape.GongMarshallUnstaging(stage))
+			// delete(stage.DiscreteTorusStackShapes_referenceOrder, discretetorusstackshape)
+			fieldInitializers, pointersInitializations := discretetorusstackshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DiscreteTorusStackShape_stagedOrder[ref] = stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := discretetorusstackshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, discretetorusstackshape)
+			// delete(stage.DiscreteTorusStackShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if discretetorusstackshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", discretetorusstackshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DiscreteTorusStackShapes_reference {
+		instance := stage.DiscreteTorusStackShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiscreteTorusStackShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			discretetorusstackshapes_deletedInstances = append(discretetorusstackshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(discretetorusstackshapes_newInstances)
+	lenDeletedInstances += len(discretetorusstackshapes_deletedInstances)
 	var endarcshapes_newInstances []*EndArcShape
 	var endarcshapes_deletedInstances []*EndArcShape
 
@@ -5919,6 +6082,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.CircleGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DiscreteTorusShapes_reference = make(map[*DiscreteTorusShape]*DiscreteTorusShape)
+	stage.DiscreteTorusShapes_referenceOrder = make(map[*DiscreteTorusShape]uint) // diff Unstage needs the reference order
+	stage.DiscreteTorusShapes_instance = make(map[*DiscreteTorusShape]*DiscreteTorusShape)
+	for instance := range stage.DiscreteTorusShapes {
+		_copy := instance.GongCopy().(*DiscreteTorusShape)
+		stage.DiscreteTorusShapes_reference[instance] = _copy
+		stage.DiscreteTorusShapes_instance[_copy] = instance
+		stage.DiscreteTorusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.DiscreteTorusStackShapes_reference = make(map[*DiscreteTorusStackShape]*DiscreteTorusStackShape)
+	stage.DiscreteTorusStackShapes_referenceOrder = make(map[*DiscreteTorusStackShape]uint) // diff Unstage needs the reference order
+	stage.DiscreteTorusStackShapes_instance = make(map[*DiscreteTorusStackShape]*DiscreteTorusStackShape)
+	for instance := range stage.DiscreteTorusStackShapes {
+		_copy := instance.GongCopy().(*DiscreteTorusStackShape)
+		stage.DiscreteTorusStackShapes_reference[instance] = _copy
+		stage.DiscreteTorusStackShapes_instance[_copy] = instance
+		stage.DiscreteTorusStackShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_referenceOrder = make(map[*EndArcShape]uint) // diff Unstage needs the reference order
 	stage.EndArcShapes_instance = make(map[*EndArcShape]*EndArcShape)
@@ -6600,6 +6783,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.DiscreteTorusShapes {
+		reference := stage.DiscreteTorusShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.DiscreteTorusStackShapes {
+		reference := stage.DiscreteTorusStackShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.EndArcShapes {
 		reference := stage.EndArcShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -7003,6 +7196,30 @@ func (circlegridshape *CircleGridShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type CircleGridShape was not staged and does not have a reference order", circlegridshape)
+		return 0
+	}
+}
+
+func (discretetorusshape *DiscreteTorusShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiscreteTorusShape_stagedOrder[discretetorusshape]; ok {
+		return order
+	}
+	if order, ok := stage.DiscreteTorusShapes_referenceOrder[discretetorusshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DiscreteTorusShape was not staged and does not have a reference order", discretetorusshape)
+		return 0
+	}
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshape]; ok {
+		return order
+	}
+	if order, ok := stage.DiscreteTorusStackShapes_referenceOrder[discretetorusstackshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DiscreteTorusStackShape was not staged and does not have a reference order", discretetorusstackshape)
 		return 0
 	}
 }
@@ -7846,6 +8063,24 @@ func (circlegridshape *CircleGridShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", circlegridshape.GongGetGongstructName(), circlegridshape.GongGetOrder(stage))
 }
 
+func (discretetorusshape *DiscreteTorusShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", discretetorusshape.GongGetGongstructName(), discretetorusshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (discretetorusshape *DiscreteTorusShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", discretetorusshape.GongGetGongstructName(), discretetorusshape.GongGetOrder(stage))
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", discretetorusstackshape.GongGetGongstructName(), discretetorusstackshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (discretetorusstackshape *DiscreteTorusStackShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", discretetorusstackshape.GongGetGongstructName(), discretetorusstackshape.GongGetOrder(stage))
+}
+
 func (endarcshape *EndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", endarcshape.GongGetGongstructName(), endarcshape.GongGetOrder(stage))
 }
@@ -8482,6 +8717,22 @@ func (circlegridshape *CircleGridShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (discretetorusshape *DiscreteTorusShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", discretetorusshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiscreteTorusShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(discretetorusshape.Name))
+	return
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", discretetorusstackshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiscreteTorusStackShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(discretetorusstackshape.Name))
+	return
+}
+
 func (endarcshape *EndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshape.GongGetIdentifier(stage))
@@ -9036,6 +9287,18 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallUnstaging(stage *Sta
 func (circlegridshape *CircleGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", circlegridshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (discretetorusshape *DiscreteTorusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", discretetorusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", discretetorusstackshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

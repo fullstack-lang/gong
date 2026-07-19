@@ -30,6 +30,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeCreateCallback != nil {
 			stage.OnAfterCircleGridShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *DiscreteTorusShape:
+		if stage.OnAfterDiscreteTorusShapeCreateCallback != nil {
+			stage.OnAfterDiscreteTorusShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *DiscreteTorusStackShape:
+		if stage.OnAfterDiscreteTorusStackShapeCreateCallback != nil {
+			stage.OnAfterDiscreteTorusStackShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeCreateCallback != nil {
 			stage.OnAfterEndArcShapeCreateCallback.OnAfterCreate(stage, target)
@@ -333,6 +341,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*CircleGridShape)
 		if stage.OnAfterCircleGridShapeUpdateCallback != nil {
 			stage.OnAfterCircleGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *DiscreteTorusShape:
+		newTarget := any(new).(*DiscreteTorusShape)
+		if stage.OnAfterDiscreteTorusShapeUpdateCallback != nil {
+			stage.OnAfterDiscreteTorusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *DiscreteTorusStackShape:
+		newTarget := any(new).(*DiscreteTorusStackShape)
+		if stage.OnAfterDiscreteTorusStackShapeUpdateCallback != nil {
+			stage.OnAfterDiscreteTorusStackShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *EndArcShape:
 		newTarget := any(new).(*EndArcShape)
@@ -699,6 +717,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*CircleGridShape)
 			stage.OnAfterCircleGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *DiscreteTorusShape:
+		if stage.OnAfterDiscreteTorusShapeDeleteCallback != nil {
+			staged := any(staged).(*DiscreteTorusShape)
+			stage.OnAfterDiscreteTorusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *DiscreteTorusStackShape:
+		if stage.OnAfterDiscreteTorusStackShapeDeleteCallback != nil {
+			staged := any(staged).(*DiscreteTorusStackShape)
+			stage.OnAfterDiscreteTorusStackShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeDeleteCallback != nil {
 			staged := any(staged).(*EndArcShape)
@@ -1058,6 +1086,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeReadCallback != nil {
 			stage.OnAfterCircleGridShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *DiscreteTorusShape:
+		if stage.OnAfterDiscreteTorusShapeReadCallback != nil {
+			stage.OnAfterDiscreteTorusShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *DiscreteTorusStackShape:
+		if stage.OnAfterDiscreteTorusStackShapeReadCallback != nil {
+			stage.OnAfterDiscreteTorusStackShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeReadCallback != nil {
 			stage.OnAfterEndArcShapeReadCallback.OnAfterRead(stage, target)
@@ -1341,6 +1377,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterBaseVectorShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[BaseVectorShapeGrid])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[CircleGridShape])
+	case *DiscreteTorusShape:
+		stage.OnAfterDiscreteTorusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DiscreteTorusShape])
+	case *DiscreteTorusStackShape:
+		stage.OnAfterDiscreteTorusStackShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DiscreteTorusStackShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -1490,6 +1530,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterBaseVectorShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[BaseVectorShapeGrid])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[CircleGridShape])
+	case *DiscreteTorusShape:
+		stage.OnAfterDiscreteTorusShapeCreateCallback = any(callback).(OnAfterCreateInterface[DiscreteTorusShape])
+	case *DiscreteTorusStackShape:
+		stage.OnAfterDiscreteTorusStackShapeCreateCallback = any(callback).(OnAfterCreateInterface[DiscreteTorusStackShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -1639,6 +1683,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterBaseVectorShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[BaseVectorShapeGrid])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[CircleGridShape])
+	case *DiscreteTorusShape:
+		stage.OnAfterDiscreteTorusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DiscreteTorusShape])
+	case *DiscreteTorusStackShape:
+		stage.OnAfterDiscreteTorusStackShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DiscreteTorusStackShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -1788,6 +1836,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterBaseVectorShapeGridReadCallback = any(callback).(OnAfterReadInterface[BaseVectorShapeGrid])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeReadCallback = any(callback).(OnAfterReadInterface[CircleGridShape])
+	case *DiscreteTorusShape:
+		stage.OnAfterDiscreteTorusShapeReadCallback = any(callback).(OnAfterReadInterface[DiscreteTorusShape])
+	case *DiscreteTorusStackShape:
+		stage.OnAfterDiscreteTorusStackShapeReadCallback = any(callback).(OnAfterReadInterface[DiscreteTorusStackShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[EndArcShape])
 	case *EndArcShapeGrid:

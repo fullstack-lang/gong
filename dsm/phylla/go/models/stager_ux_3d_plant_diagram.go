@@ -146,7 +146,42 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 		floorMinY := math.MaxFloat64
 
-		// Torus generated from GrowthCurve2D and TopGrowthCurve2D
+		if checkedDiagram != nil && !checkedDiagram.IsHiddenDiscreteTorusStackShape && checkedDiagram.DiscreteTorusStackShape != nil {
+			material := (&threejs.MeshPhysicalMaterial{
+				Name: "Torus Material",
+				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
+					Color: "blue",
+				},
+				Opacity:     0.8,
+				Transparent: true,
+			}).Stage(stager.threejsStage)
+
+			for _, torusData := range checkedDiagram.DiscreteTorusStackShape.DiscreteTorusShapes {
+				geom := (&threejs.TorusGeometry{
+					Name:            torusData.Name + " Geometry",
+					Radius:          torusData.Radius,
+					Tube:            torusData.TubeRadius,
+					RadialSegments:  16,
+					TubularSegments: 64,
+					Arc:             2 * math.Pi,
+				}).Stage(stager.threejsStage)
+
+				mesh := (&threejs.Mesh{
+					Name: torusData.Name + " Mesh",
+					Position: threejs.Position{
+						X: 0,
+						Y: torusData.CenterY,
+						Z: 0,
+					},
+					TorusGeometry:        geom,
+					MeshPhysicalMaterial: material,
+				}).Stage(stager.threejsStage)
+
+				canvas.Meshs = append(canvas.Meshs, mesh)
+			}
+		}
+
+		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 		if checkedDiagram != nil && !checkedDiagram.IsHiddenTorusStackShape &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
 			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
