@@ -1,6 +1,10 @@
 package models
 
 import (
+	"encoding/base64"
+
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -28,6 +32,34 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 		stager.selectedPlant = plant
 		stager.stage.Commit()
 	}
+
+	downloadBtn := &tree.Button{
+		Name:            "Download STL",
+		Icon:            string(buttons.BUTTON_download),
+		ToolTipText:     "Download STL",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			stager.loadStage.Reset()
+			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+			
+			// Mockup of STL file generation in memory
+			stlContent := "solid plant\n" +
+				"  facet normal 0 0 0\n" +
+				"    outer loop\n" +
+				"      vertex 0 0 0\n" +
+				"      vertex 1 0 0\n" +
+				"      vertex 0 1 0\n" +
+				"    endloop\n" +
+				"  endfacet\n" +
+				"endsolid plant\n"
+			
+			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
+			fileToDownload.Name = plant.Name + ".stl"
+			stager.loadStage.Commit()
+		},
+	}
+	plantNode.Buttons = append(plantNode.Buttons, downloadBtn)
 
 	confPlants := ItemButtonConfiguration[
 		PlantDiagram, *PlantDiagram, // AT, PAT (Added Element)
