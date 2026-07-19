@@ -1354,8 +1354,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RadialThickness = GongExtractFloat(valueExpr)
 	case "RhombusSideLength":
 		instance.RhombusSideLength = GongExtractFloat(valueExpr)
-	case "CuttedStackFloorHeight":
-		instance.CuttedStackFloorHeight = GongExtractFloat(valueExpr)
+	case "RelativeCuttedStackFloorHeight":
+		instance.RelativeCuttedStackFloorHeight = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

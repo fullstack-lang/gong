@@ -108,9 +108,9 @@ func (stager *Stager) ux_slider() {
 				stager,
 				"Stack Floor Heigth",
 				0.0,
-				50,
+				0.1,
 				0.01,
-				&plant.CuttedStackFloorHeight,
+				&plant.RelativeCuttedStackFloorHeight,
 			),
 		)
 
