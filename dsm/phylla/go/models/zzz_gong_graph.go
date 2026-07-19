@@ -8147,8 +8147,8 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.RelativeVerticalThickness != plantOther.RelativeVerticalThickness {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeVerticalThickness"))
 	}
-	if plant.RadialThickness != plantOther.RadialThickness {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RadialThickness"))
+	if plant.RelativeRadialThickness != plantOther.RelativeRadialThickness {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeRadialThickness"))
 	}
 	if plant.RhombusSideLength != plantOther.RhombusSideLength {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusSideLength"))

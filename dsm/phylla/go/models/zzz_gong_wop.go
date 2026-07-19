@@ -455,7 +455,7 @@ type Plant_WOP struct {
 
 	RelativeVerticalThickness float64
 
-	RadialThickness float64
+	RelativeRadialThickness float64
 
 	RhombusSideLength float64
 
@@ -478,7 +478,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
-	to.RadialThickness = from.RadialThickness
+	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RhombusSideLength = from.RhombusSideLength
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
 	to.ComputedPrefix = from.ComputedPrefix

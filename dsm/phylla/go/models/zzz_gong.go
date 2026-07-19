@@ -17182,7 +17182,7 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "RadialThickness",
+			Name:               "RelativeRadialThickness",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -19707,9 +19707,9 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RelativeVerticalThickness)
 		res.valueFloat = plant.RelativeVerticalThickness
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadialThickness":
-		res.valueString = fmt.Sprintf("%f", plant.RadialThickness)
-		res.valueFloat = plant.RadialThickness
+	case "RelativeRadialThickness":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeRadialThickness)
+		res.valueFloat = plant.RelativeRadialThickness
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RhombusSideLength":
 		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
@@ -22239,8 +22239,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RhombusInsideAngle = value.GetValueFloat()
 	case "RelativeVerticalThickness":
 		plant.RelativeVerticalThickness = value.GetValueFloat()
-	case "RadialThickness":
-		plant.RadialThickness = value.GetValueFloat()
+	case "RelativeRadialThickness":
+		plant.RelativeRadialThickness = value.GetValueFloat()
 	case "RhombusSideLength":
 		plant.RhombusSideLength = value.GetValueFloat()
 	case "RelativeCuttedStackFloorHeight":

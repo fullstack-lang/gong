@@ -114,6 +114,18 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Radial Thickness",
+				0.01,
+				0.5,
+				0.01,
+				&plant.RelativeRadialThickness,
+			),
+		)
+
 	}
 
 	// Add sliders for PlantDiagram 3D view
