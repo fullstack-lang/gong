@@ -780,6 +780,36 @@ type Stage struct {
 	OnAfterStackGrowthCurve2DEndHalfwayArcShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DEndHalfwayArcShape]
 	OnAfterStackGrowthCurve2DEndHalfwayArcShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DEndHalfwayArcShape]
 
+	StackGrowthCurve2DRibbonEndShapes                map[*StackGrowthCurve2DRibbonEndShape]struct{}
+	StackGrowthCurve2DRibbonEndShapes_instance       map[*StackGrowthCurve2DRibbonEndShape]*StackGrowthCurve2DRibbonEndShape
+	StackGrowthCurve2DRibbonEndShapes_mapString      map[string]*StackGrowthCurve2DRibbonEndShape
+	StackGrowthCurve2DRibbonEndShapeOrder            uint
+	StackGrowthCurve2DRibbonEndShape_stagedOrder     map[*StackGrowthCurve2DRibbonEndShape]uint
+	StackGrowthCurve2DRibbonEndShape_orderStaged     map[uint]*StackGrowthCurve2DRibbonEndShape
+	StackGrowthCurve2DRibbonEndShapes_reference      map[*StackGrowthCurve2DRibbonEndShape]*StackGrowthCurve2DRibbonEndShape
+	StackGrowthCurve2DRibbonEndShapes_referenceOrder map[*StackGrowthCurve2DRibbonEndShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStackGrowthCurve2DRibbonEndShapeCreateCallback OnAfterCreateInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeUpdateCallback OnAfterUpdateInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DRibbonEndShape]
+	OnAfterStackGrowthCurve2DRibbonEndShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DRibbonEndShape]
+
+	StackGrowthCurve2DRibbonStartShapes                map[*StackGrowthCurve2DRibbonStartShape]struct{}
+	StackGrowthCurve2DRibbonStartShapes_instance       map[*StackGrowthCurve2DRibbonStartShape]*StackGrowthCurve2DRibbonStartShape
+	StackGrowthCurve2DRibbonStartShapes_mapString      map[string]*StackGrowthCurve2DRibbonStartShape
+	StackGrowthCurve2DRibbonStartShapeOrder            uint
+	StackGrowthCurve2DRibbonStartShape_stagedOrder     map[*StackGrowthCurve2DRibbonStartShape]uint
+	StackGrowthCurve2DRibbonStartShape_orderStaged     map[uint]*StackGrowthCurve2DRibbonStartShape
+	StackGrowthCurve2DRibbonStartShapes_reference      map[*StackGrowthCurve2DRibbonStartShape]*StackGrowthCurve2DRibbonStartShape
+	StackGrowthCurve2DRibbonStartShapes_referenceOrder map[*StackGrowthCurve2DRibbonStartShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStackGrowthCurve2DRibbonStartShapeCreateCallback OnAfterCreateInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeUpdateCallback OnAfterUpdateInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeDeleteCallback OnAfterDeleteInterface[StackGrowthCurve2DRibbonStartShape]
+	OnAfterStackGrowthCurve2DRibbonStartShapeReadCallback   OnAfterReadInterface[StackGrowthCurve2DRibbonStartShape]
+
 	StackGrowthCurve2DStartHalfwayArcShapes                map[*StackGrowthCurve2DStartHalfwayArcShape]struct{}
 	StackGrowthCurve2DStartHalfwayArcShapes_instance       map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape
 	StackGrowthCurve2DStartHalfwayArcShapes_mapString      map[string]*StackGrowthCurve2DStartHalfwayArcShape
@@ -862,6 +892,25 @@ type Stage struct {
 	OnAfterStackOfGrowthCurve2DUpdateCallback OnAfterUpdateInterface[StackOfGrowthCurve2D]
 	OnAfterStackOfGrowthCurve2DDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2D]
 	OnAfterStackOfGrowthCurve2DReadCallback   OnAfterReadInterface[StackOfGrowthCurve2D]
+
+	StackOfGrowthCurve2DRibbons                map[*StackOfGrowthCurve2DRibbon]struct{}
+	StackOfGrowthCurve2DRibbons_instance       map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon
+	StackOfGrowthCurve2DRibbons_mapString      map[string]*StackOfGrowthCurve2DRibbon
+	StackOfGrowthCurve2DRibbonOrder            uint
+	StackOfGrowthCurve2DRibbon_stagedOrder     map[*StackOfGrowthCurve2DRibbon]uint
+	StackOfGrowthCurve2DRibbon_orderStaged     map[uint]*StackOfGrowthCurve2DRibbon
+	StackOfGrowthCurve2DRibbons_reference      map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon
+	StackOfGrowthCurve2DRibbons_referenceOrder map[*StackOfGrowthCurve2DRibbon]uint
+
+	// insertion point for slice of pointers maps
+	StackOfGrowthCurve2DRibbon_StackGrowthCurve2DRibbonStartShapes_reverseMap map[*StackGrowthCurve2DRibbonStartShape]*StackOfGrowthCurve2DRibbon
+
+	StackOfGrowthCurve2DRibbon_StackGrowthCurve2DRibbonEndShapes_reverseMap map[*StackGrowthCurve2DRibbonEndShape]*StackOfGrowthCurve2DRibbon
+
+	OnAfterStackOfGrowthCurve2DRibbonCreateCallback OnAfterCreateInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonUpdateCallback OnAfterUpdateInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2DRibbon]
+	OnAfterStackOfGrowthCurve2DRibbonReadCallback   OnAfterReadInterface[StackOfGrowthCurve2DRibbon]
 
 	StartArcShapes                map[*StartArcShape]struct{}
 	StartArcShapes_instance       map[*StartArcShape]*StartArcShape
@@ -1615,6 +1664,14 @@ func (stage *Stage) Squash() {
 	stage.StackGrowthCurve2DEndHalfwayArcShapes_instance = make(map[*StackGrowthCurve2DEndHalfwayArcShape]*StackGrowthCurve2DEndHalfwayArcShape)
 	stage.StackGrowthCurve2DEndHalfwayArcShapes_referenceOrder = make(map[*StackGrowthCurve2DEndHalfwayArcShape]uint)
 
+	stage.StackGrowthCurve2DRibbonEndShapes_reference = make(map[*StackGrowthCurve2DRibbonEndShape]*StackGrowthCurve2DRibbonEndShape)
+	stage.StackGrowthCurve2DRibbonEndShapes_instance = make(map[*StackGrowthCurve2DRibbonEndShape]*StackGrowthCurve2DRibbonEndShape)
+	stage.StackGrowthCurve2DRibbonEndShapes_referenceOrder = make(map[*StackGrowthCurve2DRibbonEndShape]uint)
+
+	stage.StackGrowthCurve2DRibbonStartShapes_reference = make(map[*StackGrowthCurve2DRibbonStartShape]*StackGrowthCurve2DRibbonStartShape)
+	stage.StackGrowthCurve2DRibbonStartShapes_instance = make(map[*StackGrowthCurve2DRibbonStartShape]*StackGrowthCurve2DRibbonStartShape)
+	stage.StackGrowthCurve2DRibbonStartShapes_referenceOrder = make(map[*StackGrowthCurve2DRibbonStartShape]uint)
+
 	stage.StackGrowthCurve2DStartHalfwayArcShapes_reference = make(map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape)
 	stage.StackGrowthCurve2DStartHalfwayArcShapes_instance = make(map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape)
 	stage.StackGrowthCurve2DStartHalfwayArcShapes_referenceOrder = make(map[*StackGrowthCurve2DStartHalfwayArcShape]uint)
@@ -1634,6 +1691,10 @@ func (stage *Stage) Squash() {
 	stage.StackOfGrowthCurve2Ds_reference = make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D)
 	stage.StackOfGrowthCurve2Ds_instance = make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D)
 	stage.StackOfGrowthCurve2Ds_referenceOrder = make(map[*StackOfGrowthCurve2D]uint)
+
+	stage.StackOfGrowthCurve2DRibbons_reference = make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon)
+	stage.StackOfGrowthCurve2DRibbons_instance = make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon)
+	stage.StackOfGrowthCurve2DRibbons_referenceOrder = make(map[*StackOfGrowthCurve2DRibbon]uint)
 
 	stage.StartArcShapes_reference = make(map[*StartArcShape]*StartArcShape)
 	stage.StartArcShapes_instance = make(map[*StartArcShape]*StartArcShape)
@@ -2324,6 +2385,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.StackGrowthCurve2DEndHalfwayArcShapeOrder = 0
 	}
 
+	var maxStackGrowthCurve2DRibbonEndShapeOrder uint
+	var foundStackGrowthCurve2DRibbonEndShape bool
+	for _, order := range stage.StackGrowthCurve2DRibbonEndShape_stagedOrder {
+		if !foundStackGrowthCurve2DRibbonEndShape || order > maxStackGrowthCurve2DRibbonEndShapeOrder {
+			maxStackGrowthCurve2DRibbonEndShapeOrder = order
+			foundStackGrowthCurve2DRibbonEndShape = true
+		}
+	}
+	if foundStackGrowthCurve2DRibbonEndShape {
+		stage.StackGrowthCurve2DRibbonEndShapeOrder = maxStackGrowthCurve2DRibbonEndShapeOrder + 1
+	} else {
+		stage.StackGrowthCurve2DRibbonEndShapeOrder = 0
+	}
+
+	var maxStackGrowthCurve2DRibbonStartShapeOrder uint
+	var foundStackGrowthCurve2DRibbonStartShape bool
+	for _, order := range stage.StackGrowthCurve2DRibbonStartShape_stagedOrder {
+		if !foundStackGrowthCurve2DRibbonStartShape || order > maxStackGrowthCurve2DRibbonStartShapeOrder {
+			maxStackGrowthCurve2DRibbonStartShapeOrder = order
+			foundStackGrowthCurve2DRibbonStartShape = true
+		}
+	}
+	if foundStackGrowthCurve2DRibbonStartShape {
+		stage.StackGrowthCurve2DRibbonStartShapeOrder = maxStackGrowthCurve2DRibbonStartShapeOrder + 1
+	} else {
+		stage.StackGrowthCurve2DRibbonStartShapeOrder = 0
+	}
+
 	var maxStackGrowthCurve2DStartHalfwayArcShapeOrder uint
 	var foundStackGrowthCurve2DStartHalfwayArcShape bool
 	for _, order := range stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder {
@@ -2392,6 +2481,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.StackOfGrowthCurve2DOrder = maxStackOfGrowthCurve2DOrder + 1
 	} else {
 		stage.StackOfGrowthCurve2DOrder = 0
+	}
+
+	var maxStackOfGrowthCurve2DRibbonOrder uint
+	var foundStackOfGrowthCurve2DRibbon bool
+	for _, order := range stage.StackOfGrowthCurve2DRibbon_stagedOrder {
+		if !foundStackOfGrowthCurve2DRibbon || order > maxStackOfGrowthCurve2DRibbonOrder {
+			maxStackOfGrowthCurve2DRibbonOrder = order
+			foundStackOfGrowthCurve2DRibbon = true
+		}
+	}
+	if foundStackOfGrowthCurve2DRibbon {
+		stage.StackOfGrowthCurve2DRibbonOrder = maxStackOfGrowthCurve2DRibbonOrder + 1
+	} else {
+		stage.StackOfGrowthCurve2DRibbonOrder = 0
 	}
 
 	var maxStartArcShapeOrder uint
@@ -3337,6 +3440,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *StackGrowthCurve2DRibbonEndShape:
+		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DRibbonEndShapes, stage.StackGrowthCurve2DRibbonEndShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StackGrowthCurve2DRibbonEndShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *StackGrowthCurve2DRibbonStartShape:
+		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DRibbonStartShapes, stage.StackGrowthCurve2DRibbonStartShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StackGrowthCurve2DRibbonStartShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		tmp := GetStructInstancesByOrder(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
 
@@ -3404,6 +3535,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *StackOfGrowthCurve2D implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *StackOfGrowthCurve2DRibbon:
+		tmp := GetStructInstancesByOrder(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StackOfGrowthCurve2DRibbon implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -3826,6 +3971,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ShiftedLeftStackOfNormalVectors, stage.ShiftedLeftStackOfNormalVector_stagedOrder)
 	case "StackGrowthCurve2DEndHalfwayArcShape":
 		res = GetNamedStructInstances(stage.StackGrowthCurve2DEndHalfwayArcShapes, stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder)
+	case "StackGrowthCurve2DRibbonEndShape":
+		res = GetNamedStructInstances(stage.StackGrowthCurve2DRibbonEndShapes, stage.StackGrowthCurve2DRibbonEndShape_stagedOrder)
+	case "StackGrowthCurve2DRibbonStartShape":
+		res = GetNamedStructInstances(stage.StackGrowthCurve2DRibbonStartShapes, stage.StackGrowthCurve2DRibbonStartShape_stagedOrder)
 	case "StackGrowthCurve2DStartHalfwayArcShape":
 		res = GetNamedStructInstances(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
 	case "StackGrowthCurveEndArcShape":
@@ -3836,6 +3985,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StackOfGrowthCurves, stage.StackOfGrowthCurve_stagedOrder)
 	case "StackOfGrowthCurve2D":
 		res = GetNamedStructInstances(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2D_stagedOrder)
+	case "StackOfGrowthCurve2DRibbon":
+		res = GetNamedStructInstances(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
 	case "StartArcShape":
 		res = GetNamedStructInstances(stage.StartArcShapes, stage.StartArcShape_stagedOrder)
 	case "StartArcShapeGrid":
@@ -4031,6 +4182,10 @@ type BackRepoInterface interface {
 	CheckoutShiftedLeftStackOfNormalVector(shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector)
 	CommitStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape)
 	CheckoutStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape)
+	CommitStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape)
+	CheckoutStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape)
+	CommitStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape)
+	CheckoutStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape)
 	CommitStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape)
 	CheckoutStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape)
 	CommitStackGrowthCurveEndArcShape(stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape)
@@ -4041,6 +4196,8 @@ type BackRepoInterface interface {
 	CheckoutStackOfGrowthCurve(stackofgrowthcurve *StackOfGrowthCurve)
 	CommitStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D)
 	CheckoutStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D)
+	CommitStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon)
+	CheckoutStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon)
 	CommitStartArcShape(startarcshape *StartArcShape)
 	CheckoutStartArcShape(startarcshape *StartArcShape)
 	CommitStartArcShapeGrid(startarcshapegrid *StartArcShapeGrid)
@@ -4214,6 +4371,12 @@ func NewStage(name string) (stage *Stage) {
 		StackGrowthCurve2DEndHalfwayArcShapes:           make(map[*StackGrowthCurve2DEndHalfwayArcShape]struct{}),
 		StackGrowthCurve2DEndHalfwayArcShapes_mapString: make(map[string]*StackGrowthCurve2DEndHalfwayArcShape),
 
+		StackGrowthCurve2DRibbonEndShapes:           make(map[*StackGrowthCurve2DRibbonEndShape]struct{}),
+		StackGrowthCurve2DRibbonEndShapes_mapString: make(map[string]*StackGrowthCurve2DRibbonEndShape),
+
+		StackGrowthCurve2DRibbonStartShapes:           make(map[*StackGrowthCurve2DRibbonStartShape]struct{}),
+		StackGrowthCurve2DRibbonStartShapes_mapString: make(map[string]*StackGrowthCurve2DRibbonStartShape),
+
 		StackGrowthCurve2DStartHalfwayArcShapes:           make(map[*StackGrowthCurve2DStartHalfwayArcShape]struct{}),
 		StackGrowthCurve2DStartHalfwayArcShapes_mapString: make(map[string]*StackGrowthCurve2DStartHalfwayArcShape),
 
@@ -4228,6 +4391,9 @@ func NewStage(name string) (stage *Stage) {
 
 		StackOfGrowthCurve2Ds:           make(map[*StackOfGrowthCurve2D]struct{}),
 		StackOfGrowthCurve2Ds_mapString: make(map[string]*StackOfGrowthCurve2D),
+
+		StackOfGrowthCurve2DRibbons:           make(map[*StackOfGrowthCurve2DRibbon]struct{}),
+		StackOfGrowthCurve2DRibbons_mapString: make(map[string]*StackOfGrowthCurve2DRibbon),
 
 		StartArcShapes:           make(map[*StartArcShape]struct{}),
 		StartArcShapes_mapString: make(map[string]*StartArcShape),
@@ -4469,6 +4635,14 @@ func NewStage(name string) (stage *Stage) {
 		StackGrowthCurve2DEndHalfwayArcShape_orderStaged: make(map[uint]*StackGrowthCurve2DEndHalfwayArcShape),
 		StackGrowthCurve2DEndHalfwayArcShapes_reference:  make(map[*StackGrowthCurve2DEndHalfwayArcShape]*StackGrowthCurve2DEndHalfwayArcShape),
 
+		StackGrowthCurve2DRibbonEndShape_stagedOrder: make(map[*StackGrowthCurve2DRibbonEndShape]uint),
+		StackGrowthCurve2DRibbonEndShape_orderStaged: make(map[uint]*StackGrowthCurve2DRibbonEndShape),
+		StackGrowthCurve2DRibbonEndShapes_reference:  make(map[*StackGrowthCurve2DRibbonEndShape]*StackGrowthCurve2DRibbonEndShape),
+
+		StackGrowthCurve2DRibbonStartShape_stagedOrder: make(map[*StackGrowthCurve2DRibbonStartShape]uint),
+		StackGrowthCurve2DRibbonStartShape_orderStaged: make(map[uint]*StackGrowthCurve2DRibbonStartShape),
+		StackGrowthCurve2DRibbonStartShapes_reference:  make(map[*StackGrowthCurve2DRibbonStartShape]*StackGrowthCurve2DRibbonStartShape),
+
 		StackGrowthCurve2DStartHalfwayArcShape_stagedOrder: make(map[*StackGrowthCurve2DStartHalfwayArcShape]uint),
 		StackGrowthCurve2DStartHalfwayArcShape_orderStaged: make(map[uint]*StackGrowthCurve2DStartHalfwayArcShape),
 		StackGrowthCurve2DStartHalfwayArcShapes_reference:  make(map[*StackGrowthCurve2DStartHalfwayArcShape]*StackGrowthCurve2DStartHalfwayArcShape),
@@ -4488,6 +4662,10 @@ func NewStage(name string) (stage *Stage) {
 		StackOfGrowthCurve2D_stagedOrder: make(map[*StackOfGrowthCurve2D]uint),
 		StackOfGrowthCurve2D_orderStaged: make(map[uint]*StackOfGrowthCurve2D),
 		StackOfGrowthCurve2Ds_reference:  make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D),
+
+		StackOfGrowthCurve2DRibbon_stagedOrder: make(map[*StackOfGrowthCurve2DRibbon]uint),
+		StackOfGrowthCurve2DRibbon_orderStaged: make(map[uint]*StackOfGrowthCurve2DRibbon),
+		StackOfGrowthCurve2DRibbons_reference:  make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon),
 
 		StartArcShape_stagedOrder: make(map[*StartArcShape]uint),
 		StartArcShape_orderStaged: make(map[uint]*StartArcShape),
@@ -4661,6 +4839,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"StackGrowthCurve2DEndHalfwayArcShape": &StackGrowthCurve2DEndHalfwayArcShapeUnmarshaller{},
 
+			"StackGrowthCurve2DRibbonEndShape": &StackGrowthCurve2DRibbonEndShapeUnmarshaller{},
+
+			"StackGrowthCurve2DRibbonStartShape": &StackGrowthCurve2DRibbonStartShapeUnmarshaller{},
+
 			"StackGrowthCurve2DStartHalfwayArcShape": &StackGrowthCurve2DStartHalfwayArcShapeUnmarshaller{},
 
 			"StackGrowthCurveEndArcShape": &StackGrowthCurveEndArcShapeUnmarshaller{},
@@ -4670,6 +4852,8 @@ func NewStage(name string) (stage *Stage) {
 			"StackOfGrowthCurve": &StackOfGrowthCurveUnmarshaller{},
 
 			"StackOfGrowthCurve2D": &StackOfGrowthCurve2DUnmarshaller{},
+
+			"StackOfGrowthCurve2DRibbon": &StackOfGrowthCurve2DRibbonUnmarshaller{},
 
 			"StartArcShape": &StartArcShapeUnmarshaller{},
 
@@ -4760,11 +4944,14 @@ func NewStage(name string) (stage *Stage) {
 			{name: "ShiftedLeftStackOfGrowthCurve"},
 			{name: "ShiftedLeftStackOfNormalVector"},
 			{name: "StackGrowthCurve2DEndHalfwayArcShape"},
+			{name: "StackGrowthCurve2DRibbonEndShape"},
+			{name: "StackGrowthCurve2DRibbonStartShape"},
 			{name: "StackGrowthCurve2DStartHalfwayArcShape"},
 			{name: "StackGrowthCurveEndArcShape"},
 			{name: "StackGrowthCurveStartArcShape"},
 			{name: "StackOfGrowthCurve"},
 			{name: "StackOfGrowthCurve2D"},
+			{name: "StackOfGrowthCurve2DRibbon"},
 			{name: "StartArcShape"},
 			{name: "StartArcShapeGrid"},
 			{name: "StartHalfwayArcShape"},
@@ -4880,6 +5067,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ShiftedLeftStackOfNormalVector_stagedOrder[instance]
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		return stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[instance]
+	case *StackGrowthCurve2DRibbonEndShape:
+		return stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[instance]
+	case *StackGrowthCurve2DRibbonStartShape:
+		return stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[instance]
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		return stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[instance]
 	case *StackGrowthCurveEndArcShape:
@@ -4890,6 +5081,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StackOfGrowthCurve_stagedOrder[instance]
 	case *StackOfGrowthCurve2D:
 		return stage.StackOfGrowthCurve2D_stagedOrder[instance]
+	case *StackOfGrowthCurve2DRibbon:
+		return stage.StackOfGrowthCurve2DRibbon_stagedOrder[instance]
 	case *StartArcShape:
 		return stage.StartArcShape_stagedOrder[instance]
 	case *StartArcShapeGrid:
@@ -5025,6 +5218,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ShiftedLeftStackOfNormalVector_orderStaged[order]).(Type)
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		return any(stage.StackGrowthCurve2DEndHalfwayArcShape_orderStaged[order]).(Type)
+	case *StackGrowthCurve2DRibbonEndShape:
+		return any(stage.StackGrowthCurve2DRibbonEndShape_orderStaged[order]).(Type)
+	case *StackGrowthCurve2DRibbonStartShape:
+		return any(stage.StackGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		return any(stage.StackGrowthCurve2DStartHalfwayArcShape_orderStaged[order]).(Type)
 	case *StackGrowthCurveEndArcShape:
@@ -5035,6 +5232,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StackOfGrowthCurve_orderStaged[order]).(Type)
 	case *StackOfGrowthCurve2D:
 		return any(stage.StackOfGrowthCurve2D_orderStaged[order]).(Type)
+	case *StackOfGrowthCurve2DRibbon:
+		return any(stage.StackOfGrowthCurve2DRibbon_orderStaged[order]).(Type)
 	case *StartArcShape:
 		return any(stage.StartArcShape_orderStaged[order]).(Type)
 	case *StartArcShapeGrid:
@@ -5169,6 +5368,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ShiftedLeftStackOfNormalVector_stagedOrder[instance]
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		return stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[instance]
+	case *StackGrowthCurve2DRibbonEndShape:
+		return stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[instance]
+	case *StackGrowthCurve2DRibbonStartShape:
+		return stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[instance]
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		return stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[instance]
 	case *StackGrowthCurveEndArcShape:
@@ -5179,6 +5382,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StackOfGrowthCurve_stagedOrder[instance]
 	case *StackOfGrowthCurve2D:
 		return stage.StackOfGrowthCurve2D_stagedOrder[instance]
+	case *StackOfGrowthCurve2DRibbon:
+		return stage.StackOfGrowthCurve2DRibbon_stagedOrder[instance]
 	case *StartArcShape:
 		return stage.StartArcShape_stagedOrder[instance]
 	case *StartArcShapeGrid:
@@ -5329,11 +5534,14 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackOfGrowthCurve"] = len(stage.ShiftedLeftStackOfGrowthCurves)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftStackOfNormalVector"] = len(stage.ShiftedLeftStackOfNormalVectors)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurve2DEndHalfwayArcShape"] = len(stage.StackGrowthCurve2DEndHalfwayArcShapes)
+	stage.Map_GongStructName_InstancesNb["StackGrowthCurve2DRibbonEndShape"] = len(stage.StackGrowthCurve2DRibbonEndShapes)
+	stage.Map_GongStructName_InstancesNb["StackGrowthCurve2DRibbonStartShape"] = len(stage.StackGrowthCurve2DRibbonStartShapes)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurve2DStartHalfwayArcShape"] = len(stage.StackGrowthCurve2DStartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurveEndArcShape"] = len(stage.StackGrowthCurveEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurveStartArcShape"] = len(stage.StackGrowthCurveStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve"] = len(stage.StackOfGrowthCurves)
 	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve2D"] = len(stage.StackOfGrowthCurve2Ds)
+	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve2DRibbon"] = len(stage.StackOfGrowthCurve2DRibbons)
 	stage.Map_GongStructName_InstancesNb["StartArcShape"] = len(stage.StartArcShapes)
 	stage.Map_GongStructName_InstancesNb["StartArcShapeGrid"] = len(stage.StartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShape"] = len(stage.StartHalfwayArcShapes)
@@ -9004,6 +9212,182 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	stackgrowthcurve2dendhalfwayarcshape.Name = name
 }
 
+// Stage puts stackgrowthcurve2dribbonendshape to the model stage
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) Stage(stage *Stage) *StackGrowthCurve2DRibbonEndShape {
+	if _, ok := stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape]; !ok {
+		stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape] = struct{}{}
+		stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[stackgrowthcurve2dribbonendshape] = stage.StackGrowthCurve2DRibbonEndShapeOrder
+		stage.StackGrowthCurve2DRibbonEndShape_orderStaged[stage.StackGrowthCurve2DRibbonEndShapeOrder] = stackgrowthcurve2dribbonendshape
+		stage.StackGrowthCurve2DRibbonEndShapeOrder++
+	}
+	stage.StackGrowthCurve2DRibbonEndShapes_mapString[stackgrowthcurve2dribbonendshape.Name] = stackgrowthcurve2dribbonendshape
+
+	return stackgrowthcurve2dribbonendshape
+}
+
+// StagePreserveOrder puts stackgrowthcurve2dribbonendshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StackGrowthCurve2DRibbonEndShapeOrder
+// - update stage.StackGrowthCurve2DRibbonEndShapeOrder accordingly
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape]; !ok {
+		stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape] = struct{}{}
+
+		if order > stage.StackGrowthCurve2DRibbonEndShapeOrder {
+			stage.StackGrowthCurve2DRibbonEndShapeOrder = order
+		}
+		stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[stackgrowthcurve2dribbonendshape] = order
+		stage.StackGrowthCurve2DRibbonEndShape_orderStaged[order] = stackgrowthcurve2dribbonendshape
+		stage.StackGrowthCurve2DRibbonEndShapeOrder++
+	}
+	stage.StackGrowthCurve2DRibbonEndShapes_mapString[stackgrowthcurve2dribbonendshape.Name] = stackgrowthcurve2dribbonendshape
+}
+
+// Unstage removes stackgrowthcurve2dribbonendshape off the model stage
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) Unstage(stage *Stage) *StackGrowthCurve2DRibbonEndShape {
+	delete(stage.StackGrowthCurve2DRibbonEndShapes, stackgrowthcurve2dribbonendshape)
+	// issue1150
+	// delete(stage.StackGrowthCurve2DRibbonEndShape_stagedOrder, stackgrowthcurve2dribbonendshape)
+	delete(stage.StackGrowthCurve2DRibbonEndShapes_mapString, stackgrowthcurve2dribbonendshape.Name)
+
+	return stackgrowthcurve2dribbonendshape
+}
+
+// UnstageVoid removes stackgrowthcurve2dribbonendshape off the model stage
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) UnstageVoid(stage *Stage) {
+	delete(stage.StackGrowthCurve2DRibbonEndShapes, stackgrowthcurve2dribbonendshape)
+	// issue1150
+	// delete(stage.StackGrowthCurve2DRibbonEndShape_stagedOrder, stackgrowthcurve2dribbonendshape)
+	delete(stage.StackGrowthCurve2DRibbonEndShapes_mapString, stackgrowthcurve2dribbonendshape.Name)
+}
+
+// commit stackgrowthcurve2dribbonendshape to the back repo (if it is already staged)
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) Commit(stage *Stage) *StackGrowthCurve2DRibbonEndShape {
+	if _, ok := stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape)
+		}
+	}
+	return stackgrowthcurve2dribbonendshape
+}
+
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) CommitVoid(stage *Stage) {
+	stackgrowthcurve2dribbonendshape.Commit(stage)
+}
+
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) StageVoid(stage *Stage) {
+	stackgrowthcurve2dribbonendshape.Stage(stage)
+}
+
+// Checkout stackgrowthcurve2dribbonendshape to the back repo (if it is already staged)
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) Checkout(stage *Stage) *StackGrowthCurve2DRibbonEndShape {
+	if _, ok := stage.StackGrowthCurve2DRibbonEndShapes[stackgrowthcurve2dribbonendshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStackGrowthCurve2DRibbonEndShape(stackgrowthcurve2dribbonendshape)
+		}
+	}
+	return stackgrowthcurve2dribbonendshape
+}
+
+// for satisfaction of GongStruct interface
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GetName() (res string) {
+	return stackgrowthcurve2dribbonendshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) SetName(name string) {
+	stackgrowthcurve2dribbonendshape.Name = name
+}
+
+// Stage puts stackgrowthcurve2dribbonstartshape to the model stage
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Stage(stage *Stage) *StackGrowthCurve2DRibbonStartShape {
+	if _, ok := stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape]; !ok {
+		stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape] = struct{}{}
+		stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[stackgrowthcurve2dribbonstartshape] = stage.StackGrowthCurve2DRibbonStartShapeOrder
+		stage.StackGrowthCurve2DRibbonStartShape_orderStaged[stage.StackGrowthCurve2DRibbonStartShapeOrder] = stackgrowthcurve2dribbonstartshape
+		stage.StackGrowthCurve2DRibbonStartShapeOrder++
+	}
+	stage.StackGrowthCurve2DRibbonStartShapes_mapString[stackgrowthcurve2dribbonstartshape.Name] = stackgrowthcurve2dribbonstartshape
+
+	return stackgrowthcurve2dribbonstartshape
+}
+
+// StagePreserveOrder puts stackgrowthcurve2dribbonstartshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StackGrowthCurve2DRibbonStartShapeOrder
+// - update stage.StackGrowthCurve2DRibbonStartShapeOrder accordingly
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape]; !ok {
+		stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape] = struct{}{}
+
+		if order > stage.StackGrowthCurve2DRibbonStartShapeOrder {
+			stage.StackGrowthCurve2DRibbonStartShapeOrder = order
+		}
+		stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[stackgrowthcurve2dribbonstartshape] = order
+		stage.StackGrowthCurve2DRibbonStartShape_orderStaged[order] = stackgrowthcurve2dribbonstartshape
+		stage.StackGrowthCurve2DRibbonStartShapeOrder++
+	}
+	stage.StackGrowthCurve2DRibbonStartShapes_mapString[stackgrowthcurve2dribbonstartshape.Name] = stackgrowthcurve2dribbonstartshape
+}
+
+// Unstage removes stackgrowthcurve2dribbonstartshape off the model stage
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Unstage(stage *Stage) *StackGrowthCurve2DRibbonStartShape {
+	delete(stage.StackGrowthCurve2DRibbonStartShapes, stackgrowthcurve2dribbonstartshape)
+	// issue1150
+	// delete(stage.StackGrowthCurve2DRibbonStartShape_stagedOrder, stackgrowthcurve2dribbonstartshape)
+	delete(stage.StackGrowthCurve2DRibbonStartShapes_mapString, stackgrowthcurve2dribbonstartshape.Name)
+
+	return stackgrowthcurve2dribbonstartshape
+}
+
+// UnstageVoid removes stackgrowthcurve2dribbonstartshape off the model stage
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) UnstageVoid(stage *Stage) {
+	delete(stage.StackGrowthCurve2DRibbonStartShapes, stackgrowthcurve2dribbonstartshape)
+	// issue1150
+	// delete(stage.StackGrowthCurve2DRibbonStartShape_stagedOrder, stackgrowthcurve2dribbonstartshape)
+	delete(stage.StackGrowthCurve2DRibbonStartShapes_mapString, stackgrowthcurve2dribbonstartshape.Name)
+}
+
+// commit stackgrowthcurve2dribbonstartshape to the back repo (if it is already staged)
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Commit(stage *Stage) *StackGrowthCurve2DRibbonStartShape {
+	if _, ok := stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape)
+		}
+	}
+	return stackgrowthcurve2dribbonstartshape
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) CommitVoid(stage *Stage) {
+	stackgrowthcurve2dribbonstartshape.Commit(stage)
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) StageVoid(stage *Stage) {
+	stackgrowthcurve2dribbonstartshape.Stage(stage)
+}
+
+// Checkout stackgrowthcurve2dribbonstartshape to the back repo (if it is already staged)
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) Checkout(stage *Stage) *StackGrowthCurve2DRibbonStartShape {
+	if _, ok := stage.StackGrowthCurve2DRibbonStartShapes[stackgrowthcurve2dribbonstartshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStackGrowthCurve2DRibbonStartShape(stackgrowthcurve2dribbonstartshape)
+		}
+	}
+	return stackgrowthcurve2dribbonstartshape
+}
+
+// for satisfaction of GongStruct interface
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GetName() (res string) {
+	return stackgrowthcurve2dribbonstartshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) SetName(name string) {
+	stackgrowthcurve2dribbonstartshape.Name = name
+}
+
 // Stage puts stackgrowthcurve2dstarthalfwayarcshape to the model stage
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) Stage(stage *Stage) *StackGrowthCurve2DStartHalfwayArcShape {
 	if _, ok := stage.StackGrowthCurve2DStartHalfwayArcShapes[stackgrowthcurve2dstarthalfwayarcshape]; !ok {
@@ -9442,6 +9826,94 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) SetName(name string) {
 	stackofgrowthcurve2d.Name = name
+}
+
+// Stage puts stackofgrowthcurve2dribbon to the model stage
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Stage(stage *Stage) *StackOfGrowthCurve2DRibbon {
+	if _, ok := stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]; !ok {
+		stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon] = struct{}{}
+		stage.StackOfGrowthCurve2DRibbon_stagedOrder[stackofgrowthcurve2dribbon] = stage.StackOfGrowthCurve2DRibbonOrder
+		stage.StackOfGrowthCurve2DRibbon_orderStaged[stage.StackOfGrowthCurve2DRibbonOrder] = stackofgrowthcurve2dribbon
+		stage.StackOfGrowthCurve2DRibbonOrder++
+	}
+	stage.StackOfGrowthCurve2DRibbons_mapString[stackofgrowthcurve2dribbon.Name] = stackofgrowthcurve2dribbon
+
+	return stackofgrowthcurve2dribbon
+}
+
+// StagePreserveOrder puts stackofgrowthcurve2dribbon to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StackOfGrowthCurve2DRibbonOrder
+// - update stage.StackOfGrowthCurve2DRibbonOrder accordingly
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]; !ok {
+		stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon] = struct{}{}
+
+		if order > stage.StackOfGrowthCurve2DRibbonOrder {
+			stage.StackOfGrowthCurve2DRibbonOrder = order
+		}
+		stage.StackOfGrowthCurve2DRibbon_stagedOrder[stackofgrowthcurve2dribbon] = order
+		stage.StackOfGrowthCurve2DRibbon_orderStaged[order] = stackofgrowthcurve2dribbon
+		stage.StackOfGrowthCurve2DRibbonOrder++
+	}
+	stage.StackOfGrowthCurve2DRibbons_mapString[stackofgrowthcurve2dribbon.Name] = stackofgrowthcurve2dribbon
+}
+
+// Unstage removes stackofgrowthcurve2dribbon off the model stage
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Unstage(stage *Stage) *StackOfGrowthCurve2DRibbon {
+	delete(stage.StackOfGrowthCurve2DRibbons, stackofgrowthcurve2dribbon)
+	// issue1150
+	// delete(stage.StackOfGrowthCurve2DRibbon_stagedOrder, stackofgrowthcurve2dribbon)
+	delete(stage.StackOfGrowthCurve2DRibbons_mapString, stackofgrowthcurve2dribbon.Name)
+
+	return stackofgrowthcurve2dribbon
+}
+
+// UnstageVoid removes stackofgrowthcurve2dribbon off the model stage
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) UnstageVoid(stage *Stage) {
+	delete(stage.StackOfGrowthCurve2DRibbons, stackofgrowthcurve2dribbon)
+	// issue1150
+	// delete(stage.StackOfGrowthCurve2DRibbon_stagedOrder, stackofgrowthcurve2dribbon)
+	delete(stage.StackOfGrowthCurve2DRibbons_mapString, stackofgrowthcurve2dribbon.Name)
+}
+
+// commit stackofgrowthcurve2dribbon to the back repo (if it is already staged)
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Commit(stage *Stage) *StackOfGrowthCurve2DRibbon {
+	if _, ok := stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon)
+		}
+	}
+	return stackofgrowthcurve2dribbon
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) CommitVoid(stage *Stage) {
+	stackofgrowthcurve2dribbon.Commit(stage)
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) StageVoid(stage *Stage) {
+	stackofgrowthcurve2dribbon.Stage(stage)
+}
+
+// Checkout stackofgrowthcurve2dribbon to the back repo (if it is already staged)
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Checkout(stage *Stage) *StackOfGrowthCurve2DRibbon {
+	if _, ok := stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon)
+		}
+	}
+	return stackofgrowthcurve2dribbon
+}
+
+// for satisfaction of GongStruct interface
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GetName() (res string) {
+	return stackofgrowthcurve2dribbon.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) SetName(name string) {
+	stackofgrowthcurve2dribbon.Name = name
 }
 
 // Stage puts startarcshape to the model stage
@@ -11423,11 +11895,14 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMShiftedLeftStackOfGrowthCurve(ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve)
 	CreateORMShiftedLeftStackOfNormalVector(ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector)
 	CreateORMStackGrowthCurve2DEndHalfwayArcShape(StackGrowthCurve2DEndHalfwayArcShape *StackGrowthCurve2DEndHalfwayArcShape)
+	CreateORMStackGrowthCurve2DRibbonEndShape(StackGrowthCurve2DRibbonEndShape *StackGrowthCurve2DRibbonEndShape)
+	CreateORMStackGrowthCurve2DRibbonStartShape(StackGrowthCurve2DRibbonStartShape *StackGrowthCurve2DRibbonStartShape)
 	CreateORMStackGrowthCurve2DStartHalfwayArcShape(StackGrowthCurve2DStartHalfwayArcShape *StackGrowthCurve2DStartHalfwayArcShape)
 	CreateORMStackGrowthCurveEndArcShape(StackGrowthCurveEndArcShape *StackGrowthCurveEndArcShape)
 	CreateORMStackGrowthCurveStartArcShape(StackGrowthCurveStartArcShape *StackGrowthCurveStartArcShape)
 	CreateORMStackOfGrowthCurve(StackOfGrowthCurve *StackOfGrowthCurve)
 	CreateORMStackOfGrowthCurve2D(StackOfGrowthCurve2D *StackOfGrowthCurve2D)
+	CreateORMStackOfGrowthCurve2DRibbon(StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon)
 	CreateORMStartArcShape(StartArcShape *StartArcShape)
 	CreateORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	CreateORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
@@ -11494,11 +11969,14 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMShiftedLeftStackOfGrowthCurve(ShiftedLeftStackOfGrowthCurve *ShiftedLeftStackOfGrowthCurve)
 	DeleteORMShiftedLeftStackOfNormalVector(ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector)
 	DeleteORMStackGrowthCurve2DEndHalfwayArcShape(StackGrowthCurve2DEndHalfwayArcShape *StackGrowthCurve2DEndHalfwayArcShape)
+	DeleteORMStackGrowthCurve2DRibbonEndShape(StackGrowthCurve2DRibbonEndShape *StackGrowthCurve2DRibbonEndShape)
+	DeleteORMStackGrowthCurve2DRibbonStartShape(StackGrowthCurve2DRibbonStartShape *StackGrowthCurve2DRibbonStartShape)
 	DeleteORMStackGrowthCurve2DStartHalfwayArcShape(StackGrowthCurve2DStartHalfwayArcShape *StackGrowthCurve2DStartHalfwayArcShape)
 	DeleteORMStackGrowthCurveEndArcShape(StackGrowthCurveEndArcShape *StackGrowthCurveEndArcShape)
 	DeleteORMStackGrowthCurveStartArcShape(StackGrowthCurveStartArcShape *StackGrowthCurveStartArcShape)
 	DeleteORMStackOfGrowthCurve(StackOfGrowthCurve *StackOfGrowthCurve)
 	DeleteORMStackOfGrowthCurve2D(StackOfGrowthCurve2D *StackOfGrowthCurve2D)
+	DeleteORMStackOfGrowthCurve2DRibbon(StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon)
 	DeleteORMStartArcShape(StartArcShape *StartArcShape)
 	DeleteORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	DeleteORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
@@ -11729,6 +12207,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder = make(map[*StackGrowthCurve2DEndHalfwayArcShape]uint)
 	stage.StackGrowthCurve2DEndHalfwayArcShapeOrder = 0
 
+	stage.StackGrowthCurve2DRibbonEndShapes = make(map[*StackGrowthCurve2DRibbonEndShape]struct{})
+	stage.StackGrowthCurve2DRibbonEndShapes_mapString = make(map[string]*StackGrowthCurve2DRibbonEndShape)
+	stage.StackGrowthCurve2DRibbonEndShape_stagedOrder = make(map[*StackGrowthCurve2DRibbonEndShape]uint)
+	stage.StackGrowthCurve2DRibbonEndShapeOrder = 0
+
+	stage.StackGrowthCurve2DRibbonStartShapes = make(map[*StackGrowthCurve2DRibbonStartShape]struct{})
+	stage.StackGrowthCurve2DRibbonStartShapes_mapString = make(map[string]*StackGrowthCurve2DRibbonStartShape)
+	stage.StackGrowthCurve2DRibbonStartShape_stagedOrder = make(map[*StackGrowthCurve2DRibbonStartShape]uint)
+	stage.StackGrowthCurve2DRibbonStartShapeOrder = 0
+
 	stage.StackGrowthCurve2DStartHalfwayArcShapes = make(map[*StackGrowthCurve2DStartHalfwayArcShape]struct{})
 	stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString = make(map[string]*StackGrowthCurve2DStartHalfwayArcShape)
 	stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder = make(map[*StackGrowthCurve2DStartHalfwayArcShape]uint)
@@ -11753,6 +12241,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StackOfGrowthCurve2Ds_mapString = make(map[string]*StackOfGrowthCurve2D)
 	stage.StackOfGrowthCurve2D_stagedOrder = make(map[*StackOfGrowthCurve2D]uint)
 	stage.StackOfGrowthCurve2DOrder = 0
+
+	stage.StackOfGrowthCurve2DRibbons = make(map[*StackOfGrowthCurve2DRibbon]struct{})
+	stage.StackOfGrowthCurve2DRibbons_mapString = make(map[string]*StackOfGrowthCurve2DRibbon)
+	stage.StackOfGrowthCurve2DRibbon_stagedOrder = make(map[*StackOfGrowthCurve2DRibbon]uint)
+	stage.StackOfGrowthCurve2DRibbonOrder = 0
 
 	stage.StartArcShapes = make(map[*StartArcShape]struct{})
 	stage.StartArcShapes_mapString = make(map[string]*StartArcShape)
@@ -11996,6 +12489,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.StackGrowthCurve2DEndHalfwayArcShapes = nil
 	stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString = nil
 
+	stage.StackGrowthCurve2DRibbonEndShapes = nil
+	stage.StackGrowthCurve2DRibbonEndShapes_mapString = nil
+
+	stage.StackGrowthCurve2DRibbonStartShapes = nil
+	stage.StackGrowthCurve2DRibbonStartShapes_mapString = nil
+
 	stage.StackGrowthCurve2DStartHalfwayArcShapes = nil
 	stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString = nil
 
@@ -12010,6 +12509,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.StackOfGrowthCurve2Ds = nil
 	stage.StackOfGrowthCurve2Ds_mapString = nil
+
+	stage.StackOfGrowthCurve2DRibbons = nil
+	stage.StackOfGrowthCurve2DRibbons_mapString = nil
 
 	stage.StartArcShapes = nil
 	stage.StartArcShapes_mapString = nil
@@ -12245,6 +12747,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		stackgrowthcurve2dendhalfwayarcshape.Unstage(stage)
 	}
 
+	for stackgrowthcurve2dribbonendshape := range stage.StackGrowthCurve2DRibbonEndShapes {
+		stackgrowthcurve2dribbonendshape.Unstage(stage)
+	}
+
+	for stackgrowthcurve2dribbonstartshape := range stage.StackGrowthCurve2DRibbonStartShapes {
+		stackgrowthcurve2dribbonstartshape.Unstage(stage)
+	}
+
 	for stackgrowthcurve2dstarthalfwayarcshape := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
 		stackgrowthcurve2dstarthalfwayarcshape.Unstage(stage)
 	}
@@ -12263,6 +12773,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
 		stackofgrowthcurve2d.Unstage(stage)
+	}
+
+	for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
+		stackofgrowthcurve2dribbon.Unstage(stage)
 	}
 
 	for startarcshape := range stage.StartArcShapes {
@@ -12511,6 +13025,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ShiftedLeftStackOfNormalVectors).(*Type)
 	case map[*StackGrowthCurve2DEndHalfwayArcShape]any:
 		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes).(*Type)
+	case map[*StackGrowthCurve2DRibbonEndShape]any:
+		return any(&stage.StackGrowthCurve2DRibbonEndShapes).(*Type)
+	case map[*StackGrowthCurve2DRibbonStartShape]any:
+		return any(&stage.StackGrowthCurve2DRibbonStartShapes).(*Type)
 	case map[*StackGrowthCurve2DStartHalfwayArcShape]any:
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*Type)
 	case map[*StackGrowthCurveEndArcShape]any:
@@ -12521,6 +13039,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StackOfGrowthCurves).(*Type)
 	case map[*StackOfGrowthCurve2D]any:
 		return any(&stage.StackOfGrowthCurve2Ds).(*Type)
+	case map[*StackOfGrowthCurve2DRibbon]any:
+		return any(&stage.StackOfGrowthCurve2DRibbons).(*Type)
 	case map[*StartArcShape]any:
 		return any(&stage.StartArcShapes).(*Type)
 	case map[*StartArcShapeGrid]any:
@@ -12659,6 +13179,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ShiftedLeftStackOfNormalVectors_mapString).(map[string]Type)
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		return any(stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString).(map[string]Type)
+	case *StackGrowthCurve2DRibbonEndShape:
+		return any(stage.StackGrowthCurve2DRibbonEndShapes_mapString).(map[string]Type)
+	case *StackGrowthCurve2DRibbonStartShape:
+		return any(stage.StackGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		return any(stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString).(map[string]Type)
 	case *StackGrowthCurveEndArcShape:
@@ -12669,6 +13193,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StackOfGrowthCurves_mapString).(map[string]Type)
 	case *StackOfGrowthCurve2D:
 		return any(stage.StackOfGrowthCurve2Ds_mapString).(map[string]Type)
+	case *StackOfGrowthCurve2DRibbon:
+		return any(stage.StackOfGrowthCurve2DRibbons_mapString).(map[string]Type)
 	case *StartArcShape:
 		return any(stage.StartArcShapes_mapString).(map[string]Type)
 	case *StartArcShapeGrid:
@@ -12807,6 +13333,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ShiftedLeftStackOfNormalVectors).(*map[*Type]struct{})
 	case StackGrowthCurve2DEndHalfwayArcShape:
 		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes).(*map[*Type]struct{})
+	case StackGrowthCurve2DRibbonEndShape:
+		return any(&stage.StackGrowthCurve2DRibbonEndShapes).(*map[*Type]struct{})
+	case StackGrowthCurve2DRibbonStartShape:
+		return any(&stage.StackGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
 	case StackGrowthCurve2DStartHalfwayArcShape:
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*map[*Type]struct{})
 	case StackGrowthCurveEndArcShape:
@@ -12817,6 +13347,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StackOfGrowthCurves).(*map[*Type]struct{})
 	case StackOfGrowthCurve2D:
 		return any(&stage.StackOfGrowthCurve2Ds).(*map[*Type]struct{})
+	case StackOfGrowthCurve2DRibbon:
+		return any(&stage.StackOfGrowthCurve2DRibbons).(*map[*Type]struct{})
 	case StartArcShape:
 		return any(&stage.StartArcShapes).(*map[*Type]struct{})
 	case StartArcShapeGrid:
@@ -12955,6 +13487,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ShiftedLeftStackOfNormalVectors).(*map[Type]struct{})
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes).(*map[Type]struct{})
+	case *StackGrowthCurve2DRibbonEndShape:
+		return any(&stage.StackGrowthCurve2DRibbonEndShapes).(*map[Type]struct{})
+	case *StackGrowthCurve2DRibbonStartShape:
+		return any(&stage.StackGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*map[Type]struct{})
 	case *StackGrowthCurveEndArcShape:
@@ -12965,6 +13501,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StackOfGrowthCurves).(*map[Type]struct{})
 	case *StackOfGrowthCurve2D:
 		return any(&stage.StackOfGrowthCurve2Ds).(*map[Type]struct{})
+	case *StackOfGrowthCurve2DRibbon:
+		return any(&stage.StackOfGrowthCurve2DRibbons).(*map[Type]struct{})
 	case *StartArcShape:
 		return any(&stage.StartArcShapes).(*map[Type]struct{})
 	case *StartArcShapeGrid:
@@ -13103,6 +13641,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ShiftedLeftStackOfNormalVectors_mapString).(*map[string]*Type)
 	case StackGrowthCurve2DEndHalfwayArcShape:
 		return any(&stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString).(*map[string]*Type)
+	case StackGrowthCurve2DRibbonEndShape:
+		return any(&stage.StackGrowthCurve2DRibbonEndShapes_mapString).(*map[string]*Type)
+	case StackGrowthCurve2DRibbonStartShape:
+		return any(&stage.StackGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
 	case StackGrowthCurve2DStartHalfwayArcShape:
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString).(*map[string]*Type)
 	case StackGrowthCurveEndArcShape:
@@ -13113,6 +13655,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StackOfGrowthCurves_mapString).(*map[string]*Type)
 	case StackOfGrowthCurve2D:
 		return any(&stage.StackOfGrowthCurve2Ds_mapString).(*map[string]*Type)
+	case StackOfGrowthCurve2DRibbon:
+		return any(&stage.StackOfGrowthCurve2DRibbons_mapString).(*map[string]*Type)
 	case StartArcShape:
 		return any(&stage.StartArcShapes_mapString).(*map[string]*Type)
 	case StartArcShapeGrid:
@@ -13354,6 +13898,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StackOfGrowthCurve2D: &StackOfGrowthCurve2D{Name: "StackOfGrowthCurve2D"},
 			// field is initialized with an instance of TopStackOfGrowthCurve2D with the name of the field
 			TopStackOfGrowthCurve2D: &TopStackOfGrowthCurve2D{Name: "TopStackOfGrowthCurve2D"},
+			// field is initialized with an instance of StackOfGrowthCurve2DRibbon with the name of the field
+			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -13449,6 +13995,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&StackGrowthCurve2DEndHalfwayArcShape{
 			// Initialisation of associations
 		}).(*Type)
+	case StackGrowthCurve2DRibbonEndShape:
+		return any(&StackGrowthCurve2DRibbonEndShape{
+			// Initialisation of associations
+		}).(*Type)
+	case StackGrowthCurve2DRibbonStartShape:
+		return any(&StackGrowthCurve2DRibbonStartShape{
+			// Initialisation of associations
+		}).(*Type)
 	case StackGrowthCurve2DStartHalfwayArcShape:
 		return any(&StackGrowthCurve2DStartHalfwayArcShape{
 			// Initialisation of associations
@@ -13476,6 +14030,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StackGrowthCurve2DStartHalfwayArcShapes: []*StackGrowthCurve2DStartHalfwayArcShape{{Name: "StackGrowthCurve2DStartHalfwayArcShapes"}},
 			// field is initialized with an instance of StackGrowthCurve2DEndHalfwayArcShape with the name of the field
 			StackGrowthCurve2DEndHalfwayArcShapes: []*StackGrowthCurve2DEndHalfwayArcShape{{Name: "StackGrowthCurve2DEndHalfwayArcShapes"}},
+		}).(*Type)
+	case StackOfGrowthCurve2DRibbon:
+		return any(&StackOfGrowthCurve2DRibbon{
+			// Initialisation of associations
+			// field is initialized with an instance of StackGrowthCurve2DRibbonStartShape with the name of the field
+			StackGrowthCurve2DRibbonStartShapes: []*StackGrowthCurve2DRibbonStartShape{{Name: "StackGrowthCurve2DRibbonStartShapes"}},
+			// field is initialized with an instance of StackGrowthCurve2DRibbonEndShape with the name of the field
+			StackGrowthCurve2DRibbonEndShapes: []*StackGrowthCurve2DRibbonEndShape{{Name: "StackGrowthCurve2DRibbonEndShapes"}},
 		}).(*Type)
 	case StartArcShape:
 		return any(&StartArcShape{
@@ -14213,6 +14775,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "StackOfGrowthCurve2DRibbon":
+			res := make(map[*StackOfGrowthCurve2DRibbon][]*Plant)
+			for plant := range stage.Plants {
+				if plant.StackOfGrowthCurve2DRibbon != nil {
+					stackofgrowthcurve2dribbon_ := plant.StackOfGrowthCurve2DRibbon
+					var plants []*Plant
+					_, ok := res[stackofgrowthcurve2dribbon_]
+					if ok {
+						plants = res[stackofgrowthcurve2dribbon_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[stackofgrowthcurve2dribbon_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
@@ -14493,6 +15072,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of StackGrowthCurve2DRibbonEndShape
+	case StackGrowthCurve2DRibbonEndShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StackGrowthCurve2DRibbonStartShape
+	case StackGrowthCurve2DRibbonStartShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of StackGrowthCurve2DStartHalfwayArcShape
 	case StackGrowthCurve2DStartHalfwayArcShape:
 		switch fieldname {
@@ -14515,6 +15104,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of StackOfGrowthCurve2D
 	case StackOfGrowthCurve2D:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StackOfGrowthCurve2DRibbon
+	case StackOfGrowthCurve2DRibbon:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -15018,6 +15612,16 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of StackGrowthCurve2DRibbonEndShape
+	case StackGrowthCurve2DRibbonEndShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StackGrowthCurve2DRibbonStartShape
+	case StackGrowthCurve2DRibbonStartShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of StackGrowthCurve2DStartHalfwayArcShape
 	case StackGrowthCurve2DStartHalfwayArcShape:
 		switch fieldname {
@@ -15071,6 +15675,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
 				for _, stackgrowthcurve2dendhalfwayarcshape_ := range stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes {
 					res[stackgrowthcurve2dendhalfwayarcshape_] = append(res[stackgrowthcurve2dendhalfwayarcshape_], stackofgrowthcurve2d)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of StackOfGrowthCurve2DRibbon
+	case StackOfGrowthCurve2DRibbon:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "StackGrowthCurve2DRibbonStartShapes":
+			res := make(map[*StackGrowthCurve2DRibbonStartShape][]*StackOfGrowthCurve2DRibbon)
+			for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
+				for _, stackgrowthcurve2dribbonstartshape_ := range stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes {
+					res[stackgrowthcurve2dribbonstartshape_] = append(res[stackgrowthcurve2dribbonstartshape_], stackofgrowthcurve2dribbon)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackGrowthCurve2DRibbonEndShapes":
+			res := make(map[*StackGrowthCurve2DRibbonEndShape][]*StackOfGrowthCurve2DRibbon)
+			for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
+				for _, stackgrowthcurve2dribbonendshape_ := range stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes {
+					res[stackgrowthcurve2dribbonendshape_] = append(res[stackgrowthcurve2dribbonendshape_], stackofgrowthcurve2dribbon)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -15366,6 +15991,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ShiftedLeftStackOfNormalVector"
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		res = "StackGrowthCurve2DEndHalfwayArcShape"
+	case *StackGrowthCurve2DRibbonEndShape:
+		res = "StackGrowthCurve2DRibbonEndShape"
+	case *StackGrowthCurve2DRibbonStartShape:
+		res = "StackGrowthCurve2DRibbonStartShape"
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		res = "StackGrowthCurve2DStartHalfwayArcShape"
 	case *StackGrowthCurveEndArcShape:
@@ -15376,6 +16005,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StackOfGrowthCurve"
 	case *StackOfGrowthCurve2D:
 		res = "StackOfGrowthCurve2D"
+	case *StackOfGrowthCurve2DRibbon:
+		res = "StackOfGrowthCurve2DRibbon"
 	case *StartArcShape:
 		res = "StartArcShape"
 	case *StartArcShapeGrid:
@@ -15614,6 +16245,18 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "StackOfGrowthCurve2D"
 		rf.Fieldname = "StackGrowthCurve2DEndHalfwayArcShapes"
 		res = append(res, rf)
+	case *StackGrowthCurve2DRibbonEndShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "StackOfGrowthCurve2DRibbon"
+		rf.Fieldname = "StackGrowthCurve2DRibbonEndShapes"
+		res = append(res, rf)
+	case *StackGrowthCurve2DRibbonStartShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "StackOfGrowthCurve2DRibbon"
+		rf.Fieldname = "StackGrowthCurve2DRibbonStartShapes"
+		res = append(res, rf)
 	case *StackGrowthCurve2DStartHalfwayArcShape:
 		var rf ReverseField
 		_ = rf
@@ -15636,6 +16279,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *StackOfGrowthCurve2D:
+		var rf ReverseField
+		_ = rf
+	case *StackOfGrowthCurve2DRibbon:
 		var rf ReverseField
 		_ = rf
 	case *StartArcShape:
@@ -16480,6 +17126,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TopStackOfGrowthCurve2D",
 		},
+		{
+			Name:                 "StackOfGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfGrowthCurve2DRibbon",
+		},
 	}
 	return
 }
@@ -16676,6 +17327,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenTopStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -17130,6 +17785,172 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return
 }
 
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BottomStartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomStartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomEndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomEndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomRadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomRadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomXAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomLargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "BottomSweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "TopStartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopStartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopEndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopEndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopRadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopRadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopXAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopLargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "TopSweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BottomStartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomStartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomEndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomEndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomRadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomRadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomXAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomLargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "BottomSweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "TopStartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopStartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopEndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopEndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopRadiusX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopRadiusY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopXAxisRotation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "TopLargeArcFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "TopSweepFlag",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -17308,6 +18129,27 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetFieldHeaders() (res []G
 			Name:                 "StackGrowthCurve2DEndHalfwayArcShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StackGrowthCurve2DEndHalfwayArcShape",
+		},
+	}
+	return
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "StackGrowthCurve2DRibbonStartShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StackGrowthCurve2DRibbonStartShape",
+		},
+		{
+			Name:                 "StackGrowthCurve2DRibbonEndShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StackGrowthCurve2DRibbonEndShape",
 		},
 	}
 	return
@@ -18819,6 +19661,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.TopStackOfGrowthCurve2D.Name
 			res.ids = plant.TopStackOfGrowthCurve2D.GongGetUUID(stage)
 		}
+	case "StackOfGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.StackOfGrowthCurve2DRibbon != nil {
+			res.valueString = plant.StackOfGrowthCurve2DRibbon.Name
+			res.ids = plant.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -19012,6 +19860,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenTopStackOfGrowthCurve2D":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStackOfGrowthCurve2D)
 		res.valueBool = plantdiagram.IsHiddenTopStackOfGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon)
+		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusStackShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
@@ -19474,6 +20326,168 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return
 }
 
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stackgrowthcurve2dribbonendshape.Name
+	case "BottomStartX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomStartX)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomStartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomStartY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomStartY)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomStartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomEndX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomEndX)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomEndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomEndY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomEndY)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomEndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomRadiusX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomRadiusX)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomRadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomRadiusY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomRadiusY)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomRadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomXAxisRotation":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.BottomXAxisRotation)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.BottomXAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomLargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonendshape.BottomLargeArcFlag)
+		res.valueBool = stackgrowthcurve2dribbonendshape.BottomLargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "BottomSweepFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonendshape.BottomSweepFlag)
+		res.valueBool = stackgrowthcurve2dribbonendshape.BottomSweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TopStartX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopStartX)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopStartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopStartY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopStartY)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopStartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopEndX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopEndX)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopEndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopEndY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopEndY)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopEndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopRadiusX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopRadiusX)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopRadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopRadiusY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopRadiusY)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopRadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopXAxisRotation":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonendshape.TopXAxisRotation)
+		res.valueFloat = stackgrowthcurve2dribbonendshape.TopXAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopLargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonendshape.TopLargeArcFlag)
+		res.valueBool = stackgrowthcurve2dribbonendshape.TopLargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TopSweepFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonendshape.TopSweepFlag)
+		res.valueBool = stackgrowthcurve2dribbonendshape.TopSweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stackgrowthcurve2dribbonstartshape.Name
+	case "BottomStartX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomStartX)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomStartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomStartY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomStartY)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomStartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomEndX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomEndX)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomEndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomEndY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomEndY)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomEndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomRadiusX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomRadiusX)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomRadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomRadiusY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomRadiusY)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomRadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomXAxisRotation":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.BottomXAxisRotation)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.BottomXAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomLargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonstartshape.BottomLargeArcFlag)
+		res.valueBool = stackgrowthcurve2dribbonstartshape.BottomLargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "BottomSweepFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonstartshape.BottomSweepFlag)
+		res.valueBool = stackgrowthcurve2dribbonstartshape.BottomSweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TopStartX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopStartX)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopStartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopStartY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopStartY)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopStartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopEndX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopEndX)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopEndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopEndY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopEndY)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopEndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopRadiusX":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopRadiusX)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopRadiusX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopRadiusY":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopRadiusY)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopRadiusY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopXAxisRotation":
+		res.valueString = fmt.Sprintf("%f", stackgrowthcurve2dribbonstartshape.TopXAxisRotation)
+		res.valueFloat = stackgrowthcurve2dribbonstartshape.TopXAxisRotation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TopLargeArcFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonstartshape.TopLargeArcFlag)
+		res.valueBool = stackgrowthcurve2dribbonstartshape.TopLargeArcFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TopSweepFlag":
+		res.valueString = fmt.Sprintf("%t", stackgrowthcurve2dribbonstartshape.TopSweepFlag)
+		res.valueBool = stackgrowthcurve2dribbonstartshape.TopSweepFlag
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -19656,6 +20670,35 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetFieldValue(fieldName st
 	case "StackGrowthCurve2DEndHalfwayArcShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stackofgrowthcurve2dribbon.Name
+	case "StackGrowthCurve2DRibbonStartShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "StackGrowthCurve2DRibbonEndShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -21253,6 +22296,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "StackOfGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.StackOfGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
+				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					plant.StackOfGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -21363,6 +22417,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenStackOfGrowthCurve2D = value.GetValueBool()
 	case "IsHiddenTopStackOfGrowthCurve2D":
 		plantdiagram.IsHiddenTopStackOfGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve2DRibbon":
+		plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
 	case "IsChecked":
@@ -21824,6 +22880,100 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return nil
 }
 
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stackgrowthcurve2dribbonendshape.Name = value.GetValueString()
+	case "BottomStartX":
+		stackgrowthcurve2dribbonendshape.BottomStartX = value.GetValueFloat()
+	case "BottomStartY":
+		stackgrowthcurve2dribbonendshape.BottomStartY = value.GetValueFloat()
+	case "BottomEndX":
+		stackgrowthcurve2dribbonendshape.BottomEndX = value.GetValueFloat()
+	case "BottomEndY":
+		stackgrowthcurve2dribbonendshape.BottomEndY = value.GetValueFloat()
+	case "BottomRadiusX":
+		stackgrowthcurve2dribbonendshape.BottomRadiusX = value.GetValueFloat()
+	case "BottomRadiusY":
+		stackgrowthcurve2dribbonendshape.BottomRadiusY = value.GetValueFloat()
+	case "BottomXAxisRotation":
+		stackgrowthcurve2dribbonendshape.BottomXAxisRotation = value.GetValueFloat()
+	case "BottomLargeArcFlag":
+		stackgrowthcurve2dribbonendshape.BottomLargeArcFlag = value.GetValueBool()
+	case "BottomSweepFlag":
+		stackgrowthcurve2dribbonendshape.BottomSweepFlag = value.GetValueBool()
+	case "TopStartX":
+		stackgrowthcurve2dribbonendshape.TopStartX = value.GetValueFloat()
+	case "TopStartY":
+		stackgrowthcurve2dribbonendshape.TopStartY = value.GetValueFloat()
+	case "TopEndX":
+		stackgrowthcurve2dribbonendshape.TopEndX = value.GetValueFloat()
+	case "TopEndY":
+		stackgrowthcurve2dribbonendshape.TopEndY = value.GetValueFloat()
+	case "TopRadiusX":
+		stackgrowthcurve2dribbonendshape.TopRadiusX = value.GetValueFloat()
+	case "TopRadiusY":
+		stackgrowthcurve2dribbonendshape.TopRadiusY = value.GetValueFloat()
+	case "TopXAxisRotation":
+		stackgrowthcurve2dribbonendshape.TopXAxisRotation = value.GetValueFloat()
+	case "TopLargeArcFlag":
+		stackgrowthcurve2dribbonendshape.TopLargeArcFlag = value.GetValueBool()
+	case "TopSweepFlag":
+		stackgrowthcurve2dribbonendshape.TopSweepFlag = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stackgrowthcurve2dribbonstartshape.Name = value.GetValueString()
+	case "BottomStartX":
+		stackgrowthcurve2dribbonstartshape.BottomStartX = value.GetValueFloat()
+	case "BottomStartY":
+		stackgrowthcurve2dribbonstartshape.BottomStartY = value.GetValueFloat()
+	case "BottomEndX":
+		stackgrowthcurve2dribbonstartshape.BottomEndX = value.GetValueFloat()
+	case "BottomEndY":
+		stackgrowthcurve2dribbonstartshape.BottomEndY = value.GetValueFloat()
+	case "BottomRadiusX":
+		stackgrowthcurve2dribbonstartshape.BottomRadiusX = value.GetValueFloat()
+	case "BottomRadiusY":
+		stackgrowthcurve2dribbonstartshape.BottomRadiusY = value.GetValueFloat()
+	case "BottomXAxisRotation":
+		stackgrowthcurve2dribbonstartshape.BottomXAxisRotation = value.GetValueFloat()
+	case "BottomLargeArcFlag":
+		stackgrowthcurve2dribbonstartshape.BottomLargeArcFlag = value.GetValueBool()
+	case "BottomSweepFlag":
+		stackgrowthcurve2dribbonstartshape.BottomSweepFlag = value.GetValueBool()
+	case "TopStartX":
+		stackgrowthcurve2dribbonstartshape.TopStartX = value.GetValueFloat()
+	case "TopStartY":
+		stackgrowthcurve2dribbonstartshape.TopStartY = value.GetValueFloat()
+	case "TopEndX":
+		stackgrowthcurve2dribbonstartshape.TopEndX = value.GetValueFloat()
+	case "TopEndY":
+		stackgrowthcurve2dribbonstartshape.TopEndY = value.GetValueFloat()
+	case "TopRadiusX":
+		stackgrowthcurve2dribbonstartshape.TopRadiusX = value.GetValueFloat()
+	case "TopRadiusY":
+		stackgrowthcurve2dribbonstartshape.TopRadiusY = value.GetValueFloat()
+	case "TopXAxisRotation":
+		stackgrowthcurve2dribbonstartshape.TopXAxisRotation = value.GetValueFloat()
+	case "TopLargeArcFlag":
+		stackgrowthcurve2dribbonstartshape.TopLargeArcFlag = value.GetValueBool()
+	case "TopSweepFlag":
+		stackgrowthcurve2dribbonstartshape.TopSweepFlag = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -21978,6 +23128,45 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongSetFieldValue(fieldName st
 				for __instance__ := range stage.StackGrowthCurve2DEndHalfwayArcShapes {
 					if stage.StackGrowthCurve2DEndHalfwayArcShape_stagedOrder[__instance__] == uint(id) {
 						stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes = append(stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stackofgrowthcurve2dribbon.Name = value.GetValueString()
+	case "StackGrowthCurve2DRibbonStartShapes":
+		stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes = make([]*StackGrowthCurve2DRibbonStartShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.StackGrowthCurve2DRibbonStartShapes {
+					if stage.StackGrowthCurve2DRibbonStartShape_stagedOrder[__instance__] == uint(id) {
+						stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes = append(stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonStartShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "StackGrowthCurve2DRibbonEndShapes":
+		stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes = make([]*StackGrowthCurve2DRibbonEndShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.StackGrowthCurve2DRibbonEndShapes {
+					if stage.StackGrowthCurve2DRibbonEndShape_stagedOrder[__instance__] == uint(id) {
+						stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes = append(stackofgrowthcurve2dribbon.StackGrowthCurve2DRibbonEndShapes, __instance__)
 						break
 					}
 				}
@@ -22764,6 +23953,14 @@ func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape
 	return "StackGrowthCurve2DEndHalfwayArcShape"
 }
 
+func (stackgrowthcurve2dribbonendshape *StackGrowthCurve2DRibbonEndShape) GongGetGongstructName() string {
+	return "StackGrowthCurve2DRibbonEndShape"
+}
+
+func (stackgrowthcurve2dribbonstartshape *StackGrowthCurve2DRibbonStartShape) GongGetGongstructName() string {
+	return "StackGrowthCurve2DRibbonStartShape"
+}
+
 func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongGetGongstructName() string {
 	return "StackGrowthCurve2DStartHalfwayArcShape"
 }
@@ -22782,6 +23979,10 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongGetGongstructName() string {
 
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetGongstructName() string {
 	return "StackOfGrowthCurve2D"
+}
+
+func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetGongstructName() string {
+	return "StackOfGrowthCurve2DRibbon"
 }
 
 func (startarcshape *StartArcShape) GongGetGongstructName() string {
@@ -23084,6 +24285,16 @@ func (stage *Stage) ResetMapStrings() {
 		stage.StackGrowthCurve2DEndHalfwayArcShapes_mapString[stackgrowthcurve2dendhalfwayarcshape.Name] = stackgrowthcurve2dendhalfwayarcshape
 	}
 
+	stage.StackGrowthCurve2DRibbonEndShapes_mapString = make(map[string]*StackGrowthCurve2DRibbonEndShape)
+	for stackgrowthcurve2dribbonendshape := range stage.StackGrowthCurve2DRibbonEndShapes {
+		stage.StackGrowthCurve2DRibbonEndShapes_mapString[stackgrowthcurve2dribbonendshape.Name] = stackgrowthcurve2dribbonendshape
+	}
+
+	stage.StackGrowthCurve2DRibbonStartShapes_mapString = make(map[string]*StackGrowthCurve2DRibbonStartShape)
+	for stackgrowthcurve2dribbonstartshape := range stage.StackGrowthCurve2DRibbonStartShapes {
+		stage.StackGrowthCurve2DRibbonStartShapes_mapString[stackgrowthcurve2dribbonstartshape.Name] = stackgrowthcurve2dribbonstartshape
+	}
+
 	stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString = make(map[string]*StackGrowthCurve2DStartHalfwayArcShape)
 	for stackgrowthcurve2dstarthalfwayarcshape := range stage.StackGrowthCurve2DStartHalfwayArcShapes {
 		stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString[stackgrowthcurve2dstarthalfwayarcshape.Name] = stackgrowthcurve2dstarthalfwayarcshape
@@ -23107,6 +24318,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.StackOfGrowthCurve2Ds_mapString = make(map[string]*StackOfGrowthCurve2D)
 	for stackofgrowthcurve2d := range stage.StackOfGrowthCurve2Ds {
 		stage.StackOfGrowthCurve2Ds_mapString[stackofgrowthcurve2d.Name] = stackofgrowthcurve2d
+	}
+
+	stage.StackOfGrowthCurve2DRibbons_mapString = make(map[string]*StackOfGrowthCurve2DRibbon)
+	for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
+		stage.StackOfGrowthCurve2DRibbons_mapString[stackofgrowthcurve2dribbon.Name] = stackofgrowthcurve2dribbon
 	}
 
 	stage.StartArcShapes_mapString = make(map[string]*StartArcShape)

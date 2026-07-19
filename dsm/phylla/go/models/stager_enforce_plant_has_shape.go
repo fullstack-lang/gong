@@ -459,7 +459,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n18 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16 || n17 || n18
+	n19 := enforcePlantHasShape[*StackOfGrowthCurve2DRibbon](
+		stager,
+		func() *StackOfGrowthCurve2DRibbon { return new(StackOfGrowthCurve2DRibbon) },
+		func(p *Plant) *StackOfGrowthCurve2DRibbon { return p.StackOfGrowthCurve2DRibbon },
+		func(p *Plant, shape *StackOfGrowthCurve2DRibbon) { p.StackOfGrowthCurve2DRibbon = shape },
+		func(p *Plant, shape *StackOfGrowthCurve2DRibbon) bool {
+			return p.StackOfGrowthCurve2DRibbon == shape
+		},
+		"StackOfGrowthCurve2DRibbon",
+	)
+	needCommit = n19 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16 || n17 || n18 || n19
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -611,7 +623,14 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n13 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13
+	n14 := enforcePlantShapeName[*StackOfGrowthCurve2DRibbon](
+		stager,
+		func(p *Plant) *StackOfGrowthCurve2DRibbon { return p.StackOfGrowthCurve2DRibbon },
+		"StackOfGrowthCurve2DRibbon",
+	)
+	needCommit = n14 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
