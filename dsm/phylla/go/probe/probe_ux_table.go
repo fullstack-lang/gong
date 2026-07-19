@@ -104,12 +104,18 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ShiftedLeftStackOfGrowthCurve](probe)
 	case "ShiftedLeftStackOfNormalVector":
 		updateProbeTable[*models.ShiftedLeftStackOfNormalVector](probe)
+	case "StackGrowthCurve2DEndHalfwayArcShape":
+		updateProbeTable[*models.StackGrowthCurve2DEndHalfwayArcShape](probe)
+	case "StackGrowthCurve2DStartHalfwayArcShape":
+		updateProbeTable[*models.StackGrowthCurve2DStartHalfwayArcShape](probe)
 	case "StackGrowthCurveEndArcShape":
 		updateProbeTable[*models.StackGrowthCurveEndArcShape](probe)
 	case "StackGrowthCurveStartArcShape":
 		updateProbeTable[*models.StackGrowthCurveStartArcShape](probe)
 	case "StackOfGrowthCurve":
 		updateProbeTable[*models.StackOfGrowthCurve](probe)
+	case "StackOfGrowthCurve2D":
+		updateProbeTable[*models.StackOfGrowthCurve2D](probe)
 	case "StartArcShape":
 		updateProbeTable[*models.StartArcShape](probe)
 	case "StartArcShapeGrid":
@@ -132,12 +138,18 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopMidArcVectorShape](probe)
 	case "TopMidArcVectorShapeGrid":
 		updateProbeTable[*models.TopMidArcVectorShapeGrid](probe)
+	case "TopStackGrowthCurve2DEndHalfwayArcShape":
+		updateProbeTable[*models.TopStackGrowthCurve2DEndHalfwayArcShape](probe)
+	case "TopStackGrowthCurve2DStartHalfwayArcShape":
+		updateProbeTable[*models.TopStackGrowthCurve2DStartHalfwayArcShape](probe)
 	case "TopStackGrowthCurveEndArcShape":
 		updateProbeTable[*models.TopStackGrowthCurveEndArcShape](probe)
 	case "TopStackGrowthCurveStartArcShape":
 		updateProbeTable[*models.TopStackGrowthCurveStartArcShape](probe)
 	case "TopStackOfGrowthCurve":
 		updateProbeTable[*models.TopStackOfGrowthCurve](probe)
+	case "TopStackOfGrowthCurve2D":
+		updateProbeTable[*models.TopStackOfGrowthCurve2D](probe)
 	case "TopStartArcShape":
 		updateProbeTable[*models.TopStartArcShape](probe)
 	case "TopStartArcShapeGrid":

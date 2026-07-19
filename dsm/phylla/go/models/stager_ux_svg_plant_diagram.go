@@ -87,6 +87,8 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawTopStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawTopGrowthCurve2D(stager, layer, plant)
+	plantDiagram.drawStackOfGrowthCurve2D(stager, layer, plant)
+	plantDiagram.drawTopStackOfGrowthCurve2D(stager, layer, plant)
 
 	return
 }
@@ -1494,6 +1496,158 @@ func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, 
 			pathStartX, pathStartY,
 			base.RadiusX, base.RadiusY,
 			base.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "green"
+		path.Presentation.StrokeWidth = 1.5
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenStackOfGrowthCurve2D {
+		return
+	}
+
+	if plant.StackOfGrowthCurve2D == nil {
+		return
+	}
+
+	for _, start := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = start.Name
+
+		pathStartX := plantDiagram.OriginX + start.StartX
+		pathStartY := plantDiagram.OriginY - start.StartY
+		pathEndX := plantDiagram.OriginX + start.EndX
+		pathEndY := plantDiagram.OriginY - start.EndY
+
+		largeArcFlag := 0
+		if start.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if start.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			start.RadiusX, start.RadiusY,
+			start.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "green"
+		path.Presentation.StrokeWidth = 1.5
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
+	}
+
+	for _, end := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = end.Name
+
+		pathStartX := plantDiagram.OriginX + end.StartX
+		pathStartY := plantDiagram.OriginY - end.StartY
+		pathEndX := plantDiagram.OriginX + end.EndX
+		pathEndY := plantDiagram.OriginY - end.EndY
+
+		largeArcFlag := 0
+		if end.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if end.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			end.RadiusX, end.RadiusY,
+			end.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "green"
+		path.Presentation.StrokeWidth = 1.5
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenTopStackOfGrowthCurve2D {
+		return
+	}
+
+	if plant.TopStackOfGrowthCurve2D == nil {
+		return
+	}
+
+	for _, start := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = start.Name
+
+		pathStartX := plantDiagram.OriginX + start.StartX
+		pathStartY := plantDiagram.OriginY - start.StartY
+		pathEndX := plantDiagram.OriginX + start.EndX
+		pathEndY := plantDiagram.OriginY - start.EndY
+
+		largeArcFlag := 0
+		if start.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if start.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			start.RadiusX, start.RadiusY,
+			start.XAxisRotation,
+			largeArcFlag, sweepFlag,
+			pathEndX, pathEndY)
+
+		path.Presentation.Stroke = "green"
+		path.Presentation.StrokeWidth = 1.5
+		path.Presentation.FillOpacity = 0.0
+		path.Presentation.StrokeOpacity = 1.0
+	}
+
+	for _, end := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = end.Name
+
+		pathStartX := plantDiagram.OriginX + end.StartX
+		pathStartY := plantDiagram.OriginY - end.StartY
+		pathEndX := plantDiagram.OriginX + end.EndX
+		pathEndY := plantDiagram.OriginY - end.EndY
+
+		largeArcFlag := 0
+		if end.LargeArcFlag {
+			largeArcFlag = 1
+		}
+		sweepFlag := 0
+		if end.SweepFlag {
+			sweepFlag = 1
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f",
+			pathStartX, pathStartY,
+			end.RadiusX, end.RadiusY,
+			end.XAxisRotation,
 			largeArcFlag, sweepFlag,
 			pathEndX, pathEndY)
 

@@ -257,6 +257,8 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.ShiftedLeftStackOfNormalVector) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.TopGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
 	return
 }
 
@@ -375,6 +377,20 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongClean(
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by StackGrowthCurve2DEndHalfwayArcShape
+func (stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackGrowthCurve2DStartHalfwayArcShape
+func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by StackGrowthCurveEndArcShape
 func (stackgrowthcurveendarcshape *StackGrowthCurveEndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -394,6 +410,15 @@ func (stackofgrowthcurve *StackOfGrowthCurve) GongClean(stage *Stage) (modified 
 	// insertion point per field
 	modified = GongCleanSlice(stage, &stackofgrowthcurve.StackGrowthCurveStartArcShapes) || modified
 	modified = GongCleanSlice(stage, &stackofgrowthcurve.StackGrowthCurveEndArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackOfGrowthCurve2D
+func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes) || modified
+	modified = GongCleanSlice(stage, &stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes) || modified
 	// insertion point per field
 	return
 }
@@ -482,6 +507,20 @@ func (topmidarcvectorshapegrid *TopMidArcVectorShapeGrid) GongClean(stage *Stage
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by TopStackGrowthCurve2DEndHalfwayArcShape
+func (topstackgrowthcurve2dendhalfwayarcshape *TopStackGrowthCurve2DEndHalfwayArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TopStackGrowthCurve2DStartHalfwayArcShape
+func (topstackgrowthcurve2dstarthalfwayarcshape *TopStackGrowthCurve2DStartHalfwayArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by TopStackGrowthCurveEndArcShape
 func (topstackgrowthcurveendarcshape *TopStackGrowthCurveEndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -501,6 +540,15 @@ func (topstackofgrowthcurve *TopStackOfGrowthCurve) GongClean(stage *Stage) (mod
 	// insertion point per field
 	modified = GongCleanSlice(stage, &topstackofgrowthcurve.TopStackGrowthCurveStartArcShapes) || modified
 	modified = GongCleanSlice(stage, &topstackofgrowthcurve.TopStackGrowthCurveEndArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TopStackOfGrowthCurve2D
+func (topstackofgrowthcurve2d *TopStackOfGrowthCurve2D) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &topstackofgrowthcurve2d.TopStackGrowthCurve2DStartHalfwayArcShapes) || modified
+	modified = GongCleanSlice(stage, &topstackofgrowthcurve2d.TopStackGrowthCurve2DEndHalfwayArcShapes) || modified
 	// insertion point per field
 	return
 }

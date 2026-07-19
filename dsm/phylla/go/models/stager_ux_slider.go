@@ -58,7 +58,7 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Rhombus Side Length",
+				"Side Length",
 				5,
 				600,
 				5,
@@ -70,7 +70,7 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Rhombus Inside Angle",
+				"Inside Angle",
 				0,
 				180,
 				1,
@@ -94,11 +94,23 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Relative Vertical Thickness",
+				"Thickness",
 				0.01,
 				0.3,
 				0.01,
 				&plant.RelativeVerticalThickness,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Stack Floor Heigth",
+				0.0,
+				50,
+				0.01,
+				&plant.CuttedStackFloorHeight,
 			),
 		)
 
