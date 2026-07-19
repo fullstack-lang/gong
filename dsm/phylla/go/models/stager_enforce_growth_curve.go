@@ -708,7 +708,8 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 				valid = false
 				break
 			}
-			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 {
+			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 ||
+			   math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
 				valid = false
 				break
 			}
@@ -719,7 +720,8 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 				valid = false
 				break
 			}
-			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 {
+			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 ||
+			   math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
 				valid = false
 				break
 			}

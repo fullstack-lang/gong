@@ -453,6 +453,63 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(circlegridshape.GongMarshallField(stage, "Name"))
 	}
 
+	discretetorusshapeOrdered := []*DiscreteTorusShape{}
+	for discretetorusshape := range stage.DiscreteTorusShapes {
+		discretetorusshapeOrdered = append(discretetorusshapeOrdered, discretetorusshape)
+	}
+	sort.Slice(discretetorusshapeOrdered[:], func(i, j int) bool {
+		discretetorusshapei := discretetorusshapeOrdered[i]
+		discretetorusshapej := discretetorusshapeOrdered[j]
+		discretetorusshapei_order, oki := stage.DiscreteTorusShape_stagedOrder[discretetorusshapei]
+		discretetorusshapej_order, okj := stage.DiscreteTorusShape_stagedOrder[discretetorusshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return discretetorusshapei_order < discretetorusshapej_order
+	})
+	if len(discretetorusshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, discretetorusshape := range discretetorusshapeOrdered {
+
+		identifiersDecl.WriteString(discretetorusshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "CenterY"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "Radius"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "TubeRadius"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "Color"))
+	}
+
+	discretetorusstackshapeOrdered := []*DiscreteTorusStackShape{}
+	for discretetorusstackshape := range stage.DiscreteTorusStackShapes {
+		discretetorusstackshapeOrdered = append(discretetorusstackshapeOrdered, discretetorusstackshape)
+	}
+	sort.Slice(discretetorusstackshapeOrdered[:], func(i, j int) bool {
+		discretetorusstackshapei := discretetorusstackshapeOrdered[i]
+		discretetorusstackshapej := discretetorusstackshapeOrdered[j]
+		discretetorusstackshapei_order, oki := stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshapei]
+		discretetorusstackshapej_order, okj := stage.DiscreteTorusStackShape_stagedOrder[discretetorusstackshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return discretetorusstackshapei_order < discretetorusstackshapej_order
+	})
+	if len(discretetorusstackshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, discretetorusstackshape := range discretetorusstackshapeOrdered {
+
+		identifiersDecl.WriteString(discretetorusstackshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(discretetorusstackshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(discretetorusstackshape.GongMarshallField(stage, "DiscreteTorusShapes"))
+	}
+
 	endarcshapeOrdered := []*EndArcShape{}
 	for endarcshape := range stage.EndArcShapes {
 		endarcshapeOrdered = append(endarcshapeOrdered, endarcshape)
@@ -1161,11 +1218,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DRibbon"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenDiscreteTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "TorusStackShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "DiscreteTorusStackShape"))
 	}
 
 	rendered3dshapeOrdered := []*Rendered3DShape{}
@@ -2577,6 +2636,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, discretetorusshape := range discretetorusshapeOrdered {
+		_ = discretetorusshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, discretetorusstackshape := range discretetorusstackshapeOrdered {
+		_ = discretetorusstackshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, endarcshape := range endarcshapeOrdered {
 		_ = endarcshape
 		var setPointerField string
@@ -3312,6 +3387,66 @@ func (circlegridshape *CircleGridShape) GongMarshallField(stage *Stage, fieldNam
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CircleGridShape", fieldName)
+	}
+	return
+}
+
+func (discretetorusshape *DiscreteTorusShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", discretetorusshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(discretetorusshape.Name))
+	case "CenterY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", discretetorusshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CenterY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", discretetorusshape.CenterY))
+	case "Radius":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", discretetorusshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Radius")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", discretetorusshape.Radius))
+	case "TubeRadius":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", discretetorusshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TubeRadius")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", discretetorusshape.TubeRadius))
+	case "Color":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", discretetorusshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(discretetorusshape.Color))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DiscreteTorusShape", fieldName)
+	}
+	return
+}
+
+func (discretetorusstackshape *DiscreteTorusStackShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", discretetorusstackshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(discretetorusstackshape.Name))
+
+	case "DiscreteTorusShapes":
+		var sb strings.Builder
+		for _, _discretetorusshape := range discretetorusstackshape.DiscreteTorusShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", discretetorusstackshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiscreteTorusShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _discretetorusshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DiscreteTorusStackShape", fieldName)
 	}
 	return
 }
@@ -4611,6 +4746,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusStackShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape))
+	case "IsHiddenDiscreteTorusStackShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenDiscreteTorusStackShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenDiscreteTorusStackShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -4651,6 +4791,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TorusStackShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "DiscreteTorusStackShape":
+		if plantdiagram.DiscreteTorusStackShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DiscreteTorusStackShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.DiscreteTorusStackShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DiscreteTorusStackShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -6800,6 +6953,33 @@ func (circlegridshape *CircleGridShape) GongMarshallAllFields(stage *Stage) (ini
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (discretetorusshape *DiscreteTorusShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "CenterY"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "Radius"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "TubeRadius"))
+		initializerStatements.WriteString(discretetorusshape.GongMarshallField(stage, "Color"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (discretetorusstackshape *DiscreteTorusStackShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(discretetorusstackshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(discretetorusstackshape.GongMarshallField(stage, "DiscreteTorusShapes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (endarcshape *EndArcShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -7175,11 +7355,13 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DRibbon"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenDiscreteTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "TorusStackShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "DiscreteTorusStackShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

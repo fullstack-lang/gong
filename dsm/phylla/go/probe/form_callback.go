@@ -663,6 +663,247 @@ func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
 
 	circlegridshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__DiscreteTorusShapeFormCallback(
+	discretetorusshape *models.DiscreteTorusShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (discretetorusshapeFormCallback *DiscreteTorusShapeFormCallback) {
+	discretetorusshapeFormCallback = new(DiscreteTorusShapeFormCallback)
+	discretetorusshapeFormCallback.probe = probe
+	discretetorusshapeFormCallback.discretetorusshape = discretetorusshape
+	discretetorusshapeFormCallback.formGroup = formGroup
+
+	discretetorusshapeFormCallback.CreationMode = (discretetorusshape == nil)
+
+	return
+}
+
+type DiscreteTorusShapeFormCallback struct {
+	discretetorusshape *models.DiscreteTorusShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (discretetorusshapeFormCallback *DiscreteTorusShapeFormCallback) OnSave() {
+	discretetorusshapeFormCallback.probe.stageOfInterest.Lock()
+	defer discretetorusshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DiscreteTorusShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	discretetorusshapeFormCallback.probe.formStage.Checkout()
+
+	if discretetorusshapeFormCallback.discretetorusshape == nil {
+		discretetorusshapeFormCallback.discretetorusshape = new(models.DiscreteTorusShape).Stage(discretetorusshapeFormCallback.probe.stageOfInterest)
+	}
+	discretetorusshape_ := discretetorusshapeFormCallback.discretetorusshape
+	_ = discretetorusshape_
+
+	for _, formDiv := range discretetorusshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(discretetorusshape_.Name), formDiv)
+		case "CenterY":
+			FormDivBasicFieldToField(&(discretetorusshape_.CenterY), formDiv)
+		case "Radius":
+			FormDivBasicFieldToField(&(discretetorusshape_.Radius), formDiv)
+		case "TubeRadius":
+			FormDivBasicFieldToField(&(discretetorusshape_.TubeRadius), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(discretetorusshape_.Color), formDiv)
+		case "DiscreteTorusStackShape:DiscreteTorusShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiscreteTorusStackShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiscreteTorusStackShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiscreteTorusStackShape](discretetorusshapeFormCallback.probe.stageOfInterest)
+			targetDiscreteTorusStackShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiscreteTorusStackShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiscreteTorusStackShape instances and update their DiscreteTorusShapes slice
+			for _discretetorusstackshape := range *models.GetGongstructInstancesSetFromPointerType[*models.DiscreteTorusStackShape](discretetorusshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(discretetorusshapeFormCallback.probe.stageOfInterest, _discretetorusstackshape)
+				
+				// if DiscreteTorusStackShape is selected
+				if targetDiscreteTorusStackShapeIDs[id] {
+					// ensure discretetorusshape_ is in _discretetorusstackshape.DiscreteTorusShapes
+					found := false
+					for _, _b := range _discretetorusstackshape.DiscreteTorusShapes {
+						if _b == discretetorusshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_discretetorusstackshape.DiscreteTorusShapes = append(_discretetorusstackshape.DiscreteTorusShapes, discretetorusshape_)
+						discretetorusshapeFormCallback.probe.UpdateSliceOfPointersCallback(_discretetorusstackshape, "DiscreteTorusShapes", &_discretetorusstackshape.DiscreteTorusShapes)
+					}
+				} else {
+					// ensure discretetorusshape_ is NOT in _discretetorusstackshape.DiscreteTorusShapes
+					idx := slices.Index(_discretetorusstackshape.DiscreteTorusShapes, discretetorusshape_)
+					if idx != -1 {
+						_discretetorusstackshape.DiscreteTorusShapes = slices.Delete(_discretetorusstackshape.DiscreteTorusShapes, idx, idx+1)
+						discretetorusshapeFormCallback.probe.UpdateSliceOfPointersCallback(_discretetorusstackshape, "DiscreteTorusShapes", &_discretetorusstackshape.DiscreteTorusShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if discretetorusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		discretetorusshape_.Unstage(discretetorusshapeFormCallback.probe.stageOfInterest)
+	}
+
+	discretetorusshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DiscreteTorusShape](
+		discretetorusshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if discretetorusshapeFormCallback.CreationMode || discretetorusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		discretetorusshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(discretetorusshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DiscreteTorusShapeFormCallback(
+			nil,
+			discretetorusshapeFormCallback.probe,
+			newFormGroup,
+		)
+		discretetorusshape := new(models.DiscreteTorusShape)
+		FillUpForm(discretetorusshape, newFormGroup, discretetorusshapeFormCallback.probe)
+		discretetorusshapeFormCallback.probe.formStage.Commit()
+	}
+
+	discretetorusshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__DiscreteTorusStackShapeFormCallback(
+	discretetorusstackshape *models.DiscreteTorusStackShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (discretetorusstackshapeFormCallback *DiscreteTorusStackShapeFormCallback) {
+	discretetorusstackshapeFormCallback = new(DiscreteTorusStackShapeFormCallback)
+	discretetorusstackshapeFormCallback.probe = probe
+	discretetorusstackshapeFormCallback.discretetorusstackshape = discretetorusstackshape
+	discretetorusstackshapeFormCallback.formGroup = formGroup
+
+	discretetorusstackshapeFormCallback.CreationMode = (discretetorusstackshape == nil)
+
+	return
+}
+
+type DiscreteTorusStackShapeFormCallback struct {
+	discretetorusstackshape *models.DiscreteTorusStackShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (discretetorusstackshapeFormCallback *DiscreteTorusStackShapeFormCallback) OnSave() {
+	discretetorusstackshapeFormCallback.probe.stageOfInterest.Lock()
+	defer discretetorusstackshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DiscreteTorusStackShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	discretetorusstackshapeFormCallback.probe.formStage.Checkout()
+
+	if discretetorusstackshapeFormCallback.discretetorusstackshape == nil {
+		discretetorusstackshapeFormCallback.discretetorusstackshape = new(models.DiscreteTorusStackShape).Stage(discretetorusstackshapeFormCallback.probe.stageOfInterest)
+	}
+	discretetorusstackshape_ := discretetorusstackshapeFormCallback.discretetorusstackshape
+	_ = discretetorusstackshape_
+
+	for _, formDiv := range discretetorusstackshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(discretetorusstackshape_.Name), formDiv)
+		case "DiscreteTorusShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiscreteTorusShape](discretetorusstackshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DiscreteTorusShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DiscreteTorusShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					discretetorusstackshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DiscreteTorusShape](discretetorusstackshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			discretetorusstackshape_.DiscreteTorusShapes = instanceSlice
+			discretetorusstackshapeFormCallback.probe.UpdateSliceOfPointersCallback(discretetorusstackshape_, "DiscreteTorusShapes", &discretetorusstackshape_.DiscreteTorusShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if discretetorusstackshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		discretetorusstackshape_.Unstage(discretetorusstackshapeFormCallback.probe.stageOfInterest)
+	}
+
+	discretetorusstackshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DiscreteTorusStackShape](
+		discretetorusstackshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if discretetorusstackshapeFormCallback.CreationMode || discretetorusstackshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		discretetorusstackshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(discretetorusstackshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DiscreteTorusStackShapeFormCallback(
+			nil,
+			discretetorusstackshapeFormCallback.probe,
+			newFormGroup,
+		)
+		discretetorusstackshape := new(models.DiscreteTorusStackShape)
+		FillUpForm(discretetorusstackshape, newFormGroup, discretetorusstackshapeFormCallback.probe)
+		discretetorusstackshapeFormCallback.probe.formStage.Commit()
+	}
+
+	discretetorusstackshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__EndArcShapeFormCallback(
 	endarcshape *models.EndArcShape,
 	probe *Probe,
@@ -3329,6 +3570,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve2DRibbon), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
+		case "IsHiddenDiscreteTorusStackShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenDiscreteTorusStackShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -3339,6 +3582,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.Rendered3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "TorusStackShape":
 			FormDivSelectFieldToField(&(plantdiagram_.TorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "DiscreteTorusStackShape":
+			FormDivSelectFieldToField(&(plantdiagram_.DiscreteTorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

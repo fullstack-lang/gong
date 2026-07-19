@@ -660,6 +660,74 @@ func (u *CircleGridShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
+type DiscreteTorusShapeUnmarshaller struct{}
+
+func (u *DiscreteTorusShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DiscreteTorusShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DiscreteTorusShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DiscreteTorusShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "CenterY":
+		instance.CenterY = GongExtractFloat(valueExpr)
+	case "Radius":
+		instance.Radius = GongExtractFloat(valueExpr)
+	case "TubeRadius":
+		instance.TubeRadius = GongExtractFloat(valueExpr)
+	case "Color":
+		instance.Color = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type DiscreteTorusStackShapeUnmarshaller struct{}
+
+func (u *DiscreteTorusStackShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DiscreteTorusStackShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DiscreteTorusStackShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DiscreteTorusStackShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "DiscreteTorusShapes":
+		GongUnmarshallSliceOfPointers(&instance.DiscreteTorusShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type EndArcShapeUnmarshaller struct{}
 
 func (u *EndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1570,6 +1638,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenStackOfGrowthCurve2DRibbon = GongExtractBool(valueExpr)
 	case "IsHiddenTorusStackShape":
 		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
+	case "IsHiddenDiscreteTorusStackShape":
+		instance.IsHiddenDiscreteTorusStackShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -1580,6 +1650,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "TorusStackShape":
 		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
+	case "DiscreteTorusStackShape":
+		GongUnmarshallPointer(&instance.DiscreteTorusStackShape, valueExpr, identifierMap)
 	}
 	return nil
 }

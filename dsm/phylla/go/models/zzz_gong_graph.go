@@ -25,6 +25,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
 
+	case *DiscreteTorusShape:
+		ok = stage.IsStagedDiscreteTorusShape(target)
+
+	case *DiscreteTorusStackShape:
+		ok = stage.IsStagedDiscreteTorusStackShape(target)
+
 	case *EndArcShape:
 		ok = stage.IsStagedEndArcShape(target)
 
@@ -247,6 +253,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
+
+	case *DiscreteTorusShape:
+		ok = stage.IsStagedDiscreteTorusShape(target)
+
+	case *DiscreteTorusStackShape:
+		ok = stage.IsStagedDiscreteTorusStackShape(target)
 
 	case *EndArcShape:
 		ok = stage.IsStagedEndArcShape(target)
@@ -488,6 +500,20 @@ func (stage *Stage) IsStagedBaseVectorShapeGrid(basevectorshapegrid *BaseVectorS
 func (stage *Stage) IsStagedCircleGridShape(circlegridshape *CircleGridShape) (ok bool) {
 
 	_, ok = stage.CircleGridShapes[circlegridshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedDiscreteTorusShape(discretetorusshape *DiscreteTorusShape) (ok bool) {
+
+	_, ok = stage.DiscreteTorusShapes[discretetorusshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedDiscreteTorusStackShape(discretetorusstackshape *DiscreteTorusStackShape) (ok bool) {
+
+	_, ok = stage.DiscreteTorusStackShapes[discretetorusstackshape]
 
 	return
 }
@@ -973,6 +999,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CircleGridShape:
 		stage.StageBranchCircleGridShape(target)
 
+	case *DiscreteTorusShape:
+		stage.StageBranchDiscreteTorusShape(target)
+
+	case *DiscreteTorusStackShape:
+		stage.StageBranchDiscreteTorusStackShape(target)
+
 	case *EndArcShape:
 		stage.StageBranchEndArcShape(target)
 
@@ -1267,6 +1299,39 @@ func (stage *Stage) StageBranchCircleGridShape(circlegridshape *CircleGridShape)
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchDiscreteTorusShape(discretetorusshape *DiscreteTorusShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, discretetorusshape) {
+		return
+	}
+
+	discretetorusshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchDiscreteTorusStackShape(discretetorusstackshape *DiscreteTorusStackShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, discretetorusstackshape) {
+		return
+	}
+
+	discretetorusstackshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _discretetorusshape := range discretetorusstackshape.DiscreteTorusShapes {
+		StageBranch(stage, _discretetorusshape)
+	}
 
 }
 
@@ -1717,6 +1782,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.TorusStackShape != nil {
 		StageBranch(stage, plantdiagram.TorusStackShape)
+	}
+	if plantdiagram.DiscreteTorusStackShape != nil {
+		StageBranch(stage, plantdiagram.DiscreteTorusStackShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2505,6 +2573,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCircleGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *DiscreteTorusShape:
+		toT := CopyBranchDiscreteTorusShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DiscreteTorusStackShape:
+		toT := CopyBranchDiscreteTorusStackShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *EndArcShape:
 		toT := CopyBranchEndArcShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -2888,6 +2964,47 @@ func CopyBranchCircleGridShape(mapOrigCopy map[any]any, circlegridshapeFrom *Cir
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchDiscreteTorusShape(mapOrigCopy map[any]any, discretetorusshapeFrom *DiscreteTorusShape) (discretetorusshapeTo *DiscreteTorusShape) {
+
+	// discretetorusshapeFrom has already been copied
+	if _discretetorusshapeTo, ok := mapOrigCopy[discretetorusshapeFrom]; ok {
+		discretetorusshapeTo = _discretetorusshapeTo.(*DiscreteTorusShape)
+		return
+	}
+
+	discretetorusshapeTo = new(DiscreteTorusShape)
+	mapOrigCopy[discretetorusshapeFrom] = discretetorusshapeTo
+	discretetorusshapeFrom.CopyBasicFields(discretetorusshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchDiscreteTorusStackShape(mapOrigCopy map[any]any, discretetorusstackshapeFrom *DiscreteTorusStackShape) (discretetorusstackshapeTo *DiscreteTorusStackShape) {
+
+	// discretetorusstackshapeFrom has already been copied
+	if _discretetorusstackshapeTo, ok := mapOrigCopy[discretetorusstackshapeFrom]; ok {
+		discretetorusstackshapeTo = _discretetorusstackshapeTo.(*DiscreteTorusStackShape)
+		return
+	}
+
+	discretetorusstackshapeTo = new(DiscreteTorusStackShape)
+	mapOrigCopy[discretetorusstackshapeFrom] = discretetorusstackshapeTo
+	discretetorusstackshapeFrom.CopyBasicFields(discretetorusstackshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _discretetorusshape := range discretetorusstackshapeFrom.DiscreteTorusShapes {
+		discretetorusstackshapeTo.DiscreteTorusShapes = append(discretetorusstackshapeTo.DiscreteTorusShapes, CopyBranchDiscreteTorusShape(mapOrigCopy, _discretetorusshape))
+	}
 
 	return
 }
@@ -3426,6 +3543,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	}
 	if plantdiagramFrom.TorusStackShape != nil {
 		plantdiagramTo.TorusStackShape = CopyBranchTorusStackShape(mapOrigCopy, plantdiagramFrom.TorusStackShape)
+	}
+	if plantdiagramFrom.DiscreteTorusStackShape != nil {
+		plantdiagramTo.DiscreteTorusStackShape = CopyBranchDiscreteTorusStackShape(mapOrigCopy, plantdiagramFrom.DiscreteTorusStackShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4378,6 +4498,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CircleGridShape:
 		stage.UnstageBranchCircleGridShape(target)
 
+	case *DiscreteTorusShape:
+		stage.UnstageBranchDiscreteTorusShape(target)
+
+	case *DiscreteTorusStackShape:
+		stage.UnstageBranchDiscreteTorusStackShape(target)
+
 	case *EndArcShape:
 		stage.UnstageBranchEndArcShape(target)
 
@@ -4672,6 +4798,39 @@ func (stage *Stage) UnstageBranchCircleGridShape(circlegridshape *CircleGridShap
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchDiscreteTorusShape(discretetorusshape *DiscreteTorusShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, discretetorusshape) {
+		return
+	}
+
+	discretetorusshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchDiscreteTorusStackShape(discretetorusstackshape *DiscreteTorusStackShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, discretetorusstackshape) {
+		return
+	}
+
+	discretetorusstackshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _discretetorusshape := range discretetorusstackshape.DiscreteTorusShapes {
+		UnstageBranch(stage, _discretetorusshape)
+	}
 
 }
 
@@ -5122,6 +5281,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.TorusStackShape != nil {
 		UnstageBranch(stage, plantdiagram.TorusStackShape)
+	}
+	if plantdiagram.DiscreteTorusStackShape != nil {
+		UnstageBranch(stage, plantdiagram.DiscreteTorusStackShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5914,6 +6076,20 @@ func (reference *CircleGridShape) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
+func (reference *DiscreteTorusShape) GongReconstructPointersFromReferences(stage *Stage, instance *DiscreteTorusShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *DiscreteTorusStackShape) GongReconstructPointersFromReferences(stage *Stage, instance *DiscreteTorusStackShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.DiscreteTorusShapes = reference.DiscreteTorusShapes[:0]
+	for _, _b := range instance.DiscreteTorusShapes {
+		reference.DiscreteTorusShapes = append(reference.DiscreteTorusShapes, stage.DiscreteTorusShapes_reference[_b])
+	}
+}
+
 func (reference *EndArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *EndArcShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -6153,6 +6329,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.TorusStackShape != nil {
 		reference.TorusStackShape = stage.TorusStackShapes_reference[instance.TorusStackShape]
+	}
+	if instance.DiscreteTorusStackShape != nil {
+		reference.DiscreteTorusStackShape = stage.DiscreteTorusStackShapes_reference[instance.DiscreteTorusStackShape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -6541,6 +6720,23 @@ func (reference *CircleGridShape) GongReconstructPointersFromInstances(stage *St
 	// insertion point for slice of pointers fields
 }
 
+func (reference *DiscreteTorusShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *DiscreteTorusStackShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _DiscreteTorusShapes []*DiscreteTorusShape
+	for _, _reference := range reference.DiscreteTorusShapes {
+		if _instance, ok := stage.DiscreteTorusShapes_instance[_reference]; ok {
+			_DiscreteTorusShapes = append(_DiscreteTorusShapes, _instance)
+		}
+	}
+	reference.DiscreteTorusShapes = _DiscreteTorusShapes
+}
+
 func (reference *EndArcShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -6902,6 +7098,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.TorusStackShape = nil
 		if _instance, ok := stage.TorusStackShapes_instance[_reference]; ok {
 			reference.TorusStackShape = _instance
+		}
+	}
+	if _reference := reference.DiscreteTorusStackShape; _reference != nil {
+		reference.DiscreteTorusStackShape = nil
+		if _instance, ok := stage.DiscreteTorusStackShapes_instance[_reference]; ok {
+			reference.DiscreteTorusStackShape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -7485,6 +7687,61 @@ func (circlegridshape *CircleGridShape) GongDiff(stage *Stage, circlegridshapeOt
 	// insertion point for field diffs
 	if circlegridshape.Name != circlegridshapeOther.Name {
 		diffs = append(diffs, circlegridshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (discretetorusshape *DiscreteTorusShape) GongDiff(stage *Stage, discretetorusshapeOther *DiscreteTorusShape) (diffs []string) {
+	// insertion point for field diffs
+	if discretetorusshape.Name != discretetorusshapeOther.Name {
+		diffs = append(diffs, discretetorusshape.GongMarshallField(stage, "Name"))
+	}
+	if discretetorusshape.CenterY != discretetorusshapeOther.CenterY {
+		diffs = append(diffs, discretetorusshape.GongMarshallField(stage, "CenterY"))
+	}
+	if discretetorusshape.Radius != discretetorusshapeOther.Radius {
+		diffs = append(diffs, discretetorusshape.GongMarshallField(stage, "Radius"))
+	}
+	if discretetorusshape.TubeRadius != discretetorusshapeOther.TubeRadius {
+		diffs = append(diffs, discretetorusshape.GongMarshallField(stage, "TubeRadius"))
+	}
+	if discretetorusshape.Color != discretetorusshapeOther.Color {
+		diffs = append(diffs, discretetorusshape.GongMarshallField(stage, "Color"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (discretetorusstackshape *DiscreteTorusStackShape) GongDiff(stage *Stage, discretetorusstackshapeOther *DiscreteTorusStackShape) (diffs []string) {
+	// insertion point for field diffs
+	if discretetorusstackshape.Name != discretetorusstackshapeOther.Name {
+		diffs = append(diffs, discretetorusstackshape.GongMarshallField(stage, "Name"))
+	}
+	DiscreteTorusShapesDifferent := false
+	if len(discretetorusstackshape.DiscreteTorusShapes) != len(discretetorusstackshapeOther.DiscreteTorusShapes) {
+		DiscreteTorusShapesDifferent = true
+	} else {
+		for i := range discretetorusstackshape.DiscreteTorusShapes {
+			if (discretetorusstackshape.DiscreteTorusShapes[i] == nil) != (discretetorusstackshapeOther.DiscreteTorusShapes[i] == nil) {
+				DiscreteTorusShapesDifferent = true
+				break
+			} else if discretetorusstackshape.DiscreteTorusShapes[i] != nil && discretetorusstackshapeOther.DiscreteTorusShapes[i] != nil {
+				// this is a pointer comparaison
+				if discretetorusstackshape.DiscreteTorusShapes[i] != discretetorusstackshapeOther.DiscreteTorusShapes[i] {
+					DiscreteTorusShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiscreteTorusShapesDifferent {
+		ops := Diff(stage, discretetorusstackshape, discretetorusstackshapeOther, "DiscreteTorusShapes", discretetorusstackshapeOther.DiscreteTorusShapes, discretetorusstackshape.DiscreteTorusShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -8438,6 +8695,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 	}
+	if plantdiagram.IsHiddenDiscreteTorusStackShape != plantdiagramOther.IsHiddenDiscreteTorusStackShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenDiscreteTorusStackShape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -8459,6 +8719,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.TorusStackShape != nil && plantdiagramOther.TorusStackShape != nil {
 		if plantdiagram.TorusStackShape != plantdiagramOther.TorusStackShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "TorusStackShape"))
+		}
+	}
+	if (plantdiagram.DiscreteTorusStackShape == nil) != (plantdiagramOther.DiscreteTorusStackShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "DiscreteTorusStackShape"))
+	} else if plantdiagram.DiscreteTorusStackShape != nil && plantdiagramOther.DiscreteTorusStackShape != nil {
+		if plantdiagram.DiscreteTorusStackShape != plantdiagramOther.DiscreteTorusStackShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "DiscreteTorusStackShape"))
 		}
 	}
 

@@ -497,6 +497,23 @@ type TorusStackShape struct {
 	Name string
 }
 
+type DiscreteTorusStackShape struct {
+	Name string
+
+	DiscreteTorusShapes []*DiscreteTorusShape
+}
+
+type DiscreteTorusShape struct {
+	Name string
+
+	CenterY    float64
+	Radius     float64
+	TubeRadius float64
+	Color      string
+}
+
+
+
 // StackOfGrowthCurve2D of a plant,
 type StackOfGrowthCurve2D struct {
 	Name string

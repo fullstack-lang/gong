@@ -36,6 +36,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.BaseVectorShapeGrid](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
+	case "DiscreteTorusShape":
+		updateProbeTable[*models.DiscreteTorusShape](probe)
+	case "DiscreteTorusStackShape":
+		updateProbeTable[*models.DiscreteTorusStackShape](probe)
 	case "EndArcShape":
 		updateProbeTable[*models.EndArcShape](probe)
 	case "EndArcShapeGrid":
