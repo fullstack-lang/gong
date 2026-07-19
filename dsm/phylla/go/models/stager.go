@@ -39,7 +39,8 @@ type Stager struct {
 	loadStage    *load.Stage    // mandatory
 	threejsStage *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
 
-	treeStage   *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
+	treeStage2D *tree.Stage
+	treeStage3D *tree.Stage
 	sliderStage *slider.Stage
 	ssgStage    *ssg.Stage // mandatory
 	svgStage    *svg.Stage
@@ -83,7 +84,8 @@ func NewStager(
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
+	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
 
 	stager.createViews()
 

@@ -1,6 +1,7 @@
 package models
 
 import (
+
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -46,6 +47,7 @@ func (stager *Stager) treePlantDiagram(
 	plant *Plant,
 	plantDiagram *PlantDiagram,
 	parentNodes *[]*tree.Node,
+	is3DView bool,
 ) {
 	plantDiagramNode := &tree.Node{
 		Name:              plantDiagram.Name,
@@ -82,7 +84,8 @@ func (stager *Stager) treePlantDiagram(
 		stager.stage.Commit()
 	}
 
-	axesNode := appendDiagramNode(stager, plantDiagramNode, "Axes", plant.AxesShape, &plantDiagram.IsHiddenAxesShape)
+	if !is3DView {
+		axesNode := appendDiagramNode(stager, plantDiagramNode, "Axes", plant.AxesShape, &plantDiagram.IsHiddenAxesShape)
 
 	handleBtn := &tree.Button{
 		Name:            "Hide Handle",
@@ -148,10 +151,14 @@ func (stager *Stager) treePlantDiagram(
 
 	appendDiagramNode(stager, plantDiagramNode, "Start Halfway Arc Shape Grid", plant.StartHalfwayArcShapeGrid, &plantDiagram.IsHiddenStartHalfwayArcShapeGrid)
 	appendDiagramNode(stager, plantDiagramNode, "Top Start Halfway Arc Shape Grid", plant.TopStartHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid)
-	appendDiagramNode(stager, plantDiagramNode, "End Halfway Arc Shape Grid", plant.EndHalfwayArcShapeGrid, &plantDiagram.IsHiddenEndHalfwayArcShapeGrid)
-	appendDiagramNode(stager, plantDiagramNode, "Top End Halfway Arc Shape Grid", plant.TopEndHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid)
+		appendDiagramNode(stager, plantDiagramNode, "End Halfway Arc Shape Grid", plant.EndHalfwayArcShapeGrid, &plantDiagram.IsHiddenEndHalfwayArcShapeGrid)
+		appendDiagramNode(stager, plantDiagramNode, "Top End Halfway Arc Shape Grid", plant.TopEndHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid)
 
-	appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve", plant.StackOfGrowthCurve, &plantDiagram.IsHiddenStackOfGrowthCurve)
-	appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve", plant.TopStackOfGrowthCurve, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
-	appendDiagramNode(stager, plantDiagramNode, "3D Torus Stack", plantDiagram.TorusStackShape, &plantDiagram.IsHiddenTorusStackShape)
+		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve", plant.StackOfGrowthCurve, &plantDiagram.IsHiddenStackOfGrowthCurve)
+		appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve", plant.TopStackOfGrowthCurve, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
+	}
+
+	if is3DView {
+		appendDiagramNode(stager, plantDiagramNode, "3D Torus Stack", plantDiagram.TorusStackShape, &plantDiagram.IsHiddenTorusStackShape)
+	}
 }

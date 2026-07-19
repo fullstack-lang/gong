@@ -15034,6 +15034,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "CuttedStackFloorHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -17091,6 +17095,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
 		res.valueFloat = plant.RhombusSideLength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "CuttedStackFloorHeight":
+		res.valueString = fmt.Sprintf("%f", plant.CuttedStackFloorHeight)
+		res.valueFloat = plant.CuttedStackFloorHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -19137,6 +19145,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RadialThickness = value.GetValueFloat()
 	case "RhombusSideLength":
 		plant.RhombusSideLength = value.GetValueFloat()
+	case "CuttedStackFloorHeight":
+		plant.CuttedStackFloorHeight = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
