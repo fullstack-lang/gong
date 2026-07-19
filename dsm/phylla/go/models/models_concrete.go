@@ -497,20 +497,12 @@ type TorusStackShape struct {
 	Name string
 }
 
-type DiscreteTorusStackShape struct {
+// VerticalTorusStackShape of a plant,
+type VerticalTorusStackShape struct {
 	Name string
-
-	DiscreteTorusShapes []*DiscreteTorusShape
 }
 
-type DiscreteTorusShape struct {
-	Name string
 
-	CenterY    float64
-	Radius     float64
-	TubeRadius float64
-	Color      string
-}
 
 
 

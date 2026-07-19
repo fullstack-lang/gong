@@ -70,31 +70,6 @@ func (inst *CircleGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
-func (inst *DiscreteTorusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "DiscreteTorusStackShape":
-		switch reverseField.Fieldname {
-		case "DiscreteTorusShapes":
-			if _discretetorusstackshape, ok := stage.DiscreteTorusStackShape_DiscreteTorusShapes_reverseMap[inst]; ok {
-				res = _discretetorusstackshape.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *DiscreteTorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *EndArcShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -904,6 +879,15 @@ func (inst *TorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
+func (inst *VerticalTorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 // insertion point
 func (inst *ArcNormalVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -961,29 +945,6 @@ func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseF
 }
 
 func (inst *CircleGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
-func (inst *DiscreteTorusShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "DiscreteTorusStackShape":
-		switch reverseField.Fieldname {
-		case "DiscreteTorusShapes":
-			res = stage.DiscreteTorusStackShape_DiscreteTorusShapes_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *DiscreteTorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1729,6 +1690,15 @@ func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, 
 }
 
 func (inst *TorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *VerticalTorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

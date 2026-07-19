@@ -146,43 +146,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 		floorMinY := math.MaxFloat64
 
-		if checkedDiagram != nil && !checkedDiagram.IsHiddenDiscreteTorusStackShape && checkedDiagram.DiscreteTorusStackShape != nil {
-			material := (&threejs.MeshPhysicalMaterial{
-				Name: "Torus Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
-					Color: "blue",
-				},
-				Opacity:     0.8,
-				Transparent: true,
-			}).Stage(stager.threejsStage)
 
-			for _, torusData := range checkedDiagram.DiscreteTorusStackShape.DiscreteTorusShapes {
-				geom := (&threejs.TorusGeometry{
-					Name:            torusData.Name + " Geometry",
-					Radius:          torusData.Radius,
-					Tube:            torusData.TubeRadius,
-					RadialSegments:  16,
-					TubularSegments: 64,
-					Arc:             2 * math.Pi,
-				}).Stage(stager.threejsStage)
-
-				mesh := (&threejs.Mesh{
-					Name: torusData.Name + " Mesh",
-					Position: threejs.Position{
-						X: 0,
-						Y: torusData.CenterY,
-						Z: 0,
-					},
-					TorusGeometry:        geom,
-					MeshPhysicalMaterial: material,
-				}).Stage(stager.threejsStage)
-
-				canvas.Meshs = append(canvas.Meshs, mesh)
-			}
-		}
 
 		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
-		if checkedDiagram != nil && !checkedDiagram.IsHiddenTorusStackShape &&
+		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape) &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
 			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
 			plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
@@ -368,39 +335,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 							Name:                 fmt.Sprintf("%s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-							Transparent:          true,
-							Opacity:              0.5,
 						}).Stage(stager.threejsStage),
 					}).Stage(stager.threejsStage)
 				}
 
-				stackHeight := plant.StackHeight
-
-				var growthVectorX, growthVectorY float64
-				growthVectorX = plant.GrowthVectorShape.X
-				growthVectorY = plant.GrowthVectorShape.Y
-
-				var vx, vy float64
-				if len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
-					pGrid := plant.PerpendicularVectorGrid
-					vFirst := pGrid.PerpendicularVectors[0]
-					vx = vFirst.EndX - vFirst.StartX
-					vy = vFirst.EndY - vFirst.StartY
-					vLen := math.Hypot(vx, vy)
-					if vLen == 0 {
-						vLen = 1
-					}
-					vx, vy = vx/vLen, vy/vLen
-				}
-
-				verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
-
-				for h := 0; h < stackHeight; h++ {
-					dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-					dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy
-
-					thetaOffset := dx / globalR
-
+				generateRibbonLayer := func(h int, dx, dy, thetaOffset float64, baseNamePrefix string) {
 					var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
 
 					for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
@@ -449,7 +388,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
 					}
 
-					namePrefix := fmt.Sprintf("Torus Continuous Layer %d", h)
+					namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
 
 					bottomFace := createFaceMesh(namePrefix+" Bottom", "#1f77b4", bottomEdges, false) // blue
 					topFace := createFaceMesh(namePrefix+" Top", "#d62728", topEdges, true)           // red
@@ -502,6 +441,49 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						createTube(namePrefix+" TopInner", "darkgray", topEdges, true, innerRadius),
 						createTube(namePrefix+" TopOuter", "lightgray", topEdges, false, outerRadius),
 					)
+				}
+
+				stackHeight := plant.StackHeight
+
+				if !checkedDiagram.IsHiddenTorusStackShape {
+					var growthVectorX, growthVectorY float64
+					if plant.GrowthVectorShape != nil {
+						growthVectorX = plant.GrowthVectorShape.X
+						growthVectorY = plant.GrowthVectorShape.Y
+					}
+
+					var vx, vy float64
+					if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+						pGrid := plant.PerpendicularVectorGrid
+						vFirst := pGrid.PerpendicularVectors[0]
+						vx = vFirst.EndX - vFirst.StartX
+						vy = vFirst.EndY - vFirst.StartY
+						vLen := math.Hypot(vx, vy)
+						if vLen == 0 {
+							vLen = 1
+						}
+						vx, vy = vx/vLen, vy/vLen
+					}
+
+					verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+
+					for h := 0; h < stackHeight; h++ {
+						dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+						dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy
+						thetaOffset := dx / globalR
+
+						generateRibbonLayer(h, dx, dy, thetaOffset, "Torus Continuous")
+					}
+				}
+
+				if !checkedDiagram.IsHiddenVerticalTorusStackShape {
+					for h := 0; h < stackHeight; h++ {
+						dx := 0.0
+						dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+						thetaOffset := 0.0
+
+						generateRibbonLayer(h, dx, dy, thetaOffset, "Vertical Torus Continuous")
+					}
 				}
 			}
 		}

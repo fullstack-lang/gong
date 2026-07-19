@@ -70,8 +70,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refStackGrowthCurve2DRibbonEndShape := make(map[*StackGrowthCurve2DRibbonEndShape]bool)
 
 	refTorusStackShape := make(map[*TorusStackShape]bool)
-	refDiscreteTorusStackShape := make(map[*DiscreteTorusStackShape]bool)
-	refDiscreteTorusShape := make(map[*DiscreteTorusShape]bool)
+	refVerticalTorusStackShape := make(map[*VerticalTorusStackShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
@@ -320,11 +319,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.TorusStackShape != nil {
 			refTorusStackShape[diagram.TorusStackShape] = true
 		}
-		if diagram.DiscreteTorusStackShape != nil {
-			refDiscreteTorusStackShape[diagram.DiscreteTorusStackShape] = true
-			for _, t := range diagram.DiscreteTorusStackShape.DiscreteTorusShapes {
-				refDiscreteTorusShape[t] = true
-			}
+		if diagram.VerticalTorusStackShape != nil {
+			refVerticalTorusStackShape[diagram.VerticalTorusStackShape] = true
 		}
 	}
 
@@ -697,15 +693,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	for shape := range *GetGongstructInstancesSetFromPointerType[*DiscreteTorusStackShape](stage) {
-		if !refDiscreteTorusStackShape[shape] {
-			shape.Unstage(stage)
-			needCommit = true
-		}
-	}
-
-	for shape := range *GetGongstructInstancesSetFromPointerType[*DiscreteTorusShape](stage) {
-		if !refDiscreteTorusShape[shape] {
+	for shape := range *GetGongstructInstancesSetFromPointerType[*VerticalTorusStackShape](stage) {
+		if !refVerticalTorusStackShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
