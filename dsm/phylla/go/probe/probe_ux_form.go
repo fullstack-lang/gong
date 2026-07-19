@@ -51,18 +51,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.circlegridshape, probe)
 			}
-		case *DiscreteTorusShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DiscreteTorusShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.discretetorusshape, probe)
-			}
-		case *DiscreteTorusStackShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DiscreteTorusStackShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.discretetorusstackshape, probe)
-			}
 		case *EndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "EndArcShape", true)
@@ -453,6 +441,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.torusstackshape, probe)
 			}
+		case *VerticalTorusStackShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "VerticalTorusStackShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.verticaltorusstackshape, probe)
+			}
 		}
 	}
 }
@@ -553,32 +547,6 @@ func FillUpFormFromGongstructName(
 		circlegridshape := new(models.CircleGridShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(circlegridshape, formGroup, probe)
-	case "DiscreteTorusShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "DiscreteTorusShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiscreteTorusShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		discretetorusshape := new(models.DiscreteTorusShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(discretetorusshape, formGroup, probe)
-	case "DiscreteTorusStackShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "DiscreteTorusStackShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiscreteTorusStackShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		discretetorusstackshape := new(models.DiscreteTorusStackShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(discretetorusstackshape, formGroup, probe)
 	case "EndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1424,6 +1392,19 @@ func FillUpFormFromGongstructName(
 		torusstackshape := new(models.TorusStackShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(torusstackshape, formGroup, probe)
+	case "VerticalTorusStackShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "VerticalTorusStackShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VerticalTorusStackShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		verticaltorusstackshape := new(models.VerticalTorusStackShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(verticaltorusstackshape, formGroup, probe)
 	}
 	formStage.Commit()
 }
