@@ -4,6 +4,7 @@
       <ngt-perspective-camera 
         [position]="[canvasSingloton?.Camera?.X ?? 15, canvasSingloton?.Camera?.Y ?? 15, canvasSingloton?.Camera?.Z ?? 15]" 
         [fov]="canvasSingloton?.Camera?.Fov ?? 50"
+        [far]="100000"
         makeDefault />
       @if (canvasSingloton?.AmbiantLight) {
         <ngt-ambient-light [intensity]="canvasSingloton!.AmbiantLight!.Intensity" />

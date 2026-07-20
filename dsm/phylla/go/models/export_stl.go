@@ -186,32 +186,9 @@ func GenerateSTL(plant *Plant) string {
 
 			stackHeight := plant.StackHeight
 
-			var growthVectorX, growthVectorY float64
-			if plant.GrowthVectorShape != nil {
-				growthVectorX = plant.GrowthVectorShape.X
-				growthVectorY = plant.GrowthVectorShape.Y
-			}
-
-			var vx, vy float64
-			if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
-				pGrid := plant.PerpendicularVectorGrid
-				vFirst := pGrid.PerpendicularVectors[0]
-				vx = vFirst.EndX - vFirst.StartX
-				vy = vFirst.EndY - vFirst.StartY
-				vLen := math.Hypot(vx, vy)
-				if vLen == 0 {
-					vLen = 1
-				}
-				vx, vy = vx/vLen, vy/vLen
-			}
-
-			verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
-
 			for h := 0; h < stackHeight; h++ {
-				dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-				dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy
-
-				thetaOffset := dx / globalR
+				dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+				thetaOffset := 0.0
 
 				var bottomEdges, topEdges, innerEdges, outerEdges [][2]vector3
 
