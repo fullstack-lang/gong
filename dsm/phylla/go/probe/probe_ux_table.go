@@ -112,16 +112,16 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackGrowthCurve2DRibbonStartShape](probe)
 	case "StackGrowthCurve2DStartHalfwayArcShape":
 		updateProbeTable[*models.StackGrowthCurve2DStartHalfwayArcShape](probe)
-	case "StackGrowthCurveEndArcShape":
-		updateProbeTable[*models.StackGrowthCurveEndArcShape](probe)
-	case "StackGrowthCurveStartArcShape":
-		updateProbeTable[*models.StackGrowthCurveStartArcShape](probe)
-	case "StackOfGrowthCurve":
-		updateProbeTable[*models.StackOfGrowthCurve](probe)
 	case "StackOfGrowthCurve2D":
 		updateProbeTable[*models.StackOfGrowthCurve2D](probe)
 	case "StackOfGrowthCurve2DRibbon":
 		updateProbeTable[*models.StackOfGrowthCurve2DRibbon](probe)
+	case "StackOfRotatedGrowthCurve2D":
+		updateProbeTable[*models.StackOfRotatedGrowthCurve2D](probe)
+	case "StackRotatedGrowthCurve2DEndArcShape":
+		updateProbeTable[*models.StackRotatedGrowthCurve2DEndArcShape](probe)
+	case "StackRotatedGrowthCurve2DStartArcShape":
+		updateProbeTable[*models.StackRotatedGrowthCurve2DStartArcShape](probe)
 	case "StartArcShape":
 		updateProbeTable[*models.StartArcShape](probe)
 	case "StartArcShapeGrid":
@@ -148,14 +148,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopStackGrowthCurve2DEndHalfwayArcShape](probe)
 	case "TopStackGrowthCurve2DStartHalfwayArcShape":
 		updateProbeTable[*models.TopStackGrowthCurve2DStartHalfwayArcShape](probe)
-	case "TopStackGrowthCurveEndArcShape":
-		updateProbeTable[*models.TopStackGrowthCurveEndArcShape](probe)
-	case "TopStackGrowthCurveStartArcShape":
-		updateProbeTable[*models.TopStackGrowthCurveStartArcShape](probe)
-	case "TopStackOfGrowthCurve":
-		updateProbeTable[*models.TopStackOfGrowthCurve](probe)
 	case "TopStackOfGrowthCurve2D":
 		updateProbeTable[*models.TopStackOfGrowthCurve2D](probe)
+	case "TopStackOfRotatedGrowthCurve2D":
+		updateProbeTable[*models.TopStackOfRotatedGrowthCurve2D](probe)
+	case "TopStackOfRotatedGrowthCurve2DEndArcShape":
+		updateProbeTable[*models.TopStackOfRotatedGrowthCurve2DEndArcShape](probe)
+	case "TopStackOfRotatedGrowthCurve2DStartArcShape":
+		updateProbeTable[*models.TopStackOfRotatedGrowthCurve2DStartArcShape](probe)
 	case "TopStartArcShape":
 		updateProbeTable[*models.TopStartArcShape](probe)
 	case "TopStartArcShapeGrid":

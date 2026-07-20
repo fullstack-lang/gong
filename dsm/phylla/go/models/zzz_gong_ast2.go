@@ -1358,6 +1358,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RelativeCuttedStackFloorHeight = GongExtractFloat(valueExpr)
 	case "RelativeRotatedTorusSeparation":
 		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
+	case "RotationRatio":
+		instance.RotationRatio = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -1404,10 +1406,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
 	case "TopEndHalfwayArcShapeGrid":
 		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "StackOfGrowthCurve":
-		GongUnmarshallPointer(&instance.StackOfGrowthCurve, valueExpr, identifierMap)
-	case "TopStackOfGrowthCurve":
-		GongUnmarshallPointer(&instance.TopStackOfGrowthCurve, valueExpr, identifierMap)
+	case "StackOfRotatedGrowthCurve2D":
+		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
+	case "TopStackOfRotatedGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopStackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
 	case "ShiftedLeftStackOfGrowthCurve":
 		GongUnmarshallPointer(&instance.ShiftedLeftStackOfGrowthCurve, valueExpr, identifierMap)
 	case "ShiftedLeftStackOfNormalVector":
@@ -2276,133 +2278,6 @@ func (u *StackGrowthCurve2DStartHalfwayArcShapeUnmarshaller) UnmarshallField(sta
 	return nil
 }
 
-type StackGrowthCurveEndArcShapeUnmarshaller struct{}
-
-func (u *StackGrowthCurveEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StackGrowthCurveEndArcShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *StackGrowthCurveEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackGrowthCurveEndArcShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StartX":
-		instance.StartX = GongExtractFloat(valueExpr)
-	case "StartY":
-		instance.StartY = GongExtractFloat(valueExpr)
-	case "EndX":
-		instance.EndX = GongExtractFloat(valueExpr)
-	case "EndY":
-		instance.EndY = GongExtractFloat(valueExpr)
-	case "XAxisRotation":
-		instance.XAxisRotation = GongExtractFloat(valueExpr)
-	case "LargeArcFlag":
-		instance.LargeArcFlag = GongExtractBool(valueExpr)
-	case "SweepFlag":
-		instance.SweepFlag = GongExtractBool(valueExpr)
-	case "RadiusX":
-		instance.RadiusX = GongExtractFloat(valueExpr)
-	case "RadiusY":
-		instance.RadiusY = GongExtractFloat(valueExpr)
-	}
-	return nil
-}
-
-type StackGrowthCurveStartArcShapeUnmarshaller struct{}
-
-func (u *StackGrowthCurveStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StackGrowthCurveStartArcShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *StackGrowthCurveStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackGrowthCurveStartArcShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StartX":
-		instance.StartX = GongExtractFloat(valueExpr)
-	case "StartY":
-		instance.StartY = GongExtractFloat(valueExpr)
-	case "EndX":
-		instance.EndX = GongExtractFloat(valueExpr)
-	case "EndY":
-		instance.EndY = GongExtractFloat(valueExpr)
-	case "XAxisRotation":
-		instance.XAxisRotation = GongExtractFloat(valueExpr)
-	case "LargeArcFlag":
-		instance.LargeArcFlag = GongExtractBool(valueExpr)
-	case "SweepFlag":
-		instance.SweepFlag = GongExtractBool(valueExpr)
-	case "RadiusX":
-		instance.RadiusX = GongExtractFloat(valueExpr)
-	case "RadiusY":
-		instance.RadiusY = GongExtractFloat(valueExpr)
-	}
-	return nil
-}
-
-type StackOfGrowthCurveUnmarshaller struct{}
-
-func (u *StackOfGrowthCurveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(StackOfGrowthCurve)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *StackOfGrowthCurveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*StackOfGrowthCurve)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StackGrowthCurveStartArcShapes":
-		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveStartArcShapes, valueExpr, identifierMap)
-	case "StackGrowthCurveEndArcShapes":
-		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurveEndArcShapes, valueExpr, identifierMap)
-	}
-	return nil
-}
-
 type StackOfGrowthCurve2DUnmarshaller struct{}
 
 func (u *StackOfGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2465,6 +2340,133 @@ func (u *StackOfGrowthCurve2DRibbonUnmarshaller) UnmarshallField(stage *Stage, i
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurve2DRibbonStartShapes, valueExpr, identifierMap)
 	case "StackGrowthCurve2DRibbonEndShapes":
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurve2DRibbonEndShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StackOfRotatedGrowthCurve2DUnmarshaller struct{}
+
+func (u *StackOfRotatedGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackOfRotatedGrowthCurve2D)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackOfRotatedGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfRotatedGrowthCurve2D)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StackRotatedGrowthCurve2DStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.StackRotatedGrowthCurve2DStartArcShapes, valueExpr, identifierMap)
+	case "StackRotatedGrowthCurve2DEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.StackRotatedGrowthCurve2DEndArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StackRotatedGrowthCurve2DEndArcShapeUnmarshaller struct{}
+
+func (u *StackRotatedGrowthCurve2DEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackRotatedGrowthCurve2DEndArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackRotatedGrowthCurve2DEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackRotatedGrowthCurve2DEndArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type StackRotatedGrowthCurve2DStartArcShapeUnmarshaller struct{}
+
+func (u *StackRotatedGrowthCurve2DStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackRotatedGrowthCurve2DStartArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackRotatedGrowthCurve2DStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackRotatedGrowthCurve2DStartArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -2976,133 +2978,6 @@ func (u *TopStackGrowthCurve2DStartHalfwayArcShapeUnmarshaller) UnmarshallField(
 	return nil
 }
 
-type TopStackGrowthCurveEndArcShapeUnmarshaller struct{}
-
-func (u *TopStackGrowthCurveEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStackGrowthCurveEndArcShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *TopStackGrowthCurveEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStackGrowthCurveEndArcShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StartX":
-		instance.StartX = GongExtractFloat(valueExpr)
-	case "StartY":
-		instance.StartY = GongExtractFloat(valueExpr)
-	case "EndX":
-		instance.EndX = GongExtractFloat(valueExpr)
-	case "EndY":
-		instance.EndY = GongExtractFloat(valueExpr)
-	case "XAxisRotation":
-		instance.XAxisRotation = GongExtractFloat(valueExpr)
-	case "LargeArcFlag":
-		instance.LargeArcFlag = GongExtractBool(valueExpr)
-	case "SweepFlag":
-		instance.SweepFlag = GongExtractBool(valueExpr)
-	case "RadiusX":
-		instance.RadiusX = GongExtractFloat(valueExpr)
-	case "RadiusY":
-		instance.RadiusY = GongExtractFloat(valueExpr)
-	}
-	return nil
-}
-
-type TopStackGrowthCurveStartArcShapeUnmarshaller struct{}
-
-func (u *TopStackGrowthCurveStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStackGrowthCurveStartArcShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *TopStackGrowthCurveStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStackGrowthCurveStartArcShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "StartX":
-		instance.StartX = GongExtractFloat(valueExpr)
-	case "StartY":
-		instance.StartY = GongExtractFloat(valueExpr)
-	case "EndX":
-		instance.EndX = GongExtractFloat(valueExpr)
-	case "EndY":
-		instance.EndY = GongExtractFloat(valueExpr)
-	case "XAxisRotation":
-		instance.XAxisRotation = GongExtractFloat(valueExpr)
-	case "LargeArcFlag":
-		instance.LargeArcFlag = GongExtractBool(valueExpr)
-	case "SweepFlag":
-		instance.SweepFlag = GongExtractBool(valueExpr)
-	case "RadiusX":
-		instance.RadiusX = GongExtractFloat(valueExpr)
-	case "RadiusY":
-		instance.RadiusY = GongExtractFloat(valueExpr)
-	}
-	return nil
-}
-
-type TopStackOfGrowthCurveUnmarshaller struct{}
-
-func (u *TopStackOfGrowthCurveUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(TopStackOfGrowthCurve)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *TopStackOfGrowthCurveUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*TopStackOfGrowthCurve)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "TopStackGrowthCurveStartArcShapes":
-		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurveStartArcShapes, valueExpr, identifierMap)
-	case "TopStackGrowthCurveEndArcShapes":
-		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurveEndArcShapes, valueExpr, identifierMap)
-	}
-	return nil
-}
-
 type TopStackOfGrowthCurve2DUnmarshaller struct{}
 
 func (u *TopStackOfGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -3132,6 +3007,133 @@ func (u *TopStackOfGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i Go
 		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurve2DStartHalfwayArcShapes, valueExpr, identifierMap)
 	case "TopStackGrowthCurve2DEndHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.TopStackGrowthCurve2DEndHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TopStackOfRotatedGrowthCurve2DUnmarshaller struct{}
+
+func (u *TopStackOfRotatedGrowthCurve2DUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStackOfRotatedGrowthCurve2D)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopStackOfRotatedGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStackOfRotatedGrowthCurve2D)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "TopStackOfRotatedGrowthCurve2DStartArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopStackOfRotatedGrowthCurve2DStartArcShapes, valueExpr, identifierMap)
+	case "TopStackOfRotatedGrowthCurve2DEndArcShapes":
+		GongUnmarshallSliceOfPointers(&instance.TopStackOfRotatedGrowthCurve2DEndArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TopStackOfRotatedGrowthCurve2DEndArcShapeUnmarshaller struct{}
+
+func (u *TopStackOfRotatedGrowthCurve2DEndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStackOfRotatedGrowthCurve2DEndArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopStackOfRotatedGrowthCurve2DEndArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStackOfRotatedGrowthCurve2DEndArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type TopStackOfRotatedGrowthCurve2DStartArcShapeUnmarshaller struct{}
+
+func (u *TopStackOfRotatedGrowthCurve2DStartArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TopStackOfRotatedGrowthCurve2DStartArcShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TopStackOfRotatedGrowthCurve2DStartArcShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TopStackOfRotatedGrowthCurve2DStartArcShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	case "XAxisRotation":
+		instance.XAxisRotation = GongExtractFloat(valueExpr)
+	case "LargeArcFlag":
+		instance.LargeArcFlag = GongExtractBool(valueExpr)
+	case "SweepFlag":
+		instance.SweepFlag = GongExtractBool(valueExpr)
+	case "RadiusX":
+		instance.RadiusX = GongExtractFloat(valueExpr)
+	case "RadiusY":
+		instance.RadiusY = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

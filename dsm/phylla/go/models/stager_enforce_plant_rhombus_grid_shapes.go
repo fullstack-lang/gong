@@ -203,10 +203,10 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfGrowthCurve, plant.StartHalfwayArcShapeGrid, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfRotatedGrowthCurve2D, plant.StartHalfwayArcShapeGrid, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
-		if plant.TopStackOfGrowthCurve != nil {
-			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfGrowthCurve, plant.TopStartHalfwayArcShapeGrid, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
+		if plant.TopStackOfRotatedGrowthCurve2D != nil {
+			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfRotatedGrowthCurve2D, plant.TopStartHalfwayArcShapeGrid, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
 		}
 		if plant.StackOfGrowthCurve2D != nil {
 			needCommit = enforceStackOfGrowthCurve2DHasShapes(stage, plant.StackOfGrowthCurve2D, plant.StartHalfwayArcShapeGrid, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.StackHeight, circLen, plant.RelativeCuttedStackFloorHeight*plant.RhombusSideLength) || needCommit
