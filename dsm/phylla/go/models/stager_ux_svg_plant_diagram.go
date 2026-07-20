@@ -1050,7 +1050,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 		return
 	}
 
-	for _, sa := range plant.StackOfGrowthCurve.StackGrowthCurveStartArcShapes {
+	for _, sa := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1076,7 +1076,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.StackOfGrowthCurve.StackGrowthCurveEndArcShapes {
+	for _, ea := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1108,7 +1108,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 		return
 	}
 
-	for _, sa := range plant.TopStackOfGrowthCurve.TopStackGrowthCurveStartArcShapes {
+	for _, sa := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1134,7 +1134,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.TopStackOfGrowthCurve.TopStackGrowthCurveEndArcShapes {
+	for _, ea := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name

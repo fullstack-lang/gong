@@ -466,7 +466,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000039_.Name = `Default_1-TopStackOfGrowthCurve`
 	__GongStructShape__00000039_.X = 272.666667
 	__GongStructShape__00000039_.Y = 139.333333
-	__GongStructShape__00000039_.IdentifierMeta = ref_models.TopStackOfGrowthCurve{}
+	__GongStructShape__00000039_.IdentifierMeta = ref_models.TopStackOfRotatedGrowthCurve2D{}
 	__GongStructShape__00000039_.Width = 240.000000
 	__GongStructShape__00000039_.Height = 63.000000
 	__GongStructShape__00000039_.IsSelected = false
@@ -474,7 +474,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000040_.Name = `Default_1-TopStackGrowthCurveStartArcShape`
 	__GongStructShape__00000040_.X = 147.000000
 	__GongStructShape__00000040_.Y = 298.000000
-	__GongStructShape__00000040_.IdentifierMeta = ref_models.TopStackGrowthCurveStartArcShape{}
+	__GongStructShape__00000040_.IdentifierMeta = ref_models.TopStackOfRotatedGrowthCurve2DStartArcShape{}
 	__GongStructShape__00000040_.Width = 544.000000
 	__GongStructShape__00000040_.Height = 63.000000
 	__GongStructShape__00000040_.IsSelected = false
@@ -482,7 +482,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000041_.Name = `Default_1-TopStackGrowthCurveEndArcShape`
 	__GongStructShape__00000041_.X = 175.666667
 	__GongStructShape__00000041_.Y = 611.666667
-	__GongStructShape__00000041_.IdentifierMeta = ref_models.TopStackGrowthCurveEndArcShape{}
+	__GongStructShape__00000041_.IdentifierMeta = ref_models.TopStackOfRotatedGrowthCurve2DEndArcShape{}
 	__GongStructShape__00000041_.Width = 730.666667
 	__GongStructShape__00000041_.Height = 63.000000
 	__GongStructShape__00000041_.IsSelected = false
@@ -554,7 +554,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000050_.Name = `Default_1-StackGrowthCurveEndArcShape`
 	__GongStructShape__00000050_.X = 1082.333333
 	__GongStructShape__00000050_.Y = 427.000000
-	__GongStructShape__00000050_.IdentifierMeta = ref_models.StackGrowthCurveEndArcShape{}
+	__GongStructShape__00000050_.IdentifierMeta = ref_models.StackRotatedGrowthCurve2DEndArcShape{}
 	__GongStructShape__00000050_.Width = 414.666667
 	__GongStructShape__00000050_.Height = 63.000000
 	__GongStructShape__00000050_.IsSelected = false
@@ -562,7 +562,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000051_.Name = `Default_1-StackGrowthCurveStartArcShape`
 	__GongStructShape__00000051_.X = 95.000000
 	__GongStructShape__00000051_.Y = 12.666667
-	__GongStructShape__00000051_.IdentifierMeta = ref_models.StackGrowthCurveStartArcShape{}
+	__GongStructShape__00000051_.IdentifierMeta = ref_models.StackRotatedGrowthCurve2DStartArcShape{}
 	__GongStructShape__00000051_.Width = 550.666667
 	__GongStructShape__00000051_.Height = 63.000000
 	__GongStructShape__00000051_.IsSelected = false
@@ -570,7 +570,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000052_.Name = `Default_1-StackOfGrowthCurve`
 	__GongStructShape__00000052_.X = 75.000000
 	__GongStructShape__00000052_.Y = 16.000000
-	__GongStructShape__00000052_.IdentifierMeta = ref_models.StackOfGrowthCurve{}
+	__GongStructShape__00000052_.IdentifierMeta = ref_models.StackOfRotatedGrowthCurve2D{}
 	__GongStructShape__00000052_.Width = 240.000000
 	__GongStructShape__00000052_.Height = 63.000000
 	__GongStructShape__00000052_.IsSelected = false

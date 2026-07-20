@@ -5,11 +5,11 @@ import (
 	"math"
 )
 
-func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurve, startGrid *StartHalfwayArcShapeGrid, endGrid *EndHalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfRotatedGrowthCurve2D, startGrid *StartHalfwayArcShapeGrid, endGrid *EndHalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || startGrid == nil || endGrid == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {
-		if len(stack.StackGrowthCurveStartArcShapes) > 0 || len(stack.StackGrowthCurveEndArcShapes) > 0 {
-			stack.StackGrowthCurveStartArcShapes = nil
-			stack.StackGrowthCurveEndArcShapes = nil
+		if len(stack.StackRotatedGrowthCurve2DStartArcShapes) > 0 || len(stack.StackRotatedGrowthCurve2DEndArcShapes) > 0 {
+			stack.StackRotatedGrowthCurve2DStartArcShapes = nil
+			stack.StackRotatedGrowthCurve2DEndArcShapes = nil
 			return true
 		}
 		return false
@@ -70,11 +70,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	}
 
 	valid := true
-	if len(stack.StackGrowthCurveStartArcShapes) != len(expectedStart) || len(stack.StackGrowthCurveEndArcShapes) != len(expectedEnd) {
+	if len(stack.StackRotatedGrowthCurve2DStartArcShapes) != len(expectedStart) || len(stack.StackRotatedGrowthCurve2DEndArcShapes) != len(expectedEnd) {
 		valid = false
 	} else {
 		for i, exp := range expectedStart {
-			b := stack.StackGrowthCurveStartArcShapes[i]
+			b := stack.StackRotatedGrowthCurve2DStartArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -86,7 +86,7 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			}
 		}
 		for i, exp := range expectedEnd {
-			b := stack.StackGrowthCurveEndArcShapes[i]
+			b := stack.StackRotatedGrowthCurve2DEndArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -100,9 +100,9 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	}
 
 	if !valid {
-		stack.StackGrowthCurveStartArcShapes = make([]*StackGrowthCurveStartArcShape, len(expectedStart))
+		stack.StackRotatedGrowthCurve2DStartArcShapes = make([]*StackRotatedGrowthCurve2DStartArcShape, len(expectedStart))
 		for i, exp := range expectedStart {
-			b := new(StackGrowthCurveStartArcShape).Stage(stage)
+			b := new(StackRotatedGrowthCurve2DStartArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -113,11 +113,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.StackGrowthCurveStartArcShapes[i] = b
+			stack.StackRotatedGrowthCurve2DStartArcShapes[i] = b
 		}
-		stack.StackGrowthCurveEndArcShapes = make([]*StackGrowthCurveEndArcShape, len(expectedEnd))
+		stack.StackRotatedGrowthCurve2DEndArcShapes = make([]*StackRotatedGrowthCurve2DEndArcShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			b := new(StackGrowthCurveEndArcShape).Stage(stage)
+			b := new(StackRotatedGrowthCurve2DEndArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -128,7 +128,7 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.StackGrowthCurveEndArcShapes[i] = b
+			stack.StackRotatedGrowthCurve2DEndArcShapes[i] = b
 		}
 		needCommit = true
 	}
@@ -136,11 +136,11 @@ func enforceStackOfGrowthCurveV2HasShapes(stage *Stage, stack *StackOfGrowthCurv
 	return needCommit
 }
 
-func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrowthCurve, startGrid *TopStartHalfwayArcShapeGrid, endGrid *TopEndHalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
+func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfRotatedGrowthCurve2D, startGrid *TopStartHalfwayArcShapeGrid, endGrid *TopEndHalfwayArcShapeGrid, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || startGrid == nil || endGrid == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(pGrid.PerpendicularVectors) < 2 {
-		if len(stack.TopStackGrowthCurveStartArcShapes) > 0 || len(stack.TopStackGrowthCurveEndArcShapes) > 0 {
-			stack.TopStackGrowthCurveStartArcShapes = nil
-			stack.TopStackGrowthCurveEndArcShapes = nil
+		if len(stack.TopStackOfRotatedGrowthCurve2DStartArcShapes) > 0 || len(stack.TopStackOfRotatedGrowthCurve2DEndArcShapes) > 0 {
+			stack.TopStackOfRotatedGrowthCurve2DStartArcShapes = nil
+			stack.TopStackOfRotatedGrowthCurve2DEndArcShapes = nil
 			return true
 		}
 		return false
@@ -201,11 +201,11 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	}
 
 	valid := true
-	if len(stack.TopStackGrowthCurveStartArcShapes) != len(expectedStart) || len(stack.TopStackGrowthCurveEndArcShapes) != len(expectedEnd) {
+	if len(stack.TopStackOfRotatedGrowthCurve2DStartArcShapes) != len(expectedStart) || len(stack.TopStackOfRotatedGrowthCurve2DEndArcShapes) != len(expectedEnd) {
 		valid = false
 	} else {
 		for i, exp := range expectedStart {
-			b := stack.TopStackGrowthCurveStartArcShapes[i]
+			b := stack.TopStackOfRotatedGrowthCurve2DStartArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -217,7 +217,7 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			}
 		}
 		for i, exp := range expectedEnd {
-			b := stack.TopStackGrowthCurveEndArcShapes[i]
+			b := stack.TopStackOfRotatedGrowthCurve2DEndArcShapes[i]
 			if b == nil || b.Name != exp.name {
 				valid = false
 				break
@@ -231,9 +231,9 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 	}
 
 	if !valid {
-		stack.TopStackGrowthCurveStartArcShapes = make([]*TopStackGrowthCurveStartArcShape, len(expectedStart))
+		stack.TopStackOfRotatedGrowthCurve2DStartArcShapes = make([]*TopStackOfRotatedGrowthCurve2DStartArcShape, len(expectedStart))
 		for i, exp := range expectedStart {
-			b := new(TopStackGrowthCurveStartArcShape).Stage(stage)
+			b := new(TopStackOfRotatedGrowthCurve2DStartArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -244,11 +244,11 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.TopStackGrowthCurveStartArcShapes[i] = b
+			stack.TopStackOfRotatedGrowthCurve2DStartArcShapes[i] = b
 		}
-		stack.TopStackGrowthCurveEndArcShapes = make([]*TopStackGrowthCurveEndArcShape, len(expectedEnd))
+		stack.TopStackOfRotatedGrowthCurve2DEndArcShapes = make([]*TopStackOfRotatedGrowthCurve2DEndArcShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			b := new(TopStackGrowthCurveEndArcShape).Stage(stage)
+			b := new(TopStackOfRotatedGrowthCurve2DEndArcShape).Stage(stage)
 			b.Name = exp.name
 			b.StartX = exp.startX
 			b.StartY = exp.startY
@@ -259,7 +259,7 @@ func enforceTopStackOfGrowthCurveV2HasShapes(stage *Stage, stack *TopStackOfGrow
 			b.XAxisRotation = exp.xAxisRotation
 			b.LargeArcFlag = exp.largeArcFlag
 			b.SweepFlag = exp.sweepFlag
-			stack.TopStackGrowthCurveEndArcShapes[i] = b
+			stack.TopStackOfRotatedGrowthCurve2DEndArcShapes[i] = b
 		}
 		needCommit = true
 	}
@@ -641,20 +641,20 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 	}
 
 	type expectedStartShape struct {
-		name string
-		bottomStartX, bottomStartY float64
-		bottomEndX, bottomEndY     float64
+		name                         string
+		bottomStartX, bottomStartY   float64
+		bottomEndX, bottomEndY       float64
 		bottomRadiusX, bottomRadiusY float64
-		bottomXAxisRotation        float64
-		bottomLargeArcFlag         bool
-		bottomSweepFlag            bool
+		bottomXAxisRotation          float64
+		bottomLargeArcFlag           bool
+		bottomSweepFlag              bool
 
-		topStartX, topStartY float64
-		topEndX, topEndY     float64
+		topStartX, topStartY   float64
+		topEndX, topEndY       float64
 		topRadiusX, topRadiusY float64
-		topXAxisRotation     float64
-		topLargeArcFlag      bool
-		topSweepFlag         bool
+		topXAxisRotation       float64
+		topLargeArcFlag        bool
+		topSweepFlag           bool
 	}
 
 	var expectedStart []expectedStartShape
@@ -667,7 +667,7 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 			b := bottomStack.StackGrowthCurve2DStartHalfwayArcShapes[i]
 			t := topStack.TopStackGrowthCurve2DStartHalfwayArcShapes[i]
 			expectedStart = append(expectedStart, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-start-%d", ribbonStack.Name, i),
+				name:         fmt.Sprintf("%s-layer-start-%d", ribbonStack.Name, i),
 				bottomStartX: b.StartX, bottomStartY: b.StartY,
 				bottomEndX: b.EndX, bottomEndY: b.EndY,
 				bottomRadiusX: b.RadiusX, bottomRadiusY: b.RadiusY,
@@ -684,7 +684,7 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 			b := bottomStack.StackGrowthCurve2DEndHalfwayArcShapes[i]
 			t := topStack.TopStackGrowthCurve2DEndHalfwayArcShapes[i]
 			expectedEnd = append(expectedEnd, expectedStartShape{
-				name: fmt.Sprintf("%s-layer-end-%d", ribbonStack.Name, i),
+				name:         fmt.Sprintf("%s-layer-end-%d", ribbonStack.Name, i),
 				bottomStartX: b.StartX, bottomStartY: b.StartY,
 				bottomEndX: b.EndX, bottomEndY: b.EndY,
 				bottomRadiusX: b.RadiusX, bottomRadiusY: b.RadiusY,
@@ -709,7 +709,7 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 				break
 			}
 			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 ||
-			   math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
+				math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
 				valid = false
 				break
 			}
@@ -721,7 +721,7 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 				break
 			}
 			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 ||
-			   math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
+				math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
 				valid = false
 				break
 			}

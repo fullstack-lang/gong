@@ -43,6 +43,11 @@ type Plant struct {
 	// RelativeRotatedTorusSeparation x RhombusSideLength is an additionnal distance between each ribbon
 	RelativeRotatedTorusSeparation float64
 
+	// RotationRatio is the ratio of rotation between 0.0 and 1.0.
+	// 0.0 means no rotation
+	// 1.0 means the rotation of 2xPi x (GrowthVectorShape.X /  PlantCircumferenceShape.Length)
+	RotationRatio float64
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -77,8 +82,8 @@ type Plant struct {
 	EndHalfwayArcShapeGrid      *EndHalfwayArcShapeGrid
 	TopEndHalfwayArcShapeGrid   *TopEndHalfwayArcShapeGrid
 
-	StackOfGrowthCurve             *StackOfGrowthCurve
-	TopStackOfGrowthCurve          *TopStackOfGrowthCurve
+	StackOfRotatedGrowthCurve2D    *StackOfRotatedGrowthCurve2D
+	TopStackOfRotatedGrowthCurve2D *TopStackOfRotatedGrowthCurve2D
 	ShiftedLeftStackOfGrowthCurve  *ShiftedLeftStackOfGrowthCurve
 	ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector
 

@@ -305,15 +305,15 @@ type ShiftedLeftStackNormalVector struct {
 	EndX, EndY     float64
 }
 
-// StackOfGrowthCurve of a plant,
-type StackOfGrowthCurve struct {
+// StackOfRotatedGrowthCurve2D of a plant,
+type StackOfRotatedGrowthCurve2D struct {
 	Name string
 
-	StackGrowthCurveStartArcShapes []*StackGrowthCurveStartArcShape
-	StackGrowthCurveEndArcShapes   []*StackGrowthCurveEndArcShape
+	StackRotatedGrowthCurve2DStartArcShapes []*StackRotatedGrowthCurve2DStartArcShape
+	StackRotatedGrowthCurve2DEndArcShapes   []*StackRotatedGrowthCurve2DEndArcShape
 }
 
-type StackGrowthCurveStartArcShape struct {
+type StackRotatedGrowthCurve2DStartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -325,7 +325,7 @@ type StackGrowthCurveStartArcShape struct {
 	RadiusX, RadiusY float64
 }
 
-type StackGrowthCurveEndArcShape struct {
+type StackRotatedGrowthCurve2DEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -337,12 +337,12 @@ type StackGrowthCurveEndArcShape struct {
 	RadiusX, RadiusY float64
 }
 
-// TopStackOfGrowthCurve of a plant,
-type TopStackOfGrowthCurve struct {
+// TopStackOfRotatedGrowthCurve2D of a plant,
+type TopStackOfRotatedGrowthCurve2D struct {
 	Name string
 
-	TopStackGrowthCurveStartArcShapes []*TopStackGrowthCurveStartArcShape
-	TopStackGrowthCurveEndArcShapes   []*TopStackGrowthCurveEndArcShape
+	TopStackOfRotatedGrowthCurve2DStartArcShapes []*TopStackOfRotatedGrowthCurve2DStartArcShape
+	TopStackOfRotatedGrowthCurve2DEndArcShapes   []*TopStackOfRotatedGrowthCurve2DEndArcShape
 }
 
 // ShiftedLeftStackOfGrowthCurve of a plant,
@@ -352,7 +352,7 @@ type ShiftedLeftStackOfGrowthCurve struct {
 	ShiftedLeftStackGrowthCurveStartArcShapes []*ShiftedLeftStackGrowthCurveStartArcShape
 	ShiftedLeftStackGrowthCurveEndArcShapes   []*ShiftedLeftStackGrowthCurveEndArcShape
 }
-type TopStackGrowthCurveStartArcShape struct {
+type TopStackOfRotatedGrowthCurve2DStartArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -364,7 +364,7 @@ type TopStackGrowthCurveStartArcShape struct {
 	RadiusX, RadiusY float64
 }
 
-type TopStackGrowthCurveEndArcShape struct {
+type TopStackOfRotatedGrowthCurve2DEndArcShape struct {
 	Name string
 
 	StartX, StartY float64
@@ -502,10 +502,6 @@ type VerticalTorusStackShape struct {
 	Name string
 }
 
-
-
-
-
 // StackOfGrowthCurve2D of a plant,
 type StackOfGrowthCurve2D struct {
 	Name string
@@ -581,35 +577,35 @@ type StackOfGrowthCurve2DRibbon struct {
 type StackGrowthCurve2DRibbonStartShape struct {
 	Name string
 
-	BottomStartX, BottomStartY float64
-	BottomEndX, BottomEndY     float64
+	BottomStartX, BottomStartY   float64
+	BottomEndX, BottomEndY       float64
 	BottomRadiusX, BottomRadiusY float64
-	BottomXAxisRotation    float64
-	BottomLargeArcFlag     bool
-	BottomSweepFlag        bool
+	BottomXAxisRotation          float64
+	BottomLargeArcFlag           bool
+	BottomSweepFlag              bool
 
-	TopStartX, TopStartY float64
-	TopEndX, TopEndY     float64
+	TopStartX, TopStartY   float64
+	TopEndX, TopEndY       float64
 	TopRadiusX, TopRadiusY float64
-	TopXAxisRotation    float64
-	TopLargeArcFlag     bool
-	TopSweepFlag        bool
+	TopXAxisRotation       float64
+	TopLargeArcFlag        bool
+	TopSweepFlag           bool
 }
 
 type StackGrowthCurve2DRibbonEndShape struct {
 	Name string
 
-	BottomStartX, BottomStartY float64
-	BottomEndX, BottomEndY     float64
+	BottomStartX, BottomStartY   float64
+	BottomEndX, BottomEndY       float64
 	BottomRadiusX, BottomRadiusY float64
-	BottomXAxisRotation    float64
-	BottomLargeArcFlag     bool
-	BottomSweepFlag        bool
+	BottomXAxisRotation          float64
+	BottomLargeArcFlag           bool
+	BottomSweepFlag              bool
 
-	TopStartX, TopStartY float64
-	TopEndX, TopEndY     float64
+	TopStartX, TopStartY   float64
+	TopEndX, TopEndY       float64
 	TopRadiusX, TopRadiusY float64
-	TopXAxisRotation    float64
-	TopLargeArcFlag     bool
-	TopSweepFlag        bool
+	TopXAxisRotation       float64
+	TopLargeArcFlag        bool
+	TopSweepFlag           bool
 }

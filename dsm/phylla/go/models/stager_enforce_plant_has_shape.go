@@ -351,25 +351,25 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n10 := enforcePlantHasShape[*StackOfGrowthCurve](
+	n10 := enforcePlantHasShape[*StackOfRotatedGrowthCurve2D](
 		stager,
-		func() *StackOfGrowthCurve { return new(StackOfGrowthCurve) },
-		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
-		func(p *Plant, shape *StackOfGrowthCurve) { p.StackOfGrowthCurve = shape },
-		func(p *Plant, shape *StackOfGrowthCurve) bool {
-			return p.StackOfGrowthCurve == shape
+		func() *StackOfRotatedGrowthCurve2D { return new(StackOfRotatedGrowthCurve2D) },
+		func(p *Plant) *StackOfRotatedGrowthCurve2D { return p.StackOfRotatedGrowthCurve2D },
+		func(p *Plant, shape *StackOfRotatedGrowthCurve2D) { p.StackOfRotatedGrowthCurve2D = shape },
+		func(p *Plant, shape *StackOfRotatedGrowthCurve2D) bool {
+			return p.StackOfRotatedGrowthCurve2D == shape
 		},
 		"StackOfGrowthCurveV2",
 	)
 	needCommit = n10 || needCommit
 
-	n11 := enforcePlantHasShape[*TopStackOfGrowthCurve](
+	n11 := enforcePlantHasShape[*TopStackOfRotatedGrowthCurve2D](
 		stager,
-		func() *TopStackOfGrowthCurve { return new(TopStackOfGrowthCurve) },
-		func(p *Plant) *TopStackOfGrowthCurve { return p.TopStackOfGrowthCurve },
-		func(p *Plant, shape *TopStackOfGrowthCurve) { p.TopStackOfGrowthCurve = shape },
-		func(p *Plant, shape *TopStackOfGrowthCurve) bool {
-			return p.TopStackOfGrowthCurve == shape
+		func() *TopStackOfRotatedGrowthCurve2D { return new(TopStackOfRotatedGrowthCurve2D) },
+		func(p *Plant) *TopStackOfRotatedGrowthCurve2D { return p.TopStackOfRotatedGrowthCurve2D },
+		func(p *Plant, shape *TopStackOfRotatedGrowthCurve2D) { p.TopStackOfRotatedGrowthCurve2D = shape },
+		func(p *Plant, shape *TopStackOfRotatedGrowthCurve2D) bool {
+			return p.TopStackOfRotatedGrowthCurve2D == shape
 		},
 		"TopStackOfGrowthCurveV2",
 	)
@@ -595,16 +595,16 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n10 := enforcePlantShapeName[*StackOfGrowthCurve](
+	n10 := enforcePlantShapeName[*StackOfRotatedGrowthCurve2D](
 		stager,
-		func(p *Plant) *StackOfGrowthCurve { return p.StackOfGrowthCurve },
+		func(p *Plant) *StackOfRotatedGrowthCurve2D { return p.StackOfRotatedGrowthCurve2D },
 		"StackOfGrowthCurveV2",
 	)
 	needCommit = n10 || needCommit
 
-	n11 := enforcePlantShapeName[*TopStackOfGrowthCurve](
+	n11 := enforcePlantShapeName[*TopStackOfRotatedGrowthCurve2D](
 		stager,
-		func(p *Plant) *TopStackOfGrowthCurve { return p.TopStackOfGrowthCurve },
+		func(p *Plant) *TopStackOfRotatedGrowthCurve2D { return p.TopStackOfRotatedGrowthCurve2D },
 		"TopStackOfGrowthCurveV2",
 	)
 	needCommit = n11 || needCommit
