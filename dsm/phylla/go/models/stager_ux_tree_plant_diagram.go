@@ -158,7 +158,6 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve 2D", plant.StackOfGrowthCurve2D, &plantDiagram.IsHiddenStackOfGrowthCurve2D)
 		appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve 2D", plant.TopStackOfGrowthCurve2D, &plantDiagram.IsHiddenTopStackOfGrowthCurve2D)
 		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve 2D Ribbon", plant.StackOfGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Stack Of Partially Rotated Growth Curve 2D Ribbon", plant.StackOfPartiallyRotatedGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon)
 	}
 
 	if is3DView {

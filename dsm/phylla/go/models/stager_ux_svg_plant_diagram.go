@@ -90,7 +90,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawTopStackOfGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawStackOfRotatedGrowthCurve2DRibbon(stager, layer, plant)
-	plantDiagram.drawStackOfPartiallyRotatedGrowthCurve2DRibbon(stager, layer, plant)
+
 
 	return
 }
@@ -1812,115 +1812,5 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStackOfPartiallyRotatedGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
-	if plantDiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon {
-		return
-	}
 
-	if plant.StackOfPartiallyRotatedGrowthCurve2DRibbon == nil {
-		return
-	}
-
-	for _, start := range plant.StackOfPartiallyRotatedGrowthCurve2DRibbon.StackPartiallyRotatedGrowthCurve2DRibbonStartShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-
-		path.Name = start.Name
-
-		bottomStartX := plantDiagram.OriginX + start.BottomStartX
-		bottomStartY := plantDiagram.OriginY - start.BottomStartY
-		bottomEndX := plantDiagram.OriginX + start.BottomEndX
-		bottomEndY := plantDiagram.OriginY - start.BottomEndY
-
-		topStartX := plantDiagram.OriginX + start.TopStartX
-		topStartY := plantDiagram.OriginY - start.TopStartY
-		topEndX := plantDiagram.OriginX + start.TopEndX
-		topEndY := plantDiagram.OriginY - start.TopEndY
-
-		bottomLargeArcFlag := 0
-		if start.BottomLargeArcFlag {
-			bottomLargeArcFlag = 1
-		}
-		bottomSweepFlag := 0
-		if start.BottomSweepFlag {
-			bottomSweepFlag = 1
-		}
-
-		topLargeArcFlag := 0
-		if start.TopLargeArcFlag {
-			topLargeArcFlag = 1
-		}
-		topSweepFlagRev := 1
-		if start.TopSweepFlag {
-			topSweepFlagRev = 0
-		}
-
-		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f L %f %f A %f %f %f %d %d %f %f Z",
-			bottomStartX, bottomStartY,
-			start.BottomRadiusX, start.BottomRadiusY,
-			start.BottomXAxisRotation,
-			bottomLargeArcFlag, bottomSweepFlag,
-			bottomEndX, bottomEndY,
-			topEndX, topEndY,
-			start.TopRadiusX, start.TopRadiusY,
-			start.TopXAxisRotation,
-			topLargeArcFlag, topSweepFlagRev,
-			topStartX, topStartY)
-
-		path.Presentation.FillOpacity = 0.3
-		path.Presentation.Color = "orange"
-		path.Presentation.Stroke = "none"
-	}
-
-	for _, end := range plant.StackOfPartiallyRotatedGrowthCurve2DRibbon.StackPartiallyRotatedGrowthCurve2DRibbonEndShapes {
-		path := new(svg.Path)
-		layer.Paths = append(layer.Paths, path)
-
-		path.Name = end.Name
-
-		bottomStartX := plantDiagram.OriginX + end.BottomStartX
-		bottomStartY := plantDiagram.OriginY - end.BottomStartY
-		bottomEndX := plantDiagram.OriginX + end.BottomEndX
-		bottomEndY := plantDiagram.OriginY - end.BottomEndY
-
-		topStartX := plantDiagram.OriginX + end.TopStartX
-		topStartY := plantDiagram.OriginY - end.TopStartY
-		topEndX := plantDiagram.OriginX + end.TopEndX
-		topEndY := plantDiagram.OriginY - end.TopEndY
-
-		bottomLargeArcFlag := 0
-		if end.BottomLargeArcFlag {
-			bottomLargeArcFlag = 1
-		}
-		bottomSweepFlag := 0
-		if end.BottomSweepFlag {
-			bottomSweepFlag = 1
-		}
-
-		topLargeArcFlag := 0
-		if end.TopLargeArcFlag {
-			topLargeArcFlag = 1
-		}
-		topSweepFlagRev := 1
-		if end.TopSweepFlag {
-			topSweepFlagRev = 0
-		}
-
-		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f L %f %f A %f %f %f %d %d %f %f Z",
-			bottomStartX, bottomStartY,
-			end.BottomRadiusX, end.BottomRadiusY,
-			end.BottomXAxisRotation,
-			bottomLargeArcFlag, bottomSweepFlag,
-			bottomEndX, bottomEndY,
-			topEndX, topEndY,
-			end.TopRadiusX, end.TopRadiusY,
-			end.TopXAxisRotation,
-			topLargeArcFlag, topSweepFlagRev,
-			topStartX, topStartY)
-
-		path.Presentation.FillOpacity = 0.3
-		path.Presentation.Color = "orange"
-		path.Presentation.Stroke = "none"
-	}
-}
 
