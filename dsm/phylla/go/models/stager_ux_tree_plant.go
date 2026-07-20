@@ -50,6 +50,9 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DVie
 			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
 			fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + ".stl"
 			stager.loadStage.Commit()
+
+			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
+			stager.load()
 		},
 	}
 
