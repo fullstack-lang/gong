@@ -3026,10 +3026,6 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.StackOfRotatedGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStackOfRotatedGrowthCurve2D":
 			FormDivSelectFieldToField(&(plant_.TopStackOfRotatedGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftStackOfGrowthCurve":
-			FormDivSelectFieldToField(&(plant_.ShiftedLeftStackOfGrowthCurve), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftStackOfNormalVector":
-			FormDivSelectFieldToField(&(plant_.ShiftedLeftStackOfNormalVector), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2D":
 			FormDivSelectFieldToField(&(plant_.GrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "TopGrowthCurve2D":

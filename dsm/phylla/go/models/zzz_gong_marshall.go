@@ -1058,8 +1058,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfRotatedGrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStackOfRotatedGrowthCurve2D"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfGrowthCurve"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfNormalVector"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopGrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve2D"))
@@ -4309,32 +4307,6 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TopStackOfRotatedGrowthCurve2D")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "ShiftedLeftStackOfGrowthCurve":
-		if plant.ShiftedLeftStackOfGrowthCurve != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfGrowthCurve")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.ShiftedLeftStackOfGrowthCurve.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfGrowthCurve")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "ShiftedLeftStackOfNormalVector":
-		if plant.ShiftedLeftStackOfNormalVector != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfNormalVector")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.ShiftedLeftStackOfNormalVector.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftedLeftStackOfNormalVector")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	case "GrowthCurve2D":
 		if plant.GrowthCurve2D != nil {
 			res = PointerFieldInitStatement
@@ -7183,8 +7155,6 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopEndHalfwayArcShapeGrid"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfRotatedGrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopStackOfRotatedGrowthCurve2D"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfGrowthCurve"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "ShiftedLeftStackOfNormalVector"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "GrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "TopGrowthCurve2D"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "StackOfGrowthCurve2D"))

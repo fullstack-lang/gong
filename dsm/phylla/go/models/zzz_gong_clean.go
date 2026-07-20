@@ -253,8 +253,6 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.TopEndHalfwayArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.TopStackOfRotatedGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedLeftStackOfGrowthCurve) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedLeftStackOfNormalVector) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.TopGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2D) || modified

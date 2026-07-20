@@ -84,8 +84,6 @@ type Plant struct {
 
 	StackOfRotatedGrowthCurve2D    *StackOfRotatedGrowthCurve2D
 	TopStackOfRotatedGrowthCurve2D *TopStackOfRotatedGrowthCurve2D
-	ShiftedLeftStackOfGrowthCurve  *ShiftedLeftStackOfGrowthCurve
-	ShiftedLeftStackOfNormalVector *ShiftedLeftStackOfNormalVector
 
 	GrowthCurve2D    *GrowthCurve2D
 	TopGrowthCurve2D *TopGrowthCurve2D

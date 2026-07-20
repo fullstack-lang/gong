@@ -547,8 +547,6 @@ func FillUpForm(
 		AssociationFieldToForm("TopEndHalfwayArcShapeGrid", instanceWithInferedType.TopEndHalfwayArcShapeGrid, formGroup, probe)
 		AssociationFieldToForm("StackOfRotatedGrowthCurve2D", instanceWithInferedType.StackOfRotatedGrowthCurve2D, formGroup, probe)
 		AssociationFieldToForm("TopStackOfRotatedGrowthCurve2D", instanceWithInferedType.TopStackOfRotatedGrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftStackOfGrowthCurve", instanceWithInferedType.ShiftedLeftStackOfGrowthCurve, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftStackOfNormalVector", instanceWithInferedType.ShiftedLeftStackOfNormalVector, formGroup, probe)
 		AssociationFieldToForm("GrowthCurve2D", instanceWithInferedType.GrowthCurve2D, formGroup, probe)
 		AssociationFieldToForm("TopGrowthCurve2D", instanceWithInferedType.TopGrowthCurve2D, formGroup, probe)
 		AssociationFieldToForm("StackOfGrowthCurve2D", instanceWithInferedType.StackOfGrowthCurve2D, formGroup, probe)

@@ -289,27 +289,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 				}
 			}
 		}
-		if plant.ShiftedLeftStackOfNormalVector != nil {
-			refShiftedLeftStackOfNormalVector[plant.ShiftedLeftStackOfNormalVector] = true
-			for _, shape := range plant.ShiftedLeftStackOfNormalVector.ShiftedLeftStackNormalVectors {
-				if shape != nil {
-					refShiftedLeftStackNormalVector[shape] = true
-				}
-			}
-		}
-		if plant.ShiftedLeftStackOfGrowthCurve != nil {
-			refShiftedLeftStackOfGrowthCurve[plant.ShiftedLeftStackOfGrowthCurve] = true
-			for _, shape := range plant.ShiftedLeftStackOfGrowthCurve.ShiftedLeftStackGrowthCurveStartArcShapes {
-				if shape != nil {
-					refShiftedLeftStackGrowthCurveStartArcShape[shape] = true
-				}
-			}
-			for _, shape := range plant.ShiftedLeftStackOfGrowthCurve.ShiftedLeftStackGrowthCurveEndArcShapes {
-				if shape != nil {
-					refShiftedLeftStackGrowthCurveEndArcShape[shape] = true
-				}
-			}
-		}
 	}
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {

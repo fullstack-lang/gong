@@ -143,8 +143,6 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, arcNodes, "Top Mid Arc Vector Shape Grid", plant.TopMidArcVectorShapeGrid, &plantDiagram.IsHiddenTopMidArcVectorShapeGrid)
 		appendDiagramNode(stager, arcNodes, "End Arc Grid", plant.EndArcShapeGrid, &plantDiagram.IsHiddenEndArcShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Top End Arc Grid", plant.TopEndArcShapeGrid, &plantDiagram.IsHiddenTopEndArcShapeGrid)
-		appendDiagramNode(stager, arcNodes, "Shifted Left Stack Of Perpendicular Vector", plant.ShiftedLeftStackOfNormalVector, &plantDiagram.IsHiddenShiftedLeftStackOfNormalVector)
-		appendDiagramNode(stager, arcNodes, "Shifted Left Stack Of Growth Curve", plant.ShiftedLeftStackOfGrowthCurve, &plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve)
 		appendDiagramNode(stager, arcNodes, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
 		appendDiagramNode(stager, arcNodes, "Top Growth Curve 2D", plant.TopGrowthCurve2D, &plantDiagram.IsHiddenTopGrowthCurve2D)
 
