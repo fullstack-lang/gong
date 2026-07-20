@@ -11,6 +11,23 @@ import (
 func (stager *Stager) ux_3d_plant_diagram() {
 
 	if true {
+		var preservedX, preservedY, preservedZ float64
+		var preservedTargetX, preservedTargetY, preservedTargetZ float64
+		var preservedFov float64
+		var hasPreservedCamera bool
+
+		for cam := range stager.threejsStage.Cameras {
+			preservedX = cam.X
+			preservedY = cam.Y
+			preservedZ = cam.Z
+			preservedTargetX = cam.TargetX
+			preservedTargetY = cam.TargetY
+			preservedTargetZ = cam.TargetZ
+			preservedFov = cam.Fov
+			hasPreservedCamera = true
+			break
+		}
+
 		stager.threejsStage.Reset()
 
 		plant := stager.GetCurrentPlant()
@@ -31,42 +48,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 		}
 
-		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
-			canvas.Camera = (&threejs.Camera{
-				Name: "Camera",
-				Position: threejs.Position{
-					X: checkedDiagram.Rendered3DShape.ViewX,
-					Y: checkedDiagram.Rendered3DShape.ViewY,
-					Z: checkedDiagram.Rendered3DShape.ViewZ,
-				},
-			}).Stage(stager.threejsStage)
-			circumference := 10.0
-			if plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
-				circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
-			} else if pGrid := plant.PerpendicularVectorGrid; len(pGrid.PerpendicularVectors) > 0 {
-				first := pGrid.PerpendicularVectors[0]
-				last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
-				circumference = last.StartX - first.StartX
-			}
-			if circumference <= 0 {
-				circumference = 10.0
-			}
-			R := circumference / (2 * math.Pi)
-			camDist := R * 2.5
-			if camDist < 15 {
-				camDist = 15
-			}
-
-			canvas.Camera = (&threejs.Camera{
-				Name: "Default Camera",
-				Position: threejs.Position{
-					X: camDist,
-					Y: camDist * 0.8,
-					Z: camDist,
-				},
-				TargetY: R,
-			}).Stage(stager.threejsStage)
-		}
+		// (Camera is now set later in the file)
 
 		// lights
 		dirLight1 := (&threejs.DirectionalLight{
@@ -114,7 +96,23 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			globalR = circumference / (2 * math.Pi)
 		}
 
-		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+		if hasPreservedCamera {
+			if preservedFov == 0 {
+				preservedFov = 50
+			}
+			canvas.Camera = (&threejs.Camera{
+				Name: "Camera",
+				Position: threejs.Position{
+					X: preservedX,
+					Y: preservedY,
+					Z: preservedZ,
+				},
+				TargetX: preservedTargetX,
+				TargetY: preservedTargetY,
+				TargetZ: preservedTargetZ,
+				Fov:     preservedFov,
+			}).Stage(stager.threejsStage)
+		} else if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 			canvas.Camera = (&threejs.Camera{
 				Name: "Camera",
 				Position: threejs.Position{
@@ -142,6 +140,19 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				},
 				TargetY: globalR,
 			}).Stage(stager.threejsStage)
+		}
+
+		canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
+			if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+				checkedDiagram.Rendered3DShape.ViewX = updatedCamera.X
+				checkedDiagram.Rendered3DShape.ViewY = updatedCamera.Y
+				checkedDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
+				checkedDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
+				checkedDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
+				checkedDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
+				checkedDiagram.Rendered3DShape.Fov = updatedCamera.Fov
+				stager.stage.CommitWithSuspendedCallbacks()
+			}
 		}
 
 		floorMinY := math.MaxFloat64

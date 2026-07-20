@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef, ViewChild, Directive, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef, ViewChild, Directive, inject, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { NgtCanvas } from 'angular-three/dom';
 import { extend, NgtArgs } from 'angular-three';
 import * as THREE from 'three';
@@ -43,11 +43,46 @@ import { injectStore } from 'angular-three';
 })
 export class CameraUpdaterDirective implements OnChanges {
   @Input('cameraUpdater') cam: any;
+  @Output() cameraMoved = new EventEmitter<any>();
   
   private store = injectStore();
   
   ngOnChanges(changes: SimpleChanges) {
     this.updateCamera();
+  }
+
+  ngOnInit() {
+    this.pollCamera();
+  }
+
+  private lastPosition = { x: -9999, y: -9999, z: -9999 };
+  private debounceTimeout: any;
+
+  pollCamera() {
+    setInterval(() => {
+      const state = this.store();
+      const camera = state.camera;
+      if (!camera) return;
+
+      const x = camera.position.x;
+      const y = camera.position.y;
+      const z = camera.position.z;
+
+      const diff = Math.abs(x - this.lastPosition.x) + Math.abs(y - this.lastPosition.y) + Math.abs(z - this.lastPosition.z);
+
+      if (diff > 0.001) {
+        // camera moved
+        this.lastPosition = { x, y, z };
+        
+        // debounce emitting until it stops moving for 500ms
+        clearTimeout(this.debounceTimeout);
+        this.debounceTimeout = setTimeout(() => {
+          const controls = state.controls as any;
+          console.log("cameraMoved emitted! camera:", camera, "controls:", controls);
+          this.cameraMoved.emit({ camera: camera, controls: controls });
+        }, 500);
+      }
+    }, 100);
   }
 
   updateCamera() {
@@ -69,19 +104,23 @@ export class CameraUpdaterDirective implements OnChanges {
         }
 
         camera.updateProjectionMatrix();
+        
+        // Sync lastPosition to avoid immediate bounce back
+        this.lastPosition = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
       }
       if (controls) {
         controls.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
         controls.update();
       } else {
         // Retry for controls
-        setTimeout(() => {
+        const retryInterval = setInterval(() => {
           const c = this.store().controls as any;
           if (c) {
+            clearInterval(retryInterval);
             c.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
             c.update();
           }
-        }, 100);
+        }, 200);
       }
     }
   }
@@ -108,6 +147,7 @@ export class GongthreejsSpecific {
     private threejsCommitNbFromBackService: threejs.CommitNbFromBackService,
     private threejsPushFromFrontNbService: threejs.PushFromFrontNbService,
     private cdr: ChangeDetectorRef,
+    private cameraService: threejs.CameraService,
   ) {
   }
 
@@ -181,6 +221,34 @@ export class GongthreejsSpecific {
     geometry.computeVertexNormals();
     this.bufferGeometryCache.set(bufferGeometry.ID, geometry);
     return geometry;
+  }
+
+  onOrbitEnd(event: any) {
+    if (!event || !event.camera) return;
+
+    const controls = event.controls;
+    const camera = event.camera;
+
+    if (camera && this.canvasSingloton && this.canvasSingloton.Camera) {
+      let backendCamera = this.canvasSingloton.Camera;
+      
+      backendCamera.X = camera.position.x;
+      backendCamera.Y = camera.position.y;
+      backendCamera.Z = camera.position.z;
+      if (controls && controls.target) {
+        backendCamera.TargetX = controls.target.x;
+        backendCamera.TargetY = controls.target.y;
+        backendCamera.TargetZ = controls.target.z;
+      }
+      
+      // Preserve FOV if it exists
+      if ('fov' in camera) {
+        backendCamera.Fov = camera.fov;
+      }
+
+      console.log("Calling cameraService.updateFront with backendCamera:", backendCamera);
+      this.cameraService.updateFront(backendCamera, this.Name).subscribe();
+    }
   }
 
   ngOnInit(): void {
