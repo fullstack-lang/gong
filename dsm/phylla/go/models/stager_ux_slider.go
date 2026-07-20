@@ -108,8 +108,8 @@ func (stager *Stager) ux_slider() {
 				stager,
 				"2D Separation",
 				0.0,
-				0.4,
-				0.01,
+				0.1,
+				0.002,
 				&plant.RelativeCuttedStackFloorHeight,
 			),
 		)

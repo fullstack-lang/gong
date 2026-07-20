@@ -64,6 +64,9 @@ export class CameraUpdaterDirective implements OnChanges {
         if ('fov' in camera) {
           (camera as any).fov = this.cam.Fov || 50;
         }
+        if ('far' in camera) {
+          (camera as any).far = 100000;
+        }
 
         camera.updateProjectionMatrix();
       }
