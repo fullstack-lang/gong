@@ -39,6 +39,10 @@ type Plant struct {
 	// RelativeCuttedStackFloorHeight x RhombusSideLength is the distance between each ribbon
 	RelativeCuttedStackFloorHeight float64
 
+	// 3D rotated torus stack on top of another, with 	 rotation
+	// RelativeRotatedTorusSeparation x RhombusSideLength is an additionnal distance between each ribbon
+	RelativeRotatedTorusSeparation float64
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
