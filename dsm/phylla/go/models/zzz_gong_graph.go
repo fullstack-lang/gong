@@ -1674,12 +1674,6 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.TopStackOfRotatedGrowthCurve2D != nil {
 		StageBranch(stage, plant.TopStackOfRotatedGrowthCurve2D)
 	}
-	if plant.ShiftedLeftStackOfGrowthCurve != nil {
-		StageBranch(stage, plant.ShiftedLeftStackOfGrowthCurve)
-	}
-	if plant.ShiftedLeftStackOfNormalVector != nil {
-		StageBranch(stage, plant.ShiftedLeftStackOfNormalVector)
-	}
 	if plant.GrowthCurve2D != nil {
 		StageBranch(stage, plant.GrowthCurve2D)
 	}
@@ -3396,12 +3390,6 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	}
 	if plantFrom.TopStackOfRotatedGrowthCurve2D != nil {
 		plantTo.TopStackOfRotatedGrowthCurve2D = CopyBranchTopStackOfRotatedGrowthCurve2D(mapOrigCopy, plantFrom.TopStackOfRotatedGrowthCurve2D)
-	}
-	if plantFrom.ShiftedLeftStackOfGrowthCurve != nil {
-		plantTo.ShiftedLeftStackOfGrowthCurve = CopyBranchShiftedLeftStackOfGrowthCurve(mapOrigCopy, plantFrom.ShiftedLeftStackOfGrowthCurve)
-	}
-	if plantFrom.ShiftedLeftStackOfNormalVector != nil {
-		plantTo.ShiftedLeftStackOfNormalVector = CopyBranchShiftedLeftStackOfNormalVector(mapOrigCopy, plantFrom.ShiftedLeftStackOfNormalVector)
 	}
 	if plantFrom.GrowthCurve2D != nil {
 		plantTo.GrowthCurve2D = CopyBranchGrowthCurve2D(mapOrigCopy, plantFrom.GrowthCurve2D)
@@ -5126,12 +5114,6 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.TopStackOfRotatedGrowthCurve2D != nil {
 		UnstageBranch(stage, plant.TopStackOfRotatedGrowthCurve2D)
 	}
-	if plant.ShiftedLeftStackOfGrowthCurve != nil {
-		UnstageBranch(stage, plant.ShiftedLeftStackOfGrowthCurve)
-	}
-	if plant.ShiftedLeftStackOfNormalVector != nil {
-		UnstageBranch(stage, plant.ShiftedLeftStackOfNormalVector)
-	}
 	if plant.GrowthCurve2D != nil {
 		UnstageBranch(stage, plant.GrowthCurve2D)
 	}
@@ -6194,12 +6176,6 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.TopStackOfRotatedGrowthCurve2D != nil {
 		reference.TopStackOfRotatedGrowthCurve2D = stage.TopStackOfRotatedGrowthCurve2Ds_reference[instance.TopStackOfRotatedGrowthCurve2D]
 	}
-	if instance.ShiftedLeftStackOfGrowthCurve != nil {
-		reference.ShiftedLeftStackOfGrowthCurve = stage.ShiftedLeftStackOfGrowthCurves_reference[instance.ShiftedLeftStackOfGrowthCurve]
-	}
-	if instance.ShiftedLeftStackOfNormalVector != nil {
-		reference.ShiftedLeftStackOfNormalVector = stage.ShiftedLeftStackOfNormalVectors_reference[instance.ShiftedLeftStackOfNormalVector]
-	}
 	if instance.GrowthCurve2D != nil {
 		reference.GrowthCurve2D = stage.GrowthCurve2Ds_reference[instance.GrowthCurve2D]
 	}
@@ -6920,18 +6896,6 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.TopStackOfRotatedGrowthCurve2D = nil
 		if _instance, ok := stage.TopStackOfRotatedGrowthCurve2Ds_instance[_reference]; ok {
 			reference.TopStackOfRotatedGrowthCurve2D = _instance
-		}
-	}
-	if _reference := reference.ShiftedLeftStackOfGrowthCurve; _reference != nil {
-		reference.ShiftedLeftStackOfGrowthCurve = nil
-		if _instance, ok := stage.ShiftedLeftStackOfGrowthCurves_instance[_reference]; ok {
-			reference.ShiftedLeftStackOfGrowthCurve = _instance
-		}
-	}
-	if _reference := reference.ShiftedLeftStackOfNormalVector; _reference != nil {
-		reference.ShiftedLeftStackOfNormalVector = nil
-		if _instance, ok := stage.ShiftedLeftStackOfNormalVectors_instance[_reference]; ok {
-			reference.ShiftedLeftStackOfNormalVector = _instance
 		}
 	}
 	if _reference := reference.GrowthCurve2D; _reference != nil {
@@ -8333,20 +8297,6 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	} else if plant.TopStackOfRotatedGrowthCurve2D != nil && plantOther.TopStackOfRotatedGrowthCurve2D != nil {
 		if plant.TopStackOfRotatedGrowthCurve2D != plantOther.TopStackOfRotatedGrowthCurve2D {
 			diffs = append(diffs, plant.GongMarshallField(stage, "TopStackOfRotatedGrowthCurve2D"))
-		}
-	}
-	if (plant.ShiftedLeftStackOfGrowthCurve == nil) != (plantOther.ShiftedLeftStackOfGrowthCurve == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedLeftStackOfGrowthCurve"))
-	} else if plant.ShiftedLeftStackOfGrowthCurve != nil && plantOther.ShiftedLeftStackOfGrowthCurve != nil {
-		if plant.ShiftedLeftStackOfGrowthCurve != plantOther.ShiftedLeftStackOfGrowthCurve {
-			diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedLeftStackOfGrowthCurve"))
-		}
-	}
-	if (plant.ShiftedLeftStackOfNormalVector == nil) != (plantOther.ShiftedLeftStackOfNormalVector == nil) {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedLeftStackOfNormalVector"))
-	} else if plant.ShiftedLeftStackOfNormalVector != nil && plantOther.ShiftedLeftStackOfNormalVector != nil {
-		if plant.ShiftedLeftStackOfNormalVector != plantOther.ShiftedLeftStackOfNormalVector {
-			diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedLeftStackOfNormalVector"))
 		}
 	}
 	if (plant.GrowthCurve2D == nil) != (plantOther.GrowthCurve2D == nil) {

@@ -217,24 +217,6 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.StackOfGrowthCurve2DRibbon != nil {
 			needCommit = enforceStackOfGrowthCurve2DRibbonHasShapes(stage, plant.StackOfGrowthCurve2DRibbon, plant.StackOfGrowthCurve2D, plant.TopStackOfGrowthCurve2D) || needCommit
 		}
-		if plant.ShiftedLeftStackOfNormalVector == nil {
-			plant.ShiftedLeftStackOfNormalVector = new(ShiftedLeftStackOfNormalVector).Stage(stage)
-			plant.ShiftedLeftStackOfNormalVector.Name = plant.Name + "-ShiftedLeftStackOfNormalVector"
-			needCommit = true
-		}
-		{
-			needCommit = enforceShiftedLeftStackOfNormalVectorHasShapes(stage, plant.ShiftedLeftStackOfNormalVector, plant.ArcNormalVectorShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
-		}
-		if plant.ShiftedLeftStackOfGrowthCurve == nil {
-			plant.ShiftedLeftStackOfGrowthCurve = new(ShiftedLeftStackOfGrowthCurve).Stage(stage)
-			plant.ShiftedLeftStackOfGrowthCurve.Name = plant.Name + "-ShiftedLeftStackOfGrowthCurve"
-			needCommit = true
-		}
-		{
-			needCommit = enforceShiftedLeftStackOfGrowthCurveV2HasShapes(stage, plant.ShiftedLeftStackOfGrowthCurve, plant.StartHalfwayArcShapeGrid, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, plant.RelativeVerticalThickness*plant.RhombusSideLength) || needCommit
-		}
-		{
-		}
 	}
 	return
 }

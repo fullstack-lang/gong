@@ -1410,10 +1410,6 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
 	case "TopStackOfRotatedGrowthCurve2D":
 		GongUnmarshallPointer(&instance.TopStackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
-	case "ShiftedLeftStackOfGrowthCurve":
-		GongUnmarshallPointer(&instance.ShiftedLeftStackOfGrowthCurve, valueExpr, identifierMap)
-	case "ShiftedLeftStackOfNormalVector":
-		GongUnmarshallPointer(&instance.ShiftedLeftStackOfNormalVector, valueExpr, identifierMap)
 	case "GrowthCurve2D":
 		GongUnmarshallPointer(&instance.GrowthCurve2D, valueExpr, identifierMap)
 	case "TopGrowthCurve2D":

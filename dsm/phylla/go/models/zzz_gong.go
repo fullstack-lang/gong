@@ -14066,10 +14066,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StackOfRotatedGrowthCurve2D: &StackOfRotatedGrowthCurve2D{Name: "StackOfRotatedGrowthCurve2D"},
 			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2D with the name of the field
 			TopStackOfRotatedGrowthCurve2D: &TopStackOfRotatedGrowthCurve2D{Name: "TopStackOfRotatedGrowthCurve2D"},
-			// field is initialized with an instance of ShiftedLeftStackOfGrowthCurve with the name of the field
-			ShiftedLeftStackOfGrowthCurve: &ShiftedLeftStackOfGrowthCurve{Name: "ShiftedLeftStackOfGrowthCurve"},
-			// field is initialized with an instance of ShiftedLeftStackOfNormalVector with the name of the field
-			ShiftedLeftStackOfNormalVector: &ShiftedLeftStackOfNormalVector{Name: "ShiftedLeftStackOfNormalVector"},
 			// field is initialized with an instance of GrowthCurve2D with the name of the field
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
 			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
@@ -14856,40 +14852,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[topstackofrotatedgrowthcurve2d_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftStackOfGrowthCurve":
-			res := make(map[*ShiftedLeftStackOfGrowthCurve][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedLeftStackOfGrowthCurve != nil {
-					shiftedleftstackofgrowthcurve_ := plant.ShiftedLeftStackOfGrowthCurve
-					var plants []*Plant
-					_, ok := res[shiftedleftstackofgrowthcurve_]
-					if ok {
-						plants = res[shiftedleftstackofgrowthcurve_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[shiftedleftstackofgrowthcurve_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftStackOfNormalVector":
-			res := make(map[*ShiftedLeftStackOfNormalVector][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedLeftStackOfNormalVector != nil {
-					shiftedleftstackofnormalvector_ := plant.ShiftedLeftStackOfNormalVector
-					var plants []*Plant
-					_, ok := res[shiftedleftstackofnormalvector_]
-					if ok {
-						plants = res[shiftedleftstackofnormalvector_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[shiftedleftstackofnormalvector_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -17321,16 +17283,6 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "TopStackOfRotatedGrowthCurve2D",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TopStackOfRotatedGrowthCurve2D",
-		},
-		{
-			Name:                 "ShiftedLeftStackOfGrowthCurve",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftStackOfGrowthCurve",
-		},
-		{
-			Name:                 "ShiftedLeftStackOfNormalVector",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftStackOfNormalVector",
 		},
 		{
 			Name:                 "GrowthCurve2D",
@@ -19878,18 +19830,6 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		if plant.TopStackOfRotatedGrowthCurve2D != nil {
 			res.valueString = plant.TopStackOfRotatedGrowthCurve2D.Name
 			res.ids = plant.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "ShiftedLeftStackOfGrowthCurve":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedLeftStackOfGrowthCurve != nil {
-			res.valueString = plant.ShiftedLeftStackOfGrowthCurve.Name
-			res.ids = plant.ShiftedLeftStackOfGrowthCurve.GongGetUUID(stage)
-		}
-	case "ShiftedLeftStackOfNormalVector":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedLeftStackOfNormalVector != nil {
-			res.valueString = plant.ShiftedLeftStackOfNormalVector.Name
-			res.ids = plant.ShiftedLeftStackOfNormalVector.GongGetUUID(stage)
 		}
 	case "GrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -22503,28 +22443,6 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
 				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
 					plant.TopStackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftStackOfGrowthCurve":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedLeftStackOfGrowthCurve = nil
-			for __instance__ := range stage.ShiftedLeftStackOfGrowthCurves {
-				if stage.ShiftedLeftStackOfGrowthCurve_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedLeftStackOfGrowthCurve = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftStackOfNormalVector":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedLeftStackOfNormalVector = nil
-			for __instance__ := range stage.ShiftedLeftStackOfNormalVectors {
-				if stage.ShiftedLeftStackOfNormalVector_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedLeftStackOfNormalVector = __instance__
 					break
 				}
 			}
