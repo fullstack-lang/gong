@@ -447,7 +447,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n19 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n14 || n15 || n16 || n17 || n18 || n19
+	n20 := enforcePlantHasShape[*StackOfRotatedGrowthCurve2DRibbon](
+		stager,
+		func() *StackOfRotatedGrowthCurve2DRibbon { return new(StackOfRotatedGrowthCurve2DRibbon) },
+		func(p *Plant) *StackOfRotatedGrowthCurve2DRibbon { return p.StackOfRotatedGrowthCurve2DRibbon },
+		func(p *Plant, shape *StackOfRotatedGrowthCurve2DRibbon) { p.StackOfRotatedGrowthCurve2DRibbon = shape },
+		func(p *Plant, shape *StackOfRotatedGrowthCurve2DRibbon) bool {
+			return p.StackOfRotatedGrowthCurve2DRibbon == shape
+		},
+		"StackOfRotatedGrowthCurve2DRibbon",
+	)
+	needCommit = n20 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n14 || n15 || n16 || n17 || n18 || n19 || n20
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -606,7 +618,14 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n14 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14
+	n15 := enforcePlantShapeName[*StackOfRotatedGrowthCurve2DRibbon](
+		stager,
+		func(p *Plant) *StackOfRotatedGrowthCurve2DRibbon { return p.StackOfRotatedGrowthCurve2DRibbon },
+		"StackOfRotatedGrowthCurve2DRibbon",
+	)
+	needCommit = n15 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed

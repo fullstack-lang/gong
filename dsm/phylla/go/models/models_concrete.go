@@ -609,3 +609,47 @@ type StackGrowthCurve2DRibbonEndShape struct {
 	TopLargeArcFlag        bool
 	TopSweepFlag           bool
 }
+
+// StackOfRotatedGrowthCurve2DRibbon of a plant,
+type StackOfRotatedGrowthCurve2DRibbon struct {
+	Name string
+
+	StackRotatedGrowthCurve2DRibbonStartShapes []*StackRotatedGrowthCurve2DRibbonStartShape
+	StackRotatedGrowthCurve2DRibbonEndShapes   []*StackRotatedGrowthCurve2DRibbonEndShape
+}
+
+type StackRotatedGrowthCurve2DRibbonStartShape struct {
+	Name string
+
+	BottomStartX, BottomStartY   float64
+	BottomEndX, BottomEndY       float64
+	BottomRadiusX, BottomRadiusY float64
+	BottomXAxisRotation          float64
+	BottomLargeArcFlag           bool
+	BottomSweepFlag              bool
+
+	TopStartX, TopStartY   float64
+	TopEndX, TopEndY       float64
+	TopRadiusX, TopRadiusY float64
+	TopXAxisRotation       float64
+	TopLargeArcFlag        bool
+	TopSweepFlag           bool
+}
+
+type StackRotatedGrowthCurve2DRibbonEndShape struct {
+	Name string
+
+	BottomStartX, BottomStartY   float64
+	BottomEndX, BottomEndY       float64
+	BottomRadiusX, BottomRadiusY float64
+	BottomXAxisRotation          float64
+	BottomLargeArcFlag           bool
+	BottomSweepFlag              bool
+
+	TopStartX, TopStartY   float64
+	TopEndX, TopEndY       float64
+	TopRadiusX, TopRadiusY float64
+	TopXAxisRotation       float64
+	TopLargeArcFlag        bool
+	TopSweepFlag           bool
+}

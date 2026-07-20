@@ -3036,6 +3036,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.TopStackOfGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurve2DRibbon":
 			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfRotatedGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(plant_.StackOfRotatedGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3327,6 +3329,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStackOfGrowthCurve2D), formDiv)
 		case "IsHiddenStackOfGrowthCurve2DRibbon":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfRotatedGrowthCurve2DRibbon), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":
@@ -5870,6 +5874,148 @@ func (stackofrotatedgrowthcurve2dFormCallback *StackOfRotatedGrowthCurve2DFormCa
 
 	stackofrotatedgrowthcurve2dFormCallback.probe.ux_tree()
 }
+func __gong__New__StackOfRotatedGrowthCurve2DRibbonFormCallback(
+	stackofrotatedgrowthcurve2dribbon *models.StackOfRotatedGrowthCurve2DRibbon,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackofrotatedgrowthcurve2dribbonFormCallback *StackOfRotatedGrowthCurve2DRibbonFormCallback) {
+	stackofrotatedgrowthcurve2dribbonFormCallback = new(StackOfRotatedGrowthCurve2DRibbonFormCallback)
+	stackofrotatedgrowthcurve2dribbonFormCallback.probe = probe
+	stackofrotatedgrowthcurve2dribbonFormCallback.stackofrotatedgrowthcurve2dribbon = stackofrotatedgrowthcurve2dribbon
+	stackofrotatedgrowthcurve2dribbonFormCallback.formGroup = formGroup
+
+	stackofrotatedgrowthcurve2dribbonFormCallback.CreationMode = (stackofrotatedgrowthcurve2dribbon == nil)
+
+	return
+}
+
+type StackOfRotatedGrowthCurve2DRibbonFormCallback struct {
+	stackofrotatedgrowthcurve2dribbon *models.StackOfRotatedGrowthCurve2DRibbon
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stackofrotatedgrowthcurve2dribbonFormCallback *StackOfRotatedGrowthCurve2DRibbonFormCallback) OnSave() {
+	stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.Lock()
+	defer stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StackOfRotatedGrowthCurve2DRibbonFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stackofrotatedgrowthcurve2dribbonFormCallback.probe.formStage.Checkout()
+
+	if stackofrotatedgrowthcurve2dribbonFormCallback.stackofrotatedgrowthcurve2dribbon == nil {
+		stackofrotatedgrowthcurve2dribbonFormCallback.stackofrotatedgrowthcurve2dribbon = new(models.StackOfRotatedGrowthCurve2DRibbon).Stage(stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+	}
+	stackofrotatedgrowthcurve2dribbon_ := stackofrotatedgrowthcurve2dribbonFormCallback.stackofrotatedgrowthcurve2dribbon
+	_ = stackofrotatedgrowthcurve2dribbon_
+
+	for _, formDiv := range stackofrotatedgrowthcurve2dribbonFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stackofrotatedgrowthcurve2dribbon_.Name), formDiv)
+		case "StackRotatedGrowthCurve2DRibbonStartShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DRibbonStartShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.StackRotatedGrowthCurve2DRibbonStartShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.StackRotatedGrowthCurve2DRibbonStartShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.StackRotatedGrowthCurve2DRibbonStartShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			stackofrotatedgrowthcurve2dribbon_.StackRotatedGrowthCurve2DRibbonStartShapes = instanceSlice
+			stackofrotatedgrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(stackofrotatedgrowthcurve2dribbon_, "StackRotatedGrowthCurve2DRibbonStartShapes", &stackofrotatedgrowthcurve2dribbon_.StackRotatedGrowthCurve2DRibbonStartShapes)
+
+		case "StackRotatedGrowthCurve2DRibbonEndShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StackRotatedGrowthCurve2DRibbonEndShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.StackRotatedGrowthCurve2DRibbonEndShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.StackRotatedGrowthCurve2DRibbonEndShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.StackRotatedGrowthCurve2DRibbonEndShape](stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			stackofrotatedgrowthcurve2dribbon_.StackRotatedGrowthCurve2DRibbonEndShapes = instanceSlice
+			stackofrotatedgrowthcurve2dribbonFormCallback.probe.UpdateSliceOfPointersCallback(stackofrotatedgrowthcurve2dribbon_, "StackRotatedGrowthCurve2DRibbonEndShapes", &stackofrotatedgrowthcurve2dribbon_.StackRotatedGrowthCurve2DRibbonEndShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if stackofrotatedgrowthcurve2dribbonFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackofrotatedgrowthcurve2dribbon_.Unstage(stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest)
+	}
+
+	stackofrotatedgrowthcurve2dribbonFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StackOfRotatedGrowthCurve2DRibbon](
+		stackofrotatedgrowthcurve2dribbonFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stackofrotatedgrowthcurve2dribbonFormCallback.CreationMode || stackofrotatedgrowthcurve2dribbonFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackofrotatedgrowthcurve2dribbonFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stackofrotatedgrowthcurve2dribbonFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StackOfRotatedGrowthCurve2DRibbonFormCallback(
+			nil,
+			stackofrotatedgrowthcurve2dribbonFormCallback.probe,
+			newFormGroup,
+		)
+		stackofrotatedgrowthcurve2dribbon := new(models.StackOfRotatedGrowthCurve2DRibbon)
+		FillUpForm(stackofrotatedgrowthcurve2dribbon, newFormGroup, stackofrotatedgrowthcurve2dribbonFormCallback.probe)
+		stackofrotatedgrowthcurve2dribbonFormCallback.probe.formStage.Commit()
+	}
+
+	stackofrotatedgrowthcurve2dribbonFormCallback.probe.ux_tree()
+}
 func __gong__New__StackRotatedGrowthCurve2DEndArcShapeFormCallback(
 	stackrotatedgrowthcurve2dendarcshape *models.StackRotatedGrowthCurve2DEndArcShape,
 	probe *Probe,
@@ -6010,6 +6156,324 @@ func (stackrotatedgrowthcurve2dendarcshapeFormCallback *StackRotatedGrowthCurve2
 	}
 
 	stackrotatedgrowthcurve2dendarcshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__StackRotatedGrowthCurve2DRibbonEndShapeFormCallback(
+	stackrotatedgrowthcurve2dribbonendshape *models.StackRotatedGrowthCurve2DRibbonEndShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackrotatedgrowthcurve2dribbonendshapeFormCallback *StackRotatedGrowthCurve2DRibbonEndShapeFormCallback) {
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback = new(StackRotatedGrowthCurve2DRibbonEndShapeFormCallback)
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe = probe
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.stackrotatedgrowthcurve2dribbonendshape = stackrotatedgrowthcurve2dribbonendshape
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.formGroup = formGroup
+
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.CreationMode = (stackrotatedgrowthcurve2dribbonendshape == nil)
+
+	return
+}
+
+type StackRotatedGrowthCurve2DRibbonEndShapeFormCallback struct {
+	stackrotatedgrowthcurve2dribbonendshape *models.StackRotatedGrowthCurve2DRibbonEndShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stackrotatedgrowthcurve2dribbonendshapeFormCallback *StackRotatedGrowthCurve2DRibbonEndShapeFormCallback) OnSave() {
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.Lock()
+	defer stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StackRotatedGrowthCurve2DRibbonEndShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.formStage.Checkout()
+
+	if stackrotatedgrowthcurve2dribbonendshapeFormCallback.stackrotatedgrowthcurve2dribbonendshape == nil {
+		stackrotatedgrowthcurve2dribbonendshapeFormCallback.stackrotatedgrowthcurve2dribbonendshape = new(models.StackRotatedGrowthCurve2DRibbonEndShape).Stage(stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest)
+	}
+	stackrotatedgrowthcurve2dribbonendshape_ := stackrotatedgrowthcurve2dribbonendshapeFormCallback.stackrotatedgrowthcurve2dribbonendshape
+	_ = stackrotatedgrowthcurve2dribbonendshape_
+
+	for _, formDiv := range stackrotatedgrowthcurve2dribbonendshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.Name), formDiv)
+		case "BottomStartX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomStartX), formDiv)
+		case "BottomStartY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomStartY), formDiv)
+		case "BottomEndX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomEndX), formDiv)
+		case "BottomEndY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomEndY), formDiv)
+		case "BottomRadiusX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomRadiusX), formDiv)
+		case "BottomRadiusY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomRadiusY), formDiv)
+		case "BottomXAxisRotation":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomXAxisRotation), formDiv)
+		case "BottomLargeArcFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomLargeArcFlag), formDiv)
+		case "BottomSweepFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.BottomSweepFlag), formDiv)
+		case "TopStartX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopStartX), formDiv)
+		case "TopStartY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopStartY), formDiv)
+		case "TopEndX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopEndX), formDiv)
+		case "TopEndY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopEndY), formDiv)
+		case "TopRadiusX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopRadiusX), formDiv)
+		case "TopRadiusY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopRadiusY), formDiv)
+		case "TopXAxisRotation":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopXAxisRotation), formDiv)
+		case "TopLargeArcFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopLargeArcFlag), formDiv)
+		case "TopSweepFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonendshape_.TopSweepFlag), formDiv)
+		case "StackOfRotatedGrowthCurve2DRibbon:StackRotatedGrowthCurve2DRibbonEndShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfRotatedGrowthCurve2DRibbon instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target StackOfRotatedGrowthCurve2DRibbon instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.StackOfRotatedGrowthCurve2DRibbon](stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest)
+			targetStackOfRotatedGrowthCurve2DRibbonIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetStackOfRotatedGrowthCurve2DRibbonIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all StackOfRotatedGrowthCurve2DRibbon instances and update their StackRotatedGrowthCurve2DRibbonEndShapes slice
+			for _stackofrotatedgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfRotatedGrowthCurve2DRibbon](stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest, _stackofrotatedgrowthcurve2dribbon)
+				
+				// if StackOfRotatedGrowthCurve2DRibbon is selected
+				if targetStackOfRotatedGrowthCurve2DRibbonIDs[id] {
+					// ensure stackrotatedgrowthcurve2dribbonendshape_ is in _stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes
+					found := false
+					for _, _b := range _stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes {
+						if _b == stackrotatedgrowthcurve2dribbonendshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes = append(_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes, stackrotatedgrowthcurve2dribbonendshape_)
+						stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stackofrotatedgrowthcurve2dribbon, "StackRotatedGrowthCurve2DRibbonEndShapes", &_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes)
+					}
+				} else {
+					// ensure stackrotatedgrowthcurve2dribbonendshape_ is NOT in _stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes
+					idx := slices.Index(_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes, stackrotatedgrowthcurve2dribbonendshape_)
+					if idx != -1 {
+						_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes = slices.Delete(_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes, idx, idx+1)
+						stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stackofrotatedgrowthcurve2dribbon, "StackRotatedGrowthCurve2DRibbonEndShapes", &_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if stackrotatedgrowthcurve2dribbonendshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackrotatedgrowthcurve2dribbonendshape_.Unstage(stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest)
+	}
+
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StackRotatedGrowthCurve2DRibbonEndShape](
+		stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stackrotatedgrowthcurve2dribbonendshapeFormCallback.CreationMode || stackrotatedgrowthcurve2dribbonendshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StackRotatedGrowthCurve2DRibbonEndShapeFormCallback(
+			nil,
+			stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe,
+			newFormGroup,
+		)
+		stackrotatedgrowthcurve2dribbonendshape := new(models.StackRotatedGrowthCurve2DRibbonEndShape)
+		FillUpForm(stackrotatedgrowthcurve2dribbonendshape, newFormGroup, stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe)
+		stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.formStage.Commit()
+	}
+
+	stackrotatedgrowthcurve2dribbonendshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__StackRotatedGrowthCurve2DRibbonStartShapeFormCallback(
+	stackrotatedgrowthcurve2dribbonstartshape *models.StackRotatedGrowthCurve2DRibbonStartShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackrotatedgrowthcurve2dribbonstartshapeFormCallback *StackRotatedGrowthCurve2DRibbonStartShapeFormCallback) {
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback = new(StackRotatedGrowthCurve2DRibbonStartShapeFormCallback)
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe = probe
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.stackrotatedgrowthcurve2dribbonstartshape = stackrotatedgrowthcurve2dribbonstartshape
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.formGroup = formGroup
+
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.CreationMode = (stackrotatedgrowthcurve2dribbonstartshape == nil)
+
+	return
+}
+
+type StackRotatedGrowthCurve2DRibbonStartShapeFormCallback struct {
+	stackrotatedgrowthcurve2dribbonstartshape *models.StackRotatedGrowthCurve2DRibbonStartShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stackrotatedgrowthcurve2dribbonstartshapeFormCallback *StackRotatedGrowthCurve2DRibbonStartShapeFormCallback) OnSave() {
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.Lock()
+	defer stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StackRotatedGrowthCurve2DRibbonStartShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.formStage.Checkout()
+
+	if stackrotatedgrowthcurve2dribbonstartshapeFormCallback.stackrotatedgrowthcurve2dribbonstartshape == nil {
+		stackrotatedgrowthcurve2dribbonstartshapeFormCallback.stackrotatedgrowthcurve2dribbonstartshape = new(models.StackRotatedGrowthCurve2DRibbonStartShape).Stage(stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest)
+	}
+	stackrotatedgrowthcurve2dribbonstartshape_ := stackrotatedgrowthcurve2dribbonstartshapeFormCallback.stackrotatedgrowthcurve2dribbonstartshape
+	_ = stackrotatedgrowthcurve2dribbonstartshape_
+
+	for _, formDiv := range stackrotatedgrowthcurve2dribbonstartshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.Name), formDiv)
+		case "BottomStartX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomStartX), formDiv)
+		case "BottomStartY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomStartY), formDiv)
+		case "BottomEndX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomEndX), formDiv)
+		case "BottomEndY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomEndY), formDiv)
+		case "BottomRadiusX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomRadiusX), formDiv)
+		case "BottomRadiusY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomRadiusY), formDiv)
+		case "BottomXAxisRotation":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomXAxisRotation), formDiv)
+		case "BottomLargeArcFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomLargeArcFlag), formDiv)
+		case "BottomSweepFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.BottomSweepFlag), formDiv)
+		case "TopStartX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopStartX), formDiv)
+		case "TopStartY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopStartY), formDiv)
+		case "TopEndX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopEndX), formDiv)
+		case "TopEndY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopEndY), formDiv)
+		case "TopRadiusX":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopRadiusX), formDiv)
+		case "TopRadiusY":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopRadiusY), formDiv)
+		case "TopXAxisRotation":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopXAxisRotation), formDiv)
+		case "TopLargeArcFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopLargeArcFlag), formDiv)
+		case "TopSweepFlag":
+			FormDivBasicFieldToField(&(stackrotatedgrowthcurve2dribbonstartshape_.TopSweepFlag), formDiv)
+		case "StackOfRotatedGrowthCurve2DRibbon:StackRotatedGrowthCurve2DRibbonStartShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the StackOfRotatedGrowthCurve2DRibbon instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target StackOfRotatedGrowthCurve2DRibbon instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.StackOfRotatedGrowthCurve2DRibbon](stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest)
+			targetStackOfRotatedGrowthCurve2DRibbonIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetStackOfRotatedGrowthCurve2DRibbonIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all StackOfRotatedGrowthCurve2DRibbon instances and update their StackRotatedGrowthCurve2DRibbonStartShapes slice
+			for _stackofrotatedgrowthcurve2dribbon := range *models.GetGongstructInstancesSetFromPointerType[*models.StackOfRotatedGrowthCurve2DRibbon](stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest, _stackofrotatedgrowthcurve2dribbon)
+				
+				// if StackOfRotatedGrowthCurve2DRibbon is selected
+				if targetStackOfRotatedGrowthCurve2DRibbonIDs[id] {
+					// ensure stackrotatedgrowthcurve2dribbonstartshape_ is in _stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes
+					found := false
+					for _, _b := range _stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes {
+						if _b == stackrotatedgrowthcurve2dribbonstartshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes = append(_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes, stackrotatedgrowthcurve2dribbonstartshape_)
+						stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stackofrotatedgrowthcurve2dribbon, "StackRotatedGrowthCurve2DRibbonStartShapes", &_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes)
+					}
+				} else {
+					// ensure stackrotatedgrowthcurve2dribbonstartshape_ is NOT in _stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes
+					idx := slices.Index(_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes, stackrotatedgrowthcurve2dribbonstartshape_)
+					if idx != -1 {
+						_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes = slices.Delete(_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes, idx, idx+1)
+						stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stackofrotatedgrowthcurve2dribbon, "StackRotatedGrowthCurve2DRibbonStartShapes", &_stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if stackrotatedgrowthcurve2dribbonstartshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackrotatedgrowthcurve2dribbonstartshape_.Unstage(stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest)
+	}
+
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StackRotatedGrowthCurve2DRibbonStartShape](
+		stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stackrotatedgrowthcurve2dribbonstartshapeFormCallback.CreationMode || stackrotatedgrowthcurve2dribbonstartshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StackRotatedGrowthCurve2DRibbonStartShapeFormCallback(
+			nil,
+			stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe,
+			newFormGroup,
+		)
+		stackrotatedgrowthcurve2dribbonstartshape := new(models.StackRotatedGrowthCurve2DRibbonStartShape)
+		FillUpForm(stackrotatedgrowthcurve2dribbonstartshape, newFormGroup, stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe)
+		stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.formStage.Commit()
+	}
+
+	stackrotatedgrowthcurve2dribbonstartshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__StackRotatedGrowthCurve2DStartArcShapeFormCallback(
 	stackrotatedgrowthcurve2dstartarcshape *models.StackRotatedGrowthCurve2DStartArcShape,
