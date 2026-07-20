@@ -617,6 +617,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StackOfPartiallyRotatedGrowthCurve2DRibbon:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StackOfPartiallyRotatedGrowthCurve2DRibbon",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackOfPartiallyRotatedGrowthCurve2DRibbonFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.StackOfRotatedGrowthCurve2D:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -637,6 +650,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "StackOfRotatedGrowthCurve2DRibbon",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__StackOfRotatedGrowthCurve2DRibbonFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StackPartiallyRotatedGrowthCurve2DRibbonEndShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StackPartiallyRotatedGrowthCurve2DRibbonEndShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackPartiallyRotatedGrowthCurve2DRibbonEndShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.StackPartiallyRotatedGrowthCurve2DRibbonStartShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "StackPartiallyRotatedGrowthCurve2DRibbonStartShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StackPartiallyRotatedGrowthCurve2DRibbonStartShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

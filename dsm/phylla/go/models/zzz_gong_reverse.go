@@ -563,6 +563,15 @@ func (inst *StackOfGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stag
 	return
 }
 
+func (inst *StackOfPartiallyRotatedGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *StackOfRotatedGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -577,6 +586,38 @@ func (inst *StackOfRotatedGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stag
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	}
+	return
+}
+
+func (inst *StackPartiallyRotatedGrowthCurve2DRibbonEndShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StackOfPartiallyRotatedGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "StackPartiallyRotatedGrowthCurve2DRibbonEndShapes":
+			if _stackofpartiallyrotatedgrowthcurve2dribbon, ok := stage.StackOfPartiallyRotatedGrowthCurve2DRibbon_StackPartiallyRotatedGrowthCurve2DRibbonEndShapes_reverseMap[inst]; ok {
+				res = _stackofpartiallyrotatedgrowthcurve2dribbon.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *StackPartiallyRotatedGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StackOfPartiallyRotatedGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "StackPartiallyRotatedGrowthCurve2DRibbonStartShapes":
+			if _stackofpartiallyrotatedgrowthcurve2dribbon, ok := stage.StackOfPartiallyRotatedGrowthCurve2DRibbon_StackPartiallyRotatedGrowthCurve2DRibbonStartShapes_reverseMap[inst]; ok {
+				res = _stackofpartiallyrotatedgrowthcurve2dribbon.Name
+			}
+		}
 	}
 	return
 }
@@ -1449,6 +1490,15 @@ func (inst *StackOfGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, r
 	return res
 }
 
+func (inst *StackOfPartiallyRotatedGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *StackOfRotatedGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -1463,6 +1513,34 @@ func (inst *StackOfRotatedGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *S
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	}
+	return res
+}
+
+func (inst *StackPartiallyRotatedGrowthCurve2DRibbonEndShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StackOfPartiallyRotatedGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "StackPartiallyRotatedGrowthCurve2DRibbonEndShapes":
+			res = stage.StackOfPartiallyRotatedGrowthCurve2DRibbon_StackPartiallyRotatedGrowthCurve2DRibbonEndShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *StackPartiallyRotatedGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "StackOfPartiallyRotatedGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "StackPartiallyRotatedGrowthCurve2DRibbonStartShapes":
+			res = stage.StackOfPartiallyRotatedGrowthCurve2DRibbon_StackPartiallyRotatedGrowthCurve2DRibbonStartShapes_reverseMap[inst]
+		}
 	}
 	return res
 }

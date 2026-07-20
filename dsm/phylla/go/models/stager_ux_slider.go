@@ -138,6 +138,18 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Rot Ratio",
+				0.0,
+				1.0,
+				0.01,
+				&plant.RotationRatio,
+			),
+		)
+
 	}
 
 	// Add sliders for PlantDiagram 3D view

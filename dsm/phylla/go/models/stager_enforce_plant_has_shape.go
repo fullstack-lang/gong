@@ -459,7 +459,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n20 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n14 || n15 || n16 || n17 || n18 || n19 || n20
+	n21 := enforcePlantHasShape[*StackOfPartiallyRotatedGrowthCurve2DRibbon](
+		stager,
+		func() *StackOfPartiallyRotatedGrowthCurve2DRibbon { return new(StackOfPartiallyRotatedGrowthCurve2DRibbon) },
+		func(p *Plant) *StackOfPartiallyRotatedGrowthCurve2DRibbon { return p.StackOfPartiallyRotatedGrowthCurve2DRibbon },
+		func(p *Plant, shape *StackOfPartiallyRotatedGrowthCurve2DRibbon) { p.StackOfPartiallyRotatedGrowthCurve2DRibbon = shape },
+		func(p *Plant, shape *StackOfPartiallyRotatedGrowthCurve2DRibbon) bool {
+			return p.StackOfPartiallyRotatedGrowthCurve2DRibbon == shape
+		},
+		"StackOfPartiallyRotatedGrowthCurve2DRibbon",
+	)
+	needCommit = n21 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n14 || n15 || n16 || n17 || n18 || n19 || n20 || n21
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -625,7 +637,14 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n15 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15
+	n16 := enforcePlantShapeName[*StackOfPartiallyRotatedGrowthCurve2DRibbon](
+		stager,
+		func(p *Plant) *StackOfPartiallyRotatedGrowthCurve2DRibbon { return p.StackOfPartiallyRotatedGrowthCurve2DRibbon },
+		"StackOfPartiallyRotatedGrowthCurve2DRibbon",
+	)
+	needCommit = n16 || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
