@@ -87,7 +87,7 @@ func GenerateSTL(plant *Plant) string {
 			topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
 		}
 
-		thickness := plant.RelativeRadialThickness
+		thickness := plant.RelativeRadialThickness * plant.RhombusSideLength
 		if thickness == 0 {
 			thickness = 5.0
 		}

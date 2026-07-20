@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/base64"
+	"time"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -47,7 +48,7 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DVie
 			stlContent := GenerateSTL(plant)
 
 			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stlContent))
-			fileToDownload.Name = plant.Name + ".stl"
+			fileToDownload.Name = time.Now().Format("20060102 1504 ") + "phylla-" + stager.stage.GetName() + "-" + plant.Name + ".stl"
 			stager.loadStage.Commit()
 		},
 	}
