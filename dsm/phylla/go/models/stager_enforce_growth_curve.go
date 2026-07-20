@@ -698,89 +698,205 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 		}
 	}
 
-	valid := true
-	if len(ribbonStack.StackGrowthCurve2DRibbonStartShapes) != len(expectedStart) || len(ribbonStack.StackGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
-		valid = false
-	} else {
-		for i, exp := range expectedStart {
-			r := ribbonStack.StackGrowthCurve2DRibbonStartShapes[i]
-			if r == nil || r.Name != exp.name {
-				valid = false
-				break
-			}
-			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 ||
-				math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
-				valid = false
-				break
-			}
+	if len(ribbonStack.StackGrowthCurve2DRibbonStartShapes) != len(expectedStart) {
+		for _, b := range ribbonStack.StackGrowthCurve2DRibbonStartShapes {
+			b.Unstage(stage)
 		}
+		ribbonStack.StackGrowthCurve2DRibbonStartShapes = make([]*StackGrowthCurve2DRibbonStartShape, len(expectedStart))
+		for i, exp := range expectedStart {
+			b := new(StackGrowthCurve2DRibbonStartShape).Stage(stage)
+			b.Name = exp.name
+			b.BottomStartX = exp.bottomStartX
+			b.BottomStartY = exp.bottomStartY
+			b.BottomEndX = exp.bottomEndX
+			b.BottomEndY = exp.bottomEndY
+			b.BottomRadiusX = exp.bottomRadiusX
+			b.BottomRadiusY = exp.bottomRadiusY
+			b.BottomXAxisRotation = exp.bottomXAxisRotation
+			b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			b.BottomSweepFlag = exp.bottomSweepFlag
+
+			b.TopStartX = exp.topStartX
+			b.TopStartY = exp.topStartY
+			b.TopEndX = exp.topEndX
+			b.TopEndY = exp.topEndY
+			b.TopRadiusX = exp.topRadiusX
+			b.TopRadiusY = exp.topRadiusY
+			b.TopXAxisRotation = exp.topXAxisRotation
+			b.TopLargeArcFlag = exp.topLargeArcFlag
+			b.TopSweepFlag = exp.topSweepFlag
+
+			ribbonStack.StackGrowthCurve2DRibbonStartShapes[i] = b
+		}
+		needCommit = true
+	}
+
+	if len(ribbonStack.StackGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
+		for _, b := range ribbonStack.StackGrowthCurve2DRibbonEndShapes {
+			b.Unstage(stage)
+		}
+		ribbonStack.StackGrowthCurve2DRibbonEndShapes = make([]*StackGrowthCurve2DRibbonEndShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			r := ribbonStack.StackGrowthCurve2DRibbonEndShapes[i]
-			if r == nil || r.Name != exp.name {
-				valid = false
-				break
-			}
-			if math.Abs(r.BottomStartX-exp.bottomStartX) > 1e-4 || math.Abs(r.TopStartX-exp.topStartX) > 1e-4 ||
-				math.Abs(r.BottomStartY-exp.bottomStartY) > 1e-4 || math.Abs(r.TopStartY-exp.topStartY) > 1e-4 {
-				valid = false
-				break
-			}
+			b := new(StackGrowthCurve2DRibbonEndShape).Stage(stage)
+			b.Name = exp.name
+			b.BottomStartX = exp.bottomStartX
+			b.BottomStartY = exp.bottomStartY
+			b.BottomEndX = exp.bottomEndX
+			b.BottomEndY = exp.bottomEndY
+			b.BottomRadiusX = exp.bottomRadiusX
+			b.BottomRadiusY = exp.bottomRadiusY
+			b.BottomXAxisRotation = exp.bottomXAxisRotation
+			b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			b.BottomSweepFlag = exp.bottomSweepFlag
+
+			b.TopStartX = exp.topStartX
+			b.TopStartY = exp.topStartY
+			b.TopEndX = exp.topEndX
+			b.TopEndY = exp.topEndY
+			b.TopRadiusX = exp.topRadiusX
+			b.TopRadiusY = exp.topRadiusY
+			b.TopXAxisRotation = exp.topXAxisRotation
+			b.TopLargeArcFlag = exp.topLargeArcFlag
+			b.TopSweepFlag = exp.topSweepFlag
+
+			ribbonStack.StackGrowthCurve2DRibbonEndShapes[i] = b
+		}
+		needCommit = true
+	}
+
+	return needCommit
+}
+
+func enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(
+	stage *Stage,
+	ribbonStack *StackOfRotatedGrowthCurve2DRibbon,
+	bottomStack *StackOfRotatedGrowthCurve2D,
+	topStack *TopStackOfRotatedGrowthCurve2D,
+) (needCommit bool) {
+	if bottomStack == nil || topStack == nil {
+		return false
+	}
+
+	type expectedStartShape struct {
+		name                         string
+		bottomStartX, bottomStartY   float64
+		bottomEndX, bottomEndY       float64
+		bottomRadiusX, bottomRadiusY float64
+		bottomXAxisRotation          float64
+		bottomLargeArcFlag           bool
+		bottomSweepFlag              bool
+
+		topStartX, topStartY   float64
+		topEndX, topEndY       float64
+		topRadiusX, topRadiusY float64
+		topXAxisRotation       float64
+		topLargeArcFlag        bool
+		topSweepFlag           bool
+	}
+
+	var expectedStart []expectedStartShape
+	var expectedEnd []expectedStartShape
+
+	if len(bottomStack.StackRotatedGrowthCurve2DStartArcShapes) == len(topStack.TopStackOfRotatedGrowthCurve2DStartArcShapes) &&
+		len(bottomStack.StackRotatedGrowthCurve2DEndArcShapes) == len(topStack.TopStackOfRotatedGrowthCurve2DEndArcShapes) {
+
+		for i := range bottomStack.StackRotatedGrowthCurve2DStartArcShapes {
+			b := bottomStack.StackRotatedGrowthCurve2DStartArcShapes[i]
+			t := topStack.TopStackOfRotatedGrowthCurve2DStartArcShapes[i]
+			expectedStart = append(expectedStart, expectedStartShape{
+				name:         fmt.Sprintf("%s-layer-start-%d", ribbonStack.Name, i),
+				bottomStartX: b.StartX, bottomStartY: b.StartY,
+				bottomEndX: b.EndX, bottomEndY: b.EndY,
+				bottomRadiusX: b.RadiusX, bottomRadiusY: b.RadiusY,
+				bottomXAxisRotation: b.XAxisRotation, bottomLargeArcFlag: b.LargeArcFlag, bottomSweepFlag: b.SweepFlag,
+
+				topStartX: t.StartX, topStartY: t.StartY,
+				topEndX: t.EndX, topEndY: t.EndY,
+				topRadiusX: t.RadiusX, topRadiusY: t.RadiusY,
+				topXAxisRotation: t.XAxisRotation, topLargeArcFlag: t.LargeArcFlag, topSweepFlag: t.SweepFlag,
+			})
+		}
+
+		for i := range bottomStack.StackRotatedGrowthCurve2DEndArcShapes {
+			b := bottomStack.StackRotatedGrowthCurve2DEndArcShapes[i]
+			t := topStack.TopStackOfRotatedGrowthCurve2DEndArcShapes[i]
+			expectedEnd = append(expectedEnd, expectedStartShape{
+				name:         fmt.Sprintf("%s-layer-end-%d", ribbonStack.Name, i),
+				bottomStartX: b.StartX, bottomStartY: b.StartY,
+				bottomEndX: b.EndX, bottomEndY: b.EndY,
+				bottomRadiusX: b.RadiusX, bottomRadiusY: b.RadiusY,
+				bottomXAxisRotation: b.XAxisRotation, bottomLargeArcFlag: b.LargeArcFlag, bottomSweepFlag: b.SweepFlag,
+
+				topStartX: t.StartX, topStartY: t.StartY,
+				topEndX: t.EndX, topEndY: t.EndY,
+				topRadiusX: t.RadiusX, topRadiusY: t.RadiusY,
+				topXAxisRotation: t.XAxisRotation, topLargeArcFlag: t.LargeArcFlag, topSweepFlag: t.SweepFlag,
+			})
 		}
 	}
 
-	if !valid {
-		ribbonStack.StackGrowthCurve2DRibbonStartShapes = make([]*StackGrowthCurve2DRibbonStartShape, len(expectedStart))
-		for i, exp := range expectedStart {
-			r := new(StackGrowthCurve2DRibbonStartShape).Stage(stage)
-			r.Name = exp.name
-			r.BottomStartX = exp.bottomStartX
-			r.BottomStartY = exp.bottomStartY
-			r.BottomEndX = exp.bottomEndX
-			r.BottomEndY = exp.bottomEndY
-			r.BottomRadiusX = exp.bottomRadiusX
-			r.BottomRadiusY = exp.bottomRadiusY
-			r.BottomXAxisRotation = exp.bottomXAxisRotation
-			r.BottomLargeArcFlag = exp.bottomLargeArcFlag
-			r.BottomSweepFlag = exp.bottomSweepFlag
-
-			r.TopStartX = exp.topStartX
-			r.TopStartY = exp.topStartY
-			r.TopEndX = exp.topEndX
-			r.TopEndY = exp.topEndY
-			r.TopRadiusX = exp.topRadiusX
-			r.TopRadiusY = exp.topRadiusY
-			r.TopXAxisRotation = exp.topXAxisRotation
-			r.TopLargeArcFlag = exp.topLargeArcFlag
-			r.TopSweepFlag = exp.topSweepFlag
-
-			ribbonStack.StackGrowthCurve2DRibbonStartShapes[i] = r
+	if len(ribbonStack.StackRotatedGrowthCurve2DRibbonStartShapes) != len(expectedStart) {
+		for _, b := range ribbonStack.StackRotatedGrowthCurve2DRibbonStartShapes {
+			b.Unstage(stage)
 		}
+		ribbonStack.StackRotatedGrowthCurve2DRibbonStartShapes = make([]*StackRotatedGrowthCurve2DRibbonStartShape, len(expectedStart))
+		for i, exp := range expectedStart {
+			b := new(StackRotatedGrowthCurve2DRibbonStartShape).Stage(stage)
+			b.Name = exp.name
+			b.BottomStartX = exp.bottomStartX
+			b.BottomStartY = exp.bottomStartY
+			b.BottomEndX = exp.bottomEndX
+			b.BottomEndY = exp.bottomEndY
+			b.BottomRadiusX = exp.bottomRadiusX
+			b.BottomRadiusY = exp.bottomRadiusY
+			b.BottomXAxisRotation = exp.bottomXAxisRotation
+			b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			b.BottomSweepFlag = exp.bottomSweepFlag
 
-		ribbonStack.StackGrowthCurve2DRibbonEndShapes = make([]*StackGrowthCurve2DRibbonEndShape, len(expectedEnd))
+			b.TopStartX = exp.topStartX
+			b.TopStartY = exp.topStartY
+			b.TopEndX = exp.topEndX
+			b.TopEndY = exp.topEndY
+			b.TopRadiusX = exp.topRadiusX
+			b.TopRadiusY = exp.topRadiusY
+			b.TopXAxisRotation = exp.topXAxisRotation
+			b.TopLargeArcFlag = exp.topLargeArcFlag
+			b.TopSweepFlag = exp.topSweepFlag
+
+			ribbonStack.StackRotatedGrowthCurve2DRibbonStartShapes[i] = b
+		}
+		needCommit = true
+	}
+
+	if len(ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
+		for _, b := range ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes {
+			b.Unstage(stage)
+		}
+		ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes = make([]*StackRotatedGrowthCurve2DRibbonEndShape, len(expectedEnd))
 		for i, exp := range expectedEnd {
-			r := new(StackGrowthCurve2DRibbonEndShape).Stage(stage)
-			r.Name = exp.name
-			r.BottomStartX = exp.bottomStartX
-			r.BottomStartY = exp.bottomStartY
-			r.BottomEndX = exp.bottomEndX
-			r.BottomEndY = exp.bottomEndY
-			r.BottomRadiusX = exp.bottomRadiusX
-			r.BottomRadiusY = exp.bottomRadiusY
-			r.BottomXAxisRotation = exp.bottomXAxisRotation
-			r.BottomLargeArcFlag = exp.bottomLargeArcFlag
-			r.BottomSweepFlag = exp.bottomSweepFlag
+			b := new(StackRotatedGrowthCurve2DRibbonEndShape).Stage(stage)
+			b.Name = exp.name
+			b.BottomStartX = exp.bottomStartX
+			b.BottomStartY = exp.bottomStartY
+			b.BottomEndX = exp.bottomEndX
+			b.BottomEndY = exp.bottomEndY
+			b.BottomRadiusX = exp.bottomRadiusX
+			b.BottomRadiusY = exp.bottomRadiusY
+			b.BottomXAxisRotation = exp.bottomXAxisRotation
+			b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			b.BottomSweepFlag = exp.bottomSweepFlag
 
-			r.TopStartX = exp.topStartX
-			r.TopStartY = exp.topStartY
-			r.TopEndX = exp.topEndX
-			r.TopEndY = exp.topEndY
-			r.TopRadiusX = exp.topRadiusX
-			r.TopRadiusY = exp.topRadiusY
-			r.TopXAxisRotation = exp.topXAxisRotation
-			r.TopLargeArcFlag = exp.topLargeArcFlag
-			r.TopSweepFlag = exp.topSweepFlag
+			b.TopStartX = exp.topStartX
+			b.TopStartY = exp.topStartY
+			b.TopEndX = exp.topEndX
+			b.TopEndY = exp.topEndY
+			b.TopRadiusX = exp.topRadiusX
+			b.TopRadiusY = exp.topRadiusY
+			b.TopXAxisRotation = exp.topXAxisRotation
+			b.TopLargeArcFlag = exp.topLargeArcFlag
+			b.TopSweepFlag = exp.topSweepFlag
 
-			ribbonStack.StackGrowthCurve2DRibbonEndShapes[i] = r
+			ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes[i] = b
 		}
 		needCommit = true
 	}

@@ -258,6 +258,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
 	return
 }
 
@@ -432,8 +433,31 @@ func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongClean(stage 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by StackOfRotatedGrowthCurve2DRibbon
+func (stackofrotatedgrowthcurve2dribbon *StackOfRotatedGrowthCurve2DRibbon) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonStartShapes) || modified
+	modified = GongCleanSlice(stage, &stackofrotatedgrowthcurve2dribbon.StackRotatedGrowthCurve2DRibbonEndShapes) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by StackRotatedGrowthCurve2DEndArcShape
 func (stackrotatedgrowthcurve2dendarcshape *StackRotatedGrowthCurve2DEndArcShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackRotatedGrowthCurve2DRibbonEndShape
+func (stackrotatedgrowthcurve2dribbonendshape *StackRotatedGrowthCurve2DRibbonEndShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackRotatedGrowthCurve2DRibbonStartShape
+func (stackrotatedgrowthcurve2dribbonstartshape *StackRotatedGrowthCurve2DRibbonStartShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

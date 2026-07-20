@@ -552,6 +552,7 @@ func FillUpForm(
 		AssociationFieldToForm("StackOfGrowthCurve2D", instanceWithInferedType.StackOfGrowthCurve2D, formGroup, probe)
 		AssociationFieldToForm("TopStackOfGrowthCurve2D", instanceWithInferedType.TopStackOfGrowthCurve2D, formGroup, probe)
 		AssociationFieldToForm("StackOfGrowthCurve2DRibbon", instanceWithInferedType.StackOfGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("StackOfRotatedGrowthCurve2DRibbon", instanceWithInferedType.StackOfRotatedGrowthCurve2DRibbon, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -672,6 +673,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenTopStackOfGrowthCurve2D", instanceWithInferedType.IsHiddenTopStackOfGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenStackOfGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfRotatedGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfRotatedGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenTorusStackShape", instanceWithInferedType.IsHiddenTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1205,6 +1208,18 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.StackOfRotatedGrowthCurve2DRibbon:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("StackRotatedGrowthCurve2DRibbonStartShapes", instanceWithInferedType, &instanceWithInferedType.StackRotatedGrowthCurve2DRibbonStartShapes, formGroup, probe)
+		AssociationSliceToForm("StackRotatedGrowthCurve2DRibbonEndShapes", instanceWithInferedType, &instanceWithInferedType.StackRotatedGrowthCurve2DRibbonEndShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.StackRotatedGrowthCurve2DEndArcShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1241,6 +1256,120 @@ func FillUpForm(
 				probe,
 				func(owner *models.StackOfRotatedGrowthCurve2D) []*models.StackRotatedGrowthCurve2DEndArcShape {
 					return owner.StackRotatedGrowthCurve2DEndArcShapes
+				})
+		}
+
+	case *models.StackRotatedGrowthCurve2DRibbonEndShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomStartX", instanceWithInferedType.BottomStartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomStartY", instanceWithInferedType.BottomStartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomEndX", instanceWithInferedType.BottomEndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomEndY", instanceWithInferedType.BottomEndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomRadiusX", instanceWithInferedType.BottomRadiusX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomRadiusY", instanceWithInferedType.BottomRadiusY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomXAxisRotation", instanceWithInferedType.BottomXAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomLargeArcFlag", instanceWithInferedType.BottomLargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomSweepFlag", instanceWithInferedType.BottomSweepFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopStartX", instanceWithInferedType.TopStartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopStartY", instanceWithInferedType.TopStartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopEndX", instanceWithInferedType.TopEndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopEndY", instanceWithInferedType.TopEndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopRadiusX", instanceWithInferedType.TopRadiusX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopRadiusY", instanceWithInferedType.TopRadiusY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopXAxisRotation", instanceWithInferedType.TopXAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopLargeArcFlag", instanceWithInferedType.TopLargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopSweepFlag", instanceWithInferedType.TopSweepFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.StackOfRotatedGrowthCurve2DRibbon, *models.StackRotatedGrowthCurve2DRibbonEndShape](
+				"StackOfRotatedGrowthCurve2DRibbon",
+				"StackRotatedGrowthCurve2DRibbonEndShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StackOfRotatedGrowthCurve2DRibbon) []*models.StackRotatedGrowthCurve2DRibbonEndShape {
+					return owner.StackRotatedGrowthCurve2DRibbonEndShapes
+				})
+		}
+
+	case *models.StackRotatedGrowthCurve2DRibbonStartShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomStartX", instanceWithInferedType.BottomStartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomStartY", instanceWithInferedType.BottomStartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomEndX", instanceWithInferedType.BottomEndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomEndY", instanceWithInferedType.BottomEndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomRadiusX", instanceWithInferedType.BottomRadiusX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomRadiusY", instanceWithInferedType.BottomRadiusY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomXAxisRotation", instanceWithInferedType.BottomXAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomLargeArcFlag", instanceWithInferedType.BottomLargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("BottomSweepFlag", instanceWithInferedType.BottomSweepFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopStartX", instanceWithInferedType.TopStartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopStartY", instanceWithInferedType.TopStartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopEndX", instanceWithInferedType.TopEndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopEndY", instanceWithInferedType.TopEndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopRadiusX", instanceWithInferedType.TopRadiusX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopRadiusY", instanceWithInferedType.TopRadiusY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopXAxisRotation", instanceWithInferedType.TopXAxisRotation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopLargeArcFlag", instanceWithInferedType.TopLargeArcFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("TopSweepFlag", instanceWithInferedType.TopSweepFlag, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.StackOfRotatedGrowthCurve2DRibbon, *models.StackRotatedGrowthCurve2DRibbonStartShape](
+				"StackOfRotatedGrowthCurve2DRibbon",
+				"StackRotatedGrowthCurve2DRibbonStartShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StackOfRotatedGrowthCurve2DRibbon) []*models.StackRotatedGrowthCurve2DRibbonStartShape {
+					return owner.StackRotatedGrowthCurve2DRibbonStartShapes
 				})
 		}
 

@@ -118,8 +118,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackOfGrowthCurve2DRibbon](probe)
 	case "StackOfRotatedGrowthCurve2D":
 		updateProbeTable[*models.StackOfRotatedGrowthCurve2D](probe)
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		updateProbeTable[*models.StackOfRotatedGrowthCurve2DRibbon](probe)
 	case "StackRotatedGrowthCurve2DEndArcShape":
 		updateProbeTable[*models.StackRotatedGrowthCurve2DEndArcShape](probe)
+	case "StackRotatedGrowthCurve2DRibbonEndShape":
+		updateProbeTable[*models.StackRotatedGrowthCurve2DRibbonEndShape](probe)
+	case "StackRotatedGrowthCurve2DRibbonStartShape":
+		updateProbeTable[*models.StackRotatedGrowthCurve2DRibbonStartShape](probe)
 	case "StackRotatedGrowthCurve2DStartArcShape":
 		updateProbeTable[*models.StackRotatedGrowthCurve2DStartArcShape](probe)
 	case "StartArcShape":

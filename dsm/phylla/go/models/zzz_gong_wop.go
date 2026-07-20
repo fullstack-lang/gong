@@ -601,6 +601,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenStackOfGrowthCurve2DRibbon bool
 
+	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
+
 	IsHiddenTorusStackShape bool
 
 	IsHiddenVerticalTorusStackShape bool
@@ -658,6 +660,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStackOfGrowthCurve2D = from.IsHiddenStackOfGrowthCurve2D
 	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
 	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
+	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsChecked = from.IsChecked
@@ -1162,6 +1165,17 @@ func (from *StackOfRotatedGrowthCurve2D) CopyBasicFields(to *StackOfRotatedGrowt
 	to.Name = from.Name
 }
 
+type StackOfRotatedGrowthCurve2DRibbon_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StackOfRotatedGrowthCurve2DRibbon) CopyBasicFields(to *StackOfRotatedGrowthCurve2DRibbon) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type StackRotatedGrowthCurve2DEndArcShape_WOP struct {
 	// insertion point
 
@@ -1198,6 +1212,136 @@ func (from *StackRotatedGrowthCurve2DEndArcShape) CopyBasicFields(to *StackRotat
 	to.SweepFlag = from.SweepFlag
 	to.RadiusX = from.RadiusX
 	to.RadiusY = from.RadiusY
+}
+
+type StackRotatedGrowthCurve2DRibbonEndShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	BottomStartX float64
+
+	BottomStartY float64
+
+	BottomEndX float64
+
+	BottomEndY float64
+
+	BottomRadiusX float64
+
+	BottomRadiusY float64
+
+	BottomXAxisRotation float64
+
+	BottomLargeArcFlag bool
+
+	BottomSweepFlag bool
+
+	TopStartX float64
+
+	TopStartY float64
+
+	TopEndX float64
+
+	TopEndY float64
+
+	TopRadiusX float64
+
+	TopRadiusY float64
+
+	TopXAxisRotation float64
+
+	TopLargeArcFlag bool
+
+	TopSweepFlag bool
+}
+
+func (from *StackRotatedGrowthCurve2DRibbonEndShape) CopyBasicFields(to *StackRotatedGrowthCurve2DRibbonEndShape) {
+	// insertion point
+	to.Name = from.Name
+	to.BottomStartX = from.BottomStartX
+	to.BottomStartY = from.BottomStartY
+	to.BottomEndX = from.BottomEndX
+	to.BottomEndY = from.BottomEndY
+	to.BottomRadiusX = from.BottomRadiusX
+	to.BottomRadiusY = from.BottomRadiusY
+	to.BottomXAxisRotation = from.BottomXAxisRotation
+	to.BottomLargeArcFlag = from.BottomLargeArcFlag
+	to.BottomSweepFlag = from.BottomSweepFlag
+	to.TopStartX = from.TopStartX
+	to.TopStartY = from.TopStartY
+	to.TopEndX = from.TopEndX
+	to.TopEndY = from.TopEndY
+	to.TopRadiusX = from.TopRadiusX
+	to.TopRadiusY = from.TopRadiusY
+	to.TopXAxisRotation = from.TopXAxisRotation
+	to.TopLargeArcFlag = from.TopLargeArcFlag
+	to.TopSweepFlag = from.TopSweepFlag
+}
+
+type StackRotatedGrowthCurve2DRibbonStartShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	BottomStartX float64
+
+	BottomStartY float64
+
+	BottomEndX float64
+
+	BottomEndY float64
+
+	BottomRadiusX float64
+
+	BottomRadiusY float64
+
+	BottomXAxisRotation float64
+
+	BottomLargeArcFlag bool
+
+	BottomSweepFlag bool
+
+	TopStartX float64
+
+	TopStartY float64
+
+	TopEndX float64
+
+	TopEndY float64
+
+	TopRadiusX float64
+
+	TopRadiusY float64
+
+	TopXAxisRotation float64
+
+	TopLargeArcFlag bool
+
+	TopSweepFlag bool
+}
+
+func (from *StackRotatedGrowthCurve2DRibbonStartShape) CopyBasicFields(to *StackRotatedGrowthCurve2DRibbonStartShape) {
+	// insertion point
+	to.Name = from.Name
+	to.BottomStartX = from.BottomStartX
+	to.BottomStartY = from.BottomStartY
+	to.BottomEndX = from.BottomEndX
+	to.BottomEndY = from.BottomEndY
+	to.BottomRadiusX = from.BottomRadiusX
+	to.BottomRadiusY = from.BottomRadiusY
+	to.BottomXAxisRotation = from.BottomXAxisRotation
+	to.BottomLargeArcFlag = from.BottomLargeArcFlag
+	to.BottomSweepFlag = from.BottomSweepFlag
+	to.TopStartX = from.TopStartX
+	to.TopStartY = from.TopStartY
+	to.TopEndX = from.TopEndX
+	to.TopEndY = from.TopEndY
+	to.TopRadiusX = from.TopRadiusX
+	to.TopRadiusY = from.TopRadiusY
+	to.TopXAxisRotation = from.TopXAxisRotation
+	to.TopLargeArcFlag = from.TopLargeArcFlag
+	to.TopSweepFlag = from.TopSweepFlag
 }
 
 type StackRotatedGrowthCurve2DStartArcShape_WOP struct {
