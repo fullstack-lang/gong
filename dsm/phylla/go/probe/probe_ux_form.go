@@ -291,12 +291,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.stackofgrowthcurve2dribbon, probe)
 			}
-		case *StackOfPartiallyRotatedGrowthCurve2DRibbonFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "StackOfPartiallyRotatedGrowthCurve2DRibbon", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.stackofpartiallyrotatedgrowthcurve2dribbon, probe)
-			}
 		case *StackOfRotatedGrowthCurve2DFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "StackOfRotatedGrowthCurve2D", true)
@@ -308,18 +302,6 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "StackOfRotatedGrowthCurve2DRibbon", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.stackofrotatedgrowthcurve2dribbon, probe)
-			}
-		case *StackPartiallyRotatedGrowthCurve2DRibbonEndShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "StackPartiallyRotatedGrowthCurve2DRibbonEndShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.stackpartiallyrotatedgrowthcurve2dribbonendshape, probe)
-			}
-		case *StackPartiallyRotatedGrowthCurve2DRibbonStartShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "StackPartiallyRotatedGrowthCurve2DRibbonStartShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.stackpartiallyrotatedgrowthcurve2dribbonstartshape, probe)
 			}
 		case *StackRotatedGrowthCurve2DEndArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -1103,19 +1085,6 @@ func FillUpFormFromGongstructName(
 		stackofgrowthcurve2dribbon := new(models.StackOfGrowthCurve2DRibbon)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofgrowthcurve2dribbon, formGroup, probe)
-	case "StackOfPartiallyRotatedGrowthCurve2DRibbon":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StackOfPartiallyRotatedGrowthCurve2DRibbon Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StackOfPartiallyRotatedGrowthCurve2DRibbonFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stackofpartiallyrotatedgrowthcurve2dribbon := new(models.StackOfPartiallyRotatedGrowthCurve2DRibbon)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stackofpartiallyrotatedgrowthcurve2dribbon, formGroup, probe)
 	case "StackOfRotatedGrowthCurve2D":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1142,32 +1111,6 @@ func FillUpFormFromGongstructName(
 		stackofrotatedgrowthcurve2dribbon := new(models.StackOfRotatedGrowthCurve2DRibbon)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stackofrotatedgrowthcurve2dribbon, formGroup, probe)
-	case "StackPartiallyRotatedGrowthCurve2DRibbonEndShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StackPartiallyRotatedGrowthCurve2DRibbonEndShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StackPartiallyRotatedGrowthCurve2DRibbonEndShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stackpartiallyrotatedgrowthcurve2dribbonendshape := new(models.StackPartiallyRotatedGrowthCurve2DRibbonEndShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stackpartiallyrotatedgrowthcurve2dribbonendshape, formGroup, probe)
-	case "StackPartiallyRotatedGrowthCurve2DRibbonStartShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StackPartiallyRotatedGrowthCurve2DRibbonStartShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StackPartiallyRotatedGrowthCurve2DRibbonStartShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stackpartiallyrotatedgrowthcurve2dribbonstartshape := new(models.StackPartiallyRotatedGrowthCurve2DRibbonStartShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stackpartiallyrotatedgrowthcurve2dribbonstartshape, formGroup, probe)
 	case "StackRotatedGrowthCurve2DEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
