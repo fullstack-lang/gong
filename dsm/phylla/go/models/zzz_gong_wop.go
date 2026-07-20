@@ -461,6 +461,8 @@ type Plant_WOP struct {
 
 	RelativeCuttedStackFloorHeight float64
 
+	RelativeRotatedTorusSeparation float64
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -481,6 +483,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RelativeRadialThickness = from.RelativeRadialThickness
 	to.RhombusSideLength = from.RhombusSideLength
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
+	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected

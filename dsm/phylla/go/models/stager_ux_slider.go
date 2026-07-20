@@ -118,6 +118,18 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
+				"Torus Separation",
+				0.0,
+				1.0,
+				0.01,
+				&plant.RelativeRotatedTorusSeparation,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
 				"Radial Thickness",
 				0.01,
 				0.5,

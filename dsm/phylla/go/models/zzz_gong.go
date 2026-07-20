@@ -17194,6 +17194,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "RelativeRotatedTorusSeparation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -19718,6 +19722,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	case "RelativeCuttedStackFloorHeight":
 		res.valueString = fmt.Sprintf("%f", plant.RelativeCuttedStackFloorHeight)
 		res.valueFloat = plant.RelativeCuttedStackFloorHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRotatedTorusSeparation":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeRotatedTorusSeparation)
+		res.valueFloat = plant.RelativeRotatedTorusSeparation
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
@@ -22245,6 +22253,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RhombusSideLength = value.GetValueFloat()
 	case "RelativeCuttedStackFloorHeight":
 		plant.RelativeCuttedStackFloorHeight = value.GetValueFloat()
+	case "RelativeRotatedTorusSeparation":
+		plant.RelativeRotatedTorusSeparation = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

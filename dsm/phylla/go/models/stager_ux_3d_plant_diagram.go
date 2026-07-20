@@ -464,10 +464,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 
 					verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+					rotatedSeparation := plant.RelativeRotatedTorusSeparation * plant.RhombusSideLength
 
 					for h := 0; h < stackHeight; h++ {
 						dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
-						dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy
+						dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 						thetaOffset := dx / globalR
 
 						generateRibbonLayer(h, dx, dy, thetaOffset, "Torus Continuous")
