@@ -1179,6 +1179,169 @@ func (u *MidArcVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	return nil
 }
 
+type PartiallyGrowthCurve2DRibbonUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DRibbonUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DRibbon)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DRibbonUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DRibbon)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "PartiallyGrowthCurve2DRibbonStartShapes":
+		GongUnmarshallSliceOfPointers(&instance.PartiallyGrowthCurve2DRibbonStartShapes, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DRibbonEndShapes":
+		GongUnmarshallSliceOfPointers(&instance.PartiallyGrowthCurve2DRibbonEndShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DRibbonEndShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DRibbonEndShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DRibbonEndShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DRibbonEndShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DRibbonEndShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "BottomStartX":
+		instance.BottomStartX = GongExtractFloat(valueExpr)
+	case "BottomStartY":
+		instance.BottomStartY = GongExtractFloat(valueExpr)
+	case "BottomEndX":
+		instance.BottomEndX = GongExtractFloat(valueExpr)
+	case "BottomEndY":
+		instance.BottomEndY = GongExtractFloat(valueExpr)
+	case "BottomRadiusX":
+		instance.BottomRadiusX = GongExtractFloat(valueExpr)
+	case "BottomRadiusY":
+		instance.BottomRadiusY = GongExtractFloat(valueExpr)
+	case "BottomXAxisRotation":
+		instance.BottomXAxisRotation = GongExtractFloat(valueExpr)
+	case "BottomLargeArcFlag":
+		instance.BottomLargeArcFlag = GongExtractBool(valueExpr)
+	case "BottomSweepFlag":
+		instance.BottomSweepFlag = GongExtractBool(valueExpr)
+	case "TopStartX":
+		instance.TopStartX = GongExtractFloat(valueExpr)
+	case "TopStartY":
+		instance.TopStartY = GongExtractFloat(valueExpr)
+	case "TopEndX":
+		instance.TopEndX = GongExtractFloat(valueExpr)
+	case "TopEndY":
+		instance.TopEndY = GongExtractFloat(valueExpr)
+	case "TopRadiusX":
+		instance.TopRadiusX = GongExtractFloat(valueExpr)
+	case "TopRadiusY":
+		instance.TopRadiusY = GongExtractFloat(valueExpr)
+	case "TopXAxisRotation":
+		instance.TopXAxisRotation = GongExtractFloat(valueExpr)
+	case "TopLargeArcFlag":
+		instance.TopLargeArcFlag = GongExtractBool(valueExpr)
+	case "TopSweepFlag":
+		instance.TopSweepFlag = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DRibbonStartShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DRibbonStartShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DRibbonStartShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DRibbonStartShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DRibbonStartShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "BottomStartX":
+		instance.BottomStartX = GongExtractFloat(valueExpr)
+	case "BottomStartY":
+		instance.BottomStartY = GongExtractFloat(valueExpr)
+	case "BottomEndX":
+		instance.BottomEndX = GongExtractFloat(valueExpr)
+	case "BottomEndY":
+		instance.BottomEndY = GongExtractFloat(valueExpr)
+	case "BottomRadiusX":
+		instance.BottomRadiusX = GongExtractFloat(valueExpr)
+	case "BottomRadiusY":
+		instance.BottomRadiusY = GongExtractFloat(valueExpr)
+	case "BottomXAxisRotation":
+		instance.BottomXAxisRotation = GongExtractFloat(valueExpr)
+	case "BottomLargeArcFlag":
+		instance.BottomLargeArcFlag = GongExtractBool(valueExpr)
+	case "BottomSweepFlag":
+		instance.BottomSweepFlag = GongExtractBool(valueExpr)
+	case "TopStartX":
+		instance.TopStartX = GongExtractFloat(valueExpr)
+	case "TopStartY":
+		instance.TopStartY = GongExtractFloat(valueExpr)
+	case "TopEndX":
+		instance.TopEndX = GongExtractFloat(valueExpr)
+	case "TopEndY":
+		instance.TopEndY = GongExtractFloat(valueExpr)
+	case "TopRadiusX":
+		instance.TopRadiusX = GongExtractFloat(valueExpr)
+	case "TopRadiusY":
+		instance.TopRadiusY = GongExtractFloat(valueExpr)
+	case "TopXAxisRotation":
+		instance.TopXAxisRotation = GongExtractFloat(valueExpr)
+	case "TopLargeArcFlag":
+		instance.TopLargeArcFlag = GongExtractBool(valueExpr)
+	case "TopSweepFlag":
+		instance.TopSweepFlag = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type PerpendicularVectorUnmarshaller struct{}
 
 func (u *PerpendicularVectorUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1422,6 +1585,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DRibbon, valueExpr, identifierMap)
 	case "StackOfRotatedGrowthCurve2DRibbon":
 		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1574,6 +1739,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenStackOfRotatedGrowthCurve2DRibbon = GongExtractBool(valueExpr)
 	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
 		instance.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = GongExtractBool(valueExpr)
+	case "IsHiddenPartiallyGrowthCurve2DRibbon":
+		instance.IsHiddenPartiallyGrowthCurve2DRibbon = GongExtractBool(valueExpr)
 	case "IsHiddenTorusStackShape":
 		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
 	case "IsHiddenVerticalTorusStackShape":

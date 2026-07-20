@@ -220,6 +220,9 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
 			needCommit = enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(stage, plant.StackOfRotatedGrowthCurve2DRibbon, plant.StackOfRotatedGrowthCurve2D, plant.TopStackOfRotatedGrowthCurve2D) || needCommit
 		}
+		if plant.PartiallyGrowthCurve2DRibbon != nil {
+			needCommit = enforcePartiallyGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+		}
 
 	}
 	return

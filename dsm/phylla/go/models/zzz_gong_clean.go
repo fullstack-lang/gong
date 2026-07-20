@@ -198,6 +198,29 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongClean(stage *Stage) (mod
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DRibbon
+func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes) || modified
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DRibbonEndShape
+func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DRibbonStartShape
+func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PerpendicularVector
 func (perpendicularvector *PerpendicularVector) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -259,6 +282,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
 	return
 }
 

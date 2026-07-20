@@ -70,6 +70,15 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
 
+	case *PartiallyGrowthCurve2DRibbon:
+		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
+
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonEndShape(target)
+
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonStartShape(target)
+
 	case *PerpendicularVector:
 		ok = stage.IsStagedPerpendicularVector(target)
 
@@ -304,6 +313,15 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
+
+	case *PartiallyGrowthCurve2DRibbon:
+		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
+
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonEndShape(target)
+
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonStartShape(target)
 
 	case *PerpendicularVector:
 		ok = stage.IsStagedPerpendicularVector(target)
@@ -617,6 +635,27 @@ func (stage *Stage) IsStagedMidArcVectorShape(midarcvectorshape *MidArcVectorSha
 func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
 
 	_, ok = stage.MidArcVectorShapeGrids[midarcvectorshapegrid]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DRibbons[partiallygrowthcurve2dribbon]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DRibbonEndShapes[partiallygrowthcurve2dribbonendshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DRibbonStartShapes[partiallygrowthcurve2dribbonstartshape]
 
 	return
 }
@@ -1069,6 +1108,15 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MidArcVectorShapeGrid:
 		stage.StageBranchMidArcVectorShapeGrid(target)
+
+	case *PartiallyGrowthCurve2DRibbon:
+		stage.StageBranchPartiallyGrowthCurve2DRibbon(target)
+
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		stage.StageBranchPartiallyGrowthCurve2DRibbonEndShape(target)
+
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		stage.StageBranchPartiallyGrowthCurve2DRibbonStartShape(target)
 
 	case *PerpendicularVector:
 		stage.StageBranchPerpendicularVector(target)
@@ -1586,6 +1634,57 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 
 }
 
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dribbon) {
+		return
+	}
+
+	partiallygrowthcurve2dribbon.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _partiallygrowthcurve2dribbonstartshape := range partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes {
+		StageBranch(stage, _partiallygrowthcurve2dribbonstartshape)
+	}
+	for _, _partiallygrowthcurve2dribbonendshape := range partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes {
+		StageBranch(stage, _partiallygrowthcurve2dribbonendshape)
+	}
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dribbonendshape) {
+		return
+	}
+
+	partiallygrowthcurve2dribbonendshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dribbonstartshape) {
+		return
+	}
+
+	partiallygrowthcurve2dribbonstartshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
 
 	// check if instance is already staged
@@ -1739,6 +1838,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	}
 	if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
 		StageBranch(stage, plant.StackOfRotatedGrowthCurve2DRibbon)
+	}
+	if plant.PartiallyGrowthCurve2DRibbon != nil {
+		StageBranch(stage, plant.PartiallyGrowthCurve2DRibbon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2695,6 +2797,18 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchMidArcVectorShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *PartiallyGrowthCurve2DRibbon:
+		toT := CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		toT := CopyBranchPartiallyGrowthCurve2DRibbonEndShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		toT := CopyBranchPartiallyGrowthCurve2DRibbonStartShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PerpendicularVector:
 		toT := CopyBranchPerpendicularVector(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3350,6 +3464,69 @@ func CopyBranchMidArcVectorShapeGrid(mapOrigCopy map[any]any, midarcvectorshapeg
 	return
 }
 
+func CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy map[any]any, partiallygrowthcurve2dribbonFrom *PartiallyGrowthCurve2DRibbon) (partiallygrowthcurve2dribbonTo *PartiallyGrowthCurve2DRibbon) {
+
+	// partiallygrowthcurve2dribbonFrom has already been copied
+	if _partiallygrowthcurve2dribbonTo, ok := mapOrigCopy[partiallygrowthcurve2dribbonFrom]; ok {
+		partiallygrowthcurve2dribbonTo = _partiallygrowthcurve2dribbonTo.(*PartiallyGrowthCurve2DRibbon)
+		return
+	}
+
+	partiallygrowthcurve2dribbonTo = new(PartiallyGrowthCurve2DRibbon)
+	mapOrigCopy[partiallygrowthcurve2dribbonFrom] = partiallygrowthcurve2dribbonTo
+	partiallygrowthcurve2dribbonFrom.CopyBasicFields(partiallygrowthcurve2dribbonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _partiallygrowthcurve2dribbonstartshape := range partiallygrowthcurve2dribbonFrom.PartiallyGrowthCurve2DRibbonStartShapes {
+		partiallygrowthcurve2dribbonTo.PartiallyGrowthCurve2DRibbonStartShapes = append(partiallygrowthcurve2dribbonTo.PartiallyGrowthCurve2DRibbonStartShapes, CopyBranchPartiallyGrowthCurve2DRibbonStartShape(mapOrigCopy, _partiallygrowthcurve2dribbonstartshape))
+	}
+	for _, _partiallygrowthcurve2dribbonendshape := range partiallygrowthcurve2dribbonFrom.PartiallyGrowthCurve2DRibbonEndShapes {
+		partiallygrowthcurve2dribbonTo.PartiallyGrowthCurve2DRibbonEndShapes = append(partiallygrowthcurve2dribbonTo.PartiallyGrowthCurve2DRibbonEndShapes, CopyBranchPartiallyGrowthCurve2DRibbonEndShape(mapOrigCopy, _partiallygrowthcurve2dribbonendshape))
+	}
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DRibbonEndShape(mapOrigCopy map[any]any, partiallygrowthcurve2dribbonendshapeFrom *PartiallyGrowthCurve2DRibbonEndShape) (partiallygrowthcurve2dribbonendshapeTo *PartiallyGrowthCurve2DRibbonEndShape) {
+
+	// partiallygrowthcurve2dribbonendshapeFrom has already been copied
+	if _partiallygrowthcurve2dribbonendshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dribbonendshapeFrom]; ok {
+		partiallygrowthcurve2dribbonendshapeTo = _partiallygrowthcurve2dribbonendshapeTo.(*PartiallyGrowthCurve2DRibbonEndShape)
+		return
+	}
+
+	partiallygrowthcurve2dribbonendshapeTo = new(PartiallyGrowthCurve2DRibbonEndShape)
+	mapOrigCopy[partiallygrowthcurve2dribbonendshapeFrom] = partiallygrowthcurve2dribbonendshapeTo
+	partiallygrowthcurve2dribbonendshapeFrom.CopyBasicFields(partiallygrowthcurve2dribbonendshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DRibbonStartShape(mapOrigCopy map[any]any, partiallygrowthcurve2dribbonstartshapeFrom *PartiallyGrowthCurve2DRibbonStartShape) (partiallygrowthcurve2dribbonstartshapeTo *PartiallyGrowthCurve2DRibbonStartShape) {
+
+	// partiallygrowthcurve2dribbonstartshapeFrom has already been copied
+	if _partiallygrowthcurve2dribbonstartshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dribbonstartshapeFrom]; ok {
+		partiallygrowthcurve2dribbonstartshapeTo = _partiallygrowthcurve2dribbonstartshapeTo.(*PartiallyGrowthCurve2DRibbonStartShape)
+		return
+	}
+
+	partiallygrowthcurve2dribbonstartshapeTo = new(PartiallyGrowthCurve2DRibbonStartShape)
+	mapOrigCopy[partiallygrowthcurve2dribbonstartshapeFrom] = partiallygrowthcurve2dribbonstartshapeTo
+	partiallygrowthcurve2dribbonstartshapeFrom.CopyBasicFields(partiallygrowthcurve2dribbonstartshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPerpendicularVector(mapOrigCopy map[any]any, perpendicularvectorFrom *PerpendicularVector) (perpendicularvectorTo *PerpendicularVector) {
 
 	// perpendicularvectorFrom has already been copied
@@ -3522,6 +3699,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	}
 	if plantFrom.StackOfRotatedGrowthCurve2DRibbon != nil {
 		plantTo.StackOfRotatedGrowthCurve2DRibbon = CopyBranchStackOfRotatedGrowthCurve2DRibbon(mapOrigCopy, plantFrom.StackOfRotatedGrowthCurve2DRibbon)
+	}
+	if plantFrom.PartiallyGrowthCurve2DRibbon != nil {
+		plantTo.PartiallyGrowthCurve2DRibbon = CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy, plantFrom.PartiallyGrowthCurve2DRibbon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4651,6 +4831,15 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MidArcVectorShapeGrid:
 		stage.UnstageBranchMidArcVectorShapeGrid(target)
 
+	case *PartiallyGrowthCurve2DRibbon:
+		stage.UnstageBranchPartiallyGrowthCurve2DRibbon(target)
+
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DRibbonEndShape(target)
+
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(target)
+
 	case *PerpendicularVector:
 		stage.UnstageBranchPerpendicularVector(target)
 
@@ -5167,6 +5356,57 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 
 }
 
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dribbon) {
+		return
+	}
+
+	partiallygrowthcurve2dribbon.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _partiallygrowthcurve2dribbonstartshape := range partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes {
+		UnstageBranch(stage, _partiallygrowthcurve2dribbonstartshape)
+	}
+	for _, _partiallygrowthcurve2dribbonendshape := range partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes {
+		UnstageBranch(stage, _partiallygrowthcurve2dribbonendshape)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dribbonendshape) {
+		return
+	}
+
+	partiallygrowthcurve2dribbonendshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dribbonstartshape) {
+		return
+	}
+
+	partiallygrowthcurve2dribbonstartshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
 
 	// check if instance is already staged
@@ -5320,6 +5560,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	}
 	if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
 		UnstageBranch(stage, plant.StackOfRotatedGrowthCurve2DRibbon)
+	}
+	if plant.PartiallyGrowthCurve2DRibbon != nil {
+		UnstageBranch(stage, plant.PartiallyGrowthCurve2DRibbon)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6329,6 +6572,29 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromReferences(st
 	}
 }
 
+func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DRibbon) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.PartiallyGrowthCurve2DRibbonStartShapes = reference.PartiallyGrowthCurve2DRibbonStartShapes[:0]
+	for _, _b := range instance.PartiallyGrowthCurve2DRibbonStartShapes {
+		reference.PartiallyGrowthCurve2DRibbonStartShapes = append(reference.PartiallyGrowthCurve2DRibbonStartShapes, stage.PartiallyGrowthCurve2DRibbonStartShapes_reference[_b])
+	}
+	reference.PartiallyGrowthCurve2DRibbonEndShapes = reference.PartiallyGrowthCurve2DRibbonEndShapes[:0]
+	for _, _b := range instance.PartiallyGrowthCurve2DRibbonEndShapes {
+		reference.PartiallyGrowthCurve2DRibbonEndShapes = append(reference.PartiallyGrowthCurve2DRibbonEndShapes, stage.PartiallyGrowthCurve2DRibbonEndShapes_reference[_b])
+	}
+}
+
+func (reference *PartiallyGrowthCurve2DRibbonEndShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DRibbonEndShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PartiallyGrowthCurve2DRibbonStartShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DRibbonStartShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PerpendicularVector) GongReconstructPointersFromReferences(stage *Stage, instance *PerpendicularVector) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -6436,6 +6702,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	}
 	if instance.StackOfRotatedGrowthCurve2DRibbon != nil {
 		reference.StackOfRotatedGrowthCurve2DRibbon = stage.StackOfRotatedGrowthCurve2DRibbons_reference[instance.StackOfRotatedGrowthCurve2DRibbon]
+	}
+	if instance.PartiallyGrowthCurve2DRibbon != nil {
+		reference.PartiallyGrowthCurve2DRibbon = stage.PartiallyGrowthCurve2DRibbons_reference[instance.PartiallyGrowthCurve2DRibbon]
 	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
@@ -7011,6 +7280,35 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromInstances(sta
 	reference.MidArcVectorShapes = _MidArcVectorShapes
 }
 
+func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _PartiallyGrowthCurve2DRibbonStartShapes []*PartiallyGrowthCurve2DRibbonStartShape
+	for _, _reference := range reference.PartiallyGrowthCurve2DRibbonStartShapes {
+		if _instance, ok := stage.PartiallyGrowthCurve2DRibbonStartShapes_instance[_reference]; ok {
+			_PartiallyGrowthCurve2DRibbonStartShapes = append(_PartiallyGrowthCurve2DRibbonStartShapes, _instance)
+		}
+	}
+	reference.PartiallyGrowthCurve2DRibbonStartShapes = _PartiallyGrowthCurve2DRibbonStartShapes
+	var _PartiallyGrowthCurve2DRibbonEndShapes []*PartiallyGrowthCurve2DRibbonEndShape
+	for _, _reference := range reference.PartiallyGrowthCurve2DRibbonEndShapes {
+		if _instance, ok := stage.PartiallyGrowthCurve2DRibbonEndShapes_instance[_reference]; ok {
+			_PartiallyGrowthCurve2DRibbonEndShapes = append(_PartiallyGrowthCurve2DRibbonEndShapes, _instance)
+		}
+	}
+	reference.PartiallyGrowthCurve2DRibbonEndShapes = _PartiallyGrowthCurve2DRibbonEndShapes
+}
+
+func (reference *PartiallyGrowthCurve2DRibbonEndShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DRibbonStartShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PerpendicularVector) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -7201,6 +7499,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.StackOfRotatedGrowthCurve2DRibbon = nil
 		if _instance, ok := stage.StackOfRotatedGrowthCurve2DRibbons_instance[_reference]; ok {
 			reference.StackOfRotatedGrowthCurve2DRibbon = _instance
+		}
+	}
+	if _reference := reference.PartiallyGrowthCurve2DRibbon; _reference != nil {
+		reference.PartiallyGrowthCurve2DRibbon = nil
+		if _instance, ok := stage.PartiallyGrowthCurve2DRibbons_instance[_reference]; ok {
+			reference.PartiallyGrowthCurve2DRibbon = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -8285,6 +8589,189 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongDiff(stage *Stage, midar
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongDiff(stage *Stage, partiallygrowthcurve2dribbonOther *PartiallyGrowthCurve2DRibbon) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dribbon.Name != partiallygrowthcurve2dribbonOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dribbon.GongMarshallField(stage, "Name"))
+	}
+	PartiallyGrowthCurve2DRibbonStartShapesDifferent := false
+	if len(partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes) != len(partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonStartShapes) {
+		PartiallyGrowthCurve2DRibbonStartShapesDifferent = true
+	} else {
+		for i := range partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes {
+			if (partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes[i] == nil) != (partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonStartShapes[i] == nil) {
+				PartiallyGrowthCurve2DRibbonStartShapesDifferent = true
+				break
+			} else if partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes[i] != nil && partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonStartShapes[i] != nil {
+				// this is a pointer comparaison
+				if partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes[i] != partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonStartShapes[i] {
+					PartiallyGrowthCurve2DRibbonStartShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PartiallyGrowthCurve2DRibbonStartShapesDifferent {
+		ops := Diff(stage, partiallygrowthcurve2dribbon, partiallygrowthcurve2dribbonOther, "PartiallyGrowthCurve2DRibbonStartShapes", partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonStartShapes, partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonStartShapes)
+		diffs = append(diffs, ops)
+	}
+	PartiallyGrowthCurve2DRibbonEndShapesDifferent := false
+	if len(partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes) != len(partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonEndShapes) {
+		PartiallyGrowthCurve2DRibbonEndShapesDifferent = true
+	} else {
+		for i := range partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes {
+			if (partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes[i] == nil) != (partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonEndShapes[i] == nil) {
+				PartiallyGrowthCurve2DRibbonEndShapesDifferent = true
+				break
+			} else if partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes[i] != nil && partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonEndShapes[i] != nil {
+				// this is a pointer comparaison
+				if partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes[i] != partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonEndShapes[i] {
+					PartiallyGrowthCurve2DRibbonEndShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PartiallyGrowthCurve2DRibbonEndShapesDifferent {
+		ops := Diff(stage, partiallygrowthcurve2dribbon, partiallygrowthcurve2dribbonOther, "PartiallyGrowthCurve2DRibbonEndShapes", partiallygrowthcurve2dribbonOther.PartiallyGrowthCurve2DRibbonEndShapes, partiallygrowthcurve2dribbon.PartiallyGrowthCurve2DRibbonEndShapes)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape) GongDiff(stage *Stage, partiallygrowthcurve2dribbonendshapeOther *PartiallyGrowthCurve2DRibbonEndShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dribbonendshape.Name != partiallygrowthcurve2dribbonendshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomStartX != partiallygrowthcurve2dribbonendshapeOther.BottomStartX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomStartX"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomStartY != partiallygrowthcurve2dribbonendshapeOther.BottomStartY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomStartY"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomEndX != partiallygrowthcurve2dribbonendshapeOther.BottomEndX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomEndX"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomEndY != partiallygrowthcurve2dribbonendshapeOther.BottomEndY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomEndY"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomRadiusX != partiallygrowthcurve2dribbonendshapeOther.BottomRadiusX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomRadiusX"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomRadiusY != partiallygrowthcurve2dribbonendshapeOther.BottomRadiusY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomRadiusY"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomXAxisRotation != partiallygrowthcurve2dribbonendshapeOther.BottomXAxisRotation {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomXAxisRotation"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomLargeArcFlag != partiallygrowthcurve2dribbonendshapeOther.BottomLargeArcFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomLargeArcFlag"))
+	}
+	if partiallygrowthcurve2dribbonendshape.BottomSweepFlag != partiallygrowthcurve2dribbonendshapeOther.BottomSweepFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomSweepFlag"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopStartX != partiallygrowthcurve2dribbonendshapeOther.TopStartX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopStartX"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopStartY != partiallygrowthcurve2dribbonendshapeOther.TopStartY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopStartY"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopEndX != partiallygrowthcurve2dribbonendshapeOther.TopEndX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopEndX"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopEndY != partiallygrowthcurve2dribbonendshapeOther.TopEndY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopEndY"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopRadiusX != partiallygrowthcurve2dribbonendshapeOther.TopRadiusX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopRadiusX"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopRadiusY != partiallygrowthcurve2dribbonendshapeOther.TopRadiusY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopRadiusY"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopXAxisRotation != partiallygrowthcurve2dribbonendshapeOther.TopXAxisRotation {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopXAxisRotation"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopLargeArcFlag != partiallygrowthcurve2dribbonendshapeOther.TopLargeArcFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopLargeArcFlag"))
+	}
+	if partiallygrowthcurve2dribbonendshape.TopSweepFlag != partiallygrowthcurve2dribbonendshapeOther.TopSweepFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonendshape.GongMarshallField(stage, "TopSweepFlag"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) GongDiff(stage *Stage, partiallygrowthcurve2dribbonstartshapeOther *PartiallyGrowthCurve2DRibbonStartShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dribbonstartshape.Name != partiallygrowthcurve2dribbonstartshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomStartX != partiallygrowthcurve2dribbonstartshapeOther.BottomStartX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomStartX"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomStartY != partiallygrowthcurve2dribbonstartshapeOther.BottomStartY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomStartY"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomEndX != partiallygrowthcurve2dribbonstartshapeOther.BottomEndX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomEndX"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomEndY != partiallygrowthcurve2dribbonstartshapeOther.BottomEndY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomEndY"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomRadiusX != partiallygrowthcurve2dribbonstartshapeOther.BottomRadiusX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomRadiusX"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomRadiusY != partiallygrowthcurve2dribbonstartshapeOther.BottomRadiusY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomRadiusY"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomXAxisRotation != partiallygrowthcurve2dribbonstartshapeOther.BottomXAxisRotation {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomXAxisRotation"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomLargeArcFlag != partiallygrowthcurve2dribbonstartshapeOther.BottomLargeArcFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomLargeArcFlag"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.BottomSweepFlag != partiallygrowthcurve2dribbonstartshapeOther.BottomSweepFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomSweepFlag"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopStartX != partiallygrowthcurve2dribbonstartshapeOther.TopStartX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopStartX"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopStartY != partiallygrowthcurve2dribbonstartshapeOther.TopStartY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopStartY"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopEndX != partiallygrowthcurve2dribbonstartshapeOther.TopEndX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopEndX"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopEndY != partiallygrowthcurve2dribbonstartshapeOther.TopEndY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopEndY"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopRadiusX != partiallygrowthcurve2dribbonstartshapeOther.TopRadiusX {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopRadiusX"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopRadiusY != partiallygrowthcurve2dribbonstartshapeOther.TopRadiusY {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopRadiusY"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopXAxisRotation != partiallygrowthcurve2dribbonstartshapeOther.TopXAxisRotation {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopXAxisRotation"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopLargeArcFlag != partiallygrowthcurve2dribbonstartshapeOther.TopLargeArcFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopLargeArcFlag"))
+	}
+	if partiallygrowthcurve2dribbonstartshape.TopSweepFlag != partiallygrowthcurve2dribbonstartshapeOther.TopSweepFlag {
+		diffs = append(diffs, partiallygrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopSweepFlag"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (perpendicularvector *PerpendicularVector) GongDiff(stage *Stage, perpendicularvectorOther *PerpendicularVector) (diffs []string) {
 	// insertion point for field diffs
 	if perpendicularvector.Name != perpendicularvectorOther.Name {
@@ -8645,6 +9132,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "StackOfRotatedGrowthCurve2DRibbon"))
 		}
 	}
+	if (plant.PartiallyGrowthCurve2DRibbon == nil) != (plantOther.PartiallyGrowthCurve2DRibbon == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "PartiallyGrowthCurve2DRibbon"))
+	} else if plant.PartiallyGrowthCurve2DRibbon != nil && plantOther.PartiallyGrowthCurve2DRibbon != nil {
+		if plant.PartiallyGrowthCurve2DRibbon != plantOther.PartiallyGrowthCurve2DRibbon {
+			diffs = append(diffs, plant.GongMarshallField(stage, "PartiallyGrowthCurve2DRibbon"))
+		}
+	}
 
 	return
 }
@@ -8807,6 +9301,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon != plantdiagramOther.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
+	}
+	if plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DRibbon {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DRibbon"))
 	}
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
