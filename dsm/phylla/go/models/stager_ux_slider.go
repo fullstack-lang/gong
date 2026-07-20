@@ -106,7 +106,7 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Stack Floor Heigth",
+				"2D Separation",
 				0.0,
 				0.4,
 				0.01,
@@ -118,7 +118,7 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Torus Separation",
+				"3D Separation",
 				0.0,
 				1.0,
 				0.01,

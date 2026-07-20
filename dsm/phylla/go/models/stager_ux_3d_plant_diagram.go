@@ -333,6 +333,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 							Name:                 fmt.Sprintf("%s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+							Transparent:          true,
+							Opacity:              0.85,
 						}).Stage(stager.threejsStage),
 					}).Stage(stager.threejsStage)
 				}
@@ -388,10 +390,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 					namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
 
-					bottomFace := createFaceMesh(namePrefix+" Bottom", "#1f77b4", bottomEdges, false) // blue
-					topFace := createFaceMesh(namePrefix+" Top", "#d62728", topEdges, true)           // red
-					innerFace := createFaceMesh(namePrefix+" Inner", "#ff7f0e", innerEdges, true)     // orange
-					outerFace := createFaceMesh(namePrefix+" Outer", "#2ca02c", outerEdges, false)    // green
+					japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
+
+					bottomFace := createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false)
+					topFace := createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true)
+					innerFace := createFaceMesh(namePrefix+" Inner", japanesePaperColor, innerEdges, true)
+					outerFace := createFaceMesh(namePrefix+" Outer", japanesePaperColor, outerEdges, false)
 
 					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
 
@@ -433,11 +437,13 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					outerRadius := 0.1
 					innerRadius := outerRadius * 0.85
 
+					bambooColor := "#4a3623" // dark brown
+
 					canvas.Meshs = append(canvas.Meshs,
-						createTube(namePrefix+" BottomInner", "black", bottomEdges, true, innerRadius),
-						createTube(namePrefix+" BottomOuter", "gray", bottomEdges, false, outerRadius),
-						createTube(namePrefix+" TopInner", "darkgray", topEdges, true, innerRadius),
-						createTube(namePrefix+" TopOuter", "lightgray", topEdges, false, outerRadius),
+						createTube(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
+						createTube(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
+						createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
+						createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 					)
 				}
 
