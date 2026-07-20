@@ -152,6 +152,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				checkedDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
 				checkedDiagram.Rendered3DShape.Fov = updatedCamera.Fov
 				stager.stage.CommitWithSuspendedCallbacks()
+				stager.ux_slider()
 			}
 		}
 
