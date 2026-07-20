@@ -729,6 +729,52 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 			ribbonStack.StackGrowthCurve2DRibbonStartShapes[i] = b
 		}
 		needCommit = true
+	} else {
+		for i, exp := range expectedStart {
+			b := ribbonStack.StackGrowthCurve2DRibbonStartShapes[i]
+			if b.Name != exp.name ||
+				b.BottomStartX != exp.bottomStartX ||
+				b.BottomStartY != exp.bottomStartY ||
+				b.BottomEndX != exp.bottomEndX ||
+				b.BottomEndY != exp.bottomEndY ||
+				b.BottomRadiusX != exp.bottomRadiusX ||
+				b.BottomRadiusY != exp.bottomRadiusY ||
+				b.BottomXAxisRotation != exp.bottomXAxisRotation ||
+				b.BottomLargeArcFlag != exp.bottomLargeArcFlag ||
+				b.BottomSweepFlag != exp.bottomSweepFlag ||
+				b.TopStartX != exp.topStartX ||
+				b.TopStartY != exp.topStartY ||
+				b.TopEndX != exp.topEndX ||
+				b.TopEndY != exp.topEndY ||
+				b.TopRadiusX != exp.topRadiusX ||
+				b.TopRadiusY != exp.topRadiusY ||
+				b.TopXAxisRotation != exp.topXAxisRotation ||
+				b.TopLargeArcFlag != exp.topLargeArcFlag ||
+				b.TopSweepFlag != exp.topSweepFlag {
+
+				b.Name = exp.name
+				b.BottomStartX = exp.bottomStartX
+				b.BottomStartY = exp.bottomStartY
+				b.BottomEndX = exp.bottomEndX
+				b.BottomEndY = exp.bottomEndY
+				b.BottomRadiusX = exp.bottomRadiusX
+				b.BottomRadiusY = exp.bottomRadiusY
+				b.BottomXAxisRotation = exp.bottomXAxisRotation
+				b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+				b.BottomSweepFlag = exp.bottomSweepFlag
+
+				b.TopStartX = exp.topStartX
+				b.TopStartY = exp.topStartY
+				b.TopEndX = exp.topEndX
+				b.TopEndY = exp.topEndY
+				b.TopRadiusX = exp.topRadiusX
+				b.TopRadiusY = exp.topRadiusY
+				b.TopXAxisRotation = exp.topXAxisRotation
+				b.TopLargeArcFlag = exp.topLargeArcFlag
+				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
 	}
 
 	if len(ribbonStack.StackGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
@@ -762,6 +808,52 @@ func enforceStackOfGrowthCurve2DRibbonHasShapes(
 			ribbonStack.StackGrowthCurve2DRibbonEndShapes[i] = b
 		}
 		needCommit = true
+	} else {
+		for i, exp := range expectedEnd {
+			b := ribbonStack.StackGrowthCurve2DRibbonEndShapes[i]
+			if b.Name != exp.name ||
+				b.BottomStartX != exp.bottomStartX ||
+				b.BottomStartY != exp.bottomStartY ||
+				b.BottomEndX != exp.bottomEndX ||
+				b.BottomEndY != exp.bottomEndY ||
+				b.BottomRadiusX != exp.bottomRadiusX ||
+				b.BottomRadiusY != exp.bottomRadiusY ||
+				b.BottomXAxisRotation != exp.bottomXAxisRotation ||
+				b.BottomLargeArcFlag != exp.bottomLargeArcFlag ||
+				b.BottomSweepFlag != exp.bottomSweepFlag ||
+				b.TopStartX != exp.topStartX ||
+				b.TopStartY != exp.topStartY ||
+				b.TopEndX != exp.topEndX ||
+				b.TopEndY != exp.topEndY ||
+				b.TopRadiusX != exp.topRadiusX ||
+				b.TopRadiusY != exp.topRadiusY ||
+				b.TopXAxisRotation != exp.topXAxisRotation ||
+				b.TopLargeArcFlag != exp.topLargeArcFlag ||
+				b.TopSweepFlag != exp.topSweepFlag {
+
+				b.Name = exp.name
+				b.BottomStartX = exp.bottomStartX
+				b.BottomStartY = exp.bottomStartY
+				b.BottomEndX = exp.bottomEndX
+				b.BottomEndY = exp.bottomEndY
+				b.BottomRadiusX = exp.bottomRadiusX
+				b.BottomRadiusY = exp.bottomRadiusY
+				b.BottomXAxisRotation = exp.bottomXAxisRotation
+				b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+				b.BottomSweepFlag = exp.bottomSweepFlag
+
+				b.TopStartX = exp.topStartX
+				b.TopStartY = exp.topStartY
+				b.TopEndX = exp.topEndX
+				b.TopEndY = exp.topEndY
+				b.TopRadiusX = exp.topRadiusX
+				b.TopRadiusY = exp.topRadiusY
+				b.TopXAxisRotation = exp.topXAxisRotation
+				b.TopLargeArcFlag = exp.topLargeArcFlag
+				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
 	}
 
 	return needCommit
@@ -866,6 +958,52 @@ func enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(
 			ribbonStack.StackRotatedGrowthCurve2DRibbonStartShapes[i] = b
 		}
 		needCommit = true
+	} else {
+		for i, exp := range expectedStart {
+			b := ribbonStack.StackRotatedGrowthCurve2DRibbonStartShapes[i]
+			if b.Name != exp.name ||
+				b.BottomStartX != exp.bottomStartX ||
+				b.BottomStartY != exp.bottomStartY ||
+				b.BottomEndX != exp.bottomEndX ||
+				b.BottomEndY != exp.bottomEndY ||
+				b.BottomRadiusX != exp.bottomRadiusX ||
+				b.BottomRadiusY != exp.bottomRadiusY ||
+				b.BottomXAxisRotation != exp.bottomXAxisRotation ||
+				b.BottomLargeArcFlag != exp.bottomLargeArcFlag ||
+				b.BottomSweepFlag != exp.bottomSweepFlag ||
+				b.TopStartX != exp.topStartX ||
+				b.TopStartY != exp.topStartY ||
+				b.TopEndX != exp.topEndX ||
+				b.TopEndY != exp.topEndY ||
+				b.TopRadiusX != exp.topRadiusX ||
+				b.TopRadiusY != exp.topRadiusY ||
+				b.TopXAxisRotation != exp.topXAxisRotation ||
+				b.TopLargeArcFlag != exp.topLargeArcFlag ||
+				b.TopSweepFlag != exp.topSweepFlag {
+
+				b.Name = exp.name
+				b.BottomStartX = exp.bottomStartX
+				b.BottomStartY = exp.bottomStartY
+				b.BottomEndX = exp.bottomEndX
+				b.BottomEndY = exp.bottomEndY
+				b.BottomRadiusX = exp.bottomRadiusX
+				b.BottomRadiusY = exp.bottomRadiusY
+				b.BottomXAxisRotation = exp.bottomXAxisRotation
+				b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+				b.BottomSweepFlag = exp.bottomSweepFlag
+
+				b.TopStartX = exp.topStartX
+				b.TopStartY = exp.topStartY
+				b.TopEndX = exp.topEndX
+				b.TopEndY = exp.topEndY
+				b.TopRadiusX = exp.topRadiusX
+				b.TopRadiusY = exp.topRadiusY
+				b.TopXAxisRotation = exp.topXAxisRotation
+				b.TopLargeArcFlag = exp.topLargeArcFlag
+				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
 	}
 
 	if len(ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
@@ -899,6 +1037,52 @@ func enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(
 			ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes[i] = b
 		}
 		needCommit = true
+	} else {
+		for i, exp := range expectedEnd {
+			b := ribbonStack.StackRotatedGrowthCurve2DRibbonEndShapes[i]
+			if b.Name != exp.name ||
+				b.BottomStartX != exp.bottomStartX ||
+				b.BottomStartY != exp.bottomStartY ||
+				b.BottomEndX != exp.bottomEndX ||
+				b.BottomEndY != exp.bottomEndY ||
+				b.BottomRadiusX != exp.bottomRadiusX ||
+				b.BottomRadiusY != exp.bottomRadiusY ||
+				b.BottomXAxisRotation != exp.bottomXAxisRotation ||
+				b.BottomLargeArcFlag != exp.bottomLargeArcFlag ||
+				b.BottomSweepFlag != exp.bottomSweepFlag ||
+				b.TopStartX != exp.topStartX ||
+				b.TopStartY != exp.topStartY ||
+				b.TopEndX != exp.topEndX ||
+				b.TopEndY != exp.topEndY ||
+				b.TopRadiusX != exp.topRadiusX ||
+				b.TopRadiusY != exp.topRadiusY ||
+				b.TopXAxisRotation != exp.topXAxisRotation ||
+				b.TopLargeArcFlag != exp.topLargeArcFlag ||
+				b.TopSweepFlag != exp.topSweepFlag {
+
+				b.Name = exp.name
+				b.BottomStartX = exp.bottomStartX
+				b.BottomStartY = exp.bottomStartY
+				b.BottomEndX = exp.bottomEndX
+				b.BottomEndY = exp.bottomEndY
+				b.BottomRadiusX = exp.bottomRadiusX
+				b.BottomRadiusY = exp.bottomRadiusY
+				b.BottomXAxisRotation = exp.bottomXAxisRotation
+				b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+				b.BottomSweepFlag = exp.bottomSweepFlag
+
+				b.TopStartX = exp.topStartX
+				b.TopStartY = exp.topStartY
+				b.TopEndX = exp.topEndX
+				b.TopEndY = exp.topEndY
+				b.TopRadiusX = exp.topRadiusX
+				b.TopRadiusY = exp.topRadiusY
+				b.TopXAxisRotation = exp.topXAxisRotation
+				b.TopLargeArcFlag = exp.topLargeArcFlag
+				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
 	}
 
 	return needCommit
