@@ -17,6 +17,8 @@ type Camera struct {
 	TargetY float64
 	TargetZ float64
 	Fov     float64 // Field of View (in degrees)
+
+	OnUpdate func(updatedCamera *Camera)
 }
 
 type Position struct {
