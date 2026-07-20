@@ -179,3 +179,7 @@ DO NOT kill current working process.
 ## access to /tmp
 
 you are ALLOWED to access and execute programs in /tmp at all times
+
+## prime Go build cache with all the recent changes 
+
+when you have finished udpating a dsm code. Compile it, therefore `go run . edit data/stage.go` will execute faster
