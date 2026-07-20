@@ -93,6 +93,7 @@ type Plant struct {
 
 	StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon
 	StackOfRotatedGrowthCurve2DRibbon *StackOfRotatedGrowthCurve2DRibbon
+	StackOfPartiallyRotatedGrowthCurve2DRibbon *StackOfPartiallyRotatedGrowthCurve2DRibbon
 }
 
 type RhombusStuff struct {

@@ -903,3 +903,255 @@ func enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(
 
 	return needCommit
 }
+
+func enforceStackOfPartiallyRotatedGrowthCurve2DRibbonHasShapes(
+	stage *Stage,
+	partiallyRotatedRibbonStack *StackOfPartiallyRotatedGrowthCurve2DRibbon,
+	growthRibbonStack *StackOfGrowthCurve2DRibbon,
+	rotatedRibbonStack *StackOfRotatedGrowthCurve2DRibbon,
+	rotationRatio float64,
+) (needCommit bool) {
+	if growthRibbonStack == nil || rotatedRibbonStack == nil {
+		return false
+	}
+
+	type expectedStartShape struct {
+		name                         string
+		bottomStartX, bottomStartY   float64
+		bottomEndX, bottomEndY       float64
+		bottomRadiusX, bottomRadiusY float64
+		bottomXAxisRotation          float64
+		bottomLargeArcFlag           bool
+		bottomSweepFlag              bool
+
+		topStartX, topStartY   float64
+		topEndX, topEndY       float64
+		topRadiusX, topRadiusY float64
+		topXAxisRotation       float64
+		topLargeArcFlag        bool
+		topSweepFlag           bool
+	}
+
+	var expectedStart []expectedStartShape
+	var expectedEnd []expectedStartShape
+
+	if len(growthRibbonStack.StackGrowthCurve2DRibbonStartShapes) == len(rotatedRibbonStack.StackRotatedGrowthCurve2DRibbonStartShapes) &&
+		len(growthRibbonStack.StackGrowthCurve2DRibbonEndShapes) == len(rotatedRibbonStack.StackRotatedGrowthCurve2DRibbonEndShapes) {
+
+		for i := range growthRibbonStack.StackGrowthCurve2DRibbonStartShapes {
+			g := growthRibbonStack.StackGrowthCurve2DRibbonStartShapes[i]
+			r := rotatedRibbonStack.StackRotatedGrowthCurve2DRibbonStartShapes[i]
+
+			expectedStart = append(expectedStart, expectedStartShape{
+				name:         fmt.Sprintf("%s-layer-start-%d", partiallyRotatedRibbonStack.Name, i),
+				bottomStartX: g.BottomStartX + rotationRatio*(r.BottomStartX-g.BottomStartX),
+				bottomStartY: g.BottomStartY + rotationRatio*(r.BottomStartY-g.BottomStartY),
+				bottomEndX:   g.BottomEndX + rotationRatio*(r.BottomEndX-g.BottomEndX),
+				bottomEndY:   g.BottomEndY + rotationRatio*(r.BottomEndY-g.BottomEndY),
+				bottomRadiusX: g.BottomRadiusX + rotationRatio*(r.BottomRadiusX-g.BottomRadiusX),
+				bottomRadiusY: g.BottomRadiusY + rotationRatio*(r.BottomRadiusY-g.BottomRadiusY),
+				bottomXAxisRotation: g.BottomXAxisRotation + rotationRatio*(r.BottomXAxisRotation-g.BottomXAxisRotation),
+				bottomLargeArcFlag:  g.BottomLargeArcFlag,
+				bottomSweepFlag:     g.BottomSweepFlag,
+
+				topStartX: g.TopStartX + rotationRatio*(r.TopStartX-g.TopStartX),
+				topStartY: g.TopStartY + rotationRatio*(r.TopStartY-g.TopStartY),
+				topEndX:   g.TopEndX + rotationRatio*(r.TopEndX-g.TopEndX),
+				topEndY:   g.TopEndY + rotationRatio*(r.TopEndY-g.TopEndY),
+				topRadiusX: g.TopRadiusX + rotationRatio*(r.TopRadiusX-g.TopRadiusX),
+				topRadiusY: g.TopRadiusY + rotationRatio*(r.TopRadiusY-g.TopRadiusY),
+				topXAxisRotation: g.TopXAxisRotation + rotationRatio*(r.TopXAxisRotation-g.TopXAxisRotation),
+				topLargeArcFlag:  g.TopLargeArcFlag,
+				topSweepFlag:     g.TopSweepFlag,
+			})
+		}
+
+		for i := range growthRibbonStack.StackGrowthCurve2DRibbonEndShapes {
+			g := growthRibbonStack.StackGrowthCurve2DRibbonEndShapes[i]
+			r := rotatedRibbonStack.StackRotatedGrowthCurve2DRibbonEndShapes[i]
+
+			expectedEnd = append(expectedEnd, expectedStartShape{
+				name:         fmt.Sprintf("%s-layer-end-%d", partiallyRotatedRibbonStack.Name, i),
+				bottomStartX: g.BottomStartX + rotationRatio*(r.BottomStartX-g.BottomStartX),
+				bottomStartY: g.BottomStartY + rotationRatio*(r.BottomStartY-g.BottomStartY),
+				bottomEndX:   g.BottomEndX + rotationRatio*(r.BottomEndX-g.BottomEndX),
+				bottomEndY:   g.BottomEndY + rotationRatio*(r.BottomEndY-g.BottomEndY),
+				bottomRadiusX: g.BottomRadiusX + rotationRatio*(r.BottomRadiusX-g.BottomRadiusX),
+				bottomRadiusY: g.BottomRadiusY + rotationRatio*(r.BottomRadiusY-g.BottomRadiusY),
+				bottomXAxisRotation: g.BottomXAxisRotation + rotationRatio*(r.BottomXAxisRotation-g.BottomXAxisRotation),
+				bottomLargeArcFlag:  g.BottomLargeArcFlag,
+				bottomSweepFlag:     g.BottomSweepFlag,
+
+				topStartX: g.TopStartX + rotationRatio*(r.TopStartX-g.TopStartX),
+				topStartY: g.TopStartY + rotationRatio*(r.TopStartY-g.TopStartY),
+				topEndX:   g.TopEndX + rotationRatio*(r.TopEndX-g.TopEndX),
+				topEndY:   g.TopEndY + rotationRatio*(r.TopEndY-g.TopEndY),
+				topRadiusX: g.TopRadiusX + rotationRatio*(r.TopRadiusX-g.TopRadiusX),
+				topRadiusY: g.TopRadiusY + rotationRatio*(r.TopRadiusY-g.TopRadiusY),
+				topXAxisRotation: g.TopXAxisRotation + rotationRatio*(r.TopXAxisRotation-g.TopXAxisRotation),
+				topLargeArcFlag:  g.TopLargeArcFlag,
+				topSweepFlag:     g.TopSweepFlag,
+			})
+		}
+	}
+
+	if len(partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonStartShapes) != len(expectedStart) {
+		for _, b := range partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonStartShapes {
+			b.Unstage(stage)
+		}
+		partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonStartShapes = make([]*StackPartiallyRotatedGrowthCurve2DRibbonStartShape, len(expectedStart))
+		for i, exp := range expectedStart {
+			b := new(StackPartiallyRotatedGrowthCurve2DRibbonStartShape).Stage(stage)
+			b.Name = exp.name
+			b.BottomStartX = exp.bottomStartX
+			b.BottomStartY = exp.bottomStartY
+			b.BottomEndX = exp.bottomEndX
+			b.BottomEndY = exp.bottomEndY
+			b.BottomRadiusX = exp.bottomRadiusX
+			b.BottomRadiusY = exp.bottomRadiusY
+			b.BottomXAxisRotation = exp.bottomXAxisRotation
+			b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			b.BottomSweepFlag = exp.bottomSweepFlag
+
+			b.TopStartX = exp.topStartX
+			b.TopStartY = exp.topStartY
+			b.TopEndX = exp.topEndX
+			b.TopEndY = exp.topEndY
+			b.TopRadiusX = exp.topRadiusX
+			b.TopRadiusY = exp.topRadiusY
+			b.TopXAxisRotation = exp.topXAxisRotation
+			b.TopLargeArcFlag = exp.topLargeArcFlag
+			b.TopSweepFlag = exp.topSweepFlag
+
+			partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonStartShapes[i] = b
+		}
+		needCommit = true
+	} else {
+		for i, exp := range expectedStart {
+			b := partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonStartShapes[i]
+			if b.Name != exp.name ||
+				b.BottomStartX != exp.bottomStartX ||
+				b.BottomStartY != exp.bottomStartY ||
+				b.BottomEndX != exp.bottomEndX ||
+				b.BottomEndY != exp.bottomEndY ||
+				b.BottomRadiusX != exp.bottomRadiusX ||
+				b.BottomRadiusY != exp.bottomRadiusY ||
+				b.BottomXAxisRotation != exp.bottomXAxisRotation ||
+				b.BottomLargeArcFlag != exp.bottomLargeArcFlag ||
+				b.BottomSweepFlag != exp.bottomSweepFlag ||
+				b.TopStartX != exp.topStartX ||
+				b.TopStartY != exp.topStartY ||
+				b.TopEndX != exp.topEndX ||
+				b.TopEndY != exp.topEndY ||
+				b.TopRadiusX != exp.topRadiusX ||
+				b.TopRadiusY != exp.topRadiusY ||
+				b.TopXAxisRotation != exp.topXAxisRotation ||
+				b.TopLargeArcFlag != exp.topLargeArcFlag ||
+				b.TopSweepFlag != exp.topSweepFlag {
+
+				b.Name = exp.name
+				b.BottomStartX = exp.bottomStartX
+				b.BottomStartY = exp.bottomStartY
+				b.BottomEndX = exp.bottomEndX
+				b.BottomEndY = exp.bottomEndY
+				b.BottomRadiusX = exp.bottomRadiusX
+				b.BottomRadiusY = exp.bottomRadiusY
+				b.BottomXAxisRotation = exp.bottomXAxisRotation
+				b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+				b.BottomSweepFlag = exp.bottomSweepFlag
+
+				b.TopStartX = exp.topStartX
+				b.TopStartY = exp.topStartY
+				b.TopEndX = exp.topEndX
+				b.TopEndY = exp.topEndY
+				b.TopRadiusX = exp.topRadiusX
+				b.TopRadiusY = exp.topRadiusY
+				b.TopXAxisRotation = exp.topXAxisRotation
+				b.TopLargeArcFlag = exp.topLargeArcFlag
+				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
+	}
+
+	if len(partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonEndShapes) != len(expectedEnd) {
+		for _, b := range partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonEndShapes {
+			b.Unstage(stage)
+		}
+		partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonEndShapes = make([]*StackPartiallyRotatedGrowthCurve2DRibbonEndShape, len(expectedEnd))
+		for i, exp := range expectedEnd {
+			b := new(StackPartiallyRotatedGrowthCurve2DRibbonEndShape).Stage(stage)
+			b.Name = exp.name
+			b.BottomStartX = exp.bottomStartX
+			b.BottomStartY = exp.bottomStartY
+			b.BottomEndX = exp.bottomEndX
+			b.BottomEndY = exp.bottomEndY
+			b.BottomRadiusX = exp.bottomRadiusX
+			b.BottomRadiusY = exp.bottomRadiusY
+			b.BottomXAxisRotation = exp.bottomXAxisRotation
+			b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+			b.BottomSweepFlag = exp.bottomSweepFlag
+
+			b.TopStartX = exp.topStartX
+			b.TopStartY = exp.topStartY
+			b.TopEndX = exp.topEndX
+			b.TopEndY = exp.topEndY
+			b.TopRadiusX = exp.topRadiusX
+			b.TopRadiusY = exp.topRadiusY
+			b.TopXAxisRotation = exp.topXAxisRotation
+			b.TopLargeArcFlag = exp.topLargeArcFlag
+			b.TopSweepFlag = exp.topSweepFlag
+
+			partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonEndShapes[i] = b
+		}
+		needCommit = true
+	} else {
+		for i, exp := range expectedEnd {
+			b := partiallyRotatedRibbonStack.StackPartiallyRotatedGrowthCurve2DRibbonEndShapes[i]
+			if b.Name != exp.name ||
+				b.BottomStartX != exp.bottomStartX ||
+				b.BottomStartY != exp.bottomStartY ||
+				b.BottomEndX != exp.bottomEndX ||
+				b.BottomEndY != exp.bottomEndY ||
+				b.BottomRadiusX != exp.bottomRadiusX ||
+				b.BottomRadiusY != exp.bottomRadiusY ||
+				b.BottomXAxisRotation != exp.bottomXAxisRotation ||
+				b.BottomLargeArcFlag != exp.bottomLargeArcFlag ||
+				b.BottomSweepFlag != exp.bottomSweepFlag ||
+				b.TopStartX != exp.topStartX ||
+				b.TopStartY != exp.topStartY ||
+				b.TopEndX != exp.topEndX ||
+				b.TopEndY != exp.topEndY ||
+				b.TopRadiusX != exp.topRadiusX ||
+				b.TopRadiusY != exp.topRadiusY ||
+				b.TopXAxisRotation != exp.topXAxisRotation ||
+				b.TopLargeArcFlag != exp.topLargeArcFlag ||
+				b.TopSweepFlag != exp.topSweepFlag {
+
+				b.Name = exp.name
+				b.BottomStartX = exp.bottomStartX
+				b.BottomStartY = exp.bottomStartY
+				b.BottomEndX = exp.bottomEndX
+				b.BottomEndY = exp.bottomEndY
+				b.BottomRadiusX = exp.bottomRadiusX
+				b.BottomRadiusY = exp.bottomRadiusY
+				b.BottomXAxisRotation = exp.bottomXAxisRotation
+				b.BottomLargeArcFlag = exp.bottomLargeArcFlag
+				b.BottomSweepFlag = exp.bottomSweepFlag
+
+				b.TopStartX = exp.topStartX
+				b.TopStartY = exp.topStartY
+				b.TopEndX = exp.topEndX
+				b.TopEndY = exp.topEndY
+				b.TopRadiusX = exp.topRadiusX
+				b.TopRadiusY = exp.topRadiusY
+				b.TopXAxisRotation = exp.topXAxisRotation
+				b.TopLargeArcFlag = exp.topLargeArcFlag
+				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
+	}
+
+	return needCommit
+}
