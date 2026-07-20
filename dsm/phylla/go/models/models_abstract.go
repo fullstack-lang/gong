@@ -93,6 +93,7 @@ type Plant struct {
 
 	StackOfGrowthCurve2DRibbon        *StackOfGrowthCurve2DRibbon
 	StackOfRotatedGrowthCurve2DRibbon *StackOfRotatedGrowthCurve2DRibbon
+	PartiallyGrowthCurve2DRibbon      *PartiallyGrowthCurve2DRibbon
 
 
 }

@@ -90,6 +90,18 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMidArcVectorShapeGridCreateCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *PartiallyGrowthCurve2DRibbon:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeCreateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PerpendicularVector:
 		if stage.OnAfterPerpendicularVectorCreateCallback != nil {
 			stage.OnAfterPerpendicularVectorCreateCallback.OnAfterCreate(stage, target)
@@ -424,6 +436,21 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*MidArcVectorShapeGrid)
 		if stage.OnAfterMidArcVectorShapeGridUpdateCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartiallyGrowthCurve2DRibbon:
+		newTarget := any(new).(*PartiallyGrowthCurve2DRibbon)
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		newTarget := any(new).(*PartiallyGrowthCurve2DRibbonEndShape)
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		newTarget := any(new).(*PartiallyGrowthCurve2DRibbonStartShape)
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PerpendicularVector:
 		newTarget := any(new).(*PerpendicularVector)
@@ -810,6 +837,21 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*MidArcVectorShapeGrid)
 			stage.OnAfterMidArcVectorShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *PartiallyGrowthCurve2DRibbon:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback != nil {
+			staged := any(staged).(*PartiallyGrowthCurve2DRibbon)
+			stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback != nil {
+			staged := any(staged).(*PartiallyGrowthCurve2DRibbonEndShape)
+			stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback != nil {
+			staged := any(staged).(*PartiallyGrowthCurve2DRibbonStartShape)
+			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PerpendicularVector:
 		if stage.OnAfterPerpendicularVectorDeleteCallback != nil {
 			staged := any(staged).(*PerpendicularVector)
@@ -1174,6 +1216,18 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMidArcVectorShapeGridReadCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridReadCallback.OnAfterRead(stage, target)
 		}
+	case *PartiallyGrowthCurve2DRibbon:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback.OnAfterRead(stage, target)
+		}
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeReadCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *PerpendicularVector:
 		if stage.OnAfterPerpendicularVectorReadCallback != nil {
 			stage.OnAfterPerpendicularVectorReadCallback.OnAfterRead(stage, target)
@@ -1443,6 +1497,12 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShapeGrid])
+	case *PartiallyGrowthCurve2DRibbon:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbon])
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonEndShape])
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonStartShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorUpdateCallback = any(callback).(OnAfterUpdateInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:
@@ -1600,6 +1660,12 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShapeGrid])
+	case *PartiallyGrowthCurve2DRibbon:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbon])
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbonEndShape])
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbonStartShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorCreateCallback = any(callback).(OnAfterCreateInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:
@@ -1757,6 +1823,12 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShapeGrid])
+	case *PartiallyGrowthCurve2DRibbon:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbon])
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonEndShape])
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonStartShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorDeleteCallback = any(callback).(OnAfterDeleteInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:
@@ -1914,6 +1986,12 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterMidArcVectorShapeReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShapeGrid])
+	case *PartiallyGrowthCurve2DRibbon:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbon])
+	case *PartiallyGrowthCurve2DRibbonEndShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbonEndShape])
+	case *PartiallyGrowthCurve2DRibbonStartShape:
+		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbonStartShape])
 	case *PerpendicularVector:
 		stage.OnAfterPerpendicularVectorReadCallback = any(callback).(OnAfterReadInterface[PerpendicularVector])
 	case *PerpendicularVectorGrid:

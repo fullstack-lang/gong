@@ -141,6 +141,24 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.midarcvectorshapegrid, probe)
 			}
+		case *PartiallyGrowthCurve2DRibbonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DRibbon", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dribbon, probe)
+			}
+		case *PartiallyGrowthCurve2DRibbonEndShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DRibbonEndShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dribbonendshape, probe)
+			}
+		case *PartiallyGrowthCurve2DRibbonStartShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DRibbonStartShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dribbonstartshape, probe)
+			}
 		case *PerpendicularVectorFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PerpendicularVector", true)
@@ -760,6 +778,45 @@ func FillUpFormFromGongstructName(
 		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(midarcvectorshapegrid, formGroup, probe)
+	case "PartiallyGrowthCurve2DRibbon":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DRibbon Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DRibbonFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dribbon := new(models.PartiallyGrowthCurve2DRibbon)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dribbon, formGroup, probe)
+	case "PartiallyGrowthCurve2DRibbonEndShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DRibbonEndShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DRibbonEndShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dribbonendshape := new(models.PartiallyGrowthCurve2DRibbonEndShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dribbonendshape, formGroup, probe)
+	case "PartiallyGrowthCurve2DRibbonStartShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DRibbonStartShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DRibbonStartShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dribbonstartshape := new(models.PartiallyGrowthCurve2DRibbonStartShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dribbonstartshape, formGroup, probe)
 	case "PerpendicularVector":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -247,6 +247,47 @@ func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, re
 	return
 }
 
+func (inst *PartiallyGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *PartiallyGrowthCurve2DRibbonEndShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PartiallyGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "PartiallyGrowthCurve2DRibbonEndShapes":
+			if _partiallygrowthcurve2dribbon, ok := stage.PartiallyGrowthCurve2DRibbon_PartiallyGrowthCurve2DRibbonEndShapes_reverseMap[inst]; ok {
+				res = _partiallygrowthcurve2dribbon.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PartiallyGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "PartiallyGrowthCurve2DRibbonStartShapes":
+			if _partiallygrowthcurve2dribbon, ok := stage.PartiallyGrowthCurve2DRibbon_PartiallyGrowthCurve2DRibbonStartShapes_reverseMap[inst]; ok {
+				res = _partiallygrowthcurve2dribbon.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *PerpendicularVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1155,6 +1196,43 @@ func (inst *MidArcVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	}
+	return res
+}
+
+func (inst *PartiallyGrowthCurve2DRibbon) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *PartiallyGrowthCurve2DRibbonEndShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PartiallyGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "PartiallyGrowthCurve2DRibbonEndShapes":
+			res = stage.PartiallyGrowthCurve2DRibbon_PartiallyGrowthCurve2DRibbonEndShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PartiallyGrowthCurve2DRibbon":
+		switch reverseField.Fieldname {
+		case "PartiallyGrowthCurve2DRibbonStartShapes":
+			res = stage.PartiallyGrowthCurve2DRibbon_PartiallyGrowthCurve2DRibbonStartShapes_reverseMap[inst]
+		}
 	}
 	return res
 }

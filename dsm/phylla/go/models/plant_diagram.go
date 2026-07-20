@@ -52,6 +52,7 @@ type PlantDiagram struct {
 	IsHiddenStackOfGrowthCurve2DRibbon bool
 	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
+	IsHiddenPartiallyGrowthCurve2DRibbon bool
 	IsHiddenTorusStackShape bool
 	IsHiddenVerticalTorusStackShape bool
 
