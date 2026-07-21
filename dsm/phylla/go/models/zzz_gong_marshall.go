@@ -1291,6 +1291,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "ThreeDModulo"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
@@ -5128,6 +5129,11 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RotationRatio")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RotationRatio))
+	case "ThreeDModulo":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ThreeDModulo")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ThreeDModulo))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -9006,6 +9012,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "ThreeDModulo"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))

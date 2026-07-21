@@ -20389,6 +20389,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "ThreeDModulo",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -23736,6 +23740,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RotationRatio)
 		res.valueFloat = plant.RotationRatio
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ThreeDModulo":
+		res.valueString = fmt.Sprintf("%d", plant.ThreeDModulo)
+		res.valueInt = plant.ThreeDModulo
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -26979,6 +26987,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RelativeRotatedTorusSeparation = value.GetValueFloat()
 	case "RotationRatio":
 		plant.RotationRatio = value.GetValueFloat()
+	case "ThreeDModulo":
+		plant.ThreeDModulo = int(value.GetValueInt())
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

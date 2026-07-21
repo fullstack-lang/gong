@@ -63,7 +63,11 @@ func GenerateSTL(plant *Plant) string {
 		if circumference <= 0 {
 			circumference = 10.0
 		}
-		globalR = circumference / (2 * math.Pi)
+		threeDModulo := plant.ThreeDModulo
+		if threeDModulo < 1 {
+			threeDModulo = 1
+		}
+		globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 	}
 
 	if plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
@@ -186,62 +190,71 @@ func GenerateSTL(plant *Plant) string {
 
 			stackHeight := plant.StackHeight
 
+			threeDModulo := plant.ThreeDModulo
+			if threeDModulo < 1 {
+				threeDModulo = 1
+			}
+
 			for h := 0; h < stackHeight; h++ {
 				dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 				thetaOffset := 0.0
 
-				var bottomEdges, topEdges, innerEdges, outerEdges [][2]vector3
+				for k := 0; k < threeDModulo; k++ {
+					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
-				for i := 0; i < len(curvePoints) && i < len(topCurvePoints); i++ {
-					p := curvePoints[i]
-					pTop := topCurvePoints[i]
+					var bottomEdges, topEdges, innerEdges, outerEdges [][2]vector3
 
-					thetaBase := math.Atan2(p.Z, p.X)
-					theta := thetaBase + thetaOffset
+					for i := 0; i < len(curvePoints) && i < len(topCurvePoints); i++ {
+						p := curvePoints[i]
+						pTop := topCurvePoints[i]
 
-					thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
-					thetaTop := thetaBaseTop + thetaOffset
+						thetaBase := math.Atan2(p.Z, p.X)
+						theta := thetaBase + thetaOffset + baseThetaOffset
 
-					yBase := p.Y + dy
-					yBaseTop := pTop.Y + dy
+						thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
+						thetaTop := thetaBaseTop + thetaOffset + baseThetaOffset
 
-					rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
-					rOuter := rBase + thickness
+						yBase := p.Y + dy
+						yBaseTop := pTop.Y + dy
 
-					rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
-					rOuterTop := rBaseTop + thickness
+						rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
+						rOuter := rBase + thickness
 
-					xBL := rBase * math.Cos(theta)
-					zBL := rBase * math.Sin(theta)
-					yBL := yBase
+						rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
+						rOuterTop := rBaseTop + thickness
 
-					xBR := rOuter * math.Cos(theta)
-					zBR := rOuter * math.Sin(theta)
-					yBR := yBase
+						xBL := rBase * math.Cos(theta)
+						zBL := rBase * math.Sin(theta)
+						yBL := yBase
 
-					xTL := rBaseTop * math.Cos(thetaTop)
-					zTL := rBaseTop * math.Sin(thetaTop)
-					yTL := yBaseTop
+						xBR := rOuter * math.Cos(theta)
+						zBR := rOuter * math.Sin(theta)
+						yBR := yBase
 
-					xTR := rOuterTop * math.Cos(thetaTop)
-					zTR := rOuterTop * math.Sin(thetaTop)
-					yTR := yBaseTop
+						xTL := rBaseTop * math.Cos(thetaTop)
+						zTL := rBaseTop * math.Sin(thetaTop)
+						yTL := yBaseTop
 
-					vBL := vector3{X: xBL, Y: yBL, Z: zBL}
-					vBR := vector3{X: xBR, Y: yBR, Z: zBR}
-					vTL := vector3{X: xTL, Y: yTL, Z: zTL}
-					vTR := vector3{X: xTR, Y: yTR, Z: zTR}
+						xTR := rOuterTop * math.Cos(thetaTop)
+						zTR := rOuterTop * math.Sin(thetaTop)
+						yTR := yBaseTop
 
-					bottomEdges = append(bottomEdges, [2]vector3{vBL, vBR})
-					topEdges = append(topEdges, [2]vector3{vTL, vTR})
-					innerEdges = append(innerEdges, [2]vector3{vBL, vTL})
-					outerEdges = append(outerEdges, [2]vector3{vBR, vTR})
+						vBL := vector3{X: xBL, Y: yBL, Z: zBL}
+						vBR := vector3{X: xBR, Y: yBR, Z: zBR}
+						vTL := vector3{X: xTL, Y: yTL, Z: zTL}
+						vTR := vector3{X: xTR, Y: yTR, Z: zTR}
+
+						bottomEdges = append(bottomEdges, [2]vector3{vBL, vBR})
+						topEdges = append(topEdges, [2]vector3{vTL, vTR})
+						innerEdges = append(innerEdges, [2]vector3{vBL, vTL})
+						outerEdges = append(outerEdges, [2]vector3{vBR, vTR})
+					}
+
+					createFaceMeshSTL(bottomEdges, false)
+					createFaceMeshSTL(topEdges, true)
+					createFaceMeshSTL(innerEdges, true)
+					createFaceMeshSTL(outerEdges, false)
 				}
-
-				createFaceMeshSTL(bottomEdges, false)
-				createFaceMeshSTL(topEdges, true)
-				createFaceMeshSTL(innerEdges, true)
-				createFaceMeshSTL(outerEdges, false)
 			}
 		}
 	}

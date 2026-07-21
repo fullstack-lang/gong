@@ -758,6 +758,8 @@ type Plant_WOP struct {
 
 	RotationRatio float64
 
+	ThreeDModulo int
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -780,6 +782,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
 	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
 	to.RotationRatio = from.RotationRatio
+	to.ThreeDModulo = from.ThreeDModulo
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected

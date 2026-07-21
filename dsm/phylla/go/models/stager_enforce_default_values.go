@@ -42,6 +42,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.RelativeVerticalThickness = 0.1
 		}
+		if plant.ThreeDModulo < 1 {
+			needCommit = true
+			plant.ThreeDModulo = 1
+		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"
