@@ -176,6 +176,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.StackGrowthCurve2DStartHalfwayArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StackOfGrowthCurve2D](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StackOfGrowthCurve2DRibbon](stage)
+	models.SetOrchestratorOnAfterUpdate[models.StackOfPartiallyRotatedTorusShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StackOfRotatedGrowthCurve2D](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StackOfRotatedGrowthCurve2DRibbon](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StackRotatedGrowthCurve2DEndArcShape](stage)
