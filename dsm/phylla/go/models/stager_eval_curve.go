@@ -5,70 +5,76 @@ import (
 )
 
 func evaluateCurveY(plant *Plant, isTop bool, x float64) float64 {
-	pGrid := plant.PerpendicularVectorGrid
-	n := len(pGrid.PerpendicularVectors) - 1
-
-	offset := 0.0
-	if isTop {
-		offset = plant.RelativeVerticalThickness * plant.RhombusSideLength
+	bestY := -1e9
+	if !isTop {
+		if plant.StartHalfwayArcShapeGrid != nil {
+			for _, sa := range plant.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
+				if x >= math.Min(sa.StartX, sa.EndX) && x <= math.Max(sa.StartX, sa.EndX) {
+					cx, cy, r := computeArcCenterFromEndpoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+					y := evalArcY(sa.StartX, sa.StartY, sa.EndX, sa.EndY, cx, cy, r, x)
+					if y > bestY {
+						bestY = y
+					}
+				}
+			}
+		}
+		if plant.EndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
+				if x >= math.Min(ea.StartX, ea.EndX) && x <= math.Max(ea.StartX, ea.EndX) {
+					cx, cy, r := computeArcCenterFromEndpoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+					y := evalArcY(ea.StartX, ea.StartY, ea.EndX, ea.EndY, cx, cy, r, x)
+					if y > bestY {
+						bestY = y
+					}
+				}
+			}
+		}
+	} else {
+		if plant.TopStartHalfwayArcShapeGrid != nil {
+			for _, sa := range plant.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+				if x >= math.Min(sa.StartX, sa.EndX) && x <= math.Max(sa.StartX, sa.EndX) {
+					cx, cy, r := computeArcCenterFromEndpoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+					y := evalArcY(sa.StartX, sa.StartY, sa.EndX, sa.EndY, cx, cy, r, x)
+					if y > bestY {
+						bestY = y
+					}
+				}
+			}
+		}
+		if plant.TopEndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+				if x >= math.Min(ea.StartX, ea.EndX) && x <= math.Max(ea.StartX, ea.EndX) {
+					cx, cy, r := computeArcCenterFromEndpoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+					y := evalArcY(ea.StartX, ea.StartY, ea.EndX, ea.EndY, cx, cy, r, x)
+					if y > bestY {
+						bestY = y
+					}
+				}
+			}
+		}
 	}
 
-	for i := 0; i < n; i++ {
-		v1 := pGrid.PerpendicularVectors[i]
-		v2 := pGrid.PerpendicularVectors[i+1]
-
-		startX, startY, endX, endY, R, _, _, _, _ := computeArcV2Geometry(v1, v2, offset, false)
-		if x >= math.Min(startX, endX) && x <= math.Max(startX, endX) {
-			cx, cy := computeArcV2Center(v1, v2, false)
-			return evalArcY(startX, startY, endX, endY, cx, cy, R, x)
-		}
-
-		startX2, startY2, endX2, endY2, R2, _, _, _, _ := computeArcV2Geometry(v1, v2, offset, true)
-		if x >= math.Min(startX2, endX2) && x <= math.Max(startX2, endX2) {
-			cx, cy := computeArcV2Center(v1, v2, true)
-			return evalArcY(startX2, startY2, endX2, endY2, cx, cy, R2, x)
-		}
-	}
-
-	// fallback if out of bounds
-	return -1e9
+	return bestY
 }
 
-func computeArcV2Center(v1, v2 *PerpendicularVector, isEndArc bool) (float64, float64) {
-	dx := v1.EndX - v1.StartX
-	dy := v1.EndY - v1.StartY
-	length := math.Hypot(dx, dy)
-	if length == 0 {
-		length = 1
-	}
-	ux, uy := dx/length, dy/length
-
-	midX := (v1.StartX + v2.StartX) / 2.0
-	midY := (v1.StartY + v2.StartY) / 2.0
-
-	Vx := v1.StartX - midX
-	Vy := v1.StartY - midY
-	V_sq := Vx*Vx + Vy*Vy
-	V_dot_u := Vx*ux + Vy*uy
-	if math.Abs(V_dot_u) < 1e-6 {
-		if V_dot_u >= 0 {
-			V_dot_u = 1e-6
-		} else {
-			V_dot_u = -1e-6
+func computeArcCenterFromEndpoints(x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) (float64, float64, float64) {
+	dx := (x1 - x2) / 2.0
+	dy := (y1 - y2) / 2.0
+	d2 := dx*dx + dy*dy
+	var cx, cy float64
+	if d2 == 0 || r*r < d2 {
+		cx = (x1 + x2) / 2.0
+		cy = (y1 + y2) / 2.0
+		r = math.Sqrt(d2)
+	} else {
+		root := math.Sqrt(r*r/d2 - 1.0)
+		if largeArcFlag == sweepFlag {
+			root = -root
 		}
+		cx = (x1+x2)/2.0 + root*dy
+		cy = (y1+y2)/2.0 - root*dx
 	}
-
-	R_val := -V_sq / (2.0 * V_dot_u)
-	cx := v1.StartX + R_val*ux
-	cy := v1.StartY + R_val*uy
-
-	if !isEndArc {
-		return cx, cy
-	}
-	
-	cx_new := 2*midX - cx
-	cy_new := 2*midY - cy
-	return cx_new, cy_new
+	return cx, cy, r
 }
 
 func evalArcY(x0, y0, x1, y1, cx, cy, R, x float64) float64 {
@@ -115,21 +121,30 @@ func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, curren
 	maxX := plant.PerpendicularVectorGrid.PerpendicularVectors[n-1].StartX
 
 	dy = -1e9
-	steps := 1000
-	overlapStart := minX + currentDX
-	overlapEnd := maxX
-	if overlapStart <= overlapEnd {
-		for step := 0; step <= steps; step++ {
-			x := overlapStart + (float64(step)/float64(steps))*(overlapEnd-overlapStart)
-			yTop := evaluateCurveY(plant, true, x)
-			yBot := evaluateCurveY(plant, false, x-currentDX)
-			if yTop != -1e9 && yBot != -1e9 {
-				if yTop-yBot > dy {
-					dy = yTop - yBot
-				}
+	steps := 3600
+	// The 3D torus is periodic. Check the entire circumference to find the global max dy!
+	for step := 0; step <= steps; step++ {
+		x := minX + (float64(step)/float64(steps))*(maxX-minX)
+		yTop := evaluateCurveY(plant, true, x)
+		
+		xBot := x - currentDX
+		// Wrap xBot so it stays within [minX, maxX] due to the cylindrical geometry
+		for xBot < minX {
+			xBot += circLen
+		}
+		for xBot > maxX {
+			xBot -= circLen
+		}
+		
+		yBot := evaluateCurveY(plant, false, xBot)
+		
+		if yTop != -1e9 && yBot != -1e9 {
+			if yTop-yBot > dy {
+				dy = yTop - yBot
 			}
 		}
 	}
+	
 	if dy == -1e9 {
 		dy = plant.RelativeVerticalThickness * plant.RhombusSideLength
 	}
