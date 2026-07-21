@@ -144,7 +144,7 @@ func (stager *Stager) ux_slider() {
 				stager,
 				"Rot Ratio",
 				0.0,
-				1.0,
+				1.05,
 				0.01,
 				&plant.RotationRatio,
 			),
