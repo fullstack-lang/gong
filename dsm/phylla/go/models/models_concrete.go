@@ -1,8 +1,24 @@
 package models
 
+// gong:omit
+type RhombusStuff struct {
+	Name                           string
+	ReferenceRhombus               *RhombusShape
+	PlantCircumferenceShape        *PlantCircumferenceShape
+	GridPathShape                  *GridPathShape
+	InitialRhombusGridShape        *InitialRhombusGridShape
+	ExplanationTextShape           *ExplanationTextShape
+	RotatedReferenceRhombus        *RhombusShape
+	RotatedPlantCircumferenceShape *PlantCircumferenceShape
+	RotatedGridPathShape           *GridPathShape
+	RotatedRhombusGridShape2       *RotatedRhombusGridShape
+	GrowthCurveRhombusGridShape    *GrowthCurveRhombusGridShape
+}
+
 // AxesShape of a plant, describe the Cartesian reference X & Y vector
 //
 // each plant has one AxesShape button
+// gong:omit
 type AxesShape struct {
 	Name string
 
@@ -21,6 +37,7 @@ func (s *AxesShape) GetIsWithHiddenHandle() bool {
 }
 
 // RhombusShape of a plant,
+// gong:omit
 type RhombusShape struct {
 	Name string
 
@@ -30,6 +47,7 @@ type RhombusShape struct {
 // PlantCircumferenceShape of a plant,
 //
 // each plant has one PlantCircumferenceShape
+// gong:omit
 type PlantCircumferenceShape struct {
 	Name string
 
@@ -41,21 +59,25 @@ type PlantCircumferenceShape struct {
 //
 // each plant has one GridPathShape to visualize the
 // N and M steps along the grid to reach the PlantCircumference.
+// gong:omit
 type GridPathShape struct {
 	Name string
 }
 
 // CircleGridShape of a plant,
+// gong:omit
 type CircleGridShape struct {
 	Name string
 }
 
 // ExplanationTextShape of a plant,
+// gong:omit
 type ExplanationTextShape struct {
 	Name string
 }
 
 // InitialRhombusShape of a plant,
+// gong:omit
 type InitialRhombusShape struct {
 	Name string
 
@@ -63,6 +85,7 @@ type InitialRhombusShape struct {
 }
 
 // RotatedRhombusShape of a plant,
+// gong:omit
 type RotatedRhombusShape struct {
 	Name string
 
@@ -70,6 +93,7 @@ type RotatedRhombusShape struct {
 }
 
 // GrowthCurveRhombusShape of a plant,
+// gong:omit
 type GrowthCurveRhombusShape struct {
 	Name string
 
@@ -77,6 +101,7 @@ type GrowthCurveRhombusShape struct {
 }
 
 // GrowthVectorShape of a plant,
+// gong:omit
 type GrowthVectorShape struct {
 	Name string
 
@@ -84,6 +109,7 @@ type GrowthVectorShape struct {
 }
 
 // InitialRhombusGridShape of a plant,
+// gong:omit
 type InitialRhombusGridShape struct {
 	Name string
 
@@ -91,6 +117,7 @@ type InitialRhombusGridShape struct {
 }
 
 // RotatedRhombusGridShape of a plant,
+// gong:omit
 type RotatedRhombusGridShape struct {
 	Name string
 
@@ -98,6 +125,7 @@ type RotatedRhombusGridShape struct {
 }
 
 // RotatedRhombusGridShape of a plant,
+// gong:omit
 type GrowthCurveRhombusGridShape struct {
 	Name string
 
@@ -105,6 +133,7 @@ type GrowthCurveRhombusGridShape struct {
 }
 
 // PerpendicularVector of a plant,
+// gong:omit
 type PerpendicularVector struct {
 	Name string
 
@@ -113,6 +142,7 @@ type PerpendicularVector struct {
 }
 
 // PerpendicularVectorGrid of a plant,
+// gong:omit
 type PerpendicularVectorGrid struct {
 	Name string
 
@@ -120,6 +150,7 @@ type PerpendicularVectorGrid struct {
 }
 
 // PerpendicularVectorHalfway of a plant,
+// gong:omit
 type PerpendicularVectorHalfway struct {
 	Name string
 
@@ -128,6 +159,7 @@ type PerpendicularVectorHalfway struct {
 }
 
 // PerpendicularVectorGridHalfway of a plant,
+// gong:omit
 type PerpendicularVectorGridHalfway struct {
 	Name string
 
@@ -135,6 +167,7 @@ type PerpendicularVectorGridHalfway struct {
 }
 
 // StartArcShape of a plant,
+// gong:omit
 type StartArcShape struct {
 	Name string
 
@@ -148,6 +181,7 @@ type StartArcShape struct {
 }
 
 // StartArcShapeGrid of a plant,
+// gong:omit
 type StartArcShapeGrid struct {
 	Name string
 
@@ -155,6 +189,7 @@ type StartArcShapeGrid struct {
 }
 
 // TopStartArcShape of a plant,
+// gong:omit
 type TopStartArcShape struct {
 	Name string
 
@@ -168,6 +203,7 @@ type TopStartArcShape struct {
 }
 
 // TopStartArcShapeGrid of a plant,
+// gong:omit
 type TopStartArcShapeGrid struct {
 	Name string
 
@@ -175,6 +211,7 @@ type TopStartArcShapeGrid struct {
 }
 
 // EndArcShape of a plant,
+// gong:omit
 type EndArcShape struct {
 	Name string
 
@@ -188,6 +225,7 @@ type EndArcShape struct {
 }
 
 // EndArcShapeGrid of a plant,
+// gong:omit
 type EndArcShapeGrid struct {
 	Name string
 
@@ -195,6 +233,7 @@ type EndArcShapeGrid struct {
 }
 
 // TopEndArcShape of a plant,
+// gong:omit
 type TopEndArcShape struct {
 	Name string
 
@@ -208,6 +247,7 @@ type TopEndArcShape struct {
 }
 
 // TopEndArcShapeGrid of a plant,
+// gong:omit
 type TopEndArcShapeGrid struct {
 	Name string
 
@@ -215,6 +255,7 @@ type TopEndArcShapeGrid struct {
 }
 
 // ArcNormalVectorShape of a plant,
+// gong:omit
 type ArcNormalVectorShape struct {
 	Name string
 
@@ -223,6 +264,7 @@ type ArcNormalVectorShape struct {
 }
 
 // ArcNormalVectorShapeGrid of a plant,
+// gong:omit
 type ArcNormalVectorShapeGrid struct {
 	Name string
 
@@ -230,6 +272,7 @@ type ArcNormalVectorShapeGrid struct {
 }
 
 // BaseVectorShape of a plant,
+// gong:omit
 type BaseVectorShape struct {
 	Name string
 
@@ -238,6 +281,7 @@ type BaseVectorShape struct {
 }
 
 // BaseVectorShapeGrid of a plant,
+// gong:omit
 type BaseVectorShapeGrid struct {
 	Name string
 
@@ -245,12 +289,14 @@ type BaseVectorShapeGrid struct {
 }
 
 // ShiftedBottomTopStartArcShapeGrid of a plant,
+// gong:omit
 type ShiftedBottomTopStartArcShapeGrid struct {
 	Name string
 
 	ShiftedBottomTopStartArcShapes []*ShiftedBottomTopStartArcShape
 }
 
+// gong:omit
 type ShiftedBottomTopStartArcShape struct {
 	Name string
 
@@ -264,12 +310,14 @@ type ShiftedBottomTopStartArcShape struct {
 }
 
 // MidArcVectorShapeGrid of a plant,
+// gong:omit
 type MidArcVectorShapeGrid struct {
 	Name string
 
 	MidArcVectorShapes []*MidArcVectorShape
 }
 
+// gong:omit
 type MidArcVectorShape struct {
 	Name string
 
@@ -278,12 +326,14 @@ type MidArcVectorShape struct {
 }
 
 // TopMidArcVectorShapeGrid of a plant,
+// gong:omit
 type TopMidArcVectorShapeGrid struct {
 	Name string
 
 	TopMidArcVectorShapes []*TopMidArcVectorShape
 }
 
+// gong:omit
 type TopMidArcVectorShape struct {
 	Name string
 
@@ -292,12 +342,14 @@ type TopMidArcVectorShape struct {
 }
 
 // ShiftedLeftStackOfNormalVector of a plant,
+// gong:omit
 type ShiftedLeftStackOfNormalVector struct {
 	Name string
 
 	ShiftedLeftStackNormalVectors []*ShiftedLeftStackNormalVector
 }
 
+// gong:omit
 type ShiftedLeftStackNormalVector struct {
 	Name string
 
@@ -306,6 +358,7 @@ type ShiftedLeftStackNormalVector struct {
 }
 
 // StackOfRotatedGrowthCurve2D of a plant,
+// gong:omit
 type StackOfRotatedGrowthCurve2D struct {
 	Name string
 
@@ -313,6 +366,7 @@ type StackOfRotatedGrowthCurve2D struct {
 	StackRotatedGrowthCurve2DEndArcShapes   []*StackRotatedGrowthCurve2DEndArcShape
 }
 
+// gong:omit
 type StackRotatedGrowthCurve2DStartArcShape struct {
 	Name string
 
@@ -325,6 +379,7 @@ type StackRotatedGrowthCurve2DStartArcShape struct {
 	RadiusX, RadiusY float64
 }
 
+// gong:omit
 type StackRotatedGrowthCurve2DEndArcShape struct {
 	Name string
 
@@ -338,6 +393,7 @@ type StackRotatedGrowthCurve2DEndArcShape struct {
 }
 
 // TopStackOfRotatedGrowthCurve2D of a plant,
+// gong:omit
 type TopStackOfRotatedGrowthCurve2D struct {
 	Name string
 
@@ -346,12 +402,15 @@ type TopStackOfRotatedGrowthCurve2D struct {
 }
 
 // ShiftedLeftStackOfGrowthCurve of a plant,
+// gong:omit
 type ShiftedLeftStackOfGrowthCurve struct {
 	Name string
 
 	ShiftedLeftStackGrowthCurveStartArcShapes []*ShiftedLeftStackGrowthCurveStartArcShape
 	ShiftedLeftStackGrowthCurveEndArcShapes   []*ShiftedLeftStackGrowthCurveEndArcShape
 }
+
+// gong:omit
 type TopStackOfRotatedGrowthCurve2DStartArcShape struct {
 	Name string
 
@@ -364,6 +423,7 @@ type TopStackOfRotatedGrowthCurve2DStartArcShape struct {
 	RadiusX, RadiusY float64
 }
 
+// gong:omit
 type TopStackOfRotatedGrowthCurve2DEndArcShape struct {
 	Name string
 
@@ -376,6 +436,7 @@ type TopStackOfRotatedGrowthCurve2DEndArcShape struct {
 	RadiusX, RadiusY float64
 }
 
+// gong:omit
 type ShiftedLeftStackGrowthCurveStartArcShape struct {
 	Name string
 
@@ -388,6 +449,7 @@ type ShiftedLeftStackGrowthCurveStartArcShape struct {
 	RadiusX, RadiusY float64
 }
 
+// gong:omit
 type ShiftedLeftStackGrowthCurveEndArcShape struct {
 	Name string
 
@@ -400,15 +462,8 @@ type ShiftedLeftStackGrowthCurveEndArcShape struct {
 	RadiusX, RadiusY float64
 }
 
-type Rendered3DShape struct {
-	Name string
-
-	ViewX, ViewY, ViewZ       float64
-	TargetX, TargetY, TargetZ float64
-	Fov                       float64
-}
-
 // GrowthCurve2D of a plant,
+// gong:omit
 type GrowthCurve2D struct {
 	Name string
 
@@ -417,6 +472,7 @@ type GrowthCurve2D struct {
 }
 
 // TopGrowthCurve2D of a plant,
+// gong:omit
 type TopGrowthCurve2D struct {
 	Name string
 
@@ -424,6 +480,7 @@ type TopGrowthCurve2D struct {
 	TopEndHalfwayArcShapeGrid   *TopEndHalfwayArcShapeGrid
 }
 
+// gong:omit
 type StartHalfwayArcShape struct {
 	Name string
 
@@ -436,16 +493,19 @@ type StartHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type StartHalfwayArcShapeGrid struct {
 	Name                  string
 	StartHalfwayArcShapes []*StartHalfwayArcShape
 }
 
+// gong:omit
 type EndHalfwayArcShapeGrid struct {
 	Name                string
 	EndHalfwayArcShapes []*EndHalfwayArcShape
 }
 
+// gong:omit
 type EndHalfwayArcShape struct {
 	Name string
 
@@ -458,6 +518,7 @@ type EndHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type TopStartHalfwayArcShape struct {
 	Name string
 
@@ -470,11 +531,13 @@ type TopStartHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type TopStartHalfwayArcShapeGrid struct {
 	Name                     string
 	TopStartHalfwayArcShapes []*TopStartHalfwayArcShape
 }
 
+// gong:omit
 type TopEndHalfwayArcShape struct {
 	Name string
 
@@ -487,32 +550,38 @@ type TopEndHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type TopEndHalfwayArcShapeGrid struct {
 	Name                   string
 	TopEndHalfwayArcShapes []*TopEndHalfwayArcShape
 }
 
 // TorusStackShape of a plant,
+// gong:omit
 type TorusStackShape struct {
 	Name string
 }
 
 // VerticalTorusStackShape of a plant,
+// gong:omit
 type VerticalTorusStackShape struct {
 	Name string
 }
 
 // PartiallyRotatedTorusShape of a plant,
+// gong:omit
 type PartiallyRotatedTorusShape struct {
 	Name string
 }
 
 // StackOfPartiallyRotatedTorusShape of a plant,
+// gong:omit
 type StackOfPartiallyRotatedTorusShape struct {
 	Name string
 }
 
 // StackOfGrowthCurve2D of a plant,
+// gong:omit
 type StackOfGrowthCurve2D struct {
 	Name string
 
@@ -521,6 +590,7 @@ type StackOfGrowthCurve2D struct {
 }
 
 // TopStackOfGrowthCurve2D of a plant,
+// gong:omit
 type TopStackOfGrowthCurve2D struct {
 	Name string
 
@@ -528,6 +598,7 @@ type TopStackOfGrowthCurve2D struct {
 	TopStackGrowthCurve2DEndHalfwayArcShapes   []*TopStackGrowthCurve2DEndHalfwayArcShape
 }
 
+// gong:omit
 type StackGrowthCurve2DStartHalfwayArcShape struct {
 	Name string
 
@@ -540,6 +611,7 @@ type StackGrowthCurve2DStartHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type StackGrowthCurve2DEndHalfwayArcShape struct {
 	Name string
 
@@ -552,6 +624,7 @@ type StackGrowthCurve2DEndHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type TopStackGrowthCurve2DStartHalfwayArcShape struct {
 	Name string
 
@@ -564,6 +637,7 @@ type TopStackGrowthCurve2DStartHalfwayArcShape struct {
 	SweepFlag        bool
 }
 
+// gong:omit
 type TopStackGrowthCurve2DEndHalfwayArcShape struct {
 	Name string
 
@@ -577,6 +651,7 @@ type TopStackGrowthCurve2DEndHalfwayArcShape struct {
 }
 
 // StackOfGrowthCurve2DRibbon of a plant,
+// gong:omit
 type StackOfGrowthCurve2DRibbon struct {
 	Name string
 
@@ -584,6 +659,7 @@ type StackOfGrowthCurve2DRibbon struct {
 	StackGrowthCurve2DRibbonEndShapes   []*StackGrowthCurve2DRibbonEndShape
 }
 
+// gong:omit
 type StackGrowthCurve2DRibbonStartShape struct {
 	Name string
 
@@ -602,6 +678,7 @@ type StackGrowthCurve2DRibbonStartShape struct {
 	TopSweepFlag           bool
 }
 
+// gong:omit
 type StackGrowthCurve2DRibbonEndShape struct {
 	Name string
 
@@ -621,6 +698,7 @@ type StackGrowthCurve2DRibbonEndShape struct {
 }
 
 // StackOfRotatedGrowthCurve2DRibbon of a plant,
+// gong:omit
 type StackOfRotatedGrowthCurve2DRibbon struct {
 	Name string
 
@@ -628,6 +706,7 @@ type StackOfRotatedGrowthCurve2DRibbon struct {
 	StackRotatedGrowthCurve2DRibbonEndShapes   []*StackRotatedGrowthCurve2DRibbonEndShape
 }
 
+// gong:omit
 type StackRotatedGrowthCurve2DRibbonStartShape struct {
 	Name string
 
@@ -646,6 +725,7 @@ type StackRotatedGrowthCurve2DRibbonStartShape struct {
 	TopSweepFlag           bool
 }
 
+// gong:omit
 type StackRotatedGrowthCurve2DRibbonEndShape struct {
 	Name string
 
@@ -665,6 +745,7 @@ type StackRotatedGrowthCurve2DRibbonEndShape struct {
 }
 
 // GrowthCurve2DRibbon of a plant,
+// gong:omit
 type GrowthCurve2DRibbon struct {
 	Name string
 
@@ -672,6 +753,7 @@ type GrowthCurve2DRibbon struct {
 	GrowthCurve2DRibbonEndShapes   []*GrowthCurve2DRibbonEndShape
 }
 
+// gong:omit
 type GrowthCurve2DRibbonStartShape struct {
 	Name string
 
@@ -690,6 +772,7 @@ type GrowthCurve2DRibbonStartShape struct {
 	TopSweepFlag           bool
 }
 
+// gong:omit
 type GrowthCurve2DRibbonEndShape struct {
 	Name string
 
@@ -709,6 +792,7 @@ type GrowthCurve2DRibbonEndShape struct {
 }
 
 // ShiftedRightGrowthCurve2DRibbon of a plant,
+// gong:omit
 type ShiftedRightGrowthCurve2DRibbon struct {
 	Name string
 
@@ -716,6 +800,7 @@ type ShiftedRightGrowthCurve2DRibbon struct {
 	ShiftedRightGrowthCurve2DRibbonEndShapes   []*ShiftedRightGrowthCurve2DRibbonEndShape
 }
 
+// gong:omit
 type ShiftedRightGrowthCurve2DRibbonStartShape struct {
 	Name string
 
@@ -734,6 +819,7 @@ type ShiftedRightGrowthCurve2DRibbonStartShape struct {
 	TopSweepFlag           bool
 }
 
+// gong:omit
 type ShiftedRightGrowthCurve2DRibbonEndShape struct {
 	Name string
 
@@ -753,6 +839,7 @@ type ShiftedRightGrowthCurve2DRibbonEndShape struct {
 }
 
 // PartiallyGrowthCurve2DRibbon of a plant,
+// gong:omit
 type PartiallyGrowthCurve2DRibbon struct {
 	Name string
 
@@ -760,6 +847,7 @@ type PartiallyGrowthCurve2DRibbon struct {
 	PartiallyGrowthCurve2DRibbonEndShapes   []*PartiallyGrowthCurve2DRibbonEndShape
 }
 
+// gong:omit
 type PartiallyGrowthCurve2DRibbonStartShape struct {
 	Name string
 
@@ -778,6 +866,7 @@ type PartiallyGrowthCurve2DRibbonStartShape struct {
 	TopSweepFlag           bool
 }
 
+// gong:omit
 type PartiallyGrowthCurve2DRibbonEndShape struct {
 	Name string
 
