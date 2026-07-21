@@ -221,6 +221,13 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PartiallyRotatedTorusShape
+func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PerpendicularVector
 func (perpendicularvector *PerpendicularVector) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -300,6 +307,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.TorusStackShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.VerticalTorusStackShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
 	return
 }
 

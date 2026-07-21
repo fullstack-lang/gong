@@ -97,3 +97,41 @@ func evalArcY(x0, y0, x1, y1, cx, cy, R, x float64) float64 {
 	}
 	return bestY
 }
+
+func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, currentDX float64) {
+	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
+	if circLen <= 0 {
+		return 0, 0, 0
+	}
+
+	dx = plant.RotationRatio * plant.GrowthVectorShape.X
+	currentDX = math.Mod(dx, circLen)
+	if currentDX < 0 {
+		currentDX += circLen
+	}
+
+	minX := plant.PerpendicularVectorGrid.PerpendicularVectors[0].StartX
+	n := len(plant.PerpendicularVectorGrid.PerpendicularVectors)
+	maxX := plant.PerpendicularVectorGrid.PerpendicularVectors[n-1].StartX
+
+	dy = -1e9
+	steps := 1000
+	overlapStart := minX + currentDX
+	overlapEnd := maxX
+	if overlapStart <= overlapEnd {
+		for step := 0; step <= steps; step++ {
+			x := overlapStart + (float64(step)/float64(steps))*(overlapEnd-overlapStart)
+			yTop := evaluateCurveY(plant, true, x)
+			yBot := evaluateCurveY(plant, false, x-currentDX)
+			if yTop != -1e9 && yBot != -1e9 {
+				if yTop-yBot > dy {
+					dy = yTop - yBot
+				}
+			}
+		}
+	}
+	if dy == -1e9 {
+		dy = plant.RelativeVerticalThickness * plant.RhombusSideLength
+	}
+	return dx, dy, currentDX
+}

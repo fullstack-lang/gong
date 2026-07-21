@@ -144,6 +144,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.PartiallyGrowthCurve2DRibbon](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartiallyGrowthCurve2DRibbonEndShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartiallyGrowthCurve2DRibbonStartShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PartiallyRotatedTorusShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVector](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorGridHalfway](stage)

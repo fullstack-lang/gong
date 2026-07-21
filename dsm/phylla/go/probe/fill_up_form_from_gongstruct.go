@@ -331,6 +331,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.PartiallyRotatedTorusShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "PartiallyRotatedTorusShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyRotatedTorusShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PerpendicularVector:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

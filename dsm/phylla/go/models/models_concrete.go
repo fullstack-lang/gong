@@ -502,6 +502,11 @@ type VerticalTorusStackShape struct {
 	Name string
 }
 
+// PartiallyRotatedTorusShape of a plant,
+type PartiallyRotatedTorusShape struct {
+	Name string
+}
+
 // StackOfGrowthCurve2D of a plant,
 type StackOfGrowthCurve2D struct {
 	Name string

@@ -502,6 +502,26 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						generateRibbonLayer(h, dx, dy, thetaOffset, "Vertical Torus Continuous")
 					}
 				}
+
+				if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
+					dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
+					
+					// In 3D, the stack is at h=0, h=1, etc.
+					// The partially rotated ribbon sits on top of the first ribbon (h=0) in 2D.
+					// So its base Y starts at 0, plus the dy we computed.
+					
+					// Actually, in 2D, the base ribbon is at (0, 0). The shifted ribbon is at (dx, dy).
+					// In 3D, h=0 has (0,0). So we just render at (dx, dy)!
+					// But wait, the generateRibbonLayer adds (dx, dy) directly to the base coordinates!
+					
+					thetaOffset := dx / globalR
+					
+					// The Y component of GrowthVectorShape is applied for the overall stack in 2D, 
+					// but here the dy from ComputePartiallyGrowthCurveDY ALREADY includes the Y-shift
+					// required to perfectly rest on the first ribbon (h=0).
+					
+					generateRibbonLayer(1, dx, dy, thetaOffset, "Partially Rotated Torus")
+				}
 			}
 		}
 

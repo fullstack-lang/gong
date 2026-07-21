@@ -159,6 +159,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dribbonstartshape, probe)
 			}
+		case *PartiallyRotatedTorusShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyRotatedTorusShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallyrotatedtorusshape, probe)
+			}
 		case *PerpendicularVectorFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PerpendicularVector", true)
@@ -817,6 +823,19 @@ func FillUpFormFromGongstructName(
 		partiallygrowthcurve2dribbonstartshape := new(models.PartiallyGrowthCurve2DRibbonStartShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(partiallygrowthcurve2dribbonstartshape, formGroup, probe)
+	case "PartiallyRotatedTorusShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyRotatedTorusShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyRotatedTorusShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallyrotatedtorusshape := new(models.PartiallyRotatedTorusShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallyrotatedtorusshape, formGroup, probe)
 	case "PerpendicularVector":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

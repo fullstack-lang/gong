@@ -86,6 +86,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce plant diagram rendered 3d shape", stager.enforcePlantDiagramRendered3DShape},
 		{"Enforce plant diagram torus stack shape", stager.enforcePlantDiagramTorusStackShape},
 		{"Enforce plant diagram vertical torus stack shape", stager.enforcePlantDiagramVerticalTorusStackShape},
+		{"Enforce plant diagram partially rotated torus shape", stager.enforcePlantDiagramPartiallyRotatedTorusShape},
 
 		// concrete semantic check
 
