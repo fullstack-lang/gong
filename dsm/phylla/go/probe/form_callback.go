@@ -4351,6 +4351,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenVerticalTorusStackShape), formDiv)
 		case "IsHiddenPartiallyRotatedTorusShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -4369,6 +4371,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.VerticalTorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "PartiallyRotatedTorusShape":
 			FormDivSelectFieldToField(&(plantdiagram_.PartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfPartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(plantdiagram_.StackOfPartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -7213,6 +7217,84 @@ func (stackofgrowthcurve2dribbonFormCallback *StackOfGrowthCurve2DRibbonFormCall
 	}
 
 	stackofgrowthcurve2dribbonFormCallback.probe.ux_tree()
+}
+func __gong__New__StackOfPartiallyRotatedTorusShapeFormCallback(
+	stackofpartiallyrotatedtorusshape *models.StackOfPartiallyRotatedTorusShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackofpartiallyrotatedtorusshapeFormCallback *StackOfPartiallyRotatedTorusShapeFormCallback) {
+	stackofpartiallyrotatedtorusshapeFormCallback = new(StackOfPartiallyRotatedTorusShapeFormCallback)
+	stackofpartiallyrotatedtorusshapeFormCallback.probe = probe
+	stackofpartiallyrotatedtorusshapeFormCallback.stackofpartiallyrotatedtorusshape = stackofpartiallyrotatedtorusshape
+	stackofpartiallyrotatedtorusshapeFormCallback.formGroup = formGroup
+
+	stackofpartiallyrotatedtorusshapeFormCallback.CreationMode = (stackofpartiallyrotatedtorusshape == nil)
+
+	return
+}
+
+type StackOfPartiallyRotatedTorusShapeFormCallback struct {
+	stackofpartiallyrotatedtorusshape *models.StackOfPartiallyRotatedTorusShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stackofpartiallyrotatedtorusshapeFormCallback *StackOfPartiallyRotatedTorusShapeFormCallback) OnSave() {
+	stackofpartiallyrotatedtorusshapeFormCallback.probe.stageOfInterest.Lock()
+	defer stackofpartiallyrotatedtorusshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StackOfPartiallyRotatedTorusShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stackofpartiallyrotatedtorusshapeFormCallback.probe.formStage.Checkout()
+
+	if stackofpartiallyrotatedtorusshapeFormCallback.stackofpartiallyrotatedtorusshape == nil {
+		stackofpartiallyrotatedtorusshapeFormCallback.stackofpartiallyrotatedtorusshape = new(models.StackOfPartiallyRotatedTorusShape).Stage(stackofpartiallyrotatedtorusshapeFormCallback.probe.stageOfInterest)
+	}
+	stackofpartiallyrotatedtorusshape_ := stackofpartiallyrotatedtorusshapeFormCallback.stackofpartiallyrotatedtorusshape
+	_ = stackofpartiallyrotatedtorusshape_
+
+	for _, formDiv := range stackofpartiallyrotatedtorusshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stackofpartiallyrotatedtorusshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if stackofpartiallyrotatedtorusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackofpartiallyrotatedtorusshape_.Unstage(stackofpartiallyrotatedtorusshapeFormCallback.probe.stageOfInterest)
+	}
+
+	stackofpartiallyrotatedtorusshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StackOfPartiallyRotatedTorusShape](
+		stackofpartiallyrotatedtorusshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stackofpartiallyrotatedtorusshapeFormCallback.CreationMode || stackofpartiallyrotatedtorusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackofpartiallyrotatedtorusshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stackofpartiallyrotatedtorusshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StackOfPartiallyRotatedTorusShapeFormCallback(
+			nil,
+			stackofpartiallyrotatedtorusshapeFormCallback.probe,
+			newFormGroup,
+		)
+		stackofpartiallyrotatedtorusshape := new(models.StackOfPartiallyRotatedTorusShape)
+		FillUpForm(stackofpartiallyrotatedtorusshape, newFormGroup, stackofpartiallyrotatedtorusshapeFormCallback.probe)
+		stackofpartiallyrotatedtorusshapeFormCallback.probe.formStage.Commit()
+	}
+
+	stackofpartiallyrotatedtorusshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__StackOfRotatedGrowthCurve2DFormCallback(
 	stackofrotatedgrowthcurve2d *models.StackOfRotatedGrowthCurve2D,

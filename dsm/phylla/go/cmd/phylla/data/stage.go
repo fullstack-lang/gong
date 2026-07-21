@@ -25,29 +25,29 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__ArcNormalVectorShape__00008023_ := (&models.ArcNormalVectorShape{Name: `Plant 1-ArcNormalVectorShapeGrid-0`}).Stage(stage)
-	__ArcNormalVectorShape__00008024_ := (&models.ArcNormalVectorShape{Name: `Plant 1-ArcNormalVectorShapeGrid-1`}).Stage(stage)
-	__ArcNormalVectorShape__00008025_ := (&models.ArcNormalVectorShape{Name: `Plant 1-ArcNormalVectorShapeGrid-2`}).Stage(stage)
+	__ArcNormalVectorShape__00008032_ := (&models.ArcNormalVectorShape{Name: `Plant 1-ArcNormalVectorShapeGrid-0`}).Stage(stage)
+	__ArcNormalVectorShape__00008033_ := (&models.ArcNormalVectorShape{Name: `Plant 1-ArcNormalVectorShapeGrid-1`}).Stage(stage)
+	__ArcNormalVectorShape__00008034_ := (&models.ArcNormalVectorShape{Name: `Plant 1-ArcNormalVectorShapeGrid-2`}).Stage(stage)
 
 	__ArcNormalVectorShapeGrid__00000000_ := (&models.ArcNormalVectorShapeGrid{Name: `Plant 1-ArcNormalVectorShapeGrid`}).Stage(stage)
 
 	__AxesShape__00000000_ := (&models.AxesShape{Name: `Plant 1-AxesShape`}).Stage(stage)
 
-	__BaseVectorShape__00012491_ := (&models.BaseVectorShape{Name: `Plant 1-BaseVectorShapeGrid-0`}).Stage(stage)
-	__BaseVectorShape__00012492_ := (&models.BaseVectorShape{Name: `Plant 1-BaseVectorShapeGrid-1`}).Stage(stage)
-	__BaseVectorShape__00012493_ := (&models.BaseVectorShape{Name: `Plant 1-BaseVectorShapeGrid-2`}).Stage(stage)
+	__BaseVectorShape__00012500_ := (&models.BaseVectorShape{Name: `Plant 1-BaseVectorShapeGrid-0`}).Stage(stage)
+	__BaseVectorShape__00012501_ := (&models.BaseVectorShape{Name: `Plant 1-BaseVectorShapeGrid-1`}).Stage(stage)
+	__BaseVectorShape__00012502_ := (&models.BaseVectorShape{Name: `Plant 1-BaseVectorShapeGrid-2`}).Stage(stage)
 
 	__BaseVectorShapeGrid__00000000_ := (&models.BaseVectorShapeGrid{Name: `Plant 1-BaseVectorShapeGrid`}).Stage(stage)
 
-	__EndArcShape__00010258_ := (&models.EndArcShape{Name: `Plant 1-EndArcShapeV2Grid-0`}).Stage(stage)
-	__EndArcShape__00010259_ := (&models.EndArcShape{Name: `Plant 1-EndArcShapeV2Grid-1`}).Stage(stage)
-	__EndArcShape__00010260_ := (&models.EndArcShape{Name: `Plant 1-EndArcShapeV2Grid-2`}).Stage(stage)
+	__EndArcShape__00010267_ := (&models.EndArcShape{Name: `Plant 1-EndArcShapeV2Grid-0`}).Stage(stage)
+	__EndArcShape__00010268_ := (&models.EndArcShape{Name: `Plant 1-EndArcShapeV2Grid-1`}).Stage(stage)
+	__EndArcShape__00010269_ := (&models.EndArcShape{Name: `Plant 1-EndArcShapeV2Grid-2`}).Stage(stage)
 
 	__EndArcShapeGrid__00000000_ := (&models.EndArcShapeGrid{Name: `Plant 1-EndArcShapeV2Grid`}).Stage(stage)
 
-	__EndHalfwayArcShape__00001564_ := (&models.EndHalfwayArcShape{Name: `Plant 1-EndHalfwayArcShapeGrid-0`}).Stage(stage)
-	__EndHalfwayArcShape__00001565_ := (&models.EndHalfwayArcShape{Name: `Plant 1-EndHalfwayArcShapeGrid-1`}).Stage(stage)
-	__EndHalfwayArcShape__00001566_ := (&models.EndHalfwayArcShape{Name: `Plant 1-EndHalfwayArcShapeGrid-2`}).Stage(stage)
+	__EndHalfwayArcShape__00001573_ := (&models.EndHalfwayArcShape{Name: `Plant 1-EndHalfwayArcShapeGrid-0`}).Stage(stage)
+	__EndHalfwayArcShape__00001574_ := (&models.EndHalfwayArcShape{Name: `Plant 1-EndHalfwayArcShapeGrid-1`}).Stage(stage)
+	__EndHalfwayArcShape__00001575_ := (&models.EndHalfwayArcShape{Name: `Plant 1-EndHalfwayArcShapeGrid-2`}).Stage(stage)
 
 	__EndHalfwayArcShapeGrid__00000000_ := (&models.EndHalfwayArcShapeGrid{Name: `Plant 1-EndHalfwayArcShapeGrid`}).Stage(stage)
 
@@ -70,10 +70,10 @@ func _(stage *models.Stage) {
 
 	__GrowthCurveRhombusGridShape__00000001_ := (&models.GrowthCurveRhombusGridShape{Name: `Plant 1-GrowthCurveRhombusGridShape`}).Stage(stage)
 
-	__GrowthCurveRhombusShape__00024189_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-0`}).Stage(stage)
-	__GrowthCurveRhombusShape__00024190_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-1`}).Stage(stage)
-	__GrowthCurveRhombusShape__00024191_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-2`}).Stage(stage)
-	__GrowthCurveRhombusShape__00024192_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-translated`}).Stage(stage)
+	__GrowthCurveRhombusShape__00024201_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-0`}).Stage(stage)
+	__GrowthCurveRhombusShape__00024202_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-1`}).Stage(stage)
+	__GrowthCurveRhombusShape__00024203_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-2`}).Stage(stage)
+	__GrowthCurveRhombusShape__00024204_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-translated`}).Stage(stage)
 
 	__GrowthVectorShape__00000000_ := (&models.GrowthVectorShape{Name: `Plant 1-GrowthVectorShape`}).Stage(stage)
 
@@ -86,9 +86,9 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Herbarium`}).Stage(stage)
 
-	__MidArcVectorShape__00002431_ := (&models.MidArcVectorShape{Name: `-0`}).Stage(stage)
-	__MidArcVectorShape__00002432_ := (&models.MidArcVectorShape{Name: `-1`}).Stage(stage)
-	__MidArcVectorShape__00002433_ := (&models.MidArcVectorShape{Name: `-2`}).Stage(stage)
+	__MidArcVectorShape__00002440_ := (&models.MidArcVectorShape{Name: `-0`}).Stage(stage)
+	__MidArcVectorShape__00002441_ := (&models.MidArcVectorShape{Name: `-1`}).Stage(stage)
+	__MidArcVectorShape__00002442_ := (&models.MidArcVectorShape{Name: `-2`}).Stage(stage)
 
 	__MidArcVectorShapeGrid__00000000_ := (&models.MidArcVectorShapeGrid{Name: ``}).Stage(stage)
 
@@ -104,18 +104,18 @@ func _(stage *models.Stage) {
 
 	__PartiallyRotatedTorusShape__00000000_ := (&models.PartiallyRotatedTorusShape{Name: `Plant 1-PartiallyRotatedTorusShape`}).Stage(stage)
 
-	__PerpendicularVector__00019978_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-0`}).Stage(stage)
-	__PerpendicularVector__00019979_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-1`}).Stage(stage)
-	__PerpendicularVector__00019980_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-2`}).Stage(stage)
-	__PerpendicularVector__00019981_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-3`}).Stage(stage)
+	__PerpendicularVector__00019990_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-0`}).Stage(stage)
+	__PerpendicularVector__00019991_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-1`}).Stage(stage)
+	__PerpendicularVector__00019992_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-2`}).Stage(stage)
+	__PerpendicularVector__00019993_ := (&models.PerpendicularVector{Name: `Plant 1-PerpendicularVectorGrid-3`}).Stage(stage)
 
 	__PerpendicularVectorGrid__00000000_ := (&models.PerpendicularVectorGrid{Name: `Plant 1-PerpendicularVectorGrid`}).Stage(stage)
 
 	__PerpendicularVectorGridHalfway__00000000_ := (&models.PerpendicularVectorGridHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway`}).Stage(stage)
 
-	__PerpendicularVectorHalfway__00014252_ := (&models.PerpendicularVectorHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway-0`}).Stage(stage)
-	__PerpendicularVectorHalfway__00014253_ := (&models.PerpendicularVectorHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway-1`}).Stage(stage)
-	__PerpendicularVectorHalfway__00014254_ := (&models.PerpendicularVectorHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway-2`}).Stage(stage)
+	__PerpendicularVectorHalfway__00014261_ := (&models.PerpendicularVectorHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway-0`}).Stage(stage)
+	__PerpendicularVectorHalfway__00014262_ := (&models.PerpendicularVectorHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway-1`}).Stage(stage)
+	__PerpendicularVectorHalfway__00014263_ := (&models.PerpendicularVectorHalfway{Name: `Plant 1-PerpendicularVectorGridHalfway-2`}).Stage(stage)
 
 	__Plant__00000000_ := (&models.Plant{Name: `Plant 1`}).Stage(stage)
 
@@ -138,9 +138,9 @@ func _(stage *models.Stage) {
 	__RotatedRhombusShape__00001154_ := (&models.RotatedRhombusShape{Name: `Plant 1-RotatedRhombusGridShape-0-0`}).Stage(stage)
 	__RotatedRhombusShape__00001155_ := (&models.RotatedRhombusShape{Name: `Plant 1-RotatedRhombusGridShape-0-1`}).Stage(stage)
 
-	__ShiftedBottomTopStartArcShape__00002542_ := (&models.ShiftedBottomTopStartArcShape{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid-0`}).Stage(stage)
-	__ShiftedBottomTopStartArcShape__00002543_ := (&models.ShiftedBottomTopStartArcShape{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid-1`}).Stage(stage)
-	__ShiftedBottomTopStartArcShape__00002544_ := (&models.ShiftedBottomTopStartArcShape{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid-2`}).Stage(stage)
+	__ShiftedBottomTopStartArcShape__00002551_ := (&models.ShiftedBottomTopStartArcShape{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid-0`}).Stage(stage)
+	__ShiftedBottomTopStartArcShape__00002552_ := (&models.ShiftedBottomTopStartArcShape{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid-1`}).Stage(stage)
+	__ShiftedBottomTopStartArcShape__00002553_ := (&models.ShiftedBottomTopStartArcShape{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid-2`}).Stage(stage)
 
 	__ShiftedBottomTopStartArcShapeGrid__00000000_ := (&models.ShiftedBottomTopStartArcShapeGrid{Name: `Plant 1-ShiftedBottomTopStartArcShapeGrid`}).Stage(stage)
 
@@ -154,107 +154,61 @@ func _(stage *models.Stage) {
 	__ShiftedRightGrowthCurve2DRibbonStartShape__00000001_ := (&models.ShiftedRightGrowthCurve2DRibbonStartShape{Name: `Plant 1-ShiftedRightGrowthCurve2DRibbon-start-1`}).Stage(stage)
 	__ShiftedRightGrowthCurve2DRibbonStartShape__00000002_ := (&models.ShiftedRightGrowthCurve2DRibbonStartShape{Name: `Plant 1-ShiftedRightGrowthCurve2DRibbon-start-2`}).Stage(stage)
 
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_ := (&models.StackGrowthCurve2DEndHalfwayArcShape{Name: `Plant 1-StackOfGrowthCurve2D-layer-end-0-0`}).Stage(stage)
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_ := (&models.StackGrowthCurve2DEndHalfwayArcShape{Name: `Plant 1-StackOfGrowthCurve2D-layer-end-0-1`}).Stage(stage)
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_ := (&models.StackGrowthCurve2DEndHalfwayArcShape{Name: `Plant 1-StackOfGrowthCurve2D-layer-end-0-2`}).Stage(stage)
-
-	__StackGrowthCurve2DRibbonEndShape__00003135_ := (&models.StackGrowthCurve2DRibbonEndShape{Name: `Plant 1-StackOfGrowthCurve2DRibbon-layer-end-0`}).Stage(stage)
-	__StackGrowthCurve2DRibbonEndShape__00003136_ := (&models.StackGrowthCurve2DRibbonEndShape{Name: `Plant 1-StackOfGrowthCurve2DRibbon-layer-end-1`}).Stage(stage)
-	__StackGrowthCurve2DRibbonEndShape__00003137_ := (&models.StackGrowthCurve2DRibbonEndShape{Name: `Plant 1-StackOfGrowthCurve2DRibbon-layer-end-2`}).Stage(stage)
-
-	__StackGrowthCurve2DRibbonStartShape__00003135_ := (&models.StackGrowthCurve2DRibbonStartShape{Name: `Plant 1-StackOfGrowthCurve2DRibbon-layer-start-0`}).Stage(stage)
-	__StackGrowthCurve2DRibbonStartShape__00003136_ := (&models.StackGrowthCurve2DRibbonStartShape{Name: `Plant 1-StackOfGrowthCurve2DRibbon-layer-start-1`}).Stage(stage)
-	__StackGrowthCurve2DRibbonStartShape__00003137_ := (&models.StackGrowthCurve2DRibbonStartShape{Name: `Plant 1-StackOfGrowthCurve2DRibbon-layer-start-2`}).Stage(stage)
-
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_ := (&models.StackGrowthCurve2DStartHalfwayArcShape{Name: `Plant 1-StackOfGrowthCurve2D-layer-start-0-0`}).Stage(stage)
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_ := (&models.StackGrowthCurve2DStartHalfwayArcShape{Name: `Plant 1-StackOfGrowthCurve2D-layer-start-0-1`}).Stage(stage)
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_ := (&models.StackGrowthCurve2DStartHalfwayArcShape{Name: `Plant 1-StackOfGrowthCurve2D-layer-start-0-2`}).Stage(stage)
-
 	__StackOfGrowthCurve2D__00000000_ := (&models.StackOfGrowthCurve2D{Name: `Plant 1-StackOfGrowthCurve2D`}).Stage(stage)
 
 	__StackOfGrowthCurve2DRibbon__00000000_ := (&models.StackOfGrowthCurve2DRibbon{Name: `Plant 1-StackOfGrowthCurve2DRibbon`}).Stage(stage)
+
+	__StackOfPartiallyRotatedTorusShape__00000000_ := (&models.StackOfPartiallyRotatedTorusShape{Name: `Plant 1-StackOfPartiallyRotatedTorusShape`}).Stage(stage)
 
 	__StackOfRotatedGrowthCurve2D__00000000_ := (&models.StackOfRotatedGrowthCurve2D{Name: `Plant 1-StackOfGrowthCurveV2`}).Stage(stage)
 
 	__StackOfRotatedGrowthCurve2DRibbon__00000000_ := (&models.StackOfRotatedGrowthCurve2DRibbon{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon`}).Stage(stage)
 
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_ := (&models.StackRotatedGrowthCurve2DEndArcShape{Name: `Plant 1-StackOfGrowthCurveV2-layer-end-0-0`}).Stage(stage)
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_ := (&models.StackRotatedGrowthCurve2DEndArcShape{Name: `Plant 1-StackOfGrowthCurveV2-layer-end-0-1`}).Stage(stage)
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_ := (&models.StackRotatedGrowthCurve2DEndArcShape{Name: `Plant 1-StackOfGrowthCurveV2-layer-end-0-2`}).Stage(stage)
-
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_ := (&models.StackRotatedGrowthCurve2DRibbonEndShape{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-end-0`}).Stage(stage)
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_ := (&models.StackRotatedGrowthCurve2DRibbonEndShape{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-end-1`}).Stage(stage)
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_ := (&models.StackRotatedGrowthCurve2DRibbonEndShape{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-end-2`}).Stage(stage)
-
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_ := (&models.StackRotatedGrowthCurve2DRibbonStartShape{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-start-0`}).Stage(stage)
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_ := (&models.StackRotatedGrowthCurve2DRibbonStartShape{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-start-1`}).Stage(stage)
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_ := (&models.StackRotatedGrowthCurve2DRibbonStartShape{Name: `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-start-2`}).Stage(stage)
-
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_ := (&models.StackRotatedGrowthCurve2DStartArcShape{Name: `Plant 1-StackOfGrowthCurveV2-layer-start-0-0`}).Stage(stage)
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_ := (&models.StackRotatedGrowthCurve2DStartArcShape{Name: `Plant 1-StackOfGrowthCurveV2-layer-start-0-1`}).Stage(stage)
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_ := (&models.StackRotatedGrowthCurve2DStartArcShape{Name: `Plant 1-StackOfGrowthCurveV2-layer-start-0-2`}).Stage(stage)
-
-	__StartArcShape__00010638_ := (&models.StartArcShape{Name: `Plant 1-StartArcShapeV2Grid-0`}).Stage(stage)
-	__StartArcShape__00010639_ := (&models.StartArcShape{Name: `Plant 1-StartArcShapeV2Grid-1`}).Stage(stage)
-	__StartArcShape__00010640_ := (&models.StartArcShape{Name: `Plant 1-StartArcShapeV2Grid-2`}).Stage(stage)
+	__StartArcShape__00010647_ := (&models.StartArcShape{Name: `Plant 1-StartArcShapeV2Grid-0`}).Stage(stage)
+	__StartArcShape__00010648_ := (&models.StartArcShape{Name: `Plant 1-StartArcShapeV2Grid-1`}).Stage(stage)
+	__StartArcShape__00010649_ := (&models.StartArcShape{Name: `Plant 1-StartArcShapeV2Grid-2`}).Stage(stage)
 
 	__StartArcShapeGrid__00000000_ := (&models.StartArcShapeGrid{Name: `Plant 1-StartArcShapeV2Grid`}).Stage(stage)
 
-	__StartHalfwayArcShape__00002323_ := (&models.StartHalfwayArcShape{Name: `Plant 1-HalfwayArcShapeGrid-0`}).Stage(stage)
-	__StartHalfwayArcShape__00002324_ := (&models.StartHalfwayArcShape{Name: `Plant 1-HalfwayArcShapeGrid-1`}).Stage(stage)
-	__StartHalfwayArcShape__00002325_ := (&models.StartHalfwayArcShape{Name: `Plant 1-HalfwayArcShapeGrid-2`}).Stage(stage)
+	__StartHalfwayArcShape__00002332_ := (&models.StartHalfwayArcShape{Name: `Plant 1-HalfwayArcShapeGrid-0`}).Stage(stage)
+	__StartHalfwayArcShape__00002333_ := (&models.StartHalfwayArcShape{Name: `Plant 1-HalfwayArcShapeGrid-1`}).Stage(stage)
+	__StartHalfwayArcShape__00002334_ := (&models.StartHalfwayArcShape{Name: `Plant 1-HalfwayArcShapeGrid-2`}).Stage(stage)
 
 	__StartHalfwayArcShapeGrid__00000000_ := (&models.StartHalfwayArcShapeGrid{Name: `Plant 1-HalfwayArcShapeGrid`}).Stage(stage)
 
-	__TopEndArcShape__00008796_ := (&models.TopEndArcShape{Name: `Plant 1-TopEndArcShapeV2Grid-0`}).Stage(stage)
-	__TopEndArcShape__00008797_ := (&models.TopEndArcShape{Name: `Plant 1-TopEndArcShapeV2Grid-1`}).Stage(stage)
-	__TopEndArcShape__00008798_ := (&models.TopEndArcShape{Name: `Plant 1-TopEndArcShapeV2Grid-2`}).Stage(stage)
+	__TopEndArcShape__00008805_ := (&models.TopEndArcShape{Name: `Plant 1-TopEndArcShapeV2Grid-0`}).Stage(stage)
+	__TopEndArcShape__00008806_ := (&models.TopEndArcShape{Name: `Plant 1-TopEndArcShapeV2Grid-1`}).Stage(stage)
+	__TopEndArcShape__00008807_ := (&models.TopEndArcShape{Name: `Plant 1-TopEndArcShapeV2Grid-2`}).Stage(stage)
 
 	__TopEndArcShapeGrid__00000000_ := (&models.TopEndArcShapeGrid{Name: `Plant 1-TopEndArcShapeV2Grid`}).Stage(stage)
 
-	__TopEndHalfwayArcShape__00001230_ := (&models.TopEndHalfwayArcShape{Name: `Plant 1-TopEndHalfwayArcShapeGrid-0`}).Stage(stage)
-	__TopEndHalfwayArcShape__00001231_ := (&models.TopEndHalfwayArcShape{Name: `Plant 1-TopEndHalfwayArcShapeGrid-1`}).Stage(stage)
-	__TopEndHalfwayArcShape__00001232_ := (&models.TopEndHalfwayArcShape{Name: `Plant 1-TopEndHalfwayArcShapeGrid-2`}).Stage(stage)
+	__TopEndHalfwayArcShape__00001239_ := (&models.TopEndHalfwayArcShape{Name: `Plant 1-TopEndHalfwayArcShapeGrid-0`}).Stage(stage)
+	__TopEndHalfwayArcShape__00001240_ := (&models.TopEndHalfwayArcShape{Name: `Plant 1-TopEndHalfwayArcShapeGrid-1`}).Stage(stage)
+	__TopEndHalfwayArcShape__00001241_ := (&models.TopEndHalfwayArcShape{Name: `Plant 1-TopEndHalfwayArcShapeGrid-2`}).Stage(stage)
 
 	__TopEndHalfwayArcShapeGrid__00000000_ := (&models.TopEndHalfwayArcShapeGrid{Name: `Plant 1-TopEndHalfwayArcShapeGrid`}).Stage(stage)
 
 	__TopGrowthCurve2D__00000000_ := (&models.TopGrowthCurve2D{Name: `Plant 1-TopGrowthCurve2D`}).Stage(stage)
 
-	__TopMidArcVectorShape__00002440_ := (&models.TopMidArcVectorShape{Name: `-0`}).Stage(stage)
-	__TopMidArcVectorShape__00002441_ := (&models.TopMidArcVectorShape{Name: `-1`}).Stage(stage)
-	__TopMidArcVectorShape__00002442_ := (&models.TopMidArcVectorShape{Name: `-2`}).Stage(stage)
+	__TopMidArcVectorShape__00002449_ := (&models.TopMidArcVectorShape{Name: `-0`}).Stage(stage)
+	__TopMidArcVectorShape__00002450_ := (&models.TopMidArcVectorShape{Name: `-1`}).Stage(stage)
+	__TopMidArcVectorShape__00002451_ := (&models.TopMidArcVectorShape{Name: `-2`}).Stage(stage)
 
 	__TopMidArcVectorShapeGrid__00000000_ := (&models.TopMidArcVectorShapeGrid{Name: ``}).Stage(stage)
-
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_ := (&models.TopStackGrowthCurve2DEndHalfwayArcShape{Name: `Plant 1-TopStackOfGrowthCurve2D-layer-end-0-0`}).Stage(stage)
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_ := (&models.TopStackGrowthCurve2DEndHalfwayArcShape{Name: `Plant 1-TopStackOfGrowthCurve2D-layer-end-0-1`}).Stage(stage)
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_ := (&models.TopStackGrowthCurve2DEndHalfwayArcShape{Name: `Plant 1-TopStackOfGrowthCurve2D-layer-end-0-2`}).Stage(stage)
-
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_ := (&models.TopStackGrowthCurve2DStartHalfwayArcShape{Name: `Plant 1-TopStackOfGrowthCurve2D-layer-start-0-0`}).Stage(stage)
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_ := (&models.TopStackGrowthCurve2DStartHalfwayArcShape{Name: `Plant 1-TopStackOfGrowthCurve2D-layer-start-0-1`}).Stage(stage)
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_ := (&models.TopStackGrowthCurve2DStartHalfwayArcShape{Name: `Plant 1-TopStackOfGrowthCurve2D-layer-start-0-2`}).Stage(stage)
 
 	__TopStackOfGrowthCurve2D__00000000_ := (&models.TopStackOfGrowthCurve2D{Name: `Plant 1-TopStackOfGrowthCurve2D`}).Stage(stage)
 
 	__TopStackOfRotatedGrowthCurve2D__00000000_ := (&models.TopStackOfRotatedGrowthCurve2D{Name: `Plant 1-TopStackOfGrowthCurveV2`}).Stage(stage)
 
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_ := (&models.TopStackOfRotatedGrowthCurve2DEndArcShape{Name: `Plant 1-TopStackOfGrowthCurveV2-layer-end-0-0`}).Stage(stage)
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_ := (&models.TopStackOfRotatedGrowthCurve2DEndArcShape{Name: `Plant 1-TopStackOfGrowthCurveV2-layer-end-0-1`}).Stage(stage)
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_ := (&models.TopStackOfRotatedGrowthCurve2DEndArcShape{Name: `Plant 1-TopStackOfGrowthCurveV2-layer-end-0-2`}).Stage(stage)
-
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_ := (&models.TopStackOfRotatedGrowthCurve2DStartArcShape{Name: `Plant 1-TopStackOfGrowthCurveV2-layer-start-0-0`}).Stage(stage)
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_ := (&models.TopStackOfRotatedGrowthCurve2DStartArcShape{Name: `Plant 1-TopStackOfGrowthCurveV2-layer-start-0-1`}).Stage(stage)
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_ := (&models.TopStackOfRotatedGrowthCurve2DStartArcShape{Name: `Plant 1-TopStackOfGrowthCurveV2-layer-start-0-2`}).Stage(stage)
-
-	__TopStartArcShape__00008796_ := (&models.TopStartArcShape{Name: `Plant 1-TopStartArcShapeV2Grid-0`}).Stage(stage)
-	__TopStartArcShape__00008797_ := (&models.TopStartArcShape{Name: `Plant 1-TopStartArcShapeV2Grid-1`}).Stage(stage)
-	__TopStartArcShape__00008798_ := (&models.TopStartArcShape{Name: `Plant 1-TopStartArcShapeV2Grid-2`}).Stage(stage)
+	__TopStartArcShape__00008805_ := (&models.TopStartArcShape{Name: `Plant 1-TopStartArcShapeV2Grid-0`}).Stage(stage)
+	__TopStartArcShape__00008806_ := (&models.TopStartArcShape{Name: `Plant 1-TopStartArcShapeV2Grid-1`}).Stage(stage)
+	__TopStartArcShape__00008807_ := (&models.TopStartArcShape{Name: `Plant 1-TopStartArcShapeV2Grid-2`}).Stage(stage)
 
 	__TopStartArcShapeGrid__00000000_ := (&models.TopStartArcShapeGrid{Name: `Plant 1-TopStartArcShapeV2Grid`}).Stage(stage)
 
-	__TopStartHalfwayArcShape__00001230_ := (&models.TopStartHalfwayArcShape{Name: `Plant 1-TopStartHalfwayArcShapeGrid-0`}).Stage(stage)
-	__TopStartHalfwayArcShape__00001231_ := (&models.TopStartHalfwayArcShape{Name: `Plant 1-TopStartHalfwayArcShapeGrid-1`}).Stage(stage)
-	__TopStartHalfwayArcShape__00001232_ := (&models.TopStartHalfwayArcShape{Name: `Plant 1-TopStartHalfwayArcShapeGrid-2`}).Stage(stage)
+	__TopStartHalfwayArcShape__00001239_ := (&models.TopStartHalfwayArcShape{Name: `Plant 1-TopStartHalfwayArcShapeGrid-0`}).Stage(stage)
+	__TopStartHalfwayArcShape__00001240_ := (&models.TopStartHalfwayArcShape{Name: `Plant 1-TopStartHalfwayArcShapeGrid-1`}).Stage(stage)
+	__TopStartHalfwayArcShape__00001241_ := (&models.TopStartHalfwayArcShape{Name: `Plant 1-TopStartHalfwayArcShapeGrid-2`}).Stage(stage)
 
 	__TopStartHalfwayArcShapeGrid__00000000_ := (&models.TopStartHalfwayArcShapeGrid{Name: `Plant 1-TopStartHalfwayArcShapeGrid`}).Stage(stage)
 
@@ -264,23 +218,23 @@ func _(stage *models.Stage) {
 
 	// insertion point for initialization of values
 
-	__ArcNormalVectorShape__00008023_.Name = `Plant 1-ArcNormalVectorShapeGrid-0`
-	__ArcNormalVectorShape__00008023_.StartX = 111.985883
-	__ArcNormalVectorShape__00008023_.StartY = 43.118002
-	__ArcNormalVectorShape__00008023_.EndX = 4.066041
-	__ArcNormalVectorShape__00008023_.EndY = 119.931094
+	__ArcNormalVectorShape__00008032_.Name = `Plant 1-ArcNormalVectorShapeGrid-0`
+	__ArcNormalVectorShape__00008032_.StartX = 111.985883
+	__ArcNormalVectorShape__00008032_.StartY = 43.118002
+	__ArcNormalVectorShape__00008032_.EndX = 4.066041
+	__ArcNormalVectorShape__00008032_.EndY = 119.931094
 
-	__ArcNormalVectorShape__00008024_.Name = `Plant 1-ArcNormalVectorShapeGrid-1`
-	__ArcNormalVectorShape__00008024_.StartX = 307.418466
-	__ArcNormalVectorShape__00008024_.StartY = 0.000000
-	__ArcNormalVectorShape__00008024_.EndX = 437.640602
-	__ArcNormalVectorShape__00008024_.EndY = 24.272180
+	__ArcNormalVectorShape__00008033_.Name = `Plant 1-ArcNormalVectorShapeGrid-1`
+	__ArcNormalVectorShape__00008033_.StartX = 307.418466
+	__ArcNormalVectorShape__00008033_.StartY = 0.000000
+	__ArcNormalVectorShape__00008033_.EndX = 437.640602
+	__ArcNormalVectorShape__00008033_.EndY = 24.272180
 
-	__ArcNormalVectorShape__00008025_.Name = `Plant 1-ArcNormalVectorShapeGrid-2`
-	__ArcNormalVectorShape__00008025_.StartX = 502.851048
-	__ArcNormalVectorShape__00008025_.StartY = -43.118002
-	__ArcNormalVectorShape__00008025_.EndX = 394.931206
-	__ArcNormalVectorShape__00008025_.EndY = 33.695091
+	__ArcNormalVectorShape__00008034_.Name = `Plant 1-ArcNormalVectorShapeGrid-2`
+	__ArcNormalVectorShape__00008034_.StartX = 502.851048
+	__ArcNormalVectorShape__00008034_.StartY = -43.118002
+	__ArcNormalVectorShape__00008034_.EndX = 394.931206
+	__ArcNormalVectorShape__00008034_.EndY = 33.695091
 
 	__ArcNormalVectorShapeGrid__00000000_.Name = `Plant 1-ArcNormalVectorShapeGrid`
 
@@ -289,93 +243,93 @@ func _(stage *models.Stage) {
 	__AxesShape__00000000_.LengthY = 648.000000
 	__AxesShape__00000000_.IsWithHiddenHandle = true
 
-	__BaseVectorShape__00012491_.Name = `Plant 1-BaseVectorShapeGrid-0`
-	__BaseVectorShape__00012491_.StartX = 0.000000
-	__BaseVectorShape__00012491_.StartY = 0.000000
-	__BaseVectorShape__00012491_.EndX = 223.971766
-	__BaseVectorShape__00012491_.EndY = 86.236003
+	__BaseVectorShape__00012500_.Name = `Plant 1-BaseVectorShapeGrid-0`
+	__BaseVectorShape__00012500_.StartX = 0.000000
+	__BaseVectorShape__00012500_.StartY = 0.000000
+	__BaseVectorShape__00012500_.EndX = 223.971766
+	__BaseVectorShape__00012500_.EndY = 86.236003
 
-	__BaseVectorShape__00012492_.Name = `Plant 1-BaseVectorShapeGrid-1`
-	__BaseVectorShape__00012492_.StartX = 223.971766
-	__BaseVectorShape__00012492_.StartY = 86.236003
-	__BaseVectorShape__00012492_.EndX = 390.865166
-	__BaseVectorShape__00012492_.EndY = -86.236003
+	__BaseVectorShape__00012501_.Name = `Plant 1-BaseVectorShapeGrid-1`
+	__BaseVectorShape__00012501_.StartX = 223.971766
+	__BaseVectorShape__00012501_.StartY = 86.236003
+	__BaseVectorShape__00012501_.EndX = 390.865166
+	__BaseVectorShape__00012501_.EndY = -86.236003
 
-	__BaseVectorShape__00012493_.Name = `Plant 1-BaseVectorShapeGrid-2`
-	__BaseVectorShape__00012493_.StartX = 390.865166
-	__BaseVectorShape__00012493_.StartY = -86.236003
-	__BaseVectorShape__00012493_.EndX = 614.836931
-	__BaseVectorShape__00012493_.EndY = 0.000000
+	__BaseVectorShape__00012502_.Name = `Plant 1-BaseVectorShapeGrid-2`
+	__BaseVectorShape__00012502_.StartX = 390.865166
+	__BaseVectorShape__00012502_.StartY = -86.236003
+	__BaseVectorShape__00012502_.EndX = 614.836931
+	__BaseVectorShape__00012502_.EndY = 0.000000
 
 	__BaseVectorShapeGrid__00000000_.Name = `Plant 1-BaseVectorShapeGrid`
 
-	__EndArcShape__00010258_.Name = `Plant 1-EndArcShapeV2Grid-0`
-	__EndArcShape__00010258_.StartX = 223.971766
-	__EndArcShape__00010258_.StartY = 86.236003
-	__EndArcShape__00010258_.EndX = 111.985883
-	__EndArcShape__00010258_.EndY = 43.118002
-	__EndArcShape__00010258_.XAxisRotation = 0.000000
-	__EndArcShape__00010258_.LargeArcFlag = false
-	__EndArcShape__00010258_.SweepFlag = false
-	__EndArcShape__00010258_.RadiusX = 108.708062
-	__EndArcShape__00010258_.RadiusY = 108.708062
+	__EndArcShape__00010267_.Name = `Plant 1-EndArcShapeV2Grid-0`
+	__EndArcShape__00010267_.StartX = 223.971766
+	__EndArcShape__00010267_.StartY = 86.236003
+	__EndArcShape__00010267_.EndX = 111.985883
+	__EndArcShape__00010267_.EndY = 43.118002
+	__EndArcShape__00010267_.XAxisRotation = 0.000000
+	__EndArcShape__00010267_.LargeArcFlag = false
+	__EndArcShape__00010267_.SweepFlag = false
+	__EndArcShape__00010267_.RadiusX = 108.708062
+	__EndArcShape__00010267_.RadiusY = 108.708062
 
-	__EndArcShape__00010259_.Name = `Plant 1-EndArcShapeV2Grid-1`
-	__EndArcShape__00010259_.StartX = 390.865166
-	__EndArcShape__00010259_.StartY = -86.236003
-	__EndArcShape__00010259_.EndX = 307.418466
-	__EndArcShape__00010259_.EndY = 0.000000
-	__EndArcShape__00010259_.XAxisRotation = 0.000000
-	__EndArcShape__00010259_.LargeArcFlag = false
-	__EndArcShape__00010259_.SweepFlag = true
-	__EndArcShape__00010259_.RadiusX = 108.708062
-	__EndArcShape__00010259_.RadiusY = 108.708062
+	__EndArcShape__00010268_.Name = `Plant 1-EndArcShapeV2Grid-1`
+	__EndArcShape__00010268_.StartX = 390.865166
+	__EndArcShape__00010268_.StartY = -86.236003
+	__EndArcShape__00010268_.EndX = 307.418466
+	__EndArcShape__00010268_.EndY = 0.000000
+	__EndArcShape__00010268_.XAxisRotation = 0.000000
+	__EndArcShape__00010268_.LargeArcFlag = false
+	__EndArcShape__00010268_.SweepFlag = true
+	__EndArcShape__00010268_.RadiusX = 108.708062
+	__EndArcShape__00010268_.RadiusY = 108.708062
 
-	__EndArcShape__00010260_.Name = `Plant 1-EndArcShapeV2Grid-2`
-	__EndArcShape__00010260_.StartX = 614.836931
-	__EndArcShape__00010260_.StartY = 0.000000
-	__EndArcShape__00010260_.EndX = 502.851048
-	__EndArcShape__00010260_.EndY = -43.118002
-	__EndArcShape__00010260_.XAxisRotation = 0.000000
-	__EndArcShape__00010260_.LargeArcFlag = false
-	__EndArcShape__00010260_.SweepFlag = false
-	__EndArcShape__00010260_.RadiusX = 108.708062
-	__EndArcShape__00010260_.RadiusY = 108.708062
+	__EndArcShape__00010269_.Name = `Plant 1-EndArcShapeV2Grid-2`
+	__EndArcShape__00010269_.StartX = 614.836931
+	__EndArcShape__00010269_.StartY = 0.000000
+	__EndArcShape__00010269_.EndX = 502.851048
+	__EndArcShape__00010269_.EndY = -43.118002
+	__EndArcShape__00010269_.XAxisRotation = 0.000000
+	__EndArcShape__00010269_.LargeArcFlag = false
+	__EndArcShape__00010269_.SweepFlag = false
+	__EndArcShape__00010269_.RadiusX = 108.708062
+	__EndArcShape__00010269_.RadiusY = 108.708062
 
 	__EndArcShapeGrid__00000000_.Name = `Plant 1-EndArcShapeV2Grid`
 
-	__EndHalfwayArcShape__00001564_.Name = `Plant 1-EndHalfwayArcShapeGrid-0`
-	__EndHalfwayArcShape__00001564_.StartX = 95.915504
-	__EndHalfwayArcShape__00001564_.StartY = 36.930412
-	__EndHalfwayArcShape__00001564_.EndX = 223.971766
-	__EndHalfwayArcShape__00001564_.EndY = 86.236003
-	__EndHalfwayArcShape__00001564_.RadiusX = 124.308062
-	__EndHalfwayArcShape__00001564_.RadiusY = 124.308062
-	__EndHalfwayArcShape__00001564_.XAxisRotation = 0.000000
-	__EndHalfwayArcShape__00001564_.LargeArcFlag = false
-	__EndHalfwayArcShape__00001564_.SweepFlag = true
+	__EndHalfwayArcShape__00001573_.Name = `Plant 1-EndHalfwayArcShapeGrid-0`
+	__EndHalfwayArcShape__00001573_.StartX = 95.915504
+	__EndHalfwayArcShape__00001573_.StartY = 36.930412
+	__EndHalfwayArcShape__00001573_.EndX = 223.971766
+	__EndHalfwayArcShape__00001573_.EndY = 86.236003
+	__EndHalfwayArcShape__00001573_.RadiusX = 124.308062
+	__EndHalfwayArcShape__00001573_.RadiusY = 124.308062
+	__EndHalfwayArcShape__00001573_.XAxisRotation = 0.000000
+	__EndHalfwayArcShape__00001573_.LargeArcFlag = false
+	__EndHalfwayArcShape__00001573_.SweepFlag = true
 
-	__EndHalfwayArcShape__00001565_.Name = `Plant 1-EndHalfwayArcShapeGrid-1`
-	__EndHalfwayArcShape__00001565_.StartX = 319.393369
-	__EndHalfwayArcShape__00001565_.StartY = -12.375178
-	__EndHalfwayArcShape__00001565_.EndX = 390.865166
-	__EndHalfwayArcShape__00001565_.EndY = -86.236003
-	__EndHalfwayArcShape__00001565_.RadiusX = 93.108062
-	__EndHalfwayArcShape__00001565_.RadiusY = 93.108062
-	__EndHalfwayArcShape__00001565_.XAxisRotation = 0.000000
-	__EndHalfwayArcShape__00001565_.LargeArcFlag = false
-	__EndHalfwayArcShape__00001565_.SweepFlag = false
+	__EndHalfwayArcShape__00001574_.Name = `Plant 1-EndHalfwayArcShapeGrid-1`
+	__EndHalfwayArcShape__00001574_.StartX = 319.393369
+	__EndHalfwayArcShape__00001574_.StartY = -12.375178
+	__EndHalfwayArcShape__00001574_.EndX = 390.865166
+	__EndHalfwayArcShape__00001574_.EndY = -86.236003
+	__EndHalfwayArcShape__00001574_.RadiusX = 93.108062
+	__EndHalfwayArcShape__00001574_.RadiusY = 93.108062
+	__EndHalfwayArcShape__00001574_.XAxisRotation = 0.000000
+	__EndHalfwayArcShape__00001574_.LargeArcFlag = false
+	__EndHalfwayArcShape__00001574_.SweepFlag = false
 
-	__EndHalfwayArcShape__00001566_.Name = `Plant 1-EndHalfwayArcShapeGrid-2`
-	__EndHalfwayArcShape__00001566_.StartX = 486.780669
-	__EndHalfwayArcShape__00001566_.StartY = -49.305591
-	__EndHalfwayArcShape__00001566_.EndX = 614.836931
-	__EndHalfwayArcShape__00001566_.EndY = 0.000000
-	__EndHalfwayArcShape__00001566_.RadiusX = 124.308062
-	__EndHalfwayArcShape__00001566_.RadiusY = 124.308062
-	__EndHalfwayArcShape__00001566_.XAxisRotation = 0.000000
-	__EndHalfwayArcShape__00001566_.LargeArcFlag = false
-	__EndHalfwayArcShape__00001566_.SweepFlag = true
+	__EndHalfwayArcShape__00001575_.Name = `Plant 1-EndHalfwayArcShapeGrid-2`
+	__EndHalfwayArcShape__00001575_.StartX = 486.780669
+	__EndHalfwayArcShape__00001575_.StartY = -49.305591
+	__EndHalfwayArcShape__00001575_.EndX = 614.836931
+	__EndHalfwayArcShape__00001575_.EndY = 0.000000
+	__EndHalfwayArcShape__00001575_.RadiusX = 124.308062
+	__EndHalfwayArcShape__00001575_.RadiusY = 124.308062
+	__EndHalfwayArcShape__00001575_.XAxisRotation = 0.000000
+	__EndHalfwayArcShape__00001575_.LargeArcFlag = false
+	__EndHalfwayArcShape__00001575_.SweepFlag = true
 
 	__EndHalfwayArcShapeGrid__00000000_.Name = `Plant 1-EndHalfwayArcShapeGrid`
 
@@ -511,24 +465,24 @@ func _(stage *models.Stage) {
 
 	__GrowthCurveRhombusGridShape__00000001_.Name = `Plant 1-GrowthCurveRhombusGridShape`
 
-	__GrowthCurveRhombusShape__00024189_.Name = `Plant 1-GrowthCurveRhombusGridShape-0`
-	__GrowthCurveRhombusShape__00024189_.X = 28.539183
-	__GrowthCurveRhombusShape__00024189_.Y = 129.354005
+	__GrowthCurveRhombusShape__00024201_.Name = `Plant 1-GrowthCurveRhombusGridShape-0`
+	__GrowthCurveRhombusShape__00024201_.X = 28.539183
+	__GrowthCurveRhombusShape__00024201_.Y = 129.354005
 
-	__GrowthCurveRhombusShape__00024190_.Name = `Plant 1-GrowthCurveRhombusGridShape-1`
-	__GrowthCurveRhombusShape__00024190_.X = 252.510948
-	__GrowthCurveRhombusShape__00024190_.Y = 215.590008
+	__GrowthCurveRhombusShape__00024202_.Name = `Plant 1-GrowthCurveRhombusGridShape-1`
+	__GrowthCurveRhombusShape__00024202_.X = 252.510948
+	__GrowthCurveRhombusShape__00024202_.Y = 215.590008
 
-	__GrowthCurveRhombusShape__00024191_.Name = `Plant 1-GrowthCurveRhombusGridShape-2`
-	__GrowthCurveRhombusShape__00024191_.X = 419.404348
-	__GrowthCurveRhombusShape__00024191_.Y = 43.118002
+	__GrowthCurveRhombusShape__00024203_.Name = `Plant 1-GrowthCurveRhombusGridShape-2`
+	__GrowthCurveRhombusShape__00024203_.X = 419.404348
+	__GrowthCurveRhombusShape__00024203_.Y = 43.118002
 
-	__GrowthCurveRhombusShape__00024192_.Name = `Plant 1-GrowthCurveRhombusGridShape-translated`
-	__GrowthCurveRhombusShape__00024192_.X = 643.376114
-	__GrowthCurveRhombusShape__00024192_.Y = 129.354005
+	__GrowthCurveRhombusShape__00024204_.Name = `Plant 1-GrowthCurveRhombusGridShape-translated`
+	__GrowthCurveRhombusShape__00024204_.X = 643.376114
+	__GrowthCurveRhombusShape__00024204_.Y = 129.354005
 
 	__GrowthVectorShape__00000000_.Name = `Plant 1-GrowthVectorShape`
-	__GrowthVectorShape__00000000_.X = 223.971766
+	__GrowthVectorShape__00000000_.X = 223.971765
 	__GrowthVectorShape__00000000_.Y = 86.236003
 
 	__InitialRhombusGridShape__00000001_.Name = `Plant 1-InitialRhombusGridShape`
@@ -556,42 +510,42 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
-	__MidArcVectorShape__00002431_.Name = `-0`
-	__MidArcVectorShape__00002431_.StartX = 79.845124
-	__MidArcVectorShape__00002431_.StartY = 30.742823
-	__MidArcVectorShape__00002431_.EndX = 111.985883
-	__MidArcVectorShape__00002431_.EndY = 43.118002
+	__MidArcVectorShape__00002440_.Name = `-0`
+	__MidArcVectorShape__00002440_.StartX = 79.845124
+	__MidArcVectorShape__00002440_.StartY = 30.742823
+	__MidArcVectorShape__00002440_.EndX = 111.985883
+	__MidArcVectorShape__00002440_.EndY = 43.118002
 
-	__MidArcVectorShape__00002432_.Name = `-1`
-	__MidArcVectorShape__00002432_.StartX = 331.368272
-	__MidArcVectorShape__00002432_.StartY = -24.750357
-	__MidArcVectorShape__00002432_.EndX = 307.418466
-	__MidArcVectorShape__00002432_.EndY = 0.000000
+	__MidArcVectorShape__00002441_.Name = `-1`
+	__MidArcVectorShape__00002441_.StartX = 331.368272
+	__MidArcVectorShape__00002441_.StartY = -24.750357
+	__MidArcVectorShape__00002441_.EndX = 307.418466
+	__MidArcVectorShape__00002441_.EndY = 0.000000
 
-	__MidArcVectorShape__00002433_.Name = `-2`
-	__MidArcVectorShape__00002433_.StartX = 470.710290
-	__MidArcVectorShape__00002433_.StartY = -55.493180
-	__MidArcVectorShape__00002433_.EndX = 502.851048
-	__MidArcVectorShape__00002433_.EndY = -43.118002
+	__MidArcVectorShape__00002442_.Name = `-2`
+	__MidArcVectorShape__00002442_.StartX = 470.710290
+	__MidArcVectorShape__00002442_.StartY = -55.493180
+	__MidArcVectorShape__00002442_.EndX = 502.851048
+	__MidArcVectorShape__00002442_.EndY = -43.118002
 
 	__MidArcVectorShapeGrid__00000000_.Name = ``
 
 	__PartiallyGrowthCurve2DRibbon__00000000_.Name = ``
 
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.Name = `-end-0`
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartX = 324.366704
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartY = 154.116052
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomEndX = 452.422966
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomEndY = 203.421643
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartX = 331.085857
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartY = 159.697898
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomEndX = 459.142119
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomEndY = 209.003489
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomRadiusX = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomRadiusY = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomSweepFlag = true
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopStartX = 331.088656
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopStartY = 184.583336
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndX = 459.144918
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndY = 233.888927
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopStartX = 337.807808
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopStartY = 190.165182
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndX = 465.864070
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndY = 239.470773
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopRadiusX = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopRadiusY = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopXAxisRotation = 0.000000
@@ -599,19 +553,19 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopSweepFlag = true
 
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.Name = `-end-1`
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartX = 547.844570
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartY = 104.810462
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndX = 619.316367
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndY = 30.949637
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartX = 554.563722
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartY = 110.392308
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndX = 626.035519
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndY = 36.531483
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomRadiusX = 93.108062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomRadiusY = 93.108062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomSweepFlag = false
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartX = 554.566521
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartY = 135.277745
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndX = 626.038318
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndY = 61.416920
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartX = 561.285674
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartY = 140.859591
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndX = 632.757470
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndY = 66.998766
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopRadiusX = 93.108062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopRadiusY = 93.108062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopXAxisRotation = 0.000000
@@ -619,19 +573,19 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopSweepFlag = false
 
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.Name = `-end-2`
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomStartX = 715.231870
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomStartY = 67.880049
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndX = 843.288132
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndY = 117.185640
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomStartX = 721.951022
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomStartY = 73.461895
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndX = 850.007284
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndY = 122.767486
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomRadiusX = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomRadiusY = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomSweepFlag = true
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartX = 721.953822
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartY = 98.347333
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndX = 850.010084
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndY = 147.652923
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartX = 728.672974
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartY = 103.929179
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndX = 856.729236
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndY = 153.234770
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopRadiusX = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopRadiusY = 124.308062
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopXAxisRotation = 0.000000
@@ -639,19 +593,19 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopSweepFlag = true
 
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.Name = `-start-0`
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartX = 228.451201
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartY = 117.185640
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndX = 324.366704
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndY = 154.116052
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartX = 235.170353
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartY = 122.767486
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndX = 331.085857
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndY = 159.697898
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomRadiusX = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomRadiusY = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomSweepFlag = false
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartX = 235.173153
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartY = 147.652923
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopEndX = 331.088656
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopEndY = 184.583336
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartX = 241.892305
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartY = 153.234770
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopEndX = 337.807808
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopEndY = 190.165182
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopRadiusX = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopRadiusY = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopXAxisRotation = 0.000000
@@ -659,19 +613,19 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopSweepFlag = false
 
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.Name = `-start-1`
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomStartX = 452.422966
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomStartY = 203.421643
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndX = 547.844570
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndY = 104.810462
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomStartX = 459.142119
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomStartY = 209.003489
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndX = 554.563722
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndY = 110.392308
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomRadiusX = 124.308062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomRadiusY = 124.308062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomSweepFlag = true
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartX = 459.144918
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartY = 233.888927
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndX = 554.566521
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndY = 135.277745
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartX = 465.864070
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartY = 239.470773
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndX = 561.285674
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndY = 140.859591
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopRadiusX = 124.308062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopRadiusY = 124.308062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopXAxisRotation = 0.000000
@@ -679,19 +633,19 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopSweepFlag = true
 
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.Name = `-start-2`
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartX = 619.316367
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartY = 30.949637
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomEndX = 715.231870
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomEndY = 67.880049
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartX = 626.035519
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartY = 36.531483
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomEndX = 721.951022
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomEndY = 73.461895
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomRadiusX = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomRadiusY = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomSweepFlag = false
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartX = 626.038318
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartY = 61.416920
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndX = 721.953822
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndY = 98.347333
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartX = 632.757470
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartY = 66.998766
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndX = 728.672974
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndY = 103.929179
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopRadiusX = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopRadiusY = 93.108062
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopXAxisRotation = 0.000000
@@ -700,63 +654,63 @@ func _(stage *models.Stage) {
 
 	__PartiallyRotatedTorusShape__00000000_.Name = `Plant 1-PartiallyRotatedTorusShape`
 
-	__PerpendicularVector__00019978_.Name = `Plant 1-PerpendicularVectorGrid-0`
-	__PerpendicularVector__00019978_.StartX = 0.000000
-	__PerpendicularVector__00019978_.StartY = 0.000000
-	__PerpendicularVector__00019978_.EndX = 28.539183
-	__PerpendicularVector__00019978_.EndY = 129.354005
+	__PerpendicularVector__00019990_.Name = `Plant 1-PerpendicularVectorGrid-0`
+	__PerpendicularVector__00019990_.StartX = 0.000000
+	__PerpendicularVector__00019990_.StartY = 0.000000
+	__PerpendicularVector__00019990_.EndX = 28.539183
+	__PerpendicularVector__00019990_.EndY = 129.354005
 
-	__PerpendicularVector__00019979_.Name = `Plant 1-PerpendicularVectorGrid-1`
-	__PerpendicularVector__00019979_.StartX = 223.971766
-	__PerpendicularVector__00019979_.StartY = 86.236003
-	__PerpendicularVector__00019979_.EndX = 252.510948
-	__PerpendicularVector__00019979_.EndY = 215.590008
+	__PerpendicularVector__00019991_.Name = `Plant 1-PerpendicularVectorGrid-1`
+	__PerpendicularVector__00019991_.StartX = 223.971765
+	__PerpendicularVector__00019991_.StartY = 86.236003
+	__PerpendicularVector__00019991_.EndX = 252.510948
+	__PerpendicularVector__00019991_.EndY = 215.590008
 
-	__PerpendicularVector__00019980_.Name = `Plant 1-PerpendicularVectorGrid-2`
-	__PerpendicularVector__00019980_.StartX = 390.865166
-	__PerpendicularVector__00019980_.StartY = -86.236003
-	__PerpendicularVector__00019980_.EndX = 419.404348
-	__PerpendicularVector__00019980_.EndY = 43.118002
+	__PerpendicularVector__00019992_.Name = `Plant 1-PerpendicularVectorGrid-2`
+	__PerpendicularVector__00019992_.StartX = 390.865165
+	__PerpendicularVector__00019992_.StartY = -86.236003
+	__PerpendicularVector__00019992_.EndX = 419.404348
+	__PerpendicularVector__00019992_.EndY = 43.118002
 
-	__PerpendicularVector__00019981_.Name = `Plant 1-PerpendicularVectorGrid-3`
-	__PerpendicularVector__00019981_.StartX = 614.836931
-	__PerpendicularVector__00019981_.StartY = 0.000000
-	__PerpendicularVector__00019981_.EndX = 643.376114
-	__PerpendicularVector__00019981_.EndY = 129.354005
+	__PerpendicularVector__00019993_.Name = `Plant 1-PerpendicularVectorGrid-3`
+	__PerpendicularVector__00019993_.StartX = 614.836931
+	__PerpendicularVector__00019993_.StartY = 0.000000
+	__PerpendicularVector__00019993_.EndX = 643.376114
+	__PerpendicularVector__00019993_.EndY = 129.354005
 
 	__PerpendicularVectorGrid__00000000_.Name = `Plant 1-PerpendicularVectorGrid`
 
 	__PerpendicularVectorGridHalfway__00000000_.Name = `Plant 1-PerpendicularVectorGridHalfway`
 
-	__PerpendicularVectorHalfway__00014252_.Name = `Plant 1-PerpendicularVectorGridHalfway-0`
-	__PerpendicularVectorHalfway__00014252_.StartX = 111.985883
-	__PerpendicularVectorHalfway__00014252_.StartY = 43.118002
-	__PerpendicularVectorHalfway__00014252_.EndX = 140.525065
-	__PerpendicularVectorHalfway__00014252_.EndY = 172.472006
+	__PerpendicularVectorHalfway__00014261_.Name = `Plant 1-PerpendicularVectorGridHalfway-0`
+	__PerpendicularVectorHalfway__00014261_.StartX = 111.985883
+	__PerpendicularVectorHalfway__00014261_.StartY = 43.118002
+	__PerpendicularVectorHalfway__00014261_.EndX = 140.525065
+	__PerpendicularVectorHalfway__00014261_.EndY = 172.472006
 
-	__PerpendicularVectorHalfway__00014253_.Name = `Plant 1-PerpendicularVectorGridHalfway-1`
-	__PerpendicularVectorHalfway__00014253_.StartX = 307.418466
-	__PerpendicularVectorHalfway__00014253_.StartY = 0.000000
-	__PerpendicularVectorHalfway__00014253_.EndX = 335.957648
-	__PerpendicularVectorHalfway__00014253_.EndY = 129.354005
+	__PerpendicularVectorHalfway__00014262_.Name = `Plant 1-PerpendicularVectorGridHalfway-1`
+	__PerpendicularVectorHalfway__00014262_.StartX = 307.418466
+	__PerpendicularVectorHalfway__00014262_.StartY = 0.000000
+	__PerpendicularVectorHalfway__00014262_.EndX = 335.957648
+	__PerpendicularVectorHalfway__00014262_.EndY = 129.354005
 
-	__PerpendicularVectorHalfway__00014254_.Name = `Plant 1-PerpendicularVectorGridHalfway-2`
-	__PerpendicularVectorHalfway__00014254_.StartX = 502.851048
-	__PerpendicularVectorHalfway__00014254_.StartY = -43.118002
-	__PerpendicularVectorHalfway__00014254_.EndX = 531.390231
-	__PerpendicularVectorHalfway__00014254_.EndY = 86.236003
+	__PerpendicularVectorHalfway__00014263_.Name = `Plant 1-PerpendicularVectorGridHalfway-2`
+	__PerpendicularVectorHalfway__00014263_.StartX = 502.851048
+	__PerpendicularVectorHalfway__00014263_.StartY = -43.118002
+	__PerpendicularVectorHalfway__00014263_.EndX = 531.390231
+	__PerpendicularVectorHalfway__00014263_.EndY = 86.236003
 
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 1
+	__Plant__00000000_.StackHeight = 0
 	__Plant__00000000_.RhombusInsideAngle = 113.000000
 	__Plant__00000000_.RelativeVerticalThickness = 0.130000
 	__Plant__00000000_.RelativeRadialThickness = 0.120000
 	__Plant__00000000_.RhombusSideLength = 240.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 1.020000
+	__Plant__00000000_.RotationRatio = 1.050000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
@@ -816,21 +770,22 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenTopStackOfGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenShiftedRightGrowthCurve2DRibbon = false
-	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DRibbon = true
+	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
-	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = false
-	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = false
+	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
+	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
+	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedTorusShape = false
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000001_.Name = `Plant 1 - rotated-Rendered3DShape`
-	__Rendered3DShape__00000001_.ViewX = -631.845528
-	__Rendered3DShape__00000001_.ViewY = 448.835795
-	__Rendered3DShape__00000001_.ViewZ = -739.311419
+	__Rendered3DShape__00000001_.ViewX = -2273.357117
+	__Rendered3DShape__00000001_.ViewY = -68.451064
+	__Rendered3DShape__00000001_.ViewZ = 476.827043
 	__Rendered3DShape__00000001_.TargetX = 0.000000
 	__Rendered3DShape__00000001_.TargetY = 200.000000
 	__Rendered3DShape__00000001_.TargetZ = 0.000000
@@ -864,38 +819,38 @@ func _(stage *models.Stage) {
 	__RotatedRhombusShape__00001155_.X = 419.404348
 	__RotatedRhombusShape__00001155_.Y = 43.118002
 
-	__ShiftedBottomTopStartArcShape__00002542_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid-0`
-	__ShiftedBottomTopStartArcShape__00002542_.StartX = -0.000000
-	__ShiftedBottomTopStartArcShape__00002542_.StartY = -0.000000
-	__ShiftedBottomTopStartArcShape__00002542_.EndX = 79.845124
-	__ShiftedBottomTopStartArcShape__00002542_.EndY = 30.742823
-	__ShiftedBottomTopStartArcShape__00002542_.XAxisRotation = 0.000000
-	__ShiftedBottomTopStartArcShape__00002542_.LargeArcFlag = false
-	__ShiftedBottomTopStartArcShape__00002542_.SweepFlag = false
-	__ShiftedBottomTopStartArcShape__00002542_.RadiusX = 77.508062
-	__ShiftedBottomTopStartArcShape__00002542_.RadiusY = 77.508062
+	__ShiftedBottomTopStartArcShape__00002551_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid-0`
+	__ShiftedBottomTopStartArcShape__00002551_.StartX = -0.000000
+	__ShiftedBottomTopStartArcShape__00002551_.StartY = -0.000000
+	__ShiftedBottomTopStartArcShape__00002551_.EndX = 79.845124
+	__ShiftedBottomTopStartArcShape__00002551_.EndY = 30.742823
+	__ShiftedBottomTopStartArcShape__00002551_.XAxisRotation = 0.000000
+	__ShiftedBottomTopStartArcShape__00002551_.LargeArcFlag = false
+	__ShiftedBottomTopStartArcShape__00002551_.SweepFlag = false
+	__ShiftedBottomTopStartArcShape__00002551_.RadiusX = 77.508062
+	__ShiftedBottomTopStartArcShape__00002551_.RadiusY = 77.508062
 
-	__ShiftedBottomTopStartArcShape__00002543_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid-1`
-	__ShiftedBottomTopStartArcShape__00002543_.StartX = 223.971766
-	__ShiftedBottomTopStartArcShape__00002543_.StartY = 86.236003
-	__ShiftedBottomTopStartArcShape__00002543_.EndX = 331.368272
-	__ShiftedBottomTopStartArcShape__00002543_.EndY = -24.750357
-	__ShiftedBottomTopStartArcShape__00002543_.XAxisRotation = 0.000000
-	__ShiftedBottomTopStartArcShape__00002543_.LargeArcFlag = false
-	__ShiftedBottomTopStartArcShape__00002543_.SweepFlag = true
-	__ShiftedBottomTopStartArcShape__00002543_.RadiusX = 139.908062
-	__ShiftedBottomTopStartArcShape__00002543_.RadiusY = 139.908062
+	__ShiftedBottomTopStartArcShape__00002552_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid-1`
+	__ShiftedBottomTopStartArcShape__00002552_.StartX = 223.971766
+	__ShiftedBottomTopStartArcShape__00002552_.StartY = 86.236003
+	__ShiftedBottomTopStartArcShape__00002552_.EndX = 331.368272
+	__ShiftedBottomTopStartArcShape__00002552_.EndY = -24.750357
+	__ShiftedBottomTopStartArcShape__00002552_.XAxisRotation = 0.000000
+	__ShiftedBottomTopStartArcShape__00002552_.LargeArcFlag = false
+	__ShiftedBottomTopStartArcShape__00002552_.SweepFlag = true
+	__ShiftedBottomTopStartArcShape__00002552_.RadiusX = 139.908062
+	__ShiftedBottomTopStartArcShape__00002552_.RadiusY = 139.908062
 
-	__ShiftedBottomTopStartArcShape__00002544_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid-2`
-	__ShiftedBottomTopStartArcShape__00002544_.StartX = 390.865166
-	__ShiftedBottomTopStartArcShape__00002544_.StartY = -86.236003
-	__ShiftedBottomTopStartArcShape__00002544_.EndX = 470.710290
-	__ShiftedBottomTopStartArcShape__00002544_.EndY = -55.493180
-	__ShiftedBottomTopStartArcShape__00002544_.XAxisRotation = 0.000000
-	__ShiftedBottomTopStartArcShape__00002544_.LargeArcFlag = false
-	__ShiftedBottomTopStartArcShape__00002544_.SweepFlag = false
-	__ShiftedBottomTopStartArcShape__00002544_.RadiusX = 77.508062
-	__ShiftedBottomTopStartArcShape__00002544_.RadiusY = 77.508062
+	__ShiftedBottomTopStartArcShape__00002553_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid-2`
+	__ShiftedBottomTopStartArcShape__00002553_.StartX = 390.865166
+	__ShiftedBottomTopStartArcShape__00002553_.StartY = -86.236003
+	__ShiftedBottomTopStartArcShape__00002553_.EndX = 470.710290
+	__ShiftedBottomTopStartArcShape__00002553_.EndY = -55.493180
+	__ShiftedBottomTopStartArcShape__00002553_.XAxisRotation = 0.000000
+	__ShiftedBottomTopStartArcShape__00002553_.LargeArcFlag = false
+	__ShiftedBottomTopStartArcShape__00002553_.SweepFlag = false
+	__ShiftedBottomTopStartArcShape__00002553_.RadiusX = 77.508062
+	__ShiftedBottomTopStartArcShape__00002553_.RadiusY = 77.508062
 
 	__ShiftedBottomTopStartArcShapeGrid__00000000_.Name = `Plant 1-ShiftedBottomTopStartArcShapeGrid`
 
@@ -1021,751 +976,249 @@ func _(stage *models.Stage) {
 	__ShiftedRightGrowthCurve2DRibbonStartShape__00000002_.TopLargeArcFlag = false
 	__ShiftedRightGrowthCurve2DRibbonStartShape__00000002_.TopSweepFlag = false
 
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.Name = `Plant 1-StackOfGrowthCurve2D-layer-end-0-0`
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.StartX = 95.915504
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.StartY = 36.930412
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.EndX = 223.971766
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.EndY = 86.236003
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.RadiusX = 124.308062
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.RadiusY = 124.308062
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.XAxisRotation = 0.000000
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.LargeArcFlag = false
-	__StackGrowthCurve2DEndHalfwayArcShape__00005986_.SweepFlag = true
-
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.Name = `Plant 1-StackOfGrowthCurve2D-layer-end-0-1`
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.StartX = 319.393369
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.StartY = -12.375178
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.EndX = 390.865166
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.EndY = -86.236003
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.RadiusX = 93.108062
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.RadiusY = 93.108062
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.XAxisRotation = 0.000000
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.LargeArcFlag = false
-	__StackGrowthCurve2DEndHalfwayArcShape__00005987_.SweepFlag = false
-
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.Name = `Plant 1-StackOfGrowthCurve2D-layer-end-0-2`
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.StartX = 486.780669
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.StartY = -49.305591
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.EndX = 614.836931
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.EndY = 0.000000
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.RadiusX = 124.308062
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.RadiusY = 124.308062
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.XAxisRotation = 0.000000
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.LargeArcFlag = false
-	__StackGrowthCurve2DEndHalfwayArcShape__00005988_.SweepFlag = true
-
-	__StackGrowthCurve2DRibbonEndShape__00003135_.Name = `Plant 1-StackOfGrowthCurve2DRibbon-layer-end-0`
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomStartX = 95.915504
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomStartY = 36.930412
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomEndX = 223.971766
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomEndY = 86.236003
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomRadiusX = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomRadiusY = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomLargeArcFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003135_.BottomSweepFlag = true
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopStartX = 102.637455
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopStartY = 67.397696
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopEndX = 230.693717
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopEndY = 116.703287
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopRadiusX = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopRadiusY = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopLargeArcFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003135_.TopSweepFlag = true
-
-	__StackGrowthCurve2DRibbonEndShape__00003136_.Name = `Plant 1-StackOfGrowthCurve2DRibbon-layer-end-1`
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomStartX = 319.393369
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomStartY = -12.375178
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomEndX = 390.865166
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomEndY = -86.236003
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomRadiusX = 93.108062
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomRadiusY = 93.108062
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomLargeArcFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003136_.BottomSweepFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopStartX = 326.115321
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopStartY = 18.092105
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopEndX = 397.587117
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopEndY = -55.768720
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopRadiusX = 93.108062
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopRadiusY = 93.108062
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopLargeArcFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003136_.TopSweepFlag = false
-
-	__StackGrowthCurve2DRibbonEndShape__00003137_.Name = `Plant 1-StackOfGrowthCurve2DRibbon-layer-end-2`
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomStartX = 486.780669
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomStartY = -49.305591
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomEndX = 614.836931
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomEndY = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomRadiusX = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomRadiusY = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomLargeArcFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003137_.BottomSweepFlag = true
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopStartX = 493.502621
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopStartY = -18.838307
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopEndX = 621.558883
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopEndY = 30.467284
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopRadiusX = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopRadiusY = 124.308062
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopLargeArcFlag = false
-	__StackGrowthCurve2DRibbonEndShape__00003137_.TopSweepFlag = true
-
-	__StackGrowthCurve2DRibbonStartShape__00003135_.Name = `Plant 1-StackOfGrowthCurve2DRibbon-layer-start-0`
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomStartX = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomStartY = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomEndX = 95.915504
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomEndY = 36.930412
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomRadiusX = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomRadiusY = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomLargeArcFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003135_.BottomSweepFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopStartX = 6.721952
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopStartY = 30.467284
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopEndX = 102.637455
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopEndY = 67.397696
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopRadiusX = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopRadiusY = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopLargeArcFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003135_.TopSweepFlag = false
-
-	__StackGrowthCurve2DRibbonStartShape__00003136_.Name = `Plant 1-StackOfGrowthCurve2DRibbon-layer-start-1`
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomStartX = 223.971766
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomStartY = 86.236003
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomEndX = 319.393369
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomEndY = -12.375178
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomRadiusX = 124.308062
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomRadiusY = 124.308062
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomLargeArcFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003136_.BottomSweepFlag = true
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopStartX = 230.693717
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopStartY = 116.703287
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopEndX = 326.115321
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopEndY = 18.092105
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopRadiusX = 124.308062
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopRadiusY = 124.308062
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopLargeArcFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003136_.TopSweepFlag = true
-
-	__StackGrowthCurve2DRibbonStartShape__00003137_.Name = `Plant 1-StackOfGrowthCurve2DRibbon-layer-start-2`
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomStartX = 390.865166
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomStartY = -86.236003
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomEndX = 486.780669
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomEndY = -49.305591
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomRadiusX = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomRadiusY = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomLargeArcFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003137_.BottomSweepFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopStartX = 397.587117
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopStartY = -55.768720
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopEndX = 493.502621
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopEndY = -18.838307
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopRadiusX = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopRadiusY = 93.108062
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopXAxisRotation = 0.000000
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopLargeArcFlag = false
-	__StackGrowthCurve2DRibbonStartShape__00003137_.TopSweepFlag = false
-
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.Name = `Plant 1-StackOfGrowthCurve2D-layer-start-0-0`
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.StartX = 0.000000
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.StartY = 0.000000
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.EndX = 95.915504
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.EndY = 36.930412
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.RadiusX = 93.108062
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.RadiusY = 93.108062
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.XAxisRotation = 0.000000
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.LargeArcFlag = false
-	__StackGrowthCurve2DStartHalfwayArcShape__00005986_.SweepFlag = false
-
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.Name = `Plant 1-StackOfGrowthCurve2D-layer-start-0-1`
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.StartX = 223.971766
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.StartY = 86.236003
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.EndX = 319.393369
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.EndY = -12.375178
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.RadiusX = 124.308062
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.RadiusY = 124.308062
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.XAxisRotation = 0.000000
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.LargeArcFlag = false
-	__StackGrowthCurve2DStartHalfwayArcShape__00005987_.SweepFlag = true
-
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.Name = `Plant 1-StackOfGrowthCurve2D-layer-start-0-2`
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.StartX = 390.865166
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.StartY = -86.236003
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.EndX = 486.780669
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.EndY = -49.305591
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.RadiusX = 93.108062
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.RadiusY = 93.108062
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.XAxisRotation = 0.000000
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.LargeArcFlag = false
-	__StackGrowthCurve2DStartHalfwayArcShape__00005988_.SweepFlag = false
-
 	__StackOfGrowthCurve2D__00000000_.Name = `Plant 1-StackOfGrowthCurve2D`
 
 	__StackOfGrowthCurve2DRibbon__00000000_.Name = `Plant 1-StackOfGrowthCurve2DRibbon`
+
+	__StackOfPartiallyRotatedTorusShape__00000000_.Name = `Plant 1-StackOfPartiallyRotatedTorusShape`
 
 	__StackOfRotatedGrowthCurve2D__00000000_.Name = `Plant 1-StackOfGrowthCurveV2`
 
 	__StackOfRotatedGrowthCurve2DRibbon__00000000_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon`
 
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.Name = `Plant 1-StackOfGrowthCurveV2-layer-end-0-0`
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.StartX = 95.915504
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.StartY = 36.930412
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.EndX = 223.971766
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.EndY = 86.236003
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.XAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.LargeArcFlag = false
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.SweepFlag = true
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.RadiusX = 124.308062
-	__StackRotatedGrowthCurve2DEndArcShape__00003419_.RadiusY = 124.308062
+	__StartArcShape__00010647_.Name = `Plant 1-StartArcShapeV2Grid-0`
+	__StartArcShape__00010647_.StartX = 0.000000
+	__StartArcShape__00010647_.StartY = 0.000000
+	__StartArcShape__00010647_.EndX = 111.985883
+	__StartArcShape__00010647_.EndY = 43.118002
+	__StartArcShape__00010647_.XAxisRotation = 0.000000
+	__StartArcShape__00010647_.LargeArcFlag = false
+	__StartArcShape__00010647_.SweepFlag = false
+	__StartArcShape__00010647_.RadiusX = 108.708062
+	__StartArcShape__00010647_.RadiusY = 108.708062
 
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.Name = `Plant 1-StackOfGrowthCurveV2-layer-end-0-1`
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.StartX = 319.393369
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.StartY = -12.375178
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.EndX = 390.865166
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.EndY = -86.236003
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.XAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.LargeArcFlag = false
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.SweepFlag = false
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.RadiusX = 93.108062
-	__StackRotatedGrowthCurve2DEndArcShape__00003420_.RadiusY = 93.108062
+	__StartArcShape__00010648_.Name = `Plant 1-StartArcShapeV2Grid-1`
+	__StartArcShape__00010648_.StartX = 223.971766
+	__StartArcShape__00010648_.StartY = 86.236003
+	__StartArcShape__00010648_.EndX = 307.418466
+	__StartArcShape__00010648_.EndY = 0.000000
+	__StartArcShape__00010648_.XAxisRotation = 0.000000
+	__StartArcShape__00010648_.LargeArcFlag = false
+	__StartArcShape__00010648_.SweepFlag = true
+	__StartArcShape__00010648_.RadiusX = 108.708062
+	__StartArcShape__00010648_.RadiusY = 108.708062
 
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.Name = `Plant 1-StackOfGrowthCurveV2-layer-end-0-2`
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.StartX = 486.780669
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.StartY = -49.305591
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.EndX = 614.836931
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.EndY = 0.000000
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.XAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.LargeArcFlag = false
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.SweepFlag = true
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.RadiusX = 124.308062
-	__StackRotatedGrowthCurve2DEndArcShape__00003421_.RadiusY = 124.308062
-
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-end-0`
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomStartX = 95.915504
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomStartY = 36.930412
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomEndX = 223.971766
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomEndY = 86.236003
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomRadiusX = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomRadiusY = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.BottomSweepFlag = true
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopStartX = 102.637455
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopStartY = 67.397696
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopEndX = 230.693717
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopEndY = 116.703287
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopRadiusX = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopRadiusY = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000380_.TopSweepFlag = true
-
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-end-1`
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomStartX = 319.393369
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomStartY = -12.375178
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomEndX = 390.865166
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomEndY = -86.236003
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomRadiusX = 93.108062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomRadiusY = 93.108062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.BottomSweepFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopStartX = 326.115321
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopStartY = 18.092105
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopEndX = 397.587117
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopEndY = -55.768720
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopRadiusX = 93.108062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopRadiusY = 93.108062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000381_.TopSweepFlag = false
-
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-end-2`
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomStartX = 486.780669
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomStartY = -49.305591
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomEndX = 614.836931
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomEndY = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomRadiusX = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomRadiusY = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.BottomSweepFlag = true
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopStartX = 493.502621
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopStartY = -18.838307
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopEndX = 621.558883
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopEndY = 30.467284
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopRadiusX = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopRadiusY = 124.308062
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonEndShape__00000382_.TopSweepFlag = true
-
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-start-0`
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomStartX = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomStartY = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomEndX = 95.915504
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomEndY = 36.930412
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomRadiusX = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomRadiusY = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.BottomSweepFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopStartX = 6.721952
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopStartY = 30.467284
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopEndX = 102.637455
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopEndY = 67.397696
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopRadiusX = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopRadiusY = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000380_.TopSweepFlag = false
-
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-start-1`
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomStartX = 223.971766
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomStartY = 86.236003
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomEndX = 319.393369
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomEndY = -12.375178
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomRadiusX = 124.308062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomRadiusY = 124.308062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.BottomSweepFlag = true
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopStartX = 230.693717
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopStartY = 116.703287
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopEndX = 326.115321
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopEndY = 18.092105
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopRadiusX = 124.308062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopRadiusY = 124.308062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000381_.TopSweepFlag = true
-
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.Name = `Plant 1-StackOfRotatedGrowthCurve2DRibbon-layer-start-2`
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomStartX = 390.865166
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomStartY = -86.236003
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomEndX = 486.780669
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomEndY = -49.305591
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomRadiusX = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomRadiusY = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.BottomSweepFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopStartX = 397.587117
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopStartY = -55.768720
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopEndX = 493.502621
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopEndY = -18.838307
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopRadiusX = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopRadiusY = 93.108062
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopXAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopLargeArcFlag = false
-	__StackRotatedGrowthCurve2DRibbonStartShape__00000382_.TopSweepFlag = false
-
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.Name = `Plant 1-StackOfGrowthCurveV2-layer-start-0-0`
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.StartX = 0.000000
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.StartY = 0.000000
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.EndX = 95.915504
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.EndY = 36.930412
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.XAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.LargeArcFlag = false
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.SweepFlag = false
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.RadiusX = 93.108062
-	__StackRotatedGrowthCurve2DStartArcShape__00003419_.RadiusY = 93.108062
-
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.Name = `Plant 1-StackOfGrowthCurveV2-layer-start-0-1`
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.StartX = 223.971766
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.StartY = 86.236003
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.EndX = 319.393369
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.EndY = -12.375178
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.XAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.LargeArcFlag = false
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.SweepFlag = true
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.RadiusX = 124.308062
-	__StackRotatedGrowthCurve2DStartArcShape__00003420_.RadiusY = 124.308062
-
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.Name = `Plant 1-StackOfGrowthCurveV2-layer-start-0-2`
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.StartX = 390.865166
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.StartY = -86.236003
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.EndX = 486.780669
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.EndY = -49.305591
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.XAxisRotation = 0.000000
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.LargeArcFlag = false
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.SweepFlag = false
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.RadiusX = 93.108062
-	__StackRotatedGrowthCurve2DStartArcShape__00003421_.RadiusY = 93.108062
-
-	__StartArcShape__00010638_.Name = `Plant 1-StartArcShapeV2Grid-0`
-	__StartArcShape__00010638_.StartX = 0.000000
-	__StartArcShape__00010638_.StartY = 0.000000
-	__StartArcShape__00010638_.EndX = 111.985883
-	__StartArcShape__00010638_.EndY = 43.118002
-	__StartArcShape__00010638_.XAxisRotation = 0.000000
-	__StartArcShape__00010638_.LargeArcFlag = false
-	__StartArcShape__00010638_.SweepFlag = false
-	__StartArcShape__00010638_.RadiusX = 108.708062
-	__StartArcShape__00010638_.RadiusY = 108.708062
-
-	__StartArcShape__00010639_.Name = `Plant 1-StartArcShapeV2Grid-1`
-	__StartArcShape__00010639_.StartX = 223.971766
-	__StartArcShape__00010639_.StartY = 86.236003
-	__StartArcShape__00010639_.EndX = 307.418466
-	__StartArcShape__00010639_.EndY = 0.000000
-	__StartArcShape__00010639_.XAxisRotation = 0.000000
-	__StartArcShape__00010639_.LargeArcFlag = false
-	__StartArcShape__00010639_.SweepFlag = true
-	__StartArcShape__00010639_.RadiusX = 108.708062
-	__StartArcShape__00010639_.RadiusY = 108.708062
-
-	__StartArcShape__00010640_.Name = `Plant 1-StartArcShapeV2Grid-2`
-	__StartArcShape__00010640_.StartX = 390.865166
-	__StartArcShape__00010640_.StartY = -86.236003
-	__StartArcShape__00010640_.EndX = 502.851048
-	__StartArcShape__00010640_.EndY = -43.118002
-	__StartArcShape__00010640_.XAxisRotation = 0.000000
-	__StartArcShape__00010640_.LargeArcFlag = false
-	__StartArcShape__00010640_.SweepFlag = false
-	__StartArcShape__00010640_.RadiusX = 108.708062
-	__StartArcShape__00010640_.RadiusY = 108.708062
+	__StartArcShape__00010649_.Name = `Plant 1-StartArcShapeV2Grid-2`
+	__StartArcShape__00010649_.StartX = 390.865166
+	__StartArcShape__00010649_.StartY = -86.236003
+	__StartArcShape__00010649_.EndX = 502.851048
+	__StartArcShape__00010649_.EndY = -43.118002
+	__StartArcShape__00010649_.XAxisRotation = 0.000000
+	__StartArcShape__00010649_.LargeArcFlag = false
+	__StartArcShape__00010649_.SweepFlag = false
+	__StartArcShape__00010649_.RadiusX = 108.708062
+	__StartArcShape__00010649_.RadiusY = 108.708062
 
 	__StartArcShapeGrid__00000000_.Name = `Plant 1-StartArcShapeV2Grid`
 
-	__StartHalfwayArcShape__00002323_.Name = `Plant 1-HalfwayArcShapeGrid-0`
-	__StartHalfwayArcShape__00002323_.StartX = 0.000000
-	__StartHalfwayArcShape__00002323_.StartY = 0.000000
-	__StartHalfwayArcShape__00002323_.EndX = 95.915504
-	__StartHalfwayArcShape__00002323_.EndY = 36.930412
-	__StartHalfwayArcShape__00002323_.RadiusX = 93.108062
-	__StartHalfwayArcShape__00002323_.RadiusY = 93.108062
-	__StartHalfwayArcShape__00002323_.XAxisRotation = 0.000000
-	__StartHalfwayArcShape__00002323_.LargeArcFlag = false
-	__StartHalfwayArcShape__00002323_.SweepFlag = false
+	__StartHalfwayArcShape__00002332_.Name = `Plant 1-HalfwayArcShapeGrid-0`
+	__StartHalfwayArcShape__00002332_.StartX = 0.000000
+	__StartHalfwayArcShape__00002332_.StartY = 0.000000
+	__StartHalfwayArcShape__00002332_.EndX = 95.915504
+	__StartHalfwayArcShape__00002332_.EndY = 36.930412
+	__StartHalfwayArcShape__00002332_.RadiusX = 93.108062
+	__StartHalfwayArcShape__00002332_.RadiusY = 93.108062
+	__StartHalfwayArcShape__00002332_.XAxisRotation = 0.000000
+	__StartHalfwayArcShape__00002332_.LargeArcFlag = false
+	__StartHalfwayArcShape__00002332_.SweepFlag = false
 
-	__StartHalfwayArcShape__00002324_.Name = `Plant 1-HalfwayArcShapeGrid-1`
-	__StartHalfwayArcShape__00002324_.StartX = 223.971766
-	__StartHalfwayArcShape__00002324_.StartY = 86.236003
-	__StartHalfwayArcShape__00002324_.EndX = 319.393369
-	__StartHalfwayArcShape__00002324_.EndY = -12.375178
-	__StartHalfwayArcShape__00002324_.RadiusX = 124.308062
-	__StartHalfwayArcShape__00002324_.RadiusY = 124.308062
-	__StartHalfwayArcShape__00002324_.XAxisRotation = 0.000000
-	__StartHalfwayArcShape__00002324_.LargeArcFlag = false
-	__StartHalfwayArcShape__00002324_.SweepFlag = true
+	__StartHalfwayArcShape__00002333_.Name = `Plant 1-HalfwayArcShapeGrid-1`
+	__StartHalfwayArcShape__00002333_.StartX = 223.971766
+	__StartHalfwayArcShape__00002333_.StartY = 86.236003
+	__StartHalfwayArcShape__00002333_.EndX = 319.393369
+	__StartHalfwayArcShape__00002333_.EndY = -12.375178
+	__StartHalfwayArcShape__00002333_.RadiusX = 124.308062
+	__StartHalfwayArcShape__00002333_.RadiusY = 124.308062
+	__StartHalfwayArcShape__00002333_.XAxisRotation = 0.000000
+	__StartHalfwayArcShape__00002333_.LargeArcFlag = false
+	__StartHalfwayArcShape__00002333_.SweepFlag = true
 
-	__StartHalfwayArcShape__00002325_.Name = `Plant 1-HalfwayArcShapeGrid-2`
-	__StartHalfwayArcShape__00002325_.StartX = 390.865166
-	__StartHalfwayArcShape__00002325_.StartY = -86.236003
-	__StartHalfwayArcShape__00002325_.EndX = 486.780669
-	__StartHalfwayArcShape__00002325_.EndY = -49.305591
-	__StartHalfwayArcShape__00002325_.RadiusX = 93.108062
-	__StartHalfwayArcShape__00002325_.RadiusY = 93.108062
-	__StartHalfwayArcShape__00002325_.XAxisRotation = 0.000000
-	__StartHalfwayArcShape__00002325_.LargeArcFlag = false
-	__StartHalfwayArcShape__00002325_.SweepFlag = false
+	__StartHalfwayArcShape__00002334_.Name = `Plant 1-HalfwayArcShapeGrid-2`
+	__StartHalfwayArcShape__00002334_.StartX = 390.865166
+	__StartHalfwayArcShape__00002334_.StartY = -86.236003
+	__StartHalfwayArcShape__00002334_.EndX = 486.780669
+	__StartHalfwayArcShape__00002334_.EndY = -49.305591
+	__StartHalfwayArcShape__00002334_.RadiusX = 93.108062
+	__StartHalfwayArcShape__00002334_.RadiusY = 93.108062
+	__StartHalfwayArcShape__00002334_.XAxisRotation = 0.000000
+	__StartHalfwayArcShape__00002334_.LargeArcFlag = false
+	__StartHalfwayArcShape__00002334_.SweepFlag = false
 
 	__StartHalfwayArcShapeGrid__00000000_.Name = `Plant 1-HalfwayArcShapeGrid`
 
-	__TopEndArcShape__00008796_.Name = `Plant 1-TopEndArcShapeV2Grid-0`
-	__TopEndArcShape__00008796_.StartX = 230.693717
-	__TopEndArcShape__00008796_.StartY = 116.703287
-	__TopEndArcShape__00008796_.EndX = 86.567076
-	__TopEndArcShape__00008796_.EndY = 61.210107
-	__TopEndArcShape__00008796_.XAxisRotation = 0.000000
-	__TopEndArcShape__00008796_.LargeArcFlag = false
-	__TopEndArcShape__00008796_.SweepFlag = false
-	__TopEndArcShape__00008796_.RadiusX = 139.908062
-	__TopEndArcShape__00008796_.RadiusY = 139.908062
+	__TopEndArcShape__00008805_.Name = `Plant 1-TopEndArcShapeV2Grid-0`
+	__TopEndArcShape__00008805_.StartX = 230.693717
+	__TopEndArcShape__00008805_.StartY = 116.703287
+	__TopEndArcShape__00008805_.EndX = 86.567076
+	__TopEndArcShape__00008805_.EndY = 61.210107
+	__TopEndArcShape__00008805_.XAxisRotation = 0.000000
+	__TopEndArcShape__00008805_.LargeArcFlag = false
+	__TopEndArcShape__00008805_.SweepFlag = false
+	__TopEndArcShape__00008805_.RadiusX = 139.908062
+	__TopEndArcShape__00008805_.RadiusY = 139.908062
 
-	__TopEndArcShape__00008797_.Name = `Plant 1-TopEndArcShapeV2Grid-1`
-	__TopEndArcShape__00008797_.StartX = 397.587117
-	__TopEndArcShape__00008797_.StartY = -55.768720
-	__TopEndArcShape__00008797_.EndX = 338.090224
-	__TopEndArcShape__00008797_.EndY = 5.716927
-	__TopEndArcShape__00008797_.XAxisRotation = 0.000000
-	__TopEndArcShape__00008797_.LargeArcFlag = false
-	__TopEndArcShape__00008797_.SweepFlag = true
-	__TopEndArcShape__00008797_.RadiusX = 77.508062
-	__TopEndArcShape__00008797_.RadiusY = 77.508062
+	__TopEndArcShape__00008806_.Name = `Plant 1-TopEndArcShapeV2Grid-1`
+	__TopEndArcShape__00008806_.StartX = 397.587117
+	__TopEndArcShape__00008806_.StartY = -55.768720
+	__TopEndArcShape__00008806_.EndX = 338.090224
+	__TopEndArcShape__00008806_.EndY = 5.716927
+	__TopEndArcShape__00008806_.XAxisRotation = 0.000000
+	__TopEndArcShape__00008806_.LargeArcFlag = false
+	__TopEndArcShape__00008806_.SweepFlag = true
+	__TopEndArcShape__00008806_.RadiusX = 77.508062
+	__TopEndArcShape__00008806_.RadiusY = 77.508062
 
-	__TopEndArcShape__00008798_.Name = `Plant 1-TopEndArcShapeV2Grid-2`
-	__TopEndArcShape__00008798_.StartX = 621.558883
-	__TopEndArcShape__00008798_.StartY = 30.467284
-	__TopEndArcShape__00008798_.EndX = 477.432242
-	__TopEndArcShape__00008798_.EndY = -25.025896
-	__TopEndArcShape__00008798_.XAxisRotation = 0.000000
-	__TopEndArcShape__00008798_.LargeArcFlag = false
-	__TopEndArcShape__00008798_.SweepFlag = false
-	__TopEndArcShape__00008798_.RadiusX = 139.908062
-	__TopEndArcShape__00008798_.RadiusY = 139.908062
+	__TopEndArcShape__00008807_.Name = `Plant 1-TopEndArcShapeV2Grid-2`
+	__TopEndArcShape__00008807_.StartX = 621.558883
+	__TopEndArcShape__00008807_.StartY = 30.467284
+	__TopEndArcShape__00008807_.EndX = 477.432242
+	__TopEndArcShape__00008807_.EndY = -25.025896
+	__TopEndArcShape__00008807_.XAxisRotation = 0.000000
+	__TopEndArcShape__00008807_.LargeArcFlag = false
+	__TopEndArcShape__00008807_.SweepFlag = false
+	__TopEndArcShape__00008807_.RadiusX = 139.908062
+	__TopEndArcShape__00008807_.RadiusY = 139.908062
 
 	__TopEndArcShapeGrid__00000000_.Name = `Plant 1-TopEndArcShapeV2Grid`
 
-	__TopEndHalfwayArcShape__00001230_.Name = `Plant 1-TopEndHalfwayArcShapeGrid-0`
-	__TopEndHalfwayArcShape__00001230_.StartX = 102.637455
-	__TopEndHalfwayArcShape__00001230_.StartY = 67.397696
-	__TopEndHalfwayArcShape__00001230_.EndX = 230.693717
-	__TopEndHalfwayArcShape__00001230_.EndY = 116.703287
-	__TopEndHalfwayArcShape__00001230_.RadiusX = 124.308062
-	__TopEndHalfwayArcShape__00001230_.RadiusY = 124.308062
-	__TopEndHalfwayArcShape__00001230_.XAxisRotation = 0.000000
-	__TopEndHalfwayArcShape__00001230_.LargeArcFlag = false
-	__TopEndHalfwayArcShape__00001230_.SweepFlag = true
+	__TopEndHalfwayArcShape__00001239_.Name = `Plant 1-TopEndHalfwayArcShapeGrid-0`
+	__TopEndHalfwayArcShape__00001239_.StartX = 102.637455
+	__TopEndHalfwayArcShape__00001239_.StartY = 67.397696
+	__TopEndHalfwayArcShape__00001239_.EndX = 230.693717
+	__TopEndHalfwayArcShape__00001239_.EndY = 116.703287
+	__TopEndHalfwayArcShape__00001239_.RadiusX = 124.308062
+	__TopEndHalfwayArcShape__00001239_.RadiusY = 124.308062
+	__TopEndHalfwayArcShape__00001239_.XAxisRotation = 0.000000
+	__TopEndHalfwayArcShape__00001239_.LargeArcFlag = false
+	__TopEndHalfwayArcShape__00001239_.SweepFlag = true
 
-	__TopEndHalfwayArcShape__00001231_.Name = `Plant 1-TopEndHalfwayArcShapeGrid-1`
-	__TopEndHalfwayArcShape__00001231_.StartX = 326.115321
-	__TopEndHalfwayArcShape__00001231_.StartY = 18.092105
-	__TopEndHalfwayArcShape__00001231_.EndX = 397.587117
-	__TopEndHalfwayArcShape__00001231_.EndY = -55.768720
-	__TopEndHalfwayArcShape__00001231_.RadiusX = 93.108062
-	__TopEndHalfwayArcShape__00001231_.RadiusY = 93.108062
-	__TopEndHalfwayArcShape__00001231_.XAxisRotation = 0.000000
-	__TopEndHalfwayArcShape__00001231_.LargeArcFlag = false
-	__TopEndHalfwayArcShape__00001231_.SweepFlag = false
+	__TopEndHalfwayArcShape__00001240_.Name = `Plant 1-TopEndHalfwayArcShapeGrid-1`
+	__TopEndHalfwayArcShape__00001240_.StartX = 326.115321
+	__TopEndHalfwayArcShape__00001240_.StartY = 18.092105
+	__TopEndHalfwayArcShape__00001240_.EndX = 397.587117
+	__TopEndHalfwayArcShape__00001240_.EndY = -55.768720
+	__TopEndHalfwayArcShape__00001240_.RadiusX = 93.108062
+	__TopEndHalfwayArcShape__00001240_.RadiusY = 93.108062
+	__TopEndHalfwayArcShape__00001240_.XAxisRotation = 0.000000
+	__TopEndHalfwayArcShape__00001240_.LargeArcFlag = false
+	__TopEndHalfwayArcShape__00001240_.SweepFlag = false
 
-	__TopEndHalfwayArcShape__00001232_.Name = `Plant 1-TopEndHalfwayArcShapeGrid-2`
-	__TopEndHalfwayArcShape__00001232_.StartX = 493.502621
-	__TopEndHalfwayArcShape__00001232_.StartY = -18.838307
-	__TopEndHalfwayArcShape__00001232_.EndX = 621.558883
-	__TopEndHalfwayArcShape__00001232_.EndY = 30.467284
-	__TopEndHalfwayArcShape__00001232_.RadiusX = 124.308062
-	__TopEndHalfwayArcShape__00001232_.RadiusY = 124.308062
-	__TopEndHalfwayArcShape__00001232_.XAxisRotation = 0.000000
-	__TopEndHalfwayArcShape__00001232_.LargeArcFlag = false
-	__TopEndHalfwayArcShape__00001232_.SweepFlag = true
+	__TopEndHalfwayArcShape__00001241_.Name = `Plant 1-TopEndHalfwayArcShapeGrid-2`
+	__TopEndHalfwayArcShape__00001241_.StartX = 493.502621
+	__TopEndHalfwayArcShape__00001241_.StartY = -18.838307
+	__TopEndHalfwayArcShape__00001241_.EndX = 621.558883
+	__TopEndHalfwayArcShape__00001241_.EndY = 30.467284
+	__TopEndHalfwayArcShape__00001241_.RadiusX = 124.308062
+	__TopEndHalfwayArcShape__00001241_.RadiusY = 124.308062
+	__TopEndHalfwayArcShape__00001241_.XAxisRotation = 0.000000
+	__TopEndHalfwayArcShape__00001241_.LargeArcFlag = false
+	__TopEndHalfwayArcShape__00001241_.SweepFlag = true
 
 	__TopEndHalfwayArcShapeGrid__00000000_.Name = `Plant 1-TopEndHalfwayArcShapeGrid`
 
 	__TopGrowthCurve2D__00000000_.Name = `Plant 1-TopGrowthCurve2D`
 
-	__TopMidArcVectorShape__00002440_.Name = `-0`
-	__TopMidArcVectorShape__00002440_.StartX = 86.567076
-	__TopMidArcVectorShape__00002440_.StartY = 61.210107
-	__TopMidArcVectorShape__00002440_.EndX = 118.707834
-	__TopMidArcVectorShape__00002440_.EndY = 73.585285
+	__TopMidArcVectorShape__00002449_.Name = `-0`
+	__TopMidArcVectorShape__00002449_.StartX = 86.567076
+	__TopMidArcVectorShape__00002449_.StartY = 61.210107
+	__TopMidArcVectorShape__00002449_.EndX = 118.707834
+	__TopMidArcVectorShape__00002449_.EndY = 73.585285
 
-	__TopMidArcVectorShape__00002441_.Name = `-1`
-	__TopMidArcVectorShape__00002441_.StartX = 338.090224
-	__TopMidArcVectorShape__00002441_.StartY = 5.716927
-	__TopMidArcVectorShape__00002441_.EndX = 314.140417
-	__TopMidArcVectorShape__00002441_.EndY = 30.467284
+	__TopMidArcVectorShape__00002450_.Name = `-1`
+	__TopMidArcVectorShape__00002450_.StartX = 338.090224
+	__TopMidArcVectorShape__00002450_.StartY = 5.716927
+	__TopMidArcVectorShape__00002450_.EndX = 314.140417
+	__TopMidArcVectorShape__00002450_.EndY = 30.467284
 
-	__TopMidArcVectorShape__00002442_.Name = `-2`
-	__TopMidArcVectorShape__00002442_.StartX = 477.432242
-	__TopMidArcVectorShape__00002442_.StartY = -25.025896
-	__TopMidArcVectorShape__00002442_.EndX = 509.573000
-	__TopMidArcVectorShape__00002442_.EndY = -12.650718
+	__TopMidArcVectorShape__00002451_.Name = `-2`
+	__TopMidArcVectorShape__00002451_.StartX = 477.432242
+	__TopMidArcVectorShape__00002451_.StartY = -25.025896
+	__TopMidArcVectorShape__00002451_.EndX = 509.573000
+	__TopMidArcVectorShape__00002451_.EndY = -12.650718
 
 	__TopMidArcVectorShapeGrid__00000000_.Name = ``
-
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.Name = `Plant 1-TopStackOfGrowthCurve2D-layer-end-0-0`
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.StartX = 102.637455
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.StartY = 67.397696
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.EndX = 230.693717
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.EndY = 116.703287
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.RadiusX = 124.308062
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.RadiusY = 124.308062
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.XAxisRotation = 0.000000
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.LargeArcFlag = false
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005986_.SweepFlag = true
-
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.Name = `Plant 1-TopStackOfGrowthCurve2D-layer-end-0-1`
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.StartX = 326.115321
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.StartY = 18.092105
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.EndX = 397.587117
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.EndY = -55.768720
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.RadiusX = 93.108062
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.RadiusY = 93.108062
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.XAxisRotation = 0.000000
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.LargeArcFlag = false
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005987_.SweepFlag = false
-
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.Name = `Plant 1-TopStackOfGrowthCurve2D-layer-end-0-2`
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.StartX = 493.502621
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.StartY = -18.838307
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.EndX = 621.558883
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.EndY = 30.467284
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.RadiusX = 124.308062
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.RadiusY = 124.308062
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.XAxisRotation = 0.000000
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.LargeArcFlag = false
-	__TopStackGrowthCurve2DEndHalfwayArcShape__00005988_.SweepFlag = true
-
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.Name = `Plant 1-TopStackOfGrowthCurve2D-layer-start-0-0`
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.StartX = 6.721952
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.StartY = 30.467284
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.EndX = 102.637455
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.EndY = 67.397696
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.RadiusX = 93.108062
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.RadiusY = 93.108062
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.XAxisRotation = 0.000000
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.LargeArcFlag = false
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005986_.SweepFlag = false
-
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.Name = `Plant 1-TopStackOfGrowthCurve2D-layer-start-0-1`
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.StartX = 230.693717
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.StartY = 116.703287
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.EndX = 326.115321
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.EndY = 18.092105
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.RadiusX = 124.308062
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.RadiusY = 124.308062
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.XAxisRotation = 0.000000
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.LargeArcFlag = false
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005987_.SweepFlag = true
-
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.Name = `Plant 1-TopStackOfGrowthCurve2D-layer-start-0-2`
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.StartX = 397.587117
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.StartY = -55.768720
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.EndX = 493.502621
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.EndY = -18.838307
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.RadiusX = 93.108062
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.RadiusY = 93.108062
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.XAxisRotation = 0.000000
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.LargeArcFlag = false
-	__TopStackGrowthCurve2DStartHalfwayArcShape__00005988_.SweepFlag = false
 
 	__TopStackOfGrowthCurve2D__00000000_.Name = `Plant 1-TopStackOfGrowthCurve2D`
 
 	__TopStackOfRotatedGrowthCurve2D__00000000_.Name = `Plant 1-TopStackOfGrowthCurveV2`
 
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.Name = `Plant 1-TopStackOfGrowthCurveV2-layer-end-0-0`
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.StartX = 102.637455
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.StartY = 67.397696
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.EndX = 230.693717
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.EndY = 116.703287
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.XAxisRotation = 0.000000
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.LargeArcFlag = false
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.SweepFlag = true
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.RadiusX = 124.308062
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_.RadiusY = 124.308062
+	__TopStartArcShape__00008805_.Name = `Plant 1-TopStartArcShapeV2Grid-0`
+	__TopStartArcShape__00008805_.StartX = 6.721952
+	__TopStartArcShape__00008805_.StartY = 30.467284
+	__TopStartArcShape__00008805_.EndX = 86.567076
+	__TopStartArcShape__00008805_.EndY = 61.210107
+	__TopStartArcShape__00008805_.XAxisRotation = 0.000000
+	__TopStartArcShape__00008805_.LargeArcFlag = false
+	__TopStartArcShape__00008805_.SweepFlag = false
+	__TopStartArcShape__00008805_.RadiusX = 77.508062
+	__TopStartArcShape__00008805_.RadiusY = 77.508062
 
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.Name = `Plant 1-TopStackOfGrowthCurveV2-layer-end-0-1`
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.StartX = 326.115321
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.StartY = 18.092105
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.EndX = 397.587117
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.EndY = -55.768720
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.XAxisRotation = 0.000000
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.LargeArcFlag = false
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.SweepFlag = false
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.RadiusX = 93.108062
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_.RadiusY = 93.108062
+	__TopStartArcShape__00008806_.Name = `Plant 1-TopStartArcShapeV2Grid-1`
+	__TopStartArcShape__00008806_.StartX = 230.693717
+	__TopStartArcShape__00008806_.StartY = 116.703287
+	__TopStartArcShape__00008806_.EndX = 338.090224
+	__TopStartArcShape__00008806_.EndY = 5.716927
+	__TopStartArcShape__00008806_.XAxisRotation = 0.000000
+	__TopStartArcShape__00008806_.LargeArcFlag = false
+	__TopStartArcShape__00008806_.SweepFlag = true
+	__TopStartArcShape__00008806_.RadiusX = 139.908062
+	__TopStartArcShape__00008806_.RadiusY = 139.908062
 
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.Name = `Plant 1-TopStackOfGrowthCurveV2-layer-end-0-2`
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.StartX = 493.502621
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.StartY = -18.838307
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.EndX = 621.558883
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.EndY = 30.467284
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.XAxisRotation = 0.000000
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.LargeArcFlag = false
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.SweepFlag = true
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.RadiusX = 124.308062
-	__TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_.RadiusY = 124.308062
-
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.Name = `Plant 1-TopStackOfGrowthCurveV2-layer-start-0-0`
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.StartX = 6.721952
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.StartY = 30.467284
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.EndX = 102.637455
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.EndY = 67.397696
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.XAxisRotation = 0.000000
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.LargeArcFlag = false
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.SweepFlag = false
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.RadiusX = 93.108062
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_.RadiusY = 93.108062
-
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.Name = `Plant 1-TopStackOfGrowthCurveV2-layer-start-0-1`
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.StartX = 230.693717
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.StartY = 116.703287
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.EndX = 326.115321
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.EndY = 18.092105
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.XAxisRotation = 0.000000
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.LargeArcFlag = false
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.SweepFlag = true
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.RadiusX = 124.308062
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_.RadiusY = 124.308062
-
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.Name = `Plant 1-TopStackOfGrowthCurveV2-layer-start-0-2`
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.StartX = 397.587117
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.StartY = -55.768720
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.EndX = 493.502621
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.EndY = -18.838307
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.XAxisRotation = 0.000000
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.LargeArcFlag = false
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.SweepFlag = false
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.RadiusX = 93.108062
-	__TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_.RadiusY = 93.108062
-
-	__TopStartArcShape__00008796_.Name = `Plant 1-TopStartArcShapeV2Grid-0`
-	__TopStartArcShape__00008796_.StartX = 6.721952
-	__TopStartArcShape__00008796_.StartY = 30.467284
-	__TopStartArcShape__00008796_.EndX = 86.567076
-	__TopStartArcShape__00008796_.EndY = 61.210107
-	__TopStartArcShape__00008796_.XAxisRotation = 0.000000
-	__TopStartArcShape__00008796_.LargeArcFlag = false
-	__TopStartArcShape__00008796_.SweepFlag = false
-	__TopStartArcShape__00008796_.RadiusX = 77.508062
-	__TopStartArcShape__00008796_.RadiusY = 77.508062
-
-	__TopStartArcShape__00008797_.Name = `Plant 1-TopStartArcShapeV2Grid-1`
-	__TopStartArcShape__00008797_.StartX = 230.693717
-	__TopStartArcShape__00008797_.StartY = 116.703287
-	__TopStartArcShape__00008797_.EndX = 338.090224
-	__TopStartArcShape__00008797_.EndY = 5.716927
-	__TopStartArcShape__00008797_.XAxisRotation = 0.000000
-	__TopStartArcShape__00008797_.LargeArcFlag = false
-	__TopStartArcShape__00008797_.SweepFlag = true
-	__TopStartArcShape__00008797_.RadiusX = 139.908062
-	__TopStartArcShape__00008797_.RadiusY = 139.908062
-
-	__TopStartArcShape__00008798_.Name = `Plant 1-TopStartArcShapeV2Grid-2`
-	__TopStartArcShape__00008798_.StartX = 397.587117
-	__TopStartArcShape__00008798_.StartY = -55.768720
-	__TopStartArcShape__00008798_.EndX = 477.432242
-	__TopStartArcShape__00008798_.EndY = -25.025896
-	__TopStartArcShape__00008798_.XAxisRotation = 0.000000
-	__TopStartArcShape__00008798_.LargeArcFlag = false
-	__TopStartArcShape__00008798_.SweepFlag = false
-	__TopStartArcShape__00008798_.RadiusX = 77.508062
-	__TopStartArcShape__00008798_.RadiusY = 77.508062
+	__TopStartArcShape__00008807_.Name = `Plant 1-TopStartArcShapeV2Grid-2`
+	__TopStartArcShape__00008807_.StartX = 397.587117
+	__TopStartArcShape__00008807_.StartY = -55.768720
+	__TopStartArcShape__00008807_.EndX = 477.432242
+	__TopStartArcShape__00008807_.EndY = -25.025896
+	__TopStartArcShape__00008807_.XAxisRotation = 0.000000
+	__TopStartArcShape__00008807_.LargeArcFlag = false
+	__TopStartArcShape__00008807_.SweepFlag = false
+	__TopStartArcShape__00008807_.RadiusX = 77.508062
+	__TopStartArcShape__00008807_.RadiusY = 77.508062
 
 	__TopStartArcShapeGrid__00000000_.Name = `Plant 1-TopStartArcShapeV2Grid`
 
-	__TopStartHalfwayArcShape__00001230_.Name = `Plant 1-TopStartHalfwayArcShapeGrid-0`
-	__TopStartHalfwayArcShape__00001230_.StartX = 6.721952
-	__TopStartHalfwayArcShape__00001230_.StartY = 30.467284
-	__TopStartHalfwayArcShape__00001230_.EndX = 102.637455
-	__TopStartHalfwayArcShape__00001230_.EndY = 67.397696
-	__TopStartHalfwayArcShape__00001230_.RadiusX = 93.108062
-	__TopStartHalfwayArcShape__00001230_.RadiusY = 93.108062
-	__TopStartHalfwayArcShape__00001230_.XAxisRotation = 0.000000
-	__TopStartHalfwayArcShape__00001230_.LargeArcFlag = false
-	__TopStartHalfwayArcShape__00001230_.SweepFlag = false
+	__TopStartHalfwayArcShape__00001239_.Name = `Plant 1-TopStartHalfwayArcShapeGrid-0`
+	__TopStartHalfwayArcShape__00001239_.StartX = 6.721952
+	__TopStartHalfwayArcShape__00001239_.StartY = 30.467284
+	__TopStartHalfwayArcShape__00001239_.EndX = 102.637455
+	__TopStartHalfwayArcShape__00001239_.EndY = 67.397696
+	__TopStartHalfwayArcShape__00001239_.RadiusX = 93.108062
+	__TopStartHalfwayArcShape__00001239_.RadiusY = 93.108062
+	__TopStartHalfwayArcShape__00001239_.XAxisRotation = 0.000000
+	__TopStartHalfwayArcShape__00001239_.LargeArcFlag = false
+	__TopStartHalfwayArcShape__00001239_.SweepFlag = false
 
-	__TopStartHalfwayArcShape__00001231_.Name = `Plant 1-TopStartHalfwayArcShapeGrid-1`
-	__TopStartHalfwayArcShape__00001231_.StartX = 230.693717
-	__TopStartHalfwayArcShape__00001231_.StartY = 116.703287
-	__TopStartHalfwayArcShape__00001231_.EndX = 326.115321
-	__TopStartHalfwayArcShape__00001231_.EndY = 18.092105
-	__TopStartHalfwayArcShape__00001231_.RadiusX = 124.308062
-	__TopStartHalfwayArcShape__00001231_.RadiusY = 124.308062
-	__TopStartHalfwayArcShape__00001231_.XAxisRotation = 0.000000
-	__TopStartHalfwayArcShape__00001231_.LargeArcFlag = false
-	__TopStartHalfwayArcShape__00001231_.SweepFlag = true
+	__TopStartHalfwayArcShape__00001240_.Name = `Plant 1-TopStartHalfwayArcShapeGrid-1`
+	__TopStartHalfwayArcShape__00001240_.StartX = 230.693717
+	__TopStartHalfwayArcShape__00001240_.StartY = 116.703287
+	__TopStartHalfwayArcShape__00001240_.EndX = 326.115321
+	__TopStartHalfwayArcShape__00001240_.EndY = 18.092105
+	__TopStartHalfwayArcShape__00001240_.RadiusX = 124.308062
+	__TopStartHalfwayArcShape__00001240_.RadiusY = 124.308062
+	__TopStartHalfwayArcShape__00001240_.XAxisRotation = 0.000000
+	__TopStartHalfwayArcShape__00001240_.LargeArcFlag = false
+	__TopStartHalfwayArcShape__00001240_.SweepFlag = true
 
-	__TopStartHalfwayArcShape__00001232_.Name = `Plant 1-TopStartHalfwayArcShapeGrid-2`
-	__TopStartHalfwayArcShape__00001232_.StartX = 397.587117
-	__TopStartHalfwayArcShape__00001232_.StartY = -55.768720
-	__TopStartHalfwayArcShape__00001232_.EndX = 493.502621
-	__TopStartHalfwayArcShape__00001232_.EndY = -18.838307
-	__TopStartHalfwayArcShape__00001232_.RadiusX = 93.108062
-	__TopStartHalfwayArcShape__00001232_.RadiusY = 93.108062
-	__TopStartHalfwayArcShape__00001232_.XAxisRotation = 0.000000
-	__TopStartHalfwayArcShape__00001232_.LargeArcFlag = false
-	__TopStartHalfwayArcShape__00001232_.SweepFlag = false
+	__TopStartHalfwayArcShape__00001241_.Name = `Plant 1-TopStartHalfwayArcShapeGrid-2`
+	__TopStartHalfwayArcShape__00001241_.StartX = 397.587117
+	__TopStartHalfwayArcShape__00001241_.StartY = -55.768720
+	__TopStartHalfwayArcShape__00001241_.EndX = 493.502621
+	__TopStartHalfwayArcShape__00001241_.EndY = -18.838307
+	__TopStartHalfwayArcShape__00001241_.RadiusX = 93.108062
+	__TopStartHalfwayArcShape__00001241_.RadiusY = 93.108062
+	__TopStartHalfwayArcShape__00001241_.XAxisRotation = 0.000000
+	__TopStartHalfwayArcShape__00001241_.LargeArcFlag = false
+	__TopStartHalfwayArcShape__00001241_.SweepFlag = false
 
 	__TopStartHalfwayArcShapeGrid__00000000_.Name = `Plant 1-TopStartHalfwayArcShapeGrid`
 
@@ -1774,18 +1227,18 @@ func _(stage *models.Stage) {
 	__VerticalTorusStackShape__00000000_.Name = `Plant 1 - Vertical 3D Torus Stack`
 
 	// insertion point for setup of pointers
-	__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes = append(__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes, __ArcNormalVectorShape__00008023_)
-	__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes = append(__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes, __ArcNormalVectorShape__00008024_)
-	__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes = append(__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes, __ArcNormalVectorShape__00008025_)
-	__BaseVectorShapeGrid__00000000_.BaseVectorShapes = append(__BaseVectorShapeGrid__00000000_.BaseVectorShapes, __BaseVectorShape__00012491_)
-	__BaseVectorShapeGrid__00000000_.BaseVectorShapes = append(__BaseVectorShapeGrid__00000000_.BaseVectorShapes, __BaseVectorShape__00012492_)
-	__BaseVectorShapeGrid__00000000_.BaseVectorShapes = append(__BaseVectorShapeGrid__00000000_.BaseVectorShapes, __BaseVectorShape__00012493_)
-	__EndArcShapeGrid__00000000_.EndArcShapes = append(__EndArcShapeGrid__00000000_.EndArcShapes, __EndArcShape__00010258_)
-	__EndArcShapeGrid__00000000_.EndArcShapes = append(__EndArcShapeGrid__00000000_.EndArcShapes, __EndArcShape__00010259_)
-	__EndArcShapeGrid__00000000_.EndArcShapes = append(__EndArcShapeGrid__00000000_.EndArcShapes, __EndArcShape__00010260_)
-	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001564_)
-	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001565_)
-	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001566_)
+	__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes = append(__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes, __ArcNormalVectorShape__00008032_)
+	__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes = append(__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes, __ArcNormalVectorShape__00008033_)
+	__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes = append(__ArcNormalVectorShapeGrid__00000000_.ArcNormalVectorShapes, __ArcNormalVectorShape__00008034_)
+	__BaseVectorShapeGrid__00000000_.BaseVectorShapes = append(__BaseVectorShapeGrid__00000000_.BaseVectorShapes, __BaseVectorShape__00012500_)
+	__BaseVectorShapeGrid__00000000_.BaseVectorShapes = append(__BaseVectorShapeGrid__00000000_.BaseVectorShapes, __BaseVectorShape__00012501_)
+	__BaseVectorShapeGrid__00000000_.BaseVectorShapes = append(__BaseVectorShapeGrid__00000000_.BaseVectorShapes, __BaseVectorShape__00012502_)
+	__EndArcShapeGrid__00000000_.EndArcShapes = append(__EndArcShapeGrid__00000000_.EndArcShapes, __EndArcShape__00010267_)
+	__EndArcShapeGrid__00000000_.EndArcShapes = append(__EndArcShapeGrid__00000000_.EndArcShapes, __EndArcShape__00010268_)
+	__EndArcShapeGrid__00000000_.EndArcShapes = append(__EndArcShapeGrid__00000000_.EndArcShapes, __EndArcShape__00010269_)
+	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001573_)
+	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001574_)
+	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001575_)
 	__GrowthCurve2D__00000000_.StartHalfwayArcShapeGrid = __StartHalfwayArcShapeGrid__00000000_
 	__GrowthCurve2D__00000000_.EndHalfwayArcShapeGrid = __EndHalfwayArcShapeGrid__00000000_
 	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes, __GrowthCurve2DRibbonStartShape__00000000_)
@@ -1794,31 +1247,31 @@ func _(stage *models.Stage) {
 	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes, __GrowthCurve2DRibbonEndShape__00000000_)
 	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes, __GrowthCurve2DRibbonEndShape__00000001_)
 	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes, __GrowthCurve2DRibbonEndShape__00000002_)
-	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024189_)
-	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024190_)
-	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024191_)
-	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024192_)
+	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024201_)
+	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024202_)
+	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024203_)
+	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024204_)
 	__InitialRhombusGridShape__00000001_.InitialRhombusShapes = append(__InitialRhombusGridShape__00000001_.InitialRhombusShapes, __InitialRhombusShape__00001152_)
 	__InitialRhombusGridShape__00000001_.InitialRhombusShapes = append(__InitialRhombusGridShape__00000001_.InitialRhombusShapes, __InitialRhombusShape__00001153_)
 	__InitialRhombusGridShape__00000001_.InitialRhombusShapes = append(__InitialRhombusGridShape__00000001_.InitialRhombusShapes, __InitialRhombusShape__00001154_)
 	__InitialRhombusGridShape__00000001_.InitialRhombusShapes = append(__InitialRhombusGridShape__00000001_.InitialRhombusShapes, __InitialRhombusShape__00001155_)
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __Plant__00000000_)
-	__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes = append(__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes, __MidArcVectorShape__00002431_)
-	__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes = append(__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes, __MidArcVectorShape__00002432_)
-	__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes = append(__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes, __MidArcVectorShape__00002433_)
+	__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes = append(__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes, __MidArcVectorShape__00002440_)
+	__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes = append(__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes, __MidArcVectorShape__00002441_)
+	__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes = append(__MidArcVectorShapeGrid__00000000_.MidArcVectorShapes, __MidArcVectorShape__00002442_)
 	__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonStartShapes = append(__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonStartShapes, __PartiallyGrowthCurve2DRibbonStartShape__00000009_)
 	__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonStartShapes = append(__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonStartShapes, __PartiallyGrowthCurve2DRibbonStartShape__00000010_)
 	__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonStartShapes = append(__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonStartShapes, __PartiallyGrowthCurve2DRibbonStartShape__00000011_)
 	__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonEndShapes = append(__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonEndShapes, __PartiallyGrowthCurve2DRibbonEndShape__00000009_)
 	__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonEndShapes = append(__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonEndShapes, __PartiallyGrowthCurve2DRibbonEndShape__00000010_)
 	__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonEndShapes = append(__PartiallyGrowthCurve2DRibbon__00000000_.PartiallyGrowthCurve2DRibbonEndShapes, __PartiallyGrowthCurve2DRibbonEndShape__00000011_)
-	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019978_)
-	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019979_)
-	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019980_)
-	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019981_)
-	__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways = append(__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways, __PerpendicularVectorHalfway__00014252_)
-	__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways = append(__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways, __PerpendicularVectorHalfway__00014253_)
-	__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways = append(__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways, __PerpendicularVectorHalfway__00014254_)
+	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019990_)
+	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019991_)
+	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019992_)
+	__PerpendicularVectorGrid__00000000_.PerpendicularVectors = append(__PerpendicularVectorGrid__00000000_.PerpendicularVectors, __PerpendicularVector__00019993_)
+	__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways = append(__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways, __PerpendicularVectorHalfway__00014261_)
+	__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways = append(__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways, __PerpendicularVectorHalfway__00014262_)
+	__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways = append(__PerpendicularVectorGridHalfway__00000000_.PerpendicularVectorHalfways, __PerpendicularVectorHalfway__00014263_)
 	__Plant__00000000_.PlantDiagrams = append(__Plant__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
 	__Plant__00000000_.AxesShape = __AxesShape__00000000_
 	__Plant__00000000_.RhombusStuff = __RhombusStuff__00000000_
@@ -1855,6 +1308,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.TorusStackShape = __TorusStackShape__00000000_
 	__PlantDiagram__00000001_.VerticalTorusStackShape = __VerticalTorusStackShape__00000000_
 	__PlantDiagram__00000001_.PartiallyRotatedTorusShape = __PartiallyRotatedTorusShape__00000000_
+	__PlantDiagram__00000001_.StackOfPartiallyRotatedTorusShape = __StackOfPartiallyRotatedTorusShape__00000000_
 	__RhombusStuff__00000000_.ReferenceRhombus = __RhombusShape__00000004_
 	__RhombusStuff__00000000_.PlantCircumferenceShape = __PlantCircumferenceShape__00000003_
 	__RhombusStuff__00000000_.GridPathShape = __GridPathShape__00000002_
@@ -1869,72 +1323,36 @@ func _(stage *models.Stage) {
 	__RotatedRhombusGridShape__00000001_.RotatedRhombusShapes = append(__RotatedRhombusGridShape__00000001_.RotatedRhombusShapes, __RotatedRhombusShape__00001153_)
 	__RotatedRhombusGridShape__00000001_.RotatedRhombusShapes = append(__RotatedRhombusGridShape__00000001_.RotatedRhombusShapes, __RotatedRhombusShape__00001154_)
 	__RotatedRhombusGridShape__00000001_.RotatedRhombusShapes = append(__RotatedRhombusGridShape__00000001_.RotatedRhombusShapes, __RotatedRhombusShape__00001155_)
-	__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes = append(__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes, __ShiftedBottomTopStartArcShape__00002542_)
-	__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes = append(__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes, __ShiftedBottomTopStartArcShape__00002543_)
-	__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes = append(__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes, __ShiftedBottomTopStartArcShape__00002544_)
+	__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes = append(__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes, __ShiftedBottomTopStartArcShape__00002551_)
+	__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes = append(__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes, __ShiftedBottomTopStartArcShape__00002552_)
+	__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes = append(__ShiftedBottomTopStartArcShapeGrid__00000000_.ShiftedBottomTopStartArcShapes, __ShiftedBottomTopStartArcShape__00002553_)
 	__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonStartShapes = append(__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonStartShapes, __ShiftedRightGrowthCurve2DRibbonStartShape__00000000_)
 	__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonStartShapes = append(__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonStartShapes, __ShiftedRightGrowthCurve2DRibbonStartShape__00000001_)
 	__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonStartShapes = append(__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonStartShapes, __ShiftedRightGrowthCurve2DRibbonStartShape__00000002_)
 	__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonEndShapes = append(__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonEndShapes, __ShiftedRightGrowthCurve2DRibbonEndShape__00000000_)
 	__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonEndShapes = append(__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonEndShapes, __ShiftedRightGrowthCurve2DRibbonEndShape__00000001_)
 	__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonEndShapes = append(__ShiftedRightGrowthCurve2DRibbon__00000000_.ShiftedRightGrowthCurve2DRibbonEndShapes, __ShiftedRightGrowthCurve2DRibbonEndShape__00000002_)
-	__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DStartHalfwayArcShapes = append(__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DStartHalfwayArcShapes, __StackGrowthCurve2DStartHalfwayArcShape__00005986_)
-	__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DStartHalfwayArcShapes = append(__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DStartHalfwayArcShapes, __StackGrowthCurve2DStartHalfwayArcShape__00005987_)
-	__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DStartHalfwayArcShapes = append(__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DStartHalfwayArcShapes, __StackGrowthCurve2DStartHalfwayArcShape__00005988_)
-	__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DEndHalfwayArcShapes = append(__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DEndHalfwayArcShapes, __StackGrowthCurve2DEndHalfwayArcShape__00005986_)
-	__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DEndHalfwayArcShapes = append(__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DEndHalfwayArcShapes, __StackGrowthCurve2DEndHalfwayArcShape__00005987_)
-	__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DEndHalfwayArcShapes = append(__StackOfGrowthCurve2D__00000000_.StackGrowthCurve2DEndHalfwayArcShapes, __StackGrowthCurve2DEndHalfwayArcShape__00005988_)
-	__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonStartShapes = append(__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonStartShapes, __StackGrowthCurve2DRibbonStartShape__00003135_)
-	__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonStartShapes = append(__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonStartShapes, __StackGrowthCurve2DRibbonStartShape__00003136_)
-	__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonStartShapes = append(__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonStartShapes, __StackGrowthCurve2DRibbonStartShape__00003137_)
-	__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonEndShapes = append(__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonEndShapes, __StackGrowthCurve2DRibbonEndShape__00003135_)
-	__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonEndShapes = append(__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonEndShapes, __StackGrowthCurve2DRibbonEndShape__00003136_)
-	__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonEndShapes = append(__StackOfGrowthCurve2DRibbon__00000000_.StackGrowthCurve2DRibbonEndShapes, __StackGrowthCurve2DRibbonEndShape__00003137_)
-	__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DStartArcShapes = append(__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DStartArcShapes, __StackRotatedGrowthCurve2DStartArcShape__00003419_)
-	__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DStartArcShapes = append(__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DStartArcShapes, __StackRotatedGrowthCurve2DStartArcShape__00003420_)
-	__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DStartArcShapes = append(__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DStartArcShapes, __StackRotatedGrowthCurve2DStartArcShape__00003421_)
-	__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DEndArcShapes = append(__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DEndArcShapes, __StackRotatedGrowthCurve2DEndArcShape__00003419_)
-	__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DEndArcShapes = append(__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DEndArcShapes, __StackRotatedGrowthCurve2DEndArcShape__00003420_)
-	__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DEndArcShapes = append(__StackOfRotatedGrowthCurve2D__00000000_.StackRotatedGrowthCurve2DEndArcShapes, __StackRotatedGrowthCurve2DEndArcShape__00003421_)
-	__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonStartShapes = append(__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonStartShapes, __StackRotatedGrowthCurve2DRibbonStartShape__00000380_)
-	__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonStartShapes = append(__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonStartShapes, __StackRotatedGrowthCurve2DRibbonStartShape__00000381_)
-	__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonStartShapes = append(__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonStartShapes, __StackRotatedGrowthCurve2DRibbonStartShape__00000382_)
-	__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonEndShapes = append(__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonEndShapes, __StackRotatedGrowthCurve2DRibbonEndShape__00000380_)
-	__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonEndShapes = append(__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonEndShapes, __StackRotatedGrowthCurve2DRibbonEndShape__00000381_)
-	__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonEndShapes = append(__StackOfRotatedGrowthCurve2DRibbon__00000000_.StackRotatedGrowthCurve2DRibbonEndShapes, __StackRotatedGrowthCurve2DRibbonEndShape__00000382_)
-	__StartArcShapeGrid__00000000_.StartArcShapes = append(__StartArcShapeGrid__00000000_.StartArcShapes, __StartArcShape__00010638_)
-	__StartArcShapeGrid__00000000_.StartArcShapes = append(__StartArcShapeGrid__00000000_.StartArcShapes, __StartArcShape__00010639_)
-	__StartArcShapeGrid__00000000_.StartArcShapes = append(__StartArcShapeGrid__00000000_.StartArcShapes, __StartArcShape__00010640_)
-	__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes = append(__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes, __StartHalfwayArcShape__00002323_)
-	__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes = append(__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes, __StartHalfwayArcShape__00002324_)
-	__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes = append(__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes, __StartHalfwayArcShape__00002325_)
-	__TopEndArcShapeGrid__00000000_.TopEndArcShapes = append(__TopEndArcShapeGrid__00000000_.TopEndArcShapes, __TopEndArcShape__00008796_)
-	__TopEndArcShapeGrid__00000000_.TopEndArcShapes = append(__TopEndArcShapeGrid__00000000_.TopEndArcShapes, __TopEndArcShape__00008797_)
-	__TopEndArcShapeGrid__00000000_.TopEndArcShapes = append(__TopEndArcShapeGrid__00000000_.TopEndArcShapes, __TopEndArcShape__00008798_)
-	__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes = append(__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes, __TopEndHalfwayArcShape__00001230_)
-	__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes = append(__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes, __TopEndHalfwayArcShape__00001231_)
-	__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes = append(__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes, __TopEndHalfwayArcShape__00001232_)
+	__StartArcShapeGrid__00000000_.StartArcShapes = append(__StartArcShapeGrid__00000000_.StartArcShapes, __StartArcShape__00010647_)
+	__StartArcShapeGrid__00000000_.StartArcShapes = append(__StartArcShapeGrid__00000000_.StartArcShapes, __StartArcShape__00010648_)
+	__StartArcShapeGrid__00000000_.StartArcShapes = append(__StartArcShapeGrid__00000000_.StartArcShapes, __StartArcShape__00010649_)
+	__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes = append(__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes, __StartHalfwayArcShape__00002332_)
+	__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes = append(__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes, __StartHalfwayArcShape__00002333_)
+	__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes = append(__StartHalfwayArcShapeGrid__00000000_.StartHalfwayArcShapes, __StartHalfwayArcShape__00002334_)
+	__TopEndArcShapeGrid__00000000_.TopEndArcShapes = append(__TopEndArcShapeGrid__00000000_.TopEndArcShapes, __TopEndArcShape__00008805_)
+	__TopEndArcShapeGrid__00000000_.TopEndArcShapes = append(__TopEndArcShapeGrid__00000000_.TopEndArcShapes, __TopEndArcShape__00008806_)
+	__TopEndArcShapeGrid__00000000_.TopEndArcShapes = append(__TopEndArcShapeGrid__00000000_.TopEndArcShapes, __TopEndArcShape__00008807_)
+	__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes = append(__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes, __TopEndHalfwayArcShape__00001239_)
+	__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes = append(__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes, __TopEndHalfwayArcShape__00001240_)
+	__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes = append(__TopEndHalfwayArcShapeGrid__00000000_.TopEndHalfwayArcShapes, __TopEndHalfwayArcShape__00001241_)
 	__TopGrowthCurve2D__00000000_.TopStartHalfwayArcShapeGrid = __TopStartHalfwayArcShapeGrid__00000000_
 	__TopGrowthCurve2D__00000000_.TopEndHalfwayArcShapeGrid = __TopEndHalfwayArcShapeGrid__00000000_
-	__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes = append(__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes, __TopMidArcVectorShape__00002440_)
-	__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes = append(__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes, __TopMidArcVectorShape__00002441_)
-	__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes = append(__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes, __TopMidArcVectorShape__00002442_)
-	__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DStartHalfwayArcShapes = append(__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DStartHalfwayArcShapes, __TopStackGrowthCurve2DStartHalfwayArcShape__00005986_)
-	__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DStartHalfwayArcShapes = append(__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DStartHalfwayArcShapes, __TopStackGrowthCurve2DStartHalfwayArcShape__00005987_)
-	__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DStartHalfwayArcShapes = append(__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DStartHalfwayArcShapes, __TopStackGrowthCurve2DStartHalfwayArcShape__00005988_)
-	__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DEndHalfwayArcShapes = append(__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DEndHalfwayArcShapes, __TopStackGrowthCurve2DEndHalfwayArcShape__00005986_)
-	__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DEndHalfwayArcShapes = append(__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DEndHalfwayArcShapes, __TopStackGrowthCurve2DEndHalfwayArcShape__00005987_)
-	__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DEndHalfwayArcShapes = append(__TopStackOfGrowthCurve2D__00000000_.TopStackGrowthCurve2DEndHalfwayArcShapes, __TopStackGrowthCurve2DEndHalfwayArcShape__00005988_)
-	__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DStartArcShapes = append(__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DStartArcShapes, __TopStackOfRotatedGrowthCurve2DStartArcShape__00003443_)
-	__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DStartArcShapes = append(__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DStartArcShapes, __TopStackOfRotatedGrowthCurve2DStartArcShape__00003444_)
-	__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DStartArcShapes = append(__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DStartArcShapes, __TopStackOfRotatedGrowthCurve2DStartArcShape__00003445_)
-	__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DEndArcShapes = append(__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DEndArcShapes, __TopStackOfRotatedGrowthCurve2DEndArcShape__00003443_)
-	__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DEndArcShapes = append(__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DEndArcShapes, __TopStackOfRotatedGrowthCurve2DEndArcShape__00003444_)
-	__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DEndArcShapes = append(__TopStackOfRotatedGrowthCurve2D__00000000_.TopStackOfRotatedGrowthCurve2DEndArcShapes, __TopStackOfRotatedGrowthCurve2DEndArcShape__00003445_)
-	__TopStartArcShapeGrid__00000000_.TopStartArcShapes = append(__TopStartArcShapeGrid__00000000_.TopStartArcShapes, __TopStartArcShape__00008796_)
-	__TopStartArcShapeGrid__00000000_.TopStartArcShapes = append(__TopStartArcShapeGrid__00000000_.TopStartArcShapes, __TopStartArcShape__00008797_)
-	__TopStartArcShapeGrid__00000000_.TopStartArcShapes = append(__TopStartArcShapeGrid__00000000_.TopStartArcShapes, __TopStartArcShape__00008798_)
-	__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes = append(__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes, __TopStartHalfwayArcShape__00001230_)
-	__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes = append(__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes, __TopStartHalfwayArcShape__00001231_)
-	__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes = append(__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes, __TopStartHalfwayArcShape__00001232_)
+	__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes = append(__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes, __TopMidArcVectorShape__00002449_)
+	__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes = append(__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes, __TopMidArcVectorShape__00002450_)
+	__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes = append(__TopMidArcVectorShapeGrid__00000000_.TopMidArcVectorShapes, __TopMidArcVectorShape__00002451_)
+	__TopStartArcShapeGrid__00000000_.TopStartArcShapes = append(__TopStartArcShapeGrid__00000000_.TopStartArcShapes, __TopStartArcShape__00008805_)
+	__TopStartArcShapeGrid__00000000_.TopStartArcShapes = append(__TopStartArcShapeGrid__00000000_.TopStartArcShapes, __TopStartArcShape__00008806_)
+	__TopStartArcShapeGrid__00000000_.TopStartArcShapes = append(__TopStartArcShapeGrid__00000000_.TopStartArcShapes, __TopStartArcShape__00008807_)
+	__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes = append(__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes, __TopStartHalfwayArcShape__00001239_)
+	__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes = append(__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes, __TopStartHalfwayArcShape__00001240_)
+	__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes = append(__TopStartHalfwayArcShapeGrid__00000000_.TopStartHalfwayArcShapes, __TopStartHalfwayArcShape__00001241_)
 }

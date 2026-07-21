@@ -136,6 +136,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackOfGrowthCurve2D](probe)
 	case "StackOfGrowthCurve2DRibbon":
 		updateProbeTable[*models.StackOfGrowthCurve2DRibbon](probe)
+	case "StackOfPartiallyRotatedTorusShape":
+		updateProbeTable[*models.StackOfPartiallyRotatedTorusShape](probe)
 	case "StackOfRotatedGrowthCurve2D":
 		updateProbeTable[*models.StackOfRotatedGrowthCurve2D](probe)
 	case "StackOfRotatedGrowthCurve2DRibbon":

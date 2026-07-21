@@ -80,6 +80,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*StackGrowthCurve2DStartHalfwayArcShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackOfGrowthCurve2D](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackOfGrowthCurve2DRibbon](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*StackOfPartiallyRotatedTorusShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackOfRotatedGrowthCurve2D](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackOfRotatedGrowthCurve2DRibbon](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StackRotatedGrowthCurve2DEndArcShape](stage, f, addIDs)

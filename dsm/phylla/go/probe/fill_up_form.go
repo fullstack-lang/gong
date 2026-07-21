@@ -957,6 +957,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenStackOfPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
@@ -969,6 +971,7 @@ func FillUpForm(
 		AssociationFieldToForm("TorusStackShape", instanceWithInferedType.TorusStackShape, formGroup, probe)
 		AssociationFieldToForm("VerticalTorusStackShape", instanceWithInferedType.VerticalTorusStackShape, formGroup, probe)
 		AssociationFieldToForm("PartiallyRotatedTorusShape", instanceWithInferedType.PartiallyRotatedTorusShape, formGroup, probe)
+		AssociationFieldToForm("StackOfPartiallyRotatedTorusShape", instanceWithInferedType.StackOfPartiallyRotatedTorusShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1596,6 +1599,16 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("StackGrowthCurve2DRibbonStartShapes", instanceWithInferedType, &instanceWithInferedType.StackGrowthCurve2DRibbonStartShapes, formGroup, probe)
 		AssociationSliceToForm("StackGrowthCurve2DRibbonEndShapes", instanceWithInferedType, &instanceWithInferedType.StackGrowthCurve2DRibbonEndShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.StackOfPartiallyRotatedTorusShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

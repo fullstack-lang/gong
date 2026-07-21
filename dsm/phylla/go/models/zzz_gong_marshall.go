@@ -1431,6 +1431,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -1440,6 +1441,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "TorusStackShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VerticalTorusStackShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "PartiallyRotatedTorusShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "StackOfPartiallyRotatedTorusShape"))
 	}
 
 	rendered3dshapeOrdered := []*Rendered3DShape{}
@@ -2139,6 +2141,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stackofgrowthcurve2dribbon.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(stackofgrowthcurve2dribbon.GongMarshallField(stage, "StackGrowthCurve2DRibbonStartShapes"))
 		pointersInitializesStatements.WriteString(stackofgrowthcurve2dribbon.GongMarshallField(stage, "StackGrowthCurve2DRibbonEndShapes"))
+	}
+
+	stackofpartiallyrotatedtorusshapeOrdered := []*StackOfPartiallyRotatedTorusShape{}
+	for stackofpartiallyrotatedtorusshape := range stage.StackOfPartiallyRotatedTorusShapes {
+		stackofpartiallyrotatedtorusshapeOrdered = append(stackofpartiallyrotatedtorusshapeOrdered, stackofpartiallyrotatedtorusshape)
+	}
+	sort.Slice(stackofpartiallyrotatedtorusshapeOrdered[:], func(i, j int) bool {
+		stackofpartiallyrotatedtorusshapei := stackofpartiallyrotatedtorusshapeOrdered[i]
+		stackofpartiallyrotatedtorusshapej := stackofpartiallyrotatedtorusshapeOrdered[j]
+		stackofpartiallyrotatedtorusshapei_order, oki := stage.StackOfPartiallyRotatedTorusShape_stagedOrder[stackofpartiallyrotatedtorusshapei]
+		stackofpartiallyrotatedtorusshapej_order, okj := stage.StackOfPartiallyRotatedTorusShape_stagedOrder[stackofpartiallyrotatedtorusshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return stackofpartiallyrotatedtorusshapei_order < stackofpartiallyrotatedtorusshapej_order
+	})
+	if len(stackofpartiallyrotatedtorusshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, stackofpartiallyrotatedtorusshape := range stackofpartiallyrotatedtorusshapeOrdered {
+
+		identifiersDecl.WriteString(stackofpartiallyrotatedtorusshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stackofpartiallyrotatedtorusshape.GongMarshallField(stage, "Name"))
 	}
 
 	stackofrotatedgrowthcurve2dOrdered := []*StackOfRotatedGrowthCurve2D{}
@@ -3503,6 +3531,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, stackofgrowthcurve2dribbon := range stackofgrowthcurve2dribbonOrdered {
 		_ = stackofgrowthcurve2dribbon
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, stackofpartiallyrotatedtorusshape := range stackofpartiallyrotatedtorusshapeOrdered {
+		_ = stackofpartiallyrotatedtorusshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -5836,6 +5872,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPartiallyRotatedTorusShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyRotatedTorusShape))
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfPartiallyRotatedTorusShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfPartiallyRotatedTorusShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -5928,6 +5969,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PartiallyRotatedTorusShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "StackOfPartiallyRotatedTorusShape":
+		if plantdiagram.StackOfPartiallyRotatedTorusShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackOfPartiallyRotatedTorusShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.StackOfPartiallyRotatedTorusShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackOfPartiallyRotatedTorusShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -7147,6 +7201,21 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallField(
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfGrowthCurve2DRibbon", fieldName)
+	}
+	return
+}
+
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stackofpartiallyrotatedtorusshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofpartiallyrotatedtorusshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StackOfPartiallyRotatedTorusShape", fieldName)
 	}
 	return
 }
@@ -9122,6 +9191,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -9131,6 +9201,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "TorusStackShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VerticalTorusStackShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "PartiallyRotatedTorusShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "StackOfPartiallyRotatedTorusShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -9515,6 +9586,17 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallAllFie
 		initializerStatements.WriteString(stackofgrowthcurve2dribbon.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(stackofgrowthcurve2dribbon.GongMarshallField(stage, "StackGrowthCurve2DRibbonStartShapes"))
 		pointersInitializesStatements.WriteString(stackofgrowthcurve2dribbon.GongMarshallField(stage, "StackGrowthCurve2DRibbonEndShapes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stackofpartiallyrotatedtorusshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

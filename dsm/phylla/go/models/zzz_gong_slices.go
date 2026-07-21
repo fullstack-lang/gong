@@ -377,6 +377,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct StackOfPartiallyRotatedTorusShape
+	// insertion point per field
+
 	// Compute reverse map for named struct StackOfRotatedGrowthCurve2D
 	// insertion point per field
 	stage.StackOfRotatedGrowthCurve2D_StackRotatedGrowthCurve2DStartArcShapes_reverseMap = make(map[*StackRotatedGrowthCurve2DStartArcShape]*StackOfRotatedGrowthCurve2D)
@@ -795,6 +798,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StackOfGrowthCurve2DRibbons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StackOfPartiallyRotatedTorusShapes {
 		res = append(res, instance)
 	}
 
@@ -1251,6 +1258,12 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongCopy() GongstructIF {
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve2DRibbon)
 	stackofgrowthcurve2dribbon.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongCopy() GongstructIF {
+	newInstance := new(StackOfPartiallyRotatedTorusShape)
+	stackofpartiallyrotatedtorusshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1986,6 +1999,16 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetUUID(stage 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2dribbon), uint64(GetOrderPointerGongstruct(stage, stackofgrowthcurve2dribbon)))
+	return
+}
+
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackofpartiallyrotatedtorusshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofpartiallyrotatedtorusshape), uint64(GetOrderPointerGongstruct(stage, stackofpartiallyrotatedtorusshape)))
 	return
 }
 
@@ -5377,6 +5400,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(stackofgrowthcurve2dribbons_newInstances)
 	lenDeletedInstances += len(stackofgrowthcurve2dribbons_deletedInstances)
+	var stackofpartiallyrotatedtorusshapes_newInstances []*StackOfPartiallyRotatedTorusShape
+	var stackofpartiallyrotatedtorusshapes_deletedInstances []*StackOfPartiallyRotatedTorusShape
+
+	// parse all staged instances and check if they have a reference
+	for stackofpartiallyrotatedtorusshape := range stage.StackOfPartiallyRotatedTorusShapes {
+		if ref, ok := stage.StackOfPartiallyRotatedTorusShapes_reference[stackofpartiallyrotatedtorusshape]; !ok {
+			stackofpartiallyrotatedtorusshapes_newInstances = append(stackofpartiallyrotatedtorusshapes_newInstances, stackofpartiallyrotatedtorusshape)
+			newInstancesSlice = append(newInstancesSlice, stackofpartiallyrotatedtorusshape.GongMarshallIdentifier(stage))
+			if stage.StackOfPartiallyRotatedTorusShapes_referenceOrder == nil {
+				stage.StackOfPartiallyRotatedTorusShapes_referenceOrder = make(map[*StackOfPartiallyRotatedTorusShape]uint)
+			}
+			stage.StackOfPartiallyRotatedTorusShapes_referenceOrder[stackofpartiallyrotatedtorusshape] = stage.StackOfPartiallyRotatedTorusShape_stagedOrder[stackofpartiallyrotatedtorusshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stackofpartiallyrotatedtorusshape.GongMarshallUnstaging(stage))
+			// delete(stage.StackOfPartiallyRotatedTorusShapes_referenceOrder, stackofpartiallyrotatedtorusshape)
+			fieldInitializers, pointersInitializations := stackofpartiallyrotatedtorusshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StackOfPartiallyRotatedTorusShape_stagedOrder[ref] = stage.StackOfPartiallyRotatedTorusShape_stagedOrder[stackofpartiallyrotatedtorusshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stackofpartiallyrotatedtorusshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stackofpartiallyrotatedtorusshape)
+			// delete(stage.StackOfPartiallyRotatedTorusShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stackofpartiallyrotatedtorusshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stackofpartiallyrotatedtorusshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StackOfPartiallyRotatedTorusShapes_reference {
+		instance := stage.StackOfPartiallyRotatedTorusShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StackOfPartiallyRotatedTorusShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stackofpartiallyrotatedtorusshapes_deletedInstances = append(stackofpartiallyrotatedtorusshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stackofpartiallyrotatedtorusshapes_newInstances)
+	lenDeletedInstances += len(stackofpartiallyrotatedtorusshapes_deletedInstances)
 	var stackofrotatedgrowthcurve2ds_newInstances []*StackOfRotatedGrowthCurve2D
 	var stackofrotatedgrowthcurve2ds_deletedInstances []*StackOfRotatedGrowthCurve2D
 
@@ -7567,6 +7645,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StackOfGrowthCurve2DRibbons_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StackOfPartiallyRotatedTorusShapes_reference = make(map[*StackOfPartiallyRotatedTorusShape]*StackOfPartiallyRotatedTorusShape)
+	stage.StackOfPartiallyRotatedTorusShapes_referenceOrder = make(map[*StackOfPartiallyRotatedTorusShape]uint) // diff Unstage needs the reference order
+	stage.StackOfPartiallyRotatedTorusShapes_instance = make(map[*StackOfPartiallyRotatedTorusShape]*StackOfPartiallyRotatedTorusShape)
+	for instance := range stage.StackOfPartiallyRotatedTorusShapes {
+		_copy := instance.GongCopy().(*StackOfPartiallyRotatedTorusShape)
+		stage.StackOfPartiallyRotatedTorusShapes_reference[instance] = _copy
+		stage.StackOfPartiallyRotatedTorusShapes_instance[_copy] = instance
+		stage.StackOfPartiallyRotatedTorusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.StackOfRotatedGrowthCurve2Ds_reference = make(map[*StackOfRotatedGrowthCurve2D]*StackOfRotatedGrowthCurve2D)
 	stage.StackOfRotatedGrowthCurve2Ds_referenceOrder = make(map[*StackOfRotatedGrowthCurve2D]uint) // diff Unstage needs the reference order
 	stage.StackOfRotatedGrowthCurve2Ds_instance = make(map[*StackOfRotatedGrowthCurve2D]*StackOfRotatedGrowthCurve2D)
@@ -8135,6 +8223,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StackOfGrowthCurve2DRibbons {
 		reference := stage.StackOfGrowthCurve2DRibbons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StackOfPartiallyRotatedTorusShapes {
+		reference := stage.StackOfPartiallyRotatedTorusShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -8961,6 +9054,18 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetOrder(stage
 		return order
 	} else {
 		log.Printf("instance %p of type StackOfGrowthCurve2DRibbon was not staged and does not have a reference order", stackofgrowthcurve2dribbon)
+		return 0
+	}
+}
+
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackOfPartiallyRotatedTorusShape_stagedOrder[stackofpartiallyrotatedtorusshape]; ok {
+		return order
+	}
+	if order, ok := stage.StackOfPartiallyRotatedTorusShapes_referenceOrder[stackofpartiallyrotatedtorusshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackOfPartiallyRotatedTorusShape was not staged and does not have a reference order", stackofpartiallyrotatedtorusshape)
 		return 0
 	}
 }
@@ -9822,6 +9927,15 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetReferenceId
 	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2dribbon.GongGetGongstructName(), stackofgrowthcurve2dribbon.GongGetOrder(stage))
 }
 
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofpartiallyrotatedtorusshape.GongGetGongstructName(), stackofpartiallyrotatedtorusshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofpartiallyrotatedtorusshape.GongGetGongstructName(), stackofpartiallyrotatedtorusshape.GongGetOrder(stage))
+}
+
 func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stackofrotatedgrowthcurve2d.GongGetGongstructName(), stackofrotatedgrowthcurve2d.GongGetOrder(stage))
 }
@@ -10534,6 +10648,14 @@ func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallIdenti
 	return
 }
 
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofpartiallyrotatedtorusshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfPartiallyRotatedTorusShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofpartiallyrotatedtorusshape.Name))
+	return
+}
+
 func (stackofrotatedgrowthcurve2d *StackOfRotatedGrowthCurve2D) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofrotatedgrowthcurve2d.GongGetIdentifier(stage))
@@ -11100,6 +11222,12 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallUnstaging(stage *S
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2dribbon.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofpartiallyrotatedtorusshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

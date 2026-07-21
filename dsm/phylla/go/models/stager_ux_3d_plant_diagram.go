@@ -163,7 +163,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
-		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape) &&
+		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape) &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
 			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
 			plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
@@ -517,15 +517,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 				if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
 					dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
-					
-					// In 3D, the stack is at h=0, h=1, etc.
-					// The partially rotated ribbon sits on top of the first ribbon (h=0) in 2D.
-					// So its base Y starts at 0, plus the dy we computed.
-					
-					// Actually, in 2D, the base ribbon is at (0, 0). The shifted ribbon is at (dx, dy).
-					// In 3D, h=0 has (0,0). So we just render at (dx, dy)!
-					// But wait, the generateRibbonLayer adds (dx, dy) directly to the base coordinates!
-					
 					thetaOffset := dx / globalR
 					
 					// The Y component of GrowthVectorShape is applied for the overall stack in 2D, 
@@ -533,6 +524,17 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					// required to perfectly rest on the first ribbon (h=0).
 					
 					generateRibbonLayer(1, dx, dy, thetaOffset, "Partially Rotated Torus")
+				}
+
+				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape {
+					dxBase, dyBase, _ := ComputePartiallyGrowthCurveDY(plant)
+					for h := 0; h < stackHeight; h++ {
+						dx := float64(h) * dxBase
+						dy := float64(h) * dyBase
+						thetaOffset := dx / globalR
+
+						generateRibbonLayer(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus")
+					}
 				}
 			}
 		}

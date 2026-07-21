@@ -1949,6 +1949,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenVerticalTorusStackShape = GongExtractBool(valueExpr)
 	case "IsHiddenPartiallyRotatedTorusShape":
 		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		instance.IsHiddenStackOfPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -1967,6 +1969,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.VerticalTorusStackShape, valueExpr, identifierMap)
 	case "PartiallyRotatedTorusShape":
 		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
+	case "StackOfPartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.StackOfPartiallyRotatedTorusShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2882,6 +2886,35 @@ func (u *StackOfGrowthCurve2DRibbonUnmarshaller) UnmarshallField(stage *Stage, i
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurve2DRibbonStartShapes, valueExpr, identifierMap)
 	case "StackGrowthCurve2DRibbonEndShapes":
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurve2DRibbonEndShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StackOfPartiallyRotatedTorusShapeUnmarshaller struct{}
+
+func (u *StackOfPartiallyRotatedTorusShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackOfPartiallyRotatedTorusShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackOfPartiallyRotatedTorusShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfPartiallyRotatedTorusShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

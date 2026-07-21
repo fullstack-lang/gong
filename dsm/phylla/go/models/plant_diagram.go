@@ -58,6 +58,7 @@ type PlantDiagram struct {
 	IsHiddenTorusStackShape bool
 	IsHiddenVerticalTorusStackShape bool
 	IsHiddenPartiallyRotatedTorusShape bool
+	IsHiddenStackOfPartiallyRotatedTorusShape bool
 
 	IsChecked bool
 	AbstractTypeFields
@@ -68,4 +69,5 @@ type PlantDiagram struct {
 	TorusStackShape *TorusStackShape
 	VerticalTorusStackShape *VerticalTorusStackShape
 	PartiallyRotatedTorusShape *PartiallyRotatedTorusShape
+	StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape
 }
