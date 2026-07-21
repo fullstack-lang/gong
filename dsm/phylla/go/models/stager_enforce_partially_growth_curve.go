@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"math"
 )
 
 func enforcePartiallyGrowthCurve2DRibbonHasShapes(
@@ -31,40 +30,7 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 		return false
 	}
 
-	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
-	if circLen <= 0 {
-		return false
-	}
-
-	dx := plant.RotationRatio * plant.GrowthVectorShape.X
-	currentDX := math.Mod(dx, circLen)
-	if currentDX < 0 {
-		currentDX += circLen
-	}
-
-	minX := plant.PerpendicularVectorGrid.PerpendicularVectors[0].StartX
-	n := len(plant.PerpendicularVectorGrid.PerpendicularVectors)
-	maxX := plant.PerpendicularVectorGrid.PerpendicularVectors[n-1].StartX
-
-	var dy float64 = -1e9
-	steps := 1000
-	overlapStart := minX + currentDX
-	overlapEnd := maxX
-	if overlapStart <= overlapEnd {
-		for step := 0; step <= steps; step++ {
-			x := overlapStart + (float64(step)/float64(steps))*(overlapEnd-overlapStart)
-			yTop := evaluateCurveY(plant, true, x)
-			yBot := evaluateCurveY(plant, false, x-currentDX)
-			if yTop != -1e9 && yBot != -1e9 {
-				if yTop-yBot > dy {
-					dy = yTop - yBot
-				}
-			}
-		}
-	}
-	if dy == -1e9 {
-		dy = plant.RelativeVerticalThickness * plant.RhombusSideLength
-	}
+	_, dy, currentDX := ComputePartiallyGrowthCurveDY(plant)
 
 
 

@@ -513,6 +513,17 @@ func (from *PartiallyGrowthCurve2DRibbonStartShape) CopyBasicFields(to *Partiall
 	to.TopSweepFlag = from.TopSweepFlag
 }
 
+type PartiallyRotatedTorusShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyRotatedTorusShape) CopyBasicFields(to *PartiallyRotatedTorusShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PerpendicularVector_WOP struct {
 	// insertion point
 
@@ -752,6 +763,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenVerticalTorusStackShape bool
 
+	IsHiddenPartiallyRotatedTorusShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -810,6 +823,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
+	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

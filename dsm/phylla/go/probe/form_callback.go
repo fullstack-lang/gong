@@ -2857,6 +2857,84 @@ func (partiallygrowthcurve2dribbonstartshapeFormCallback *PartiallyGrowthCurve2D
 
 	partiallygrowthcurve2dribbonstartshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__PartiallyRotatedTorusShapeFormCallback(
+	partiallyrotatedtorusshape *models.PartiallyRotatedTorusShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallyrotatedtorusshapeFormCallback *PartiallyRotatedTorusShapeFormCallback) {
+	partiallyrotatedtorusshapeFormCallback = new(PartiallyRotatedTorusShapeFormCallback)
+	partiallyrotatedtorusshapeFormCallback.probe = probe
+	partiallyrotatedtorusshapeFormCallback.partiallyrotatedtorusshape = partiallyrotatedtorusshape
+	partiallyrotatedtorusshapeFormCallback.formGroup = formGroup
+
+	partiallyrotatedtorusshapeFormCallback.CreationMode = (partiallyrotatedtorusshape == nil)
+
+	return
+}
+
+type PartiallyRotatedTorusShapeFormCallback struct {
+	partiallyrotatedtorusshape *models.PartiallyRotatedTorusShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallyrotatedtorusshapeFormCallback *PartiallyRotatedTorusShapeFormCallback) OnSave() {
+	partiallyrotatedtorusshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallyrotatedtorusshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyRotatedTorusShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallyrotatedtorusshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallyrotatedtorusshapeFormCallback.partiallyrotatedtorusshape == nil {
+		partiallyrotatedtorusshapeFormCallback.partiallyrotatedtorusshape = new(models.PartiallyRotatedTorusShape).Stage(partiallyrotatedtorusshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallyrotatedtorusshape_ := partiallyrotatedtorusshapeFormCallback.partiallyrotatedtorusshape
+	_ = partiallyrotatedtorusshape_
+
+	for _, formDiv := range partiallyrotatedtorusshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallyrotatedtorusshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if partiallyrotatedtorusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallyrotatedtorusshape_.Unstage(partiallyrotatedtorusshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallyrotatedtorusshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyRotatedTorusShape](
+		partiallyrotatedtorusshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallyrotatedtorusshapeFormCallback.CreationMode || partiallyrotatedtorusshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallyrotatedtorusshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallyrotatedtorusshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyRotatedTorusShapeFormCallback(
+			nil,
+			partiallyrotatedtorusshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallyrotatedtorusshape := new(models.PartiallyRotatedTorusShape)
+		FillUpForm(partiallyrotatedtorusshape, newFormGroup, partiallyrotatedtorusshapeFormCallback.probe)
+		partiallyrotatedtorusshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallyrotatedtorusshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PerpendicularVectorFormCallback(
 	perpendicularvector *models.PerpendicularVector,
 	probe *Probe,
@@ -3801,6 +3879,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenVerticalTorusStackShape), formDiv)
+		case "IsHiddenPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -3813,6 +3893,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.TorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "VerticalTorusStackShape":
 			FormDivSelectFieldToField(&(plantdiagram_.VerticalTorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(plantdiagram_.PartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

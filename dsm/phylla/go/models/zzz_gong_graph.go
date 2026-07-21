@@ -79,6 +79,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonStartShape(target)
 
+	case *PartiallyRotatedTorusShape:
+		ok = stage.IsStagedPartiallyRotatedTorusShape(target)
+
 	case *PerpendicularVector:
 		ok = stage.IsStagedPerpendicularVector(target)
 
@@ -322,6 +325,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbonStartShape(target)
+
+	case *PartiallyRotatedTorusShape:
+		ok = stage.IsStagedPartiallyRotatedTorusShape(target)
 
 	case *PerpendicularVector:
 		ok = stage.IsStagedPerpendicularVector(target)
@@ -656,6 +662,13 @@ func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonEndShape(partiallygrowth
 func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DRibbonStartShapes[partiallygrowthcurve2dribbonstartshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) (ok bool) {
+
+	_, ok = stage.PartiallyRotatedTorusShapes[partiallyrotatedtorusshape]
 
 	return
 }
@@ -1117,6 +1130,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		stage.StageBranchPartiallyGrowthCurve2DRibbonStartShape(target)
+
+	case *PartiallyRotatedTorusShape:
+		stage.StageBranchPartiallyRotatedTorusShape(target)
 
 	case *PerpendicularVector:
 		stage.StageBranchPerpendicularVector(target)
@@ -1685,6 +1701,21 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbonStartShape(partiallyg
 
 }
 
+func (stage *Stage) StageBranchPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallyrotatedtorusshape) {
+		return
+	}
+
+	partiallyrotatedtorusshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
 
 	// check if instance is already staged
@@ -1883,6 +1914,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.VerticalTorusStackShape != nil {
 		StageBranch(stage, plantdiagram.VerticalTorusStackShape)
+	}
+	if plantdiagram.PartiallyRotatedTorusShape != nil {
+		StageBranch(stage, plantdiagram.PartiallyRotatedTorusShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2809,6 +2843,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchPartiallyGrowthCurve2DRibbonStartShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *PartiallyRotatedTorusShape:
+		toT := CopyBranchPartiallyRotatedTorusShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PerpendicularVector:
 		toT := CopyBranchPerpendicularVector(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3527,6 +3565,25 @@ func CopyBranchPartiallyGrowthCurve2DRibbonStartShape(mapOrigCopy map[any]any, p
 	return
 }
 
+func CopyBranchPartiallyRotatedTorusShape(mapOrigCopy map[any]any, partiallyrotatedtorusshapeFrom *PartiallyRotatedTorusShape) (partiallyrotatedtorusshapeTo *PartiallyRotatedTorusShape) {
+
+	// partiallyrotatedtorusshapeFrom has already been copied
+	if _partiallyrotatedtorusshapeTo, ok := mapOrigCopy[partiallyrotatedtorusshapeFrom]; ok {
+		partiallyrotatedtorusshapeTo = _partiallyrotatedtorusshapeTo.(*PartiallyRotatedTorusShape)
+		return
+	}
+
+	partiallyrotatedtorusshapeTo = new(PartiallyRotatedTorusShape)
+	mapOrigCopy[partiallyrotatedtorusshapeFrom] = partiallyrotatedtorusshapeTo
+	partiallyrotatedtorusshapeFrom.CopyBasicFields(partiallyrotatedtorusshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPerpendicularVector(mapOrigCopy map[any]any, perpendicularvectorFrom *PerpendicularVector) (perpendicularvectorTo *PerpendicularVector) {
 
 	// perpendicularvectorFrom has already been copied
@@ -3752,6 +3809,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	}
 	if plantdiagramFrom.VerticalTorusStackShape != nil {
 		plantdiagramTo.VerticalTorusStackShape = CopyBranchVerticalTorusStackShape(mapOrigCopy, plantdiagramFrom.VerticalTorusStackShape)
+	}
+	if plantdiagramFrom.PartiallyRotatedTorusShape != nil {
+		plantdiagramTo.PartiallyRotatedTorusShape = CopyBranchPartiallyRotatedTorusShape(mapOrigCopy, plantdiagramFrom.PartiallyRotatedTorusShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4840,6 +4900,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		stage.UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(target)
 
+	case *PartiallyRotatedTorusShape:
+		stage.UnstageBranchPartiallyRotatedTorusShape(target)
+
 	case *PerpendicularVector:
 		stage.UnstageBranchPerpendicularVector(target)
 
@@ -5407,6 +5470,21 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbonStartShape(partiall
 
 }
 
+func (stage *Stage) UnstageBranchPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallyrotatedtorusshape) {
+		return
+	}
+
+	partiallyrotatedtorusshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPerpendicularVector(perpendicularvector *PerpendicularVector) {
 
 	// check if instance is already staged
@@ -5605,6 +5683,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.VerticalTorusStackShape != nil {
 		UnstageBranch(stage, plantdiagram.VerticalTorusStackShape)
+	}
+	if plantdiagram.PartiallyRotatedTorusShape != nil {
+		UnstageBranch(stage, plantdiagram.PartiallyRotatedTorusShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6595,6 +6676,11 @@ func (reference *PartiallyGrowthCurve2DRibbonStartShape) GongReconstructPointers
 	// insertion point for slice of pointers field
 }
 
+func (reference *PartiallyRotatedTorusShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyRotatedTorusShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PerpendicularVector) GongReconstructPointersFromReferences(stage *Stage, instance *PerpendicularVector) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -6728,6 +6814,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.VerticalTorusStackShape != nil {
 		reference.VerticalTorusStackShape = stage.VerticalTorusStackShapes_reference[instance.VerticalTorusStackShape]
+	}
+	if instance.PartiallyRotatedTorusShape != nil {
+		reference.PartiallyRotatedTorusShape = stage.PartiallyRotatedTorusShapes_reference[instance.PartiallyRotatedTorusShape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -7309,6 +7398,11 @@ func (reference *PartiallyGrowthCurve2DRibbonStartShape) GongReconstructPointers
 	// insertion point for slice of pointers fields
 }
 
+func (reference *PartiallyRotatedTorusShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PerpendicularVector) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -7540,6 +7634,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.VerticalTorusStackShape = nil
 		if _instance, ok := stage.VerticalTorusStackShapes_instance[_reference]; ok {
 			reference.VerticalTorusStackShape = _instance
+		}
+	}
+	if _reference := reference.PartiallyRotatedTorusShape; _reference != nil {
+		reference.PartiallyRotatedTorusShape = nil
+		if _instance, ok := stage.PartiallyRotatedTorusShapes_instance[_reference]; ok {
+			reference.PartiallyRotatedTorusShape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -8772,6 +8872,17 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongDiff(stage *Stage, partiallyrotatedtorusshapeOther *PartiallyRotatedTorusShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallyrotatedtorusshape.Name != partiallyrotatedtorusshapeOther.Name {
+		diffs = append(diffs, partiallyrotatedtorusshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (perpendicularvector *PerpendicularVector) GongDiff(stage *Stage, perpendicularvectorOther *PerpendicularVector) (diffs []string) {
 	// insertion point for field diffs
 	if perpendicularvector.Name != perpendicularvectorOther.Name {
@@ -9311,6 +9422,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenVerticalTorusStackShape != plantdiagramOther.IsHiddenVerticalTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 	}
+	if plantdiagram.IsHiddenPartiallyRotatedTorusShape != plantdiagramOther.IsHiddenPartiallyRotatedTorusShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -9339,6 +9453,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.VerticalTorusStackShape != nil && plantdiagramOther.VerticalTorusStackShape != nil {
 		if plantdiagram.VerticalTorusStackShape != plantdiagramOther.VerticalTorusStackShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "VerticalTorusStackShape"))
+		}
+	}
+	if (plantdiagram.PartiallyRotatedTorusShape == nil) != (plantdiagramOther.PartiallyRotatedTorusShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "PartiallyRotatedTorusShape"))
+	} else if plantdiagram.PartiallyRotatedTorusShape != nil && plantdiagramOther.PartiallyRotatedTorusShape != nil {
+		if plantdiagram.PartiallyRotatedTorusShape != plantdiagramOther.PartiallyRotatedTorusShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "PartiallyRotatedTorusShape"))
 		}
 	}
 

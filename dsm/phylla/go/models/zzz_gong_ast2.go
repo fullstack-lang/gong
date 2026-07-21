@@ -1342,6 +1342,35 @@ func (u *PartiallyGrowthCurve2DRibbonStartShapeUnmarshaller) UnmarshallField(sta
 	return nil
 }
 
+type PartiallyRotatedTorusShapeUnmarshaller struct{}
+
+func (u *PartiallyRotatedTorusShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyRotatedTorusShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyRotatedTorusShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyRotatedTorusShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type PerpendicularVectorUnmarshaller struct{}
 
 func (u *PerpendicularVectorUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1745,6 +1774,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
 	case "IsHiddenVerticalTorusStackShape":
 		instance.IsHiddenVerticalTorusStackShape = GongExtractBool(valueExpr)
+	case "IsHiddenPartiallyRotatedTorusShape":
+		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -1757,6 +1788,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
 	case "VerticalTorusStackShape":
 		GongUnmarshallPointer(&instance.VerticalTorusStackShape, valueExpr, identifierMap)
+	case "PartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
 	}
 	return nil
 }

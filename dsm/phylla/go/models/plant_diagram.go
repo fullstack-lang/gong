@@ -55,6 +55,7 @@ type PlantDiagram struct {
 	IsHiddenPartiallyGrowthCurve2DRibbon bool
 	IsHiddenTorusStackShape bool
 	IsHiddenVerticalTorusStackShape bool
+	IsHiddenPartiallyRotatedTorusShape bool
 
 	IsChecked bool
 	AbstractTypeFields
@@ -62,4 +63,5 @@ type PlantDiagram struct {
 	Rendered3DShape *Rendered3DShape
 	TorusStackShape *TorusStackShape
 	VerticalTorusStackShape *VerticalTorusStackShape
+	PartiallyRotatedTorusShape *PartiallyRotatedTorusShape
 }
