@@ -452,6 +452,9 @@ func CodeGeneratorModelGongGraph(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphBasicFieldDiff],
 						"{{FieldName}}", field.GetName())
 				case *models.PointerToGongStructField:
+					if field.GongStruct.IsOmittedForMarshalling {
+						continue
+					}
 					pointerStagingCode += models.Replace2(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStagePointerField],
 						"{{FieldName}}", field.Name,
@@ -487,6 +490,9 @@ func CodeGeneratorModelGongGraph(
 						"{{AssocStructName}}", field.GongStruct.Name)
 
 				case *models.SliceOfPointerToGongStructField:
+					if field.GongStruct.IsOmittedForMarshalling {
+						continue
+					}
 					sliceOfPointerStagingCode += models.Replace3(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStageSliceOfPointersField],
 						"{{FieldName}}", field.Name,

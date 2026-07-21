@@ -33,6 +33,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct B
 	// insertion point per field
 
+	// Compute reverse map for named struct C
+	// insertion point per field
+
 	// end of insertion point per named struct
 }
 
@@ -43,6 +46,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Bs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Cs {
 		res = append(res, instance)
 	}
 
@@ -59,6 +66,12 @@ func (a *A) GongCopy() GongstructIF {
 func (b *B) GongCopy() GongstructIF {
 	newInstance := new(B)
 	b.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (c *C) GongCopy() GongstructIF {
+	newInstance := new(C)
+	c.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -80,6 +93,16 @@ func (b *B) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(b), uint64(GetOrderPointerGongstruct(stage, b)))
+	return
+}
+
+func (c *C) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(c).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(c), uint64(GetOrderPointerGongstruct(stage, c)))
 	return
 }
 
@@ -266,6 +289,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Bs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Cs_reference = make(map[*C]*C)
+	stage.Cs_referenceOrder = make(map[*C]uint) // diff Unstage needs the reference order
+	stage.Cs_instance = make(map[*C]*C)
+	for instance := range stage.Cs {
+		_copy := instance.GongCopy().(*C)
+		stage.Cs_reference[instance] = _copy
+		stage.Cs_instance[_copy] = instance
+		stage.Cs_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.As {
 		reference := stage.As_reference[instance]
@@ -274,6 +307,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Bs {
 		reference := stage.Bs_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Cs {
+		reference := stage.Cs_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -311,6 +349,18 @@ func (b *B) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (c *C) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.C_stagedOrder[c]; ok {
+		return order
+	}
+	if order, ok := stage.Cs_referenceOrder[c]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type C was not staged and does not have a reference order", c)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -334,6 +384,15 @@ func (b *B) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetOrder(stage))
 }
 
+func (c *C) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", c.GongGetGongstructName(), c.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (c *C) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", c.GongGetGongstructName(), c.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -353,6 +412,14 @@ func (b *B) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (c *C) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", c.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "C")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(c.Name))
+	return
+}
+
 // insertion point for unstaging
 func (a *A) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -363,6 +430,12 @@ func (a *A) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (b *B) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (c *C) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", c.GongGetReferenceIdentifier(stage))
 	return
 }
 

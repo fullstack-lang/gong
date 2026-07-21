@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *B:
 		ok = stage.IsStagedB(target)
 
+	case *C:
+		ok = stage.IsStagedC(target)
+
 	default:
 		_ = target
 	}
@@ -28,6 +31,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *B:
 		ok = stage.IsStagedB(target)
+
+	case *C:
+		ok = stage.IsStagedC(target)
 
 	default:
 		_ = target
@@ -50,6 +56,13 @@ func (stage *Stage) IsStagedB(b *B) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedC(c *C) (ok bool) {
+
+	_, ok = stage.Cs[c]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -63,6 +76,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *B:
 		stage.StageBranchB(target)
+
+	case *C:
+		stage.StageBranchC(target)
 
 	default:
 		_ = target
@@ -106,6 +122,21 @@ func (stage *Stage) StageBranchB(b *B) {
 
 }
 
+func (stage *Stage) StageBranchC(c *C) {
+
+	// check if instance is already staged
+	if IsStaged(stage, c) {
+		return
+	}
+
+	c.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -123,6 +154,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *B:
 		toT := CopyBranchB(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *C:
+		toT := CopyBranchC(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -176,6 +211,25 @@ func CopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
 	return
 }
 
+func CopyBranchC(mapOrigCopy map[any]any, cFrom *C) (cTo *C) {
+
+	// cFrom has already been copied
+	if _cTo, ok := mapOrigCopy[cFrom]; ok {
+		cTo = _cTo.(*C)
+		return
+	}
+
+	cTo = new(C)
+	mapOrigCopy[cFrom] = cTo
+	cFrom.CopyBasicFields(cTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -189,6 +243,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *B:
 		stage.UnstageBranchB(target)
+
+	case *C:
+		stage.UnstageBranchC(target)
 
 	default:
 		_ = target
@@ -232,6 +289,21 @@ func (stage *Stage) UnstageBranchB(b *B) {
 
 }
 
+func (stage *Stage) UnstageBranchC(c *C) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, c) {
+		return
+	}
+
+	c.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance *A) {
 	// insertion point for pointers field
@@ -246,6 +318,11 @@ func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance
 }
 
 func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance *B) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *C) GongReconstructPointersFromReferences(stage *Stage, instance *C) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -270,6 +347,11 @@ func (reference *A) GongReconstructPointersFromInstances(stage *Stage) {
 }
 
 func (reference *B) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *C) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -341,6 +423,17 @@ func (b *B) GongDiff(stage *Stage, bOther *B) (diffs []string) {
 	// insertion point for field diffs
 	if b.Name != bOther.Name {
 		diffs = append(diffs, b.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (c *C) GongDiff(stage *Stage, cOther *C) (diffs []string) {
+	// insertion point for field diffs
+	if c.Name != cOther.Name {
+		diffs = append(diffs, c.GongMarshallField(stage, "Name"))
 	}
 
 	return

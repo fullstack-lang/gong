@@ -83,8 +83,10 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 	modelPkg.GenerateDocs(typeDocumentation)
 
 	map_StructName_hasIgnoreStatement := make(map[string]bool)
+	map_StructName_hasOmitStatement := make(map[string]bool)
 	for _, t := range typeDocumentation.Types {
 		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore") || strings.Contains(t.Doc, "gong:ignore")
+		map_StructName_hasOmitStatement[t.Name] = strings.Contains(t.Doc, "gong:omit")
 	}
 
 	// in astPackage.Files is the map of filePath to file
@@ -240,9 +242,11 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 							hasIgnoreStatement := map_StructName_hasIgnoreStatement[typeSpec.Name.Name]
 
 							if IsNamedStruct && !hasIgnoreStatement {
+								hasOmitStatement := map_StructName_hasOmitStatement[typeSpec.Name.Name]
 								gongstruct := (&GongStruct{
-									Name:              typeSpec.Name.Name,
-									IsIgnoredForFront: isFileFrontIgnored}).
+									Name:                    typeSpec.Name.Name,
+									IsIgnoredForFront:       isFileFrontIgnored,
+									IsOmittedForMarshalling: hasOmitStatement}).
 									Stage(modelPkg.GetStage())
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
 							}

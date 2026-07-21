@@ -27,6 +27,9 @@ type GongStruct struct {
 	// .frontignore file provides a pattern for parsing go files similar to the gitingore syntax "*"
 	// every GongStruct defined in matched go file has IsIgnoredForFront set to true
 	IsIgnoredForFront bool
+
+	// if a struct has a gong:omit, then it is not marshalled
+	IsOmittedForMarshalling bool
 }
 
 // HasNameField indicates wether the gong struct has a field with Name "Name"

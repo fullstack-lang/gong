@@ -408,6 +408,11 @@ func CodeGeneratorModelGongSlice(
 
 		for subStructTemplate := range GongSliceGongstructSubTemplateCode {
 
+			if gongStruct.IsOmittedForMarshalling &&
+				subStructTemplate == GongSliceGongComputeDifference {
+				continue
+			}
+
 			perFieldCode := ""
 			sliceOfPointerFieldReverseMapComputationCode := ""
 
@@ -426,6 +431,9 @@ func CodeGeneratorModelGongSlice(
 
 				switch field := field.(type) {
 				case *models.SliceOfPointerToGongStructField:
+					if field.GongStruct.IsOmittedForMarshalling {
+						continue
+					}
 					perFieldCode += models.Replace3(
 						GongSliceFileFieldFieldSubTemplateCode[GongSliceSubTmplSliceOfPointersToStruct],
 						"{{FieldName}}", field.Name,

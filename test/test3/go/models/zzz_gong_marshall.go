@@ -520,6 +520,21 @@ func (b *B) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	return
 }
 
+func (c *C) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", c.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(c.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct C", fieldName)
+	}
+	return
+}
+
 // insertion point for marshall all fields methods
 func (a *A) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
@@ -547,6 +562,17 @@ func (b *B) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(b.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (c *C) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(c.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

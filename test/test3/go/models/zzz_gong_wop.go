@@ -52,4 +52,15 @@ func (from *B) CopyBasicFields(to *B) {
 	to.Name = from.Name
 }
 
+type C_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *C) CopyBasicFields(to *C) {
+	// insertion point
+	to.Name = from.Name
+}
+
 // end of insertion point
