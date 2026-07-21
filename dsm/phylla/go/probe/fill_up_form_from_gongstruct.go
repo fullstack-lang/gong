@@ -188,6 +188,45 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthCurve2DRibbon:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthCurve2DRibbon",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurve2DRibbonFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthCurve2DRibbonEndShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthCurve2DRibbonEndShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurve2DRibbonEndShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GrowthCurve2DRibbonStartShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GrowthCurve2DRibbonStartShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurve2DRibbonStartShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GrowthCurveRhombusGridShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

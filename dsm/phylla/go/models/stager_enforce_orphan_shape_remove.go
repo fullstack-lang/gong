@@ -76,6 +76,10 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPartiallyGrowthCurve2DRibbonStartShape := make(map[*PartiallyGrowthCurve2DRibbonStartShape]bool)
 	refPartiallyGrowthCurve2DRibbonEndShape := make(map[*PartiallyGrowthCurve2DRibbonEndShape]bool)
 
+	refGrowthCurve2DRibbon := make(map[*GrowthCurve2DRibbon]bool)
+	refGrowthCurve2DRibbonStartShape := make(map[*GrowthCurve2DRibbonStartShape]bool)
+	refGrowthCurve2DRibbonEndShape := make(map[*GrowthCurve2DRibbonEndShape]bool)
+
 
 
 	refTorusStackShape := make(map[*TorusStackShape]bool)
@@ -292,6 +296,16 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			for _, end := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
 				refPartiallyGrowthCurve2DRibbonEndShape[end] = true
+			}
+		}
+
+		if plant.GrowthCurve2DRibbon != nil {
+			refGrowthCurve2DRibbon[plant.GrowthCurve2DRibbon] = true
+			for _, start := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
+				refGrowthCurve2DRibbonStartShape[start] = true
+			}
+			for _, end := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
+				refGrowthCurve2DRibbonEndShape[end] = true
 			}
 		}
 
@@ -737,6 +751,27 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DRibbonEndShape](stage) {
 		if !refPartiallyGrowthCurve2DRibbonEndShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbon](stage) {
+		if !refGrowthCurve2DRibbon[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbonStartShape](stage) {
+		if !refGrowthCurve2DRibbonStartShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbonEndShape](stage) {
+		if !refGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

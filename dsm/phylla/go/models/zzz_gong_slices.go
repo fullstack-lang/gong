@@ -87,6 +87,29 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GrowthCurve2D
 	// insertion point per field
 
+	// Compute reverse map for named struct GrowthCurve2DRibbon
+	// insertion point per field
+	stage.GrowthCurve2DRibbon_GrowthCurve2DRibbonStartShapes_reverseMap = make(map[*GrowthCurve2DRibbonStartShape]*GrowthCurve2DRibbon)
+	for growthcurve2dribbon := range stage.GrowthCurve2DRibbons {
+		_ = growthcurve2dribbon
+		for _, _growthcurve2dribbonstartshape := range growthcurve2dribbon.GrowthCurve2DRibbonStartShapes {
+			stage.GrowthCurve2DRibbon_GrowthCurve2DRibbonStartShapes_reverseMap[_growthcurve2dribbonstartshape] = growthcurve2dribbon
+		}
+	}
+	stage.GrowthCurve2DRibbon_GrowthCurve2DRibbonEndShapes_reverseMap = make(map[*GrowthCurve2DRibbonEndShape]*GrowthCurve2DRibbon)
+	for growthcurve2dribbon := range stage.GrowthCurve2DRibbons {
+		_ = growthcurve2dribbon
+		for _, _growthcurve2dribbonendshape := range growthcurve2dribbon.GrowthCurve2DRibbonEndShapes {
+			stage.GrowthCurve2DRibbon_GrowthCurve2DRibbonEndShapes_reverseMap[_growthcurve2dribbonendshape] = growthcurve2dribbon
+		}
+	}
+
+	// Compute reverse map for named struct GrowthCurve2DRibbonEndShape
+	// insertion point per field
+
+	// Compute reverse map for named struct GrowthCurve2DRibbonStartShape
+	// insertion point per field
+
 	// Compute reverse map for named struct GrowthCurveRhombusGridShape
 	// insertion point per field
 	stage.GrowthCurveRhombusGridShape_GrowthCurveRhombusShapes_reverseMap = make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusGridShape)
@@ -580,6 +603,18 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.GrowthCurve2DRibbons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GrowthCurve2DRibbonEndShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GrowthCurve2DRibbonStartShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.GrowthCurveRhombusGridShapes {
 		res = append(res, instance)
 	}
@@ -923,6 +958,24 @@ func (gridpathshape *GridPathShape) GongCopy() GongstructIF {
 func (growthcurve2d *GrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(GrowthCurve2D)
 	growthcurve2d.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurve2DRibbon)
+	growthcurve2dribbon.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurve2DRibbonEndShape)
+	growthcurve2dribbonendshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurve2DRibbonStartShape)
+	growthcurve2dribbonstartshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1450,6 +1503,36 @@ func (growthcurve2d *GrowthCurve2D) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2d), uint64(GetOrderPointerGongstruct(stage, growthcurve2d)))
+	return
+}
+
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurve2dribbon).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2dribbon), uint64(GetOrderPointerGongstruct(stage, growthcurve2dribbon)))
+	return
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurve2dribbonendshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2dribbonendshape), uint64(GetOrderPointerGongstruct(stage, growthcurve2dribbonendshape)))
+	return
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurve2dribbonstartshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurve2dribbonstartshape), uint64(GetOrderPointerGongstruct(stage, growthcurve2dribbonstartshape)))
 	return
 }
 
@@ -2846,6 +2929,171 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(growthcurve2ds_newInstances)
 	lenDeletedInstances += len(growthcurve2ds_deletedInstances)
+	var growthcurve2dribbons_newInstances []*GrowthCurve2DRibbon
+	var growthcurve2dribbons_deletedInstances []*GrowthCurve2DRibbon
+
+	// parse all staged instances and check if they have a reference
+	for growthcurve2dribbon := range stage.GrowthCurve2DRibbons {
+		if ref, ok := stage.GrowthCurve2DRibbons_reference[growthcurve2dribbon]; !ok {
+			growthcurve2dribbons_newInstances = append(growthcurve2dribbons_newInstances, growthcurve2dribbon)
+			newInstancesSlice = append(newInstancesSlice, growthcurve2dribbon.GongMarshallIdentifier(stage))
+			if stage.GrowthCurve2DRibbons_referenceOrder == nil {
+				stage.GrowthCurve2DRibbons_referenceOrder = make(map[*GrowthCurve2DRibbon]uint)
+			}
+			stage.GrowthCurve2DRibbons_referenceOrder[growthcurve2dribbon] = stage.GrowthCurve2DRibbon_stagedOrder[growthcurve2dribbon]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurve2dribbon.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurve2DRibbons_referenceOrder, growthcurve2dribbon)
+			fieldInitializers, pointersInitializations := growthcurve2dribbon.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurve2DRibbon_stagedOrder[ref] = stage.GrowthCurve2DRibbon_stagedOrder[growthcurve2dribbon]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurve2dribbon.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurve2dribbon)
+			// delete(stage.GrowthCurve2DRibbon_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurve2dribbon.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurve2dribbon.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurve2DRibbons_reference {
+		instance := stage.GrowthCurve2DRibbons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurve2DRibbons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurve2dribbons_deletedInstances = append(growthcurve2dribbons_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurve2dribbons_newInstances)
+	lenDeletedInstances += len(growthcurve2dribbons_deletedInstances)
+	var growthcurve2dribbonendshapes_newInstances []*GrowthCurve2DRibbonEndShape
+	var growthcurve2dribbonendshapes_deletedInstances []*GrowthCurve2DRibbonEndShape
+
+	// parse all staged instances and check if they have a reference
+	for growthcurve2dribbonendshape := range stage.GrowthCurve2DRibbonEndShapes {
+		if ref, ok := stage.GrowthCurve2DRibbonEndShapes_reference[growthcurve2dribbonendshape]; !ok {
+			growthcurve2dribbonendshapes_newInstances = append(growthcurve2dribbonendshapes_newInstances, growthcurve2dribbonendshape)
+			newInstancesSlice = append(newInstancesSlice, growthcurve2dribbonendshape.GongMarshallIdentifier(stage))
+			if stage.GrowthCurve2DRibbonEndShapes_referenceOrder == nil {
+				stage.GrowthCurve2DRibbonEndShapes_referenceOrder = make(map[*GrowthCurve2DRibbonEndShape]uint)
+			}
+			stage.GrowthCurve2DRibbonEndShapes_referenceOrder[growthcurve2dribbonendshape] = stage.GrowthCurve2DRibbonEndShape_stagedOrder[growthcurve2dribbonendshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurve2dribbonendshape.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurve2DRibbonEndShapes_referenceOrder, growthcurve2dribbonendshape)
+			fieldInitializers, pointersInitializations := growthcurve2dribbonendshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurve2DRibbonEndShape_stagedOrder[ref] = stage.GrowthCurve2DRibbonEndShape_stagedOrder[growthcurve2dribbonendshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurve2dribbonendshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurve2dribbonendshape)
+			// delete(stage.GrowthCurve2DRibbonEndShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurve2dribbonendshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurve2dribbonendshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurve2DRibbonEndShapes_reference {
+		instance := stage.GrowthCurve2DRibbonEndShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurve2DRibbonEndShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurve2dribbonendshapes_deletedInstances = append(growthcurve2dribbonendshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurve2dribbonendshapes_newInstances)
+	lenDeletedInstances += len(growthcurve2dribbonendshapes_deletedInstances)
+	var growthcurve2dribbonstartshapes_newInstances []*GrowthCurve2DRibbonStartShape
+	var growthcurve2dribbonstartshapes_deletedInstances []*GrowthCurve2DRibbonStartShape
+
+	// parse all staged instances and check if they have a reference
+	for growthcurve2dribbonstartshape := range stage.GrowthCurve2DRibbonStartShapes {
+		if ref, ok := stage.GrowthCurve2DRibbonStartShapes_reference[growthcurve2dribbonstartshape]; !ok {
+			growthcurve2dribbonstartshapes_newInstances = append(growthcurve2dribbonstartshapes_newInstances, growthcurve2dribbonstartshape)
+			newInstancesSlice = append(newInstancesSlice, growthcurve2dribbonstartshape.GongMarshallIdentifier(stage))
+			if stage.GrowthCurve2DRibbonStartShapes_referenceOrder == nil {
+				stage.GrowthCurve2DRibbonStartShapes_referenceOrder = make(map[*GrowthCurve2DRibbonStartShape]uint)
+			}
+			stage.GrowthCurve2DRibbonStartShapes_referenceOrder[growthcurve2dribbonstartshape] = stage.GrowthCurve2DRibbonStartShape_stagedOrder[growthcurve2dribbonstartshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurve2dribbonstartshape.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurve2DRibbonStartShapes_referenceOrder, growthcurve2dribbonstartshape)
+			fieldInitializers, pointersInitializations := growthcurve2dribbonstartshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurve2DRibbonStartShape_stagedOrder[ref] = stage.GrowthCurve2DRibbonStartShape_stagedOrder[growthcurve2dribbonstartshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurve2dribbonstartshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurve2dribbonstartshape)
+			// delete(stage.GrowthCurve2DRibbonStartShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurve2dribbonstartshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurve2dribbonstartshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurve2DRibbonStartShapes_reference {
+		instance := stage.GrowthCurve2DRibbonStartShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurve2DRibbonStartShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurve2dribbonstartshapes_deletedInstances = append(growthcurve2dribbonstartshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurve2dribbonstartshapes_newInstances)
+	lenDeletedInstances += len(growthcurve2dribbonstartshapes_deletedInstances)
 	var growthcurverhombusgridshapes_newInstances []*GrowthCurveRhombusGridShape
 	var growthcurverhombusgridshapes_deletedInstances []*GrowthCurveRhombusGridShape
 
@@ -6641,6 +6889,36 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.GrowthCurve2Ds_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.GrowthCurve2DRibbons_reference = make(map[*GrowthCurve2DRibbon]*GrowthCurve2DRibbon)
+	stage.GrowthCurve2DRibbons_referenceOrder = make(map[*GrowthCurve2DRibbon]uint) // diff Unstage needs the reference order
+	stage.GrowthCurve2DRibbons_instance = make(map[*GrowthCurve2DRibbon]*GrowthCurve2DRibbon)
+	for instance := range stage.GrowthCurve2DRibbons {
+		_copy := instance.GongCopy().(*GrowthCurve2DRibbon)
+		stage.GrowthCurve2DRibbons_reference[instance] = _copy
+		stage.GrowthCurve2DRibbons_instance[_copy] = instance
+		stage.GrowthCurve2DRibbons_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GrowthCurve2DRibbonEndShapes_reference = make(map[*GrowthCurve2DRibbonEndShape]*GrowthCurve2DRibbonEndShape)
+	stage.GrowthCurve2DRibbonEndShapes_referenceOrder = make(map[*GrowthCurve2DRibbonEndShape]uint) // diff Unstage needs the reference order
+	stage.GrowthCurve2DRibbonEndShapes_instance = make(map[*GrowthCurve2DRibbonEndShape]*GrowthCurve2DRibbonEndShape)
+	for instance := range stage.GrowthCurve2DRibbonEndShapes {
+		_copy := instance.GongCopy().(*GrowthCurve2DRibbonEndShape)
+		stage.GrowthCurve2DRibbonEndShapes_reference[instance] = _copy
+		stage.GrowthCurve2DRibbonEndShapes_instance[_copy] = instance
+		stage.GrowthCurve2DRibbonEndShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GrowthCurve2DRibbonStartShapes_reference = make(map[*GrowthCurve2DRibbonStartShape]*GrowthCurve2DRibbonStartShape)
+	stage.GrowthCurve2DRibbonStartShapes_referenceOrder = make(map[*GrowthCurve2DRibbonStartShape]uint) // diff Unstage needs the reference order
+	stage.GrowthCurve2DRibbonStartShapes_instance = make(map[*GrowthCurve2DRibbonStartShape]*GrowthCurve2DRibbonStartShape)
+	for instance := range stage.GrowthCurve2DRibbonStartShapes {
+		_copy := instance.GongCopy().(*GrowthCurve2DRibbonStartShape)
+		stage.GrowthCurve2DRibbonStartShapes_reference[instance] = _copy
+		stage.GrowthCurve2DRibbonStartShapes_instance[_copy] = instance
+		stage.GrowthCurve2DRibbonStartShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.GrowthCurveRhombusGridShapes_reference = make(map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape)
 	stage.GrowthCurveRhombusGridShapes_referenceOrder = make(map[*GrowthCurveRhombusGridShape]uint) // diff Unstage needs the reference order
 	stage.GrowthCurveRhombusGridShapes_instance = make(map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape)
@@ -7367,6 +7645,21 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.GrowthCurve2DRibbons {
+		reference := stage.GrowthCurve2DRibbons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GrowthCurve2DRibbonEndShapes {
+		reference := stage.GrowthCurve2DRibbonEndShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GrowthCurve2DRibbonStartShapes {
+		reference := stage.GrowthCurve2DRibbonStartShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.GrowthCurveRhombusGridShapes {
 		reference := stage.GrowthCurveRhombusGridShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -7859,6 +8152,42 @@ func (growthcurve2d *GrowthCurve2D) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type GrowthCurve2D was not staged and does not have a reference order", growthcurve2d)
+		return 0
+	}
+}
+
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurve2DRibbon_stagedOrder[growthcurve2dribbon]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurve2DRibbons_referenceOrder[growthcurve2dribbon]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurve2DRibbon was not staged and does not have a reference order", growthcurve2dribbon)
+		return 0
+	}
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurve2DRibbonEndShape_stagedOrder[growthcurve2dribbonendshape]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurve2DRibbonEndShapes_referenceOrder[growthcurve2dribbonendshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurve2DRibbonEndShape was not staged and does not have a reference order", growthcurve2dribbonendshape)
+		return 0
+	}
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurve2DRibbonStartShape_stagedOrder[growthcurve2dribbonstartshape]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurve2DRibbonStartShapes_referenceOrder[growthcurve2dribbonstartshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurve2DRibbonStartShape was not staged and does not have a reference order", growthcurve2dribbonstartshape)
 		return 0
 	}
 }
@@ -8777,6 +9106,33 @@ func (growthcurve2d *GrowthCurve2D) GongGetReferenceIdentifier(stage *Stage) str
 	return fmt.Sprintf("__%s__%08d_", growthcurve2d.GongGetGongstructName(), growthcurve2d.GongGetOrder(stage))
 }
 
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurve2dribbon.GongGetGongstructName(), growthcurve2dribbon.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurve2dribbon.GongGetGongstructName(), growthcurve2dribbon.GongGetOrder(stage))
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurve2dribbonendshape.GongGetGongstructName(), growthcurve2dribbonendshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurve2dribbonendshape.GongGetGongstructName(), growthcurve2dribbonendshape.GongGetOrder(stage))
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurve2dribbonstartshape.GongGetGongstructName(), growthcurve2dribbonstartshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurve2dribbonstartshape.GongGetGongstructName(), growthcurve2dribbonstartshape.GongGetOrder(stage))
+}
+
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", growthcurverhombusgridshape.GongGetGongstructName(), growthcurverhombusgridshape.GongGetOrder(stage))
 }
@@ -9478,6 +9834,30 @@ func (growthcurve2d *GrowthCurve2D) GongMarshallIdentifier(stage *Stage) (decl s
 	return
 }
 
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbon.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2DRibbon")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbon.Name))
+	return
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbonendshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2DRibbonEndShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbonendshape.Name))
+	return
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbonstartshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurve2DRibbonStartShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurve2dribbonstartshape.Name))
+	return
+}
+
 func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusgridshape.GongGetIdentifier(stage))
@@ -10082,6 +10462,24 @@ func (gridpathshape *GridPathShape) GongMarshallUnstaging(stage *Stage) (decl st
 func (growthcurve2d *GrowthCurve2D) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2d.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurve2dribbon *GrowthCurve2DRibbon) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbon.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurve2dribbonendshape *GrowthCurve2DRibbonEndShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbonendshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurve2dribbonstartshape *GrowthCurve2DRibbonStartShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurve2dribbonstartshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
