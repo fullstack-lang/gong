@@ -148,6 +148,15 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ShiftedLeftStackOfNormalVector:
 		ok = stage.IsStagedShiftedLeftStackOfNormalVector(target)
 
+	case *ShiftedRightGrowthCurve2DRibbon:
+		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbon(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonEndShape:
+		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbonEndShape(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonStartShape:
+		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbonStartShape(target)
+
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		ok = stage.IsStagedStackGrowthCurve2DEndHalfwayArcShape(target)
 
@@ -403,6 +412,15 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ShiftedLeftStackOfNormalVector:
 		ok = stage.IsStagedShiftedLeftStackOfNormalVector(target)
+
+	case *ShiftedRightGrowthCurve2DRibbon:
+		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbon(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonEndShape:
+		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbonEndShape(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonStartShape:
+		ok = stage.IsStagedShiftedRightGrowthCurve2DRibbonStartShape(target)
 
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		ok = stage.IsStagedStackGrowthCurve2DEndHalfwayArcShape(target)
@@ -845,6 +863,27 @@ func (stage *Stage) IsStagedShiftedLeftStackOfNormalVector(shiftedleftstackofnor
 	return
 }
 
+func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) (ok bool) {
+
+	_, ok = stage.ShiftedRightGrowthCurve2DRibbons[shiftedrightgrowthcurve2dribbon]
+
+	return
+}
+
+func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) (ok bool) {
+
+	_, ok = stage.ShiftedRightGrowthCurve2DRibbonEndShapes[shiftedrightgrowthcurve2dribbonendshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) (ok bool) {
+
+	_, ok = stage.ShiftedRightGrowthCurve2DRibbonStartShapes[shiftedrightgrowthcurve2dribbonstartshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedStackGrowthCurve2DEndHalfwayArcShape(stackgrowthcurve2dendhalfwayarcshape *StackGrowthCurve2DEndHalfwayArcShape) (ok bool) {
 
 	_, ok = stage.StackGrowthCurve2DEndHalfwayArcShapes[stackgrowthcurve2dendhalfwayarcshape]
@@ -1238,6 +1277,15 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ShiftedLeftStackOfNormalVector:
 		stage.StageBranchShiftedLeftStackOfNormalVector(target)
+
+	case *ShiftedRightGrowthCurve2DRibbon:
+		stage.StageBranchShiftedRightGrowthCurve2DRibbon(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonEndShape:
+		stage.StageBranchShiftedRightGrowthCurve2DRibbonEndShape(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonStartShape:
+		stage.StageBranchShiftedRightGrowthCurve2DRibbonStartShape(target)
 
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		stage.StageBranchStackGrowthCurve2DEndHalfwayArcShape(target)
@@ -1975,6 +2023,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	if plant.GrowthCurve2DRibbon != nil {
 		StageBranch(stage, plant.GrowthCurve2DRibbon)
 	}
+	if plant.ShiftedRightGrowthCurve2DRibbon != nil {
+		StageBranch(stage, plant.ShiftedRightGrowthCurve2DRibbon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -2013,6 +2064,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.GrowthCurve2DRibbon != nil {
 		StageBranch(stage, plantdiagram.GrowthCurve2DRibbon)
+	}
+	if plantdiagram.ShiftedRightGrowthCurve2DRibbon != nil {
+		StageBranch(stage, plantdiagram.ShiftedRightGrowthCurve2DRibbon)
 	}
 	if plantdiagram.TorusStackShape != nil {
 		StageBranch(stage, plantdiagram.TorusStackShape)
@@ -2250,6 +2304,57 @@ func (stage *Stage) StageBranchShiftedLeftStackOfNormalVector(shiftedleftstackof
 	for _, _shiftedleftstacknormalvector := range shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
 		StageBranch(stage, _shiftedleftstacknormalvector)
 	}
+
+}
+
+func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) {
+
+	// check if instance is already staged
+	if IsStaged(stage, shiftedrightgrowthcurve2dribbon) {
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbon.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _shiftedrightgrowthcurve2dribbonstartshape := range shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+		StageBranch(stage, _shiftedrightgrowthcurve2dribbonstartshape)
+	}
+	for _, _shiftedrightgrowthcurve2dribbonendshape := range shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+		StageBranch(stage, _shiftedrightgrowthcurve2dribbonendshape)
+	}
+
+}
+
+func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, shiftedrightgrowthcurve2dribbonendshape) {
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonendshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, shiftedrightgrowthcurve2dribbonstartshape) {
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonstartshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -3038,6 +3143,18 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *ShiftedLeftStackOfNormalVector:
 		toT := CopyBranchShiftedLeftStackOfNormalVector(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ShiftedRightGrowthCurve2DRibbon:
+		toT := CopyBranchShiftedRightGrowthCurve2DRibbon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ShiftedRightGrowthCurve2DRibbonEndShape:
+		toT := CopyBranchShiftedRightGrowthCurve2DRibbonEndShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ShiftedRightGrowthCurve2DRibbonStartShape:
+		toT := CopyBranchShiftedRightGrowthCurve2DRibbonStartShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StackGrowthCurve2DEndHalfwayArcShape:
@@ -3943,6 +4060,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	if plantFrom.GrowthCurve2DRibbon != nil {
 		plantTo.GrowthCurve2DRibbon = CopyBranchGrowthCurve2DRibbon(mapOrigCopy, plantFrom.GrowthCurve2DRibbon)
 	}
+	if plantFrom.ShiftedRightGrowthCurve2DRibbon != nil {
+		plantTo.ShiftedRightGrowthCurve2DRibbon = CopyBranchShiftedRightGrowthCurve2DRibbon(mapOrigCopy, plantFrom.ShiftedRightGrowthCurve2DRibbon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantFrom.PlantDiagrams {
@@ -3989,6 +4109,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	}
 	if plantdiagramFrom.GrowthCurve2DRibbon != nil {
 		plantdiagramTo.GrowthCurve2DRibbon = CopyBranchGrowthCurve2DRibbon(mapOrigCopy, plantdiagramFrom.GrowthCurve2DRibbon)
+	}
+	if plantdiagramFrom.ShiftedRightGrowthCurve2DRibbon != nil {
+		plantdiagramTo.ShiftedRightGrowthCurve2DRibbon = CopyBranchShiftedRightGrowthCurve2DRibbon(mapOrigCopy, plantdiagramFrom.ShiftedRightGrowthCurve2DRibbon)
 	}
 	if plantdiagramFrom.TorusStackShape != nil {
 		plantdiagramTo.TorusStackShape = CopyBranchTorusStackShape(mapOrigCopy, plantdiagramFrom.TorusStackShape)
@@ -4274,6 +4397,69 @@ func CopyBranchShiftedLeftStackOfNormalVector(mapOrigCopy map[any]any, shiftedle
 	for _, _shiftedleftstacknormalvector := range shiftedleftstackofnormalvectorFrom.ShiftedLeftStackNormalVectors {
 		shiftedleftstackofnormalvectorTo.ShiftedLeftStackNormalVectors = append(shiftedleftstackofnormalvectorTo.ShiftedLeftStackNormalVectors, CopyBranchShiftedLeftStackNormalVector(mapOrigCopy, _shiftedleftstacknormalvector))
 	}
+
+	return
+}
+
+func CopyBranchShiftedRightGrowthCurve2DRibbon(mapOrigCopy map[any]any, shiftedrightgrowthcurve2dribbonFrom *ShiftedRightGrowthCurve2DRibbon) (shiftedrightgrowthcurve2dribbonTo *ShiftedRightGrowthCurve2DRibbon) {
+
+	// shiftedrightgrowthcurve2dribbonFrom has already been copied
+	if _shiftedrightgrowthcurve2dribbonTo, ok := mapOrigCopy[shiftedrightgrowthcurve2dribbonFrom]; ok {
+		shiftedrightgrowthcurve2dribbonTo = _shiftedrightgrowthcurve2dribbonTo.(*ShiftedRightGrowthCurve2DRibbon)
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonTo = new(ShiftedRightGrowthCurve2DRibbon)
+	mapOrigCopy[shiftedrightgrowthcurve2dribbonFrom] = shiftedrightgrowthcurve2dribbonTo
+	shiftedrightgrowthcurve2dribbonFrom.CopyBasicFields(shiftedrightgrowthcurve2dribbonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _shiftedrightgrowthcurve2dribbonstartshape := range shiftedrightgrowthcurve2dribbonFrom.ShiftedRightGrowthCurve2DRibbonStartShapes {
+		shiftedrightgrowthcurve2dribbonTo.ShiftedRightGrowthCurve2DRibbonStartShapes = append(shiftedrightgrowthcurve2dribbonTo.ShiftedRightGrowthCurve2DRibbonStartShapes, CopyBranchShiftedRightGrowthCurve2DRibbonStartShape(mapOrigCopy, _shiftedrightgrowthcurve2dribbonstartshape))
+	}
+	for _, _shiftedrightgrowthcurve2dribbonendshape := range shiftedrightgrowthcurve2dribbonFrom.ShiftedRightGrowthCurve2DRibbonEndShapes {
+		shiftedrightgrowthcurve2dribbonTo.ShiftedRightGrowthCurve2DRibbonEndShapes = append(shiftedrightgrowthcurve2dribbonTo.ShiftedRightGrowthCurve2DRibbonEndShapes, CopyBranchShiftedRightGrowthCurve2DRibbonEndShape(mapOrigCopy, _shiftedrightgrowthcurve2dribbonendshape))
+	}
+
+	return
+}
+
+func CopyBranchShiftedRightGrowthCurve2DRibbonEndShape(mapOrigCopy map[any]any, shiftedrightgrowthcurve2dribbonendshapeFrom *ShiftedRightGrowthCurve2DRibbonEndShape) (shiftedrightgrowthcurve2dribbonendshapeTo *ShiftedRightGrowthCurve2DRibbonEndShape) {
+
+	// shiftedrightgrowthcurve2dribbonendshapeFrom has already been copied
+	if _shiftedrightgrowthcurve2dribbonendshapeTo, ok := mapOrigCopy[shiftedrightgrowthcurve2dribbonendshapeFrom]; ok {
+		shiftedrightgrowthcurve2dribbonendshapeTo = _shiftedrightgrowthcurve2dribbonendshapeTo.(*ShiftedRightGrowthCurve2DRibbonEndShape)
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonendshapeTo = new(ShiftedRightGrowthCurve2DRibbonEndShape)
+	mapOrigCopy[shiftedrightgrowthcurve2dribbonendshapeFrom] = shiftedrightgrowthcurve2dribbonendshapeTo
+	shiftedrightgrowthcurve2dribbonendshapeFrom.CopyBasicFields(shiftedrightgrowthcurve2dribbonendshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchShiftedRightGrowthCurve2DRibbonStartShape(mapOrigCopy map[any]any, shiftedrightgrowthcurve2dribbonstartshapeFrom *ShiftedRightGrowthCurve2DRibbonStartShape) (shiftedrightgrowthcurve2dribbonstartshapeTo *ShiftedRightGrowthCurve2DRibbonStartShape) {
+
+	// shiftedrightgrowthcurve2dribbonstartshapeFrom has already been copied
+	if _shiftedrightgrowthcurve2dribbonstartshapeTo, ok := mapOrigCopy[shiftedrightgrowthcurve2dribbonstartshapeFrom]; ok {
+		shiftedrightgrowthcurve2dribbonstartshapeTo = _shiftedrightgrowthcurve2dribbonstartshapeTo.(*ShiftedRightGrowthCurve2DRibbonStartShape)
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonstartshapeTo = new(ShiftedRightGrowthCurve2DRibbonStartShape)
+	mapOrigCopy[shiftedrightgrowthcurve2dribbonstartshapeFrom] = shiftedrightgrowthcurve2dribbonstartshapeTo
+	shiftedrightgrowthcurve2dribbonstartshapeFrom.CopyBasicFields(shiftedrightgrowthcurve2dribbonstartshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -5155,6 +5341,15 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ShiftedLeftStackOfNormalVector:
 		stage.UnstageBranchShiftedLeftStackOfNormalVector(target)
 
+	case *ShiftedRightGrowthCurve2DRibbon:
+		stage.UnstageBranchShiftedRightGrowthCurve2DRibbon(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonEndShape:
+		stage.UnstageBranchShiftedRightGrowthCurve2DRibbonEndShape(target)
+
+	case *ShiftedRightGrowthCurve2DRibbonStartShape:
+		stage.UnstageBranchShiftedRightGrowthCurve2DRibbonStartShape(target)
+
 	case *StackGrowthCurve2DEndHalfwayArcShape:
 		stage.UnstageBranchStackGrowthCurve2DEndHalfwayArcShape(target)
 
@@ -5891,6 +6086,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	if plant.GrowthCurve2DRibbon != nil {
 		UnstageBranch(stage, plant.GrowthCurve2DRibbon)
 	}
+	if plant.ShiftedRightGrowthCurve2DRibbon != nil {
+		UnstageBranch(stage, plant.ShiftedRightGrowthCurve2DRibbon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagrams {
@@ -5929,6 +6127,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.GrowthCurve2DRibbon != nil {
 		UnstageBranch(stage, plantdiagram.GrowthCurve2DRibbon)
+	}
+	if plantdiagram.ShiftedRightGrowthCurve2DRibbon != nil {
+		UnstageBranch(stage, plantdiagram.ShiftedRightGrowthCurve2DRibbon)
 	}
 	if plantdiagram.TorusStackShape != nil {
 		UnstageBranch(stage, plantdiagram.TorusStackShape)
@@ -6166,6 +6367,57 @@ func (stage *Stage) UnstageBranchShiftedLeftStackOfNormalVector(shiftedleftstack
 	for _, _shiftedleftstacknormalvector := range shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors {
 		UnstageBranch(stage, _shiftedleftstacknormalvector)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbon(shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, shiftedrightgrowthcurve2dribbon) {
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbon.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _shiftedrightgrowthcurve2dribbonstartshape := range shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+		UnstageBranch(stage, _shiftedrightgrowthcurve2dribbonstartshape)
+	}
+	for _, _shiftedrightgrowthcurve2dribbonendshape := range shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+		UnstageBranch(stage, _shiftedrightgrowthcurve2dribbonendshape)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbonEndShape(shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, shiftedrightgrowthcurve2dribbonendshape) {
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonendshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchShiftedRightGrowthCurve2DRibbonStartShape(shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, shiftedrightgrowthcurve2dribbonstartshape) {
+		return
+	}
+
+	shiftedrightgrowthcurve2dribbonstartshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -7070,6 +7322,9 @@ func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, inst
 	if instance.GrowthCurve2DRibbon != nil {
 		reference.GrowthCurve2DRibbon = stage.GrowthCurve2DRibbons_reference[instance.GrowthCurve2DRibbon]
 	}
+	if instance.ShiftedRightGrowthCurve2DRibbon != nil {
+		reference.ShiftedRightGrowthCurve2DRibbon = stage.ShiftedRightGrowthCurve2DRibbons_reference[instance.ShiftedRightGrowthCurve2DRibbon]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
@@ -7089,6 +7344,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.GrowthCurve2DRibbon != nil {
 		reference.GrowthCurve2DRibbon = stage.GrowthCurve2DRibbons_reference[instance.GrowthCurve2DRibbon]
+	}
+	if instance.ShiftedRightGrowthCurve2DRibbon != nil {
+		reference.ShiftedRightGrowthCurve2DRibbon = stage.ShiftedRightGrowthCurve2DRibbons_reference[instance.ShiftedRightGrowthCurve2DRibbon]
 	}
 	if instance.TorusStackShape != nil {
 		reference.TorusStackShape = stage.TorusStackShapes_reference[instance.TorusStackShape]
@@ -7210,6 +7468,29 @@ func (reference *ShiftedLeftStackOfNormalVector) GongReconstructPointersFromRefe
 	for _, _b := range instance.ShiftedLeftStackNormalVectors {
 		reference.ShiftedLeftStackNormalVectors = append(reference.ShiftedLeftStackNormalVectors, stage.ShiftedLeftStackNormalVectors_reference[_b])
 	}
+}
+
+func (reference *ShiftedRightGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedRightGrowthCurve2DRibbon) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ShiftedRightGrowthCurve2DRibbonStartShapes = reference.ShiftedRightGrowthCurve2DRibbonStartShapes[:0]
+	for _, _b := range instance.ShiftedRightGrowthCurve2DRibbonStartShapes {
+		reference.ShiftedRightGrowthCurve2DRibbonStartShapes = append(reference.ShiftedRightGrowthCurve2DRibbonStartShapes, stage.ShiftedRightGrowthCurve2DRibbonStartShapes_reference[_b])
+	}
+	reference.ShiftedRightGrowthCurve2DRibbonEndShapes = reference.ShiftedRightGrowthCurve2DRibbonEndShapes[:0]
+	for _, _b := range instance.ShiftedRightGrowthCurve2DRibbonEndShapes {
+		reference.ShiftedRightGrowthCurve2DRibbonEndShapes = append(reference.ShiftedRightGrowthCurve2DRibbonEndShapes, stage.ShiftedRightGrowthCurve2DRibbonEndShapes_reference[_b])
+	}
+}
+
+func (reference *ShiftedRightGrowthCurve2DRibbonEndShape) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedRightGrowthCurve2DRibbonEndShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *ShiftedRightGrowthCurve2DRibbonStartShape) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedRightGrowthCurve2DRibbonStartShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
 }
 
 func (reference *StackGrowthCurve2DEndHalfwayArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *StackGrowthCurve2DEndHalfwayArcShape) {
@@ -7917,6 +8198,12 @@ func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 			reference.GrowthCurve2DRibbon = _instance
 		}
 	}
+	if _reference := reference.ShiftedRightGrowthCurve2DRibbon; _reference != nil {
+		reference.ShiftedRightGrowthCurve2DRibbon = nil
+		if _instance, ok := stage.ShiftedRightGrowthCurve2DRibbons_instance[_reference]; ok {
+			reference.ShiftedRightGrowthCurve2DRibbon = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
@@ -7944,6 +8231,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.GrowthCurve2DRibbon = nil
 		if _instance, ok := stage.GrowthCurve2DRibbons_instance[_reference]; ok {
 			reference.GrowthCurve2DRibbon = _instance
+		}
+	}
+	if _reference := reference.ShiftedRightGrowthCurve2DRibbon; _reference != nil {
+		reference.ShiftedRightGrowthCurve2DRibbon = nil
+		if _instance, ok := stage.ShiftedRightGrowthCurve2DRibbons_instance[_reference]; ok {
+			reference.ShiftedRightGrowthCurve2DRibbon = _instance
 		}
 	}
 	if _reference := reference.TorusStackShape; _reference != nil {
@@ -8120,6 +8413,35 @@ func (reference *ShiftedLeftStackOfNormalVector) GongReconstructPointersFromInst
 		}
 	}
 	reference.ShiftedLeftStackNormalVectors = _ShiftedLeftStackNormalVectors
+}
+
+func (reference *ShiftedRightGrowthCurve2DRibbon) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ShiftedRightGrowthCurve2DRibbonStartShapes []*ShiftedRightGrowthCurve2DRibbonStartShape
+	for _, _reference := range reference.ShiftedRightGrowthCurve2DRibbonStartShapes {
+		if _instance, ok := stage.ShiftedRightGrowthCurve2DRibbonStartShapes_instance[_reference]; ok {
+			_ShiftedRightGrowthCurve2DRibbonStartShapes = append(_ShiftedRightGrowthCurve2DRibbonStartShapes, _instance)
+		}
+	}
+	reference.ShiftedRightGrowthCurve2DRibbonStartShapes = _ShiftedRightGrowthCurve2DRibbonStartShapes
+	var _ShiftedRightGrowthCurve2DRibbonEndShapes []*ShiftedRightGrowthCurve2DRibbonEndShape
+	for _, _reference := range reference.ShiftedRightGrowthCurve2DRibbonEndShapes {
+		if _instance, ok := stage.ShiftedRightGrowthCurve2DRibbonEndShapes_instance[_reference]; ok {
+			_ShiftedRightGrowthCurve2DRibbonEndShapes = append(_ShiftedRightGrowthCurve2DRibbonEndShapes, _instance)
+		}
+	}
+	reference.ShiftedRightGrowthCurve2DRibbonEndShapes = _ShiftedRightGrowthCurve2DRibbonEndShapes
+}
+
+func (reference *ShiftedRightGrowthCurve2DRibbonEndShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ShiftedRightGrowthCurve2DRibbonStartShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *StackGrowthCurve2DEndHalfwayArcShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -9762,6 +10084,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 			diffs = append(diffs, plant.GongMarshallField(stage, "GrowthCurve2DRibbon"))
 		}
 	}
+	if (plant.ShiftedRightGrowthCurve2DRibbon == nil) != (plantOther.ShiftedRightGrowthCurve2DRibbon == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedRightGrowthCurve2DRibbon"))
+	} else if plant.ShiftedRightGrowthCurve2DRibbon != nil && plantOther.ShiftedRightGrowthCurve2DRibbon != nil {
+		if plant.ShiftedRightGrowthCurve2DRibbon != plantOther.ShiftedRightGrowthCurve2DRibbon {
+			diffs = append(diffs, plant.GongMarshallField(stage, "ShiftedRightGrowthCurve2DRibbon"))
+		}
+	}
 
 	return
 }
@@ -9919,6 +10248,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenGrowthCurve2DRibbon != plantdiagramOther.IsHiddenGrowthCurve2DRibbon {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2DRibbon"))
 	}
+	if plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon != plantdiagramOther.IsHiddenShiftedRightGrowthCurve2DRibbon {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedRightGrowthCurve2DRibbon"))
+	}
 	if plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon != plantdiagramOther.IsHiddenStackOfGrowthCurve2DRibbon {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DRibbon"))
 	}
@@ -9961,6 +10293,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.GrowthCurve2DRibbon != nil && plantdiagramOther.GrowthCurve2DRibbon != nil {
 		if plantdiagram.GrowthCurve2DRibbon != plantdiagramOther.GrowthCurve2DRibbon {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthCurve2DRibbon"))
+		}
+	}
+	if (plantdiagram.ShiftedRightGrowthCurve2DRibbon == nil) != (plantdiagramOther.ShiftedRightGrowthCurve2DRibbon == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ShiftedRightGrowthCurve2DRibbon"))
+	} else if plantdiagram.ShiftedRightGrowthCurve2DRibbon != nil && plantdiagramOther.ShiftedRightGrowthCurve2DRibbon != nil {
+		if plantdiagram.ShiftedRightGrowthCurve2DRibbon != plantdiagramOther.ShiftedRightGrowthCurve2DRibbon {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ShiftedRightGrowthCurve2DRibbon"))
 		}
 	}
 	if (plantdiagram.TorusStackShape == nil) != (plantdiagramOther.TorusStackShape == nil) {
@@ -10416,6 +10755,189 @@ func (shiftedleftstackofnormalvector *ShiftedLeftStackOfNormalVector) GongDiff(s
 	if ShiftedLeftStackNormalVectorsDifferent {
 		ops := Diff(stage, shiftedleftstackofnormalvector, shiftedleftstackofnormalvectorOther, "ShiftedLeftStackNormalVectors", shiftedleftstackofnormalvectorOther.ShiftedLeftStackNormalVectors, shiftedleftstackofnormalvector.ShiftedLeftStackNormalVectors)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (shiftedrightgrowthcurve2dribbon *ShiftedRightGrowthCurve2DRibbon) GongDiff(stage *Stage, shiftedrightgrowthcurve2dribbonOther *ShiftedRightGrowthCurve2DRibbon) (diffs []string) {
+	// insertion point for field diffs
+	if shiftedrightgrowthcurve2dribbon.Name != shiftedrightgrowthcurve2dribbonOther.Name {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbon.GongMarshallField(stage, "Name"))
+	}
+	ShiftedRightGrowthCurve2DRibbonStartShapesDifferent := false
+	if len(shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes) != len(shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonStartShapes) {
+		ShiftedRightGrowthCurve2DRibbonStartShapesDifferent = true
+	} else {
+		for i := range shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+			if (shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes[i] == nil) != (shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonStartShapes[i] == nil) {
+				ShiftedRightGrowthCurve2DRibbonStartShapesDifferent = true
+				break
+			} else if shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes[i] != nil && shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonStartShapes[i] != nil {
+				// this is a pointer comparaison
+				if shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes[i] != shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonStartShapes[i] {
+					ShiftedRightGrowthCurve2DRibbonStartShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ShiftedRightGrowthCurve2DRibbonStartShapesDifferent {
+		ops := Diff(stage, shiftedrightgrowthcurve2dribbon, shiftedrightgrowthcurve2dribbonOther, "ShiftedRightGrowthCurve2DRibbonStartShapes", shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonStartShapes, shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonStartShapes)
+		diffs = append(diffs, ops)
+	}
+	ShiftedRightGrowthCurve2DRibbonEndShapesDifferent := false
+	if len(shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes) != len(shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonEndShapes) {
+		ShiftedRightGrowthCurve2DRibbonEndShapesDifferent = true
+	} else {
+		for i := range shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+			if (shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes[i] == nil) != (shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonEndShapes[i] == nil) {
+				ShiftedRightGrowthCurve2DRibbonEndShapesDifferent = true
+				break
+			} else if shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes[i] != nil && shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonEndShapes[i] != nil {
+				// this is a pointer comparaison
+				if shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes[i] != shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonEndShapes[i] {
+					ShiftedRightGrowthCurve2DRibbonEndShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ShiftedRightGrowthCurve2DRibbonEndShapesDifferent {
+		ops := Diff(stage, shiftedrightgrowthcurve2dribbon, shiftedrightgrowthcurve2dribbonOther, "ShiftedRightGrowthCurve2DRibbonEndShapes", shiftedrightgrowthcurve2dribbonOther.ShiftedRightGrowthCurve2DRibbonEndShapes, shiftedrightgrowthcurve2dribbon.ShiftedRightGrowthCurve2DRibbonEndShapes)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (shiftedrightgrowthcurve2dribbonendshape *ShiftedRightGrowthCurve2DRibbonEndShape) GongDiff(stage *Stage, shiftedrightgrowthcurve2dribbonendshapeOther *ShiftedRightGrowthCurve2DRibbonEndShape) (diffs []string) {
+	// insertion point for field diffs
+	if shiftedrightgrowthcurve2dribbonendshape.Name != shiftedrightgrowthcurve2dribbonendshapeOther.Name {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "Name"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomStartX != shiftedrightgrowthcurve2dribbonendshapeOther.BottomStartX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomStartX"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomStartY != shiftedrightgrowthcurve2dribbonendshapeOther.BottomStartY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomStartY"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomEndX != shiftedrightgrowthcurve2dribbonendshapeOther.BottomEndX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomEndX"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomEndY != shiftedrightgrowthcurve2dribbonendshapeOther.BottomEndY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomEndY"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomRadiusX != shiftedrightgrowthcurve2dribbonendshapeOther.BottomRadiusX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomRadiusX"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomRadiusY != shiftedrightgrowthcurve2dribbonendshapeOther.BottomRadiusY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomRadiusY"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomXAxisRotation != shiftedrightgrowthcurve2dribbonendshapeOther.BottomXAxisRotation {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomXAxisRotation"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomLargeArcFlag != shiftedrightgrowthcurve2dribbonendshapeOther.BottomLargeArcFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomLargeArcFlag"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.BottomSweepFlag != shiftedrightgrowthcurve2dribbonendshapeOther.BottomSweepFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "BottomSweepFlag"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopStartX != shiftedrightgrowthcurve2dribbonendshapeOther.TopStartX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopStartX"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopStartY != shiftedrightgrowthcurve2dribbonendshapeOther.TopStartY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopStartY"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopEndX != shiftedrightgrowthcurve2dribbonendshapeOther.TopEndX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopEndX"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopEndY != shiftedrightgrowthcurve2dribbonendshapeOther.TopEndY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopEndY"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopRadiusX != shiftedrightgrowthcurve2dribbonendshapeOther.TopRadiusX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopRadiusX"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopRadiusY != shiftedrightgrowthcurve2dribbonendshapeOther.TopRadiusY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopRadiusY"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopXAxisRotation != shiftedrightgrowthcurve2dribbonendshapeOther.TopXAxisRotation {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopXAxisRotation"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopLargeArcFlag != shiftedrightgrowthcurve2dribbonendshapeOther.TopLargeArcFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopLargeArcFlag"))
+	}
+	if shiftedrightgrowthcurve2dribbonendshape.TopSweepFlag != shiftedrightgrowthcurve2dribbonendshapeOther.TopSweepFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonendshape.GongMarshallField(stage, "TopSweepFlag"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (shiftedrightgrowthcurve2dribbonstartshape *ShiftedRightGrowthCurve2DRibbonStartShape) GongDiff(stage *Stage, shiftedrightgrowthcurve2dribbonstartshapeOther *ShiftedRightGrowthCurve2DRibbonStartShape) (diffs []string) {
+	// insertion point for field diffs
+	if shiftedrightgrowthcurve2dribbonstartshape.Name != shiftedrightgrowthcurve2dribbonstartshapeOther.Name {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "Name"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomStartX != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomStartX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomStartX"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomStartY != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomStartY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomStartY"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomEndX != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomEndX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomEndX"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomEndY != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomEndY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomEndY"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomRadiusX != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomRadiusX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomRadiusX"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomRadiusY != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomRadiusY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomRadiusY"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomXAxisRotation != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomXAxisRotation {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomXAxisRotation"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomLargeArcFlag != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomLargeArcFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomLargeArcFlag"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.BottomSweepFlag != shiftedrightgrowthcurve2dribbonstartshapeOther.BottomSweepFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "BottomSweepFlag"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopStartX != shiftedrightgrowthcurve2dribbonstartshapeOther.TopStartX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopStartX"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopStartY != shiftedrightgrowthcurve2dribbonstartshapeOther.TopStartY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopStartY"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopEndX != shiftedrightgrowthcurve2dribbonstartshapeOther.TopEndX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopEndX"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopEndY != shiftedrightgrowthcurve2dribbonstartshapeOther.TopEndY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopEndY"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopRadiusX != shiftedrightgrowthcurve2dribbonstartshapeOther.TopRadiusX {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopRadiusX"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopRadiusY != shiftedrightgrowthcurve2dribbonstartshapeOther.TopRadiusY {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopRadiusY"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopXAxisRotation != shiftedrightgrowthcurve2dribbonstartshapeOther.TopXAxisRotation {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopXAxisRotation"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopLargeArcFlag != shiftedrightgrowthcurve2dribbonstartshapeOther.TopLargeArcFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopLargeArcFlag"))
+	}
+	if shiftedrightgrowthcurve2dribbonstartshape.TopSweepFlag != shiftedrightgrowthcurve2dribbonstartshapeOther.TopSweepFlag {
+		diffs = append(diffs, shiftedrightgrowthcurve2dribbonstartshape.GongMarshallField(stage, "TopSweepFlag"))
 	}
 
 	return
