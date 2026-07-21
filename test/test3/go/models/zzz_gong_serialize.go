@@ -26,6 +26,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*A](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*B](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*C](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

@@ -143,6 +143,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_Bs_reverseMap map[*B]*A
 
+	A_Cs_reverseMap map[*C]*A
+
 	OnAfterACreateCallback OnAfterCreateInterface[A]
 	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
@@ -162,6 +164,21 @@ type Stage struct {
 	OnAfterBUpdateCallback OnAfterUpdateInterface[B]
 	OnAfterBDeleteCallback OnAfterDeleteInterface[B]
 	OnAfterBReadCallback   OnAfterReadInterface[B]
+
+	Cs                map[*C]struct{}
+	Cs_instance       map[*C]*C
+	Cs_mapString      map[string]*C
+	COrder            uint
+	C_stagedOrder     map[*C]uint
+	C_orderStaged     map[uint]*C
+	Cs_reference      map[*C]*C
+	Cs_referenceOrder map[*C]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCCreateCallback OnAfterCreateInterface[C]
+	OnAfterCUpdateCallback OnAfterUpdateInterface[C]
+	OnAfterCDeleteCallback OnAfterDeleteInterface[C]
+	OnAfterCReadCallback   OnAfterReadInterface[C]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -407,6 +424,10 @@ func (stage *Stage) Squash() {
 	stage.Bs_instance = make(map[*B]*B)
 	stage.Bs_referenceOrder = make(map[*B]uint)
 
+	stage.Cs_reference = make(map[*C]*C)
+	stage.Cs_instance = make(map[*C]*C)
+	stage.Cs_referenceOrder = make(map[*C]uint)
+
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
@@ -460,6 +481,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.BOrder = maxBOrder + 1
 	} else {
 		stage.BOrder = 0
+	}
+
+	var maxCOrder uint
+	var foundC bool
+	for _, order := range stage.C_stagedOrder {
+		if !foundC || order > maxCOrder {
+			maxCOrder = order
+			foundC = true
+		}
+	}
+	if foundC {
+		stage.COrder = maxCOrder + 1
+	} else {
+		stage.COrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -551,6 +586,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *C:
+		tmp := GetStructInstancesByOrder(stage.Cs, stage.C_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *C implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -584,6 +633,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.As, stage.A_stagedOrder)
 	case "B":
 		res = GetNamedStructInstances(stage.Bs, stage.B_stagedOrder)
+	case "C":
+		res = GetNamedStructInstances(stage.Cs, stage.C_stagedOrder)
 	}
 
 	return
@@ -657,6 +708,8 @@ type BackRepoInterface interface {
 	CheckoutA(a *A)
 	CommitB(b *B)
 	CheckoutB(b *B)
+	CommitC(c *C)
+	CheckoutC(c *C)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -668,6 +721,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Bs:           make(map[*B]struct{}),
 		Bs_mapString: make(map[string]*B),
+
+		Cs:           make(map[*C]struct{}),
+		Cs_mapString: make(map[string]*C),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -687,11 +743,17 @@ func NewStage(name string) (stage *Stage) {
 		B_orderStaged: make(map[uint]*B),
 		Bs_reference:  make(map[*B]*B),
 
+		C_stagedOrder: make(map[*C]uint),
+		C_orderStaged: make(map[uint]*C),
+		Cs_reference:  make(map[*C]*C),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"A": &AUnmarshaller{},
 
 			"B": &BUnmarshaller{},
+
+			"C": &CUnmarshaller{},
 
 			// end of insertion point
 		},
@@ -699,6 +761,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "A"},
 			{name: "B"},
+			{name: "C"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -714,6 +777,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.A_stagedOrder[instance]
 	case *B:
 		return stage.B_stagedOrder[instance]
+	case *C:
+		return stage.C_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -727,6 +792,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.A_orderStaged[order]).(Type)
 	case *B:
 		return any(stage.B_orderStaged[order]).(Type)
+	case *C:
+		return any(stage.C_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -739,6 +806,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.A_stagedOrder[instance]
 	case *B:
 		return stage.B_stagedOrder[instance]
+	case *C:
+		return stage.C_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -806,6 +875,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
 	stage.Map_GongStructName_InstancesNb["B"] = len(stage.Bs)
+	stage.Map_GongStructName_InstancesNb["C"] = len(stage.Cs)
 }
 
 func (stage *Stage) Checkout() {
@@ -1022,15 +1092,105 @@ func (b *B) SetName(name string) {
 	b.Name = name
 }
 
+// Stage puts c to the model stage
+func (c *C) Stage(stage *Stage) *C {
+	if _, ok := stage.Cs[c]; !ok {
+		stage.Cs[c] = struct{}{}
+		stage.C_stagedOrder[c] = stage.COrder
+		stage.C_orderStaged[stage.COrder] = c
+		stage.COrder++
+	}
+	stage.Cs_mapString[c.Name] = c
+
+	return c
+}
+
+// StagePreserveOrder puts c to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.COrder
+// - update stage.COrder accordingly
+func (c *C) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Cs[c]; !ok {
+		stage.Cs[c] = struct{}{}
+
+		if order > stage.COrder {
+			stage.COrder = order
+		}
+		stage.C_stagedOrder[c] = order
+		stage.C_orderStaged[order] = c
+		stage.COrder++
+	}
+	stage.Cs_mapString[c.Name] = c
+}
+
+// Unstage removes c off the model stage
+func (c *C) Unstage(stage *Stage) *C {
+	delete(stage.Cs, c)
+	// issue1150
+	// delete(stage.C_stagedOrder, c)
+	delete(stage.Cs_mapString, c.Name)
+
+	return c
+}
+
+// UnstageVoid removes c off the model stage
+func (c *C) UnstageVoid(stage *Stage) {
+	delete(stage.Cs, c)
+	// issue1150
+	// delete(stage.C_stagedOrder, c)
+	delete(stage.Cs_mapString, c.Name)
+}
+
+// commit c to the back repo (if it is already staged)
+func (c *C) Commit(stage *Stage) *C {
+	if _, ok := stage.Cs[c]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitC(c)
+		}
+	}
+	return c
+}
+
+func (c *C) CommitVoid(stage *Stage) {
+	c.Commit(stage)
+}
+
+func (c *C) StageVoid(stage *Stage) {
+	c.Stage(stage)
+}
+
+// Checkout c to the back repo (if it is already staged)
+func (c *C) Checkout(stage *Stage) *C {
+	if _, ok := stage.Cs[c]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutC(c)
+		}
+	}
+	return c
+}
+
+// for satisfaction of GongStruct interface
+func (c *C) GetName() (res string) {
+	return c.Name
+}
+
+// for satisfaction of GongStruct interface
+func (c *C) SetName(name string) {
+	c.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMA(A *A)
 	CreateORMB(B *B)
+	CreateORMC(C *C)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMA(A *A)
 	DeleteORMB(B *B)
+	DeleteORMC(C *C)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1043,6 +1203,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Bs_mapString = make(map[string]*B)
 	stage.B_stagedOrder = make(map[*B]uint)
 	stage.BOrder = 0
+
+	stage.Cs = make(map[*C]struct{})
+	stage.Cs_mapString = make(map[string]*C)
+	stage.C_stagedOrder = make(map[*C]uint)
+	stage.COrder = 0
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1059,6 +1224,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Bs = nil
 	stage.Bs_mapString = nil
 
+	stage.Cs = nil
+	stage.Cs_mapString = nil
+
 	// end of insertion point for array nil
 }
 
@@ -1069,6 +1237,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for b := range stage.Bs {
 		b.Unstage(stage)
+	}
+
+	for c := range stage.Cs {
+		c.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -1151,6 +1323,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.As).(*Type)
 	case map[*B]any:
 		return any(&stage.Bs).(*Type)
+	case map[*C]any:
+		return any(&stage.Cs).(*Type)
 	default:
 		return nil
 	}
@@ -1167,6 +1341,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.As_mapString).(map[string]Type)
 	case *B:
 		return any(stage.Bs_mapString).(map[string]Type)
+	case *C:
+		return any(stage.Cs_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -1183,6 +1359,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.As).(*map[*Type]struct{})
 	case B:
 		return any(&stage.Bs).(*map[*Type]struct{})
+	case C:
+		return any(&stage.Cs).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1199,6 +1377,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.As).(*map[Type]struct{})
 	case *B:
 		return any(&stage.Bs).(*map[Type]struct{})
+	case *C:
+		return any(&stage.Cs).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -1215,6 +1395,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.As_mapString).(*map[string]*Type)
 	case B:
 		return any(&stage.Bs_mapString).(*map[string]*Type)
+	case C:
+		return any(&stage.Cs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1236,9 +1418,17 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			B: &B{Name: "B"},
 			// field is initialized with an instance of B with the name of the field
 			Bs: []*B{{Name: "Bs"}},
+			// field is initialized with an instance of C with the name of the field
+			C: &C{Name: "C"},
+			// field is initialized with an instance of C with the name of the field
+			Cs: []*C{{Name: "Cs"}},
 		}).(*Type)
 	case B:
 		return any(&B{
+			// Initialisation of associations
+		}).(*Type)
+	case C:
+		return any(&C{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -1279,9 +1469,31 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "C":
+			res := make(map[*C][]*A)
+			for a := range stage.As {
+				if a.C != nil {
+					c_ := a.C
+					var as []*A
+					_, ok := res[c_]
+					if ok {
+						as = res[c_]
+					} else {
+						as = make([]*A, 0)
+					}
+					as = append(as, a)
+					res[c_] = as
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of B
 	case B:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of C
+	case C:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1312,9 +1524,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Cs":
+			res := make(map[*C][]*A)
+			for a := range stage.As {
+				for _, c_ := range a.Cs {
+					res[c_] = append(res[c_], a)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of B
 	case B:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of C
+	case C:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1333,6 +1558,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "A"
 	case *B:
 		res = "B"
+	case *C:
+		res = "C"
 	}
 	return res
 }
@@ -1358,6 +1585,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "A"
 		rf.Fieldname = "Bs"
+		res = append(res, rf)
+	case *C:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "A"
+		rf.Fieldname = "Cs"
 		res = append(res, rf)
 	}
 	return
@@ -1408,6 +1641,16 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "B",
 		},
 		{
+			Name:                 "C",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "C",
+		},
+		{
+			Name:                 "Cs",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "C",
+		},
+		{
 			Name:               "UUID",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -1416,6 +1659,17 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 func (b *B) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (c *C) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -1559,6 +1813,22 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "C":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if a.C != nil {
+			res.valueString = a.C.Name
+			res.ids = a.C.GongGetUUID(stage)
+		}
+	case "Cs":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range a.Cs {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "UUID":
 		res.valueString = a.UUID
 	}
@@ -1570,6 +1840,15 @@ func (b *B) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 	// string value of fields
 	case "Name":
 		res.valueString = b.Name
+	}
+	return
+}
+
+func (c *C) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = c.Name
 	}
 	return
 }
@@ -1618,6 +1897,31 @@ func (a *A) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 				}
 			}
 		}
+	case "C":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			a.C = nil
+			for __instance__ := range stage.Cs {
+				if stage.C_stagedOrder[__instance__] == uint(id) {
+					a.C = __instance__
+					break
+				}
+			}
+		}
+	case "Cs":
+		a.Cs = make([]*C, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Cs {
+					if stage.C_stagedOrder[__instance__] == uint(id) {
+						a.Cs = append(a.Cs, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "UUID":
 		a.UUID = value.GetValueString()
 	default:
@@ -1637,6 +1941,17 @@ func (b *B) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 	return nil
 }
 
+func (c *C) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		c.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1648,6 +1963,10 @@ func (a *A) GongGetGongstructName() string {
 
 func (b *B) GongGetGongstructName() string {
 	return "B"
+}
+
+func (c *C) GongGetGongstructName() string {
+	return "C"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -1665,6 +1984,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Bs_mapString = make(map[string]*B)
 	for b := range stage.Bs {
 		stage.Bs_mapString[b.Name] = b
+	}
+
+	stage.Cs_mapString = make(map[string]*C)
+	for c := range stage.Cs {
+		stage.Cs_mapString[c.Name] = c
 	}
 
 	// end of insertion point for generic get gongstruct name

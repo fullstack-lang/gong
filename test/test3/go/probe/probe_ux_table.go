@@ -28,6 +28,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.A](probe)
 	case "B":
 		updateProbeTable[*models.B](probe)
+	case "C":
+		updateProbeTable[*models.C](probe)
 	}
 }
 

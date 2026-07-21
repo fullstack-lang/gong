@@ -38,8 +38,17 @@ type A struct {
 
 	Bs []*B
 
+	C  *C
+	Cs []*C
+
 	UUID string
 }
 type B struct {
+	Name string
+}
+
+// gong:omit
+// C instances wont be marshalled
+type C struct {
 	Name string
 }

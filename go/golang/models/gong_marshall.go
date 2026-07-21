@@ -236,6 +236,12 @@ func CodeGeneratorModelGongMarshall(
 
 		for subStructTemplate := range ModelGongMarshallStructSubTemplateCode {
 
+			if gongStruct.IsOmittedForMarshalling &&
+				(subStructTemplate == ModelGongMarshallStructInsertionUnmarshallDeclarations ||
+					subStructTemplate == ModelGongMarshallStructInsertionUnmarshallPointersInitializations) {
+				continue
+			}
+
 			valInitCode := ""
 			valInitCode2 := ""
 			pointerInitCode := ""
@@ -297,6 +303,9 @@ func CodeGeneratorModelGongMarshall(
 						"{{FieldName}}", field.Name)
 					valInitCode2 += tmp
 				case *models.PointerToGongStructField:
+					if field.GongStruct.IsOmittedForMarshalling {
+						continue
+					}
 					pointerInitCode2 += `	case "` + field.GetName() + `":`
 					tmp := models.Replace2(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetPointerField],
@@ -307,6 +316,9 @@ func CodeGeneratorModelGongMarshall(
 						"{{FieldName}}", field.Name)
 					pointerInitCode2 += tmp
 				case *models.SliceOfPointerToGongStructField:
+					if field.GongStruct.IsOmittedForMarshalling {
+						continue
+					}
 					pointerInitCode2 += `	case "` + field.GetName() + `":`
 					tmp := models.Replace3(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetSliceOfPointersField],

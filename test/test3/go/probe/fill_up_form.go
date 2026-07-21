@@ -42,6 +42,8 @@ func FillUpForm(
 		EnumTypeIntToForm("EnumInt", instanceWithInferedType.EnumInt, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("B", instanceWithInferedType.B, formGroup, probe)
 		AssociationSliceToForm("Bs", instanceWithInferedType, &instanceWithInferedType.Bs, formGroup, probe)
+		AssociationFieldToForm("C", instanceWithInferedType.C, formGroup, probe)
+		AssociationSliceToForm("Cs", instanceWithInferedType, &instanceWithInferedType.Cs, formGroup, probe)
 		BasicFieldtoForm("UUID", instanceWithInferedType.UUID, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
@@ -68,6 +70,27 @@ func FillUpForm(
 				probe,
 				func(owner *models.A) []*models.B {
 					return owner.Bs
+				})
+		}
+
+	case *models.C:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.A, *models.C](
+				"A",
+				"Cs",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A) []*models.C {
+					return owner.Cs
 				})
 		}
 

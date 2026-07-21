@@ -507,6 +507,10 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName 
 		GongUnmarshallPointer(&instance.B, valueExpr, identifierMap)
 	case "Bs":
 		GongUnmarshallSliceOfPointers(&instance.Bs, valueExpr, identifierMap)
+	case "C":
+		GongUnmarshallPointer(&instance.C, valueExpr, identifierMap)
+	case "Cs":
+		GongUnmarshallSliceOfPointers(&instance.Cs, valueExpr, identifierMap)
 	case "UUID":
 		instance.UUID = GongExtractString(valueExpr)
 	}
@@ -533,6 +537,35 @@ func (u *BUnmarshaller) Initialize(stage *Stage, identifier string, instanceName
 
 func (u *BUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*B)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type CUnmarshaller struct{}
+
+func (u *CUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(C)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *CUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*C)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

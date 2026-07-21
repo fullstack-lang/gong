@@ -112,6 +112,40 @@ func (aFormCallback *AFormCallback) OnSave() {
 			a_.Bs = instanceSlice
 			aFormCallback.probe.UpdateSliceOfPointersCallback(a_, "Bs", &a_.Bs)
 
+		case "C":
+			FormDivSelectFieldToField(&(a_.C), aFormCallback.probe.stageOfInterest, formDiv)
+		case "Cs":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.C](aFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.C, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.C)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					aFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.C](aFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			a_.Cs = instanceSlice
+			aFormCallback.probe.UpdateSliceOfPointersCallback(a_, "Cs", &a_.Cs)
+
 		case "UUID":
 			FormDivBasicFieldToField(&(a_.UUID), formDiv)
 		}
@@ -267,4 +301,127 @@ func (bFormCallback *BFormCallback) OnSave() {
 	}
 
 	bFormCallback.probe.ux_tree()
+}
+func __gong__New__CFormCallback(
+	c *models.C,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (cFormCallback *CFormCallback) {
+	cFormCallback = new(CFormCallback)
+	cFormCallback.probe = probe
+	cFormCallback.c = c
+	cFormCallback.formGroup = formGroup
+
+	cFormCallback.CreationMode = (c == nil)
+
+	return
+}
+
+type CFormCallback struct {
+	c *models.C
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (cFormCallback *CFormCallback) OnSave() {
+	cFormCallback.probe.stageOfInterest.Lock()
+	defer cFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("CFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	cFormCallback.probe.formStage.Checkout()
+
+	if cFormCallback.c == nil {
+		cFormCallback.c = new(models.C).Stage(cFormCallback.probe.stageOfInterest)
+	}
+	c_ := cFormCallback.c
+	_ = c_
+
+	for _, formDiv := range cFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(c_.Name), formDiv)
+		case "A:Cs":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the A instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target A instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.A](cFormCallback.probe.stageOfInterest)
+			targetAIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all A instances and update their Cs slice
+			for _a := range *models.GetGongstructInstancesSetFromPointerType[*models.A](cFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(cFormCallback.probe.stageOfInterest, _a)
+				
+				// if A is selected
+				if targetAIDs[id] {
+					// ensure c_ is in _a.Cs
+					found := false
+					for _, _b := range _a.Cs {
+						if _b == c_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_a.Cs = append(_a.Cs, c_)
+						cFormCallback.probe.UpdateSliceOfPointersCallback(_a, "Cs", &_a.Cs)
+					}
+				} else {
+					// ensure c_ is NOT in _a.Cs
+					idx := slices.Index(_a.Cs, c_)
+					if idx != -1 {
+						_a.Cs = slices.Delete(_a.Cs, idx, idx+1)
+						cFormCallback.probe.UpdateSliceOfPointersCallback(_a, "Cs", &_a.Cs)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if cFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		c_.Unstage(cFormCallback.probe.stageOfInterest)
+	}
+
+	cFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.C](
+		cFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if cFormCallback.CreationMode || cFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		cFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(cFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__CFormCallback(
+			nil,
+			cFormCallback.probe,
+			newFormGroup,
+		)
+		c := new(models.C)
+		FillUpForm(c, newFormGroup, cFormCallback.probe)
+		cFormCallback.probe.formStage.Commit()
+	}
+
+	cFormCallback.probe.ux_tree()
 }
