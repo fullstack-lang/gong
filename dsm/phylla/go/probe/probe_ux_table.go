@@ -50,6 +50,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.GridPathShape](probe)
 	case "GrowthCurve2D":
 		updateProbeTable[*models.GrowthCurve2D](probe)
+	case "GrowthCurve2DRibbon":
+		updateProbeTable[*models.GrowthCurve2DRibbon](probe)
+	case "GrowthCurve2DRibbonEndShape":
+		updateProbeTable[*models.GrowthCurve2DRibbonEndShape](probe)
+	case "GrowthCurve2DRibbonStartShape":
+		updateProbeTable[*models.GrowthCurve2DRibbonStartShape](probe)
 	case "GrowthCurveRhombusGridShape":
 		updateProbeTable[*models.GrowthCurveRhombusGridShape](probe)
 	case "GrowthCurveRhombusShape":

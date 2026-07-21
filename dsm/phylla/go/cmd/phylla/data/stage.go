@@ -58,6 +58,16 @@ func _(stage *models.Stage) {
 
 	__GrowthCurve2D__00000000_ := (&models.GrowthCurve2D{Name: `Plant 1-GrowthCurve2D`}).Stage(stage)
 
+	__GrowthCurve2DRibbon__00000000_ := (&models.GrowthCurve2DRibbon{Name: `Plant 1-GrowthCurve2DRibbon`}).Stage(stage)
+
+	__GrowthCurve2DRibbonEndShape__00000000_ := (&models.GrowthCurve2DRibbonEndShape{Name: `Plant 1-GrowthCurve2DRibbon-end-0`}).Stage(stage)
+	__GrowthCurve2DRibbonEndShape__00000001_ := (&models.GrowthCurve2DRibbonEndShape{Name: `Plant 1-GrowthCurve2DRibbon-end-1`}).Stage(stage)
+	__GrowthCurve2DRibbonEndShape__00000002_ := (&models.GrowthCurve2DRibbonEndShape{Name: `Plant 1-GrowthCurve2DRibbon-end-2`}).Stage(stage)
+
+	__GrowthCurve2DRibbonStartShape__00000000_ := (&models.GrowthCurve2DRibbonStartShape{Name: `Plant 1-GrowthCurve2DRibbon-start-0`}).Stage(stage)
+	__GrowthCurve2DRibbonStartShape__00000001_ := (&models.GrowthCurve2DRibbonStartShape{Name: `Plant 1-GrowthCurve2DRibbon-start-1`}).Stage(stage)
+	__GrowthCurve2DRibbonStartShape__00000002_ := (&models.GrowthCurve2DRibbonStartShape{Name: `Plant 1-GrowthCurve2DRibbon-start-2`}).Stage(stage)
+
 	__GrowthCurveRhombusGridShape__00000001_ := (&models.GrowthCurveRhombusGridShape{Name: `Plant 1-GrowthCurveRhombusGridShape`}).Stage(stage)
 
 	__GrowthCurveRhombusShape__00024101_ := (&models.GrowthCurveRhombusShape{Name: `Plant 1-GrowthCurveRhombusGridShape-0`}).Stage(stage)
@@ -367,6 +377,128 @@ func _(stage *models.Stage) {
 
 	__GrowthCurve2D__00000000_.Name = `Plant 1-GrowthCurve2D`
 
+	__GrowthCurve2DRibbon__00000000_.Name = `Plant 1-GrowthCurve2DRibbon`
+
+	__GrowthCurve2DRibbonEndShape__00000000_.Name = `Plant 1-GrowthCurve2DRibbon-end-0`
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomStartX = 95.602830
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomStartY = 17.788246
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomEndX = 196.625391
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomEndY = 36.584910
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomRadiusX = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomRadiusY = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomLargeArcFlag = false
+	__GrowthCurve2DRibbonEndShape__00000000_.BottomSweepFlag = true
+	__GrowthCurve2DRibbonEndShape__00000000_.TopStartX = 96.554312
+	__GrowthCurve2DRibbonEndShape__00000000_.TopStartY = 27.742878
+	__GrowthCurve2DRibbonEndShape__00000000_.TopEndX = 197.576873
+	__GrowthCurve2DRibbonEndShape__00000000_.TopEndY = 46.539541
+	__GrowthCurve2DRibbonEndShape__00000000_.TopRadiusX = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000000_.TopRadiusY = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000000_.TopXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000000_.TopLargeArcFlag = false
+	__GrowthCurve2DRibbonEndShape__00000000_.TopSweepFlag = true
+
+	__GrowthCurve2DRibbonEndShape__00000001_.Name = `Plant 1-GrowthCurve2DRibbon-end-1`
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomStartX = 292.258095
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomStartY = -1.008417
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomEndX = 382.760228
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomEndY = -36.584910
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomRadiusX = 176.397764
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomRadiusY = 176.397764
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomLargeArcFlag = false
+	__GrowthCurve2DRibbonEndShape__00000001_.BottomSweepFlag = false
+	__GrowthCurve2DRibbonEndShape__00000001_.TopStartX = 293.209577
+	__GrowthCurve2DRibbonEndShape__00000001_.TopStartY = 8.946214
+	__GrowthCurve2DRibbonEndShape__00000001_.TopEndX = 383.711709
+	__GrowthCurve2DRibbonEndShape__00000001_.TopEndY = -26.630279
+	__GrowthCurve2DRibbonEndShape__00000001_.TopRadiusX = 176.397764
+	__GrowthCurve2DRibbonEndShape__00000001_.TopRadiusY = 176.397764
+	__GrowthCurve2DRibbonEndShape__00000001_.TopXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000001_.TopLargeArcFlag = false
+	__GrowthCurve2DRibbonEndShape__00000001_.TopSweepFlag = false
+
+	__GrowthCurve2DRibbonEndShape__00000002_.Name = `Plant 1-GrowthCurve2DRibbon-end-2`
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomStartX = 478.363058
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomStartY = -18.796663
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomEndX = 579.385619
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomEndY = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomRadiusX = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomRadiusY = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomLargeArcFlag = false
+	__GrowthCurve2DRibbonEndShape__00000002_.BottomSweepFlag = true
+	__GrowthCurve2DRibbonEndShape__00000002_.TopStartX = 479.314540
+	__GrowthCurve2DRibbonEndShape__00000002_.TopStartY = -8.842032
+	__GrowthCurve2DRibbonEndShape__00000002_.TopEndX = 580.337100
+	__GrowthCurve2DRibbonEndShape__00000002_.TopEndY = 9.954631
+	__GrowthCurve2DRibbonEndShape__00000002_.TopRadiusX = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000002_.TopRadiusY = 186.397764
+	__GrowthCurve2DRibbonEndShape__00000002_.TopXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonEndShape__00000002_.TopLargeArcFlag = false
+	__GrowthCurve2DRibbonEndShape__00000002_.TopSweepFlag = true
+
+	__GrowthCurve2DRibbonStartShape__00000000_.Name = `Plant 1-GrowthCurve2DRibbon-start-0`
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomStartX = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomStartY = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomEndX = 95.602830
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomEndY = 17.788246
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomRadiusX = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomRadiusY = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomLargeArcFlag = false
+	__GrowthCurve2DRibbonStartShape__00000000_.BottomSweepFlag = false
+	__GrowthCurve2DRibbonStartShape__00000000_.TopStartX = 0.951482
+	__GrowthCurve2DRibbonStartShape__00000000_.TopStartY = 9.954631
+	__GrowthCurve2DRibbonStartShape__00000000_.TopEndX = 96.554312
+	__GrowthCurve2DRibbonStartShape__00000000_.TopEndY = 27.742878
+	__GrowthCurve2DRibbonStartShape__00000000_.TopRadiusX = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000000_.TopRadiusY = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000000_.TopXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000000_.TopLargeArcFlag = false
+	__GrowthCurve2DRibbonStartShape__00000000_.TopSweepFlag = false
+
+	__GrowthCurve2DRibbonStartShape__00000001_.Name = `Plant 1-GrowthCurve2DRibbon-start-1`
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomStartX = 196.625391
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomStartY = 36.584910
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomEndX = 292.258095
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomEndY = -1.008417
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomRadiusX = 186.397764
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomRadiusY = 186.397764
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomLargeArcFlag = false
+	__GrowthCurve2DRibbonStartShape__00000001_.BottomSweepFlag = true
+	__GrowthCurve2DRibbonStartShape__00000001_.TopStartX = 197.576873
+	__GrowthCurve2DRibbonStartShape__00000001_.TopStartY = 46.539541
+	__GrowthCurve2DRibbonStartShape__00000001_.TopEndX = 293.209577
+	__GrowthCurve2DRibbonStartShape__00000001_.TopEndY = 8.946214
+	__GrowthCurve2DRibbonStartShape__00000001_.TopRadiusX = 186.397764
+	__GrowthCurve2DRibbonStartShape__00000001_.TopRadiusY = 186.397764
+	__GrowthCurve2DRibbonStartShape__00000001_.TopXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000001_.TopLargeArcFlag = false
+	__GrowthCurve2DRibbonStartShape__00000001_.TopSweepFlag = true
+
+	__GrowthCurve2DRibbonStartShape__00000002_.Name = `Plant 1-GrowthCurve2DRibbon-start-2`
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomStartX = 382.760228
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomStartY = -36.584910
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomEndX = 478.363058
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomEndY = -18.796663
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomRadiusX = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomRadiusY = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomLargeArcFlag = false
+	__GrowthCurve2DRibbonStartShape__00000002_.BottomSweepFlag = false
+	__GrowthCurve2DRibbonStartShape__00000002_.TopStartX = 383.711709
+	__GrowthCurve2DRibbonStartShape__00000002_.TopStartY = -26.630279
+	__GrowthCurve2DRibbonStartShape__00000002_.TopEndX = 479.314540
+	__GrowthCurve2DRibbonStartShape__00000002_.TopEndY = -8.842032
+	__GrowthCurve2DRibbonStartShape__00000002_.TopRadiusX = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000002_.TopRadiusY = 176.397764
+	__GrowthCurve2DRibbonStartShape__00000002_.TopXAxisRotation = 0.000000
+	__GrowthCurve2DRibbonStartShape__00000002_.TopLargeArcFlag = false
+	__GrowthCurve2DRibbonStartShape__00000002_.TopSweepFlag = false
+
 	__GrowthCurveRhombusGridShape__00000001_.Name = `Plant 1-GrowthCurveRhombusGridShape`
 
 	__GrowthCurveRhombusShape__00024101_.Name = `Plant 1-GrowthCurveRhombusGridShape-0`
@@ -387,7 +519,7 @@ func _(stage *models.Stage) {
 
 	__GrowthVectorShape__00000000_.Name = `Plant 1-GrowthVectorShape`
 	__GrowthVectorShape__00000000_.X = 196.625391
-	__GrowthVectorShape__00000000_.Y = 36.584910
+	__GrowthVectorShape__00000000_.Y = 36.584909
 
 	__InitialRhombusGridShape__00000001_.Name = `Plant 1-InitialRhombusGridShape`
 
@@ -438,7 +570,7 @@ func _(stage *models.Stage) {
 
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.Name = `-end-0`
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartX = 292.228221
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartY = 64.417466
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomStartY = 64.417465
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomEndX = 393.250782
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomEndY = 83.214129
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomRadiusX = 186.397764
@@ -448,8 +580,8 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.BottomSweepFlag = true
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopStartX = 293.179703
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopStartY = 74.372097
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndX = 394.202263
-	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndY = 93.168761
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndX = 394.202264
+	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopEndY = 93.168760
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopRadiusX = 186.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopRadiusY = 186.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000009_.TopXAxisRotation = 0.000000
@@ -458,18 +590,18 @@ func _(stage *models.Stage) {
 
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.Name = `-end-1`
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartX = 488.883486
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartY = 45.620803
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomStartY = 45.620802
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndX = 579.385619
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndY = 10.044310
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomEndY = 10.044309
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomRadiusX = 176.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomRadiusY = 176.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.BottomSweepFlag = false
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartX = 489.834968
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartY = 55.575434
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopStartY = 55.575433
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndX = 580.337100
-	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndY = 19.998941
+	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopEndY = 19.998940
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopRadiusX = 176.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopRadiusY = 176.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000010_.TopXAxisRotation = 0.000000
@@ -480,16 +612,16 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomStartX = 674.988449
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomStartY = 27.832556
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndX = 776.011010
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndY = 46.629220
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomEndY = 46.629219
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomRadiusX = 186.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomRadiusY = 186.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.BottomSweepFlag = true
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartX = 675.939931
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartY = 37.787188
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopStartY = 37.787187
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndX = 776.962491
-	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndY = 56.583851
+	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopEndY = 56.583850
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopRadiusX = 186.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopRadiusY = 186.397764
 	__PartiallyGrowthCurve2DRibbonEndShape__00000011_.TopXAxisRotation = 0.000000
@@ -498,16 +630,16 @@ func _(stage *models.Stage) {
 
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.Name = `-start-0`
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartX = 196.625391
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartY = 46.629220
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomStartY = 46.629219
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndX = 292.228221
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndY = 64.417466
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomEndY = 64.417465
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomRadiusX = 176.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomRadiusY = 176.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.BottomSweepFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartX = 197.576873
-	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartY = 56.583851
+	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopStartY = 56.583850
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopEndX = 293.179703
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopEndY = 74.372097
 	__PartiallyGrowthCurve2DRibbonStartShape__00000009_.TopRadiusX = 176.397764
@@ -520,16 +652,16 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomStartX = 393.250782
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomStartY = 83.214129
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndX = 488.883486
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndY = 45.620803
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomEndY = 45.620802
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomRadiusX = 186.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomRadiusY = 186.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomXAxisRotation = 0.000000
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.BottomSweepFlag = true
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartX = 394.202263
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartY = 93.168761
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartX = 394.202264
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopStartY = 93.168760
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndX = 489.834968
-	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndY = 55.575434
+	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopEndY = 55.575433
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopRadiusX = 186.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopRadiusY = 186.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000010_.TopXAxisRotation = 0.000000
@@ -538,7 +670,7 @@ func _(stage *models.Stage) {
 
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.Name = `-start-2`
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartX = 579.385619
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartY = 10.044310
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomStartY = 10.044309
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomEndX = 674.988449
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomEndY = 27.832556
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomRadiusX = 176.397764
@@ -547,9 +679,9 @@ func _(stage *models.Stage) {
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomLargeArcFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.BottomSweepFlag = false
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartX = 580.337100
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartY = 19.998941
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopStartY = 19.998940
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndX = 675.939931
-	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndY = 37.787188
+	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopEndY = 37.787187
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopRadiusX = 176.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopRadiusY = 176.397764
 	__PartiallyGrowthCurve2DRibbonStartShape__00000011_.TopXAxisRotation = 0.000000
@@ -559,14 +691,14 @@ func _(stage *models.Stage) {
 	__PartiallyRotatedTorusShape__00000000_.Name = `Plant 1-PartiallyRotatedTorusShape`
 
 	__PerpendicularVector__00019890_.Name = `Plant 1-PerpendicularVectorGrid-0`
-	__PerpendicularVector__00019890_.StartX = 0.000000
+	__PerpendicularVector__00019890_.StartX = -0.000000
 	__PerpendicularVector__00019890_.StartY = 0.000000
 	__PerpendicularVector__00019890_.EndX = 5.245277
 	__PerpendicularVector__00019890_.EndY = 54.877365
 
 	__PerpendicularVector__00019891_.Name = `Plant 1-PerpendicularVectorGrid-1`
 	__PerpendicularVector__00019891_.StartX = 196.625391
-	__PerpendicularVector__00019891_.StartY = 36.584910
+	__PerpendicularVector__00019891_.StartY = 36.584909
 	__PerpendicularVector__00019891_.EndX = 201.870668
 	__PerpendicularVector__00019891_.EndY = 91.462274
 
@@ -671,8 +803,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenTopGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenTopStackOfGrowthCurve2D = true
+	__PlantDiagram__00000001_.IsHiddenGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = false
+	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
@@ -1521,6 +1654,12 @@ func _(stage *models.Stage) {
 	__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes = append(__EndHalfwayArcShapeGrid__00000000_.EndHalfwayArcShapes, __EndHalfwayArcShape__00001440_)
 	__GrowthCurve2D__00000000_.StartHalfwayArcShapeGrid = __StartHalfwayArcShapeGrid__00000000_
 	__GrowthCurve2D__00000000_.EndHalfwayArcShapeGrid = __EndHalfwayArcShapeGrid__00000000_
+	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes, __GrowthCurve2DRibbonStartShape__00000000_)
+	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes, __GrowthCurve2DRibbonStartShape__00000001_)
+	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonStartShapes, __GrowthCurve2DRibbonStartShape__00000002_)
+	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes, __GrowthCurve2DRibbonEndShape__00000000_)
+	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes, __GrowthCurve2DRibbonEndShape__00000001_)
+	__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes = append(__GrowthCurve2DRibbon__00000000_.GrowthCurve2DRibbonEndShapes, __GrowthCurve2DRibbonEndShape__00000002_)
 	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024101_)
 	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024102_)
 	__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes = append(__GrowthCurveRhombusGridShape__00000001_.GrowthCurveRhombusShapes, __GrowthCurveRhombusShape__00024103_)
@@ -1574,7 +1713,9 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.StackOfGrowthCurve2DRibbon = __StackOfGrowthCurve2DRibbon__00000000_
 	__Plant__00000000_.StackOfRotatedGrowthCurve2DRibbon = __StackOfRotatedGrowthCurve2DRibbon__00000000_
 	__Plant__00000000_.PartiallyGrowthCurve2DRibbon = __PartiallyGrowthCurve2DRibbon__00000000_
+	__Plant__00000000_.GrowthCurve2DRibbon = __GrowthCurve2DRibbon__00000000_
 	__PlantDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000001_
+	__PlantDiagram__00000001_.GrowthCurve2DRibbon = nil
 	__PlantDiagram__00000001_.TorusStackShape = __TorusStackShape__00000000_
 	__PlantDiagram__00000001_.VerticalTorusStackShape = __VerticalTorusStackShape__00000000_
 	__PlantDiagram__00000001_.PartiallyRotatedTorusShape = __PartiallyRotatedTorusShape__00000000_
