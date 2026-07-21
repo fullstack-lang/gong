@@ -4,13 +4,27 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
 
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
 func (stager *Stager) ux_3d_plant_diagram() {
 
 	if true {
+		var is3DViewSelected bool
+		for view := range *split.GetGongstructInstancesSetFromPointerType[*split.View](stager.splitStage) {
+			if view.IsSelectedView && strings.Contains(view.Name, "3D") {
+				is3DViewSelected = true
+				break
+			}
+		}
+
+		if !is3DViewSelected {
+			return
+		}
+
 		var preservedX, preservedY, preservedZ float64
 		var preservedTargetX, preservedTargetY, preservedTargetZ float64
 		var preservedFov float64
@@ -411,63 +425,63 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
 						}
 
-					namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
+						namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
 
-					japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
+						japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
 
-					bottomFace := createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false)
-					topFace := createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true)
-					innerFace := createFaceMesh(namePrefix+" Inner", japanesePaperColor, innerEdges, true)
-					outerFace := createFaceMesh(namePrefix+" Outer", japanesePaperColor, outerEdges, false)
+						bottomFace := createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false)
+						topFace := createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true)
+						innerFace := createFaceMesh(namePrefix+" Inner", japanesePaperColor, innerEdges, true)
+						outerFace := createFaceMesh(namePrefix+" Outer", japanesePaperColor, outerEdges, false)
 
-					canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+						canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
 
-					createTube := func(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
-						curve := (&threejs.Curve{
-							Name: "Curve " + name,
-						}).Stage(stager.threejsStage)
+						createTube := func(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
+							curve := (&threejs.Curve{
+								Name: "Curve " + name,
+							}).Stage(stager.threejsStage)
 
-						for i := 0; i < len(edges); i++ {
-							p := edges[i][0]
-							if !useLeft {
-								p = edges[i][1]
+							for i := 0; i < len(edges); i++ {
+								p := edges[i][0]
+								if !useLeft {
+									p = edges[i][1]
+								}
+								curve.Points = append(curve.Points, (&threejs.Vector3{
+									Name: "CurvePoint " + name + " " + strconv.Itoa(i),
+									X:    p.X,
+									Y:    p.Y,
+									Z:    p.Z,
+								}).Stage(stager.threejsStage))
 							}
-							curve.Points = append(curve.Points, (&threejs.Vector3{
-								Name: "CurvePoint " + name + " " + strconv.Itoa(i),
-								X:    p.X,
-								Y:    p.Y,
-								Z:    p.Z,
-							}).Stage(stager.threejsStage))
+
+							tubeGeometry := (&threejs.TubeGeometry{
+								Name:            "TubeGeom " + name,
+								Path:            curve,
+								TubularSegments: 500,
+								Radius:          tubeRadius,
+								RadialSegments:  8,
+								Closed:          false,
+							}).Stage(stager.threejsStage)
+
+							return (&threejs.Mesh{
+								Name:              "TubeMesh " + name,
+								Position:          threejs.Position{X: 0, Y: 0, Z: 0},
+								TubeGeometry:      tubeGeometry,
+								MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
+							}).Stage(stager.threejsStage)
 						}
 
-						tubeGeometry := (&threejs.TubeGeometry{
-							Name:            "TubeGeom " + name,
-							Path:            curve,
-							TubularSegments: 500,
-							Radius:          tubeRadius,
-							RadialSegments:  8,
-							Closed:          false,
-						}).Stage(stager.threejsStage)
+						outerRadius := 0.1
+						innerRadius := outerRadius * 0.85
 
-						return (&threejs.Mesh{
-							Name:              "TubeMesh " + name,
-							Position:          threejs.Position{X: 0, Y: 0, Z: 0},
-							TubeGeometry:      tubeGeometry,
-							MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
-						}).Stage(stager.threejsStage)
-					}
+						bambooColor := "#4a3623" // dark brown
 
-					outerRadius := 0.1
-					innerRadius := outerRadius * 0.85
-
-					bambooColor := "#4a3623" // dark brown
-
-					canvas.Meshs = append(canvas.Meshs,
-						createTube(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
-						createTube(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
-						createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
-						createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
-					)
+						canvas.Meshs = append(canvas.Meshs,
+							createTube(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
+							createTube(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
+							createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
+							createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
+						)
 					}
 				}
 
@@ -518,11 +532,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
 					dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
 					thetaOffset := dx / globalR
-					
-					// The Y component of GrowthVectorShape is applied for the overall stack in 2D, 
+
+					// The Y component of GrowthVectorShape is applied for the overall stack in 2D,
 					// but here the dy from ComputePartiallyGrowthCurveDY ALREADY includes the Y-shift
 					// required to perfectly rest on the first ribbon (h=0).
-					
+
 					generateRibbonLayer(1, dx, dy, thetaOffset, "Partially Rotated Torus")
 				}
 
