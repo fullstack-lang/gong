@@ -150,6 +150,17 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"3D modulo",
+				1,
+				4,
+				1,
+				&plant.ThreeDModulo,
+			),
+		)
 	}
 
 	// Add sliders for PlantDiagram 3D view

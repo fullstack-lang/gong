@@ -93,7 +93,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			if circumference <= 0 {
 				circumference = 10.0
 			}
-			globalR = circumference / (2 * math.Pi)
+			threeDModulo := plant.ThreeDModulo
+			if threeDModulo < 1 {
+				threeDModulo = 1
+			}
+			globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 		}
 
 		if hasPreservedCamera {
@@ -352,53 +356,60 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 
 				generateRibbonLayer := func(h int, dx, dy, thetaOffset float64, baseNamePrefix string) {
-					var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
-
-					for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
-						p := curve.Points[i]
-						pTop := topCurve.Points[i]
-
-						thetaBase := math.Atan2(p.Z, p.X)
-						theta := thetaBase + thetaOffset
-
-						thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
-						thetaTop := thetaBaseTop + thetaOffset
-
-						yBase := p.Y + dy
-						yBaseTop := pTop.Y + dy
-
-						rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
-						rOuter := rBase + thickness
-
-						rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
-						rOuterTop := rBaseTop + thickness
-
-						xBL := rBase * math.Cos(theta)
-						zBL := rBase * math.Sin(theta)
-						yBL := yBase
-
-						xBR := rOuter * math.Cos(theta)
-						zBR := rOuter * math.Sin(theta)
-						yBR := yBase
-
-						xTL := rBaseTop * math.Cos(thetaTop)
-						zTL := rBaseTop * math.Sin(thetaTop)
-						yTL := yBaseTop
-
-						xTR := rOuterTop * math.Cos(thetaTop)
-						zTR := rOuterTop * math.Sin(thetaTop)
-						yTR := yBaseTop
-
-						vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
-						vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
-						vTL := (&threejs.Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stager.threejsStage)
-						vTR := (&threejs.Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stager.threejsStage)
-
-						bottomEdges = append(bottomEdges, [2]*threejs.Vector3{vBL, vBR})
-						topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
-						innerEdges = append(innerEdges, [2]*threejs.Vector3{vBL, vTL})
-						outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
+					threeDModulo := plant.ThreeDModulo
+					if threeDModulo < 1 {
+						threeDModulo = 1
 					}
+
+					for k := 0; k < threeDModulo; k++ {
+						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
+						var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
+
+						for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
+							p := curve.Points[i]
+							pTop := topCurve.Points[i]
+
+							thetaBase := math.Atan2(p.Z, p.X)
+							theta := thetaBase + thetaOffset + baseThetaOffset
+
+							thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
+							thetaTop := thetaBaseTop + thetaOffset + baseThetaOffset
+
+							yBase := p.Y + dy
+							yBaseTop := pTop.Y + dy
+
+							rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
+							rOuter := rBase + thickness
+
+							rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
+							rOuterTop := rBaseTop + thickness
+
+							xBL := rBase * math.Cos(theta)
+							zBL := rBase * math.Sin(theta)
+							yBL := yBase
+
+							xBR := rOuter * math.Cos(theta)
+							zBR := rOuter * math.Sin(theta)
+							yBR := yBase
+
+							xTL := rBaseTop * math.Cos(thetaTop)
+							zTL := rBaseTop * math.Sin(thetaTop)
+							yTL := yBaseTop
+
+							xTR := rOuterTop * math.Cos(thetaTop)
+							zTR := rOuterTop * math.Sin(thetaTop)
+							yTR := yBaseTop
+
+							vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
+							vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
+							vTL := (&threejs.Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stager.threejsStage)
+							vTR := (&threejs.Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stager.threejsStage)
+
+							bottomEdges = append(bottomEdges, [2]*threejs.Vector3{vBL, vBR})
+							topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
+							innerEdges = append(innerEdges, [2]*threejs.Vector3{vBL, vTL})
+							outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
+						}
 
 					namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
 
@@ -457,6 +468,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
 						createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 					)
+					}
 				}
 
 				stackHeight := plant.StackHeight

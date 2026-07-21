@@ -48,6 +48,11 @@ type Plant struct {
 	// 1.0 means the rotation of 2xPi x (GrowthVectorShape.X /  PlantCircumferenceShape.Length)
 	RotationRatio float64
 
+	// ThreeDModulo impacts the conversion from 2D ribbons to 3D torus.
+	// The 3D torus  is construed by 2Pi/ThreeDModulo each time it ranges over the  GrowthCurve2DRibbon
+	// If ThreeDModule is 1, the 3D torus wraps 360 degrees while ranging over the GrowthCurve2DRibbon
+	ThreeDModulo int
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -96,7 +101,6 @@ type Plant struct {
 	PartiallyGrowthCurve2DRibbon      *PartiallyGrowthCurve2DRibbon
 	GrowthCurve2DRibbon               *GrowthCurve2DRibbon
 	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
-
 }
 
 type RhombusStuff struct {

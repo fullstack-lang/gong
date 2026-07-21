@@ -3944,6 +3944,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.RelativeRotatedTorusSeparation), formDiv)
 		case "RotationRatio":
 			FormDivBasicFieldToField(&(plant_.RotationRatio), formDiv)
+		case "ThreeDModulo":
+			FormDivBasicFieldToField(&(plant_.ThreeDModulo), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
