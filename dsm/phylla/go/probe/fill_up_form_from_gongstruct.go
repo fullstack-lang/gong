@@ -630,6 +630,45 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ShiftedRightGrowthCurve2DRibbon:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ShiftedRightGrowthCurve2DRibbon",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedRightGrowthCurve2DRibbonFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ShiftedRightGrowthCurve2DRibbonEndShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ShiftedRightGrowthCurve2DRibbonEndShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedRightGrowthCurve2DRibbonEndShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ShiftedRightGrowthCurve2DRibbonStartShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ShiftedRightGrowthCurve2DRibbonStartShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ShiftedRightGrowthCurve2DRibbonStartShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.StackGrowthCurve2DEndHalfwayArcShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

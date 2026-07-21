@@ -118,6 +118,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ShiftedLeftStackOfGrowthCurve](probe)
 	case "ShiftedLeftStackOfNormalVector":
 		updateProbeTable[*models.ShiftedLeftStackOfNormalVector](probe)
+	case "ShiftedRightGrowthCurve2DRibbon":
+		updateProbeTable[*models.ShiftedRightGrowthCurve2DRibbon](probe)
+	case "ShiftedRightGrowthCurve2DRibbonEndShape":
+		updateProbeTable[*models.ShiftedRightGrowthCurve2DRibbonEndShape](probe)
+	case "ShiftedRightGrowthCurve2DRibbonStartShape":
+		updateProbeTable[*models.ShiftedRightGrowthCurve2DRibbonStartShape](probe)
 	case "StackGrowthCurve2DEndHalfwayArcShape":
 		updateProbeTable[*models.StackGrowthCurve2DEndHalfwayArcShape](probe)
 	case "StackGrowthCurve2DRibbonEndShape":
