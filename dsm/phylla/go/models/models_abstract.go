@@ -103,16 +103,3 @@ type Plant struct {
 	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
 }
 
-type RhombusStuff struct {
-	Name                           string
-	ReferenceRhombus               *RhombusShape
-	PlantCircumferenceShape        *PlantCircumferenceShape
-	GridPathShape                  *GridPathShape
-	InitialRhombusGridShape        *InitialRhombusGridShape
-	ExplanationTextShape           *ExplanationTextShape
-	RotatedReferenceRhombus        *RhombusShape
-	RotatedPlantCircumferenceShape *PlantCircumferenceShape
-	RotatedGridPathShape           *GridPathShape
-	RotatedRhombusGridShape2       *RotatedRhombusGridShape
-	GrowthCurveRhombusGridShape    *GrowthCurveRhombusGridShape
-}

@@ -44,30 +44,38 @@ type PlantDiagram struct {
 	IsHiddenShiftedLeftStackOfGrowthCurve     bool
 	IsHiddenShiftedLeftStackOfNormalVector    bool
 
-	IsHiddenGrowthCurve2D      bool
-	IsHiddenTopGrowthCurve2D   bool
+	IsHiddenGrowthCurve2D           bool
+	IsHiddenTopGrowthCurve2D        bool
 	IsHiddenStackOfGrowthCurve2D    bool
 	IsHiddenTopStackOfGrowthCurve2D bool
 
-	IsHiddenGrowthCurve2DRibbon             bool
-	IsHiddenShiftedRightGrowthCurve2DRibbon bool
-	IsHiddenStackOfGrowthCurve2DRibbon      bool
-	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
+	IsHiddenGrowthCurve2DRibbon                        bool
+	IsHiddenShiftedRightGrowthCurve2DRibbon            bool
+	IsHiddenStackOfGrowthCurve2DRibbon                 bool
+	IsHiddenStackOfRotatedGrowthCurve2DRibbon          bool
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
-	IsHiddenPartiallyGrowthCurve2DRibbon bool
-	IsHiddenTorusStackShape bool
-	IsHiddenVerticalTorusStackShape bool
-	IsHiddenPartiallyRotatedTorusShape bool
-	IsHiddenStackOfPartiallyRotatedTorusShape bool
+	IsHiddenPartiallyGrowthCurve2DRibbon               bool
+	IsHiddenTorusStackShape                            bool
+	IsHiddenVerticalTorusStackShape                    bool
+	IsHiddenPartiallyRotatedTorusShape                 bool
+	IsHiddenStackOfPartiallyRotatedTorusShape          bool
 
 	IsChecked bool
 	AbstractTypeFields
 
-	Rendered3DShape *Rendered3DShape
-	GrowthCurve2DRibbon *GrowthCurve2DRibbon
-	ShiftedRightGrowthCurve2DRibbon *ShiftedRightGrowthCurve2DRibbon
-	TorusStackShape *TorusStackShape
-	VerticalTorusStackShape *VerticalTorusStackShape
-	PartiallyRotatedTorusShape *PartiallyRotatedTorusShape
+	Rendered3DShape                   *Rendered3DShape
+	GrowthCurve2DRibbon               *GrowthCurve2DRibbon
+	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
+	TorusStackShape                   *TorusStackShape
+	VerticalTorusStackShape           *VerticalTorusStackShape
+	PartiallyRotatedTorusShape        *PartiallyRotatedTorusShape
 	StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape
+}
+
+type Rendered3DShape struct {
+	Name string
+
+	ViewX, ViewY, ViewZ       float64
+	TargetX, TargetY, TargetZ float64
+	Fov                       float64
 }
