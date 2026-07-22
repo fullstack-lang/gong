@@ -8207,6 +8207,12 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.ThreeDModulo != plantOther.ThreeDModulo {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ThreeDModulo"))
 	}
+	if plant.RelativeTrajectoryOffsetX != plantOther.RelativeTrajectoryOffsetX {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
+	}
+	if plant.RelativeTrajectoryOffsetY != plantOther.RelativeTrajectoryOffsetY {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
+	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
 	}

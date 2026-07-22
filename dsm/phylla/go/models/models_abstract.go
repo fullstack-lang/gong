@@ -53,6 +53,11 @@ type Plant struct {
 	// If ThreeDModule is 1, the 3D torus wraps 360 degrees while ranging over the GrowthCurve2DRibbon
 	ThreeDModulo int
 
+	// RelativeTrajectoryOffsetX x PlantCircumferenceShape.Length
+	// RelativeTrajectoryOffsetY x PlantCircumferenceShape.Length
+	// is taken into account for drawing the PartiallyGrowthCurve2DTrajectory
+	RelativeTrajectoryOffsetX, RelativeTrajectoryOffsetY float64
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -98,9 +103,9 @@ type Plant struct {
 
 	StackOfGrowthCurve2DRibbon        *StackOfGrowthCurve2DRibbon
 	StackOfRotatedGrowthCurve2DRibbon *StackOfRotatedGrowthCurve2DRibbon
-	PartiallyGrowthCurve2DRibbon      *PartiallyGrowthCurve2DRibbon
-	PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory
 	GrowthCurve2DRibbon               *GrowthCurve2DRibbon
 	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
-}
 
+	PartiallyGrowthCurve2DRibbon     *PartiallyGrowthCurve2DRibbon
+	PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory
+}

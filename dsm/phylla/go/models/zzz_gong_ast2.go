@@ -1785,6 +1785,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RotationRatio = GongExtractFloat(valueExpr)
 	case "ThreeDModulo":
 		instance.ThreeDModulo = GongExtractInt(valueExpr)
+	case "RelativeTrajectoryOffsetX":
+		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
+	case "RelativeTrajectoryOffsetY":
+		instance.RelativeTrajectoryOffsetY = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -1847,14 +1851,14 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DRibbon, valueExpr, identifierMap)
 	case "StackOfRotatedGrowthCurve2DRibbon":
 		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DTrajectory":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
 	case "GrowthCurve2DRibbon":
 		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
 	case "ShiftedRightGrowthCurve2DRibbon":
 		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DTrajectory":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
 	}
 	return nil
 }
