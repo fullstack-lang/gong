@@ -1404,6 +1404,9 @@ func (gongstruct *GongStruct) GongDiff(stage *Stage, gongstructOther *GongStruct
 	if gongstruct.IsIgnoredForFront != gongstructOther.IsIgnoredForFront {
 		diffs = append(diffs, gongstruct.GongMarshallField(stage, "IsIgnoredForFront"))
 	}
+	if gongstruct.IsOmittedForMarshalling != gongstructOther.IsOmittedForMarshalling {
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "IsOmittedForMarshalling"))
+	}
 
 	return
 }

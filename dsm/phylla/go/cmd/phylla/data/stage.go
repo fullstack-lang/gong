@@ -46,13 +46,13 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
 	__Plant__00000000_.StackHeight = 3
-	__Plant__00000000_.RhombusInsideAngle = 113.000000
-	__Plant__00000000_.RelativeVerticalThickness = 0.270000
+	__Plant__00000000_.RhombusInsideAngle = 130.000000
+	__Plant__00000000_.RelativeVerticalThickness = 0.300000
 	__Plant__00000000_.RelativeRadialThickness = 0.120000
 	__Plant__00000000_.RhombusSideLength = 240.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.715000
+	__Plant__00000000_.RotationRatio = 1.050000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true

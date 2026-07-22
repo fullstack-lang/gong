@@ -126,6 +126,8 @@ type GongStruct_WOP struct {
 	HasOnAfterUpdateSignature bool
 
 	IsIgnoredForFront bool
+
+	IsOmittedForMarshalling bool
 }
 
 func (from *GongStruct) CopyBasicFields(to *GongStruct) {
@@ -133,6 +135,7 @@ func (from *GongStruct) CopyBasicFields(to *GongStruct) {
 	to.Name = from.Name
 	to.HasOnAfterUpdateSignature = from.HasOnAfterUpdateSignature
 	to.IsIgnoredForFront = from.IsIgnoredForFront
+	to.IsOmittedForMarshalling = from.IsOmittedForMarshalling
 }
 
 type GongTimeField_WOP struct {

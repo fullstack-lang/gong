@@ -3446,6 +3446,10 @@ func (gongstruct *GongStruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsIgnoredForFront",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsOmittedForMarshalling",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -3887,6 +3891,10 @@ func (gongstruct *GongStruct) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueString = fmt.Sprintf("%t", gongstruct.IsIgnoredForFront)
 		res.valueBool = gongstruct.IsIgnoredForFront
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsOmittedForMarshalling":
+		res.valueString = fmt.Sprintf("%t", gongstruct.IsOmittedForMarshalling)
+		res.valueBool = gongstruct.IsOmittedForMarshalling
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4241,6 +4249,8 @@ func (gongstruct *GongStruct) GongSetFieldValue(fieldName string, value GongFiel
 		gongstruct.HasOnAfterUpdateSignature = value.GetValueBool()
 	case "IsIgnoredForFront":
 		gongstruct.IsIgnoredForFront = value.GetValueBool()
+	case "IsOmittedForMarshalling":
+		gongstruct.IsOmittedForMarshalling = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
