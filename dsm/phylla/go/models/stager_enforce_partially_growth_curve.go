@@ -33,8 +33,6 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 
 	_, dy, currentDX := ComputePartiallyGrowthCurveDY(plant)
 
-
-
 	type expectedStartShape struct {
 		name                         string
 		bottomStartX, bottomStartY   float64
@@ -124,7 +122,7 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -189,7 +187,7 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -253,6 +251,9 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 
 	numSteps := 100
 
+	pointsX := make([]float64, numSteps+1)
+	pointsY := make([]float64, numSteps+1)
+
 	var prevX, prevY float64
 	for step := 0; step <= numSteps; step++ {
 		r := float64(step) * 0.01
@@ -260,6 +261,9 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 
 		x := baseShape.BottomStartX + currentDX
 		y := baseShape.BottomStartY + dy
+
+		pointsX[step] = x
+		pointsY[step] = y
 
 		if step > 0 {
 			expected = append(expected, expectedSegment{
@@ -271,6 +275,33 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 			})
 		}
 		prevX, prevY = x, y
+	}
+
+	// Arc Verification Computation: Fit circle through P0 (step 0), P50 (step 50), P100 (step 100)
+	x1, y1 := pointsX[0], pointsY[0]
+	x2, y2 := pointsX[50], pointsY[50]
+	x3, y3 := pointsX[100], pointsY[100]
+
+	D := 2 * (x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2))
+	if math.Abs(D) > 1e-6 {
+		sq1 := x1*x1 + y1*y1
+		sq2 := x2*x2 + y2*y2
+		sq3 := x3*x3 + y3*y3
+
+		cx := (sq1*(y2-y3) + sq2*(y3-y1) + sq3*(y1-y2)) / D
+		cy := (sq1*(x3-x2) + sq2*(x1-x3) + sq3*(x2-x1)) / D
+		radius := math.Hypot(x1-cx, y1-cy)
+
+		maxDev := 0.0
+		for step := 0; step <= numSteps; step++ {
+			dev := math.Abs(math.Hypot(pointsX[step]-cx, pointsY[step]-cy) - radius)
+			if dev > maxDev {
+				maxDev = dev
+			}
+		}
+		// isArc := maxDev < 0.1
+		// log.Println(fmt.Sprintf("[Trajectory Arc Computation] Start=(%.2f, %.2f), Mid=(%.2f, %.2f), End=(%.2f, %.2f) | Fit Center=(%.2f, %.2f), Radius=%.2f | Max Deviation across 101 points=%.6f pixels | Is Exact Circular Arc: %v",
+		// x1, y1, x2, y2, x3, y3, cx, cy, radius, maxDev, isArc))
 	}
 
 	if len(traj.PartiallyGrowthCurve2DTrajectoryShapes) != len(expected) {
