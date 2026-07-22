@@ -127,14 +127,45 @@ func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, curren
 	}
 
 	perpDX := vThickness * vx
-	perpDY := vThickness * vy
 
 	dx = plant.RotationRatio*plant.GrowthVectorShape.X + perpDX
-	dy = plant.RotationRatio*plant.GrowthVectorShape.Y + perpDY
 
 	currentDX = math.Mod(dx, circLen)
 	if currentDX < 0 {
 		currentDX += circLen
+	}
+
+	minX := plant.PerpendicularVectorGrid.PerpendicularVectors[0].StartX
+	n := len(plant.PerpendicularVectorGrid.PerpendicularVectors)
+	maxX := plant.PerpendicularVectorGrid.PerpendicularVectors[n-1].StartX
+
+	dy = -1e9
+	steps := 3600
+	// The 3D torus is periodic. Check the entire circumference to find the global max dy!
+	for step := 0; step <= steps; step++ {
+		x := minX + (float64(step)/float64(steps))*(maxX-minX)
+		yTop := evaluateCurveY(plant, true, x)
+		
+		xBot := x - currentDX
+		// Wrap xBot so it stays within [minX, maxX] due to the cylindrical geometry
+		for xBot < minX {
+			xBot += circLen
+		}
+		for xBot > maxX {
+			xBot -= circLen
+		}
+		
+		yBot := evaluateCurveY(plant, false, xBot)
+		
+		if yTop != -1e9 && yBot != -1e9 {
+			if yTop-yBot > dy {
+				dy = yTop - yBot
+			}
+		}
+	}
+	
+	if dy == -1e9 {
+		dy = vThickness
 	}
 
 	return dx, dy, currentDX
