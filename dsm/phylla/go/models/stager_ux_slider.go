@@ -161,6 +161,30 @@ func (stager *Stager) ux_slider() {
 				&plant.ThreeDModulo,
 			),
 		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Traj offset X",
+				0,
+				0.05,
+				0.001,
+				&plant.RelativeTrajectoryOffsetX,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Traj offset Y",
+				-0.15,
+				0.0,
+				0.001,
+				&plant.RelativeTrajectoryOffsetY,
+			),
+		)
 	}
 
 	// Add sliders for PlantDiagram 3D view

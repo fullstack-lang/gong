@@ -327,10 +327,10 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedRightGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
 	return
 }
 

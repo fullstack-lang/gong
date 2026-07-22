@@ -4187,6 +4187,10 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.RotationRatio), formDiv)
 		case "ThreeDModulo":
 			FormDivBasicFieldToField(&(plant_.ThreeDModulo), formDiv)
+		case "RelativeTrajectoryOffsetX":
+			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetX), formDiv)
+		case "RelativeTrajectoryOffsetY":
+			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetY), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -4279,14 +4283,14 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfRotatedGrowthCurve2DRibbon":
 			FormDivSelectFieldToField(&(plant_.StackOfRotatedGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DTrajectory":
-			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectory), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2DRibbon":
 			FormDivSelectFieldToField(&(plant_.GrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedRightGrowthCurve2DRibbon":
 			FormDivSelectFieldToField(&(plant_.ShiftedRightGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DTrajectory":
+			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectory), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

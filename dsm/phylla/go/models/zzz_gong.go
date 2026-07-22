@@ -17022,14 +17022,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
 			// field is initialized with an instance of StackOfRotatedGrowthCurve2DRibbon with the name of the field
 			StackOfRotatedGrowthCurve2DRibbon: &StackOfRotatedGrowthCurve2DRibbon{Name: "StackOfRotatedGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
-			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
-			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
 			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
 			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
 			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
 			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
+			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
+			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -18000,40 +18000,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DRibbon":
-			res := make(map[*PartiallyGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DRibbon != nil {
-					partiallygrowthcurve2dribbon_ := plant.PartiallyGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[partiallygrowthcurve2dribbon_]
-					if ok {
-						plants = res[partiallygrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DTrajectory":
-			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DTrajectory != nil {
-					partiallygrowthcurve2dtrajectory_ := plant.PartiallyGrowthCurve2DTrajectory
-					var plants []*Plant
-					_, ok := res[partiallygrowthcurve2dtrajectory_]
-					if ok {
-						plants = res[partiallygrowthcurve2dtrajectory_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dtrajectory_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2DRibbon":
 			res := make(map[*GrowthCurve2DRibbon][]*Plant)
 			for plant := range stage.Plants {
@@ -18065,6 +18031,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[shiftedrightgrowthcurve2dribbon_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DRibbon":
+			res := make(map[*PartiallyGrowthCurve2DRibbon][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PartiallyGrowthCurve2DRibbon != nil {
+					partiallygrowthcurve2dribbon_ := plant.PartiallyGrowthCurve2DRibbon
+					var plants []*Plant
+					_, ok := res[partiallygrowthcurve2dribbon_]
+					if ok {
+						plants = res[partiallygrowthcurve2dribbon_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[partiallygrowthcurve2dribbon_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DTrajectory":
+			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PartiallyGrowthCurve2DTrajectory != nil {
+					partiallygrowthcurve2dtrajectory_ := plant.PartiallyGrowthCurve2DTrajectory
+					var plants []*Plant
+					_, ok := res[partiallygrowthcurve2dtrajectory_]
+					if ok {
+						plants = res[partiallygrowthcurve2dtrajectory_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[partiallygrowthcurve2dtrajectory_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -21086,6 +21086,14 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
+			Name:               "RelativeTrajectoryOffsetX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTrajectoryOffsetY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -21237,16 +21245,6 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "StackOfRotatedGrowthCurve2DRibbon",
 		},
 		{
-			Name:                 "PartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DTrajectory",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
-		},
-		{
 			Name:                 "GrowthCurve2DRibbon",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurve2DRibbon",
@@ -21255,6 +21253,16 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ShiftedRightGrowthCurve2DRibbon",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
 		},
 	}
 	return
@@ -24510,6 +24518,14 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", plant.ThreeDModulo)
 		res.valueInt = plant.ThreeDModulo
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "RelativeTrajectoryOffsetX":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetX)
+		res.valueFloat = plant.RelativeTrajectoryOffsetX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTrajectoryOffsetY":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetY)
+		res.valueFloat = plant.RelativeTrajectoryOffsetY
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -24690,18 +24706,6 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.StackOfRotatedGrowthCurve2DRibbon.Name
 			res.ids = plant.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
-	case "PartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DRibbon.Name
-			res.ids = plant.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DTrajectory != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DTrajectory.Name
-			res.ids = plant.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
-		}
 	case "GrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plant.GrowthCurve2DRibbon != nil {
@@ -24713,6 +24717,18 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		if plant.ShiftedRightGrowthCurve2DRibbon != nil {
 			res.valueString = plant.ShiftedRightGrowthCurve2DRibbon.Name
 			res.ids = plant.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = plant.PartiallyGrowthCurve2DRibbon.Name
+			res.ids = plant.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PartiallyGrowthCurve2DTrajectory != nil {
+			res.valueString = plant.PartiallyGrowthCurve2DTrajectory.Name
+			res.ids = plant.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
 		}
 	}
 	return
@@ -27828,6 +27844,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RotationRatio = value.GetValueFloat()
 	case "ThreeDModulo":
 		plant.ThreeDModulo = int(value.GetValueInt())
+	case "RelativeTrajectoryOffsetX":
+		plant.RelativeTrajectoryOffsetX = value.GetValueFloat()
+	case "RelativeTrajectoryOffsetY":
+		plant.RelativeTrajectoryOffsetY = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -28136,28 +28156,6 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
-	case "PartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
-				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DTrajectory = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
-				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DTrajectory = __instance__
-					break
-				}
-			}
-		}
 	case "GrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -28176,6 +28174,28 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
 				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
 					plant.ShiftedRightGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
+				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					plant.PartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PartiallyGrowthCurve2DTrajectory = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
+				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
+					plant.PartiallyGrowthCurve2DTrajectory = __instance__
 					break
 				}
 			}

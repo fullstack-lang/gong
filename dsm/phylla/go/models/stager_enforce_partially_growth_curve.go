@@ -254,13 +254,17 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	pointsX := make([]float64, numSteps+1)
 	pointsY := make([]float64, numSteps+1)
 
+	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
+	trajOffsetX := plant.RelativeTrajectoryOffsetX * circLen
+	trajOffsetY := plant.RelativeTrajectoryOffsetY * circLen
+
 	var prevX, prevY float64
 	for step := 0; step <= numSteps; step++ {
 		r := float64(step) * 0.01
 		_, dy, currentDX := ComputePartiallyGrowthCurveDYForRatio(plant, r)
 
-		x := baseShape.BottomStartX + currentDX
-		y := baseShape.BottomStartY + dy
+		x := baseShape.BottomStartX + currentDX + trajOffsetX
+		y := baseShape.BottomStartY + dy + trajOffsetY
 
 		pointsX[step] = x
 		pointsY[step] = y
