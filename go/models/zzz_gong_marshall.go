@@ -465,6 +465,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(gongstruct.GongMarshallField(stage, "SliceOfPointerToGongStructFields"))
 		initializerStatements.WriteString(gongstruct.GongMarshallField(stage, "HasOnAfterUpdateSignature"))
 		initializerStatements.WriteString(gongstruct.GongMarshallField(stage, "IsIgnoredForFront"))
+		initializerStatements.WriteString(gongstruct.GongMarshallField(stage, "IsOmittedForMarshalling"))
 	}
 
 	gongtimefieldOrdered := []*GongTimeField{}
@@ -1001,6 +1002,11 @@ func (gongstruct *GongStruct) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsIgnoredForFront")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstruct.IsIgnoredForFront))
+	case "IsOmittedForMarshalling":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsOmittedForMarshalling")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstruct.IsOmittedForMarshalling))
 
 	case "GongBasicFields":
 		var sb strings.Builder
@@ -1413,6 +1419,7 @@ func (gongstruct *GongStruct) GongMarshallAllFields(stage *Stage) (initRes strin
 		pointersInitializesStatements.WriteString(gongstruct.GongMarshallField(stage, "SliceOfPointerToGongStructFields"))
 		initializerStatements.WriteString(gongstruct.GongMarshallField(stage, "HasOnAfterUpdateSignature"))
 		initializerStatements.WriteString(gongstruct.GongMarshallField(stage, "IsIgnoredForFront"))
+		initializerStatements.WriteString(gongstruct.GongMarshallField(stage, "IsOmittedForMarshalling"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

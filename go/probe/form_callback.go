@@ -825,6 +825,8 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstruct_.HasOnAfterUpdateSignature), formDiv)
 		case "IsIgnoredForFront":
 			FormDivBasicFieldToField(&(gongstruct_.IsIgnoredForFront), formDiv)
+		case "IsOmittedForMarshalling":
+			FormDivBasicFieldToField(&(gongstruct_.IsOmittedForMarshalling), formDiv)
 		}
 	}
 

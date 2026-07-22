@@ -159,6 +159,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsIgnoredForFront", instanceWithInferedType.IsIgnoredForFront, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsOmittedForMarshalling", instanceWithInferedType.IsOmittedForMarshalling, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

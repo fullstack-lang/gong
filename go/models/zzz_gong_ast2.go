@@ -684,6 +684,8 @@ func (u *GongStructUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		instance.HasOnAfterUpdateSignature = GongExtractBool(valueExpr)
 	case "IsIgnoredForFront":
 		instance.IsIgnoredForFront = GongExtractBool(valueExpr)
+	case "IsOmittedForMarshalling":
+		instance.IsOmittedForMarshalling = GongExtractBool(valueExpr)
 	}
 	return nil
 }
