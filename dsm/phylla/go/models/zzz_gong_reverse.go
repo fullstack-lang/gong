@@ -329,6 +329,31 @@ func (inst *PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwnerName
 	return
 }
 
+func (inst *PartiallyGrowthCurve2DTrajectory) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PartiallyGrowthCurve2DTrajectory":
+		switch reverseField.Fieldname {
+		case "PartiallyGrowthCurve2DTrajectoryShapes":
+			if _partiallygrowthcurve2dtrajectory, ok := stage.PartiallyGrowthCurve2DTrajectory_PartiallyGrowthCurve2DTrajectoryShapes_reverseMap[inst]; ok {
+				res = _partiallygrowthcurve2dtrajectory.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *PartiallyRotatedTorusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1369,6 +1394,29 @@ func (inst *PartiallyGrowthCurve2DRibbonStartShape) GongGetReverseFieldOwner(sta
 		switch reverseField.Fieldname {
 		case "PartiallyGrowthCurve2DRibbonStartShapes":
 			res = stage.PartiallyGrowthCurve2DRibbon_PartiallyGrowthCurve2DRibbonStartShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *PartiallyGrowthCurve2DTrajectory) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "PartiallyGrowthCurve2DTrajectory":
+		switch reverseField.Fieldname {
+		case "PartiallyGrowthCurve2DTrajectoryShapes":
+			res = stage.PartiallyGrowthCurve2DTrajectory_PartiallyGrowthCurve2DTrajectoryShapes_reverseMap[inst]
 		}
 	}
 	return res

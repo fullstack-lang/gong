@@ -91,6 +91,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawStackOfGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawStackOfRotatedGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DRibbon(stager, layer, plant)
+	plantDiagram.drawPartiallyGrowthCurve2DTrajectory(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 
@@ -2157,5 +2158,31 @@ func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *St
 		path.Presentation.FillOpacity = 0.5
 		path.Presentation.Color = "rosybrown"
 		path.Presentation.Stroke = "none"
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory {
+		return
+	}
+
+	if plant.PartiallyGrowthCurve2DTrajectory == nil {
+		return
+	}
+
+	for _, shape := range plant.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+
+		line.Name = shape.Name
+
+		line.X1 = plantDiagram.OriginX + shape.StartX
+		line.Y1 = plantDiagram.OriginY - shape.StartY
+		line.X2 = plantDiagram.OriginX + shape.EndX
+		line.Y2 = plantDiagram.OriginY - shape.EndY
+
+		line.Presentation.Stroke = "purple"
+		line.Presentation.StrokeWidth = 2.0
+		line.Presentation.StrokeOpacity = 1.0
 	}
 }

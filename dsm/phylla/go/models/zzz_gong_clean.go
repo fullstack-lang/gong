@@ -244,6 +244,21 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectory
+func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dtrajectory.PartiallyGrowthCurve2DTrajectoryShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryShape
+func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PartiallyRotatedTorusShape
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -313,6 +328,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedRightGrowthCurve2DRibbon) || modified
 	return

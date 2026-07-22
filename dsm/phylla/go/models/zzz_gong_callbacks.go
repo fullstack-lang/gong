@@ -114,6 +114,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *PartiallyGrowthCurve2DTrajectory:
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryCreateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PartiallyRotatedTorusShape:
 		if stage.OnAfterPartiallyRotatedTorusShapeCreateCallback != nil {
 			stage.OnAfterPartiallyRotatedTorusShapeCreateCallback.OnAfterCreate(stage, target)
@@ -498,6 +506,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*PartiallyGrowthCurve2DRibbonStartShape)
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartiallyGrowthCurve2DTrajectory:
+		newTarget := any(new).(*PartiallyGrowthCurve2DTrajectory)
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryUpdateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		newTarget := any(new).(*PartiallyGrowthCurve2DTrajectoryShape)
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PartiallyRotatedTorusShape:
 		newTarget := any(new).(*PartiallyRotatedTorusShape)
@@ -939,6 +957,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*PartiallyGrowthCurve2DRibbonStartShape)
 			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *PartiallyGrowthCurve2DTrajectory:
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryDeleteCallback != nil {
+			staged := any(staged).(*PartiallyGrowthCurve2DTrajectory)
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback != nil {
+			staged := any(staged).(*PartiallyGrowthCurve2DTrajectoryShape)
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PartiallyRotatedTorusShape:
 		if stage.OnAfterPartiallyRotatedTorusShapeDeleteCallback != nil {
 			staged := any(staged).(*PartiallyRotatedTorusShape)
@@ -1352,6 +1380,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *PartiallyGrowthCurve2DTrajectory:
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryReadCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryReadCallback.OnAfterRead(stage, target)
+		}
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback != nil {
+			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *PartiallyRotatedTorusShape:
 		if stage.OnAfterPartiallyRotatedTorusShapeReadCallback != nil {
 			stage.OnAfterPartiallyRotatedTorusShapeReadCallback.OnAfterRead(stage, target)
@@ -1653,6 +1689,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonEndShape])
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbonStartShape])
+	case *PartiallyGrowthCurve2DTrajectory:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectory])
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -1832,6 +1872,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbonEndShape])
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbonStartShape])
+	case *PartiallyGrowthCurve2DTrajectory:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectory])
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -2011,6 +2055,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonEndShape])
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbonStartShape])
+	case *PartiallyGrowthCurve2DTrajectory:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectory])
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -2190,6 +2238,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPartiallyGrowthCurve2DRibbonEndShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbonEndShape])
 	case *PartiallyGrowthCurve2DRibbonStartShape:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonStartShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbonStartShape])
+	case *PartiallyGrowthCurve2DTrajectory:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DTrajectory])
+	case *PartiallyGrowthCurve2DTrajectoryShape:
+		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:

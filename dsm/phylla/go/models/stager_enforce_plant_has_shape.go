@@ -471,6 +471,18 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n21 || needCommit
 
+	n21_traj := enforcePlantHasShape[*PartiallyGrowthCurve2DTrajectory](
+		stager,
+		func() *PartiallyGrowthCurve2DTrajectory { return new(PartiallyGrowthCurve2DTrajectory) },
+		func(p *Plant) *PartiallyGrowthCurve2DTrajectory { return p.PartiallyGrowthCurve2DTrajectory },
+		func(p *Plant, shape *PartiallyGrowthCurve2DTrajectory) { p.PartiallyGrowthCurve2DTrajectory = shape },
+		func(p *Plant, shape *PartiallyGrowthCurve2DTrajectory) bool {
+			return p.PartiallyGrowthCurve2DTrajectory == shape
+		},
+		"PartiallyGrowthCurve2DTrajectory",
+	)
+	needCommit = n21_traj || needCommit
+
 	n22 := enforcePlantHasShape[*GrowthCurve2DRibbon](
 		stager,
 		func() *GrowthCurve2DRibbon { return new(GrowthCurve2DRibbon) },

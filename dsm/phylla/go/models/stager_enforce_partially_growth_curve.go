@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"math"
 )
 
 func enforcePartiallyGrowthCurve2DRibbonHasShapes(
@@ -209,6 +210,95 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 				b.TopXAxisRotation = exp.topXAxisRotation
 				b.TopLargeArcFlag = exp.topLargeArcFlag
 				b.TopSweepFlag = exp.topSweepFlag
+				needCommit = true
+			}
+		}
+	}
+
+	return needCommit
+}
+
+func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
+	stage *Stage,
+	plant *Plant,
+) (needCommit bool) {
+	traj := plant.PartiallyGrowthCurve2DTrajectory
+	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
+
+	if traj == nil || baseRibbonStack == nil || plant.GrowthVectorShape == nil || plant.RhombusStuff == nil || plant.RhombusStuff.PlantCircumferenceShape == nil || plant.PerpendicularVectorGrid == nil || len(plant.PerpendicularVectorGrid.PerpendicularVectors) < 2 {
+		if traj != nil && len(traj.PartiallyGrowthCurve2DTrajectoryShapes) > 0 {
+			for _, s := range traj.PartiallyGrowthCurve2DTrajectoryShapes {
+				s.Unstage(stage)
+			}
+			traj.PartiallyGrowthCurve2DTrajectoryShapes = nil
+			return true
+		}
+		return false
+	}
+
+	expectedLen := len(plant.PerpendicularVectorGrid.PerpendicularVectors) - 1
+	if len(baseRibbonStack.StackGrowthCurve2DRibbonStartShapes) < expectedLen {
+		return false
+	}
+
+	baseShape := baseRibbonStack.StackGrowthCurve2DRibbonStartShapes[0]
+
+	type expectedSegment struct {
+		name           string
+		startX, startY float64
+		endX, endY     float64
+	}
+
+	var expected []expectedSegment
+
+	numSteps := 100
+
+	var prevX, prevY float64
+	for step := 0; step <= numSteps; step++ {
+		r := float64(step) * 0.01
+		_, dy, currentDX := ComputePartiallyGrowthCurveDYForRatio(plant, r)
+
+		x := baseShape.BottomStartX + currentDX
+		y := baseShape.BottomStartY + dy
+
+		if step > 0 {
+			expected = append(expected, expectedSegment{
+				name:   fmt.Sprintf("%s-segment-%d", traj.Name, step-1),
+				startX: prevX,
+				startY: prevY,
+				endX:   x,
+				endY:   y,
+			})
+		}
+		prevX, prevY = x, y
+	}
+
+	if len(traj.PartiallyGrowthCurve2DTrajectoryShapes) != len(expected) {
+		for _, s := range traj.PartiallyGrowthCurve2DTrajectoryShapes {
+			s.Unstage(stage)
+		}
+		traj.PartiallyGrowthCurve2DTrajectoryShapes = make([]*PartiallyGrowthCurve2DTrajectoryShape, len(expected))
+		for i, exp := range expected {
+			s := new(PartiallyGrowthCurve2DTrajectoryShape).Stage(stage)
+			s.Name = exp.name
+			s.StartX = exp.startX
+			s.StartY = exp.startY
+			s.EndX = exp.endX
+			s.EndY = exp.endY
+			traj.PartiallyGrowthCurve2DTrajectoryShapes[i] = s
+		}
+		needCommit = true
+	} else {
+		for i, exp := range expected {
+			s := traj.PartiallyGrowthCurve2DTrajectoryShapes[i]
+			if s.Name != exp.name ||
+				math.Abs(s.StartX-exp.startX) > 1e-4 || math.Abs(s.StartY-exp.startY) > 1e-4 ||
+				math.Abs(s.EndX-exp.endX) > 1e-4 || math.Abs(s.EndY-exp.endY) > 1e-4 {
+				s.Name = exp.name
+				s.StartX = exp.startX
+				s.StartY = exp.startY
+				s.EndX = exp.endX
+				s.EndY = exp.endY
 				needCommit = true
 			}
 		}

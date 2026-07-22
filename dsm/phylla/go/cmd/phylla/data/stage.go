@@ -46,13 +46,13 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
 	__Plant__00000000_.StackHeight = 3
-	__Plant__00000000_.RhombusInsideAngle = 130.000000
+	__Plant__00000000_.RhombusInsideAngle = 89.000000
 	__Plant__00000000_.RelativeVerticalThickness = 0.300000
 	__Plant__00000000_.RelativeRadialThickness = 0.120000
 	__Plant__00000000_.RhombusSideLength = 240.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.915000
+	__Plant__00000000_.RotationRatio = 1.000000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
@@ -108,6 +108,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
+	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = false
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
@@ -117,9 +118,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 1422.973661
-	__Rendered3DShape__00000000_.ViewY = 333.094053
-	__Rendered3DShape__00000000_.ViewZ = 1473.881636
+	__Rendered3DShape__00000000_.ViewX = 1422.868336
+	__Rendered3DShape__00000000_.ViewY = 333.076301
+	__Rendered3DShape__00000000_.ViewZ = 1473.987327
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000

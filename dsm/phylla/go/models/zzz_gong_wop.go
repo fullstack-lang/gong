@@ -654,6 +654,40 @@ func (from *PartiallyGrowthCurve2DRibbonStartShape) CopyBasicFields(to *Partiall
 	to.TopSweepFlag = from.TopSweepFlag
 }
 
+type PartiallyGrowthCurve2DTrajectory_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyGrowthCurve2DTrajectory) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectory) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type PartiallyGrowthCurve2DTrajectoryShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryShape) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
 type PartiallyRotatedTorusShape_WOP struct {
 	// insertion point
 
@@ -907,6 +941,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPartiallyGrowthCurve2DRibbon bool
 
+	IsHiddenPartiallyGrowthCurve2DTrajectory bool
+
 	IsHiddenTorusStackShape bool
 
 	IsHiddenVerticalTorusStackShape bool
@@ -973,6 +1009,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
 	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
 	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
+	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
