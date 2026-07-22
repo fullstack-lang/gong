@@ -76,6 +76,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPartiallyGrowthCurve2DRibbonStartShape := make(map[*PartiallyGrowthCurve2DRibbonStartShape]bool)
 	refPartiallyGrowthCurve2DRibbonEndShape := make(map[*PartiallyGrowthCurve2DRibbonEndShape]bool)
 
+	refPartiallyGrowthCurve2DTrajectory := make(map[*PartiallyGrowthCurve2DTrajectory]bool)
+	refPartiallyGrowthCurve2DTrajectoryShape := make(map[*PartiallyGrowthCurve2DTrajectoryShape]bool)
+
 	refGrowthCurve2DRibbon := make(map[*GrowthCurve2DRibbon]bool)
 	refGrowthCurve2DRibbonStartShape := make(map[*GrowthCurve2DRibbonStartShape]bool)
 	refGrowthCurve2DRibbonEndShape := make(map[*GrowthCurve2DRibbonEndShape]bool)
@@ -301,6 +304,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			for _, end := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
 				refPartiallyGrowthCurve2DRibbonEndShape[end] = true
+			}
+		}
+
+		if plant.PartiallyGrowthCurve2DTrajectory != nil {
+			refPartiallyGrowthCurve2DTrajectory[plant.PartiallyGrowthCurve2DTrajectory] = true
+			for _, shape := range plant.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
+				refPartiallyGrowthCurve2DTrajectoryShape[shape] = true
 			}
 		}
 
@@ -769,6 +779,20 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DRibbonEndShape](stage) {
 		if !refPartiallyGrowthCurve2DRibbonEndShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectory](stage) {
+		if !refPartiallyGrowthCurve2DTrajectory[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryShape](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

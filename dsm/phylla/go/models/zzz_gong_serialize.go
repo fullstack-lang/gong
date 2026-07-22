@@ -51,6 +51,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DRibbon](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DRibbonEndShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DRibbonStartShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DTrajectory](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DTrajectoryShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PartiallyRotatedTorusShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PerpendicularVector](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PerpendicularVectorGrid](stage, f, addIDs)

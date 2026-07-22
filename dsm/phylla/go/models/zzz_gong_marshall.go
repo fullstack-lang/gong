@@ -431,6 +431,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedGrowthCurve2DRibbon"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DRibbon"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
@@ -1566,6 +1567,56 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	return
 }
 
+func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectory.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectory.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PartiallyGrowthCurve2DTrajectory", fieldName)
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryshape.Name))
+	case "StartX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryshape.StartX))
+	case "StartY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryshape.StartY))
+	case "EndX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryshape.EndX))
+	case "EndY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryshape.EndY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PartiallyGrowthCurve2DTrajectoryShape", fieldName)
+	}
+	return
+}
+
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2054,6 +2105,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPartiallyGrowthCurve2DRibbon")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon))
+	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPartiallyGrowthCurve2DTrajectory")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory))
 	case "IsHiddenTorusStackShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -4690,6 +4746,32 @@ func (partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartS
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(partiallygrowthcurve2dtrajectory.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(partiallygrowthcurve2dtrajectoryshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(partiallygrowthcurve2dtrajectoryshape.GongMarshallField(stage, "StartX"))
+		initializerStatements.WriteString(partiallygrowthcurve2dtrajectoryshape.GongMarshallField(stage, "StartY"))
+		initializerStatements.WriteString(partiallygrowthcurve2dtrajectoryshape.GongMarshallField(stage, "EndX"))
+		initializerStatements.WriteString(partiallygrowthcurve2dtrajectoryshape.GongMarshallField(stage, "EndY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -4847,6 +4929,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedGrowthCurve2DRibbon"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DRibbon"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))

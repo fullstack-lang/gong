@@ -370,6 +370,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.PartiallyGrowthCurve2DTrajectory:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "PartiallyGrowthCurve2DTrajectory",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.PartiallyGrowthCurve2DTrajectoryShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "PartiallyGrowthCurve2DTrajectoryShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PartiallyRotatedTorusShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

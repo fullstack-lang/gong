@@ -884,3 +884,19 @@ type PartiallyGrowthCurve2DRibbonEndShape struct {
 	TopLargeArcFlag        bool
 	TopSweepFlag           bool
 }
+
+// PartiallyGrowthCurve2DTrajectory of a plant,
+// gong:omit
+type PartiallyGrowthCurve2DTrajectory struct {
+	Name string
+
+	PartiallyGrowthCurve2DTrajectoryShapes []*PartiallyGrowthCurve2DTrajectoryShape
+}
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}

@@ -104,7 +104,7 @@ func evalArcY(x0, y0, x1, y1, cx, cy, R, x float64) float64 {
 	return bestY
 }
 
-func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, currentDX float64) {
+func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) (dx float64, dy float64, currentDX float64) {
 	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
 	if circLen <= 0 {
 		return 0, 0, 0
@@ -128,7 +128,7 @@ func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, curren
 
 	perpDX := vThickness * vx
 
-	dx = plant.RotationRatio*plant.GrowthVectorShape.X + perpDX
+	dx = rotationRatio*plant.GrowthVectorShape.X + perpDX
 
 	currentDX = math.Mod(dx, circLen)
 	if currentDX < 0 {
@@ -169,4 +169,8 @@ func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, curren
 	}
 
 	return dx, dy, currentDX
+}
+
+func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, currentDX float64) {
+	return ComputePartiallyGrowthCurveDYForRatio(plant, plant.RotationRatio)
 }

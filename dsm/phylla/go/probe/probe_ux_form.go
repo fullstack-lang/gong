@@ -177,6 +177,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dribbonstartshape, probe)
 			}
+		case *PartiallyGrowthCurve2DTrajectoryFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectory", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectory, probe)
+			}
+		case *PartiallyGrowthCurve2DTrajectoryShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryshape, probe)
+			}
 		case *PartiallyRotatedTorusShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyRotatedTorusShape", true)
@@ -904,6 +916,32 @@ func FillUpFormFromGongstructName(
 		partiallygrowthcurve2dribbonstartshape := new(models.PartiallyGrowthCurve2DRibbonStartShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(partiallygrowthcurve2dribbonstartshape, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectory":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectory Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectory := new(models.PartiallyGrowthCurve2DTrajectory)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectory, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryshape := new(models.PartiallyGrowthCurve2DTrajectoryShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryshape, formGroup, probe)
 	case "PartiallyRotatedTorusShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
