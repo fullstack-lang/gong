@@ -682,11 +682,16 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 			pxX = plant.PxShape.X
 			pxY = plant.PxShape.Y
 		}
+		d1 := math.Hypot(p1x-pxX, p1y-pxY)
+		d2 := math.Hypot(p2x-pxX, p2y-pxY)
+		sum := d1 + d2
+
 		expectedName := fmt.Sprintf("%s-ChosenP1P2Pair", plant.Name)
 		if plant.ChosenP1P2PairShape.Name != expectedName ||
 			math.Abs(plant.ChosenP1P2PairShape.P1X-p1x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P1Y-p1y) > 1e-4 ||
 			math.Abs(plant.ChosenP1P2PairShape.P2X-p2x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P2Y-p2y) > 1e-4 ||
-			math.Abs(plant.ChosenP1P2PairShape.PxX-pxX) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.PxY-pxY) > 1e-4 {
+			math.Abs(plant.ChosenP1P2PairShape.PxX-pxX) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.PxY-pxY) > 1e-4 ||
+			math.Abs(plant.ChosenP1P2PairShape.DistanceP1Px-d1) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.DistanceP2Px-d2) > 1e-4 {
 			plant.ChosenP1P2PairShape.Name = expectedName
 			plant.ChosenP1P2PairShape.P1X = p1x
 			plant.ChosenP1P2PairShape.P1Y = p1y
@@ -694,6 +699,9 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 			plant.ChosenP1P2PairShape.P2Y = p2y
 			plant.ChosenP1P2PairShape.PxX = pxX
 			plant.ChosenP1P2PairShape.PxY = pxY
+			plant.ChosenP1P2PairShape.DistanceP1Px = d1
+			plant.ChosenP1P2PairShape.DistanceP2Px = d2
+			plant.ChosenP1P2PairShape.DistanceSum = sum
 			needCommit = true
 		}
 	}

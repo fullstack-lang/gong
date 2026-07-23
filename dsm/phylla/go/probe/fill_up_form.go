@@ -129,6 +129,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("PxY", instanceWithInferedType.PxY, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DistanceP1Px", instanceWithInferedType.DistanceP1Px, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DistanceP2Px", instanceWithInferedType.DistanceP2Px, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("DistanceSum", instanceWithInferedType.DistanceSum, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

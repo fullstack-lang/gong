@@ -644,6 +644,12 @@ func (chosenp1p2pairshapeFormCallback *ChosenP1P2PairShapeFormCallback) OnSave()
 			FormDivBasicFieldToField(&(chosenp1p2pairshape_.PxX), formDiv)
 		case "PxY":
 			FormDivBasicFieldToField(&(chosenp1p2pairshape_.PxY), formDiv)
+		case "DistanceP1Px":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.DistanceP1Px), formDiv)
+		case "DistanceP2Px":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.DistanceP2Px), formDiv)
+		case "DistanceSum":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.DistanceSum), formDiv)
 		}
 	}
 

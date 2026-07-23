@@ -2406,7 +2406,18 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 	circleP2.Presentation.Stroke = "darkred"
 	circleP2.Presentation.StrokeWidth = 1.5
 	circleP2.Presentation.StrokeOpacity = 1.0
+
+	// Text showing distances: P1 to Px, P2 to Px, and Sum
+	textDist := new(svg.Text)
+	layer.Texts = append(layer.Texts, textDist)
+	textDist.Name = chosen.Name + "-Distances-Text"
+	textDist.X = plantDiagram.OriginX + chosen.P1X - 30
+	textDist.Y = plantDiagram.OriginY - chosen.P1Y + 18
+	textDist.Content = fmt.Sprintf("P1-Px: %.2f  P2-Px: %.2f  Sum: %.2f", chosen.DistanceP1Px, chosen.DistanceP2Px, chosen.DistanceSum)
+	textDist.Presentation.Color = "darkred"
+	textDist.Presentation.FillOpacity = 1.0
 }
+
 
 
 
