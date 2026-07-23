@@ -2416,6 +2416,116 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 	textDist.Content = fmt.Sprintf("P1-Px: %.2f  P2-Px: %.2f  Sum: %.2f", chosen.DistanceP1Px, chosen.DistanceP2Px, chosen.DistanceSum)
 	textDist.Presentation.Color = "darkred"
 	textDist.Presentation.FillOpacity = 1.0
+
+	// Draw Partial Ellipse defined ONLY by P1 & P2 (independent of ratio)
+	if plant.PartiallyGrowthCurve2DTrajectory != nil {
+		traj := plant.PartiallyGrowthCurve2DTrajectory
+		nShapes := len(traj.PartiallyGrowthCurve2DTrajectoryShapes)
+		if nShapes > 0 {
+			x1 := traj.PartiallyGrowthCurve2DTrajectoryShapes[0].StartX
+			y1 := traj.PartiallyGrowthCurve2DTrajectoryShapes[0].StartY
+			x3 := traj.PartiallyGrowthCurve2DTrajectoryShapes[nShapes-1].EndX
+			y3 := traj.PartiallyGrowthCurve2DTrajectoryShapes[nShapes-1].EndY
+			midIdx := nShapes / 2
+			x2 := traj.PartiallyGrowthCurve2DTrajectoryShapes[midIdx].EndX
+			y2 := traj.PartiallyGrowthCurve2DTrajectoryShapes[midIdx].EndY
+
+			// 3-point circle fit (x1, y1), (x2, y2), (x3, y3)
+			D := 2 * (x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2))
+			if math.Abs(D) > 1e-6 {
+				sq1 := x1*x1 + y1*y1
+				sq2 := x2*x2 + y2*y2
+				sq3 := x3*x3 + y3*y3
+
+				cx := (sq1*(y2-y3) + sq2*(y3-y1) + sq3*(y1-y2)) / D
+				cy := (sq1*(x3-x2) + sq2*(x1-x3) + sq3*(x2-x1)) / D
+				radius := math.Hypot(x1-cx, y1-cy)
+
+				if radius > 0 {
+					dxChord := x3 - x1
+					dyChord := y3 - y1
+					chordLen := math.Hypot(dxChord, dyChord)
+					if chordLen > 0 {
+						ux := dxChord / chordLen
+						uy := dyChord / chordLen
+
+						mx := (x1 + x3) / 2.0
+						my := (y1 + y3) / 2.0
+
+						vxRaw := -uy
+						vyRaw := ux
+						dotMid := (x2-mx)*vxRaw + (y2-my)*vyRaw
+						if dotMid < 0 {
+							vxRaw = -vxRaw
+							vyRaw = -vyRaw
+						}
+						vx := vxRaw
+						vy := vyRaw
+
+						R1 := math.Abs((mx-cx)*vx + (my-cy)*vy)
+						R2 := radius - R1
+
+						if R1 >= 0 && R2 > 0 {
+							refSteps := plant.NbStepP1P2
+							if refSteps <= 0 {
+								refSteps = 10
+							}
+							chosenK := plant.ChosenStep
+							if chosenK < 0 {
+								chosenK = 0
+							}
+							if chosenK > refSteps {
+								chosenK = refSteps
+							}
+
+							yValChosen := float64(chosenK) * R1 / float64(refSteps)
+							yLineChosen := -yValChosen
+
+							cVal := math.Sqrt(2 * (R1 + yLineChosen) * (R2 - yLineChosen))
+							bVal := R2 - yLineChosen
+							aVal := math.Sqrt(bVal*bVal + cVal*cVal)
+
+							ellipseCenterX := mx - yValChosen*vx
+							ellipseCenterY := my - yValChosen*vy
+
+							sinCutoff := yValChosen / bVal
+							if sinCutoff < 0.0 {
+								sinCutoff = 0.0
+							}
+							if sinCutoff > 1.0 {
+								sinCutoff = 1.0
+							}
+							tMin := math.Asin(sinCutoff)
+							tMax := math.Pi - tMin
+
+							numEllipseSteps := 80
+							ellipsePtsX := make([]float64, numEllipseSteps+1)
+							ellipsePtsY := make([]float64, numEllipseSteps+1)
+
+							for i := 0; i <= numEllipseSteps; i++ {
+								t := tMin + float64(i)*(tMax-tMin)/float64(numEllipseSteps)
+								ellipsePtsX[i] = plantDiagram.OriginX + (ellipseCenterX + aVal*math.Cos(t)*ux + bVal*math.Sin(t)*vx)
+								ellipsePtsY[i] = plantDiagram.OriginY - (ellipseCenterY + aVal*math.Cos(t)*uy + bVal*math.Sin(t)*vy)
+							}
+
+							for i := 0; i < numEllipseSteps; i++ {
+								lineE := new(svg.Line)
+								layer.Lines = append(layer.Lines, lineE)
+								lineE.Name = fmt.Sprintf("%s-Partial-Ellipse-Seg-%d", chosen.Name, i)
+								lineE.X1 = ellipsePtsX[i]
+								lineE.Y1 = ellipsePtsY[i]
+								lineE.X2 = ellipsePtsX[i+1]
+								lineE.Y2 = ellipsePtsY[i+1]
+								lineE.Presentation.Stroke = "darkorange"
+								lineE.Presentation.StrokeWidth = 2.0
+								lineE.Presentation.StrokeOpacity = 1.0
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 
