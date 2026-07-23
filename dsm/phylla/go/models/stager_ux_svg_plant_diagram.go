@@ -2356,6 +2356,31 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 	line.Presentation.StrokeWidth = 2.5
 	line.Presentation.StrokeOpacity = 1.0
 
+	// Line connecting Chosen P1 and Px
+	lineP1Px := new(svg.Line)
+	layer.Lines = append(layer.Lines, lineP1Px)
+	lineP1Px.Name = chosen.Name + "-P1-Px-Line"
+	lineP1Px.X1 = plantDiagram.OriginX + chosen.P1X
+	lineP1Px.Y1 = plantDiagram.OriginY - chosen.P1Y
+	lineP1Px.X2 = plantDiagram.OriginX + chosen.PxX
+	lineP1Px.Y2 = plantDiagram.OriginY - chosen.PxY
+	lineP1Px.Presentation.Stroke = "darkred"
+	lineP1Px.Presentation.StrokeWidth = 1.5
+	lineP1Px.Presentation.StrokeOpacity = 0.9
+
+	// Line connecting Chosen P2 and Px
+	lineP2Px := new(svg.Line)
+	layer.Lines = append(layer.Lines, lineP2Px)
+	lineP2Px.Name = chosen.Name + "-P2-Px-Line"
+	lineP2Px.X1 = plantDiagram.OriginX + chosen.P2X
+	lineP2Px.Y1 = plantDiagram.OriginY - chosen.P2Y
+	lineP2Px.X2 = plantDiagram.OriginX + chosen.PxX
+	lineP2Px.Y2 = plantDiagram.OriginY - chosen.PxY
+	lineP2Px.Presentation.Stroke = "darkred"
+	lineP2Px.Presentation.StrokeWidth = 1.5
+	lineP2Px.Presentation.StrokeOpacity = 0.9
+
+
 	// Chosen P1 Dot
 	circleP1 := new(svg.Circle)
 	layer.Circles = append(layer.Circles, circleP1)

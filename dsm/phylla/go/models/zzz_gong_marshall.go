@@ -727,6 +727,16 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallField(stage *Stage, 
 		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "P2Y")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.P2Y))
+	case "PxX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PxX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.PxX))
+	case "PxY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PxY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.PxY))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ChosenP1P2PairShape", fieldName)
@@ -4679,6 +4689,8 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallAllFields(stage *Sta
 		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P1Y"))
 		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P2X"))
 		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P2Y"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "PxX"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "PxY"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

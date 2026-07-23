@@ -21914,6 +21914,14 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldHeaders() (res []Gon
 			Name:               "P2Y",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "PxX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "PxY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -25572,6 +25580,14 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldValue(fieldName stri
 	case "P2Y":
 		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.P2Y)
 		res.valueFloat = chosenp1p2pairshape.P2Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "PxX":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.PxX)
+		res.valueFloat = chosenp1p2pairshape.PxX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "PxY":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.PxY)
+		res.valueFloat = chosenp1p2pairshape.PxY
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
@@ -29267,6 +29283,10 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongSetFieldValue(fieldName stri
 		chosenp1p2pairshape.P2X = value.GetValueFloat()
 	case "P2Y":
 		chosenp1p2pairshape.P2Y = value.GetValueFloat()
+	case "PxX":
+		chosenp1p2pairshape.PxX = value.GetValueFloat()
+	case "PxY":
+		chosenp1p2pairshape.PxY = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

@@ -52,12 +52,12 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RhombusSideLength = 500.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.000000
+	__Plant__00000000_.RotationRatio = 0.350000
 	__Plant__00000000_.ThreeDModulo = 3
-	__Plant__00000000_.RelativeTrajectoryOffsetX = 0.035000
-	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.077000
+	__Plant__00000000_.RelativeTrajectoryOffsetX = 0.016000
+	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.028000
 	__Plant__00000000_.NbStepP1P2 = 17
-	__Plant__00000000_.ChosenStep = 5
+	__Plant__00000000_.ChosenStep = 6
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
 	__Plant__00000000_.IsSelected = true
@@ -112,7 +112,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
-	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = true
+	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = false
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
 	__PlantDiagram__00000001_.IsHiddenPxShape = false
 	__PlantDiagram__00000001_.IsHiddenChosenP1P2PairShape = false

@@ -963,7 +963,14 @@ type ChosenP1P2PairShape struct {
 
 	P1X, P1Y float64
 	P2X, P2Y float64
+	PxX, PxY float64
+
+	DistanceP1Px float64
+	DistanceP2Px float64
+	DistanceSum  float64
 }
+
+
 
 
 
