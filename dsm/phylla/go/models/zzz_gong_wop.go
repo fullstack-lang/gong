@@ -1071,6 +1071,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
 
+	IsHiddenPxShape bool
+
 	IsHiddenTorusStackShape bool
 
 	IsHiddenVerticalTorusStackShape bool
@@ -1139,6 +1141,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
 	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
 	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
+	to.IsHiddenPxShape = from.IsHiddenPxShape
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
@@ -1146,6 +1149,23 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+}
+
+type PxShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *PxShape) CopyBasicFields(to *PxShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
 }
 
 type Rendered3DShape_WOP struct {

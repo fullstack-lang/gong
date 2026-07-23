@@ -163,6 +163,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Plant](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PlantCircumferenceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PlantDiagram](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PxShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Rendered3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RhombusShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RhombusStuff](stage)

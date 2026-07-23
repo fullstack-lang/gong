@@ -379,6 +379,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
+	modified = GongCleanPointer(stage, &plant.PxShape) || modified
 	return
 }
 
@@ -400,6 +401,13 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.VerticalTorusStackShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.StackOfPartiallyRotatedTorusShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PxShape
+func (pxshape *PxShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 

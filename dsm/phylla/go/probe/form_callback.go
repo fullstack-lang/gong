@@ -5182,6 +5182,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectory), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2":
 			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectoryP1P2), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PxShape":
+			FormDivSelectFieldToField(&(plant_.PxShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5487,6 +5489,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectory), formDiv)
 		case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
+		case "IsHiddenPxShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPxShape), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":
@@ -5590,6 +5594,88 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 	}
 
 	plantdiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__PxShapeFormCallback(
+	pxshape *models.PxShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (pxshapeFormCallback *PxShapeFormCallback) {
+	pxshapeFormCallback = new(PxShapeFormCallback)
+	pxshapeFormCallback.probe = probe
+	pxshapeFormCallback.pxshape = pxshape
+	pxshapeFormCallback.formGroup = formGroup
+
+	pxshapeFormCallback.CreationMode = (pxshape == nil)
+
+	return
+}
+
+type PxShapeFormCallback struct {
+	pxshape *models.PxShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (pxshapeFormCallback *PxShapeFormCallback) OnSave() {
+	pxshapeFormCallback.probe.stageOfInterest.Lock()
+	defer pxshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PxShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	pxshapeFormCallback.probe.formStage.Checkout()
+
+	if pxshapeFormCallback.pxshape == nil {
+		pxshapeFormCallback.pxshape = new(models.PxShape).Stage(pxshapeFormCallback.probe.stageOfInterest)
+	}
+	pxshape_ := pxshapeFormCallback.pxshape
+	_ = pxshape_
+
+	for _, formDiv := range pxshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(pxshape_.Name), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(pxshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(pxshape_.Y), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if pxshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		pxshape_.Unstage(pxshapeFormCallback.probe.stageOfInterest)
+	}
+
+	pxshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PxShape](
+		pxshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if pxshapeFormCallback.CreationMode || pxshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		pxshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(pxshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PxShapeFormCallback(
+			nil,
+			pxshapeFormCallback.probe,
+			newFormGroup,
+		)
+		pxshape := new(models.PxShape)
+		FillUpForm(pxshape, newFormGroup, pxshapeFormCallback.probe)
+		pxshapeFormCallback.probe.formStage.Commit()
+	}
+
+	pxshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__Rendered3DShapeFormCallback(
 	rendered3dshape *models.Rendered3DShape,

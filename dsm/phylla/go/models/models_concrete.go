@@ -950,4 +950,12 @@ type PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape struct {
 	EndX, EndY     float64
 }
 
+// gong:omit
+type PxShape struct {
+	Name string
+
+	X, Y float64
+}
+
+
 

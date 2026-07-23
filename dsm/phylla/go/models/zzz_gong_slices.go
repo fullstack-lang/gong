@@ -170,6 +170,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct PlantDiagram
 	// insertion point per field
 
+	// Compute reverse map for named struct PxShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Rendered3DShape
 	// insertion point per field
 
@@ -497,6 +500,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.PlantDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PxShapes {
 		res = append(res, instance)
 	}
 
@@ -963,6 +970,12 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongCopy() GongstructIF 
 func (plantdiagram *PlantDiagram) GongCopy() GongstructIF {
 	newInstance := new(PlantDiagram)
 	plantdiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (pxshape *PxShape) GongCopy() GongstructIF {
+	newInstance := new(PxShape)
+	pxshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1700,6 +1713,16 @@ func (plantdiagram *PlantDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantdiagram), uint64(GetOrderPointerGongstruct(stage, plantdiagram)))
+	return
+}
+
+func (pxshape *PxShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(pxshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pxshape), uint64(GetOrderPointerGongstruct(stage, pxshape)))
 	return
 }
 
@@ -2916,6 +2939,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.PlantDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.PxShapes_reference = make(map[*PxShape]*PxShape)
+	stage.PxShapes_referenceOrder = make(map[*PxShape]uint) // diff Unstage needs the reference order
+	stage.PxShapes_instance = make(map[*PxShape]*PxShape)
+	for instance := range stage.PxShapes {
+		_copy := instance.GongCopy().(*PxShape)
+		stage.PxShapes_reference[instance] = _copy
+		stage.PxShapes_instance[_copy] = instance
+		stage.PxShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Rendered3DShapes_reference = make(map[*Rendered3DShape]*Rendered3DShape)
 	stage.Rendered3DShapes_referenceOrder = make(map[*Rendered3DShape]uint) // diff Unstage needs the reference order
 	stage.Rendered3DShapes_instance = make(map[*Rendered3DShape]*Rendered3DShape)
@@ -3639,6 +3672,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.PlantDiagrams {
 		reference := stage.PlantDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PxShapes {
+		reference := stage.PxShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -4419,6 +4457,18 @@ func (plantdiagram *PlantDiagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type PlantDiagram was not staged and does not have a reference order", plantdiagram)
+		return 0
+	}
+}
+
+func (pxshape *PxShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PxShape_stagedOrder[pxshape]; ok {
+		return order
+	}
+	if order, ok := stage.PxShapes_referenceOrder[pxshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PxShape was not staged and does not have a reference order", pxshape)
 		return 0
 	}
 }
@@ -5427,6 +5477,15 @@ func (plantdiagram *PlantDiagram) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
 }
 
+func (pxshape *PxShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", pxshape.GongGetGongstructName(), pxshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (pxshape *PxShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", pxshape.GongGetGongstructName(), pxshape.GongGetOrder(stage))
+}
+
 func (rendered3dshape *Rendered3DShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", rendered3dshape.GongGetGongstructName(), rendered3dshape.GongGetOrder(stage))
 }
@@ -6233,6 +6292,14 @@ func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (pxshape *PxShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pxshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PxShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pxshape.Name))
+	return
+}
+
 func (rendered3dshape *Rendered3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rendered3dshape.GongGetIdentifier(stage))
@@ -6897,6 +6964,12 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallUnstaging(st
 func (plantdiagram *PlantDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (pxshape *PxShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pxshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

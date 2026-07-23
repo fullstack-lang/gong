@@ -342,8 +342,29 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	needCommitP1P2 := enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(stage, plant, pointsX, pointsY)
 	needCommit = needCommit || needCommitP1P2
 
+	_, dyCurrent, currentDXCurrent := ComputePartiallyGrowthCurveDY(plant)
+	pxX := baseShape.BottomStartX + currentDXCurrent + trajOffsetX
+	pxY := baseShape.BottomStartY + dyCurrent + trajOffsetY
+	needCommitPx := enforcePxShape(stage, plant, pxX, pxY)
+	needCommit = needCommit || needCommitPx
+
 	return needCommit
 }
+
+func enforcePxShape(stage *Stage, plant *Plant, pxX, pxY float64) (needCommit bool) {
+	if plant.PxShape == nil {
+		return false
+	}
+	expectedName := fmt.Sprintf("%s-Px", plant.Name)
+	if plant.PxShape.Name != expectedName || math.Abs(plant.PxShape.X-pxX) > 1e-4 || math.Abs(plant.PxShape.Y-pxY) > 1e-4 {
+		plant.PxShape.Name = expectedName
+		plant.PxShape.X = pxX
+		plant.PxShape.Y = pxY
+		needCommit = true
+	}
+	return needCommit
+}
+
 
 func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 	stage *Stage,
