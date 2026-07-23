@@ -677,15 +677,23 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 		p1y := p1PtsY[chosenK]
 		p2x := p2PtsX[chosenK]
 		p2y := p2PtsY[chosenK]
+		var pxX, pxY float64
+		if plant.PxShape != nil {
+			pxX = plant.PxShape.X
+			pxY = plant.PxShape.Y
+		}
 		expectedName := fmt.Sprintf("%s-ChosenP1P2Pair", plant.Name)
 		if plant.ChosenP1P2PairShape.Name != expectedName ||
 			math.Abs(plant.ChosenP1P2PairShape.P1X-p1x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P1Y-p1y) > 1e-4 ||
-			math.Abs(plant.ChosenP1P2PairShape.P2X-p2x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P2Y-p2y) > 1e-4 {
+			math.Abs(plant.ChosenP1P2PairShape.P2X-p2x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P2Y-p2y) > 1e-4 ||
+			math.Abs(plant.ChosenP1P2PairShape.PxX-pxX) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.PxY-pxY) > 1e-4 {
 			plant.ChosenP1P2PairShape.Name = expectedName
 			plant.ChosenP1P2PairShape.P1X = p1x
 			plant.ChosenP1P2PairShape.P1Y = p1y
 			plant.ChosenP1P2PairShape.P2X = p2x
 			plant.ChosenP1P2PairShape.P2Y = p2y
+			plant.ChosenP1P2PairShape.PxX = pxX
+			plant.ChosenP1P2PairShape.PxY = pxY
 			needCommit = true
 		}
 	}

@@ -125,6 +125,10 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("P2Y", instanceWithInferedType.P2Y, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PxX", instanceWithInferedType.PxX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PxY", instanceWithInferedType.PxY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

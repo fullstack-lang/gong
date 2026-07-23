@@ -664,6 +664,10 @@ func (u *ChosenP1P2PairShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 		instance.P2X = GongExtractFloat(valueExpr)
 	case "P2Y":
 		instance.P2Y = GongExtractFloat(valueExpr)
+	case "PxX":
+		instance.PxX = GongExtractFloat(valueExpr)
+	case "PxY":
+		instance.PxY = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

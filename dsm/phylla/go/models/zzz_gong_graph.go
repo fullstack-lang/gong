@@ -8130,6 +8130,12 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongDiff(stage *Stage, chosenp1p
 	if chosenp1p2pairshape.P2Y != chosenp1p2pairshapeOther.P2Y {
 		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "P2Y"))
 	}
+	if chosenp1p2pairshape.PxX != chosenp1p2pairshapeOther.PxX {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "PxX"))
+	}
+	if chosenp1p2pairshape.PxY != chosenp1p2pairshapeOther.PxY {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "PxY"))
+	}
 
 	return
 }
