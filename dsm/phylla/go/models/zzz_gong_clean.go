@@ -77,6 +77,13 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ChosenP1P2PairShape
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by CircleGridShape
 func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -380,6 +387,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
 	modified = GongCleanPointer(stage, &plant.PxShape) || modified
+	modified = GongCleanPointer(stage, &plant.ChosenP1P2PairShape) || modified
 	return
 }
 

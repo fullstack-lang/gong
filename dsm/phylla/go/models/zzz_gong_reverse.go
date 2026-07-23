@@ -61,6 +61,15 @@ func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwnerName(stage *Stage, reve
 	return
 }
 
+func (inst *ChosenP1P2PairShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *CircleGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1241,6 +1250,15 @@ func (inst *BaseVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField
 }
 
 func (inst *BaseVectorShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *ChosenP1P2PairShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

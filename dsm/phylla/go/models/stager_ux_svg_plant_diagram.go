@@ -94,6 +94,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectory(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant)
 	plantDiagram.drawPxShape(stager, layer, plant)
+	plantDiagram.drawChosenP1P2PairShape(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 
@@ -2331,6 +2332,57 @@ func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, 
 	text.Presentation.Color = "magenta"
 	text.Presentation.FillOpacity = 1.0
 }
+
+func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenChosenP1P2PairShape {
+		return
+	}
+
+	if plant.ChosenP1P2PairShape == nil {
+		return
+	}
+
+	chosen := plant.ChosenP1P2PairShape
+
+	// Line connecting Chosen P1 and P2
+	line := new(svg.Line)
+	layer.Lines = append(layer.Lines, line)
+	line.Name = chosen.Name + "-Line"
+	line.X1 = plantDiagram.OriginX + chosen.P1X
+	line.Y1 = plantDiagram.OriginY - chosen.P1Y
+	line.X2 = plantDiagram.OriginX + chosen.P2X
+	line.Y2 = plantDiagram.OriginY - chosen.P2Y
+	line.Presentation.Stroke = "darkred"
+	line.Presentation.StrokeWidth = 2.5
+	line.Presentation.StrokeOpacity = 1.0
+
+	// Chosen P1 Dot
+	circleP1 := new(svg.Circle)
+	layer.Circles = append(layer.Circles, circleP1)
+	circleP1.Name = chosen.Name + "-P1-Dot"
+	circleP1.CX = plantDiagram.OriginX + chosen.P1X
+	circleP1.CY = plantDiagram.OriginY - chosen.P1Y
+	circleP1.Radius = 4.0
+	circleP1.Presentation.Color = "red"
+	circleP1.Presentation.FillOpacity = 1.0
+	circleP1.Presentation.Stroke = "darkred"
+	circleP1.Presentation.StrokeWidth = 1.5
+	circleP1.Presentation.StrokeOpacity = 1.0
+
+	// Chosen P2 Dot
+	circleP2 := new(svg.Circle)
+	layer.Circles = append(layer.Circles, circleP2)
+	circleP2.Name = chosen.Name + "-P2-Dot"
+	circleP2.CX = plantDiagram.OriginX + chosen.P2X
+	circleP2.CY = plantDiagram.OriginY - chosen.P2Y
+	circleP2.Radius = 4.0
+	circleP2.Presentation.Color = "red"
+	circleP2.Presentation.FillOpacity = 1.0
+	circleP2.Presentation.Stroke = "darkred"
+	circleP2.Presentation.StrokeWidth = 1.5
+	circleP2.Presentation.StrokeOpacity = 1.0
+}
+
 
 
 

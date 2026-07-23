@@ -957,5 +957,14 @@ type PxShape struct {
 	X, Y float64
 }
 
+// gong:omit
+type ChosenP1P2PairShape struct {
+	Name string
+
+	P1X, P1Y float64
+	P2X, P2Y float64
+}
+
+
 
 

@@ -585,6 +585,92 @@ func (basevectorshapegridFormCallback *BaseVectorShapeGridFormCallback) OnSave()
 
 	basevectorshapegridFormCallback.probe.ux_tree()
 }
+func __gong__New__ChosenP1P2PairShapeFormCallback(
+	chosenp1p2pairshape *models.ChosenP1P2PairShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (chosenp1p2pairshapeFormCallback *ChosenP1P2PairShapeFormCallback) {
+	chosenp1p2pairshapeFormCallback = new(ChosenP1P2PairShapeFormCallback)
+	chosenp1p2pairshapeFormCallback.probe = probe
+	chosenp1p2pairshapeFormCallback.chosenp1p2pairshape = chosenp1p2pairshape
+	chosenp1p2pairshapeFormCallback.formGroup = formGroup
+
+	chosenp1p2pairshapeFormCallback.CreationMode = (chosenp1p2pairshape == nil)
+
+	return
+}
+
+type ChosenP1P2PairShapeFormCallback struct {
+	chosenp1p2pairshape *models.ChosenP1P2PairShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (chosenp1p2pairshapeFormCallback *ChosenP1P2PairShapeFormCallback) OnSave() {
+	chosenp1p2pairshapeFormCallback.probe.stageOfInterest.Lock()
+	defer chosenp1p2pairshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ChosenP1P2PairShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	chosenp1p2pairshapeFormCallback.probe.formStage.Checkout()
+
+	if chosenp1p2pairshapeFormCallback.chosenp1p2pairshape == nil {
+		chosenp1p2pairshapeFormCallback.chosenp1p2pairshape = new(models.ChosenP1P2PairShape).Stage(chosenp1p2pairshapeFormCallback.probe.stageOfInterest)
+	}
+	chosenp1p2pairshape_ := chosenp1p2pairshapeFormCallback.chosenp1p2pairshape
+	_ = chosenp1p2pairshape_
+
+	for _, formDiv := range chosenp1p2pairshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.Name), formDiv)
+		case "P1X":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.P1X), formDiv)
+		case "P1Y":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.P1Y), formDiv)
+		case "P2X":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.P2X), formDiv)
+		case "P2Y":
+			FormDivBasicFieldToField(&(chosenp1p2pairshape_.P2Y), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if chosenp1p2pairshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		chosenp1p2pairshape_.Unstage(chosenp1p2pairshapeFormCallback.probe.stageOfInterest)
+	}
+
+	chosenp1p2pairshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ChosenP1P2PairShape](
+		chosenp1p2pairshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if chosenp1p2pairshapeFormCallback.CreationMode || chosenp1p2pairshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		chosenp1p2pairshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(chosenp1p2pairshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ChosenP1P2PairShapeFormCallback(
+			nil,
+			chosenp1p2pairshapeFormCallback.probe,
+			newFormGroup,
+		)
+		chosenp1p2pairshape := new(models.ChosenP1P2PairShape)
+		FillUpForm(chosenp1p2pairshape, newFormGroup, chosenp1p2pairshapeFormCallback.probe)
+		chosenp1p2pairshapeFormCallback.probe.formStage.Commit()
+	}
+
+	chosenp1p2pairshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__CircleGridShapeFormCallback(
 	circlegridshape *models.CircleGridShape,
 	probe *Probe,
@@ -5184,6 +5270,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectoryP1P2), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "PxShape":
 			FormDivSelectFieldToField(&(plant_.PxShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "ChosenP1P2PairShape":
+			FormDivSelectFieldToField(&(plant_.ChosenP1P2PairShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5491,6 +5579,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
 		case "IsHiddenPxShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPxShape), formDiv)
+		case "IsHiddenChosenP1P2PairShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenChosenP1P2PairShape), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":

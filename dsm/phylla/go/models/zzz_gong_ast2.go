@@ -631,6 +631,43 @@ func (u *BaseVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
+type ChosenP1P2PairShapeUnmarshaller struct{}
+
+func (u *ChosenP1P2PairShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ChosenP1P2PairShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ChosenP1P2PairShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ChosenP1P2PairShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "P1X":
+		instance.P1X = GongExtractFloat(valueExpr)
+	case "P1Y":
+		instance.P1Y = GongExtractFloat(valueExpr)
+	case "P2X":
+		instance.P2X = GongExtractFloat(valueExpr)
+	case "P2Y":
+		instance.P2Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
 type CircleGridShapeUnmarshaller struct{}
 
 func (u *CircleGridShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2083,6 +2120,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectoryP1P2, valueExpr, identifierMap)
 	case "PxShape":
 		GongUnmarshallPointer(&instance.PxShape, valueExpr, identifierMap)
+	case "ChosenP1P2PairShape":
+		GongUnmarshallPointer(&instance.ChosenP1P2PairShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2247,6 +2286,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = GongExtractBool(valueExpr)
 	case "IsHiddenPxShape":
 		instance.IsHiddenPxShape = GongExtractBool(valueExpr)
+	case "IsHiddenChosenP1P2PairShape":
+		instance.IsHiddenChosenP1P2PairShape = GongExtractBool(valueExpr)
 	case "IsHiddenTorusStackShape":
 		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
 	case "IsHiddenVerticalTorusStackShape":

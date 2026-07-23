@@ -116,5 +116,7 @@ type Plant struct {
 	PartiallyGrowthCurve2DTrajectory     *PartiallyGrowthCurve2DTrajectory
 	PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2
 	PxShape                              *PxShape
+	ChosenP1P2PairShape                  *ChosenP1P2PairShape
 }
+
 

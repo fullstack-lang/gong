@@ -45,6 +45,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.basevectorshapegrid, probe)
 			}
+		case *ChosenP1P2PairShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ChosenP1P2PairShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.chosenp1p2pairshape, probe)
+			}
 		case *CircleGridShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "CircleGridShape", true)
@@ -672,6 +678,19 @@ func FillUpFormFromGongstructName(
 		basevectorshapegrid := new(models.BaseVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(basevectorshapegrid, formGroup, probe)
+	case "ChosenP1P2PairShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ChosenP1P2PairShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ChosenP1P2PairShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		chosenp1p2pairshape := new(models.ChosenP1P2PairShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(chosenp1p2pairshape, formGroup, probe)
 	case "CircleGridShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
