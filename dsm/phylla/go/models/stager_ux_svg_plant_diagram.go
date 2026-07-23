@@ -93,6 +93,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawPartiallyGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectory(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant)
+	plantDiagram.drawPxShape(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 
@@ -2297,5 +2298,39 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stage
 		line.Presentation.StrokeOpacity = 0.8
 	}
 }
+
+func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenPxShape {
+		return
+	}
+
+	if plant.PxShape == nil {
+		return
+	}
+
+	px := plant.PxShape
+
+	circle := new(svg.Circle)
+	layer.Circles = append(layer.Circles, circle)
+	circle.Name = px.Name
+	circle.CX = plantDiagram.OriginX + px.X
+	circle.CY = plantDiagram.OriginY - px.Y
+	circle.Radius = 4.0
+	circle.Presentation.Color = "magenta"
+	circle.Presentation.FillOpacity = 1.0
+	circle.Presentation.Stroke = "darkmagenta"
+	circle.Presentation.StrokeWidth = 1.0
+	circle.Presentation.StrokeOpacity = 1.0
+
+	text := new(svg.Text)
+	layer.Texts = append(layer.Texts, text)
+	text.Name = px.Name + "-Text"
+	text.X = plantDiagram.OriginX + px.X - 14
+	text.Y = plantDiagram.OriginY - px.Y - 6
+	text.Content = "Px"
+	text.Presentation.Color = "magenta"
+	text.Presentation.FillOpacity = 1.0
+}
+
 
 

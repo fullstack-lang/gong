@@ -820,6 +820,21 @@ type Stage struct {
 	OnAfterPlantDiagramDeleteCallback OnAfterDeleteInterface[PlantDiagram]
 	OnAfterPlantDiagramReadCallback   OnAfterReadInterface[PlantDiagram]
 
+	PxShapes                map[*PxShape]struct{}
+	PxShapes_instance       map[*PxShape]*PxShape
+	PxShapes_mapString      map[string]*PxShape
+	PxShapeOrder            uint
+	PxShape_stagedOrder     map[*PxShape]uint
+	PxShape_orderStaged     map[uint]*PxShape
+	PxShapes_reference      map[*PxShape]*PxShape
+	PxShapes_referenceOrder map[*PxShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPxShapeCreateCallback OnAfterCreateInterface[PxShape]
+	OnAfterPxShapeUpdateCallback OnAfterUpdateInterface[PxShape]
+	OnAfterPxShapeDeleteCallback OnAfterDeleteInterface[PxShape]
+	OnAfterPxShapeReadCallback   OnAfterReadInterface[PxShape]
+
 	Rendered3DShapes                map[*Rendered3DShape]struct{}
 	Rendered3DShapes_instance       map[*Rendered3DShape]*Rendered3DShape
 	Rendered3DShapes_mapString      map[string]*Rendered3DShape
@@ -2045,6 +2060,10 @@ func (stage *Stage) Squash() {
 	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
 	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
 
+	stage.PxShapes_reference = make(map[*PxShape]*PxShape)
+	stage.PxShapes_instance = make(map[*PxShape]*PxShape)
+	stage.PxShapes_referenceOrder = make(map[*PxShape]uint)
+
 	stage.Rendered3DShapes_reference = make(map[*Rendered3DShape]*Rendered3DShape)
 	stage.Rendered3DShapes_instance = make(map[*Rendered3DShape]*Rendered3DShape)
 	stage.Rendered3DShapes_referenceOrder = make(map[*Rendered3DShape]uint)
@@ -2876,6 +2895,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PlantDiagramOrder = maxPlantDiagramOrder + 1
 	} else {
 		stage.PlantDiagramOrder = 0
+	}
+
+	var maxPxShapeOrder uint
+	var foundPxShape bool
+	for _, order := range stage.PxShape_stagedOrder {
+		if !foundPxShape || order > maxPxShapeOrder {
+			maxPxShapeOrder = order
+			foundPxShape = true
+		}
+	}
+	if foundPxShape {
+		stage.PxShapeOrder = maxPxShapeOrder + 1
+	} else {
+		stage.PxShapeOrder = 0
 	}
 
 	var maxRendered3DShapeOrder uint
@@ -4255,6 +4288,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PxShape:
+		tmp := GetStructInstancesByOrder(stage.PxShapes, stage.PxShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PxShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Rendered3DShape:
 		tmp := GetStructInstancesByOrder(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
 
@@ -5084,6 +5131,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
 	case "PlantDiagram":
 		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
+	case "PxShape":
+		res = GetNamedStructInstances(stage.PxShapes, stage.PxShape_stagedOrder)
 	case "Rendered3DShape":
 		res = GetNamedStructInstances(stage.Rendered3DShapes, stage.Rendered3DShape_stagedOrder)
 	case "RhombusShape":
@@ -5341,6 +5390,8 @@ type BackRepoInterface interface {
 	CheckoutPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
 	CommitPlantDiagram(plantdiagram *PlantDiagram)
 	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
+	CommitPxShape(pxshape *PxShape)
+	CheckoutPxShape(pxshape *PxShape)
 	CommitRendered3DShape(rendered3dshape *Rendered3DShape)
 	CheckoutRendered3DShape(rendered3dshape *Rendered3DShape)
 	CommitRhombusShape(rhombusshape *RhombusShape)
@@ -5577,6 +5628,9 @@ func NewStage(name string) (stage *Stage) {
 
 		PlantDiagrams:           make(map[*PlantDiagram]struct{}),
 		PlantDiagrams_mapString: make(map[string]*PlantDiagram),
+
+		PxShapes:           make(map[*PxShape]struct{}),
+		PxShapes_mapString: make(map[string]*PxShape),
 
 		Rendered3DShapes:           make(map[*Rendered3DShape]struct{}),
 		Rendered3DShapes_mapString: make(map[string]*Rendered3DShape),
@@ -5913,6 +5967,10 @@ func NewStage(name string) (stage *Stage) {
 		PlantDiagram_orderStaged: make(map[uint]*PlantDiagram),
 		PlantDiagrams_reference:  make(map[*PlantDiagram]*PlantDiagram),
 
+		PxShape_stagedOrder: make(map[*PxShape]uint),
+		PxShape_orderStaged: make(map[uint]*PxShape),
+		PxShapes_reference:  make(map[*PxShape]*PxShape),
+
 		Rendered3DShape_stagedOrder: make(map[*Rendered3DShape]uint),
 		Rendered3DShape_orderStaged: make(map[uint]*Rendered3DShape),
 		Rendered3DShapes_reference:  make(map[*Rendered3DShape]*Rendered3DShape),
@@ -6205,6 +6263,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
+			"PxShape": &PxShapeUnmarshaller{},
+
 			"Rendered3DShape": &Rendered3DShapeUnmarshaller{},
 
 			"RhombusShape": &RhombusShapeUnmarshaller{},
@@ -6354,6 +6414,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Plant"},
 			{name: "PlantCircumferenceShape"},
 			{name: "PlantDiagram"},
+			{name: "PxShape"},
 			{name: "Rendered3DShape"},
 			{name: "RhombusShape"},
 			{name: "RhombusStuff"},
@@ -6502,6 +6563,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
+	case *PxShape:
+		return stage.PxShape_stagedOrder[instance]
 	case *Rendered3DShape:
 		return stage.Rendered3DShape_stagedOrder[instance]
 	case *RhombusShape:
@@ -6699,6 +6762,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PlantCircumferenceShape_orderStaged[order]).(Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagram_orderStaged[order]).(Type)
+	case *PxShape:
+		return any(stage.PxShape_orderStaged[order]).(Type)
 	case *Rendered3DShape:
 		return any(stage.Rendered3DShape_orderStaged[order]).(Type)
 	case *RhombusShape:
@@ -6895,6 +6960,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
+	case *PxShape:
+		return stage.PxShape_stagedOrder[instance]
 	case *Rendered3DShape:
 		return stage.Rendered3DShape_stagedOrder[instance]
 	case *RhombusShape:
@@ -7105,6 +7172,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
+	stage.Map_GongStructName_InstancesNb["PxShape"] = len(stage.PxShapes)
 	stage.Map_GongStructName_InstancesNb["Rendered3DShape"] = len(stage.Rendered3DShapes)
 	stage.Map_GongStructName_InstancesNb["RhombusShape"] = len(stage.RhombusShapes)
 	stage.Map_GongStructName_InstancesNb["RhombusStuff"] = len(stage.RhombusStuffs)
@@ -10978,6 +11046,94 @@ func (plantdiagram *PlantDiagram) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (plantdiagram *PlantDiagram) SetName(name string) {
 	plantdiagram.Name = name
+}
+
+// Stage puts pxshape to the model stage
+func (pxshape *PxShape) Stage(stage *Stage) *PxShape {
+	if _, ok := stage.PxShapes[pxshape]; !ok {
+		stage.PxShapes[pxshape] = struct{}{}
+		stage.PxShape_stagedOrder[pxshape] = stage.PxShapeOrder
+		stage.PxShape_orderStaged[stage.PxShapeOrder] = pxshape
+		stage.PxShapeOrder++
+	}
+	stage.PxShapes_mapString[pxshape.Name] = pxshape
+
+	return pxshape
+}
+
+// StagePreserveOrder puts pxshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PxShapeOrder
+// - update stage.PxShapeOrder accordingly
+func (pxshape *PxShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PxShapes[pxshape]; !ok {
+		stage.PxShapes[pxshape] = struct{}{}
+
+		if order > stage.PxShapeOrder {
+			stage.PxShapeOrder = order
+		}
+		stage.PxShape_stagedOrder[pxshape] = order
+		stage.PxShape_orderStaged[order] = pxshape
+		stage.PxShapeOrder++
+	}
+	stage.PxShapes_mapString[pxshape.Name] = pxshape
+}
+
+// Unstage removes pxshape off the model stage
+func (pxshape *PxShape) Unstage(stage *Stage) *PxShape {
+	delete(stage.PxShapes, pxshape)
+	// issue1150
+	// delete(stage.PxShape_stagedOrder, pxshape)
+	delete(stage.PxShapes_mapString, pxshape.Name)
+
+	return pxshape
+}
+
+// UnstageVoid removes pxshape off the model stage
+func (pxshape *PxShape) UnstageVoid(stage *Stage) {
+	delete(stage.PxShapes, pxshape)
+	// issue1150
+	// delete(stage.PxShape_stagedOrder, pxshape)
+	delete(stage.PxShapes_mapString, pxshape.Name)
+}
+
+// commit pxshape to the back repo (if it is already staged)
+func (pxshape *PxShape) Commit(stage *Stage) *PxShape {
+	if _, ok := stage.PxShapes[pxshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPxShape(pxshape)
+		}
+	}
+	return pxshape
+}
+
+func (pxshape *PxShape) CommitVoid(stage *Stage) {
+	pxshape.Commit(stage)
+}
+
+func (pxshape *PxShape) StageVoid(stage *Stage) {
+	pxshape.Stage(stage)
+}
+
+// Checkout pxshape to the back repo (if it is already staged)
+func (pxshape *PxShape) Checkout(stage *Stage) *PxShape {
+	if _, ok := stage.PxShapes[pxshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPxShape(pxshape)
+		}
+	}
+	return pxshape
+}
+
+// for satisfaction of GongStruct interface
+func (pxshape *PxShape) GetName() (res string) {
+	return pxshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (pxshape *PxShape) SetName(name string) {
+	pxshape.Name = name
 }
 
 // Stage puts rendered3dshape to the model stage
@@ -15513,6 +15669,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
+	CreateORMPxShape(PxShape *PxShape)
 	CreateORMRendered3DShape(Rendered3DShape *Rendered3DShape)
 	CreateORMRhombusShape(RhombusShape *RhombusShape)
 	CreateORMRhombusStuff(RhombusStuff *RhombusStuff)
@@ -15610,6 +15767,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
+	DeleteORMPxShape(PxShape *PxShape)
 	DeleteORMRendered3DShape(Rendered3DShape *Rendered3DShape)
 	DeleteORMRhombusShape(RhombusShape *RhombusShape)
 	DeleteORMRhombusStuff(RhombusStuff *RhombusStuff)
@@ -15878,6 +16036,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
 	stage.PlantDiagram_stagedOrder = make(map[*PlantDiagram]uint)
 	stage.PlantDiagramOrder = 0
+
+	stage.PxShapes = make(map[*PxShape]struct{})
+	stage.PxShapes_mapString = make(map[string]*PxShape)
+	stage.PxShape_stagedOrder = make(map[*PxShape]uint)
+	stage.PxShapeOrder = 0
 
 	stage.Rendered3DShapes = make(map[*Rendered3DShape]struct{})
 	stage.Rendered3DShapes_mapString = make(map[string]*Rendered3DShape)
@@ -16272,6 +16435,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PlantDiagrams = nil
 	stage.PlantDiagrams_mapString = nil
 
+	stage.PxShapes = nil
+	stage.PxShapes_mapString = nil
+
 	stage.Rendered3DShapes = nil
 	stage.Rendered3DShapes_mapString = nil
 
@@ -16599,6 +16765,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for plantdiagram := range stage.PlantDiagrams {
 		plantdiagram.Unstage(stage)
+	}
+
+	for pxshape := range stage.PxShapes {
+		pxshape.Unstage(stage)
 	}
 
 	for rendered3dshape := range stage.Rendered3DShapes {
@@ -16967,6 +17137,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PlantCircumferenceShapes).(*Type)
 	case map[*PlantDiagram]any:
 		return any(&stage.PlantDiagrams).(*Type)
+	case map[*PxShape]any:
+		return any(&stage.PxShapes).(*Type)
 	case map[*Rendered3DShape]any:
 		return any(&stage.Rendered3DShapes).(*Type)
 	case map[*RhombusShape]any:
@@ -17167,6 +17339,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PlantCircumferenceShapes_mapString).(map[string]Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagrams_mapString).(map[string]Type)
+	case *PxShape:
+		return any(stage.PxShapes_mapString).(map[string]Type)
 	case *Rendered3DShape:
 		return any(stage.Rendered3DShapes_mapString).(map[string]Type)
 	case *RhombusShape:
@@ -17367,6 +17541,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PlantCircumferenceShapes).(*map[*Type]struct{})
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
+	case PxShape:
+		return any(&stage.PxShapes).(*map[*Type]struct{})
 	case Rendered3DShape:
 		return any(&stage.Rendered3DShapes).(*map[*Type]struct{})
 	case RhombusShape:
@@ -17567,6 +17743,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PlantCircumferenceShapes).(*map[Type]struct{})
 	case *PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[Type]struct{})
+	case *PxShape:
+		return any(&stage.PxShapes).(*map[Type]struct{})
 	case *Rendered3DShape:
 		return any(&stage.Rendered3DShapes).(*map[Type]struct{})
 	case *RhombusShape:
@@ -17767,6 +17945,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PlantCircumferenceShapes_mapString).(*map[string]*Type)
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
+	case PxShape:
+		return any(&stage.PxShapes_mapString).(*map[string]*Type)
 	case Rendered3DShape:
 		return any(&stage.Rendered3DShapes_mapString).(*map[string]*Type)
 	case RhombusShape:
@@ -18156,6 +18336,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
 			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
 			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
+			// field is initialized with an instance of PxShape with the name of the field
+			PxShape: &PxShape{Name: "PxShape"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -18178,6 +18360,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PartiallyRotatedTorusShape: &PartiallyRotatedTorusShape{Name: "PartiallyRotatedTorusShape"},
 			// field is initialized with an instance of StackOfPartiallyRotatedTorusShape with the name of the field
 			StackOfPartiallyRotatedTorusShape: &StackOfPartiallyRotatedTorusShape{Name: "StackOfPartiallyRotatedTorusShape"},
+		}).(*Type)
+	case PxShape:
+		return any(&PxShape{
+			// Initialisation of associations
 		}).(*Type)
 	case Rendered3DShape:
 		return any(&Rendered3DShape{
@@ -19241,6 +19427,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "PxShape":
+			res := make(map[*PxShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PxShape != nil {
+					pxshape_ := plant.PxShape
+					var plants []*Plant
+					_, ok := res[pxshape_]
+					if ok {
+						plants = res[pxshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[pxshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
@@ -19370,6 +19573,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of PxShape
+	case PxShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Rendered3DShape
 	case Rendered3DShape:
@@ -20236,6 +20444,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of PxShape
+	case PxShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Rendered3DShape
 	case Rendered3DShape:
 		switch fieldname {
@@ -20796,6 +21009,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PlantCircumferenceShape"
 	case *PlantDiagram:
 		res = "PlantDiagram"
+	case *PxShape:
+		res = "PxShape"
 	case *Rendered3DShape:
 		res = "Rendered3DShape"
 	case *RhombusShape:
@@ -21110,6 +21325,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Plant"
 		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
+	case *PxShape:
+		var rf ReverseField
+		_ = rf
 	case *Rendered3DShape:
 		var rf ReverseField
 		_ = rf
@@ -22720,6 +22938,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
 		},
+		{
+			Name:                 "PxShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PxShape",
+		},
 	}
 	return
 }
@@ -22951,6 +23174,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenPxShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsHiddenTorusStackShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -23012,6 +23239,25 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "StackOfPartiallyRotatedTorusShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "StackOfPartiallyRotatedTorusShape",
+		},
+	}
+	return
+}
+
+func (pxshape *PxShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -26372,6 +26618,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.PartiallyGrowthCurve2DTrajectoryP1P2.Name
 			res.ids = plant.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
 		}
+	case "PxShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PxShape != nil {
+			res.valueString = plant.PxShape.Name
+			res.ids = plant.PxShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -26598,6 +26850,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
 		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPxShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPxShape)
+		res.valueBool = plantdiagram.IsHiddenPxShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusStackShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
 		res.valueBool = plantdiagram.IsHiddenTorusStackShape
@@ -26666,6 +26922,23 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.StackOfPartiallyRotatedTorusShape.Name
 			res.ids = plantdiagram.StackOfPartiallyRotatedTorusShape.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (pxshape *PxShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = pxshape.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", pxshape.X)
+		res.valueFloat = pxshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", pxshape.Y)
+		res.valueFloat = pxshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -30029,6 +30302,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "PxShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PxShape = nil
+			for __instance__ := range stage.PxShapes {
+				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
+					plant.PxShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -30155,6 +30439,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
 	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
 		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
+	case "IsHiddenPxShape":
+		plantdiagram.IsHiddenPxShape = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
 	case "IsHiddenVerticalTorusStackShape":
@@ -30246,6 +30532,21 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (pxshape *PxShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		pxshape.Name = value.GetValueString()
+	case "X":
+		pxshape.X = value.GetValueFloat()
+	case "Y":
+		pxshape.Y = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -32046,6 +32347,10 @@ func (plantdiagram *PlantDiagram) GongGetGongstructName() string {
 	return "PlantDiagram"
 }
 
+func (pxshape *PxShape) GongGetGongstructName() string {
+	return "PxShape"
+}
+
 func (rendered3dshape *Rendered3DShape) GongGetGongstructName() string {
 	return "Rendered3DShape"
 }
@@ -32470,6 +32775,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
 	for plantdiagram := range stage.PlantDiagrams {
 		stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
+	}
+
+	stage.PxShapes_mapString = make(map[string]*PxShape)
+	for pxshape := range stage.PxShapes {
+		stage.PxShapes_mapString[pxshape.Name] = pxshape
 	}
 
 	stage.Rendered3DShapes_mapString = make(map[string]*Rendered3DShape)

@@ -136,6 +136,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
 
+	case *PxShape:
+		ok = stage.IsStagedPxShape(target)
+
 	case *Rendered3DShape:
 		ok = stage.IsStagedRendered3DShape(target)
 
@@ -427,6 +430,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
+
+	case *PxShape:
+		ok = stage.IsStagedPxShape(target)
 
 	case *Rendered3DShape:
 		ok = stage.IsStagedRendered3DShape(target)
@@ -885,6 +891,13 @@ func (stage *Stage) IsStagedPlantCircumferenceShape(plantcircumferenceshape *Pla
 func (stage *Stage) IsStagedPlantDiagram(plantdiagram *PlantDiagram) (ok bool) {
 
 	_, ok = stage.PlantDiagrams[plantdiagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedPxShape(pxshape *PxShape) (ok bool) {
+
+	_, ok = stage.PxShapes[pxshape]
 
 	return
 }
@@ -1382,6 +1395,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PlantDiagram:
 		stage.StageBranchPlantDiagram(target)
+
+	case *PxShape:
+		stage.StageBranchPxShape(target)
 
 	case *Rendered3DShape:
 		stage.StageBranchRendered3DShape(target)
@@ -2194,6 +2210,21 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		StageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPxShape(pxshape *PxShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, pxshape) {
+		return
+	}
+
+	pxshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -3145,6 +3176,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *PlantDiagram:
 		toT := CopyBranchPlantDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PxShape:
+		toT := CopyBranchPxShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Rendered3DShape:
@@ -4181,6 +4216,25 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.Rendered3DShape != nil {
 		plantdiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plantdiagramFrom.Rendered3DShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPxShape(mapOrigCopy map[any]any, pxshapeFrom *PxShape) (pxshapeTo *PxShape) {
+
+	// pxshapeFrom has already been copied
+	if _pxshapeTo, ok := mapOrigCopy[pxshapeFrom]; ok {
+		pxshapeTo = _pxshapeTo.(*PxShape)
+		return
+	}
+
+	pxshapeTo = new(PxShape)
+	mapOrigCopy[pxshapeFrom] = pxshapeTo
+	pxshapeFrom.CopyBasicFields(pxshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -5293,6 +5347,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PlantDiagram:
 		stage.UnstageBranchPlantDiagram(target)
 
+	case *PxShape:
+		stage.UnstageBranchPxShape(target)
+
 	case *Rendered3DShape:
 		stage.UnstageBranchRendered3DShape(target)
 
@@ -6104,6 +6161,21 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPxShape(pxshape *PxShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, pxshape) {
+		return
+	}
+
+	pxshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -7105,6 +7177,11 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *PxShape) GongReconstructPointersFromReferences(stage *Stage, instance *PxShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Rendered3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *Rendered3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -7600,6 +7677,11 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.Rendered3DShape = _instance
 		}
 	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PxShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
@@ -9036,6 +9118,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
 	}
+	if plantdiagram.IsHiddenPxShape != plantdiagramOther.IsHiddenPxShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
+	}
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 	}
@@ -9063,6 +9148,23 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 		if plantdiagram.Rendered3DShape != plantdiagramOther.Rendered3DShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
 		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (pxshape *PxShape) GongDiff(stage *Stage, pxshapeOther *PxShape) (diffs []string) {
+	// insertion point for field diffs
+	if pxshape.Name != pxshapeOther.Name {
+		diffs = append(diffs, pxshape.GongMarshallField(stage, "Name"))
+	}
+	if pxshape.X != pxshapeOther.X {
+		diffs = append(diffs, pxshape.GongMarshallField(stage, "X"))
+	}
+	if pxshape.Y != pxshapeOther.Y {
+		diffs = append(diffs, pxshape.GongMarshallField(stage, "Y"))
 	}
 
 	return
