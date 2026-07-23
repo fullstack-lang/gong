@@ -21922,6 +21922,18 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldHeaders() (res []Gon
 			Name:               "PxY",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "DistanceP1Px",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DistanceP2Px",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DistanceSum",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -25588,6 +25600,18 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldValue(fieldName stri
 	case "PxY":
 		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.PxY)
 		res.valueFloat = chosenp1p2pairshape.PxY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DistanceP1Px":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.DistanceP1Px)
+		res.valueFloat = chosenp1p2pairshape.DistanceP1Px
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DistanceP2Px":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.DistanceP2Px)
+		res.valueFloat = chosenp1p2pairshape.DistanceP2Px
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DistanceSum":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.DistanceSum)
+		res.valueFloat = chosenp1p2pairshape.DistanceSum
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
@@ -29287,6 +29311,12 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongSetFieldValue(fieldName stri
 		chosenp1p2pairshape.PxX = value.GetValueFloat()
 	case "PxY":
 		chosenp1p2pairshape.PxY = value.GetValueFloat()
+	case "DistanceP1Px":
+		chosenp1p2pairshape.DistanceP1Px = value.GetValueFloat()
+	case "DistanceP2Px":
+		chosenp1p2pairshape.DistanceP2Px = value.GetValueFloat()
+	case "DistanceSum":
+		chosenp1p2pairshape.DistanceSum = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

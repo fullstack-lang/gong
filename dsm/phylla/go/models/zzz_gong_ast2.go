@@ -668,6 +668,12 @@ func (u *ChosenP1P2PairShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 		instance.PxX = GongExtractFloat(valueExpr)
 	case "PxY":
 		instance.PxY = GongExtractFloat(valueExpr)
+	case "DistanceP1Px":
+		instance.DistanceP1Px = GongExtractFloat(valueExpr)
+	case "DistanceP2Px":
+		instance.DistanceP2Px = GongExtractFloat(valueExpr)
+	case "DistanceSum":
+		instance.DistanceSum = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

@@ -737,6 +737,21 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallField(stage *Stage, 
 		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PxY")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.PxY))
+	case "DistanceP1Px":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DistanceP1Px")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.DistanceP1Px))
+	case "DistanceP2Px":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DistanceP2Px")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.DistanceP2Px))
+	case "DistanceSum":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DistanceSum")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.DistanceSum))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ChosenP1P2PairShape", fieldName)
@@ -4691,6 +4706,9 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallAllFields(stage *Sta
 		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P2Y"))
 		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "PxX"))
 		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "PxY"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "DistanceP1Px"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "DistanceP2Px"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "DistanceSum"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -52,12 +52,12 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RhombusSideLength = 500.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.350000
+	__Plant__00000000_.RotationRatio = 0.990000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.RelativeTrajectoryOffsetX = 0.016000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.028000
 	__Plant__00000000_.NbStepP1P2 = 17
-	__Plant__00000000_.ChosenStep = 6
+	__Plant__00000000_.ChosenStep = 11
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
 	__Plant__00000000_.IsSelected = true

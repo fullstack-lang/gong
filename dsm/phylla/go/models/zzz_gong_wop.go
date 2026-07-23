@@ -113,6 +113,12 @@ type ChosenP1P2PairShape_WOP struct {
 	PxX float64
 
 	PxY float64
+
+	DistanceP1Px float64
+
+	DistanceP2Px float64
+
+	DistanceSum float64
 }
 
 func (from *ChosenP1P2PairShape) CopyBasicFields(to *ChosenP1P2PairShape) {
@@ -124,6 +130,9 @@ func (from *ChosenP1P2PairShape) CopyBasicFields(to *ChosenP1P2PairShape) {
 	to.P2Y = from.P2Y
 	to.PxX = from.PxX
 	to.PxY = from.PxY
+	to.DistanceP1Px = from.DistanceP1Px
+	to.DistanceP2Px = from.DistanceP2Px
+	to.DistanceSum = from.DistanceSum
 }
 
 type CircleGridShape_WOP struct {
