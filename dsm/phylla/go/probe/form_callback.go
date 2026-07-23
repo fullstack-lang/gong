@@ -5076,6 +5076,10 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetX), formDiv)
 		case "RelativeTrajectoryOffsetY":
 			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetY), formDiv)
+		case "NbStepP1P2":
+			FormDivBasicFieldToField(&(plant_.NbStepP1P2), formDiv)
+		case "ChosenStep":
+			FormDivBasicFieldToField(&(plant_.ChosenStep), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":

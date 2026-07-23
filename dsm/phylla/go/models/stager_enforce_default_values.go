@@ -46,6 +46,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.ThreeDModulo = 1
 		}
+		if plant.NbStepP1P2 <= 0 {
+			needCommit = true
+			plant.NbStepP1P2 = 10
+		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"

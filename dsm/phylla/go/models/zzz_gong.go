@@ -22537,6 +22537,14 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "NbStepP1P2",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "ChosenStep",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -26146,6 +26154,14 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetY)
 		res.valueFloat = plant.RelativeTrajectoryOffsetY
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbStepP1P2":
+		res.valueString = fmt.Sprintf("%d", plant.NbStepP1P2)
+		res.valueInt = plant.NbStepP1P2
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "ChosenStep":
+		res.valueString = fmt.Sprintf("%d", plant.ChosenStep)
+		res.valueInt = plant.ChosenStep
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -29646,6 +29662,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RelativeTrajectoryOffsetX = value.GetValueFloat()
 	case "RelativeTrajectoryOffsetY":
 		plant.RelativeTrajectoryOffsetY = value.GetValueFloat()
+	case "NbStepP1P2":
+		plant.NbStepP1P2 = int(value.GetValueInt())
+	case "ChosenStep":
+		plant.ChosenStep = int(value.GetValueInt())
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

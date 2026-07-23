@@ -912,6 +912,10 @@ type Plant_WOP struct {
 
 	RelativeTrajectoryOffsetY float64
 
+	NbStepP1P2 int
+
+	ChosenStep int
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -937,6 +941,8 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.ThreeDModulo = from.ThreeDModulo
 	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
+	to.NbStepP1P2 = from.NbStepP1P2
+	to.ChosenStep = from.ChosenStep
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected
