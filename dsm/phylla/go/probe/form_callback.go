@@ -3427,6 +3427,891 @@ func (partiallygrowthcurve2dtrajectoryFormCallback *PartiallyGrowthCurve2DTrajec
 
 	partiallygrowthcurve2dtrajectoryFormCallback.probe.ux_tree()
 }
+func __gong__New__PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback(
+	partiallygrowthcurve2dtrajectoryp1curveshape *models.PartiallyGrowthCurve2DTrajectoryP1CurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback) {
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback = new(PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback)
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe = probe
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp1curveshape = partiallygrowthcurve2dtrajectoryp1curveshape
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.formGroup = formGroup
+
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.CreationMode = (partiallygrowthcurve2dtrajectoryp1curveshape == nil)
+
+	return
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback struct {
+	partiallygrowthcurve2dtrajectoryp1curveshape *models.PartiallyGrowthCurve2DTrajectoryP1CurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback) OnSave() {
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp1curveshape == nil {
+		partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp1curveshape = new(models.PartiallyGrowthCurve2DTrajectoryP1CurveShape).Stage(partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallygrowthcurve2dtrajectoryp1curveshape_ := partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp1curveshape
+	_ = partiallygrowthcurve2dtrajectoryp1curveshape_
+
+	for _, formDiv := range partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1curveshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1curveshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1curveshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1curveshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1curveshape_.EndY), formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2:P1CurveShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PartiallyGrowthCurve2DTrajectoryP1P2 instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest)
+			targetPartiallyGrowthCurve2DTrajectoryP1P2IDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P1CurveShapes slice
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+				
+				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
+				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
+					// ensure partiallygrowthcurve2dtrajectoryp1curveshape_ is in _partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes
+					found := false
+					for _, _b := range _partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes {
+						if _b == partiallygrowthcurve2dtrajectoryp1curveshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes = append(_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes, partiallygrowthcurve2dtrajectoryp1curveshape_)
+						partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P1CurveShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes)
+					}
+				} else {
+					// ensure partiallygrowthcurve2dtrajectoryp1curveshape_ is NOT in _partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes
+					idx := slices.Index(_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes, partiallygrowthcurve2dtrajectoryp1curveshape_)
+					if idx != -1 {
+						_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes = slices.Delete(_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes, idx, idx+1)
+						partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P1CurveShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1curveshape_.Unstage(partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](
+		partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.CreationMode || partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback(
+			nil,
+			partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1curveshape := new(models.PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1curveshape, newFormGroup, partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe)
+		partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallygrowthcurve2dtrajectoryp1curveshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__PartiallyGrowthCurve2DTrajectoryP1P2FormCallback(
+	partiallygrowthcurve2dtrajectoryp1p2 *models.PartiallyGrowthCurve2DTrajectoryP1P2,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTrajectoryP1P2FormCallback) {
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback = new(PartiallyGrowthCurve2DTrajectoryP1P2FormCallback)
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe = probe
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.partiallygrowthcurve2dtrajectoryp1p2 = partiallygrowthcurve2dtrajectoryp1p2
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.formGroup = formGroup
+
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.CreationMode = (partiallygrowthcurve2dtrajectoryp1p2 == nil)
+
+	return
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1P2FormCallback struct {
+	partiallygrowthcurve2dtrajectoryp1p2 *models.PartiallyGrowthCurve2DTrajectoryP1P2
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2FormCallback *PartiallyGrowthCurve2DTrajectoryP1P2FormCallback) OnSave() {
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.Lock()
+	defer partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyGrowthCurve2DTrajectoryP1P2FormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.formStage.Checkout()
+
+	if partiallygrowthcurve2dtrajectoryp1p2FormCallback.partiallygrowthcurve2dtrajectoryp1p2 == nil {
+		partiallygrowthcurve2dtrajectoryp1p2FormCallback.partiallygrowthcurve2dtrajectoryp1p2 = new(models.PartiallyGrowthCurve2DTrajectoryP1P2).Stage(partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+	}
+	partiallygrowthcurve2dtrajectoryp1p2_ := partiallygrowthcurve2dtrajectoryp1p2FormCallback.partiallygrowthcurve2dtrajectoryp1p2
+	_ = partiallygrowthcurve2dtrajectoryp1p2_
+
+	for _, formDiv := range partiallygrowthcurve2dtrajectoryp1p2FormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2_.Name), formDiv)
+		case "P1PointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1PointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP1PointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			partiallygrowthcurve2dtrajectoryp1p2_.P1PointShapes = instanceSlice
+			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P1PointShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P1PointShapes)
+
+		case "P2PointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP2PointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP2PointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			partiallygrowthcurve2dtrajectoryp1p2_.P2PointShapes = instanceSlice
+			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P2PointShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P2PointShapes)
+
+		case "P1CurveShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			partiallygrowthcurve2dtrajectoryp1p2_.P1CurveShapes = instanceSlice
+			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P1CurveShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P1CurveShapes)
+
+		case "P2CurveShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			partiallygrowthcurve2dtrajectoryp1p2_.P2CurveShapes = instanceSlice
+			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P2CurveShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P2CurveShapes)
+
+		case "P1P2PairLineShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			partiallygrowthcurve2dtrajectoryp1p2_.P1P2PairLineShapes = instanceSlice
+			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.UpdateSliceOfPointersCallback(partiallygrowthcurve2dtrajectoryp1p2_, "P1P2PairLineShapes", &partiallygrowthcurve2dtrajectoryp1p2_.P1P2PairLineShapes)
+
+		}
+	}
+
+	// manage the suppress operation
+	if partiallygrowthcurve2dtrajectoryp1p2FormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1p2_.Unstage(partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest)
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1P2](
+		partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallygrowthcurve2dtrajectoryp1p2FormCallback.CreationMode || partiallygrowthcurve2dtrajectoryp1p2FormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1P2FormCallback(
+			nil,
+			partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe,
+			newFormGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1p2 := new(models.PartiallyGrowthCurve2DTrajectoryP1P2)
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1p2, newFormGroup, partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe)
+		partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.formStage.Commit()
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2FormCallback.probe.ux_tree()
+}
+func __gong__New__PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback(
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape *models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback) {
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback = new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback)
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe = probe
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.partiallygrowthcurve2dtrajectoryp1p2pairlineshape = partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.formGroup = formGroup
+
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.CreationMode = (partiallygrowthcurve2dtrajectoryp1p2pairlineshape == nil)
+
+	return
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback struct {
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape *models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback) OnSave() {
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.partiallygrowthcurve2dtrajectoryp1p2pairlineshape == nil {
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.partiallygrowthcurve2dtrajectoryp1p2pairlineshape = new(models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape).Stage(partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape_ := partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+	_ = partiallygrowthcurve2dtrajectoryp1p2pairlineshape_
+
+	for _, formDiv := range partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.EndY), formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2:P1P2PairLineShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PartiallyGrowthCurve2DTrajectoryP1P2 instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest)
+			targetPartiallyGrowthCurve2DTrajectoryP1P2IDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P1P2PairLineShapes slice
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+				
+				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
+				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
+					// ensure partiallygrowthcurve2dtrajectoryp1p2pairlineshape_ is in _partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes
+					found := false
+					for _, _b := range _partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes {
+						if _b == partiallygrowthcurve2dtrajectoryp1p2pairlineshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes = append(_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes, partiallygrowthcurve2dtrajectoryp1p2pairlineshape_)
+						partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P1P2PairLineShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes)
+					}
+				} else {
+					// ensure partiallygrowthcurve2dtrajectoryp1p2pairlineshape_ is NOT in _partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes
+					idx := slices.Index(_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes, partiallygrowthcurve2dtrajectoryp1p2pairlineshape_)
+					if idx != -1 {
+						_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes = slices.Delete(_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes, idx, idx+1)
+						partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P1P2PairLineShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape_.Unstage(partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.CreationMode || partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback(
+			nil,
+			partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape := new(models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1p2pairlineshape, newFormGroup, partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe)
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback(
+	partiallygrowthcurve2dtrajectoryp1pointshape *models.PartiallyGrowthCurve2DTrajectoryP1PointShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback) {
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback = new(PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback)
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe = probe
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp1pointshape = partiallygrowthcurve2dtrajectoryp1pointshape
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.formGroup = formGroup
+
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.CreationMode = (partiallygrowthcurve2dtrajectoryp1pointshape == nil)
+
+	return
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback struct {
+	partiallygrowthcurve2dtrajectoryp1pointshape *models.PartiallyGrowthCurve2DTrajectoryP1PointShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback) OnSave() {
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp1pointshape == nil {
+		partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp1pointshape = new(models.PartiallyGrowthCurve2DTrajectoryP1PointShape).Stage(partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallygrowthcurve2dtrajectoryp1pointshape_ := partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp1pointshape
+	_ = partiallygrowthcurve2dtrajectoryp1pointshape_
+
+	for _, formDiv := range partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1pointshape_.Name), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1pointshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp1pointshape_.Y), formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2:P1PointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PartiallyGrowthCurve2DTrajectoryP1P2 instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest)
+			targetPartiallyGrowthCurve2DTrajectoryP1P2IDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P1PointShapes slice
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+				
+				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
+				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
+					// ensure partiallygrowthcurve2dtrajectoryp1pointshape_ is in _partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes
+					found := false
+					for _, _b := range _partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes {
+						if _b == partiallygrowthcurve2dtrajectoryp1pointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes = append(_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes, partiallygrowthcurve2dtrajectoryp1pointshape_)
+						partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P1PointShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes)
+					}
+				} else {
+					// ensure partiallygrowthcurve2dtrajectoryp1pointshape_ is NOT in _partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes
+					idx := slices.Index(_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes, partiallygrowthcurve2dtrajectoryp1pointshape_)
+					if idx != -1 {
+						_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes = slices.Delete(_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes, idx, idx+1)
+						partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P1PointShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1pointshape_.Unstage(partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](
+		partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.CreationMode || partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback(
+			nil,
+			partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1pointshape := new(models.PartiallyGrowthCurve2DTrajectoryP1PointShape)
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1pointshape, newFormGroup, partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe)
+		partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallygrowthcurve2dtrajectoryp1pointshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback(
+	partiallygrowthcurve2dtrajectoryp2curveshape *models.PartiallyGrowthCurve2DTrajectoryP2CurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback) {
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback = new(PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback)
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe = probe
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp2curveshape = partiallygrowthcurve2dtrajectoryp2curveshape
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.formGroup = formGroup
+
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.CreationMode = (partiallygrowthcurve2dtrajectoryp2curveshape == nil)
+
+	return
+}
+
+type PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback struct {
+	partiallygrowthcurve2dtrajectoryp2curveshape *models.PartiallyGrowthCurve2DTrajectoryP2CurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback) OnSave() {
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp2curveshape == nil {
+		partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp2curveshape = new(models.PartiallyGrowthCurve2DTrajectoryP2CurveShape).Stage(partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallygrowthcurve2dtrajectoryp2curveshape_ := partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.partiallygrowthcurve2dtrajectoryp2curveshape
+	_ = partiallygrowthcurve2dtrajectoryp2curveshape_
+
+	for _, formDiv := range partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2curveshape_.Name), formDiv)
+		case "StartX":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2curveshape_.StartX), formDiv)
+		case "StartY":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2curveshape_.StartY), formDiv)
+		case "EndX":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2curveshape_.EndX), formDiv)
+		case "EndY":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2curveshape_.EndY), formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2:P2CurveShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PartiallyGrowthCurve2DTrajectoryP1P2 instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest)
+			targetPartiallyGrowthCurve2DTrajectoryP1P2IDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P2CurveShapes slice
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+				
+				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
+				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
+					// ensure partiallygrowthcurve2dtrajectoryp2curveshape_ is in _partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes
+					found := false
+					for _, _b := range _partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes {
+						if _b == partiallygrowthcurve2dtrajectoryp2curveshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes = append(_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes, partiallygrowthcurve2dtrajectoryp2curveshape_)
+						partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P2CurveShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes)
+					}
+				} else {
+					// ensure partiallygrowthcurve2dtrajectoryp2curveshape_ is NOT in _partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes
+					idx := slices.Index(_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes, partiallygrowthcurve2dtrajectoryp2curveshape_)
+					if idx != -1 {
+						_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes = slices.Delete(_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes, idx, idx+1)
+						partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P2CurveShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp2curveshape_.Unstage(partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](
+		partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.CreationMode || partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback(
+			nil,
+			partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp2curveshape := new(models.PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+		FillUpForm(partiallygrowthcurve2dtrajectoryp2curveshape, newFormGroup, partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe)
+		partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallygrowthcurve2dtrajectoryp2curveshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback(
+	partiallygrowthcurve2dtrajectoryp2pointshape *models.PartiallyGrowthCurve2DTrajectoryP2PointShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback) {
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback = new(PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback)
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe = probe
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp2pointshape = partiallygrowthcurve2dtrajectoryp2pointshape
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.formGroup = formGroup
+
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.CreationMode = (partiallygrowthcurve2dtrajectoryp2pointshape == nil)
+
+	return
+}
+
+type PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback struct {
+	partiallygrowthcurve2dtrajectoryp2pointshape *models.PartiallyGrowthCurve2DTrajectoryP2PointShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback *PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback) OnSave() {
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp2pointshape == nil {
+		partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp2pointshape = new(models.PartiallyGrowthCurve2DTrajectoryP2PointShape).Stage(partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallygrowthcurve2dtrajectoryp2pointshape_ := partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.partiallygrowthcurve2dtrajectoryp2pointshape
+	_ = partiallygrowthcurve2dtrajectoryp2pointshape_
+
+	for _, formDiv := range partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2pointshape_.Name), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2pointshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(partiallygrowthcurve2dtrajectoryp2pointshape_.Y), formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2:P2PointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PartiallyGrowthCurve2DTrajectoryP1P2 instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PartiallyGrowthCurve2DTrajectoryP1P2 instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest)
+			targetPartiallyGrowthCurve2DTrajectoryP1P2IDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PartiallyGrowthCurve2DTrajectoryP1P2 instances and update their P2PointShapes slice
+			for _partiallygrowthcurve2dtrajectoryp1p2 := range *models.GetGongstructInstancesSetFromPointerType[*models.PartiallyGrowthCurve2DTrajectoryP1P2](partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest, _partiallygrowthcurve2dtrajectoryp1p2)
+				
+				// if PartiallyGrowthCurve2DTrajectoryP1P2 is selected
+				if targetPartiallyGrowthCurve2DTrajectoryP1P2IDs[id] {
+					// ensure partiallygrowthcurve2dtrajectoryp2pointshape_ is in _partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes
+					found := false
+					for _, _b := range _partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes {
+						if _b == partiallygrowthcurve2dtrajectoryp2pointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes = append(_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes, partiallygrowthcurve2dtrajectoryp2pointshape_)
+						partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P2PointShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes)
+					}
+				} else {
+					// ensure partiallygrowthcurve2dtrajectoryp2pointshape_ is NOT in _partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes
+					idx := slices.Index(_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes, partiallygrowthcurve2dtrajectoryp2pointshape_)
+					if idx != -1 {
+						_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes = slices.Delete(_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes, idx, idx+1)
+						partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_partiallygrowthcurve2dtrajectoryp1p2, "P2PointShapes", &_partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp2pointshape_.Unstage(partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](
+		partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.CreationMode || partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback(
+			nil,
+			partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp2pointshape := new(models.PartiallyGrowthCurve2DTrajectoryP2PointShape)
+		FillUpForm(partiallygrowthcurve2dtrajectoryp2pointshape, newFormGroup, partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe)
+		partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallygrowthcurve2dtrajectoryp2pointshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PartiallyGrowthCurve2DTrajectoryShapeFormCallback(
 	partiallygrowthcurve2dtrajectoryshape *models.PartiallyGrowthCurve2DTrajectoryShape,
 	probe *Probe,
@@ -4291,6 +5176,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "PartiallyGrowthCurve2DTrajectory":
 			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectory), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2":
+			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectoryP1P2), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4594,6 +5481,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DRibbon), formDiv)
 		case "IsHiddenPartiallyGrowthCurve2DTrajectory":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectory), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":

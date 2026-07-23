@@ -111,6 +111,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = false
+	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = false
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true

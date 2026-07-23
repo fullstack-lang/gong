@@ -183,6 +183,42 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectory, probe)
 			}
+		case *PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryP1CurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryp1curveshape, probe)
+			}
+		case *PartiallyGrowthCurve2DTrajectoryP1P2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryP1P2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryp1p2, probe)
+			}
+		case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryp1p2pairlineshape, probe)
+			}
+		case *PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryP1PointShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryp1pointshape, probe)
+			}
+		case *PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryP2CurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryp2curveshape, probe)
+			}
+		case *PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryP2PointShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryp2pointshape, probe)
+			}
 		case *PartiallyGrowthCurve2DTrajectoryShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DTrajectoryShape", true)
@@ -929,6 +965,84 @@ func FillUpFormFromGongstructName(
 		partiallygrowthcurve2dtrajectory := new(models.PartiallyGrowthCurve2DTrajectory)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(partiallygrowthcurve2dtrajectory, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1CurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryP1CurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1CurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1curveshape := new(models.PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1curveshape, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryP1P2 Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1P2FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1p2 := new(models.PartiallyGrowthCurve2DTrajectoryP1P2)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1p2, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape := new(models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1p2pairlineshape, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1PointShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryP1PointShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP1PointShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp1pointshape := new(models.PartiallyGrowthCurve2DTrajectoryP1PointShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryp1pointshape, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryP2CurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryP2CurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP2CurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp2curveshape := new(models.PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryp2curveshape, formGroup, probe)
+	case "PartiallyGrowthCurve2DTrajectoryP2PointShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyGrowthCurve2DTrajectoryP2PointShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyGrowthCurve2DTrajectoryP2PointShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallygrowthcurve2dtrajectoryp2pointshape := new(models.PartiallyGrowthCurve2DTrajectoryP2PointShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallygrowthcurve2dtrajectoryp2pointshape, formGroup, probe)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

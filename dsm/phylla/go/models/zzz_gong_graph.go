@@ -91,6 +91,24 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PartiallyGrowthCurve2DTrajectory:
 		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectory(target)
 
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1P2(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
+
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryShape(target)
 
@@ -364,6 +382,24 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *PartiallyGrowthCurve2DTrajectory:
 		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectory(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1P2(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
 
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryShape(target)
@@ -744,6 +780,48 @@ func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbonStartShape(partiallygrow
 func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DTrajectorys[partiallygrowthcurve2dtrajectory]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) (ok bool) {
+
+	_, ok = stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape]
 
 	return
 }
@@ -1259,6 +1337,24 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PartiallyGrowthCurve2DTrajectory:
 		stage.StageBranchPartiallyGrowthCurve2DTrajectory(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1P2(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		stage.StageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
 
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.StageBranchPartiallyGrowthCurve2DTrajectoryShape(target)
@@ -1865,6 +1961,96 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowthc
 	}
 
 	partiallygrowthcurve2dtrajectory.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dtrajectoryp1curveshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1curveshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dtrajectoryp1p2) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dtrajectoryp1p2pairlineshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dtrajectoryp1pointshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1pointshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dtrajectoryp2curveshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp2curveshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallygrowthcurve2dtrajectoryp2pointshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp2pointshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -2901,6 +3087,30 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchPartiallyGrowthCurve2DTrajectory(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryP1P2(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3678,6 +3888,120 @@ func CopyBranchPartiallyGrowthCurve2DTrajectory(mapOrigCopy map[any]any, partial
 	partiallygrowthcurve2dtrajectoryTo = new(PartiallyGrowthCurve2DTrajectory)
 	mapOrigCopy[partiallygrowthcurve2dtrajectoryFrom] = partiallygrowthcurve2dtrajectoryTo
 	partiallygrowthcurve2dtrajectoryFrom.CopyBasicFields(partiallygrowthcurve2dtrajectoryTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(mapOrigCopy map[any]any, partiallygrowthcurve2dtrajectoryp1curveshapeFrom *PartiallyGrowthCurve2DTrajectoryP1CurveShape) (partiallygrowthcurve2dtrajectoryp1curveshapeTo *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
+
+	// partiallygrowthcurve2dtrajectoryp1curveshapeFrom has already been copied
+	if _partiallygrowthcurve2dtrajectoryp1curveshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dtrajectoryp1curveshapeFrom]; ok {
+		partiallygrowthcurve2dtrajectoryp1curveshapeTo = _partiallygrowthcurve2dtrajectoryp1curveshapeTo.(*PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1curveshapeTo = new(PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	mapOrigCopy[partiallygrowthcurve2dtrajectoryp1curveshapeFrom] = partiallygrowthcurve2dtrajectoryp1curveshapeTo
+	partiallygrowthcurve2dtrajectoryp1curveshapeFrom.CopyBasicFields(partiallygrowthcurve2dtrajectoryp1curveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DTrajectoryP1P2(mapOrigCopy map[any]any, partiallygrowthcurve2dtrajectoryp1p2From *PartiallyGrowthCurve2DTrajectoryP1P2) (partiallygrowthcurve2dtrajectoryp1p2To *PartiallyGrowthCurve2DTrajectoryP1P2) {
+
+	// partiallygrowthcurve2dtrajectoryp1p2From has already been copied
+	if _partiallygrowthcurve2dtrajectoryp1p2To, ok := mapOrigCopy[partiallygrowthcurve2dtrajectoryp1p2From]; ok {
+		partiallygrowthcurve2dtrajectoryp1p2To = _partiallygrowthcurve2dtrajectoryp1p2To.(*PartiallyGrowthCurve2DTrajectoryP1P2)
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2To = new(PartiallyGrowthCurve2DTrajectoryP1P2)
+	mapOrigCopy[partiallygrowthcurve2dtrajectoryp1p2From] = partiallygrowthcurve2dtrajectoryp1p2To
+	partiallygrowthcurve2dtrajectoryp1p2From.CopyBasicFields(partiallygrowthcurve2dtrajectoryp1p2To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(mapOrigCopy map[any]any, partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFrom *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) (partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
+
+	// partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFrom has already been copied
+	if _partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFrom]; ok {
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo = _partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo.(*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo = new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	mapOrigCopy[partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFrom] = partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshapeFrom.CopyBasicFields(partiallygrowthcurve2dtrajectoryp1p2pairlineshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(mapOrigCopy map[any]any, partiallygrowthcurve2dtrajectoryp1pointshapeFrom *PartiallyGrowthCurve2DTrajectoryP1PointShape) (partiallygrowthcurve2dtrajectoryp1pointshapeTo *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
+
+	// partiallygrowthcurve2dtrajectoryp1pointshapeFrom has already been copied
+	if _partiallygrowthcurve2dtrajectoryp1pointshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dtrajectoryp1pointshapeFrom]; ok {
+		partiallygrowthcurve2dtrajectoryp1pointshapeTo = _partiallygrowthcurve2dtrajectoryp1pointshapeTo.(*PartiallyGrowthCurve2DTrajectoryP1PointShape)
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1pointshapeTo = new(PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	mapOrigCopy[partiallygrowthcurve2dtrajectoryp1pointshapeFrom] = partiallygrowthcurve2dtrajectoryp1pointshapeTo
+	partiallygrowthcurve2dtrajectoryp1pointshapeFrom.CopyBasicFields(partiallygrowthcurve2dtrajectoryp1pointshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(mapOrigCopy map[any]any, partiallygrowthcurve2dtrajectoryp2curveshapeFrom *PartiallyGrowthCurve2DTrajectoryP2CurveShape) (partiallygrowthcurve2dtrajectoryp2curveshapeTo *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
+
+	// partiallygrowthcurve2dtrajectoryp2curveshapeFrom has already been copied
+	if _partiallygrowthcurve2dtrajectoryp2curveshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dtrajectoryp2curveshapeFrom]; ok {
+		partiallygrowthcurve2dtrajectoryp2curveshapeTo = _partiallygrowthcurve2dtrajectoryp2curveshapeTo.(*PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp2curveshapeTo = new(PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	mapOrigCopy[partiallygrowthcurve2dtrajectoryp2curveshapeFrom] = partiallygrowthcurve2dtrajectoryp2curveshapeTo
+	partiallygrowthcurve2dtrajectoryp2curveshapeFrom.CopyBasicFields(partiallygrowthcurve2dtrajectoryp2curveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(mapOrigCopy map[any]any, partiallygrowthcurve2dtrajectoryp2pointshapeFrom *PartiallyGrowthCurve2DTrajectoryP2PointShape) (partiallygrowthcurve2dtrajectoryp2pointshapeTo *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
+
+	// partiallygrowthcurve2dtrajectoryp2pointshapeFrom has already been copied
+	if _partiallygrowthcurve2dtrajectoryp2pointshapeTo, ok := mapOrigCopy[partiallygrowthcurve2dtrajectoryp2pointshapeFrom]; ok {
+		partiallygrowthcurve2dtrajectoryp2pointshapeTo = _partiallygrowthcurve2dtrajectoryp2pointshapeTo.(*PartiallyGrowthCurve2DTrajectoryP2PointShape)
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp2pointshapeTo = new(PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	mapOrigCopy[partiallygrowthcurve2dtrajectoryp2pointshapeFrom] = partiallygrowthcurve2dtrajectoryp2pointshapeTo
+	partiallygrowthcurve2dtrajectoryp2pointshapeFrom.CopyBasicFields(partiallygrowthcurve2dtrajectoryp2pointshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -4924,6 +5248,24 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PartiallyGrowthCurve2DTrajectory:
 		stage.UnstageBranchPartiallyGrowthCurve2DTrajectory(target)
 
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(target)
+
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(target)
+
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(target)
 
@@ -5529,6 +5871,96 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectory(partiallygrowt
 	}
 
 	partiallygrowthcurve2dtrajectory.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dtrajectoryp1curveshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1curveshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dtrajectoryp1p2) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dtrajectoryp1p2pairlineshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dtrajectoryp1pointshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp1pointshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dtrajectoryp2curveshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp2curveshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallygrowthcurve2dtrajectoryp2pointshape) {
+		return
+	}
+
+	partiallygrowthcurve2dtrajectoryp2pointshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6591,6 +7023,36 @@ func (reference *PartiallyGrowthCurve2DTrajectory) GongReconstructPointersFromRe
 	// insertion point for slice of pointers field
 }
 
+func (reference *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1P2) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryP1P2) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PartiallyGrowthCurve2DTrajectoryShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DTrajectoryShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -7049,6 +7511,36 @@ func (reference *PartiallyGrowthCurve2DRibbonStartShape) GongReconstructPointers
 }
 
 func (reference *PartiallyGrowthCurve2DTrajectory) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1P2) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -8067,6 +8559,120 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongDi
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryp1curveshapeOther *PartiallyGrowthCurve2DTrajectoryP1CurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dtrajectoryp1curveshape.Name != partiallygrowthcurve2dtrajectoryp1curveshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1curveshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1curveshape.StartX != partiallygrowthcurve2dtrajectoryp1curveshapeOther.StartX {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1curveshape.GongMarshallField(stage, "StartX"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1curveshape.StartY != partiallygrowthcurve2dtrajectoryp1curveshapeOther.StartY {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1curveshape.GongMarshallField(stage, "StartY"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1curveshape.EndX != partiallygrowthcurve2dtrajectoryp1curveshapeOther.EndX {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1curveshape.GongMarshallField(stage, "EndX"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1curveshape.EndY != partiallygrowthcurve2dtrajectoryp1curveshapeOther.EndY {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1curveshape.GongMarshallField(stage, "EndY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryp1p2Other *PartiallyGrowthCurve2DTrajectoryP1P2) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dtrajectoryp1p2.Name != partiallygrowthcurve2dtrajectoryp1p2Other.Name {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1p2.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryp1p2pairlineshapeOther *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name != partiallygrowthcurve2dtrajectoryp1p2pairlineshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartX != partiallygrowthcurve2dtrajectoryp1p2pairlineshapeOther.StartX {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongMarshallField(stage, "StartX"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartY != partiallygrowthcurve2dtrajectoryp1p2pairlineshapeOther.StartY {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongMarshallField(stage, "StartY"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndX != partiallygrowthcurve2dtrajectoryp1p2pairlineshapeOther.EndX {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongMarshallField(stage, "EndX"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndY != partiallygrowthcurve2dtrajectoryp1p2pairlineshapeOther.EndY {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.GongMarshallField(stage, "EndY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryp1pointshapeOther *PartiallyGrowthCurve2DTrajectoryP1PointShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dtrajectoryp1pointshape.Name != partiallygrowthcurve2dtrajectoryp1pointshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1pointshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1pointshape.X != partiallygrowthcurve2dtrajectoryp1pointshapeOther.X {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1pointshape.GongMarshallField(stage, "X"))
+	}
+	if partiallygrowthcurve2dtrajectoryp1pointshape.Y != partiallygrowthcurve2dtrajectoryp1pointshapeOther.Y {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp1pointshape.GongMarshallField(stage, "Y"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryp2curveshapeOther *PartiallyGrowthCurve2DTrajectoryP2CurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dtrajectoryp2curveshape.Name != partiallygrowthcurve2dtrajectoryp2curveshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2curveshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dtrajectoryp2curveshape.StartX != partiallygrowthcurve2dtrajectoryp2curveshapeOther.StartX {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2curveshape.GongMarshallField(stage, "StartX"))
+	}
+	if partiallygrowthcurve2dtrajectoryp2curveshape.StartY != partiallygrowthcurve2dtrajectoryp2curveshapeOther.StartY {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2curveshape.GongMarshallField(stage, "StartY"))
+	}
+	if partiallygrowthcurve2dtrajectoryp2curveshape.EndX != partiallygrowthcurve2dtrajectoryp2curveshapeOther.EndX {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2curveshape.GongMarshallField(stage, "EndX"))
+	}
+	if partiallygrowthcurve2dtrajectoryp2curveshape.EndY != partiallygrowthcurve2dtrajectoryp2curveshapeOther.EndY {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2curveshape.GongMarshallField(stage, "EndY"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryp2pointshapeOther *PartiallyGrowthCurve2DTrajectoryP2PointShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallygrowthcurve2dtrajectoryp2pointshape.Name != partiallygrowthcurve2dtrajectoryp2pointshapeOther.Name {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2pointshape.GongMarshallField(stage, "Name"))
+	}
+	if partiallygrowthcurve2dtrajectoryp2pointshape.X != partiallygrowthcurve2dtrajectoryp2pointshapeOther.X {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2pointshape.GongMarshallField(stage, "X"))
+	}
+	if partiallygrowthcurve2dtrajectoryp2pointshape.Y != partiallygrowthcurve2dtrajectoryp2pointshapeOther.Y {
+		diffs = append(diffs, partiallygrowthcurve2dtrajectoryp2pointshape.GongMarshallField(stage, "Y"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongDiff(stage *Stage, partiallygrowthcurve2dtrajectoryshapeOther *PartiallyGrowthCurve2DTrajectoryShape) (diffs []string) {
 	// insertion point for field diffs
 	if partiallygrowthcurve2dtrajectoryshape.Name != partiallygrowthcurve2dtrajectoryshapeOther.Name {
@@ -8420,6 +9026,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DTrajectory {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
+	}
+	if plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
 	}
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))

@@ -900,3 +900,54 @@ type PartiallyGrowthCurve2DTrajectoryShape struct {
 	StartX, StartY float64
 	EndX, EndY     float64
 }
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryP1P2 struct {
+	Name string
+
+	P1PointShapes    []*PartiallyGrowthCurve2DTrajectoryP1PointShape
+	P2PointShapes    []*PartiallyGrowthCurve2DTrajectoryP2PointShape
+	P1CurveShapes    []*PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	P2CurveShapes    []*PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	P1P2PairLineShapes []*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+}
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryP1PointShape struct {
+	Name string
+
+	X, Y float64
+}
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryP2PointShape struct {
+	Name string
+
+	X, Y float64
+}
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryP1CurveShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryP2CurveShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
+// gong:omit
+type PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape struct {
+	Name string
+
+	StartX, StartY float64
+	EndX, EndY     float64
+}
+
+

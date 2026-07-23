@@ -252,6 +252,53 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongCl
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryP1CurveShape
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryP1P2
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes) || modified
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes) || modified
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes) || modified
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes) || modified
+	modified = GongCleanSlice(stage, &partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryP1PointShape
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryP2CurveShape
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryP2PointShape
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PartiallyGrowthCurve2DTrajectoryShape
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -331,6 +378,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.ShiftedRightGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
+	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
 	return
 }
 

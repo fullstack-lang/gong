@@ -677,6 +677,158 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](
+				"PartiallyGrowthCurve2DTrajectoryP1P2",
+				"P1CurveShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape {
+					return owner.P1CurveShapes
+				})
+		}
+
+	case *models.PartiallyGrowthCurve2DTrajectoryP1P2:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("P1PointShapes", instanceWithInferedType, &instanceWithInferedType.P1PointShapes, formGroup, probe)
+		AssociationSliceToForm("P2PointShapes", instanceWithInferedType, &instanceWithInferedType.P2PointShapes, formGroup, probe)
+		AssociationSliceToForm("P1CurveShapes", instanceWithInferedType, &instanceWithInferedType.P1CurveShapes, formGroup, probe)
+		AssociationSliceToForm("P2CurveShapes", instanceWithInferedType, &instanceWithInferedType.P2CurveShapes, formGroup, probe)
+		AssociationSliceToForm("P1P2PairLineShapes", instanceWithInferedType, &instanceWithInferedType.P1P2PairLineShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](
+				"PartiallyGrowthCurve2DTrajectoryP1P2",
+				"P1P2PairLineShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+					return owner.P1P2PairLineShapes
+				})
+		}
+
+	case *models.PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP1PointShape](
+				"PartiallyGrowthCurve2DTrajectoryP1P2",
+				"P1PointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP1PointShape {
+					return owner.P1PointShapes
+				})
+		}
+
+	case *models.PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartX", instanceWithInferedType.StartX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StartY", instanceWithInferedType.StartY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndX", instanceWithInferedType.EndX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndY", instanceWithInferedType.EndY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](
+				"PartiallyGrowthCurve2DTrajectoryP1P2",
+				"P2CurveShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape {
+					return owner.P2CurveShapes
+				})
+		}
+
+	case *models.PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PartiallyGrowthCurve2DTrajectoryP1P2, *models.PartiallyGrowthCurve2DTrajectoryP2PointShape](
+				"PartiallyGrowthCurve2DTrajectoryP1P2",
+				"P2PointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PartiallyGrowthCurve2DTrajectoryP1P2) []*models.PartiallyGrowthCurve2DTrajectoryP2PointShape {
+					return owner.P2PointShapes
+				})
+		}
+
 	case *models.PartiallyGrowthCurve2DTrajectoryShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -865,6 +1017,7 @@ func FillUpForm(
 		AssociationFieldToForm("ShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.ShiftedRightGrowthCurve2DRibbon, formGroup, probe)
 		AssociationFieldToForm("PartiallyGrowthCurve2DRibbon", instanceWithInferedType.PartiallyGrowthCurve2DRibbon, formGroup, probe)
 		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectory", instanceWithInferedType.PartiallyGrowthCurve2DTrajectory, formGroup, probe)
+		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.PartiallyGrowthCurve2DTrajectoryP1P2, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -997,6 +1150,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectory", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectory, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenTorusStackShape", instanceWithInferedType.IsHiddenTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
