@@ -2005,6 +2005,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetY":
 		instance.RelativeTrajectoryOffsetY = GongExtractFloat(valueExpr)
+	case "NbStepP1P2":
+		instance.NbStepP1P2 = GongExtractInt(valueExpr)
+	case "ChosenStep":
+		instance.ChosenStep = GongExtractInt(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

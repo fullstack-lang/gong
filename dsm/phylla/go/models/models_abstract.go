@@ -58,6 +58,12 @@ type Plant struct {
 	// is taken into account for drawing the PartiallyGrowthCurve2DTrajectory
 	RelativeTrajectoryOffsetX, RelativeTrajectoryOffsetY float64
 
+	// NbStepP1P2 is the number of interpolation points for P1, P2 pairs
+	NbStepP1P2 int
+
+	// ChosenStep is
+	ChosenStep int
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -106,8 +112,7 @@ type Plant struct {
 	GrowthCurve2DRibbon               *GrowthCurve2DRibbon
 	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
 
-	PartiallyGrowthCurve2DRibbon     *PartiallyGrowthCurve2DRibbon
-	PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory
+	PartiallyGrowthCurve2DRibbon         *PartiallyGrowthCurve2DRibbon
+	PartiallyGrowthCurve2DTrajectory     *PartiallyGrowthCurve2DTrajectory
 	PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2
 }
-

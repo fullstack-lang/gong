@@ -56,6 +56,8 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.RelativeTrajectoryOffsetX = 0.035000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.077000
+	__Plant__00000000_.NbStepP1P2 = 10
+	__Plant__00000000_.ChosenStep = 0
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
 	__Plant__00000000_.IsSelected = true

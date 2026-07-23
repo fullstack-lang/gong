@@ -18,7 +18,7 @@ func (stager *Stager) ux_slider() {
 	layout := new(m.Layout).Stage(stager.sliderStage)
 
 	group1 := new(m.Group).Stage(stager.sliderStage)
-	group1.Percentage = 25
+	group1.Percentage = 65
 	layout.Groups = append(layout.Groups, group1)
 
 	// group1 := new(m.Group).Stage(stager.sliderStage)
@@ -185,6 +185,31 @@ func (stager *Stager) ux_slider() {
 				&plant.RelativeTrajectoryOffsetY,
 			),
 		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Nb Step P1 P2",
+				1,
+				30,
+				1,
+				&plant.NbStepP1P2,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Chosen Step",
+				1,
+				plant.NbStepP1P2,
+				1,
+				&plant.ChosenStep,
+			),
+		)
+
 	}
 
 	// Add sliders for PlantDiagram 3D view
@@ -198,7 +223,7 @@ func (stager *Stager) ux_slider() {
 
 	if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 		group2 := new(m.Group).Stage(stager.sliderStage)
-		group2.Percentage = 25
+		group2.Percentage = 35
 		layout.Groups = append(layout.Groups, group2)
 
 		group2.Sliders = append(

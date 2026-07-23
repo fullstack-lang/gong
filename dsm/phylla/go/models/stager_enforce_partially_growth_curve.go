@@ -472,7 +472,10 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 		return clearAll()
 	}
 
-	refSteps := 10
+	refSteps := plant.NbStepP1P2
+	if refSteps <= 0 {
+		refSteps = 10
+	}
 	p1PtsX := make([]float64, refSteps+1)
 	p1PtsY := make([]float64, refSteps+1)
 	p2PtsX := make([]float64, refSteps+1)

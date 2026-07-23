@@ -978,6 +978,10 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeTrajectoryOffsetY", instanceWithInferedType.RelativeTrajectoryOffsetY, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NbStepP1P2", instanceWithInferedType.NbStepP1P2, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ChosenStep", instanceWithInferedType.ChosenStep, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
