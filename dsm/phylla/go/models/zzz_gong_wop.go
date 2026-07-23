@@ -665,6 +665,120 @@ func (from *PartiallyGrowthCurve2DTrajectory) CopyBasicFields(to *PartiallyGrowt
 	to.Name = from.Name
 }
 
+type PartiallyGrowthCurve2DTrajectoryP1CurveShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryP1CurveShape) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1CurveShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1P2_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryP1P2) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1P2) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1PointShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryP1PointShape) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP1PointShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+}
+
+type PartiallyGrowthCurve2DTrajectoryP2CurveShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartX float64
+
+	StartY float64
+
+	EndX float64
+
+	EndY float64
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryP2CurveShape) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP2CurveShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartX = from.StartX
+	to.StartY = from.StartY
+	to.EndX = from.EndX
+	to.EndY = from.EndY
+}
+
+type PartiallyGrowthCurve2DTrajectoryP2PointShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *PartiallyGrowthCurve2DTrajectoryP2PointShape) CopyBasicFields(to *PartiallyGrowthCurve2DTrajectoryP2PointShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+}
+
 type PartiallyGrowthCurve2DTrajectoryShape_WOP struct {
 	// insertion point
 
@@ -949,6 +1063,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPartiallyGrowthCurve2DTrajectory bool
 
+	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
+
 	IsHiddenTorusStackShape bool
 
 	IsHiddenVerticalTorusStackShape bool
@@ -1016,6 +1132,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
 	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
 	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
+	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape

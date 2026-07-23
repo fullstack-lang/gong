@@ -108,4 +108,6 @@ type Plant struct {
 
 	PartiallyGrowthCurve2DRibbon     *PartiallyGrowthCurve2DRibbon
 	PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory
+	PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2
 }
+

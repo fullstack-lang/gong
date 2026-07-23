@@ -92,6 +92,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawStackOfRotatedGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectory(stager, layer, plant)
+	plantDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 
@@ -2186,3 +2187,115 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *S
 		line.Presentation.StrokeOpacity = 1.0
 	}
 }
+
+func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
+		return
+	}
+
+	if plant.PartiallyGrowthCurve2DTrajectoryP1P2 == nil {
+		return
+	}
+
+	p1p2 := plant.PartiallyGrowthCurve2DTrajectoryP1P2
+
+	// Draw P1 Dots
+	for _, shape := range p1p2.P1PointShapes {
+		circle := new(svg.Circle)
+		layer.Circles = append(layer.Circles, circle)
+		circle.Name = shape.Name
+		circle.CX = plantDiagram.OriginX + shape.X
+		circle.CY = plantDiagram.OriginY - shape.Y
+		circle.Radius = 3.0
+		circle.Presentation.Color = "magenta"
+		circle.Presentation.FillOpacity = 1.0
+		circle.Presentation.Stroke = "darkmagenta"
+		circle.Presentation.StrokeWidth = 1.0
+		circle.Presentation.StrokeOpacity = 1.0
+	}
+
+	// Draw P2 Dots
+	for _, shape := range p1p2.P2PointShapes {
+		circle := new(svg.Circle)
+		layer.Circles = append(layer.Circles, circle)
+		circle.Name = shape.Name
+		circle.CX = plantDiagram.OriginX + shape.X
+		circle.CY = plantDiagram.OriginY - shape.Y
+		circle.Radius = 3.0
+		circle.Presentation.Color = "magenta"
+		circle.Presentation.FillOpacity = 1.0
+		circle.Presentation.Stroke = "darkmagenta"
+		circle.Presentation.StrokeWidth = 1.0
+		circle.Presentation.StrokeOpacity = 1.0
+	}
+
+	// Draw P1 Text Label at step 0
+	if len(p1p2.P1PointShapes) > 0 {
+		p1_0 := p1p2.P1PointShapes[0]
+		textP1 := new(svg.Text)
+		layer.Texts = append(layer.Texts, textP1)
+		textP1.Name = plant.Name + "-P1-Text"
+		textP1.X = plantDiagram.OriginX + p1_0.X - 14
+		textP1.Y = plantDiagram.OriginY - p1_0.Y - 6
+		textP1.Content = "P1"
+		textP1.Presentation.Color = "magenta"
+		textP1.Presentation.FillOpacity = 1.0
+	}
+
+	// Draw P2 Text Label at step 0
+	if len(p1p2.P2PointShapes) > 0 {
+		p2_0 := p1p2.P2PointShapes[0]
+		textP2 := new(svg.Text)
+		layer.Texts = append(layer.Texts, textP2)
+		textP2.Name = plant.Name + "-P2-Text"
+		textP2.X = plantDiagram.OriginX + p2_0.X + 6
+		textP2.Y = plantDiagram.OriginY - p2_0.Y - 6
+		textP2.Content = "P2"
+		textP2.Presentation.Color = "magenta"
+		textP2.Presentation.FillOpacity = 1.0
+	}
+
+	// Draw P1 Curve Lines
+	for _, shape := range p1p2.P1CurveShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = shape.Name
+		line.X1 = plantDiagram.OriginX + shape.StartX
+		line.Y1 = plantDiagram.OriginY - shape.StartY
+		line.X2 = plantDiagram.OriginX + shape.EndX
+		line.Y2 = plantDiagram.OriginY - shape.EndY
+		line.Presentation.Stroke = "magenta"
+		line.Presentation.StrokeWidth = 1.5
+		line.Presentation.StrokeOpacity = 0.8
+	}
+
+	// Draw P2 Curve Lines
+	for _, shape := range p1p2.P2CurveShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = shape.Name
+		line.X1 = plantDiagram.OriginX + shape.StartX
+		line.Y1 = plantDiagram.OriginY - shape.StartY
+		line.X2 = plantDiagram.OriginX + shape.EndX
+		line.Y2 = plantDiagram.OriginY - shape.EndY
+		line.Presentation.Stroke = "magenta"
+		line.Presentation.StrokeWidth = 1.5
+		line.Presentation.StrokeOpacity = 0.8
+	}
+
+	// Draw P1-P2 Pair Lines
+	for _, shape := range p1p2.P1P2PairLineShapes {
+		line := new(svg.Line)
+		layer.Lines = append(layer.Lines, line)
+		line.Name = shape.Name
+		line.X1 = plantDiagram.OriginX + shape.StartX
+		line.Y1 = plantDiagram.OriginY - shape.StartY
+		line.X2 = plantDiagram.OriginX + shape.EndX
+		line.Y2 = plantDiagram.OriginY - shape.EndY
+		line.Presentation.Stroke = "magenta"
+		line.Presentation.StrokeWidth = 1.0
+		line.Presentation.StrokeOpacity = 0.8
+	}
+}
+
+

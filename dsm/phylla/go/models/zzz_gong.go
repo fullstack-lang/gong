@@ -579,6 +579,106 @@ type Stage struct {
 	OnAfterPartiallyGrowthCurve2DTrajectoryDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectory]
 	OnAfterPartiallyGrowthCurve2DTrajectoryReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectory]
 
+	PartiallyGrowthCurve2DTrajectoryP1CurveShapes                map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]struct{}
+	PartiallyGrowthCurve2DTrajectoryP1CurveShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder            uint
+	PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder     map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]uint
+	PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged     map[uint]*PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	PartiallyGrowthCurve2DTrajectoryP1CurveShapes_reference      map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	PartiallyGrowthCurve2DTrajectoryP1CurveShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1CurveShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1CurveShape]
+
+	PartiallyGrowthCurve2DTrajectoryP1P2s                map[*PartiallyGrowthCurve2DTrajectoryP1P2]struct{}
+	PartiallyGrowthCurve2DTrajectoryP1P2s_instance       map[*PartiallyGrowthCurve2DTrajectoryP1P2]*PartiallyGrowthCurve2DTrajectoryP1P2
+	PartiallyGrowthCurve2DTrajectoryP1P2s_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryP1P2
+	PartiallyGrowthCurve2DTrajectoryP1P2Order            uint
+	PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder     map[*PartiallyGrowthCurve2DTrajectoryP1P2]uint
+	PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged     map[uint]*PartiallyGrowthCurve2DTrajectoryP1P2
+	PartiallyGrowthCurve2DTrajectoryP1P2s_reference      map[*PartiallyGrowthCurve2DTrajectoryP1P2]*PartiallyGrowthCurve2DTrajectoryP1P2
+	PartiallyGrowthCurve2DTrajectoryP1P2s_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1P2]uint
+
+	// insertion point for slice of pointers maps
+	PartiallyGrowthCurve2DTrajectoryP1P2_P1PointShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1P2
+
+	PartiallyGrowthCurve2DTrajectoryP1P2_P2PointShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP1P2
+
+	PartiallyGrowthCurve2DTrajectoryP1P2_P1CurveShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1P2
+
+	PartiallyGrowthCurve2DTrajectoryP1P2_P2CurveShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP1P2
+
+	PartiallyGrowthCurve2DTrajectoryP1P2_P1P2PairLineShapes_reverseMap map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2
+
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2CreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2UpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2DeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2ReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1P2]
+
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes                map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]struct{}
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder            uint
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder     map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]uint
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged     map[uint]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_reference      map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+	PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]
+
+	PartiallyGrowthCurve2DTrajectoryP1PointShapes                map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]struct{}
+	PartiallyGrowthCurve2DTrajectoryP1PointShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1PointShape
+	PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryP1PointShape
+	PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder            uint
+	PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder     map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]uint
+	PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged     map[uint]*PartiallyGrowthCurve2DTrajectoryP1PointShape
+	PartiallyGrowthCurve2DTrajectoryP1PointShapes_reference      map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1PointShape
+	PartiallyGrowthCurve2DTrajectoryP1PointShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP1PointShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP1PointShape]
+
+	PartiallyGrowthCurve2DTrajectoryP2CurveShapes                map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]struct{}
+	PartiallyGrowthCurve2DTrajectoryP2CurveShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder            uint
+	PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder     map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]uint
+	PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged     map[uint]*PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	PartiallyGrowthCurve2DTrajectoryP2CurveShapes_reference      map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	PartiallyGrowthCurve2DTrajectoryP2CurveShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2CurveShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2CurveShape]
+
+	PartiallyGrowthCurve2DTrajectoryP2PointShapes                map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]struct{}
+	PartiallyGrowthCurve2DTrajectoryP2PointShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP2PointShape
+	PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryP2PointShape
+	PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder            uint
+	PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder     map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]uint
+	PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged     map[uint]*PartiallyGrowthCurve2DTrajectoryP2PointShape
+	PartiallyGrowthCurve2DTrajectoryP2PointShapes_reference      map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP2PointShape
+	PartiallyGrowthCurve2DTrajectoryP2PointShapes_referenceOrder map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeCreateCallback OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeUpdateCallback OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+	OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape]
+
 	PartiallyGrowthCurve2DTrajectoryShapes                map[*PartiallyGrowthCurve2DTrajectoryShape]struct{}
 	PartiallyGrowthCurve2DTrajectoryShapes_instance       map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape
 	PartiallyGrowthCurve2DTrajectoryShapes_mapString      map[string]*PartiallyGrowthCurve2DTrajectoryShape
@@ -1885,6 +1985,30 @@ func (stage *Stage) Squash() {
 	stage.PartiallyGrowthCurve2DTrajectorys_instance = make(map[*PartiallyGrowthCurve2DTrajectory]*PartiallyGrowthCurve2DTrajectory)
 	stage.PartiallyGrowthCurve2DTrajectorys_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectory]uint)
 
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_reference = make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]uint)
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_reference = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]*PartiallyGrowthCurve2DTrajectoryP1P2)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_instance = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]*PartiallyGrowthCurve2DTrajectoryP1P2)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]uint)
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_reference = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]uint)
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_reference = make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]uint)
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_reference = make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]uint)
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_reference = make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]uint)
+
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_reference = make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape)
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape)
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryShape]uint)
@@ -2542,6 +2666,90 @@ func (stage *Stage) recomputeOrders() {
 		stage.PartiallyGrowthCurve2DTrajectoryOrder = maxPartiallyGrowthCurve2DTrajectoryOrder + 1
 	} else {
 		stage.PartiallyGrowthCurve2DTrajectoryOrder = 0
+	}
+
+	var maxPartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder uint
+	var foundPartiallyGrowthCurve2DTrajectoryP1CurveShape bool
+	for _, order := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder {
+		if !foundPartiallyGrowthCurve2DTrajectoryP1CurveShape || order > maxPartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder {
+			maxPartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder = order
+			foundPartiallyGrowthCurve2DTrajectoryP1CurveShape = true
+		}
+	}
+	if foundPartiallyGrowthCurve2DTrajectoryP1CurveShape {
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder = maxPartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder + 1
+	} else {
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder = 0
+	}
+
+	var maxPartiallyGrowthCurve2DTrajectoryP1P2Order uint
+	var foundPartiallyGrowthCurve2DTrajectoryP1P2 bool
+	for _, order := range stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder {
+		if !foundPartiallyGrowthCurve2DTrajectoryP1P2 || order > maxPartiallyGrowthCurve2DTrajectoryP1P2Order {
+			maxPartiallyGrowthCurve2DTrajectoryP1P2Order = order
+			foundPartiallyGrowthCurve2DTrajectoryP1P2 = true
+		}
+	}
+	if foundPartiallyGrowthCurve2DTrajectoryP1P2 {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2Order = maxPartiallyGrowthCurve2DTrajectoryP1P2Order + 1
+	} else {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2Order = 0
+	}
+
+	var maxPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder uint
+	var foundPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape bool
+	for _, order := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder {
+		if !foundPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape || order > maxPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder {
+			maxPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder = order
+			foundPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape = true
+		}
+	}
+	if foundPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder = maxPartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder + 1
+	} else {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder = 0
+	}
+
+	var maxPartiallyGrowthCurve2DTrajectoryP1PointShapeOrder uint
+	var foundPartiallyGrowthCurve2DTrajectoryP1PointShape bool
+	for _, order := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder {
+		if !foundPartiallyGrowthCurve2DTrajectoryP1PointShape || order > maxPartiallyGrowthCurve2DTrajectoryP1PointShapeOrder {
+			maxPartiallyGrowthCurve2DTrajectoryP1PointShapeOrder = order
+			foundPartiallyGrowthCurve2DTrajectoryP1PointShape = true
+		}
+	}
+	if foundPartiallyGrowthCurve2DTrajectoryP1PointShape {
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder = maxPartiallyGrowthCurve2DTrajectoryP1PointShapeOrder + 1
+	} else {
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder = 0
+	}
+
+	var maxPartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder uint
+	var foundPartiallyGrowthCurve2DTrajectoryP2CurveShape bool
+	for _, order := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder {
+		if !foundPartiallyGrowthCurve2DTrajectoryP2CurveShape || order > maxPartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder {
+			maxPartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder = order
+			foundPartiallyGrowthCurve2DTrajectoryP2CurveShape = true
+		}
+	}
+	if foundPartiallyGrowthCurve2DTrajectoryP2CurveShape {
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder = maxPartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder + 1
+	} else {
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder = 0
+	}
+
+	var maxPartiallyGrowthCurve2DTrajectoryP2PointShapeOrder uint
+	var foundPartiallyGrowthCurve2DTrajectoryP2PointShape bool
+	for _, order := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder {
+		if !foundPartiallyGrowthCurve2DTrajectoryP2PointShape || order > maxPartiallyGrowthCurve2DTrajectoryP2PointShapeOrder {
+			maxPartiallyGrowthCurve2DTrajectoryP2PointShapeOrder = order
+			foundPartiallyGrowthCurve2DTrajectoryP2PointShape = true
+		}
+	}
+	if foundPartiallyGrowthCurve2DTrajectoryP2PointShape {
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder = maxPartiallyGrowthCurve2DTrajectoryP2PointShapeOrder + 1
+	} else {
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder = 0
 	}
 
 	var maxPartiallyGrowthCurve2DTrajectoryShapeOrder uint
@@ -3837,6 +4045,90 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyGrowthCurve2DTrajectoryP1CurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyGrowthCurve2DTrajectoryP1P2 implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyGrowthCurve2DTrajectoryP1PointShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyGrowthCurve2DTrajectoryP2CurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyGrowthCurve2DTrajectoryP2PointShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
 
@@ -4762,6 +5054,18 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DRibbonStartShapes, stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder)
 	case "PartiallyGrowthCurve2DTrajectory":
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectorys, stage.PartiallyGrowthCurve2DTrajectory_stagedOrder)
+	case "PartiallyGrowthCurve2DTrajectoryP1CurveShape":
+		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape":
+		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder)
+	case "PartiallyGrowthCurve2DTrajectoryP1PointShape":
+		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder)
+	case "PartiallyGrowthCurve2DTrajectoryP2CurveShape":
+		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder)
+	case "PartiallyGrowthCurve2DTrajectoryP2PointShape":
+		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
 	case "PartiallyRotatedTorusShape":
@@ -5007,6 +5311,18 @@ type BackRepoInterface interface {
 	CheckoutPartiallyGrowthCurve2DRibbonStartShape(partiallygrowthcurve2dribbonstartshape *PartiallyGrowthCurve2DRibbonStartShape)
 	CommitPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory)
 	CheckoutPartiallyGrowthCurve2DTrajectory(partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory)
+	CommitPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	CheckoutPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	CommitPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2)
+	CheckoutPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2)
+	CommitPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	CheckoutPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	CommitPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	CheckoutPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	CommitPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	CheckoutPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	CommitPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	CheckoutPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	CommitPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape)
 	CheckoutPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape)
 	CommitPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape)
@@ -5216,6 +5532,24 @@ func NewStage(name string) (stage *Stage) {
 
 		PartiallyGrowthCurve2DTrajectorys:           make(map[*PartiallyGrowthCurve2DTrajectory]struct{}),
 		PartiallyGrowthCurve2DTrajectorys_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectory),
+
+		PartiallyGrowthCurve2DTrajectoryP1CurveShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]struct{}),
+		PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryP1CurveShape),
+
+		PartiallyGrowthCurve2DTrajectoryP1P2s:           make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]struct{}),
+		PartiallyGrowthCurve2DTrajectoryP1P2s_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryP1P2),
+
+		PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]struct{}),
+		PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape),
+
+		PartiallyGrowthCurve2DTrajectoryP1PointShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]struct{}),
+		PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryP1PointShape),
+
+		PartiallyGrowthCurve2DTrajectoryP2CurveShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]struct{}),
+		PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryP2CurveShape),
+
+		PartiallyGrowthCurve2DTrajectoryP2PointShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]struct{}),
+		PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryP2PointShape),
 
 		PartiallyGrowthCurve2DTrajectoryShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryShape]struct{}),
 		PartiallyGrowthCurve2DTrajectoryShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryShape),
@@ -5519,6 +5853,30 @@ func NewStage(name string) (stage *Stage) {
 		PartiallyGrowthCurve2DTrajectory_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectory),
 		PartiallyGrowthCurve2DTrajectorys_reference:  make(map[*PartiallyGrowthCurve2DTrajectory]*PartiallyGrowthCurve2DTrajectory),
 
+		PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]uint),
+		PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryP1CurveShape),
+		PartiallyGrowthCurve2DTrajectoryP1CurveShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]*PartiallyGrowthCurve2DTrajectoryP1CurveShape),
+
+		PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]uint),
+		PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryP1P2),
+		PartiallyGrowthCurve2DTrajectoryP1P2s_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]*PartiallyGrowthCurve2DTrajectoryP1P2),
+
+		PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]uint),
+		PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape),
+		PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape),
+
+		PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]uint),
+		PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryP1PointShape),
+		PartiallyGrowthCurve2DTrajectoryP1PointShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]*PartiallyGrowthCurve2DTrajectoryP1PointShape),
+
+		PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]uint),
+		PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryP2CurveShape),
+		PartiallyGrowthCurve2DTrajectoryP2CurveShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]*PartiallyGrowthCurve2DTrajectoryP2CurveShape),
+
+		PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]uint),
+		PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryP2PointShape),
+		PartiallyGrowthCurve2DTrajectoryP2PointShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]*PartiallyGrowthCurve2DTrajectoryP2PointShape),
+
 		PartiallyGrowthCurve2DTrajectoryShape_stagedOrder: make(map[*PartiallyGrowthCurve2DTrajectoryShape]uint),
 		PartiallyGrowthCurve2DTrajectoryShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryShape),
 		PartiallyGrowthCurve2DTrajectoryShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape),
@@ -5817,6 +6175,18 @@ func NewStage(name string) (stage *Stage) {
 
 			"PartiallyGrowthCurve2DTrajectory": &PartiallyGrowthCurve2DTrajectoryUnmarshaller{},
 
+			"PartiallyGrowthCurve2DTrajectoryP1CurveShape": &PartiallyGrowthCurve2DTrajectoryP1CurveShapeUnmarshaller{},
+
+			"PartiallyGrowthCurve2DTrajectoryP1P2": &PartiallyGrowthCurve2DTrajectoryP1P2Unmarshaller{},
+
+			"PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape": &PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUnmarshaller{},
+
+			"PartiallyGrowthCurve2DTrajectoryP1PointShape": &PartiallyGrowthCurve2DTrajectoryP1PointShapeUnmarshaller{},
+
+			"PartiallyGrowthCurve2DTrajectoryP2CurveShape": &PartiallyGrowthCurve2DTrajectoryP2CurveShapeUnmarshaller{},
+
+			"PartiallyGrowthCurve2DTrajectoryP2PointShape": &PartiallyGrowthCurve2DTrajectoryP2PointShapeUnmarshaller{},
+
 			"PartiallyGrowthCurve2DTrajectoryShape": &PartiallyGrowthCurve2DTrajectoryShapeUnmarshaller{},
 
 			"PartiallyRotatedTorusShape": &PartiallyRotatedTorusShapeUnmarshaller{},
@@ -5969,6 +6339,12 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PartiallyGrowthCurve2DRibbonEndShape"},
 			{name: "PartiallyGrowthCurve2DRibbonStartShape"},
 			{name: "PartiallyGrowthCurve2DTrajectory"},
+			{name: "PartiallyGrowthCurve2DTrajectoryP1CurveShape"},
+			{name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
+			{name: "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape"},
+			{name: "PartiallyGrowthCurve2DTrajectoryP1PointShape"},
+			{name: "PartiallyGrowthCurve2DTrajectoryP2CurveShape"},
+			{name: "PartiallyGrowthCurve2DTrajectoryP2PointShape"},
 			{name: "PartiallyGrowthCurve2DTrajectoryShape"},
 			{name: "PartiallyRotatedTorusShape"},
 			{name: "PerpendicularVector"},
@@ -6096,6 +6472,18 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectory:
 		return stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
 	case *PartiallyRotatedTorusShape:
@@ -6281,6 +6669,18 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PartiallyGrowthCurve2DRibbonStartShape_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DTrajectory:
 		return any(stage.PartiallyGrowthCurve2DTrajectory_orderStaged[order]).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged[order]).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged[order]).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged[order]).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged[order]).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged[order]).(Type)
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(stage.PartiallyGrowthCurve2DTrajectoryShape_orderStaged[order]).(Type)
 	case *PartiallyRotatedTorusShape:
@@ -6465,6 +6865,18 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PartiallyGrowthCurve2DRibbonStartShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectory:
 		return stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[instance]
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
 	case *PartiallyRotatedTorusShape:
@@ -6678,6 +7090,12 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbonEndShape"] = len(stage.PartiallyGrowthCurve2DRibbonEndShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbonStartShape"] = len(stage.PartiallyGrowthCurve2DRibbonStartShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectory"] = len(stage.PartiallyGrowthCurve2DTrajectorys)
+	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP1CurveShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP1P2"] = len(stage.PartiallyGrowthCurve2DTrajectoryP1P2s)
+	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP1PointShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP2CurveShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP2PointShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyRotatedTorusShape"] = len(stage.PartiallyRotatedTorusShapes)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
@@ -9240,6 +9658,534 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GetNam
 // for satisfaction of GongStruct interface
 func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) SetName(name string) {
 	partiallygrowthcurve2dtrajectory.Name = name
+}
+
+// Stage puts partiallygrowthcurve2dtrajectoryp1curveshape to the model stage
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) Stage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1CurveShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape] = struct{}{}
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[partiallygrowthcurve2dtrajectoryp1curveshape] = stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged[stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder] = partiallygrowthcurve2dtrajectoryp1curveshape
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString[partiallygrowthcurve2dtrajectoryp1curveshape.Name] = partiallygrowthcurve2dtrajectoryp1curveshape
+
+	return partiallygrowthcurve2dtrajectoryp1curveshape
+}
+
+// StagePreserveOrder puts partiallygrowthcurve2dtrajectoryp1curveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder
+// - update stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder accordingly
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape] = struct{}{}
+
+		if order > stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder {
+			stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder = order
+		}
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[partiallygrowthcurve2dtrajectoryp1curveshape] = order
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_orderStaged[order] = partiallygrowthcurve2dtrajectoryp1curveshape
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString[partiallygrowthcurve2dtrajectoryp1curveshape.Name] = partiallygrowthcurve2dtrajectoryp1curveshape
+}
+
+// Unstage removes partiallygrowthcurve2dtrajectoryp1curveshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) Unstage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1CurveShape {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, partiallygrowthcurve2dtrajectoryp1curveshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder, partiallygrowthcurve2dtrajectoryp1curveshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString, partiallygrowthcurve2dtrajectoryp1curveshape.Name)
+
+	return partiallygrowthcurve2dtrajectoryp1curveshape
+}
+
+// UnstageVoid removes partiallygrowthcurve2dtrajectoryp1curveshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes, partiallygrowthcurve2dtrajectoryp1curveshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder, partiallygrowthcurve2dtrajectoryp1curveshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString, partiallygrowthcurve2dtrajectoryp1curveshape.Name)
+}
+
+// commit partiallygrowthcurve2dtrajectoryp1curveshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) Commit(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1CurveShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1curveshape
+}
+
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) CommitVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1curveshape.Commit(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) StageVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1curveshape.Stage(stage)
+}
+
+// Checkout partiallygrowthcurve2dtrajectoryp1curveshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) Checkout(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1CurveShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes[partiallygrowthcurve2dtrajectoryp1curveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyGrowthCurve2DTrajectoryP1CurveShape(partiallygrowthcurve2dtrajectoryp1curveshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1curveshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GetName() (res string) {
+	return partiallygrowthcurve2dtrajectoryp1curveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) SetName(name string) {
+	partiallygrowthcurve2dtrajectoryp1curveshape.Name = name
+}
+
+// Stage puts partiallygrowthcurve2dtrajectoryp1p2 to the model stage
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) Stage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2 {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2] = struct{}{}
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[partiallygrowthcurve2dtrajectoryp1p2] = stage.PartiallyGrowthCurve2DTrajectoryP1P2Order
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged[stage.PartiallyGrowthCurve2DTrajectoryP1P2Order] = partiallygrowthcurve2dtrajectoryp1p2
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2Order++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString[partiallygrowthcurve2dtrajectoryp1p2.Name] = partiallygrowthcurve2dtrajectoryp1p2
+
+	return partiallygrowthcurve2dtrajectoryp1p2
+}
+
+// StagePreserveOrder puts partiallygrowthcurve2dtrajectoryp1p2 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyGrowthCurve2DTrajectoryP1P2Order
+// - update stage.PartiallyGrowthCurve2DTrajectoryP1P2Order accordingly
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2] = struct{}{}
+
+		if order > stage.PartiallyGrowthCurve2DTrajectoryP1P2Order {
+			stage.PartiallyGrowthCurve2DTrajectoryP1P2Order = order
+		}
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[partiallygrowthcurve2dtrajectoryp1p2] = order
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2_orderStaged[order] = partiallygrowthcurve2dtrajectoryp1p2
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2Order++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString[partiallygrowthcurve2dtrajectoryp1p2.Name] = partiallygrowthcurve2dtrajectoryp1p2
+}
+
+// Unstage removes partiallygrowthcurve2dtrajectoryp1p2 off the model stage
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) Unstage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2 {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, partiallygrowthcurve2dtrajectoryp1p2)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder, partiallygrowthcurve2dtrajectoryp1p2)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString, partiallygrowthcurve2dtrajectoryp1p2.Name)
+
+	return partiallygrowthcurve2dtrajectoryp1p2
+}
+
+// UnstageVoid removes partiallygrowthcurve2dtrajectoryp1p2 off the model stage
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2s, partiallygrowthcurve2dtrajectoryp1p2)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder, partiallygrowthcurve2dtrajectoryp1p2)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString, partiallygrowthcurve2dtrajectoryp1p2.Name)
+}
+
+// commit partiallygrowthcurve2dtrajectoryp1p2 to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) Commit(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2 {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1p2
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) CommitVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1p2.Commit(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) StageVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1p2.Stage(stage)
+}
+
+// Checkout partiallygrowthcurve2dtrajectoryp1p2 to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) Checkout(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2 {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2s[partiallygrowthcurve2dtrajectoryp1p2]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyGrowthCurve2DTrajectoryP1P2(partiallygrowthcurve2dtrajectoryp1p2)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1p2
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GetName() (res string) {
+	return partiallygrowthcurve2dtrajectoryp1p2.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) SetName(name string) {
+	partiallygrowthcurve2dtrajectoryp1p2.Name = name
+}
+
+// Stage puts partiallygrowthcurve2dtrajectoryp1p2pairlineshape to the model stage
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) Stage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape] = struct{}{}
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[partiallygrowthcurve2dtrajectoryp1p2pairlineshape] = stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged[stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder] = partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString[partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name] = partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+
+	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+}
+
+// StagePreserveOrder puts partiallygrowthcurve2dtrajectoryp1p2pairlineshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder
+// - update stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder accordingly
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape] = struct{}{}
+
+		if order > stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder {
+			stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder = order
+		}
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[partiallygrowthcurve2dtrajectoryp1p2pairlineshape] = order
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_orderStaged[order] = partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString[partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name] = partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+}
+
+// Unstage removes partiallygrowthcurve2dtrajectoryp1p2pairlineshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) Unstage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder, partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name)
+
+	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+}
+
+// UnstageVoid removes partiallygrowthcurve2dtrajectoryp1p2pairlineshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes, partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder, partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString, partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name)
+}
+
+// commit partiallygrowthcurve2dtrajectoryp1p2pairlineshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) Commit(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) CommitVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Commit(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) StageVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Stage(stage)
+}
+
+// Checkout partiallygrowthcurve2dtrajectoryp1p2pairlineshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) Checkout(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes[partiallygrowthcurve2dtrajectoryp1p2pairlineshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(partiallygrowthcurve2dtrajectoryp1p2pairlineshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GetName() (res string) {
+	return partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) SetName(name string) {
+	partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name = name
+}
+
+// Stage puts partiallygrowthcurve2dtrajectoryp1pointshape to the model stage
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) Stage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1PointShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape] = struct{}{}
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[partiallygrowthcurve2dtrajectoryp1pointshape] = stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged[stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder] = partiallygrowthcurve2dtrajectoryp1pointshape
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString[partiallygrowthcurve2dtrajectoryp1pointshape.Name] = partiallygrowthcurve2dtrajectoryp1pointshape
+
+	return partiallygrowthcurve2dtrajectoryp1pointshape
+}
+
+// StagePreserveOrder puts partiallygrowthcurve2dtrajectoryp1pointshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder
+// - update stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder accordingly
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape] = struct{}{}
+
+		if order > stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder {
+			stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder = order
+		}
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[partiallygrowthcurve2dtrajectoryp1pointshape] = order
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_orderStaged[order] = partiallygrowthcurve2dtrajectoryp1pointshape
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString[partiallygrowthcurve2dtrajectoryp1pointshape.Name] = partiallygrowthcurve2dtrajectoryp1pointshape
+}
+
+// Unstage removes partiallygrowthcurve2dtrajectoryp1pointshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) Unstage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1PointShape {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, partiallygrowthcurve2dtrajectoryp1pointshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder, partiallygrowthcurve2dtrajectoryp1pointshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString, partiallygrowthcurve2dtrajectoryp1pointshape.Name)
+
+	return partiallygrowthcurve2dtrajectoryp1pointshape
+}
+
+// UnstageVoid removes partiallygrowthcurve2dtrajectoryp1pointshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes, partiallygrowthcurve2dtrajectoryp1pointshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder, partiallygrowthcurve2dtrajectoryp1pointshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString, partiallygrowthcurve2dtrajectoryp1pointshape.Name)
+}
+
+// commit partiallygrowthcurve2dtrajectoryp1pointshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) Commit(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1PointShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1pointshape
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) CommitVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1pointshape.Commit(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) StageVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp1pointshape.Stage(stage)
+}
+
+// Checkout partiallygrowthcurve2dtrajectoryp1pointshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) Checkout(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP1PointShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes[partiallygrowthcurve2dtrajectoryp1pointshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyGrowthCurve2DTrajectoryP1PointShape(partiallygrowthcurve2dtrajectoryp1pointshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp1pointshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GetName() (res string) {
+	return partiallygrowthcurve2dtrajectoryp1pointshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) SetName(name string) {
+	partiallygrowthcurve2dtrajectoryp1pointshape.Name = name
+}
+
+// Stage puts partiallygrowthcurve2dtrajectoryp2curveshape to the model stage
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) Stage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2CurveShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape] = struct{}{}
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[partiallygrowthcurve2dtrajectoryp2curveshape] = stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged[stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder] = partiallygrowthcurve2dtrajectoryp2curveshape
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString[partiallygrowthcurve2dtrajectoryp2curveshape.Name] = partiallygrowthcurve2dtrajectoryp2curveshape
+
+	return partiallygrowthcurve2dtrajectoryp2curveshape
+}
+
+// StagePreserveOrder puts partiallygrowthcurve2dtrajectoryp2curveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder
+// - update stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder accordingly
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape] = struct{}{}
+
+		if order > stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder {
+			stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder = order
+		}
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[partiallygrowthcurve2dtrajectoryp2curveshape] = order
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_orderStaged[order] = partiallygrowthcurve2dtrajectoryp2curveshape
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString[partiallygrowthcurve2dtrajectoryp2curveshape.Name] = partiallygrowthcurve2dtrajectoryp2curveshape
+}
+
+// Unstage removes partiallygrowthcurve2dtrajectoryp2curveshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) Unstage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2CurveShape {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, partiallygrowthcurve2dtrajectoryp2curveshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder, partiallygrowthcurve2dtrajectoryp2curveshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString, partiallygrowthcurve2dtrajectoryp2curveshape.Name)
+
+	return partiallygrowthcurve2dtrajectoryp2curveshape
+}
+
+// UnstageVoid removes partiallygrowthcurve2dtrajectoryp2curveshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes, partiallygrowthcurve2dtrajectoryp2curveshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder, partiallygrowthcurve2dtrajectoryp2curveshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString, partiallygrowthcurve2dtrajectoryp2curveshape.Name)
+}
+
+// commit partiallygrowthcurve2dtrajectoryp2curveshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) Commit(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2CurveShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp2curveshape
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) CommitVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp2curveshape.Commit(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) StageVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp2curveshape.Stage(stage)
+}
+
+// Checkout partiallygrowthcurve2dtrajectoryp2curveshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) Checkout(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2CurveShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes[partiallygrowthcurve2dtrajectoryp2curveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyGrowthCurve2DTrajectoryP2CurveShape(partiallygrowthcurve2dtrajectoryp2curveshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp2curveshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GetName() (res string) {
+	return partiallygrowthcurve2dtrajectoryp2curveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) SetName(name string) {
+	partiallygrowthcurve2dtrajectoryp2curveshape.Name = name
+}
+
+// Stage puts partiallygrowthcurve2dtrajectoryp2pointshape to the model stage
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) Stage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2PointShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape] = struct{}{}
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[partiallygrowthcurve2dtrajectoryp2pointshape] = stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder] = partiallygrowthcurve2dtrajectoryp2pointshape
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString[partiallygrowthcurve2dtrajectoryp2pointshape.Name] = partiallygrowthcurve2dtrajectoryp2pointshape
+
+	return partiallygrowthcurve2dtrajectoryp2pointshape
+}
+
+// StagePreserveOrder puts partiallygrowthcurve2dtrajectoryp2pointshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder
+// - update stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder accordingly
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape]; !ok {
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape] = struct{}{}
+
+		if order > stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder {
+			stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder = order
+		}
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[partiallygrowthcurve2dtrajectoryp2pointshape] = order
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[order] = partiallygrowthcurve2dtrajectoryp2pointshape
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder++
+	}
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString[partiallygrowthcurve2dtrajectoryp2pointshape.Name] = partiallygrowthcurve2dtrajectoryp2pointshape
+}
+
+// Unstage removes partiallygrowthcurve2dtrajectoryp2pointshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) Unstage(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2PointShape {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, partiallygrowthcurve2dtrajectoryp2pointshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder, partiallygrowthcurve2dtrajectoryp2pointshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString, partiallygrowthcurve2dtrajectoryp2pointshape.Name)
+
+	return partiallygrowthcurve2dtrajectoryp2pointshape
+}
+
+// UnstageVoid removes partiallygrowthcurve2dtrajectoryp2pointshape off the model stage
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, partiallygrowthcurve2dtrajectoryp2pointshape)
+	// issue1150
+	// delete(stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder, partiallygrowthcurve2dtrajectoryp2pointshape)
+	delete(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString, partiallygrowthcurve2dtrajectoryp2pointshape.Name)
+}
+
+// commit partiallygrowthcurve2dtrajectoryp2pointshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) Commit(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2PointShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp2pointshape
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) CommitVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp2pointshape.Commit(stage)
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) StageVoid(stage *Stage) {
+	partiallygrowthcurve2dtrajectoryp2pointshape.Stage(stage)
+}
+
+// Checkout partiallygrowthcurve2dtrajectoryp2pointshape to the back repo (if it is already staged)
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) Checkout(stage *Stage) *PartiallyGrowthCurve2DTrajectoryP2PointShape {
+	if _, ok := stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes[partiallygrowthcurve2dtrajectoryp2pointshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape)
+		}
+	}
+	return partiallygrowthcurve2dtrajectoryp2pointshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GetName() (res string) {
+	return partiallygrowthcurve2dtrajectoryp2pointshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) SetName(name string) {
+	partiallygrowthcurve2dtrajectoryp2pointshape.Name = name
 }
 
 // Stage puts partiallygrowthcurve2dtrajectoryshape to the model stage
@@ -14552,6 +15498,12 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
 	CreateORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
 	CreateORMPartiallyGrowthCurve2DTrajectory(PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory)
+	CreateORMPartiallyGrowthCurve2DTrajectoryP1CurveShape(PartiallyGrowthCurve2DTrajectoryP1CurveShape *PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	CreateORMPartiallyGrowthCurve2DTrajectoryP1P2(PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2)
+	CreateORMPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	CreateORMPartiallyGrowthCurve2DTrajectoryP1PointShape(PartiallyGrowthCurve2DTrajectoryP1PointShape *PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	CreateORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	CreateORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	CreateORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
 	CreateORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
 	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
@@ -14643,6 +15595,12 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
 	DeleteORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
 	DeleteORMPartiallyGrowthCurve2DTrajectory(PartiallyGrowthCurve2DTrajectory *PartiallyGrowthCurve2DTrajectory)
+	DeleteORMPartiallyGrowthCurve2DTrajectoryP1CurveShape(PartiallyGrowthCurve2DTrajectoryP1CurveShape *PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	DeleteORMPartiallyGrowthCurve2DTrajectoryP1P2(PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2)
+	DeleteORMPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	DeleteORMPartiallyGrowthCurve2DTrajectoryP1PointShape(PartiallyGrowthCurve2DTrajectoryP1PointShape *PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	DeleteORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	DeleteORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	DeleteORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
 	DeleteORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
 	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
@@ -14845,6 +15803,36 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PartiallyGrowthCurve2DTrajectorys_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectory)
 	stage.PartiallyGrowthCurve2DTrajectory_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectory]uint)
 	stage.PartiallyGrowthCurve2DTrajectoryOrder = 0
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes = make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]struct{})
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]uint)
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapeOrder = 0
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]struct{})
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1P2)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]uint)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2Order = 0
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]struct{})
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]uint)
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeOrder = 0
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes = make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]struct{})
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]uint)
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapeOrder = 0
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes = make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]struct{})
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]uint)
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapeOrder = 0
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes = make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]struct{})
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]uint)
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapeOrder = 0
 
 	stage.PartiallyGrowthCurve2DTrajectoryShapes = make(map[*PartiallyGrowthCurve2DTrajectoryShape]struct{})
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryShape)
@@ -15239,6 +16227,24 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PartiallyGrowthCurve2DTrajectorys = nil
 	stage.PartiallyGrowthCurve2DTrajectorys_mapString = nil
 
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes = nil
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString = nil
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s = nil
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString = nil
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes = nil
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString = nil
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes = nil
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString = nil
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes = nil
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString = nil
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes = nil
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString = nil
+
 	stage.PartiallyGrowthCurve2DTrajectoryShapes = nil
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString = nil
 
@@ -15533,6 +16539,30 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for partiallygrowthcurve2dtrajectory := range stage.PartiallyGrowthCurve2DTrajectorys {
 		partiallygrowthcurve2dtrajectory.Unstage(stage)
+	}
+
+	for partiallygrowthcurve2dtrajectoryp1curveshape := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
+		partiallygrowthcurve2dtrajectoryp1curveshape.Unstage(stage)
+	}
+
+	for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+		partiallygrowthcurve2dtrajectoryp1p2.Unstage(stage)
+	}
+
+	for partiallygrowthcurve2dtrajectoryp1p2pairlineshape := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Unstage(stage)
+	}
+
+	for partiallygrowthcurve2dtrajectoryp1pointshape := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
+		partiallygrowthcurve2dtrajectoryp1pointshape.Unstage(stage)
+	}
+
+	for partiallygrowthcurve2dtrajectoryp2curveshape := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
+		partiallygrowthcurve2dtrajectoryp2curveshape.Unstage(stage)
+	}
+
+	for partiallygrowthcurve2dtrajectoryp2pointshape := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
+		partiallygrowthcurve2dtrajectoryp2pointshape.Unstage(stage)
 	}
 
 	for partiallygrowthcurve2dtrajectoryshape := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
@@ -15907,6 +16937,18 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes).(*Type)
 	case map[*PartiallyGrowthCurve2DTrajectory]any:
 		return any(&stage.PartiallyGrowthCurve2DTrajectorys).(*Type)
+	case map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]any:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes).(*Type)
+	case map[*PartiallyGrowthCurve2DTrajectoryP1P2]any:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s).(*Type)
+	case map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]any:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes).(*Type)
+	case map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]any:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes).(*Type)
+	case map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]any:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes).(*Type)
+	case map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]any:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*Type)
 	case map[*PartiallyGrowthCurve2DTrajectoryShape]any:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*Type)
 	case map[*PartiallyRotatedTorusShape]any:
@@ -16095,6 +17137,18 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PartiallyGrowthCurve2DRibbonStartShapes_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DTrajectory:
 		return any(stage.PartiallyGrowthCurve2DTrajectorys_mapString).(map[string]Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString).(map[string]Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString).(map[string]Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString).(map[string]Type)
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString).(map[string]Type)
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString).(map[string]Type)
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(map[string]Type)
 	case *PartiallyRotatedTorusShape:
@@ -16283,6 +17337,18 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DTrajectory:
 		return any(&stage.PartiallyGrowthCurve2DTrajectorys).(*map[*Type]struct{})
+	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes).(*map[*Type]struct{})
+	case PartiallyGrowthCurve2DTrajectoryP1P2:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s).(*map[*Type]struct{})
+	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes).(*map[*Type]struct{})
+	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes).(*map[*Type]struct{})
+	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes).(*map[*Type]struct{})
+	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[*Type]struct{})
 	case PartiallyRotatedTorusShape:
@@ -16471,6 +17537,18 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DTrajectory:
 		return any(&stage.PartiallyGrowthCurve2DTrajectorys).(*map[Type]struct{})
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes).(*map[Type]struct{})
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s).(*map[Type]struct{})
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes).(*map[Type]struct{})
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes).(*map[Type]struct{})
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes).(*map[Type]struct{})
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[Type]struct{})
 	case *PartiallyRotatedTorusShape:
@@ -16659,6 +17737,18 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PartiallyGrowthCurve2DRibbonStartShapes_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DTrajectory:
 		return any(&stage.PartiallyGrowthCurve2DTrajectorys_mapString).(*map[string]*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString).(*map[string]*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1P2:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString).(*map[string]*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString).(*map[string]*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString).(*map[string]*Type)
+	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString).(*map[string]*Type)
+	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(*map[string]*Type)
 	case PartiallyRotatedTorusShape:
@@ -16937,6 +18027,40 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryShape with the name of the field
 			PartiallyGrowthCurve2DTrajectoryShapes: []*PartiallyGrowthCurve2DTrajectoryShape{{Name: "PartiallyGrowthCurve2DTrajectoryShapes"}},
 		}).(*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		return any(&PartiallyGrowthCurve2DTrajectoryP1CurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1P2:
+		return any(&PartiallyGrowthCurve2DTrajectoryP1P2{
+			// Initialisation of associations
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1PointShape with the name of the field
+			P1PointShapes: []*PartiallyGrowthCurve2DTrajectoryP1PointShape{{Name: "P1PointShapes"}},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP2PointShape with the name of the field
+			P2PointShapes: []*PartiallyGrowthCurve2DTrajectoryP2PointShape{{Name: "P2PointShapes"}},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1CurveShape with the name of the field
+			P1CurveShapes: []*PartiallyGrowthCurve2DTrajectoryP1CurveShape{{Name: "P1CurveShapes"}},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP2CurveShape with the name of the field
+			P2CurveShapes: []*PartiallyGrowthCurve2DTrajectoryP2CurveShape{{Name: "P2CurveShapes"}},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape with the name of the field
+			P1P2PairLineShapes: []*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape{{Name: "P1P2PairLineShapes"}},
+		}).(*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		return any(&PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape{
+			// Initialisation of associations
+		}).(*Type)
+	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		return any(&PartiallyGrowthCurve2DTrajectoryP1PointShape{
+			// Initialisation of associations
+		}).(*Type)
+	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		return any(&PartiallyGrowthCurve2DTrajectoryP2CurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		return any(&PartiallyGrowthCurve2DTrajectoryP2PointShape{
+			// Initialisation of associations
+		}).(*Type)
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&PartiallyGrowthCurve2DTrajectoryShape{
 			// Initialisation of associations
@@ -17030,6 +18154,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
 			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
 			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
+			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -17521,6 +18647,36 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectory
 	case PartiallyGrowthCurve2DTrajectory:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1P2
+	case PartiallyGrowthCurve2DTrajectoryP1P2:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1PointShape
+	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP2PointShape
+	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -18065,6 +19221,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[partiallygrowthcurve2dtrajectory_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*Plant)
+			for plant := range stage.Plants {
+				if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+					partiallygrowthcurve2dtrajectoryp1p2_ := plant.PartiallyGrowthCurve2DTrajectoryP1P2
+					var plants []*Plant
+					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
+					if ok {
+						plants = res[partiallygrowthcurve2dtrajectoryp1p2_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[partiallygrowthcurve2dtrajectoryp1p2_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -18924,6 +20097,76 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1CurveShape
+	case PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1P2
+	case PartiallyGrowthCurve2DTrajectoryP1P2:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "P1PointShapes":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape][]*PartiallyGrowthCurve2DTrajectoryP1P2)
+			for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				for _, partiallygrowthcurve2dtrajectoryp1pointshape_ := range partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes {
+					res[partiallygrowthcurve2dtrajectoryp1pointshape_] = append(res[partiallygrowthcurve2dtrajectoryp1pointshape_], partiallygrowthcurve2dtrajectoryp1p2)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "P2PointShapes":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape][]*PartiallyGrowthCurve2DTrajectoryP1P2)
+			for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				for _, partiallygrowthcurve2dtrajectoryp2pointshape_ := range partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes {
+					res[partiallygrowthcurve2dtrajectoryp2pointshape_] = append(res[partiallygrowthcurve2dtrajectoryp2pointshape_], partiallygrowthcurve2dtrajectoryp1p2)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "P1CurveShapes":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape][]*PartiallyGrowthCurve2DTrajectoryP1P2)
+			for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				for _, partiallygrowthcurve2dtrajectoryp1curveshape_ := range partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes {
+					res[partiallygrowthcurve2dtrajectoryp1curveshape_] = append(res[partiallygrowthcurve2dtrajectoryp1curveshape_], partiallygrowthcurve2dtrajectoryp1p2)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "P2CurveShapes":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape][]*PartiallyGrowthCurve2DTrajectoryP1P2)
+			for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				for _, partiallygrowthcurve2dtrajectoryp2curveshape_ := range partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes {
+					res[partiallygrowthcurve2dtrajectoryp2curveshape_] = append(res[partiallygrowthcurve2dtrajectoryp2curveshape_], partiallygrowthcurve2dtrajectoryp1p2)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "P1P2PairLineShapes":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape][]*PartiallyGrowthCurve2DTrajectoryP1P2)
+			for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				for _, partiallygrowthcurve2dtrajectoryp1p2pairlineshape_ := range partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes {
+					res[partiallygrowthcurve2dtrajectoryp1p2pairlineshape_] = append(res[partiallygrowthcurve2dtrajectoryp1p2pairlineshape_], partiallygrowthcurve2dtrajectoryp1p2)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape
+	case PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP1PointShape
+	case PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP2CurveShape
+	case PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryP2PointShape
+	case PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryShape
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		switch fieldname {
@@ -19523,6 +20766,18 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PartiallyGrowthCurve2DRibbonStartShape"
 	case *PartiallyGrowthCurve2DTrajectory:
 		res = "PartiallyGrowthCurve2DTrajectory"
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		res = "PartiallyGrowthCurve2DTrajectoryP1CurveShape"
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		res = "PartiallyGrowthCurve2DTrajectoryP1P2"
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		res = "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape"
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		res = "PartiallyGrowthCurve2DTrajectoryP1PointShape"
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		res = "PartiallyGrowthCurve2DTrajectoryP2CurveShape"
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		res = "PartiallyGrowthCurve2DTrajectoryP2PointShape"
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		res = "PartiallyGrowthCurve2DTrajectoryShape"
 	case *PartiallyRotatedTorusShape:
@@ -19780,6 +21035,39 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *PartiallyGrowthCurve2DTrajectory:
 		var rf ReverseField
 		_ = rf
+	case *PartiallyGrowthCurve2DTrajectoryP1CurveShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
+		rf.Fieldname = "P1CurveShapes"
+		res = append(res, rf)
+	case *PartiallyGrowthCurve2DTrajectoryP1P2:
+		var rf ReverseField
+		_ = rf
+	case *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
+		rf.Fieldname = "P1P2PairLineShapes"
+		res = append(res, rf)
+	case *PartiallyGrowthCurve2DTrajectoryP1PointShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
+		rf.Fieldname = "P1PointShapes"
+		res = append(res, rf)
+	case *PartiallyGrowthCurve2DTrajectoryP2CurveShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
+		rf.Fieldname = "P2CurveShapes"
+		res = append(res, rf)
+	case *PartiallyGrowthCurve2DTrajectoryP2PointShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PartiallyGrowthCurve2DTrajectoryP1P2"
+		rf.Fieldname = "P2PointShapes"
+		res = append(res, rf)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		var rf ReverseField
 		_ = rf
@@ -20910,6 +22198,161 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongGe
 	return
 }
 
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "P1PointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1PointShape",
+		},
+		{
+			Name:                 "P2PointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP2PointShape",
+		},
+		{
+			Name:                 "P1CurveShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1CurveShape",
+		},
+		{
+			Name:                 "P2CurveShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP2CurveShape",
+		},
+		{
+			Name:                 "P1P2PairLineShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape",
+		},
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StartX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StartY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -21264,6 +22707,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
 		},
+		{
+			Name:                 "PartiallyGrowthCurve2DTrajectoryP1P2",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+		},
 	}
 	return
 }
@@ -21488,6 +22936,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -24347,6 +25799,174 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongGe
 	return
 }
 
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallygrowthcurve2dtrajectoryp1curveshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1curveshape.StartX)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1curveshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1curveshape.StartY)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1curveshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1curveshape.EndX)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1curveshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1curveshape.EndY)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1curveshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallygrowthcurve2dtrajectoryp1p2.Name
+	case "P1PointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "P2PointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "P1CurveShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "P2CurveShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "P1P2PairLineShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartX)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartY)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndX)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndY)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallygrowthcurve2dtrajectoryp1pointshape.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1pointshape.X)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1pointshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp1pointshape.Y)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp1pointshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallygrowthcurve2dtrajectoryp2curveshape.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp2curveshape.StartX)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp2curveshape.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartY":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp2curveshape.StartY)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp2curveshape.StartY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp2curveshape.EndX)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp2curveshape.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndY":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp2curveshape.EndY)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp2curveshape.EndY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallygrowthcurve2dtrajectoryp2pointshape.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp2pointshape.X)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp2pointshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", partiallygrowthcurve2dtrajectoryp2pointshape.Y)
+		res.valueFloat = partiallygrowthcurve2dtrajectoryp2pointshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -24730,6 +26350,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.PartiallyGrowthCurve2DTrajectory.Name
 			res.ids = plant.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
 		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+			res.valueString = plant.PartiallyGrowthCurve2DTrajectoryP1P2.Name
+			res.ids = plant.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -24951,6 +26577,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
 		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
+		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusStackShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
@@ -27699,6 +29329,174 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongSe
 	return nil
 }
 
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallygrowthcurve2dtrajectoryp1curveshape.Name = value.GetValueString()
+	case "StartX":
+		partiallygrowthcurve2dtrajectoryp1curveshape.StartX = value.GetValueFloat()
+	case "StartY":
+		partiallygrowthcurve2dtrajectoryp1curveshape.StartY = value.GetValueFloat()
+	case "EndX":
+		partiallygrowthcurve2dtrajectoryp1curveshape.EndX = value.GetValueFloat()
+	case "EndY":
+		partiallygrowthcurve2dtrajectoryp1curveshape.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallygrowthcurve2dtrajectoryp1p2.Name = value.GetValueString()
+	case "P1PointShapes":
+		partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1PointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
+					if stage.PartiallyGrowthCurve2DTrajectoryP1PointShape_stagedOrder[__instance__] == uint(id) {
+						partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P1PointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "P2PointShapes":
+		partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes = make([]*PartiallyGrowthCurve2DTrajectoryP2PointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
+					if stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[__instance__] == uint(id) {
+						partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P2PointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "P1CurveShapes":
+		partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1CurveShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
+					if stage.PartiallyGrowthCurve2DTrajectoryP1CurveShape_stagedOrder[__instance__] == uint(id) {
+						partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P1CurveShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "P2CurveShapes":
+		partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes = make([]*PartiallyGrowthCurve2DTrajectoryP2CurveShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
+					if stage.PartiallyGrowthCurve2DTrajectoryP2CurveShape_stagedOrder[__instance__] == uint(id) {
+						partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P2CurveShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "P1P2PairLineShapes":
+		partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
+					if stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape_stagedOrder[__instance__] == uint(id) {
+						partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes = append(partiallygrowthcurve2dtrajectoryp1p2.P1P2PairLineShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name = value.GetValueString()
+	case "StartX":
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartX = value.GetValueFloat()
+	case "StartY":
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.StartY = value.GetValueFloat()
+	case "EndX":
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndX = value.GetValueFloat()
+	case "EndY":
+		partiallygrowthcurve2dtrajectoryp1p2pairlineshape.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallygrowthcurve2dtrajectoryp1pointshape.Name = value.GetValueString()
+	case "X":
+		partiallygrowthcurve2dtrajectoryp1pointshape.X = value.GetValueFloat()
+	case "Y":
+		partiallygrowthcurve2dtrajectoryp1pointshape.Y = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallygrowthcurve2dtrajectoryp2curveshape.Name = value.GetValueString()
+	case "StartX":
+		partiallygrowthcurve2dtrajectoryp2curveshape.StartX = value.GetValueFloat()
+	case "StartY":
+		partiallygrowthcurve2dtrajectoryp2curveshape.StartY = value.GetValueFloat()
+	case "EndX":
+		partiallygrowthcurve2dtrajectoryp2curveshape.EndX = value.GetValueFloat()
+	case "EndY":
+		partiallygrowthcurve2dtrajectoryp2curveshape.EndY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallygrowthcurve2dtrajectoryp2pointshape.Name = value.GetValueString()
+	case "X":
+		partiallygrowthcurve2dtrajectoryp2pointshape.X = value.GetValueFloat()
+	case "Y":
+		partiallygrowthcurve2dtrajectoryp2pointshape.Y = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -28200,6 +29998,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
+					plant.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -28324,6 +30133,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon = value.GetValueBool()
 	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
 		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
 	case "IsHiddenVerticalTorusStackShape":
@@ -30155,6 +31966,30 @@ func (partiallygrowthcurve2dtrajectory *PartiallyGrowthCurve2DTrajectory) GongGe
 	return "PartiallyGrowthCurve2DTrajectory"
 }
 
+func (partiallygrowthcurve2dtrajectoryp1curveshape *PartiallyGrowthCurve2DTrajectoryP1CurveShape) GongGetGongstructName() string {
+	return "PartiallyGrowthCurve2DTrajectoryP1CurveShape"
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2 *PartiallyGrowthCurve2DTrajectoryP1P2) GongGetGongstructName() string {
+	return "PartiallyGrowthCurve2DTrajectoryP1P2"
+}
+
+func (partiallygrowthcurve2dtrajectoryp1p2pairlineshape *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape) GongGetGongstructName() string {
+	return "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape"
+}
+
+func (partiallygrowthcurve2dtrajectoryp1pointshape *PartiallyGrowthCurve2DTrajectoryP1PointShape) GongGetGongstructName() string {
+	return "PartiallyGrowthCurve2DTrajectoryP1PointShape"
+}
+
+func (partiallygrowthcurve2dtrajectoryp2curveshape *PartiallyGrowthCurve2DTrajectoryP2CurveShape) GongGetGongstructName() string {
+	return "PartiallyGrowthCurve2DTrajectoryP2CurveShape"
+}
+
+func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape) GongGetGongstructName() string {
+	return "PartiallyGrowthCurve2DTrajectoryP2PointShape"
+}
+
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongGetGongstructName() string {
 	return "PartiallyGrowthCurve2DTrajectoryShape"
 }
@@ -30540,6 +32375,36 @@ func (stage *Stage) ResetMapStrings() {
 	stage.PartiallyGrowthCurve2DTrajectorys_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectory)
 	for partiallygrowthcurve2dtrajectory := range stage.PartiallyGrowthCurve2DTrajectorys {
 		stage.PartiallyGrowthCurve2DTrajectorys_mapString[partiallygrowthcurve2dtrajectory.Name] = partiallygrowthcurve2dtrajectory
+	}
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	for partiallygrowthcurve2dtrajectoryp1curveshape := range stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes {
+		stage.PartiallyGrowthCurve2DTrajectoryP1CurveShapes_mapString[partiallygrowthcurve2dtrajectoryp1curveshape.Name] = partiallygrowthcurve2dtrajectoryp1curveshape
+	}
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1P2)
+	for partiallygrowthcurve2dtrajectoryp1p2 := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2s_mapString[partiallygrowthcurve2dtrajectoryp1p2.Name] = partiallygrowthcurve2dtrajectoryp1p2
+	}
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	for partiallygrowthcurve2dtrajectoryp1p2pairlineshape := range stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes {
+		stage.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapes_mapString[partiallygrowthcurve2dtrajectoryp1p2pairlineshape.Name] = partiallygrowthcurve2dtrajectoryp1p2pairlineshape
+	}
+
+	stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	for partiallygrowthcurve2dtrajectoryp1pointshape := range stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes {
+		stage.PartiallyGrowthCurve2DTrajectoryP1PointShapes_mapString[partiallygrowthcurve2dtrajectoryp1pointshape.Name] = partiallygrowthcurve2dtrajectoryp1pointshape
+	}
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	for partiallygrowthcurve2dtrajectoryp2curveshape := range stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes {
+		stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes_mapString[partiallygrowthcurve2dtrajectoryp2curveshape.Name] = partiallygrowthcurve2dtrajectoryp2curveshape
+	}
+
+	stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	for partiallygrowthcurve2dtrajectoryp2pointshape := range stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes {
+		stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString[partiallygrowthcurve2dtrajectoryp2pointshape.Name] = partiallygrowthcurve2dtrajectoryp2pointshape
 	}
 
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString = make(map[string]*PartiallyGrowthCurve2DTrajectoryShape)

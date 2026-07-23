@@ -339,5 +339,307 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 		}
 	}
 
+	needCommitP1P2 := enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(stage, plant, pointsX, pointsY)
+	needCommit = needCommit || needCommitP1P2
+
 	return needCommit
 }
+
+func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
+	stage *Stage,
+	plant *Plant,
+	pointsX []float64,
+	pointsY []float64,
+) (needCommit bool) {
+	p1p2 := plant.PartiallyGrowthCurve2DTrajectoryP1P2
+	if p1p2 == nil {
+		return false
+	}
+
+	clearAll := func() bool {
+		nc := false
+		if len(p1p2.P1PointShapes) > 0 {
+			for _, s := range p1p2.P1PointShapes {
+				s.Unstage(stage)
+			}
+			p1p2.P1PointShapes = nil
+			nc = true
+		}
+		if len(p1p2.P2PointShapes) > 0 {
+			for _, s := range p1p2.P2PointShapes {
+				s.Unstage(stage)
+			}
+			p1p2.P2PointShapes = nil
+			nc = true
+		}
+		if len(p1p2.P1CurveShapes) > 0 {
+			for _, s := range p1p2.P1CurveShapes {
+				s.Unstage(stage)
+			}
+			p1p2.P1CurveShapes = nil
+			nc = true
+		}
+		if len(p1p2.P2CurveShapes) > 0 {
+			for _, s := range p1p2.P2CurveShapes {
+				s.Unstage(stage)
+			}
+			p1p2.P2CurveShapes = nil
+			nc = true
+		}
+		if len(p1p2.P1P2PairLineShapes) > 0 {
+			for _, s := range p1p2.P1P2PairLineShapes {
+				s.Unstage(stage)
+			}
+			p1p2.P1P2PairLineShapes = nil
+			nc = true
+		}
+		return nc
+	}
+
+	numSteps := len(pointsX) - 1
+	if numSteps < 2 {
+		return clearAll()
+	}
+
+	x1, y1 := pointsX[0], pointsY[0]
+	x2, y2 := pointsX[numSteps/2], pointsY[numSteps/2]
+	x3, y3 := pointsX[numSteps], pointsY[numSteps]
+
+	D := 2 * (x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2))
+	if math.Abs(D) <= 1e-6 {
+		return clearAll()
+	}
+
+	sq1 := x1*x1 + y1*y1
+	sq2 := x2*x2 + y2*y2
+	sq3 := x3*x3 + y3*y3
+
+	cx := (sq1*(y2-y3) + sq2*(y3-y1) + sq3*(y1-y2)) / D
+	cy := (sq1*(x3-x2) + sq2*(x1-x3) + sq3*(x2-x1)) / D
+	radius := math.Hypot(x1-cx, y1-cy)
+
+	if radius <= 0 {
+		return clearAll()
+	}
+
+	maxDev := 0.0
+	for step := 0; step <= numSteps; step++ {
+		dev := math.Abs(math.Hypot(pointsX[step]-cx, pointsY[step]-cy) - radius)
+		if dev > maxDev {
+			maxDev = dev
+		}
+	}
+
+	// Precision condition: maxDev / radius < 0.0001 (precision < 0.01 %)
+	if maxDev/radius >= 0.0001 {
+		return clearAll()
+	}
+
+	// Calculate baseline chord between (x1, y1) and (x3, y3)
+	dxChord := x3 - x1
+	dyChord := y3 - y1
+	chordLen := math.Hypot(dxChord, dyChord)
+	if chordLen == 0 {
+		return clearAll()
+	}
+
+	ux := dxChord / chordLen
+	uy := dyChord / chordLen
+
+	// Midpoint of chord
+	mx := (x1 + x3) / 2.0
+	my := (y1 + y3) / 2.0
+
+	// Normal vector pointing UP towards arc midpoint (x2, y2)
+	vxRaw := -uy
+	vyRaw := ux
+	dotMid := (x2-mx)*vxRaw + (y2-my)*vyRaw
+	if dotMid < 0 {
+		vxRaw = -vxRaw
+		vyRaw = -vyRaw
+	}
+	vx := vxRaw
+	vy := vyRaw
+
+	// R1 is the distance from circle center (cx, cy) to chord line
+	R1 := (mx-cx)*vx + (my-cy)*vy
+	if R1 < 0 {
+		R1 = math.Abs(R1)
+	}
+	R2 := radius - R1
+
+	if R1 < 0 || R2 <= 0 {
+		return clearAll()
+	}
+
+	refSteps := 10
+	p1PtsX := make([]float64, refSteps+1)
+	p1PtsY := make([]float64, refSteps+1)
+	p2PtsX := make([]float64, refSteps+1)
+	p2PtsY := make([]float64, refSteps+1)
+
+	for k := 0; k <= refSteps; k++ {
+		yVal := float64(k) * R1 / float64(refSteps)
+		yLine := -yVal // Cartesian ordinate below chord line
+
+		cK := math.Sqrt(2 * (R1 + yLine) * (R2 - yLine))
+
+		// P1 is on left (-cK*ux), P2 is on right (+cK*ux), both at yLine below chord (-yVal*vx, -yVal*vy)
+		p1PtsX[k] = mx - cK*ux - yVal*vx
+		p1PtsY[k] = my - cK*uy - yVal*vy
+
+		p2PtsX[k] = mx + cK*ux - yVal*vx
+		p2PtsY[k] = my + cK*uy - yVal*vy
+	}
+
+	// Reconcile P1PointShapes (refSteps + 1 = 11)
+	if len(p1p2.P1PointShapes) != refSteps+1 {
+		for _, s := range p1p2.P1PointShapes {
+			s.Unstage(stage)
+		}
+		p1p2.P1PointShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1PointShape, refSteps+1)
+		for k := 0; k <= refSteps; k++ {
+			s := new(PartiallyGrowthCurve2DTrajectoryP1PointShape).Stage(stage)
+			s.Name = fmt.Sprintf("%s-P1-Step-%d", p1p2.Name, k)
+			s.X = p1PtsX[k]
+			s.Y = p1PtsY[k]
+			p1p2.P1PointShapes[k] = s
+		}
+		needCommit = true
+	} else {
+		for k := 0; k <= refSteps; k++ {
+			s := p1p2.P1PointShapes[k]
+			expectedName := fmt.Sprintf("%s-P1-Step-%d", p1p2.Name, k)
+			if s.Name != expectedName || math.Abs(s.X-p1PtsX[k]) > 1e-4 || math.Abs(s.Y-p1PtsY[k]) > 1e-4 {
+				s.Name = expectedName
+				s.X = p1PtsX[k]
+				s.Y = p1PtsY[k]
+				needCommit = true
+			}
+		}
+	}
+
+	// Reconcile P2PointShapes (refSteps + 1 = 11)
+	if len(p1p2.P2PointShapes) != refSteps+1 {
+		for _, s := range p1p2.P2PointShapes {
+			s.Unstage(stage)
+		}
+		p1p2.P2PointShapes = make([]*PartiallyGrowthCurve2DTrajectoryP2PointShape, refSteps+1)
+		for k := 0; k <= refSteps; k++ {
+			s := new(PartiallyGrowthCurve2DTrajectoryP2PointShape).Stage(stage)
+			s.Name = fmt.Sprintf("%s-P2-Step-%d", p1p2.Name, k)
+			s.X = p2PtsX[k]
+			s.Y = p2PtsY[k]
+			p1p2.P2PointShapes[k] = s
+		}
+		needCommit = true
+	} else {
+		for k := 0; k <= refSteps; k++ {
+			s := p1p2.P2PointShapes[k]
+			expectedName := fmt.Sprintf("%s-P2-Step-%d", p1p2.Name, k)
+			if s.Name != expectedName || math.Abs(s.X-p2PtsX[k]) > 1e-4 || math.Abs(s.Y-p2PtsY[k]) > 1e-4 {
+				s.Name = expectedName
+				s.X = p2PtsX[k]
+				s.Y = p2PtsY[k]
+				needCommit = true
+			}
+		}
+	}
+
+	// Reconcile P1CurveShapes (refSteps = 10 line segments)
+	if len(p1p2.P1CurveShapes) != refSteps {
+		for _, s := range p1p2.P1CurveShapes {
+			s.Unstage(stage)
+		}
+		p1p2.P1CurveShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1CurveShape, refSteps)
+		for k := 0; k < refSteps; k++ {
+			s := new(PartiallyGrowthCurve2DTrajectoryP1CurveShape).Stage(stage)
+			s.Name = fmt.Sprintf("%s-P1-Curve-Seg-%d", p1p2.Name, k)
+			s.StartX = p1PtsX[k]
+			s.StartY = p1PtsY[k]
+			s.EndX = p1PtsX[k+1]
+			s.EndY = p1PtsY[k+1]
+			p1p2.P1CurveShapes[k] = s
+		}
+		needCommit = true
+	} else {
+		for k := 0; k < refSteps; k++ {
+			s := p1p2.P1CurveShapes[k]
+			expectedName := fmt.Sprintf("%s-P1-Curve-Seg-%d", p1p2.Name, k)
+			if s.Name != expectedName || math.Abs(s.StartX-p1PtsX[k]) > 1e-4 || math.Abs(s.StartY-p1PtsY[k]) > 1e-4 || math.Abs(s.EndX-p1PtsX[k+1]) > 1e-4 || math.Abs(s.EndY-p1PtsY[k+1]) > 1e-4 {
+				s.Name = expectedName
+				s.StartX = p1PtsX[k]
+				s.StartY = p1PtsY[k]
+				s.EndX = p1PtsX[k+1]
+				s.EndY = p1PtsY[k+1]
+				needCommit = true
+			}
+		}
+	}
+
+	// Reconcile P2CurveShapes (refSteps = 10 line segments)
+	if len(p1p2.P2CurveShapes) != refSteps {
+		for _, s := range p1p2.P2CurveShapes {
+			s.Unstage(stage)
+		}
+		p1p2.P2CurveShapes = make([]*PartiallyGrowthCurve2DTrajectoryP2CurveShape, refSteps)
+		for k := 0; k < refSteps; k++ {
+			s := new(PartiallyGrowthCurve2DTrajectoryP2CurveShape).Stage(stage)
+			s.Name = fmt.Sprintf("%s-P2-Curve-Seg-%d", p1p2.Name, k)
+			s.StartX = p2PtsX[k]
+			s.StartY = p2PtsY[k]
+			s.EndX = p2PtsX[k+1]
+			s.EndY = p2PtsY[k+1]
+			p1p2.P2CurveShapes[k] = s
+		}
+		needCommit = true
+	} else {
+		for k := 0; k < refSteps; k++ {
+			s := p1p2.P2CurveShapes[k]
+			expectedName := fmt.Sprintf("%s-P2-Curve-Seg-%d", p1p2.Name, k)
+			if s.Name != expectedName || math.Abs(s.StartX-p2PtsX[k]) > 1e-4 || math.Abs(s.StartY-p2PtsY[k]) > 1e-4 || math.Abs(s.EndX-p2PtsX[k+1]) > 1e-4 || math.Abs(s.EndY-p2PtsY[k+1]) > 1e-4 {
+				s.Name = expectedName
+				s.StartX = p2PtsX[k]
+				s.StartY = p2PtsY[k]
+				s.EndX = p2PtsX[k+1]
+				s.EndY = p2PtsY[k+1]
+				needCommit = true
+			}
+		}
+	}
+
+	// Reconcile P1P2PairLineShapes (refSteps + 1 = 11 line segments connecting P1(k) to P2(k))
+	if len(p1p2.P1P2PairLineShapes) != refSteps+1 {
+
+		for _, s := range p1p2.P1P2PairLineShapes {
+			s.Unstage(stage)
+		}
+		p1p2.P1P2PairLineShapes = make([]*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape, refSteps+1)
+		for k := 0; k <= refSteps; k++ {
+			s := new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape).Stage(stage)
+			s.Name = fmt.Sprintf("%s-P1P2-Pair-Line-%d", p1p2.Name, k)
+			s.StartX = p1PtsX[k]
+			s.StartY = p1PtsY[k]
+			s.EndX = p2PtsX[k]
+			s.EndY = p2PtsY[k]
+			p1p2.P1P2PairLineShapes[k] = s
+		}
+		needCommit = true
+	} else {
+		for k := 0; k <= refSteps; k++ {
+			s := p1p2.P1P2PairLineShapes[k]
+			expectedName := fmt.Sprintf("%s-P1P2-Pair-Line-%d", p1p2.Name, k)
+			if s.Name != expectedName || math.Abs(s.StartX-p1PtsX[k]) > 1e-4 || math.Abs(s.StartY-p1PtsY[k]) > 1e-4 || math.Abs(s.EndX-p2PtsX[k]) > 1e-4 || math.Abs(s.EndY-p2PtsY[k]) > 1e-4 {
+				s.Name = expectedName
+				s.StartX = p1PtsX[k]
+				s.StartY = p1PtsY[k]
+				s.EndX = p2PtsX[k]
+				s.EndY = p2PtsY[k]
+				needCommit = true
+			}
+		}
+	}
+
+	return needCommit
+}
+

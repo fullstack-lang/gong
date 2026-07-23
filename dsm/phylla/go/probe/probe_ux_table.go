@@ -80,6 +80,18 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PartiallyGrowthCurve2DRibbonStartShape](probe)
 	case "PartiallyGrowthCurve2DTrajectory":
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectory](probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1CurveShape":
+		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1CurveShape](probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1P2](probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape":
+		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](probe)
+	case "PartiallyGrowthCurve2DTrajectoryP1PointShape":
+		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP1PointShape](probe)
+	case "PartiallyGrowthCurve2DTrajectoryP2CurveShape":
+		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2CurveShape](probe)
+	case "PartiallyGrowthCurve2DTrajectoryP2PointShape":
+		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](probe)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryShape](probe)
 	case "PartiallyRotatedTorusShape":

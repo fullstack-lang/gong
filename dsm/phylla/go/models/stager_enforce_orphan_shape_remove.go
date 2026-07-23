@@ -79,6 +79,14 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPartiallyGrowthCurve2DTrajectory := make(map[*PartiallyGrowthCurve2DTrajectory]bool)
 	refPartiallyGrowthCurve2DTrajectoryShape := make(map[*PartiallyGrowthCurve2DTrajectoryShape]bool)
 
+	refPartiallyGrowthCurve2DTrajectoryP1P2 := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2]bool)
+	refPartiallyGrowthCurve2DTrajectoryP1PointShape := make(map[*PartiallyGrowthCurve2DTrajectoryP1PointShape]bool)
+	refPartiallyGrowthCurve2DTrajectoryP2PointShape := make(map[*PartiallyGrowthCurve2DTrajectoryP2PointShape]bool)
+	refPartiallyGrowthCurve2DTrajectoryP1CurveShape := make(map[*PartiallyGrowthCurve2DTrajectoryP1CurveShape]bool)
+	refPartiallyGrowthCurve2DTrajectoryP2CurveShape := make(map[*PartiallyGrowthCurve2DTrajectoryP2CurveShape]bool)
+	refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]bool)
+
+
 	refGrowthCurve2DRibbon := make(map[*GrowthCurve2DRibbon]bool)
 	refGrowthCurve2DRibbonStartShape := make(map[*GrowthCurve2DRibbonStartShape]bool)
 	refGrowthCurve2DRibbonEndShape := make(map[*GrowthCurve2DRibbonEndShape]bool)
@@ -311,6 +319,25 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refPartiallyGrowthCurve2DTrajectory[plant.PartiallyGrowthCurve2DTrajectory] = true
 			for _, shape := range plant.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
 				refPartiallyGrowthCurve2DTrajectoryShape[shape] = true
+			}
+		}
+
+		if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+			refPartiallyGrowthCurve2DTrajectoryP1P2[plant.PartiallyGrowthCurve2DTrajectoryP1P2] = true
+			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1PointShapes {
+				refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] = true
+			}
+			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P2PointShapes {
+				refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] = true
+			}
+			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1CurveShapes {
+				refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] = true
+			}
+			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P2CurveShapes {
+				refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] = true
+			}
+			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1P2PairLineShapes {
+				refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] = true
 			}
 		}
 
@@ -797,6 +824,49 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1P2](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryP1P2[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1PointShape](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP2PointShape](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1CurveShape](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP2CurveShape](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape](stage) {
+		if !refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbon](stage) {
 		if !refGrowthCurve2DRibbon[shape] {

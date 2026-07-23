@@ -1536,6 +1536,222 @@ func (u *PartiallyGrowthCurve2DTrajectoryUnmarshaller) UnmarshallField(stage *St
 	return nil
 }
 
+type PartiallyGrowthCurve2DTrajectoryP1CurveShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1CurveShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1CurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DTrajectoryP1CurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1P2Unmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1P2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DTrajectoryP1P2)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1P2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DTrajectoryP1P2)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "P1PointShapes":
+		GongUnmarshallSliceOfPointers(&instance.P1PointShapes, valueExpr, identifierMap)
+	case "P2PointShapes":
+		GongUnmarshallSliceOfPointers(&instance.P2PointShapes, valueExpr, identifierMap)
+	case "P1CurveShapes":
+		GongUnmarshallSliceOfPointers(&instance.P1CurveShapes, valueExpr, identifierMap)
+	case "P2CurveShapes":
+		GongUnmarshallSliceOfPointers(&instance.P2CurveShapes, valueExpr, identifierMap)
+	case "P1P2PairLineShapes":
+		GongUnmarshallSliceOfPointers(&instance.P1P2PairLineShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1P2PairLineShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DTrajectoryP1PointShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1PointShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP1PointShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DTrajectoryP1PointShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DTrajectoryP2CurveShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP2CurveShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP2CurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DTrajectoryP2CurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StartX":
+		instance.StartX = GongExtractFloat(valueExpr)
+	case "StartY":
+		instance.StartY = GongExtractFloat(valueExpr)
+	case "EndX":
+		instance.EndX = GongExtractFloat(valueExpr)
+	case "EndY":
+		instance.EndY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type PartiallyGrowthCurve2DTrajectoryP2PointShapeUnmarshaller struct{}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP2PointShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyGrowthCurve2DTrajectoryP2PointShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyGrowthCurve2DTrajectoryP2PointShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
 type PartiallyGrowthCurve2DTrajectoryShapeUnmarshaller struct{}
 
 func (u *PartiallyGrowthCurve2DTrajectoryShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1859,6 +2075,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
 	case "PartiallyGrowthCurve2DTrajectory":
 		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectoryP1P2, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2019,6 +2237,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenPartiallyGrowthCurve2DRibbon = GongExtractBool(valueExpr)
 	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
 		instance.IsHiddenPartiallyGrowthCurve2DTrajectory = GongExtractBool(valueExpr)
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		instance.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = GongExtractBool(valueExpr)
 	case "IsHiddenTorusStackShape":
 		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
 	case "IsHiddenVerticalTorusStackShape":
