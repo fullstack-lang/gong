@@ -22,6 +22,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *BaseVectorShapeGrid:
 		ok = stage.IsStagedBaseVectorShapeGrid(target)
 
+	case *ChosenP1P2PairShape:
+		ok = stage.IsStagedChosenP1P2PairShape(target)
+
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
 
@@ -316,6 +319,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *BaseVectorShapeGrid:
 		ok = stage.IsStagedBaseVectorShapeGrid(target)
+
+	case *ChosenP1P2PairShape:
+		ok = stage.IsStagedChosenP1P2PairShape(target)
 
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
@@ -625,6 +631,13 @@ func (stage *Stage) IsStagedBaseVectorShape(basevectorshape *BaseVectorShape) (o
 func (stage *Stage) IsStagedBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid) (ok bool) {
 
 	_, ok = stage.BaseVectorShapeGrids[basevectorshapegrid]
+
+	return
+}
+
+func (stage *Stage) IsStagedChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) (ok bool) {
+
+	_, ok = stage.ChosenP1P2PairShapes[chosenp1p2pairshape]
 
 	return
 }
@@ -1282,6 +1295,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *BaseVectorShapeGrid:
 		stage.StageBranchBaseVectorShapeGrid(target)
 
+	case *ChosenP1P2PairShape:
+		stage.StageBranchChosenP1P2PairShape(target)
+
 	case *CircleGridShape:
 		stage.StageBranchCircleGridShape(target)
 
@@ -1626,6 +1642,21 @@ func (stage *Stage) StageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVect
 	}
 
 	basevectorshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, chosenp1p2pairshape) {
+		return
+	}
+
+	chosenp1p2pairshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3026,6 +3057,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchBaseVectorShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ChosenP1P2PairShape:
+		toT := CopyBranchChosenP1P2PairShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *CircleGridShape:
 		toT := CopyBranchCircleGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3480,6 +3515,25 @@ func CopyBranchBaseVectorShapeGrid(mapOrigCopy map[any]any, basevectorshapegridF
 	basevectorshapegridTo = new(BaseVectorShapeGrid)
 	mapOrigCopy[basevectorshapegridFrom] = basevectorshapegridTo
 	basevectorshapegridFrom.CopyBasicFields(basevectorshapegridTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchChosenP1P2PairShape(mapOrigCopy map[any]any, chosenp1p2pairshapeFrom *ChosenP1P2PairShape) (chosenp1p2pairshapeTo *ChosenP1P2PairShape) {
+
+	// chosenp1p2pairshapeFrom has already been copied
+	if _chosenp1p2pairshapeTo, ok := mapOrigCopy[chosenp1p2pairshapeFrom]; ok {
+		chosenp1p2pairshapeTo = _chosenp1p2pairshapeTo.(*ChosenP1P2PairShape)
+		return
+	}
+
+	chosenp1p2pairshapeTo = new(ChosenP1P2PairShape)
+	mapOrigCopy[chosenp1p2pairshapeFrom] = chosenp1p2pairshapeTo
+	chosenp1p2pairshapeFrom.CopyBasicFields(chosenp1p2pairshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5233,6 +5287,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *BaseVectorShapeGrid:
 		stage.UnstageBranchBaseVectorShapeGrid(target)
 
+	case *ChosenP1P2PairShape:
+		stage.UnstageBranchChosenP1P2PairShape(target)
+
 	case *CircleGridShape:
 		stage.UnstageBranchCircleGridShape(target)
 
@@ -5577,6 +5634,21 @@ func (stage *Stage) UnstageBranchBaseVectorShapeGrid(basevectorshapegrid *BaseVe
 	}
 
 	basevectorshapegrid.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, chosenp1p2pairshape) {
+		return
+	}
+
+	chosenp1p2pairshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6972,6 +7044,11 @@ func (reference *BaseVectorShapeGrid) GongReconstructPointersFromReferences(stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *ChosenP1P2PairShape) GongReconstructPointersFromReferences(stage *Stage, instance *ChosenP1P2PairShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *CircleGridShape) GongReconstructPointersFromReferences(stage *Stage, instance *CircleGridShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -7459,6 +7536,11 @@ func (reference *BaseVectorShape) GongReconstructPointersFromInstances(stage *St
 }
 
 func (reference *BaseVectorShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ChosenP1P2PairShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -8024,6 +8106,29 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongDiff(stage *Stage, basevecto
 	// insertion point for field diffs
 	if basevectorshapegrid.Name != basevectorshapegridOther.Name {
 		diffs = append(diffs, basevectorshapegrid.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongDiff(stage *Stage, chosenp1p2pairshapeOther *ChosenP1P2PairShape) (diffs []string) {
+	// insertion point for field diffs
+	if chosenp1p2pairshape.Name != chosenp1p2pairshapeOther.Name {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "Name"))
+	}
+	if chosenp1p2pairshape.P1X != chosenp1p2pairshapeOther.P1X {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "P1X"))
+	}
+	if chosenp1p2pairshape.P1Y != chosenp1p2pairshapeOther.P1Y {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "P1Y"))
+	}
+	if chosenp1p2pairshape.P2X != chosenp1p2pairshapeOther.P2X {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "P2X"))
+	}
+	if chosenp1p2pairshape.P2Y != chosenp1p2pairshapeOther.P2Y {
+		diffs = append(diffs, chosenp1p2pairshape.GongMarshallField(stage, "P2Y"))
 	}
 
 	return
@@ -9120,6 +9225,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenPxShape != plantdiagramOther.IsHiddenPxShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
+	}
+	if plantdiagram.IsHiddenChosenP1P2PairShape != plantdiagramOther.IsHiddenChosenP1P2PairShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
 	}
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))

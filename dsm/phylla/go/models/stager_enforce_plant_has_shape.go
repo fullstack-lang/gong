@@ -507,6 +507,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n21_px || needCommit
 
+	n21_chosenP1P2 := enforcePlantHasShape[*ChosenP1P2PairShape](
+		stager,
+		func() *ChosenP1P2PairShape { return new(ChosenP1P2PairShape) },
+		func(p *Plant) *ChosenP1P2PairShape { return p.ChosenP1P2PairShape },
+		func(p *Plant, shape *ChosenP1P2PairShape) { p.ChosenP1P2PairShape = shape },
+		func(p *Plant, shape *ChosenP1P2PairShape) bool {
+			return p.ChosenP1P2PairShape == shape
+		},
+		"ChosenP1P2PairShape",
+	)
+	needCommit = n21_chosenP1P2 || needCommit
+
+
 
 
 	n22 := enforcePlantHasShape[*GrowthCurve2DRibbon](

@@ -58,6 +58,7 @@ type PlantDiagram struct {
 	IsHiddenPartiallyGrowthCurve2DTrajectory           bool
 	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2       bool
 	IsHiddenPxShape                                    bool
+	IsHiddenChosenP1P2PairShape                        bool
 	IsHiddenTorusStackShape                            bool
 	IsHiddenVerticalTorusStackShape                    bool
 	IsHiddenPartiallyRotatedTorusShape                 bool

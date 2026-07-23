@@ -113,6 +113,24 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.ChosenP1P2PairShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("P1X", instanceWithInferedType.P1X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("P1Y", instanceWithInferedType.P1Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("P2X", instanceWithInferedType.P2X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("P2Y", instanceWithInferedType.P2Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.CircleGridShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1023,6 +1041,7 @@ func FillUpForm(
 		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectory", instanceWithInferedType.PartiallyGrowthCurve2DTrajectory, formGroup, probe)
 		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.PartiallyGrowthCurve2DTrajectoryP1P2, formGroup, probe)
 		AssociationFieldToForm("PxShape", instanceWithInferedType.PxShape, formGroup, probe)
+		AssociationFieldToForm("ChosenP1P2PairShape", instanceWithInferedType.ChosenP1P2PairShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1159,6 +1178,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenPxShape", instanceWithInferedType.IsHiddenPxShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenChosenP1P2PairShape", instanceWithInferedType.IsHiddenChosenP1P2PairShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenTorusStackShape", instanceWithInferedType.IsHiddenTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

@@ -210,6 +210,21 @@ type Stage struct {
 	OnAfterBaseVectorShapeGridDeleteCallback OnAfterDeleteInterface[BaseVectorShapeGrid]
 	OnAfterBaseVectorShapeGridReadCallback   OnAfterReadInterface[BaseVectorShapeGrid]
 
+	ChosenP1P2PairShapes                map[*ChosenP1P2PairShape]struct{}
+	ChosenP1P2PairShapes_instance       map[*ChosenP1P2PairShape]*ChosenP1P2PairShape
+	ChosenP1P2PairShapes_mapString      map[string]*ChosenP1P2PairShape
+	ChosenP1P2PairShapeOrder            uint
+	ChosenP1P2PairShape_stagedOrder     map[*ChosenP1P2PairShape]uint
+	ChosenP1P2PairShape_orderStaged     map[uint]*ChosenP1P2PairShape
+	ChosenP1P2PairShapes_reference      map[*ChosenP1P2PairShape]*ChosenP1P2PairShape
+	ChosenP1P2PairShapes_referenceOrder map[*ChosenP1P2PairShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterChosenP1P2PairShapeCreateCallback OnAfterCreateInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeUpdateCallback OnAfterUpdateInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeDeleteCallback OnAfterDeleteInterface[ChosenP1P2PairShape]
+	OnAfterChosenP1P2PairShapeReadCallback   OnAfterReadInterface[ChosenP1P2PairShape]
+
 	CircleGridShapes                map[*CircleGridShape]struct{}
 	CircleGridShapes_instance       map[*CircleGridShape]*CircleGridShape
 	CircleGridShapes_mapString      map[string]*CircleGridShape
@@ -1908,6 +1923,10 @@ func (stage *Stage) Squash() {
 	stage.BaseVectorShapeGrids_instance = make(map[*BaseVectorShapeGrid]*BaseVectorShapeGrid)
 	stage.BaseVectorShapeGrids_referenceOrder = make(map[*BaseVectorShapeGrid]uint)
 
+	stage.ChosenP1P2PairShapes_reference = make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape)
+	stage.ChosenP1P2PairShapes_instance = make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape)
+	stage.ChosenP1P2PairShapes_referenceOrder = make(map[*ChosenP1P2PairShape]uint)
+
 	stage.CircleGridShapes_reference = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
@@ -2363,6 +2382,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.BaseVectorShapeGridOrder = maxBaseVectorShapeGridOrder + 1
 	} else {
 		stage.BaseVectorShapeGridOrder = 0
+	}
+
+	var maxChosenP1P2PairShapeOrder uint
+	var foundChosenP1P2PairShape bool
+	for _, order := range stage.ChosenP1P2PairShape_stagedOrder {
+		if !foundChosenP1P2PairShape || order > maxChosenP1P2PairShapeOrder {
+			maxChosenP1P2PairShapeOrder = order
+			foundChosenP1P2PairShape = true
+		}
+	}
+	if foundChosenP1P2PairShape {
+		stage.ChosenP1P2PairShapeOrder = maxChosenP1P2PairShapeOrder + 1
+	} else {
+		stage.ChosenP1P2PairShapeOrder = 0
 	}
 
 	var maxCircleGridShapeOrder uint
@@ -3756,6 +3789,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ChosenP1P2PairShape:
+		tmp := GetStructInstancesByOrder(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ChosenP1P2PairShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *CircleGridShape:
 		tmp := GetStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
 
@@ -5055,6 +5102,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.BaseVectorShapes, stage.BaseVectorShape_stagedOrder)
 	case "BaseVectorShapeGrid":
 		res = GetNamedStructInstances(stage.BaseVectorShapeGrids, stage.BaseVectorShapeGrid_stagedOrder)
+	case "ChosenP1P2PairShape":
+		res = GetNamedStructInstances(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
 	case "EndArcShape":
@@ -5314,6 +5363,8 @@ type BackRepoInterface interface {
 	CheckoutBaseVectorShape(basevectorshape *BaseVectorShape)
 	CommitBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
 	CheckoutBaseVectorShapeGrid(basevectorshapegrid *BaseVectorShapeGrid)
+	CommitChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
+	CheckoutChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
 	CommitEndArcShape(endarcshape *EndArcShape)
@@ -5514,6 +5565,9 @@ func NewStage(name string) (stage *Stage) {
 
 		BaseVectorShapeGrids:           make(map[*BaseVectorShapeGrid]struct{}),
 		BaseVectorShapeGrids_mapString: make(map[string]*BaseVectorShapeGrid),
+
+		ChosenP1P2PairShapes:           make(map[*ChosenP1P2PairShape]struct{}),
+		ChosenP1P2PairShapes_mapString: make(map[string]*ChosenP1P2PairShape),
 
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
@@ -5814,6 +5868,10 @@ func NewStage(name string) (stage *Stage) {
 		BaseVectorShapeGrid_stagedOrder: make(map[*BaseVectorShapeGrid]uint),
 		BaseVectorShapeGrid_orderStaged: make(map[uint]*BaseVectorShapeGrid),
 		BaseVectorShapeGrids_reference:  make(map[*BaseVectorShapeGrid]*BaseVectorShapeGrid),
+
+		ChosenP1P2PairShape_stagedOrder: make(map[*ChosenP1P2PairShape]uint),
+		ChosenP1P2PairShape_orderStaged: make(map[uint]*ChosenP1P2PairShape),
+		ChosenP1P2PairShapes_reference:  make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape),
 
 		CircleGridShape_stagedOrder: make(map[*CircleGridShape]uint),
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
@@ -6187,6 +6245,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"BaseVectorShapeGrid": &BaseVectorShapeGridUnmarshaller{},
 
+			"ChosenP1P2PairShape": &ChosenP1P2PairShapeUnmarshaller{},
+
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
 			"EndArcShape": &EndArcShapeUnmarshaller{},
@@ -6376,6 +6436,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "AxesShape"},
 			{name: "BaseVectorShape"},
 			{name: "BaseVectorShapeGrid"},
+			{name: "ChosenP1P2PairShape"},
 			{name: "CircleGridShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
@@ -6487,6 +6548,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.BaseVectorShape_stagedOrder[instance]
 	case *BaseVectorShapeGrid:
 		return stage.BaseVectorShapeGrid_stagedOrder[instance]
+	case *ChosenP1P2PairShape:
+		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
 	case *EndArcShape:
@@ -6686,6 +6749,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.BaseVectorShape_orderStaged[order]).(Type)
 	case *BaseVectorShapeGrid:
 		return any(stage.BaseVectorShapeGrid_orderStaged[order]).(Type)
+	case *ChosenP1P2PairShape:
+		return any(stage.ChosenP1P2PairShape_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
 	case *EndArcShape:
@@ -6884,6 +6949,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.BaseVectorShape_stagedOrder[instance]
 	case *BaseVectorShapeGrid:
 		return stage.BaseVectorShapeGrid_stagedOrder[instance]
+	case *ChosenP1P2PairShape:
+		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
 	case *EndArcShape:
@@ -7134,6 +7201,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShape"] = len(stage.BaseVectorShapes)
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
+	stage.Map_GongStructName_InstancesNb["ChosenP1P2PairShape"] = len(stage.ChosenP1P2PairShapes)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
@@ -7702,6 +7770,94 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (basevectorshapegrid *BaseVectorShapeGrid) SetName(name string) {
 	basevectorshapegrid.Name = name
+}
+
+// Stage puts chosenp1p2pairshape to the model stage
+func (chosenp1p2pairshape *ChosenP1P2PairShape) Stage(stage *Stage) *ChosenP1P2PairShape {
+	if _, ok := stage.ChosenP1P2PairShapes[chosenp1p2pairshape]; !ok {
+		stage.ChosenP1P2PairShapes[chosenp1p2pairshape] = struct{}{}
+		stage.ChosenP1P2PairShape_stagedOrder[chosenp1p2pairshape] = stage.ChosenP1P2PairShapeOrder
+		stage.ChosenP1P2PairShape_orderStaged[stage.ChosenP1P2PairShapeOrder] = chosenp1p2pairshape
+		stage.ChosenP1P2PairShapeOrder++
+	}
+	stage.ChosenP1P2PairShapes_mapString[chosenp1p2pairshape.Name] = chosenp1p2pairshape
+
+	return chosenp1p2pairshape
+}
+
+// StagePreserveOrder puts chosenp1p2pairshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ChosenP1P2PairShapeOrder
+// - update stage.ChosenP1P2PairShapeOrder accordingly
+func (chosenp1p2pairshape *ChosenP1P2PairShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ChosenP1P2PairShapes[chosenp1p2pairshape]; !ok {
+		stage.ChosenP1P2PairShapes[chosenp1p2pairshape] = struct{}{}
+
+		if order > stage.ChosenP1P2PairShapeOrder {
+			stage.ChosenP1P2PairShapeOrder = order
+		}
+		stage.ChosenP1P2PairShape_stagedOrder[chosenp1p2pairshape] = order
+		stage.ChosenP1P2PairShape_orderStaged[order] = chosenp1p2pairshape
+		stage.ChosenP1P2PairShapeOrder++
+	}
+	stage.ChosenP1P2PairShapes_mapString[chosenp1p2pairshape.Name] = chosenp1p2pairshape
+}
+
+// Unstage removes chosenp1p2pairshape off the model stage
+func (chosenp1p2pairshape *ChosenP1P2PairShape) Unstage(stage *Stage) *ChosenP1P2PairShape {
+	delete(stage.ChosenP1P2PairShapes, chosenp1p2pairshape)
+	// issue1150
+	// delete(stage.ChosenP1P2PairShape_stagedOrder, chosenp1p2pairshape)
+	delete(stage.ChosenP1P2PairShapes_mapString, chosenp1p2pairshape.Name)
+
+	return chosenp1p2pairshape
+}
+
+// UnstageVoid removes chosenp1p2pairshape off the model stage
+func (chosenp1p2pairshape *ChosenP1P2PairShape) UnstageVoid(stage *Stage) {
+	delete(stage.ChosenP1P2PairShapes, chosenp1p2pairshape)
+	// issue1150
+	// delete(stage.ChosenP1P2PairShape_stagedOrder, chosenp1p2pairshape)
+	delete(stage.ChosenP1P2PairShapes_mapString, chosenp1p2pairshape.Name)
+}
+
+// commit chosenp1p2pairshape to the back repo (if it is already staged)
+func (chosenp1p2pairshape *ChosenP1P2PairShape) Commit(stage *Stage) *ChosenP1P2PairShape {
+	if _, ok := stage.ChosenP1P2PairShapes[chosenp1p2pairshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitChosenP1P2PairShape(chosenp1p2pairshape)
+		}
+	}
+	return chosenp1p2pairshape
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) CommitVoid(stage *Stage) {
+	chosenp1p2pairshape.Commit(stage)
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) StageVoid(stage *Stage) {
+	chosenp1p2pairshape.Stage(stage)
+}
+
+// Checkout chosenp1p2pairshape to the back repo (if it is already staged)
+func (chosenp1p2pairshape *ChosenP1P2PairShape) Checkout(stage *Stage) *ChosenP1P2PairShape {
+	if _, ok := stage.ChosenP1P2PairShapes[chosenp1p2pairshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutChosenP1P2PairShape(chosenp1p2pairshape)
+		}
+	}
+	return chosenp1p2pairshape
+}
+
+// for satisfaction of GongStruct interface
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GetName() (res string) {
+	return chosenp1p2pairshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (chosenp1p2pairshape *ChosenP1P2PairShape) SetName(name string) {
+	chosenp1p2pairshape.Name = name
 }
 
 // Stage puts circlegridshape to the model stage
@@ -15631,6 +15787,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMAxesShape(AxesShape *AxesShape)
 	CreateORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
+	CreateORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
@@ -15729,6 +15886,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMAxesShape(AxesShape *AxesShape)
 	DeleteORMBaseVectorShape(BaseVectorShape *BaseVectorShape)
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
+	DeleteORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
@@ -15846,6 +16004,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BaseVectorShapeGrids_mapString = make(map[string]*BaseVectorShapeGrid)
 	stage.BaseVectorShapeGrid_stagedOrder = make(map[*BaseVectorShapeGrid]uint)
 	stage.BaseVectorShapeGridOrder = 0
+
+	stage.ChosenP1P2PairShapes = make(map[*ChosenP1P2PairShape]struct{})
+	stage.ChosenP1P2PairShapes_mapString = make(map[string]*ChosenP1P2PairShape)
+	stage.ChosenP1P2PairShape_stagedOrder = make(map[*ChosenP1P2PairShape]uint)
+	stage.ChosenP1P2PairShapeOrder = 0
 
 	stage.CircleGridShapes = make(map[*CircleGridShape]struct{})
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
@@ -16321,6 +16484,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.BaseVectorShapeGrids = nil
 	stage.BaseVectorShapeGrids_mapString = nil
 
+	stage.ChosenP1P2PairShapes = nil
+	stage.ChosenP1P2PairShapes_mapString = nil
+
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
@@ -16613,6 +16779,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for basevectorshapegrid := range stage.BaseVectorShapeGrids {
 		basevectorshapegrid.Unstage(stage)
+	}
+
+	for chosenp1p2pairshape := range stage.ChosenP1P2PairShapes {
+		chosenp1p2pairshape.Unstage(stage)
 	}
 
 	for circlegridshape := range stage.CircleGridShapes {
@@ -17061,6 +17231,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.BaseVectorShapes).(*Type)
 	case map[*BaseVectorShapeGrid]any:
 		return any(&stage.BaseVectorShapeGrids).(*Type)
+	case map[*ChosenP1P2PairShape]any:
+		return any(&stage.ChosenP1P2PairShapes).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
 	case map[*EndArcShape]any:
@@ -17263,6 +17435,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.BaseVectorShapes_mapString).(map[string]Type)
 	case *BaseVectorShapeGrid:
 		return any(stage.BaseVectorShapeGrids_mapString).(map[string]Type)
+	case *ChosenP1P2PairShape:
+		return any(stage.ChosenP1P2PairShapes_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
 	case *EndArcShape:
@@ -17465,6 +17639,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.BaseVectorShapes).(*map[*Type]struct{})
 	case BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids).(*map[*Type]struct{})
+	case ChosenP1P2PairShape:
+		return any(&stage.ChosenP1P2PairShapes).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
 	case EndArcShape:
@@ -17667,6 +17843,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.BaseVectorShapes).(*map[Type]struct{})
 	case *BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids).(*map[Type]struct{})
+	case *ChosenP1P2PairShape:
+		return any(&stage.ChosenP1P2PairShapes).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
 	case *EndArcShape:
@@ -17869,6 +18047,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.BaseVectorShapes_mapString).(*map[string]*Type)
 	case BaseVectorShapeGrid:
 		return any(&stage.BaseVectorShapeGrids_mapString).(*map[string]*Type)
+	case ChosenP1P2PairShape:
+		return any(&stage.ChosenP1P2PairShapes_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
 	case EndArcShape:
@@ -18086,6 +18266,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of BaseVectorShape with the name of the field
 			BaseVectorShapes: []*BaseVectorShape{{Name: "BaseVectorShapes"}},
+		}).(*Type)
+	case ChosenP1P2PairShape:
+		return any(&ChosenP1P2PairShape{
+			// Initialisation of associations
 		}).(*Type)
 	case CircleGridShape:
 		return any(&CircleGridShape{
@@ -18338,6 +18522,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
 			// field is initialized with an instance of PxShape with the name of the field
 			PxShape: &PxShape{Name: "PxShape"},
+			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
+			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -18684,6 +18870,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of BaseVectorShapeGrid
 	case BaseVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ChosenP1P2PairShape
+	case ChosenP1P2PairShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -19444,6 +19635,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ChosenP1P2PairShape":
+			res := make(map[*ChosenP1P2PairShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.ChosenP1P2PairShape != nil {
+					chosenp1p2pairshape_ := plant.ChosenP1P2PairShape
+					var plants []*Plant
+					_, ok := res[chosenp1p2pairshape_]
+					if ok {
+						plants = res[chosenp1p2pairshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[chosenp1p2pairshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
@@ -20093,6 +20301,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ChosenP1P2PairShape
+	case ChosenP1P2PairShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of CircleGridShape
 	case CircleGridShape:
@@ -20933,6 +21146,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "BaseVectorShape"
 	case *BaseVectorShapeGrid:
 		res = "BaseVectorShapeGrid"
+	case *ChosenP1P2PairShape:
+		res = "ChosenP1P2PairShape"
 	case *CircleGridShape:
 		res = "CircleGridShape"
 	case *EndArcShape:
@@ -21149,6 +21364,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "BaseVectorShapes"
 		res = append(res, rf)
 	case *BaseVectorShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *ChosenP1P2PairShape:
 		var rf ReverseField
 		_ = rf
 	case *CircleGridShape:
@@ -21668,6 +21886,33 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetFieldHeaders() (res []Gon
 			Name:                 "BaseVectorShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "BaseVectorShape",
+		},
+	}
+	return
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "P1X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "P1Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "P2X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "P2Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -22943,6 +23188,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "PxShape",
 		},
+		{
+			Name:                 "ChosenP1P2PairShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ChosenP1P2PairShape",
+		},
 	}
 	return
 }
@@ -23175,6 +23425,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenPxShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenChosenP1P2PairShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -25298,6 +25552,31 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetFieldValue(fieldName stri
 	return
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = chosenp1p2pairshape.Name
+	case "P1X":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.P1X)
+		res.valueFloat = chosenp1p2pairshape.P1X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "P1Y":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.P1Y)
+		res.valueFloat = chosenp1p2pairshape.P1Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "P2X":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.P2X)
+		res.valueFloat = chosenp1p2pairshape.P2X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "P2Y":
+		res.valueString = fmt.Sprintf("%f", chosenp1p2pairshape.P2Y)
+		res.valueFloat = chosenp1p2pairshape.P2Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -26624,6 +26903,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = plant.PxShape.Name
 			res.ids = plant.PxShape.GongGetUUID(stage)
 		}
+	case "ChosenP1P2PairShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.ChosenP1P2PairShape != nil {
+			res.valueString = plant.ChosenP1P2PairShape.Name
+			res.ids = plant.ChosenP1P2PairShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -26853,6 +27138,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenPxShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPxShape)
 		res.valueBool = plantdiagram.IsHiddenPxShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenChosenP1P2PairShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenChosenP1P2PairShape)
+		res.valueBool = plantdiagram.IsHiddenChosenP1P2PairShape
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusStackShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
@@ -28965,6 +29254,25 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongSetFieldValue(fieldName stri
 	return nil
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		chosenp1p2pairshape.Name = value.GetValueString()
+	case "P1X":
+		chosenp1p2pairshape.P1X = value.GetValueFloat()
+	case "P1Y":
+		chosenp1p2pairshape.P1Y = value.GetValueFloat()
+	case "P2X":
+		chosenp1p2pairshape.P2X = value.GetValueFloat()
+	case "P2Y":
+		chosenp1p2pairshape.P2Y = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -30313,6 +30621,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "ChosenP1P2PairShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.ChosenP1P2PairShape = nil
+			for __instance__ := range stage.ChosenP1P2PairShapes {
+				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
+					plant.ChosenP1P2PairShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -30441,6 +30760,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
 	case "IsHiddenPxShape":
 		plantdiagram.IsHiddenPxShape = value.GetValueBool()
+	case "IsHiddenChosenP1P2PairShape":
+		plantdiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
 	case "IsHiddenVerticalTorusStackShape":
@@ -32195,6 +32516,10 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetGongstructName() string {
 	return "BaseVectorShapeGrid"
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetGongstructName() string {
+	return "ChosenP1P2PairShape"
+}
+
 func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
@@ -32585,6 +32910,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.BaseVectorShapeGrids_mapString = make(map[string]*BaseVectorShapeGrid)
 	for basevectorshapegrid := range stage.BaseVectorShapeGrids {
 		stage.BaseVectorShapeGrids_mapString[basevectorshapegrid.Name] = basevectorshapegrid
+	}
+
+	stage.ChosenP1P2PairShapes_mapString = make(map[string]*ChosenP1P2PairShape)
+	for chosenp1p2pairshape := range stage.ChosenP1P2PairShapes {
+		stage.ChosenP1P2PairShapes_mapString[chosenp1p2pairshape.Name] = chosenp1p2pairshape
 	}
 
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)

@@ -34,6 +34,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.BaseVectorShape](probe)
 	case "BaseVectorShapeGrid":
 		updateProbeTable[*models.BaseVectorShapeGrid](probe)
+	case "ChosenP1P2PairShape":
+		updateProbeTable[*models.ChosenP1P2PairShape](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
 	case "EndArcShape":

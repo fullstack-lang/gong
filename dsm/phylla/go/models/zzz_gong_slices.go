@@ -35,6 +35,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct BaseVectorShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct ChosenP1P2PairShape
+	// insertion point per field
+
 	// Compute reverse map for named struct CircleGridShape
 	// insertion point per field
 
@@ -348,6 +351,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.BaseVectorShapeGrids {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ChosenP1P2PairShapes {
 		res = append(res, instance)
 	}
 
@@ -742,6 +749,12 @@ func (basevectorshape *BaseVectorShape) GongCopy() GongstructIF {
 func (basevectorshapegrid *BaseVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(BaseVectorShapeGrid)
 	basevectorshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongCopy() GongstructIF {
+	newInstance := new(ChosenP1P2PairShape)
+	chosenp1p2pairshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1333,6 +1346,16 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetUUID(stage *Stage) (uuid 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(basevectorshapegrid), uint64(GetOrderPointerGongstruct(stage, basevectorshapegrid)))
+	return
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(chosenp1p2pairshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(chosenp1p2pairshape), uint64(GetOrderPointerGongstruct(stage, chosenp1p2pairshape)))
 	return
 }
 
@@ -2559,6 +2582,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.BaseVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ChosenP1P2PairShapes_reference = make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape)
+	stage.ChosenP1P2PairShapes_referenceOrder = make(map[*ChosenP1P2PairShape]uint) // diff Unstage needs the reference order
+	stage.ChosenP1P2PairShapes_instance = make(map[*ChosenP1P2PairShape]*ChosenP1P2PairShape)
+	for instance := range stage.ChosenP1P2PairShapes {
+		_copy := instance.GongCopy().(*ChosenP1P2PairShape)
+		stage.ChosenP1P2PairShapes_reference[instance] = _copy
+		stage.ChosenP1P2PairShapes_instance[_copy] = instance
+		stage.ChosenP1P2PairShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.CircleGridShapes_reference = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint) // diff Unstage needs the reference order
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
@@ -3485,6 +3518,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.ChosenP1P2PairShapes {
+		reference := stage.ChosenP1P2PairShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.CircleGridShapes {
 		reference := stage.CircleGridShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -4001,6 +4039,18 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetOrder(stage *Stage) uint 
 		return order
 	} else {
 		log.Printf("instance %p of type BaseVectorShapeGrid was not staged and does not have a reference order", basevectorshapegrid)
+		return 0
+	}
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ChosenP1P2PairShape_stagedOrder[chosenp1p2pairshape]; ok {
+		return order
+	}
+	if order, ok := stage.ChosenP1P2PairShapes_referenceOrder[chosenp1p2pairshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ChosenP1P2PairShape was not staged and does not have a reference order", chosenp1p2pairshape)
 		return 0
 	}
 }
@@ -5135,6 +5185,15 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongGetReferenceIdentifier(stage
 	return fmt.Sprintf("__%s__%08d_", basevectorshapegrid.GongGetGongstructName(), basevectorshapegrid.GongGetOrder(stage))
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", chosenp1p2pairshape.GongGetGongstructName(), chosenp1p2pairshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", chosenp1p2pairshape.GongGetGongstructName(), chosenp1p2pairshape.GongGetOrder(stage))
+}
+
 func (circlegridshape *CircleGridShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", circlegridshape.GongGetGongstructName(), circlegridshape.GongGetOrder(stage))
 }
@@ -5988,6 +6047,14 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallIdentifier(stage *St
 	return
 }
 
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ChosenP1P2PairShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(chosenp1p2pairshape.Name))
+	return
+}
+
 func (circlegridshape *CircleGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", circlegridshape.GongGetIdentifier(stage))
@@ -6736,6 +6803,12 @@ func (basevectorshape *BaseVectorShape) GongMarshallUnstaging(stage *Stage) (dec
 func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", basevectorshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", chosenp1p2pairshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

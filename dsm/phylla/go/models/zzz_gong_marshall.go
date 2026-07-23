@@ -438,6 +438,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
@@ -694,6 +695,41 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallField(stage *Stage, 
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct BaseVectorShapeGrid", fieldName)
+	}
+	return
+}
+
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(chosenp1p2pairshape.Name))
+	case "P1X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "P1X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.P1X))
+	case "P1Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "P1Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.P1Y))
+	case "P2X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "P2X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.P2X))
+	case "P2Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chosenp1p2pairshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "P2Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chosenp1p2pairshape.P2Y))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ChosenP1P2PairShape", fieldName)
 	}
 	return
 }
@@ -2316,6 +2352,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPxShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPxShape))
+	case "IsHiddenChosenP1P2PairShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenChosenP1P2PairShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenChosenP1P2PairShape))
 	case "IsHiddenTorusStackShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -4628,6 +4669,21 @@ func (basevectorshapegrid *BaseVectorShapeGrid) GongMarshallAllFields(stage *Sta
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P1X"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P1Y"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P2X"))
+		initializerStatements.WriteString(chosenp1p2pairshape.GongMarshallField(stage, "P2Y"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (circlegridshape *CircleGridShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -5249,6 +5305,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))

@@ -97,6 +97,29 @@ func (from *BaseVectorShapeGrid) CopyBasicFields(to *BaseVectorShapeGrid) {
 	to.Name = from.Name
 }
 
+type ChosenP1P2PairShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	P1X float64
+
+	P1Y float64
+
+	P2X float64
+
+	P2Y float64
+}
+
+func (from *ChosenP1P2PairShape) CopyBasicFields(to *ChosenP1P2PairShape) {
+	// insertion point
+	to.Name = from.Name
+	to.P1X = from.P1X
+	to.P1Y = from.P1Y
+	to.P2X = from.P2X
+	to.P2Y = from.P2Y
+}
+
 type CircleGridShape_WOP struct {
 	// insertion point
 
@@ -1073,6 +1096,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPxShape bool
 
+	IsHiddenChosenP1P2PairShape bool
+
 	IsHiddenTorusStackShape bool
 
 	IsHiddenVerticalTorusStackShape bool
@@ -1142,6 +1167,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
 	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
 	to.IsHiddenPxShape = from.IsHiddenPxShape
+	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
