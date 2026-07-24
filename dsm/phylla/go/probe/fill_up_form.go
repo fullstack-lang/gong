@@ -1002,6 +1002,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ThreeDModulo", instanceWithInferedType.ThreeDModulo, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeTrajectoryOffsetX", instanceWithInferedType.RelativeTrajectoryOffsetX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeTrajectoryOffsetY", instanceWithInferedType.RelativeTrajectoryOffsetY, instanceWithInferedType, probe.formStage, formGroup,

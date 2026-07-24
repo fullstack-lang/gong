@@ -53,6 +53,9 @@ type Plant struct {
 	// If ThreeDModule is 1, the 3D torus wraps 360 degrees while ranging over the GrowthCurve2DRibbon
 	ThreeDModulo int
 
+	// Transparency of the 3D torus material (between 0.0 for opaque and 1.0 for transparent)
+	Transparency float64
+
 	// RelativeTrajectoryOffsetX x PlantCircumferenceShape.Length
 	// RelativeTrajectoryOffsetY x PlantCircumferenceShape.Length
 	// is taken into account for drawing the PartiallyGrowthCurve2DTrajectory

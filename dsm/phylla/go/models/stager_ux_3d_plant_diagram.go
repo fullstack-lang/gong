@@ -343,6 +343,14 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						}
 					}
 
+					opacity := 1.0 - plant.Transparency
+					if opacity < 0.0 {
+						opacity = 0.0
+					}
+					if opacity > 1.0 {
+						opacity = 1.0
+					}
+
 					return (&threejs.Mesh{
 						Name:           fmt.Sprintf("%s Mesh", faceName),
 						Position:       threejs.Position{X: 0, Y: 0, Z: 0},
@@ -351,7 +359,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							Name:                 fmt.Sprintf("%s Material", faceName),
 							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
 							Transparent:          true,
-							Opacity:              0.85,
+							Opacity:              opacity,
 						}).Stage(stager.threejsStage),
 					}).Stage(stager.threejsStage)
 				}

@@ -5168,6 +5168,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.RotationRatio), formDiv)
 		case "ThreeDModulo":
 			FormDivBasicFieldToField(&(plant_.ThreeDModulo), formDiv)
+		case "Transparency":
+			FormDivBasicFieldToField(&(plant_.Transparency), formDiv)
 		case "RelativeTrajectoryOffsetX":
 			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetX), formDiv)
 		case "RelativeTrajectoryOffsetY":

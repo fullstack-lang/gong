@@ -2048,6 +2048,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RotationRatio = GongExtractFloat(valueExpr)
 	case "ThreeDModulo":
 		instance.ThreeDModulo = GongExtractInt(valueExpr)
+	case "Transparency":
+		instance.Transparency = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetX":
 		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetY":
