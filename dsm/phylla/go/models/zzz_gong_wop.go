@@ -1107,6 +1107,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPartiallyGrowthCurve2DRibbon bool
 
+	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon bool
+
 	IsHiddenPartiallyGrowthCurve2DTrajectory bool
 
 	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
@@ -1182,6 +1184,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
 	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
 	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
+	to.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = from.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
 	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
 	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
 	to.IsHiddenPxShape = from.IsHiddenPxShape
@@ -1468,6 +1471,147 @@ type ShiftedLeftGrowthCurve2DRibbonStartShape_WOP struct {
 }
 
 func (from *ShiftedLeftGrowthCurve2DRibbonStartShape) CopyBasicFields(to *ShiftedLeftGrowthCurve2DRibbonStartShape) {
+	// insertion point
+	to.Name = from.Name
+	to.BottomStartX = from.BottomStartX
+	to.BottomStartY = from.BottomStartY
+	to.BottomEndX = from.BottomEndX
+	to.BottomEndY = from.BottomEndY
+	to.BottomRadiusX = from.BottomRadiusX
+	to.BottomRadiusY = from.BottomRadiusY
+	to.BottomXAxisRotation = from.BottomXAxisRotation
+	to.BottomLargeArcFlag = from.BottomLargeArcFlag
+	to.BottomSweepFlag = from.BottomSweepFlag
+	to.TopStartX = from.TopStartX
+	to.TopStartY = from.TopStartY
+	to.TopEndX = from.TopEndX
+	to.TopEndY = from.TopEndY
+	to.TopRadiusX = from.TopRadiusX
+	to.TopRadiusY = from.TopRadiusY
+	to.TopXAxisRotation = from.TopXAxisRotation
+	to.TopLargeArcFlag = from.TopLargeArcFlag
+	to.TopSweepFlag = from.TopSweepFlag
+}
+
+type ShiftedLeftPartiallyGrowthCurve2DRibbon_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ShiftedLeftPartiallyGrowthCurve2DRibbon) CopyBasicFields(to *ShiftedLeftPartiallyGrowthCurve2DRibbon) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	BottomStartX float64
+
+	BottomStartY float64
+
+	BottomEndX float64
+
+	BottomEndY float64
+
+	BottomRadiusX float64
+
+	BottomRadiusY float64
+
+	BottomXAxisRotation float64
+
+	BottomLargeArcFlag bool
+
+	BottomSweepFlag bool
+
+	TopStartX float64
+
+	TopStartY float64
+
+	TopEndX float64
+
+	TopEndY float64
+
+	TopRadiusX float64
+
+	TopRadiusY float64
+
+	TopXAxisRotation float64
+
+	TopLargeArcFlag bool
+
+	TopSweepFlag bool
+}
+
+func (from *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) CopyBasicFields(to *ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape) {
+	// insertion point
+	to.Name = from.Name
+	to.BottomStartX = from.BottomStartX
+	to.BottomStartY = from.BottomStartY
+	to.BottomEndX = from.BottomEndX
+	to.BottomEndY = from.BottomEndY
+	to.BottomRadiusX = from.BottomRadiusX
+	to.BottomRadiusY = from.BottomRadiusY
+	to.BottomXAxisRotation = from.BottomXAxisRotation
+	to.BottomLargeArcFlag = from.BottomLargeArcFlag
+	to.BottomSweepFlag = from.BottomSweepFlag
+	to.TopStartX = from.TopStartX
+	to.TopStartY = from.TopStartY
+	to.TopEndX = from.TopEndX
+	to.TopEndY = from.TopEndY
+	to.TopRadiusX = from.TopRadiusX
+	to.TopRadiusY = from.TopRadiusY
+	to.TopXAxisRotation = from.TopXAxisRotation
+	to.TopLargeArcFlag = from.TopLargeArcFlag
+	to.TopSweepFlag = from.TopSweepFlag
+}
+
+type ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	BottomStartX float64
+
+	BottomStartY float64
+
+	BottomEndX float64
+
+	BottomEndY float64
+
+	BottomRadiusX float64
+
+	BottomRadiusY float64
+
+	BottomXAxisRotation float64
+
+	BottomLargeArcFlag bool
+
+	BottomSweepFlag bool
+
+	TopStartX float64
+
+	TopStartY float64
+
+	TopEndX float64
+
+	TopEndY float64
+
+	TopRadiusX float64
+
+	TopRadiusY float64
+
+	TopXAxisRotation float64
+
+	TopLargeArcFlag bool
+
+	TopSweepFlag bool
+}
+
+func (from *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) CopyBasicFields(to *ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.BottomStartX = from.BottomStartX

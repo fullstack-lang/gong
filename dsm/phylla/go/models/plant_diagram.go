@@ -56,6 +56,7 @@ type PlantDiagram struct {
 	IsHiddenStackOfRotatedGrowthCurve2DRibbon          bool
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
 	IsHiddenPartiallyGrowthCurve2DRibbon               bool
+	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon            bool
 	IsHiddenPartiallyGrowthCurve2DTrajectory           bool
 	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2       bool
 	IsHiddenPxShape                                    bool
@@ -71,7 +72,8 @@ type PlantDiagram struct {
 	Rendered3DShape                   *Rendered3DShape
 	GrowthCurve2DRibbon               *GrowthCurve2DRibbon
 	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
-	ShiftedLeftGrowthCurve2DRibbon    *ShiftedLeftGrowthCurve2DRibbon
+	ShiftedLeftGrowthCurve2DRibbon          *ShiftedLeftGrowthCurve2DRibbon
+	ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon
 	TorusStackShape                   *TorusStackShape
 	VerticalTorusStackShape           *VerticalTorusStackShape
 	PartiallyRotatedTorusShape        *PartiallyRotatedTorusShape

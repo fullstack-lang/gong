@@ -158,6 +158,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Shifted Right Growth Curve 2D Ribbon", plant.ShiftedRightGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
 		appendDiagramNode(stager, plantDiagramNode, "Shifted Left Growth Curve 2D Ribbon", plant.ShiftedLeftGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
 		appendDiagramNode(stager, plantDiagramNode, "Partially Growth Curve 2D Ribbon", plant.PartiallyGrowthCurve2DRibbon, &plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon)
+		appendDiagramNode(stager, plantDiagramNode, "Shifted Left Partially Growth Curve 2D Ribbon", plant.ShiftedLeftPartiallyGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
 		appendDiagramNode(stager, plantDiagramNode, "Partially Growth Curve 2D Trajectory", plant.PartiallyGrowthCurve2DTrajectory, &plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
 		appendDiagramNode(stager, plantDiagramNode, "Partially Growth Curve 2D Trajectory P1 P2", plant.PartiallyGrowthCurve2DTrajectoryP1P2, &plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
 		appendDiagramNode(stager, plantDiagramNode, "Px Shape", plant.PxShape, &plantDiagram.IsHiddenPxShape)

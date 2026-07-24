@@ -52,7 +52,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RhombusSideLength = 240.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.405000
+	__Plant__00000000_.RotationRatio = 0.460000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.050000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.001000
@@ -113,6 +113,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
+	__PlantDiagram__00000001_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = false
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
 	__PlantDiagram__00000001_.IsHiddenPxShape = false
