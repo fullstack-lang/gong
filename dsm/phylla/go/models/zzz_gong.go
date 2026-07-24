@@ -24342,6 +24342,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeTrajectoryOffsetX",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -28443,6 +28447,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", plant.ThreeDModulo)
 		res.valueInt = plant.ThreeDModulo
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", plant.Transparency)
+		res.valueFloat = plant.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeTrajectoryOffsetX":
 		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetX)
 		res.valueFloat = plant.RelativeTrajectoryOffsetX
@@ -32435,6 +32443,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RotationRatio = value.GetValueFloat()
 	case "ThreeDModulo":
 		plant.ThreeDModulo = int(value.GetValueInt())
+	case "Transparency":
+		plant.Transparency = value.GetValueFloat()
 	case "RelativeTrajectoryOffsetX":
 		plant.RelativeTrajectoryOffsetX = value.GetValueFloat()
 	case "RelativeTrajectoryOffsetY":

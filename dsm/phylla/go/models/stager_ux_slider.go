@@ -166,9 +166,21 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Traj offset X",
-				-0.05,
+				"Transparency",
+				0.0,
+				1.0,
 				0.05,
+				&plant.Transparency,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Traj offset X",
+				-0.15,
+				0.15,
 				0.001,
 				&plant.RelativeTrajectoryOffsetX,
 			),

@@ -9507,6 +9507,9 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.ThreeDModulo != plantOther.ThreeDModulo {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ThreeDModulo"))
 	}
+	if plant.Transparency != plantOther.Transparency {
+		diffs = append(diffs, plant.GongMarshallField(stage, "Transparency"))
+	}
 	if plant.RelativeTrajectoryOffsetX != plantOther.RelativeTrajectoryOffsetX {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 	}
