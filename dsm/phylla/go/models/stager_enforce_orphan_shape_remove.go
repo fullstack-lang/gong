@@ -76,6 +76,10 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPartiallyGrowthCurve2DRibbonStartShape := make(map[*PartiallyGrowthCurve2DRibbonStartShape]bool)
 	refPartiallyGrowthCurve2DRibbonEndShape := make(map[*PartiallyGrowthCurve2DRibbonEndShape]bool)
 
+	refShiftedLeftPartiallyGrowthCurve2DRibbon := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon]bool)
+	refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape]bool)
+	refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape]bool)
+
 	refPartiallyGrowthCurve2DTrajectory := make(map[*PartiallyGrowthCurve2DTrajectory]bool)
 	refPartiallyGrowthCurve2DTrajectoryShape := make(map[*PartiallyGrowthCurve2DTrajectoryShape]bool)
 
@@ -320,6 +324,16 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			for _, end := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
 				refPartiallyGrowthCurve2DRibbonEndShape[end] = true
+			}
+		}
+
+		if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+			refShiftedLeftPartiallyGrowthCurve2DRibbon[plant.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
+			for _, start := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+				refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[start] = true
+			}
+			for _, end := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+				refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[end] = true
 			}
 		}
 
@@ -834,6 +848,27 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyGrowthCurve2DRibbonEndShape](stage) {
 		if !refPartiallyGrowthCurve2DRibbonEndShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftPartiallyGrowthCurve2DRibbon](stage) {
+		if !refShiftedLeftPartiallyGrowthCurve2DRibbon[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftPartiallyGrowthCurve2DRibbonStartShape](stage) {
+		if !refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ShiftedLeftPartiallyGrowthCurve2DRibbonEndShape](stage) {
+		if !refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

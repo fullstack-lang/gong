@@ -91,6 +91,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawStackOfGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawStackOfRotatedGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DRibbon(stager, layer, plant)
+	plantDiagram.drawShiftedLeftPartiallyGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectory(stager, layer, plant)
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant)
 	plantDiagram.drawPxShape(stager, layer, plant)
@@ -1897,6 +1898,124 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stage
 		topStartX := plantDiagram.OriginX + end.TopStartX
 		topStartY := plantDiagram.OriginY - end.TopStartY
 		topEndX := plantDiagram.OriginX + end.TopEndX
+		topEndY := plantDiagram.OriginY - end.TopEndY
+
+		bottomLargeArcFlag := 0
+		if end.BottomLargeArcFlag {
+			bottomLargeArcFlag = 1
+		}
+		bottomSweepFlag := 0
+		if end.BottomSweepFlag {
+			bottomSweepFlag = 1
+		}
+
+		topLargeArcFlag := 0
+		if end.TopLargeArcFlag {
+			topLargeArcFlag = 1
+		}
+		topSweepFlagRev := 1
+		if end.TopSweepFlag {
+			topSweepFlagRev = 0
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f L %f %f A %f %f %f %d %d %f %f Z",
+			bottomStartX, bottomStartY,
+			end.BottomRadiusX, end.BottomRadiusY,
+			end.BottomXAxisRotation,
+			bottomLargeArcFlag, bottomSweepFlag,
+			bottomEndX, bottomEndY,
+			topEndX, topEndY,
+			end.TopRadiusX, end.TopRadiusY,
+			end.TopXAxisRotation,
+			topLargeArcFlag, topSweepFlagRev,
+			topStartX, topStartY)
+
+		path.Presentation.FillOpacity = 0.3
+		path.Presentation.Color = "green"
+		path.Presentation.Stroke = "none"
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
+		return
+	}
+
+	if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon == nil {
+		return
+	}
+
+	// Translation by -PlantCircumferenceShape.Length
+	dx := 0.0
+	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
+		dx = -plant.RhombusStuff.PlantCircumferenceShape.Length
+	}
+
+	for _, start := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = start.Name
+
+		bottomStartX := plantDiagram.OriginX + start.BottomStartX + dx
+		bottomStartY := plantDiagram.OriginY - start.BottomStartY
+		bottomEndX := plantDiagram.OriginX + start.BottomEndX + dx
+		bottomEndY := plantDiagram.OriginY - start.BottomEndY
+
+		topStartX := plantDiagram.OriginX + start.TopStartX + dx
+		topStartY := plantDiagram.OriginY - start.TopStartY
+		topEndX := plantDiagram.OriginX + start.TopEndX + dx
+		topEndY := plantDiagram.OriginY - start.TopEndY
+
+		bottomLargeArcFlag := 0
+		if start.BottomLargeArcFlag {
+			bottomLargeArcFlag = 1
+		}
+		bottomSweepFlag := 0
+		if start.BottomSweepFlag {
+			bottomSweepFlag = 1
+		}
+
+		topLargeArcFlag := 0
+		if start.TopLargeArcFlag {
+			topLargeArcFlag = 1
+		}
+		topSweepFlagRev := 1
+		if start.TopSweepFlag {
+			topSweepFlagRev = 0
+		}
+
+		path.Definition = fmt.Sprintf("M %f %f A %f %f %f %d %d %f %f L %f %f A %f %f %f %d %d %f %f Z",
+			bottomStartX, bottomStartY,
+			start.BottomRadiusX, start.BottomRadiusY,
+			start.BottomXAxisRotation,
+			bottomLargeArcFlag, bottomSweepFlag,
+			bottomEndX, bottomEndY,
+			topEndX, topEndY,
+			start.TopRadiusX, start.TopRadiusY,
+			start.TopXAxisRotation,
+			topLargeArcFlag, topSweepFlagRev,
+			topStartX, topStartY)
+
+		path.Presentation.FillOpacity = 0.3
+		path.Presentation.Color = "green"
+		path.Presentation.Stroke = "none"
+	}
+
+	for _, end := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+		path := new(svg.Path)
+		layer.Paths = append(layer.Paths, path)
+
+		path.Name = end.Name
+
+		bottomStartX := plantDiagram.OriginX + end.BottomStartX + dx
+		bottomStartY := plantDiagram.OriginY - end.BottomStartY
+		bottomEndX := plantDiagram.OriginX + end.BottomEndX + dx
+		bottomEndY := plantDiagram.OriginY - end.BottomEndY
+
+		topStartX := plantDiagram.OriginX + end.TopStartX + dx
+		topStartY := plantDiagram.OriginY - end.TopStartY
+		topEndX := plantDiagram.OriginX + end.TopEndX + dx
 		topEndY := plantDiagram.OriginY - end.TopEndY
 
 		bottomLargeArcFlag := 0

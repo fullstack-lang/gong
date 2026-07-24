@@ -113,7 +113,8 @@ type Plant struct {
 	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
 	ShiftedLeftGrowthCurve2DRibbon    *ShiftedLeftGrowthCurve2DRibbon
 
-	PartiallyGrowthCurve2DRibbon         *PartiallyGrowthCurve2DRibbon
+	PartiallyGrowthCurve2DRibbon            *PartiallyGrowthCurve2DRibbon
+	ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon
 	PartiallyGrowthCurve2DTrajectory     *PartiallyGrowthCurve2DTrajectory
 	PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2
 	PxShape                              *PxShape
