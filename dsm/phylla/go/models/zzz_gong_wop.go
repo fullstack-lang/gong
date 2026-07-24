@@ -1097,6 +1097,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenShiftedRightGrowthCurve2DRibbon bool
 
+	IsHiddenShiftedLeftGrowthCurve2DRibbon bool
+
 	IsHiddenStackOfGrowthCurve2DRibbon bool
 
 	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
@@ -1175,6 +1177,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
 	to.IsHiddenGrowthCurve2DRibbon = from.IsHiddenGrowthCurve2DRibbon
 	to.IsHiddenShiftedRightGrowthCurve2DRibbon = from.IsHiddenShiftedRightGrowthCurve2DRibbon
+	to.IsHiddenShiftedLeftGrowthCurve2DRibbon = from.IsHiddenShiftedLeftGrowthCurve2DRibbon
 	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
 	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
 	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
@@ -1344,6 +1347,147 @@ type ShiftedBottomTopStartArcShapeGrid_WOP struct {
 func (from *ShiftedBottomTopStartArcShapeGrid) CopyBasicFields(to *ShiftedBottomTopStartArcShapeGrid) {
 	// insertion point
 	to.Name = from.Name
+}
+
+type ShiftedLeftGrowthCurve2DRibbon_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ShiftedLeftGrowthCurve2DRibbon) CopyBasicFields(to *ShiftedLeftGrowthCurve2DRibbon) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type ShiftedLeftGrowthCurve2DRibbonEndShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	BottomStartX float64
+
+	BottomStartY float64
+
+	BottomEndX float64
+
+	BottomEndY float64
+
+	BottomRadiusX float64
+
+	BottomRadiusY float64
+
+	BottomXAxisRotation float64
+
+	BottomLargeArcFlag bool
+
+	BottomSweepFlag bool
+
+	TopStartX float64
+
+	TopStartY float64
+
+	TopEndX float64
+
+	TopEndY float64
+
+	TopRadiusX float64
+
+	TopRadiusY float64
+
+	TopXAxisRotation float64
+
+	TopLargeArcFlag bool
+
+	TopSweepFlag bool
+}
+
+func (from *ShiftedLeftGrowthCurve2DRibbonEndShape) CopyBasicFields(to *ShiftedLeftGrowthCurve2DRibbonEndShape) {
+	// insertion point
+	to.Name = from.Name
+	to.BottomStartX = from.BottomStartX
+	to.BottomStartY = from.BottomStartY
+	to.BottomEndX = from.BottomEndX
+	to.BottomEndY = from.BottomEndY
+	to.BottomRadiusX = from.BottomRadiusX
+	to.BottomRadiusY = from.BottomRadiusY
+	to.BottomXAxisRotation = from.BottomXAxisRotation
+	to.BottomLargeArcFlag = from.BottomLargeArcFlag
+	to.BottomSweepFlag = from.BottomSweepFlag
+	to.TopStartX = from.TopStartX
+	to.TopStartY = from.TopStartY
+	to.TopEndX = from.TopEndX
+	to.TopEndY = from.TopEndY
+	to.TopRadiusX = from.TopRadiusX
+	to.TopRadiusY = from.TopRadiusY
+	to.TopXAxisRotation = from.TopXAxisRotation
+	to.TopLargeArcFlag = from.TopLargeArcFlag
+	to.TopSweepFlag = from.TopSweepFlag
+}
+
+type ShiftedLeftGrowthCurve2DRibbonStartShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	BottomStartX float64
+
+	BottomStartY float64
+
+	BottomEndX float64
+
+	BottomEndY float64
+
+	BottomRadiusX float64
+
+	BottomRadiusY float64
+
+	BottomXAxisRotation float64
+
+	BottomLargeArcFlag bool
+
+	BottomSweepFlag bool
+
+	TopStartX float64
+
+	TopStartY float64
+
+	TopEndX float64
+
+	TopEndY float64
+
+	TopRadiusX float64
+
+	TopRadiusY float64
+
+	TopXAxisRotation float64
+
+	TopLargeArcFlag bool
+
+	TopSweepFlag bool
+}
+
+func (from *ShiftedLeftGrowthCurve2DRibbonStartShape) CopyBasicFields(to *ShiftedLeftGrowthCurve2DRibbonStartShape) {
+	// insertion point
+	to.Name = from.Name
+	to.BottomStartX = from.BottomStartX
+	to.BottomStartY = from.BottomStartY
+	to.BottomEndX = from.BottomEndX
+	to.BottomEndY = from.BottomEndY
+	to.BottomRadiusX = from.BottomRadiusX
+	to.BottomRadiusY = from.BottomRadiusY
+	to.BottomXAxisRotation = from.BottomXAxisRotation
+	to.BottomLargeArcFlag = from.BottomLargeArcFlag
+	to.BottomSweepFlag = from.BottomSweepFlag
+	to.TopStartX = from.TopStartX
+	to.TopStartY = from.TopStartY
+	to.TopEndX = from.TopEndX
+	to.TopEndY = from.TopEndY
+	to.TopRadiusX = from.TopRadiusX
+	to.TopRadiusY = from.TopRadiusY
+	to.TopXAxisRotation = from.TopXAxisRotation
+	to.TopLargeArcFlag = from.TopLargeArcFlag
+	to.TopSweepFlag = from.TopSweepFlag
 }
 
 type ShiftedLeftStackGrowthCurveEndArcShape_WOP struct {

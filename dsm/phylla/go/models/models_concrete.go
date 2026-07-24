@@ -838,6 +838,53 @@ type ShiftedRightGrowthCurve2DRibbonEndShape struct {
 	TopSweepFlag           bool
 }
 
+// ShiftedLeftGrowthCurve2DRibbon of a plant,
+// gong:omit
+type ShiftedLeftGrowthCurve2DRibbon struct {
+	Name string
+
+	ShiftedLeftGrowthCurve2DRibbonStartShapes []*ShiftedLeftGrowthCurve2DRibbonStartShape
+	ShiftedLeftGrowthCurve2DRibbonEndShapes   []*ShiftedLeftGrowthCurve2DRibbonEndShape
+}
+
+// gong:omit
+type ShiftedLeftGrowthCurve2DRibbonStartShape struct {
+	Name string
+
+	BottomStartX, BottomStartY   float64
+	BottomEndX, BottomEndY       float64
+	BottomRadiusX, BottomRadiusY float64
+	BottomXAxisRotation          float64
+	BottomLargeArcFlag           bool
+	BottomSweepFlag              bool
+
+	TopStartX, TopStartY   float64
+	TopEndX, TopEndY       float64
+	TopRadiusX, TopRadiusY float64
+	TopXAxisRotation       float64
+	TopLargeArcFlag        bool
+	TopSweepFlag           bool
+}
+
+// gong:omit
+type ShiftedLeftGrowthCurve2DRibbonEndShape struct {
+	Name string
+
+	BottomStartX, BottomStartY   float64
+	BottomEndX, BottomEndY       float64
+	BottomRadiusX, BottomRadiusY float64
+	BottomXAxisRotation          float64
+	BottomLargeArcFlag           bool
+	BottomSweepFlag              bool
+
+	TopStartX, TopStartY   float64
+	TopEndX, TopEndY       float64
+	TopRadiusX, TopRadiusY float64
+	TopXAxisRotation       float64
+	TopLargeArcFlag        bool
+	TopSweepFlag           bool
+}
+
 // PartiallyGrowthCurve2DRibbon of a plant,
 // gong:omit
 type PartiallyGrowthCurve2DRibbon struct {
