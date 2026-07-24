@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"strconv"
 
@@ -355,6 +356,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}).Stage(stager.threejsStage)
 				}
 
+				stackHeight := plant.StackHeight
+
 				generateRibbonLayer := func(h int, dx, dy, thetaOffset float64, baseNamePrefix string) {
 					threeDModulo := plant.ThreeDModulo
 					if threeDModulo < 1 {
@@ -468,10 +471,120 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
 							createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 						)
+
+						if h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
+							var p1x, p1y, p2x, p2y, pxx, pxy float64
+							hasP1P2 := false
+							if plant.ChosenP1P2PairShape != nil {
+								p1x, p1y = plant.ChosenP1P2PairShape.P1X, plant.ChosenP1P2PairShape.P1Y
+								p2x, p2y = plant.ChosenP1P2PairShape.P2X, plant.ChosenP1P2PairShape.P2Y
+								pxx, pxy = plant.ChosenP1P2PairShape.PxX, plant.ChosenP1P2PairShape.PxY
+								hasP1P2 = true
+							} else if plant.PxShape != nil {
+								pxx, pxy = plant.PxShape.X, plant.PxShape.Y
+							}
+
+							rSurf := globalR
+
+							get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
+								th := (ptX+dx)/globalR + baseThetaOffset
+								return (&threejs.Vector3{
+									Name: fmt.Sprintf("%s %s k%d h%d", ptName, namePrefix, k, h),
+									X:    rSurf * math.Cos(th),
+									Y:    ptY + dy,
+									Z:    rSurf * math.Sin(th),
+								}).Stage(stager.threejsStage)
+							}
+
+							vPx_3d := get3DPt(pxx, pxy, "Px")
+
+							sphereRad := thickness * 0.4
+							if sphereRad < 0.3 {
+								sphereRad = 0.3
+							}
+
+							createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
+								return (&threejs.Mesh{
+									Name: fmt.Sprintf("Sphere %s %s k%d h%d", ptName, namePrefix, k, h),
+									Position: threejs.Position{
+										X: vec.X,
+										Y: vec.Y,
+										Z: vec.Z,
+									},
+									SphereGeometry: (&threejs.SphereGeometry{
+										Name:           fmt.Sprintf("SphereGeom %s %s k%d h%d", ptName, namePrefix, k, h),
+										Radius:         sphereRad,
+										WidthSegments:  16,
+										HeightSegments: 16,
+									}).Stage(stager.threejsStage),
+									MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+										Name:                 fmt.Sprintf("Material %s %s k%d h%d", ptName, namePrefix, k, h),
+										MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+									}).Stage(stager.threejsStage),
+								}).Stage(stager.threejsStage)
+							}
+
+							createPairTube := func(lineName string, color string, pA, pB *threejs.Vector3) *threejs.Mesh {
+								crv := (&threejs.Curve{
+									Name:   fmt.Sprintf("Curve %s %s k%d h%d", lineName, namePrefix, k, h),
+									Points: []*threejs.Vector3{pA, pB},
+								}).Stage(stager.threejsStage)
+
+								tGeom := (&threejs.TubeGeometry{
+									Name:            fmt.Sprintf("TubeGeom %s %s k%d h%d", lineName, namePrefix, k, h),
+									Path:            crv,
+									TubularSegments: 8,
+									Radius:          sphereRad * 0.25,
+									RadialSegments:  8,
+									Closed:          false,
+								}).Stage(stager.threejsStage)
+
+								return (&threejs.Mesh{
+									Name:         fmt.Sprintf("TubeMesh %s %s k%d h%d", lineName, namePrefix, k, h),
+									Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+									TubeGeometry: tGeom,
+									MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+										Name:                 fmt.Sprintf("Material %s %s k%d h%d", lineName, namePrefix, k, h),
+										MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+									}).Stage(stager.threejsStage),
+								}).Stage(stager.threejsStage)
+							}
+
+							sPx := createPointSphere("Px", "purple", vPx_3d)
+							canvas.Meshs = append(canvas.Meshs, sPx)
+
+							if hasP1P2 {
+								vP1_3d := get3DPt(p1x, p1y, "P1")
+								vP2_3d := get3DPt(p2x, p2y, "P2")
+
+								sP1 := createPointSphere("P1", "red", vP1_3d)
+								sP2 := createPointSphere("P2", "#8d6e63", vP2_3d)
+
+								tP1Px := createPairTube("P1-Px", "purple", vP1_3d, vPx_3d)
+								tP2Px := createPairTube("P2-Px", "purple", vP2_3d, vPx_3d)
+
+								canvas.Meshs = append(canvas.Meshs, sP1, sP2, tP1Px, tP2Px)
+
+								dx1 := vP1_3d.X - vPx_3d.X
+								dy1 := vP1_3d.Y - vPx_3d.Y
+								dz1 := vP1_3d.Z - vPx_3d.Z
+								distP1Px_3d := math.Sqrt(dx1*dx1 + dy1*dy1 + dz1*dz1)
+
+								dx2 := vP2_3d.X - vPx_3d.X
+								dy2 := vP2_3d.Y - vPx_3d.Y
+								dz2 := vP2_3d.Z - vPx_3d.Z
+								distP2Px_3d := math.Sqrt(dx2*dx2 + dy2*dy2 + dz2*dz2)
+
+								distSum_3d := distP1Px_3d + distP2Px_3d
+
+								if h == 0 && k == 0 {
+									log.Printf("[3D Distance] %s (Layer %d, Rep %d) | P1-Px: %.4f, P2-Px: %.4f | 3D Sum: %.4f",
+										baseNamePrefix, h, k, distP1Px_3d, distP2Px_3d, distSum_3d)
+								}
+							}
+						}
 					}
 				}
-
-				stackHeight := plant.StackHeight
 
 				if !checkedDiagram.IsHiddenTorusStackShape {
 					var growthVectorX, growthVectorY float64
