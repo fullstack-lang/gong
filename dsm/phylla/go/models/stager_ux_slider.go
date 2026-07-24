@@ -167,7 +167,7 @@ func (stager *Stager) ux_slider() {
 			m.NewSlider(
 				stager,
 				"Traj offset X",
-				0,
+				-0.05,
 				0.05,
 				0.001,
 				&plant.RelativeTrajectoryOffsetX,

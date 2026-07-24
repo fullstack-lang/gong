@@ -4,27 +4,13 @@ import (
 	"fmt"
 	"math"
 	"strconv"
-	"strings"
 
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
 func (stager *Stager) ux_3d_plant_diagram() {
 
 	if true {
-		var is3DViewSelected bool
-		for view := range *split.GetGongstructInstancesSetFromPointerType[*split.View](stager.splitStage) {
-			if view.IsSelectedView && strings.Contains(view.Name, "3D") {
-				is3DViewSelected = true
-				break
-			}
-		}
-
-		if !is3DViewSelected {
-			return
-		}
-
 		var preservedX, preservedY, preservedZ float64
 		var preservedTargetX, preservedTargetY, preservedTargetZ float64
 		var preservedFov float64

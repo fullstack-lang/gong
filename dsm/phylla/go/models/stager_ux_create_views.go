@@ -1,6 +1,20 @@
 package models
 
-import split "github.com/fullstack-lang/gong/lib/split/go/models"
+import (
+	"strings"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+)
+
+type ViewUpdateCallback struct {
+	stager *Stager
+}
+
+func (c *ViewUpdateCallback) OnAfterUpdate(stage *split.Stage, old, new *split.View) {
+	if new.IsSelectedView && strings.Contains(new.Name, "3D") {
+		c.stager.ux_3d_plant_diagram()
+	}
+}
 
 func getPersistanceFile(stager *Stager) string {
 	if stager.stage.OnInitCommitCallback != nil {
@@ -12,6 +26,8 @@ func getPersistanceFile(stager *Stager) string {
 
 func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
+
+	split.SetCallbackAfterUpdateFromFront[split.View](stager.splitStage, &ViewUpdateCallback{stager: stager})
 
 	tabTitle := &split.Title{
 		Name: "Phylla (" + getPersistanceFile(stager) + ")",

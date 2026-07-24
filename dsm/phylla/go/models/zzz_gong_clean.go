@@ -383,6 +383,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.GrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.ShiftedRightGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plant.ShiftedLeftGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
@@ -405,6 +406,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.GrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.ShiftedRightGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.ShiftedLeftGrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.TorusStackShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.VerticalTorusStackShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
@@ -476,6 +478,29 @@ func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongClean(st
 func (shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &shiftedbottomtopstartarcshapegrid.ShiftedBottomTopStartArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ShiftedLeftGrowthCurve2DRibbon
+func (shiftedleftgrowthcurve2dribbon *ShiftedLeftGrowthCurve2DRibbon) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonStartShapes) || modified
+	modified = GongCleanSlice(stage, &shiftedleftgrowthcurve2dribbon.ShiftedLeftGrowthCurve2DRibbonEndShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ShiftedLeftGrowthCurve2DRibbonEndShape
+func (shiftedleftgrowthcurve2dribbonendshape *ShiftedLeftGrowthCurve2DRibbonEndShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ShiftedLeftGrowthCurve2DRibbonStartShape
+func (shiftedleftgrowthcurve2dribbonstartshape *ShiftedLeftGrowthCurve2DRibbonStartShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }
