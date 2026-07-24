@@ -45,17 +45,17 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 2
-	__Plant__00000000_.RhombusInsideAngle = 120.000000
-	__Plant__00000000_.RelativeVerticalThickness = 0.230000
-	__Plant__00000000_.RelativeRadialThickness = 0.050000
+	__Plant__00000000_.StackHeight = 6
+	__Plant__00000000_.RhombusInsideAngle = 115.000000
+	__Plant__00000000_.RelativeVerticalThickness = 0.260000
+	__Plant__00000000_.RelativeRadialThickness = 0.090000
 	__Plant__00000000_.RhombusSideLength = 240.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.460000
+	__Plant__00000000_.RotationRatio = 0.015000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.050000
-	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.001000
+	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.019000
 	__Plant__00000000_.NbStepP1P2 = 30
 	__Plant__00000000_.ChosenStep = 4
 	__Plant__00000000_.ComputedPrefix = ``
@@ -64,8 +64,8 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
-	__PlantDiagram__00000001_.OriginX = 163.918010
-	__PlantDiagram__00000001_.OriginY = 591.755377
+	__PlantDiagram__00000001_.OriginX = 424.918010
+	__PlantDiagram__00000001_.OriginY = 597.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000001_.IsArcNodesExpanded = false
 	__PlantDiagram__00000001_.IsHiddenAxesShape = true
@@ -127,9 +127,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 1848.859859
-	__Rendered3DShape__00000000_.ViewY = 844.959350
-	__Rendered3DShape__00000000_.ViewZ = -419.396808
+	__Rendered3DShape__00000000_.ViewX = -1176.002140
+	__Rendered3DShape__00000000_.ViewY = 143.587061
+	__Rendered3DShape__00000000_.ViewZ = -1084.361537
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
