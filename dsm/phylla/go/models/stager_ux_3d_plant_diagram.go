@@ -492,6 +492,34 @@ func (stager *Stager) ux_3d_plant_diagram() {
 								pxx, pxy = plant.PxShape.X, plant.PxShape.Y
 							}
 
+							// Recompute Px for layer h based on step h+1's specific rotation ratio
+							if plant.StackOfGrowthCurve2DRibbon != nil && len(plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes) > 0 && plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
+								baseShape := plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes[0]
+								circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
+								trajOffsetX := plant.RelativeTrajectoryOffsetX * circLen
+								trajOffsetY := plant.RelativeTrajectoryOffsetY * circLen
+
+								var r_h1 float64
+								if stackHeight > 1 {
+									numSteps := stackHeight - 1
+									totalProgress := plant.RotationRatio * float64(numSteps)
+									kStep := float64(h + 1)
+									if totalProgress >= kStep {
+										r_h1 = 1.0
+									} else if totalProgress <= kStep-1.0 {
+										r_h1 = 0.0
+									} else {
+										r_h1 = totalProgress - (kStep - 1.0)
+									}
+								} else {
+									r_h1 = plant.RotationRatio
+								}
+
+								_, dyStep, currentDXStep := ComputePartiallyGrowthCurveDYForRatio(plant, r_h1)
+								pxx = baseShape.BottomStartX + currentDXStep + trajOffsetX
+								pxy = baseShape.BottomStartY + dyStep + trajOffsetY
+							}
+
 							rSurf := globalR
 
 							get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
