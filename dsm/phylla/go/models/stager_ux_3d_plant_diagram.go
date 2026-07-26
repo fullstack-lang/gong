@@ -648,10 +648,36 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 
 				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape {
-					dxBase, dyBase, _ := ComputePartiallyGrowthCurveDY(plant)
+					numSteps := stackHeight - 1
+					dxs := make([]float64, stackHeight)
+					dys := make([]float64, stackHeight)
+					dxs[0] = 0.0
+					dys[0] = 0.0
+
+					if numSteps > 0 {
+						totalProgress := plant.RotationRatio * float64(numSteps)
+						var cumDX, cumDY float64
+						for k := 1; k <= numSteps; k++ {
+							var r_k float64
+							kFloat := float64(k)
+							if totalProgress >= kFloat {
+								r_k = 1.0
+							} else if totalProgress <= kFloat-1.0 {
+								r_k = 0.0
+							} else {
+								r_k = totalProgress - (kFloat - 1.0)
+							}
+							stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+							cumDX += stepDX
+							cumDY += stepDY
+							dxs[k] = cumDX
+							dys[k] = cumDY
+						}
+					}
+
 					for h := 0; h < stackHeight; h++ {
-						dx := float64(h) * dxBase
-						dy := float64(h) * dyBase
+						dx := dxs[h]
+						dy := dys[h]
 						thetaOffset := dx / globalR
 
 						generateRibbonLayer(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus")
