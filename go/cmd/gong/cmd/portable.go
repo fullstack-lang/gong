@@ -192,17 +192,54 @@ var portableCmd = &cobra.Command{
 		// Inject the bootloader right before the closing </body> tag
 		html = strings.Replace(html, "</body>", bootloader+"\n</body>", 1)
 
+		// Remove <link rel="modulepreload"> tags which break under file:// protocol
+		modulePreloadRe := regexp.MustCompile(`(?i)<link[^>]*rel="modulepreload"[^>]*>`)
+		html = modulePreloadRe.ReplaceAllString(html, "")
+
+		// Build an importmap mapping all JS files/chunks in buildDir to Base64 data URIs
+		// This enables ES module imports (static and dynamic) to resolve in-memory under file:// protocol
+		var importMappings []string
+		filepath.Walk(buildDir, func(path string, info os.FileInfo, err error) error {
+			if err != nil || info.IsDir() || !strings.HasSuffix(info.Name(), ".js") {
+				return nil
+			}
+			relPath, err := filepath.Rel(buildDir, path)
+			if err != nil {
+				return nil
+			}
+			relUrl := filepath.ToSlash(relPath)
+			jsBytes, err := os.ReadFile(path)
+			if err != nil {
+				return nil
+			}
+			fmt.Printf("js chunk/module: Inlining %s into importmap\n", relUrl)
+			b64 := base64.StdEncoding.EncodeToString(jsBytes)
+			dataUri := "data:text/javascript;base64," + b64
+
+			importMappings = append(importMappings,
+				fmt.Sprintf(`    %q: %q`, relUrl, dataUri),
+				fmt.Sprintf(`    %q: %q`, "./"+relUrl, dataUri),
+				fmt.Sprintf(`    %q: %q`, "/"+relUrl, dataUri),
+			)
+			return nil
+		})
+
+		if len(importMappings) > 0 {
+			importMapScript := fmt.Sprintf("<script type=\"importmap\">\n{\n  \"imports\": {\n%s\n  }\n}\n</script>\n", strings.Join(importMappings, ",\n"))
+			html = strings.Replace(html, "<head>", "<head>\n"+importMapScript, 1)
+		}
+
 		// Inject history API patch in <head> to prevent Angular SecurityError on file:///
 		fileProtocolPatch := `
 <script>
   if (window.location.protocol === 'file:') {
     const originalReplaceState = history.replaceState;
-    history.replaceState = function() {
-      try { originalReplaceState.apply(this, arguments); } catch (e) {}
+    history.replaceState = function(state, title, url) {
+      try { originalReplaceState.call(this, state, title, window.location.href); } catch (e) {}
     };
     const originalPushState = history.pushState;
-    history.pushState = function() {
-      try { originalPushState.apply(this, arguments); } catch (e) {}
+    history.pushState = function(state, title, url) {
+      try { originalPushState.call(this, state, title, window.location.href); } catch (e) {}
     };
   }
 </script>
