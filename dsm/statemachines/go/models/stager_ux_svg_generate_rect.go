@@ -119,7 +119,7 @@ func (stager *Stager) svgGenerateRect(
 		stateTitleText.X_Offset = 0
 
 		if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
-			stateTitleText.Y_Offset = 15
+			stateTitleText.Y_Offset = 22
 			stateTitleText.RectAnchorType = svg.RECT_TOP
 		} else {
 			stateTitleText.Y_Offset = 0
@@ -368,7 +368,7 @@ func (stager *Stager) addIconToState(
 	stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 	if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
 		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
-		stateTitleText.Y_Offset = 15
+		stateTitleText.Y_Offset = 22
 	} else {
 		stateTitleText.RectAnchorType = svg.RECT_LEFT_MIDDLE
 		stateTitleText.Y_Offset = 0
