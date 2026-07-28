@@ -25,7 +25,7 @@ func (p *DiagramTree_State_Proxy) OnAfterUpdate(stage *tree.Stage, stagedNode *t
 			log.Fatalln("adding a shape to an already state shape")
 		}
 
-		stateShape := newStateShapeToDiagram(p.state, p.diagram).Stage(p.stager.stage)
+		stateShape := newStateShapeToDiagram(p.state, p.diagram, frontNode.ClientOnY).Stage(p.stager.stage)
 		p.stateShape = stateShape
 
 		p.stager.stage.Commit()

@@ -285,23 +285,24 @@ func (stager *Stager) treeStateMachines(
 		}
 
 		if diagram.IsChecked {
-			addButton := &tree.Button{
+			var addButton *tree.Button
+			addButton = &tree.Button{
 				Name:            "Diagram" + " " + string(buttons.BUTTON_add),
 				Icon:            string(buttons.BUTTON_add),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Add a State to the State Machine and add it to the diagram",
-				OnClick: func() {
-					s := stager.stage
-					newState := new(State).Stage(s)
+			}
+			addButton.OnClick = func() {
+				s := stager.stage
+				newState := new(State).Stage(s)
 
-					newState.Name = "New State"
-					stateMachine.States = append(stateMachine.States, newState)
+				newState.Name = "New State"
+				stateMachine.States = append(stateMachine.States, newState)
 
-					newStateShapeToDiagram(newState, diagram).Stage(stager.stage)
+				newStateShapeToDiagram(newState, diagram, addButton.ClientOnY).Stage(stager.stage)
 
-					stager.stage.Commit()
-				},
+				stager.stage.Commit()
 			}
 			statesNode.Buttons = append(statesNode.Buttons, addButton)
 		}
@@ -459,7 +460,7 @@ func (stager *Stager) treeStateMachines(
 						log.Fatalln("adding a shape to an already state shape")
 					}
 
-					newStateShapeToDiagram(state, diagram).Stage(stager.stage)
+					newStateShapeToDiagram(state, diagram, diagramStateNode.ClientOnY).Stage(stager.stage)
 					stager.stage.Commit()
 				} else {
 					// one need to remove the State_Shape
@@ -514,31 +515,32 @@ func (stager *Stager) treeStateMachines(
 		}
 
 		if diagram.IsChecked {
-			addButton := &tree.Button{
+			var addButton *tree.Button
+			addButton = &tree.Button{
 				Name:            "Diagram" + " " + string(buttons.BUTTON_add),
 				Icon:            string(buttons.BUTTON_add),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Add a Note to the Library and add it to the diagram",
-				OnClick: func() {
-					s := stager.stage
-					newNote := new(Note).Stage(s)
+			}
+			addButton.OnClick = func() {
+				s := stager.stage
+				newNote := new(Note).Stage(s)
 
-					newNote.Name = "New Note"
-					stager.GetRootLibrary().RootNotes = append(stager.GetRootLibrary().RootNotes, newNote)
+				newNote.Name = "New Note"
+				stager.GetRootLibrary().RootNotes = append(stager.GetRootLibrary().RootNotes, newNote)
 
-					newShape := new(NoteShape)
-					newShape.Note = newNote
-					newShape.Name = newNote.GetName() + "-" + diagram.GetName()
-					newShape.Height = 80
-					newShape.Width = 200
-					newShape.X = 100
-					newShape.Y = 100
-					diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
-					newShape.Stage(stager.stage)
+				newShape := new(NoteShape)
+				newShape.Note = newNote
+				newShape.Name = newNote.GetName() + "-" + diagram.GetName()
+				newShape.Height = 80
+				newShape.Width = 200
+				newShape.X = 100
+				newShape.Y = addButton.ClientOnY
+				diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
+				newShape.Stage(stager.stage)
 
-					stager.stage.Commit()
-				},
+				stager.stage.Commit()
 			}
 			notesNode.Buttons = append(notesNode.Buttons, addButton)
 		}
@@ -638,7 +640,7 @@ func (stager *Stager) treeStateMachines(
 					newShape.Height = 80
 					newShape.Width = 200
 					newShape.X = 100
-					newShape.Y = 100
+					newShape.Y = diagramNoteNode.ClientOnY
 					diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
 					newShape.Stage(stager.stage)
 					stager.stage.Commit()
