@@ -260,28 +260,6 @@ func (stager *Stager) treeStateMachines(
 			}
 			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, copyButton)
 		}
-		if diagram.IsChecked {
-			addButton := &tree.Button{
-				Name:            "Diagram" + " " + string(buttons.BUTTON_add),
-				Icon:            string(buttons.BUTTON_add),
-				HasToolTip:      true,
-				ToolTipPosition: tree.Above,
-				ToolTipText:     "Add a State to the State Machine and add it to the diagram",
-				OnClick: func() {
-					s := stager.stage
-					newState := new(State).Stage(s)
-
-					newState.Name = "New State"
-					stateMachine.States = append(stateMachine.States, newState)
-
-					newStateShapeToDiagram(newState, diagram).Stage(stager.stage)
-
-					stager.stage.Commit()
-				},
-			}
-			diagramNode.Buttons = append(diagramNode.Buttons, addButton)
-		}
-
 		// for displaying wether the State node is checked
 		map_State__StateShape := make(map[*State]*StateShape)
 		for _, stateShape := range diagram.State_Shapes {
@@ -304,6 +282,28 @@ func (stager *Stager) treeStateMachines(
 		statesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsStatesNodeExpanded)
 		statesNode.OnClick = func(*tree.Node) {
 			stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
+		}
+
+		if diagram.IsChecked {
+			addButton := &tree.Button{
+				Name:            "Diagram" + " " + string(buttons.BUTTON_add),
+				Icon:            string(buttons.BUTTON_add),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				ToolTipText:     "Add a State to the State Machine and add it to the diagram",
+				OnClick: func() {
+					s := stager.stage
+					newState := new(State).Stage(s)
+
+					newState.Name = "New State"
+					stateMachine.States = append(stateMachine.States, newState)
+
+					newStateShapeToDiagram(newState, diagram).Stage(stager.stage)
+
+					stager.stage.Commit()
+				},
+			}
+			statesNode.Buttons = append(statesNode.Buttons, addButton)
 		}
 
 		for _, state := range stateMachine.States {
@@ -511,6 +511,36 @@ func (stager *Stager) treeStateMachines(
 		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
 		notesNode.OnClick = func(*tree.Node) {
 			stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
+		}
+
+		if diagram.IsChecked {
+			addButton := &tree.Button{
+				Name:            "Diagram" + " " + string(buttons.BUTTON_add),
+				Icon:            string(buttons.BUTTON_add),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+				ToolTipText:     "Add a Note to the Library and add it to the diagram",
+				OnClick: func() {
+					s := stager.stage
+					newNote := new(Note).Stage(s)
+
+					newNote.Name = "New Note"
+					stager.GetRootLibrary().RootNotes = append(stager.GetRootLibrary().RootNotes, newNote)
+
+					newShape := new(NoteShape)
+					newShape.Note = newNote
+					newShape.Name = newNote.GetName() + "-" + diagram.GetName()
+					newShape.Height = 80
+					newShape.Width = 200
+					newShape.X = 100
+					newShape.Y = 100
+					diagram.Note_Shapes = append(diagram.Note_Shapes, newShape)
+					newShape.Stage(stager.stage)
+
+					stager.stage.Commit()
+				},
+			}
+			notesNode.Buttons = append(notesNode.Buttons, addButton)
 		}
 
 		// for displaying wether the Note node is checked
