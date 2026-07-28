@@ -123,7 +123,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
-	__Diagram__00000001_.IsStatesNodeExpanded = false
+	__Diagram__00000001_.IsStatesNodeExpanded = true
 	__Diagram__00000001_.IsNotesNodeExpanded = false
 
 	__Library__00000000_.Name = `Comparaison of Traffic lights UK vs FR`
