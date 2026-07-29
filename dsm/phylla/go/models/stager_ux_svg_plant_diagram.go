@@ -2588,7 +2588,9 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	keyHole.Width = plant.WidthKey
 	keyHole.Height = plant.HeightKey
 
-	drawRect := func(name string, offsetX, offsetY float64) {
+	vThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+
+	drawRect := func(name string, offsetX, offsetY float64, withLine bool) {
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		rect.Name = name
@@ -2602,6 +2604,20 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 		rect.Presentation.StrokeOpacity = 1.0
 		rect.Presentation.Color = "pink"
 		rect.Presentation.FillOpacity = 0.3
+
+		if withLine && vThickness > 0 {
+			leftLine := new(svg.Line)
+			layer.Lines = append(layer.Lines, leftLine)
+			leftLine.Name = name + "-LeftLine"
+			leftLine.X1 = rect.X
+			leftLine.Y1 = rect.Y + rect.Height
+			leftLine.X2 = rect.X
+			leftLine.Y2 = rect.Y + rect.Height + vThickness
+
+			leftLine.Presentation.Stroke = "darkred"
+			leftLine.Presentation.StrokeWidth = 1.0
+			leftLine.Presentation.StrokeOpacity = 1.0
+		}
 	}
 
 	circLen := 0.0
@@ -2612,25 +2628,28 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	_, dy, currentDX := ComputePartiallyGrowthCurveDY(plant)
 
 	if !plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
-		drawRect(keyHole.Name+"-Partially", plant.OffsetKeyX+currentDX, plant.OffsetKeyY+dy)
+		drawRect(keyHole.Name+"-Partially", plant.OffsetKeyX+currentDX, plant.OffsetKeyY+dy, true)
 	}
 
 	if !plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon && circLen > 0 {
-		drawRect(keyHole.Name+"-ShiftedLeftPartially", plant.OffsetKeyX+currentDX-circLen, plant.OffsetKeyY+dy)
+		drawRect(keyHole.Name+"-ShiftedLeftPartially", plant.OffsetKeyX+currentDX-circLen, plant.OffsetKeyY+dy, false)
 	}
 
 	if !plantDiagram.IsHiddenGrowthCurve2DRibbon {
-		drawRect(keyHole.Name, plant.OffsetKeyX, plant.OffsetKeyY)
+		drawRect(keyHole.Name, plant.OffsetKeyX, plant.OffsetKeyY, false)
 	}
 
 	if !plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon && circLen > 0 {
-		drawRect(keyHole.Name+"-ShiftedLeft", plant.OffsetKeyX-circLen, plant.OffsetKeyY)
+		drawRect(keyHole.Name+"-ShiftedLeft", plant.OffsetKeyX-circLen, plant.OffsetKeyY, false)
 	}
 
 	if !plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon && circLen > 0 {
-		drawRect(keyHole.Name+"-ShiftedRight", plant.OffsetKeyX+circLen, plant.OffsetKeyY)
+		drawRect(keyHole.Name+"-ShiftedRight", plant.OffsetKeyX+circLen, plant.OffsetKeyY, false)
 	}
 }
+
+
+
 
 
 
