@@ -25299,6 +25299,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "RelativeKeySizeReduction",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -29510,6 +29514,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.WidthKey)
 		res.valueFloat = plant.WidthKey
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeKeySizeReduction":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeKeySizeReduction)
+		res.valueFloat = plant.RelativeKeySizeReduction
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -33594,6 +33602,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.HeightKey = value.GetValueFloat()
 	case "WidthKey":
 		plant.WidthKey = value.GetValueFloat()
+	case "RelativeKeySizeReduction":
+		plant.RelativeKeySizeReduction = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

@@ -71,6 +71,7 @@ type Plant struct {
 	OffsetKeyY float64
 	HeightKey  float64
 	WidthKey   float64
+	RelativeKeySizeReduction float64
 
 	LibraryAbstractFields
 	AbstractTypeFields

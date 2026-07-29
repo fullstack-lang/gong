@@ -1009,6 +1009,8 @@ type Plant_WOP struct {
 
 	WidthKey float64
 
+	RelativeKeySizeReduction float64
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -1041,6 +1043,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.OffsetKeyY = from.OffsetKeyY
 	to.HeightKey = from.HeightKey
 	to.WidthKey = from.WidthKey
+	to.RelativeKeySizeReduction = from.RelativeKeySizeReduction
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected

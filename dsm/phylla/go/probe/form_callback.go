@@ -5428,6 +5428,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.HeightKey), formDiv)
 		case "WidthKey":
 			FormDivBasicFieldToField(&(plant_.WidthKey), formDiv)
+		case "RelativeKeySizeReduction":
+			FormDivBasicFieldToField(&(plant_.RelativeKeySizeReduction), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":

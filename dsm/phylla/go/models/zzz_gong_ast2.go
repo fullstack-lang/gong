@@ -2161,6 +2161,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.HeightKey = GongExtractFloat(valueExpr)
 	case "WidthKey":
 		instance.WidthKey = GongExtractFloat(valueExpr)
+	case "RelativeKeySizeReduction":
+		instance.RelativeKeySizeReduction = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

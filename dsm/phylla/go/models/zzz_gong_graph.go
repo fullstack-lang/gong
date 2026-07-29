@@ -9907,6 +9907,9 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.WidthKey != plantOther.WidthKey {
 		diffs = append(diffs, plant.GongMarshallField(stage, "WidthKey"))
 	}
+	if plant.RelativeKeySizeReduction != plantOther.RelativeKeySizeReduction {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeKeySizeReduction"))
+	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
 	}

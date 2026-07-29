@@ -313,8 +313,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
 					y_top := plant.OffsetKeyY + plant.HeightKey/2.0
 
-					keyWidth := plant.WidthKey * 0.8
-					keyHeight := plant.HeightKey * 0.8
+					keyWidth := plant.WidthKey * (1.0 - plant.RelativeKeySizeReduction)
+					keyHeight := plant.HeightKey * (1.0 - plant.RelativeKeySizeReduction)
 					xKeyLeft := plant.OffsetKeyX - keyWidth/2.0
 					xKeyRight := plant.OffsetKeyX + keyWidth/2.0
 					yKeyBottom := (plant.OffsetKeyY - keyHeight/2.0) + dy
