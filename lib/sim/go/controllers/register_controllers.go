@@ -236,11 +236,16 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			component = parts[len(parts)-2]
 		}
 
+		displayStackPath := stackPath
+		if len(displayStackPath) > 85 {
+			displayStackPath = displayStackPath[:82] + "..."
+		}
+
 		// 2. Use a single, formatted log line
 		log.Printf(
 			"%-12s | %-85s | Idx: %d | Size: %-9s",
 			component,
-			stackPath,
+			displayStackPath,
 			index,
 			formatBytes(jsonSize),
 		)
@@ -297,11 +302,16 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 						component = parts[len(parts)-2]
 					}
 
+					displayStackPath := stackPath
+					if len(displayStackPath) > 85 {
+						displayStackPath = displayStackPath[:82] + "..."
+					}
+
 					// 2. Use a single, formatted log line
 					log.Printf(
 						"%-12s | %-85s | Idx: %d | Size: %-9s",
 						component,
-						stackPath,
+						displayStackPath,
 						index,
 						formatBytes(jsonSize),
 					)
