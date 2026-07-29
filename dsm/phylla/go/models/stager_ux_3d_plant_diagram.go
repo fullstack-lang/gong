@@ -675,7 +675,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					generateRibbonLayer(1, dx, dy, thetaOffset, "Partially Rotated Torus")
 				}
 
-				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape {
+				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
 					numSteps := stackHeight - 1
 					dxs := make([]float64, stackHeight)
 					dys := make([]float64, stackHeight)

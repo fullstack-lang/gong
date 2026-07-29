@@ -45,7 +45,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 6
+	__Plant__00000000_.StackHeight = 5
 	__Plant__00000000_.RhombusInsideAngle = 115.000000
 	__Plant__00000000_.RelativeVerticalThickness = 0.260000
 	__Plant__00000000_.RelativeRadialThickness = 0.090000
