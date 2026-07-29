@@ -20,6 +20,14 @@ func (stager *Stager) svgGenerateLink(
 
 	linkDisplayedName := transition.Name
 
+	if guard := transition.Guard; guard != nil {
+		if linkDisplayedName != "" {
+			linkDisplayedName += " [" + guard.Name + "]"
+		} else {
+			linkDisplayedName = "[" + guard.Name + "]"
+		}
+	}
+
 	var rolesNames string
 	{
 
@@ -82,11 +90,6 @@ func (stager *Stager) svgGenerateLink(
 	{
 		linkAnchoredText := new(svg.LinkAnchoredText)
 		linkAnchoredText.Name = link.Name
-
-		// when there is a guard, only the guard is displayed
-		if guard := transition.Guard; guard != nil {
-			linkDisplayedName = "[" + guard.Name + "]"
-		}
 
 		linkAnchoredText.Stroke = svg.Black.ToString()
 		linkAnchoredText.StrokeWidth = 1
