@@ -204,6 +204,13 @@ func (initialrhombusshape *InitialRhombusShape) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by KeyHole3DShape
+func (keyhole3dshape *KeyHole3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by KeyHoleShape
 func (keyholeshape *KeyHoleShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -422,6 +429,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.StackOfPartiallyRotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.PointsAndLines3DShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.KeyHole3DShape) || modified
 	return
 }
 

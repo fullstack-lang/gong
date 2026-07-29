@@ -586,6 +586,13 @@ type PointsAndLines3DShape struct {
 	Name string
 }
 
+// KeyHole3DShape of a plant,
+// gong:omit
+type KeyHole3DShape struct {
+	Name string
+}
+
+
 // StackOfGrowthCurve2D of a plant,
 // gong:omit
 type StackOfGrowthCurve2D struct {

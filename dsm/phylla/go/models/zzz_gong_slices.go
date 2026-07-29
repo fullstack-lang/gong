@@ -86,6 +86,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct InitialRhombusShape
 	// insertion point per field
 
+	// Compute reverse map for named struct KeyHole3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct KeyHoleShape
 	// insertion point per field
 
@@ -443,6 +446,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.InitialRhombusShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.KeyHole3DShapes {
 		res = append(res, instance)
 	}
 
@@ -907,6 +914,12 @@ func (initialrhombusgridshape *InitialRhombusGridShape) GongCopy() GongstructIF 
 func (initialrhombusshape *InitialRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(InitialRhombusShape)
 	initialrhombusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongCopy() GongstructIF {
+	newInstance := new(KeyHole3DShape)
+	keyhole3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1620,6 +1633,16 @@ func (initialrhombusshape *InitialRhombusShape) GongGetUUID(stage *Stage) (uuid 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(initialrhombusshape), uint64(GetOrderPointerGongstruct(stage, initialrhombusshape)))
+	return
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(keyhole3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(keyhole3dshape), uint64(GetOrderPointerGongstruct(stage, keyhole3dshape)))
 	return
 }
 
@@ -2936,6 +2959,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.InitialRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.KeyHole3DShapes_reference = make(map[*KeyHole3DShape]*KeyHole3DShape)
+	stage.KeyHole3DShapes_referenceOrder = make(map[*KeyHole3DShape]uint) // diff Unstage needs the reference order
+	stage.KeyHole3DShapes_instance = make(map[*KeyHole3DShape]*KeyHole3DShape)
+	for instance := range stage.KeyHole3DShapes {
+		_copy := instance.GongCopy().(*KeyHole3DShape)
+		stage.KeyHole3DShapes_reference[instance] = _copy
+		stage.KeyHole3DShapes_instance[_copy] = instance
+		stage.KeyHole3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.KeyHoleShapes_reference = make(map[*KeyHoleShape]*KeyHoleShape)
 	stage.KeyHoleShapes_referenceOrder = make(map[*KeyHoleShape]uint) // diff Unstage needs the reference order
 	stage.KeyHoleShapes_instance = make(map[*KeyHoleShape]*KeyHoleShape)
@@ -3867,6 +3900,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.KeyHole3DShapes {
+		reference := stage.KeyHole3DShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.KeyHoleShapes {
 		reference := stage.KeyHoleShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -4547,6 +4585,18 @@ func (initialrhombusshape *InitialRhombusShape) GongGetOrder(stage *Stage) uint 
 		return order
 	} else {
 		log.Printf("instance %p of type InitialRhombusShape was not staged and does not have a reference order", initialrhombusshape)
+		return 0
+	}
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.KeyHole3DShape_stagedOrder[keyhole3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.KeyHole3DShapes_referenceOrder[keyhole3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type KeyHole3DShape was not staged and does not have a reference order", keyhole3dshape)
 		return 0
 	}
 }
@@ -5738,6 +5788,15 @@ func (initialrhombusshape *InitialRhombusShape) GongGetReferenceIdentifier(stage
 	return fmt.Sprintf("__%s__%08d_", initialrhombusshape.GongGetGongstructName(), initialrhombusshape.GongGetOrder(stage))
 }
 
+func (keyhole3dshape *KeyHole3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", keyhole3dshape.GongGetGongstructName(), keyhole3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (keyhole3dshape *KeyHole3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", keyhole3dshape.GongGetGongstructName(), keyhole3dshape.GongGetOrder(stage))
+}
+
 func (keyholeshape *KeyHoleShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", keyholeshape.GongGetGongstructName(), keyholeshape.GongGetOrder(stage))
 }
@@ -6655,6 +6714,14 @@ func (initialrhombusshape *InitialRhombusShape) GongMarshallIdentifier(stage *St
 	return
 }
 
+func (keyhole3dshape *KeyHole3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", keyhole3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "KeyHole3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(keyhole3dshape.Name))
+	return
+}
+
 func (keyholeshape *KeyHoleShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
@@ -7441,6 +7508,12 @@ func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallUnstaging(st
 func (initialrhombusshape *InitialRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (keyhole3dshape *KeyHole3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", keyhole3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
