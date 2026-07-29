@@ -52,7 +52,7 @@
         {
             "label": "gong generate --dsm go/models in all dsm projects but project",
             "type": "shell",
-            "command": "for p in barrgraph capture process scenario statemachines structure; do cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
+            "command": "for p in barrgraph capture phylla process scenario statemachines structure; do cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
             "windows": {
                 "options": {
                     "shell": {
@@ -202,6 +202,15 @@
                 "edit",
                 "data/stage.go"
             ],
+            "group": "build"
+        },
+        {
+            "label": "dsm - phylla: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/dsm/phylla"
+            },
+            "command": "gong portable go/cmd/phylla",
             "group": "build"
         },
         {

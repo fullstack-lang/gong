@@ -3,6 +3,7 @@
 package main
 
 import (
+	"embed"
 	"log"
 	"strconv"
 
@@ -10,9 +11,13 @@ import (
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 )
 
+//go:embed data/*
+var dataFS embed.FS
+
 func executeServer() {
 
 	// setup
+	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1Stack("phylla", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)

@@ -1,6 +1,11 @@
 package models
 
 import (
+	"go/parser"
+	"go/token"
+	"strings"
+
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -50,6 +55,48 @@ func (stager *Stager) treeLibrary(
 		IsButtonInMenu:                     true,
 	}
 	addCreateItemButton(stager, confPlants)
+
+	if library == stager.getRootLibrary() && DataFS != nil {
+		entries, err := DataFS.ReadDir("data")
+		if err == nil {
+			for _, entry := range entries {
+				if entry.IsDir() {
+					continue
+				}
+				entryName := entry.Name()
+				if !strings.HasSuffix(entryName, ".go") {
+					continue
+				}
+				if libraryNode.Menu == nil {
+					libraryNode.Menu = &tree.Menu{Name: "Menu"}
+				}
+				libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, &tree.Button{
+					Name: entryName,
+					Icon: string(buttons.BUTTON_file_open),
+					OnClick: func() {
+						content, err := DataFS.ReadFile("data/" + entryName)
+						if err == nil {
+							// if the user loads a data file, we don't want the file to be automatically overwritten
+							stager.stage.OnInitCommitCallback = nil
+
+							stager.stage.Reset()
+
+							fset := token.NewFileSet()
+							file, err := parser.ParseFile(fset, "", string(content), parser.ParseComments)
+							if err == nil {
+								ParseAstFileFromAst(stager.stage, file, fset, true)
+								stager.stage.ComputeReverseMaps()
+								stager.stage.ComputeInstancesNb()
+								stager.stage.ComputeReferenceAndOrders()
+								stager.stage.Commit()
+								stager.probeForm.Refresh()
+							}
+						}
+					},
+				})
+			}
+		}
+	}
 
 	for _, subLibrary := range library.SubLibraries {
 		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children, is3DView)

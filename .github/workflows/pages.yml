@@ -64,6 +64,13 @@ jobs:
           cp barrgraph-app-portable.html ../../../../../public-site/
           zip ../../../../../public-site/barrgraph-app-portable.zip barrgraph-app-portable.html
 
+      - name: Build phylla portable app
+        run: |
+          cd dsm/phylla/go/cmd/phylla
+          gong portable
+          cp phylla-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/phylla-app-portable.zip phylla-app-portable.html
+
       - name: Build capture portable app
         run: |
           cd dsm/capture/go/cmd/capture

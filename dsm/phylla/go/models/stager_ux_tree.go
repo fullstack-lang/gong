@@ -1,8 +1,12 @@
 package models
 
 import (
+	"embed"
+
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
+
+var DataFS *embed.FS
 
 func (stager *Stager) ux_tree() {
 	stager.treeStage2D.Reset()
