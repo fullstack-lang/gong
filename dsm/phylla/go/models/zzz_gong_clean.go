@@ -413,6 +413,14 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.VerticalTorusStackShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.StackOfPartiallyRotatedTorusShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.PointsAndLines3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PointsAndLines3DShape
+func (pointsandlines3dshape *PointsAndLines3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 

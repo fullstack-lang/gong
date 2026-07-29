@@ -112,6 +112,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PlantCircumferenceShape](probe)
 	case "PlantDiagram":
 		updateProbeTable[*models.PlantDiagram](probe)
+	case "PointsAndLines3DShape":
+		updateProbeTable[*models.PointsAndLines3DShape](probe)
 	case "PxShape":
 		updateProbeTable[*models.PxShape](probe)
 	case "Rendered3DShape":

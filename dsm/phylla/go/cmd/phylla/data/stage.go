@@ -54,7 +54,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
 	__Plant__00000000_.RotationRatio = 0.560000
 	__Plant__00000000_.ThreeDModulo = 3
-	__Plant__00000000_.Transparency = 1.000000
+	__Plant__00000000_.Transparency = 0.600000
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.139000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.020000
 	__Plant__00000000_.NbStepP1P2 = 30
@@ -123,14 +123,15 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedTorusShape = false
+	__PlantDiagram__00000001_.IsHiddenPointsAndLines3DShape = true
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 1023.560151
-	__Rendered3DShape__00000000_.ViewY = 825.178338
-	__Rendered3DShape__00000000_.ViewZ = 457.572993
+	__Rendered3DShape__00000000_.ViewX = 189.462644
+	__Rendered3DShape__00000000_.ViewY = 1223.615897
+	__Rendered3DShape__00000000_.ViewZ = -636.267050
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000

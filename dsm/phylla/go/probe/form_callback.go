@@ -5609,6 +5609,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
 		case "IsHiddenStackOfPartiallyRotatedTorusShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenPointsAndLines3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPointsAndLines3DShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5633,6 +5635,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.PartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfPartiallyRotatedTorusShape":
 			FormDivSelectFieldToField(&(plantdiagram_.StackOfPartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PointsAndLines3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.PointsAndLines3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5708,6 +5712,84 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 	}
 
 	plantdiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__PointsAndLines3DShapeFormCallback(
+	pointsandlines3dshape *models.PointsAndLines3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (pointsandlines3dshapeFormCallback *PointsAndLines3DShapeFormCallback) {
+	pointsandlines3dshapeFormCallback = new(PointsAndLines3DShapeFormCallback)
+	pointsandlines3dshapeFormCallback.probe = probe
+	pointsandlines3dshapeFormCallback.pointsandlines3dshape = pointsandlines3dshape
+	pointsandlines3dshapeFormCallback.formGroup = formGroup
+
+	pointsandlines3dshapeFormCallback.CreationMode = (pointsandlines3dshape == nil)
+
+	return
+}
+
+type PointsAndLines3DShapeFormCallback struct {
+	pointsandlines3dshape *models.PointsAndLines3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (pointsandlines3dshapeFormCallback *PointsAndLines3DShapeFormCallback) OnSave() {
+	pointsandlines3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer pointsandlines3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PointsAndLines3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	pointsandlines3dshapeFormCallback.probe.formStage.Checkout()
+
+	if pointsandlines3dshapeFormCallback.pointsandlines3dshape == nil {
+		pointsandlines3dshapeFormCallback.pointsandlines3dshape = new(models.PointsAndLines3DShape).Stage(pointsandlines3dshapeFormCallback.probe.stageOfInterest)
+	}
+	pointsandlines3dshape_ := pointsandlines3dshapeFormCallback.pointsandlines3dshape
+	_ = pointsandlines3dshape_
+
+	for _, formDiv := range pointsandlines3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(pointsandlines3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if pointsandlines3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		pointsandlines3dshape_.Unstage(pointsandlines3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	pointsandlines3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PointsAndLines3DShape](
+		pointsandlines3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if pointsandlines3dshapeFormCallback.CreationMode || pointsandlines3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		pointsandlines3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(pointsandlines3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PointsAndLines3DShapeFormCallback(
+			nil,
+			pointsandlines3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		pointsandlines3dshape := new(models.PointsAndLines3DShape)
+		FillUpForm(pointsandlines3dshape, newFormGroup, pointsandlines3dshapeFormCallback.probe)
+		pointsandlines3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	pointsandlines3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__PxShapeFormCallback(
 	pxshape *models.PxShape,

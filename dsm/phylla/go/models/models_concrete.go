@@ -580,6 +580,12 @@ type StackOfPartiallyRotatedTorusShape struct {
 	Name string
 }
 
+// PointsAndLines3DShape of a plant,
+// gong:omit
+type PointsAndLines3DShape struct {
+	Name string
+}
+
 // StackOfGrowthCurve2D of a plant,
 // gong:omit
 type StackOfGrowthCurve2D struct {

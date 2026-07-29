@@ -164,7 +164,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
-		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape) &&
+		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenPointsAndLines3DShape) &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
 			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
 			plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
@@ -480,7 +480,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 						)
 
-						if h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
+						if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
 							var p1x, p1y, p2x, p2y, pxx, pxy float64
 							hasP1P2 := false
 							if plant.ChosenP1P2PairShape != nil {

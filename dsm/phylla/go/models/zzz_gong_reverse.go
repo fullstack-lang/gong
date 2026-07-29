@@ -552,6 +552,15 @@ func (inst *PlantDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
+func (inst *PointsAndLines3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *PxShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1787,6 +1796,15 @@ func (inst *PlantDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 		case "PlantDiagrams":
 			res = stage.Plant_PlantDiagrams_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *PointsAndLines3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }
