@@ -58,6 +58,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.HeightKey = 50.0
 		}
+		if plant.RelativeKeySizeReduction == 0.0 {
+			needCommit = true
+			plant.RelativeKeySizeReduction = 0.20
+		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"

@@ -270,6 +270,18 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Key Size Reduction",
+				0.0,
+				0.8,
+				0.01,
+				&plant.RelativeKeySizeReduction,
+			),
+		)
+
 	}
 
 
