@@ -2515,6 +2515,92 @@ func (initialrhombusshapeFormCallback *InitialRhombusShapeFormCallback) OnSave()
 
 	initialrhombusshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__KeyHoleShapeFormCallback(
+	keyholeshape *models.KeyHoleShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (keyholeshapeFormCallback *KeyHoleShapeFormCallback) {
+	keyholeshapeFormCallback = new(KeyHoleShapeFormCallback)
+	keyholeshapeFormCallback.probe = probe
+	keyholeshapeFormCallback.keyholeshape = keyholeshape
+	keyholeshapeFormCallback.formGroup = formGroup
+
+	keyholeshapeFormCallback.CreationMode = (keyholeshape == nil)
+
+	return
+}
+
+type KeyHoleShapeFormCallback struct {
+	keyholeshape *models.KeyHoleShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (keyholeshapeFormCallback *KeyHoleShapeFormCallback) OnSave() {
+	keyholeshapeFormCallback.probe.stageOfInterest.Lock()
+	defer keyholeshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("KeyHoleShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	keyholeshapeFormCallback.probe.formStage.Checkout()
+
+	if keyholeshapeFormCallback.keyholeshape == nil {
+		keyholeshapeFormCallback.keyholeshape = new(models.KeyHoleShape).Stage(keyholeshapeFormCallback.probe.stageOfInterest)
+	}
+	keyholeshape_ := keyholeshapeFormCallback.keyholeshape
+	_ = keyholeshape_
+
+	for _, formDiv := range keyholeshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(keyholeshape_.Name), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(keyholeshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(keyholeshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(keyholeshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(keyholeshape_.Height), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if keyholeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		keyholeshape_.Unstage(keyholeshapeFormCallback.probe.stageOfInterest)
+	}
+
+	keyholeshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.KeyHoleShape](
+		keyholeshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if keyholeshapeFormCallback.CreationMode || keyholeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		keyholeshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(keyholeshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__KeyHoleShapeFormCallback(
+			nil,
+			keyholeshapeFormCallback.probe,
+			newFormGroup,
+		)
+		keyholeshape := new(models.KeyHoleShape)
+		FillUpForm(keyholeshape, newFormGroup, keyholeshapeFormCallback.probe)
+		keyholeshapeFormCallback.probe.formStage.Commit()
+	}
+
+	keyholeshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
 	probe *Probe,
@@ -5178,6 +5264,14 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.NbStepP1P2), formDiv)
 		case "ChosenStep":
 			FormDivBasicFieldToField(&(plant_.ChosenStep), formDiv)
+		case "OffsetKeyX":
+			FormDivBasicFieldToField(&(plant_.OffsetKeyX), formDiv)
+		case "OffsetKeyY":
+			FormDivBasicFieldToField(&(plant_.OffsetKeyY), formDiv)
+		case "HeightKey":
+			FormDivBasicFieldToField(&(plant_.HeightKey), formDiv)
+		case "WidthKey":
+			FormDivBasicFieldToField(&(plant_.WidthKey), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -5288,6 +5382,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plant_.PxShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ChosenP1P2PairShape":
 			FormDivSelectFieldToField(&(plant_.ChosenP1P2PairShape), plantFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHoleShape":
+			FormDivSelectFieldToField(&(plant_.KeyHoleShape), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5601,6 +5697,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPxShape), formDiv)
 		case "IsHiddenChosenP1P2PairShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenChosenP1P2PairShape), formDiv)
+		case "IsHiddenKeyHoleShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHoleShape), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":

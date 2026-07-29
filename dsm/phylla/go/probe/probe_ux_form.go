@@ -147,6 +147,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.initialrhombusshape, probe)
 			}
+		case *KeyHoleShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "KeyHoleShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.keyholeshape, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
@@ -941,6 +947,19 @@ func FillUpFormFromGongstructName(
 		initialrhombusshape := new(models.InitialRhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(initialrhombusshape, formGroup, probe)
+	case "KeyHoleShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "KeyHoleShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__KeyHoleShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		keyholeshape := new(models.KeyHoleShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(keyholeshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

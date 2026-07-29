@@ -357,6 +357,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ChosenStep"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyX"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "WidthKey"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
@@ -442,6 +446,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
@@ -1303,6 +1308,41 @@ func (initialrhombusshape *InitialRhombusShape) GongMarshallField(stage *Stage, 
 	return
 }
 
+func (keyholeshape *KeyHoleShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(keyholeshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", keyholeshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", keyholeshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", keyholeshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", keyholeshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", keyholeshape.Height))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct KeyHoleShape", fieldName)
+	}
+	return
+}
+
 func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2061,6 +2101,26 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ChosenStep")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ChosenStep))
+	case "OffsetKeyX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OffsetKeyX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.OffsetKeyX))
+	case "OffsetKeyY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OffsetKeyY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.OffsetKeyY))
+	case "HeightKey":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HeightKey")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.HeightKey))
+	case "WidthKey":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WidthKey")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.WidthKey))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -2401,6 +2461,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenChosenP1P2PairShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenChosenP1P2PairShape))
+	case "IsHiddenKeyHoleShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKeyHoleShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenKeyHoleShape))
 	case "IsHiddenTorusStackShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -5439,6 +5504,21 @@ func (initialrhombusshape *InitialRhombusShape) GongMarshallAllFields(stage *Sta
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (keyholeshape *KeyHoleShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(keyholeshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(keyholeshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(keyholeshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(keyholeshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(keyholeshape.GongMarshallField(stage, "Height"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -5745,6 +5825,10 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ChosenStep"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyX"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "WidthKey"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
@@ -5828,6 +5912,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))

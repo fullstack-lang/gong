@@ -477,6 +477,21 @@ type Stage struct {
 	OnAfterInitialRhombusShapeDeleteCallback OnAfterDeleteInterface[InitialRhombusShape]
 	OnAfterInitialRhombusShapeReadCallback   OnAfterReadInterface[InitialRhombusShape]
 
+	KeyHoleShapes                map[*KeyHoleShape]struct{}
+	KeyHoleShapes_instance       map[*KeyHoleShape]*KeyHoleShape
+	KeyHoleShapes_mapString      map[string]*KeyHoleShape
+	KeyHoleShapeOrder            uint
+	KeyHoleShape_stagedOrder     map[*KeyHoleShape]uint
+	KeyHoleShape_orderStaged     map[uint]*KeyHoleShape
+	KeyHoleShapes_reference      map[*KeyHoleShape]*KeyHoleShape
+	KeyHoleShapes_referenceOrder map[*KeyHoleShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterKeyHoleShapeCreateCallback OnAfterCreateInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeUpdateCallback OnAfterUpdateInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeDeleteCallback OnAfterDeleteInterface[KeyHoleShape]
+	OnAfterKeyHoleShapeReadCallback   OnAfterReadInterface[KeyHoleShape]
+
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
 	Librarys_mapString      map[string]*Library
@@ -2104,6 +2119,10 @@ func (stage *Stage) Squash() {
 	stage.InitialRhombusShapes_instance = make(map[*InitialRhombusShape]*InitialRhombusShape)
 	stage.InitialRhombusShapes_referenceOrder = make(map[*InitialRhombusShape]uint)
 
+	stage.KeyHoleShapes_reference = make(map[*KeyHoleShape]*KeyHoleShape)
+	stage.KeyHoleShapes_instance = make(map[*KeyHoleShape]*KeyHoleShape)
+	stage.KeyHoleShapes_referenceOrder = make(map[*KeyHoleShape]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
@@ -2761,6 +2780,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.InitialRhombusShapeOrder = maxInitialRhombusShapeOrder + 1
 	} else {
 		stage.InitialRhombusShapeOrder = 0
+	}
+
+	var maxKeyHoleShapeOrder uint
+	var foundKeyHoleShape bool
+	for _, order := range stage.KeyHoleShape_stagedOrder {
+		if !foundKeyHoleShape || order > maxKeyHoleShapeOrder {
+			maxKeyHoleShapeOrder = order
+			foundKeyHoleShape = true
+		}
+	}
+	if foundKeyHoleShape {
+		stage.KeyHoleShapeOrder = maxKeyHoleShapeOrder + 1
+	} else {
+		stage.KeyHoleShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -4266,6 +4299,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *KeyHoleShape:
+		tmp := GetStructInstancesByOrder(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *KeyHoleShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -5473,6 +5520,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.InitialRhombusGridShapes, stage.InitialRhombusGridShape_stagedOrder)
 	case "InitialRhombusShape":
 		res = GetNamedStructInstances(stage.InitialRhombusShapes, stage.InitialRhombusShape_stagedOrder)
+	case "KeyHoleShape":
+		res = GetNamedStructInstances(stage.KeyHoleShapes, stage.KeyHoleShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "MidArcVectorShape":
@@ -5748,6 +5797,8 @@ type BackRepoInterface interface {
 	CheckoutInitialRhombusGridShape(initialrhombusgridshape *InitialRhombusGridShape)
 	CommitInitialRhombusShape(initialrhombusshape *InitialRhombusShape)
 	CheckoutInitialRhombusShape(initialrhombusshape *InitialRhombusShape)
+	CommitKeyHoleShape(keyholeshape *KeyHoleShape)
+	CheckoutKeyHoleShape(keyholeshape *KeyHoleShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
@@ -5981,6 +6032,9 @@ func NewStage(name string) (stage *Stage) {
 
 		InitialRhombusShapes:           make(map[*InitialRhombusShape]struct{}),
 		InitialRhombusShapes_mapString: make(map[string]*InitialRhombusShape),
+
+		KeyHoleShapes:           make(map[*KeyHoleShape]struct{}),
+		KeyHoleShapes_mapString: make(map[string]*KeyHoleShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -6322,6 +6376,10 @@ func NewStage(name string) (stage *Stage) {
 		InitialRhombusShape_stagedOrder: make(map[*InitialRhombusShape]uint),
 		InitialRhombusShape_orderStaged: make(map[uint]*InitialRhombusShape),
 		InitialRhombusShapes_reference:  make(map[*InitialRhombusShape]*InitialRhombusShape),
+
+		KeyHoleShape_stagedOrder: make(map[*KeyHoleShape]uint),
+		KeyHoleShape_orderStaged: make(map[uint]*KeyHoleShape),
+		KeyHoleShapes_reference:  make(map[*KeyHoleShape]*KeyHoleShape),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
@@ -6693,6 +6751,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"InitialRhombusShape": &InitialRhombusShapeUnmarshaller{},
 
+			"KeyHoleShape": &KeyHoleShapeUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
 
 			"MidArcVectorShape": &MidArcVectorShapeUnmarshaller{},
@@ -6881,6 +6941,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GrowthVectorShape"},
 			{name: "InitialRhombusGridShape"},
 			{name: "InitialRhombusShape"},
+			{name: "KeyHoleShape"},
 			{name: "Library"},
 			{name: "MidArcVectorShape"},
 			{name: "MidArcVectorShapeGrid"},
@@ -7017,6 +7078,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.InitialRhombusGridShape_stagedOrder[instance]
 	case *InitialRhombusShape:
 		return stage.InitialRhombusShape_stagedOrder[instance]
+	case *KeyHoleShape:
+		return stage.KeyHoleShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *MidArcVectorShape:
@@ -7232,6 +7295,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.InitialRhombusGridShape_orderStaged[order]).(Type)
 	case *InitialRhombusShape:
 		return any(stage.InitialRhombusShape_orderStaged[order]).(Type)
+	case *KeyHoleShape:
+		return any(stage.KeyHoleShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *MidArcVectorShape:
@@ -7446,6 +7511,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.InitialRhombusGridShape_stagedOrder[instance]
 	case *InitialRhombusShape:
 		return stage.InitialRhombusShape_stagedOrder[instance]
+	case *KeyHoleShape:
+		return stage.KeyHoleShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *MidArcVectorShape:
@@ -7695,6 +7762,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["GrowthVectorShape"] = len(stage.GrowthVectorShapes)
 	stage.Map_GongStructName_InstancesNb["InitialRhombusGridShape"] = len(stage.InitialRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["InitialRhombusShape"] = len(stage.InitialRhombusShapes)
+	stage.Map_GongStructName_InstancesNb["KeyHoleShape"] = len(stage.KeyHoleShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
@@ -9750,6 +9818,94 @@ func (initialrhombusshape *InitialRhombusShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (initialrhombusshape *InitialRhombusShape) SetName(name string) {
 	initialrhombusshape.Name = name
+}
+
+// Stage puts keyholeshape to the model stage
+func (keyholeshape *KeyHoleShape) Stage(stage *Stage) *KeyHoleShape {
+	if _, ok := stage.KeyHoleShapes[keyholeshape]; !ok {
+		stage.KeyHoleShapes[keyholeshape] = struct{}{}
+		stage.KeyHoleShape_stagedOrder[keyholeshape] = stage.KeyHoleShapeOrder
+		stage.KeyHoleShape_orderStaged[stage.KeyHoleShapeOrder] = keyholeshape
+		stage.KeyHoleShapeOrder++
+	}
+	stage.KeyHoleShapes_mapString[keyholeshape.Name] = keyholeshape
+
+	return keyholeshape
+}
+
+// StagePreserveOrder puts keyholeshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.KeyHoleShapeOrder
+// - update stage.KeyHoleShapeOrder accordingly
+func (keyholeshape *KeyHoleShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.KeyHoleShapes[keyholeshape]; !ok {
+		stage.KeyHoleShapes[keyholeshape] = struct{}{}
+
+		if order > stage.KeyHoleShapeOrder {
+			stage.KeyHoleShapeOrder = order
+		}
+		stage.KeyHoleShape_stagedOrder[keyholeshape] = order
+		stage.KeyHoleShape_orderStaged[order] = keyholeshape
+		stage.KeyHoleShapeOrder++
+	}
+	stage.KeyHoleShapes_mapString[keyholeshape.Name] = keyholeshape
+}
+
+// Unstage removes keyholeshape off the model stage
+func (keyholeshape *KeyHoleShape) Unstage(stage *Stage) *KeyHoleShape {
+	delete(stage.KeyHoleShapes, keyholeshape)
+	// issue1150
+	// delete(stage.KeyHoleShape_stagedOrder, keyholeshape)
+	delete(stage.KeyHoleShapes_mapString, keyholeshape.Name)
+
+	return keyholeshape
+}
+
+// UnstageVoid removes keyholeshape off the model stage
+func (keyholeshape *KeyHoleShape) UnstageVoid(stage *Stage) {
+	delete(stage.KeyHoleShapes, keyholeshape)
+	// issue1150
+	// delete(stage.KeyHoleShape_stagedOrder, keyholeshape)
+	delete(stage.KeyHoleShapes_mapString, keyholeshape.Name)
+}
+
+// commit keyholeshape to the back repo (if it is already staged)
+func (keyholeshape *KeyHoleShape) Commit(stage *Stage) *KeyHoleShape {
+	if _, ok := stage.KeyHoleShapes[keyholeshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitKeyHoleShape(keyholeshape)
+		}
+	}
+	return keyholeshape
+}
+
+func (keyholeshape *KeyHoleShape) CommitVoid(stage *Stage) {
+	keyholeshape.Commit(stage)
+}
+
+func (keyholeshape *KeyHoleShape) StageVoid(stage *Stage) {
+	keyholeshape.Stage(stage)
+}
+
+// Checkout keyholeshape to the back repo (if it is already staged)
+func (keyholeshape *KeyHoleShape) Checkout(stage *Stage) *KeyHoleShape {
+	if _, ok := stage.KeyHoleShapes[keyholeshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutKeyHoleShape(keyholeshape)
+		}
+	}
+	return keyholeshape
+}
+
+// for satisfaction of GongStruct interface
+func (keyholeshape *KeyHoleShape) GetName() (res string) {
+	return keyholeshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (keyholeshape *KeyHoleShape) SetName(name string) {
+	keyholeshape.Name = name
 }
 
 // Stage puts library to the model stage
@@ -16904,6 +17060,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	CreateORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
 	CreateORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
+	CreateORMKeyHoleShape(KeyHoleShape *KeyHoleShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
@@ -17010,6 +17167,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	DeleteORMInitialRhombusGridShape(InitialRhombusGridShape *InitialRhombusGridShape)
 	DeleteORMInitialRhombusShape(InitialRhombusShape *InitialRhombusShape)
+	DeleteORMKeyHoleShape(KeyHoleShape *KeyHoleShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
@@ -17203,6 +17361,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.InitialRhombusShapes_mapString = make(map[string]*InitialRhombusShape)
 	stage.InitialRhombusShape_stagedOrder = make(map[*InitialRhombusShape]uint)
 	stage.InitialRhombusShapeOrder = 0
+
+	stage.KeyHoleShapes = make(map[*KeyHoleShape]struct{})
+	stage.KeyHoleShapes_mapString = make(map[string]*KeyHoleShape)
+	stage.KeyHoleShape_stagedOrder = make(map[*KeyHoleShape]uint)
+	stage.KeyHoleShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -17684,6 +17847,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.InitialRhombusShapes = nil
 	stage.InitialRhombusShapes_mapString = nil
 
+	stage.KeyHoleShapes = nil
+	stage.KeyHoleShapes_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
@@ -18017,6 +18183,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for initialrhombusshape := range stage.InitialRhombusShapes {
 		initialrhombusshape.Unstage(stage)
+	}
+
+	for keyholeshape := range stage.KeyHoleShapes {
+		keyholeshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -18463,6 +18633,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.InitialRhombusGridShapes).(*Type)
 	case map[*InitialRhombusShape]any:
 		return any(&stage.InitialRhombusShapes).(*Type)
+	case map[*KeyHoleShape]any:
+		return any(&stage.KeyHoleShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*MidArcVectorShape]any:
@@ -18681,6 +18853,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.InitialRhombusGridShapes_mapString).(map[string]Type)
 	case *InitialRhombusShape:
 		return any(stage.InitialRhombusShapes_mapString).(map[string]Type)
+	case *KeyHoleShape:
+		return any(stage.KeyHoleShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *MidArcVectorShape:
@@ -18899,6 +19073,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.InitialRhombusGridShapes).(*map[*Type]struct{})
 	case InitialRhombusShape:
 		return any(&stage.InitialRhombusShapes).(*map[*Type]struct{})
+	case KeyHoleShape:
+		return any(&stage.KeyHoleShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case MidArcVectorShape:
@@ -19117,6 +19293,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.InitialRhombusGridShapes).(*map[Type]struct{})
 	case *InitialRhombusShape:
 		return any(&stage.InitialRhombusShapes).(*map[Type]struct{})
+	case *KeyHoleShape:
+		return any(&stage.KeyHoleShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *MidArcVectorShape:
@@ -19335,6 +19513,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.InitialRhombusGridShapes_mapString).(*map[string]*Type)
 	case InitialRhombusShape:
 		return any(&stage.InitialRhombusShapes_mapString).(*map[string]*Type)
+	case KeyHoleShape:
+		return any(&stage.KeyHoleShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case MidArcVectorShape:
@@ -19619,6 +19799,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&InitialRhombusShape{
 			// Initialisation of associations
 		}).(*Type)
+	case KeyHoleShape:
+		return any(&KeyHoleShape{
+			// Initialisation of associations
+		}).(*Type)
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
@@ -19796,6 +19980,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PxShape: &PxShape{Name: "PxShape"},
 			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
 			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
+			// field is initialized with an instance of KeyHoleShape with the name of the field
+			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -20303,6 +20489,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of InitialRhombusShape
 	case InitialRhombusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of KeyHoleShape
+	case KeyHoleShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -20997,6 +21188,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plants = append(plants, plant)
 					res[chosenp1p2pairshape_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "KeyHoleShape":
+			res := make(map[*KeyHoleShape][]*Plant)
+			for plant := range stage.Plants {
+				if plant.KeyHoleShape != nil {
+					keyholeshape_ := plant.KeyHoleShape
+					var plants []*Plant
+					_, ok := res[keyholeshape_]
+					if ok {
+						plants = res[keyholeshape_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[keyholeshape_] = plants
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -21869,6 +22077,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of KeyHoleShape
+	case KeyHoleShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
@@ -22681,6 +22894,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "InitialRhombusGridShape"
 	case *InitialRhombusShape:
 		res = "InitialRhombusShape"
+	case *KeyHoleShape:
+		res = "KeyHoleShape"
 	case *Library:
 		res = "Library"
 	case *MidArcVectorShape:
@@ -22950,6 +23165,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "InitialRhombusGridShape"
 		rf.Fieldname = "InitialRhombusShapes"
 		res = append(res, rf)
+	case *KeyHoleShape:
+		var rf ReverseField
+		_ = rf
 	case *Library:
 		var rf ReverseField
 		_ = rf
@@ -23942,6 +24160,33 @@ func (initialrhombusshape *InitialRhombusShape) GongGetFieldHeaders() (res []Gon
 	return
 }
 
+func (keyholeshape *KeyHoleShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -24580,6 +24825,22 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
+			Name:               "OffsetKeyX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OffsetKeyY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HeightKey",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "WidthKey",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -24774,6 +25035,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ChosenP1P2PairShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "ChosenP1P2PairShape",
+		},
+		{
+			Name:                 "KeyHoleShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "KeyHoleShape",
 		},
 	}
 	return
@@ -25019,6 +25285,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenChosenP1P2PairShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenKeyHoleShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -28047,6 +28317,31 @@ func (initialrhombusshape *InitialRhombusShape) GongGetFieldValue(fieldName stri
 	return
 }
 
+func (keyholeshape *KeyHoleShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = keyholeshape.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", keyholeshape.X)
+		res.valueFloat = keyholeshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", keyholeshape.Y)
+		res.valueFloat = keyholeshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", keyholeshape.Width)
+		res.valueFloat = keyholeshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", keyholeshape.Height)
+		res.valueFloat = keyholeshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -28705,6 +29000,22 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", plant.ChosenStep)
 		res.valueInt = plant.ChosenStep
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "OffsetKeyX":
+		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyX)
+		res.valueFloat = plant.OffsetKeyX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyY":
+		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyY)
+		res.valueFloat = plant.OffsetKeyY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HeightKey":
+		res.valueString = fmt.Sprintf("%f", plant.HeightKey)
+		res.valueFloat = plant.HeightKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "WidthKey":
+		res.valueString = fmt.Sprintf("%f", plant.WidthKey)
+		res.valueFloat = plant.WidthKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -28938,6 +29249,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		if plant.ChosenP1P2PairShape != nil {
 			res.valueString = plant.ChosenP1P2PairShape.Name
 			res.ids = plant.ChosenP1P2PairShape.GongGetUUID(stage)
+		}
+	case "KeyHoleShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.KeyHoleShape != nil {
+			res.valueString = plant.KeyHoleShape.Name
+			res.ids = plant.KeyHoleShape.GongGetUUID(stage)
 		}
 	}
 	return
@@ -29180,6 +29497,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenChosenP1P2PairShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenChosenP1P2PairShape)
 		res.valueBool = plantdiagram.IsHiddenChosenP1P2PairShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKeyHoleShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKeyHoleShape)
+		res.valueBool = plantdiagram.IsHiddenKeyHoleShape
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusStackShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
@@ -32136,6 +32457,25 @@ func (initialrhombusshape *InitialRhombusShape) GongSetFieldValue(fieldName stri
 	return nil
 }
 
+func (keyholeshape *KeyHoleShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		keyholeshape.Name = value.GetValueString()
+	case "X":
+		keyholeshape.X = value.GetValueFloat()
+	case "Y":
+		keyholeshape.Y = value.GetValueFloat()
+	case "Width":
+		keyholeshape.Width = value.GetValueFloat()
+	case "Height":
+		keyholeshape.Height = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -32710,6 +33050,14 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.NbStepP1P2 = int(value.GetValueInt())
 	case "ChosenStep":
 		plant.ChosenStep = int(value.GetValueInt())
+	case "OffsetKeyX":
+		plant.OffsetKeyX = value.GetValueFloat()
+	case "OffsetKeyY":
+		plant.OffsetKeyY = value.GetValueFloat()
+	case "HeightKey":
+		plant.HeightKey = value.GetValueFloat()
+	case "WidthKey":
+		plant.WidthKey = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -33117,6 +33465,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "KeyHoleShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.KeyHoleShape = nil
+			for __instance__ := range stage.KeyHoleShapes {
+				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
+					plant.KeyHoleShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -33251,6 +33610,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenPxShape = value.GetValueBool()
 	case "IsHiddenChosenP1P2PairShape":
 		plantdiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
+	case "IsHiddenKeyHoleShape":
+		plantdiagram.IsHiddenKeyHoleShape = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
 	case "IsHiddenVerticalTorusStackShape":
@@ -35385,6 +35746,10 @@ func (initialrhombusshape *InitialRhombusShape) GongGetGongstructName() string {
 	return "InitialRhombusShape"
 }
 
+func (keyholeshape *KeyHoleShape) GongGetGongstructName() string {
+	return "KeyHoleShape"
+}
+
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
@@ -35824,6 +36189,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.InitialRhombusShapes_mapString = make(map[string]*InitialRhombusShape)
 	for initialrhombusshape := range stage.InitialRhombusShapes {
 		stage.InitialRhombusShapes_mapString[initialrhombusshape.Name] = initialrhombusshape
+	}
+
+	stage.KeyHoleShapes_mapString = make(map[string]*KeyHoleShape)
+	for keyholeshape := range stage.KeyHoleShapes {
+		stage.KeyHoleShapes_mapString[keyholeshape.Name] = keyholeshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)

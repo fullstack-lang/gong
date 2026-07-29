@@ -1070,6 +1070,16 @@ type ChosenP1P2PairShape struct {
 	DistanceSum  float64
 }
 
+// KeyHoleShape of a plant,
+// gong:omit
+type KeyHoleShape struct {
+	Name string
+
+	X, Y          float64
+	Width, Height float64
+}
+
+
 
 
 

@@ -67,6 +67,11 @@ type Plant struct {
 	// ChosenStep is
 	ChosenStep int
 
+	OffsetKeyX float64
+	OffsetKeyY float64
+	HeightKey  float64
+	WidthKey   float64
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -122,6 +127,8 @@ type Plant struct {
 	PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2
 	PxShape                              *PxShape
 	ChosenP1P2PairShape                  *ChosenP1P2PairShape
+	KeyHoleShape                         *KeyHoleShape
 }
+
 
 

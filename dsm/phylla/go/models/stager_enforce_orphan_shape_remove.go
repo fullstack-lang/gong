@@ -91,6 +91,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2PairLineShape]bool)
 	refPxShape := make(map[*PxShape]bool)
 	refChosenP1P2PairShape := make(map[*ChosenP1P2PairShape]bool)
+	refKeyHoleShape := make(map[*KeyHoleShape]bool)
+
 
 
 
@@ -371,6 +373,11 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if plant.ChosenP1P2PairShape != nil {
 			refChosenP1P2PairShape[plant.ChosenP1P2PairShape] = true
 		}
+
+		if plant.KeyHoleShape != nil {
+			refKeyHoleShape[plant.KeyHoleShape] = true
+		}
+
 
 
 
@@ -947,6 +954,14 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*KeyHoleShape](stage) {
+		if !refKeyHoleShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
 
 
 

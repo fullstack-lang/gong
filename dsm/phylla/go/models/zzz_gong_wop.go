@@ -491,6 +491,29 @@ func (from *InitialRhombusShape) CopyBasicFields(to *InitialRhombusShape) {
 	to.Y = from.Y
 }
 
+type KeyHoleShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+}
+
+func (from *KeyHoleShape) CopyBasicFields(to *KeyHoleShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+}
+
 type Library_WOP struct {
 	// insertion point
 
@@ -956,6 +979,14 @@ type Plant_WOP struct {
 
 	ChosenStep int
 
+	OffsetKeyX float64
+
+	OffsetKeyY float64
+
+	HeightKey float64
+
+	WidthKey float64
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -984,6 +1015,10 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
 	to.NbStepP1P2 = from.NbStepP1P2
 	to.ChosenStep = from.ChosenStep
+	to.OffsetKeyX = from.OffsetKeyX
+	to.OffsetKeyY = from.OffsetKeyY
+	to.HeightKey = from.HeightKey
+	to.WidthKey = from.WidthKey
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected
@@ -1120,6 +1155,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenChosenP1P2PairShape bool
 
+	IsHiddenKeyHoleShape bool
+
 	IsHiddenTorusStackShape bool
 
 	IsHiddenVerticalTorusStackShape bool
@@ -1194,6 +1231,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
 	to.IsHiddenPxShape = from.IsHiddenPxShape
 	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
+	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape

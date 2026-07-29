@@ -204,6 +204,13 @@ func (initialrhombusshape *InitialRhombusShape) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by KeyHoleShape
+func (keyholeshape *KeyHoleShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -390,6 +397,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
 	modified = GongCleanPointer(stage, &plant.PxShape) || modified
 	modified = GongCleanPointer(stage, &plant.ChosenP1P2PairShape) || modified
+	modified = GongCleanPointer(stage, &plant.KeyHoleShape) || modified
 	return
 }
 

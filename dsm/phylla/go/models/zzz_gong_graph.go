@@ -73,6 +73,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *InitialRhombusShape:
 		ok = stage.IsStagedInitialRhombusShape(target)
 
+	case *KeyHoleShape:
+		ok = stage.IsStagedKeyHoleShape(target)
+
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
@@ -391,6 +394,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *InitialRhombusShape:
 		ok = stage.IsStagedInitialRhombusShape(target)
+
+	case *KeyHoleShape:
+		ok = stage.IsStagedKeyHoleShape(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -792,6 +798,13 @@ func (stage *Stage) IsStagedInitialRhombusGridShape(initialrhombusgridshape *Ini
 func (stage *Stage) IsStagedInitialRhombusShape(initialrhombusshape *InitialRhombusShape) (ok bool) {
 
 	_, ok = stage.InitialRhombusShapes[initialrhombusshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedKeyHoleShape(keyholeshape *KeyHoleShape) (ok bool) {
+
+	_, ok = stage.KeyHoleShapes[keyholeshape]
 
 	return
 }
@@ -1437,6 +1450,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *InitialRhombusShape:
 		stage.StageBranchInitialRhombusShape(target)
 
+	case *KeyHoleShape:
+		stage.StageBranchKeyHoleShape(target)
+
 	case *Library:
 		stage.StageBranchLibrary(target)
 
@@ -2009,6 +2025,21 @@ func (stage *Stage) StageBranchInitialRhombusShape(initialrhombusshape *InitialR
 	}
 
 	initialrhombusshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, keyholeshape) {
+		return
+	}
+
+	keyholeshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3342,6 +3373,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchInitialRhombusShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *KeyHoleShape:
+		toT := CopyBranchKeyHoleShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Library:
 		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4083,6 +4118,25 @@ func CopyBranchInitialRhombusShape(mapOrigCopy map[any]any, initialrhombusshapeF
 	initialrhombusshapeTo = new(InitialRhombusShape)
 	mapOrigCopy[initialrhombusshapeFrom] = initialrhombusshapeTo
 	initialrhombusshapeFrom.CopyBasicFields(initialrhombusshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchKeyHoleShape(mapOrigCopy map[any]any, keyholeshapeFrom *KeyHoleShape) (keyholeshapeTo *KeyHoleShape) {
+
+	// keyholeshapeFrom has already been copied
+	if _keyholeshapeTo, ok := mapOrigCopy[keyholeshapeFrom]; ok {
+		keyholeshapeTo = _keyholeshapeTo.(*KeyHoleShape)
+		return
+	}
+
+	keyholeshapeTo = new(KeyHoleShape)
+	mapOrigCopy[keyholeshapeFrom] = keyholeshapeTo
+	keyholeshapeFrom.CopyBasicFields(keyholeshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5716,6 +5770,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *InitialRhombusShape:
 		stage.UnstageBranchInitialRhombusShape(target)
 
+	case *KeyHoleShape:
+		stage.UnstageBranchKeyHoleShape(target)
+
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
@@ -6288,6 +6345,21 @@ func (stage *Stage) UnstageBranchInitialRhombusShape(initialrhombusshape *Initia
 	}
 
 	initialrhombusshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchKeyHoleShape(keyholeshape *KeyHoleShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, keyholeshape) {
+		return
+	}
+
+	keyholeshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -7633,6 +7705,11 @@ func (reference *InitialRhombusShape) GongReconstructPointersFromReferences(stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *KeyHoleShape) GongReconstructPointersFromReferences(stage *Stage, instance *KeyHoleShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8160,6 +8237,11 @@ func (reference *InitialRhombusGridShape) GongReconstructPointersFromInstances(s
 }
 
 func (reference *InitialRhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *KeyHoleShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -9081,6 +9163,29 @@ func (initialrhombusshape *InitialRhombusShape) GongDiff(stage *Stage, initialrh
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (keyholeshape *KeyHoleShape) GongDiff(stage *Stage, keyholeshapeOther *KeyHoleShape) (diffs []string) {
+	// insertion point for field diffs
+	if keyholeshape.Name != keyholeshapeOther.Name {
+		diffs = append(diffs, keyholeshape.GongMarshallField(stage, "Name"))
+	}
+	if keyholeshape.X != keyholeshapeOther.X {
+		diffs = append(diffs, keyholeshape.GongMarshallField(stage, "X"))
+	}
+	if keyholeshape.Y != keyholeshapeOther.Y {
+		diffs = append(diffs, keyholeshape.GongMarshallField(stage, "Y"))
+	}
+	if keyholeshape.Width != keyholeshapeOther.Width {
+		diffs = append(diffs, keyholeshape.GongMarshallField(stage, "Width"))
+	}
+	if keyholeshape.Height != keyholeshapeOther.Height {
+		diffs = append(diffs, keyholeshape.GongMarshallField(stage, "Height"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []string) {
 	// insertion point for field diffs
 	if library.Name != libraryOther.Name {
@@ -9604,6 +9709,18 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.ChosenStep != plantOther.ChosenStep {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ChosenStep"))
 	}
+	if plant.OffsetKeyX != plantOther.OffsetKeyX {
+		diffs = append(diffs, plant.GongMarshallField(stage, "OffsetKeyX"))
+	}
+	if plant.OffsetKeyY != plantOther.OffsetKeyY {
+		diffs = append(diffs, plant.GongMarshallField(stage, "OffsetKeyY"))
+	}
+	if plant.HeightKey != plantOther.HeightKey {
+		diffs = append(diffs, plant.GongMarshallField(stage, "HeightKey"))
+	}
+	if plant.WidthKey != plantOther.WidthKey {
+		diffs = append(diffs, plant.GongMarshallField(stage, "WidthKey"))
+	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -9826,6 +9943,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenChosenP1P2PairShape != plantdiagramOther.IsHiddenChosenP1P2PairShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
+	}
+	if plantdiagram.IsHiddenKeyHoleShape != plantdiagramOther.IsHiddenKeyHoleShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
 	}
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))

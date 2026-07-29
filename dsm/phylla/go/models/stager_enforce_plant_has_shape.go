@@ -531,6 +531,19 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n21_chosenP1P2 || needCommit
 
+	n21_keyHole := enforcePlantHasShape[*KeyHoleShape](
+		stager,
+		func() *KeyHoleShape { return new(KeyHoleShape) },
+		func(p *Plant) *KeyHoleShape { return p.KeyHoleShape },
+		func(p *Plant, shape *KeyHoleShape) { p.KeyHoleShape = shape },
+		func(p *Plant, shape *KeyHoleShape) bool {
+			return p.KeyHoleShape == shape
+		},
+		"KeyHoleShape",
+	)
+	needCommit = n21_keyHole || needCommit
+
+
 
 
 
@@ -764,7 +777,15 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n19_r || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16_r || n17_r || n18_r || n19_r
+	n20_keyHole := enforcePlantShapeName[*KeyHoleShape](
+		stager,
+		func(p *Plant) *KeyHoleShape { return p.KeyHoleShape },
+		"KeyHoleShape",
+	)
+	needCommit = n20_keyHole || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16_r || n17_r || n18_r || n19_r || n20_keyHole
+
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed
