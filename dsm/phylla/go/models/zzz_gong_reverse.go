@@ -256,6 +256,15 @@ func (inst *InitialRhombusShape) GongGetReverseFieldOwnerName(stage *Stage, reve
 	return
 }
 
+func (inst *Key3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *KeyHole3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1546,6 +1555,15 @@ func (inst *InitialRhombusShape) GongGetReverseFieldOwner(stage *Stage, reverseF
 		case "InitialRhombusShapes":
 			res = stage.InitialRhombusGridShape_InitialRhombusShapes_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *Key3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }

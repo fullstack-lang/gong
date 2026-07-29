@@ -2515,6 +2515,84 @@ func (initialrhombusshapeFormCallback *InitialRhombusShapeFormCallback) OnSave()
 
 	initialrhombusshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__Key3DShapeFormCallback(
+	key3dshape *models.Key3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (key3dshapeFormCallback *Key3DShapeFormCallback) {
+	key3dshapeFormCallback = new(Key3DShapeFormCallback)
+	key3dshapeFormCallback.probe = probe
+	key3dshapeFormCallback.key3dshape = key3dshape
+	key3dshapeFormCallback.formGroup = formGroup
+
+	key3dshapeFormCallback.CreationMode = (key3dshape == nil)
+
+	return
+}
+
+type Key3DShapeFormCallback struct {
+	key3dshape *models.Key3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (key3dshapeFormCallback *Key3DShapeFormCallback) OnSave() {
+	key3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer key3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Key3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	key3dshapeFormCallback.probe.formStage.Checkout()
+
+	if key3dshapeFormCallback.key3dshape == nil {
+		key3dshapeFormCallback.key3dshape = new(models.Key3DShape).Stage(key3dshapeFormCallback.probe.stageOfInterest)
+	}
+	key3dshape_ := key3dshapeFormCallback.key3dshape
+	_ = key3dshape_
+
+	for _, formDiv := range key3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(key3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if key3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		key3dshape_.Unstage(key3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	key3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Key3DShape](
+		key3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if key3dshapeFormCallback.CreationMode || key3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		key3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(key3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Key3DShapeFormCallback(
+			nil,
+			key3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		key3dshape := new(models.Key3DShape)
+		FillUpForm(key3dshape, newFormGroup, key3dshapeFormCallback.probe)
+		key3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	key3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__KeyHole3DShapeFormCallback(
 	keyhole3dshape *models.KeyHole3DShape,
 	probe *Probe,
@@ -5789,6 +5867,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPointsAndLines3DShape), formDiv)
 		case "IsHiddenKeyHole3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHole3DShape), formDiv)
+		case "IsHiddenKey3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKey3DShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5817,6 +5897,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.PointsAndLines3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "KeyHole3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Key3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.Key3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

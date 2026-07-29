@@ -68,6 +68,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.InitialRhombusGridShape](probe)
 	case "InitialRhombusShape":
 		updateProbeTable[*models.InitialRhombusShape](probe)
+	case "Key3DShape":
+		updateProbeTable[*models.Key3DShape](probe)
 	case "KeyHole3DShape":
 		updateProbeTable[*models.KeyHole3DShape](probe)
 	case "KeyHoleShape":

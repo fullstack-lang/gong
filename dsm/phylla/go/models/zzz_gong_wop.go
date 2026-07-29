@@ -491,6 +491,17 @@ func (from *InitialRhombusShape) CopyBasicFields(to *InitialRhombusShape) {
 	to.Y = from.Y
 }
 
+type Key3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Key3DShape) CopyBasicFields(to *Key3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type KeyHole3DShape_WOP struct {
 	// insertion point
 
@@ -1180,6 +1191,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenKeyHole3DShape bool
 
+	IsHiddenKey3DShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1251,6 +1264,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
 	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
 	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
+	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
