@@ -180,6 +180,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Partially Rotated 3D Torus", plantDiagram.PartiallyRotatedTorusShape, &plantDiagram.IsHiddenPartiallyRotatedTorusShape)
 		appendDiagramNode(stager, plantDiagramNode, "Stack Of Partially Rotated 3D Torus", plantDiagram.StackOfPartiallyRotatedTorusShape, &plantDiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Key Hole", plantDiagram.KeyHole3DShape, &plantDiagram.IsHiddenKeyHole3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Key", plantDiagram.Key3DShape, &plantDiagram.IsHiddenKey3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Points and lines between points", plantDiagram.PointsAndLines3DShape, &plantDiagram.IsHiddenPointsAndLines3DShape)
 	}
 }

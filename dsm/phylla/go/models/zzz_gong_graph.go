@@ -73,6 +73,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *InitialRhombusShape:
 		ok = stage.IsStagedInitialRhombusShape(target)
 
+	case *Key3DShape:
+		ok = stage.IsStagedKey3DShape(target)
+
 	case *KeyHole3DShape:
 		ok = stage.IsStagedKeyHole3DShape(target)
 
@@ -397,6 +400,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *InitialRhombusShape:
 		ok = stage.IsStagedInitialRhombusShape(target)
+
+	case *Key3DShape:
+		ok = stage.IsStagedKey3DShape(target)
 
 	case *KeyHole3DShape:
 		ok = stage.IsStagedKeyHole3DShape(target)
@@ -804,6 +810,13 @@ func (stage *Stage) IsStagedInitialRhombusGridShape(initialrhombusgridshape *Ini
 func (stage *Stage) IsStagedInitialRhombusShape(initialrhombusshape *InitialRhombusShape) (ok bool) {
 
 	_, ok = stage.InitialRhombusShapes[initialrhombusshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedKey3DShape(key3dshape *Key3DShape) (ok bool) {
+
+	_, ok = stage.Key3DShapes[key3dshape]
 
 	return
 }
@@ -1463,6 +1476,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *InitialRhombusShape:
 		stage.StageBranchInitialRhombusShape(target)
 
+	case *Key3DShape:
+		stage.StageBranchKey3DShape(target)
+
 	case *KeyHole3DShape:
 		stage.StageBranchKeyHole3DShape(target)
 
@@ -2041,6 +2057,21 @@ func (stage *Stage) StageBranchInitialRhombusShape(initialrhombusshape *InitialR
 	}
 
 	initialrhombusshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchKey3DShape(key3dshape *Key3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, key3dshape) {
+		return
+	}
+
+	key3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3404,6 +3435,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchInitialRhombusShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Key3DShape:
+		toT := CopyBranchKey3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *KeyHole3DShape:
 		toT := CopyBranchKeyHole3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4153,6 +4188,25 @@ func CopyBranchInitialRhombusShape(mapOrigCopy map[any]any, initialrhombusshapeF
 	initialrhombusshapeTo = new(InitialRhombusShape)
 	mapOrigCopy[initialrhombusshapeFrom] = initialrhombusshapeTo
 	initialrhombusshapeFrom.CopyBasicFields(initialrhombusshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchKey3DShape(mapOrigCopy map[any]any, key3dshapeFrom *Key3DShape) (key3dshapeTo *Key3DShape) {
+
+	// key3dshapeFrom has already been copied
+	if _key3dshapeTo, ok := mapOrigCopy[key3dshapeFrom]; ok {
+		key3dshapeTo = _key3dshapeTo.(*Key3DShape)
+		return
+	}
+
+	key3dshapeTo = new(Key3DShape)
+	mapOrigCopy[key3dshapeFrom] = key3dshapeTo
+	key3dshapeFrom.CopyBasicFields(key3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5824,6 +5878,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *InitialRhombusShape:
 		stage.UnstageBranchInitialRhombusShape(target)
 
+	case *Key3DShape:
+		stage.UnstageBranchKey3DShape(target)
+
 	case *KeyHole3DShape:
 		stage.UnstageBranchKeyHole3DShape(target)
 
@@ -6402,6 +6459,21 @@ func (stage *Stage) UnstageBranchInitialRhombusShape(initialrhombusshape *Initia
 	}
 
 	initialrhombusshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchKey3DShape(key3dshape *Key3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, key3dshape) {
+		return
+	}
+
+	key3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -7777,6 +7849,11 @@ func (reference *InitialRhombusShape) GongReconstructPointersFromReferences(stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *Key3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *Key3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *KeyHole3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *KeyHole3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8314,6 +8391,11 @@ func (reference *InitialRhombusGridShape) GongReconstructPointersFromInstances(s
 }
 
 func (reference *InitialRhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Key3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -9245,6 +9327,17 @@ func (initialrhombusshape *InitialRhombusShape) GongDiff(stage *Stage, initialrh
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (key3dshape *Key3DShape) GongDiff(stage *Stage, key3dshapeOther *Key3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if key3dshape.Name != key3dshapeOther.Name {
+		diffs = append(diffs, key3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (keyhole3dshape *KeyHole3DShape) GongDiff(stage *Stage, keyhole3dshapeOther *KeyHole3DShape) (diffs []string) {
 	// insertion point for field diffs
 	if keyhole3dshape.Name != keyhole3dshapeOther.Name {
@@ -10057,6 +10150,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenKeyHole3DShape != plantdiagramOther.IsHiddenKeyHole3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
+	}
+	if plantdiagram.IsHiddenKey3DShape != plantdiagramOther.IsHiddenKey3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))

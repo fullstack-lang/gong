@@ -495,6 +495,16 @@ func FillUpForm(
 				})
 		}
 
+	case *models.Key3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.KeyHole3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1250,6 +1260,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenKeyHole3DShape", instanceWithInferedType.IsHiddenKeyHole3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenKey3DShape", instanceWithInferedType.IsHiddenKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
@@ -1267,6 +1279,7 @@ func FillUpForm(
 		AssociationFieldToForm("StackOfPartiallyRotatedTorusShape", instanceWithInferedType.StackOfPartiallyRotatedTorusShape, formGroup, probe)
 		AssociationFieldToForm("PointsAndLines3DShape", instanceWithInferedType.PointsAndLines3DShape, formGroup, probe)
 		AssociationFieldToForm("KeyHole3DShape", instanceWithInferedType.KeyHole3DShape, formGroup, probe)
+		AssociationFieldToForm("Key3DShape", instanceWithInferedType.Key3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

@@ -164,7 +164,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
-		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenPointsAndLines3DShape || !checkedDiagram.IsHiddenKeyHole3DShape) &&
+		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenPointsAndLines3DShape || !checkedDiagram.IsHiddenKeyHole3DShape || !checkedDiagram.IsHiddenKey3DShape) &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
 			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
 			plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
@@ -307,10 +307,18 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 
 					isKeyHoleActive := checkedDiagram != nil && !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil
+					isKeyActive := checkedDiagram != nil && !checkedDiagram.IsHiddenKey3DShape && plant.KeyHoleShape != nil
 					x_left := plant.OffsetKeyX - plant.WidthKey/2.0
 					x_right := plant.OffsetKeyX + plant.WidthKey/2.0
 					y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
 					y_top := plant.OffsetKeyY + plant.HeightKey/2.0
+
+					keyWidth := plant.WidthKey * 0.8
+					keyHeight := plant.HeightKey * 0.8
+					xKeyLeft := plant.OffsetKeyX - keyWidth/2.0
+					xKeyRight := plant.OffsetKeyX + keyWidth/2.0
+					yKeyBottom := (plant.OffsetKeyY - keyHeight/2.0) + dy
+					yKeyTop := (plant.OffsetKeyY + keyHeight/2.0) + dy
 
 					for k := 0; k < threeDModulo; k++ {
 						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
@@ -366,12 +374,12 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							rawPts = append(rawPts, curvePt{x2d: x2d, p: p, pTop: pTop})
 						}
 
-						refinedPts := make([]curvePt, 0, len(rawPts)+4)
-						targets := []float64{x_left, x_right}
+						refinedPts := make([]curvePt, 0, len(rawPts)+8)
+						targets := []float64{x_left, x_right, xKeyLeft, xKeyRight}
 
 						for i := 0; i < len(rawPts); i++ {
 							refinedPts = append(refinedPts, rawPts[i])
-							if isKeyHoleActive && i < len(rawPts)-1 {
+							if (isKeyHoleActive || isKeyActive) && i < len(rawPts)-1 {
 								pA := rawPts[i]
 								pB := rawPts[i+1]
 								if pB.x2d > pA.x2d {
@@ -596,6 +604,129 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
 							createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 						)
+
+						if isKeyActive {
+							var pKeyLeft, pKeyRight *threejs.Vector3
+							for i := 0; i < len(rawPts)-1; i++ {
+								pA := rawPts[i]
+								pB := rawPts[i+1]
+								if pB.x2d > pA.x2d {
+									if xKeyLeft >= pA.x2d-1e-4 && xKeyLeft <= pB.x2d+1e-4 {
+										t := (xKeyLeft - pA.x2d) / (pB.x2d - pA.x2d)
+										pKeyLeft = &threejs.Vector3{
+											X: pA.p.X + t*(pB.p.X-pA.p.X),
+											Y: pA.p.Y + t*(pB.p.Y-pA.p.Y),
+											Z: pA.p.Z + t*(pB.p.Z-pA.p.Z),
+										}
+									}
+									if xKeyRight >= pA.x2d-1e-4 && xKeyRight <= pB.x2d+1e-4 {
+										t := (xKeyRight - pA.x2d) / (pB.x2d - pA.x2d)
+										pKeyRight = &threejs.Vector3{
+											X: pA.p.X + t*(pB.p.X-pA.p.X),
+											Y: pA.p.Y + t*(pB.p.Y-pA.p.Y),
+											Z: pA.p.Z + t*(pB.p.Z-pA.p.Z),
+										}
+									}
+								}
+							}
+							if pKeyLeft == nil && len(rawPts) > 0 {
+								pKeyLeft = rawPts[0].p
+							}
+							if pKeyRight == nil && len(rawPts) > 0 {
+								pKeyRight = rawPts[len(rawPts)-1].p
+							}
+
+							rBaseL := math.Sqrt(pKeyLeft.X*pKeyLeft.X + pKeyLeft.Z*pKeyLeft.Z)
+							rBaseR := math.Sqrt(pKeyRight.X*pKeyRight.X + pKeyRight.Z*pKeyRight.Z)
+
+							rKeyInnerL := rBaseL - thickness
+							rKeyOuterL := rBaseL + 2.0*thickness
+
+							rKeyInnerR := rBaseR - thickness
+							rKeyOuterR := rBaseR + 2.0*thickness
+
+							thetaL := xKeyLeft/globalR + thetaOffset + baseThetaOffset
+							thetaR := xKeyRight/globalR + thetaOffset + baseThetaOffset
+
+							keyGeom := (&threejs.BufferGeometry{
+								Name: fmt.Sprintf("%s Key BufferGeometry", namePrefix),
+							}).Stage(stager.threejsStage)
+
+							addKeyQuad := func(v0, v1, v2, v3 *threejs.Vector3, reverseWinding bool) {
+								idx := len(keyGeom.Vertices)
+								keyGeom.Vertices = append(keyGeom.Vertices, v0, v1, v2, v3)
+
+								v1_t1, v2_t1, v3_t1 := idx, idx+1, idx+2
+								v1_t2, v2_t2, v3_t2 := idx+1, idx+3, idx+2
+
+								if reverseWinding {
+									v2_t1, v3_t1 = v3_t1, v2_t1
+									v2_t2, v3_t2 = v3_t2, v2_t2
+								}
+
+								t1 := (&threejs.Triangle{
+									Name: fmt.Sprintf("Key Quad T1 %d", idx),
+									V1:   v1_t1,
+									V2:   v2_t1,
+									V3:   v3_t1,
+								}).Stage(stager.threejsStage)
+
+								t2 := (&threejs.Triangle{
+									Name: fmt.Sprintf("Key Quad T2 %d", idx),
+									V1:   v1_t2,
+									V2:   v2_t2,
+									V3:   v3_t2,
+								}).Stage(stager.threejsStage)
+
+								keyGeom.Faces = append(keyGeom.Faces, t1, t2)
+							}
+
+							mkKeyV := func(r float64, y float64, th float64, vName string) *threejs.Vector3 {
+								return (&threejs.Vector3{
+									Name: fmt.Sprintf("%s %s %d", vName, namePrefix, k),
+									X:    r * math.Cos(th),
+									Y:    y,
+									Z:    r * math.Sin(th),
+								}).Stage(stager.threejsStage)
+							}
+
+							vInL_bot := mkKeyV(rKeyInnerL, yKeyBottom, thetaL, "KeyInLBot")
+							vOutL_bot := mkKeyV(rKeyOuterL, yKeyBottom, thetaL, "KeyOutLBot")
+							vInR_bot := mkKeyV(rKeyInnerR, yKeyBottom, thetaR, "KeyInRBot")
+							vOutR_bot := mkKeyV(rKeyOuterR, yKeyBottom, thetaR, "KeyOutRBot")
+
+							vInL_top := mkKeyV(rKeyInnerL, yKeyTop, thetaL, "KeyInLTop")
+							vOutL_top := mkKeyV(rKeyOuterL, yKeyTop, thetaL, "KeyOutLTop")
+							vInR_top := mkKeyV(rKeyInnerR, yKeyTop, thetaR, "KeyInRTop")
+							vOutR_top := mkKeyV(rKeyOuterR, yKeyTop, thetaR, "KeyOutRTop")
+
+							// 1. Bottom face
+							addKeyQuad(vInL_bot, vOutL_bot, vInR_bot, vOutR_bot, false)
+							// 2. Top face
+							addKeyQuad(vInL_top, vOutL_top, vInR_top, vOutR_top, true)
+							// 3. Inner face (rKeyInner)
+							addKeyQuad(vInL_bot, vInL_top, vInR_bot, vInR_top, true)
+							// 4. Outer face (rKeyOuter)
+							addKeyQuad(vOutL_bot, vOutL_top, vOutR_bot, vOutR_top, false)
+							// 5. Left face (thetaL)
+							addKeyQuad(vInL_bot, vOutL_bot, vInL_top, vOutL_top, false)
+							// 6. Right face (thetaR)
+							addKeyQuad(vInR_bot, vOutR_bot, vInR_top, vOutR_top, true)
+
+							keyMesh := (&threejs.Mesh{
+								Name:           fmt.Sprintf("%s Key Mesh", namePrefix),
+								Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+								BufferGeometry: keyGeom,
+								MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+									Name:                 fmt.Sprintf("%s Key Material", namePrefix),
+									MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#b08d57"},
+									Transparent:          false,
+									Opacity:              1.0,
+								}).Stage(stager.threejsStage),
+							}).Stage(stager.threejsStage)
+
+							canvas.Meshs = append(canvas.Meshs, keyMesh)
+						}
 
 						if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
 							var p1x, p1y, p2x, p2y, pxx, pxy float64
