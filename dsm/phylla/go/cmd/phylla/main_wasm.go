@@ -3,6 +3,7 @@
 package main
 
 import (
+	"embed"
 	"log"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/level1stack"
@@ -10,12 +11,18 @@ import (
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
+//go:embed data/*
+var dataFS embed.FS
+
 func main() {
 	log.SetOutput(&wasmregistry.ConsoleWriter{})
 	log.SetPrefix("phylla: ")
 	log.SetFlags(log.Lmicroseconds)
 
 	log.Println("Initializing phylla WASM Backend...")
+
+	// setup
+	models.DataFS = &dataFS
 
 	unmarshallFromCode := ""
 	marshallOnCommit := ""

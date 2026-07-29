@@ -17,6 +17,7 @@
 ## For fun
 
 - [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/barrgraph-app-portable.zip))
+- [Phylla](https://fullstack-lang.github.io/gong/phylla-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/phylla-app-portable.zip))
 
 # 2. Why Gong ?
 
