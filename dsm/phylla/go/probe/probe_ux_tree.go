@@ -843,6 +843,38 @@ func (probe *Probe) ux_tree() {
 				nodeGongstruct.BackgroundColor = "lightgrey"
 				probe.treeStage.Commit()
 			}
+		case "KeyHoleShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.KeyHoleShape](probe.stageOfInterest)
+			count := 0
+			for _keyholeshape := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _keyholeshape.GetName(),
+					IsNodeClickable: true,
+					OnClick: func(frontNode *tree_models.Node) {
+						FillUpFormFromGongstruct(_keyholeshape, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnIsExpandedChange = func(isExpanded bool) {
+				nodeGongstruct.IsExpanded = isExpanded
+				// no commit, it will be done in the refresh
+			}
+			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
+				updateProbeTable[*models.KeyHoleShape](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
+					node.BackgroundColor = ""
+				}
+				nodeGongstruct.BackgroundColor = "lightgrey"
+				probe.treeStage.Commit()
+			}
 		case "Library":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Library](probe.stageOfInterest)

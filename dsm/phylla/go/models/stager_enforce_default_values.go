@@ -50,11 +50,20 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.NbStepP1P2 = 10
 		}
+		if plant.WidthKey == 0.0 {
+			needCommit = true
+			plant.WidthKey = 30.0
+		}
+		if plant.HeightKey == 0.0 {
+			needCommit = true
+			plant.HeightKey = 50.0
+		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"
 		}
 	}
+
 	for _, plantDiagram := range GetGongstrucsSorted[*PlantDiagram](stager.stage) {
 		if plantDiagram.Name == "" {
 			needCommit = true

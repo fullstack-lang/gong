@@ -222,7 +222,56 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Offset Key X",
+				-500,
+				500,
+				1,
+				&plant.OffsetKeyX,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Offset Key Y",
+				-500,
+				500,
+				1,
+				&plant.OffsetKeyY,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Width Key",
+				0,
+				500,
+				1,
+				&plant.WidthKey,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Height Key",
+				0,
+				500,
+				1,
+				&plant.HeightKey,
+			),
+		)
+
 	}
+
 
 	// Add sliders for PlantDiagram 3D view
 	var checkedDiagram *PlantDiagram

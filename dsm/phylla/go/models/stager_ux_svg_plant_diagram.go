@@ -96,7 +96,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawPartiallyGrowthCurve2DTrajectoryP1P2(stager, layer, plant)
 	plantDiagram.drawPxShape(stager, layer, plant)
 	plantDiagram.drawChosenP1P2PairShape(stager, layer, plant)
+	plantDiagram.drawKeyHoleShape(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2DRibbon(stager, layer, plant)
+
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedLeftGrowthCurve2DRibbon(stager, layer, plant)
 
@@ -2570,6 +2572,38 @@ func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, 
 	text.Presentation.Color = "magenta"
 	text.Presentation.FillOpacity = 1.0
 }
+
+func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+	if plantDiagram.IsHiddenKeyHoleShape {
+		return
+	}
+
+	if plant.KeyHoleShape == nil {
+		return
+	}
+
+	keyHole := plant.KeyHoleShape
+	keyHole.X = plant.OffsetKeyX
+	keyHole.Y = plant.OffsetKeyY
+	keyHole.Width = plant.WidthKey
+	keyHole.Height = plant.HeightKey
+
+	rect := new(svg.Rect)
+	layer.Rects = append(layer.Rects, rect)
+	rect.Name = keyHole.Name
+	rect.X = plantDiagram.OriginX + plant.OffsetKeyX - plant.WidthKey/2.0
+	rect.Y = plantDiagram.OriginY - plant.OffsetKeyY - plant.HeightKey/2.0
+	rect.Width = plant.WidthKey
+	rect.Height = plant.HeightKey
+
+	rect.Presentation.Stroke = "darkred"
+	rect.Presentation.StrokeWidth = 1.5
+	rect.Presentation.StrokeOpacity = 1.0
+	rect.Presentation.Color = "pink"
+	rect.Presentation.FillOpacity = 0.3
+}
+
+
 
 func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.IsHiddenChosenP1P2PairShape {

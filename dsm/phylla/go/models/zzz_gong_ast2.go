@@ -1278,6 +1278,43 @@ func (u *InitialRhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 	return nil
 }
 
+type KeyHoleShapeUnmarshaller struct{}
+
+func (u *KeyHoleShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(KeyHoleShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *KeyHoleShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*KeyHoleShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
 type LibraryUnmarshaller struct{}
 
 func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2058,6 +2095,14 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.NbStepP1P2 = GongExtractInt(valueExpr)
 	case "ChosenStep":
 		instance.ChosenStep = GongExtractInt(valueExpr)
+	case "OffsetKeyX":
+		instance.OffsetKeyX = GongExtractFloat(valueExpr)
+	case "OffsetKeyY":
+		instance.OffsetKeyY = GongExtractFloat(valueExpr)
+	case "HeightKey":
+		instance.HeightKey = GongExtractFloat(valueExpr)
+	case "WidthKey":
+		instance.WidthKey = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -2138,6 +2183,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.PxShape, valueExpr, identifierMap)
 	case "ChosenP1P2PairShape":
 		GongUnmarshallPointer(&instance.ChosenP1P2PairShape, valueExpr, identifierMap)
+	case "KeyHoleShape":
+		GongUnmarshallPointer(&instance.KeyHoleShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2308,6 +2355,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenPxShape = GongExtractBool(valueExpr)
 	case "IsHiddenChosenP1P2PairShape":
 		instance.IsHiddenChosenP1P2PairShape = GongExtractBool(valueExpr)
+	case "IsHiddenKeyHoleShape":
+		instance.IsHiddenKeyHoleShape = GongExtractBool(valueExpr)
 	case "IsHiddenTorusStackShape":
 		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
 	case "IsHiddenVerticalTorusStackShape":

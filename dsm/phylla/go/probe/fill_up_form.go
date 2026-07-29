@@ -495,6 +495,24 @@ func FillUpForm(
 				})
 		}
 
+	case *models.KeyHoleShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.Library:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1012,6 +1030,14 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ChosenStep", instanceWithInferedType.ChosenStep, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("OffsetKeyX", instanceWithInferedType.OffsetKeyX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("OffsetKeyY", instanceWithInferedType.OffsetKeyY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HeightKey", instanceWithInferedType.HeightKey, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("WidthKey", instanceWithInferedType.WidthKey, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -1056,6 +1082,7 @@ func FillUpForm(
 		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.PartiallyGrowthCurve2DTrajectoryP1P2, formGroup, probe)
 		AssociationFieldToForm("PxShape", instanceWithInferedType.PxShape, formGroup, probe)
 		AssociationFieldToForm("ChosenP1P2PairShape", instanceWithInferedType.ChosenP1P2PairShape, formGroup, probe)
+		AssociationFieldToForm("KeyHoleShape", instanceWithInferedType.KeyHoleShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1198,6 +1225,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenPxShape", instanceWithInferedType.IsHiddenPxShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenChosenP1P2PairShape", instanceWithInferedType.IsHiddenChosenP1P2PairShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenKeyHoleShape", instanceWithInferedType.IsHiddenKeyHoleShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenTorusStackShape", instanceWithInferedType.IsHiddenTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
