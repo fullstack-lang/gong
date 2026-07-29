@@ -286,9 +286,9 @@ func _(stage *models.Stage) {
 	__StateShape__00000004_.IsHidden = false
 
 	__StateShape__00000005_.Name = `Off FR`
-	__StateShape__00000005_.X = 1150.000000
-	__StateShape__00000005_.Y = 380.875000
-	__StateShape__00000005_.Width = 91.000000
+	__StateShape__00000005_.X = 1147.000000
+	__StateShape__00000005_.Y = 381.875000
+	__StateShape__00000005_.Width = 96.000000
 	__StateShape__00000005_.Height = 36.000000
 	__StateShape__00000005_.IsHidden = false
 
@@ -335,9 +335,9 @@ func _(stage *models.Stage) {
 	__StateShape__00000011_.IsHidden = false
 
 	__StateShape__00000012_.Name = `Is the Traffic Light OK ?`
-	__StateShape__00000012_.X = 1074.000000
+	__StateShape__00000012_.X = 1086.000000
 	__StateShape__00000012_.Y = 257.000000
-	__StateShape__00000012_.Width = 179.000000
+	__StateShape__00000012_.Width = 167.000000
 	__StateShape__00000012_.Height = 50.000000
 	__StateShape__00000012_.IsHidden = false
 
@@ -643,7 +643,7 @@ func _(stage *models.Stage) {
 	__Transition__00000005_.Start = __State__00000012_
 	__Transition__00000005_.End = __State__00000001_
 	__Transition__00000005_.RolesWithPermissions = append(__Transition__00000005_.RolesWithPermissions, __Role__00000000_)
-	__Transition__00000005_.Guard = nil
+	__Transition__00000005_.Guard = __Guard__00000000_
 	__Transition__00000005_.Diagrams = append(__Transition__00000005_.Diagrams, __Diagram__00000000_)
 	__Transition__00000006_.Start = __State__00000006_
 	__Transition__00000006_.End = __State__00000007_
