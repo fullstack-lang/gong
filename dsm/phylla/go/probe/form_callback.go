@@ -2515,6 +2515,84 @@ func (initialrhombusshapeFormCallback *InitialRhombusShapeFormCallback) OnSave()
 
 	initialrhombusshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__KeyHole3DShapeFormCallback(
+	keyhole3dshape *models.KeyHole3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (keyhole3dshapeFormCallback *KeyHole3DShapeFormCallback) {
+	keyhole3dshapeFormCallback = new(KeyHole3DShapeFormCallback)
+	keyhole3dshapeFormCallback.probe = probe
+	keyhole3dshapeFormCallback.keyhole3dshape = keyhole3dshape
+	keyhole3dshapeFormCallback.formGroup = formGroup
+
+	keyhole3dshapeFormCallback.CreationMode = (keyhole3dshape == nil)
+
+	return
+}
+
+type KeyHole3DShapeFormCallback struct {
+	keyhole3dshape *models.KeyHole3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (keyhole3dshapeFormCallback *KeyHole3DShapeFormCallback) OnSave() {
+	keyhole3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer keyhole3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("KeyHole3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	keyhole3dshapeFormCallback.probe.formStage.Checkout()
+
+	if keyhole3dshapeFormCallback.keyhole3dshape == nil {
+		keyhole3dshapeFormCallback.keyhole3dshape = new(models.KeyHole3DShape).Stage(keyhole3dshapeFormCallback.probe.stageOfInterest)
+	}
+	keyhole3dshape_ := keyhole3dshapeFormCallback.keyhole3dshape
+	_ = keyhole3dshape_
+
+	for _, formDiv := range keyhole3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(keyhole3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if keyhole3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		keyhole3dshape_.Unstage(keyhole3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	keyhole3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.KeyHole3DShape](
+		keyhole3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if keyhole3dshapeFormCallback.CreationMode || keyhole3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		keyhole3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(keyhole3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__KeyHole3DShapeFormCallback(
+			nil,
+			keyhole3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		keyhole3dshape := new(models.KeyHole3DShape)
+		FillUpForm(keyhole3dshape, newFormGroup, keyhole3dshapeFormCallback.probe)
+		keyhole3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	keyhole3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__KeyHoleShapeFormCallback(
 	keyholeshape *models.KeyHoleShape,
 	probe *Probe,
@@ -5709,6 +5787,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
 		case "IsHiddenPointsAndLines3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPointsAndLines3DShape), formDiv)
+		case "IsHiddenKeyHole3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHole3DShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5735,6 +5815,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.StackOfPartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "PointsAndLines3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.PointsAndLines3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHole3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

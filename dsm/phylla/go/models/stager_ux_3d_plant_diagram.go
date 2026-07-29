@@ -164,12 +164,13 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		floorMinY := math.MaxFloat64
 
 		// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
-		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenPointsAndLines3DShape) &&
+		if checkedDiagram != nil && (!checkedDiagram.IsHiddenTorusStackShape || !checkedDiagram.IsHiddenVerticalTorusStackShape || !checkedDiagram.IsHiddenPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape || !checkedDiagram.IsHiddenPointsAndLines3DShape || !checkedDiagram.IsHiddenKeyHole3DShape) &&
 			plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
 			plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
 			plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
 			len(plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) > 0 &&
 			len(plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
+
 
 			gc := plant.GrowthCurve2D
 			tgc := plant.TopGrowthCurve2D
@@ -711,8 +712,115 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						generateRibbonLayer(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus")
 					}
 				}
+
+				if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
+					stackH := stackHeight
+					if stackH <= 0 {
+						stackH = 1
+					}
+
+					dxs3D := make([]float64, stackH)
+					dys3D := make([]float64, stackH)
+
+					numSteps3D := stackH - 1
+					if numSteps3D > 0 {
+						totalProgress := plant.RotationRatio * float64(numSteps3D)
+						var cumDX, cumDY float64
+						for k := 1; k <= numSteps3D; k++ {
+							var r_k float64
+							kFloat := float64(k)
+							if totalProgress >= kFloat {
+								r_k = 1.0
+							} else if totalProgress <= kFloat-1.0 {
+								r_k = 0.0
+							} else {
+								r_k = totalProgress - (kFloat - 1.0)
+							}
+							stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+							cumDX += stepDX
+							cumDY += stepDY
+							dxs3D[k] = cumDX
+							dys3D[k] = cumDY
+						}
+					}
+
+					x_left := plant.OffsetKeyX - plant.WidthKey/2.0
+					x_right := plant.OffsetKeyX + plant.WidthKey/2.0
+					y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
+					y_top := plant.OffsetKeyY + plant.HeightKey/2.0
+
+					tubeRadius := globalR * 0.005
+
+					if tubeRadius < 0.2 {
+						tubeRadius = 0.2
+					}
+
+					createKeyHole3DTube := func(tubeName string, pA, pB *threejs.Vector3) *threejs.Mesh {
+						crv := (&threejs.Curve{
+							Name:   fmt.Sprintf("Curve %s", tubeName),
+							Points: []*threejs.Vector3{pA, pB},
+						}).Stage(stager.threejsStage)
+
+						tGeom := (&threejs.TubeGeometry{
+							Name:            fmt.Sprintf("TubeGeom %s", tubeName),
+							Path:            crv,
+							TubularSegments: 8,
+							Radius:          tubeRadius,
+							RadialSegments:  8,
+							Closed:          false,
+						}).Stage(stager.threejsStage)
+
+						return (&threejs.Mesh{
+							Name:         fmt.Sprintf("TubeMesh %s", tubeName),
+							Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+							TubeGeometry: tGeom,
+							MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+								Name:                 fmt.Sprintf("Material %s", tubeName),
+								MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkred"},
+							}).Stage(stager.threejsStage),
+						}).Stage(stager.threejsStage)
+					}
+
+					threeDModulo := plant.ThreeDModulo
+					if threeDModulo < 1 {
+						threeDModulo = 1
+					}
+
+					for h := 0; h < stackH; h++ {
+						dx_h := dxs3D[h]
+						dy_h := dys3D[h]
+
+						for k := 0; k < threeDModulo; k++ {
+							baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
+
+							get3DPtHK := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
+								th := (ptX+dx_h)/globalR + baseThetaOffset
+								return (&threejs.Vector3{
+									Name: fmt.Sprintf("KeyHole3D %s h%d k%d", ptName, h, k),
+									X:    globalR * math.Cos(th),
+									Y:    ptY + dy_h,
+									Z:    globalR * math.Sin(th),
+								}).Stage(stager.threejsStage)
+							}
+
+							vBL := get3DPtHK(x_left, y_bottom, "BL")
+							vBR := get3DPtHK(x_right, y_bottom, "BR")
+							vTR := get3DPtHK(x_right, y_top, "TR")
+							vTL := get3DPtHK(x_left, y_top, "TL")
+
+							canvas.Meshs = append(canvas.Meshs,
+								createKeyHole3DTube(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR),
+								createKeyHole3DTube(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR),
+								createKeyHole3DTube(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL),
+								createKeyHole3DTube(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL),
+							)
+						}
+					}
+				}
+
 			}
 		}
+
 
 		if floorMinY == math.MaxFloat64 {
 			floorMinY = 0.0

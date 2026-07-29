@@ -94,6 +94,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterInitialRhombusShapeCreateCallback != nil {
 			stage.OnAfterInitialRhombusShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *KeyHole3DShape:
+		if stage.OnAfterKeyHole3DShapeCreateCallback != nil {
+			stage.OnAfterKeyHole3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *KeyHoleShape:
 		if stage.OnAfterKeyHoleShapeCreateCallback != nil {
 			stage.OnAfterKeyHoleShapeCreateCallback.OnAfterCreate(stage, target)
@@ -545,6 +549,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*InitialRhombusShape)
 		if stage.OnAfterInitialRhombusShapeUpdateCallback != nil {
 			stage.OnAfterInitialRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *KeyHole3DShape:
+		newTarget := any(new).(*KeyHole3DShape)
+		if stage.OnAfterKeyHole3DShapeUpdateCallback != nil {
+			stage.OnAfterKeyHole3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *KeyHoleShape:
 		newTarget := any(new).(*KeyHoleShape)
@@ -1076,6 +1085,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*InitialRhombusShape)
 			stage.OnAfterInitialRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *KeyHole3DShape:
+		if stage.OnAfterKeyHole3DShapeDeleteCallback != nil {
+			staged := any(staged).(*KeyHole3DShape)
+			stage.OnAfterKeyHole3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *KeyHoleShape:
 		if stage.OnAfterKeyHoleShapeDeleteCallback != nil {
 			staged := any(staged).(*KeyHoleShape)
@@ -1584,6 +1598,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterInitialRhombusShapeReadCallback != nil {
 			stage.OnAfterInitialRhombusShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *KeyHole3DShape:
+		if stage.OnAfterKeyHole3DShapeReadCallback != nil {
+			stage.OnAfterKeyHole3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *KeyHoleShape:
 		if stage.OnAfterKeyHoleShapeReadCallback != nil {
 			stage.OnAfterKeyHoleShapeReadCallback.OnAfterRead(stage, target)
@@ -1967,6 +1985,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterInitialRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InitialRhombusGridShape])
 	case *InitialRhombusShape:
 		stage.OnAfterInitialRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InitialRhombusShape])
+	case *KeyHole3DShape:
+		stage.OnAfterKeyHole3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[KeyHoleShape])
 	case *Library:
@@ -2182,6 +2202,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterInitialRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[InitialRhombusGridShape])
 	case *InitialRhombusShape:
 		stage.OnAfterInitialRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[InitialRhombusShape])
+	case *KeyHole3DShape:
+		stage.OnAfterKeyHole3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeCreateCallback = any(callback).(OnAfterCreateInterface[KeyHoleShape])
 	case *Library:
@@ -2397,6 +2419,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterInitialRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InitialRhombusGridShape])
 	case *InitialRhombusShape:
 		stage.OnAfterInitialRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InitialRhombusShape])
+	case *KeyHole3DShape:
+		stage.OnAfterKeyHole3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[KeyHoleShape])
 	case *Library:
@@ -2612,6 +2636,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterInitialRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[InitialRhombusGridShape])
 	case *InitialRhombusShape:
 		stage.OnAfterInitialRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[InitialRhombusShape])
+	case *KeyHole3DShape:
+		stage.OnAfterKeyHole3DShapeReadCallback = any(callback).(OnAfterReadInterface[KeyHole3DShape])
 	case *KeyHoleShape:
 		stage.OnAfterKeyHoleShapeReadCallback = any(callback).(OnAfterReadInterface[KeyHoleShape])
 	case *Library:
