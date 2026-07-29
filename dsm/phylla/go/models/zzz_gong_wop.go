@@ -1128,6 +1128,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenStackOfPartiallyRotatedTorusShape bool
 
+	IsHiddenPointsAndLines3DShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1196,9 +1198,21 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
 	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
+	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+}
+
+type PointsAndLines3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PointsAndLines3DShape) CopyBasicFields(to *PointsAndLines3DShape) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type PxShape_WOP struct {

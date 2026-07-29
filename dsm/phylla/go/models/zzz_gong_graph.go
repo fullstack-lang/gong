@@ -139,6 +139,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
 
+	case *PointsAndLines3DShape:
+		ok = stage.IsStagedPointsAndLines3DShape(target)
+
 	case *PxShape:
 		ok = stage.IsStagedPxShape(target)
 
@@ -454,6 +457,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
+
+	case *PointsAndLines3DShape:
+		ok = stage.IsStagedPointsAndLines3DShape(target)
 
 	case *PxShape:
 		ok = stage.IsStagedPxShape(target)
@@ -940,6 +946,13 @@ func (stage *Stage) IsStagedPlantCircumferenceShape(plantcircumferenceshape *Pla
 func (stage *Stage) IsStagedPlantDiagram(plantdiagram *PlantDiagram) (ok bool) {
 
 	_, ok = stage.PlantDiagrams[plantdiagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) (ok bool) {
+
+	_, ok = stage.PointsAndLines3DShapes[pointsandlines3dshape]
 
 	return
 }
@@ -1489,6 +1502,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PlantDiagram:
 		stage.StageBranchPlantDiagram(target)
+
+	case *PointsAndLines3DShape:
+		stage.StageBranchPointsAndLines3DShape(target)
 
 	case *PxShape:
 		stage.StageBranchPxShape(target)
@@ -2337,6 +2353,21 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		StageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, pointsandlines3dshape) {
+		return
+	}
+
+	pointsandlines3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -3397,6 +3428,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *PlantDiagram:
 		toT := CopyBranchPlantDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PointsAndLines3DShape:
+		toT := CopyBranchPointsAndLines3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *PxShape:
@@ -4480,6 +4515,25 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.Rendered3DShape != nil {
 		plantdiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plantdiagramFrom.Rendered3DShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPointsAndLines3DShape(mapOrigCopy map[any]any, pointsandlines3dshapeFrom *PointsAndLines3DShape) (pointsandlines3dshapeTo *PointsAndLines3DShape) {
+
+	// pointsandlines3dshapeFrom has already been copied
+	if _pointsandlines3dshapeTo, ok := mapOrigCopy[pointsandlines3dshapeFrom]; ok {
+		pointsandlines3dshapeTo = _pointsandlines3dshapeTo.(*PointsAndLines3DShape)
+		return
+	}
+
+	pointsandlines3dshapeTo = new(PointsAndLines3DShape)
+	mapOrigCopy[pointsandlines3dshapeFrom] = pointsandlines3dshapeTo
+	pointsandlines3dshapeFrom.CopyBasicFields(pointsandlines3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -5728,6 +5782,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PlantDiagram:
 		stage.UnstageBranchPlantDiagram(target)
 
+	case *PointsAndLines3DShape:
+		stage.UnstageBranchPointsAndLines3DShape(target)
+
 	case *PxShape:
 		stage.UnstageBranchPxShape(target)
 
@@ -6575,6 +6632,21 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, pointsandlines3dshape) {
+		return
+	}
+
+	pointsandlines3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -7686,6 +7758,11 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *PointsAndLines3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *PointsAndLines3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PxShape) GongReconstructPointersFromReferences(stage *Stage, instance *PxShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8221,6 +8298,11 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.Rendered3DShape = _instance
 		}
 	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *PointsAndLines3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
@@ -9757,6 +9839,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenStackOfPartiallyRotatedTorusShape != plantdiagramOther.IsHiddenStackOfPartiallyRotatedTorusShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
 	}
+	if plantdiagram.IsHiddenPointsAndLines3DShape != plantdiagramOther.IsHiddenPointsAndLines3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -9772,6 +9857,17 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 		if plantdiagram.Rendered3DShape != plantdiagramOther.Rendered3DShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
 		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (pointsandlines3dshape *PointsAndLines3DShape) GongDiff(stage *Stage, pointsandlines3dshapeOther *PointsAndLines3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if pointsandlines3dshape.Name != pointsandlines3dshapeOther.Name {
+		diffs = append(diffs, pointsandlines3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return

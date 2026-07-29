@@ -173,6 +173,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct PlantDiagram
 	// insertion point per field
 
+	// Compute reverse map for named struct PointsAndLines3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct PxShape
 	// insertion point per field
 
@@ -525,6 +528,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.PlantDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PointsAndLines3DShapes {
 		res = append(res, instance)
 	}
 
@@ -1025,6 +1032,12 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongCopy() GongstructIF 
 func (plantdiagram *PlantDiagram) GongCopy() GongstructIF {
 	newInstance := new(PlantDiagram)
 	plantdiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongCopy() GongstructIF {
+	newInstance := new(PointsAndLines3DShape)
+	pointsandlines3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1814,6 +1827,16 @@ func (plantdiagram *PlantDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantdiagram), uint64(GetOrderPointerGongstruct(stage, plantdiagram)))
+	return
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(pointsandlines3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pointsandlines3dshape), uint64(GetOrderPointerGongstruct(stage, pointsandlines3dshape)))
 	return
 }
 
@@ -3110,6 +3133,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.PlantDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.PointsAndLines3DShapes_reference = make(map[*PointsAndLines3DShape]*PointsAndLines3DShape)
+	stage.PointsAndLines3DShapes_referenceOrder = make(map[*PointsAndLines3DShape]uint) // diff Unstage needs the reference order
+	stage.PointsAndLines3DShapes_instance = make(map[*PointsAndLines3DShape]*PointsAndLines3DShape)
+	for instance := range stage.PointsAndLines3DShapes {
+		_copy := instance.GongCopy().(*PointsAndLines3DShape)
+		stage.PointsAndLines3DShapes_reference[instance] = _copy
+		stage.PointsAndLines3DShapes_instance[_copy] = instance
+		stage.PointsAndLines3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.PxShapes_reference = make(map[*PxShape]*PxShape)
 	stage.PxShapes_referenceOrder = make(map[*PxShape]uint) // diff Unstage needs the reference order
 	stage.PxShapes_instance = make(map[*PxShape]*PxShape)
@@ -3908,6 +3941,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.PlantDiagrams {
 		reference := stage.PlantDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PointsAndLines3DShapes {
+		reference := stage.PointsAndLines3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -4735,6 +4773,18 @@ func (plantdiagram *PlantDiagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type PlantDiagram was not staged and does not have a reference order", plantdiagram)
+		return 0
+	}
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PointsAndLines3DShape_stagedOrder[pointsandlines3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.PointsAndLines3DShapes_referenceOrder[pointsandlines3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PointsAndLines3DShape was not staged and does not have a reference order", pointsandlines3dshape)
 		return 0
 	}
 }
@@ -5836,6 +5886,15 @@ func (plantdiagram *PlantDiagram) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
 }
 
+func (pointsandlines3dshape *PointsAndLines3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", pointsandlines3dshape.GongGetGongstructName(), pointsandlines3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (pointsandlines3dshape *PointsAndLines3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", pointsandlines3dshape.GongGetGongstructName(), pointsandlines3dshape.GongGetOrder(stage))
+}
+
 func (pxshape *PxShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", pxshape.GongGetGongstructName(), pxshape.GongGetOrder(stage))
 }
@@ -6713,6 +6772,14 @@ func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (pointsandlines3dshape *PointsAndLines3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointsandlines3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PointsAndLines3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointsandlines3dshape.Name))
+	return
+}
+
 func (pxshape *PxShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pxshape.GongGetIdentifier(stage))
@@ -7439,6 +7506,12 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallUnstaging(st
 func (plantdiagram *PlantDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (pointsandlines3dshape *PointsAndLines3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointsandlines3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -182,6 +182,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPlantDiagramCreateCallback != nil {
 			stage.OnAfterPlantDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *PointsAndLines3DShape:
+		if stage.OnAfterPointsAndLines3DShapeCreateCallback != nil {
+			stage.OnAfterPointsAndLines3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PxShape:
 		if stage.OnAfterPxShapeCreateCallback != nil {
 			stage.OnAfterPxShapeCreateCallback.OnAfterCreate(stage, target)
@@ -647,6 +651,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*PlantDiagram)
 		if stage.OnAfterPlantDiagramUpdateCallback != nil {
 			stage.OnAfterPlantDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PointsAndLines3DShape:
+		newTarget := any(new).(*PointsAndLines3DShape)
+		if stage.OnAfterPointsAndLines3DShapeUpdateCallback != nil {
+			stage.OnAfterPointsAndLines3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PxShape:
 		newTarget := any(new).(*PxShape)
@@ -1168,6 +1177,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*PlantDiagram)
 			stage.OnAfterPlantDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *PointsAndLines3DShape:
+		if stage.OnAfterPointsAndLines3DShapeDeleteCallback != nil {
+			staged := any(staged).(*PointsAndLines3DShape)
+			stage.OnAfterPointsAndLines3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PxShape:
 		if stage.OnAfterPxShapeDeleteCallback != nil {
 			staged := any(staged).(*PxShape)
@@ -1644,6 +1658,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPlantDiagramReadCallback != nil {
 			stage.OnAfterPlantDiagramReadCallback.OnAfterRead(stage, target)
 		}
+	case *PointsAndLines3DShape:
+		if stage.OnAfterPointsAndLines3DShapeReadCallback != nil {
+			stage.OnAfterPointsAndLines3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *PxShape:
 		if stage.OnAfterPxShapeReadCallback != nil {
 			stage.OnAfterPxShapeReadCallback.OnAfterRead(stage, target)
@@ -1975,6 +1993,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPlantCircumferenceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[PlantDiagram])
+	case *PointsAndLines3DShape:
+		stage.OnAfterPointsAndLines3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PointsAndLines3DShape])
 	case *PxShape:
 		stage.OnAfterPxShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PxShape])
 	case *Rendered3DShape:
@@ -2186,6 +2206,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPlantCircumferenceShapeCreateCallback = any(callback).(OnAfterCreateInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramCreateCallback = any(callback).(OnAfterCreateInterface[PlantDiagram])
+	case *PointsAndLines3DShape:
+		stage.OnAfterPointsAndLines3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[PointsAndLines3DShape])
 	case *PxShape:
 		stage.OnAfterPxShapeCreateCallback = any(callback).(OnAfterCreateInterface[PxShape])
 	case *Rendered3DShape:
@@ -2397,6 +2419,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPlantCircumferenceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[PlantDiagram])
+	case *PointsAndLines3DShape:
+		stage.OnAfterPointsAndLines3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PointsAndLines3DShape])
 	case *PxShape:
 		stage.OnAfterPxShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PxShape])
 	case *Rendered3DShape:
@@ -2608,6 +2632,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPlantCircumferenceShapeReadCallback = any(callback).(OnAfterReadInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramReadCallback = any(callback).(OnAfterReadInterface[PlantDiagram])
+	case *PointsAndLines3DShape:
+		stage.OnAfterPointsAndLines3DShapeReadCallback = any(callback).(OnAfterReadInterface[PointsAndLines3DShape])
 	case *PxShape:
 		stage.OnAfterPxShapeReadCallback = any(callback).(OnAfterReadInterface[PxShape])
 	case *Rendered3DShape:

@@ -113,6 +113,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refVerticalTorusStackShape := make(map[*VerticalTorusStackShape]bool)
 	refPartiallyRotatedTorusShape := make(map[*PartiallyRotatedTorusShape]bool)
 	refStackOfPartiallyRotatedTorusShape := make(map[*StackOfPartiallyRotatedTorusShape]bool)
+	refPointsAndLines3DShape := make(map[*PointsAndLines3DShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
@@ -446,6 +447,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 		if diagram.StackOfPartiallyRotatedTorusShape != nil {
 			refStackOfPartiallyRotatedTorusShape[diagram.StackOfPartiallyRotatedTorusShape] = true
+		}
+		if diagram.PointsAndLines3DShape != nil {
+			refPointsAndLines3DShape[diagram.PointsAndLines3DShape] = true
 		}
 	}
 
@@ -1035,6 +1039,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*StackOfPartiallyRotatedTorusShape](stage) {
 		if !refStackOfPartiallyRotatedTorusShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PointsAndLines3DShape](stage) {
+		if !refPointsAndLines3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

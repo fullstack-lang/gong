@@ -65,6 +65,7 @@ type PlantDiagram struct {
 	IsHiddenVerticalTorusStackShape                    bool
 	IsHiddenPartiallyRotatedTorusShape                 bool
 	IsHiddenStackOfPartiallyRotatedTorusShape          bool
+	IsHiddenPointsAndLines3DShape                      bool
 
 	IsChecked bool
 	AbstractTypeFields
@@ -78,6 +79,7 @@ type PlantDiagram struct {
 	VerticalTorusStackShape           *VerticalTorusStackShape
 	PartiallyRotatedTorusShape        *PartiallyRotatedTorusShape
 	StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape
+	PointsAndLines3DShape             *PointsAndLines3DShape
 }
 
 type Rendered3DShape struct {

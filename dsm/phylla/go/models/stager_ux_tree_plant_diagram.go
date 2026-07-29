@@ -177,5 +177,6 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Vertical 3D Torus Stack", plantDiagram.VerticalTorusStackShape, &plantDiagram.IsHiddenVerticalTorusStackShape)
 		appendDiagramNode(stager, plantDiagramNode, "Partially Rotated 3D Torus", plantDiagram.PartiallyRotatedTorusShape, &plantDiagram.IsHiddenPartiallyRotatedTorusShape)
 		appendDiagramNode(stager, plantDiagramNode, "Stack Of Partially Rotated 3D Torus", plantDiagram.StackOfPartiallyRotatedTorusShape, &plantDiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Points and lines between points", plantDiagram.PointsAndLines3DShape, &plantDiagram.IsHiddenPointsAndLines3DShape)
 	}
 }
