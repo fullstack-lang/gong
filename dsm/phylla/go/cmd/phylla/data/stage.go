@@ -52,7 +52,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RhombusSideLength = 320.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.056000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.020000
-	__Plant__00000000_.RotationRatio = 0.995000
+	__Plant__00000000_.RotationRatio = 0.000000
 	__Plant__00000000_.ThreeDModulo = 3
 	__Plant__00000000_.Transparency = 0.200000
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.139000
