@@ -79,8 +79,12 @@ func (stager *Stager) svgGenerateRect(
 		rect.Color = svg.Lightblue.ToString()
 		rect.FillOpacity = 0.6
 	} else {
-		// rect.Color = svg.Lightgrey.ToString()
-		// rect.FillOpacity = 0.3
+		rect.Color = svg.White.ToString()
+		if state.IsDecisionNode || isStartState || state.IsEndState {
+			rect.FillOpacity = 0.0001
+		} else {
+			rect.FillOpacity = 1.0
+		}
 	}
 
 	availableWidth := rect.Width
