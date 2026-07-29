@@ -203,7 +203,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				Name: "Torus Continuous Curve Top",
 			}).Stage(stager.threejsStage)
 
-			appendArcPoints := func(targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
+			var curveX2D []float64
+
+			appendArcPoints := func(targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, isBaseCurve bool) {
 				dx := (x1 - x2) / 2.0
 				dy := (y1 - y2) / 2.0
 				d2 := dx*dx + dy*dy
@@ -246,6 +248,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					x2d := cx + r*math.Cos(angle)
 					y2d := cy + r*math.Sin(angle)
 
+					if isBaseCurve {
+						curveX2D = append(curveX2D, x2d)
+					}
+
 					theta := x2d / globalR
 					x3d := globalR * math.Cos(theta)
 					z3d := globalR * math.Sin(theta)
@@ -268,55 +274,58 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			for i := 0; i < len(startArcs); i++ {
 				sa := startArcs[i]
 				// Cartesian sweep is the inverse of SVG sweep due to Y-axis mirroring
-				appendArcPoints(curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+				appendArcPoints(curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, true)
 
 				if i < len(endArcs) {
 					ea := endArcs[i]
 					// Cartesian sweep is !ea.SweepFlag.
 					// Traversing forwards, so we pass !ea.SweepFlag.
-					appendArcPoints(curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+					appendArcPoints(curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, true)
 				}
 			}
 
 			for i := 0; i < len(topStartArcs); i++ {
 				tsa := topStartArcs[i]
-				appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
+				appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag, false)
 
 				if i < len(topEndArcs) {
 					ea := topEndArcs[i]
 					// Traversing forwards
-					appendArcPoints(topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+					appendArcPoints(topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, false)
 				}
 			}
 
+
 			if len(curve.Points) > 1 && len(topCurve.Points) > 1 {
-				createFaceMesh := func(faceName string, color string, edges [][2]*threejs.Vector3, reverseWinding bool) *threejs.Mesh {
-					geom := (&threejs.BufferGeometry{
-						Name: fmt.Sprintf("%s BufferGeometry", faceName),
-					}).Stage(stager.threejsStage)
+				stackHeight := plant.StackHeight
 
-					for i := 0; i < len(edges); i++ {
-						p1_src := edges[i][0]
-						p2_src := edges[i][1]
 
-						p1 := (&threejs.Vector3{
-							Name: fmt.Sprintf("%s %s %d", p1_src.Name, faceName, i),
-							X:    p1_src.X,
-							Y:    p1_src.Y,
-							Z:    p1_src.Z,
+				generateRibbonLayer := func(h int, dx, dy, thetaOffset float64, baseNamePrefix string) {
+					threeDModulo := plant.ThreeDModulo
+					if threeDModulo < 1 {
+						threeDModulo = 1
+					}
+
+					isKeyHoleActive := checkedDiagram != nil && !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil
+					x_left := plant.OffsetKeyX - plant.WidthKey/2.0
+					x_right := plant.OffsetKeyX + plant.WidthKey/2.0
+					y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
+					y_top := plant.OffsetKeyY + plant.HeightKey/2.0
+
+					for k := 0; k < threeDModulo; k++ {
+						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
+						var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
+
+						namePrefix := fmt.Sprintf("%s Layer %d k%d", baseNamePrefix, h, k)
+						japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
+
+						ribbonGeom := (&threejs.BufferGeometry{
+							Name: fmt.Sprintf("%s Ribbon BufferGeometry", namePrefix),
 						}).Stage(stager.threejsStage)
 
-						p2 := (&threejs.Vector3{
-							Name: fmt.Sprintf("%s %s %d", p2_src.Name, faceName, i),
-							X:    p2_src.X,
-							Y:    p2_src.Y,
-							Z:    p2_src.Z,
-						}).Stage(stager.threejsStage)
-
-						geom.Vertices = append(geom.Vertices, p1, p2)
-
-						if i < len(edges)-1 {
-							idx := i * 2
+						addQuad := func(v0, v1, v2, v3 *threejs.Vector3, reverseWinding bool) {
+							idx := len(ribbonGeom.Vertices)
+							ribbonGeom.Vertices = append(ribbonGeom.Vertices, v0, v1, v2, v3)
 
 							v1_t1, v2_t1, v3_t1 := idx, idx+1, idx+2
 							v1_t2, v2_t2, v3_t2 := idx+1, idx+3, idx+2
@@ -327,65 +336,84 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							}
 
 							t1 := (&threejs.Triangle{
-								Name: fmt.Sprintf("T1 %d", i),
+								Name: fmt.Sprintf("Quad T1 %d", idx),
 								V1:   v1_t1,
 								V2:   v2_t1,
 								V3:   v3_t1,
 							}).Stage(stager.threejsStage)
 
 							t2 := (&threejs.Triangle{
-								Name: fmt.Sprintf("T2 %d", i),
+								Name: fmt.Sprintf("Quad T2 %d", idx),
 								V1:   v1_t2,
 								V2:   v2_t2,
 								V3:   v3_t2,
 							}).Stage(stager.threejsStage)
 
-							geom.Faces = append(geom.Faces, t1, t2)
+							ribbonGeom.Faces = append(ribbonGeom.Faces, t1, t2)
 						}
-					}
 
-					opacity := 1.0 - plant.Transparency
-					if opacity < 0.0 {
-						opacity = 0.0
-					}
-					if opacity > 1.0 {
-						opacity = 1.0
-					}
+						type curvePt struct {
+							x2d  float64
+							p    *threejs.Vector3
+							pTop *threejs.Vector3
+						}
 
-					return (&threejs.Mesh{
-						Name:           fmt.Sprintf("%s Mesh", faceName),
-						Position:       threejs.Position{X: 0, Y: 0, Z: 0},
-						BufferGeometry: geom,
-						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-							Name:                 fmt.Sprintf("%s Material", faceName),
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-							Transparent:          true,
-							Opacity:              opacity,
-						}).Stage(stager.threejsStage),
-					}).Stage(stager.threejsStage)
-				}
-
-				stackHeight := plant.StackHeight
-
-				generateRibbonLayer := func(h int, dx, dy, thetaOffset float64, baseNamePrefix string) {
-					threeDModulo := plant.ThreeDModulo
-					if threeDModulo < 1 {
-						threeDModulo = 1
-					}
-
-					for k := 0; k < threeDModulo; k++ {
-						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
-						var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
-
-						for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
+						rawPts := make([]curvePt, 0, len(curve.Points))
+						for i := 0; i < len(curve.Points) && i < len(topCurve.Points) && i < len(curveX2D); i++ {
 							p := curve.Points[i]
 							pTop := topCurve.Points[i]
+							x2d := curveX2D[i]
+							rawPts = append(rawPts, curvePt{x2d: x2d, p: p, pTop: pTop})
+						}
 
-							thetaBase := math.Atan2(p.Z, p.X)
-							theta := thetaBase + thetaOffset + baseThetaOffset
+						refinedPts := make([]curvePt, 0, len(rawPts)+4)
+						targets := []float64{x_left, x_right}
 
-							thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
-							thetaTop := thetaBaseTop + thetaOffset + baseThetaOffset
+						for i := 0; i < len(rawPts); i++ {
+							refinedPts = append(refinedPts, rawPts[i])
+							if isKeyHoleActive && i < len(rawPts)-1 {
+								pA := rawPts[i]
+								pB := rawPts[i+1]
+								if pB.x2d > pA.x2d {
+									for _, targetX := range targets {
+										if targetX > pA.x2d+1e-4 && targetX < pB.x2d-1e-4 {
+											t := (targetX - pA.x2d) / (pB.x2d - pA.x2d)
+											interpP := (&threejs.Vector3{
+												Name: fmt.Sprintf("InterpP %f", targetX),
+												X:    pA.p.X + t*(pB.p.X-pA.p.X),
+												Y:    pA.p.Y + t*(pB.p.Y-pA.p.Y),
+												Z:    pA.p.Z + t*(pB.p.Z-pA.p.Z),
+											}).Stage(stager.threejsStage)
+
+											interpPTop := (&threejs.Vector3{
+												Name: fmt.Sprintf("InterpPTop %f", targetX),
+												X:    pA.pTop.X + t*(pB.pTop.X-pA.pTop.X),
+												Y:    pA.pTop.Y + t*(pB.pTop.Y-pA.pTop.Y),
+												Z:    pA.pTop.Z + t*(pB.pTop.Z-pA.pTop.Z),
+											}).Stage(stager.threejsStage)
+
+											refinedPts = append(refinedPts, curvePt{x2d: targetX, p: interpP, pTop: interpPTop})
+										}
+									}
+								}
+							}
+						}
+
+						type pointVerts struct {
+							x2d                                   float64
+							vIn0, vIn1, vIn2, vIn3                *threejs.Vector3
+							vOut0, vOut1, vOut2, vOut3            *threejs.Vector3
+						}
+
+						pVerts := make([]pointVerts, 0, len(refinedPts))
+
+						for i := 0; i < len(refinedPts); i++ {
+							p := refinedPts[i].p
+							pTop := refinedPts[i].pTop
+
+							x2d := refinedPts[i].x2d
+							theta := x2d/globalR + thetaOffset + baseThetaOffset
+							thetaTop := x2d/globalR + thetaOffset + baseThetaOffset
 
 							yBase := p.Y + dy
 							yBaseTop := pTop.Y + dy
@@ -396,26 +424,51 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
 							rOuterTop := rBaseTop + thickness
 
-							xBL := rBase * math.Cos(theta)
-							zBL := rBase * math.Sin(theta)
-							yBL := yBase
 
-							xBR := rOuter * math.Cos(theta)
-							zBR := rOuter * math.Sin(theta)
-							yBR := yBase
+							y0 := yBase
+							y1 := y_bottom + dy
+							if y1 < y0 {
+								y1 = y0
+							}
+							if y1 > yBaseTop {
+								y1 = yBaseTop
+							}
 
-							xTL := rBaseTop * math.Cos(thetaTop)
-							zTL := rBaseTop * math.Sin(thetaTop)
-							yTL := yBaseTop
+							y2 := y_top + dy
+							if y2 < y0 {
+								y2 = y0
+							}
+							if y2 > yBaseTop {
+								y2 = yBaseTop
+							}
+							y3 := yBaseTop
 
-							xTR := rOuterTop * math.Cos(thetaTop)
-							zTR := rOuterTop * math.Sin(thetaTop)
-							yTR := yBaseTop
+							mkV := func(r float64, y float64, th float64, vName string) *threejs.Vector3 {
+								return (&threejs.Vector3{
+									Name: fmt.Sprintf("%s %s %d", vName, namePrefix, i),
+									X:    r * math.Cos(th),
+									Y:    y,
+									Z:    r * math.Sin(th),
+								}).Stage(stager.threejsStage)
+							}
 
-							vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
-							vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
-							vTL := (&threejs.Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stager.threejsStage)
-							vTR := (&threejs.Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stager.threejsStage)
+							pv := pointVerts{
+								x2d:   x2d,
+								vIn0:  mkV(rBase, y0, theta, "In0"),
+								vIn1:  mkV(rBase, y1, theta, "In1"),
+								vIn2:  mkV(rBase, y2, theta, "In2"),
+								vIn3:  mkV(rBaseTop, y3, thetaTop, "In3"),
+								vOut0: mkV(rOuter, y0, theta, "Out0"),
+								vOut1: mkV(rOuter, y1, theta, "Out1"),
+								vOut2: mkV(rOuter, y2, theta, "Out2"),
+								vOut3: mkV(rOuterTop, y3, thetaTop, "Out3"),
+							}
+							pVerts = append(pVerts, pv)
+
+							vBL := pv.vIn0
+							vBR := pv.vOut0
+							vTL := pv.vIn3
+							vTR := pv.vOut3
 
 							bottomEdges = append(bottomEdges, [2]*threejs.Vector3{vBL, vBR})
 							topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
@@ -423,16 +476,79 @@ func (stager *Stager) ux_3d_plant_diagram() {
 							outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
 						}
 
-						namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
+						for i := 0; i < len(pVerts)-1; i++ {
+							curr := pVerts[i]
+							next := pVerts[i+1]
 
-						japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
+							midX := (curr.x2d + next.x2d) / 2.0
+							inHoleSeg := isKeyHoleActive && (midX >= x_left-1e-4 && midX <= x_right+1e-4)
 
-						bottomFace := createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false)
-						topFace := createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true)
-						innerFace := createFaceMesh(namePrefix+" Inner", japanesePaperColor, innerEdges, true)
-						outerFace := createFaceMesh(namePrefix+" Outer", japanesePaperColor, outerEdges, false)
+							inHole_curr := isKeyHoleActive && (curr.x2d >= x_left-1e-4 && curr.x2d <= x_right+1e-4)
+							inHole_next := isKeyHoleActive && (next.x2d >= x_left-1e-4 && next.x2d <= x_right+1e-4)
 
-						canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
+							// Ribbon bottom face
+							addQuad(curr.vIn0, curr.vOut0, next.vIn0, next.vOut0, false)
+
+							// Ribbon top face
+							addQuad(curr.vIn3, curr.vOut3, next.vIn3, next.vOut3, true)
+
+							if !inHoleSeg {
+								// Full inner face
+								addQuad(curr.vIn0, curr.vIn3, next.vIn0, next.vIn3, true)
+								// Full outer face
+								addQuad(curr.vOut0, curr.vOut3, next.vOut0, next.vOut3, false)
+							} else {
+								// Lower inner face (below keyhole)
+								addQuad(curr.vIn0, curr.vIn1, next.vIn0, next.vIn1, true)
+								// Lower outer face (below keyhole)
+								addQuad(curr.vOut0, curr.vOut1, next.vOut0, next.vOut1, false)
+
+								// Upper inner face (above keyhole)
+								addQuad(curr.vIn2, curr.vIn3, next.vIn2, next.vIn3, true)
+								// Upper outer face (above keyhole)
+								addQuad(curr.vOut2, curr.vOut3, next.vOut2, next.vOut3, false)
+
+								// Hole bottom wall (connecting inner & outer at y1)
+								addQuad(curr.vIn1, curr.vOut1, next.vIn1, next.vOut1, true)
+
+								// Hole top wall (connecting inner & outer at y2)
+								addQuad(curr.vIn2, curr.vOut2, next.vIn2, next.vOut2, false)
+
+								// Hole left wall (entry into hole)
+								if !inHole_curr && inHole_next {
+									addQuad(curr.vIn1, curr.vOut1, curr.vIn2, curr.vOut2, false)
+								}
+
+								// Hole right wall (exit from hole)
+								if inHole_curr && !inHole_next {
+									addQuad(next.vIn1, next.vOut1, next.vIn2, next.vOut2, true)
+								}
+							}
+						}
+
+
+						opacity := 1.0 - plant.Transparency
+						if opacity < 0.0 {
+							opacity = 0.0
+						}
+						if opacity > 1.0 {
+							opacity = 1.0
+						}
+
+						ribbonMesh := (&threejs.Mesh{
+							Name:           fmt.Sprintf("%s Mesh", namePrefix),
+							Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+							BufferGeometry: ribbonGeom,
+							MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+								Name:                 fmt.Sprintf("%s Material", namePrefix),
+								MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
+								Transparent:          true,
+								Opacity:              opacity,
+							}).Stage(stager.threejsStage),
+						}).Stage(stager.threejsStage)
+
+						canvas.Meshs = append(canvas.Meshs, ribbonMesh)
+
 
 						createTube := func(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
 							curve := (&threejs.Curve{
@@ -713,110 +829,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					}
 				}
 
-				if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
-					stackH := stackHeight
-					if stackH <= 0 {
-						stackH = 1
-					}
 
-					dxs3D := make([]float64, stackH)
-					dys3D := make([]float64, stackH)
-
-					numSteps3D := stackH - 1
-					if numSteps3D > 0 {
-						totalProgress := plant.RotationRatio * float64(numSteps3D)
-						var cumDX, cumDY float64
-						for k := 1; k <= numSteps3D; k++ {
-							var r_k float64
-							kFloat := float64(k)
-							if totalProgress >= kFloat {
-								r_k = 1.0
-							} else if totalProgress <= kFloat-1.0 {
-								r_k = 0.0
-							} else {
-								r_k = totalProgress - (kFloat - 1.0)
-							}
-							stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
-							cumDX += stepDX
-							cumDY += stepDY
-							dxs3D[k] = cumDX
-							dys3D[k] = cumDY
-						}
-					}
-
-					x_left := plant.OffsetKeyX - plant.WidthKey/2.0
-					x_right := plant.OffsetKeyX + plant.WidthKey/2.0
-					y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
-					y_top := plant.OffsetKeyY + plant.HeightKey/2.0
-
-					tubeRadius := globalR * 0.005
-
-					if tubeRadius < 0.2 {
-						tubeRadius = 0.2
-					}
-
-					createKeyHole3DTube := func(tubeName string, pA, pB *threejs.Vector3) *threejs.Mesh {
-						crv := (&threejs.Curve{
-							Name:   fmt.Sprintf("Curve %s", tubeName),
-							Points: []*threejs.Vector3{pA, pB},
-						}).Stage(stager.threejsStage)
-
-						tGeom := (&threejs.TubeGeometry{
-							Name:            fmt.Sprintf("TubeGeom %s", tubeName),
-							Path:            crv,
-							TubularSegments: 8,
-							Radius:          tubeRadius,
-							RadialSegments:  8,
-							Closed:          false,
-						}).Stage(stager.threejsStage)
-
-						return (&threejs.Mesh{
-							Name:         fmt.Sprintf("TubeMesh %s", tubeName),
-							Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-							TubeGeometry: tGeom,
-							MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-								Name:                 fmt.Sprintf("Material %s", tubeName),
-								MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkred"},
-							}).Stage(stager.threejsStage),
-						}).Stage(stager.threejsStage)
-					}
-
-					threeDModulo := plant.ThreeDModulo
-					if threeDModulo < 1 {
-						threeDModulo = 1
-					}
-
-					for h := 0; h < stackH; h++ {
-						dx_h := dxs3D[h]
-						dy_h := dys3D[h]
-
-						for k := 0; k < threeDModulo; k++ {
-							baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
-
-							get3DPtHK := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
-								th := (ptX+dx_h)/globalR + baseThetaOffset
-								return (&threejs.Vector3{
-									Name: fmt.Sprintf("KeyHole3D %s h%d k%d", ptName, h, k),
-									X:    globalR * math.Cos(th),
-									Y:    ptY + dy_h,
-									Z:    globalR * math.Sin(th),
-								}).Stage(stager.threejsStage)
-							}
-
-							vBL := get3DPtHK(x_left, y_bottom, "BL")
-							vBR := get3DPtHK(x_right, y_bottom, "BR")
-							vTR := get3DPtHK(x_right, y_top, "TR")
-							vTL := get3DPtHK(x_left, y_top, "TL")
-
-							canvas.Meshs = append(canvas.Meshs,
-								createKeyHole3DTube(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR),
-								createKeyHole3DTube(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR),
-								createKeyHole3DTube(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL),
-								createKeyHole3DTube(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL),
-							)
-						}
-					}
-				}
 
 			}
 		}
@@ -877,3 +890,4 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		threejs.GenerateReferenceScene(stager.threejsStage)
 	}
 }
+
