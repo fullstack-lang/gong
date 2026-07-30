@@ -71,8 +71,15 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
             return;
           }
 
+          // If we are currently waiting for the user to click the "Save As" button, 
+          // ignore any subsequent WebSocket messages that might clear the FileToDownload
+          // (such as the backend's stager.load() reset after 1 second).
+          if (this.saveAsReady() && this.fileToDownload === undefined) {
+             return;
+          }
+
           if (this.fileToDownload) {
-            // UPDATED: Decode the base64 string to binary data
+            // Decode the base64 string to binary data
             const binaryString = window.atob(this.fileToDownload.Base64EncodedContent);
             const len = binaryString.length;
             const bytes = new Uint8Array(len);
@@ -80,17 +87,69 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
               bytes[i] = binaryString.charCodeAt(i);
             }
 
-            // UPDATED: Create Blob from the binary array instead of the raw string
+            // Create Blob from the binary array instead of the raw string
             const blob = new Blob([bytes], { type: 'application/octet-stream' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = this.fileToDownload.Name;
-            link.click();
-            URL.revokeObjectURL(url);
+            let filename = this.fileToDownload.Name;
+
+            if (filename.startsWith("PROMPT_SAVE_FILE_DIALOG_")) {
+              filename = filename.substring("PROMPT_SAVE_FILE_DIALOG_".length);
+              this.saveAsBlob = blob;
+              this.saveAsName = filename;
+              this.saveAsReady.set(true);
+            } else {
+              this.saveAsReady.set(false);
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = filename;
+              link.click();
+              URL.revokeObjectURL(url);
+            }
+          } else {
+            this.saveAsReady.set(false);
           }
         }
       });
+  }
+
+  public saveAsReady = signal(false);
+  public saveAsBlob: Blob | null = null;
+  public saveAsName: string = '';
+
+  async saveAs() {
+    console.log("saveAs() triggered. saveAsName:", this.saveAsName, "saveAsBlob:", this.saveAsBlob);
+    if (!this.saveAsBlob || !this.saveAsName) {
+      console.warn("saveAs canceled because blob or name is missing");
+      return;
+    }
+    try {
+      if (!(window as any).showSaveFilePicker) {
+        throw new Error("Your browser does not support the File System Access API. Downloading file directly instead.");
+      }
+      console.log("Calling showSaveFilePicker with name:", this.saveAsName);
+      const handle = await (window as any).showSaveFilePicker({
+        suggestedName: this.saveAsName,
+      });
+      const writable = await handle.createWritable();
+      await writable.write(this.saveAsBlob);
+      await writable.close();
+      this.uploadStatus.set("File saved successfully.");
+      this.saveAsReady.set(false);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        console.error(err);
+        this.uploadStatus.set("Save fallback: downloading directly...");
+        // Fallback to normal download
+        const url = URL.createObjectURL(this.saveAsBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = this.saveAsName;
+        link.click();
+        URL.revokeObjectURL(url);
+        this.saveAsReady.set(false);
+        this.uploadStatus.set("File downloaded.");
+      }
+    }
   }
 
   ngOnDestroy(): void {
