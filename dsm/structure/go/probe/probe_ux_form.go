@@ -63,6 +63,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.datashape, probe)
 			}
+		case *DiagramLayerStateFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DiagramLayerState", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagramlayerstate, probe)
+			}
 		case *DiagramStructureFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "DiagramStructure", true)
@@ -74,6 +80,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "ExternalPartShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.externalpartshape, probe)
+			}
+		case *LayerDefinitionFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "LayerDefinition", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.layerdefinition, probe)
 			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
@@ -140,6 +152,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "Resource", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.resource, probe)
+			}
+		case *SemanticTagFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SemanticTag", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.semantictag, probe)
 			}
 		case *SystemFormCallback:
 			if onSave.CreationMode {
@@ -279,6 +297,19 @@ func FillUpFormFromGongstructName(
 		datashape := new(models.DataShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(datashape, formGroup, probe)
+	case "DiagramLayerState":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DiagramLayerState Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DiagramLayerStateFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		diagramlayerstate := new(models.DiagramLayerState)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(diagramlayerstate, formGroup, probe)
 	case "DiagramStructure":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -305,6 +336,19 @@ func FillUpFormFromGongstructName(
 		externalpartshape := new(models.ExternalPartShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(externalpartshape, formGroup, probe)
+	case "LayerDefinition":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "LayerDefinition Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LayerDefinitionFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		layerdefinition := new(models.LayerDefinition)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(layerdefinition, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -448,6 +492,19 @@ func FillUpFormFromGongstructName(
 		resource := new(models.Resource)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(resource, formGroup, probe)
+	case "SemanticTag":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SemanticTag Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SemanticTagFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		semantictag := new(models.SemanticTag)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(semantictag, formGroup, probe)
 	case "System":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

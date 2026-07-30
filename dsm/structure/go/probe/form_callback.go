@@ -1477,6 +1477,88 @@ func (datashapeFormCallback *DataShapeFormCallback) OnSave() {
 
 	datashapeFormCallback.probe.ux_tree()
 }
+func __gong__New__DiagramLayerStateFormCallback(
+	diagramlayerstate *models.DiagramLayerState,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (diagramlayerstateFormCallback *DiagramLayerStateFormCallback) {
+	diagramlayerstateFormCallback = new(DiagramLayerStateFormCallback)
+	diagramlayerstateFormCallback.probe = probe
+	diagramlayerstateFormCallback.diagramlayerstate = diagramlayerstate
+	diagramlayerstateFormCallback.formGroup = formGroup
+
+	diagramlayerstateFormCallback.CreationMode = (diagramlayerstate == nil)
+
+	return
+}
+
+type DiagramLayerStateFormCallback struct {
+	diagramlayerstate *models.DiagramLayerState
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (diagramlayerstateFormCallback *DiagramLayerStateFormCallback) OnSave() {
+	diagramlayerstateFormCallback.probe.stageOfInterest.Lock()
+	defer diagramlayerstateFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DiagramLayerStateFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	diagramlayerstateFormCallback.probe.formStage.Checkout()
+
+	if diagramlayerstateFormCallback.diagramlayerstate == nil {
+		diagramlayerstateFormCallback.diagramlayerstate = new(models.DiagramLayerState).Stage(diagramlayerstateFormCallback.probe.stageOfInterest)
+	}
+	diagramlayerstate_ := diagramlayerstateFormCallback.diagramlayerstate
+	_ = diagramlayerstate_
+
+	for _, formDiv := range diagramlayerstateFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(diagramlayerstate_.Name), formDiv)
+		case "DiagramStructure":
+			FormDivSelectFieldToField(&(diagramlayerstate_.DiagramStructure), diagramlayerstateFormCallback.probe.stageOfInterest, formDiv)
+		case "LayerDefinition":
+			FormDivSelectFieldToField(&(diagramlayerstate_.LayerDefinition), diagramlayerstateFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if diagramlayerstateFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramlayerstate_.Unstage(diagramlayerstateFormCallback.probe.stageOfInterest)
+	}
+
+	diagramlayerstateFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DiagramLayerState](
+		diagramlayerstateFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if diagramlayerstateFormCallback.CreationMode || diagramlayerstateFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramlayerstateFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(diagramlayerstateFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DiagramLayerStateFormCallback(
+			nil,
+			diagramlayerstateFormCallback.probe,
+			newFormGroup,
+		)
+		diagramlayerstate := new(models.DiagramLayerState)
+		FillUpForm(diagramlayerstate, newFormGroup, diagramlayerstateFormCallback.probe)
+		diagramlayerstateFormCallback.probe.formStage.Commit()
+	}
+
+	diagramlayerstateFormCallback.probe.ux_tree()
+}
 func __gong__New__DiagramStructureFormCallback(
 	diagramstructure *models.DiagramStructure,
 	probe *Probe,
@@ -2611,6 +2693,116 @@ func (externalpartshapeFormCallback *ExternalPartShapeFormCallback) OnSave() {
 	}
 
 	externalpartshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__LayerDefinitionFormCallback(
+	layerdefinition *models.LayerDefinition,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (layerdefinitionFormCallback *LayerDefinitionFormCallback) {
+	layerdefinitionFormCallback = new(LayerDefinitionFormCallback)
+	layerdefinitionFormCallback.probe = probe
+	layerdefinitionFormCallback.layerdefinition = layerdefinition
+	layerdefinitionFormCallback.formGroup = formGroup
+
+	layerdefinitionFormCallback.CreationMode = (layerdefinition == nil)
+
+	return
+}
+
+type LayerDefinitionFormCallback struct {
+	layerdefinition *models.LayerDefinition
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (layerdefinitionFormCallback *LayerDefinitionFormCallback) OnSave() {
+	layerdefinitionFormCallback.probe.stageOfInterest.Lock()
+	defer layerdefinitionFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("LayerDefinitionFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	layerdefinitionFormCallback.probe.formStage.Checkout()
+
+	if layerdefinitionFormCallback.layerdefinition == nil {
+		layerdefinitionFormCallback.layerdefinition = new(models.LayerDefinition).Stage(layerdefinitionFormCallback.probe.stageOfInterest)
+	}
+	layerdefinition_ := layerdefinitionFormCallback.layerdefinition
+	_ = layerdefinition_
+
+	for _, formDiv := range layerdefinitionFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(layerdefinition_.Name), formDiv)
+		case "Query":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SemanticTag](layerdefinitionFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.SemanticTag, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.SemanticTag)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerdefinitionFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.SemanticTag](layerdefinitionFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			layerdefinition_.Query = instanceSlice
+			layerdefinitionFormCallback.probe.UpdateSliceOfPointersCallback(layerdefinition_, "Query", &layerdefinition_.Query)
+
+		}
+	}
+
+	// manage the suppress operation
+	if layerdefinitionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		layerdefinition_.Unstage(layerdefinitionFormCallback.probe.stageOfInterest)
+	}
+
+	layerdefinitionFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.LayerDefinition](
+		layerdefinitionFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if layerdefinitionFormCallback.CreationMode || layerdefinitionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		layerdefinitionFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(layerdefinitionFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__LayerDefinitionFormCallback(
+			nil,
+			layerdefinitionFormCallback.probe,
+			newFormGroup,
+		)
+		layerdefinition := new(models.LayerDefinition)
+		FillUpForm(layerdefinition, newFormGroup, layerdefinitionFormCallback.probe)
+		layerdefinitionFormCallback.probe.formStage.Commit()
+	}
+
+	layerdefinitionFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -4479,6 +4671,51 @@ func (partFormCallback *PartFormCallback) OnSave() {
 					}
 				}
 			}
+		case "SemanticTag:Parts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the SemanticTag instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target SemanticTag instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.SemanticTag](partFormCallback.probe.stageOfInterest)
+			targetSemanticTagIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSemanticTagIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all SemanticTag instances and update their Parts slice
+			for _semantictag := range *models.GetGongstructInstancesSetFromPointerType[*models.SemanticTag](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _semantictag)
+				
+				// if SemanticTag is selected
+				if targetSemanticTagIDs[id] {
+					// ensure part_ is in _semantictag.Parts
+					found := false
+					for _, _b := range _semantictag.Parts {
+						if _b == part_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_semantictag.Parts = append(_semantictag.Parts, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_semantictag, "Parts", &_semantictag.Parts)
+					}
+				} else {
+					// ensure part_ is NOT in _semantictag.Parts
+					idx := slices.Index(_semantictag.Parts, part_)
+					if idx != -1 {
+						_semantictag.Parts = slices.Delete(_semantictag.Parts, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_semantictag, "Parts", &_semantictag.Parts)
+					}
+				}
+			}
 		case "System:Parts":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5738,6 +5975,161 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 	}
 
 	resourceFormCallback.probe.ux_tree()
+}
+func __gong__New__SemanticTagFormCallback(
+	semantictag *models.SemanticTag,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (semantictagFormCallback *SemanticTagFormCallback) {
+	semantictagFormCallback = new(SemanticTagFormCallback)
+	semantictagFormCallback.probe = probe
+	semantictagFormCallback.semantictag = semantictag
+	semantictagFormCallback.formGroup = formGroup
+
+	semantictagFormCallback.CreationMode = (semantictag == nil)
+
+	return
+}
+
+type SemanticTagFormCallback struct {
+	semantictag *models.SemanticTag
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (semantictagFormCallback *SemanticTagFormCallback) OnSave() {
+	semantictagFormCallback.probe.stageOfInterest.Lock()
+	defer semantictagFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SemanticTagFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	semantictagFormCallback.probe.formStage.Checkout()
+
+	if semantictagFormCallback.semantictag == nil {
+		semantictagFormCallback.semantictag = new(models.SemanticTag).Stage(semantictagFormCallback.probe.stageOfInterest)
+	}
+	semantictag_ := semantictagFormCallback.semantictag
+	_ = semantictag_
+
+	for _, formDiv := range semantictagFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(semantictag_.Name), formDiv)
+		case "Parts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](semantictagFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Part)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					semantictagFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](semantictagFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			semantictag_.Parts = instanceSlice
+			semantictagFormCallback.probe.UpdateSliceOfPointersCallback(semantictag_, "Parts", &semantictag_.Parts)
+
+		case "LayerDefinition:Query":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the LayerDefinition instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target LayerDefinition instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.LayerDefinition](semantictagFormCallback.probe.stageOfInterest)
+			targetLayerDefinitionIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLayerDefinitionIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all LayerDefinition instances and update their Query slice
+			for _layerdefinition := range *models.GetGongstructInstancesSetFromPointerType[*models.LayerDefinition](semantictagFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(semantictagFormCallback.probe.stageOfInterest, _layerdefinition)
+				
+				// if LayerDefinition is selected
+				if targetLayerDefinitionIDs[id] {
+					// ensure semantictag_ is in _layerdefinition.Query
+					found := false
+					for _, _b := range _layerdefinition.Query {
+						if _b == semantictag_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_layerdefinition.Query = append(_layerdefinition.Query, semantictag_)
+						semantictagFormCallback.probe.UpdateSliceOfPointersCallback(_layerdefinition, "Query", &_layerdefinition.Query)
+					}
+				} else {
+					// ensure semantictag_ is NOT in _layerdefinition.Query
+					idx := slices.Index(_layerdefinition.Query, semantictag_)
+					if idx != -1 {
+						_layerdefinition.Query = slices.Delete(_layerdefinition.Query, idx, idx+1)
+						semantictagFormCallback.probe.UpdateSliceOfPointersCallback(_layerdefinition, "Query", &_layerdefinition.Query)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if semantictagFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		semantictag_.Unstage(semantictagFormCallback.probe.stageOfInterest)
+	}
+
+	semantictagFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SemanticTag](
+		semantictagFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if semantictagFormCallback.CreationMode || semantictagFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		semantictagFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(semantictagFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SemanticTagFormCallback(
+			nil,
+			semantictagFormCallback.probe,
+			newFormGroup,
+		)
+		semantictag := new(models.SemanticTag)
+		FillUpForm(semantictag, newFormGroup, semantictagFormCallback.probe)
+		semantictagFormCallback.probe.formStage.Commit()
+	}
+
+	semantictagFormCallback.probe.ux_tree()
 }
 func __gong__New__SystemFormCallback(
 	system *models.System,

@@ -336,6 +336,18 @@ func FillUpForm(
 				})
 		}
 
+	case *models.DiagramLayerState:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("DiagramStructure", instanceWithInferedType.DiagramStructure, formGroup, probe)
+		AssociationFieldToForm("LayerDefinition", instanceWithInferedType.LayerDefinition, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.DiagramStructure:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -456,6 +468,17 @@ func FillUpForm(
 					return owner.ExternalPart_Shapes
 				})
 		}
+
+	case *models.LayerDefinition:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Query", instanceWithInferedType, &instanceWithInferedType.Query, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Library:
 		// insertion point
@@ -779,6 +802,17 @@ func FillUpForm(
 				})
 		}
 		{
+			AssociationReverseSliceToForm[*models.SemanticTag, *models.Part](
+				"SemanticTag",
+				"Parts",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.SemanticTag) []*models.Part {
+					return owner.Parts
+				})
+		}
+		{
 			AssociationReverseSliceToForm[*models.System, *models.Part](
 				"System",
 				"Parts",
@@ -1084,6 +1118,28 @@ func FillUpForm(
 				probe,
 				func(owner *models.Library) []*models.Resource {
 					return owner.ResourcesWhoseNodeIsExpanded
+				})
+		}
+
+	case *models.SemanticTag:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Parts", instanceWithInferedType, &instanceWithInferedType.Parts, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.LayerDefinition, *models.SemanticTag](
+				"LayerDefinition",
+				"Query",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.LayerDefinition) []*models.SemanticTag {
+					return owner.Query
 				})
 		}
 

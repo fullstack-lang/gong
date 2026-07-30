@@ -111,6 +111,15 @@ func (datashape *DataShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by DiagramLayerState
+func (diagramlayerstate *DiagramLayerState) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &diagramlayerstate.DiagramStructure) || modified
+	modified = GongCleanPointer(stage, &diagramlayerstate.LayerDefinition) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by DiagramStructure
 func (diagramstructure *DiagramStructure) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -148,6 +157,14 @@ func (externalpartshape *ExternalPartShape) GongClean(stage *Stage) (modified bo
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &externalpartshape.Part) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by LayerDefinition
+func (layerdefinition *LayerDefinition) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &layerdefinition.Query) || modified
+	// insertion point per field
 	return
 }
 
@@ -254,6 +271,14 @@ func (portshape *PortShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Resource
 func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by SemanticTag
+func (semantictag *SemanticTag) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &semantictag.Parts) || modified
 	// insertion point per field
 	return
 }

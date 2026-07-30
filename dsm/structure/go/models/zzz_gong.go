@@ -253,6 +253,21 @@ type Stage struct {
 	OnAfterDataShapeDeleteCallback OnAfterDeleteInterface[DataShape]
 	OnAfterDataShapeReadCallback   OnAfterReadInterface[DataShape]
 
+	DiagramLayerStates                map[*DiagramLayerState]struct{}
+	DiagramLayerStates_instance       map[*DiagramLayerState]*DiagramLayerState
+	DiagramLayerStates_mapString      map[string]*DiagramLayerState
+	DiagramLayerStateOrder            uint
+	DiagramLayerState_stagedOrder     map[*DiagramLayerState]uint
+	DiagramLayerState_orderStaged     map[uint]*DiagramLayerState
+	DiagramLayerStates_reference      map[*DiagramLayerState]*DiagramLayerState
+	DiagramLayerStates_referenceOrder map[*DiagramLayerState]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDiagramLayerStateCreateCallback OnAfterCreateInterface[DiagramLayerState]
+	OnAfterDiagramLayerStateUpdateCallback OnAfterUpdateInterface[DiagramLayerState]
+	OnAfterDiagramLayerStateDeleteCallback OnAfterDeleteInterface[DiagramLayerState]
+	OnAfterDiagramLayerStateReadCallback   OnAfterReadInterface[DiagramLayerState]
+
 	DiagramStructures                map[*DiagramStructure]struct{}
 	DiagramStructures_instance       map[*DiagramStructure]*DiagramStructure
 	DiagramStructures_mapString      map[string]*DiagramStructure
@@ -332,6 +347,23 @@ type Stage struct {
 	OnAfterExternalPartShapeUpdateCallback OnAfterUpdateInterface[ExternalPartShape]
 	OnAfterExternalPartShapeDeleteCallback OnAfterDeleteInterface[ExternalPartShape]
 	OnAfterExternalPartShapeReadCallback   OnAfterReadInterface[ExternalPartShape]
+
+	LayerDefinitions                map[*LayerDefinition]struct{}
+	LayerDefinitions_instance       map[*LayerDefinition]*LayerDefinition
+	LayerDefinitions_mapString      map[string]*LayerDefinition
+	LayerDefinitionOrder            uint
+	LayerDefinition_stagedOrder     map[*LayerDefinition]uint
+	LayerDefinition_orderStaged     map[uint]*LayerDefinition
+	LayerDefinitions_reference      map[*LayerDefinition]*LayerDefinition
+	LayerDefinitions_referenceOrder map[*LayerDefinition]uint
+
+	// insertion point for slice of pointers maps
+	LayerDefinition_Query_reverseMap map[*SemanticTag]*LayerDefinition
+
+	OnAfterLayerDefinitionCreateCallback OnAfterCreateInterface[LayerDefinition]
+	OnAfterLayerDefinitionUpdateCallback OnAfterUpdateInterface[LayerDefinition]
+	OnAfterLayerDefinitionDeleteCallback OnAfterDeleteInterface[LayerDefinition]
+	OnAfterLayerDefinitionReadCallback   OnAfterReadInterface[LayerDefinition]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -541,6 +573,23 @@ type Stage struct {
 	OnAfterResourceUpdateCallback OnAfterUpdateInterface[Resource]
 	OnAfterResourceDeleteCallback OnAfterDeleteInterface[Resource]
 	OnAfterResourceReadCallback   OnAfterReadInterface[Resource]
+
+	SemanticTags                map[*SemanticTag]struct{}
+	SemanticTags_instance       map[*SemanticTag]*SemanticTag
+	SemanticTags_mapString      map[string]*SemanticTag
+	SemanticTagOrder            uint
+	SemanticTag_stagedOrder     map[*SemanticTag]uint
+	SemanticTag_orderStaged     map[uint]*SemanticTag
+	SemanticTags_reference      map[*SemanticTag]*SemanticTag
+	SemanticTags_referenceOrder map[*SemanticTag]uint
+
+	// insertion point for slice of pointers maps
+	SemanticTag_Parts_reverseMap map[*Part]*SemanticTag
+
+	OnAfterSemanticTagCreateCallback OnAfterCreateInterface[SemanticTag]
+	OnAfterSemanticTagUpdateCallback OnAfterUpdateInterface[SemanticTag]
+	OnAfterSemanticTagDeleteCallback OnAfterDeleteInterface[SemanticTag]
+	OnAfterSemanticTagReadCallback   OnAfterReadInterface[SemanticTag]
 
 	Systems                map[*System]struct{}
 	Systems_instance       map[*System]*System
@@ -856,6 +905,10 @@ func (stage *Stage) Squash() {
 	stage.DataShapes_instance = make(map[*DataShape]*DataShape)
 	stage.DataShapes_referenceOrder = make(map[*DataShape]uint)
 
+	stage.DiagramLayerStates_reference = make(map[*DiagramLayerState]*DiagramLayerState)
+	stage.DiagramLayerStates_instance = make(map[*DiagramLayerState]*DiagramLayerState)
+	stage.DiagramLayerStates_referenceOrder = make(map[*DiagramLayerState]uint)
+
 	stage.DiagramStructures_reference = make(map[*DiagramStructure]*DiagramStructure)
 	stage.DiagramStructures_instance = make(map[*DiagramStructure]*DiagramStructure)
 	stage.DiagramStructures_referenceOrder = make(map[*DiagramStructure]uint)
@@ -863,6 +916,10 @@ func (stage *Stage) Squash() {
 	stage.ExternalPartShapes_reference = make(map[*ExternalPartShape]*ExternalPartShape)
 	stage.ExternalPartShapes_instance = make(map[*ExternalPartShape]*ExternalPartShape)
 	stage.ExternalPartShapes_referenceOrder = make(map[*ExternalPartShape]uint)
+
+	stage.LayerDefinitions_reference = make(map[*LayerDefinition]*LayerDefinition)
+	stage.LayerDefinitions_instance = make(map[*LayerDefinition]*LayerDefinition)
+	stage.LayerDefinitions_referenceOrder = make(map[*LayerDefinition]uint)
 
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -907,6 +964,10 @@ func (stage *Stage) Squash() {
 	stage.Resources_reference = make(map[*Resource]*Resource)
 	stage.Resources_instance = make(map[*Resource]*Resource)
 	stage.Resources_referenceOrder = make(map[*Resource]uint)
+
+	stage.SemanticTags_reference = make(map[*SemanticTag]*SemanticTag)
+	stage.SemanticTags_instance = make(map[*SemanticTag]*SemanticTag)
+	stage.SemanticTags_referenceOrder = make(map[*SemanticTag]uint)
 
 	stage.Systems_reference = make(map[*System]*System)
 	stage.Systems_instance = make(map[*System]*System)
@@ -1055,6 +1116,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.DataShapeOrder = 0
 	}
 
+	var maxDiagramLayerStateOrder uint
+	var foundDiagramLayerState bool
+	for _, order := range stage.DiagramLayerState_stagedOrder {
+		if !foundDiagramLayerState || order > maxDiagramLayerStateOrder {
+			maxDiagramLayerStateOrder = order
+			foundDiagramLayerState = true
+		}
+	}
+	if foundDiagramLayerState {
+		stage.DiagramLayerStateOrder = maxDiagramLayerStateOrder + 1
+	} else {
+		stage.DiagramLayerStateOrder = 0
+	}
+
 	var maxDiagramStructureOrder uint
 	var foundDiagramStructure bool
 	for _, order := range stage.DiagramStructure_stagedOrder {
@@ -1081,6 +1156,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ExternalPartShapeOrder = maxExternalPartShapeOrder + 1
 	} else {
 		stage.ExternalPartShapeOrder = 0
+	}
+
+	var maxLayerDefinitionOrder uint
+	var foundLayerDefinition bool
+	for _, order := range stage.LayerDefinition_stagedOrder {
+		if !foundLayerDefinition || order > maxLayerDefinitionOrder {
+			maxLayerDefinitionOrder = order
+			foundLayerDefinition = true
+		}
+	}
+	if foundLayerDefinition {
+		stage.LayerDefinitionOrder = maxLayerDefinitionOrder + 1
+	} else {
+		stage.LayerDefinitionOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -1235,6 +1324,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ResourceOrder = maxResourceOrder + 1
 	} else {
 		stage.ResourceOrder = 0
+	}
+
+	var maxSemanticTagOrder uint
+	var foundSemanticTag bool
+	for _, order := range stage.SemanticTag_stagedOrder {
+		if !foundSemanticTag || order > maxSemanticTagOrder {
+			maxSemanticTagOrder = order
+			foundSemanticTag = true
+		}
+	}
+	if foundSemanticTag {
+		stage.SemanticTagOrder = maxSemanticTagOrder + 1
+	} else {
+		stage.SemanticTagOrder = 0
 	}
 
 	var maxSystemOrder uint
@@ -1438,6 +1541,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *DiagramLayerState:
+		tmp := GetStructInstancesByOrder(stage.DiagramLayerStates, stage.DiagramLayerState_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DiagramLayerState implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *DiagramStructure:
 		tmp := GetStructInstancesByOrder(stage.DiagramStructures, stage.DiagramStructure_stagedOrder)
 
@@ -1463,6 +1580,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *ExternalPartShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *LayerDefinition:
+		tmp := GetStructInstancesByOrder(stage.LayerDefinitions, stage.LayerDefinition_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *LayerDefinition implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1620,6 +1751,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *SemanticTag:
+		tmp := GetStructInstancesByOrder(stage.SemanticTags, stage.SemanticTag_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SemanticTag implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *System:
 		tmp := GetStructInstancesByOrder(stage.Systems, stage.System_stagedOrder)
 
@@ -1693,10 +1838,14 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.DataFlowShapes, stage.DataFlowShape_stagedOrder)
 	case "DataShape":
 		res = GetNamedStructInstances(stage.DataShapes, stage.DataShape_stagedOrder)
+	case "DiagramLayerState":
+		res = GetNamedStructInstances(stage.DiagramLayerStates, stage.DiagramLayerState_stagedOrder)
 	case "DiagramStructure":
 		res = GetNamedStructInstances(stage.DiagramStructures, stage.DiagramStructure_stagedOrder)
 	case "ExternalPartShape":
 		res = GetNamedStructInstances(stage.ExternalPartShapes, stage.ExternalPartShape_stagedOrder)
+	case "LayerDefinition":
+		res = GetNamedStructInstances(stage.LayerDefinitions, stage.LayerDefinition_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Note":
@@ -1719,6 +1868,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PortShapes, stage.PortShape_stagedOrder)
 	case "Resource":
 		res = GetNamedStructInstances(stage.Resources, stage.Resource_stagedOrder)
+	case "SemanticTag":
+		res = GetNamedStructInstances(stage.SemanticTags, stage.SemanticTag_stagedOrder)
 	case "System":
 		res = GetNamedStructInstances(stage.Systems, stage.System_stagedOrder)
 	case "SystemShape":
@@ -1808,10 +1959,14 @@ type BackRepoInterface interface {
 	CheckoutDataFlowShape(dataflowshape *DataFlowShape)
 	CommitDataShape(datashape *DataShape)
 	CheckoutDataShape(datashape *DataShape)
+	CommitDiagramLayerState(diagramlayerstate *DiagramLayerState)
+	CheckoutDiagramLayerState(diagramlayerstate *DiagramLayerState)
 	CommitDiagramStructure(diagramstructure *DiagramStructure)
 	CheckoutDiagramStructure(diagramstructure *DiagramStructure)
 	CommitExternalPartShape(externalpartshape *ExternalPartShape)
 	CheckoutExternalPartShape(externalpartshape *ExternalPartShape)
+	CommitLayerDefinition(layerdefinition *LayerDefinition)
+	CheckoutLayerDefinition(layerdefinition *LayerDefinition)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitNote(note *Note)
@@ -1834,6 +1989,8 @@ type BackRepoInterface interface {
 	CheckoutPortShape(portshape *PortShape)
 	CommitResource(resource *Resource)
 	CheckoutResource(resource *Resource)
+	CommitSemanticTag(semantictag *SemanticTag)
+	CheckoutSemanticTag(semantictag *SemanticTag)
 	CommitSystem(system *System)
 	CheckoutSystem(system *System)
 	CommitSystemShape(systemshape *SystemShape)
@@ -1868,11 +2025,17 @@ func NewStage(name string) (stage *Stage) {
 		DataShapes:           make(map[*DataShape]struct{}),
 		DataShapes_mapString: make(map[string]*DataShape),
 
+		DiagramLayerStates:           make(map[*DiagramLayerState]struct{}),
+		DiagramLayerStates_mapString: make(map[string]*DiagramLayerState),
+
 		DiagramStructures:           make(map[*DiagramStructure]struct{}),
 		DiagramStructures_mapString: make(map[string]*DiagramStructure),
 
 		ExternalPartShapes:           make(map[*ExternalPartShape]struct{}),
 		ExternalPartShapes_mapString: make(map[string]*ExternalPartShape),
+
+		LayerDefinitions:           make(map[*LayerDefinition]struct{}),
+		LayerDefinitions_mapString: make(map[string]*LayerDefinition),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -1906,6 +2069,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Resources:           make(map[*Resource]struct{}),
 		Resources_mapString: make(map[string]*Resource),
+
+		SemanticTags:           make(map[*SemanticTag]struct{}),
+		SemanticTags_mapString: make(map[string]*SemanticTag),
 
 		Systems:           make(map[*System]struct{}),
 		Systems_mapString: make(map[string]*System),
@@ -1955,6 +2121,10 @@ func NewStage(name string) (stage *Stage) {
 		DataShape_orderStaged: make(map[uint]*DataShape),
 		DataShapes_reference:  make(map[*DataShape]*DataShape),
 
+		DiagramLayerState_stagedOrder: make(map[*DiagramLayerState]uint),
+		DiagramLayerState_orderStaged: make(map[uint]*DiagramLayerState),
+		DiagramLayerStates_reference:  make(map[*DiagramLayerState]*DiagramLayerState),
+
 		DiagramStructure_stagedOrder: make(map[*DiagramStructure]uint),
 		DiagramStructure_orderStaged: make(map[uint]*DiagramStructure),
 		DiagramStructures_reference:  make(map[*DiagramStructure]*DiagramStructure),
@@ -1962,6 +2132,10 @@ func NewStage(name string) (stage *Stage) {
 		ExternalPartShape_stagedOrder: make(map[*ExternalPartShape]uint),
 		ExternalPartShape_orderStaged: make(map[uint]*ExternalPartShape),
 		ExternalPartShapes_reference:  make(map[*ExternalPartShape]*ExternalPartShape),
+
+		LayerDefinition_stagedOrder: make(map[*LayerDefinition]uint),
+		LayerDefinition_orderStaged: make(map[uint]*LayerDefinition),
+		LayerDefinitions_reference:  make(map[*LayerDefinition]*LayerDefinition),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
@@ -2007,6 +2181,10 @@ func NewStage(name string) (stage *Stage) {
 		Resource_orderStaged: make(map[uint]*Resource),
 		Resources_reference:  make(map[*Resource]*Resource),
 
+		SemanticTag_stagedOrder: make(map[*SemanticTag]uint),
+		SemanticTag_orderStaged: make(map[uint]*SemanticTag),
+		SemanticTags_reference:  make(map[*SemanticTag]*SemanticTag),
+
 		System_stagedOrder: make(map[*System]uint),
 		System_orderStaged: make(map[uint]*System),
 		Systems_reference:  make(map[*System]*System),
@@ -2033,9 +2211,13 @@ func NewStage(name string) (stage *Stage) {
 
 			"DataShape": &DataShapeUnmarshaller{},
 
+			"DiagramLayerState": &DiagramLayerStateUnmarshaller{},
+
 			"DiagramStructure": &DiagramStructureUnmarshaller{},
 
 			"ExternalPartShape": &ExternalPartShapeUnmarshaller{},
+
+			"LayerDefinition": &LayerDefinitionUnmarshaller{},
 
 			"Library": &LibraryUnmarshaller{},
 
@@ -2059,6 +2241,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Resource": &ResourceUnmarshaller{},
 
+			"SemanticTag": &SemanticTagUnmarshaller{},
+
 			"System": &SystemUnmarshaller{},
 
 			"SystemShape": &SystemShapeUnmarshaller{},
@@ -2075,8 +2259,10 @@ func NewStage(name string) (stage *Stage) {
 			{name: "DataFlow"},
 			{name: "DataFlowShape"},
 			{name: "DataShape"},
+			{name: "DiagramLayerState"},
 			{name: "DiagramStructure"},
 			{name: "ExternalPartShape"},
+			{name: "LayerDefinition"},
 			{name: "Library"},
 			{name: "Note"},
 			{name: "NotePartShape"},
@@ -2088,6 +2274,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Port"},
 			{name: "PortShape"},
 			{name: "Resource"},
+			{name: "SemanticTag"},
 			{name: "System"},
 			{name: "SystemShape"},
 		}, // end of insertion point
@@ -2117,10 +2304,14 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DataFlowShape_stagedOrder[instance]
 	case *DataShape:
 		return stage.DataShape_stagedOrder[instance]
+	case *DiagramLayerState:
+		return stage.DiagramLayerState_stagedOrder[instance]
 	case *DiagramStructure:
 		return stage.DiagramStructure_stagedOrder[instance]
 	case *ExternalPartShape:
 		return stage.ExternalPartShape_stagedOrder[instance]
+	case *LayerDefinition:
+		return stage.LayerDefinition_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Note:
@@ -2143,6 +2334,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PortShape_stagedOrder[instance]
 	case *Resource:
 		return stage.Resource_stagedOrder[instance]
+	case *SemanticTag:
+		return stage.SemanticTag_stagedOrder[instance]
 	case *System:
 		return stage.System_stagedOrder[instance]
 	case *SystemShape:
@@ -2172,10 +2365,14 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.DataFlowShape_orderStaged[order]).(Type)
 	case *DataShape:
 		return any(stage.DataShape_orderStaged[order]).(Type)
+	case *DiagramLayerState:
+		return any(stage.DiagramLayerState_orderStaged[order]).(Type)
 	case *DiagramStructure:
 		return any(stage.DiagramStructure_orderStaged[order]).(Type)
 	case *ExternalPartShape:
 		return any(stage.ExternalPartShape_orderStaged[order]).(Type)
+	case *LayerDefinition:
+		return any(stage.LayerDefinition_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Note:
@@ -2198,6 +2395,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PortShape_orderStaged[order]).(Type)
 	case *Resource:
 		return any(stage.Resource_orderStaged[order]).(Type)
+	case *SemanticTag:
+		return any(stage.SemanticTag_orderStaged[order]).(Type)
 	case *System:
 		return any(stage.System_orderStaged[order]).(Type)
 	case *SystemShape:
@@ -2226,10 +2425,14 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.DataFlowShape_stagedOrder[instance]
 	case *DataShape:
 		return stage.DataShape_stagedOrder[instance]
+	case *DiagramLayerState:
+		return stage.DiagramLayerState_stagedOrder[instance]
 	case *DiagramStructure:
 		return stage.DiagramStructure_stagedOrder[instance]
 	case *ExternalPartShape:
 		return stage.ExternalPartShape_stagedOrder[instance]
+	case *LayerDefinition:
+		return stage.LayerDefinition_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Note:
@@ -2252,6 +2455,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PortShape_stagedOrder[instance]
 	case *Resource:
 		return stage.Resource_stagedOrder[instance]
+	case *SemanticTag:
+		return stage.SemanticTag_stagedOrder[instance]
 	case *System:
 		return stage.System_stagedOrder[instance]
 	case *SystemShape:
@@ -2329,8 +2534,10 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["DataFlow"] = len(stage.DataFlows)
 	stage.Map_GongStructName_InstancesNb["DataFlowShape"] = len(stage.DataFlowShapes)
 	stage.Map_GongStructName_InstancesNb["DataShape"] = len(stage.DataShapes)
+	stage.Map_GongStructName_InstancesNb["DiagramLayerState"] = len(stage.DiagramLayerStates)
 	stage.Map_GongStructName_InstancesNb["DiagramStructure"] = len(stage.DiagramStructures)
 	stage.Map_GongStructName_InstancesNb["ExternalPartShape"] = len(stage.ExternalPartShapes)
+	stage.Map_GongStructName_InstancesNb["LayerDefinition"] = len(stage.LayerDefinitions)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
 	stage.Map_GongStructName_InstancesNb["NotePartShape"] = len(stage.NotePartShapes)
@@ -2342,6 +2549,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Port"] = len(stage.Ports)
 	stage.Map_GongStructName_InstancesNb["PortShape"] = len(stage.PortShapes)
 	stage.Map_GongStructName_InstancesNb["Resource"] = len(stage.Resources)
+	stage.Map_GongStructName_InstancesNb["SemanticTag"] = len(stage.SemanticTags)
 	stage.Map_GongStructName_InstancesNb["System"] = len(stage.Systems)
 	stage.Map_GongStructName_InstancesNb["SystemShape"] = len(stage.SystemShapes)
 }
@@ -3088,6 +3296,94 @@ func (datashape *DataShape) SetName(name string) {
 	datashape.Name = name
 }
 
+// Stage puts diagramlayerstate to the model stage
+func (diagramlayerstate *DiagramLayerState) Stage(stage *Stage) *DiagramLayerState {
+	if _, ok := stage.DiagramLayerStates[diagramlayerstate]; !ok {
+		stage.DiagramLayerStates[diagramlayerstate] = struct{}{}
+		stage.DiagramLayerState_stagedOrder[diagramlayerstate] = stage.DiagramLayerStateOrder
+		stage.DiagramLayerState_orderStaged[stage.DiagramLayerStateOrder] = diagramlayerstate
+		stage.DiagramLayerStateOrder++
+	}
+	stage.DiagramLayerStates_mapString[diagramlayerstate.Name] = diagramlayerstate
+
+	return diagramlayerstate
+}
+
+// StagePreserveOrder puts diagramlayerstate to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiagramLayerStateOrder
+// - update stage.DiagramLayerStateOrder accordingly
+func (diagramlayerstate *DiagramLayerState) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DiagramLayerStates[diagramlayerstate]; !ok {
+		stage.DiagramLayerStates[diagramlayerstate] = struct{}{}
+
+		if order > stage.DiagramLayerStateOrder {
+			stage.DiagramLayerStateOrder = order
+		}
+		stage.DiagramLayerState_stagedOrder[diagramlayerstate] = order
+		stage.DiagramLayerState_orderStaged[order] = diagramlayerstate
+		stage.DiagramLayerStateOrder++
+	}
+	stage.DiagramLayerStates_mapString[diagramlayerstate.Name] = diagramlayerstate
+}
+
+// Unstage removes diagramlayerstate off the model stage
+func (diagramlayerstate *DiagramLayerState) Unstage(stage *Stage) *DiagramLayerState {
+	delete(stage.DiagramLayerStates, diagramlayerstate)
+	// issue1150
+	// delete(stage.DiagramLayerState_stagedOrder, diagramlayerstate)
+	delete(stage.DiagramLayerStates_mapString, diagramlayerstate.Name)
+
+	return diagramlayerstate
+}
+
+// UnstageVoid removes diagramlayerstate off the model stage
+func (diagramlayerstate *DiagramLayerState) UnstageVoid(stage *Stage) {
+	delete(stage.DiagramLayerStates, diagramlayerstate)
+	// issue1150
+	// delete(stage.DiagramLayerState_stagedOrder, diagramlayerstate)
+	delete(stage.DiagramLayerStates_mapString, diagramlayerstate.Name)
+}
+
+// commit diagramlayerstate to the back repo (if it is already staged)
+func (diagramlayerstate *DiagramLayerState) Commit(stage *Stage) *DiagramLayerState {
+	if _, ok := stage.DiagramLayerStates[diagramlayerstate]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDiagramLayerState(diagramlayerstate)
+		}
+	}
+	return diagramlayerstate
+}
+
+func (diagramlayerstate *DiagramLayerState) CommitVoid(stage *Stage) {
+	diagramlayerstate.Commit(stage)
+}
+
+func (diagramlayerstate *DiagramLayerState) StageVoid(stage *Stage) {
+	diagramlayerstate.Stage(stage)
+}
+
+// Checkout diagramlayerstate to the back repo (if it is already staged)
+func (diagramlayerstate *DiagramLayerState) Checkout(stage *Stage) *DiagramLayerState {
+	if _, ok := stage.DiagramLayerStates[diagramlayerstate]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDiagramLayerState(diagramlayerstate)
+		}
+	}
+	return diagramlayerstate
+}
+
+// for satisfaction of GongStruct interface
+func (diagramlayerstate *DiagramLayerState) GetName() (res string) {
+	return diagramlayerstate.Name
+}
+
+// for satisfaction of GongStruct interface
+func (diagramlayerstate *DiagramLayerState) SetName(name string) {
+	diagramlayerstate.Name = name
+}
+
 // Stage puts diagramstructure to the model stage
 func (diagramstructure *DiagramStructure) Stage(stage *Stage) *DiagramStructure {
 	if _, ok := stage.DiagramStructures[diagramstructure]; !ok {
@@ -3262,6 +3558,94 @@ func (externalpartshape *ExternalPartShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (externalpartshape *ExternalPartShape) SetName(name string) {
 	externalpartshape.Name = name
+}
+
+// Stage puts layerdefinition to the model stage
+func (layerdefinition *LayerDefinition) Stage(stage *Stage) *LayerDefinition {
+	if _, ok := stage.LayerDefinitions[layerdefinition]; !ok {
+		stage.LayerDefinitions[layerdefinition] = struct{}{}
+		stage.LayerDefinition_stagedOrder[layerdefinition] = stage.LayerDefinitionOrder
+		stage.LayerDefinition_orderStaged[stage.LayerDefinitionOrder] = layerdefinition
+		stage.LayerDefinitionOrder++
+	}
+	stage.LayerDefinitions_mapString[layerdefinition.Name] = layerdefinition
+
+	return layerdefinition
+}
+
+// StagePreserveOrder puts layerdefinition to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LayerDefinitionOrder
+// - update stage.LayerDefinitionOrder accordingly
+func (layerdefinition *LayerDefinition) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.LayerDefinitions[layerdefinition]; !ok {
+		stage.LayerDefinitions[layerdefinition] = struct{}{}
+
+		if order > stage.LayerDefinitionOrder {
+			stage.LayerDefinitionOrder = order
+		}
+		stage.LayerDefinition_stagedOrder[layerdefinition] = order
+		stage.LayerDefinition_orderStaged[order] = layerdefinition
+		stage.LayerDefinitionOrder++
+	}
+	stage.LayerDefinitions_mapString[layerdefinition.Name] = layerdefinition
+}
+
+// Unstage removes layerdefinition off the model stage
+func (layerdefinition *LayerDefinition) Unstage(stage *Stage) *LayerDefinition {
+	delete(stage.LayerDefinitions, layerdefinition)
+	// issue1150
+	// delete(stage.LayerDefinition_stagedOrder, layerdefinition)
+	delete(stage.LayerDefinitions_mapString, layerdefinition.Name)
+
+	return layerdefinition
+}
+
+// UnstageVoid removes layerdefinition off the model stage
+func (layerdefinition *LayerDefinition) UnstageVoid(stage *Stage) {
+	delete(stage.LayerDefinitions, layerdefinition)
+	// issue1150
+	// delete(stage.LayerDefinition_stagedOrder, layerdefinition)
+	delete(stage.LayerDefinitions_mapString, layerdefinition.Name)
+}
+
+// commit layerdefinition to the back repo (if it is already staged)
+func (layerdefinition *LayerDefinition) Commit(stage *Stage) *LayerDefinition {
+	if _, ok := stage.LayerDefinitions[layerdefinition]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLayerDefinition(layerdefinition)
+		}
+	}
+	return layerdefinition
+}
+
+func (layerdefinition *LayerDefinition) CommitVoid(stage *Stage) {
+	layerdefinition.Commit(stage)
+}
+
+func (layerdefinition *LayerDefinition) StageVoid(stage *Stage) {
+	layerdefinition.Stage(stage)
+}
+
+// Checkout layerdefinition to the back repo (if it is already staged)
+func (layerdefinition *LayerDefinition) Checkout(stage *Stage) *LayerDefinition {
+	if _, ok := stage.LayerDefinitions[layerdefinition]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLayerDefinition(layerdefinition)
+		}
+	}
+	return layerdefinition
+}
+
+// for satisfaction of GongStruct interface
+func (layerdefinition *LayerDefinition) GetName() (res string) {
+	return layerdefinition.Name
+}
+
+// for satisfaction of GongStruct interface
+func (layerdefinition *LayerDefinition) SetName(name string) {
+	layerdefinition.Name = name
 }
 
 // Stage puts library to the model stage
@@ -4232,6 +4616,94 @@ func (resource *Resource) SetName(name string) {
 	resource.Name = name
 }
 
+// Stage puts semantictag to the model stage
+func (semantictag *SemanticTag) Stage(stage *Stage) *SemanticTag {
+	if _, ok := stage.SemanticTags[semantictag]; !ok {
+		stage.SemanticTags[semantictag] = struct{}{}
+		stage.SemanticTag_stagedOrder[semantictag] = stage.SemanticTagOrder
+		stage.SemanticTag_orderStaged[stage.SemanticTagOrder] = semantictag
+		stage.SemanticTagOrder++
+	}
+	stage.SemanticTags_mapString[semantictag.Name] = semantictag
+
+	return semantictag
+}
+
+// StagePreserveOrder puts semantictag to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SemanticTagOrder
+// - update stage.SemanticTagOrder accordingly
+func (semantictag *SemanticTag) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SemanticTags[semantictag]; !ok {
+		stage.SemanticTags[semantictag] = struct{}{}
+
+		if order > stage.SemanticTagOrder {
+			stage.SemanticTagOrder = order
+		}
+		stage.SemanticTag_stagedOrder[semantictag] = order
+		stage.SemanticTag_orderStaged[order] = semantictag
+		stage.SemanticTagOrder++
+	}
+	stage.SemanticTags_mapString[semantictag.Name] = semantictag
+}
+
+// Unstage removes semantictag off the model stage
+func (semantictag *SemanticTag) Unstage(stage *Stage) *SemanticTag {
+	delete(stage.SemanticTags, semantictag)
+	// issue1150
+	// delete(stage.SemanticTag_stagedOrder, semantictag)
+	delete(stage.SemanticTags_mapString, semantictag.Name)
+
+	return semantictag
+}
+
+// UnstageVoid removes semantictag off the model stage
+func (semantictag *SemanticTag) UnstageVoid(stage *Stage) {
+	delete(stage.SemanticTags, semantictag)
+	// issue1150
+	// delete(stage.SemanticTag_stagedOrder, semantictag)
+	delete(stage.SemanticTags_mapString, semantictag.Name)
+}
+
+// commit semantictag to the back repo (if it is already staged)
+func (semantictag *SemanticTag) Commit(stage *Stage) *SemanticTag {
+	if _, ok := stage.SemanticTags[semantictag]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSemanticTag(semantictag)
+		}
+	}
+	return semantictag
+}
+
+func (semantictag *SemanticTag) CommitVoid(stage *Stage) {
+	semantictag.Commit(stage)
+}
+
+func (semantictag *SemanticTag) StageVoid(stage *Stage) {
+	semantictag.Stage(stage)
+}
+
+// Checkout semantictag to the back repo (if it is already staged)
+func (semantictag *SemanticTag) Checkout(stage *Stage) *SemanticTag {
+	if _, ok := stage.SemanticTags[semantictag]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSemanticTag(semantictag)
+		}
+	}
+	return semantictag
+}
+
+// for satisfaction of GongStruct interface
+func (semantictag *SemanticTag) GetName() (res string) {
+	return semantictag.Name
+}
+
+// for satisfaction of GongStruct interface
+func (semantictag *SemanticTag) SetName(name string) {
+	semantictag.Name = name
+}
+
 // Stage puts system to the model stage
 func (system *System) Stage(stage *Stage) *System {
 	if _, ok := stage.Systems[system]; !ok {
@@ -4418,8 +4890,10 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMDataFlow(DataFlow *DataFlow)
 	CreateORMDataFlowShape(DataFlowShape *DataFlowShape)
 	CreateORMDataShape(DataShape *DataShape)
+	CreateORMDiagramLayerState(DiagramLayerState *DiagramLayerState)
 	CreateORMDiagramStructure(DiagramStructure *DiagramStructure)
 	CreateORMExternalPartShape(ExternalPartShape *ExternalPartShape)
+	CreateORMLayerDefinition(LayerDefinition *LayerDefinition)
 	CreateORMLibrary(Library *Library)
 	CreateORMNote(Note *Note)
 	CreateORMNotePartShape(NotePartShape *NotePartShape)
@@ -4431,6 +4905,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPort(Port *Port)
 	CreateORMPortShape(PortShape *PortShape)
 	CreateORMResource(Resource *Resource)
+	CreateORMSemanticTag(SemanticTag *SemanticTag)
 	CreateORMSystem(System *System)
 	CreateORMSystemShape(SystemShape *SystemShape)
 }
@@ -4444,8 +4919,10 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMDataFlow(DataFlow *DataFlow)
 	DeleteORMDataFlowShape(DataFlowShape *DataFlowShape)
 	DeleteORMDataShape(DataShape *DataShape)
+	DeleteORMDiagramLayerState(DiagramLayerState *DiagramLayerState)
 	DeleteORMDiagramStructure(DiagramStructure *DiagramStructure)
 	DeleteORMExternalPartShape(ExternalPartShape *ExternalPartShape)
+	DeleteORMLayerDefinition(LayerDefinition *LayerDefinition)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMNote(Note *Note)
 	DeleteORMNotePartShape(NotePartShape *NotePartShape)
@@ -4457,6 +4934,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPort(Port *Port)
 	DeleteORMPortShape(PortShape *PortShape)
 	DeleteORMResource(Resource *Resource)
+	DeleteORMSemanticTag(SemanticTag *SemanticTag)
 	DeleteORMSystem(System *System)
 	DeleteORMSystemShape(SystemShape *SystemShape)
 }
@@ -4502,6 +4980,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.DataShape_stagedOrder = make(map[*DataShape]uint)
 	stage.DataShapeOrder = 0
 
+	stage.DiagramLayerStates = make(map[*DiagramLayerState]struct{})
+	stage.DiagramLayerStates_mapString = make(map[string]*DiagramLayerState)
+	stage.DiagramLayerState_stagedOrder = make(map[*DiagramLayerState]uint)
+	stage.DiagramLayerStateOrder = 0
+
 	stage.DiagramStructures = make(map[*DiagramStructure]struct{})
 	stage.DiagramStructures_mapString = make(map[string]*DiagramStructure)
 	stage.DiagramStructure_stagedOrder = make(map[*DiagramStructure]uint)
@@ -4511,6 +4994,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ExternalPartShapes_mapString = make(map[string]*ExternalPartShape)
 	stage.ExternalPartShape_stagedOrder = make(map[*ExternalPartShape]uint)
 	stage.ExternalPartShapeOrder = 0
+
+	stage.LayerDefinitions = make(map[*LayerDefinition]struct{})
+	stage.LayerDefinitions_mapString = make(map[string]*LayerDefinition)
+	stage.LayerDefinition_stagedOrder = make(map[*LayerDefinition]uint)
+	stage.LayerDefinitionOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -4567,6 +5055,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Resource_stagedOrder = make(map[*Resource]uint)
 	stage.ResourceOrder = 0
 
+	stage.SemanticTags = make(map[*SemanticTag]struct{})
+	stage.SemanticTags_mapString = make(map[string]*SemanticTag)
+	stage.SemanticTag_stagedOrder = make(map[*SemanticTag]uint)
+	stage.SemanticTagOrder = 0
+
 	stage.Systems = make(map[*System]struct{})
 	stage.Systems_mapString = make(map[string]*System)
 	stage.System_stagedOrder = make(map[*System]uint)
@@ -4610,11 +5103,17 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.DataShapes = nil
 	stage.DataShapes_mapString = nil
 
+	stage.DiagramLayerStates = nil
+	stage.DiagramLayerStates_mapString = nil
+
 	stage.DiagramStructures = nil
 	stage.DiagramStructures_mapString = nil
 
 	stage.ExternalPartShapes = nil
 	stage.ExternalPartShapes_mapString = nil
+
+	stage.LayerDefinitions = nil
+	stage.LayerDefinitions_mapString = nil
 
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
@@ -4648,6 +5147,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Resources = nil
 	stage.Resources_mapString = nil
+
+	stage.SemanticTags = nil
+	stage.SemanticTags_mapString = nil
 
 	stage.Systems = nil
 	stage.Systems_mapString = nil
@@ -4691,12 +5193,20 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		datashape.Unstage(stage)
 	}
 
+	for diagramlayerstate := range stage.DiagramLayerStates {
+		diagramlayerstate.Unstage(stage)
+	}
+
 	for diagramstructure := range stage.DiagramStructures {
 		diagramstructure.Unstage(stage)
 	}
 
 	for externalpartshape := range stage.ExternalPartShapes {
 		externalpartshape.Unstage(stage)
+	}
+
+	for layerdefinition := range stage.LayerDefinitions {
+		layerdefinition.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -4741,6 +5251,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for resource := range stage.Resources {
 		resource.Unstage(stage)
+	}
+
+	for semantictag := range stage.SemanticTags {
+		semantictag.Unstage(stage)
 	}
 
 	for system := range stage.Systems {
@@ -4843,10 +5357,14 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.DataFlowShapes).(*Type)
 	case map[*DataShape]any:
 		return any(&stage.DataShapes).(*Type)
+	case map[*DiagramLayerState]any:
+		return any(&stage.DiagramLayerStates).(*Type)
 	case map[*DiagramStructure]any:
 		return any(&stage.DiagramStructures).(*Type)
 	case map[*ExternalPartShape]any:
 		return any(&stage.ExternalPartShapes).(*Type)
+	case map[*LayerDefinition]any:
+		return any(&stage.LayerDefinitions).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Note]any:
@@ -4869,6 +5387,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PortShapes).(*Type)
 	case map[*Resource]any:
 		return any(&stage.Resources).(*Type)
+	case map[*SemanticTag]any:
+		return any(&stage.SemanticTags).(*Type)
 	case map[*System]any:
 		return any(&stage.Systems).(*Type)
 	case map[*SystemShape]any:
@@ -4901,10 +5421,14 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.DataFlowShapes_mapString).(map[string]Type)
 	case *DataShape:
 		return any(stage.DataShapes_mapString).(map[string]Type)
+	case *DiagramLayerState:
+		return any(stage.DiagramLayerStates_mapString).(map[string]Type)
 	case *DiagramStructure:
 		return any(stage.DiagramStructures_mapString).(map[string]Type)
 	case *ExternalPartShape:
 		return any(stage.ExternalPartShapes_mapString).(map[string]Type)
+	case *LayerDefinition:
+		return any(stage.LayerDefinitions_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Note:
@@ -4927,6 +5451,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PortShapes_mapString).(map[string]Type)
 	case *Resource:
 		return any(stage.Resources_mapString).(map[string]Type)
+	case *SemanticTag:
+		return any(stage.SemanticTags_mapString).(map[string]Type)
 	case *System:
 		return any(stage.Systems_mapString).(map[string]Type)
 	case *SystemShape:
@@ -4959,10 +5485,14 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.DataFlowShapes).(*map[*Type]struct{})
 	case DataShape:
 		return any(&stage.DataShapes).(*map[*Type]struct{})
+	case DiagramLayerState:
+		return any(&stage.DiagramLayerStates).(*map[*Type]struct{})
 	case DiagramStructure:
 		return any(&stage.DiagramStructures).(*map[*Type]struct{})
 	case ExternalPartShape:
 		return any(&stage.ExternalPartShapes).(*map[*Type]struct{})
+	case LayerDefinition:
+		return any(&stage.LayerDefinitions).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Note:
@@ -4985,6 +5515,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PortShapes).(*map[*Type]struct{})
 	case Resource:
 		return any(&stage.Resources).(*map[*Type]struct{})
+	case SemanticTag:
+		return any(&stage.SemanticTags).(*map[*Type]struct{})
 	case System:
 		return any(&stage.Systems).(*map[*Type]struct{})
 	case SystemShape:
@@ -5017,10 +5549,14 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.DataFlowShapes).(*map[Type]struct{})
 	case *DataShape:
 		return any(&stage.DataShapes).(*map[Type]struct{})
+	case *DiagramLayerState:
+		return any(&stage.DiagramLayerStates).(*map[Type]struct{})
 	case *DiagramStructure:
 		return any(&stage.DiagramStructures).(*map[Type]struct{})
 	case *ExternalPartShape:
 		return any(&stage.ExternalPartShapes).(*map[Type]struct{})
+	case *LayerDefinition:
+		return any(&stage.LayerDefinitions).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Note:
@@ -5043,6 +5579,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PortShapes).(*map[Type]struct{})
 	case *Resource:
 		return any(&stage.Resources).(*map[Type]struct{})
+	case *SemanticTag:
+		return any(&stage.SemanticTags).(*map[Type]struct{})
 	case *System:
 		return any(&stage.Systems).(*map[Type]struct{})
 	case *SystemShape:
@@ -5075,10 +5613,14 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.DataFlowShapes_mapString).(*map[string]*Type)
 	case DataShape:
 		return any(&stage.DataShapes_mapString).(*map[string]*Type)
+	case DiagramLayerState:
+		return any(&stage.DiagramLayerStates_mapString).(*map[string]*Type)
 	case DiagramStructure:
 		return any(&stage.DiagramStructures_mapString).(*map[string]*Type)
 	case ExternalPartShape:
 		return any(&stage.ExternalPartShapes_mapString).(*map[string]*Type)
+	case LayerDefinition:
+		return any(&stage.LayerDefinitions_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Note:
@@ -5101,6 +5643,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PortShapes_mapString).(*map[string]*Type)
 	case Resource:
 		return any(&stage.Resources_mapString).(*map[string]*Type)
+	case SemanticTag:
+		return any(&stage.SemanticTags_mapString).(*map[string]*Type)
 	case System:
 		return any(&stage.Systems_mapString).(*map[string]*Type)
 	case SystemShape:
@@ -5181,6 +5725,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
+	case DiagramLayerState:
+		return any(&DiagramLayerState{
+			// Initialisation of associations
+			// field is initialized with an instance of DiagramStructure with the name of the field
+			DiagramStructure: &DiagramStructure{Name: "DiagramStructure"},
+			// field is initialized with an instance of LayerDefinition with the name of the field
+			LayerDefinition: &LayerDefinition{Name: "LayerDefinition"},
+		}).(*Type)
 	case DiagramStructure:
 		return any(&DiagramStructure{
 			// Initialisation of associations
@@ -5240,6 +5792,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Part with the name of the field
 			Part: &Part{Name: "Part"},
+		}).(*Type)
+	case LayerDefinition:
+		return any(&LayerDefinition{
+			// Initialisation of associations
+			// field is initialized with an instance of SemanticTag with the name of the field
+			Query: []*SemanticTag{{Name: "Query"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -5344,6 +5902,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Resource:
 		return any(&Resource{
 			// Initialisation of associations
+		}).(*Type)
+	case SemanticTag:
+		return any(&SemanticTag{
+			// Initialisation of associations
+			// field is initialized with an instance of Part with the name of the field
+			Parts: []*Part{{Name: "Parts"}},
 		}).(*Type)
 	case System:
 		return any(&System{
@@ -5666,6 +6230,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of DiagramLayerState
+	case DiagramLayerState:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "DiagramStructure":
+			res := make(map[*DiagramStructure][]*DiagramLayerState)
+			for diagramlayerstate := range stage.DiagramLayerStates {
+				if diagramlayerstate.DiagramStructure != nil {
+					diagramstructure_ := diagramlayerstate.DiagramStructure
+					var diagramlayerstates []*DiagramLayerState
+					_, ok := res[diagramstructure_]
+					if ok {
+						diagramlayerstates = res[diagramstructure_]
+					} else {
+						diagramlayerstates = make([]*DiagramLayerState, 0)
+					}
+					diagramlayerstates = append(diagramlayerstates, diagramlayerstate)
+					res[diagramstructure_] = diagramlayerstates
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "LayerDefinition":
+			res := make(map[*LayerDefinition][]*DiagramLayerState)
+			for diagramlayerstate := range stage.DiagramLayerStates {
+				if diagramlayerstate.LayerDefinition != nil {
+					layerdefinition_ := diagramlayerstate.LayerDefinition
+					var diagramlayerstates []*DiagramLayerState
+					_, ok := res[layerdefinition_]
+					if ok {
+						diagramlayerstates = res[layerdefinition_]
+					} else {
+						diagramlayerstates = make([]*DiagramLayerState, 0)
+					}
+					diagramlayerstates = append(diagramlayerstates, diagramlayerstate)
+					res[layerdefinition_] = diagramlayerstates
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of DiagramStructure
 	case DiagramStructure:
 		switch fieldname {
@@ -5692,6 +6295,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of LayerDefinition
+	case LayerDefinition:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -5884,6 +6492,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of SemanticTag
+	case SemanticTag:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of System
 	case System:
 		switch fieldname {
@@ -5971,6 +6584,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of DataShape
 	case DataShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DiagramLayerState
+	case DiagramLayerState:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -6183,6 +6801,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case ExternalPartShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of LayerDefinition
+	case LayerDefinition:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Query":
+			res := make(map[*SemanticTag][]*LayerDefinition)
+			for layerdefinition := range stage.LayerDefinitions {
+				for _, semantictag_ := range layerdefinition.Query {
+					res[semantictag_] = append(res[semantictag_], layerdefinition)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -6415,6 +7046,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of SemanticTag
+	case SemanticTag:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Parts":
+			res := make(map[*Part][]*SemanticTag)
+			for semantictag := range stage.SemanticTags {
+				for _, part_ := range semantictag.Parts {
+					res[part_] = append(res[part_], semantictag)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of System
 	case System:
 		switch fieldname {
@@ -6516,10 +7160,14 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "DataFlowShape"
 	case *DataShape:
 		res = "DataShape"
+	case *DiagramLayerState:
+		res = "DiagramLayerState"
 	case *DiagramStructure:
 		res = "DiagramStructure"
 	case *ExternalPartShape:
 		res = "ExternalPartShape"
+	case *LayerDefinition:
+		res = "LayerDefinition"
 	case *Library:
 		res = "Library"
 	case *Note:
@@ -6542,6 +7190,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PortShape"
 	case *Resource:
 		res = "Resource"
+	case *SemanticTag:
+		res = "SemanticTag"
 	case *System:
 		res = "System"
 	case *SystemShape:
@@ -6635,6 +7285,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "Data_Shapes"
 		res = append(res, rf)
+	case *DiagramLayerState:
+		var rf ReverseField
+		_ = rf
 	case *DiagramStructure:
 		var rf ReverseField
 		_ = rf
@@ -6650,6 +7303,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "ExternalPart_Shapes"
 		res = append(res, rf)
+	case *LayerDefinition:
+		var rf ReverseField
+		_ = rf
 	case *Library:
 		var rf ReverseField
 		_ = rf
@@ -6708,6 +7364,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "PartsWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Note"
+		rf.Fieldname = "Parts"
+		res = append(res, rf)
+		rf.GongstructName = "SemanticTag"
 		rf.Fieldname = "Parts"
 		res = append(res, rf)
 		rf.GongstructName = "System"
@@ -6775,6 +7434,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
+		res = append(res, rf)
+	case *SemanticTag:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "LayerDefinition"
+		rf.Fieldname = "Query"
 		res = append(res, rf)
 	case *System:
 		var rf ReverseField
@@ -7082,6 +7747,27 @@ func (datashape *DataShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (diagramlayerstate *DiagramLayerState) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "DiagramStructure",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DiagramStructure",
+		},
+		{
+			Name:                 "LayerDefinition",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "LayerDefinition",
+		},
+	}
+	return
+}
+
 func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -7313,6 +7999,22 @@ func (externalpartshape *ExternalPartShape) GongGetFieldHeaders() (res []GongFie
 		{
 			Name:               "TailHeigth",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (layerdefinition *LayerDefinition) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Query",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "SemanticTag",
 		},
 	}
 	return
@@ -7902,6 +8604,22 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (semantictag *SemanticTag) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Parts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Part",
+		},
+	}
+	return
+}
+
 func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -8328,6 +9046,27 @@ func (datashape *DataShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	return
 }
 
+func (diagramlayerstate *DiagramLayerState) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = diagramlayerstate.Name
+	case "DiagramStructure":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if diagramlayerstate.DiagramStructure != nil {
+			res.valueString = diagramlayerstate.DiagramStructure.Name
+			res.ids = diagramlayerstate.DiagramStructure.GongGetUUID(stage)
+		}
+	case "LayerDefinition":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if diagramlayerstate.LayerDefinition != nil {
+			res.valueString = diagramlayerstate.LayerDefinition.Name
+			res.ids = diagramlayerstate.LayerDefinition.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8678,6 +9417,25 @@ func (externalpartshape *ExternalPartShape) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%f", externalpartshape.TailHeigth)
 		res.valueFloat = externalpartshape.TailHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (layerdefinition *LayerDefinition) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = layerdefinition.Name
+	case "Query":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range layerdefinition.Query {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9314,6 +10072,25 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 	return
 }
 
+func (semantictag *SemanticTag) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = semantictag.Name
+	case "Parts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range semantictag.Parts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -9780,6 +10557,39 @@ func (datashape *DataShape) GongSetFieldValue(fieldName string, value GongFieldV
 	return nil
 }
 
+func (diagramlayerstate *DiagramLayerState) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		diagramlayerstate.Name = value.GetValueString()
+	case "DiagramStructure":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			diagramlayerstate.DiagramStructure = nil
+			for __instance__ := range stage.DiagramStructures {
+				if stage.DiagramStructure_stagedOrder[__instance__] == uint(id) {
+					diagramlayerstate.DiagramStructure = __instance__
+					break
+				}
+			}
+		}
+	case "LayerDefinition":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			diagramlayerstate.LayerDefinition = nil
+			for __instance__ := range stage.LayerDefinitions {
+				if stage.LayerDefinition_stagedOrder[__instance__] == uint(id) {
+					diagramlayerstate.LayerDefinition = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (diagramstructure *DiagramStructure) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -10199,6 +11009,31 @@ func (externalpartshape *ExternalPartShape) GongSetFieldValue(fieldName string, 
 		externalpartshape.IsHidden = value.GetValueBool()
 	case "TailHeigth":
 		externalpartshape.TailHeigth = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (layerdefinition *LayerDefinition) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		layerdefinition.Name = value.GetValueString()
+	case "Query":
+		layerdefinition.Query = make([]*SemanticTag, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.SemanticTags {
+					if stage.SemanticTag_stagedOrder[__instance__] == uint(id) {
+						layerdefinition.Query = append(layerdefinition.Query, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10876,6 +11711,31 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 	return nil
 }
 
+func (semantictag *SemanticTag) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		semantictag.Name = value.GetValueString()
+	case "Parts":
+		semantictag.Parts = make([]*Part, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						semantictag.Parts = append(semantictag.Parts, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -11084,12 +11944,20 @@ func (datashape *DataShape) GongGetGongstructName() string {
 	return "DataShape"
 }
 
+func (diagramlayerstate *DiagramLayerState) GongGetGongstructName() string {
+	return "DiagramLayerState"
+}
+
 func (diagramstructure *DiagramStructure) GongGetGongstructName() string {
 	return "DiagramStructure"
 }
 
 func (externalpartshape *ExternalPartShape) GongGetGongstructName() string {
 	return "ExternalPartShape"
+}
+
+func (layerdefinition *LayerDefinition) GongGetGongstructName() string {
+	return "LayerDefinition"
 }
 
 func (library *Library) GongGetGongstructName() string {
@@ -11134,6 +12002,10 @@ func (portshape *PortShape) GongGetGongstructName() string {
 
 func (resource *Resource) GongGetGongstructName() string {
 	return "Resource"
+}
+
+func (semantictag *SemanticTag) GongGetGongstructName() string {
+	return "SemanticTag"
 }
 
 func (system *System) GongGetGongstructName() string {
@@ -11191,6 +12063,11 @@ func (stage *Stage) ResetMapStrings() {
 		stage.DataShapes_mapString[datashape.Name] = datashape
 	}
 
+	stage.DiagramLayerStates_mapString = make(map[string]*DiagramLayerState)
+	for diagramlayerstate := range stage.DiagramLayerStates {
+		stage.DiagramLayerStates_mapString[diagramlayerstate.Name] = diagramlayerstate
+	}
+
 	stage.DiagramStructures_mapString = make(map[string]*DiagramStructure)
 	for diagramstructure := range stage.DiagramStructures {
 		stage.DiagramStructures_mapString[diagramstructure.Name] = diagramstructure
@@ -11199,6 +12076,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ExternalPartShapes_mapString = make(map[string]*ExternalPartShape)
 	for externalpartshape := range stage.ExternalPartShapes {
 		stage.ExternalPartShapes_mapString[externalpartshape.Name] = externalpartshape
+	}
+
+	stage.LayerDefinitions_mapString = make(map[string]*LayerDefinition)
+	for layerdefinition := range stage.LayerDefinitions {
+		stage.LayerDefinitions_mapString[layerdefinition.Name] = layerdefinition
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -11254,6 +12136,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Resources_mapString = make(map[string]*Resource)
 	for resource := range stage.Resources {
 		stage.Resources_mapString[resource.Name] = resource
+	}
+
+	stage.SemanticTags_mapString = make(map[string]*SemanticTag)
+	for semantictag := range stage.SemanticTags {
+		stage.SemanticTags_mapString[semantictag.Name] = semantictag
 	}
 
 	stage.Systems_mapString = make(map[string]*System)

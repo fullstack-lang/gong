@@ -31,11 +31,17 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *DataShape:
 		ok = stage.IsStagedDataShape(target)
 
+	case *DiagramLayerState:
+		ok = stage.IsStagedDiagramLayerState(target)
+
 	case *DiagramStructure:
 		ok = stage.IsStagedDiagramStructure(target)
 
 	case *ExternalPartShape:
 		ok = stage.IsStagedExternalPartShape(target)
+
+	case *LayerDefinition:
+		ok = stage.IsStagedLayerDefinition(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -69,6 +75,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *Resource:
 		ok = stage.IsStagedResource(target)
+
+	case *SemanticTag:
+		ok = stage.IsStagedSemanticTag(target)
 
 	case *System:
 		ok = stage.IsStagedSystem(target)
@@ -110,11 +119,17 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *DataShape:
 		ok = stage.IsStagedDataShape(target)
 
+	case *DiagramLayerState:
+		ok = stage.IsStagedDiagramLayerState(target)
+
 	case *DiagramStructure:
 		ok = stage.IsStagedDiagramStructure(target)
 
 	case *ExternalPartShape:
 		ok = stage.IsStagedExternalPartShape(target)
+
+	case *LayerDefinition:
+		ok = stage.IsStagedLayerDefinition(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -148,6 +163,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Resource:
 		ok = stage.IsStagedResource(target)
+
+	case *SemanticTag:
+		ok = stage.IsStagedSemanticTag(target)
 
 	case *System:
 		ok = stage.IsStagedSystem(target)
@@ -218,6 +236,13 @@ func (stage *Stage) IsStagedDataShape(datashape *DataShape) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedDiagramLayerState(diagramlayerstate *DiagramLayerState) (ok bool) {
+
+	_, ok = stage.DiagramLayerStates[diagramlayerstate]
+
+	return
+}
+
 func (stage *Stage) IsStagedDiagramStructure(diagramstructure *DiagramStructure) (ok bool) {
 
 	_, ok = stage.DiagramStructures[diagramstructure]
@@ -228,6 +253,13 @@ func (stage *Stage) IsStagedDiagramStructure(diagramstructure *DiagramStructure)
 func (stage *Stage) IsStagedExternalPartShape(externalpartshape *ExternalPartShape) (ok bool) {
 
 	_, ok = stage.ExternalPartShapes[externalpartshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedLayerDefinition(layerdefinition *LayerDefinition) (ok bool) {
+
+	_, ok = stage.LayerDefinitions[layerdefinition]
 
 	return
 }
@@ -309,6 +341,13 @@ func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedSemanticTag(semantictag *SemanticTag) (ok bool) {
+
+	_, ok = stage.SemanticTags[semantictag]
+
+	return
+}
+
 func (stage *Stage) IsStagedSystem(system *System) (ok bool) {
 
 	_, ok = stage.Systems[system]
@@ -355,11 +394,17 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *DataShape:
 		stage.StageBranchDataShape(target)
 
+	case *DiagramLayerState:
+		stage.StageBranchDiagramLayerState(target)
+
 	case *DiagramStructure:
 		stage.StageBranchDiagramStructure(target)
 
 	case *ExternalPartShape:
 		stage.StageBranchExternalPartShape(target)
+
+	case *LayerDefinition:
+		stage.StageBranchLayerDefinition(target)
 
 	case *Library:
 		stage.StageBranchLibrary(target)
@@ -393,6 +438,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Resource:
 		stage.StageBranchResource(target)
+
+	case *SemanticTag:
+		stage.StageBranchSemanticTag(target)
 
 	case *System:
 		stage.StageBranchSystem(target)
@@ -571,6 +619,27 @@ func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
 
 }
 
+func (stage *Stage) StageBranchDiagramLayerState(diagramlayerstate *DiagramLayerState) {
+
+	// check if instance is already staged
+	if IsStaged(stage, diagramlayerstate) {
+		return
+	}
+
+	diagramlayerstate.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagramlayerstate.DiagramStructure != nil {
+		StageBranch(stage, diagramlayerstate.DiagramStructure)
+	}
+	if diagramlayerstate.LayerDefinition != nil {
+		StageBranch(stage, diagramlayerstate.LayerDefinition)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchDiagramStructure(diagramstructure *DiagramStructure) {
 
 	// check if instance is already staged
@@ -676,6 +745,24 @@ func (stage *Stage) StageBranchExternalPartShape(externalpartshape *ExternalPart
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchLayerDefinition(layerdefinition *LayerDefinition) {
+
+	// check if instance is already staged
+	if IsStaged(stage, layerdefinition) {
+		return
+	}
+
+	layerdefinition.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _semantictag := range layerdefinition.Query {
+		StageBranch(stage, _semantictag)
+	}
 
 }
 
@@ -934,6 +1021,24 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 
 }
 
+func (stage *Stage) StageBranchSemanticTag(semantictag *SemanticTag) {
+
+	// check if instance is already staged
+	if IsStaged(stage, semantictag) {
+		return
+	}
+
+	semantictag.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range semantictag.Parts {
+		StageBranch(stage, _part)
+	}
+
+}
+
 func (stage *Stage) StageBranchSystem(system *System) {
 
 	// check if instance is already staged
@@ -1034,12 +1139,20 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchDataShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *DiagramLayerState:
+		toT := CopyBranchDiagramLayerState(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *DiagramStructure:
 		toT := CopyBranchDiagramStructure(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ExternalPartShape:
 		toT := CopyBranchExternalPartShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *LayerDefinition:
+		toT := CopyBranchLayerDefinition(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
@@ -1084,6 +1197,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Resource:
 		toT := CopyBranchResource(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SemanticTag:
+		toT := CopyBranchSemanticTag(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *System:
@@ -1298,6 +1415,31 @@ func CopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) (dat
 	return
 }
 
+func CopyBranchDiagramLayerState(mapOrigCopy map[any]any, diagramlayerstateFrom *DiagramLayerState) (diagramlayerstateTo *DiagramLayerState) {
+
+	// diagramlayerstateFrom has already been copied
+	if _diagramlayerstateTo, ok := mapOrigCopy[diagramlayerstateFrom]; ok {
+		diagramlayerstateTo = _diagramlayerstateTo.(*DiagramLayerState)
+		return
+	}
+
+	diagramlayerstateTo = new(DiagramLayerState)
+	mapOrigCopy[diagramlayerstateFrom] = diagramlayerstateTo
+	diagramlayerstateFrom.CopyBasicFields(diagramlayerstateTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagramlayerstateFrom.DiagramStructure != nil {
+		diagramlayerstateTo.DiagramStructure = CopyBranchDiagramStructure(mapOrigCopy, diagramlayerstateFrom.DiagramStructure)
+	}
+	if diagramlayerstateFrom.LayerDefinition != nil {
+		diagramlayerstateTo.LayerDefinition = CopyBranchLayerDefinition(mapOrigCopy, diagramlayerstateFrom.LayerDefinition)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchDiagramStructure(mapOrigCopy map[any]any, diagramstructureFrom *DiagramStructure) (diagramstructureTo *DiagramStructure) {
 
 	// diagramstructureFrom has already been copied
@@ -1410,6 +1552,28 @@ func CopyBranchExternalPartShape(mapOrigCopy map[any]any, externalpartshapeFrom 
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchLayerDefinition(mapOrigCopy map[any]any, layerdefinitionFrom *LayerDefinition) (layerdefinitionTo *LayerDefinition) {
+
+	// layerdefinitionFrom has already been copied
+	if _layerdefinitionTo, ok := mapOrigCopy[layerdefinitionFrom]; ok {
+		layerdefinitionTo = _layerdefinitionTo.(*LayerDefinition)
+		return
+	}
+
+	layerdefinitionTo = new(LayerDefinition)
+	mapOrigCopy[layerdefinitionFrom] = layerdefinitionTo
+	layerdefinitionFrom.CopyBasicFields(layerdefinitionTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _semantictag := range layerdefinitionFrom.Query {
+		layerdefinitionTo.Query = append(layerdefinitionTo.Query, CopyBranchSemanticTag(mapOrigCopy, _semantictag))
+	}
 
 	return
 }
@@ -1713,6 +1877,28 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 	return
 }
 
+func CopyBranchSemanticTag(mapOrigCopy map[any]any, semantictagFrom *SemanticTag) (semantictagTo *SemanticTag) {
+
+	// semantictagFrom has already been copied
+	if _semantictagTo, ok := mapOrigCopy[semantictagFrom]; ok {
+		semantictagTo = _semantictagTo.(*SemanticTag)
+		return
+	}
+
+	semantictagTo = new(SemanticTag)
+	mapOrigCopy[semantictagFrom] = semantictagTo
+	semantictagFrom.CopyBasicFields(semantictagTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range semantictagFrom.Parts {
+		semantictagTo.Parts = append(semantictagTo.Parts, CopyBranchPart(mapOrigCopy, _part))
+	}
+
+	return
+}
+
 func CopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *System) {
 
 	// systemFrom has already been copied
@@ -1810,11 +1996,17 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *DataShape:
 		stage.UnstageBranchDataShape(target)
 
+	case *DiagramLayerState:
+		stage.UnstageBranchDiagramLayerState(target)
+
 	case *DiagramStructure:
 		stage.UnstageBranchDiagramStructure(target)
 
 	case *ExternalPartShape:
 		stage.UnstageBranchExternalPartShape(target)
+
+	case *LayerDefinition:
+		stage.UnstageBranchLayerDefinition(target)
 
 	case *Library:
 		stage.UnstageBranchLibrary(target)
@@ -1848,6 +2040,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Resource:
 		stage.UnstageBranchResource(target)
+
+	case *SemanticTag:
+		stage.UnstageBranchSemanticTag(target)
 
 	case *System:
 		stage.UnstageBranchSystem(target)
@@ -2026,6 +2221,27 @@ func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
 
 }
 
+func (stage *Stage) UnstageBranchDiagramLayerState(diagramlayerstate *DiagramLayerState) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, diagramlayerstate) {
+		return
+	}
+
+	diagramlayerstate.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagramlayerstate.DiagramStructure != nil {
+		UnstageBranch(stage, diagramlayerstate.DiagramStructure)
+	}
+	if diagramlayerstate.LayerDefinition != nil {
+		UnstageBranch(stage, diagramlayerstate.LayerDefinition)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchDiagramStructure(diagramstructure *DiagramStructure) {
 
 	// check if instance is already staged
@@ -2131,6 +2347,24 @@ func (stage *Stage) UnstageBranchExternalPartShape(externalpartshape *ExternalPa
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchLayerDefinition(layerdefinition *LayerDefinition) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, layerdefinition) {
+		return
+	}
+
+	layerdefinition.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _semantictag := range layerdefinition.Query {
+		UnstageBranch(stage, _semantictag)
+	}
 
 }
 
@@ -2389,6 +2623,24 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 }
 
+func (stage *Stage) UnstageBranchSemanticTag(semantictag *SemanticTag) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, semantictag) {
+		return
+	}
+
+	semantictag.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range semantictag.Parts {
+		UnstageBranch(stage, _part)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchSystem(system *System) {
 
 	// check if instance is already staged
@@ -2533,6 +2785,17 @@ func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, 
 	// insertion point for slice of pointers field
 }
 
+func (reference *DiagramLayerState) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramLayerState) {
+	// insertion point for pointers field
+	if instance.DiagramStructure != nil {
+		reference.DiagramStructure = stage.DiagramStructures_reference[instance.DiagramStructure]
+	}
+	if instance.LayerDefinition != nil {
+		reference.LayerDefinition = stage.LayerDefinitions_reference[instance.LayerDefinition]
+	}
+	// insertion point for slice of pointers field
+}
+
 func (reference *DiagramStructure) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramStructure) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2644,6 +2907,15 @@ func (reference *ExternalPartShape) GongReconstructPointersFromReferences(stage 
 		reference.Part = stage.Parts_reference[instance.Part]
 	}
 	// insertion point for slice of pointers field
+}
+
+func (reference *LayerDefinition) GongReconstructPointersFromReferences(stage *Stage, instance *LayerDefinition) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Query = reference.Query[:0]
+	for _, _b := range instance.Query {
+		reference.Query = append(reference.Query, stage.SemanticTags_reference[_b])
+	}
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
@@ -2811,6 +3083,15 @@ func (reference *PortShape) GongReconstructPointersFromReferences(stage *Stage, 
 func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+}
+
+func (reference *SemanticTag) GongReconstructPointersFromReferences(stage *Stage, instance *SemanticTag) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Parts = reference.Parts[:0]
+	for _, _b := range instance.Parts {
+		reference.Parts = append(reference.Parts, stage.Parts_reference[_b])
+	}
 }
 
 func (reference *System) GongReconstructPointersFromReferences(stage *Stage, instance *System) {
@@ -2985,6 +3266,23 @@ func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.DataFlow = nil
 		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
 			reference.DataFlow = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *DiagramLayerState) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.DiagramStructure; _reference != nil {
+		reference.DiagramStructure = nil
+		if _instance, ok := stage.DiagramStructures_instance[_reference]; ok {
+			reference.DiagramStructure = _instance
+		}
+	}
+	if _reference := reference.LayerDefinition; _reference != nil {
+		reference.LayerDefinition = nil
+		if _instance, ok := stage.LayerDefinitions_instance[_reference]; ok {
+			reference.LayerDefinition = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -3179,6 +3477,18 @@ func (reference *ExternalPartShape) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
+}
+
+func (reference *LayerDefinition) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Query []*SemanticTag
+	for _, _reference := range reference.Query {
+		if _instance, ok := stage.SemanticTags_instance[_reference]; ok {
+			_Query = append(_Query, _instance)
+		}
+	}
+	reference.Query = _Query
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3436,6 +3746,18 @@ func (reference *PortShape) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+}
+
+func (reference *SemanticTag) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Parts []*Part
+	for _, _reference := range reference.Parts {
+		if _instance, ok := stage.Parts_instance[_reference]; ok {
+			_Parts = append(_Parts, _instance)
+		}
+	}
+	reference.Parts = _Parts
 }
 
 func (reference *System) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3793,6 +4115,31 @@ func (datashape *DataShape) GongDiff(stage *Stage, datashapeOther *DataShape) (d
 	} else if datashape.DataFlow != nil && datashapeOther.DataFlow != nil {
 		if datashape.DataFlow != datashapeOther.DataFlow {
 			diffs = append(diffs, datashape.GongMarshallField(stage, "DataFlow"))
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (diagramlayerstate *DiagramLayerState) GongDiff(stage *Stage, diagramlayerstateOther *DiagramLayerState) (diffs []string) {
+	// insertion point for field diffs
+	if diagramlayerstate.Name != diagramlayerstateOther.Name {
+		diffs = append(diffs, diagramlayerstate.GongMarshallField(stage, "Name"))
+	}
+	if (diagramlayerstate.DiagramStructure == nil) != (diagramlayerstateOther.DiagramStructure == nil) {
+		diffs = append(diffs, diagramlayerstate.GongMarshallField(stage, "DiagramStructure"))
+	} else if diagramlayerstate.DiagramStructure != nil && diagramlayerstateOther.DiagramStructure != nil {
+		if diagramlayerstate.DiagramStructure != diagramlayerstateOther.DiagramStructure {
+			diffs = append(diffs, diagramlayerstate.GongMarshallField(stage, "DiagramStructure"))
+		}
+	}
+	if (diagramlayerstate.LayerDefinition == nil) != (diagramlayerstateOther.LayerDefinition == nil) {
+		diffs = append(diffs, diagramlayerstate.GongMarshallField(stage, "LayerDefinition"))
+	} else if diagramlayerstate.LayerDefinition != nil && diagramlayerstateOther.LayerDefinition != nil {
+		if diagramlayerstate.LayerDefinition != diagramlayerstateOther.LayerDefinition {
+			diffs = append(diffs, diagramlayerstate.GongMarshallField(stage, "LayerDefinition"))
 		}
 	}
 
@@ -4411,6 +4758,38 @@ func (externalpartshape *ExternalPartShape) GongDiff(stage *Stage, externalparts
 	}
 	if externalpartshape.TailHeigth != externalpartshapeOther.TailHeigth {
 		diffs = append(diffs, externalpartshape.GongMarshallField(stage, "TailHeigth"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (layerdefinition *LayerDefinition) GongDiff(stage *Stage, layerdefinitionOther *LayerDefinition) (diffs []string) {
+	// insertion point for field diffs
+	if layerdefinition.Name != layerdefinitionOther.Name {
+		diffs = append(diffs, layerdefinition.GongMarshallField(stage, "Name"))
+	}
+	QueryDifferent := false
+	if len(layerdefinition.Query) != len(layerdefinitionOther.Query) {
+		QueryDifferent = true
+	} else {
+		for i := range layerdefinition.Query {
+			if (layerdefinition.Query[i] == nil) != (layerdefinitionOther.Query[i] == nil) {
+				QueryDifferent = true
+				break
+			} else if layerdefinition.Query[i] != nil && layerdefinitionOther.Query[i] != nil {
+				// this is a pointer comparaison
+				if layerdefinition.Query[i] != layerdefinitionOther.Query[i] {
+					QueryDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if QueryDifferent {
+		ops := Diff(stage, layerdefinition, layerdefinitionOther, "Query", layerdefinitionOther.Query, layerdefinition.Query)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -5281,6 +5660,38 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	}
 	if resource.InverseAppliedScaling != resourceOther.InverseAppliedScaling {
 		diffs = append(diffs, resource.GongMarshallField(stage, "InverseAppliedScaling"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (semantictag *SemanticTag) GongDiff(stage *Stage, semantictagOther *SemanticTag) (diffs []string) {
+	// insertion point for field diffs
+	if semantictag.Name != semantictagOther.Name {
+		diffs = append(diffs, semantictag.GongMarshallField(stage, "Name"))
+	}
+	PartsDifferent := false
+	if len(semantictag.Parts) != len(semantictagOther.Parts) {
+		PartsDifferent = true
+	} else {
+		for i := range semantictag.Parts {
+			if (semantictag.Parts[i] == nil) != (semantictagOther.Parts[i] == nil) {
+				PartsDifferent = true
+				break
+			} else if semantictag.Parts[i] != nil && semantictagOther.Parts[i] != nil {
+				// this is a pointer comparaison
+				if semantictag.Parts[i] != semantictagOther.Parts[i] {
+					PartsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PartsDifferent {
+		ops := Diff(stage, semantictag, semantictagOther, "Parts", semantictagOther.Parts, semantictag.Parts)
+		diffs = append(diffs, ops)
 	}
 
 	return
