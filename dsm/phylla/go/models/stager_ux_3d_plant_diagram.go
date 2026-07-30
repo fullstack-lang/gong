@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"log"
 	"math"
 
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
@@ -127,227 +126,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	stackHeight := plant.StackHeight
 
-	generateRibbonLayer := func(h int, dx, dy, thetaOffset float64, baseNamePrefix string) {
-		threeDModulo := plant.ThreeDModulo
-		if threeDModulo < 1 {
-			threeDModulo = 1
-		}
-
-		for k := 0; k < threeDModulo; k++ {
-			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
-			var bottomEdges, topEdges, innerEdges, outerEdges [][2]*threejs.Vector3
-
-			for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
-				p := curve.Points[i]
-				pTop := topCurve.Points[i]
-
-				thetaBase := math.Atan2(p.Z, p.X)
-				theta := thetaBase + thetaOffset + baseThetaOffset
-
-				thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
-				thetaTop := thetaBaseTop + thetaOffset + baseThetaOffset
-
-				yBase := p.Y + dy
-				yBaseTop := pTop.Y + dy
-
-				rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
-				rOuter := rBase + thickness
-
-				rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
-				rOuterTop := rBaseTop + thickness
-
-				xBL := rBase * math.Cos(theta)
-				zBL := rBase * math.Sin(theta)
-				yBL := yBase
-
-				xBR := rOuter * math.Cos(theta)
-				zBR := rOuter * math.Sin(theta)
-				yBR := yBase
-
-				xTL := rBaseTop * math.Cos(thetaTop)
-				zTL := rBaseTop * math.Sin(thetaTop)
-				yTL := yBaseTop
-
-				xTR := rOuterTop * math.Cos(thetaTop)
-				zTR := rOuterTop * math.Sin(thetaTop)
-				yTR := yBaseTop
-
-				vBL := (&threejs.Vector3{Name: "BL", X: xBL, Y: yBL, Z: zBL}).Stage(stager.threejsStage)
-				vBR := (&threejs.Vector3{Name: "BR", X: xBR, Y: yBR, Z: zBR}).Stage(stager.threejsStage)
-				vTL := (&threejs.Vector3{Name: "TL", X: xTL, Y: yTL, Z: zTL}).Stage(stager.threejsStage)
-				vTR := (&threejs.Vector3{Name: "TR", X: xTR, Y: yTR, Z: zTR}).Stage(stager.threejsStage)
-
-				bottomEdges = append(bottomEdges, [2]*threejs.Vector3{vBL, vBR})
-				topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
-				innerEdges = append(innerEdges, [2]*threejs.Vector3{vBL, vTL})
-				outerEdges = append(outerEdges, [2]*threejs.Vector3{vBR, vTR})
-			}
-
-			namePrefix := fmt.Sprintf("%s Layer %d", baseNamePrefix, h)
-
-			japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
-
-			bottomFace := stager.createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, plant.Transparency)
-			topFace := stager.createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true, plant.Transparency)
-			innerFace := stager.createFaceMesh(namePrefix+" Inner", japanesePaperColor, innerEdges, true, plant.Transparency)
-			outerFace := stager.createFaceMesh(namePrefix+" Outer", japanesePaperColor, outerEdges, false, plant.Transparency)
-
-			canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
-
-			outerRadius := 0.1
-			innerRadius := outerRadius * 0.85
-
-			bambooColor := "#4a3623" // dark brown
-
-			canvas.Meshs = append(canvas.Meshs,
-				stager.createTorusEdgeMesh(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
-				stager.createTorusEdgeMesh(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
-				stager.createTorusEdgeMesh(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
-				stager.createTorusEdgeMesh(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
-			)
-
-			if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
-				var p1x, p1y, p2x, p2y, pxx, pxy float64
-				hasP1P2 := false
-				if plant.ChosenP1P2PairShape != nil {
-					p1x, p1y = plant.ChosenP1P2PairShape.P1X, plant.ChosenP1P2PairShape.P1Y
-					p2x, p2y = plant.ChosenP1P2PairShape.P2X, plant.ChosenP1P2PairShape.P2Y
-					pxx, pxy = plant.ChosenP1P2PairShape.PxX, plant.ChosenP1P2PairShape.PxY
-					hasP1P2 = true
-				} else if plant.PxShape != nil {
-					pxx, pxy = plant.PxShape.X, plant.PxShape.Y
-				}
-
-				// Recompute Px for layer h based on step h+1's specific rotation ratio
-				if plant.StackOfGrowthCurve2DRibbon != nil && len(plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes) > 0 && plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
-					baseShape := plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes[0]
-					circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
-					trajOffsetX := plant.RelativeTrajectoryOffsetX * circLen
-					trajOffsetY := plant.RelativeTrajectoryOffsetY * circLen
-
-					var r_h1 float64
-					if stackHeight > 1 {
-						numSteps := stackHeight - 1
-						totalProgress := plant.RotationRatio * float64(numSteps)
-						kStep := float64(h + 1)
-						if totalProgress >= kStep {
-							r_h1 = 1.0
-						} else if totalProgress <= kStep-1.0 {
-							r_h1 = 0.0
-						} else {
-							r_h1 = totalProgress - (kStep - 1.0)
-						}
-					} else {
-						r_h1 = plant.RotationRatio
-					}
-
-					_, dyStep, currentDXStep := ComputePartiallyGrowthCurveDYForRatio(plant, r_h1)
-					pxx = baseShape.BottomStartX + currentDXStep + trajOffsetX
-					pxy = baseShape.BottomStartY + dyStep + trajOffsetY
-				}
-
-				rSurf := globalR
-
-				get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
-					th := (ptX+dx)/globalR + baseThetaOffset
-					return (&threejs.Vector3{
-						Name: fmt.Sprintf("%s %s k%d h%d", ptName, namePrefix, k, h),
-						X:    rSurf * math.Cos(th),
-						Y:    ptY + dy,
-						Z:    rSurf * math.Sin(th),
-					}).Stage(stager.threejsStage)
-				}
-
-				vPx_3d := get3DPt(pxx, pxy, "Px")
-
-				sphereRad := thickness * 0.4
-				if sphereRad < 0.3 {
-					sphereRad = 0.3
-				}
-
-				createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
-					return (&threejs.Mesh{
-						Name: fmt.Sprintf("Sphere %s %s k%d h%d", ptName, namePrefix, k, h),
-						Position: threejs.Position{
-							X: vec.X,
-							Y: vec.Y,
-							Z: vec.Z,
-						},
-						SphereGeometry: (&threejs.SphereGeometry{
-							Name:           fmt.Sprintf("SphereGeom %s %s k%d h%d", ptName, namePrefix, k, h),
-							Radius:         sphereRad,
-							WidthSegments:  16,
-							HeightSegments: 16,
-						}).Stage(stager.threejsStage),
-						MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-							Name:                 fmt.Sprintf("Material %s %s k%d h%d", ptName, namePrefix, k, h),
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-						}).Stage(stager.threejsStage),
-					}).Stage(stager.threejsStage)
-				}
-
-				createPairTube := func(lineName string, color string, pA, pB *threejs.Vector3) *threejs.Mesh {
-					crv := (&threejs.Curve{
-						Name:   fmt.Sprintf("Curve %s %s k%d h%d", lineName, namePrefix, k, h),
-						Points: []*threejs.Vector3{pA, pB},
-					}).Stage(stager.threejsStage)
-
-					tGeom := (&threejs.TubeGeometry{
-						Name:            fmt.Sprintf("TubeGeom %s %s k%d h%d", lineName, namePrefix, k, h),
-						Path:            crv,
-						TubularSegments: 8,
-						Radius:          sphereRad * 0.25,
-						RadialSegments:  8,
-						Closed:          false,
-					}).Stage(stager.threejsStage)
-
-					return (&threejs.Mesh{
-						Name:         fmt.Sprintf("TubeMesh %s %s k%d h%d", lineName, namePrefix, k, h),
-						Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-						TubeGeometry: tGeom,
-						MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-							Name:                 fmt.Sprintf("Material %s %s k%d h%d", lineName, namePrefix, k, h),
-							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-						}).Stage(stager.threejsStage),
-					}).Stage(stager.threejsStage)
-				}
-
-				sPx := createPointSphere("Px", "purple", vPx_3d)
-				canvas.Meshs = append(canvas.Meshs, sPx)
-
-				if hasP1P2 {
-					vP1_3d := get3DPt(p1x, p1y, "P1")
-					vP2_3d := get3DPt(p2x, p2y, "P2")
-
-					sP1 := createPointSphere("P1", "red", vP1_3d)
-					sP2 := createPointSphere("P2", "#8d6e63", vP2_3d)
-
-					tP1Px := createPairTube("P1-Px", "purple", vP1_3d, vPx_3d)
-					tP2Px := createPairTube("P2-Px", "purple", vP2_3d, vPx_3d)
-
-					canvas.Meshs = append(canvas.Meshs, sP1, sP2, tP1Px, tP2Px)
-
-					dx1 := vP1_3d.X - vPx_3d.X
-					dy1 := vP1_3d.Y - vPx_3d.Y
-					dz1 := vP1_3d.Z - vPx_3d.Z
-					distP1Px_3d := math.Sqrt(dx1*dx1 + dy1*dy1 + dz1*dz1)
-
-					dx2 := vP2_3d.X - vPx_3d.X
-					dy2 := vP2_3d.Y - vPx_3d.Y
-					dz2 := vP2_3d.Z - vPx_3d.Z
-					distP2Px_3d := math.Sqrt(dx2*dx2 + dy2*dy2 + dz2*dz2)
-
-					distSum_3d := distP1Px_3d + distP2Px_3d
-
-					if h == 0 && k == 0 {
-						log.Printf("[3D Distance] %s (Layer %d, Rep %d) | P1-Px: %.4f, P2-Px: %.4f | 3D Sum: %.4f",
-							baseNamePrefix, h, k, distP1Px_3d, distP2Px_3d, distSum_3d)
-					}
-				}
-			}
-		}
-	}
-
 	if !checkedDiagram.IsHiddenTorusStackShape {
 		var growthVectorX, growthVectorY float64
 		if plant.GrowthVectorShape != nil {
@@ -376,7 +154,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 			thetaOffset := dx / globalR
 
-			generateRibbonLayer(h, dx, dy, thetaOffset, "Torus Continuous")
+			stager.generateRibbonLayer(h, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
 	}
 
@@ -386,7 +164,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 			thetaOffset := 0.0
 
-			generateRibbonLayer(h, dx, dy, thetaOffset, "Vertical Torus Continuous")
+			stager.generateRibbonLayer(h, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
 	}
 
@@ -398,7 +176,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		// but here the dy from ComputePartiallyGrowthCurveDY ALREADY includes the Y-shift
 		// required to perfectly rest on the first ribbon (h=0).
 
-		generateRibbonLayer(1, dx, dy, thetaOffset, "Partially Rotated Torus")
+		stager.generateRibbonLayer(1, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 	}
 
 	if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
@@ -434,7 +212,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := dys[h]
 			thetaOffset := dx / globalR
 
-			generateRibbonLayer(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus")
+			stager.generateRibbonLayer(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
 	}
 
