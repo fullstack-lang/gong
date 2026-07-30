@@ -309,7 +309,7 @@ func (stager *Stager) createFaceMesh(faceName string, color string, edges [][2]*
 	}).Stage(stager.threejsStage)
 }
 
-func (stager *Stager) createTube(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
+func (stager *Stager) createTorusEdgeMesh(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
 	curve := (&threejs.Curve{
 		Name: "Curve " + name,
 	}).Stage(stager.threejsStage)
@@ -343,5 +343,3 @@ func (stager *Stager) createTube(name string, color string, edges [][2]*threejs.
 		MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
 	}).Stage(stager.threejsStage)
 }
-
-
