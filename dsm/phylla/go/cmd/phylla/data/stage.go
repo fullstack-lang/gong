@@ -137,9 +137,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = -828.274201
-	__Rendered3DShape__00000000_.ViewY = 732.282151
-	__Rendered3DShape__00000000_.ViewZ = 449.787785
+	__Rendered3DShape__00000000_.ViewX = -359.388187
+	__Rendered3DShape__00000000_.ViewY = 92.109769
+	__Rendered3DShape__00000000_.ViewZ = -1134.433900
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000

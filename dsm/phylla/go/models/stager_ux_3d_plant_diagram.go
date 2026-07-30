@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 
+
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
@@ -214,8 +215,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			stager.generateRibbonLayer(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
-	}
-
 	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
 		stackH := stackHeight
 		if stackH <= 0 {
@@ -284,6 +283,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 		}
 	}
+	}
+
 
 	stager.addFloorTiles(floorMinY, plant, globalR, canvas)
 
