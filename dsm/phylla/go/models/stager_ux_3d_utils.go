@@ -233,3 +233,79 @@ func (stager *Stager) appendArcPoints(targetCurve *threejs.Curve, x1, y1, x2, y2
 		targetCurve.Points = append(targetCurve.Points, vec)
 	}
 }
+
+func (stager *Stager) createFaceMesh(faceName string, color string, edges [][2]*threejs.Vector3, reverseWinding bool, transparency float64) *threejs.Mesh {
+	geom := (&threejs.BufferGeometry{
+		Name: fmt.Sprintf("%s BufferGeometry", faceName),
+	}).Stage(stager.threejsStage)
+
+	for i := 0; i < len(edges); i++ {
+		p1_src := edges[i][0]
+		p2_src := edges[i][1]
+
+		p1 := (&threejs.Vector3{
+			Name: fmt.Sprintf("%s %s %d", p1_src.Name, faceName, i),
+			X:    p1_src.X,
+			Y:    p1_src.Y,
+			Z:    p1_src.Z,
+		}).Stage(stager.threejsStage)
+
+		p2 := (&threejs.Vector3{
+			Name: fmt.Sprintf("%s %s %d", p2_src.Name, faceName, i),
+			X:    p2_src.X,
+			Y:    p2_src.Y,
+			Z:    p2_src.Z,
+		}).Stage(stager.threejsStage)
+
+		geom.Vertices = append(geom.Vertices, p1, p2)
+
+		if i < len(edges)-1 {
+			idx := i * 2
+
+			v1_t1, v2_t1, v3_t1 := idx, idx+1, idx+2
+			v1_t2, v2_t2, v3_t2 := idx+1, idx+3, idx+2
+
+			if reverseWinding {
+				v2_t1, v3_t1 = v3_t1, v2_t1
+				v2_t2, v3_t2 = v3_t2, v2_t2
+			}
+
+			t1 := (&threejs.Triangle{
+				Name: fmt.Sprintf("T1 %d", i),
+				V1:   v1_t1,
+				V2:   v2_t1,
+				V3:   v3_t1,
+			}).Stage(stager.threejsStage)
+
+			t2 := (&threejs.Triangle{
+				Name: fmt.Sprintf("T2 %d", i),
+				V1:   v1_t2,
+				V2:   v2_t2,
+				V3:   v3_t2,
+			}).Stage(stager.threejsStage)
+
+			geom.Faces = append(geom.Faces, t1, t2)
+		}
+	}
+
+	opacity := 1.0 - transparency
+	if opacity < 0.0 {
+		opacity = 0.0
+	}
+	if opacity > 1.0 {
+		opacity = 1.0
+	}
+
+	return (&threejs.Mesh{
+		Name:           fmt.Sprintf("%s Mesh", faceName),
+		Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+		BufferGeometry: geom,
+		MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+			Name:                 fmt.Sprintf("%s Material", faceName),
+			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+			Transparent:          true,
+			Opacity:              opacity,
+		}).Stage(stager.threejsStage),
+	}).Stage(stager.threejsStage)
+}
+
