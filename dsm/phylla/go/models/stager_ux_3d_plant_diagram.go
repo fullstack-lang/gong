@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"strconv"
 
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
@@ -195,51 +194,16 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			canvas.Meshs = append(canvas.Meshs, bottomFace, topFace, innerFace, outerFace)
 
-			createTube := func(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
-				curve := (&threejs.Curve{
-					Name: "Curve " + name,
-				}).Stage(stager.threejsStage)
-
-				for i := 0; i < len(edges); i++ {
-					p := edges[i][0]
-					if !useLeft {
-						p = edges[i][1]
-					}
-					curve.Points = append(curve.Points, (&threejs.Vector3{
-						Name: "CurvePoint " + name + " " + strconv.Itoa(i),
-						X:    p.X,
-						Y:    p.Y,
-						Z:    p.Z,
-					}).Stage(stager.threejsStage))
-				}
-
-				tubeGeometry := (&threejs.TubeGeometry{
-					Name:            "TubeGeom " + name,
-					Path:            curve,
-					TubularSegments: 500,
-					Radius:          tubeRadius,
-					RadialSegments:  8,
-					Closed:          false,
-				}).Stage(stager.threejsStage)
-
-				return (&threejs.Mesh{
-					Name:              "TubeMesh " + name,
-					Position:          threejs.Position{X: 0, Y: 0, Z: 0},
-					TubeGeometry:      tubeGeometry,
-					MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
-				}).Stage(stager.threejsStage)
-			}
-
 			outerRadius := 0.1
 			innerRadius := outerRadius * 0.85
 
 			bambooColor := "#4a3623" // dark brown
 
 			canvas.Meshs = append(canvas.Meshs,
-				createTube(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
-				createTube(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
-				createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
-				createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
+				stager.createTube(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
+				stager.createTube(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
+				stager.createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
+				stager.createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 			)
 
 			if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
