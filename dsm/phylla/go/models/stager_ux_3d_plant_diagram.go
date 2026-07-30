@@ -102,89 +102,27 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		Name: "Torus Continuous Curve Top",
 	}).Stage(stager.threejsStage)
 
-	appendArcPoints := func(targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
-		dx := (x1 - x2) / 2.0
-		dy := (y1 - y2) / 2.0
-		d2 := dx*dx + dy*dy
-		var cx, cy float64
-		if d2 == 0 || r*r < d2 {
-			cx = (x1 + x2) / 2.0
-			cy = (y1 + y2) / 2.0
-			r = math.Sqrt(d2)
-		} else {
-			root := math.Sqrt(r*r/d2 - 1.0)
-			if largeArcFlag == sweepFlag {
-				root = -root
-			}
-			cx = (x1+x2)/2.0 + root*dy
-			cy = (y1+y2)/2.0 - root*dx
-		}
-
-		startAngle := math.Atan2(y1-cy, x1-cx)
-		endAngle := math.Atan2(y2-cy, x2-cx)
-
-		if sweepFlag {
-			for endAngle < startAngle {
-				endAngle += 2 * math.Pi
-			}
-		} else {
-			for endAngle > startAngle {
-				endAngle -= 2 * math.Pi
-			}
-		}
-
-		steps := 50
-		for i := 0; i <= steps; i++ {
-			// avoid duplicating the exact same point if it's not the first point of the curve
-			if i == 0 && len(targetCurve.Points) > 0 {
-				continue
-			}
-
-			t := float64(i) / float64(steps)
-			angle := startAngle + t*(endAngle-startAngle)
-			x2d := cx + r*math.Cos(angle)
-			y2d := cy + r*math.Sin(angle)
-
-			theta := x2d / globalR
-			x3d := globalR * math.Cos(theta)
-			z3d := globalR * math.Sin(theta)
-			y3d := y2d
-
-			if y3d < floorMinY {
-				floorMinY = y3d
-			}
-
-			vec := (&threejs.Vector3{
-				Name: fmt.Sprintf("Base Point %d", len(targetCurve.Points)),
-				X:    x3d,
-				Y:    y3d,
-				Z:    z3d,
-			}).Stage(stager.threejsStage)
-			targetCurve.Points = append(targetCurve.Points, vec)
-		}
-	}
-
 	for i := 0; i < len(startArcs); i++ {
 		sa := startArcs[i]
 		// Cartesian sweep is the inverse of SVG sweep due to Y-axis mirroring
-		appendArcPoints(curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+		stager.appendArcPoints(curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, &floorMinY)
 
 		if i < len(endArcs) {
 			ea := endArcs[i]
 			// Cartesian sweep is !ea.SweepFlag.
 			// Traversing forwards, so we pass !ea.SweepFlag.
-			appendArcPoints(curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+			stager.appendArcPoints(curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, &floorMinY)
 		}
 	}
 
 	for i := 0; i < len(topStartArcs); i++ {
 		tsa := topStartArcs[i]
-		appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
+		stager.appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag, globalR, &floorMinY)
 
 		if i < len(topEndArcs) {
 			ea := topEndArcs[i]
 			// Traversing forwards
-			appendArcPoints(topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+			stager.appendArcPoints(topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, &floorMinY)
 		}
 	}
 

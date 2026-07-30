@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 
@@ -168,5 +169,67 @@ func (stager *Stager) addFloorTiles(floorMinY float64, plant *Plant, globalR flo
 
 			canvas.Meshs = append(canvas.Meshs, tileMesh)
 		}
+	}
+}
+
+func (stager *Stager) appendArcPoints(targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, floorMinY *float64) {
+	dx := (x1 - x2) / 2.0
+	dy := (y1 - y2) / 2.0
+	d2 := dx*dx + dy*dy
+	var cx, cy float64
+	if d2 == 0 || r*r < d2 {
+		cx = (x1 + x2) / 2.0
+		cy = (y1 + y2) / 2.0
+		r = math.Sqrt(d2)
+	} else {
+		root := math.Sqrt(r*r/d2 - 1.0)
+		if largeArcFlag == sweepFlag {
+			root = -root
+		}
+		cx = (x1+x2)/2.0 + root*dy
+		cy = (y1+y2)/2.0 - root*dx
+	}
+
+	startAngle := math.Atan2(y1-cy, x1-cx)
+	endAngle := math.Atan2(y2-cy, x2-cx)
+
+	if sweepFlag {
+		for endAngle < startAngle {
+			endAngle += 2 * math.Pi
+		}
+	} else {
+		for endAngle > startAngle {
+			endAngle -= 2 * math.Pi
+		}
+	}
+
+	steps := 50
+	for i := 0; i <= steps; i++ {
+		// avoid duplicating the exact same point if it's not the first point of the curve
+		if i == 0 && len(targetCurve.Points) > 0 {
+			continue
+		}
+
+		t := float64(i) / float64(steps)
+		angle := startAngle + t*(endAngle-startAngle)
+		x2d := cx + r*math.Cos(angle)
+		y2d := cy + r*math.Sin(angle)
+
+		theta := x2d / globalR
+		x3d := globalR * math.Cos(theta)
+		z3d := globalR * math.Sin(theta)
+		y3d := y2d
+
+		if y3d < *floorMinY {
+			*floorMinY = y3d
+		}
+
+		vec := (&threejs.Vector3{
+			Name: fmt.Sprintf("Base Point %d", len(targetCurve.Points)),
+			X:    x3d,
+			Y:    y3d,
+			Z:    z3d,
+		}).Stage(stager.threejsStage)
+		targetCurve.Points = append(targetCurve.Points, vec)
 	}
 }
