@@ -567,3 +567,41 @@ func (stager *Stager) generateRibbonLayer(h int, dx, dy, thetaOffset float64, ba
 	}
 }
 
+func (stager *Stager) createKeyHole3DTubeMesh(tubeName string, pA, pB *threejs.Vector3, tubeRadius float64) *threejs.Mesh {
+	crv := (&threejs.Curve{
+		Name:   fmt.Sprintf("Curve %s", tubeName),
+		Points: []*threejs.Vector3{pA, pB},
+	}).Stage(stager.threejsStage)
+
+	tGeom := (&threejs.TubeGeometry{
+		Name:            fmt.Sprintf("TubeGeom %s", tubeName),
+		Path:            crv,
+		TubularSegments: 8,
+		Radius:          tubeRadius,
+		RadialSegments:  8,
+		Closed:          false,
+	}).Stage(stager.threejsStage)
+
+	return (&threejs.Mesh{
+		Name:         fmt.Sprintf("TubeMesh %s", tubeName),
+		Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+		TubeGeometry: tGeom,
+		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+			Name:                 fmt.Sprintf("Material %s", tubeName),
+			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkred"},
+		}).Stage(stager.threejsStage),
+	}).Stage(stager.threejsStage)
+}
+
+func (stager *Stager) get3DPtHK(ptX, ptY float64, ptName string, dx_h, dy_h, globalR, baseThetaOffset float64, h, k int) *threejs.Vector3 {
+	th := (ptX+dx_h)/globalR + baseThetaOffset
+	return (&threejs.Vector3{
+		Name: fmt.Sprintf("KeyHole3D %s h%d k%d", ptName, h, k),
+		X:    globalR * math.Cos(th),
+		Y:    ptY + dy_h,
+		Z:    globalR * math.Sin(th),
+	}).Stage(stager.threejsStage)
+}
+
+
+
