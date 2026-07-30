@@ -32,8 +32,10 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*DataFlow](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DataFlowShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DataShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*DiagramLayerState](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DiagramStructure](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ExternalPartShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*LayerDefinition](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Note](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*NotePartShape](stage, f, addIDs)
@@ -45,6 +47,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*Port](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PortShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Resource](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*SemanticTag](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*System](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*SystemShape](stage, f, addIDs)
 	}

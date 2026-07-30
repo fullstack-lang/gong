@@ -128,8 +128,10 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.DataFlow](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DataFlowShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DataShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.DiagramLayerState](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DiagramStructure](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ExternalPartShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.LayerDefinition](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NotePartShape](stage)
@@ -141,6 +143,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Port](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PortShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Resource](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SemanticTag](stage)
 	models.SetOrchestratorOnAfterUpdate[models.System](stage)
 	models.SetOrchestratorOnAfterUpdate[models.SystemShape](stage)
 

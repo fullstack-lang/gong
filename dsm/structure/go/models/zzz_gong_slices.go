@@ -51,6 +51,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct DataShape
 	// insertion point per field
 
+	// Compute reverse map for named struct DiagramLayerState
+	// insertion point per field
+
 	// Compute reverse map for named struct DiagramStructure
 	// insertion point per field
 	stage.DiagramStructure_System_Shapes_reverseMap = make(map[*SystemShape]*DiagramStructure)
@@ -231,6 +234,16 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct ExternalPartShape
 	// insertion point per field
+
+	// Compute reverse map for named struct LayerDefinition
+	// insertion point per field
+	stage.LayerDefinition_Query_reverseMap = make(map[*SemanticTag]*LayerDefinition)
+	for layerdefinition := range stage.LayerDefinitions {
+		_ = layerdefinition
+		for _, _semantictag := range layerdefinition.Query {
+			stage.LayerDefinition_Query_reverseMap[_semantictag] = layerdefinition
+		}
+	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -419,6 +432,16 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Resource
 	// insertion point per field
 
+	// Compute reverse map for named struct SemanticTag
+	// insertion point per field
+	stage.SemanticTag_Parts_reverseMap = make(map[*Part]*SemanticTag)
+	for semantictag := range stage.SemanticTags {
+		_ = semantictag
+		for _, _part := range semantictag.Parts {
+			stage.SemanticTag_Parts_reverseMap[_part] = semantictag
+		}
+	}
+
 	// Compute reverse map for named struct System
 	// insertion point per field
 	stage.System_DiagramStructures_reverseMap = make(map[*DiagramStructure]*System)
@@ -518,11 +541,19 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DiagramLayerStates {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.DiagramStructures {
 		res = append(res, instance)
 	}
 
 	for instance := range stage.ExternalPartShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.LayerDefinitions {
 		res = append(res, instance)
 	}
 
@@ -567,6 +598,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Resources {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SemanticTags {
 		res = append(res, instance)
 	}
 
@@ -630,6 +665,12 @@ func (datashape *DataShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (diagramlayerstate *DiagramLayerState) GongCopy() GongstructIF {
+	newInstance := new(DiagramLayerState)
+	diagramlayerstate.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (diagramstructure *DiagramStructure) GongCopy() GongstructIF {
 	newInstance := new(DiagramStructure)
 	diagramstructure.CopyBasicFields(newInstance)
@@ -639,6 +680,12 @@ func (diagramstructure *DiagramStructure) GongCopy() GongstructIF {
 func (externalpartshape *ExternalPartShape) GongCopy() GongstructIF {
 	newInstance := new(ExternalPartShape)
 	externalpartshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (layerdefinition *LayerDefinition) GongCopy() GongstructIF {
+	newInstance := new(LayerDefinition)
+	layerdefinition.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -705,6 +752,12 @@ func (portshape *PortShape) GongCopy() GongstructIF {
 func (resource *Resource) GongCopy() GongstructIF {
 	newInstance := new(Resource)
 	resource.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (semantictag *SemanticTag) GongCopy() GongstructIF {
+	newInstance := new(SemanticTag)
+	semantictag.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -801,6 +854,16 @@ func (datashape *DataShape) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
+func (diagramlayerstate *DiagramLayerState) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(diagramlayerstate).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagramlayerstate), uint64(GetOrderPointerGongstruct(stage, diagramlayerstate)))
+	return
+}
+
 func (diagramstructure *DiagramStructure) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(diagramstructure).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -818,6 +881,16 @@ func (externalpartshape *ExternalPartShape) GongGetUUID(stage *Stage) (uuid stri
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(externalpartshape), uint64(GetOrderPointerGongstruct(stage, externalpartshape)))
+	return
+}
+
+func (layerdefinition *LayerDefinition) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(layerdefinition).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(layerdefinition), uint64(GetOrderPointerGongstruct(stage, layerdefinition)))
 	return
 }
 
@@ -928,6 +1001,16 @@ func (resource *Resource) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resource), uint64(GetOrderPointerGongstruct(stage, resource)))
+	return
+}
+
+func (semantictag *SemanticTag) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(semantictag).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(semantictag), uint64(GetOrderPointerGongstruct(stage, semantictag)))
 	return
 }
 
@@ -1409,6 +1492,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(datashapes_newInstances)
 	lenDeletedInstances += len(datashapes_deletedInstances)
+	var diagramlayerstates_newInstances []*DiagramLayerState
+	var diagramlayerstates_deletedInstances []*DiagramLayerState
+
+	// parse all staged instances and check if they have a reference
+	for diagramlayerstate := range stage.DiagramLayerStates {
+		if ref, ok := stage.DiagramLayerStates_reference[diagramlayerstate]; !ok {
+			diagramlayerstates_newInstances = append(diagramlayerstates_newInstances, diagramlayerstate)
+			newInstancesSlice = append(newInstancesSlice, diagramlayerstate.GongMarshallIdentifier(stage))
+			if stage.DiagramLayerStates_referenceOrder == nil {
+				stage.DiagramLayerStates_referenceOrder = make(map[*DiagramLayerState]uint)
+			}
+			stage.DiagramLayerStates_referenceOrder[diagramlayerstate] = stage.DiagramLayerState_stagedOrder[diagramlayerstate]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagramlayerstate.GongMarshallUnstaging(stage))
+			// delete(stage.DiagramLayerStates_referenceOrder, diagramlayerstate)
+			fieldInitializers, pointersInitializations := diagramlayerstate.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DiagramLayerState_stagedOrder[ref] = stage.DiagramLayerState_stagedOrder[diagramlayerstate]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := diagramlayerstate.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, diagramlayerstate)
+			// delete(stage.DiagramLayerState_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if diagramlayerstate.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagramlayerstate.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DiagramLayerStates_reference {
+		instance := stage.DiagramLayerStates_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramLayerStates[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			diagramlayerstates_deletedInstances = append(diagramlayerstates_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(diagramlayerstates_newInstances)
+	lenDeletedInstances += len(diagramlayerstates_deletedInstances)
 	var diagramstructures_newInstances []*DiagramStructure
 	var diagramstructures_deletedInstances []*DiagramStructure
 
@@ -1519,6 +1657,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(externalpartshapes_newInstances)
 	lenDeletedInstances += len(externalpartshapes_deletedInstances)
+	var layerdefinitions_newInstances []*LayerDefinition
+	var layerdefinitions_deletedInstances []*LayerDefinition
+
+	// parse all staged instances and check if they have a reference
+	for layerdefinition := range stage.LayerDefinitions {
+		if ref, ok := stage.LayerDefinitions_reference[layerdefinition]; !ok {
+			layerdefinitions_newInstances = append(layerdefinitions_newInstances, layerdefinition)
+			newInstancesSlice = append(newInstancesSlice, layerdefinition.GongMarshallIdentifier(stage))
+			if stage.LayerDefinitions_referenceOrder == nil {
+				stage.LayerDefinitions_referenceOrder = make(map[*LayerDefinition]uint)
+			}
+			stage.LayerDefinitions_referenceOrder[layerdefinition] = stage.LayerDefinition_stagedOrder[layerdefinition]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, layerdefinition.GongMarshallUnstaging(stage))
+			// delete(stage.LayerDefinitions_referenceOrder, layerdefinition)
+			fieldInitializers, pointersInitializations := layerdefinition.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.LayerDefinition_stagedOrder[ref] = stage.LayerDefinition_stagedOrder[layerdefinition]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := layerdefinition.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, layerdefinition)
+			// delete(stage.LayerDefinition_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if layerdefinition.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", layerdefinition.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.LayerDefinitions_reference {
+		instance := stage.LayerDefinitions_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.LayerDefinitions[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			layerdefinitions_deletedInstances = append(layerdefinitions_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(layerdefinitions_newInstances)
+	lenDeletedInstances += len(layerdefinitions_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -2124,6 +2317,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(resources_newInstances)
 	lenDeletedInstances += len(resources_deletedInstances)
+	var semantictags_newInstances []*SemanticTag
+	var semantictags_deletedInstances []*SemanticTag
+
+	// parse all staged instances and check if they have a reference
+	for semantictag := range stage.SemanticTags {
+		if ref, ok := stage.SemanticTags_reference[semantictag]; !ok {
+			semantictags_newInstances = append(semantictags_newInstances, semantictag)
+			newInstancesSlice = append(newInstancesSlice, semantictag.GongMarshallIdentifier(stage))
+			if stage.SemanticTags_referenceOrder == nil {
+				stage.SemanticTags_referenceOrder = make(map[*SemanticTag]uint)
+			}
+			stage.SemanticTags_referenceOrder[semantictag] = stage.SemanticTag_stagedOrder[semantictag]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, semantictag.GongMarshallUnstaging(stage))
+			// delete(stage.SemanticTags_referenceOrder, semantictag)
+			fieldInitializers, pointersInitializations := semantictag.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.SemanticTag_stagedOrder[ref] = stage.SemanticTag_stagedOrder[semantictag]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := semantictag.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, semantictag)
+			// delete(stage.SemanticTag_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if semantictag.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", semantictag.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.SemanticTags_reference {
+		instance := stage.SemanticTags_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SemanticTags[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			semantictags_deletedInstances = append(semantictags_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(semantictags_newInstances)
+	lenDeletedInstances += len(semantictags_deletedInstances)
 	var systems_newInstances []*System
 	var systems_deletedInstances []*System
 
@@ -2349,6 +2597,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.DataShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DiagramLayerStates_reference = make(map[*DiagramLayerState]*DiagramLayerState)
+	stage.DiagramLayerStates_referenceOrder = make(map[*DiagramLayerState]uint) // diff Unstage needs the reference order
+	stage.DiagramLayerStates_instance = make(map[*DiagramLayerState]*DiagramLayerState)
+	for instance := range stage.DiagramLayerStates {
+		_copy := instance.GongCopy().(*DiagramLayerState)
+		stage.DiagramLayerStates_reference[instance] = _copy
+		stage.DiagramLayerStates_instance[_copy] = instance
+		stage.DiagramLayerStates_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.DiagramStructures_reference = make(map[*DiagramStructure]*DiagramStructure)
 	stage.DiagramStructures_referenceOrder = make(map[*DiagramStructure]uint) // diff Unstage needs the reference order
 	stage.DiagramStructures_instance = make(map[*DiagramStructure]*DiagramStructure)
@@ -2367,6 +2625,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ExternalPartShapes_reference[instance] = _copy
 		stage.ExternalPartShapes_instance[_copy] = instance
 		stage.ExternalPartShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.LayerDefinitions_reference = make(map[*LayerDefinition]*LayerDefinition)
+	stage.LayerDefinitions_referenceOrder = make(map[*LayerDefinition]uint) // diff Unstage needs the reference order
+	stage.LayerDefinitions_instance = make(map[*LayerDefinition]*LayerDefinition)
+	for instance := range stage.LayerDefinitions {
+		_copy := instance.GongCopy().(*LayerDefinition)
+		stage.LayerDefinitions_reference[instance] = _copy
+		stage.LayerDefinitions_instance[_copy] = instance
+		stage.LayerDefinitions_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Librarys_reference = make(map[*Library]*Library)
@@ -2479,6 +2747,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Resources_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.SemanticTags_reference = make(map[*SemanticTag]*SemanticTag)
+	stage.SemanticTags_referenceOrder = make(map[*SemanticTag]uint) // diff Unstage needs the reference order
+	stage.SemanticTags_instance = make(map[*SemanticTag]*SemanticTag)
+	for instance := range stage.SemanticTags {
+		_copy := instance.GongCopy().(*SemanticTag)
+		stage.SemanticTags_reference[instance] = _copy
+		stage.SemanticTags_instance[_copy] = instance
+		stage.SemanticTags_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Systems_reference = make(map[*System]*System)
 	stage.Systems_referenceOrder = make(map[*System]uint) // diff Unstage needs the reference order
 	stage.Systems_instance = make(map[*System]*System)
@@ -2540,6 +2818,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.DiagramLayerStates {
+		reference := stage.DiagramLayerStates_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.DiagramStructures {
 		reference := stage.DiagramStructures_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2547,6 +2830,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.ExternalPartShapes {
 		reference := stage.ExternalPartShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.LayerDefinitions {
+		reference := stage.LayerDefinitions_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2602,6 +2890,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Resources {
 		reference := stage.Resources_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.SemanticTags {
+		reference := stage.SemanticTags_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2721,6 +3014,18 @@ func (datashape *DataShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (diagramlayerstate *DiagramLayerState) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiagramLayerState_stagedOrder[diagramlayerstate]; ok {
+		return order
+	}
+	if order, ok := stage.DiagramLayerStates_referenceOrder[diagramlayerstate]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DiagramLayerState was not staged and does not have a reference order", diagramlayerstate)
+		return 0
+	}
+}
+
 func (diagramstructure *DiagramStructure) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.DiagramStructure_stagedOrder[diagramstructure]; ok {
 		return order
@@ -2741,6 +3046,18 @@ func (externalpartshape *ExternalPartShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type ExternalPartShape was not staged and does not have a reference order", externalpartshape)
+		return 0
+	}
+}
+
+func (layerdefinition *LayerDefinition) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.LayerDefinition_stagedOrder[layerdefinition]; ok {
+		return order
+	}
+	if order, ok := stage.LayerDefinitions_referenceOrder[layerdefinition]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type LayerDefinition was not staged and does not have a reference order", layerdefinition)
 		return 0
 	}
 }
@@ -2877,6 +3194,18 @@ func (resource *Resource) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (semantictag *SemanticTag) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.SemanticTag_stagedOrder[semantictag]; ok {
+		return order
+	}
+	if order, ok := stage.SemanticTags_referenceOrder[semantictag]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type SemanticTag was not staged and does not have a reference order", semantictag)
+		return 0
+	}
+}
+
 func (system *System) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.System_stagedOrder[system]; ok {
 		return order
@@ -2978,6 +3307,15 @@ func (datashape *DataShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", datashape.GongGetGongstructName(), datashape.GongGetOrder(stage))
 }
 
+func (diagramlayerstate *DiagramLayerState) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramlayerstate.GongGetGongstructName(), diagramlayerstate.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (diagramlayerstate *DiagramLayerState) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramlayerstate.GongGetGongstructName(), diagramlayerstate.GongGetOrder(stage))
+}
+
 func (diagramstructure *DiagramStructure) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagramstructure.GongGetGongstructName(), diagramstructure.GongGetOrder(stage))
 }
@@ -2994,6 +3332,15 @@ func (externalpartshape *ExternalPartShape) GongGetIdentifier(stage *Stage) stri
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (externalpartshape *ExternalPartShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", externalpartshape.GongGetGongstructName(), externalpartshape.GongGetOrder(stage))
+}
+
+func (layerdefinition *LayerDefinition) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", layerdefinition.GongGetGongstructName(), layerdefinition.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (layerdefinition *LayerDefinition) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", layerdefinition.GongGetGongstructName(), layerdefinition.GongGetOrder(stage))
 }
 
 func (library *Library) GongGetIdentifier(stage *Stage) string {
@@ -3095,6 +3442,15 @@ func (resource *Resource) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
 }
 
+func (semantictag *SemanticTag) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", semantictag.GongGetGongstructName(), semantictag.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (semantictag *SemanticTag) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", semantictag.GongGetGongstructName(), semantictag.GongGetOrder(stage))
+}
+
 func (system *System) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", system.GongGetGongstructName(), system.GongGetOrder(stage))
 }
@@ -3180,6 +3536,14 @@ func (datashape *DataShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (diagramlayerstate *DiagramLayerState) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramlayerstate.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramLayerState")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramlayerstate.Name))
+	return
+}
+
 func (diagramstructure *DiagramStructure) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
@@ -3193,6 +3557,14 @@ func (externalpartshape *ExternalPartShape) GongMarshallIdentifier(stage *Stage)
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", externalpartshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ExternalPartShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(externalpartshape.Name))
+	return
+}
+
+func (layerdefinition *LayerDefinition) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", layerdefinition.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LayerDefinition")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layerdefinition.Name))
 	return
 }
 
@@ -3284,6 +3656,14 @@ func (resource *Resource) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (semantictag *SemanticTag) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", semantictag.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SemanticTag")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(semantictag.Name))
+	return
+}
+
 func (system *System) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", system.GongGetIdentifier(stage))
@@ -3349,6 +3729,12 @@ func (datashape *DataShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
+func (diagramlayerstate *DiagramLayerState) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramlayerstate.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (diagramstructure *DiagramStructure) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramstructure.GongGetReferenceIdentifier(stage))
@@ -3358,6 +3744,12 @@ func (diagramstructure *DiagramStructure) GongMarshallUnstaging(stage *Stage) (d
 func (externalpartshape *ExternalPartShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", externalpartshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (layerdefinition *LayerDefinition) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", layerdefinition.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -3424,6 +3816,12 @@ func (portshape *PortShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (resource *Resource) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (semantictag *SemanticTag) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", semantictag.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -27,8 +27,19 @@ func _(stage *models.Stage) {
 	// insertion point for declaration of instances to stage
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `01 - Abstract Syntax`}).Stage(stage)
+	__Classdiagram__00000001_ := (&models.Classdiagram{Name: `04 - Filtering`}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2026-06-20T12:07:50Z`}).Stage(stage)
+
+	__GongNoteLinkShape__00000000_ := (&models.GongNoteLinkShape{Name: `04 - Filtering-04 - Filtering-AbstractObjects-SemanticTag`}).Stage(stage)
+	__GongNoteLinkShape__00000001_ := (&models.GongNoteLinkShape{Name: `04 - Filtering-04 - Filtering-AbstractObjects-Part`}).Stage(stage)
+	__GongNoteLinkShape__00000002_ := (&models.GongNoteLinkShape{Name: `04 - Filtering-04 - Filtering-AbstractObjects-LayerDefinition`}).Stage(stage)
+	__GongNoteLinkShape__00000003_ := (&models.GongNoteLinkShape{Name: `04 - Filtering-04 - Filtering-ConcreteObjects-DiagramLayerState`}).Stage(stage)
+	__GongNoteLinkShape__00000004_ := (&models.GongNoteLinkShape{Name: `04 - Filtering-04 - Filtering-ConcreteObjects-DiagramStructure`}).Stage(stage)
+	__GongNoteLinkShape__00000005_ := (&models.GongNoteLinkShape{Name: `04 - Filtering-04 - Filtering-ConcreteObjects-PartShape`}).Stage(stage)
+
+	__GongNoteShape__00000000_ := (&models.GongNoteShape{Name: `04 - Filtering-AbstractObjects`}).Stage(stage)
+	__GongNoteShape__00000001_ := (&models.GongNoteShape{Name: `04 - Filtering-ConcreteObjects`}).Stage(stage)
 
 	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-Note`}).Stage(stage)
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Library`}).Stage(stage)
@@ -37,6 +48,12 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `Default-Part`}).Stage(stage)
 	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `01 - Abstract Syntax-DataFlow`}).Stage(stage)
 	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `01 - Abstract Syntax-Data`}).Stage(stage)
+	__GongStructShape__00000008_ := (&models.GongStructShape{Name: `04 - Filtering-Tag`}).Stage(stage)
+	__GongStructShape__00000009_ := (&models.GongStructShape{Name: `04 - Filtering-Part`}).Stage(stage)
+	__GongStructShape__00000010_ := (&models.GongStructShape{Name: `04 - Filtering-DiagramStructure`}).Stage(stage)
+	__GongStructShape__00000011_ := (&models.GongStructShape{Name: `04 - Filtering-PartShape`}).Stage(stage)
+	__GongStructShape__00000012_ := (&models.GongStructShape{Name: `04 - Filtering-DiagramStructureQuery`}).Stage(stage)
+	__GongStructShape__00000013_ := (&models.GongStructShape{Name: `04 - Filtering-DiagramLayerState`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `RootNotes`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `RootSystemes`}).Stage(stage)
@@ -48,6 +65,12 @@ func _(stage *models.Stage) {
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `StartPort`}).Stage(stage)
 	__LinkShape__00000008_ := (&models.LinkShape{Name: `EndPort`}).Stage(stage)
 	__LinkShape__00000010_ := (&models.LinkShape{Name: `Datas`}).Stage(stage)
+	__LinkShape__00000011_ := (&models.LinkShape{Name: `Parts`}).Stage(stage)
+	__LinkShape__00000012_ := (&models.LinkShape{Name: `Part`}).Stage(stage)
+	__LinkShape__00000013_ := (&models.LinkShape{Name: `Part_Shapes`}).Stage(stage)
+	__LinkShape__00000015_ := (&models.LinkShape{Name: `Query`}).Stage(stage)
+	__LinkShape__00000016_ := (&models.LinkShape{Name: `LayerDefinition`}).Stage(stage)
+	__LinkShape__00000017_ := (&models.LinkShape{Name: `DiagramStructure`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -59,17 +82,96 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
 
+	__Classdiagram__00000001_.Name = `04 - Filtering`
+	__Classdiagram__00000001_.Description = ``
+	__Classdiagram__00000001_.IsIncludedInStaticWebSite = true
+	__Classdiagram__00000001_.ShowNbInstances = false
+	__Classdiagram__00000001_.ShowMultiplicity = true
+	__Classdiagram__00000001_.ShowLinkNames = true
+	__Classdiagram__00000001_.IsInRenameMode = false
+	__Classdiagram__00000001_.IsExpanded = true
+	__Classdiagram__00000001_.NodeGongStructsIsExpanded = false
+	__Classdiagram__00000001_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,true]`
+	__Classdiagram__00000001_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000001_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000001_.NodeGongNotesIsExpanded = true
+	__Classdiagram__00000001_.NodeGongNoteNodeExpansion = `[true,true]`
+
 	__DiagramPackage__00000000_.Name = `Diagram Package created the 2026-06-20T12:07:50Z`
 	__DiagramPackage__00000000_.Path = ``
 	__DiagramPackage__00000000_.GongModelPath = ``
 	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
+
+	__GongNoteLinkShape__00000000_.Name = `04 - Filtering-04 - Filtering-AbstractObjects-SemanticTag`
+	__GongNoteLinkShape__00000000_.Identifier = `ref_models.SemanticTag`
+	__GongNoteLinkShape__00000000_.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__GongNoteLinkShape__00000001_.Name = `04 - Filtering-04 - Filtering-AbstractObjects-Part`
+	__GongNoteLinkShape__00000001_.Identifier = `ref_models.Part`
+	__GongNoteLinkShape__00000001_.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__GongNoteLinkShape__00000002_.Name = `04 - Filtering-04 - Filtering-AbstractObjects-LayerDefinition`
+	__GongNoteLinkShape__00000002_.Identifier = `ref_models.LayerDefinition`
+	__GongNoteLinkShape__00000002_.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__GongNoteLinkShape__00000003_.Name = `04 - Filtering-04 - Filtering-ConcreteObjects-DiagramLayerState`
+	__GongNoteLinkShape__00000003_.Identifier = `ref_models.DiagramLayerState`
+	__GongNoteLinkShape__00000003_.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__GongNoteLinkShape__00000004_.Name = `04 - Filtering-04 - Filtering-ConcreteObjects-DiagramStructure`
+	__GongNoteLinkShape__00000004_.Identifier = `ref_models.DiagramStructure`
+	__GongNoteLinkShape__00000004_.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__GongNoteLinkShape__00000005_.Name = `04 - Filtering-04 - Filtering-ConcreteObjects-PartShape`
+	__GongNoteLinkShape__00000005_.Identifier = `ref_models.PartShape`
+	__GongNoteLinkShape__00000005_.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__GongNoteShape__00000000_.Name = `04 - Filtering-AbstractObjects`
+	__GongNoteShape__00000000_.Identifier = `ref_models.AbstractObjects`
+	__GongNoteShape__00000000_.Body = `Abstract Concepts
+
+[models.SemanticTag],
+[models.Part],
+[models.LayerDefinition]
+`
+	__GongNoteShape__00000000_.BodyHTML = `<p>Abstract Concepts
+<p><a href="/models#SemanticTag">models.SemanticTag</a>,
+<a href="/models#Part">models.Part</a>,
+<a href="/models#LayerDefinition">models.LayerDefinition</a>
+`
+	__GongNoteShape__00000000_.X = 380.000000
+	__GongNoteShape__00000000_.Y = 200.000000
+	__GongNoteShape__00000000_.Width = 240.000000
+	__GongNoteShape__00000000_.Height = 63.000000
+	__GongNoteShape__00000000_.Matched = false
+	__GongNoteShape__00000000_.IsExpanded = false
+
+	__GongNoteShape__00000001_.Name = `04 - Filtering-ConcreteObjects`
+	__GongNoteShape__00000001_.Identifier = `ref_models.ConcreteObjects`
+	__GongNoteShape__00000001_.Body = `Concrete Concepts
+
+[models.DiagramLayerState],
+[models.DiagramStructure],
+[models.PartShape]
+`
+	__GongNoteShape__00000001_.BodyHTML = `<p>Concrete Concepts
+<p><a href="/models#DiagramLayerState">models.DiagramLayerState</a>,
+<a href="/models#DiagramStructure">models.DiagramStructure</a>,
+<a href="/models#PartShape">models.PartShape</a>
+`
+	__GongNoteShape__00000001_.X = 274.000000
+	__GongNoteShape__00000001_.Y = 414.000000
+	__GongNoteShape__00000001_.Width = 240.000000
+	__GongNoteShape__00000001_.Height = 63.000000
+	__GongNoteShape__00000001_.Matched = false
+	__GongNoteShape__00000001_.IsExpanded = false
 
 	__GongStructShape__00000000_.Name = `Default-Note`
 	__GongStructShape__00000000_.X = 446.000000
@@ -126,6 +228,54 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.Width = 240.000000
 	__GongStructShape__00000006_.Height = 63.000000
 	__GongStructShape__00000006_.IsSelected = false
+
+	__GongStructShape__00000008_.Name = `04 - Filtering-Tag`
+	__GongStructShape__00000008_.X = 91.000000
+	__GongStructShape__00000008_.Y = 72.000000
+	__GongStructShape__00000008_.IdentifierMeta = ref_models.SemanticTag{}
+	__GongStructShape__00000008_.Width = 240.000000
+	__GongStructShape__00000008_.Height = 63.000000
+	__GongStructShape__00000008_.IsSelected = false
+
+	__GongStructShape__00000009_.Name = `04 - Filtering-Part`
+	__GongStructShape__00000009_.X = 88.000000
+	__GongStructShape__00000009_.Y = 263.000000
+	__GongStructShape__00000009_.IdentifierMeta = ref_models.Part{}
+	__GongStructShape__00000009_.Width = 240.000000
+	__GongStructShape__00000009_.Height = 63.000000
+	__GongStructShape__00000009_.IsSelected = false
+
+	__GongStructShape__00000010_.Name = `04 - Filtering-DiagramStructure`
+	__GongStructShape__00000010_.X = 599.000000
+	__GongStructShape__00000010_.Y = 580.000000
+	__GongStructShape__00000010_.IdentifierMeta = ref_models.DiagramStructure{}
+	__GongStructShape__00000010_.Width = 240.000000
+	__GongStructShape__00000010_.Height = 63.000000
+	__GongStructShape__00000010_.IsSelected = false
+
+	__GongStructShape__00000011_.Name = `04 - Filtering-PartShape`
+	__GongStructShape__00000011_.X = 93.000000
+	__GongStructShape__00000011_.Y = 585.000000
+	__GongStructShape__00000011_.IdentifierMeta = ref_models.PartShape{}
+	__GongStructShape__00000011_.Width = 240.000000
+	__GongStructShape__00000011_.Height = 63.000000
+	__GongStructShape__00000011_.IsSelected = false
+
+	__GongStructShape__00000012_.Name = `04 - Filtering-DiagramStructureQuery`
+	__GongStructShape__00000012_.X = 607.000000
+	__GongStructShape__00000012_.Y = 75.000000
+	__GongStructShape__00000012_.IdentifierMeta = ref_models.LayerDefinition{}
+	__GongStructShape__00000012_.Width = 240.000000
+	__GongStructShape__00000012_.Height = 63.000000
+	__GongStructShape__00000012_.IsSelected = false
+
+	__GongStructShape__00000013_.Name = `04 - Filtering-DiagramLayerState`
+	__GongStructShape__00000013_.X = 594.000000
+	__GongStructShape__00000013_.Y = 397.000000
+	__GongStructShape__00000013_.IdentifierMeta = ref_models.DiagramLayerState{}
+	__GongStructShape__00000013_.Width = 240.000000
+	__GongStructShape__00000013_.Height = 63.000000
+	__GongStructShape__00000013_.IsSelected = false
 
 	__LinkShape__00000000_.Name = `RootNotes`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.Library{}.RootNotes
@@ -317,6 +467,120 @@ func _(stage *models.Stage) {
 	__LinkShape__00000010_.EndRatio = 0.509462
 	__LinkShape__00000010_.CornerOffsetRatio = -0.532895
 
+	__LinkShape__00000011_.Name = `Parts`
+	__LinkShape__00000011_.IdentifierMeta = ref_models.SemanticTag{}.Parts
+	__LinkShape__00000011_.FieldTypeIdentifierMeta = ref_models.Part{}
+	__LinkShape__00000011_.FieldOffsetX = 0.000000
+	__LinkShape__00000011_.FieldOffsetY = 0.000000
+	__LinkShape__00000011_.TargetMultiplicity = models.MANY
+	__LinkShape__00000011_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.SourceMultiplicity = models.MANY
+	__LinkShape__00000011_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.X = 449.500000
+	__LinkShape__00000011_.Y = 199.000000
+	__LinkShape__00000011_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000011_.StartRatio = 0.742795
+	__LinkShape__00000011_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000011_.EndRatio = 0.755295
+	__LinkShape__00000011_.CornerOffsetRatio = 1.714286
+
+	__LinkShape__00000012_.Name = `Part`
+	__LinkShape__00000012_.IdentifierMeta = ref_models.PartShape{}.Part
+	__LinkShape__00000012_.FieldTypeIdentifierMeta = ref_models.Part{}
+	__LinkShape__00000012_.FieldOffsetX = 0.000000
+	__LinkShape__00000012_.FieldOffsetY = 0.000000
+	__LinkShape__00000012_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000012_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000012_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000012_.SourceMultiplicity = models.MANY
+	__LinkShape__00000012_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000012_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000012_.X = 707.000000
+	__LinkShape__00000012_.Y = 297.500000
+	__LinkShape__00000012_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000012_.StartRatio = 0.509462
+	__LinkShape__00000012_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000012_.EndRatio = 0.521962
+	__LinkShape__00000012_.CornerOffsetRatio = -1.555225
+
+	__LinkShape__00000013_.Name = `Part_Shapes`
+	__LinkShape__00000013_.IdentifierMeta = ref_models.DiagramStructure{}.Part_Shapes
+	__LinkShape__00000013_.FieldTypeIdentifierMeta = ref_models.PartShape{}
+	__LinkShape__00000013_.FieldOffsetX = 0.000000
+	__LinkShape__00000013_.FieldOffsetY = 0.000000
+	__LinkShape__00000013_.TargetMultiplicity = models.MANY
+	__LinkShape__00000013_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000013_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000013_.SourceMultiplicity = models.MANY
+	__LinkShape__00000013_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000013_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000013_.X = 966.500000
+	__LinkShape__00000013_.Y = 398.500000
+	__LinkShape__00000013_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000013_.StartRatio = 0.317791
+	__LinkShape__00000013_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000013_.EndRatio = 0.270172
+	__LinkShape__00000013_.CornerOffsetRatio = -0.436372
+
+	__LinkShape__00000015_.Name = `Query`
+	__LinkShape__00000015_.IdentifierMeta = ref_models.LayerDefinition{}.Query
+	__LinkShape__00000015_.FieldTypeIdentifierMeta = ref_models.SemanticTag{}
+	__LinkShape__00000015_.FieldOffsetX = 0.000000
+	__LinkShape__00000015_.FieldOffsetY = 0.000000
+	__LinkShape__00000015_.TargetMultiplicity = models.MANY
+	__LinkShape__00000015_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000015_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000015_.SourceMultiplicity = models.MANY
+	__LinkShape__00000015_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000015_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000015_.X = 883.499969
+	__LinkShape__00000015_.Y = 103.500000
+	__LinkShape__00000015_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000015_.StartRatio = 0.500000
+	__LinkShape__00000015_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000015_.EndRatio = 0.365079
+	__LinkShape__00000015_.CornerOffsetRatio = -1.098871
+
+	__LinkShape__00000016_.Name = `LayerDefinition`
+	__LinkShape__00000016_.IdentifierMeta = ref_models.DiagramLayerState{}.LayerDefinition
+	__LinkShape__00000016_.FieldTypeIdentifierMeta = ref_models.LayerDefinition{}
+	__LinkShape__00000016_.FieldOffsetX = 0.000000
+	__LinkShape__00000016_.FieldOffsetY = 0.000000
+	__LinkShape__00000016_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000016_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000016_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000016_.SourceMultiplicity = models.MANY
+	__LinkShape__00000016_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000016_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000016_.X = 958.000000
+	__LinkShape__00000016_.Y = 199.500000
+	__LinkShape__00000016_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000016_.StartRatio = 0.613628
+	__LinkShape__00000016_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000016_.EndRatio = 0.526128
+	__LinkShape__00000016_.CornerOffsetRatio = -1.047289
+
+	__LinkShape__00000017_.Name = `DiagramStructure`
+	__LinkShape__00000017_.IdentifierMeta = ref_models.DiagramLayerState{}.DiagramStructure
+	__LinkShape__00000017_.FieldTypeIdentifierMeta = ref_models.DiagramStructure{}
+	__LinkShape__00000017_.FieldOffsetX = 0.000000
+	__LinkShape__00000017_.FieldOffsetY = 0.000000
+	__LinkShape__00000017_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000017_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000017_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000017_.SourceMultiplicity = models.MANY
+	__LinkShape__00000017_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000017_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000017_.X = 956.000000
+	__LinkShape__00000017_.Y = 410.500000
+	__LinkShape__00000017_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000017_.StartRatio = 0.613628
+	__LinkShape__00000017_.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000017_.EndRatio = 0.617795
+	__LinkShape__00000017_.CornerOffsetRatio = 1.762235
+
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
@@ -325,8 +589,23 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000005_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000008_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000009_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000010_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000011_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000012_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000013_)
+	__Classdiagram__00000001_.GongNoteShapes = append(__Classdiagram__00000001_.GongNoteShapes, __GongNoteShape__00000000_)
+	__Classdiagram__00000001_.GongNoteShapes = append(__Classdiagram__00000001_.GongNoteShapes, __GongNoteShape__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000001_
+	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000000_)
+	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000001_)
+	__GongNoteShape__00000000_.GongNoteLinkShapes = append(__GongNoteShape__00000000_.GongNoteLinkShapes, __GongNoteLinkShape__00000002_)
+	__GongNoteShape__00000001_.GongNoteLinkShapes = append(__GongNoteShape__00000001_.GongNoteLinkShapes, __GongNoteLinkShape__00000003_)
+	__GongNoteShape__00000001_.GongNoteLinkShapes = append(__GongNoteShape__00000001_.GongNoteLinkShapes, __GongNoteLinkShape__00000004_)
+	__GongNoteShape__00000001_.GongNoteLinkShapes = append(__GongNoteShape__00000001_.GongNoteLinkShapes, __GongNoteLinkShape__00000005_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000004_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000001_)
@@ -337,4 +616,10 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_.LinkShapes = append(__GongStructShape__00000005_.LinkShapes, __LinkShape__00000007_)
 	__GongStructShape__00000005_.LinkShapes = append(__GongStructShape__00000005_.LinkShapes, __LinkShape__00000008_)
 	__GongStructShape__00000005_.LinkShapes = append(__GongStructShape__00000005_.LinkShapes, __LinkShape__00000010_)
+	__GongStructShape__00000008_.LinkShapes = append(__GongStructShape__00000008_.LinkShapes, __LinkShape__00000011_)
+	__GongStructShape__00000010_.LinkShapes = append(__GongStructShape__00000010_.LinkShapes, __LinkShape__00000013_)
+	__GongStructShape__00000011_.LinkShapes = append(__GongStructShape__00000011_.LinkShapes, __LinkShape__00000012_)
+	__GongStructShape__00000012_.LinkShapes = append(__GongStructShape__00000012_.LinkShapes, __LinkShape__00000015_)
+	__GongStructShape__00000013_.LinkShapes = append(__GongStructShape__00000013_.LinkShapes, __LinkShape__00000016_)
+	__GongStructShape__00000013_.LinkShapes = append(__GongStructShape__00000013_.LinkShapes, __LinkShape__00000017_)
 }

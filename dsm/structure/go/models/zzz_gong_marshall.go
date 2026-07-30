@@ -534,6 +534,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlow"))
 	}
 
+	diagramlayerstateOrdered := []*DiagramLayerState{}
+	for diagramlayerstate := range stage.DiagramLayerStates {
+		diagramlayerstateOrdered = append(diagramlayerstateOrdered, diagramlayerstate)
+	}
+	sort.Slice(diagramlayerstateOrdered[:], func(i, j int) bool {
+		diagramlayerstatei := diagramlayerstateOrdered[i]
+		diagramlayerstatej := diagramlayerstateOrdered[j]
+		diagramlayerstatei_order, oki := stage.DiagramLayerState_stagedOrder[diagramlayerstatei]
+		diagramlayerstatej_order, okj := stage.DiagramLayerState_stagedOrder[diagramlayerstatej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return diagramlayerstatei_order < diagramlayerstatej_order
+	})
+	if len(diagramlayerstateOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, diagramlayerstate := range diagramlayerstateOrdered {
+
+		identifiersDecl.WriteString(diagramlayerstate.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagramlayerstate.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(diagramlayerstate.GongMarshallField(stage, "DiagramStructure"))
+		pointersInitializesStatements.WriteString(diagramlayerstate.GongMarshallField(stage, "LayerDefinition"))
+	}
+
 	diagramstructureOrdered := []*DiagramStructure{}
 	for diagramstructure := range stage.DiagramStructures {
 		diagramstructureOrdered = append(diagramstructureOrdered, diagramstructure)
@@ -631,6 +659,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(externalpartshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(externalpartshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(externalpartshape.GongMarshallField(stage, "TailHeigth"))
+	}
+
+	layerdefinitionOrdered := []*LayerDefinition{}
+	for layerdefinition := range stage.LayerDefinitions {
+		layerdefinitionOrdered = append(layerdefinitionOrdered, layerdefinition)
+	}
+	sort.Slice(layerdefinitionOrdered[:], func(i, j int) bool {
+		layerdefinitioni := layerdefinitionOrdered[i]
+		layerdefinitionj := layerdefinitionOrdered[j]
+		layerdefinitioni_order, oki := stage.LayerDefinition_stagedOrder[layerdefinitioni]
+		layerdefinitionj_order, okj := stage.LayerDefinition_stagedOrder[layerdefinitionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return layerdefinitioni_order < layerdefinitionj_order
+	})
+	if len(layerdefinitionOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, layerdefinition := range layerdefinitionOrdered {
+
+		identifiersDecl.WriteString(layerdefinition.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(layerdefinition.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(layerdefinition.GongMarshallField(stage, "Query"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -1026,6 +1081,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
 
+	semantictagOrdered := []*SemanticTag{}
+	for semantictag := range stage.SemanticTags {
+		semantictagOrdered = append(semantictagOrdered, semantictag)
+	}
+	sort.Slice(semantictagOrdered[:], func(i, j int) bool {
+		semantictagi := semantictagOrdered[i]
+		semantictagj := semantictagOrdered[j]
+		semantictagi_order, oki := stage.SemanticTag_stagedOrder[semantictagi]
+		semantictagj_order, okj := stage.SemanticTag_stagedOrder[semantictagj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return semantictagi_order < semantictagj_order
+	})
+	if len(semantictagOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, semantictag := range semantictagOrdered {
+
+		identifiersDecl.WriteString(semantictag.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(semantictag.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(semantictag.GongMarshallField(stage, "Parts"))
+	}
+
 	systemOrdered := []*System{}
 	for system := range stage.Systems {
 		systemOrdered = append(systemOrdered, system)
@@ -1165,6 +1247,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, diagramlayerstate := range diagramlayerstateOrdered {
+		_ = diagramlayerstate
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, diagramstructure := range diagramstructureOrdered {
 		_ = diagramstructure
 		var setPointerField string
@@ -1175,6 +1265,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, externalpartshape := range externalpartshapeOrdered {
 		_ = externalpartshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, layerdefinition := range layerdefinitionOrdered {
+		_ = layerdefinition
 		var setPointerField string
 		_ = setPointerField
 
@@ -1263,6 +1361,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, resource := range resourceOrdered {
 		_ = resource
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, semantictag := range semantictagOrdered {
+		_ = semantictag
 		var setPointerField string
 		_ = setPointerField
 
@@ -1834,6 +1940,47 @@ func (datashape *DataShape) GongMarshallField(stage *Stage, fieldName string) (r
 	return
 }
 
+func (diagramlayerstate *DiagramLayerState) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramlayerstate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramlayerstate.Name))
+
+	case "DiagramStructure":
+		if diagramlayerstate.DiagramStructure != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramlayerstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DiagramStructure")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramlayerstate.DiagramStructure.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramlayerstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DiagramStructure")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "LayerDefinition":
+		if diagramlayerstate.LayerDefinition != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramlayerstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayerDefinition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramlayerstate.LayerDefinition.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramlayerstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayerDefinition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DiagramLayerState", fieldName)
+	}
+	return
+}
+
 func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2228,6 +2375,31 @@ func (externalpartshape *ExternalPartShape) GongMarshallField(stage *Stage, fiel
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ExternalPartShape", fieldName)
+	}
+	return
+}
+
+func (layerdefinition *LayerDefinition) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", layerdefinition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layerdefinition.Name))
+
+	case "Query":
+		var sb strings.Builder
+		for _, _semantictag := range layerdefinition.Query {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", layerdefinition.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Query")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _semantictag.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct LayerDefinition", fieldName)
 	}
 	return
 }
@@ -3146,6 +3318,31 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 	return
 }
 
+func (semantictag *SemanticTag) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", semantictag.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(semantictag.Name))
+
+	case "Parts":
+		var sb strings.Builder
+		for _, _part := range semantictag.Parts {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", semantictag.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Parts")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _part.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SemanticTag", fieldName)
+	}
+	return
+}
+
 func (system *System) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3465,6 +3662,19 @@ func (datashape *DataShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (diagramlayerstate *DiagramLayerState) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagramlayerstate.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(diagramlayerstate.GongMarshallField(stage, "DiagramStructure"))
+		pointersInitializesStatements.WriteString(diagramlayerstate.GongMarshallField(stage, "LayerDefinition"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -3529,6 +3739,18 @@ func (externalpartshape *ExternalPartShape) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(externalpartshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(externalpartshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(externalpartshape.GongMarshallField(stage, "TailHeigth"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (layerdefinition *LayerDefinition) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(layerdefinition.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(layerdefinition.GongMarshallField(stage, "Query"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3757,6 +3979,18 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (semantictag *SemanticTag) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(semantictag.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(semantictag.GongMarshallField(stage, "Parts"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

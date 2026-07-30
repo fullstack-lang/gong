@@ -178,6 +178,17 @@ func (from *DataShape) CopyBasicFields(to *DataShape) {
 	to.Name = from.Name
 }
 
+type DiagramLayerState_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *DiagramLayerState) CopyBasicFields(to *DiagramLayerState) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type DiagramStructure_WOP struct {
 	// insertion point
 
@@ -261,6 +272,17 @@ func (from *ExternalPartShape) CopyBasicFields(to *ExternalPartShape) {
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
 	to.TailHeigth = from.TailHeigth
+}
+
+type LayerDefinition_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *LayerDefinition) CopyBasicFields(to *LayerDefinition) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type Library_WOP struct {
@@ -613,6 +635,17 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.IsExpanded = from.IsExpanded
 	to.SVG_Path = from.SVG_Path
 	to.InverseAppliedScaling = from.InverseAppliedScaling
+}
+
+type SemanticTag_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SemanticTag) CopyBasicFields(to *SemanticTag) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type System_WOP struct {

@@ -177,6 +177,15 @@ func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
+func (inst *DiagramLayerState) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *DiagramStructure) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -209,6 +218,15 @@ func (inst *ExternalPartShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 				res = _diagramstructure.Name
 			}
 		}
+	}
+	return
+}
+
+func (inst *LayerDefinition) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return
 }
@@ -344,6 +362,13 @@ func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 		case "Parts":
 			if _note, ok := stage.Note_Parts_reverseMap[inst]; ok {
 				res = _note.Name
+			}
+		}
+	case "SemanticTag":
+		switch reverseField.Fieldname {
+		case "Parts":
+			if _semantictag, ok := stage.SemanticTag_Parts_reverseMap[inst]; ok {
+				res = _semantictag.Name
 			}
 		}
 	case "System":
@@ -484,6 +509,22 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 		case "ResourcesWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *SemanticTag) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "LayerDefinition":
+		switch reverseField.Fieldname {
+		case "Query":
+			if _layerdefinition, ok := stage.LayerDefinition_Query_reverseMap[inst]; ok {
+				res = _layerdefinition.Name
 			}
 		}
 	}
@@ -688,6 +729,15 @@ func (inst *DataShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
+func (inst *DiagramLayerState) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *DiagramStructure) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -714,6 +764,15 @@ func (inst *ExternalPartShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 		case "ExternalPart_Shapes":
 			res = stage.DiagramStructure_ExternalPart_Shapes_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *LayerDefinition) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }
@@ -823,6 +882,11 @@ func (inst *Part) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		case "Parts":
 			res = stage.Note_Parts_reverseMap[inst]
 		}
+	case "SemanticTag":
+		switch reverseField.Fieldname {
+		case "Parts":
+			res = stage.SemanticTag_Parts_reverseMap[inst]
+		}
 	case "System":
 		switch reverseField.Fieldname {
 		case "Parts":
@@ -928,6 +992,20 @@ func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 			res = stage.Library_RootResources_reverseMap[inst]
 		case "ResourcesWhoseNodeIsExpanded":
 			res = stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *SemanticTag) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "LayerDefinition":
+		switch reverseField.Fieldname {
+		case "Query":
+			res = stage.LayerDefinition_Query_reverseMap[inst]
 		}
 	}
 	return res

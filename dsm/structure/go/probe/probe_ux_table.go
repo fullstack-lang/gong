@@ -40,10 +40,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.DataFlowShape](probe)
 	case "DataShape":
 		updateProbeTable[*models.DataShape](probe)
+	case "DiagramLayerState":
+		updateProbeTable[*models.DiagramLayerState](probe)
 	case "DiagramStructure":
 		updateProbeTable[*models.DiagramStructure](probe)
 	case "ExternalPartShape":
 		updateProbeTable[*models.ExternalPartShape](probe)
+	case "LayerDefinition":
+		updateProbeTable[*models.LayerDefinition](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Note":
@@ -66,6 +70,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PortShape](probe)
 	case "Resource":
 		updateProbeTable[*models.Resource](probe)
+	case "SemanticTag":
+		updateProbeTable[*models.SemanticTag](probe)
 	case "System":
 		updateProbeTable[*models.System](probe)
 	case "SystemShape":

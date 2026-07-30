@@ -123,6 +123,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DiagramLayerState:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "DiagramLayerState",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DiagramLayerStateFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.DiagramStructure:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -143,6 +156,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "ExternalPartShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ExternalPartShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.LayerDefinition:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "LayerDefinition",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LayerDefinitionFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -286,6 +312,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Resource",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ResourceFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.SemanticTag:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "SemanticTag",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SemanticTagFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

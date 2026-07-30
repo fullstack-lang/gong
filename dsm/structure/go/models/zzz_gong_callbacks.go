@@ -38,6 +38,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDataShapeCreateCallback != nil {
 			stage.OnAfterDataShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *DiagramLayerState:
+		if stage.OnAfterDiagramLayerStateCreateCallback != nil {
+			stage.OnAfterDiagramLayerStateCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *DiagramStructure:
 		if stage.OnAfterDiagramStructureCreateCallback != nil {
 			stage.OnAfterDiagramStructureCreateCallback.OnAfterCreate(stage, target)
@@ -45,6 +49,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ExternalPartShape:
 		if stage.OnAfterExternalPartShapeCreateCallback != nil {
 			stage.OnAfterExternalPartShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *LayerDefinition:
+		if stage.OnAfterLayerDefinitionCreateCallback != nil {
+			stage.OnAfterLayerDefinitionCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
@@ -89,6 +97,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Resource:
 		if stage.OnAfterResourceCreateCallback != nil {
 			stage.OnAfterResourceCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *SemanticTag:
+		if stage.OnAfterSemanticTagCreateCallback != nil {
+			stage.OnAfterSemanticTagCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *System:
 		if stage.OnAfterSystemCreateCallback != nil {
@@ -152,6 +164,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterDataShapeUpdateCallback != nil {
 			stage.OnAfterDataShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *DiagramLayerState:
+		newTarget := any(new).(*DiagramLayerState)
+		if stage.OnAfterDiagramLayerStateUpdateCallback != nil {
+			stage.OnAfterDiagramLayerStateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *DiagramStructure:
 		newTarget := any(new).(*DiagramStructure)
 		if stage.OnAfterDiagramStructureUpdateCallback != nil {
@@ -161,6 +178,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*ExternalPartShape)
 		if stage.OnAfterExternalPartShapeUpdateCallback != nil {
 			stage.OnAfterExternalPartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *LayerDefinition:
+		newTarget := any(new).(*LayerDefinition)
+		if stage.OnAfterLayerDefinitionUpdateCallback != nil {
+			stage.OnAfterLayerDefinitionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -216,6 +238,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Resource)
 		if stage.OnAfterResourceUpdateCallback != nil {
 			stage.OnAfterResourceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *SemanticTag:
+		newTarget := any(new).(*SemanticTag)
+		if stage.OnAfterSemanticTagUpdateCallback != nil {
+			stage.OnAfterSemanticTagUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *System:
 		newTarget := any(new).(*System)
@@ -277,6 +304,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*DataShape)
 			stage.OnAfterDataShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *DiagramLayerState:
+		if stage.OnAfterDiagramLayerStateDeleteCallback != nil {
+			staged := any(staged).(*DiagramLayerState)
+			stage.OnAfterDiagramLayerStateDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *DiagramStructure:
 		if stage.OnAfterDiagramStructureDeleteCallback != nil {
 			staged := any(staged).(*DiagramStructure)
@@ -286,6 +318,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterExternalPartShapeDeleteCallback != nil {
 			staged := any(staged).(*ExternalPartShape)
 			stage.OnAfterExternalPartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *LayerDefinition:
+		if stage.OnAfterLayerDefinitionDeleteCallback != nil {
+			staged := any(staged).(*LayerDefinition)
+			stage.OnAfterLayerDefinitionDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
@@ -342,6 +379,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Resource)
 			stage.OnAfterResourceDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *SemanticTag:
+		if stage.OnAfterSemanticTagDeleteCallback != nil {
+			staged := any(staged).(*SemanticTag)
+			stage.OnAfterSemanticTagDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *System:
 		if stage.OnAfterSystemDeleteCallback != nil {
 			staged := any(staged).(*System)
@@ -394,6 +436,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDataShapeReadCallback != nil {
 			stage.OnAfterDataShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *DiagramLayerState:
+		if stage.OnAfterDiagramLayerStateReadCallback != nil {
+			stage.OnAfterDiagramLayerStateReadCallback.OnAfterRead(stage, target)
+		}
 	case *DiagramStructure:
 		if stage.OnAfterDiagramStructureReadCallback != nil {
 			stage.OnAfterDiagramStructureReadCallback.OnAfterRead(stage, target)
@@ -401,6 +447,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ExternalPartShape:
 		if stage.OnAfterExternalPartShapeReadCallback != nil {
 			stage.OnAfterExternalPartShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *LayerDefinition:
+		if stage.OnAfterLayerDefinitionReadCallback != nil {
+			stage.OnAfterLayerDefinitionReadCallback.OnAfterRead(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
@@ -446,6 +496,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterResourceReadCallback != nil {
 			stage.OnAfterResourceReadCallback.OnAfterRead(stage, target)
 		}
+	case *SemanticTag:
+		if stage.OnAfterSemanticTagReadCallback != nil {
+			stage.OnAfterSemanticTagReadCallback.OnAfterRead(stage, target)
+		}
 	case *System:
 		if stage.OnAfterSystemReadCallback != nil {
 			stage.OnAfterSystemReadCallback.OnAfterRead(stage, target)
@@ -481,10 +535,14 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataFlowShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataShape])
+	case *DiagramLayerState:
+		stage.OnAfterDiagramLayerStateUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramLayerState])
 	case *DiagramStructure:
 		stage.OnAfterDiagramStructureUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramStructure])
 	case *ExternalPartShape:
 		stage.OnAfterExternalPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExternalPartShape])
+	case *LayerDefinition:
+		stage.OnAfterLayerDefinitionUpdateCallback = any(callback).(OnAfterUpdateInterface[LayerDefinition])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Note:
@@ -507,6 +565,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceUpdateCallback = any(callback).(OnAfterUpdateInterface[Resource])
+	case *SemanticTag:
+		stage.OnAfterSemanticTagUpdateCallback = any(callback).(OnAfterUpdateInterface[SemanticTag])
 	case *System:
 		stage.OnAfterSystemUpdateCallback = any(callback).(OnAfterUpdateInterface[System])
 	case *SystemShape:
@@ -534,10 +594,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataFlowShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataShape])
+	case *DiagramLayerState:
+		stage.OnAfterDiagramLayerStateCreateCallback = any(callback).(OnAfterCreateInterface[DiagramLayerState])
 	case *DiagramStructure:
 		stage.OnAfterDiagramStructureCreateCallback = any(callback).(OnAfterCreateInterface[DiagramStructure])
 	case *ExternalPartShape:
 		stage.OnAfterExternalPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExternalPartShape])
+	case *LayerDefinition:
+		stage.OnAfterLayerDefinitionCreateCallback = any(callback).(OnAfterCreateInterface[LayerDefinition])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Note:
@@ -560,6 +624,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPortShapeCreateCallback = any(callback).(OnAfterCreateInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceCreateCallback = any(callback).(OnAfterCreateInterface[Resource])
+	case *SemanticTag:
+		stage.OnAfterSemanticTagCreateCallback = any(callback).(OnAfterCreateInterface[SemanticTag])
 	case *System:
 		stage.OnAfterSystemCreateCallback = any(callback).(OnAfterCreateInterface[System])
 	case *SystemShape:
@@ -587,10 +653,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataFlowShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataShape])
+	case *DiagramLayerState:
+		stage.OnAfterDiagramLayerStateDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramLayerState])
 	case *DiagramStructure:
 		stage.OnAfterDiagramStructureDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramStructure])
 	case *ExternalPartShape:
 		stage.OnAfterExternalPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExternalPartShape])
+	case *LayerDefinition:
+		stage.OnAfterLayerDefinitionDeleteCallback = any(callback).(OnAfterDeleteInterface[LayerDefinition])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Note:
@@ -613,6 +683,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceDeleteCallback = any(callback).(OnAfterDeleteInterface[Resource])
+	case *SemanticTag:
+		stage.OnAfterSemanticTagDeleteCallback = any(callback).(OnAfterDeleteInterface[SemanticTag])
 	case *System:
 		stage.OnAfterSystemDeleteCallback = any(callback).(OnAfterDeleteInterface[System])
 	case *SystemShape:
@@ -640,10 +712,14 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterDataFlowShapeReadCallback = any(callback).(OnAfterReadInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeReadCallback = any(callback).(OnAfterReadInterface[DataShape])
+	case *DiagramLayerState:
+		stage.OnAfterDiagramLayerStateReadCallback = any(callback).(OnAfterReadInterface[DiagramLayerState])
 	case *DiagramStructure:
 		stage.OnAfterDiagramStructureReadCallback = any(callback).(OnAfterReadInterface[DiagramStructure])
 	case *ExternalPartShape:
 		stage.OnAfterExternalPartShapeReadCallback = any(callback).(OnAfterReadInterface[ExternalPartShape])
+	case *LayerDefinition:
+		stage.OnAfterLayerDefinitionReadCallback = any(callback).(OnAfterReadInterface[LayerDefinition])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Note:
@@ -666,6 +742,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPortShapeReadCallback = any(callback).(OnAfterReadInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceReadCallback = any(callback).(OnAfterReadInterface[Resource])
+	case *SemanticTag:
+		stage.OnAfterSemanticTagReadCallback = any(callback).(OnAfterReadInterface[SemanticTag])
 	case *System:
 		stage.OnAfterSystemReadCallback = any(callback).(OnAfterReadInterface[System])
 	case *SystemShape:

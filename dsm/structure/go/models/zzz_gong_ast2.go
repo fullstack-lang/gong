@@ -776,6 +776,39 @@ func (u *DataShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	return nil
 }
 
+type DiagramLayerStateUnmarshaller struct{}
+
+func (u *DiagramLayerStateUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DiagramLayerState)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DiagramLayerStateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DiagramLayerState)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "DiagramStructure":
+		GongUnmarshallPointer(&instance.DiagramStructure, valueExpr, identifierMap)
+	case "LayerDefinition":
+		GongUnmarshallPointer(&instance.LayerDefinition, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type DiagramStructureUnmarshaller struct{}
 
 func (u *DiagramStructureUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -924,6 +957,37 @@ func (u *ExternalPartShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.IsHidden = GongExtractBool(valueExpr)
 	case "TailHeigth":
 		instance.TailHeigth = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type LayerDefinitionUnmarshaller struct{}
+
+func (u *LayerDefinitionUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(LayerDefinition)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *LayerDefinitionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*LayerDefinition)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Query":
+		GongUnmarshallSliceOfPointers(&instance.Query, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1457,6 +1521,37 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.SVG_Path = GongExtractString(valueExpr)
 	case "InverseAppliedScaling":
 		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type SemanticTagUnmarshaller struct{}
+
+func (u *SemanticTagUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(SemanticTag)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *SemanticTagUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*SemanticTag)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Parts":
+		GongUnmarshallSliceOfPointers(&instance.Parts, valueExpr, identifierMap)
 	}
 	return nil
 }
