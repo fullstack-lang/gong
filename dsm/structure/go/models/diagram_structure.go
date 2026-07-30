@@ -35,6 +35,10 @@ type DiagramStructure struct {
 	DefaultBoxWidth  float64
 	DefaultBoxHeigth float64
 
+	// IsWithDiscretePorts is true if port has to be shown with almost no thickness
+	// and no name
+	IsWithDiscretePorts bool
+
 	Width  float64
 	Height float64
 

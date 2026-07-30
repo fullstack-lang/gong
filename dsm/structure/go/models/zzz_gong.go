@@ -7808,6 +7808,10 @@ func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "IsWithDiscretePorts",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Width",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -9100,6 +9104,10 @@ func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%f", diagramstructure.DefaultBoxHeigth)
 		res.valueFloat = diagramstructure.DefaultBoxHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsWithDiscretePorts":
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsWithDiscretePorts)
+		res.valueBool = diagramstructure.IsWithDiscretePorts
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", diagramstructure.Width)
 		res.valueFloat = diagramstructure.Width
@@ -10611,6 +10619,8 @@ func (diagramstructure *DiagramStructure) GongSetFieldValue(fieldName string, va
 		diagramstructure.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
 		diagramstructure.DefaultBoxHeigth = value.GetValueFloat()
+	case "IsWithDiscretePorts":
+		diagramstructure.IsWithDiscretePorts = value.GetValueBool()
 	case "Width":
 		diagramstructure.Width = value.GetValueFloat()
 	case "Height":

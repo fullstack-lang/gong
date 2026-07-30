@@ -1622,6 +1622,8 @@ func (diagramstructureFormCallback *DiagramStructureFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagramstructure_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":
 			FormDivBasicFieldToField(&(diagramstructure_.DefaultBoxHeigth), formDiv)
+		case "IsWithDiscretePorts":
+			FormDivBasicFieldToField(&(diagramstructure_.IsWithDiscretePorts), formDiv)
 		case "Width":
 			FormDivBasicFieldToField(&(diagramstructure_.Width), formDiv)
 		case "Height":

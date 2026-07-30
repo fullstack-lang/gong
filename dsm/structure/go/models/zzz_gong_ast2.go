@@ -850,6 +850,8 @@ func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
 	case "DefaultBoxHeigth":
 		instance.DefaultBoxHeigth = GongExtractFloat(valueExpr)
+	case "IsWithDiscretePorts":
+		instance.IsWithDiscretePorts = GongExtractBool(valueExpr)
 	case "Width":
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":

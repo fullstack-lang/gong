@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"slices"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -381,12 +382,6 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			layer)
 		diagramStructure.map_SvgRect_PortShape[portRect] = portShape
 
-		portRect.URLPath = "../../../References/Ports/" + port.GetReferencePath() + "/index.html"
-		portRect.URLTarget = svg.LINK_TARGET_BLANK
-
-		portRect.RectAnchoredTexts[0].URLPath = portRect.URLPath
-		portRect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
-
 		// make the port be anchored to the border of the part shape
 		portRect.AnchoredTo = partRect
 		partRect.Peers = append(partRect.Peers, portRect)
@@ -398,7 +393,22 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 		portRect.StrokeWidth = 1.5
 		portRect.RX = 5.0
 
+		// if the diagram has discrete port, we remove the port title
+		if diagramStructure.IsWithDiscretePorts {
+			portRect.RectAnchoredTexts = slices.Delete(portRect.RectAnchoredTexts, 0, len(portRect.RectAnchoredTexts))
+			portRect.FillOpacity = 0.1
+			portRect.StrokeOpacity = 0.3
+			portRect.Width /= 2.0
+			portRect.Height /= 2.0
+		}
+
 		if len(portRect.RectAnchoredTexts) > 0 {
+
+			portRect.URLPath = "../../../References/Ports/" + port.GetReferencePath() + "/index.html"
+			portRect.URLTarget = svg.LINK_TARGET_BLANK
+
+			portRect.RectAnchoredTexts[0].URLPath = portRect.URLPath
+			portRect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
 			portRect.RectAnchoredTexts[0].FontFamily = "sans-serif"
 			portRect.RectAnchoredTexts[0].Color = "#333333"
 			portRect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP

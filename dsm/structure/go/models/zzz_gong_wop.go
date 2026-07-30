@@ -210,6 +210,8 @@ type DiagramStructure_WOP struct {
 
 	DefaultBoxHeigth float64
 
+	IsWithDiscretePorts bool
+
 	Width float64
 
 	Height float64
@@ -234,6 +236,7 @@ func (from *DiagramStructure) CopyBasicFields(to *DiagramStructure) {
 	to.IsShowPrefix = from.IsShowPrefix
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
+	to.IsWithDiscretePorts = from.IsWithDiscretePorts
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsSystemsNodeExpanded = from.IsSystemsNodeExpanded
