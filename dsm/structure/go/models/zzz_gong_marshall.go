@@ -594,6 +594,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsShowPrefix"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsWithDiscretePorts"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Height"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "System_Shapes"))
@@ -2029,6 +2030,11 @@ func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxHeigth")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramstructure.DefaultBoxHeigth))
+	case "IsWithDiscretePorts":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithDiscretePorts")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramstructure.IsWithDiscretePorts))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
@@ -3689,6 +3695,7 @@ func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsShowPrefix"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsWithDiscretePorts"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Height"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "System_Shapes"))

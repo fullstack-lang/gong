@@ -28,8 +28,10 @@ func _(stage *models.Stage) {
 	__Data__00000000_ := (&models.Data{Name: `D1`}).Stage(stage)
 
 	__DataFlow__00000000_ := (&models.DataFlow{Name: `"Port 1" to "P1"`}).Stage(stage)
+	__DataFlow__00000001_ := (&models.DataFlow{Name: `"P1" to "Port 3"`}).Stage(stage)
 
 	__DataFlowShape__00000000_ := (&models.DataFlowShape{Name: `"Port 1" to "P1"`}).Stage(stage)
+	__DataFlowShape__00000001_ := (&models.DataFlowShape{Name: `"P1" to "Port 3"`}).Stage(stage)
 
 	__DataShape__00000000_ := (&models.DataShape{Name: `D1`}).Stage(stage)
 
@@ -54,6 +56,8 @@ func _(stage *models.Stage) {
 
 	__PartShape__00000007_ := (&models.PartShape{Name: `P2-DiagramStructure`}).Stage(stage)
 	__PartShape__00000009_ := (&models.PartShape{Name: `P1-DiagramStructure`}).Stage(stage)
+	__PartShape__00000010_ := (&models.PartShape{Name: `P1-sdqsdqsd`}).Stage(stage)
+	__PartShape__00000011_ := (&models.PartShape{Name: `P2-sdqsdqsd`}).Stage(stage)
 
 	__Port__00000000_ := (&models.Port{Name: `Port 1`}).Stage(stage)
 	__Port__00000002_ := (&models.Port{Name: `Port 3`}).Stage(stage)
@@ -62,6 +66,9 @@ func _(stage *models.Stage) {
 	__PortShape__00000009_ := (&models.PortShape{Name: `Port 1-DiagramStructure`}).Stage(stage)
 	__PortShape__00000013_ := (&models.PortShape{Name: `Port 3-DiagramStructure`}).Stage(stage)
 	__PortShape__00000019_ := (&models.PortShape{Name: `-DiagramStructure`}).Stage(stage)
+	__PortShape__00000020_ := (&models.PortShape{Name: `Port 1-sdqsdqsd`}).Stage(stage)
+	__PortShape__00000021_ := (&models.PortShape{Name: `Port 3-sdqsdqsd`}).Stage(stage)
+	__PortShape__00000022_ := (&models.PortShape{Name: `P1-sdqsdqsd`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
 	__System__00000001_ := (&models.System{Name: ``}).Stage(stage)
@@ -88,6 +95,14 @@ func _(stage *models.Stage) {
 	__DataFlow__00000000_.IsExpanded = false
 	__DataFlow__00000000_.Type = models.DataFlow_Port2Port
 
+	__DataFlow__00000001_.Name = `"P1" to "Port 3"`
+	__DataFlow__00000001_.Description = ``
+	__DataFlow__00000001_.Direction = ""
+	__DataFlow__00000001_.IsDatasNodeExpanded = false
+	__DataFlow__00000001_.ComputedPrefix = ``
+	__DataFlow__00000001_.IsExpanded = false
+	__DataFlow__00000001_.Type = models.DataFlow_Port2Port
+
 	__DataFlowShape__00000000_.Name = `"Port 1" to "P1"`
 	__DataFlowShape__00000000_.StartRatio = 0.500000
 	__DataFlowShape__00000000_.EndRatio = 0.500000
@@ -96,17 +111,26 @@ func _(stage *models.Stage) {
 	__DataFlowShape__00000000_.CornerOffsetRatio = 1.500000
 	__DataFlowShape__00000000_.IsHidden = false
 
+	__DataFlowShape__00000001_.Name = `"P1" to "Port 3"`
+	__DataFlowShape__00000001_.StartRatio = 0.500000
+	__DataFlowShape__00000001_.EndRatio = 0.500000
+	__DataFlowShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__DataFlowShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__DataFlowShape__00000001_.CornerOffsetRatio = 1.500000
+	__DataFlowShape__00000001_.IsHidden = false
+
 	__DataShape__00000000_.Name = `D1`
 
 	__DiagramStructure__00000000_.Name = `DiagramStructure`
 	__DiagramStructure__00000000_.Description = ``
 	__DiagramStructure__00000000_.ComputedPrefix = ``
 	__DiagramStructure__00000000_.IsExpanded = false
-	__DiagramStructure__00000000_.IsChecked = true
+	__DiagramStructure__00000000_.IsChecked = false
 	__DiagramStructure__00000000_.IsEditable_ = true
 	__DiagramStructure__00000000_.IsShowPrefix = false
 	__DiagramStructure__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramStructure__00000000_.DefaultBoxHeigth = 70.000000
+	__DiagramStructure__00000000_.IsWithDiscretePorts = false
 	__DiagramStructure__00000000_.Width = 1653.999939
 	__DiagramStructure__00000000_.Height = 1325.999985
 	__DiagramStructure__00000000_.IsSystemsNodeExpanded = false
@@ -123,6 +147,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000001_.IsShowPrefix = false
 	__DiagramStructure__00000001_.DefaultBoxWidth = 250.000000
 	__DiagramStructure__00000001_.DefaultBoxHeigth = 70.000000
+	__DiagramStructure__00000001_.IsWithDiscretePorts = false
 	__DiagramStructure__00000001_.Width = 900.000000
 	__DiagramStructure__00000001_.Height = 1350.000000
 	__DiagramStructure__00000001_.IsSystemsNodeExpanded = false
@@ -134,15 +159,16 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000002_.Description = ``
 	__DiagramStructure__00000002_.ComputedPrefix = ``
 	__DiagramStructure__00000002_.IsExpanded = true
-	__DiagramStructure__00000002_.IsChecked = false
+	__DiagramStructure__00000002_.IsChecked = true
 	__DiagramStructure__00000002_.IsEditable_ = true
 	__DiagramStructure__00000002_.IsShowPrefix = false
 	__DiagramStructure__00000002_.DefaultBoxWidth = 250.000000
 	__DiagramStructure__00000002_.DefaultBoxHeigth = 70.000000
+	__DiagramStructure__00000002_.IsWithDiscretePorts = true
 	__DiagramStructure__00000002_.Width = 900.000000
 	__DiagramStructure__00000002_.Height = 1350.000000
 	__DiagramStructure__00000002_.IsSystemsNodeExpanded = false
-	__DiagramStructure__00000002_.IsPartsNodeExpanded = false
+	__DiagramStructure__00000002_.IsPartsNodeExpanded = true
 	__DiagramStructure__00000002_.IsExternalPartsNodeExpanded = false
 	__DiagramStructure__00000002_.IsNotesNodeExpanded = false
 
@@ -241,6 +267,22 @@ func _(stage *models.Stage) {
 	__PartShape__00000009_.Height = 144.999985
 	__PartShape__00000009_.IsHidden = false
 
+	__PartShape__00000010_.Name = `P1-sdqsdqsd`
+	__PartShape__00000010_.IsExpanded = false
+	__PartShape__00000010_.X = 167.255894
+	__PartShape__00000010_.Y = 406.000000
+	__PartShape__00000010_.Width = 250.000000
+	__PartShape__00000010_.Height = 70.000000
+	__PartShape__00000010_.IsHidden = false
+
+	__PartShape__00000011_.Name = `P2-sdqsdqsd`
+	__PartShape__00000011_.IsExpanded = false
+	__PartShape__00000011_.X = 103.735977
+	__PartShape__00000011_.Y = 712.000000
+	__PartShape__00000011_.Width = 250.000000
+	__PartShape__00000011_.Height = 70.000000
+	__PartShape__00000011_.IsHidden = false
+
 	__Port__00000000_.Name = `Port 1`
 	__Port__00000000_.Description = ``
 	__Port__00000000_.ComputedPrefix = ``
@@ -280,6 +322,30 @@ func _(stage *models.Stage) {
 	__PortShape__00000019_.Height = 20.000000
 	__PortShape__00000019_.IsHidden = false
 
+	__PortShape__00000020_.Name = `Port 1-sdqsdqsd`
+	__PortShape__00000020_.IsExpanded = false
+	__PortShape__00000020_.X = 147.255894
+	__PortShape__00000020_.Y = 441.000000
+	__PortShape__00000020_.Width = 40.000000
+	__PortShape__00000020_.Height = 40.000000
+	__PortShape__00000020_.IsHidden = false
+
+	__PortShape__00000021_.Name = `Port 3-sdqsdqsd`
+	__PortShape__00000021_.IsExpanded = false
+	__PortShape__00000021_.X = 332.255894
+	__PortShape__00000021_.Y = 466.000000
+	__PortShape__00000021_.Width = 40.000000
+	__PortShape__00000021_.Height = 40.000000
+	__PortShape__00000021_.IsHidden = false
+
+	__PortShape__00000022_.Name = `P1-sdqsdqsd`
+	__PortShape__00000022_.IsExpanded = false
+	__PortShape__00000022_.X = 252.735977
+	__PortShape__00000022_.Y = 702.000000
+	__PortShape__00000022_.Width = 40.000000
+	__PortShape__00000022_.Height = 40.000000
+	__PortShape__00000022_.IsHidden = false
+
 	__System__00000000_.Name = `System 1`
 	__System__00000000_.Description = ``
 	__System__00000000_.ComputedPrefix = ``
@@ -316,7 +382,7 @@ func _(stage *models.Stage) {
 
 	__SystemShape__00000002_.Name = `SystemShape`
 	__SystemShape__00000002_.IsExpanded = false
-	__SystemShape__00000002_.X = 100.000000
+	__SystemShape__00000002_.X = 99.000000
 	__SystemShape__00000002_.Y = 50.000000
 	__SystemShape__00000002_.Width = 500.000000
 	__SystemShape__00000002_.Height = 1000.000000
@@ -327,7 +393,12 @@ func _(stage *models.Stage) {
 	__DataFlow__00000000_.EndPort = __Port__00000006_
 	__DataFlow__00000000_.StartExternalPart = nil
 	__DataFlow__00000000_.EndExternalPart = nil
+	__DataFlow__00000001_.StartPort = __Port__00000006_
+	__DataFlow__00000001_.EndPort = __Port__00000002_
+	__DataFlow__00000001_.StartExternalPart = nil
+	__DataFlow__00000001_.EndExternalPart = nil
 	__DataFlowShape__00000000_.DataFlow = __DataFlow__00000000_
+	__DataFlowShape__00000001_.DataFlow = __DataFlow__00000001_
 	__DataShape__00000000_.Data = __Data__00000000_
 	__DataShape__00000000_.DataFlow = nil
 	__DiagramStructure__00000000_.System_Shapes = append(__DiagramStructure__00000000_.System_Shapes, __SystemShape__00000000_)
@@ -347,9 +418,18 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.NotePartShapes = append(__DiagramStructure__00000000_.NotePartShapes, __NotePartShape__00000001_)
 	__DiagramStructure__00000001_.System_Shapes = append(__DiagramStructure__00000001_.System_Shapes, __SystemShape__00000001_)
 	__DiagramStructure__00000002_.System_Shapes = append(__DiagramStructure__00000002_.System_Shapes, __SystemShape__00000002_)
+	__DiagramStructure__00000002_.Part_Shapes = append(__DiagramStructure__00000002_.Part_Shapes, __PartShape__00000010_)
+	__DiagramStructure__00000002_.Part_Shapes = append(__DiagramStructure__00000002_.Part_Shapes, __PartShape__00000011_)
+	__DiagramStructure__00000002_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000002_.PartWhoseNodeIsExpanded, __Part__00000000_)
+	__DiagramStructure__00000002_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000002_.PartWhoseNodeIsExpanded, __Part__00000001_)
+	__DiagramStructure__00000002_.Port_Shapes = append(__DiagramStructure__00000002_.Port_Shapes, __PortShape__00000020_)
+	__DiagramStructure__00000002_.Port_Shapes = append(__DiagramStructure__00000002_.Port_Shapes, __PortShape__00000021_)
+	__DiagramStructure__00000002_.Port_Shapes = append(__DiagramStructure__00000002_.Port_Shapes, __PortShape__00000022_)
+	__DiagramStructure__00000002_.DataFlow_Shapes = append(__DiagramStructure__00000002_.DataFlow_Shapes, __DataFlowShape__00000001_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
+	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
 	__Note__00000000_.Parts = append(__Note__00000000_.Parts, __Part__00000000_)
@@ -368,16 +448,22 @@ func _(stage *models.Stage) {
 	__Part__00000001_.PartAnchoredPath = append(__Part__00000001_.PartAnchoredPath, __PartAnchoredPath__00000000_)
 	__PartShape__00000007_.Part = __Part__00000001_
 	__PartShape__00000009_.Part = __Part__00000000_
+	__PartShape__00000010_.Part = __Part__00000000_
+	__PartShape__00000011_.Part = __Part__00000001_
 	__PortShape__00000009_.Port = __Port__00000000_
 	__PortShape__00000013_.Port = __Port__00000002_
 	__PortShape__00000019_.Port = __Port__00000006_
+	__PortShape__00000020_.Port = __Port__00000000_
+	__PortShape__00000021_.Port = __Port__00000002_
+	__PortShape__00000022_.Port = __Port__00000006_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000002_)
-	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000000_)
+	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000002_)
 	__System__00000000_.SubSystemes = append(__System__00000000_.SubSystemes, __System__00000001_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000001_)
 	__System__00000000_.DataFlows = append(__System__00000000_.DataFlows, __DataFlow__00000000_)
+	__System__00000000_.DataFlows = append(__System__00000000_.DataFlows, __DataFlow__00000001_)
 	__System__00000001_.DiagramStructures = append(__System__00000001_.DiagramStructures, __DiagramStructure__00000001_)
 	__SystemShape__00000000_.System = __System__00000000_
 	__SystemShape__00000001_.System = __System__00000001_

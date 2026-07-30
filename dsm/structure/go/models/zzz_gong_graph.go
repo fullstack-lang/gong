@@ -4177,6 +4177,9 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 	if diagramstructure.DefaultBoxHeigth != diagramstructureOther.DefaultBoxHeigth {
 		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "DefaultBoxHeigth"))
 	}
+	if diagramstructure.IsWithDiscretePorts != diagramstructureOther.IsWithDiscretePorts {
+		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "IsWithDiscretePorts"))
+	}
 	if diagramstructure.Width != diagramstructureOther.Width {
 		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "Width"))
 	}
