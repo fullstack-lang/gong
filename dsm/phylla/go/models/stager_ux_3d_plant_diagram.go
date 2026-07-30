@@ -200,10 +200,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			bambooColor := "#4a3623" // dark brown
 
 			canvas.Meshs = append(canvas.Meshs,
-				stager.createTube(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
-				stager.createTube(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
-				stager.createTube(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
-				stager.createTube(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 			)
 
 			if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
