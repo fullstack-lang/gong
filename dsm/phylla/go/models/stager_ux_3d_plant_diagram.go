@@ -258,32 +258,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			tubeRadius = 0.2
 		}
 
-		createKeyHole3DTube := func(tubeName string, pA, pB *threejs.Vector3) *threejs.Mesh {
-			crv := (&threejs.Curve{
-				Name:   fmt.Sprintf("Curve %s", tubeName),
-				Points: []*threejs.Vector3{pA, pB},
-			}).Stage(stager.threejsStage)
-
-			tGeom := (&threejs.TubeGeometry{
-				Name:            fmt.Sprintf("TubeGeom %s", tubeName),
-				Path:            crv,
-				TubularSegments: 8,
-				Radius:          tubeRadius,
-				RadialSegments:  8,
-				Closed:          false,
-			}).Stage(stager.threejsStage)
-
-			return (&threejs.Mesh{
-				Name:         fmt.Sprintf("TubeMesh %s", tubeName),
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-				TubeGeometry: tGeom,
-				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 fmt.Sprintf("Material %s", tubeName),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkred"},
-				}).Stage(stager.threejsStage),
-			}).Stage(stager.threejsStage)
-		}
-
 		threeDModulo := plant.ThreeDModulo
 		if threeDModulo < 1 {
 			threeDModulo = 1
@@ -296,26 +270,16 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			for k := 0; k < threeDModulo; k++ {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
-				get3DPtHK := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
-					th := (ptX+dx_h)/globalR + baseThetaOffset
-					return (&threejs.Vector3{
-						Name: fmt.Sprintf("KeyHole3D %s h%d k%d", ptName, h, k),
-						X:    globalR * math.Cos(th),
-						Y:    ptY + dy_h,
-						Z:    globalR * math.Sin(th),
-					}).Stage(stager.threejsStage)
-				}
-
-				vBL := get3DPtHK(x_left, y_bottom, "BL")
-				vBR := get3DPtHK(x_right, y_bottom, "BR")
-				vTR := get3DPtHK(x_right, y_top, "TR")
-				vTL := get3DPtHK(x_left, y_top, "TL")
+				vBL := stager.get3DPtHK(x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+				vBR := stager.get3DPtHK(x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+				vTR := stager.get3DPtHK(x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+				vTL := stager.get3DPtHK(x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 
 				canvas.Meshs = append(canvas.Meshs,
-					createKeyHole3DTube(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR),
-					createKeyHole3DTube(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR),
-					createKeyHole3DTube(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL),
-					createKeyHole3DTube(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL),
+					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
+					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
+					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
+					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
 				)
 			}
 		}
