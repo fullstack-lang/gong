@@ -5871,6 +5871,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHole3DShape), formDiv)
 		case "IsHiddenKey3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKey3DShape), formDiv)
+		case "IsHiddenTorusEdge3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusEdge3DShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5901,6 +5903,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Key3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.Key3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusEdge3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.TorusEdge3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -13464,6 +13468,84 @@ func (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCa
 	}
 
 	topstarthalfwayarcshapegridFormCallback.probe.ux_tree()
+}
+func __gong__New__TorusEdge3DShapeFormCallback(
+	torusedge3dshape *models.TorusEdge3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (torusedge3dshapeFormCallback *TorusEdge3DShapeFormCallback) {
+	torusedge3dshapeFormCallback = new(TorusEdge3DShapeFormCallback)
+	torusedge3dshapeFormCallback.probe = probe
+	torusedge3dshapeFormCallback.torusedge3dshape = torusedge3dshape
+	torusedge3dshapeFormCallback.formGroup = formGroup
+
+	torusedge3dshapeFormCallback.CreationMode = (torusedge3dshape == nil)
+
+	return
+}
+
+type TorusEdge3DShapeFormCallback struct {
+	torusedge3dshape *models.TorusEdge3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (torusedge3dshapeFormCallback *TorusEdge3DShapeFormCallback) OnSave() {
+	torusedge3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer torusedge3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TorusEdge3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	torusedge3dshapeFormCallback.probe.formStage.Checkout()
+
+	if torusedge3dshapeFormCallback.torusedge3dshape == nil {
+		torusedge3dshapeFormCallback.torusedge3dshape = new(models.TorusEdge3DShape).Stage(torusedge3dshapeFormCallback.probe.stageOfInterest)
+	}
+	torusedge3dshape_ := torusedge3dshapeFormCallback.torusedge3dshape
+	_ = torusedge3dshape_
+
+	for _, formDiv := range torusedge3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(torusedge3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if torusedge3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		torusedge3dshape_.Unstage(torusedge3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	torusedge3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TorusEdge3DShape](
+		torusedge3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if torusedge3dshapeFormCallback.CreationMode || torusedge3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		torusedge3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(torusedge3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TorusEdge3DShapeFormCallback(
+			nil,
+			torusedge3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		torusedge3dshape := new(models.TorusEdge3DShape)
+		FillUpForm(torusedge3dshape, newFormGroup, torusedge3dshapeFormCallback.probe)
+		torusedge3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	torusedge3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TorusStackShapeFormCallback(
 	torusstackshape *models.TorusStackShape,

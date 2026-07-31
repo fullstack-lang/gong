@@ -1196,6 +1196,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenKey3DShape bool
 
+	IsHiddenTorusEdge3DShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1268,6 +1270,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
 	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
 	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
+	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -2958,6 +2961,17 @@ type TopStartHalfwayArcShapeGrid_WOP struct {
 }
 
 func (from *TopStartHalfwayArcShapeGrid) CopyBasicFields(to *TopStartHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TorusEdge3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TorusEdge3DShape) CopyBasicFields(to *TorusEdge3DShape) {
 	// insertion point
 	to.Name = from.Name
 }

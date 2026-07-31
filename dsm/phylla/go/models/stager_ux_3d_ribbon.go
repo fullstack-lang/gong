@@ -40,8 +40,8 @@ func (stager *Stager) generateRibbonLayer(
 			y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
 			y_top := plant.OffsetKeyY + plant.HeightKey/2.0
 
-			thL = (x_left + dx) / globalR + baseThetaOffset
-			thR = (x_right + dx) / globalR + baseThetaOffset
+			thL = (x_left+dx)/globalR + baseThetaOffset
+			thR = (x_right+dx)/globalR + baseThetaOffset
 			yB = y_bottom + dy
 			yT = y_top + dy
 		}
@@ -162,106 +162,44 @@ func (stager *Stager) generateRibbonLayer(
 			topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
 		}
 
-		addQuad := func(geom *threejs.BufferGeometry, i, j int, isReverse bool, suffix string) {
-			idx0 := i*4 + j
-			idx1 := i*4 + j + 1
-			idx2 := (i+1)*4 + j
-			idx3 := (i+1)*4 + j + 1
 
-			v1_t1, v2_t1, v3_t1 := idx0, idx1, idx2
-			v1_t2, v2_t2, v3_t2 := idx1, idx3, idx2
-
-			if isReverse {
-				v2_t1, v3_t1 = v3_t1, v2_t1
-				v2_t2, v3_t2 = v3_t2, v2_t2
-			}
-
-			t1 := (&threejs.Triangle{
-				Name: fmt.Sprintf("T1 %d %d %s", i, j, suffix),
-				V1:   v1_t1, V2: v2_t1, V3: v3_t1,
-			}).Stage(stager.threejsStage)
-			t2 := (&threejs.Triangle{
-				Name: fmt.Sprintf("T2 %d %d %s", i, j, suffix),
-				V1:   v1_t2, V2: v2_t2, V3: v3_t2,
-			}).Stage(stager.threejsStage)
-
-			geom.Faces = append(geom.Faces, t1, t2)
-		}
-
-		addWallQuad := func(v1_src, v2_src, v3_src, v4_src *threejs.Vector3, suffix string, reverseWinding bool) {
-			p1 := (&threejs.Vector3{
-				Name: fmt.Sprintf("%s %d %s", geomHoleWalls.Name, len(geomHoleWalls.Vertices), suffix),
-				X:    v1_src.X, Y: v1_src.Y, Z: v1_src.Z,
-			}).Stage(stager.threejsStage)
-			p2 := (&threejs.Vector3{
-				Name: fmt.Sprintf("%s %d %s", geomHoleWalls.Name, len(geomHoleWalls.Vertices)+1, suffix),
-				X:    v2_src.X, Y: v2_src.Y, Z: v2_src.Z,
-			}).Stage(stager.threejsStage)
-			p3 := (&threejs.Vector3{
-				Name: fmt.Sprintf("%s %d %s", geomHoleWalls.Name, len(geomHoleWalls.Vertices)+2, suffix),
-				X:    v3_src.X, Y: v3_src.Y, Z: v3_src.Z,
-			}).Stage(stager.threejsStage)
-			p4 := (&threejs.Vector3{
-				Name: fmt.Sprintf("%s %d %s", geomHoleWalls.Name, len(geomHoleWalls.Vertices)+3, suffix),
-				X:    v4_src.X, Y: v4_src.Y, Z: v4_src.Z,
-			}).Stage(stager.threejsStage)
-
-			idx := len(geomHoleWalls.Vertices)
-			geomHoleWalls.Vertices = append(geomHoleWalls.Vertices, p1, p2, p3, p4)
-
-			v1_t1, v2_t1, v3_t1 := idx, idx+1, idx+2
-			v1_t2, v2_t2, v3_t2 := idx+1, idx+3, idx+2
-
-			if reverseWinding {
-				v2_t1, v3_t1 = v3_t1, v2_t1
-				v2_t2, v3_t2 = v3_t2, v2_t2
-			}
-
-			t1 := (&threejs.Triangle{
-				Name: fmt.Sprintf("T1 %d %s", len(geomHoleWalls.Faces), suffix),
-				V1:   v1_t1, V2: v2_t1, V3: v3_t1,
-			}).Stage(stager.threejsStage)
-
-			t2 := (&threejs.Triangle{
-				Name: fmt.Sprintf("T2 %d %s", len(geomHoleWalls.Faces), suffix),
-				V1:   v1_t2, V2: v2_t2, V3: v3_t2,
-			}).Stage(stager.threejsStage)
-
-			geomHoleWalls.Faces = append(geomHoleWalls.Faces, t1, t2)
-		}
 
 		for i := 0; i < len(curve.Points)-1; i++ {
 			if !hasHole || !inHoleArr[i] {
 				// Add full quads for all 3 bands
-				addQuad(geomInner, i, 0, true, "inner")
-				addQuad(geomInner, i, 1, true, "inner")
-				addQuad(geomInner, i, 2, true, "inner")
+				stager.addQuad(geomInner, i, 0, true, "inner")
+				stager.addQuad(geomInner, i, 1, true, "inner")
+				stager.addQuad(geomInner, i, 2, true, "inner")
 
-				addQuad(geomOuter, i, 0, false, "outer")
-				addQuad(geomOuter, i, 1, false, "outer")
-				addQuad(geomOuter, i, 2, false, "outer")
+				stager.addQuad(geomOuter, i, 0, false, "outer")
+				stager.addQuad(geomOuter, i, 1, false, "outer")
+				stager.addQuad(geomOuter, i, 2, false, "outer")
 			} else {
 				// Hole segment: only add bottom band (0) and top band (2)
-				addQuad(geomInner, i, 0, true, "inner_below")
-				addQuad(geomInner, i, 2, true, "inner_above")
+				stager.addQuad(geomInner, i, 0, true, "inner_below")
+				stager.addQuad(geomInner, i, 2, true, "inner_above")
 
-				addQuad(geomOuter, i, 0, false, "outer_below")
-				addQuad(geomOuter, i, 2, false, "outer_above")
+				stager.addQuad(geomOuter, i, 0, false, "outer_below")
+				stager.addQuad(geomOuter, i, 2, false, "outer_above")
 
 				// Hole walls
-				// Bottom wall (band 1 boundary)
-				vB1 := geomInner.Vertices[i*4+1]
-				vB2 := geomOuter.Vertices[i*4+1]
-				vB3 := geomInner.Vertices[(i+1)*4+1]
-				vB4 := geomOuter.Vertices[(i+1)*4+1]
-				addWallQuad(vB1, vB2, vB3, vB4, "bottom_wall", false)
+				// Bottom wall (only if i > 0, because we assume hole doesn't touch ends normally)
+				if i > 0 {
+					vB1 := geomInner.Vertices[i*4]
+					vB2 := geomOuter.Vertices[i*4]
+					vB3 := geomInner.Vertices[(i+1)*4]
+					vB4 := geomOuter.Vertices[(i+1)*4]
+					stager.addWallQuad(geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", false)
+				}
 
-				// Top wall (band 2 boundary)
-				vT1 := geomInner.Vertices[i*4+2]
-				vT2 := geomOuter.Vertices[i*4+2]
-				vT3 := geomInner.Vertices[(i+1)*4+2]
-				vT4 := geomOuter.Vertices[(i+1)*4+2]
-				addWallQuad(vT1, vT2, vT3, vT4, "top_wall", true)
+				// Top wall
+				if i > 0 {
+					vT1 := geomInner.Vertices[i*4+2]
+					vT2 := geomOuter.Vertices[i*4+2]
+					vT3 := geomInner.Vertices[(i+1)*4+2]
+					vT4 := geomOuter.Vertices[(i+1)*4+2]
+					stager.addWallQuad(geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", true)
+				}
 
 				// Left wall (only if previous segment was NOT in hole)
 				if i == 0 || !inHoleArr[i-1] {
@@ -269,7 +207,7 @@ func (stager *Stager) generateRibbonLayer(
 					w2 := geomInner.Vertices[i*4+2]
 					w3 := geomOuter.Vertices[i*4+1]
 					w4 := geomOuter.Vertices[i*4+2]
-					addWallQuad(w1, w2, w3, w4, "left_wall", true)
+					stager.addWallQuad(geomHoleWalls, w1, w2, w3, w4, "left_wall", true)
 				}
 
 				// Right wall (only if next segment is NOT in hole)
@@ -278,7 +216,7 @@ func (stager *Stager) generateRibbonLayer(
 					w2 := geomInner.Vertices[(i+1)*4+2]
 					w3 := geomOuter.Vertices[(i+1)*4+1]
 					w4 := geomOuter.Vertices[(i+1)*4+2]
-					addWallQuad(w1, w2, w3, w4, "right_wall", false)
+					stager.addWallQuad(geomHoleWalls, w1, w2, w3, w4, "right_wall", false)
 				}
 			}
 		}
@@ -340,12 +278,14 @@ func (stager *Stager) generateRibbonLayer(
 		innerRadius := outerRadius * 0.85
 		bambooColor := "#4a3623"
 
-		canvas.Meshs = append(canvas.Meshs,
-			stager.createTorusEdgeMesh(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
-			stager.createTorusEdgeMesh(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
-			stager.createTorusEdgeMesh(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
-			stager.createTorusEdgeMesh(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
-		)
+		if !checkedDiagram.IsHiddenTorusEdge3DShape {
+			canvas.Meshs = append(canvas.Meshs,
+				stager.createTorusEdgeMesh(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
+				stager.createTorusEdgeMesh(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
+			)
+		}
 
 		if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
 			var p1x, p1y, p2x, p2y, pxx, pxy float64

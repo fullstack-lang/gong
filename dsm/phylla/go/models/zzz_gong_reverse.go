@@ -1302,6 +1302,15 @@ func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
+func (inst *TorusEdge3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *TorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -2509,6 +2518,15 @@ func (inst *TopStartHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reve
 }
 
 func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *TorusEdge3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

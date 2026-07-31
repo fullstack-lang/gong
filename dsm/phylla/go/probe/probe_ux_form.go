@@ -639,6 +639,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.topstarthalfwayarcshapegrid, probe)
 			}
+		case *TorusEdge3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TorusEdge3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.torusedge3dshape, probe)
+			}
 		case *TorusStackShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TorusStackShape", true)
@@ -2025,6 +2031,19 @@ func FillUpFormFromGongstructName(
 		topstarthalfwayarcshapegrid := new(models.TopStartHalfwayArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topstarthalfwayarcshapegrid, formGroup, probe)
+	case "TorusEdge3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TorusEdge3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TorusEdge3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		torusedge3dshape := new(models.TorusEdge3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(torusedge3dshape, formGroup, probe)
 	case "TorusStackShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

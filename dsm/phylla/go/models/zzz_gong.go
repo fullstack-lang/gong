@@ -1795,6 +1795,21 @@ type Stage struct {
 	OnAfterTopStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[TopStartHalfwayArcShapeGrid]
 	OnAfterTopStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[TopStartHalfwayArcShapeGrid]
 
+	TorusEdge3DShapes                map[*TorusEdge3DShape]struct{}
+	TorusEdge3DShapes_instance       map[*TorusEdge3DShape]*TorusEdge3DShape
+	TorusEdge3DShapes_mapString      map[string]*TorusEdge3DShape
+	TorusEdge3DShapeOrder            uint
+	TorusEdge3DShape_stagedOrder     map[*TorusEdge3DShape]uint
+	TorusEdge3DShape_orderStaged     map[uint]*TorusEdge3DShape
+	TorusEdge3DShapes_reference      map[*TorusEdge3DShape]*TorusEdge3DShape
+	TorusEdge3DShapes_referenceOrder map[*TorusEdge3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTorusEdge3DShapeCreateCallback OnAfterCreateInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeUpdateCallback OnAfterUpdateInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeDeleteCallback OnAfterDeleteInterface[TorusEdge3DShape]
+	OnAfterTorusEdge3DShapeReadCallback   OnAfterReadInterface[TorusEdge3DShape]
+
 	TorusStackShapes                map[*TorusStackShape]struct{}
 	TorusStackShapes_instance       map[*TorusStackShape]*TorusStackShape
 	TorusStackShapes_mapString      map[string]*TorusStackShape
@@ -2476,6 +2491,10 @@ func (stage *Stage) Squash() {
 	stage.TopStartHalfwayArcShapeGrids_reference = make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid)
 	stage.TopStartHalfwayArcShapeGrids_instance = make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid)
 	stage.TopStartHalfwayArcShapeGrids_referenceOrder = make(map[*TopStartHalfwayArcShapeGrid]uint)
+
+	stage.TorusEdge3DShapes_reference = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
+	stage.TorusEdge3DShapes_instance = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
+	stage.TorusEdge3DShapes_referenceOrder = make(map[*TorusEdge3DShape]uint)
 
 	stage.TorusStackShapes_reference = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
@@ -3966,6 +3985,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.TopStartHalfwayArcShapeGridOrder = maxTopStartHalfwayArcShapeGridOrder + 1
 	} else {
 		stage.TopStartHalfwayArcShapeGridOrder = 0
+	}
+
+	var maxTorusEdge3DShapeOrder uint
+	var foundTorusEdge3DShape bool
+	for _, order := range stage.TorusEdge3DShape_stagedOrder {
+		if !foundTorusEdge3DShape || order > maxTorusEdge3DShapeOrder {
+			maxTorusEdge3DShapeOrder = order
+			foundTorusEdge3DShape = true
+		}
+	}
+	if foundTorusEdge3DShape {
+		stage.TorusEdge3DShapeOrder = maxTorusEdge3DShapeOrder + 1
+	} else {
+		stage.TorusEdge3DShapeOrder = 0
 	}
 
 	var maxTorusStackShapeOrder uint
@@ -5513,6 +5546,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TorusEdge3DShape:
+		tmp := GetStructInstancesByOrder(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TorusEdge3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TorusStackShape:
 		tmp := GetStructInstancesByOrder(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
 
@@ -5778,6 +5825,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
 	case "TopStartHalfwayArcShapeGrid":
 		res = GetNamedStructInstances(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
+	case "TorusEdge3DShape":
+		res = GetNamedStructInstances(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
 	case "TorusStackShape":
 		res = GetNamedStructInstances(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
 	case "VerticalTorusStackShape":
@@ -6059,6 +6108,8 @@ type BackRepoInterface interface {
 	CheckoutTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape)
 	CommitTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid)
 	CheckoutTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid)
+	CommitTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
+	CheckoutTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
 	CommitTorusStackShape(torusstackshape *TorusStackShape)
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
 	CommitVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
@@ -6380,6 +6431,9 @@ func NewStage(name string) (stage *Stage) {
 
 		TopStartHalfwayArcShapeGrids:           make(map[*TopStartHalfwayArcShapeGrid]struct{}),
 		TopStartHalfwayArcShapeGrids_mapString: make(map[string]*TopStartHalfwayArcShapeGrid),
+
+		TorusEdge3DShapes:           make(map[*TorusEdge3DShape]struct{}),
+		TorusEdge3DShapes_mapString: make(map[string]*TorusEdge3DShape),
 
 		TorusStackShapes:           make(map[*TorusStackShape]struct{}),
 		TorusStackShapes_mapString: make(map[string]*TorusStackShape),
@@ -6813,6 +6867,10 @@ func NewStage(name string) (stage *Stage) {
 		TopStartHalfwayArcShapeGrid_orderStaged: make(map[uint]*TopStartHalfwayArcShapeGrid),
 		TopStartHalfwayArcShapeGrids_reference:  make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid),
 
+		TorusEdge3DShape_stagedOrder: make(map[*TorusEdge3DShape]uint),
+		TorusEdge3DShape_orderStaged: make(map[uint]*TorusEdge3DShape),
+		TorusEdge3DShapes_reference:  make(map[*TorusEdge3DShape]*TorusEdge3DShape),
+
 		TorusStackShape_stagedOrder: make(map[*TorusStackShape]uint),
 		TorusStackShape_orderStaged: make(map[uint]*TorusStackShape),
 		TorusStackShapes_reference:  make(map[*TorusStackShape]*TorusStackShape),
@@ -7031,6 +7089,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"TopStartHalfwayArcShapeGrid": &TopStartHalfwayArcShapeGridUnmarshaller{},
 
+			"TorusEdge3DShape": &TorusEdge3DShapeUnmarshaller{},
+
 			"TorusStackShape": &TorusStackShapeUnmarshaller{},
 
 			"VerticalTorusStackShape": &VerticalTorusStackShapeUnmarshaller{},
@@ -7143,6 +7203,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TopStartArcShapeGrid"},
 			{name: "TopStartHalfwayArcShape"},
 			{name: "TopStartHalfwayArcShapeGrid"},
+			{name: "TorusEdge3DShape"},
 			{name: "TorusStackShape"},
 			{name: "VerticalTorusStackShape"},
 		}, // end of insertion point
@@ -7364,6 +7425,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
 	case *TopStartHalfwayArcShapeGrid:
 		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *TorusEdge3DShape:
+		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
 	case *VerticalTorusStackShape:
@@ -7585,6 +7648,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TopStartHalfwayArcShape_orderStaged[order]).(Type)
 	case *TopStartHalfwayArcShapeGrid:
 		return any(stage.TopStartHalfwayArcShapeGrid_orderStaged[order]).(Type)
+	case *TorusEdge3DShape:
+		return any(stage.TorusEdge3DShape_orderStaged[order]).(Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
@@ -7805,6 +7870,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
 	case *TopStartHalfwayArcShapeGrid:
 		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *TorusEdge3DShape:
+		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
 	case *VerticalTorusStackShape:
@@ -7978,6 +8045,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TopStartArcShapeGrid"] = len(stage.TopStartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShape"] = len(stage.TopStartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShapeGrid"] = len(stage.TopStartHalfwayArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
 }
@@ -17172,6 +17240,94 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) SetName(name str
 	topstarthalfwayarcshapegrid.Name = name
 }
 
+// Stage puts torusedge3dshape to the model stage
+func (torusedge3dshape *TorusEdge3DShape) Stage(stage *Stage) *TorusEdge3DShape {
+	if _, ok := stage.TorusEdge3DShapes[torusedge3dshape]; !ok {
+		stage.TorusEdge3DShapes[torusedge3dshape] = struct{}{}
+		stage.TorusEdge3DShape_stagedOrder[torusedge3dshape] = stage.TorusEdge3DShapeOrder
+		stage.TorusEdge3DShape_orderStaged[stage.TorusEdge3DShapeOrder] = torusedge3dshape
+		stage.TorusEdge3DShapeOrder++
+	}
+	stage.TorusEdge3DShapes_mapString[torusedge3dshape.Name] = torusedge3dshape
+
+	return torusedge3dshape
+}
+
+// StagePreserveOrder puts torusedge3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TorusEdge3DShapeOrder
+// - update stage.TorusEdge3DShapeOrder accordingly
+func (torusedge3dshape *TorusEdge3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TorusEdge3DShapes[torusedge3dshape]; !ok {
+		stage.TorusEdge3DShapes[torusedge3dshape] = struct{}{}
+
+		if order > stage.TorusEdge3DShapeOrder {
+			stage.TorusEdge3DShapeOrder = order
+		}
+		stage.TorusEdge3DShape_stagedOrder[torusedge3dshape] = order
+		stage.TorusEdge3DShape_orderStaged[order] = torusedge3dshape
+		stage.TorusEdge3DShapeOrder++
+	}
+	stage.TorusEdge3DShapes_mapString[torusedge3dshape.Name] = torusedge3dshape
+}
+
+// Unstage removes torusedge3dshape off the model stage
+func (torusedge3dshape *TorusEdge3DShape) Unstage(stage *Stage) *TorusEdge3DShape {
+	delete(stage.TorusEdge3DShapes, torusedge3dshape)
+	// issue1150
+	// delete(stage.TorusEdge3DShape_stagedOrder, torusedge3dshape)
+	delete(stage.TorusEdge3DShapes_mapString, torusedge3dshape.Name)
+
+	return torusedge3dshape
+}
+
+// UnstageVoid removes torusedge3dshape off the model stage
+func (torusedge3dshape *TorusEdge3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.TorusEdge3DShapes, torusedge3dshape)
+	// issue1150
+	// delete(stage.TorusEdge3DShape_stagedOrder, torusedge3dshape)
+	delete(stage.TorusEdge3DShapes_mapString, torusedge3dshape.Name)
+}
+
+// commit torusedge3dshape to the back repo (if it is already staged)
+func (torusedge3dshape *TorusEdge3DShape) Commit(stage *Stage) *TorusEdge3DShape {
+	if _, ok := stage.TorusEdge3DShapes[torusedge3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTorusEdge3DShape(torusedge3dshape)
+		}
+	}
+	return torusedge3dshape
+}
+
+func (torusedge3dshape *TorusEdge3DShape) CommitVoid(stage *Stage) {
+	torusedge3dshape.Commit(stage)
+}
+
+func (torusedge3dshape *TorusEdge3DShape) StageVoid(stage *Stage) {
+	torusedge3dshape.Stage(stage)
+}
+
+// Checkout torusedge3dshape to the back repo (if it is already staged)
+func (torusedge3dshape *TorusEdge3DShape) Checkout(stage *Stage) *TorusEdge3DShape {
+	if _, ok := stage.TorusEdge3DShapes[torusedge3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTorusEdge3DShape(torusedge3dshape)
+		}
+	}
+	return torusedge3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (torusedge3dshape *TorusEdge3DShape) GetName() (res string) {
+	return torusedge3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (torusedge3dshape *TorusEdge3DShape) SetName(name string) {
+	torusedge3dshape.Name = name
+}
+
 // Stage puts torusstackshape to the model stage
 func (torusstackshape *TorusStackShape) Stage(stage *Stage) *TorusStackShape {
 	if _, ok := stage.TorusStackShapes[torusstackshape]; !ok {
@@ -17454,6 +17610,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
 	CreateORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
 	CreateORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
+	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
 	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 }
@@ -17563,6 +17720,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
 	DeleteORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
 	DeleteORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
+	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
 	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 }
@@ -18088,6 +18246,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TopStartHalfwayArcShapeGrid_stagedOrder = make(map[*TopStartHalfwayArcShapeGrid]uint)
 	stage.TopStartHalfwayArcShapeGridOrder = 0
 
+	stage.TorusEdge3DShapes = make(map[*TorusEdge3DShape]struct{})
+	stage.TorusEdge3DShapes_mapString = make(map[string]*TorusEdge3DShape)
+	stage.TorusEdge3DShape_stagedOrder = make(map[*TorusEdge3DShape]uint)
+	stage.TorusEdge3DShapeOrder = 0
+
 	stage.TorusStackShapes = make(map[*TorusStackShape]struct{})
 	stage.TorusStackShapes_mapString = make(map[string]*TorusStackShape)
 	stage.TorusStackShape_stagedOrder = make(map[*TorusStackShape]uint)
@@ -18418,6 +18581,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.TopStartHalfwayArcShapeGrids = nil
 	stage.TopStartHalfwayArcShapeGrids_mapString = nil
+
+	stage.TorusEdge3DShapes = nil
+	stage.TorusEdge3DShapes_mapString = nil
 
 	stage.TorusStackShapes = nil
 	stage.TorusStackShapes_mapString = nil
@@ -18845,6 +19011,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		topstarthalfwayarcshapegrid.Unstage(stage)
 	}
 
+	for torusedge3dshape := range stage.TorusEdge3DShapes {
+		torusedge3dshape.Unstage(stage)
+	}
+
 	for torusstackshape := range stage.TorusStackShapes {
 		torusstackshape.Unstage(stage)
 	}
@@ -19137,6 +19307,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TopStartHalfwayArcShapes).(*Type)
 	case map[*TopStartHalfwayArcShapeGrid]any:
 		return any(&stage.TopStartHalfwayArcShapeGrids).(*Type)
+	case map[*TorusEdge3DShape]any:
+		return any(&stage.TorusEdge3DShapes).(*Type)
 	case map[*TorusStackShape]any:
 		return any(&stage.TorusStackShapes).(*Type)
 	case map[*VerticalTorusStackShape]any:
@@ -19361,6 +19533,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TopStartHalfwayArcShapes_mapString).(map[string]Type)
 	case *TopStartHalfwayArcShapeGrid:
 		return any(stage.TopStartHalfwayArcShapeGrids_mapString).(map[string]Type)
+	case *TorusEdge3DShape:
+		return any(stage.TorusEdge3DShapes_mapString).(map[string]Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
@@ -19585,6 +19759,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TopStartHalfwayArcShapes).(*map[*Type]struct{})
 	case TopStartHalfwayArcShapeGrid:
 		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[*Type]struct{})
+	case TorusEdge3DShape:
+		return any(&stage.TorusEdge3DShapes).(*map[*Type]struct{})
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
 	case VerticalTorusStackShape:
@@ -19809,6 +19985,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TopStartHalfwayArcShapes).(*map[Type]struct{})
 	case *TopStartHalfwayArcShapeGrid:
 		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[Type]struct{})
+	case *TorusEdge3DShape:
+		return any(&stage.TorusEdge3DShapes).(*map[Type]struct{})
 	case *TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
@@ -20033,6 +20211,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TopStartHalfwayArcShapes_mapString).(*map[string]*Type)
 	case TopStartHalfwayArcShapeGrid:
 		return any(&stage.TopStartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
+	case TorusEdge3DShape:
+		return any(&stage.TorusEdge3DShapes_mapString).(*map[string]*Type)
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
 	case VerticalTorusStackShape:
@@ -20382,6 +20562,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
 			// field is initialized with an instance of Key3DShape with the name of the field
 			Key3DShape: &Key3DShape{Name: "Key3DShape"},
+			// field is initialized with an instance of TorusEdge3DShape with the name of the field
+			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
 		}).(*Type)
 	case PointsAndLines3DShape:
 		return any(&PointsAndLines3DShape{
@@ -20694,6 +20876,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of TopStartHalfwayArcShape with the name of the field
 			TopStartHalfwayArcShapes: []*TopStartHalfwayArcShape{{Name: "TopStartHalfwayArcShapes"}},
+		}).(*Type)
+	case TorusEdge3DShape:
+		return any(&TorusEdge3DShape{
+			// Initialisation of associations
 		}).(*Type)
 	case TorusStackShape:
 		return any(&TorusStackShape{
@@ -21804,6 +21990,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TorusEdge3DShape":
+			res := make(map[*TorusEdge3DShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.TorusEdge3DShape != nil {
+					torusedge3dshape_ := plantdiagram.TorusEdge3DShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[torusedge3dshape_]
+					if ok {
+						plantdiagrams = res[torusedge3dshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[torusedge3dshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PointsAndLines3DShape
 	case PointsAndLines3DShape:
@@ -22291,6 +22494,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of TopStartHalfwayArcShapeGrid
 	case TopStartHalfwayArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TorusEdge3DShape
+	case TorusEdge3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -23255,6 +23463,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of TorusEdge3DShape
+	case TorusEdge3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TorusStackShape
 	case TorusStackShape:
 		switch fieldname {
@@ -23484,6 +23697,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TopStartHalfwayArcShape"
 	case *TopStartHalfwayArcShapeGrid:
 		res = "TopStartHalfwayArcShapeGrid"
+	case *TorusEdge3DShape:
+		res = "TorusEdge3DShape"
 	case *TorusStackShape:
 		res = "TorusStackShape"
 	case *VerticalTorusStackShape:
@@ -23971,6 +24186,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "TopStartHalfwayArcShapes"
 		res = append(res, rf)
 	case *TopStartHalfwayArcShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *TorusEdge3DShape:
 		var rf ReverseField
 		_ = rf
 	case *TorusStackShape:
@@ -25782,6 +26000,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenTorusEdge3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -25852,6 +26074,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "Key3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Key3DShape",
+		},
+		{
+			Name:                 "TorusEdge3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TorusEdge3DShape",
 		},
 	}
 	return
@@ -28110,6 +28337,17 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetFieldHead
 	return
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (torusstackshape *TorusStackShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -30032,6 +30270,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKey3DShape)
 		res.valueBool = plantdiagram.IsHiddenKey3DShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTorusEdge3DShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusEdge3DShape)
+		res.valueBool = plantdiagram.IsHiddenTorusEdge3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -30113,6 +30355,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.Key3DShape != nil {
 			res.valueString = plantdiagram.Key3DShape.Name
 			res.ids = plantdiagram.Key3DShape.GongGetUUID(stage)
+		}
+	case "TorusEdge3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.TorusEdge3DShape != nil {
+			res.valueString = plantdiagram.TorusEdge3DShape.Name
+			res.ids = plantdiagram.TorusEdge3DShape.GongGetUUID(stage)
 		}
 	}
 	return
@@ -32419,6 +32667,15 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetFieldValu
 	return
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = torusedge3dshape.Name
+	}
+	return
+}
+
 func (torusstackshape *TorusStackShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -34172,6 +34429,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
 	case "IsHiddenKey3DShape":
 		plantdiagram.IsHiddenKey3DShape = value.GetValueBool()
+	case "IsHiddenTorusEdge3DShape":
+		plantdiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -34306,6 +34565,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.Key3DShapes {
 				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.Key3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TorusEdge3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.TorusEdge3DShape = nil
+			for __instance__ := range stage.TorusEdge3DShapes {
+				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.TorusEdge3DShape = __instance__
 					break
 				}
 			}
@@ -36203,6 +36473,17 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongSetFieldValu
 	return nil
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		torusedge3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (torusstackshape *TorusStackShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -36644,6 +36925,10 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongGetGongstructName() 
 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetGongstructName() string {
 	return "TopStartHalfwayArcShapeGrid"
+}
+
+func (torusedge3dshape *TorusEdge3DShape) GongGetGongstructName() string {
+	return "TorusEdge3DShape"
 }
 
 func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
@@ -37179,6 +37464,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TopStartHalfwayArcShapeGrids_mapString = make(map[string]*TopStartHalfwayArcShapeGrid)
 	for topstarthalfwayarcshapegrid := range stage.TopStartHalfwayArcShapeGrids {
 		stage.TopStartHalfwayArcShapeGrids_mapString[topstarthalfwayarcshapegrid.Name] = topstarthalfwayarcshapegrid
+	}
+
+	stage.TorusEdge3DShapes_mapString = make(map[string]*TorusEdge3DShape)
+	for torusedge3dshape := range stage.TorusEdge3DShapes {
+		stage.TorusEdge3DShapes_mapString[torusedge3dshape.Name] = torusedge3dshape
 	}
 
 	stage.TorusStackShapes_mapString = make(map[string]*TorusStackShape)
