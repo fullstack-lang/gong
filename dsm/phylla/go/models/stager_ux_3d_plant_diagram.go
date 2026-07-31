@@ -126,29 +126,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	stackHeight := plant.StackHeight
 
-	generateLayerWithModulo := func(h int, dx, dy, thetaOffset float64, namePrefix string) {
-		radialRepetition := plant.RadialRepetitions
 
-		massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)
-		massiveTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Top h%d", namePrefix, h)}).Stage(stager.threejsStage)
-
-		for k := 0; k < radialRepetition; k++ {
-			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetition)
-			totalThetaOffset := thetaOffset + baseThetaOffset
-
-			localBottomCurve := stager.cloneAndRotateCurve(curve, totalThetaOffset)
-			localTopCurve := stager.cloneAndRotateCurve(topCurve, totalThetaOffset)
-
-			for i := 0; i < len(localBottomCurve.Points); i++ {
-				massiveBottomCurve.Points = append(massiveBottomCurve.Points, localBottomCurve.Points[i])
-			}
-			for i := 0; i < len(localTopCurve.Points); i++ {
-				massiveTopCurve.Points = append(massiveTopCurve.Points, localTopCurve.Points[i])
-			}
-		}
-
-		stager.generateRibbonMesh(h, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
-	}
 
 	if !checkedDiagram.IsHiddenTorusStackShape {
 		var growthVectorX, growthVectorY float64
@@ -178,7 +156,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 			thetaOffset := dx / globalR
 
-			generateLayerWithModulo(h, dx, dy, thetaOffset, "Torus Continuous")
+			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
 	}
 
@@ -188,7 +166,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 			thetaOffset := 0.0
 
-			generateLayerWithModulo(h, dx, dy, thetaOffset, "Vertical Torus Continuous")
+			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
 	}
 
@@ -200,7 +178,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		// but here the dy from ComputePartiallyGrowthCurveDY ALREADY includes the Y-shift
 		// required to perfectly rest on the first ribbon (h=0).
 
-		generateLayerWithModulo(1, dx, dy, thetaOffset, "Partially Rotated Torus")
+		stager.generateLayerWithModulo(1, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 	}
 
 	if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
@@ -236,7 +214,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := dys[h]
 			thetaOffset := dx / globalR
 
-			generateLayerWithModulo(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus")
+			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, curve, topCurve, thickness, globalR, canvas)
 		}
 		if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
 			stackH := stackHeight
