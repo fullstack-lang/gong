@@ -351,7 +351,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "ThreeDModulo"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialRepetitions"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Transparency"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
@@ -2105,11 +2105,11 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RotationRatio")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RotationRatio))
-	case "ThreeDModulo":
+	case "RadialRepetitions":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ThreeDModulo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ThreeDModulo))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.RadialRepetitions))
 	case "Transparency":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -5910,7 +5910,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "ThreeDModulo"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialRepetitions"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Transparency"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))

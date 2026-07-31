@@ -25477,7 +25477,7 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "ThreeDModulo",
+			Name:               "RadialRepetitions",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
@@ -29712,9 +29712,9 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RotationRatio)
 		res.valueFloat = plant.RotationRatio
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ThreeDModulo":
-		res.valueString = fmt.Sprintf("%d", plant.ThreeDModulo)
-		res.valueInt = plant.ThreeDModulo
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", plant.RadialRepetitions)
+		res.valueInt = plant.RadialRepetitions
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Transparency":
 		res.valueString = fmt.Sprintf("%f", plant.Transparency)
@@ -33839,8 +33839,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RelativeRotatedTorusSeparation = value.GetValueFloat()
 	case "RotationRatio":
 		plant.RotationRatio = value.GetValueFloat()
-	case "ThreeDModulo":
-		plant.ThreeDModulo = int(value.GetValueInt())
+	case "RadialRepetitions":
+		plant.RadialRepetitions = int(value.GetValueInt())
 	case "Transparency":
 		plant.Transparency = value.GetValueFloat()
 	case "RelativeTrajectoryOffsetX":

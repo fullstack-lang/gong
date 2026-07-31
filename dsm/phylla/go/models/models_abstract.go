@@ -48,10 +48,10 @@ type Plant struct {
 	// 1.0 means the rotation of 2xPi x (GrowthVectorShape.X /  PlantCircumferenceShape.Length)
 	RotationRatio float64
 
-	// ThreeDModulo impacts the conversion from 2D ribbons to 3D torus.
-	// The 3D torus  is construed by 2Pi/ThreeDModulo each time it ranges over the  GrowthCurve2DRibbon
+	// RadialRepetitions impacts the conversion from 2D ribbons to 3D torus.
+	// The 3D torus  is construed by 2Pi/RadialRepetitions each time it ranges over the  GrowthCurve2DRibbon
 	// If ThreeDModule is 1, the 3D torus wraps 360 degrees while ranging over the GrowthCurve2DRibbon
-	ThreeDModulo int
+	RadialRepetitions int
 
 	// Transparency of the 3D torus material (between 0.0 for opaque and 1.0 for transparent)
 	Transparency float64
@@ -67,10 +67,10 @@ type Plant struct {
 	// ChosenStep is
 	ChosenStep int
 
-	OffsetKeyX float64
-	OffsetKeyY float64
-	HeightKey  float64
-	WidthKey   float64
+	OffsetKeyX               float64
+	OffsetKeyY               float64
+	HeightKey                float64
+	WidthKey                 float64
 	RelativeKeySizeReduction float64
 
 	LibraryAbstractFields
@@ -124,12 +124,9 @@ type Plant struct {
 
 	PartiallyGrowthCurve2DRibbon            *PartiallyGrowthCurve2DRibbon
 	ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon
-	PartiallyGrowthCurve2DTrajectory     *PartiallyGrowthCurve2DTrajectory
-	PartiallyGrowthCurve2DTrajectoryP1P2 *PartiallyGrowthCurve2DTrajectoryP1P2
-	PxShape                              *PxShape
-	ChosenP1P2PairShape                  *ChosenP1P2PairShape
-	KeyHoleShape                         *KeyHoleShape
+	PartiallyGrowthCurve2DTrajectory        *PartiallyGrowthCurve2DTrajectory
+	PartiallyGrowthCurve2DTrajectoryP1P2    *PartiallyGrowthCurve2DTrajectoryP1P2
+	PxShape                                 *PxShape
+	ChosenP1P2PairShape                     *ChosenP1P2PairShape
+	KeyHoleShape                            *KeyHoleShape
 }
-
-
-

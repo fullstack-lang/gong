@@ -989,7 +989,7 @@ type Plant_WOP struct {
 
 	RotationRatio float64
 
-	ThreeDModulo int
+	RadialRepetitions int
 
 	Transparency float64
 
@@ -1033,7 +1033,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
 	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
 	to.RotationRatio = from.RotationRatio
-	to.ThreeDModulo = from.ThreeDModulo
+	to.RadialRepetitions = from.RadialRepetitions
 	to.Transparency = from.Transparency
 	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY

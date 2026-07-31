@@ -114,7 +114,7 @@ func (*Stager) computeGlobalRadius(plant *Plant) (globalR float64) {
 	if circumference <= 0 {
 		circumference = 10.0
 	}
-	threeDModulo := plant.ThreeDModulo
+	threeDModulo := plant.RadialRepetitions
 	if threeDModulo < 1 {
 		threeDModulo = 1
 	}
@@ -344,7 +344,6 @@ func (stager *Stager) createTorusEdgeMesh(name string, color string, edges [][2]
 		MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
 	}).Stage(stager.threejsStage)
 }
-
 
 func (stager *Stager) createKeyHole3DTubeMesh(tubeName string, pA, pB *threejs.Vector3, tubeRadius float64) *threejs.Mesh {
 	crv := (&threejs.Curve{

@@ -9959,8 +9959,8 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.RotationRatio != plantOther.RotationRatio {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RotationRatio"))
 	}
-	if plant.ThreeDModulo != plantOther.ThreeDModulo {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ThreeDModulo"))
+	if plant.RadialRepetitions != plantOther.RadialRepetitions {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RadialRepetitions"))
 	}
 	if plant.Transparency != plantOther.Transparency {
 		diffs = append(diffs, plant.GongMarshallField(stage, "Transparency"))

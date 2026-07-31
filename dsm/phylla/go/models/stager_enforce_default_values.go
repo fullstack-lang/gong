@@ -42,9 +42,9 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.RelativeVerticalThickness = 0.1
 		}
-		if plant.ThreeDModulo < 1 {
+		if plant.RadialRepetitions < 1 {
 			needCommit = true
-			plant.ThreeDModulo = 1
+			plant.RadialRepetitions = 1
 		}
 		if plant.NbStepP1P2 <= 0 {
 			needCommit = true
