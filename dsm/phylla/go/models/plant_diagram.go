@@ -69,6 +69,7 @@ type PlantDiagram struct {
 	IsHiddenPointsAndLines3DShape                      bool
 	IsHiddenKeyHole3DShape                             bool
 	IsHiddenKey3DShape                                 bool
+	IsHiddenTorusEdge3DShape                           bool
 
 	IsChecked bool
 	AbstractTypeFields
@@ -85,6 +86,7 @@ type PlantDiagram struct {
 	PointsAndLines3DShape             *PointsAndLines3DShape
 	KeyHole3DShape                    *KeyHole3DShape
 	Key3DShape                        *Key3DShape
+	TorusEdge3DShape                  *TorusEdge3DShape
 }
 
 

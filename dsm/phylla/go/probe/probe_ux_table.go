@@ -232,6 +232,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopStartHalfwayArcShape](probe)
 	case "TopStartHalfwayArcShapeGrid":
 		updateProbeTable[*models.TopStartHalfwayArcShapeGrid](probe)
+	case "TorusEdge3DShape":
+		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
 	case "VerticalTorusStackShape":

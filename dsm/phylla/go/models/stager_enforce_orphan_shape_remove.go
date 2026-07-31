@@ -118,6 +118,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refPointsAndLines3DShape := make(map[*PointsAndLines3DShape]bool)
 	refKeyHole3DShape := make(map[*KeyHole3DShape]bool)
 	refKey3DShape := make(map[*Key3DShape]bool)
+	refTorusEdge3DShape := make(map[*TorusEdge3DShape]bool)
 
 
 	// Collect referenced shapes from all plants
@@ -466,6 +467,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 		if diagram.Key3DShape != nil {
 			refKey3DShape[diagram.Key3DShape] = true
+		}
+		if diagram.TorusEdge3DShape != nil {
+			refTorusEdge3DShape[diagram.TorusEdge3DShape] = true
 		}
 	}
 
@@ -1078,6 +1082,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*Key3DShape](stage) {
 		if !refKey3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusEdge3DShape](stage) {
+		if !refTorusEdge3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

@@ -2431,6 +2431,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenKey3DShape":
 		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenTorusEdge3DShape":
+		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -2461,6 +2463,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
 	case "Key3DShape":
 		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
+	case "TorusEdge3DShape":
+		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -4906,6 +4910,35 @@ func (u *TopStartHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.Name = GongExtractString(valueExpr)
 	case "TopStartHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.TopStartHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TorusEdge3DShapeUnmarshaller struct{}
+
+func (u *TorusEdge3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TorusEdge3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TorusEdge3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TorusEdge3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }
