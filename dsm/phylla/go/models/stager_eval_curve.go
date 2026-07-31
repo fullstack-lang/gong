@@ -168,6 +168,10 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) 
 		dy = vThickness
 	}
 
+	rotatedSeparation := plant.RelativeRotatedTorusSeparation * plant.RhombusSideLength
+	dy += rotatedSeparation
+
+
 	return dx, dy, currentDX
 }
 

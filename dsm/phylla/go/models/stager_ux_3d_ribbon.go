@@ -8,7 +8,20 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (stager *Stager) generateRibbonLayer(h int, dx, dy, thetaOffset float64, baseNamePrefix string, plant *Plant, checkedDiagram *PlantDiagram, curve *threejs.Curve, topCurve *threejs.Curve, thickness float64, globalR float64, canvas *threejs.Canvas) {
+func (stager *Stager) generateRibbonLayer(
+	h int, // The vertical stack layer index (0 is bottom)
+	dx float64, // Horizontal offset applied to the curve for this layer
+	dy float64, // Vertical offset applied to the curve for this layer
+	thetaOffset float64, // Angular rotation offset applied to this layer
+	baseNamePrefix string, // Prefix for naming the generated 3D meshes
+	plant *Plant, // The Plant domain object containing geometry parameters
+	checkedDiagram *PlantDiagram, // The current UI diagram state and visibility flags
+	curve *threejs.Curve, // The 3D points defining the bottom edge of the ribbon
+	topCurve *threejs.Curve, // The 3D points defining the top edge of the ribbon
+	thickness float64, // Thickness of the ribbon (inner to outer radius difference)
+	globalR float64, // The base global radius of the cylindrical projection
+	canvas *threejs.Canvas, // The Three.js canvas where generated meshes are appended
+) {
 	stackHeight := plant.StackHeight
 	threeDModulo := plant.ThreeDModulo
 	if threeDModulo < 1 {
@@ -360,7 +373,7 @@ func (stager *Stager) generateRibbonLayer(h int, dx, dy, thetaOffset float64, ba
 				if stackHeight > 1 {
 					numSteps := stackHeight - 1
 					totalProgress := plant.RotationRatio * float64(numSteps)
-					kStep := float64(h + 1)
+					kStep := float64(numSteps - h)
 					if totalProgress >= kStep {
 						r_h1 = 1.0
 					} else if totalProgress <= kStep-1.0 {

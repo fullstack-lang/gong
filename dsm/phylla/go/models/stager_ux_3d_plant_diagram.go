@@ -192,7 +192,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			var cumDX, cumDY float64
 			for k := 1; k <= numSteps; k++ {
 				var r_k float64
-				kFloat := float64(k)
+				kFloat := float64(numSteps - k + 1)
 				if totalProgress >= kFloat {
 					r_k = 1.0
 				} else if totalProgress <= kFloat-1.0 {
@@ -230,7 +230,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			var cumDX, cumDY float64
 			for k := 1; k <= numSteps3D; k++ {
 				var r_k float64
-				kFloat := float64(k)
+				kFloat := float64(numSteps3D - k + 1)
 				if totalProgress >= kFloat {
 					r_k = 1.0
 				} else if totalProgress <= kFloat-1.0 {
