@@ -53,7 +53,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.046000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
 	__Plant__00000000_.RotationRatio = 0.000000
-	__Plant__00000000_.ThreeDModulo = 3
+	__Plant__00000000_.RadialRepetitions = 2
 	__Plant__00000000_.Transparency = 0.350000
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.032000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.020000

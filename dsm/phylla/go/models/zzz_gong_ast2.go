@@ -2141,8 +2141,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
 	case "RotationRatio":
 		instance.RotationRatio = GongExtractFloat(valueExpr)
-	case "ThreeDModulo":
-		instance.ThreeDModulo = GongExtractInt(valueExpr)
+	case "RadialRepetitions":
+		instance.RadialRepetitions = GongExtractInt(valueExpr)
 	case "Transparency":
 		instance.Transparency = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetX":

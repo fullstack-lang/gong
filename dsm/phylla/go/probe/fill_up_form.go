@@ -1038,7 +1038,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RotationRatio", instanceWithInferedType.RotationRatio, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ThreeDModulo", instanceWithInferedType.ThreeDModulo, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

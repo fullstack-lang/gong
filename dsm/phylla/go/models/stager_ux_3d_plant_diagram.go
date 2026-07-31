@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 
-
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
@@ -128,9 +127,9 @@ func (stager *Stager) ux_3d_plant_diagram() {
 	stackHeight := plant.StackHeight
 
 	generateLayerWithModulo := func(h int, dx, dy, thetaOffset float64, namePrefix string) {
-		threeDModulo := plant.ThreeDModulo
-		for k := 0; k < threeDModulo; k++ {
-			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
+		radialRepetition := plant.RadialRepetitions
+		for k := 0; k < radialRepetition; k++ {
+			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetition)
 			totalThetaOffset := thetaOffset + baseThetaOffset
 
 			localBottomCurve := stager.cloneAndRotateCurve(curve, totalThetaOffset)
@@ -243,73 +242,72 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			generateLayerWithModulo(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus")
 		}
-	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
-		stackH := stackHeight
-		if stackH <= 0 {
-			stackH = 1
-		}
+		if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
+			stackH := stackHeight
+			if stackH <= 0 {
+				stackH = 1
+			}
 
-		dxs3D := make([]float64, stackH)
-		dys3D := make([]float64, stackH)
+			dxs3D := make([]float64, stackH)
+			dys3D := make([]float64, stackH)
 
-		numSteps3D := stackH - 1
-		if numSteps3D > 0 {
-			totalProgress := plant.RotationRatio * float64(numSteps3D)
-			var cumDX, cumDY float64
-			for k := 1; k <= numSteps3D; k++ {
-				var r_k float64
-				kFloat := float64(numSteps3D - k + 1)
-				if totalProgress >= kFloat {
-					r_k = 1.0
-				} else if totalProgress <= kFloat-1.0 {
-					r_k = 0.0
-				} else {
-					r_k = totalProgress - (kFloat - 1.0)
+			numSteps3D := stackH - 1
+			if numSteps3D > 0 {
+				totalProgress := plant.RotationRatio * float64(numSteps3D)
+				var cumDX, cumDY float64
+				for k := 1; k <= numSteps3D; k++ {
+					var r_k float64
+					kFloat := float64(numSteps3D - k + 1)
+					if totalProgress >= kFloat {
+						r_k = 1.0
+					} else if totalProgress <= kFloat-1.0 {
+						r_k = 0.0
+					} else {
+						r_k = totalProgress - (kFloat - 1.0)
+					}
+					stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+					cumDX += stepDX
+					cumDY += stepDY
+					dxs3D[k] = cumDX
+					dys3D[k] = cumDY
 				}
-				stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
-				cumDX += stepDX
-				cumDY += stepDY
-				dxs3D[k] = cumDX
-				dys3D[k] = cumDY
 			}
-		}
 
-		x_left := plant.OffsetKeyX - plant.WidthKey/2.0
-		x_right := plant.OffsetKeyX + plant.WidthKey/2.0
-		y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
-		y_top := plant.OffsetKeyY + plant.HeightKey/2.0
+			x_left := plant.OffsetKeyX - plant.WidthKey/2.0
+			x_right := plant.OffsetKeyX + plant.WidthKey/2.0
+			y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
+			y_top := plant.OffsetKeyY + plant.HeightKey/2.0
 
-		tubeRadius := globalR * 0.005
+			tubeRadius := globalR * 0.005
 
-		if tubeRadius < 0.2 {
-			tubeRadius = 0.2
-		}
+			if tubeRadius < 0.2 {
+				tubeRadius = 0.2
+			}
 
-		threeDModulo := plant.ThreeDModulo
+			threeDModulo := plant.RadialRepetitions
 
-		for h := 0; h < stackH; h++ {
-			dx_h := dxs3D[h]
-			dy_h := dys3D[h]
+			for h := 0; h < stackH; h++ {
+				dx_h := dxs3D[h]
+				dy_h := dys3D[h]
 
-			for k := 0; k < threeDModulo; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
+				for k := 0; k < threeDModulo; k++ {
+					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
-				vBL := stager.get3DPtHK(x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-				vBR := stager.get3DPtHK(x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-				vTR := stager.get3DPtHK(x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-				vTL := stager.get3DPtHK(x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vBL := stager.get3DPtHK(x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vBR := stager.get3DPtHK(x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vTR := stager.get3DPtHK(x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vTL := stager.get3DPtHK(x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 
-				canvas.Meshs = append(canvas.Meshs,
-					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
-					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
-					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
-					stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
-				)
+					canvas.Meshs = append(canvas.Meshs,
+						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
+						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
+						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
+						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
+					)
+				}
 			}
 		}
 	}
-	}
-
 
 	stager.addFloorTiles(floorMinY, plant, globalR, canvas)
 
