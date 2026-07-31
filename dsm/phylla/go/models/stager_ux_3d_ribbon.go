@@ -46,7 +46,19 @@ func (stager *Stager) generateRibbonLayer(
 			yT = y_top + dy
 		}
 
-		// Precompute inHole for all segments
+		// ============================================================================
+		// HOLE PRECOMPUTATION PASS
+		// ============================================================================
+		// Before generating any vertices or faces, we precompute a boolean array `inHoleArr`.
+		// For every segment (between point i and point i+1) along the ribbon's horizontal curve,
+		// we determine whether its angular position (theta) falls within the bounds of the hole [thL, thR].
+		//
+		// Since the ribbon wraps around in a circular or spiral path (3D Torus),
+		// we must handle angular wrap-around (modulo 2π).
+		// 1. `thetaBase` represents the absolute angle of the segment's midpoint in the XY/XZ plane.
+		// 2. We apply `thetaOffset` and `baseThetaOffset` to align it with the hole's reference frame.
+		// 3. We calculate the angular distance (`diff`) from the left edge (`thL`) to the segment's midpoint.
+		// 4. If `diff` is less than the total angular width of the hole (`width`), the segment is "in the hole".
 		inHoleArr := make([]bool, len(curve.Points)-1)
 		if hasHole {
 			for i := 0; i < len(curve.Points)-1; i++ {
@@ -68,21 +80,32 @@ func (stager *Stager) generateRibbonLayer(
 			}
 		}
 
-		// We generate the 3D meshes by constructing BufferGeometry
-		// To share vertices and get smooth shading, we add all vertices first, then construct faces.
-		// There are 4 bands vertically for each point:
-		// 0: yBase
-		// 1: yB (if in hole, clamped)
-		// 2: yT (if in hole, clamped)
-		// 3: yBaseTop
+		// ============================================================================
+		// FIRST PASS: Vertex Generation & Elevation Levels
+		// ============================================================================
+		// We generate the 3D meshes by manually constructing Three.js BufferGeometry.
+		// To achieve perfectly smooth continuous shading (Gouraud/Phong shading),
+		// we MUST share vertices between adjacent quad faces.
+		// Therefore, we first generate a single continuous 2D grid of vertices,
+		// and later (in the second pass) we define faces by connecting these shared vertices by index.
+		//
+		// For every horizontal point `i` along the ribbon curve, we generate 4 vertically
+		// stacked vertices (creating 3 horizontal bands). The y-coordinates for these 4 levels are:
+		//   - Level 0 (y0): The absolute bottom edge of the ribbon (yBase)
+		//   - Level 1 (y1): The bottom edge of the hole (yB). If not in a hole, it's identical to y0.
+		//   - Level 2 (y2): The top edge of the hole (yT). If not in a hole, it's identical to y3.
+		//   - Level 3 (y3): The absolute top edge of the ribbon (yBaseTop)
 
+		// geomInner is the inner surface of the ribbon
 		geomInner := (&threejs.BufferGeometry{Name: namePrefix + " Inner BufferGeometry"}).Stage(stager.threejsStage)
+		// geomOuter is the outer surface of the ribbon
 		geomOuter := (&threejs.BufferGeometry{Name: namePrefix + " Outer BufferGeometry"}).Stage(stager.threejsStage)
+		// geomHoleWalls is the wall of the hole
 		geomHoleWalls := (&threejs.BufferGeometry{Name: namePrefix + " HoleWalls BufferGeometry"}).Stage(stager.threejsStage)
 
 		var bottomEdges, topEdges [][2]*threejs.Vector3
 
-		// First, add all vertices
+		// Loop through every point along the curve and push the 4 vertical levels (Inner and Outer)
 		for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
 			p := curve.Points[i]
 			pTop := topCurve.Points[i]
@@ -162,8 +185,25 @@ func (stager *Stager) generateRibbonLayer(
 			topEdges = append(topEdges, [2]*threejs.Vector3{vTL, vTR})
 		}
 
-
-
+		// ============================================================================
+		// SECOND PASS: Face (Quad) Generation & Hole Carving
+		// ============================================================================
+		// The ribbon surface is vertically subdivided into 3 horizontal bands formed
+		// by the 4 elevation levels (y0, y1, y2, y3) computed during the vertex pass:
+		//   - Band 0 (Bottom): Connects y0 to y1
+		//   - Band 1 (Middle): Connects y1 to y2
+		//   - Band 2 (Top):    Connects y2 to y3
+		//
+		// To dig a hole into the ribbon smoothly without breaking shading:
+		// 1. All segments, regardless of whether they are in the hole, share the same
+		//    continuous vertex grid. This ensures perfect smooth normals across the mesh.
+		// 2. For solid segments (!inHoleArr[i]), we render all 3 bands (full height).
+		// 3. For hole segments (inHoleArr[i]), we intentionally OMIT Band 1 (the middle).
+		//    This effectively "carves" out the center of the ribbon while leaving the
+		//    bottom and top frames (Band 0 and 2) intact.
+		// 4. To give the hole proper physical thickness (so it doesn't look like paper),
+		//    we bridge the gap between the `geomInner` and `geomOuter` surfaces by
+		//    generating solid "Wall Quads" around the cutout boundary (bottom, top, left, right).
 		for i := 0; i < len(curve.Points)-1; i++ {
 			if !hasHole || !inHoleArr[i] {
 				// Add full quads for all 3 bands
@@ -229,6 +269,12 @@ func (stager *Stager) generateRibbonLayer(
 			opacity = 1.0
 		}
 
+		// ============================================================================
+		// THIRD PASS: Mesh Creation
+		// ============================================================================
+		// Finally, create the Three.js Mesh objects and add them to the scene.
+		// The inner and outer surfaces are created with shared materials.
+		// The hole walls are created with the same material.
 		innerMesh := (&threejs.Mesh{
 			Name:           namePrefix + " Inner Mesh",
 			Position:       threejs.Position{X: 0, Y: 0, Z: 0},
