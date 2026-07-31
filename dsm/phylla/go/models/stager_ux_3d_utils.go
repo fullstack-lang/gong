@@ -382,6 +382,24 @@ func (stager *Stager) get3DPtHK(ptX, ptY float64, ptName string, dx_h, dy_h, glo
 	}).Stage(stager.threejsStage)
 }
 
+func (stager *Stager) cloneAndRotateCurve(source *threejs.Curve, thetaOffset float64) *threejs.Curve {
+	clone := (&threejs.Curve{
+		Name: source.Name + fmt.Sprintf(" Rotated %.2f", thetaOffset),
+	}).Stage(stager.threejsStage)
 
+	for _, p := range source.Points {
+		thetaBase := math.Atan2(p.Z, p.X)
+		r := math.Sqrt(p.X*p.X + p.Z*p.Z)
+		newTheta := thetaBase + thetaOffset
 
+		newP := (&threejs.Vector3{
+			Name: p.Name + " Rotated",
+			X:    r * math.Cos(newTheta),
+			Y:    p.Y,
+			Z:    r * math.Sin(newTheta),
+		}).Stage(stager.threejsStage)
+		clone.Points = append(clone.Points, newP)
+	}
 
+	return clone
+}
