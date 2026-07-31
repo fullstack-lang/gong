@@ -10,47 +10,18 @@ import (
 
 func (stager *Stager) generateRibbonMesh(
 	h int,
-	k int,
 	totalThetaOffset float64,
 	namePrefix string,
 	plant *Plant,
 	checkedDiagram *PlantDiagram,
 	localBottomCurve *threejs.Curve,
 	localTopCurve *threejs.Curve,
-	hasHole bool,
-	thL, thR, yB, yT float64,
 	dy float64,
 	thickness float64,
 	globalR float64,
 	canvas *threejs.Canvas,
 ) {
 	japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
-
-	// ============================================================================
-	// HOLE PRECOMPUTATION PASS
-	// ============================================================================
-	// Before generating any vertices or faces, we precompute a boolean array `inHoleArr`.
-	// For every segment (between point i and point i+1) along the ribbon's horizontal curve,
-	// we determine whether its angular position (theta) falls within the bounds of the hole [thL, thR].
-	inHoleArr := make([]bool, len(localBottomCurve.Points)-1)
-	if hasHole {
-		for i := 0; i < len(localBottomCurve.Points)-1; i++ {
-			p1 := localBottomCurve.Points[i]
-			p2 := localBottomCurve.Points[i+1]
-			th_mid := math.Atan2((p1.Z+p2.Z)/2.0, (p1.X+p2.X)/2.0)
-			width := thR - thL
-			for width < 0 {
-				width += 2 * math.Pi
-			}
-			diff := math.Mod(th_mid-thL, 2*math.Pi)
-			if diff < 0 {
-				diff += 2 * math.Pi
-			}
-			if diff <= width {
-				inHoleArr[i] = true
-			}
-		}
-	}
 
 	// ============================================================================
 	// FIRST PASS: Vertex Generation & Elevation Levels
@@ -64,16 +35,14 @@ func (stager *Stager) generateRibbonMesh(
 	// For every horizontal point `i` along the ribbon curve, we generate 4 vertically
 	// stacked vertices (creating 3 horizontal bands). The y-coordinates for these 4 levels are:
 	//   - Level 0 (y0): The absolute bottom edge of the ribbon (yBase)
-	//   - Level 1 (y1): The bottom edge of the hole (yB). If not in a hole, it's identical to y0.
-	//   - Level 2 (y2): The top edge of the hole (yT). If not in a hole, it's identical to y3.
+	//   - Level 1 (y1): Identical to y0 (legacy hole logic removed)
+	//   - Level 2 (y2): Identical to y3 (legacy hole logic removed)
 	//   - Level 3 (y3): The absolute top edge of the ribbon (yBaseTop)
 
 	// geomInner is the inner surface of the ribbon
 	geomInner := (&threejs.BufferGeometry{Name: namePrefix + " Inner BufferGeometry"}).Stage(stager.threejsStage)
 	// geomOuter is the outer surface of the ribbon
 	geomOuter := (&threejs.BufferGeometry{Name: namePrefix + " Outer BufferGeometry"}).Stage(stager.threejsStage)
-	// geomHoleWalls is the wall of the hole
-	geomHoleWalls := (&threejs.BufferGeometry{Name: namePrefix + " HoleWalls BufferGeometry"}).Stage(stager.threejsStage)
 
 	var bottomEdges, topEdges [][2]*threejs.Vector3
 
@@ -99,22 +68,8 @@ func (stager *Stager) generateRibbonMesh(
 
 		// The 4 heights
 		y0 := yBase
-		y1 := yB
-		if y1 < yBase {
-			y1 = yBase
-		}
-		if y1 > yBaseTop {
-			y1 = yBaseTop
-		}
-
-		y2 := yT
-		if y2 < yBase {
-			y2 = yBase
-		}
-		if y2 > yBaseTop {
-			y2 = yBaseTop
-		}
-
+		y1 := yBase
+		y2 := yBaseTop
 		y3 := yBaseTop
 
 		// inner 4 points
@@ -131,7 +86,7 @@ func (stager *Stager) generateRibbonMesh(
 			zIn := r_interp * math.Sin(th_interp)
 
 			vIn := (&threejs.Vector3{
-				Name: fmt.Sprintf("%s Inner k%d i%d j%d", namePrefix, k, i, j),
+				Name: fmt.Sprintf("%s Inner i%d j%d", namePrefix, i, j),
 				X:    xIn, Y: yVal, Z: zIn,
 			}).Stage(stager.threejsStage)
 			geomInner.Vertices = append(geomInner.Vertices, vIn)
@@ -141,7 +96,7 @@ func (stager *Stager) generateRibbonMesh(
 			zOut := rOut_interp * math.Sin(th_interp)
 
 			vOut := (&threejs.Vector3{
-				Name: fmt.Sprintf("%s Outer k%d i%d j%d", namePrefix, k, i, j),
+				Name: fmt.Sprintf("%s Outer i%d j%d", namePrefix, i, j),
 				X:    xOut, Y: yVal, Z: zOut,
 			}).Stage(stager.threejsStage)
 			geomOuter.Vertices = append(geomOuter.Vertices, vOut)
@@ -158,79 +113,30 @@ func (stager *Stager) generateRibbonMesh(
 	}
 
 	// ============================================================================
-	// SECOND PASS: Face (Quad) Generation & Hole Carving
+	// SECOND PASS: Face (Quad) Generation
 	// ============================================================================
 	// The ribbon surface is vertically subdivided into 3 horizontal bands formed
-	// by the 4 elevation levels (y0, y1, y2, y3) computed during the vertex pass:
-	//   - Band 0 (Bottom): Connects y0 to y1
-	//   - Band 1 (Middle): Connects y1 to y2
-	//   - Band 2 (Top):    Connects y2 to y3
-	//
-	// To dig a hole into the ribbon smoothly without breaking shading:
-	// 1. All segments, regardless of whether they are in the hole, share the same
-	//    continuous vertex grid. This ensures perfect smooth normals across the mesh.
-	// 2. For solid segments (!inHoleArr[i]), we render all 3 bands (full height).
-	// 3. For hole segments (inHoleArr[i]), we intentionally OMIT Band 1 (the middle).
-	//    This effectively "carves" out the center of the ribbon while leaving the
-	//    bottom and top frames (Band 0 and 2) intact.
-	// 4. To give the hole proper physical thickness (so it doesn't look like paper),
-	//    we bridge the gap between the `geomInner` and `geomOuter` surfaces by
-	//    generating solid "Wall Quads" around the cutout boundary (bottom, top, left, right).
+	// by the 4 elevation levels (y0, y1, y2, y3) computed during the vertex pass.
+
+	numPointsPerRep := len(localBottomCurve.Points) / plant.RadialRepetitions
+	if numPointsPerRep == 0 {
+		numPointsPerRep = 1
+	}
+
 	for i := 0; i < len(localBottomCurve.Points)-1; i++ {
-		if !hasHole || !inHoleArr[i] {
-			// Add full quads for all 3 bands
-			stager.addQuad(geomInner, i, 0, true, "inner")
-			stager.addQuad(geomInner, i, 1, true, "inner")
-			stager.addQuad(geomInner, i, 2, true, "inner")
-
-			stager.addQuad(geomOuter, i, 0, false, "outer")
-			stager.addQuad(geomOuter, i, 1, false, "outer")
-			stager.addQuad(geomOuter, i, 2, false, "outer")
-		} else {
-			// Hole segment: only add bottom band (0) and top band (2)
-			stager.addQuad(geomInner, i, 0, true, "inner_below")
-			stager.addQuad(geomInner, i, 2, true, "inner_above")
-
-			stager.addQuad(geomOuter, i, 0, false, "outer_below")
-			stager.addQuad(geomOuter, i, 2, false, "outer_above")
-
-			// Hole walls
-			// Bottom wall (only if i > 0, because we assume hole doesn't touch ends normally)
-			if i > 0 {
-				vB1 := geomInner.Vertices[i*4]
-				vB2 := geomOuter.Vertices[i*4]
-				vB3 := geomInner.Vertices[(i+1)*4]
-				vB4 := geomOuter.Vertices[(i+1)*4]
-				stager.addWallQuad(geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", false)
-			}
-
-			// Top wall
-			if i > 0 {
-				vT1 := geomInner.Vertices[i*4+2]
-				vT2 := geomOuter.Vertices[i*4+2]
-				vT3 := geomInner.Vertices[(i+1)*4+2]
-				vT4 := geomOuter.Vertices[(i+1)*4+2]
-				stager.addWallQuad(geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", true)
-			}
-
-			// Left wall (only if previous segment was NOT in hole)
-			if i == 0 || !inHoleArr[i-1] {
-				w1 := geomInner.Vertices[i*4+1]
-				w2 := geomInner.Vertices[i*4+2]
-				w3 := geomOuter.Vertices[i*4+1]
-				w4 := geomOuter.Vertices[i*4+2]
-				stager.addWallQuad(geomHoleWalls, w1, w2, w3, w4, "left_wall", true)
-			}
-
-			// Right wall (only if next segment is NOT in hole)
-			if i == len(localBottomCurve.Points)-2 || !inHoleArr[i+1] {
-				w1 := geomInner.Vertices[(i+1)*4+1]
-				w2 := geomInner.Vertices[(i+1)*4+2]
-				w3 := geomOuter.Vertices[(i+1)*4+1]
-				w4 := geomOuter.Vertices[(i+1)*4+2]
-				stager.addWallQuad(geomHoleWalls, w1, w2, w3, w4, "right_wall", false)
-			}
+		// Skip the bridging quad between separate radial repetitions
+		if (i+1)%numPointsPerRep == 0 {
+			continue
 		}
+
+		// Add full quads for all 3 bands
+		stager.addQuad(geomInner, i, 0, true, "inner")
+		stager.addQuad(geomInner, i, 1, true, "inner")
+		stager.addQuad(geomInner, i, 2, true, "inner")
+
+		stager.addQuad(geomOuter, i, 0, false, "outer")
+		stager.addQuad(geomOuter, i, 1, false, "outer")
+		stager.addQuad(geomOuter, i, 2, false, "outer")
 	}
 
 	opacity := 1.0 - plant.Transparency
@@ -272,21 +178,6 @@ func (stager *Stager) generateRibbonMesh(
 	}).Stage(stager.threejsStage)
 
 	canvas.Meshs = append(canvas.Meshs, innerMesh, outerMesh)
-
-	if hasHole {
-		holeWallsMesh := (&threejs.Mesh{
-			Name:           namePrefix + " HoleWalls Mesh",
-			Position:       threejs.Position{X: 0, Y: 0, Z: 0},
-			BufferGeometry: geomHoleWalls,
-			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 namePrefix + " HoleWalls Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
-				Transparent:          true,
-				Opacity:              opacity,
-			}).Stage(stager.threejsStage),
-		}).Stage(stager.threejsStage)
-		canvas.Meshs = append(canvas.Meshs, holeWallsMesh)
-	}
 
 	bottomFace := stager.createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, plant.Transparency)
 	topFace := stager.createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true, plant.Transparency)
@@ -352,7 +243,7 @@ func (stager *Stager) generateRibbonMesh(
 		get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
 			th := ptX/globalR + totalThetaOffset
 			return (&threejs.Vector3{
-				Name: fmt.Sprintf("%s %s k%d h%d", ptName, namePrefix, k, h),
+				Name: fmt.Sprintf("%s %s h%d", ptName, namePrefix, h),
 				X:    rSurf * math.Cos(th),
 				Y:    ptY + dy,
 				Z:    rSurf * math.Sin(th),
@@ -368,20 +259,20 @@ func (stager *Stager) generateRibbonMesh(
 
 		createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
 			return (&threejs.Mesh{
-				Name: fmt.Sprintf("Sphere %s %s k%d h%d", ptName, namePrefix, k, h),
+				Name: fmt.Sprintf("Sphere %s %s h%d", ptName, namePrefix, h),
 				Position: threejs.Position{
 					X: vec.X,
 					Y: vec.Y,
 					Z: vec.Z,
 				},
 				SphereGeometry: (&threejs.SphereGeometry{
-					Name:           fmt.Sprintf("SphereGeom %s %s k%d h%d", ptName, namePrefix, k, h),
+					Name:           fmt.Sprintf("SphereGeom %s %s h%d", ptName, namePrefix, h),
 					Radius:         sphereRad,
 					WidthSegments:  16,
 					HeightSegments: 16,
 				}).Stage(stager.threejsStage),
 				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 fmt.Sprintf("Material %s %s k%d h%d", ptName, namePrefix, k, h),
+					Name:                 fmt.Sprintf("Material %s %s h%d", ptName, namePrefix, h),
 					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
 				}).Stage(stager.threejsStage),
 			}).Stage(stager.threejsStage)
@@ -389,12 +280,12 @@ func (stager *Stager) generateRibbonMesh(
 
 		createPairTube := func(lineName string, color string, pA, pB *threejs.Vector3) *threejs.Mesh {
 			crv := (&threejs.Curve{
-				Name:   fmt.Sprintf("Curve %s %s k%d h%d", lineName, namePrefix, k, h),
+				Name:   fmt.Sprintf("Curve %s %s h%d", lineName, namePrefix, h),
 				Points: []*threejs.Vector3{pA, pB},
 			}).Stage(stager.threejsStage)
 
 			tGeom := (&threejs.TubeGeometry{
-				Name:            fmt.Sprintf("TubeGeom %s %s k%d h%d", lineName, namePrefix, k, h),
+				Name:            fmt.Sprintf("TubeGeom %s %s h%d", lineName, namePrefix, h),
 				Path:            crv,
 				TubularSegments: 8,
 				Radius:          sphereRad * 0.25,
@@ -403,11 +294,11 @@ func (stager *Stager) generateRibbonMesh(
 			}).Stage(stager.threejsStage)
 
 			return (&threejs.Mesh{
-				Name:         fmt.Sprintf("TubeMesh %s %s k%d h%d", lineName, namePrefix, k, h),
+				Name:         fmt.Sprintf("TubeMesh %s %s h%d", lineName, namePrefix, h),
 				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
 				TubeGeometry: tGeom,
 				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 fmt.Sprintf("Material %s %s k%d h%d", lineName, namePrefix, k, h),
+					Name:                 fmt.Sprintf("Material %s %s h%d", lineName, namePrefix, h),
 					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
 				}).Stage(stager.threejsStage),
 			}).Stage(stager.threejsStage)
@@ -440,9 +331,9 @@ func (stager *Stager) generateRibbonMesh(
 
 			distSum_3d := distP1Px_3d + distP2Px_3d
 
-			if h == 0 && k == 0 {
-				log.Printf("[3D Distance] %s (Layer %d, Rep %d) | P1-Px: %.4f, P2-Px: %.4f | 3D Sum: %.4f",
-					namePrefix, h, k, distP1Px_3d, distP2Px_3d, distSum_3d)
+			if h == 0 {
+				log.Printf("[3D Distance] %s (Layer %d) | P1-Px: %.4f, P2-Px: %.4f | 3D Sum: %.4f",
+					namePrefix, h, distP1Px_3d, distP2Px_3d, distSum_3d)
 			}
 		}
 	}
