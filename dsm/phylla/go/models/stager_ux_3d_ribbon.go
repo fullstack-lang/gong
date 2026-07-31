@@ -16,7 +16,7 @@ func (stager *Stager) generateRibbonLayer(
 	baseNamePrefix string, // Prefix for naming the generated 3D meshes
 	plant *Plant, // The Plant domain object containing geometry parameters
 	checkedDiagram *PlantDiagram, // The current UI diagram state and visibility flags
-	curve *threejs.Curve, // The 3D points defining the bottom edge of the ribbon
+	bottomCurve *threejs.Curve, // The 3D points defining the bottom edge of the ribbon
 	topCurve *threejs.Curve, // The 3D points defining the top edge of the ribbon
 	thickness float64, // Thickness of the ribbon (inner to outer radius difference)
 	globalR float64, // The base global radius of the cylindrical projection
@@ -59,11 +59,11 @@ func (stager *Stager) generateRibbonLayer(
 		// 2. We apply `thetaOffset` and `baseThetaOffset` to align it with the hole's reference frame.
 		// 3. We calculate the angular distance (`diff`) from the left edge (`thL`) to the segment's midpoint.
 		// 4. If `diff` is less than the total angular width of the hole (`width`), the segment is "in the hole".
-		inHoleArr := make([]bool, len(curve.Points)-1)
+		inHoleArr := make([]bool, len(bottomCurve.Points)-1)
 		if hasHole {
-			for i := 0; i < len(curve.Points)-1; i++ {
-				p1 := curve.Points[i]
-				p2 := curve.Points[i+1]
+			for i := 0; i < len(bottomCurve.Points)-1; i++ {
+				p1 := bottomCurve.Points[i]
+				p2 := bottomCurve.Points[i+1]
 				thetaBase := math.Atan2((p1.Z+p2.Z)/2.0, (p1.X+p2.X)/2.0)
 				th_mid := thetaBase + thetaOffset + baseThetaOffset
 				width := thR - thL
@@ -106,8 +106,8 @@ func (stager *Stager) generateRibbonLayer(
 		var bottomEdges, topEdges [][2]*threejs.Vector3
 
 		// Loop through every point along the curve and push the 4 vertical levels (Inner and Outer)
-		for i := 0; i < len(curve.Points) && i < len(topCurve.Points); i++ {
-			p := curve.Points[i]
+		for i := 0; i < len(bottomCurve.Points) && i < len(topCurve.Points); i++ {
+			p := bottomCurve.Points[i]
 			pTop := topCurve.Points[i]
 
 			thetaBase := math.Atan2(p.Z, p.X)
@@ -204,7 +204,7 @@ func (stager *Stager) generateRibbonLayer(
 		// 4. To give the hole proper physical thickness (so it doesn't look like paper),
 		//    we bridge the gap between the `geomInner` and `geomOuter` surfaces by
 		//    generating solid "Wall Quads" around the cutout boundary (bottom, top, left, right).
-		for i := 0; i < len(curve.Points)-1; i++ {
+		for i := 0; i < len(bottomCurve.Points)-1; i++ {
 			if !hasHole || !inHoleArr[i] {
 				// Add full quads for all 3 bands
 				stager.addQuad(geomInner, i, 0, true, "inner")
@@ -251,7 +251,7 @@ func (stager *Stager) generateRibbonLayer(
 				}
 
 				// Right wall (only if next segment is NOT in hole)
-				if i == len(curve.Points)-2 || !inHoleArr[i+1] {
+				if i == len(bottomCurve.Points)-2 || !inHoleArr[i+1] {
 					w1 := geomInner.Vertices[(i+1)*4+1]
 					w2 := geomInner.Vertices[(i+1)*4+2]
 					w3 := geomOuter.Vertices[(i+1)*4+1]
