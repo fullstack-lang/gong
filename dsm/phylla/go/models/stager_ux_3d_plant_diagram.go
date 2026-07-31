@@ -128,6 +128,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	generateLayerWithModulo := func(h int, dx, dy, thetaOffset float64, namePrefix string) {
 		radialRepetition := plant.RadialRepetitions
+
+		massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)
+		massiveTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Top h%d", namePrefix, h)}).Stage(stager.threejsStage)
+
 		for k := 0; k < radialRepetition; k++ {
 			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetition)
 			totalThetaOffset := thetaOffset + baseThetaOffset
@@ -135,23 +139,15 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			localBottomCurve := stager.cloneAndRotateCurve(curve, totalThetaOffset)
 			localTopCurve := stager.cloneAndRotateCurve(topCurve, totalThetaOffset)
 
-			var hasHole bool
-			var thL, thR, yB, yT float64
-			if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil {
-				hasHole = true
-				x_left := plant.OffsetKeyX - plant.WidthKey/2.0
-				x_right := plant.OffsetKeyX + plant.WidthKey/2.0
-				y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
-				y_top := plant.OffsetKeyY + plant.HeightKey/2.0
-
-				thL = (x_left+dx)/globalR + baseThetaOffset
-				thR = (x_right+dx)/globalR + baseThetaOffset
-				yB = y_bottom + dy
-				yT = y_top + dy
+			for i := 0; i < len(localBottomCurve.Points); i++ {
+				massiveBottomCurve.Points = append(massiveBottomCurve.Points, localBottomCurve.Points[i])
 			}
-
-			stager.generateRibbonMesh(h, k, totalThetaOffset, namePrefix, plant, checkedDiagram, localBottomCurve, localTopCurve, hasHole, thL, thR, yB, yT, dy, thickness, globalR, canvas)
+			for i := 0; i < len(localTopCurve.Points); i++ {
+				massiveTopCurve.Points = append(massiveTopCurve.Points, localTopCurve.Points[i])
+			}
 		}
+
+		stager.generateRibbonMesh(h, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
 	}
 
 	if !checkedDiagram.IsHiddenTorusStackShape {
