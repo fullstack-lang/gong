@@ -24,9 +24,6 @@ func (stager *Stager) generateRibbonLayer(
 ) {
 	stackHeight := plant.StackHeight
 	threeDModulo := plant.ThreeDModulo
-	if threeDModulo < 1 {
-		threeDModulo = 1
-	}
 
 	for k := 0; k < threeDModulo; k++ {
 		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
