@@ -258,9 +258,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		}
 
 		threeDModulo := plant.ThreeDModulo
-		if threeDModulo < 1 {
-			threeDModulo = 1
-		}
 
 		for h := 0; h < stackH; h++ {
 			dx_h := dxs3D[h]
