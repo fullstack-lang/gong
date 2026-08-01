@@ -15,6 +15,12 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *Angle0ShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Angle0Shape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.angle0shape, probe)
+			}
 		case *ArcNormalVectorShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ArcNormalVectorShape", true)
@@ -183,6 +189,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.midarcvectorshapegrid, probe)
 			}
+		case *OriginalPoints3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "OriginalPoints3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.originalpoints3dshape, probe)
+			}
 		case *PartiallyGrowthCurve2DRibbonFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DRibbon", true)
@@ -338,6 +350,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "RotatedRhombusShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.rotatedrhombusshape, probe)
+			}
+		case *SampledPoints3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SampledPoints3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.sampledpoints3dshape, probe)
 			}
 		case *ShiftedBottomTopStartArcShapeFormCallback:
 			if onSave.CreationMode {
@@ -639,6 +657,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.topstarthalfwayarcshapegrid, probe)
 			}
+		case *TorusEdge3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TorusEdge3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.torusedge3dshape, probe)
+			}
 		case *TorusStackShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TorusStackShape", true)
@@ -673,6 +697,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "Angle0Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Angle0Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Angle0ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		angle0shape := new(models.Angle0Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(angle0shape, formGroup, probe)
 	case "ArcNormalVectorShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1037,6 +1074,19 @@ func FillUpFormFromGongstructName(
 		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(midarcvectorshapegrid, formGroup, probe)
+	case "OriginalPoints3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "OriginalPoints3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__OriginalPoints3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		originalpoints3dshape := new(models.OriginalPoints3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(originalpoints3dshape, formGroup, probe)
 	case "PartiallyGrowthCurve2DRibbon":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1375,6 +1425,19 @@ func FillUpFormFromGongstructName(
 		rotatedrhombusshape := new(models.RotatedRhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rotatedrhombusshape, formGroup, probe)
+	case "SampledPoints3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SampledPoints3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SampledPoints3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		sampledpoints3dshape := new(models.SampledPoints3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(sampledpoints3dshape, formGroup, probe)
 	case "ShiftedBottomTopStartArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2025,6 +2088,19 @@ func FillUpFormFromGongstructName(
 		topstarthalfwayarcshapegrid := new(models.TopStartHalfwayArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topstarthalfwayarcshapegrid, formGroup, probe)
+	case "TorusEdge3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TorusEdge3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TorusEdge3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		torusedge3dshape := new(models.TorusEdge3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(torusedge3dshape, formGroup, probe)
 	case "TorusStackShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -154,11 +154,11 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"3D modulo",
+				"Radial Repetition",
 				1,
 				4,
 				1,
-				&plant.ThreeDModulo,
+				&plant.RadialRepetitions,
 			),
 		)
 
@@ -283,7 +283,6 @@ func (stager *Stager) ux_slider() {
 		)
 
 	}
-
 
 	// Add sliders for PlantDiagram 3D view
 	var checkedDiagram *PlantDiagram

@@ -120,6 +120,7 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.Angle0Shape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ArcNormalVectorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ArcNormalVectorShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.AxesShape](stage)
@@ -148,6 +149,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MidArcVectorShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MidArcVectorShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.OriginalPoints3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartiallyGrowthCurve2DRibbon](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartiallyGrowthCurve2DRibbonEndShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartiallyGrowthCurve2DRibbonStartShape](stage)
@@ -174,6 +176,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.RhombusStuff](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RotatedRhombusGridShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RotatedRhombusShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SampledPoints3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ShiftedBottomTopStartArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ShiftedBottomTopStartArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ShiftedLeftGrowthCurve2DRibbon](stage)
@@ -224,6 +227,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.TopStartArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShapeGrid](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TorusEdge3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TorusStackShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.VerticalTorusStackShape](stage)
 
