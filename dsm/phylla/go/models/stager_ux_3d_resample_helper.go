@@ -76,13 +76,11 @@ func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vec
 	return angles, points
 }
 
-// getTargetAngles analyzes the Top and Bottom curves to establish a unified set of target
-// angles for resampling. It guarantees that both the Top and Bottom ribbons will be generated
-// with the exact same number of horizontal points, perfectly vertically aligned.
 func (stager *Stager) getTargetAngles(
 	originalBottom *threejs.Curve,
 	originalTop *threejs.Curve,
 	degreeInterval float64,
+	radialRepetitions int,
 ) (targetAngles []float64, bottomAngles []float64, bottomPoints []*threejs.Vector3, topAngles []float64, topPoints []*threejs.Vector3) {
 	if len(originalBottom.Points) == 0 || len(originalTop.Points) == 0 {
 		return nil, nil, nil, nil, nil
@@ -91,16 +89,18 @@ func (stager *Stager) getTargetAngles(
 	bottomAngles, bottomPoints = unwrapAngles(originalBottom)
 	topAngles, topPoints = unwrapAngles(originalTop)
 
-	// Determine the absolute minimum and maximum angles present across both curves
-	minAngle := math.Min(bottomAngles[0], topAngles[0])
-	maxAngle := math.Max(bottomAngles[len(bottomAngles)-1], topAngles[len(topAngles)-1])
-
 	radInterval := degreeInterval * math.Pi / 180.0
 
+	// We expect the curve to cover exactly 1/RadialRepetitions of the full circle.
+	if radialRepetitions < 1 {
+		radialRepetitions = 1
+	}
+	expectedDegrees := 360.0 / float64(radialRepetitions)
+
 	// Generate a strictly monotonic sequence of target angles spaced by degreeInterval
-	startTarget := math.Ceil((minAngle-1e-7)/radInterval) * radInterval
-	for target := startTarget; target <= maxAngle+1e-7; target += radInterval {
-		targetAngles = append(targetAngles, target)
+	nbPoints := int(math.Round(expectedDegrees / degreeInterval))
+	for i := 0; i <= nbPoints; i++ {
+		targetAngles = append(targetAngles, float64(i)*radInterval)
 	}
 
 	return targetAngles, bottomAngles, bottomPoints, topAngles, topPoints
@@ -118,6 +118,7 @@ func (stager *Stager) resampleCurveAtAngles(
 	sortedPoints []*threejs.Vector3,
 	targetAngles []float64,
 	namePrefix string,
+	expectedDegrees float64,
 ) *threejs.Curve {
 	resampled := (&threejs.Curve{
 		Name: fmt.Sprintf("%s Resampled", namePrefix),
@@ -128,15 +129,31 @@ func (stager *Stager) resampleCurveAtAngles(
 	}
 
 	for _, target := range targetAngles {
+		evalTarget := target
+		if len(sortedAngles) > 0 && expectedDegrees > 0 {
+			minA := sortedAngles[0]
+			maxA := sortedAngles[len(sortedAngles)-1]
+			expectedRad := expectedDegrees * math.Pi / 180.0
+			
+			for evalTarget < minA {
+				evalTarget += expectedRad
+			}
+			for evalTarget > maxA {
+				evalTarget -= expectedRad
+			}
+			if evalTarget < minA { evalTarget = minA }
+			if evalTarget > maxA { evalTarget = maxA }
+		}
+
 		idx := -1
 		
-		// Use binary search (O(log n)) to find the first index where sortedAngles[i] >= target
-		searchIdx := sort.SearchFloat64s(sortedAngles, target)
+		// Use binary search (O(log n)) to find the first index where sortedAngles[i] >= evalTarget
+		searchIdx := sort.SearchFloat64s(sortedAngles, evalTarget)
 		
 		if searchIdx > 0 && searchIdx < len(sortedAngles) {
 			// Target is enclosed perfectly between searchIdx-1 and searchIdx
 			idx = searchIdx - 1
-		} else if searchIdx == 0 && sortedAngles[0] == target {
+		} else if searchIdx == 0 && sortedAngles[0] == evalTarget {
 			// Target perfectly matches the very first angle
 			idx = 0
 		}
@@ -160,7 +177,7 @@ func (stager *Stager) resampleCurveAtAngles(
 
 		t := 0.0
 		if a1 != a2 {
-			t = (target - a1) / (a2 - a1)
+			t = (evalTarget - a1) / (a2 - a1)
 		}
 		if t < 0 {
 			t = 0
@@ -171,11 +188,16 @@ func (stager *Stager) resampleCurveAtAngles(
 
 		var x, y, z float64
 		if isExtrapolating {
+			var r float64
 			if t == 0 {
-				x, y, z = p1.X, p1.Y, p1.Z
+				r = math.Hypot(p1.X, p1.Z)
+				y = p1.Y
 			} else {
-				x, y, z = p2.X, p2.Y, p2.Z
+				r = math.Hypot(p2.X, p2.Z)
+				y = p2.Y
 			}
+			x = r * math.Cos(target)
+			z = r * math.Sin(target)
 		} else {
 			r1 := math.Hypot(p1.X, p1.Z)
 			r2 := math.Hypot(p2.X, p2.Z)

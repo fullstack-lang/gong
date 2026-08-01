@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Angle0Shape:
+		ok = stage.IsStagedAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		ok = stage.IsStagedArcNormalVectorShape(target)
 
@@ -344,6 +347,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Angle0Shape:
+		ok = stage.IsStagedAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		ok = stage.IsStagedArcNormalVectorShape(target)
 
@@ -678,6 +684,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedAngle0Shape(angle0shape *Angle0Shape) (ok bool) {
+
+	_, ok = stage.Angle0Shapes[angle0shape]
+
+	return
+}
+
 func (stage *Stage) IsStagedArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) (ok bool) {
 
 	_, ok = stage.ArcNormalVectorShapes[arcnormalvectorshape]
@@ -1449,6 +1462,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Angle0Shape:
+		stage.StageBranchAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		stage.StageBranchArcNormalVectorShape(target)
 
@@ -1782,6 +1798,21 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchAngle0Shape(angle0shape *Angle0Shape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, angle0shape) {
+		return
+	}
+
+	angle0shape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
 
 	// check if instance is already staged
@@ -2514,6 +2545,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.OriginalPoints3DShape != nil {
 		StageBranch(stage, plantdiagram.OriginalPoints3DShape)
+	}
+	if plantdiagram.Angle0Shape != nil {
+		StageBranch(stage, plantdiagram.Angle0Shape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3446,6 +3480,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Angle0Shape:
+		toT := CopyBranchAngle0Shape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *ArcNormalVectorShape:
 		toT := CopyBranchArcNormalVectorShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3889,6 +3927,25 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchAngle0Shape(mapOrigCopy map[any]any, angle0shapeFrom *Angle0Shape) (angle0shapeTo *Angle0Shape) {
+
+	// angle0shapeFrom has already been copied
+	if _angle0shapeTo, ok := mapOrigCopy[angle0shapeFrom]; ok {
+		angle0shapeTo = _angle0shapeTo.(*Angle0Shape)
+		return
+	}
+
+	angle0shapeTo = new(Angle0Shape)
+	mapOrigCopy[angle0shapeFrom] = angle0shapeTo
+	angle0shapeFrom.CopyBasicFields(angle0shapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchArcNormalVectorShape(mapOrigCopy map[any]any, arcnormalvectorshapeFrom *ArcNormalVectorShape) (arcnormalvectorshapeTo *ArcNormalVectorShape) {
 
 	// arcnormalvectorshapeFrom has already been copied
@@ -4812,6 +4869,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	}
 	if plantdiagramFrom.OriginalPoints3DShape != nil {
 		plantdiagramTo.OriginalPoints3DShape = CopyBranchOriginalPoints3DShape(mapOrigCopy, plantdiagramFrom.OriginalPoints3DShape)
+	}
+	if plantdiagramFrom.Angle0Shape != nil {
+		plantdiagramTo.Angle0Shape = CopyBranchAngle0Shape(mapOrigCopy, plantdiagramFrom.Angle0Shape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -5986,6 +6046,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Angle0Shape:
+		stage.UnstageBranchAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		stage.UnstageBranchArcNormalVectorShape(target)
 
@@ -6319,6 +6382,21 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchAngle0Shape(angle0shape *Angle0Shape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, angle0shape) {
+		return
+	}
+
+	angle0shape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
 
 	// check if instance is already staged
@@ -7051,6 +7129,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.OriginalPoints3DShape != nil {
 		UnstageBranch(stage, plantdiagram.OriginalPoints3DShape)
+	}
+	if plantdiagram.Angle0Shape != nil {
+		UnstageBranch(stage, plantdiagram.Angle0Shape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7973,6 +8054,11 @@ func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *Angle0Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Angle0Shape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *ArcNormalVectorShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArcNormalVectorShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8230,6 +8316,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.OriginalPoints3DShape != nil {
 		reference.OriginalPoints3DShape = stage.OriginalPoints3DShapes_reference[instance.OriginalPoints3DShape]
+	}
+	if instance.Angle0Shape != nil {
+		reference.Angle0Shape = stage.Angle0Shapes_reference[instance.Angle0Shape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -8540,6 +8629,11 @@ func (reference *VerticalTorusStackShape) GongReconstructPointersFromReferences(
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *Angle0Shape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *ArcNormalVectorShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -8814,6 +8908,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.OriginalPoints3DShape = nil
 		if _instance, ok := stage.OriginalPoints3DShapes_instance[_reference]; ok {
 			reference.OriginalPoints3DShape = _instance
+		}
+	}
+	if _reference := reference.Angle0Shape; _reference != nil {
+		reference.Angle0Shape = nil
+		if _instance, ok := stage.Angle0Shapes_instance[_reference]; ok {
+			reference.Angle0Shape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -9125,6 +9225,17 @@ func (reference *VerticalTorusStackShape) GongReconstructPointersFromInstances(s
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (angle0shape *Angle0Shape) GongDiff(stage *Stage, angle0shapeOther *Angle0Shape) (diffs []string) {
+	// insertion point for field diffs
+	if angle0shape.Name != angle0shapeOther.Name {
+		diffs = append(diffs, angle0shape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (arcnormalvectorshape *ArcNormalVectorShape) GongDiff(stage *Stage, arcnormalvectorshapeOther *ArcNormalVectorShape) (diffs []string) {
@@ -10459,6 +10570,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenOriginalPoints3DShape != plantdiagramOther.IsHiddenOriginalPoints3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
 	}
+	if plantdiagram.IsHiddenAngle0Shape != plantdiagramOther.IsHiddenAngle0Shape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -10487,6 +10601,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.OriginalPoints3DShape != nil && plantdiagramOther.OriginalPoints3DShape != nil {
 		if plantdiagram.OriginalPoints3DShape != plantdiagramOther.OriginalPoints3DShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+		}
+	}
+	if (plantdiagram.Angle0Shape == nil) != (plantdiagramOther.Angle0Shape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Angle0Shape"))
+	} else if plantdiagram.Angle0Shape != nil && plantdiagramOther.Angle0Shape != nil {
+		if plantdiagram.Angle0Shape != plantdiagramOther.Angle0Shape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Angle0Shape"))
 		}
 	}
 

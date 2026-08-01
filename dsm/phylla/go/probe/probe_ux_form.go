@@ -15,6 +15,12 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *Angle0ShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Angle0Shape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.angle0shape, probe)
+			}
 		case *ArcNormalVectorShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ArcNormalVectorShape", true)
@@ -691,6 +697,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "Angle0Shape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Angle0Shape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Angle0ShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		angle0shape := new(models.Angle0Shape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(angle0shape, formGroup, probe)
 	case "ArcNormalVectorShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

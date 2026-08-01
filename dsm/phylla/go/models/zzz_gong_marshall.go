@@ -284,6 +284,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	angle0shapeOrdered := []*Angle0Shape{}
+	for angle0shape := range stage.Angle0Shapes {
+		angle0shapeOrdered = append(angle0shapeOrdered, angle0shape)
+	}
+	sort.Slice(angle0shapeOrdered[:], func(i, j int) bool {
+		angle0shapei := angle0shapeOrdered[i]
+		angle0shapej := angle0shapeOrdered[j]
+		angle0shapei_order, oki := stage.Angle0Shape_stagedOrder[angle0shapei]
+		angle0shapej_order, okj := stage.Angle0Shape_stagedOrder[angle0shapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return angle0shapei_order < angle0shapej_order
+	})
+	if len(angle0shapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, angle0shape := range angle0shapeOrdered {
+
+		identifiersDecl.WriteString(angle0shape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(angle0shape.GongMarshallField(stage, "Name"))
+	}
+
 	libraryOrdered := []*Library{}
 	for library := range stage.Librarys {
 		libraryOrdered = append(libraryOrdered, library)
@@ -484,12 +510,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Angle0Shape"))
 	}
 
 	rendered3dshapeOrdered := []*Rendered3DShape{}
@@ -552,6 +580,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	for _, angle0shape := range angle0shapeOrdered {
+		_ = angle0shape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, library := range libraryOrdered {
 		_ = library
 		var setPointerField string
@@ -654,6 +690,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
+func (angle0shape *Angle0Shape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", angle0shape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(angle0shape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Angle0Shape", fieldName)
+	}
+	return
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2642,6 +2693,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenOriginalPoints3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenOriginalPoints3DShape))
+	case "IsHiddenAngle0Shape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAngle0Shape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenAngle0Shape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -2695,6 +2751,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginalPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Angle0Shape":
+		if plantdiagram.Angle0Shape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.Angle0Shape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -5389,6 +5458,17 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallField(stage 
 }
 
 // insertion point for marshall all fields methods
+func (angle0shape *Angle0Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(angle0shape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -6164,12 +6244,14 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Angle0Shape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

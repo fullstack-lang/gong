@@ -460,6 +460,35 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type Angle0ShapeUnmarshaller struct{}
+
+func (u *Angle0ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Angle0Shape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Angle0ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Angle0Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type ArcNormalVectorShapeUnmarshaller struct{}
 
 func (u *ArcNormalVectorShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2466,6 +2495,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenOriginalPoints3DShape":
 		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenAngle0Shape":
+		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -2496,6 +2527,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
 	case "OriginalPoints3DShape":
 		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
+	case "Angle0Shape":
+		GongUnmarshallPointer(&instance.Angle0Shape, valueExpr, identifierMap)
 	case "KeyHole3DShape":
 		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
 	case "Key3DShape":

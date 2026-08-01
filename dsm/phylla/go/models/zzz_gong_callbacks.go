@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Angle0Shape:
+		if stage.OnAfterAngle0ShapeCreateCallback != nil {
+			stage.OnAfterAngle0ShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *ArcNormalVectorShape:
 		if stage.OnAfterArcNormalVectorShapeCreateCallback != nil {
 			stage.OnAfterArcNormalVectorShapeCreateCallback.OnAfterCreate(stage, target)
@@ -456,6 +460,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *Angle0Shape:
+		newTarget := any(new).(*Angle0Shape)
+		if stage.OnAfterAngle0ShapeUpdateCallback != nil {
+			stage.OnAfterAngle0ShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *ArcNormalVectorShape:
 		newTarget := any(new).(*ArcNormalVectorShape)
 		if stage.OnAfterArcNormalVectorShapeUpdateCallback != nil {
@@ -1011,6 +1020,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *Angle0Shape:
+		if stage.OnAfterAngle0ShapeDeleteCallback != nil {
+			staged := any(staged).(*Angle0Shape)
+			stage.OnAfterAngle0ShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *ArcNormalVectorShape:
 		if stage.OnAfterArcNormalVectorShapeDeleteCallback != nil {
 			staged := any(staged).(*ArcNormalVectorShape)
@@ -1566,6 +1580,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Angle0Shape:
+		if stage.OnAfterAngle0ShapeReadCallback != nil {
+			stage.OnAfterAngle0ShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *ArcNormalVectorShape:
 		if stage.OnAfterArcNormalVectorShapeReadCallback != nil {
 			stage.OnAfterArcNormalVectorShapeReadCallback.OnAfterRead(stage, target)
@@ -2013,6 +2031,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *Angle0Shape:
+		stage.OnAfterAngle0ShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Angle0Shape])
 	case *ArcNormalVectorShape:
 		stage.OnAfterArcNormalVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArcNormalVectorShape])
 	case *ArcNormalVectorShapeGrid:
@@ -2238,6 +2258,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *Angle0Shape:
+		stage.OnAfterAngle0ShapeCreateCallback = any(callback).(OnAfterCreateInterface[Angle0Shape])
 	case *ArcNormalVectorShape:
 		stage.OnAfterArcNormalVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[ArcNormalVectorShape])
 	case *ArcNormalVectorShapeGrid:
@@ -2463,6 +2485,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *Angle0Shape:
+		stage.OnAfterAngle0ShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Angle0Shape])
 	case *ArcNormalVectorShape:
 		stage.OnAfterArcNormalVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArcNormalVectorShape])
 	case *ArcNormalVectorShapeGrid:
@@ -2688,6 +2712,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *Angle0Shape:
+		stage.OnAfterAngle0ShapeReadCallback = any(callback).(OnAfterReadInterface[Angle0Shape])
 	case *ArcNormalVectorShape:
 		stage.OnAfterArcNormalVectorShapeReadCallback = any(callback).(OnAfterReadInterface[ArcNormalVectorShape])
 	case *ArcNormalVectorShapeGrid:

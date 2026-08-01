@@ -72,6 +72,7 @@ type PlantDiagram struct {
 	IsHiddenTorusEdge3DShape                           bool
 	IsHiddenSampledPoints3DShape                       bool
 	IsHiddenOriginalPoints3DShape                      bool
+	IsHiddenAngle0Shape                                bool
 
 	IsChecked bool
 	AbstractTypeFields
@@ -88,9 +89,14 @@ type PlantDiagram struct {
 	PointsAndLines3DShape             *PointsAndLines3DShape
 	SampledPoints3DShape              *SampledPoints3DShape
 	OriginalPoints3DShape             *OriginalPoints3DShape
+	Angle0Shape                       *Angle0Shape
 	KeyHole3DShape                    *KeyHole3DShape
 	Key3DShape                        *Key3DShape
 	TorusEdge3DShape                  *TorusEdge3DShape
+}
+
+type Angle0Shape struct {
+	Name string
 }
 
 type SampledPoints3DShape struct {

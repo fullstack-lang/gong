@@ -45,7 +45,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 4
+	__Plant__00000000_.StackHeight = 1
 	__Plant__00000000_.RhombusInsideAngle = 115.000000
 	__Plant__00000000_.RelativeVerticalThickness = 0.260000
 	__Plant__00000000_.RelativeRadialThickness = 0.090000
@@ -54,7 +54,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
 	__Plant__00000000_.RotationRatio = 0.010000
 	__Plant__00000000_.RadialRepetitions = 2
-	__Plant__00000000_.Transparency = 0.600000
+	__Plant__00000000_.Transparency = 0.750000
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.032000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.020000
 	__Plant__00000000_.NbStepP1P2 = 30
@@ -135,14 +135,15 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenTorusEdge3DShape = true
 	__PlantDiagram__00000001_.IsHiddenSampledPoints3DShape = false
 	__PlantDiagram__00000001_.IsHiddenOriginalPoints3DShape = true
+	__PlantDiagram__00000001_.IsHiddenAngle0Shape = false
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = -686.193358
-	__Rendered3DShape__00000000_.ViewY = 1196.043228
-	__Rendered3DShape__00000000_.ViewZ = -1702.417961
+	__Rendered3DShape__00000000_.ViewX = 444.452648
+	__Rendered3DShape__00000000_.ViewY = -300.025262
+	__Rendered3DShape__00000000_.ViewZ = -1032.286465
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
@@ -154,4 +155,5 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000000_
 	__PlantDiagram__00000001_.SampledPoints3DShape = nil
 	__PlantDiagram__00000001_.OriginalPoints3DShape = nil
+	__PlantDiagram__00000001_.Angle0Shape = nil
 }
