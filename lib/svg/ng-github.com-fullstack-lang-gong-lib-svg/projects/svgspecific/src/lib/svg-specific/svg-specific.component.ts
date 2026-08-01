@@ -576,13 +576,15 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (distanceMoved < this.dragThreshold && this.State == StateEnumType.RECTS_DRAGGING) {
       console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
 
+      console.assert(this.draggedRect != undefined, "no dragged rect")
+      let wasSelected = this.draggedRect!.IsSelected
+
       // if the shift key is not pressed, unselect all other rects
       if (!event.shiftKey) {
         this.unselectAllRects()
       }
 
-      console.assert(this.draggedRect != undefined, "no dragged rect")
-      if (!this.draggedRect?.IsSelected) {
+      if (!wasSelected) {
         this.selectRect(this.draggedRect!)
       } else {
         this.unselectRect(this.draggedRect!)
