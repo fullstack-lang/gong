@@ -165,7 +165,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000002_.DefaultBoxWidth = 250.000000
 	__DiagramStructure__00000002_.DefaultBoxHeigth = 70.000000
 	__DiagramStructure__00000002_.IsWithDiscretePorts = true
-	__DiagramStructure__00000002_.Width = 900.000000
+	__DiagramStructure__00000002_.Width = 899.000000
 	__DiagramStructure__00000002_.Height = 1350.000000
 	__DiagramStructure__00000002_.IsSystemsNodeExpanded = false
 	__DiagramStructure__00000002_.IsPartsNodeExpanded = true
@@ -324,24 +324,24 @@ func _(stage *models.Stage) {
 
 	__PortShape__00000020_.Name = `Port 1-sdqsdqsd`
 	__PortShape__00000020_.IsExpanded = false
-	__PortShape__00000020_.X = 147.255894
-	__PortShape__00000020_.Y = 441.000000
+	__PortShape__00000020_.X = 254.435381
+	__PortShape__00000020_.Y = 456.000000
 	__PortShape__00000020_.Width = 40.000000
 	__PortShape__00000020_.Height = 40.000000
 	__PortShape__00000020_.IsHidden = false
 
 	__PortShape__00000021_.Name = `Port 3-sdqsdqsd`
 	__PortShape__00000021_.IsExpanded = false
-	__PortShape__00000021_.X = 332.255894
-	__PortShape__00000021_.Y = 466.000000
+	__PortShape__00000021_.X = 337.896920
+	__PortShape__00000021_.Y = 456.000000
 	__PortShape__00000021_.Width = 40.000000
 	__PortShape__00000021_.Height = 40.000000
 	__PortShape__00000021_.IsHidden = false
 
 	__PortShape__00000022_.Name = `P1-sdqsdqsd`
 	__PortShape__00000022_.IsExpanded = false
-	__PortShape__00000022_.X = 252.735977
-	__PortShape__00000022_.Y = 702.000000
+	__PortShape__00000022_.X = 333.735977
+	__PortShape__00000022_.Y = 730.000000
 	__PortShape__00000022_.Width = 40.000000
 	__PortShape__00000022_.Height = 40.000000
 	__PortShape__00000022_.IsHidden = false
