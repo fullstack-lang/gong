@@ -9,6 +9,17 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Angle0Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Angle0Shape) CopyBasicFields(to *Angle0Shape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type ArcNormalVectorShape_WOP struct {
 	// insertion point
 
@@ -1213,6 +1224,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenOriginalPoints3DShape bool
 
+	IsHiddenAngle0Shape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1288,6 +1301,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
+	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

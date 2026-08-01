@@ -6,11 +6,17 @@ import (
 )
 
 
-func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64) {
+func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
 	for i, pt := range points {
 		sphereColor := color
 		radius := 2.0
-		if i % 40 == 0 {
+
+		localIdx := i
+		if numPointsPerRep > 0 {
+			localIdx = i % numPointsPerRep
+		}
+
+		if localIdx%20 == 0 {
 			sphereColor = "yellow"
 			radius = 4.0
 		}

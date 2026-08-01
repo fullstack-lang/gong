@@ -40,6 +40,13 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Angle0Shape
+func (angle0shape *Angle0Shape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by ArcNormalVectorShape
 func (arcnormalvectorshape *ArcNormalVectorShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -445,6 +452,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.PointsAndLines3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.SampledPoints3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.OriginalPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.Angle0Shape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.KeyHole3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.Key3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.TorusEdge3DShape) || modified

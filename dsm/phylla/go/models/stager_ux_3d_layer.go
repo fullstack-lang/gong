@@ -35,8 +35,9 @@ func (stager *Stager) generateLayerWithModulo(
 	}
 
 	if !checkedDiagram.IsHiddenSampledPoints3DShape {
-		stager.addPointSpheres(massiveBottomCurve.Points, "red", canvas, namePrefix+" Bottom", dy)
-		stager.addPointSpheres(massiveTopCurve.Points, "blue", canvas, namePrefix+" Top", dy)
+		numPointsPerRep := len(resampledBaseBottom.Points)
+		stager.addPointSpheres(massiveBottomCurve.Points, "red", canvas, namePrefix+" Bottom", dy, numPointsPerRep)
+		stager.addPointSpheres(massiveTopCurve.Points, "blue", canvas, namePrefix+" Top", dy, numPointsPerRep)
 	}
 
 	stager.generateRibbonMesh(h, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)

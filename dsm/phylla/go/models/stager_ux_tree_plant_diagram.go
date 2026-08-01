@@ -185,6 +185,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Points and lines between points", plantDiagram.PointsAndLines3DShape, &plantDiagram.IsHiddenPointsAndLines3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.SampledPoints3DShape, &plantDiagram.IsHiddenSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Original Points", plantDiagram.OriginalPoints3DShape, &plantDiagram.IsHiddenOriginalPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Angle 0 Shape", plantDiagram.Angle0Shape, &plantDiagram.IsHiddenAngle0Shape)
 	}
 }
 

@@ -126,14 +126,21 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	stackHeight := plant.StackHeight
 
-	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := stager.getTargetAngles(curve, topCurve, 0.5)
-	resampledBaseBottom := stager.resampleCurveAtAngles(anglesBottom, bottomPoints, targetAngles, "Base Bottom")
-	resampledBaseTop := stager.resampleCurveAtAngles(anglesTop, topPoints, targetAngles, "Base Top")
+	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := stager.getTargetAngles(curve, topCurve, 0.5, plant.RadialRepetitions)
+	
+	expectedDegrees := 360.0
+	if plant.RadialRepetitions > 1 {
+		expectedDegrees = 360.0 / float64(plant.RadialRepetitions)
+	}
+	
+	resampledBaseBottom := stager.resampleCurveAtAngles(anglesBottom, bottomPoints, targetAngles, "Base Bottom", expectedDegrees)
+	resampledBaseTop := stager.resampleCurveAtAngles(anglesTop, topPoints, targetAngles, "Base Top", expectedDegrees)
 
 	if !checkedDiagram.IsHiddenOriginalPoints3DShape {
-		stager.addPointSpheres(curve.Points, "green", canvas, plant.Name+" Original Bottom", 0)
-		stager.addPointSpheres(topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0)
+		stager.addPointSpheres(curve.Points, "green", canvas, plant.Name+" Original Bottom", 0, len(curve.Points))
+		stager.addPointSpheres(topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0, len(topCurve.Points))
 	}
+
 
 	if !checkedDiagram.IsHiddenTorusStackShape {
 		var growthVectorX, growthVectorY float64
@@ -288,6 +295,80 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 			}
 		}
+	}
+
+	if !checkedDiagram.IsHiddenAngle0Shape {
+		tubeRadius := globalR * 0.01
+		if tubeRadius < 0.5 {
+			tubeRadius = 0.5
+		}
+
+		topY := floorMinY + float64(plant.StackHeight)*plant.RhombusSideLength
+		if plant.StackHeight == 0 {
+			topY = floorMinY + 50.0
+		}
+
+		// Vertical pole at radius
+		pA := (&threejs.Vector3{Name: "Angle0 Pole Base", X: globalR, Y: floorMinY, Z: 0}).Stage(stager.threejsStage)
+		pB := (&threejs.Vector3{Name: "Angle0 Pole Top", X: globalR, Y: topY, Z: 0}).Stage(stager.threejsStage)
+		
+		crvPole := (&threejs.Curve{
+			Name:   "Angle0 Pole Curve",
+			Points: []*threejs.Vector3{pA, pB},
+		}).Stage(stager.threejsStage)
+
+		tGeomPole := (&threejs.TubeGeometry{
+			Name:            "Angle0 Pole TubeGeom",
+			Path:            crvPole,
+			TubularSegments: 2,
+			Radius:          tubeRadius,
+			RadialSegments:  8,
+			Closed:          false,
+		}).Stage(stager.threejsStage)
+
+		poleMesh := (&threejs.Mesh{
+			Name:         "Angle0 Pole Mesh",
+			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+			TubeGeometry: tGeomPole,
+			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+				Name:                 "Angle0 Pole Material",
+				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "magenta"},
+				Transparent:          true,
+				Opacity:              0.2,
+			}).Stage(stager.threejsStage),
+		}).Stage(stager.threejsStage)
+
+		// Line from center out to 1.5x radius
+		pC := (&threejs.Vector3{Name: "Angle0 Axis Start", X: 0, Y: floorMinY, Z: 0}).Stage(stager.threejsStage)
+		pD := (&threejs.Vector3{Name: "Angle0 Axis End", X: globalR * 1.5, Y: floorMinY, Z: 0}).Stage(stager.threejsStage)
+
+		crvAxis := (&threejs.Curve{
+			Name:   "Angle0 Axis Curve",
+			Points: []*threejs.Vector3{pC, pD},
+		}).Stage(stager.threejsStage)
+
+		tGeomAxis := (&threejs.TubeGeometry{
+			Name:            "Angle0 Axis TubeGeom",
+			Path:            crvAxis,
+			TubularSegments: 2,
+			Radius:          tubeRadius,
+			RadialSegments:  8,
+			Closed:          false,
+		}).Stage(stager.threejsStage)
+
+		axisMesh := (&threejs.Mesh{
+			Name:         "Angle0 Axis Mesh",
+			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+			TubeGeometry: tGeomAxis,
+			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+				Name:                 "Angle0 Axis Material",
+				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "magenta"},
+				Transparent:          true,
+				Opacity:              0.2,
+			}).Stage(stager.threejsStage),
+		}).Stage(stager.threejsStage)
+
+		canvas.Meshs = append(canvas.Meshs, poleMesh, axisMesh)
 	}
 
 	stager.addFloorTiles(floorMinY, plant, globalR, canvas)

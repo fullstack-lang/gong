@@ -19,6 +19,84 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__Angle0ShapeFormCallback(
+	angle0shape *models.Angle0Shape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (angle0shapeFormCallback *Angle0ShapeFormCallback) {
+	angle0shapeFormCallback = new(Angle0ShapeFormCallback)
+	angle0shapeFormCallback.probe = probe
+	angle0shapeFormCallback.angle0shape = angle0shape
+	angle0shapeFormCallback.formGroup = formGroup
+
+	angle0shapeFormCallback.CreationMode = (angle0shape == nil)
+
+	return
+}
+
+type Angle0ShapeFormCallback struct {
+	angle0shape *models.Angle0Shape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (angle0shapeFormCallback *Angle0ShapeFormCallback) OnSave() {
+	angle0shapeFormCallback.probe.stageOfInterest.Lock()
+	defer angle0shapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Angle0ShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	angle0shapeFormCallback.probe.formStage.Checkout()
+
+	if angle0shapeFormCallback.angle0shape == nil {
+		angle0shapeFormCallback.angle0shape = new(models.Angle0Shape).Stage(angle0shapeFormCallback.probe.stageOfInterest)
+	}
+	angle0shape_ := angle0shapeFormCallback.angle0shape
+	_ = angle0shape_
+
+	for _, formDiv := range angle0shapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(angle0shape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if angle0shapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		angle0shape_.Unstage(angle0shapeFormCallback.probe.stageOfInterest)
+	}
+
+	angle0shapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Angle0Shape](
+		angle0shapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if angle0shapeFormCallback.CreationMode || angle0shapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		angle0shapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(angle0shapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Angle0ShapeFormCallback(
+			nil,
+			angle0shapeFormCallback.probe,
+			newFormGroup,
+		)
+		angle0shape := new(models.Angle0Shape)
+		FillUpForm(angle0shape, newFormGroup, angle0shapeFormCallback.probe)
+		angle0shapeFormCallback.probe.formStage.Commit()
+	}
+
+	angle0shapeFormCallback.probe.ux_tree()
+}
 func __gong__New__ArcNormalVectorShapeFormCallback(
 	arcnormalvectorshape *models.ArcNormalVectorShape,
 	probe *Probe,
@@ -5955,6 +6033,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenSampledPoints3DShape), formDiv)
 		case "IsHiddenOriginalPoints3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenOriginalPoints3DShape), formDiv)
+		case "IsHiddenAngle0Shape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenAngle0Shape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5985,6 +6065,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.SampledPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "OriginalPoints3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.OriginalPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Angle0Shape":
+			FormDivSelectFieldToField(&(plantdiagram_.Angle0Shape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "KeyHole3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Key3DShape":

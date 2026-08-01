@@ -24,6 +24,8 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
+	case "Angle0Shape":
+		updateProbeTable[*models.Angle0Shape](probe)
 	case "ArcNormalVectorShape":
 		updateProbeTable[*models.ArcNormalVectorShape](probe)
 	case "ArcNormalVectorShapeGrid":
