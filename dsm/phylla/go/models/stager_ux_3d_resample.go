@@ -137,7 +137,7 @@ func (stager *Stager) resampleCurvesByAngle(
 	return resampledBottom, resampledTop
 }
 
-func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string) {
+func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64) {
 	for i, pt := range points {
 		sphereColor := color
 		radius := 2.0
@@ -150,7 +150,7 @@ func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, c
 			Name: fmt.Sprintf("%s Sphere %d", namePrefix, i),
 			Position: threejs.Position{
 				X: pt.X,
-				Y: pt.Y,
+				Y: pt.Y + dy,
 				Z: pt.Z,
 			},
 			SphereGeometry: (&threejs.SphereGeometry{
