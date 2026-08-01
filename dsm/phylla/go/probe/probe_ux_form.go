@@ -339,6 +339,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.rotatedrhombusshape, probe)
 			}
+		case *SampledPoints3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SampledPoints3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.sampledpoints3dshape, probe)
+			}
 		case *ShiftedBottomTopStartArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ShiftedBottomTopStartArcShape", true)
@@ -1381,6 +1387,19 @@ func FillUpFormFromGongstructName(
 		rotatedrhombusshape := new(models.RotatedRhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rotatedrhombusshape, formGroup, probe)
+	case "SampledPoints3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SampledPoints3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SampledPoints3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		sampledpoints3dshape := new(models.SampledPoints3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(sampledpoints3dshape, formGroup, probe)
 	case "ShiftedBottomTopStartArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

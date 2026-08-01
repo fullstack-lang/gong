@@ -5873,6 +5873,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKey3DShape), formDiv)
 		case "IsHiddenTorusEdge3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusEdge3DShape), formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenSampledPoints3DShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5899,6 +5901,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.StackOfPartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "PointsAndLines3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.PointsAndLines3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.SampledPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "KeyHole3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Key3DShape":
@@ -6649,6 +6653,84 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 	}
 
 	rotatedrhombusshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__SampledPoints3DShapeFormCallback(
+	sampledpoints3dshape *models.SampledPoints3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (sampledpoints3dshapeFormCallback *SampledPoints3DShapeFormCallback) {
+	sampledpoints3dshapeFormCallback = new(SampledPoints3DShapeFormCallback)
+	sampledpoints3dshapeFormCallback.probe = probe
+	sampledpoints3dshapeFormCallback.sampledpoints3dshape = sampledpoints3dshape
+	sampledpoints3dshapeFormCallback.formGroup = formGroup
+
+	sampledpoints3dshapeFormCallback.CreationMode = (sampledpoints3dshape == nil)
+
+	return
+}
+
+type SampledPoints3DShapeFormCallback struct {
+	sampledpoints3dshape *models.SampledPoints3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (sampledpoints3dshapeFormCallback *SampledPoints3DShapeFormCallback) OnSave() {
+	sampledpoints3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer sampledpoints3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SampledPoints3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	sampledpoints3dshapeFormCallback.probe.formStage.Checkout()
+
+	if sampledpoints3dshapeFormCallback.sampledpoints3dshape == nil {
+		sampledpoints3dshapeFormCallback.sampledpoints3dshape = new(models.SampledPoints3DShape).Stage(sampledpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+	sampledpoints3dshape_ := sampledpoints3dshapeFormCallback.sampledpoints3dshape
+	_ = sampledpoints3dshape_
+
+	for _, formDiv := range sampledpoints3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(sampledpoints3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if sampledpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		sampledpoints3dshape_.Unstage(sampledpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	sampledpoints3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SampledPoints3DShape](
+		sampledpoints3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if sampledpoints3dshapeFormCallback.CreationMode || sampledpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		sampledpoints3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(sampledpoints3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SampledPoints3DShapeFormCallback(
+			nil,
+			sampledpoints3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		sampledpoints3dshape := new(models.SampledPoints3DShape)
+		FillUpForm(sampledpoints3dshape, newFormGroup, sampledpoints3dshapeFormCallback.probe)
+		sampledpoints3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	sampledpoints3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ShiftedBottomTopStartArcShapeFormCallback(
 	shiftedbottomtopstartarcshape *models.ShiftedBottomTopStartArcShape,

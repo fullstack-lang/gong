@@ -70,6 +70,7 @@ type PlantDiagram struct {
 	IsHiddenKeyHole3DShape                             bool
 	IsHiddenKey3DShape                                 bool
 	IsHiddenTorusEdge3DShape                           bool
+	IsHiddenSampledPoints3DShape                       bool
 
 	IsChecked bool
 	AbstractTypeFields
@@ -84,10 +85,16 @@ type PlantDiagram struct {
 	PartiallyRotatedTorusShape        *PartiallyRotatedTorusShape
 	StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape
 	PointsAndLines3DShape             *PointsAndLines3DShape
+	SampledPoints3DShape              *SampledPoints3DShape
 	KeyHole3DShape                    *KeyHole3DShape
 	Key3DShape                        *Key3DShape
 	TorusEdge3DShape                  *TorusEdge3DShape
 }
+
+type SampledPoints3DShape struct {
+	Name string
+}
+
 
 
 type Rendered3DShape struct {

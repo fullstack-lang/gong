@@ -203,6 +203,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct RotatedRhombusShape
 	// insertion point per field
 
+	// Compute reverse map for named struct SampledPoints3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct ShiftedBottomTopStartArcShape
 	// insertion point per field
 
@@ -580,6 +583,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.RotatedRhombusShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SampledPoints3DShapes {
 		res = append(res, instance)
 	}
 
@@ -1120,6 +1127,12 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongCopy() GongstructIF 
 func (rotatedrhombusshape *RotatedRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedRhombusShape)
 	rotatedrhombusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongCopy() GongstructIF {
+	newInstance := new(SampledPoints3DShape)
+	sampledpoints3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1982,6 +1995,16 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetUUID(stage *Stage) (uuid 
 	return
 }
 
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(sampledpoints3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sampledpoints3dshape), uint64(GetOrderPointerGongstruct(stage, sampledpoints3dshape)))
+	return
+}
+
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(shiftedbottomtopstartarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -2750,6 +2773,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rendered3dshapes_newInstances)
 	lenDeletedInstances += len(rendered3dshapes_deletedInstances)
+	var sampledpoints3dshapes_newInstances []*SampledPoints3DShape
+	var sampledpoints3dshapes_deletedInstances []*SampledPoints3DShape
+
+	// parse all staged instances and check if they have a reference
+	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
+		if ref, ok := stage.SampledPoints3DShapes_reference[sampledpoints3dshape]; !ok {
+			sampledpoints3dshapes_newInstances = append(sampledpoints3dshapes_newInstances, sampledpoints3dshape)
+			newInstancesSlice = append(newInstancesSlice, sampledpoints3dshape.GongMarshallIdentifier(stage))
+			if stage.SampledPoints3DShapes_referenceOrder == nil {
+				stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
+			}
+			stage.SampledPoints3DShapes_referenceOrder[sampledpoints3dshape] = stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, sampledpoints3dshape.GongMarshallUnstaging(stage))
+			// delete(stage.SampledPoints3DShapes_referenceOrder, sampledpoints3dshape)
+			fieldInitializers, pointersInitializations := sampledpoints3dshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.SampledPoints3DShape_stagedOrder[ref] = stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := sampledpoints3dshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, sampledpoints3dshape)
+			// delete(stage.SampledPoints3DShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if sampledpoints3dshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", sampledpoints3dshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.SampledPoints3DShapes_reference {
+		instance := stage.SampledPoints3DShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SampledPoints3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			sampledpoints3dshapes_deletedInstances = append(sampledpoints3dshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(sampledpoints3dshapes_newInstances)
+	lenDeletedInstances += len(sampledpoints3dshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -3323,6 +3401,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.RotatedRhombusShapes_reference[instance] = _copy
 		stage.RotatedRhombusShapes_instance[_copy] = instance
 		stage.RotatedRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.SampledPoints3DShapes_reference = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
+	stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint) // diff Unstage needs the reference order
+	stage.SampledPoints3DShapes_instance = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
+	for instance := range stage.SampledPoints3DShapes {
+		_copy := instance.GongCopy().(*SampledPoints3DShape)
+		stage.SampledPoints3DShapes_reference[instance] = _copy
+		stage.SampledPoints3DShapes_instance[_copy] = instance
+		stage.SampledPoints3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ShiftedBottomTopStartArcShapes_reference = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
@@ -4123,6 +4211,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.RotatedRhombusShapes {
 		reference := stage.RotatedRhombusShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.SampledPoints3DShapes {
+		reference := stage.SampledPoints3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5045,6 +5138,18 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetOrder(stage *Stage) uint 
 		return order
 	} else {
 		log.Printf("instance %p of type RotatedRhombusShape was not staged and does not have a reference order", rotatedrhombusshape)
+		return 0
+	}
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.SampledPoints3DShapes_referenceOrder[sampledpoints3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type SampledPoints3DShape was not staged and does not have a reference order", sampledpoints3dshape)
 		return 0
 	}
 }
@@ -6176,6 +6281,15 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetReferenceIdentifier(stage
 	return fmt.Sprintf("__%s__%08d_", rotatedrhombusshape.GongGetGongstructName(), rotatedrhombusshape.GongGetOrder(stage))
 }
 
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", sampledpoints3dshape.GongGetGongstructName(), sampledpoints3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", sampledpoints3dshape.GongGetGongstructName(), sampledpoints3dshape.GongGetOrder(stage))
+}
+
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", shiftedbottomtopstartarcshape.GongGetGongstructName(), shiftedbottomtopstartarcshape.GongGetOrder(stage))
 }
@@ -7088,6 +7202,14 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallIdentifier(stage *St
 	return
 }
 
+func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", sampledpoints3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SampledPoints3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sampledpoints3dshape.Name))
+	return
+}
+
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", shiftedbottomtopstartarcshape.GongGetIdentifier(stage))
@@ -7834,6 +7956,12 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallUnstaging(st
 func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", sampledpoints3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

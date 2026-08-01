@@ -45,16 +45,16 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 3
+	__Plant__00000000_.StackHeight = 5
 	__Plant__00000000_.RhombusInsideAngle = 115.000000
 	__Plant__00000000_.RelativeVerticalThickness = 0.260000
 	__Plant__00000000_.RelativeRadialThickness = 0.090000
-	__Plant__00000000_.RhombusSideLength = 320.000000
+	__Plant__00000000_.RhombusSideLength = 445.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.046000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
-	__Plant__00000000_.RotationRatio = 0.000000
+	__Plant__00000000_.RotationRatio = 0.310000
 	__Plant__00000000_.RadialRepetitions = 3
-	__Plant__00000000_.Transparency = 0.350000
+	__Plant__00000000_.Transparency = 0.300000
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.032000
 	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.020000
 	__Plant__00000000_.NbStepP1P2 = 30
@@ -132,15 +132,16 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenPointsAndLines3DShape = true
 	__PlantDiagram__00000001_.IsHiddenKeyHole3DShape = false
 	__PlantDiagram__00000001_.IsHiddenKey3DShape = true
-	__PlantDiagram__00000001_.IsHiddenTorusEdge3DShape = false
+	__PlantDiagram__00000001_.IsHiddenTorusEdge3DShape = true
+	__PlantDiagram__00000001_.IsHiddenSampledPoints3DShape = false
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 837.474983
-	__Rendered3DShape__00000000_.ViewY = -348.910987
-	__Rendered3DShape__00000000_.ViewZ = -1448.472503
+	__Rendered3DShape__00000000_.ViewX = 966.351263
+	__Rendered3DShape__00000000_.ViewY = 714.389054
+	__Rendered3DShape__00000000_.ViewZ = 624.528086
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
@@ -150,4 +151,5 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __Plant__00000000_)
 	__Plant__00000000_.PlantDiagrams = append(__Plant__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
 	__PlantDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000000_
+	__PlantDiagram__00000001_.SampledPoints3DShape = nil
 }
