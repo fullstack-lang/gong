@@ -180,11 +180,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsSystemesNodeExpanded = true
+	__Library__00000000_.IsSystemesNodeExpanded = false
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
-	__Library__00000000_.IsDatasNodeExpanded = true
+	__Library__00000000_.IsDatasNodeExpanded = false
 	__Library__00000000_.IsResourcesNodeExpanded = false
-	__Library__00000000_.IsNotesNodeExpanded = true
+	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
 	__Note__00000000_.Name = `Note on the diagram that show that there is wrapping`
@@ -458,7 +458,6 @@ func _(stage *models.Stage) {
 	__PortShape__00000022_.Port = __Port__00000006_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000002_)
-	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000002_)
 	__System__00000000_.SubSystemes = append(__System__00000000_.SubSystemes, __System__00000001_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000001_)
