@@ -51,7 +51,7 @@ func (stager *Stager) generateRibbonMesh(
 	inHoleArr := make([]bool, len(localBottomCurve.Points))
 	var y_bottom_abs, y_top_abs float64
 
-	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
+	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 && h != 0 {
 		x_left := plant.OffsetKeyX - plant.WidthKey/2.0
 		x_right := plant.OffsetKeyX + plant.WidthKey/2.0
 		y_bottom_abs = plant.OffsetKeyY - plant.HeightKey/2.0 + dy
