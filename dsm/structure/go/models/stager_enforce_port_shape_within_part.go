@@ -23,6 +23,16 @@ func (stager *Stager) enforcePortShapeWithinPart() (needCommit bool) {
 
 		for _, portShape := range diagramStructure.Port_Shapes {
 
+			// Enforce minimum dimensions
+			if portShape.Width < 10 {
+				portShape.Width = 10
+				needCommit = true
+			}
+			if portShape.Height < 10 {
+				portShape.Height = 10
+				needCommit = true
+			}
+
 			// If the port shape is attached to a part shape, enforce it on the border
 			if partShape := portShape.owningPartShape; partShape != nil {
 				modified := false
