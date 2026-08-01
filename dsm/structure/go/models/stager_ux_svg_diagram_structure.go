@@ -398,8 +398,24 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			portRect.RectAnchoredTexts = slices.Delete(portRect.RectAnchoredTexts, 0, len(portRect.RectAnchoredTexts))
 			portRect.FillOpacity = 0.1
 			portRect.StrokeOpacity = 0.3
+			
+			portRect.X += portRect.Width / 4.0
+			portRect.Y += portRect.Height / 4.0
 			portRect.Width /= 2.0
 			portRect.Height /= 2.0
+
+			originalOnMove := portRect.OnMove
+			if originalOnMove != nil {
+				portRect.OnMove = func(x float64, y float64) {
+					originalOnMove(x-portRect.Width/2.0, y-portRect.Height/2.0)
+				}
+			}
+			originalOnResize := portRect.OnResize
+			if originalOnResize != nil {
+				portRect.OnResize = func(x float64, y float64, width float64, height float64) {
+					originalOnResize(x-width/2.0, y-height/2.0, width*2.0, height*2.0)
+				}
+			}
 		}
 
 		if len(portRect.RectAnchoredTexts) > 0 {
