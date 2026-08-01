@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Angle0Shape:
+		ok = stage.IsStagedAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		ok = stage.IsStagedArcNormalVectorShape(target)
 
@@ -91,6 +94,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
 
+	case *OriginalPoints3DShape:
+		ok = stage.IsStagedOriginalPoints3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
 
@@ -168,6 +174,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *RotatedRhombusShape:
 		ok = stage.IsStagedRotatedRhombusShape(target)
+
+	case *SampledPoints3DShape:
+		ok = stage.IsStagedSampledPoints3DShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
@@ -318,6 +327,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *TopStartHalfwayArcShapeGrid:
 		ok = stage.IsStagedTopStartHalfwayArcShapeGrid(target)
+
+	case *TorusEdge3DShape:
+		ok = stage.IsStagedTorusEdge3DShape(target)
 
 	case *TorusStackShape:
 		ok = stage.IsStagedTorusStackShape(target)
@@ -335,6 +347,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Angle0Shape:
+		ok = stage.IsStagedAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		ok = stage.IsStagedArcNormalVectorShape(target)
 
@@ -419,6 +434,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
 
+	case *OriginalPoints3DShape:
+		ok = stage.IsStagedOriginalPoints3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
 
@@ -496,6 +514,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *RotatedRhombusShape:
 		ok = stage.IsStagedRotatedRhombusShape(target)
+
+	case *SampledPoints3DShape:
+		ok = stage.IsStagedSampledPoints3DShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
@@ -647,6 +668,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *TopStartHalfwayArcShapeGrid:
 		ok = stage.IsStagedTopStartHalfwayArcShapeGrid(target)
 
+	case *TorusEdge3DShape:
+		ok = stage.IsStagedTorusEdge3DShape(target)
+
 	case *TorusStackShape:
 		ok = stage.IsStagedTorusStackShape(target)
 
@@ -660,6 +684,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedAngle0Shape(angle0shape *Angle0Shape) (ok bool) {
+
+	_, ok = stage.Angle0Shapes[angle0shape]
+
+	return
+}
+
 func (stage *Stage) IsStagedArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) (ok bool) {
 
 	_, ok = stage.ArcNormalVectorShapes[arcnormalvectorshape]
@@ -856,6 +887,13 @@ func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcV
 	return
 }
 
+func (stage *Stage) IsStagedOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) (ok bool) {
+
+	_, ok = stage.OriginalPoints3DShapes[originalpoints3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) (ok bool) {
 
 	_, ok = stage.PartiallyGrowthCurve2DRibbons[partiallygrowthcurve2dribbon]
@@ -1034,6 +1072,13 @@ func (stage *Stage) IsStagedRotatedRhombusGridShape(rotatedrhombusgridshape *Rot
 func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape) (ok bool) {
 
 	_, ok = stage.RotatedRhombusShapes[rotatedrhombusshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
+
+	_, ok = stage.SampledPoints3DShapes[sampledpoints3dshape]
 
 	return
 }
@@ -1388,6 +1433,13 @@ func (stage *Stage) IsStagedTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapeg
 	return
 }
 
+func (stage *Stage) IsStagedTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) (ok bool) {
+
+	_, ok = stage.TorusEdge3DShapes[torusedge3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedTorusStackShape(torusstackshape *TorusStackShape) (ok bool) {
 
 	_, ok = stage.TorusStackShapes[torusstackshape]
@@ -1410,6 +1462,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Angle0Shape:
+		stage.StageBranchAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		stage.StageBranchArcNormalVectorShape(target)
 
@@ -1494,6 +1549,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MidArcVectorShapeGrid:
 		stage.StageBranchMidArcVectorShapeGrid(target)
 
+	case *OriginalPoints3DShape:
+		stage.StageBranchOriginalPoints3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.StageBranchPartiallyGrowthCurve2DRibbon(target)
 
@@ -1571,6 +1629,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RotatedRhombusShape:
 		stage.StageBranchRotatedRhombusShape(target)
+
+	case *SampledPoints3DShape:
+		stage.StageBranchSampledPoints3DShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		stage.StageBranchShiftedBottomTopStartArcShape(target)
@@ -1722,6 +1783,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *TopStartHalfwayArcShapeGrid:
 		stage.StageBranchTopStartHalfwayArcShapeGrid(target)
 
+	case *TorusEdge3DShape:
+		stage.StageBranchTorusEdge3DShape(target)
+
 	case *TorusStackShape:
 		stage.StageBranchTorusStackShape(target)
 
@@ -1734,6 +1798,21 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchAngle0Shape(angle0shape *Angle0Shape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, angle0shape) {
+		return
+	}
+
+	angle0shape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
 
 	// check if instance is already staged
@@ -2160,6 +2239,21 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 
 }
 
+func (stage *Stage) StageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, originalpoints3dshape) {
+		return
+	}
+
+	originalpoints3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -2446,6 +2540,15 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		StageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+	if plantdiagram.SampledPoints3DShape != nil {
+		StageBranch(stage, plantdiagram.SampledPoints3DShape)
+	}
+	if plantdiagram.OriginalPoints3DShape != nil {
+		StageBranch(stage, plantdiagram.OriginalPoints3DShape)
+	}
+	if plantdiagram.Angle0Shape != nil {
+		StageBranch(stage, plantdiagram.Angle0Shape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2549,6 +2652,21 @@ func (stage *Stage) StageBranchRotatedRhombusShape(rotatedrhombusshape *RotatedR
 	}
 
 	rotatedrhombusshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, sampledpoints3dshape) {
+		return
+	}
+
+	sampledpoints3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3306,6 +3424,21 @@ func (stage *Stage) StageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcsha
 
 }
 
+func (stage *Stage) StageBranchTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, torusedge3dshape) {
+		return
+	}
+
+	torusedge3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTorusStackShape(torusstackshape *TorusStackShape) {
 
 	// check if instance is already staged
@@ -3347,6 +3480,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Angle0Shape:
+		toT := CopyBranchAngle0Shape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *ArcNormalVectorShape:
 		toT := CopyBranchArcNormalVectorShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3459,6 +3596,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchMidArcVectorShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *OriginalPoints3DShape:
+		toT := CopyBranchOriginalPoints3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		toT := CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3561,6 +3702,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *RotatedRhombusShape:
 		toT := CopyBranchRotatedRhombusShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SampledPoints3DShape:
+		toT := CopyBranchSampledPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ShiftedBottomTopStartArcShape:
@@ -3763,6 +3908,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchTopStartHalfwayArcShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *TorusEdge3DShape:
+		toT := CopyBranchTorusEdge3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *TorusStackShape:
 		toT := CopyBranchTorusStackShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -3778,6 +3927,25 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchAngle0Shape(mapOrigCopy map[any]any, angle0shapeFrom *Angle0Shape) (angle0shapeTo *Angle0Shape) {
+
+	// angle0shapeFrom has already been copied
+	if _angle0shapeTo, ok := mapOrigCopy[angle0shapeFrom]; ok {
+		angle0shapeTo = _angle0shapeTo.(*Angle0Shape)
+		return
+	}
+
+	angle0shapeTo = new(Angle0Shape)
+	mapOrigCopy[angle0shapeFrom] = angle0shapeTo
+	angle0shapeFrom.CopyBasicFields(angle0shapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchArcNormalVectorShape(mapOrigCopy map[any]any, arcnormalvectorshapeFrom *ArcNormalVectorShape) (arcnormalvectorshapeTo *ArcNormalVectorShape) {
 
 	// arcnormalvectorshapeFrom has already been copied
@@ -4316,6 +4484,25 @@ func CopyBranchMidArcVectorShapeGrid(mapOrigCopy map[any]any, midarcvectorshapeg
 	return
 }
 
+func CopyBranchOriginalPoints3DShape(mapOrigCopy map[any]any, originalpoints3dshapeFrom *OriginalPoints3DShape) (originalpoints3dshapeTo *OriginalPoints3DShape) {
+
+	// originalpoints3dshapeFrom has already been copied
+	if _originalpoints3dshapeTo, ok := mapOrigCopy[originalpoints3dshapeFrom]; ok {
+		originalpoints3dshapeTo = _originalpoints3dshapeTo.(*OriginalPoints3DShape)
+		return
+	}
+
+	originalpoints3dshapeTo = new(OriginalPoints3DShape)
+	mapOrigCopy[originalpoints3dshapeFrom] = originalpoints3dshapeTo
+	originalpoints3dshapeFrom.CopyBasicFields(originalpoints3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy map[any]any, partiallygrowthcurve2dribbonFrom *PartiallyGrowthCurve2DRibbon) (partiallygrowthcurve2dribbonTo *PartiallyGrowthCurve2DRibbon) {
 
 	// partiallygrowthcurve2dribbonFrom has already been copied
@@ -4677,6 +4864,15 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.Rendered3DShape != nil {
 		plantdiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plantdiagramFrom.Rendered3DShape)
 	}
+	if plantdiagramFrom.SampledPoints3DShape != nil {
+		plantdiagramTo.SampledPoints3DShape = CopyBranchSampledPoints3DShape(mapOrigCopy, plantdiagramFrom.SampledPoints3DShape)
+	}
+	if plantdiagramFrom.OriginalPoints3DShape != nil {
+		plantdiagramTo.OriginalPoints3DShape = CopyBranchOriginalPoints3DShape(mapOrigCopy, plantdiagramFrom.OriginalPoints3DShape)
+	}
+	if plantdiagramFrom.Angle0Shape != nil {
+		plantdiagramTo.Angle0Shape = CopyBranchAngle0Shape(mapOrigCopy, plantdiagramFrom.Angle0Shape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -4808,6 +5004,25 @@ func CopyBranchRotatedRhombusShape(mapOrigCopy map[any]any, rotatedrhombusshapeF
 	rotatedrhombusshapeTo = new(RotatedRhombusShape)
 	mapOrigCopy[rotatedrhombusshapeFrom] = rotatedrhombusshapeTo
 	rotatedrhombusshapeFrom.CopyBasicFields(rotatedrhombusshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSampledPoints3DShape(mapOrigCopy map[any]any, sampledpoints3dshapeFrom *SampledPoints3DShape) (sampledpoints3dshapeTo *SampledPoints3DShape) {
+
+	// sampledpoints3dshapeFrom has already been copied
+	if _sampledpoints3dshapeTo, ok := mapOrigCopy[sampledpoints3dshapeFrom]; ok {
+		sampledpoints3dshapeTo = _sampledpoints3dshapeTo.(*SampledPoints3DShape)
+		return
+	}
+
+	sampledpoints3dshapeTo = new(SampledPoints3DShape)
+	mapOrigCopy[sampledpoints3dshapeFrom] = sampledpoints3dshapeTo
+	sampledpoints3dshapeFrom.CopyBasicFields(sampledpoints3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5766,6 +5981,25 @@ func CopyBranchTopStartHalfwayArcShapeGrid(mapOrigCopy map[any]any, topstarthalf
 	return
 }
 
+func CopyBranchTorusEdge3DShape(mapOrigCopy map[any]any, torusedge3dshapeFrom *TorusEdge3DShape) (torusedge3dshapeTo *TorusEdge3DShape) {
+
+	// torusedge3dshapeFrom has already been copied
+	if _torusedge3dshapeTo, ok := mapOrigCopy[torusedge3dshapeFrom]; ok {
+		torusedge3dshapeTo = _torusedge3dshapeTo.(*TorusEdge3DShape)
+		return
+	}
+
+	torusedge3dshapeTo = new(TorusEdge3DShape)
+	mapOrigCopy[torusedge3dshapeFrom] = torusedge3dshapeTo
+	torusedge3dshapeFrom.CopyBasicFields(torusedge3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTorusStackShape(mapOrigCopy map[any]any, torusstackshapeFrom *TorusStackShape) (torusstackshapeTo *TorusStackShape) {
 
 	// torusstackshapeFrom has already been copied
@@ -5812,6 +6046,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Angle0Shape:
+		stage.UnstageBranchAngle0Shape(target)
+
 	case *ArcNormalVectorShape:
 		stage.UnstageBranchArcNormalVectorShape(target)
 
@@ -5896,6 +6133,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MidArcVectorShapeGrid:
 		stage.UnstageBranchMidArcVectorShapeGrid(target)
 
+	case *OriginalPoints3DShape:
+		stage.UnstageBranchOriginalPoints3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.UnstageBranchPartiallyGrowthCurve2DRibbon(target)
 
@@ -5973,6 +6213,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RotatedRhombusShape:
 		stage.UnstageBranchRotatedRhombusShape(target)
+
+	case *SampledPoints3DShape:
+		stage.UnstageBranchSampledPoints3DShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		stage.UnstageBranchShiftedBottomTopStartArcShape(target)
@@ -6124,6 +6367,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *TopStartHalfwayArcShapeGrid:
 		stage.UnstageBranchTopStartHalfwayArcShapeGrid(target)
 
+	case *TorusEdge3DShape:
+		stage.UnstageBranchTorusEdge3DShape(target)
+
 	case *TorusStackShape:
 		stage.UnstageBranchTorusStackShape(target)
 
@@ -6136,6 +6382,21 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchAngle0Shape(angle0shape *Angle0Shape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, angle0shape) {
+		return
+	}
+
+	angle0shape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchArcNormalVectorShape(arcnormalvectorshape *ArcNormalVectorShape) {
 
 	// check if instance is already staged
@@ -6562,6 +6823,21 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 
 }
 
+func (stage *Stage) UnstageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, originalpoints3dshape) {
+		return
+	}
+
+	originalpoints3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -6848,6 +7124,15 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+	if plantdiagram.SampledPoints3DShape != nil {
+		UnstageBranch(stage, plantdiagram.SampledPoints3DShape)
+	}
+	if plantdiagram.OriginalPoints3DShape != nil {
+		UnstageBranch(stage, plantdiagram.OriginalPoints3DShape)
+	}
+	if plantdiagram.Angle0Shape != nil {
+		UnstageBranch(stage, plantdiagram.Angle0Shape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -6951,6 +7236,21 @@ func (stage *Stage) UnstageBranchRotatedRhombusShape(rotatedrhombusshape *Rotate
 	}
 
 	rotatedrhombusshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, sampledpoints3dshape) {
+		return
+	}
+
+	sampledpoints3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -7708,6 +8008,21 @@ func (stage *Stage) UnstageBranchTopStartHalfwayArcShapeGrid(topstarthalfwayarcs
 
 }
 
+func (stage *Stage) UnstageBranchTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, torusedge3dshape) {
+		return
+	}
+
+	torusedge3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTorusStackShape(torusstackshape *TorusStackShape) {
 
 	// check if instance is already staged
@@ -7739,6 +8054,11 @@ func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *Angle0Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Angle0Shape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *ArcNormalVectorShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArcNormalVectorShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -7887,6 +8207,11 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromReferences(st
 	// insertion point for slice of pointers field
 }
 
+func (reference *OriginalPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *OriginalPoints3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DRibbon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -7986,6 +8311,15 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.Rendered3DShape != nil {
 		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
 	}
+	if instance.SampledPoints3DShape != nil {
+		reference.SampledPoints3DShape = stage.SampledPoints3DShapes_reference[instance.SampledPoints3DShape]
+	}
+	if instance.OriginalPoints3DShape != nil {
+		reference.OriginalPoints3DShape = stage.OriginalPoints3DShapes_reference[instance.OriginalPoints3DShape]
+	}
+	if instance.Angle0Shape != nil {
+		reference.Angle0Shape = stage.Angle0Shapes_reference[instance.Angle0Shape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -8020,6 +8354,11 @@ func (reference *RotatedRhombusGridShape) GongReconstructPointersFromReferences(
 }
 
 func (reference *RotatedRhombusShape) GongReconstructPointersFromReferences(stage *Stage, instance *RotatedRhombusShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *SampledPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *SampledPoints3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -8274,6 +8613,11 @@ func (reference *TopStartHalfwayArcShapeGrid) GongReconstructPointersFromReferen
 	// insertion point for slice of pointers field
 }
 
+func (reference *TorusEdge3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *TorusEdge3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *TorusStackShape) GongReconstructPointersFromReferences(stage *Stage, instance *TorusStackShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8285,6 +8629,11 @@ func (reference *VerticalTorusStackShape) GongReconstructPointersFromReferences(
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *Angle0Shape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *ArcNormalVectorShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -8439,6 +8788,11 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromInstances(sta
 	// insertion point for slice of pointers fields
 }
 
+func (reference *OriginalPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -8544,6 +8898,24 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.Rendered3DShape = _instance
 		}
 	}
+	if _reference := reference.SampledPoints3DShape; _reference != nil {
+		reference.SampledPoints3DShape = nil
+		if _instance, ok := stage.SampledPoints3DShapes_instance[_reference]; ok {
+			reference.SampledPoints3DShape = _instance
+		}
+	}
+	if _reference := reference.OriginalPoints3DShape; _reference != nil {
+		reference.OriginalPoints3DShape = nil
+		if _instance, ok := stage.OriginalPoints3DShapes_instance[_reference]; ok {
+			reference.OriginalPoints3DShape = _instance
+		}
+	}
+	if _reference := reference.Angle0Shape; _reference != nil {
+		reference.Angle0Shape = nil
+		if _instance, ok := stage.Angle0Shapes_instance[_reference]; ok {
+			reference.Angle0Shape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -8578,6 +8950,11 @@ func (reference *RotatedRhombusGridShape) GongReconstructPointersFromInstances(s
 }
 
 func (reference *RotatedRhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *SampledPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -8832,6 +9209,11 @@ func (reference *TopStartHalfwayArcShapeGrid) GongReconstructPointersFromInstanc
 	// insertion point for slice of pointers fields
 }
 
+func (reference *TorusEdge3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *TorusStackShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -8843,6 +9225,17 @@ func (reference *VerticalTorusStackShape) GongReconstructPointersFromInstances(s
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (angle0shape *Angle0Shape) GongDiff(stage *Stage, angle0shapeOther *Angle0Shape) (diffs []string) {
+	// insertion point for field diffs
+	if angle0shape.Name != angle0shapeOther.Name {
+		diffs = append(diffs, angle0shape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (arcnormalvectorshape *ArcNormalVectorShape) GongDiff(stage *Stage, arcnormalvectorshapeOther *ArcNormalVectorShape) (diffs []string) {
@@ -9474,6 +9867,17 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongDiff(stage *Stage, midar
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (originalpoints3dshape *OriginalPoints3DShape) GongDiff(stage *Stage, originalpoints3dshapeOther *OriginalPoints3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if originalpoints3dshape.Name != originalpoints3dshapeOther.Name {
+		diffs = append(diffs, originalpoints3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongDiff(stage *Stage, partiallygrowthcurve2dribbonOther *PartiallyGrowthCurve2DRibbon) (diffs []string) {
 	// insertion point for field diffs
 	if partiallygrowthcurve2dribbon.Name != partiallygrowthcurve2dribbonOther.Name {
@@ -9877,8 +10281,8 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.RotationRatio != plantOther.RotationRatio {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RotationRatio"))
 	}
-	if plant.ThreeDModulo != plantOther.ThreeDModulo {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ThreeDModulo"))
+	if plant.RadialRepetitions != plantOther.RadialRepetitions {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RadialRepetitions"))
 	}
 	if plant.Transparency != plantOther.Transparency {
 		diffs = append(diffs, plant.GongMarshallField(stage, "Transparency"))
@@ -10157,6 +10561,18 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenKey3DShape != plantdiagramOther.IsHiddenKey3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
 	}
+	if plantdiagram.IsHiddenTorusEdge3DShape != plantdiagramOther.IsHiddenTorusEdge3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
+	}
+	if plantdiagram.IsHiddenSampledPoints3DShape != plantdiagramOther.IsHiddenSampledPoints3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+	}
+	if plantdiagram.IsHiddenOriginalPoints3DShape != plantdiagramOther.IsHiddenOriginalPoints3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
+	}
+	if plantdiagram.IsHiddenAngle0Shape != plantdiagramOther.IsHiddenAngle0Shape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -10171,6 +10587,27 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.Rendered3DShape != nil && plantdiagramOther.Rendered3DShape != nil {
 		if plantdiagram.Rendered3DShape != plantdiagramOther.Rendered3DShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
+		}
+	}
+	if (plantdiagram.SampledPoints3DShape == nil) != (plantdiagramOther.SampledPoints3DShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+	} else if plantdiagram.SampledPoints3DShape != nil && plantdiagramOther.SampledPoints3DShape != nil {
+		if plantdiagram.SampledPoints3DShape != plantdiagramOther.SampledPoints3DShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		}
+	}
+	if (plantdiagram.OriginalPoints3DShape == nil) != (plantdiagramOther.OriginalPoints3DShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+	} else if plantdiagram.OriginalPoints3DShape != nil && plantdiagramOther.OriginalPoints3DShape != nil {
+		if plantdiagram.OriginalPoints3DShape != plantdiagramOther.OriginalPoints3DShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+		}
+	}
+	if (plantdiagram.Angle0Shape == nil) != (plantdiagramOther.Angle0Shape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Angle0Shape"))
+	} else if plantdiagram.Angle0Shape != nil && plantdiagramOther.Angle0Shape != nil {
+		if plantdiagram.Angle0Shape != plantdiagramOther.Angle0Shape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Angle0Shape"))
 		}
 	}
 
@@ -10288,6 +10725,17 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongDiff(stage *Stage, rotatedrh
 	}
 	if rotatedrhombusshape.Y != rotatedrhombusshapeOther.Y {
 		diffs = append(diffs, rotatedrhombusshape.GongMarshallField(stage, "Y"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (sampledpoints3dshape *SampledPoints3DShape) GongDiff(stage *Stage, sampledpoints3dshapeOther *SampledPoints3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if sampledpoints3dshape.Name != sampledpoints3dshapeOther.Name {
+		diffs = append(diffs, sampledpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -11861,6 +12309,17 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongDiff(stage *
 	// insertion point for field diffs
 	if topstarthalfwayarcshapegrid.Name != topstarthalfwayarcshapegridOther.Name {
 		diffs = append(diffs, topstarthalfwayarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (torusedge3dshape *TorusEdge3DShape) GongDiff(stage *Stage, torusedge3dshapeOther *TorusEdge3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if torusedge3dshape.Name != torusedge3dshapeOther.Name {
+		diffs = append(diffs, torusedge3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return

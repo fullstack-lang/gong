@@ -9,6 +9,17 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Angle0Shape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Angle0Shape) CopyBasicFields(to *Angle0Shape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type ArcNormalVectorShape_WOP struct {
 	// insertion point
 
@@ -596,6 +607,17 @@ func (from *MidArcVectorShapeGrid) CopyBasicFields(to *MidArcVectorShapeGrid) {
 	to.Name = from.Name
 }
 
+type OriginalPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *OriginalPoints3DShape) CopyBasicFields(to *OriginalPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PartiallyGrowthCurve2DRibbon_WOP struct {
 	// insertion point
 
@@ -989,7 +1011,7 @@ type Plant_WOP struct {
 
 	RotationRatio float64
 
-	ThreeDModulo int
+	RadialRepetitions int
 
 	Transparency float64
 
@@ -1033,7 +1055,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
 	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
 	to.RotationRatio = from.RotationRatio
-	to.ThreeDModulo = from.ThreeDModulo
+	to.RadialRepetitions = from.RadialRepetitions
 	to.Transparency = from.Transparency
 	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
@@ -1196,6 +1218,14 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenKey3DShape bool
 
+	IsHiddenTorusEdge3DShape bool
+
+	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenOriginalPoints3DShape bool
+
+	IsHiddenAngle0Shape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1268,6 +1298,10 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
 	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
 	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
+	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
+	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -1387,6 +1421,17 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Name = from.Name
 	to.X = from.X
 	to.Y = from.Y
+}
+
+type SampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SampledPoints3DShape) CopyBasicFields(to *SampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type ShiftedBottomTopStartArcShape_WOP struct {
@@ -2958,6 +3003,17 @@ type TopStartHalfwayArcShapeGrid_WOP struct {
 }
 
 func (from *TopStartHalfwayArcShapeGrid) CopyBasicFields(to *TopStartHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type TorusEdge3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TorusEdge3DShape) CopyBasicFields(to *TorusEdge3DShape) {
 	// insertion point
 	to.Name = from.Name
 }

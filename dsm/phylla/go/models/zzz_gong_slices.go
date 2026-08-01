@@ -20,6 +20,9 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Angle0Shape
+	// insertion point per field
+
 	// Compute reverse map for named struct ArcNormalVectorShape
 	// insertion point per field
 
@@ -118,6 +121,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct MidArcVectorShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct OriginalPoints3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct PartiallyGrowthCurve2DRibbon
 	// insertion point per field
 
@@ -201,6 +207,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 	// Compute reverse map for named struct RotatedRhombusShape
+	// insertion point per field
+
+	// Compute reverse map for named struct SampledPoints3DShape
 	// insertion point per field
 
 	// Compute reverse map for named struct ShiftedBottomTopStartArcShape
@@ -353,6 +362,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TopStartHalfwayArcShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct TorusEdge3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct TorusStackShape
 	// insertion point per field
 
@@ -364,6 +376,10 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.Angle0Shapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.ArcNormalVectorShapes {
 		res = append(res, instance)
 	}
@@ -476,6 +492,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.OriginalPoints3DShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.PartiallyGrowthCurve2DRibbons {
 		res = append(res, instance)
 	}
@@ -577,6 +597,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.RotatedRhombusShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SampledPoints3DShapes {
 		res = append(res, instance)
 	}
 
@@ -780,6 +804,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.TorusEdge3DShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.TorusStackShapes {
 		res = append(res, instance)
 	}
@@ -792,6 +820,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (angle0shape *Angle0Shape) GongCopy() GongstructIF {
+	newInstance := new(Angle0Shape)
+	angle0shape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongCopy() GongstructIF {
 	newInstance := new(ArcNormalVectorShape)
 	arcnormalvectorshape.CopyBasicFields(newInstance)
@@ -960,6 +994,12 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongCopy() GongstructIF {
+	newInstance := new(OriginalPoints3DShape)
+	originalpoints3dshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DRibbon)
 	partiallygrowthcurve2dribbon.CopyBasicFields(newInstance)
@@ -1113,6 +1153,12 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongCopy() GongstructIF 
 func (rotatedrhombusshape *RotatedRhombusShape) GongCopy() GongstructIF {
 	newInstance := new(RotatedRhombusShape)
 	rotatedrhombusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongCopy() GongstructIF {
+	newInstance := new(SampledPoints3DShape)
+	sampledpoints3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1416,6 +1462,12 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongCopy() Gongs
 	return newInstance
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongCopy() GongstructIF {
+	newInstance := new(TorusEdge3DShape)
+	torusedge3dshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
 	newInstance := new(TorusStackShape)
 	torusstackshape.CopyBasicFields(newInstance)
@@ -1429,6 +1481,16 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongCopy() GongstructIF 
 }
 
 // insertion point per named struct
+func (angle0shape *Angle0Shape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(angle0shape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(angle0shape), uint64(GetOrderPointerGongstruct(stage, angle0shape)))
+	return
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(arcnormalvectorshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -1709,6 +1771,16 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetUUID(stage *Stage) (u
 	return
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(originalpoints3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(originalpoints3dshape), uint64(GetOrderPointerGongstruct(stage, originalpoints3dshape)))
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(partiallygrowthcurve2dribbon).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -1966,6 +2038,16 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetUUID(stage *Stage) (uuid 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedrhombusshape), uint64(GetOrderPointerGongstruct(stage, rotatedrhombusshape)))
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(sampledpoints3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sampledpoints3dshape), uint64(GetOrderPointerGongstruct(stage, sampledpoints3dshape)))
 	return
 }
 
@@ -2469,6 +2551,16 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetUUID(stag
 	return
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(torusedge3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torusedge3dshape), uint64(GetOrderPointerGongstruct(stage, torusedge3dshape)))
+	return
+}
+
 func (torusstackshape *TorusStackShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(torusstackshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -2507,6 +2599,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var angle0shapes_newInstances []*Angle0Shape
+	var angle0shapes_deletedInstances []*Angle0Shape
+
+	// parse all staged instances and check if they have a reference
+	for angle0shape := range stage.Angle0Shapes {
+		if ref, ok := stage.Angle0Shapes_reference[angle0shape]; !ok {
+			angle0shapes_newInstances = append(angle0shapes_newInstances, angle0shape)
+			newInstancesSlice = append(newInstancesSlice, angle0shape.GongMarshallIdentifier(stage))
+			if stage.Angle0Shapes_referenceOrder == nil {
+				stage.Angle0Shapes_referenceOrder = make(map[*Angle0Shape]uint)
+			}
+			stage.Angle0Shapes_referenceOrder[angle0shape] = stage.Angle0Shape_stagedOrder[angle0shape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, angle0shape.GongMarshallUnstaging(stage))
+			// delete(stage.Angle0Shapes_referenceOrder, angle0shape)
+			fieldInitializers, pointersInitializations := angle0shape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Angle0Shape_stagedOrder[ref] = stage.Angle0Shape_stagedOrder[angle0shape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := angle0shape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, angle0shape)
+			// delete(stage.Angle0Shape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if angle0shape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", angle0shape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Angle0Shapes_reference {
+		instance := stage.Angle0Shapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Angle0Shapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			angle0shapes_deletedInstances = append(angle0shapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(angle0shapes_newInstances)
+	lenDeletedInstances += len(angle0shapes_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -2562,6 +2709,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var originalpoints3dshapes_newInstances []*OriginalPoints3DShape
+	var originalpoints3dshapes_deletedInstances []*OriginalPoints3DShape
+
+	// parse all staged instances and check if they have a reference
+	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
+		if ref, ok := stage.OriginalPoints3DShapes_reference[originalpoints3dshape]; !ok {
+			originalpoints3dshapes_newInstances = append(originalpoints3dshapes_newInstances, originalpoints3dshape)
+			newInstancesSlice = append(newInstancesSlice, originalpoints3dshape.GongMarshallIdentifier(stage))
+			if stage.OriginalPoints3DShapes_referenceOrder == nil {
+				stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint)
+			}
+			stage.OriginalPoints3DShapes_referenceOrder[originalpoints3dshape] = stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, originalpoints3dshape.GongMarshallUnstaging(stage))
+			// delete(stage.OriginalPoints3DShapes_referenceOrder, originalpoints3dshape)
+			fieldInitializers, pointersInitializations := originalpoints3dshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.OriginalPoints3DShape_stagedOrder[ref] = stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := originalpoints3dshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, originalpoints3dshape)
+			// delete(stage.OriginalPoints3DShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if originalpoints3dshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", originalpoints3dshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.OriginalPoints3DShapes_reference {
+		instance := stage.OriginalPoints3DShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.OriginalPoints3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			originalpoints3dshapes_deletedInstances = append(originalpoints3dshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(originalpoints3dshapes_newInstances)
+	lenDeletedInstances += len(originalpoints3dshapes_deletedInstances)
 	var plants_newInstances []*Plant
 	var plants_deletedInstances []*Plant
 
@@ -2727,6 +2929,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rendered3dshapes_newInstances)
 	lenDeletedInstances += len(rendered3dshapes_deletedInstances)
+	var sampledpoints3dshapes_newInstances []*SampledPoints3DShape
+	var sampledpoints3dshapes_deletedInstances []*SampledPoints3DShape
+
+	// parse all staged instances and check if they have a reference
+	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
+		if ref, ok := stage.SampledPoints3DShapes_reference[sampledpoints3dshape]; !ok {
+			sampledpoints3dshapes_newInstances = append(sampledpoints3dshapes_newInstances, sampledpoints3dshape)
+			newInstancesSlice = append(newInstancesSlice, sampledpoints3dshape.GongMarshallIdentifier(stage))
+			if stage.SampledPoints3DShapes_referenceOrder == nil {
+				stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
+			}
+			stage.SampledPoints3DShapes_referenceOrder[sampledpoints3dshape] = stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, sampledpoints3dshape.GongMarshallUnstaging(stage))
+			// delete(stage.SampledPoints3DShapes_referenceOrder, sampledpoints3dshape)
+			fieldInitializers, pointersInitializations := sampledpoints3dshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.SampledPoints3DShape_stagedOrder[ref] = stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := sampledpoints3dshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, sampledpoints3dshape)
+			// delete(stage.SampledPoints3DShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if sampledpoints3dshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", sampledpoints3dshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.SampledPoints3DShapes_reference {
+		instance := stage.SampledPoints3DShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SampledPoints3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			sampledpoints3dshapes_deletedInstances = append(sampledpoints3dshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(sampledpoints3dshapes_newInstances)
+	lenDeletedInstances += len(sampledpoints3dshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -2762,6 +3019,16 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.Angle0Shapes_reference = make(map[*Angle0Shape]*Angle0Shape)
+	stage.Angle0Shapes_referenceOrder = make(map[*Angle0Shape]uint) // diff Unstage needs the reference order
+	stage.Angle0Shapes_instance = make(map[*Angle0Shape]*Angle0Shape)
+	for instance := range stage.Angle0Shapes {
+		_copy := instance.GongCopy().(*Angle0Shape)
+		stage.Angle0Shapes_reference[instance] = _copy
+		stage.Angle0Shapes_instance[_copy] = instance
+		stage.Angle0Shapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ArcNormalVectorShapes_reference = make(map[*ArcNormalVectorShape]*ArcNormalVectorShape)
 	stage.ArcNormalVectorShapes_referenceOrder = make(map[*ArcNormalVectorShape]uint) // diff Unstage needs the reference order
 	stage.ArcNormalVectorShapes_instance = make(map[*ArcNormalVectorShape]*ArcNormalVectorShape)
@@ -3042,6 +3309,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.MidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
+	stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint) // diff Unstage needs the reference order
+	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
+	for instance := range stage.OriginalPoints3DShapes {
+		_copy := instance.GongCopy().(*OriginalPoints3DShape)
+		stage.OriginalPoints3DShapes_reference[instance] = _copy
+		stage.OriginalPoints3DShapes_instance[_copy] = instance
+		stage.OriginalPoints3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.PartiallyGrowthCurve2DRibbons_reference = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
 	stage.PartiallyGrowthCurve2DRibbons_referenceOrder = make(map[*PartiallyGrowthCurve2DRibbon]uint) // diff Unstage needs the reference order
 	stage.PartiallyGrowthCurve2DRibbons_instance = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
@@ -3300,6 +3577,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.RotatedRhombusShapes_reference[instance] = _copy
 		stage.RotatedRhombusShapes_instance[_copy] = instance
 		stage.RotatedRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.SampledPoints3DShapes_reference = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
+	stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint) // diff Unstage needs the reference order
+	stage.SampledPoints3DShapes_instance = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
+	for instance := range stage.SampledPoints3DShapes {
+		_copy := instance.GongCopy().(*SampledPoints3DShape)
+		stage.SampledPoints3DShapes_reference[instance] = _copy
+		stage.SampledPoints3DShapes_instance[_copy] = instance
+		stage.SampledPoints3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ShiftedBottomTopStartArcShapes_reference = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
@@ -3802,6 +4089,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TopStartHalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TorusEdge3DShapes_reference = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
+	stage.TorusEdge3DShapes_referenceOrder = make(map[*TorusEdge3DShape]uint) // diff Unstage needs the reference order
+	stage.TorusEdge3DShapes_instance = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
+	for instance := range stage.TorusEdge3DShapes {
+		_copy := instance.GongCopy().(*TorusEdge3DShape)
+		stage.TorusEdge3DShapes_reference[instance] = _copy
+		stage.TorusEdge3DShapes_instance[_copy] = instance
+		stage.TorusEdge3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TorusStackShapes_reference = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint) // diff Unstage needs the reference order
 	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
@@ -3823,6 +4120,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.Angle0Shapes {
+		reference := stage.Angle0Shapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.ArcNormalVectorShapes {
 		reference := stage.ArcNormalVectorShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -3963,6 +4265,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.OriginalPoints3DShapes {
+		reference := stage.OriginalPoints3DShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.PartiallyGrowthCurve2DRibbons {
 		reference := stage.PartiallyGrowthCurve2DRibbons_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -4090,6 +4397,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.RotatedRhombusShapes {
 		reference := stage.RotatedRhombusShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.SampledPoints3DShapes {
+		reference := stage.SampledPoints3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -4343,6 +4655,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.TorusEdge3DShapes {
+		reference := stage.TorusEdge3DShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.TorusStackShapes {
 		reference := stage.TorusStackShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -4363,6 +4680,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (angle0shape *Angle0Shape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Angle0Shape_stagedOrder[angle0shape]; ok {
+		return order
+	}
+	if order, ok := stage.Angle0Shapes_referenceOrder[angle0shape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Angle0Shape was not staged and does not have a reference order", angle0shape)
+		return 0
+	}
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ArcNormalVectorShape_stagedOrder[arcnormalvectorshape]; ok {
 		return order
@@ -4699,6 +5028,18 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetOrder(stage *Stage) u
 	}
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.OriginalPoints3DShapes_referenceOrder[originalpoints3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type OriginalPoints3DShape was not staged and does not have a reference order", originalpoints3dshape)
+		return 0
+	}
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.PartiallyGrowthCurve2DRibbon_stagedOrder[partiallygrowthcurve2dribbon]; ok {
 		return order
@@ -5007,6 +5348,18 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetOrder(stage *Stage) uint 
 		return order
 	} else {
 		log.Printf("instance %p of type RotatedRhombusShape was not staged and does not have a reference order", rotatedrhombusshape)
+		return 0
+	}
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.SampledPoints3DShapes_referenceOrder[sampledpoints3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type SampledPoints3DShape was not staged and does not have a reference order", sampledpoints3dshape)
 		return 0
 	}
 }
@@ -5611,6 +5964,18 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetOrder(sta
 	}
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TorusEdge3DShape_stagedOrder[torusedge3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.TorusEdge3DShapes_referenceOrder[torusedge3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TorusEdge3DShape was not staged and does not have a reference order", torusedge3dshape)
+		return 0
+	}
+}
+
 func (torusstackshape *TorusStackShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TorusStackShape_stagedOrder[torusstackshape]; ok {
 		return order
@@ -5640,6 +6005,15 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetOrder(stage *Stag
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (angle0shape *Angle0Shape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", angle0shape.GongGetGongstructName(), angle0shape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (angle0shape *Angle0Shape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", angle0shape.GongGetGongstructName(), angle0shape.GongGetOrder(stage))
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", arcnormalvectorshape.GongGetGongstructName(), arcnormalvectorshape.GongGetOrder(stage))
 }
@@ -5892,6 +6266,15 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetReferenceIdentifier(s
 	return fmt.Sprintf("__%s__%08d_", midarcvectorshapegrid.GongGetGongstructName(), midarcvectorshapegrid.GongGetOrder(stage))
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", originalpoints3dshape.GongGetGongstructName(), originalpoints3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", originalpoints3dshape.GongGetGongstructName(), originalpoints3dshape.GongGetOrder(stage))
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", partiallygrowthcurve2dribbon.GongGetGongstructName(), partiallygrowthcurve2dribbon.GongGetOrder(stage))
 }
@@ -6124,6 +6507,15 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetIdentifier(stage *Stage) 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (rotatedrhombusshape *RotatedRhombusShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", rotatedrhombusshape.GongGetGongstructName(), rotatedrhombusshape.GongGetOrder(stage))
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", sampledpoints3dshape.GongGetGongstructName(), sampledpoints3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", sampledpoints3dshape.GongGetGongstructName(), sampledpoints3dshape.GongGetOrder(stage))
 }
 
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetIdentifier(stage *Stage) string {
@@ -6576,6 +6968,15 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetReference
 	return fmt.Sprintf("__%s__%08d_", topstarthalfwayarcshapegrid.GongGetGongstructName(), topstarthalfwayarcshapegrid.GongGetOrder(stage))
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", torusedge3dshape.GongGetGongstructName(), torusedge3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (torusedge3dshape *TorusEdge3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", torusedge3dshape.GongGetGongstructName(), torusedge3dshape.GongGetOrder(stage))
+}
+
 func (torusstackshape *TorusStackShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", torusstackshape.GongGetGongstructName(), torusstackshape.GongGetOrder(stage))
 }
@@ -6597,6 +6998,14 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetReferenceIdentifi
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (angle0shape *Angle0Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", angle0shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Angle0Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(angle0shape.Name))
+	return
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshape.GongGetIdentifier(stage))
@@ -6821,6 +7230,14 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallIdentifier(stage
 	return
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", originalpoints3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "OriginalPoints3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(originalpoints3dshape.Name))
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dribbon.GongGetIdentifier(stage))
@@ -7026,6 +7443,14 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallIdentifier(stage *St
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedRhombusShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusshape.Name))
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", sampledpoints3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SampledPoints3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sampledpoints3dshape.Name))
 	return
 }
 
@@ -7429,6 +7854,14 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallIden
 	return
 }
 
+func (torusedge3dshape *TorusEdge3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusedge3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TorusEdge3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torusedge3dshape.Name))
+	return
+}
+
 func (torusstackshape *TorusStackShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusstackshape.GongGetIdentifier(stage))
@@ -7446,6 +7879,12 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallIdentifier(s
 }
 
 // insertion point for unstaging
+func (angle0shape *Angle0Shape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", angle0shape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (arcnormalvectorshape *ArcNormalVectorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", arcnormalvectorshape.GongGetReferenceIdentifier(stage))
@@ -7614,6 +8053,12 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallUnstaging(stage 
 	return
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", originalpoints3dshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dribbon.GongGetReferenceIdentifier(stage))
@@ -7767,6 +8212,12 @@ func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallUnstaging(st
 func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", sampledpoints3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -8067,6 +8518,12 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongMarshallUnstaging(st
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstarthalfwayarcshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (torusedge3dshape *TorusEdge3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusedge3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

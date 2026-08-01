@@ -460,6 +460,35 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type Angle0ShapeUnmarshaller struct{}
+
+func (u *Angle0ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Angle0Shape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Angle0ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Angle0Shape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type ArcNormalVectorShapeUnmarshaller struct{}
 
 func (u *ArcNormalVectorShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1484,6 +1513,35 @@ func (u *MidArcVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	return nil
 }
 
+type OriginalPoints3DShapeUnmarshaller struct{}
+
+func (u *OriginalPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(OriginalPoints3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *OriginalPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*OriginalPoints3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type PartiallyGrowthCurve2DRibbonUnmarshaller struct{}
 
 func (u *PartiallyGrowthCurve2DRibbonUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2141,8 +2199,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
 	case "RotationRatio":
 		instance.RotationRatio = GongExtractFloat(valueExpr)
-	case "ThreeDModulo":
-		instance.ThreeDModulo = GongExtractInt(valueExpr)
+	case "RadialRepetitions":
+		instance.RadialRepetitions = GongExtractInt(valueExpr)
 	case "Transparency":
 		instance.Transparency = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetX":
@@ -2431,6 +2489,14 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenKey3DShape":
 		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenTorusEdge3DShape":
+		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenSampledPoints3DShape":
+		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenOriginalPoints3DShape":
+		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenAngle0Shape":
+		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -2457,10 +2523,18 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.StackOfPartiallyRotatedTorusShape, valueExpr, identifierMap)
 	case "PointsAndLines3DShape":
 		GongUnmarshallPointer(&instance.PointsAndLines3DShape, valueExpr, identifierMap)
+	case "SampledPoints3DShape":
+		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
+	case "OriginalPoints3DShape":
+		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
+	case "Angle0Shape":
+		GongUnmarshallPointer(&instance.Angle0Shape, valueExpr, identifierMap)
 	case "KeyHole3DShape":
 		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
 	case "Key3DShape":
 		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
+	case "TorusEdge3DShape":
+		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2712,6 +2786,35 @@ func (u *RotatedRhombusShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongst
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type SampledPoints3DShapeUnmarshaller struct{}
+
+func (u *SampledPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(SampledPoints3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *SampledPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*SampledPoints3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -4906,6 +5009,35 @@ func (u *TopStartHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.Name = GongExtractString(valueExpr)
 	case "TopStartHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.TopStartHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TorusEdge3DShapeUnmarshaller struct{}
+
+func (u *TorusEdge3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TorusEdge3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TorusEdge3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TorusEdge3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

@@ -24,6 +24,8 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
+	case "Angle0Shape":
+		updateProbeTable[*models.Angle0Shape](probe)
 	case "ArcNormalVectorShape":
 		updateProbeTable[*models.ArcNormalVectorShape](probe)
 	case "ArcNormalVectorShapeGrid":
@@ -80,6 +82,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.MidArcVectorShape](probe)
 	case "MidArcVectorShapeGrid":
 		updateProbeTable[*models.MidArcVectorShapeGrid](probe)
+	case "OriginalPoints3DShape":
+		updateProbeTable[*models.OriginalPoints3DShape](probe)
 	case "PartiallyGrowthCurve2DRibbon":
 		updateProbeTable[*models.PartiallyGrowthCurve2DRibbon](probe)
 	case "PartiallyGrowthCurve2DRibbonEndShape":
@@ -132,6 +136,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.RotatedRhombusGridShape](probe)
 	case "RotatedRhombusShape":
 		updateProbeTable[*models.RotatedRhombusShape](probe)
+	case "SampledPoints3DShape":
+		updateProbeTable[*models.SampledPoints3DShape](probe)
 	case "ShiftedBottomTopStartArcShape":
 		updateProbeTable[*models.ShiftedBottomTopStartArcShape](probe)
 	case "ShiftedBottomTopStartArcShapeGrid":
@@ -232,6 +238,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopStartHalfwayArcShape](probe)
 	case "TopStartHalfwayArcShapeGrid":
 		updateProbeTable[*models.TopStartHalfwayArcShapeGrid](probe)
+	case "TorusEdge3DShape":
+		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
 	case "VerticalTorusStackShape":

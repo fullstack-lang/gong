@@ -24,6 +24,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelizePointerToGongstruct2[*Angle0Shape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ArcNormalVectorShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ArcNormalVectorShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*AxesShape](stage, f, addIDs)
@@ -52,6 +53,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*MidArcVectorShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*MidArcVectorShapeGrid](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*OriginalPoints3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DRibbon](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DRibbonEndShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PartiallyGrowthCurve2DRibbonStartShape](stage, f, addIDs)
@@ -78,6 +80,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*RhombusStuff](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RotatedRhombusGridShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RotatedRhombusShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*SampledPoints3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ShiftedBottomTopStartArcShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ShiftedBottomTopStartArcShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ShiftedLeftGrowthCurve2DRibbon](stage, f, addIDs)
@@ -128,6 +131,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*TopStartArcShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopStartHalfwayArcShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TopStartHalfwayArcShapeGrid](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*TorusEdge3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TorusStackShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*VerticalTorusStackShape](stage, f, addIDs)
 	}

@@ -63,7 +63,7 @@ func GenerateSTL(plant *Plant) string {
 		if circumference <= 0 {
 			circumference = 10.0
 		}
-		threeDModulo := plant.ThreeDModulo
+		threeDModulo := plant.RadialRepetitions
 		if threeDModulo < 1 {
 			threeDModulo = 1
 		}
@@ -190,7 +190,7 @@ func GenerateSTL(plant *Plant) string {
 
 			stackHeight := plant.StackHeight
 
-			threeDModulo := plant.ThreeDModulo
+			threeDModulo := plant.RadialRepetitions
 			if threeDModulo < 1 {
 				threeDModulo = 1
 			}
