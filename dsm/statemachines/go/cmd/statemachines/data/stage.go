@@ -122,14 +122,14 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `Traffic Light FR Diagram`
-	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsStatesNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 
 	__Diagram__00000001_.Name = `Traffic Light UK Diagram`
-	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsStatesNodeExpanded = true
@@ -293,8 +293,8 @@ func _(stage *models.Stage) {
 	__StateShape__00000005_.IsHidden = false
 
 	__StateShape__00000006_.Name = `Red UK`
-	__StateShape__00000006_.X = 196.000000
-	__StateShape__00000006_.Y = 253.000000
+	__StateShape__00000006_.X = 180.000000
+	__StateShape__00000006_.Y = 254.000000
 	__StateShape__00000006_.Width = 200.000000
 	__StateShape__00000006_.Height = 80.000000
 	__StateShape__00000006_.IsHidden = false

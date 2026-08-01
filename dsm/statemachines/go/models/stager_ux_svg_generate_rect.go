@@ -150,7 +150,7 @@ func (stager *Stager) svgGenerateRect(
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, line)
 	}
 
-	currentY_Offset := lineYOffset + 10 // Start text 10px below the line
+	currentY_Offset := lineYOffset + 13 // Start text 15px below the line
 
 	x_offset := 10.0 // on the left of the state
 
