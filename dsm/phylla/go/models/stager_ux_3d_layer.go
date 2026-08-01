@@ -10,15 +10,14 @@ import (
 func (stager *Stager) generateLayerWithModulo(
 	h int, dx, dy, thetaOffset float64, namePrefix string,
 	plant *Plant, checkedDiagram *PlantDiagram,
-	curve, topCurve *threejs.Curve,
-	thickness, globalR float64, canvas *threejs.Canvas,
+	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
+	thickness float64, globalR float64,
+	canvas *threejs.Canvas,
 ) {
 	radialRepetition := plant.RadialRepetitions
 
 	massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)
 	massiveTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Top h%d", namePrefix, h)}).Stage(stager.threejsStage)
-
-	resampledBaseBottom, resampledBaseTop := stager.resampleCurvesByAngle(curve, topCurve, 0.5, namePrefix+" Base")
 
 	for k := 0; k < radialRepetition; k++ {
 		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetition)
@@ -36,8 +35,8 @@ func (stager *Stager) generateLayerWithModulo(
 	}
 
 	if !checkedDiagram.IsHiddenSampledPoints3DShape {
-		stager.addPointSpheres(massiveBottomCurve.Points, "red", canvas, namePrefix+" Bottom")
-		stager.addPointSpheres(massiveTopCurve.Points, "blue", canvas, namePrefix+" Top")
+		stager.addPointSpheres(massiveBottomCurve.Points, "red", canvas, namePrefix+" Bottom", dy)
+		stager.addPointSpheres(massiveTopCurve.Points, "blue", canvas, namePrefix+" Top", dy)
 	}
 
 	stager.generateRibbonMesh(h, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
