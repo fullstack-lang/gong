@@ -138,26 +138,27 @@ func (stager *Stager) resampleCurveAtAngles(
 
 	for _, target := range targetAngles {
 		idx := -1
-		for j := 0; j < len(sortedAngles)-1; j++ {
-			if sortedAngles[j] <= target && target <= sortedAngles[j+1] {
-				idx = j
-				break
-			}
+		
+		// Use binary search (O(log n)) to find the first index where sortedAngles[i] >= target
+		searchIdx := sort.SearchFloat64s(sortedAngles, target)
+		
+		if searchIdx > 0 && searchIdx < len(sortedAngles) {
+			// Target is enclosed perfectly between searchIdx-1 and searchIdx
+			idx = searchIdx - 1
+		} else if searchIdx == 0 && sortedAngles[0] == target {
+			// Target perfectly matches the very first angle
+			idx = 0
 		}
 
 		isExtrapolating := false
 		if idx == -1 {
 			isExtrapolating = true
-			bestScore := math.MaxFloat64
-			for j := 0; j < len(sortedAngles)-1; j++ {
-				a1 := sortedAngles[j]
-				a2 := sortedAngles[j+1]
-
-				dist := math.Min(math.Abs(target-a1), math.Abs(target-a2))
-				if dist < bestScore {
-					bestScore = dist
-					idx = j
-				}
+			
+			// Extrapolating outside bounds: snap to the absolute closest end
+			if searchIdx == 0 {
+				idx = 0 // Closer to the start
+			} else {
+				idx = len(sortedAngles) - 2 // Closer to the end
 			}
 		}
 
