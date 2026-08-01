@@ -596,6 +596,17 @@ func (from *MidArcVectorShapeGrid) CopyBasicFields(to *MidArcVectorShapeGrid) {
 	to.Name = from.Name
 }
 
+type OriginalPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *OriginalPoints3DShape) CopyBasicFields(to *OriginalPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PartiallyGrowthCurve2DRibbon_WOP struct {
 	// insertion point
 
@@ -1200,6 +1211,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenSampledPoints3DShape bool
 
+	IsHiddenOriginalPoints3DShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1274,6 +1287,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
 	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded

@@ -118,6 +118,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMidArcVectorShapeGridCreateCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *OriginalPoints3DShape:
+		if stage.OnAfterOriginalPoints3DShapeCreateCallback != nil {
+			stage.OnAfterOriginalPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback.OnAfterCreate(stage, target)
@@ -591,6 +595,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*MidArcVectorShapeGrid)
 		if stage.OnAfterMidArcVectorShapeGridUpdateCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *OriginalPoints3DShape:
+		newTarget := any(new).(*OriginalPoints3DShape)
+		if stage.OnAfterOriginalPoints3DShapeUpdateCallback != nil {
+			stage.OnAfterOriginalPoints3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PartiallyGrowthCurve2DRibbon:
 		newTarget := any(new).(*PartiallyGrowthCurve2DRibbon)
@@ -1142,6 +1151,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*MidArcVectorShapeGrid)
 			stage.OnAfterMidArcVectorShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *OriginalPoints3DShape:
+		if stage.OnAfterOriginalPoints3DShapeDeleteCallback != nil {
+			staged := any(staged).(*OriginalPoints3DShape)
+			stage.OnAfterOriginalPoints3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback != nil {
 			staged := any(staged).(*PartiallyGrowthCurve2DRibbon)
@@ -1664,6 +1678,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMidArcVectorShapeGridReadCallback != nil {
 			stage.OnAfterMidArcVectorShapeGridReadCallback.OnAfterRead(stage, target)
 		}
+	case *OriginalPoints3DShape:
+		if stage.OnAfterOriginalPoints3DShapeReadCallback != nil {
+			stage.OnAfterOriginalPoints3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *PartiallyGrowthCurve2DRibbon:
 		if stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback.OnAfterRead(stage, target)
@@ -2051,6 +2069,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[MidArcVectorShapeGrid])
+	case *OriginalPoints3DShape:
+		stage.OnAfterOriginalPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[OriginalPoints3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -2274,6 +2294,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[MidArcVectorShapeGrid])
+	case *OriginalPoints3DShape:
+		stage.OnAfterOriginalPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[OriginalPoints3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -2497,6 +2519,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterMidArcVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[MidArcVectorShapeGrid])
+	case *OriginalPoints3DShape:
+		stage.OnAfterOriginalPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[OriginalPoints3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -2720,6 +2744,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterMidArcVectorShapeReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShape])
 	case *MidArcVectorShapeGrid:
 		stage.OnAfterMidArcVectorShapeGridReadCallback = any(callback).(OnAfterReadInterface[MidArcVectorShapeGrid])
+	case *OriginalPoints3DShape:
+		stage.OnAfterOriginalPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[OriginalPoints3DShape])
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.OnAfterPartiallyGrowthCurve2DRibbonReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DRibbon])
 	case *PartiallyGrowthCurve2DRibbonEndShape:

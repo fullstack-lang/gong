@@ -184,6 +184,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Torus Edge", plantDiagram.TorusEdge3DShape, &plantDiagram.IsHiddenTorusEdge3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Points and lines between points", plantDiagram.PointsAndLines3DShape, &plantDiagram.IsHiddenPointsAndLines3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.SampledPoints3DShape, &plantDiagram.IsHiddenSampledPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Original Points", plantDiagram.OriginalPoints3DShape, &plantDiagram.IsHiddenOriginalPoints3DShape)
 	}
 }
 
