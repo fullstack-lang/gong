@@ -284,6 +284,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		threeDModulo := plant.RadialRepetitions
 
 		for h := 0; h < stackH; h++ {
+			// Do not dig holes in the first ring
+			if h == 0 {
+				continue
+			}
+
 			dx_h := dxs3D[h]
 			dy_h := dys3D[h]
 

@@ -52,7 +52,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.RhombusSideLength = 595.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.046000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
-	__Plant__00000000_.RotationRatio = 0.100000
+	__Plant__00000000_.RotationRatio = 1.000000
 	__Plant__00000000_.RadialRepetitions = 3
 	__Plant__00000000_.Transparency = 0.600000
 	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.032000
@@ -62,7 +62,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.OffsetKeyX = 54.000000
 	__Plant__00000000_.OffsetKeyY = 73.000000
 	__Plant__00000000_.HeightKey = 86.000000
-	__Plant__00000000_.WidthKey = 48.000000
+	__Plant__00000000_.WidthKey = 26.000000
 	__Plant__00000000_.RelativeKeySize = 0.870000
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
@@ -142,9 +142,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 1993.333898
-	__Rendered3DShape__00000000_.ViewY = 471.788813
-	__Rendered3DShape__00000000_.ViewZ = 1110.417214
+	__Rendered3DShape__00000000_.ViewX = -1268.394577
+	__Rendered3DShape__00000000_.ViewY = 88.631845
+	__Rendered3DShape__00000000_.ViewZ = 1952.513942
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
