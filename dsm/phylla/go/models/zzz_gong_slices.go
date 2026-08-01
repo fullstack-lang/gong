@@ -371,6 +371,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct VerticalTorusStackShape
 	// insertion point per field
 
+	// Compute reverse map for named struct VolumeKey3DShape
+	// insertion point per field
+
 	// end of insertion point per named struct
 }
 
@@ -813,6 +816,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.VerticalTorusStackShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.VolumeKey3DShapes {
 		res = append(res, instance)
 	}
 
@@ -1477,6 +1484,12 @@ func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
 func (verticaltorusstackshape *VerticalTorusStackShape) GongCopy() GongstructIF {
 	newInstance := new(VerticalTorusStackShape)
 	verticaltorusstackshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongCopy() GongstructIF {
+	newInstance := new(VolumeKey3DShape)
+	volumekey3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2578,6 +2591,16 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetUUID(stage *Stage
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(verticaltorusstackshape), uint64(GetOrderPointerGongstruct(stage, verticaltorusstackshape)))
+	return
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(volumekey3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(volumekey3dshape), uint64(GetOrderPointerGongstruct(stage, volumekey3dshape)))
 	return
 }
 
@@ -4119,6 +4142,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.VerticalTorusStackShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.VolumeKey3DShapes_reference = make(map[*VolumeKey3DShape]*VolumeKey3DShape)
+	stage.VolumeKey3DShapes_referenceOrder = make(map[*VolumeKey3DShape]uint) // diff Unstage needs the reference order
+	stage.VolumeKey3DShapes_instance = make(map[*VolumeKey3DShape]*VolumeKey3DShape)
+	for instance := range stage.VolumeKey3DShapes {
+		_copy := instance.GongCopy().(*VolumeKey3DShape)
+		stage.VolumeKey3DShapes_reference[instance] = _copy
+		stage.VolumeKey3DShapes_instance[_copy] = instance
+		stage.VolumeKey3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.Angle0Shapes {
 		reference := stage.Angle0Shapes_reference[instance]
@@ -4667,6 +4700,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.VerticalTorusStackShapes {
 		reference := stage.VerticalTorusStackShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.VolumeKey3DShapes {
+		reference := stage.VolumeKey3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6000,6 +6038,18 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetOrder(stage *Stag
 	}
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.VolumeKey3DShape_stagedOrder[volumekey3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.VolumeKey3DShapes_referenceOrder[volumekey3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type VolumeKey3DShape was not staged and does not have a reference order", volumekey3dshape)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -6995,6 +7045,15 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetReferenceIdentifi
 	return fmt.Sprintf("__%s__%08d_", verticaltorusstackshape.GongGetGongstructName(), verticaltorusstackshape.GongGetOrder(stage))
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", volumekey3dshape.GongGetGongstructName(), volumekey3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (volumekey3dshape *VolumeKey3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", volumekey3dshape.GongGetGongstructName(), volumekey3dshape.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -7878,6 +7937,14 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallIdentifier(s
 	return
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", volumekey3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VolumeKey3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(volumekey3dshape.Name))
+	return
+}
+
 // insertion point for unstaging
 func (angle0shape *Angle0Shape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -8536,6 +8603,12 @@ func (torusstackshape *TorusStackShape) GongMarshallUnstaging(stage *Stage) (dec
 func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", verticaltorusstackshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", volumekey3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -2219,8 +2219,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.HeightKey = GongExtractFloat(valueExpr)
 	case "WidthKey":
 		instance.WidthKey = GongExtractFloat(valueExpr)
-	case "RelativeKeySizeReduction":
-		instance.RelativeKeySizeReduction = GongExtractFloat(valueExpr)
+	case "RelativeKeySize":
+		instance.RelativeKeySize = GongExtractFloat(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -2489,6 +2489,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenKey3DShape":
 		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenVolumeKey3DShape":
+		instance.IsHiddenVolumeKey3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenTorusEdge3DShape":
 		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenSampledPoints3DShape":
@@ -2533,6 +2535,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
 	case "Key3DShape":
 		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
+	case "VolumeKey3DShape":
+		GongUnmarshallPointer(&instance.VolumeKey3DShape, valueExpr, identifierMap)
 	case "TorusEdge3DShape":
 		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
 	}
@@ -5091,6 +5095,35 @@ func (u *VerticalTorusStackShapeUnmarshaller) Initialize(stage *Stage, identifie
 
 func (u *VerticalTorusStackShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*VerticalTorusStackShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type VolumeKey3DShapeUnmarshaller struct{}
+
+func (u *VolumeKey3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(VolumeKey3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *VolumeKey3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*VolumeKey3DShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

@@ -244,6 +244,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TorusStackShape](probe)
 	case "VerticalTorusStackShape":
 		updateProbeTable[*models.VerticalTorusStackShape](probe)
+	case "VolumeKey3DShape":
+		updateProbeTable[*models.VolumeKey3DShape](probe)
 	}
 }
 

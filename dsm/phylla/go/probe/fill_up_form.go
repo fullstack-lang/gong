@@ -1078,7 +1078,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("WidthKey", instanceWithInferedType.WidthKey, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeKeySizeReduction", instanceWithInferedType.RelativeKeySizeReduction, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("RelativeKeySize", instanceWithInferedType.RelativeKeySize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1284,6 +1284,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenKey3DShape", instanceWithInferedType.IsHiddenKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenVolumeKey3DShape", instanceWithInferedType.IsHiddenVolumeKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenTorusEdge3DShape", instanceWithInferedType.IsHiddenTorusEdge3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
@@ -1313,6 +1315,7 @@ func FillUpForm(
 		AssociationFieldToForm("Angle0Shape", instanceWithInferedType.Angle0Shape, formGroup, probe)
 		AssociationFieldToForm("KeyHole3DShape", instanceWithInferedType.KeyHole3DShape, formGroup, probe)
 		AssociationFieldToForm("Key3DShape", instanceWithInferedType.Key3DShape, formGroup, probe)
+		AssociationFieldToForm("VolumeKey3DShape", instanceWithInferedType.VolumeKey3DShape, formGroup, probe)
 		AssociationFieldToForm("TorusEdge3DShape", instanceWithInferedType.TorusEdge3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -3012,6 +3015,16 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.VerticalTorusStackShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.VolumeKey3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

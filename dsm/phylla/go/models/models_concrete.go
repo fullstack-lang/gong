@@ -598,6 +598,12 @@ type Key3DShape struct {
 	Name string
 }
 
+// VolumeKey3DShape of a plant,
+// gong:omit
+type VolumeKey3DShape struct {
+	Name string
+}
+
 // TorusEdge3DShape of a plant,
 // gong:omit
 type TorusEdge3DShape struct {

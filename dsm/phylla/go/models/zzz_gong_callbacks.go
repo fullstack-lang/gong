@@ -446,6 +446,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterVerticalTorusStackShapeCreateCallback != nil {
 			stage.OnAfterVerticalTorusStackShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *VolumeKey3DShape:
+		if stage.OnAfterVolumeKey3DShapeCreateCallback != nil {
+			stage.OnAfterVolumeKey3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -1010,6 +1014,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterVerticalTorusStackShapeUpdateCallback != nil {
 			stage.OnAfterVerticalTorusStackShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *VolumeKey3DShape:
+		newTarget := any(new).(*VolumeKey3DShape)
+		if stage.OnAfterVolumeKey3DShapeUpdateCallback != nil {
+			stage.OnAfterVolumeKey3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -1570,6 +1579,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*VerticalTorusStackShape)
 			stage.OnAfterVerticalTorusStackShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *VolumeKey3DShape:
+		if stage.OnAfterVolumeKey3DShapeDeleteCallback != nil {
+			staged := any(staged).(*VolumeKey3DShape)
+			stage.OnAfterVolumeKey3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -2020,6 +2034,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterVerticalTorusStackShapeReadCallback != nil {
 			stage.OnAfterVerticalTorusStackShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *VolumeKey3DShape:
+		if stage.OnAfterVolumeKey3DShapeReadCallback != nil {
+			stage.OnAfterVolumeKey3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -2251,6 +2269,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTorusStackShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TorusStackShape])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[VerticalTorusStackShape])
+	case *VolumeKey3DShape:
+		stage.OnAfterVolumeKey3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[VolumeKey3DShape])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -2478,6 +2498,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTorusStackShapeCreateCallback = any(callback).(OnAfterCreateInterface[TorusStackShape])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeCreateCallback = any(callback).(OnAfterCreateInterface[VerticalTorusStackShape])
+	case *VolumeKey3DShape:
+		stage.OnAfterVolumeKey3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[VolumeKey3DShape])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -2705,6 +2727,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTorusStackShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TorusStackShape])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[VerticalTorusStackShape])
+	case *VolumeKey3DShape:
+		stage.OnAfterVolumeKey3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[VolumeKey3DShape])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -2932,5 +2956,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterTorusStackShapeReadCallback = any(callback).(OnAfterReadInterface[TorusStackShape])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeReadCallback = any(callback).(OnAfterReadInterface[VerticalTorusStackShape])
+	case *VolumeKey3DShape:
+		stage.OnAfterVolumeKey3DShapeReadCallback = any(callback).(OnAfterReadInterface[VolumeKey3DShape])
 	}
 }

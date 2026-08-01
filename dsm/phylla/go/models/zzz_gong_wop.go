@@ -1031,7 +1031,7 @@ type Plant_WOP struct {
 
 	WidthKey float64
 
-	RelativeKeySizeReduction float64
+	RelativeKeySize float64
 
 	ComputedPrefix string
 
@@ -1065,7 +1065,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.OffsetKeyY = from.OffsetKeyY
 	to.HeightKey = from.HeightKey
 	to.WidthKey = from.WidthKey
-	to.RelativeKeySizeReduction = from.RelativeKeySizeReduction
+	to.RelativeKeySize = from.RelativeKeySize
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected
@@ -1218,6 +1218,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenKey3DShape bool
 
+	IsHiddenVolumeKey3DShape bool
+
 	IsHiddenTorusEdge3DShape bool
 
 	IsHiddenSampledPoints3DShape bool
@@ -1298,6 +1300,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
 	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
 	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
+	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
 	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
@@ -3036,6 +3039,17 @@ type VerticalTorusStackShape_WOP struct {
 }
 
 func (from *VerticalTorusStackShape) CopyBasicFields(to *VerticalTorusStackShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type VolumeKey3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *VolumeKey3DShape) CopyBasicFields(to *VolumeKey3DShape) {
 	// insertion point
 	to.Name = from.Name
 }

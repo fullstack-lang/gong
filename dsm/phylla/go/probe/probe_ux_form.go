@@ -675,6 +675,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.verticaltorusstackshape, probe)
 			}
+		case *VolumeKey3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "VolumeKey3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.volumekey3dshape, probe)
+			}
 		}
 	}
 }
@@ -2127,6 +2133,19 @@ func FillUpFormFromGongstructName(
 		verticaltorusstackshape := new(models.VerticalTorusStackShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(verticaltorusstackshape, formGroup, probe)
+	case "VolumeKey3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "VolumeKey3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VolumeKey3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		volumekey3dshape := new(models.VolumeKey3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(volumekey3dshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

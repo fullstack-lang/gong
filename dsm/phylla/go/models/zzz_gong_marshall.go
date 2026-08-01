@@ -413,7 +413,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "WidthKey"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeKeySizeReduction"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeKeySize"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
@@ -507,6 +507,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
@@ -2293,11 +2294,11 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WidthKey")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.WidthKey))
-	case "RelativeKeySizeReduction":
+	case "RelativeKeySize":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeKeySizeReduction")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeKeySizeReduction))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeKeySize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeKeySize))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -2678,6 +2679,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKey3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenKey3DShape))
+	case "IsHiddenVolumeKey3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenVolumeKey3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenVolumeKey3DShape))
 	case "IsHiddenTorusEdge3DShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -5457,6 +5463,21 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallField(stage 
 	return
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", volumekey3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(volumekey3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct VolumeKey3DShape", fieldName)
+	}
+	return
+}
+
 // insertion point for marshall all fields methods
 func (angle0shape *Angle0Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
@@ -6149,7 +6170,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "WidthKey"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeKeySizeReduction"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeKeySize"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
@@ -6241,6 +6262,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
@@ -7277,6 +7299,17 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallAllFields(st
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(verticaltorusstackshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (volumekey3dshape *VolumeKey3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(volumekey3dshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
