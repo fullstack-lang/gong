@@ -140,7 +140,7 @@ func (stager *Stager) generateRibbonMesh(
 		y2 := yBaseTop
 		y3 := yBaseTop
 
-		if hasHole && inHoleArr[i] {
+		if hasHole {
 			y1 = math.Max(yBase, math.Min(yBaseTop, y_bottom_abs))
 			y2 = math.Max(yBase, math.Min(yBaseTop, y_top_abs))
 		}
@@ -220,20 +220,17 @@ func (stager *Stager) generateRibbonMesh(
 			stager.addQuad(geomOuter, i, 2, false, "outer_above")
 
 			// Hole walls
-			if i > 0 {
-				vB1 := geomInner.Vertices[i*4]
-				vB2 := geomOuter.Vertices[i*4]
-				vB3 := geomInner.Vertices[(i+1)*4]
-				vB4 := geomOuter.Vertices[(i+1)*4]
-				stager.addWallQuad(geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", false)
-			}
-			if i > 0 {
-				vT1 := geomInner.Vertices[i*4+2]
-				vT2 := geomOuter.Vertices[i*4+2]
-				vT3 := geomInner.Vertices[(i+1)*4+2]
-				vT4 := geomOuter.Vertices[(i+1)*4+2]
-				stager.addWallQuad(geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", true)
-			}
+			vB1 := geomInner.Vertices[i*4+1]
+			vB2 := geomOuter.Vertices[i*4+1]
+			vB3 := geomInner.Vertices[(i+1)*4+1]
+			vB4 := geomOuter.Vertices[(i+1)*4+1]
+			stager.addWallQuad(geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", true)
+
+			vT1 := geomInner.Vertices[i*4+2]
+			vT2 := geomOuter.Vertices[i*4+2]
+			vT3 := geomInner.Vertices[(i+1)*4+2]
+			vT4 := geomOuter.Vertices[(i+1)*4+2]
+			stager.addWallQuad(geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", false)
 			if i == 0 || !inHoleArr[i-1] {
 				stager.addWallQuad(geomHoleWalls, geomInner.Vertices[i*4+1], geomInner.Vertices[i*4+2], geomOuter.Vertices[i*4+1], geomOuter.Vertices[i*4+2], "left_wall", true)
 			}
