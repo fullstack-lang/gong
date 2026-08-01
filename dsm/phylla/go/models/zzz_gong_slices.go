@@ -118,6 +118,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct MidArcVectorShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct OriginalPoints3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct PartiallyGrowthCurve2DRibbon
 	// insertion point per field
 
@@ -479,6 +482,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.MidArcVectorShapeGrids {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.OriginalPoints3DShapes {
 		res = append(res, instance)
 	}
 
@@ -971,6 +978,12 @@ func (midarcvectorshape *MidArcVectorShape) GongCopy() GongstructIF {
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(MidArcVectorShapeGrid)
 	midarcvectorshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongCopy() GongstructIF {
+	newInstance := new(OriginalPoints3DShape)
+	originalpoints3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1732,6 +1745,16 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetUUID(stage *Stage) (u
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midarcvectorshapegrid), uint64(GetOrderPointerGongstruct(stage, midarcvectorshapegrid)))
+	return
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(originalpoints3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(originalpoints3dshape), uint64(GetOrderPointerGongstruct(stage, originalpoints3dshape)))
 	return
 }
 
@@ -2608,6 +2631,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var originalpoints3dshapes_newInstances []*OriginalPoints3DShape
+	var originalpoints3dshapes_deletedInstances []*OriginalPoints3DShape
+
+	// parse all staged instances and check if they have a reference
+	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
+		if ref, ok := stage.OriginalPoints3DShapes_reference[originalpoints3dshape]; !ok {
+			originalpoints3dshapes_newInstances = append(originalpoints3dshapes_newInstances, originalpoints3dshape)
+			newInstancesSlice = append(newInstancesSlice, originalpoints3dshape.GongMarshallIdentifier(stage))
+			if stage.OriginalPoints3DShapes_referenceOrder == nil {
+				stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint)
+			}
+			stage.OriginalPoints3DShapes_referenceOrder[originalpoints3dshape] = stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, originalpoints3dshape.GongMarshallUnstaging(stage))
+			// delete(stage.OriginalPoints3DShapes_referenceOrder, originalpoints3dshape)
+			fieldInitializers, pointersInitializations := originalpoints3dshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.OriginalPoints3DShape_stagedOrder[ref] = stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := originalpoints3dshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, originalpoints3dshape)
+			// delete(stage.OriginalPoints3DShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if originalpoints3dshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", originalpoints3dshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.OriginalPoints3DShapes_reference {
+		instance := stage.OriginalPoints3DShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.OriginalPoints3DShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			originalpoints3dshapes_deletedInstances = append(originalpoints3dshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(originalpoints3dshapes_newInstances)
+	lenDeletedInstances += len(originalpoints3dshapes_deletedInstances)
 	var plants_newInstances []*Plant
 	var plants_deletedInstances []*Plant
 
@@ -3141,6 +3219,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.MidArcVectorShapeGrids_reference[instance] = _copy
 		stage.MidArcVectorShapeGrids_instance[_copy] = instance
 		stage.MidArcVectorShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
+	stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint) // diff Unstage needs the reference order
+	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
+	for instance := range stage.OriginalPoints3DShapes {
+		_copy := instance.GongCopy().(*OriginalPoints3DShape)
+		stage.OriginalPoints3DShapes_reference[instance] = _copy
+		stage.OriginalPoints3DShapes_instance[_copy] = instance
+		stage.OriginalPoints3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.PartiallyGrowthCurve2DRibbons_reference = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
@@ -4084,6 +4172,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.OriginalPoints3DShapes {
+		reference := stage.OriginalPoints3DShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.PartiallyGrowthCurve2DRibbons {
 		reference := stage.PartiallyGrowthCurve2DRibbons_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -4826,6 +4919,18 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetOrder(stage *Stage) u
 		return order
 	} else {
 		log.Printf("instance %p of type MidArcVectorShapeGrid was not staged and does not have a reference order", midarcvectorshapegrid)
+		return 0
+	}
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.OriginalPoints3DShapes_referenceOrder[originalpoints3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type OriginalPoints3DShape was not staged and does not have a reference order", originalpoints3dshape)
 		return 0
 	}
 }
@@ -6047,6 +6152,15 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetReferenceIdentifier(s
 	return fmt.Sprintf("__%s__%08d_", midarcvectorshapegrid.GongGetGongstructName(), midarcvectorshapegrid.GongGetOrder(stage))
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", originalpoints3dshape.GongGetGongstructName(), originalpoints3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", originalpoints3dshape.GongGetGongstructName(), originalpoints3dshape.GongGetOrder(stage))
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", partiallygrowthcurve2dribbon.GongGetGongstructName(), partiallygrowthcurve2dribbon.GongGetOrder(stage))
 }
@@ -6994,6 +7108,14 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallIdentifier(stage
 	return
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", originalpoints3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "OriginalPoints3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(originalpoints3dshape.Name))
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dribbon.GongGetIdentifier(stage))
@@ -7800,6 +7922,12 @@ func (midarcvectorshape *MidArcVectorShape) GongMarshallUnstaging(stage *Stage) 
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", midarcvectorshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", originalpoints3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

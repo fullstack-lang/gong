@@ -43,8 +43,76 @@ func (stager *Stager) generateRibbonMesh(
 	geomInner := (&threejs.BufferGeometry{Name: namePrefix + " Inner BufferGeometry"}).Stage(stager.threejsStage)
 	// geomOuter is the outer surface of the ribbon
 	geomOuter := (&threejs.BufferGeometry{Name: namePrefix + " Outer BufferGeometry"}).Stage(stager.threejsStage)
+	geomHoleWalls := (&threejs.BufferGeometry{Name: namePrefix + " HoleWalls BufferGeometry"}).Stage(stager.threejsStage)
 
 	var bottomEdges, topEdges [][2]*threejs.Vector3
+
+	hasHole := false
+	inHoleArr := make([]bool, len(localBottomCurve.Points))
+	var y_bottom_abs, y_top_abs float64
+
+	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
+		x_left := plant.OffsetKeyX - plant.WidthKey/2.0
+		x_right := plant.OffsetKeyX + plant.WidthKey/2.0
+		y_bottom_abs = plant.OffsetKeyY - plant.HeightKey/2.0 + dy
+		y_top_abs = plant.OffsetKeyY + plant.HeightKey/2.0 + dy
+
+		hasHole = true
+
+		numPointsPerRep := len(localBottomCurve.Points) / plant.RadialRepetitions
+		if numPointsPerRep == 0 {
+			numPointsPerRep = 1
+		}
+
+		unwrapAngles := func(curve *threejs.Curve) []float64 {
+			angles := make([]float64, len(curve.Points))
+			if len(curve.Points) == 0 {
+				return angles
+			}
+			firstP := curve.Points[0]
+			lastTheta := math.Atan2(firstP.Z, firstP.X)
+			accumulated := lastTheta
+			for accumulated < 0 { accumulated += 2 * math.Pi }
+			for accumulated >= 2*math.Pi { accumulated -= 2 * math.Pi }
+			angles[0] = accumulated
+			lastTheta = math.Atan2(firstP.Z, firstP.X)
+
+			for i := 1; i < len(curve.Points); i++ {
+				p := curve.Points[i]
+				theta := math.Atan2(p.Z, p.X)
+				diff := theta - lastTheta
+				for diff < -math.Pi { diff += 2 * math.Pi }
+				for diff > math.Pi { diff -= 2 * math.Pi }
+				accumulated += diff
+				angles[i] = accumulated
+				lastTheta = theta
+			}
+			return angles
+		}
+
+		th_continuous := unwrapAngles(localBottomCurve)
+
+		for i := 0; i < len(localBottomCurve.Points); i++ {
+			k := i / numPointsPerRep
+			if k >= plant.RadialRepetitions { k = plant.RadialRepetitions - 1 }
+
+			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(plant.RadialRepetitions)
+			th_left := x_left/globalR + totalThetaOffset + baseThetaOffset
+			th_right := x_right/globalR + totalThetaOffset + baseThetaOffset
+			
+			diff_left := th_continuous[i] - th_left
+			for diff_left > math.Pi { diff_left -= 2 * math.Pi }
+			for diff_left < -math.Pi { diff_left += 2 * math.Pi }
+			
+			diff_right := th_continuous[i] - th_right
+			for diff_right > math.Pi { diff_right -= 2 * math.Pi }
+			for diff_right < -math.Pi { diff_right += 2 * math.Pi }
+
+			if diff_left >= 0 && diff_right <= 0 {
+				inHoleArr[i] = true
+			}
+		}
+	}
 
 	// Loop through every point along the curve and push the 4 vertical levels (Inner and Outer)
 	for i := 0; i < len(localBottomCurve.Points) && i < len(localTopCurve.Points); i++ {
@@ -71,6 +139,11 @@ func (stager *Stager) generateRibbonMesh(
 		y1 := yBase
 		y2 := yBaseTop
 		y3 := yBaseTop
+
+		if hasHole && inHoleArr[i] {
+			y1 = math.Max(yBase, math.Min(yBaseTop, y_bottom_abs))
+			y2 = math.Max(yBase, math.Min(yBaseTop, y_top_abs))
+		}
 
 		// inner 4 points
 		for j, yVal := range []float64{y0, y1, y2, y3} {
@@ -129,14 +202,45 @@ func (stager *Stager) generateRibbonMesh(
 			continue
 		}
 
-		// Add full quads for all 3 bands
-		stager.addQuad(geomInner, i, 0, true, "inner")
-		stager.addQuad(geomInner, i, 1, true, "inner")
-		stager.addQuad(geomInner, i, 2, true, "inner")
+		if !hasHole || !inHoleArr[i] {
+			// Add full quads for all 3 bands
+			stager.addQuad(geomInner, i, 0, true, "inner")
+			stager.addQuad(geomInner, i, 1, true, "inner")
+			stager.addQuad(geomInner, i, 2, true, "inner")
 
-		stager.addQuad(geomOuter, i, 0, false, "outer")
-		stager.addQuad(geomOuter, i, 1, false, "outer")
-		stager.addQuad(geomOuter, i, 2, false, "outer")
+			stager.addQuad(geomOuter, i, 0, false, "outer")
+			stager.addQuad(geomOuter, i, 1, false, "outer")
+			stager.addQuad(geomOuter, i, 2, false, "outer")
+		} else {
+			// Hole segment: only add bottom band (0) and top band (2)
+			stager.addQuad(geomInner, i, 0, true, "inner_below")
+			stager.addQuad(geomInner, i, 2, true, "inner_above")
+
+			stager.addQuad(geomOuter, i, 0, false, "outer_below")
+			stager.addQuad(geomOuter, i, 2, false, "outer_above")
+
+			// Hole walls
+			if i > 0 {
+				vB1 := geomInner.Vertices[i*4]
+				vB2 := geomOuter.Vertices[i*4]
+				vB3 := geomInner.Vertices[(i+1)*4]
+				vB4 := geomOuter.Vertices[(i+1)*4]
+				stager.addWallQuad(geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", false)
+			}
+			if i > 0 {
+				vT1 := geomInner.Vertices[i*4+2]
+				vT2 := geomOuter.Vertices[i*4+2]
+				vT3 := geomInner.Vertices[(i+1)*4+2]
+				vT4 := geomOuter.Vertices[(i+1)*4+2]
+				stager.addWallQuad(geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", true)
+			}
+			if i == 0 || !inHoleArr[i-1] {
+				stager.addWallQuad(geomHoleWalls, geomInner.Vertices[i*4+1], geomInner.Vertices[i*4+2], geomOuter.Vertices[i*4+1], geomOuter.Vertices[i*4+2], "left_wall", true)
+			}
+			if i == len(localBottomCurve.Points)-2 || !inHoleArr[i+1] {
+				stager.addWallQuad(geomHoleWalls, geomInner.Vertices[(i+1)*4+1], geomInner.Vertices[(i+1)*4+2], geomOuter.Vertices[(i+1)*4+1], geomOuter.Vertices[(i+1)*4+2], "right_wall", false)
+			}
+		}
 	}
 
 	opacity := 1.0 - plant.Transparency
@@ -178,6 +282,21 @@ func (stager *Stager) generateRibbonMesh(
 	}).Stage(stager.threejsStage)
 
 	canvas.Meshs = append(canvas.Meshs, innerMesh, outerMesh)
+
+	if hasHole {
+		holeWallsMesh := (&threejs.Mesh{
+			Name:           namePrefix + " HoleWalls Mesh",
+			Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+			BufferGeometry: geomHoleWalls,
+			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+				Name:                 namePrefix + " HoleWalls Material",
+				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
+				Transparent:          true,
+				Opacity:              opacity,
+			}).Stage(stager.threejsStage),
+		}).Stage(stager.threejsStage)
+		canvas.Meshs = append(canvas.Meshs, holeWallsMesh)
+	}
 
 	bottomFace := stager.createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, plant.Transparency)
 	topFace := stager.createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true, plant.Transparency)

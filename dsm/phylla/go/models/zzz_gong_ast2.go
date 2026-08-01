@@ -1484,6 +1484,35 @@ func (u *MidArcVectorShapeGridUnmarshaller) UnmarshallField(stage *Stage, i Gong
 	return nil
 }
 
+type OriginalPoints3DShapeUnmarshaller struct{}
+
+func (u *OriginalPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(OriginalPoints3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *OriginalPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*OriginalPoints3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type PartiallyGrowthCurve2DRibbonUnmarshaller struct{}
 
 func (u *PartiallyGrowthCurve2DRibbonUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2435,6 +2464,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenSampledPoints3DShape":
 		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenOriginalPoints3DShape":
+		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -2463,6 +2494,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.PointsAndLines3DShape, valueExpr, identifierMap)
 	case "SampledPoints3DShape":
 		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
+	case "OriginalPoints3DShape":
+		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
 	case "KeyHole3DShape":
 		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
 	case "Key3DShape":

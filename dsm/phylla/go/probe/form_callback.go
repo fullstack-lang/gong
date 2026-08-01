@@ -3195,6 +3195,84 @@ func (midarcvectorshapegridFormCallback *MidArcVectorShapeGridFormCallback) OnSa
 
 	midarcvectorshapegridFormCallback.probe.ux_tree()
 }
+func __gong__New__OriginalPoints3DShapeFormCallback(
+	originalpoints3dshape *models.OriginalPoints3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (originalpoints3dshapeFormCallback *OriginalPoints3DShapeFormCallback) {
+	originalpoints3dshapeFormCallback = new(OriginalPoints3DShapeFormCallback)
+	originalpoints3dshapeFormCallback.probe = probe
+	originalpoints3dshapeFormCallback.originalpoints3dshape = originalpoints3dshape
+	originalpoints3dshapeFormCallback.formGroup = formGroup
+
+	originalpoints3dshapeFormCallback.CreationMode = (originalpoints3dshape == nil)
+
+	return
+}
+
+type OriginalPoints3DShapeFormCallback struct {
+	originalpoints3dshape *models.OriginalPoints3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (originalpoints3dshapeFormCallback *OriginalPoints3DShapeFormCallback) OnSave() {
+	originalpoints3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer originalpoints3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("OriginalPoints3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	originalpoints3dshapeFormCallback.probe.formStage.Checkout()
+
+	if originalpoints3dshapeFormCallback.originalpoints3dshape == nil {
+		originalpoints3dshapeFormCallback.originalpoints3dshape = new(models.OriginalPoints3DShape).Stage(originalpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+	originalpoints3dshape_ := originalpoints3dshapeFormCallback.originalpoints3dshape
+	_ = originalpoints3dshape_
+
+	for _, formDiv := range originalpoints3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(originalpoints3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if originalpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		originalpoints3dshape_.Unstage(originalpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	originalpoints3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.OriginalPoints3DShape](
+		originalpoints3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if originalpoints3dshapeFormCallback.CreationMode || originalpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		originalpoints3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(originalpoints3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__OriginalPoints3DShapeFormCallback(
+			nil,
+			originalpoints3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		originalpoints3dshape := new(models.OriginalPoints3DShape)
+		FillUpForm(originalpoints3dshape, newFormGroup, originalpoints3dshapeFormCallback.probe)
+		originalpoints3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	originalpoints3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PartiallyGrowthCurve2DRibbonFormCallback(
 	partiallygrowthcurve2dribbon *models.PartiallyGrowthCurve2DRibbon,
 	probe *Probe,
@@ -5875,6 +5953,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusEdge3DShape), formDiv)
 		case "IsHiddenSampledPoints3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "IsHiddenOriginalPoints3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenOriginalPoints3DShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -5903,6 +5983,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.PointsAndLines3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "SampledPoints3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.SampledPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "OriginalPoints3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.OriginalPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "KeyHole3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Key3DShape":

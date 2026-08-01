@@ -126,7 +126,14 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	stackHeight := plant.StackHeight
 
-	resampledBaseBottom, resampledBaseTop := stager.resampleCurvesByAngle(curve, topCurve, 0.5, "Base")
+	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := stager.getTargetAngles(curve, topCurve, 0.5)
+	resampledBaseBottom := stager.resampleCurveAtAngles(anglesBottom, bottomPoints, targetAngles, "Base Bottom")
+	resampledBaseTop := stager.resampleCurveAtAngles(anglesTop, topPoints, targetAngles, "Base Top")
+
+	if !checkedDiagram.IsHiddenOriginalPoints3DShape {
+		stager.addPointSpheres(curve.Points, "green", canvas, plant.Name+" Original Bottom", 0)
+		stager.addPointSpheres(topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0)
+	}
 
 	if !checkedDiagram.IsHiddenTorusStackShape {
 		var growthVectorX, growthVectorY float64

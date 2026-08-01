@@ -573,6 +573,21 @@ type Stage struct {
 	OnAfterMidArcVectorShapeGridDeleteCallback OnAfterDeleteInterface[MidArcVectorShapeGrid]
 	OnAfterMidArcVectorShapeGridReadCallback   OnAfterReadInterface[MidArcVectorShapeGrid]
 
+	OriginalPoints3DShapes                map[*OriginalPoints3DShape]struct{}
+	OriginalPoints3DShapes_instance       map[*OriginalPoints3DShape]*OriginalPoints3DShape
+	OriginalPoints3DShapes_mapString      map[string]*OriginalPoints3DShape
+	OriginalPoints3DShapeOrder            uint
+	OriginalPoints3DShape_stagedOrder     map[*OriginalPoints3DShape]uint
+	OriginalPoints3DShape_orderStaged     map[uint]*OriginalPoints3DShape
+	OriginalPoints3DShapes_reference      map[*OriginalPoints3DShape]*OriginalPoints3DShape
+	OriginalPoints3DShapes_referenceOrder map[*OriginalPoints3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterOriginalPoints3DShapeCreateCallback OnAfterCreateInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeUpdateCallback OnAfterUpdateInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeDeleteCallback OnAfterDeleteInterface[OriginalPoints3DShape]
+	OnAfterOriginalPoints3DShapeReadCallback   OnAfterReadInterface[OriginalPoints3DShape]
+
 	PartiallyGrowthCurve2DRibbons                map[*PartiallyGrowthCurve2DRibbon]struct{}
 	PartiallyGrowthCurve2DRibbons_instance       map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon
 	PartiallyGrowthCurve2DRibbons_mapString      map[string]*PartiallyGrowthCurve2DRibbon
@@ -2203,6 +2218,10 @@ func (stage *Stage) Squash() {
 	stage.MidArcVectorShapeGrids_instance = make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrids_referenceOrder = make(map[*MidArcVectorShapeGrid]uint)
 
+	stage.OriginalPoints3DShapes_reference = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
+	stage.OriginalPoints3DShapes_instance = make(map[*OriginalPoints3DShape]*OriginalPoints3DShape)
+	stage.OriginalPoints3DShapes_referenceOrder = make(map[*OriginalPoints3DShape]uint)
+
 	stage.PartiallyGrowthCurve2DRibbons_reference = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
 	stage.PartiallyGrowthCurve2DRibbons_instance = make(map[*PartiallyGrowthCurve2DRibbon]*PartiallyGrowthCurve2DRibbon)
 	stage.PartiallyGrowthCurve2DRibbons_referenceOrder = make(map[*PartiallyGrowthCurve2DRibbon]uint)
@@ -2940,6 +2959,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.MidArcVectorShapeGridOrder = maxMidArcVectorShapeGridOrder + 1
 	} else {
 		stage.MidArcVectorShapeGridOrder = 0
+	}
+
+	var maxOriginalPoints3DShapeOrder uint
+	var foundOriginalPoints3DShape bool
+	for _, order := range stage.OriginalPoints3DShape_stagedOrder {
+		if !foundOriginalPoints3DShape || order > maxOriginalPoints3DShapeOrder {
+			maxOriginalPoints3DShapeOrder = order
+			foundOriginalPoints3DShape = true
+		}
+	}
+	if foundOriginalPoints3DShape {
+		stage.OriginalPoints3DShapeOrder = maxOriginalPoints3DShapeOrder + 1
+	} else {
+		stage.OriginalPoints3DShapeOrder = 0
 	}
 
 	var maxPartiallyGrowthCurve2DRibbonOrder uint
@@ -4515,6 +4548,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *OriginalPoints3DShape:
+		tmp := GetStructInstancesByOrder(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *OriginalPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PartiallyGrowthCurve2DRibbon:
 		tmp := GetStructInstancesByOrder(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
 
@@ -5720,6 +5767,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.MidArcVectorShapes, stage.MidArcVectorShape_stagedOrder)
 	case "MidArcVectorShapeGrid":
 		res = GetNamedStructInstances(stage.MidArcVectorShapeGrids, stage.MidArcVectorShapeGrid_stagedOrder)
+	case "OriginalPoints3DShape":
+		res = GetNamedStructInstances(stage.OriginalPoints3DShapes, stage.OriginalPoints3DShape_stagedOrder)
 	case "PartiallyGrowthCurve2DRibbon":
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DRibbons, stage.PartiallyGrowthCurve2DRibbon_stagedOrder)
 	case "PartiallyGrowthCurve2DRibbonEndShape":
@@ -6005,6 +6054,8 @@ type BackRepoInterface interface {
 	CheckoutMidArcVectorShape(midarcvectorshape *MidArcVectorShape)
 	CommitMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
 	CheckoutMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid)
+	CommitOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
+	CheckoutOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape)
 	CommitPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon)
 	CheckoutPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon)
 	CommitPartiallyGrowthCurve2DRibbonEndShape(partiallygrowthcurve2dribbonendshape *PartiallyGrowthCurve2DRibbonEndShape)
@@ -6254,6 +6305,9 @@ func NewStage(name string) (stage *Stage) {
 
 		MidArcVectorShapeGrids:           make(map[*MidArcVectorShapeGrid]struct{}),
 		MidArcVectorShapeGrids_mapString: make(map[string]*MidArcVectorShapeGrid),
+
+		OriginalPoints3DShapes:           make(map[*OriginalPoints3DShape]struct{}),
+		OriginalPoints3DShapes_mapString: make(map[string]*OriginalPoints3DShape),
 
 		PartiallyGrowthCurve2DRibbons:           make(map[*PartiallyGrowthCurve2DRibbon]struct{}),
 		PartiallyGrowthCurve2DRibbons_mapString: make(map[string]*PartiallyGrowthCurve2DRibbon),
@@ -6616,6 +6670,10 @@ func NewStage(name string) (stage *Stage) {
 		MidArcVectorShapeGrid_stagedOrder: make(map[*MidArcVectorShapeGrid]uint),
 		MidArcVectorShapeGrid_orderStaged: make(map[uint]*MidArcVectorShapeGrid),
 		MidArcVectorShapeGrids_reference:  make(map[*MidArcVectorShapeGrid]*MidArcVectorShapeGrid),
+
+		OriginalPoints3DShape_stagedOrder: make(map[*OriginalPoints3DShape]uint),
+		OriginalPoints3DShape_orderStaged: make(map[uint]*OriginalPoints3DShape),
+		OriginalPoints3DShapes_reference:  make(map[*OriginalPoints3DShape]*OriginalPoints3DShape),
 
 		PartiallyGrowthCurve2DRibbon_stagedOrder: make(map[*PartiallyGrowthCurve2DRibbon]uint),
 		PartiallyGrowthCurve2DRibbon_orderStaged: make(map[uint]*PartiallyGrowthCurve2DRibbon),
@@ -6995,6 +7053,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"MidArcVectorShapeGrid": &MidArcVectorShapeGridUnmarshaller{},
 
+			"OriginalPoints3DShape": &OriginalPoints3DShapeUnmarshaller{},
+
 			"PartiallyGrowthCurve2DRibbon": &PartiallyGrowthCurve2DRibbonUnmarshaller{},
 
 			"PartiallyGrowthCurve2DRibbonEndShape": &PartiallyGrowthCurve2DRibbonEndShapeUnmarshaller{},
@@ -7187,6 +7247,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Library"},
 			{name: "MidArcVectorShape"},
 			{name: "MidArcVectorShapeGrid"},
+			{name: "OriginalPoints3DShape"},
 			{name: "PartiallyGrowthCurve2DRibbon"},
 			{name: "PartiallyGrowthCurve2DRibbonEndShape"},
 			{name: "PartiallyGrowthCurve2DRibbonStartShape"},
@@ -7334,6 +7395,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.MidArcVectorShape_stagedOrder[instance]
 	case *MidArcVectorShapeGrid:
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
+	case *OriginalPoints3DShape:
+		return stage.OriginalPoints3DShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbon:
 		return stage.PartiallyGrowthCurve2DRibbon_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -7559,6 +7622,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.MidArcVectorShape_orderStaged[order]).(Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrid_orderStaged[order]).(Type)
+	case *OriginalPoints3DShape:
+		return any(stage.OriginalPoints3DShape_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DRibbon:
 		return any(stage.PartiallyGrowthCurve2DRibbon_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -7783,6 +7848,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.MidArcVectorShape_stagedOrder[instance]
 	case *MidArcVectorShapeGrid:
 		return stage.MidArcVectorShapeGrid_stagedOrder[instance]
+	case *OriginalPoints3DShape:
+		return stage.OriginalPoints3DShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbon:
 		return stage.PartiallyGrowthCurve2DRibbon_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -8036,6 +8103,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShape"] = len(stage.MidArcVectorShapes)
 	stage.Map_GongStructName_InstancesNb["MidArcVectorShapeGrid"] = len(stage.MidArcVectorShapeGrids)
+	stage.Map_GongStructName_InstancesNb["OriginalPoints3DShape"] = len(stage.OriginalPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbon"] = len(stage.PartiallyGrowthCurve2DRibbons)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbonEndShape"] = len(stage.PartiallyGrowthCurve2DRibbonEndShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DRibbonStartShape"] = len(stage.PartiallyGrowthCurve2DRibbonStartShapes)
@@ -10618,6 +10686,94 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (midarcvectorshapegrid *MidArcVectorShapeGrid) SetName(name string) {
 	midarcvectorshapegrid.Name = name
+}
+
+// Stage puts originalpoints3dshape to the model stage
+func (originalpoints3dshape *OriginalPoints3DShape) Stage(stage *Stage) *OriginalPoints3DShape {
+	if _, ok := stage.OriginalPoints3DShapes[originalpoints3dshape]; !ok {
+		stage.OriginalPoints3DShapes[originalpoints3dshape] = struct{}{}
+		stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape] = stage.OriginalPoints3DShapeOrder
+		stage.OriginalPoints3DShape_orderStaged[stage.OriginalPoints3DShapeOrder] = originalpoints3dshape
+		stage.OriginalPoints3DShapeOrder++
+	}
+	stage.OriginalPoints3DShapes_mapString[originalpoints3dshape.Name] = originalpoints3dshape
+
+	return originalpoints3dshape
+}
+
+// StagePreserveOrder puts originalpoints3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.OriginalPoints3DShapeOrder
+// - update stage.OriginalPoints3DShapeOrder accordingly
+func (originalpoints3dshape *OriginalPoints3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.OriginalPoints3DShapes[originalpoints3dshape]; !ok {
+		stage.OriginalPoints3DShapes[originalpoints3dshape] = struct{}{}
+
+		if order > stage.OriginalPoints3DShapeOrder {
+			stage.OriginalPoints3DShapeOrder = order
+		}
+		stage.OriginalPoints3DShape_stagedOrder[originalpoints3dshape] = order
+		stage.OriginalPoints3DShape_orderStaged[order] = originalpoints3dshape
+		stage.OriginalPoints3DShapeOrder++
+	}
+	stage.OriginalPoints3DShapes_mapString[originalpoints3dshape.Name] = originalpoints3dshape
+}
+
+// Unstage removes originalpoints3dshape off the model stage
+func (originalpoints3dshape *OriginalPoints3DShape) Unstage(stage *Stage) *OriginalPoints3DShape {
+	delete(stage.OriginalPoints3DShapes, originalpoints3dshape)
+	// issue1150
+	// delete(stage.OriginalPoints3DShape_stagedOrder, originalpoints3dshape)
+	delete(stage.OriginalPoints3DShapes_mapString, originalpoints3dshape.Name)
+
+	return originalpoints3dshape
+}
+
+// UnstageVoid removes originalpoints3dshape off the model stage
+func (originalpoints3dshape *OriginalPoints3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.OriginalPoints3DShapes, originalpoints3dshape)
+	// issue1150
+	// delete(stage.OriginalPoints3DShape_stagedOrder, originalpoints3dshape)
+	delete(stage.OriginalPoints3DShapes_mapString, originalpoints3dshape.Name)
+}
+
+// commit originalpoints3dshape to the back repo (if it is already staged)
+func (originalpoints3dshape *OriginalPoints3DShape) Commit(stage *Stage) *OriginalPoints3DShape {
+	if _, ok := stage.OriginalPoints3DShapes[originalpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitOriginalPoints3DShape(originalpoints3dshape)
+		}
+	}
+	return originalpoints3dshape
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) CommitVoid(stage *Stage) {
+	originalpoints3dshape.Commit(stage)
+}
+
+func (originalpoints3dshape *OriginalPoints3DShape) StageVoid(stage *Stage) {
+	originalpoints3dshape.Stage(stage)
+}
+
+// Checkout originalpoints3dshape to the back repo (if it is already staged)
+func (originalpoints3dshape *OriginalPoints3DShape) Checkout(stage *Stage) *OriginalPoints3DShape {
+	if _, ok := stage.OriginalPoints3DShapes[originalpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutOriginalPoints3DShape(originalpoints3dshape)
+		}
+	}
+	return originalpoints3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (originalpoints3dshape *OriginalPoints3DShape) GetName() (res string) {
+	return originalpoints3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (originalpoints3dshape *OriginalPoints3DShape) SetName(name string) {
+	originalpoints3dshape.Name = name
 }
 
 // Stage puts partiallygrowthcurve2dribbon to the model stage
@@ -17690,6 +17846,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLibrary(Library *Library)
 	CreateORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	CreateORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
+	CreateORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
 	CreateORMPartiallyGrowthCurve2DRibbon(PartiallyGrowthCurve2DRibbon *PartiallyGrowthCurve2DRibbon)
 	CreateORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
 	CreateORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
@@ -17801,6 +17958,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMidArcVectorShape(MidArcVectorShape *MidArcVectorShape)
 	DeleteORMMidArcVectorShapeGrid(MidArcVectorShapeGrid *MidArcVectorShapeGrid)
+	DeleteORMOriginalPoints3DShape(OriginalPoints3DShape *OriginalPoints3DShape)
 	DeleteORMPartiallyGrowthCurve2DRibbon(PartiallyGrowthCurve2DRibbon *PartiallyGrowthCurve2DRibbon)
 	DeleteORMPartiallyGrowthCurve2DRibbonEndShape(PartiallyGrowthCurve2DRibbonEndShape *PartiallyGrowthCurve2DRibbonEndShape)
 	DeleteORMPartiallyGrowthCurve2DRibbonStartShape(PartiallyGrowthCurve2DRibbonStartShape *PartiallyGrowthCurve2DRibbonStartShape)
@@ -18023,6 +18181,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	stage.MidArcVectorShapeGrid_stagedOrder = make(map[*MidArcVectorShapeGrid]uint)
 	stage.MidArcVectorShapeGridOrder = 0
+
+	stage.OriginalPoints3DShapes = make(map[*OriginalPoints3DShape]struct{})
+	stage.OriginalPoints3DShapes_mapString = make(map[string]*OriginalPoints3DShape)
+	stage.OriginalPoints3DShape_stagedOrder = make(map[*OriginalPoints3DShape]uint)
+	stage.OriginalPoints3DShapeOrder = 0
 
 	stage.PartiallyGrowthCurve2DRibbons = make(map[*PartiallyGrowthCurve2DRibbon]struct{})
 	stage.PartiallyGrowthCurve2DRibbons_mapString = make(map[string]*PartiallyGrowthCurve2DRibbon)
@@ -18517,6 +18680,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.MidArcVectorShapeGrids = nil
 	stage.MidArcVectorShapeGrids_mapString = nil
 
+	stage.OriginalPoints3DShapes = nil
+	stage.OriginalPoints3DShapes_mapString = nil
+
 	stage.PartiallyGrowthCurve2DRibbons = nil
 	stage.PartiallyGrowthCurve2DRibbons_mapString = nil
 
@@ -18871,6 +19037,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		midarcvectorshapegrid.Unstage(stage)
+	}
+
+	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
+		originalpoints3dshape.Unstage(stage)
 	}
 
 	for partiallygrowthcurve2dribbon := range stage.PartiallyGrowthCurve2DRibbons {
@@ -19325,6 +19495,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.MidArcVectorShapes).(*Type)
 	case map[*MidArcVectorShapeGrid]any:
 		return any(&stage.MidArcVectorShapeGrids).(*Type)
+	case map[*OriginalPoints3DShape]any:
+		return any(&stage.OriginalPoints3DShapes).(*Type)
 	case map[*PartiallyGrowthCurve2DRibbon]any:
 		return any(&stage.PartiallyGrowthCurve2DRibbons).(*Type)
 	case map[*PartiallyGrowthCurve2DRibbonEndShape]any:
@@ -19553,6 +19725,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.MidArcVectorShapes_mapString).(map[string]Type)
 	case *MidArcVectorShapeGrid:
 		return any(stage.MidArcVectorShapeGrids_mapString).(map[string]Type)
+	case *OriginalPoints3DShape:
+		return any(stage.OriginalPoints3DShapes_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DRibbon:
 		return any(stage.PartiallyGrowthCurve2DRibbons_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -19781,6 +19955,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.MidArcVectorShapes).(*map[*Type]struct{})
 	case MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[*Type]struct{})
+	case OriginalPoints3DShape:
+		return any(&stage.OriginalPoints3DShapes).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&stage.PartiallyGrowthCurve2DRibbons).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DRibbonEndShape:
@@ -20009,6 +20185,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.MidArcVectorShapes).(*map[Type]struct{})
 	case *MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids).(*map[Type]struct{})
+	case *OriginalPoints3DShape:
+		return any(&stage.OriginalPoints3DShapes).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DRibbon:
 		return any(&stage.PartiallyGrowthCurve2DRibbons).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -20237,6 +20415,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.MidArcVectorShapes_mapString).(*map[string]*Type)
 	case MidArcVectorShapeGrid:
 		return any(&stage.MidArcVectorShapeGrids_mapString).(*map[string]*Type)
+	case OriginalPoints3DShape:
+		return any(&stage.OriginalPoints3DShapes_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&stage.PartiallyGrowthCurve2DRibbons_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DRibbonEndShape:
@@ -20549,6 +20729,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of MidArcVectorShape with the name of the field
 			MidArcVectorShapes: []*MidArcVectorShape{{Name: "MidArcVectorShapes"}},
 		}).(*Type)
+	case OriginalPoints3DShape:
+		return any(&OriginalPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case PartiallyGrowthCurve2DRibbon:
 		return any(&PartiallyGrowthCurve2DRibbon{
 			// Initialisation of associations
@@ -20740,6 +20924,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PointsAndLines3DShape: &PointsAndLines3DShape{Name: "PointsAndLines3DShape"},
 			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
+			// field is initialized with an instance of OriginalPoints3DShape with the name of the field
+			OriginalPoints3DShape: &OriginalPoints3DShape{Name: "OriginalPoints3DShape"},
 			// field is initialized with an instance of KeyHole3DShape with the name of the field
 			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
 			// field is initialized with an instance of Key3DShape with the name of the field
@@ -21263,6 +21449,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of MidArcVectorShapeGrid
 	case MidArcVectorShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of OriginalPoints3DShape
+	case OriginalPoints3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -22159,6 +22350,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "OriginalPoints3DShape":
+			res := make(map[*OriginalPoints3DShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.OriginalPoints3DShape != nil {
+					originalpoints3dshape_ := plantdiagram.OriginalPoints3DShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[originalpoints3dshape_]
+					if ok {
+						plantdiagrams = res[originalpoints3dshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[originalpoints3dshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "KeyHole3DShape":
 			res := make(map[*KeyHole3DShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -22963,6 +23171,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of OriginalPoints3DShape
+	case OriginalPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyGrowthCurve2DRibbon
 	case PartiallyGrowthCurve2DRibbon:
 		switch fieldname {
@@ -23758,6 +23971,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "MidArcVectorShape"
 	case *MidArcVectorShapeGrid:
 		res = "MidArcVectorShapeGrid"
+	case *OriginalPoints3DShape:
+		res = "OriginalPoints3DShape"
 	case *PartiallyGrowthCurve2DRibbon:
 		res = "PartiallyGrowthCurve2DRibbon"
 	case *PartiallyGrowthCurve2DRibbonEndShape:
@@ -24047,6 +24262,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "MidArcVectorShapes"
 		res = append(res, rf)
 	case *MidArcVectorShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *OriginalPoints3DShape:
 		var rf ReverseField
 		_ = rf
 	case *PartiallyGrowthCurve2DRibbon:
@@ -25165,6 +25383,17 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldHeaders() (res [
 	return
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -26226,6 +26455,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenOriginalPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -26291,6 +26524,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "SampledPoints3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "SampledPoints3DShape",
+		},
+		{
+			Name:                 "OriginalPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "OriginalPoints3DShape",
 		},
 		{
 			Name:                 "KeyHole3DShape",
@@ -29405,6 +29643,15 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetFieldValue(fieldName 
 	return
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = originalpoints3dshape.Name
+	}
+	return
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -30516,6 +30763,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenSampledPoints3DShape)
 		res.valueBool = plantdiagram.IsHiddenSampledPoints3DShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenOriginalPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenOriginalPoints3DShape)
+		res.valueBool = plantdiagram.IsHiddenOriginalPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -30591,6 +30842,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.SampledPoints3DShape != nil {
 			res.valueString = plantdiagram.SampledPoints3DShape.Name
 			res.ids = plantdiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "OriginalPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.OriginalPoints3DShape != nil {
+			res.valueString = plantdiagram.OriginalPoints3DShape.Name
+			res.ids = plantdiagram.OriginalPoints3DShape.GongGetUUID(stage)
 		}
 	case "KeyHole3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -33627,6 +33884,17 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongSetFieldValue(fieldName 
 	return nil
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		originalpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -34690,6 +34958,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
 	case "IsHiddenSampledPoints3DShape":
 		plantdiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "IsHiddenOriginalPoints3DShape":
+		plantdiagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -34813,6 +35083,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.SampledPoints3DShapes {
 				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "OriginalPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.OriginalPoints3DShape = nil
+			for __instance__ := range stage.OriginalPoints3DShapes {
+				if stage.OriginalPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.OriginalPoints3DShape = __instance__
 					break
 				}
 			}
@@ -36904,6 +37185,10 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongGetGongstructName() stri
 	return "MidArcVectorShapeGrid"
 }
 
+func (originalpoints3dshape *OriginalPoints3DShape) GongGetGongstructName() string {
+	return "OriginalPoints3DShape"
+}
+
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongGetGongstructName() string {
 	return "PartiallyGrowthCurve2DRibbon"
 }
@@ -37369,6 +37654,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.MidArcVectorShapeGrids_mapString = make(map[string]*MidArcVectorShapeGrid)
 	for midarcvectorshapegrid := range stage.MidArcVectorShapeGrids {
 		stage.MidArcVectorShapeGrids_mapString[midarcvectorshapegrid.Name] = midarcvectorshapegrid
+	}
+
+	stage.OriginalPoints3DShapes_mapString = make(map[string]*OriginalPoints3DShape)
+	for originalpoints3dshape := range stage.OriginalPoints3DShapes {
+		stage.OriginalPoints3DShapes_mapString[originalpoints3dshape.Name] = originalpoints3dshape
 	}
 
 	stage.PartiallyGrowthCurve2DRibbons_mapString = make(map[string]*PartiallyGrowthCurve2DRibbon)

@@ -183,6 +183,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.midarcvectorshapegrid, probe)
 			}
+		case *OriginalPoints3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "OriginalPoints3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.originalpoints3dshape, probe)
+			}
 		case *PartiallyGrowthCurve2DRibbonFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyGrowthCurve2DRibbon", true)
@@ -1049,6 +1055,19 @@ func FillUpFormFromGongstructName(
 		midarcvectorshapegrid := new(models.MidArcVectorShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(midarcvectorshapegrid, formGroup, probe)
+	case "OriginalPoints3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "OriginalPoints3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__OriginalPoints3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		originalpoints3dshape := new(models.OriginalPoints3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(originalpoints3dshape, formGroup, probe)
 	case "PartiallyGrowthCurve2DRibbon":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

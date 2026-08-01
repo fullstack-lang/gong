@@ -91,6 +91,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
 
+	case *OriginalPoints3DShape:
+		ok = stage.IsStagedOriginalPoints3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
 
@@ -424,6 +427,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *MidArcVectorShapeGrid:
 		ok = stage.IsStagedMidArcVectorShapeGrid(target)
+
+	case *OriginalPoints3DShape:
+		ok = stage.IsStagedOriginalPoints3DShape(target)
 
 	case *PartiallyGrowthCurve2DRibbon:
 		ok = stage.IsStagedPartiallyGrowthCurve2DRibbon(target)
@@ -864,6 +870,13 @@ func (stage *Stage) IsStagedMidArcVectorShape(midarcvectorshape *MidArcVectorSha
 func (stage *Stage) IsStagedMidArcVectorShapeGrid(midarcvectorshapegrid *MidArcVectorShapeGrid) (ok bool) {
 
 	_, ok = stage.MidArcVectorShapeGrids[midarcvectorshapegrid]
+
+	return
+}
+
+func (stage *Stage) IsStagedOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) (ok bool) {
+
+	_, ok = stage.OriginalPoints3DShapes[originalpoints3dshape]
 
 	return
 }
@@ -1519,6 +1532,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MidArcVectorShapeGrid:
 		stage.StageBranchMidArcVectorShapeGrid(target)
+
+	case *OriginalPoints3DShape:
+		stage.StageBranchOriginalPoints3DShape(target)
 
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.StageBranchPartiallyGrowthCurve2DRibbon(target)
@@ -2192,6 +2208,21 @@ func (stage *Stage) StageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *MidA
 
 }
 
+func (stage *Stage) StageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, originalpoints3dshape) {
+		return
+	}
+
+	originalpoints3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -2480,6 +2511,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.SampledPoints3DShape != nil {
 		StageBranch(stage, plantdiagram.SampledPoints3DShape)
+	}
+	if plantdiagram.OriginalPoints3DShape != nil {
+		StageBranch(stage, plantdiagram.OriginalPoints3DShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -3524,6 +3558,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchMidArcVectorShapeGrid(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *OriginalPoints3DShape:
+		toT := CopyBranchOriginalPoints3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		toT := CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4389,6 +4427,25 @@ func CopyBranchMidArcVectorShapeGrid(mapOrigCopy map[any]any, midarcvectorshapeg
 	return
 }
 
+func CopyBranchOriginalPoints3DShape(mapOrigCopy map[any]any, originalpoints3dshapeFrom *OriginalPoints3DShape) (originalpoints3dshapeTo *OriginalPoints3DShape) {
+
+	// originalpoints3dshapeFrom has already been copied
+	if _originalpoints3dshapeTo, ok := mapOrigCopy[originalpoints3dshapeFrom]; ok {
+		originalpoints3dshapeTo = _originalpoints3dshapeTo.(*OriginalPoints3DShape)
+		return
+	}
+
+	originalpoints3dshapeTo = new(OriginalPoints3DShape)
+	mapOrigCopy[originalpoints3dshapeFrom] = originalpoints3dshapeTo
+	originalpoints3dshapeFrom.CopyBasicFields(originalpoints3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPartiallyGrowthCurve2DRibbon(mapOrigCopy map[any]any, partiallygrowthcurve2dribbonFrom *PartiallyGrowthCurve2DRibbon) (partiallygrowthcurve2dribbonTo *PartiallyGrowthCurve2DRibbon) {
 
 	// partiallygrowthcurve2dribbonFrom has already been copied
@@ -4752,6 +4809,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	}
 	if plantdiagramFrom.SampledPoints3DShape != nil {
 		plantdiagramTo.SampledPoints3DShape = CopyBranchSampledPoints3DShape(mapOrigCopy, plantdiagramFrom.SampledPoints3DShape)
+	}
+	if plantdiagramFrom.OriginalPoints3DShape != nil {
+		plantdiagramTo.OriginalPoints3DShape = CopyBranchOriginalPoints3DShape(mapOrigCopy, plantdiagramFrom.OriginalPoints3DShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -6010,6 +6070,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MidArcVectorShapeGrid:
 		stage.UnstageBranchMidArcVectorShapeGrid(target)
 
+	case *OriginalPoints3DShape:
+		stage.UnstageBranchOriginalPoints3DShape(target)
+
 	case *PartiallyGrowthCurve2DRibbon:
 		stage.UnstageBranchPartiallyGrowthCurve2DRibbon(target)
 
@@ -6682,6 +6745,21 @@ func (stage *Stage) UnstageBranchMidArcVectorShapeGrid(midarcvectorshapegrid *Mi
 
 }
 
+func (stage *Stage) UnstageBranchOriginalPoints3DShape(originalpoints3dshape *OriginalPoints3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, originalpoints3dshape) {
+		return
+	}
+
+	originalpoints3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DRibbon(partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -6970,6 +7048,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.SampledPoints3DShape != nil {
 		UnstageBranch(stage, plantdiagram.SampledPoints3DShape)
+	}
+	if plantdiagram.OriginalPoints3DShape != nil {
+		UnstageBranch(stage, plantdiagram.OriginalPoints3DShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -8040,6 +8121,11 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromReferences(st
 	// insertion point for slice of pointers field
 }
 
+func (reference *OriginalPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *OriginalPoints3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyGrowthCurve2DRibbon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8141,6 +8227,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.SampledPoints3DShape != nil {
 		reference.SampledPoints3DShape = stage.SampledPoints3DShapes_reference[instance.SampledPoints3DShape]
+	}
+	if instance.OriginalPoints3DShape != nil {
+		reference.OriginalPoints3DShape = stage.OriginalPoints3DShapes_reference[instance.OriginalPoints3DShape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -8605,6 +8694,11 @@ func (reference *MidArcVectorShapeGrid) GongReconstructPointersFromInstances(sta
 	// insertion point for slice of pointers fields
 }
 
+func (reference *OriginalPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PartiallyGrowthCurve2DRibbon) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -8714,6 +8808,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.SampledPoints3DShape = nil
 		if _instance, ok := stage.SampledPoints3DShapes_instance[_reference]; ok {
 			reference.SampledPoints3DShape = _instance
+		}
+	}
+	if _reference := reference.OriginalPoints3DShape; _reference != nil {
+		reference.OriginalPoints3DShape = nil
+		if _instance, ok := stage.OriginalPoints3DShapes_instance[_reference]; ok {
+			reference.OriginalPoints3DShape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -9656,6 +9756,17 @@ func (midarcvectorshapegrid *MidArcVectorShapeGrid) GongDiff(stage *Stage, midar
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (originalpoints3dshape *OriginalPoints3DShape) GongDiff(stage *Stage, originalpoints3dshapeOther *OriginalPoints3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if originalpoints3dshape.Name != originalpoints3dshapeOther.Name {
+		diffs = append(diffs, originalpoints3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (partiallygrowthcurve2dribbon *PartiallyGrowthCurve2DRibbon) GongDiff(stage *Stage, partiallygrowthcurve2dribbonOther *PartiallyGrowthCurve2DRibbon) (diffs []string) {
 	// insertion point for field diffs
 	if partiallygrowthcurve2dribbon.Name != partiallygrowthcurve2dribbonOther.Name {
@@ -10345,6 +10456,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenSampledPoints3DShape != plantdiagramOther.IsHiddenSampledPoints3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 	}
+	if plantdiagram.IsHiddenOriginalPoints3DShape != plantdiagramOther.IsHiddenOriginalPoints3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -10366,6 +10480,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.SampledPoints3DShape != nil && plantdiagramOther.SampledPoints3DShape != nil {
 		if plantdiagram.SampledPoints3DShape != plantdiagramOther.SampledPoints3DShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		}
+	}
+	if (plantdiagram.OriginalPoints3DShape == nil) != (plantdiagramOther.OriginalPoints3DShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+	} else if plantdiagram.OriginalPoints3DShape != nil && plantdiagramOther.OriginalPoints3DShape != nil {
+		if plantdiagram.OriginalPoints3DShape != plantdiagramOther.OriginalPoints3DShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
 		}
 	}
 
