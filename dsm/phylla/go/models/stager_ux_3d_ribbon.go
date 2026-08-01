@@ -356,100 +356,106 @@ func (stager *Stager) generateRibbonMesh(
 
 		rSurf := globalR
 
-		get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
-			th := ptX/globalR + totalThetaOffset
-			return (&threejs.Vector3{
-				Name: fmt.Sprintf("%s %s h%d", ptName, namePrefix, h),
-				X:    rSurf * math.Cos(th),
-				Y:    ptY + dy,
-				Z:    rSurf * math.Sin(th),
-			}).Stage(stager.threejsStage)
-		}
-
-		vPx_3d := get3DPt(pxx, pxy, "Px")
-
 		sphereRad := thickness * 0.4
 		if sphereRad < 0.3 {
 			sphereRad = 0.3
 		}
 
-		createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
-			return (&threejs.Mesh{
-				Name: fmt.Sprintf("Sphere %s %s h%d", ptName, namePrefix, h),
-				Position: threejs.Position{
-					X: vec.X,
-					Y: vec.Y,
-					Z: vec.Z,
-				},
-				SphereGeometry: (&threejs.SphereGeometry{
-					Name:           fmt.Sprintf("SphereGeom %s %s h%d", ptName, namePrefix, h),
-					Radius:         sphereRad,
-					WidthSegments:  16,
-					HeightSegments: 16,
-				}).Stage(stager.threejsStage),
-				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 fmt.Sprintf("Material %s %s h%d", ptName, namePrefix, h),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-				}).Stage(stager.threejsStage),
-			}).Stage(stager.threejsStage)
-		}
+		for rep := 0; rep < plant.RadialRepetitions; rep++ {
+			baseThetaOffset := float64(rep) * 2.0 * math.Pi / float64(plant.RadialRepetitions)
+			currentThetaOffset := totalThetaOffset + baseThetaOffset
 
-		createPairTube := func(lineName string, color string, pA, pB *threejs.Vector3) *threejs.Mesh {
-			crv := (&threejs.Curve{
-				Name:   fmt.Sprintf("Curve %s %s h%d", lineName, namePrefix, h),
-				Points: []*threejs.Vector3{pA, pB},
-			}).Stage(stager.threejsStage)
+			get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
+				th := ptX/globalR + currentThetaOffset
+				return (&threejs.Vector3{
+					Name: fmt.Sprintf("%s %s h%d r%d", ptName, namePrefix, h, rep),
+					X:    rSurf * math.Cos(th),
+					Y:    ptY + dy,
+					Z:    rSurf * math.Sin(th),
+				}).Stage(stager.threejsStage)
+			}
 
-			tGeom := (&threejs.TubeGeometry{
-				Name:            fmt.Sprintf("TubeGeom %s %s h%d", lineName, namePrefix, h),
-				Path:            crv,
-				TubularSegments: 8,
-				Radius:          sphereRad * 0.25,
-				RadialSegments:  8,
-				Closed:          false,
-			}).Stage(stager.threejsStage)
+			createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
+				return (&threejs.Mesh{
+					Name: fmt.Sprintf("Sphere %s %s h%d r%d", ptName, namePrefix, h, rep),
+					Position: threejs.Position{
+						X: vec.X,
+						Y: vec.Y,
+						Z: vec.Z,
+					},
+					SphereGeometry: (&threejs.SphereGeometry{
+						Name:           fmt.Sprintf("SphereGeom %s %s h%d r%d", ptName, namePrefix, h, rep),
+						Radius:         sphereRad,
+						WidthSegments:  16,
+						HeightSegments: 16,
+					}).Stage(stager.threejsStage),
+					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+						Name:                 fmt.Sprintf("Material %s %s h%d r%d", ptName, namePrefix, h, rep),
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					}).Stage(stager.threejsStage),
+				}).Stage(stager.threejsStage)
+			}
 
-			return (&threejs.Mesh{
-				Name:         fmt.Sprintf("TubeMesh %s %s h%d", lineName, namePrefix, h),
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-				TubeGeometry: tGeom,
-				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 fmt.Sprintf("Material %s %s h%d", lineName, namePrefix, h),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-				}).Stage(stager.threejsStage),
-			}).Stage(stager.threejsStage)
-		}
+			createPairTube := func(lineName string, color string, pA, pB *threejs.Vector3) *threejs.Mesh {
+				crv := (&threejs.Curve{
+					Name:   fmt.Sprintf("Curve %s %s h%d r%d", lineName, namePrefix, h, rep),
+					Points: []*threejs.Vector3{pA, pB},
+				}).Stage(stager.threejsStage)
 
-		sPx := createPointSphere("Px", "purple", vPx_3d)
-		canvas.Meshs = append(canvas.Meshs, sPx)
+				tGeom := (&threejs.TubeGeometry{
+					Name:            fmt.Sprintf("TubeGeom %s %s h%d r%d", lineName, namePrefix, h, rep),
+					Path:            crv,
+					TubularSegments: 8,
+					Radius:          sphereRad * 0.25,
+					RadialSegments:  8,
+					Closed:          false,
+				}).Stage(stager.threejsStage)
 
-		if hasP1P2 {
-			vP1_3d := get3DPt(p1x, p1y, "P1")
-			vP2_3d := get3DPt(p2x, p2y, "P2")
+				return (&threejs.Mesh{
+					Name:         fmt.Sprintf("TubeMesh %s %s h%d r%d", lineName, namePrefix, h, rep),
+					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					TubeGeometry: tGeom,
+					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+						Name:                 fmt.Sprintf("Material %s %s h%d r%d", lineName, namePrefix, h, rep),
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					}).Stage(stager.threejsStage),
+				}).Stage(stager.threejsStage)
+			}
 
-			sP1 := createPointSphere("P1", "red", vP1_3d)
-			sP2 := createPointSphere("P2", "#8d6e63", vP2_3d)
+			vPx_3d := get3DPt(pxx, pxy, "Px")
+			sPx := createPointSphere("Px", "purple", vPx_3d)
+			canvas.Meshs = append(canvas.Meshs, sPx)
 
-			tP1Px := createPairTube("P1-Px", "purple", vP1_3d, vPx_3d)
-			tP2Px := createPairTube("P2-Px", "purple", vP2_3d, vPx_3d)
+			if hasP1P2 {
+				vP1_3d := get3DPt(p1x, p1y, "P1")
+				vP2_3d := get3DPt(p2x, p2y, "P2")
 
-			canvas.Meshs = append(canvas.Meshs, sP1, sP2, tP1Px, tP2Px)
+				sP1 := createPointSphere("P1", "red", vP1_3d)
+				sP2 := createPointSphere("P2", "#8d6e63", vP2_3d)
 
-			dx1 := vP1_3d.X - vPx_3d.X
-			dy1 := vP1_3d.Y - vPx_3d.Y
-			dz1 := vP1_3d.Z - vPx_3d.Z
-			distP1Px_3d := math.Sqrt(dx1*dx1 + dy1*dy1 + dz1*dz1)
+				tP1Px := createPairTube("P1-Px", "purple", vP1_3d, vPx_3d)
+				tP2Px := createPairTube("P2-Px", "purple", vP2_3d, vPx_3d)
 
-			dx2 := vP2_3d.X - vPx_3d.X
-			dy2 := vP2_3d.Y - vPx_3d.Y
-			dz2 := vP2_3d.Z - vPx_3d.Z
-			distP2Px_3d := math.Sqrt(dx2*dx2 + dy2*dy2 + dz2*dz2)
+				canvas.Meshs = append(canvas.Meshs, sP1, sP2, tP1Px, tP2Px)
 
-			distSum_3d := distP1Px_3d + distP2Px_3d
+				if rep == 0 {
+					dx1 := vP1_3d.X - vPx_3d.X
+					dy1 := vP1_3d.Y - vPx_3d.Y
+					dz1 := vP1_3d.Z - vPx_3d.Z
+					distP1Px_3d := math.Sqrt(dx1*dx1 + dy1*dy1 + dz1*dz1)
 
-			if h == 0 {
-				log.Printf("[3D Distance] %s (Layer %d) | P1-Px: %.4f, P2-Px: %.4f | 3D Sum: %.4f",
-					namePrefix, h, distP1Px_3d, distP2Px_3d, distSum_3d)
+					dx2 := vP2_3d.X - vPx_3d.X
+					dy2 := vP2_3d.Y - vPx_3d.Y
+					dz2 := vP2_3d.Z - vPx_3d.Z
+					distP2Px_3d := math.Sqrt(dx2*dx2 + dy2*dy2 + dz2*dz2)
+
+					distSum_3d := distP1Px_3d + distP2Px_3d
+
+					if h == 0 {
+						log.Printf("[3D Distance] %s (Layer %d) | P1-Px: %.4f, P2-Px: %.4f | 3D Sum: %.4f",
+							namePrefix, h, distP1Px_3d, distP2Px_3d, distSum_3d)
+					}
+				}
 			}
 		}
 	}

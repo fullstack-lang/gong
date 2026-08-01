@@ -135,15 +135,15 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenTorusEdge3DShape = true
 	__PlantDiagram__00000001_.IsHiddenSampledPoints3DShape = true
 	__PlantDiagram__00000001_.IsHiddenOriginalPoints3DShape = true
-	__PlantDiagram__00000001_.IsHiddenAngle0Shape = true
+	__PlantDiagram__00000001_.IsHiddenAngle0Shape = false
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = -876.096980
-	__Rendered3DShape__00000000_.ViewY = 721.138791
-	__Rendered3DShape__00000000_.ViewZ = 2319.006203
+	__Rendered3DShape__00000000_.ViewX = 1436.637365
+	__Rendered3DShape__00000000_.ViewY = 1839.371842
+	__Rendered3DShape__00000000_.ViewZ = -1654.121670
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
