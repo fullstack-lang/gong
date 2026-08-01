@@ -1891,5 +1891,31 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         let dirX = segment1.EndPoint.X - segment1.StartPoint.X;
         return dirX >= 0 ? 'end' : 'start';
     }
- }
+  }
+
+  getControlPointTextX(segments: Segment[], text: svg.LinkAnchoredText): number {
+    if (segments.length === 0) return 0;
+    let midSegment = segments[Math.floor(segments.length / 2)];
+    let midX = (midSegment.StartPoint.X + midSegment.EndPoint.X) / 2;
+    
+    if (!text.AutomaticLayout) {
+        return midX + text.X_Offset;
+    }
+    
+    let paddingX = 12;
+    return midX + paddingX;
+  }
+
+  getControlPointTextY(segments: Segment[], text: svg.LinkAnchoredText): number {
+    if (segments.length === 0) return 0;
+    let midSegment = segments[Math.floor(segments.length / 2)];
+    let midY = (midSegment.StartPoint.Y + midSegment.EndPoint.Y) / 2;
+    
+    if (!text.AutomaticLayout) {
+        return midY + text.Y_Offset;
+    }
+    
+    let paddingY = -8;
+    return midY + paddingY;
+  }
 }

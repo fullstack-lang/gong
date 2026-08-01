@@ -730,6 +730,33 @@
                   [attr.stroke-width]="link.StrokeWidth"
                   [attr.stroke-dasharray]="link.StrokeDashArray" />
               }
+
+              @for(text of link.TextAtCorner!; track text.ID; let k = $index) {
+                @let lines = splitTextIntoLines(text.Content);
+                <text class="click-through"
+                  [attr.x]="getControlPointTextX(segments, text)"
+                  [attr.y]="getControlPointTextY(segments, text)"
+                  [attr.font-weight]="text.FontWeight"
+                  [attr.font-family]="text.FontFamily"
+                  [attr.font-size]="text.FontSize"
+                  [attr.letter-spacing]="text.LetterSpacing"
+                  [attr.white-space]="text.WhiteSpace"
+                  [attr.fill]="text.Color"
+                  [attr.fill-opacity]="text.FillOpacity"
+                  [attr.stroke]="text.Stroke"
+                  [attr.stroke-opacity]="text.StrokeOpacity"
+                  [attr.stroke-width]="text.StrokeWidth"
+                  [attr.stroke-dasharray]="text.StrokeDashArray"
+                  [attr.transform]="text.Transform">
+                  
+                  @for(line of lines; track $index) {
+                    <tspan [attr.x]="getControlPointTextX(segments, text)"
+                          [attr.dy]="($index > 0) ? '1em' : '0'"
+                          [attr.text-anchor]="'start'">
+                          &nbsp;{{line}}&nbsp;</tspan>
+                  }
+                </text>
+              }
             }
             }
         }
