@@ -60,16 +60,7 @@ func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vec
 
 		accumulated += diff
 
-		// Map it into [0, 2pi) space
-		modTheta := accumulated
-		for modTheta >= 2*math.Pi {
-			modTheta -= 2 * math.Pi
-		}
-		for modTheta < 0 {
-			modTheta += 2 * math.Pi
-		}
-
-		angleToPoint[modTheta] = p
+		angleToPoint[accumulated] = p
 		lastTheta = theta
 	}
 
