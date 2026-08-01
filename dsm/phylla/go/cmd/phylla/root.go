@@ -38,5 +38,5 @@ func init() {
 
 func initConfig() {
 	log.SetPrefix("phylla: ")
-	log.SetFlags(0)
+	log.SetFlags(log.Ltime | log.Lmicroseconds | log.Lmsgprefix)
 }
