@@ -230,8 +230,10 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
-		if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 {
-			stackH := stackHeight
+	}
+
+	if !checkedDiagram.IsHiddenKey3DShape && plant.KeyHoleShape != nil && globalR > 0 {
+		stackH := stackHeight
 			if stackH <= 0 {
 				stackH = 1
 			}
@@ -295,7 +297,6 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				}
 			}
 		}
-	}
 
 	if !checkedDiagram.IsHiddenAngle0Shape {
 		tubeRadius := globalR * 0.01
