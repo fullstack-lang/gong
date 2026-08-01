@@ -337,6 +337,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *VerticalTorusStackShape:
 		ok = stage.IsStagedVerticalTorusStackShape(target)
 
+	case *VolumeKey3DShape:
+		ok = stage.IsStagedVolumeKey3DShape(target)
+
 	default:
 		_ = target
 	}
@@ -676,6 +679,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *VerticalTorusStackShape:
 		ok = stage.IsStagedVerticalTorusStackShape(target)
+
+	case *VolumeKey3DShape:
+		ok = stage.IsStagedVolumeKey3DShape(target)
 
 	default:
 		_ = target
@@ -1454,6 +1460,13 @@ func (stage *Stage) IsStagedVerticalTorusStackShape(verticaltorusstackshape *Ver
 	return
 }
 
+func (stage *Stage) IsStagedVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) (ok bool) {
+
+	_, ok = stage.VolumeKey3DShapes[volumekey3dshape]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -1791,6 +1804,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *VerticalTorusStackShape:
 		stage.StageBranchVerticalTorusStackShape(target)
+
+	case *VolumeKey3DShape:
+		stage.StageBranchVolumeKey3DShape(target)
 
 	default:
 		_ = target
@@ -3469,6 +3485,21 @@ func (stage *Stage) StageBranchVerticalTorusStackShape(verticaltorusstackshape *
 
 }
 
+func (stage *Stage) StageBranchVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, volumekey3dshape) {
+		return
+	}
+
+	volumekey3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -3918,6 +3949,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *VerticalTorusStackShape:
 		toT := CopyBranchVerticalTorusStackShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *VolumeKey3DShape:
+		toT := CopyBranchVolumeKey3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -6038,6 +6073,25 @@ func CopyBranchVerticalTorusStackShape(mapOrigCopy map[any]any, verticaltorussta
 	return
 }
 
+func CopyBranchVolumeKey3DShape(mapOrigCopy map[any]any, volumekey3dshapeFrom *VolumeKey3DShape) (volumekey3dshapeTo *VolumeKey3DShape) {
+
+	// volumekey3dshapeFrom has already been copied
+	if _volumekey3dshapeTo, ok := mapOrigCopy[volumekey3dshapeFrom]; ok {
+		volumekey3dshapeTo = _volumekey3dshapeTo.(*VolumeKey3DShape)
+		return
+	}
+
+	volumekey3dshapeTo = new(VolumeKey3DShape)
+	mapOrigCopy[volumekey3dshapeFrom] = volumekey3dshapeTo
+	volumekey3dshapeFrom.CopyBasicFields(volumekey3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -6375,6 +6429,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *VerticalTorusStackShape:
 		stage.UnstageBranchVerticalTorusStackShape(target)
+
+	case *VolumeKey3DShape:
+		stage.UnstageBranchVolumeKey3DShape(target)
 
 	default:
 		_ = target
@@ -8053,6 +8110,21 @@ func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape
 
 }
 
+func (stage *Stage) UnstageBranchVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, volumekey3dshape) {
+		return
+	}
+
+	volumekey3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *Angle0Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Angle0Shape) {
 	// insertion point for pointers field
@@ -8624,6 +8696,11 @@ func (reference *TorusStackShape) GongReconstructPointersFromReferences(stage *S
 }
 
 func (reference *VerticalTorusStackShape) GongReconstructPointersFromReferences(stage *Stage, instance *VerticalTorusStackShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *VolumeKey3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *VolumeKey3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -9220,6 +9297,11 @@ func (reference *TorusStackShape) GongReconstructPointersFromInstances(stage *St
 }
 
 func (reference *VerticalTorusStackShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *VolumeKey3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10311,8 +10393,8 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.WidthKey != plantOther.WidthKey {
 		diffs = append(diffs, plant.GongMarshallField(stage, "WidthKey"))
 	}
-	if plant.RelativeKeySizeReduction != plantOther.RelativeKeySizeReduction {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeKeySizeReduction"))
+	if plant.RelativeKeySize != plantOther.RelativeKeySize {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeKeySize"))
 	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
@@ -10560,6 +10642,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenKey3DShape != plantdiagramOther.IsHiddenKey3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
+	}
+	if plantdiagram.IsHiddenVolumeKey3DShape != plantdiagramOther.IsHiddenVolumeKey3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
 	}
 	if plantdiagram.IsHiddenTorusEdge3DShape != plantdiagramOther.IsHiddenTorusEdge3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
@@ -12342,6 +12427,17 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongDiff(stage *Stage, v
 	// insertion point for field diffs
 	if verticaltorusstackshape.Name != verticaltorusstackshapeOther.Name {
 		diffs = append(diffs, verticaltorusstackshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (volumekey3dshape *VolumeKey3DShape) GongDiff(stage *Stage, volumekey3dshapeOther *VolumeKey3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if volumekey3dshape.Name != volumekey3dshapeOther.Name {
+		diffs = append(diffs, volumekey3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return

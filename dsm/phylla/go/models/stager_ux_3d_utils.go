@@ -402,3 +402,46 @@ func (stager *Stager) cloneAndRotateCurve(source *threejs.Curve, thetaOffset flo
 
 	return clone
 }
+
+func (stager *Stager) createVolumeKey3DBoxMesh(name string, vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL *threejs.Vector3, color string) *threejs.Mesh {
+	geom := (&threejs.BufferGeometry{
+		Name: name + " Geometry",
+	}).Stage(stager.threejsStage)
+
+	geom.Vertices = append(geom.Vertices, vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL)
+
+	// Front face (0, 1, 2) and (0, 2, 3)
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face1", V1: 0, V2: 1, V3: 2}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face2", V1: 0, V2: 2, V3: 3}).Stage(stager.threejsStage))
+
+	// Back face (4, 7, 6) and (4, 6, 5)
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face3", V1: 4, V2: 7, V3: 6}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face4", V1: 4, V2: 6, V3: 5}).Stage(stager.threejsStage))
+
+	// Left face (0, 3, 7) and (0, 7, 4)
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face5", V1: 0, V2: 3, V3: 7}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face6", V1: 0, V2: 7, V3: 4}).Stage(stager.threejsStage))
+
+	// Right face (1, 5, 6) and (1, 6, 2)
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face7", V1: 1, V2: 5, V3: 6}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face8", V1: 1, V2: 6, V3: 2}).Stage(stager.threejsStage))
+
+	// Top face (3, 2, 6) and (3, 6, 7)
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face9", V1: 3, V2: 2, V3: 6}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face10", V1: 3, V2: 6, V3: 7}).Stage(stager.threejsStage))
+
+	// Bottom face (0, 4, 5) and (0, 5, 1)
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face11", V1: 0, V2: 4, V3: 5}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face12", V1: 0, V2: 5, V3: 1}).Stage(stager.threejsStage))
+
+	mesh := (&threejs.Mesh{
+		Name:           name + " Mesh",
+		BufferGeometry: geom,
+		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+			Name:                 name + " Material",
+			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+		}).Stage(stager.threejsStage),
+	}).Stage(stager.threejsStage)
+
+	return mesh
+}

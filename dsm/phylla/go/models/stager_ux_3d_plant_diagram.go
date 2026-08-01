@@ -61,7 +61,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		!checkedDiagram.IsHiddenPartiallyRotatedTorusShape &&
 		!checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape &&
 		!checkedDiagram.IsHiddenPointsAndLines3DShape &&
-		!checkedDiagram.IsHiddenKeyHole3DShape
+		!checkedDiagram.IsHiddenKeyHole3DShape &&
+		!checkedDiagram.IsHiddenVolumeKey3DShape
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 	if checkedDiagram == nil || isOne3DShapeVisible || plant.StackHeight == 0 {
@@ -232,7 +233,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		}
 	}
 
-	if !checkedDiagram.IsHiddenKey3DShape && plant.KeyHoleShape != nil && globalR > 0 {
+	if (!checkedDiagram.IsHiddenKey3DShape || !checkedDiagram.IsHiddenVolumeKey3DShape) && plant.KeyHoleShape != nil && globalR > 0 {
 		stackH := stackHeight
 			if stackH <= 0 {
 				stackH = 1
@@ -268,6 +269,13 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
 			y_top := plant.OffsetKeyY + plant.HeightKey/2.0
 
+			vk_width := plant.WidthKey * plant.RelativeKeySize
+			vk_height := plant.HeightKey * plant.RelativeKeySize
+			vk_x_left := plant.OffsetKeyX - vk_width/2.0
+			vk_x_right := plant.OffsetKeyX + vk_width/2.0
+			vk_y_bottom := plant.OffsetKeyY - vk_height/2.0
+			vk_y_top := plant.OffsetKeyY + vk_height/2.0
+
 			tubeRadius := globalR * 0.005
 
 			if tubeRadius < 0.2 {
@@ -283,17 +291,42 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				for k := 0; k < threeDModulo; k++ {
 					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
-					vBL := stager.get3DPtHK(x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vBR := stager.get3DPtHK(x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vTR := stager.get3DPtHK(x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vTL := stager.get3DPtHK(x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					if !checkedDiagram.IsHiddenKey3DShape {
+						vBL := stager.get3DPtHK(x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+						vBR := stager.get3DPtHK(x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+						vTR := stager.get3DPtHK(x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+						vTL := stager.get3DPtHK(x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 
-					canvas.Meshs = append(canvas.Meshs,
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
-					)
+						canvas.Meshs = append(canvas.Meshs,
+							stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
+							stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
+							stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
+							stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
+						)
+					}
+
+					if !checkedDiagram.IsHiddenVolumeKey3DShape {
+						// Front face at globalR - thickness
+						frontR := globalR - thickness
+						vF_BL := stager.get3DPtHK(vk_x_left, vk_y_bottom, "F-BL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+						vF_BR := stager.get3DPtHK(vk_x_right, vk_y_bottom, "F-BR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+						vF_TR := stager.get3DPtHK(vk_x_right, vk_y_top, "F-TR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+						vF_TL := stager.get3DPtHK(vk_x_left, vk_y_top, "F-TL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+
+						// Back face at globalR + 2*thickness
+						backR := globalR + 2.0*thickness
+						vB_BL := stager.get3DPtHK(vk_x_left, vk_y_bottom, "B-BL", dx_h, dy_h, backR, baseThetaOffset, h, k)
+						vB_BR := stager.get3DPtHK(vk_x_right, vk_y_bottom, "B-BR", dx_h, dy_h, backR, baseThetaOffset, h, k)
+						vB_TR := stager.get3DPtHK(vk_x_right, vk_y_top, "B-TR", dx_h, dy_h, backR, baseThetaOffset, h, k)
+						vB_TL := stager.get3DPtHK(vk_x_left, vk_y_top, "B-TL", dx_h, dy_h, backR, baseThetaOffset, h, k)
+
+						// Opaque volume key (darkgrey for a more discrete look)
+						color := "darkgrey"
+						canvas.Meshs = append(canvas.Meshs, stager.createVolumeKey3DBoxMesh(
+							fmt.Sprintf("VolKey-h%d-k%d", h, k),
+							vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL, color,
+						))
+					}
 				}
 			}
 		}

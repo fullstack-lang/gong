@@ -276,9 +276,9 @@ func (stager *Stager) ux_slider() {
 				stager,
 				"Key Size Reduction",
 				0.0,
-				0.8,
+				1.0,
 				0.01,
-				&plant.RelativeKeySizeReduction,
+				&plant.RelativeKeySize,
 			),
 		)
 

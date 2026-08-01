@@ -5584,8 +5584,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.HeightKey), formDiv)
 		case "WidthKey":
 			FormDivBasicFieldToField(&(plant_.WidthKey), formDiv)
-		case "RelativeKeySizeReduction":
-			FormDivBasicFieldToField(&(plant_.RelativeKeySizeReduction), formDiv)
+		case "RelativeKeySize":
+			FormDivBasicFieldToField(&(plant_.RelativeKeySize), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -6027,6 +6027,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHole3DShape), formDiv)
 		case "IsHiddenKey3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKey3DShape), formDiv)
+		case "IsHiddenVolumeKey3DShape":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenVolumeKey3DShape), formDiv)
 		case "IsHiddenTorusEdge3DShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusEdge3DShape), formDiv)
 		case "IsHiddenSampledPoints3DShape":
@@ -6071,6 +6073,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Key3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.Key3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VolumeKey3DShape":
+			FormDivSelectFieldToField(&(plantdiagram_.VolumeKey3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "TorusEdge3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.TorusEdge3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Plant:PlantDiagrams":
@@ -13948,4 +13952,82 @@ func (verticaltorusstackshapeFormCallback *VerticalTorusStackShapeFormCallback) 
 	}
 
 	verticaltorusstackshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__VolumeKey3DShapeFormCallback(
+	volumekey3dshape *models.VolumeKey3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (volumekey3dshapeFormCallback *VolumeKey3DShapeFormCallback) {
+	volumekey3dshapeFormCallback = new(VolumeKey3DShapeFormCallback)
+	volumekey3dshapeFormCallback.probe = probe
+	volumekey3dshapeFormCallback.volumekey3dshape = volumekey3dshape
+	volumekey3dshapeFormCallback.formGroup = formGroup
+
+	volumekey3dshapeFormCallback.CreationMode = (volumekey3dshape == nil)
+
+	return
+}
+
+type VolumeKey3DShapeFormCallback struct {
+	volumekey3dshape *models.VolumeKey3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (volumekey3dshapeFormCallback *VolumeKey3DShapeFormCallback) OnSave() {
+	volumekey3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer volumekey3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("VolumeKey3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	volumekey3dshapeFormCallback.probe.formStage.Checkout()
+
+	if volumekey3dshapeFormCallback.volumekey3dshape == nil {
+		volumekey3dshapeFormCallback.volumekey3dshape = new(models.VolumeKey3DShape).Stage(volumekey3dshapeFormCallback.probe.stageOfInterest)
+	}
+	volumekey3dshape_ := volumekey3dshapeFormCallback.volumekey3dshape
+	_ = volumekey3dshape_
+
+	for _, formDiv := range volumekey3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(volumekey3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if volumekey3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		volumekey3dshape_.Unstage(volumekey3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	volumekey3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.VolumeKey3DShape](
+		volumekey3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if volumekey3dshapeFormCallback.CreationMode || volumekey3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		volumekey3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(volumekey3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__VolumeKey3DShapeFormCallback(
+			nil,
+			volumekey3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		volumekey3dshape := new(models.VolumeKey3DShape)
+		FillUpForm(volumekey3dshape, newFormGroup, volumekey3dshapeFormCallback.probe)
+		volumekey3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	volumekey3dshapeFormCallback.probe.ux_tree()
 }

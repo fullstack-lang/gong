@@ -1885,6 +1885,21 @@ type Stage struct {
 	OnAfterVerticalTorusStackShapeDeleteCallback OnAfterDeleteInterface[VerticalTorusStackShape]
 	OnAfterVerticalTorusStackShapeReadCallback   OnAfterReadInterface[VerticalTorusStackShape]
 
+	VolumeKey3DShapes                map[*VolumeKey3DShape]struct{}
+	VolumeKey3DShapes_instance       map[*VolumeKey3DShape]*VolumeKey3DShape
+	VolumeKey3DShapes_mapString      map[string]*VolumeKey3DShape
+	VolumeKey3DShapeOrder            uint
+	VolumeKey3DShape_stagedOrder     map[*VolumeKey3DShape]uint
+	VolumeKey3DShape_orderStaged     map[uint]*VolumeKey3DShape
+	VolumeKey3DShapes_reference      map[*VolumeKey3DShape]*VolumeKey3DShape
+	VolumeKey3DShapes_referenceOrder map[*VolumeKey3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVolumeKey3DShapeCreateCallback OnAfterCreateInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeUpdateCallback OnAfterUpdateInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeDeleteCallback OnAfterDeleteInterface[VolumeKey3DShape]
+	OnAfterVolumeKey3DShapeReadCallback   OnAfterReadInterface[VolumeKey3DShape]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -2560,6 +2575,10 @@ func (stage *Stage) Squash() {
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShapes_instance = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShapes_referenceOrder = make(map[*VerticalTorusStackShape]uint)
+
+	stage.VolumeKey3DShapes_reference = make(map[*VolumeKey3DShape]*VolumeKey3DShape)
+	stage.VolumeKey3DShapes_instance = make(map[*VolumeKey3DShape]*VolumeKey3DShape)
+	stage.VolumeKey3DShapes_referenceOrder = make(map[*VolumeKey3DShape]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -4126,6 +4145,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.VerticalTorusStackShapeOrder = maxVerticalTorusStackShapeOrder + 1
 	} else {
 		stage.VerticalTorusStackShapeOrder = 0
+	}
+
+	var maxVolumeKey3DShapeOrder uint
+	var foundVolumeKey3DShape bool
+	for _, order := range stage.VolumeKey3DShape_stagedOrder {
+		if !foundVolumeKey3DShape || order > maxVolumeKey3DShapeOrder {
+			maxVolumeKey3DShapeOrder = order
+			foundVolumeKey3DShape = true
+		}
+	}
+	if foundVolumeKey3DShape {
+		stage.VolumeKey3DShapeOrder = maxVolumeKey3DShapeOrder + 1
+	} else {
+		stage.VolumeKey3DShapeOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -5729,6 +5762,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *VolumeKey3DShape:
+		tmp := GetStructInstancesByOrder(stage.VolumeKey3DShapes, stage.VolumeKey3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *VolumeKey3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -5978,6 +6025,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
 	case "VerticalTorusStackShape":
 		res = GetNamedStructInstances(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
+	case "VolumeKey3DShape":
+		res = GetNamedStructInstances(stage.VolumeKey3DShapes, stage.VolumeKey3DShape_stagedOrder)
 	}
 
 	return
@@ -6267,6 +6316,8 @@ type BackRepoInterface interface {
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
 	CommitVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CheckoutVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
+	CommitVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape)
+	CheckoutVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -6602,6 +6653,9 @@ func NewStage(name string) (stage *Stage) {
 
 		VerticalTorusStackShapes:           make(map[*VerticalTorusStackShape]struct{}),
 		VerticalTorusStackShapes_mapString: make(map[string]*VerticalTorusStackShape),
+
+		VolumeKey3DShapes:           make(map[*VolumeKey3DShape]struct{}),
+		VolumeKey3DShapes_mapString: make(map[string]*VolumeKey3DShape),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -7053,6 +7107,10 @@ func NewStage(name string) (stage *Stage) {
 		VerticalTorusStackShape_orderStaged: make(map[uint]*VerticalTorusStackShape),
 		VerticalTorusStackShapes_reference:  make(map[*VerticalTorusStackShape]*VerticalTorusStackShape),
 
+		VolumeKey3DShape_stagedOrder: make(map[*VolumeKey3DShape]uint),
+		VolumeKey3DShape_orderStaged: make(map[uint]*VolumeKey3DShape),
+		VolumeKey3DShapes_reference:  make(map[*VolumeKey3DShape]*VolumeKey3DShape),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Angle0Shape": &Angle0ShapeUnmarshaller{},
@@ -7275,6 +7333,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"VerticalTorusStackShape": &VerticalTorusStackShapeUnmarshaller{},
 
+			"VolumeKey3DShape": &VolumeKey3DShapeUnmarshaller{},
+
 			// end of insertion point
 		},
 
@@ -7389,6 +7449,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TorusEdge3DShape"},
 			{name: "TorusStackShape"},
 			{name: "VerticalTorusStackShape"},
+			{name: "VolumeKey3DShape"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -7620,6 +7681,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TorusStackShape_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
+	case *VolumeKey3DShape:
+		return stage.VolumeKey3DShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -7849,6 +7912,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShape_orderStaged[order]).(Type)
+	case *VolumeKey3DShape:
+		return any(stage.VolumeKey3DShape_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -8077,6 +8142,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TorusStackShape_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
+	case *VolumeKey3DShape:
+		return stage.VolumeKey3DShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -8252,6 +8319,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
+	stage.Map_GongStructName_InstancesNb["VolumeKey3DShape"] = len(stage.VolumeKey3DShapes)
 }
 
 func (stage *Stage) Checkout() {
@@ -17972,6 +18040,94 @@ func (verticaltorusstackshape *VerticalTorusStackShape) SetName(name string) {
 	verticaltorusstackshape.Name = name
 }
 
+// Stage puts volumekey3dshape to the model stage
+func (volumekey3dshape *VolumeKey3DShape) Stage(stage *Stage) *VolumeKey3DShape {
+	if _, ok := stage.VolumeKey3DShapes[volumekey3dshape]; !ok {
+		stage.VolumeKey3DShapes[volumekey3dshape] = struct{}{}
+		stage.VolumeKey3DShape_stagedOrder[volumekey3dshape] = stage.VolumeKey3DShapeOrder
+		stage.VolumeKey3DShape_orderStaged[stage.VolumeKey3DShapeOrder] = volumekey3dshape
+		stage.VolumeKey3DShapeOrder++
+	}
+	stage.VolumeKey3DShapes_mapString[volumekey3dshape.Name] = volumekey3dshape
+
+	return volumekey3dshape
+}
+
+// StagePreserveOrder puts volumekey3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.VolumeKey3DShapeOrder
+// - update stage.VolumeKey3DShapeOrder accordingly
+func (volumekey3dshape *VolumeKey3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.VolumeKey3DShapes[volumekey3dshape]; !ok {
+		stage.VolumeKey3DShapes[volumekey3dshape] = struct{}{}
+
+		if order > stage.VolumeKey3DShapeOrder {
+			stage.VolumeKey3DShapeOrder = order
+		}
+		stage.VolumeKey3DShape_stagedOrder[volumekey3dshape] = order
+		stage.VolumeKey3DShape_orderStaged[order] = volumekey3dshape
+		stage.VolumeKey3DShapeOrder++
+	}
+	stage.VolumeKey3DShapes_mapString[volumekey3dshape.Name] = volumekey3dshape
+}
+
+// Unstage removes volumekey3dshape off the model stage
+func (volumekey3dshape *VolumeKey3DShape) Unstage(stage *Stage) *VolumeKey3DShape {
+	delete(stage.VolumeKey3DShapes, volumekey3dshape)
+	// issue1150
+	// delete(stage.VolumeKey3DShape_stagedOrder, volumekey3dshape)
+	delete(stage.VolumeKey3DShapes_mapString, volumekey3dshape.Name)
+
+	return volumekey3dshape
+}
+
+// UnstageVoid removes volumekey3dshape off the model stage
+func (volumekey3dshape *VolumeKey3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.VolumeKey3DShapes, volumekey3dshape)
+	// issue1150
+	// delete(stage.VolumeKey3DShape_stagedOrder, volumekey3dshape)
+	delete(stage.VolumeKey3DShapes_mapString, volumekey3dshape.Name)
+}
+
+// commit volumekey3dshape to the back repo (if it is already staged)
+func (volumekey3dshape *VolumeKey3DShape) Commit(stage *Stage) *VolumeKey3DShape {
+	if _, ok := stage.VolumeKey3DShapes[volumekey3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitVolumeKey3DShape(volumekey3dshape)
+		}
+	}
+	return volumekey3dshape
+}
+
+func (volumekey3dshape *VolumeKey3DShape) CommitVoid(stage *Stage) {
+	volumekey3dshape.Commit(stage)
+}
+
+func (volumekey3dshape *VolumeKey3DShape) StageVoid(stage *Stage) {
+	volumekey3dshape.Stage(stage)
+}
+
+// Checkout volumekey3dshape to the back repo (if it is already staged)
+func (volumekey3dshape *VolumeKey3DShape) Checkout(stage *Stage) *VolumeKey3DShape {
+	if _, ok := stage.VolumeKey3DShapes[volumekey3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutVolumeKey3DShape(volumekey3dshape)
+		}
+	}
+	return volumekey3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (volumekey3dshape *VolumeKey3DShape) GetName() (res string) {
+	return volumekey3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (volumekey3dshape *VolumeKey3DShape) SetName(name string) {
+	volumekey3dshape.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAngle0Shape(Angle0Shape *Angle0Shape)
@@ -18084,6 +18240,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
 	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
+	CreateORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -18197,6 +18354,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
 	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
+	DeleteORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -18750,6 +18908,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.VerticalTorusStackShape_stagedOrder = make(map[*VerticalTorusStackShape]uint)
 	stage.VerticalTorusStackShapeOrder = 0
 
+	stage.VolumeKey3DShapes = make(map[*VolumeKey3DShape]struct{})
+	stage.VolumeKey3DShapes_mapString = make(map[string]*VolumeKey3DShape)
+	stage.VolumeKey3DShape_stagedOrder = make(map[*VolumeKey3DShape]uint)
+	stage.VolumeKey3DShapeOrder = 0
+
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -19088,6 +19251,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.VerticalTorusStackShapes = nil
 	stage.VerticalTorusStackShapes_mapString = nil
+
+	stage.VolumeKey3DShapes = nil
+	stage.VolumeKey3DShapes_mapString = nil
 
 	// end of insertion point for array nil
 }
@@ -19533,6 +19699,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		verticaltorusstackshape.Unstage(stage)
 	}
 
+	for volumekey3dshape := range stage.VolumeKey3DShapes {
+		volumekey3dshape.Unstage(stage)
+	}
+
 	// end of insertion point for array nil
 }
 
@@ -19829,6 +19999,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TorusStackShapes).(*Type)
 	case map[*VerticalTorusStackShape]any:
 		return any(&stage.VerticalTorusStackShapes).(*Type)
+	case map[*VolumeKey3DShape]any:
+		return any(&stage.VolumeKey3DShapes).(*Type)
 	default:
 		return nil
 	}
@@ -20061,6 +20233,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShapes_mapString).(map[string]Type)
+	case *VolumeKey3DShape:
+		return any(stage.VolumeKey3DShapes_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -20293,6 +20467,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[*Type]struct{})
+	case VolumeKey3DShape:
+		return any(&stage.VolumeKey3DShapes).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -20525,6 +20701,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[Type]struct{})
+	case *VolumeKey3DShape:
+		return any(&stage.VolumeKey3DShapes).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -20757,6 +20935,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes_mapString).(*map[string]*Type)
+	case VolumeKey3DShape:
+		return any(&stage.VolumeKey3DShapes_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -21116,6 +21296,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
 			// field is initialized with an instance of Key3DShape with the name of the field
 			Key3DShape: &Key3DShape{Name: "Key3DShape"},
+			// field is initialized with an instance of VolumeKey3DShape with the name of the field
+			VolumeKey3DShape: &VolumeKey3DShape{Name: "VolumeKey3DShape"},
 			// field is initialized with an instance of TorusEdge3DShape with the name of the field
 			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
 		}).(*Type)
@@ -21445,6 +21627,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case VerticalTorusStackShape:
 		return any(&VerticalTorusStackShape{
+			// Initialisation of associations
+		}).(*Type)
+	case VolumeKey3DShape:
+		return any(&VolumeKey3DShape{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -22609,6 +22795,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "VolumeKey3DShape":
+			res := make(map[*VolumeKey3DShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.VolumeKey3DShape != nil {
+					volumekey3dshape_ := plantdiagram.VolumeKey3DShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[volumekey3dshape_]
+					if ok {
+						plantdiagrams = res[volumekey3dshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[volumekey3dshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "TorusEdge3DShape":
 			res := make(map[*TorusEdge3DShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -23133,6 +23336,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of VerticalTorusStackShape
 	case VerticalTorusStackShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of VolumeKey3DShape
+	case VolumeKey3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -24117,6 +24325,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of VolumeKey3DShape
+	case VolumeKey3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -24348,6 +24561,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TorusStackShape"
 	case *VerticalTorusStackShape:
 		res = "VerticalTorusStackShape"
+	case *VolumeKey3DShape:
+		res = "VolumeKey3DShape"
 	}
 	return res
 }
@@ -24849,6 +25064,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *VerticalTorusStackShape:
+		var rf ReverseField
+		_ = rf
+	case *VolumeKey3DShape:
 		var rf ReverseField
 		_ = rf
 	}
@@ -26193,7 +26411,7 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "RelativeKeySizeReduction",
+			Name:               "RelativeKeySize",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -26676,6 +26894,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenVolumeKey3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsHiddenTorusEdge3DShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -26777,6 +26999,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "Key3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Key3DShape",
+		},
+		{
+			Name:                 "VolumeKey3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "VolumeKey3DShape",
 		},
 		{
 			Name:                 "TorusEdge3DShape",
@@ -29084,6 +29311,17 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetFieldHeaders() (r
 	return
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 	var ret Type
@@ -30484,9 +30722,9 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.WidthKey)
 		res.valueFloat = plant.WidthKey
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeKeySizeReduction":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeKeySizeReduction)
-		res.valueFloat = plant.RelativeKeySizeReduction
+	case "RelativeKeySize":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeKeySize)
+		res.valueFloat = plant.RelativeKeySize
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
@@ -31002,6 +31240,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKey3DShape)
 		res.valueBool = plantdiagram.IsHiddenKey3DShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenVolumeKey3DShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenVolumeKey3DShape)
+		res.valueBool = plantdiagram.IsHiddenVolumeKey3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusEdge3DShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusEdge3DShape)
 		res.valueBool = plantdiagram.IsHiddenTorusEdge3DShape
@@ -31117,6 +31359,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.Key3DShape != nil {
 			res.valueString = plantdiagram.Key3DShape.Name
 			res.ids = plantdiagram.Key3DShape.GongGetUUID(stage)
+		}
+	case "VolumeKey3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.VolumeKey3DShape != nil {
+			res.valueString = plantdiagram.VolumeKey3DShape.Name
+			res.ids = plantdiagram.VolumeKey3DShape.GongGetUUID(stage)
 		}
 	case "TorusEdge3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -33465,6 +33713,15 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongGetFieldValue(fieldN
 	return
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = volumekey3dshape.Name
+	}
+	return
+}
+
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
@@ -34652,8 +34909,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.HeightKey = value.GetValueFloat()
 	case "WidthKey":
 		plant.WidthKey = value.GetValueFloat()
-	case "RelativeKeySizeReduction":
-		plant.RelativeKeySizeReduction = value.GetValueFloat()
+	case "RelativeKeySize":
+		plant.RelativeKeySize = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -35222,6 +35479,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
 	case "IsHiddenKey3DShape":
 		plantdiagram.IsHiddenKey3DShape = value.GetValueBool()
+	case "IsHiddenVolumeKey3DShape":
+		plantdiagram.IsHiddenVolumeKey3DShape = value.GetValueBool()
 	case "IsHiddenTorusEdge3DShape":
 		plantdiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
 	case "IsHiddenSampledPoints3DShape":
@@ -35397,6 +35656,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.Key3DShapes {
 				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.Key3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "VolumeKey3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.VolumeKey3DShape = nil
+			for __instance__ := range stage.VolumeKey3DShapes {
+				if stage.VolumeKey3DShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.VolumeKey3DShape = __instance__
 					break
 				}
 			}
@@ -37349,6 +37619,17 @@ func (verticaltorusstackshape *VerticalTorusStackShape) GongSetFieldValue(fieldN
 	return nil
 }
 
+func (volumekey3dshape *VolumeKey3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		volumekey3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -37792,6 +38073,10 @@ func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetGongstructName() string {
 	return "VerticalTorusStackShape"
+}
+
+func (volumekey3dshape *VolumeKey3DShape) GongGetGongstructName() string {
+	return "VolumeKey3DShape"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -38349,6 +38634,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)
 	for verticaltorusstackshape := range stage.VerticalTorusStackShapes {
 		stage.VerticalTorusStackShapes_mapString[verticaltorusstackshape.Name] = verticaltorusstackshape
+	}
+
+	stage.VolumeKey3DShapes_mapString = make(map[string]*VolumeKey3DShape)
+	for volumekey3dshape := range stage.VolumeKey3DShapes {
+		stage.VolumeKey3DShapes_mapString[volumekey3dshape.Name] = volumekey3dshape
 	}
 
 	// end of insertion point for generic get gongstruct name

@@ -455,6 +455,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.Angle0Shape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.KeyHole3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.Key3DShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.VolumeKey3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.TorusEdge3DShape) || modified
 	return
 }
@@ -923,6 +924,13 @@ func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) 
 
 // Clean garbage collect unstaged instances that are referenced by VerticalTorusStackShape
 func (verticaltorusstackshape *VerticalTorusStackShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by VolumeKey3DShape
+func (volumekey3dshape *VolumeKey3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

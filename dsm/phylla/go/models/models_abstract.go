@@ -67,11 +67,13 @@ type Plant struct {
 	// ChosenStep is
 	ChosenStep int
 
-	OffsetKeyX               float64
-	OffsetKeyY               float64
-	HeightKey                float64
-	WidthKey                 float64
-	RelativeKeySizeReduction float64
+	OffsetKeyX float64
+	OffsetKeyY float64
+	HeightKey  float64
+	WidthKey   float64
+
+	// 1.0 is full hey hole occupency
+	RelativeKeySize float64
 
 	LibraryAbstractFields
 	AbstractTypeFields
