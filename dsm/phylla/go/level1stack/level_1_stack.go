@@ -174,6 +174,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.RhombusStuff](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RotatedRhombusGridShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RotatedRhombusShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SampledPoints3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ShiftedBottomTopStartArcShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ShiftedBottomTopStartArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ShiftedLeftGrowthCurve2DRibbon](stage)

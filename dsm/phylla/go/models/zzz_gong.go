@@ -987,6 +987,21 @@ type Stage struct {
 	OnAfterRotatedRhombusShapeDeleteCallback OnAfterDeleteInterface[RotatedRhombusShape]
 	OnAfterRotatedRhombusShapeReadCallback   OnAfterReadInterface[RotatedRhombusShape]
 
+	SampledPoints3DShapes                map[*SampledPoints3DShape]struct{}
+	SampledPoints3DShapes_instance       map[*SampledPoints3DShape]*SampledPoints3DShape
+	SampledPoints3DShapes_mapString      map[string]*SampledPoints3DShape
+	SampledPoints3DShapeOrder            uint
+	SampledPoints3DShape_stagedOrder     map[*SampledPoints3DShape]uint
+	SampledPoints3DShape_orderStaged     map[uint]*SampledPoints3DShape
+	SampledPoints3DShapes_reference      map[*SampledPoints3DShape]*SampledPoints3DShape
+	SampledPoints3DShapes_referenceOrder map[*SampledPoints3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSampledPoints3DShapeCreateCallback OnAfterCreateInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[SampledPoints3DShape]
+	OnAfterSampledPoints3DShapeReadCallback   OnAfterReadInterface[SampledPoints3DShape]
+
 	ShiftedBottomTopStartArcShapes                map[*ShiftedBottomTopStartArcShape]struct{}
 	ShiftedBottomTopStartArcShapes_instance       map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape
 	ShiftedBottomTopStartArcShapes_mapString      map[string]*ShiftedBottomTopStartArcShape
@@ -2292,6 +2307,10 @@ func (stage *Stage) Squash() {
 	stage.RotatedRhombusShapes_instance = make(map[*RotatedRhombusShape]*RotatedRhombusShape)
 	stage.RotatedRhombusShapes_referenceOrder = make(map[*RotatedRhombusShape]uint)
 
+	stage.SampledPoints3DShapes_reference = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
+	stage.SampledPoints3DShapes_instance = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
+	stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
+
 	stage.ShiftedBottomTopStartArcShapes_reference = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
 	stage.ShiftedBottomTopStartArcShapes_instance = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
 	stage.ShiftedBottomTopStartArcShapes_referenceOrder = make(map[*ShiftedBottomTopStartArcShape]uint)
@@ -3285,6 +3304,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.RotatedRhombusShapeOrder = maxRotatedRhombusShapeOrder + 1
 	} else {
 		stage.RotatedRhombusShapeOrder = 0
+	}
+
+	var maxSampledPoints3DShapeOrder uint
+	var foundSampledPoints3DShape bool
+	for _, order := range stage.SampledPoints3DShape_stagedOrder {
+		if !foundSampledPoints3DShape || order > maxSampledPoints3DShapeOrder {
+			maxSampledPoints3DShapeOrder = order
+			foundSampledPoints3DShape = true
+		}
+	}
+	if foundSampledPoints3DShape {
+		stage.SampledPoints3DShapeOrder = maxSampledPoints3DShapeOrder + 1
+	} else {
+		stage.SampledPoints3DShapeOrder = 0
 	}
 
 	var maxShiftedBottomTopStartArcShapeOrder uint
@@ -4846,6 +4879,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *SampledPoints3DShape:
+		tmp := GetStructInstancesByOrder(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *ShiftedBottomTopStartArcShape:
 		tmp := GetStructInstancesByOrder(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
 
@@ -5725,6 +5772,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder)
 	case "RotatedRhombusShape":
 		res = GetNamedStructInstances(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
+	case "SampledPoints3DShape":
+		res = GetNamedStructInstances(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
 	case "ShiftedBottomTopStartArcShape":
 		res = GetNamedStructInstances(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
 	case "ShiftedBottomTopStartArcShapeGrid":
@@ -6008,6 +6057,8 @@ type BackRepoInterface interface {
 	CheckoutRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape)
 	CommitRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
 	CheckoutRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
+	CommitSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
+	CheckoutSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
 	CommitShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
 	CheckoutShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
 	CommitShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid)
@@ -6281,6 +6332,9 @@ func NewStage(name string) (stage *Stage) {
 
 		RotatedRhombusShapes:           make(map[*RotatedRhombusShape]struct{}),
 		RotatedRhombusShapes_mapString: make(map[string]*RotatedRhombusShape),
+
+		SampledPoints3DShapes:           make(map[*SampledPoints3DShape]struct{}),
+		SampledPoints3DShapes_mapString: make(map[string]*SampledPoints3DShape),
 
 		ShiftedBottomTopStartArcShapes:           make(map[*ShiftedBottomTopStartArcShape]struct{}),
 		ShiftedBottomTopStartArcShapes_mapString: make(map[string]*ShiftedBottomTopStartArcShape),
@@ -6667,6 +6721,10 @@ func NewStage(name string) (stage *Stage) {
 		RotatedRhombusShape_orderStaged: make(map[uint]*RotatedRhombusShape),
 		RotatedRhombusShapes_reference:  make(map[*RotatedRhombusShape]*RotatedRhombusShape),
 
+		SampledPoints3DShape_stagedOrder: make(map[*SampledPoints3DShape]uint),
+		SampledPoints3DShape_orderStaged: make(map[uint]*SampledPoints3DShape),
+		SampledPoints3DShapes_reference:  make(map[*SampledPoints3DShape]*SampledPoints3DShape),
+
 		ShiftedBottomTopStartArcShape_stagedOrder: make(map[*ShiftedBottomTopStartArcShape]uint),
 		ShiftedBottomTopStartArcShape_orderStaged: make(map[uint]*ShiftedBottomTopStartArcShape),
 		ShiftedBottomTopStartArcShapes_reference:  make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape),
@@ -6989,6 +7047,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"RotatedRhombusShape": &RotatedRhombusShapeUnmarshaller{},
 
+			"SampledPoints3DShape": &SampledPoints3DShapeUnmarshaller{},
+
 			"ShiftedBottomTopStartArcShape": &ShiftedBottomTopStartArcShapeUnmarshaller{},
 
 			"ShiftedBottomTopStartArcShapeGrid": &ShiftedBottomTopStartArcShapeGridUnmarshaller{},
@@ -7153,6 +7213,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "RhombusStuff"},
 			{name: "RotatedRhombusGridShape"},
 			{name: "RotatedRhombusShape"},
+			{name: "SampledPoints3DShape"},
 			{name: "ShiftedBottomTopStartArcShape"},
 			{name: "ShiftedBottomTopStartArcShapeGrid"},
 			{name: "ShiftedLeftGrowthCurve2DRibbon"},
@@ -7325,6 +7386,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.RotatedRhombusGridShape_stagedOrder[instance]
 	case *RotatedRhombusShape:
 		return stage.RotatedRhombusShape_stagedOrder[instance]
+	case *SampledPoints3DShape:
+		return stage.SampledPoints3DShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShape:
 		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -7548,6 +7611,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.RotatedRhombusGridShape_orderStaged[order]).(Type)
 	case *RotatedRhombusShape:
 		return any(stage.RotatedRhombusShape_orderStaged[order]).(Type)
+	case *SampledPoints3DShape:
+		return any(stage.SampledPoints3DShape_orderStaged[order]).(Type)
 	case *ShiftedBottomTopStartArcShape:
 		return any(stage.ShiftedBottomTopStartArcShape_orderStaged[order]).(Type)
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -7770,6 +7835,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.RotatedRhombusGridShape_stagedOrder[instance]
 	case *RotatedRhombusShape:
 		return stage.RotatedRhombusShape_stagedOrder[instance]
+	case *SampledPoints3DShape:
+		return stage.SampledPoints3DShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShape:
 		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -7995,6 +8062,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["RhombusStuff"] = len(stage.RhombusStuffs)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusGridShape"] = len(stage.RotatedRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
+	stage.Map_GongStructName_InstancesNb["SampledPoints3DShape"] = len(stage.SampledPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShape"] = len(stage.ShiftedBottomTopStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShapeGrid"] = len(stage.ShiftedBottomTopStartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftGrowthCurve2DRibbon"] = len(stage.ShiftedLeftGrowthCurve2DRibbons)
@@ -12840,6 +12908,94 @@ func (rotatedrhombusshape *RotatedRhombusShape) SetName(name string) {
 	rotatedrhombusshape.Name = name
 }
 
+// Stage puts sampledpoints3dshape to the model stage
+func (sampledpoints3dshape *SampledPoints3DShape) Stage(stage *Stage) *SampledPoints3DShape {
+	if _, ok := stage.SampledPoints3DShapes[sampledpoints3dshape]; !ok {
+		stage.SampledPoints3DShapes[sampledpoints3dshape] = struct{}{}
+		stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape] = stage.SampledPoints3DShapeOrder
+		stage.SampledPoints3DShape_orderStaged[stage.SampledPoints3DShapeOrder] = sampledpoints3dshape
+		stage.SampledPoints3DShapeOrder++
+	}
+	stage.SampledPoints3DShapes_mapString[sampledpoints3dshape.Name] = sampledpoints3dshape
+
+	return sampledpoints3dshape
+}
+
+// StagePreserveOrder puts sampledpoints3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SampledPoints3DShapeOrder
+// - update stage.SampledPoints3DShapeOrder accordingly
+func (sampledpoints3dshape *SampledPoints3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SampledPoints3DShapes[sampledpoints3dshape]; !ok {
+		stage.SampledPoints3DShapes[sampledpoints3dshape] = struct{}{}
+
+		if order > stage.SampledPoints3DShapeOrder {
+			stage.SampledPoints3DShapeOrder = order
+		}
+		stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshape] = order
+		stage.SampledPoints3DShape_orderStaged[order] = sampledpoints3dshape
+		stage.SampledPoints3DShapeOrder++
+	}
+	stage.SampledPoints3DShapes_mapString[sampledpoints3dshape.Name] = sampledpoints3dshape
+}
+
+// Unstage removes sampledpoints3dshape off the model stage
+func (sampledpoints3dshape *SampledPoints3DShape) Unstage(stage *Stage) *SampledPoints3DShape {
+	delete(stage.SampledPoints3DShapes, sampledpoints3dshape)
+	// issue1150
+	// delete(stage.SampledPoints3DShape_stagedOrder, sampledpoints3dshape)
+	delete(stage.SampledPoints3DShapes_mapString, sampledpoints3dshape.Name)
+
+	return sampledpoints3dshape
+}
+
+// UnstageVoid removes sampledpoints3dshape off the model stage
+func (sampledpoints3dshape *SampledPoints3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.SampledPoints3DShapes, sampledpoints3dshape)
+	// issue1150
+	// delete(stage.SampledPoints3DShape_stagedOrder, sampledpoints3dshape)
+	delete(stage.SampledPoints3DShapes_mapString, sampledpoints3dshape.Name)
+}
+
+// commit sampledpoints3dshape to the back repo (if it is already staged)
+func (sampledpoints3dshape *SampledPoints3DShape) Commit(stage *Stage) *SampledPoints3DShape {
+	if _, ok := stage.SampledPoints3DShapes[sampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSampledPoints3DShape(sampledpoints3dshape)
+		}
+	}
+	return sampledpoints3dshape
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) CommitVoid(stage *Stage) {
+	sampledpoints3dshape.Commit(stage)
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) StageVoid(stage *Stage) {
+	sampledpoints3dshape.Stage(stage)
+}
+
+// Checkout sampledpoints3dshape to the back repo (if it is already staged)
+func (sampledpoints3dshape *SampledPoints3DShape) Checkout(stage *Stage) *SampledPoints3DShape {
+	if _, ok := stage.SampledPoints3DShapes[sampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSampledPoints3DShape(sampledpoints3dshape)
+		}
+	}
+	return sampledpoints3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (sampledpoints3dshape *SampledPoints3DShape) GetName() (res string) {
+	return sampledpoints3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (sampledpoints3dshape *SampledPoints3DShape) SetName(name string) {
+	sampledpoints3dshape.Name = name
+}
+
 // Stage puts shiftedbottomtopstartarcshape to the model stage
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) Stage(stage *Stage) *ShiftedBottomTopStartArcShape {
 	if _, ok := stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]; !ok {
@@ -17560,6 +17716,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRhombusStuff(RhombusStuff *RhombusStuff)
 	CreateORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
+	CreateORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
 	CreateORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
 	CreateORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
 	CreateORMShiftedLeftGrowthCurve2DRibbon(ShiftedLeftGrowthCurve2DRibbon *ShiftedLeftGrowthCurve2DRibbon)
@@ -17670,6 +17827,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRhombusStuff(RhombusStuff *RhombusStuff)
 	DeleteORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
+	DeleteORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
 	DeleteORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
 	DeleteORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
 	DeleteORMShiftedLeftGrowthCurve2DRibbon(ShiftedLeftGrowthCurve2DRibbon *ShiftedLeftGrowthCurve2DRibbon)
@@ -17995,6 +18153,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.RotatedRhombusShapes_mapString = make(map[string]*RotatedRhombusShape)
 	stage.RotatedRhombusShape_stagedOrder = make(map[*RotatedRhombusShape]uint)
 	stage.RotatedRhombusShapeOrder = 0
+
+	stage.SampledPoints3DShapes = make(map[*SampledPoints3DShape]struct{})
+	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
+	stage.SampledPoints3DShape_stagedOrder = make(map[*SampledPoints3DShape]uint)
+	stage.SampledPoints3DShapeOrder = 0
 
 	stage.ShiftedBottomTopStartArcShapes = make(map[*ShiftedBottomTopStartArcShape]struct{})
 	stage.ShiftedBottomTopStartArcShapes_mapString = make(map[string]*ShiftedBottomTopStartArcShape)
@@ -18432,6 +18595,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.RotatedRhombusShapes = nil
 	stage.RotatedRhombusShapes_mapString = nil
 
+	stage.SampledPoints3DShapes = nil
+	stage.SampledPoints3DShapes_mapString = nil
+
 	stage.ShiftedBottomTopStartArcShapes = nil
 	stage.ShiftedBottomTopStartArcShapes_mapString = nil
 
@@ -18809,6 +18975,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for rotatedrhombusshape := range stage.RotatedRhombusShapes {
 		rotatedrhombusshape.Unstage(stage)
+	}
+
+	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
+		sampledpoints3dshape.Unstage(stage)
 	}
 
 	for shiftedbottomtopstartarcshape := range stage.ShiftedBottomTopStartArcShapes {
@@ -19207,6 +19377,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.RotatedRhombusGridShapes).(*Type)
 	case map[*RotatedRhombusShape]any:
 		return any(&stage.RotatedRhombusShapes).(*Type)
+	case map[*SampledPoints3DShape]any:
+		return any(&stage.SampledPoints3DShapes).(*Type)
 	case map[*ShiftedBottomTopStartArcShape]any:
 		return any(&stage.ShiftedBottomTopStartArcShapes).(*Type)
 	case map[*ShiftedBottomTopStartArcShapeGrid]any:
@@ -19433,6 +19605,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.RotatedRhombusGridShapes_mapString).(map[string]Type)
 	case *RotatedRhombusShape:
 		return any(stage.RotatedRhombusShapes_mapString).(map[string]Type)
+	case *SampledPoints3DShape:
+		return any(stage.SampledPoints3DShapes_mapString).(map[string]Type)
 	case *ShiftedBottomTopStartArcShape:
 		return any(stage.ShiftedBottomTopStartArcShapes_mapString).(map[string]Type)
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -19659,6 +19833,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.RotatedRhombusGridShapes).(*map[*Type]struct{})
 	case RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes).(*map[*Type]struct{})
+	case SampledPoints3DShape:
+		return any(&stage.SampledPoints3DShapes).(*map[*Type]struct{})
 	case ShiftedBottomTopStartArcShape:
 		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[*Type]struct{})
 	case ShiftedBottomTopStartArcShapeGrid:
@@ -19885,6 +20061,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.RotatedRhombusGridShapes).(*map[Type]struct{})
 	case *RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes).(*map[Type]struct{})
+	case *SampledPoints3DShape:
+		return any(&stage.SampledPoints3DShapes).(*map[Type]struct{})
 	case *ShiftedBottomTopStartArcShape:
 		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[Type]struct{})
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -20111,6 +20289,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.RotatedRhombusGridShapes_mapString).(*map[string]*Type)
 	case RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes_mapString).(*map[string]*Type)
+	case SampledPoints3DShape:
+		return any(&stage.SampledPoints3DShapes_mapString).(*map[string]*Type)
 	case ShiftedBottomTopStartArcShape:
 		return any(&stage.ShiftedBottomTopStartArcShapes_mapString).(*map[string]*Type)
 	case ShiftedBottomTopStartArcShapeGrid:
@@ -20558,6 +20738,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StackOfPartiallyRotatedTorusShape: &StackOfPartiallyRotatedTorusShape{Name: "StackOfPartiallyRotatedTorusShape"},
 			// field is initialized with an instance of PointsAndLines3DShape with the name of the field
 			PointsAndLines3DShape: &PointsAndLines3DShape{Name: "PointsAndLines3DShape"},
+			// field is initialized with an instance of SampledPoints3DShape with the name of the field
+			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
 			// field is initialized with an instance of KeyHole3DShape with the name of the field
 			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
 			// field is initialized with an instance of Key3DShape with the name of the field
@@ -20613,6 +20795,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case RotatedRhombusShape:
 		return any(&RotatedRhombusShape{
+			// Initialisation of associations
+		}).(*Type)
+	case SampledPoints3DShape:
+		return any(&SampledPoints3DShape{
 			// Initialisation of associations
 		}).(*Type)
 	case ShiftedBottomTopStartArcShape:
@@ -21956,6 +22142,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "SampledPoints3DShape":
+			res := make(map[*SampledPoints3DShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := plantdiagram.SampledPoints3DShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[sampledpoints3dshape_]
+					if ok {
+						plantdiagrams = res[sampledpoints3dshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[sampledpoints3dshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "KeyHole3DShape":
 			res := make(map[*KeyHole3DShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -22210,6 +22413,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of RotatedRhombusShape
 	case RotatedRhombusShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SampledPoints3DShape
+	case SampledPoints3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -22981,6 +23189,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of SampledPoints3DShape
+	case SampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of ShiftedBottomTopStartArcShape
 	case ShiftedBottomTopStartArcShape:
 		switch fieldname {
@@ -23597,6 +23810,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "RotatedRhombusGridShape"
 	case *RotatedRhombusShape:
 		res = "RotatedRhombusShape"
+	case *SampledPoints3DShape:
+		res = "SampledPoints3DShape"
 	case *ShiftedBottomTopStartArcShape:
 		res = "ShiftedBottomTopStartArcShape"
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -23951,6 +24166,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "RotatedRhombusGridShape"
 		rf.Fieldname = "RotatedRhombusShapes"
 		res = append(res, rf)
+	case *SampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
 	case *ShiftedBottomTopStartArcShape:
 		var rf ReverseField
 		_ = rf
@@ -26004,6 +26222,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -26064,6 +26286,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "PointsAndLines3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "PointsAndLines3DShape",
+		},
+		{
+			Name:                 "SampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SampledPoints3DShape",
 		},
 		{
 			Name:                 "KeyHole3DShape",
@@ -26263,6 +26490,17 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldHeaders() (res []Gon
 		{
 			Name:               "Y",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -30274,6 +30512,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusEdge3DShape)
 		res.valueBool = plantdiagram.IsHiddenTorusEdge3DShape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = plantdiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -30343,6 +30585,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.PointsAndLines3DShape != nil {
 			res.valueString = plantdiagram.PointsAndLines3DShape.Name
 			res.ids = plantdiagram.PointsAndLines3DShape.GongGetUUID(stage)
+		}
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.SampledPoints3DShape != nil {
+			res.valueString = plantdiagram.SampledPoints3DShape.Name
+			res.ids = plantdiagram.SampledPoints3DShape.GongGetUUID(stage)
 		}
 	case "KeyHole3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -30547,6 +30795,15 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldValue(fieldName stri
 		res.valueString = fmt.Sprintf("%f", rotatedrhombusshape.Y)
 		res.valueFloat = rotatedrhombusshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = sampledpoints3dshape.Name
 	}
 	return
 }
@@ -34431,6 +34688,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenKey3DShape = value.GetValueBool()
 	case "IsHiddenTorusEdge3DShape":
 		plantdiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
+	case "IsHiddenSampledPoints3DShape":
+		plantdiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -34543,6 +34802,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.PointsAndLines3DShapes {
 				if stage.PointsAndLines3DShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.PointsAndLines3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.SampledPoints3DShape = __instance__
 					break
 				}
 			}
@@ -34807,6 +35077,17 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongSetFieldValue(fieldName stri
 		rotatedrhombusshape.X = value.GetValueFloat()
 	case "Y":
 		rotatedrhombusshape.Y = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		sampledpoints3dshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -36727,6 +37008,10 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetGongstructName() string {
 	return "RotatedRhombusShape"
 }
 
+func (sampledpoints3dshape *SampledPoints3DShape) GongGetGongstructName() string {
+	return "SampledPoints3DShape"
+}
+
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetGongstructName() string {
 	return "ShiftedBottomTopStartArcShape"
 }
@@ -37214,6 +37499,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.RotatedRhombusShapes_mapString = make(map[string]*RotatedRhombusShape)
 	for rotatedrhombusshape := range stage.RotatedRhombusShapes {
 		stage.RotatedRhombusShapes_mapString[rotatedrhombusshape.Name] = rotatedrhombusshape
+	}
+
+	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
+	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
+		stage.SampledPoints3DShapes_mapString[sampledpoints3dshape.Name] = sampledpoints3dshape
 	}
 
 	stage.ShiftedBottomTopStartArcShapes_mapString = make(map[string]*ShiftedBottomTopStartArcShape)

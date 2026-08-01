@@ -169,6 +169,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *RotatedRhombusShape:
 		ok = stage.IsStagedRotatedRhombusShape(target)
 
+	case *SampledPoints3DShape:
+		ok = stage.IsStagedSampledPoints3DShape(target)
+
 	case *ShiftedBottomTopStartArcShape:
 		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
 
@@ -499,6 +502,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *RotatedRhombusShape:
 		ok = stage.IsStagedRotatedRhombusShape(target)
+
+	case *SampledPoints3DShape:
+		ok = stage.IsStagedSampledPoints3DShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
@@ -1044,6 +1050,13 @@ func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhom
 	return
 }
 
+func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
+
+	_, ok = stage.SampledPoints3DShapes[sampledpoints3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) (ok bool) {
 
 	_, ok = stage.ShiftedBottomTopStartArcShapes[shiftedbottomtopstartarcshape]
@@ -1584,6 +1597,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RotatedRhombusShape:
 		stage.StageBranchRotatedRhombusShape(target)
+
+	case *SampledPoints3DShape:
+		stage.StageBranchSampledPoints3DShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		stage.StageBranchShiftedBottomTopStartArcShape(target)
@@ -2462,6 +2478,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		StageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+	if plantdiagram.SampledPoints3DShape != nil {
+		StageBranch(stage, plantdiagram.SampledPoints3DShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2565,6 +2584,21 @@ func (stage *Stage) StageBranchRotatedRhombusShape(rotatedrhombusshape *RotatedR
 	}
 
 	rotatedrhombusshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, sampledpoints3dshape) {
+		return
+	}
+
+	sampledpoints3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3592,6 +3626,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *RotatedRhombusShape:
 		toT := CopyBranchRotatedRhombusShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SampledPoints3DShape:
+		toT := CopyBranchSampledPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ShiftedBottomTopStartArcShape:
@@ -4712,6 +4750,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.Rendered3DShape != nil {
 		plantdiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plantdiagramFrom.Rendered3DShape)
 	}
+	if plantdiagramFrom.SampledPoints3DShape != nil {
+		plantdiagramTo.SampledPoints3DShape = CopyBranchSampledPoints3DShape(mapOrigCopy, plantdiagramFrom.SampledPoints3DShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -4843,6 +4884,25 @@ func CopyBranchRotatedRhombusShape(mapOrigCopy map[any]any, rotatedrhombusshapeF
 	rotatedrhombusshapeTo = new(RotatedRhombusShape)
 	mapOrigCopy[rotatedrhombusshapeFrom] = rotatedrhombusshapeTo
 	rotatedrhombusshapeFrom.CopyBasicFields(rotatedrhombusshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSampledPoints3DShape(mapOrigCopy map[any]any, sampledpoints3dshapeFrom *SampledPoints3DShape) (sampledpoints3dshapeTo *SampledPoints3DShape) {
+
+	// sampledpoints3dshapeFrom has already been copied
+	if _sampledpoints3dshapeTo, ok := mapOrigCopy[sampledpoints3dshapeFrom]; ok {
+		sampledpoints3dshapeTo = _sampledpoints3dshapeTo.(*SampledPoints3DShape)
+		return
+	}
+
+	sampledpoints3dshapeTo = new(SampledPoints3DShape)
+	mapOrigCopy[sampledpoints3dshapeFrom] = sampledpoints3dshapeTo
+	sampledpoints3dshapeFrom.CopyBasicFields(sampledpoints3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6028,6 +6088,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *RotatedRhombusShape:
 		stage.UnstageBranchRotatedRhombusShape(target)
 
+	case *SampledPoints3DShape:
+		stage.UnstageBranchSampledPoints3DShape(target)
+
 	case *ShiftedBottomTopStartArcShape:
 		stage.UnstageBranchShiftedBottomTopStartArcShape(target)
 
@@ -6905,6 +6968,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, plantdiagram.Rendered3DShape)
 	}
+	if plantdiagram.SampledPoints3DShape != nil {
+		UnstageBranch(stage, plantdiagram.SampledPoints3DShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -7008,6 +7074,21 @@ func (stage *Stage) UnstageBranchRotatedRhombusShape(rotatedrhombusshape *Rotate
 	}
 
 	rotatedrhombusshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, sampledpoints3dshape) {
+		return
+	}
+
+	sampledpoints3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -8058,6 +8139,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.Rendered3DShape != nil {
 		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
 	}
+	if instance.SampledPoints3DShape != nil {
+		reference.SampledPoints3DShape = stage.SampledPoints3DShapes_reference[instance.SampledPoints3DShape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -8092,6 +8176,11 @@ func (reference *RotatedRhombusGridShape) GongReconstructPointersFromReferences(
 }
 
 func (reference *RotatedRhombusShape) GongReconstructPointersFromReferences(stage *Stage, instance *RotatedRhombusShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *SampledPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *SampledPoints3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -8621,6 +8710,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.Rendered3DShape = _instance
 		}
 	}
+	if _reference := reference.SampledPoints3DShape; _reference != nil {
+		reference.SampledPoints3DShape = nil
+		if _instance, ok := stage.SampledPoints3DShapes_instance[_reference]; ok {
+			reference.SampledPoints3DShape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -8655,6 +8750,11 @@ func (reference *RotatedRhombusGridShape) GongReconstructPointersFromInstances(s
 }
 
 func (reference *RotatedRhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *SampledPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10242,6 +10342,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenTorusEdge3DShape != plantdiagramOther.IsHiddenTorusEdge3DShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
 	}
+	if plantdiagram.IsHiddenSampledPoints3DShape != plantdiagramOther.IsHiddenSampledPoints3DShape {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -10256,6 +10359,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.Rendered3DShape != nil && plantdiagramOther.Rendered3DShape != nil {
 		if plantdiagram.Rendered3DShape != plantdiagramOther.Rendered3DShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
+		}
+	}
+	if (plantdiagram.SampledPoints3DShape == nil) != (plantdiagramOther.SampledPoints3DShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+	} else if plantdiagram.SampledPoints3DShape != nil && plantdiagramOther.SampledPoints3DShape != nil {
+		if plantdiagram.SampledPoints3DShape != plantdiagramOther.SampledPoints3DShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		}
 	}
 
@@ -10373,6 +10483,17 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongDiff(stage *Stage, rotatedrh
 	}
 	if rotatedrhombusshape.Y != rotatedrhombusshapeOther.Y {
 		diffs = append(diffs, rotatedrhombusshape.GongMarshallField(stage, "Y"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (sampledpoints3dshape *SampledPoints3DShape) GongDiff(stage *Stage, sampledpoints3dshapeOther *SampledPoints3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if sampledpoints3dshape.Name != sampledpoints3dshapeOther.Name {
+		diffs = append(diffs, sampledpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return

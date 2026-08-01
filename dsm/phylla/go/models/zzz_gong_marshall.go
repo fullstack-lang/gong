@@ -456,10 +456,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 	}
 
 	rendered3dshapeOrdered := []*Rendered3DShape{}
@@ -495,6 +497,32 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rendered3dshape.GongMarshallField(stage, "Fov"))
 	}
 
+	sampledpoints3dshapeOrdered := []*SampledPoints3DShape{}
+	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
+		sampledpoints3dshapeOrdered = append(sampledpoints3dshapeOrdered, sampledpoints3dshape)
+	}
+	sort.Slice(sampledpoints3dshapeOrdered[:], func(i, j int) bool {
+		sampledpoints3dshapei := sampledpoints3dshapeOrdered[i]
+		sampledpoints3dshapej := sampledpoints3dshapeOrdered[j]
+		sampledpoints3dshapei_order, oki := stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshapei]
+		sampledpoints3dshapej_order, okj := stage.SampledPoints3DShape_stagedOrder[sampledpoints3dshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return sampledpoints3dshapei_order < sampledpoints3dshapej_order
+	})
+	if len(sampledpoints3dshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, sampledpoints3dshape := range sampledpoints3dshapeOrdered {
+
+		identifiersDecl.WriteString(sampledpoints3dshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(sampledpoints3dshape.GongMarshallField(stage, "Name"))
+	}
+
 	// insertion initialization of objects to stage
 	for _, library := range libraryOrdered {
 		_ = library
@@ -522,6 +550,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, rendered3dshape := range rendered3dshapeOrdered {
 		_ = rendered3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, sampledpoints3dshape := range sampledpoints3dshapeOrdered {
+		_ = sampledpoints3dshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -2545,6 +2581,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusEdge3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenTorusEdge3DShape))
+	case "IsHiddenSampledPoints3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenSampledPoints3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenSampledPoints3DShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -2572,6 +2613,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "SampledPoints3DShape":
+		if plantdiagram.SampledPoints3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.SampledPoints3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -2746,6 +2800,21 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallField(stage *Stage, 
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RotatedRhombusShape", fieldName)
+	}
+	return
+}
+
+func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", sampledpoints3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sampledpoints3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SampledPoints3DShape", fieldName)
 	}
 	return
 }
@@ -6013,10 +6082,12 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -6107,6 +6178,17 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallAllFields(stage *Sta
 		initializerStatements.WriteString(rotatedrhombusshape.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(rotatedrhombusshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(rotatedrhombusshape.GongMarshallField(stage, "Y"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(sampledpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
