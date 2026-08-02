@@ -405,6 +405,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialRepetitions"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Transparency"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "HasAlternatingRingColors"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
@@ -2255,6 +2256,11 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.Transparency))
+	case "HasAlternatingRingColors":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasAlternatingRingColors")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.HasAlternatingRingColors))
 	case "RelativeTrajectoryOffsetX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -6168,6 +6174,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialRepetitions"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Transparency"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "HasAlternatingRingColors"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))

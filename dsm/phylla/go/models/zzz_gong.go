@@ -26379,6 +26379,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "HasAlternatingRingColors",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "RelativeTrajectoryOffsetX",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -30694,6 +30698,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.Transparency)
 		res.valueFloat = plant.Transparency
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasAlternatingRingColors":
+		res.valueString = fmt.Sprintf("%t", plant.HasAlternatingRingColors)
+		res.valueBool = plant.HasAlternatingRingColors
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RelativeTrajectoryOffsetX":
 		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetX)
 		res.valueFloat = plant.RelativeTrajectoryOffsetX
@@ -34901,6 +34909,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.RadialRepetitions = int(value.GetValueInt())
 	case "Transparency":
 		plant.Transparency = value.GetValueFloat()
+	case "HasAlternatingRingColors":
+		plant.HasAlternatingRingColors = value.GetValueBool()
 	case "RelativeTrajectoryOffsetX":
 		plant.RelativeTrajectoryOffsetX = value.GetValueFloat()
 	case "RelativeTrajectoryOffsetY":

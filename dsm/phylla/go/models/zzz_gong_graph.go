@@ -10369,6 +10369,9 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.Transparency != plantOther.Transparency {
 		diffs = append(diffs, plant.GongMarshallField(stage, "Transparency"))
 	}
+	if plant.HasAlternatingRingColors != plantOther.HasAlternatingRingColors {
+		diffs = append(diffs, plant.GongMarshallField(stage, "HasAlternatingRingColors"))
+	}
 	if plant.RelativeTrajectoryOffsetX != plantOther.RelativeTrajectoryOffsetX {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
 	}

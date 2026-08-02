@@ -56,6 +56,9 @@ type Plant struct {
 	// Transparency of the 3D torus material (between 0.0 for opaque and 1.0 for transparent)
 	Transparency float64
 
+	// HasAlternatingRingColors when true alternates colors between rings in the stack
+	HasAlternatingRingColors bool
+
 	// RelativeTrajectoryOffsetX x PlantCircumferenceShape.Length
 	// RelativeTrajectoryOffsetY x PlantCircumferenceShape.Length
 	// is taken into account for drawing the PartiallyGrowthCurve2DTrajectory

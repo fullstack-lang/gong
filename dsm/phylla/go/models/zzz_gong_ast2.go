@@ -2203,6 +2203,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.RadialRepetitions = GongExtractInt(valueExpr)
 	case "Transparency":
 		instance.Transparency = GongExtractFloat(valueExpr)
+	case "HasAlternatingRingColors":
+		instance.HasAlternatingRingColors = GongExtractBool(valueExpr)
 	case "RelativeTrajectoryOffsetX":
 		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
 	case "RelativeTrajectoryOffsetY":

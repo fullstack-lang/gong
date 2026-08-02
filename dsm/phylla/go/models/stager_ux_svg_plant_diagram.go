@@ -1608,7 +1608,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 		return
 	}
 
-	for _, start := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
+	for i, start := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1656,10 +1656,13 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
+		if plant.HasAlternatingRingColors && i%2 != 0 {
+			path.Presentation.Color = "saddlebrown"
+		}
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
+	for i, end := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1707,6 +1710,9 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
+		if plant.HasAlternatingRingColors && i%2 != 0 {
+			path.Presentation.Color = "saddlebrown"
+		}
 		path.Presentation.Stroke = "none"
 	}
 }
@@ -1720,7 +1726,7 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 		return
 	}
 
-	for _, start := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
+	for i, start := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1768,10 +1774,13 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
+		if plant.HasAlternatingRingColors && i%2 != 0 {
+			path.Presentation.Color = "saddlebrown"
+		}
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
+	for i, end := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1819,6 +1828,9 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
+		if plant.HasAlternatingRingColors && i%2 != 0 {
+			path.Presentation.Color = "saddlebrown"
+		}
 		path.Presentation.Stroke = "none"
 	}
 }
