@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"math"
+	"sort"
 	"strings"
 )
 
@@ -39,6 +40,276 @@ func writeFacet(sb *strings.Builder, v1, v2, v3 vector3) {
 	sb.WriteString(fmt.Sprintf("      vertex %e %e %e\n", v3.X, v3.Y, v3.Z))
 	sb.WriteString("    endloop\n")
 	sb.WriteString("  endfacet\n")
+}
+
+func unwrapAnglesSTL(pts []vector3) (angles []float64, points []vector3) {
+	if len(pts) == 0 {
+		return nil, nil
+	}
+	angleToPoint := make(map[float64]vector3)
+
+	firstP := pts[0]
+	lastTheta := math.Atan2(firstP.Z, firstP.X)
+
+	accumulated := lastTheta
+	for accumulated < 0 {
+		accumulated += 2 * math.Pi
+	}
+	for accumulated >= 2*math.Pi {
+		accumulated -= 2 * math.Pi
+	}
+
+	angleToPoint[accumulated] = firstP
+	lastTheta = math.Atan2(firstP.Z, firstP.X)
+
+	for i := 1; i < len(pts); i++ {
+		p := pts[i]
+		theta := math.Atan2(p.Z, p.X)
+		diff := theta - lastTheta
+
+		for diff < -math.Pi {
+			diff += 2 * math.Pi
+		}
+		for diff > math.Pi {
+			diff -= 2 * math.Pi
+		}
+
+		if diff < -1e-7 {
+			diff = 0
+		}
+
+		accumulated += diff
+		angleToPoint[accumulated] = p
+		lastTheta = theta
+	}
+
+	for a := range angleToPoint {
+		angles = append(angles, a)
+	}
+	sort.Float64s(angles)
+
+	for _, a := range angles {
+		points = append(points, angleToPoint[a])
+	}
+
+	return angles, points
+}
+
+func getTargetAnglesSTL(
+	originalBottom []vector3,
+	originalTop []vector3,
+	degreeInterval float64,
+	radialRepetitions int,
+) (targetAngles []float64, bottomAngles []float64, bottomPoints []vector3, topAngles []float64, topPoints []vector3) {
+	if len(originalBottom) == 0 || len(originalTop) == 0 {
+		return nil, nil, nil, nil, nil
+	}
+
+	bottomAngles, bottomPoints = unwrapAnglesSTL(originalBottom)
+	topAngles, topPoints = unwrapAnglesSTL(originalTop)
+
+	radInterval := degreeInterval * math.Pi / 180.0
+
+	if radialRepetitions < 1 {
+		radialRepetitions = 1
+	}
+	expectedDegrees := 360.0 / float64(radialRepetitions)
+
+	nbPoints := int(math.Round(expectedDegrees / degreeInterval))
+	for i := 0; i <= nbPoints; i++ {
+		targetAngles = append(targetAngles, float64(i)*radInterval)
+	}
+
+	return targetAngles, bottomAngles, bottomPoints, topAngles, topPoints
+}
+
+func resampleCurveAtAnglesSTL(
+	sortedAngles []float64,
+	sortedPoints []vector3,
+	targetAngles []float64,
+	expectedDegrees float64,
+) []vector3 {
+	var resampled []vector3
+	if len(sortedAngles) == 0 {
+		return resampled
+	}
+
+	for _, target := range targetAngles {
+		evalTarget := target
+		if len(sortedAngles) > 0 && expectedDegrees > 0 {
+			minA := sortedAngles[0]
+			maxA := sortedAngles[len(sortedAngles)-1]
+			expectedRad := expectedDegrees * math.Pi / 180.0
+
+			for evalTarget < minA {
+				evalTarget += expectedRad
+			}
+			for evalTarget > maxA {
+				evalTarget -= expectedRad
+			}
+			if evalTarget < minA {
+				evalTarget = minA
+			}
+			if evalTarget > maxA {
+				evalTarget = maxA
+			}
+		}
+
+		searchIdx := sort.SearchFloat64s(sortedAngles, evalTarget)
+		idx := -1
+		if searchIdx > 0 && searchIdx < len(sortedAngles) {
+			idx = searchIdx - 1
+		} else if searchIdx == 0 && sortedAngles[0] == evalTarget {
+			idx = 0
+		}
+
+		isExtrapolating := false
+		if idx == -1 {
+			isExtrapolating = true
+			if searchIdx == 0 {
+				idx = 0
+			} else {
+				idx = len(sortedAngles) - 2
+			}
+		}
+
+		a1 := sortedAngles[idx]
+		a2 := sortedAngles[idx+1]
+		p1 := sortedPoints[idx]
+		p2 := sortedPoints[idx+1]
+
+		t := 0.0
+		if a1 != a2 {
+			t = (evalTarget - a1) / (a2 - a1)
+		}
+		if t < 0 {
+			t = 0
+		}
+		if t > 1 {
+			t = 1
+		}
+
+		var x, y, z float64
+		if isExtrapolating {
+			var r float64
+			if t == 0 {
+				r = math.Hypot(p1.X, p1.Z)
+				y = p1.Y
+			} else {
+				r = math.Hypot(p2.X, p2.Z)
+				y = p2.Y
+			}
+			x = r * math.Cos(target)
+			z = r * math.Sin(target)
+		} else {
+			r1 := math.Hypot(p1.X, p1.Z)
+			r2 := math.Hypot(p2.X, p2.Z)
+			r := r1 + t*(r2-r1)
+			y = p1.Y + t*(p2.Y-p1.Y)
+			x = r * math.Cos(target)
+			z = r * math.Sin(target)
+		}
+
+		resampled = append(resampled, vector3{X: x, Y: y, Z: z})
+	}
+
+	return resampled
+}
+
+func rotateCurveSTL(source []vector3, thetaOffset float64) []vector3 {
+	rotated := make([]vector3, len(source))
+	for i, p := range source {
+		thetaBase := math.Atan2(p.Z, p.X)
+		r := math.Hypot(p.X, p.Z)
+		newTheta := thetaBase + thetaOffset
+		rotated[i] = vector3{
+			X: r * math.Cos(newTheta),
+			Y: p.Y,
+			Z: r * math.Sin(newTheta),
+		}
+	}
+	return rotated
+}
+
+func writeRibbonLayerSTL(
+	sb *strings.Builder,
+	massiveBottom []vector3,
+	massiveTop []vector3,
+	dy float64,
+	thickness float64,
+	radialRepetitions int,
+) {
+	if len(massiveBottom) == 0 || len(massiveBottom) != len(massiveTop) {
+		return
+	}
+
+	numPointsPerRep := len(massiveBottom) / radialRepetitions
+	if numPointsPerRep == 0 {
+		numPointsPerRep = 1
+	}
+
+	for i := 0; i < len(massiveBottom)-1; i++ {
+		// Skip the bridging quad between separate radial repetitions
+		if (i+1)%numPointsPerRep == 0 {
+			continue
+		}
+
+		pB := massiveBottom[i]
+		pB_next := massiveBottom[i+1]
+		pT := massiveTop[i]
+		pT_next := massiveTop[i+1]
+
+		th_i := math.Atan2(pB.Z, pB.X)
+		th_next := math.Atan2(pB_next.Z, pB_next.X)
+
+		thTop_i := math.Atan2(pT.Z, pT.X)
+		thTop_next := math.Atan2(pT_next.Z, pT_next.X)
+
+		yB := pB.Y + dy
+		yB_next := pB_next.Y + dy
+		yT := pT.Y + dy
+		yT_next := pT_next.Y + dy
+
+		rB := math.Hypot(pB.X, pB.Z)
+		rB_outer := rB + thickness
+		rB_next := math.Hypot(pB_next.X, pB_next.Z)
+		rB_next_outer := rB_next + thickness
+
+		rT := math.Hypot(pT.X, pT.Z)
+		rT_outer := rT + thickness
+		rT_next := math.Hypot(pT_next.X, pT_next.Z)
+		rT_next_outer := rT_next + thickness
+
+		vIn_bottom := vector3{X: rB * math.Cos(th_i), Y: yB, Z: rB * math.Sin(th_i)}
+		vOut_bottom := vector3{X: rB_outer * math.Cos(th_i), Y: yB, Z: rB_outer * math.Sin(th_i)}
+		vIn_top := vector3{X: rT * math.Cos(thTop_i), Y: yT, Z: rT * math.Sin(thTop_i)}
+		vOut_top := vector3{X: rT_outer * math.Cos(thTop_i), Y: yT, Z: rT_outer * math.Sin(thTop_i)}
+
+		vIn_bottom_next := vector3{X: rB_next * math.Cos(th_next), Y: yB_next, Z: rB_next * math.Sin(th_next)}
+		vOut_bottom_next := vector3{X: rB_next_outer * math.Cos(th_next), Y: yB_next, Z: rB_next_outer * math.Sin(th_next)}
+		vIn_top_next := vector3{X: rT_next * math.Cos(thTop_next), Y: yT_next, Z: rT_next * math.Sin(thTop_next)}
+		vOut_top_next := vector3{X: rT_next_outer * math.Cos(thTop_next), Y: yT_next, Z: rT_next_outer * math.Sin(thTop_next)}
+
+		// 1. Outer Surface (facing outward +R)
+		writeFacet(sb, vOut_bottom, vOut_top, vOut_bottom_next)
+		writeFacet(sb, vOut_bottom_next, vOut_top, vOut_top_next)
+
+		// 2. Inner Surface (facing inward -R)
+		writeFacet(sb, vIn_bottom, vIn_bottom_next, vIn_top)
+		writeFacet(sb, vIn_top, vIn_bottom_next, vIn_top_next)
+
+		// 3. Bottom Face (facing downward -Y)
+		writeFacet(sb, vIn_bottom, vOut_bottom, vIn_bottom_next)
+		writeFacet(sb, vOut_bottom, vOut_bottom_next, vIn_bottom_next)
+
+		// 4. Top Face (facing upward +Y)
+		writeFacet(sb, vIn_top, vIn_top_next, vOut_top)
+		writeFacet(sb, vOut_top, vIn_top_next, vOut_top_next)
+	}
+}
+
+type stlLayerConfig struct {
+	dx, dy, thetaOffset float64
 }
 
 func GenerateSTL(plant *Plant) string {
@@ -99,7 +370,7 @@ func GenerateSTL(plant *Plant) string {
 		var curvePoints []vector3
 		var topCurvePoints []vector3
 
-		appendArcPoints := func(targetCurve *[]vector3, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
+		appendArcPointsSTL := func(targetCurve *[]vector3, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool) {
 			dx := (x1 - x2) / 2.0
 			dy := (y1 - y2) / 2.0
 			d2 := dx*dx + dy*dy
@@ -152,179 +423,204 @@ func GenerateSTL(plant *Plant) string {
 
 		for i := 0; i < len(startArcs); i++ {
 			sa := startArcs[i]
-			appendArcPoints(&curvePoints, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
+			appendArcPointsSTL(&curvePoints, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 
 			if i < len(endArcs) {
 				ea := endArcs[i]
-				appendArcPoints(&curvePoints, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+				appendArcPointsSTL(&curvePoints, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 			}
 		}
 
 		for i := 0; i < len(topStartArcs); i++ {
 			tsa := topStartArcs[i]
-			appendArcPoints(&topCurvePoints, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
+			appendArcPointsSTL(&topCurvePoints, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag)
 
 			if i < len(topEndArcs) {
 				ea := topEndArcs[i]
-				appendArcPoints(&topCurvePoints, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
+				appendArcPointsSTL(&topCurvePoints, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 			}
 		}
 
 		if len(curvePoints) > 1 && len(topCurvePoints) > 1 {
-			createFaceMeshSTL := func(edges [][2]vector3, reverseWinding bool) {
-				for i := 0; i < len(edges)-1; i++ {
-					v1 := edges[i][0]
-					v2 := edges[i][1]
-					v3 := edges[i+1][0]
-					v4 := edges[i+1][1]
+			targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := getTargetAnglesSTL(curvePoints, topCurvePoints, 0.5, plant.RadialRepetitions)
 
-					if reverseWinding {
-						writeFacet(&sb, v1, v3, v2)
-						writeFacet(&sb, v2, v3, v4)
-					} else {
-						writeFacet(&sb, v1, v2, v3)
-						writeFacet(&sb, v2, v4, v3)
-					}
+			expectedDegrees := 360.0
+			if plant.RadialRepetitions > 1 {
+				expectedDegrees = 360.0 / float64(plant.RadialRepetitions)
+			}
+
+			resampledBaseBottom := resampleCurveAtAnglesSTL(anglesBottom, bottomPoints, targetAngles, expectedDegrees)
+			resampledBaseTop := resampleCurveAtAnglesSTL(anglesTop, topPoints, targetAngles, expectedDegrees)
+
+			var checkedDiagram *PlantDiagram
+			for _, diagram := range plant.PlantDiagrams {
+				if diagram.IsChecked {
+					checkedDiagram = diagram
+					break
 				}
 			}
 
 			stackHeight := plant.StackHeight
 
-			threeDModulo := plant.RadialRepetitions
-			if threeDModulo < 1 {
-				threeDModulo = 1
-			}
+			var activeShapeRuns [][]stlLayerConfig
 
-			for h := 0; h < stackHeight; h++ {
-				dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
-				thetaOffset := 0.0
+			if checkedDiagram != nil {
+				if !checkedDiagram.IsHiddenTorusStackShape {
+					var growthVectorX, growthVectorY float64
+					if plant.GrowthVectorShape != nil {
+						growthVectorX = plant.GrowthVectorShape.X
+						growthVectorY = plant.GrowthVectorShape.Y
+					}
+					var vx, vy float64
+					if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
+						pGrid := plant.PerpendicularVectorGrid
+						vFirst := pGrid.PerpendicularVectors[0]
+						vx = vFirst.EndX - vFirst.StartX
+						vy = vFirst.EndY - vFirst.StartY
+						vLen := math.Hypot(vx, vy)
+						if vLen == 0 {
+							vLen = 1
+						}
+						vx, vy = vx/vLen, vy/vLen
+					}
+					verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+					rotatedSeparation := plant.RelativeRotatedTorusSeparation * plant.RhombusSideLength
 
-				isBottomRing := (h == 0)
-				isTopRing := (h == stackHeight-1)
-
-				h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
-				if h_horiz == 0 {
-					h_horiz = plant.RelativeVerticalThickness * plant.RhombusSideLength
+					var run []stlLayerConfig
+					for h := 0; h < stackHeight; h++ {
+						dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
+						dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
+						thetaOffset := dx / globalR
+						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+					}
+					activeShapeRuns = append(activeShapeRuns, run)
 				}
 
-				for k := 0; k < threeDModulo; k++ {
-					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
+				if !checkedDiagram.IsHiddenVerticalTorusStackShape {
+					var run []stlLayerConfig
+					for h := 0; h < stackHeight; h++ {
+						dx := 0.0
+						dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+						thetaOffset := 0.0
+						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+					}
+					activeShapeRuns = append(activeShapeRuns, run)
+				}
 
-					var bottomEdges, topEdges, innerEdges, outerEdges [][2]vector3
+				if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
+					dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
+					thetaOffset := dx / globalR
+					var run []stlLayerConfig
+					run = append(run, stlLayerConfig{dx: 0, dy: 0, thetaOffset: 0})
+					run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+					activeShapeRuns = append(activeShapeRuns, run)
+				}
 
-					for i := 0; i < len(curvePoints) && i < len(topCurvePoints); i++ {
-						p := curvePoints[i]
-						pTop := topCurvePoints[i]
+				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
+					numSteps := stackHeight - 1
+					dxs := make([]float64, stackHeight)
+					dys := make([]float64, stackHeight)
+					dxs[0] = 0.0
+					dys[0] = 0.0
 
-						thetaBase := math.Atan2(p.Z, p.X)
-						theta := thetaBase + thetaOffset + baseThetaOffset
-
-						thetaBaseTop := math.Atan2(pTop.Z, pTop.X)
-						thetaTop := thetaBaseTop + thetaOffset + baseThetaOffset
-
-						yBase := p.Y + dy
-						yBaseTop := pTop.Y + dy
-
-						rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
-						rOuter := rBase + thickness
-
-						rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
-						rOuterTop := rBaseTop + thickness
-
-						xBL := rBase * math.Cos(theta)
-						zBL := rBase * math.Sin(theta)
-						yBL := yBase
-
-						xBR := rOuter * math.Cos(theta)
-						zBR := rOuter * math.Sin(theta)
-						yBR := yBase
-
-						xTL := rBaseTop * math.Cos(thetaTop)
-						zTL := rBaseTop * math.Sin(thetaTop)
-						yTL := yBaseTop
-
-						xTR := rOuterTop * math.Cos(thetaTop)
-						zTR := rOuterTop * math.Sin(thetaTop)
-						yTR := yBaseTop
-
-						vBL := vector3{X: xBL, Y: yBL, Z: zBL}
-						vBR := vector3{X: xBR, Y: yBR, Z: zBR}
-						vTL := vector3{X: xTL, Y: yTL, Z: zTL}
-						vTR := vector3{X: xTR, Y: yTR, Z: zTR}
-
-						bottomEdges = append(bottomEdges, [2]vector3{vBL, vBR})
-						topEdges = append(topEdges, [2]vector3{vTL, vTR})
-						innerEdges = append(innerEdges, [2]vector3{vBL, vTL})
-						outerEdges = append(outerEdges, [2]vector3{vBR, vTR})
+					if numSteps > 0 {
+						totalProgress := plant.RotationRatio * float64(numSteps)
+						var cumDX, cumDY float64
+						for k := 1; k <= numSteps; k++ {
+							var r_k float64
+							kFloat := float64(numSteps - k + 1)
+							if totalProgress >= kFloat {
+								r_k = 1.0
+							} else if totalProgress <= kFloat-1.0 {
+								r_k = 0.0
+							} else {
+								r_k = totalProgress - (kFloat - 1.0)
+							}
+							stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+							cumDX += stepDX
+							cumDY += stepDY
+							dxs[k] = cumDX
+							dys[k] = cumDY
+						}
 					}
 
-					createFaceMeshSTL(bottomEdges, false)
-					createFaceMeshSTL(topEdges, true)
-					createFaceMeshSTL(innerEdges, true)
-					createFaceMeshSTL(outerEdges, false)
+					var run []stlLayerConfig
+					for h := 0; h < stackHeight; h++ {
+						dx := dxs[h]
+						dy := dys[h]
+						thetaOffset := dx / globalR
+						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
+					}
+					activeShapeRuns = append(activeShapeRuns, run)
+				}
+			}
 
-					if isBottomRing {
+			if len(activeShapeRuns) == 0 {
+				var run []stlLayerConfig
+				for h := 0; h < stackHeight; h++ {
+					dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+					run = append(run, stlLayerConfig{dx: 0, dy: dy, thetaOffset: 0})
+				}
+				activeShapeRuns = append(activeShapeRuns, run)
+			}
+
+			h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
+			if h_horiz == 0 {
+				h_horiz = plant.RelativeVerticalThickness * plant.RhombusSideLength
+			}
+
+			for _, run := range activeShapeRuns {
+				for h, cfg := range run {
+					massiveBottom := make([]vector3, 0, len(resampledBaseBottom)*plant.RadialRepetitions)
+					massiveTop := make([]vector3, 0, len(resampledBaseTop)*plant.RadialRepetitions)
+
+					for k := 0; k < plant.RadialRepetitions; k++ {
+						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(plant.RadialRepetitions)
+						totalThetaOffset := cfg.thetaOffset + baseThetaOffset
+
+						localBottom := rotateCurveSTL(resampledBaseBottom, totalThetaOffset)
+						localTop := rotateCurveSTL(resampledBaseTop, totalThetaOffset)
+
+						massiveBottom = append(massiveBottom, localBottom...)
+						massiveTop = append(massiveTop, localTop...)
+					}
+
+					writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, cfg.dy, thickness, plant.RadialRepetitions)
+
+					if h == 0 && len(massiveBottom) > 0 {
 						minY_bottom := math.MaxFloat64
-						for _, p := range curvePoints {
-							yVal := p.Y + dy
+						for _, p := range massiveBottom {
+							yVal := p.Y + cfg.dy
 							if yVal < minY_bottom {
 								minY_bottom = yVal
 							}
 						}
 
-						var bEdges, tEdges, iEdges, oEdges [][2]vector3
-						for i := 0; i < len(curvePoints); i++ {
-							p := curvePoints[i]
-							theta := math.Atan2(p.Z, p.X) + thetaOffset + baseThetaOffset
-							rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
-							rOuter := rBase + thickness
-
-							vBL := vector3{X: rBase * math.Cos(theta), Y: minY_bottom, Z: rBase * math.Sin(theta)}
-							vBR := vector3{X: rOuter * math.Cos(theta), Y: minY_bottom, Z: rOuter * math.Sin(theta)}
-							vTL := vector3{X: rBase * math.Cos(theta), Y: minY_bottom + h_horiz, Z: rBase * math.Sin(theta)}
-							vTR := vector3{X: rOuter * math.Cos(theta), Y: minY_bottom + h_horiz, Z: rOuter * math.Sin(theta)}
-
-							bEdges = append(bEdges, [2]vector3{vBL, vBR})
-							tEdges = append(tEdges, [2]vector3{vTL, vTR})
-							iEdges = append(iEdges, [2]vector3{vBL, vTL})
-							oEdges = append(oEdges, [2]vector3{vBR, vTR})
+						horizBottom := make([]vector3, len(massiveBottom))
+						horizTop := make([]vector3, len(massiveBottom))
+						for idx, p := range massiveBottom {
+							horizBottom[idx] = vector3{X: p.X, Y: minY_bottom - cfg.dy, Z: p.Z}
+							horizTop[idx] = vector3{X: p.X, Y: (minY_bottom + h_horiz) - cfg.dy, Z: p.Z}
 						}
-						createFaceMeshSTL(bEdges, false)
-						createFaceMeshSTL(tEdges, true)
-						createFaceMeshSTL(iEdges, true)
-						createFaceMeshSTL(oEdges, false)
+						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, plant.RadialRepetitions)
 					}
 
-					if isTopRing {
+					if h == len(run)-1 && len(massiveTop) > 0 {
 						maxY_top := -math.MaxFloat64
-						for _, p := range topCurvePoints {
-							yVal := p.Y + dy
+						for _, p := range massiveTop {
+							yVal := p.Y + cfg.dy
 							if yVal > maxY_top {
 								maxY_top = yVal
 							}
 						}
 
-						var bEdges, tEdges, iEdges, oEdges [][2]vector3
-						for i := 0; i < len(topCurvePoints); i++ {
-							pTop := topCurvePoints[i]
-							thetaTop := math.Atan2(pTop.Z, pTop.X) + thetaOffset + baseThetaOffset
-							rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
-							rOuterTop := rBaseTop + thickness
-
-							vBL := vector3{X: rBaseTop * math.Cos(thetaTop), Y: maxY_top - h_horiz, Z: rBaseTop * math.Sin(thetaTop)}
-							vBR := vector3{X: rOuterTop * math.Cos(thetaTop), Y: maxY_top - h_horiz, Z: rOuterTop * math.Sin(thetaTop)}
-							vTL := vector3{X: rBaseTop * math.Cos(thetaTop), Y: maxY_top, Z: rBaseTop * math.Sin(thetaTop)}
-							vTR := vector3{X: rOuterTop * math.Cos(thetaTop), Y: maxY_top, Z: rOuterTop * math.Sin(thetaTop)}
-
-							bEdges = append(bEdges, [2]vector3{vBL, vBR})
-							tEdges = append(tEdges, [2]vector3{vTL, vTR})
-							iEdges = append(iEdges, [2]vector3{vBL, vTL})
-							oEdges = append(oEdges, [2]vector3{vBR, vTR})
+						horizBottom := make([]vector3, len(massiveTop))
+						horizTop := make([]vector3, len(massiveTop))
+						for idx, p := range massiveTop {
+							horizBottom[idx] = vector3{X: p.X, Y: (maxY_top - h_horiz) - cfg.dy, Z: p.Z}
+							horizTop[idx] = vector3{X: p.X, Y: maxY_top - cfg.dy, Z: p.Z}
 						}
-						createFaceMeshSTL(bEdges, false)
-						createFaceMeshSTL(tEdges, true)
-						createFaceMeshSTL(iEdges, true)
-						createFaceMeshSTL(oEdges, false)
+						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, plant.RadialRepetitions)
 					}
 				}
 			}
