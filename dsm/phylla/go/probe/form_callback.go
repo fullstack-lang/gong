@@ -5568,6 +5568,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.RadialRepetitions), formDiv)
 		case "Transparency":
 			FormDivBasicFieldToField(&(plant_.Transparency), formDiv)
+		case "HasAlternatingRingColors":
+			FormDivBasicFieldToField(&(plant_.HasAlternatingRingColors), formDiv)
 		case "RelativeTrajectoryOffsetX":
 			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetX), formDiv)
 		case "RelativeTrajectoryOffsetY":

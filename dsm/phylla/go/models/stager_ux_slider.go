@@ -176,6 +176,15 @@ func (stager *Stager) ux_slider() {
 
 		group1.Sliders = append(
 			group1.Sliders,
+			NewBoolSlider(
+				stager,
+				"Alternating Ring Colors",
+				&plant.HasAlternatingRingColors,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
 			m.NewSlider(
 				stager,
 				"Traj offset X",
@@ -399,4 +408,42 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.ux_3d_plant_diagram()
 
 	stager.stage.CommitWithSuspendedCallbacks()
+}
+
+type BoolSliderProxy struct {
+	slider *m.Slider
+	Value  *bool
+	stager *Stager
+}
+
+func (proxy *BoolSliderProxy) Updated() {
+	*proxy.Value = (proxy.slider.ValueInt != 0)
+	proxy.stager.OnAfterUpdateSliderElement()
+}
+
+func NewBoolSlider(
+	stager *Stager,
+	name string,
+	valueRef *bool,
+) *m.Slider {
+	slider := new(m.Slider).Stage(stager.sliderStage)
+	slider.Name = name
+	slider.IsInt = true
+	slider.MinInt = 0
+	slider.MaxInt = 1
+	slider.StepInt = 1
+	if *valueRef {
+		slider.ValueInt = 1
+	} else {
+		slider.ValueInt = 0
+	}
+
+	proxy := &BoolSliderProxy{
+		slider: slider,
+		Value:  valueRef,
+		stager: stager,
+	}
+
+	slider.Proxy = proxy
+	return slider
 }

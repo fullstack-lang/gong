@@ -23,6 +23,9 @@ func (stager *Stager) generateRibbonMesh(
 	canvas *threejs.Canvas,
 ) {
 	japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
+	if plant.HasAlternatingRingColors && h%2 != 0 {
+		japanesePaperColor = "#8d6e63" // Warm rose brown / wood paper color for alternating rings
+	}
 
 	// ============================================================================
 	// FIRST PASS: Vertex Generation & Elevation Levels

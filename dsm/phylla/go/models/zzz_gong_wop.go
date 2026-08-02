@@ -1015,6 +1015,8 @@ type Plant_WOP struct {
 
 	Transparency float64
 
+	HasAlternatingRingColors bool
+
 	RelativeTrajectoryOffsetX float64
 
 	RelativeTrajectoryOffsetY float64
@@ -1059,6 +1061,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RotationRatio = from.RotationRatio
 	to.RadialRepetitions = from.RadialRepetitions
 	to.Transparency = from.Transparency
+	to.HasAlternatingRingColors = from.HasAlternatingRingColors
 	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
 	to.NbStepP1P2 = from.NbStepP1P2
