@@ -43,11 +43,8 @@ func (stager *Stager) generateLayerWithModulo(
 	stager.generateRibbonMesh(h, stackHeight, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
 
 	h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
-	if h_horiz == 0 {
-		h_horiz = plant.RelativeVerticalThickness * plant.RhombusSideLength
-	}
 
-	if h == 0 && len(massiveBottomCurve.Points) > 0 {
+	if h_horiz > 0 && h == 0 && len(massiveBottomCurve.Points) > 0 {
 		minY_bottom := math.MaxFloat64
 		for _, p := range massiveBottomCurve.Points {
 			yVal := p.Y + dy
@@ -73,7 +70,7 @@ func (stager *Stager) generateLayerWithModulo(
 		stager.generateRibbonMesh(h, stackHeight, thetaOffset, namePrefix+" Horiz Bottom", plant, checkedDiagram, horizBottomCurve, horizTopCurve, dy, thickness, globalR, canvas)
 	}
 
-	if h == stackHeight-1 && len(massiveTopCurve.Points) > 0 {
+	if h_horiz > 0 && h == stackHeight-1 && len(massiveTopCurve.Points) > 0 {
 		maxY_top := -math.MaxFloat64
 		for _, p := range massiveTopCurve.Points {
 			yVal := p.Y + dy

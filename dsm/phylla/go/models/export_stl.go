@@ -565,9 +565,6 @@ func GenerateSTL(plant *Plant) string {
 			}
 
 			h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
-			if h_horiz == 0 {
-				h_horiz = plant.RelativeVerticalThickness * plant.RhombusSideLength
-			}
 
 			for _, run := range activeShapeRuns {
 				for h, cfg := range run {
@@ -587,7 +584,7 @@ func GenerateSTL(plant *Plant) string {
 
 					writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, cfg.dy, thickness, plant.RadialRepetitions)
 
-					if h == 0 && len(massiveBottom) > 0 {
+					if h_horiz > 0 && h == 0 && len(massiveBottom) > 0 {
 						minY_bottom := math.MaxFloat64
 						for _, p := range massiveBottom {
 							yVal := p.Y + cfg.dy
@@ -605,7 +602,7 @@ func GenerateSTL(plant *Plant) string {
 						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, plant.RadialRepetitions)
 					}
 
-					if h == len(run)-1 && len(massiveTop) > 0 {
+					if h_horiz > 0 && h == len(run)-1 && len(massiveTop) > 0 {
 						maxY_top := -math.MaxFloat64
 						for _, p := range massiveTop {
 							yVal := p.Y + cfg.dy
