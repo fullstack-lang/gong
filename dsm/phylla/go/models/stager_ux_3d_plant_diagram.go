@@ -170,7 +170,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 			thetaOffset := dx / globalR
 
-			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
 	}
 
@@ -180,7 +180,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 			thetaOffset := 0.0
 
-			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
 	}
 
@@ -192,7 +192,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		// but here the dy from ComputePartiallyGrowthCurveDY ALREADY includes the Y-shift
 		// required to perfectly rest on the first ribbon (h=0).
 
-		stager.generateLayerWithModulo(1, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+		stager.generateLayerWithModulo(1, 2, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 	}
 
 	if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
@@ -228,7 +228,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := dys[h]
 			thetaOffset := dx / globalR
 
-			stager.generateLayerWithModulo(h, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
 	}
 

@@ -1023,6 +1023,8 @@ type Plant_WOP struct {
 
 	ChosenStep int
 
+	RelativeHorizontalRingsHeight float64
+
 	OffsetKeyX float64
 
 	OffsetKeyY float64
@@ -1061,6 +1063,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
 	to.NbStepP1P2 = from.NbStepP1P2
 	to.ChosenStep = from.ChosenStep
+	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
 	to.OffsetKeyX = from.OffsetKeyX
 	to.OffsetKeyY = from.OffsetKeyY
 	to.HeightKey = from.HeightKey

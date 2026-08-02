@@ -409,6 +409,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ChosenStep"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyX"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
@@ -2274,6 +2275,11 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ChosenStep")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ChosenStep))
+	case "RelativeHorizontalRingsHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHorizontalRingsHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeHorizontalRingsHeight))
 	case "OffsetKeyX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -6166,6 +6172,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ChosenStep"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyX"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))

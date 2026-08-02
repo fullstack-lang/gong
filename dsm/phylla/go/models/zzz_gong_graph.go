@@ -10381,6 +10381,9 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.ChosenStep != plantOther.ChosenStep {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ChosenStep"))
 	}
+	if plant.RelativeHorizontalRingsHeight != plantOther.RelativeHorizontalRingsHeight {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
+	}
 	if plant.OffsetKeyX != plantOther.OffsetKeyX {
 		diffs = append(diffs, plant.GongMarshallField(stage, "OffsetKeyX"))
 	}
