@@ -226,6 +226,18 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
+				"Horiz Ring Height",
+				0.0,
+				1.0,
+				0.005,
+				&plant.RelativeHorizontalRingsHeight,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
 				"Offset Key X",
 				-500,
 				500,

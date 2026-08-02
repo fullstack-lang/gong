@@ -26395,6 +26395,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
+			Name:               "RelativeHorizontalRingsHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "OffsetKeyX",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -30706,6 +30710,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", plant.ChosenStep)
 		res.valueInt = plant.ChosenStep
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "RelativeHorizontalRingsHeight":
+		res.valueString = fmt.Sprintf("%f", plant.RelativeHorizontalRingsHeight)
+		res.valueFloat = plant.RelativeHorizontalRingsHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "OffsetKeyX":
 		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyX)
 		res.valueFloat = plant.OffsetKeyX
@@ -34901,6 +34909,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.NbStepP1P2 = int(value.GetValueInt())
 	case "ChosenStep":
 		plant.ChosenStep = int(value.GetValueInt())
+	case "RelativeHorizontalRingsHeight":
+		plant.RelativeHorizontalRingsHeight = value.GetValueFloat()
 	case "OffsetKeyX":
 		plant.OffsetKeyX = value.GetValueFloat()
 	case "OffsetKeyY":

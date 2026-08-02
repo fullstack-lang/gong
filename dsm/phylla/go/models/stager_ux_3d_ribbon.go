@@ -10,6 +10,7 @@ import (
 
 func (stager *Stager) generateRibbonMesh(
 	h int,
+	stackHeight int,
 	totalThetaOffset float64,
 	namePrefix string,
 	plant *Plant,
@@ -311,8 +312,6 @@ func (stager *Stager) generateRibbonMesh(
 			stager.createTorusEdgeMesh(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 		)
 	}
-
-	stackHeight := plant.StackHeight
 
 	if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
 		var p1x, p1y, p2x, p2y, pxx, pxy float64

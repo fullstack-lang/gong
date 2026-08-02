@@ -199,6 +199,14 @@ func GenerateSTL(plant *Plant) string {
 				dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 				thetaOffset := 0.0
 
+				isBottomRing := (h == 0)
+				isTopRing := (h == stackHeight-1)
+
+				h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
+				if h_horiz == 0 {
+					h_horiz = plant.RelativeVerticalThickness * plant.RhombusSideLength
+				}
+
 				for k := 0; k < threeDModulo; k++ {
 					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
@@ -254,6 +262,70 @@ func GenerateSTL(plant *Plant) string {
 					createFaceMeshSTL(topEdges, true)
 					createFaceMeshSTL(innerEdges, true)
 					createFaceMeshSTL(outerEdges, false)
+
+					if isBottomRing {
+						minY_bottom := math.MaxFloat64
+						for _, p := range curvePoints {
+							yVal := p.Y + dy
+							if yVal < minY_bottom {
+								minY_bottom = yVal
+							}
+						}
+
+						var bEdges, tEdges, iEdges, oEdges [][2]vector3
+						for i := 0; i < len(curvePoints); i++ {
+							p := curvePoints[i]
+							theta := math.Atan2(p.Z, p.X) + thetaOffset + baseThetaOffset
+							rBase := math.Sqrt(p.X*p.X + p.Z*p.Z)
+							rOuter := rBase + thickness
+
+							vBL := vector3{X: rBase * math.Cos(theta), Y: minY_bottom, Z: rBase * math.Sin(theta)}
+							vBR := vector3{X: rOuter * math.Cos(theta), Y: minY_bottom, Z: rOuter * math.Sin(theta)}
+							vTL := vector3{X: rBase * math.Cos(theta), Y: minY_bottom + h_horiz, Z: rBase * math.Sin(theta)}
+							vTR := vector3{X: rOuter * math.Cos(theta), Y: minY_bottom + h_horiz, Z: rOuter * math.Sin(theta)}
+
+							bEdges = append(bEdges, [2]vector3{vBL, vBR})
+							tEdges = append(tEdges, [2]vector3{vTL, vTR})
+							iEdges = append(iEdges, [2]vector3{vBL, vTL})
+							oEdges = append(oEdges, [2]vector3{vBR, vTR})
+						}
+						createFaceMeshSTL(bEdges, false)
+						createFaceMeshSTL(tEdges, true)
+						createFaceMeshSTL(iEdges, true)
+						createFaceMeshSTL(oEdges, false)
+					}
+
+					if isTopRing {
+						maxY_top := -math.MaxFloat64
+						for _, p := range topCurvePoints {
+							yVal := p.Y + dy
+							if yVal > maxY_top {
+								maxY_top = yVal
+							}
+						}
+
+						var bEdges, tEdges, iEdges, oEdges [][2]vector3
+						for i := 0; i < len(topCurvePoints); i++ {
+							pTop := topCurvePoints[i]
+							thetaTop := math.Atan2(pTop.Z, pTop.X) + thetaOffset + baseThetaOffset
+							rBaseTop := math.Sqrt(pTop.X*pTop.X + pTop.Z*pTop.Z)
+							rOuterTop := rBaseTop + thickness
+
+							vBL := vector3{X: rBaseTop * math.Cos(thetaTop), Y: maxY_top - h_horiz, Z: rBaseTop * math.Sin(thetaTop)}
+							vBR := vector3{X: rOuterTop * math.Cos(thetaTop), Y: maxY_top - h_horiz, Z: rOuterTop * math.Sin(thetaTop)}
+							vTL := vector3{X: rBaseTop * math.Cos(thetaTop), Y: maxY_top, Z: rBaseTop * math.Sin(thetaTop)}
+							vTR := vector3{X: rOuterTop * math.Cos(thetaTop), Y: maxY_top, Z: rOuterTop * math.Sin(thetaTop)}
+
+							bEdges = append(bEdges, [2]vector3{vBL, vBR})
+							tEdges = append(tEdges, [2]vector3{vTL, vTR})
+							iEdges = append(iEdges, [2]vector3{vBL, vTL})
+							oEdges = append(oEdges, [2]vector3{vBR, vTR})
+						}
+						createFaceMeshSTL(bEdges, false)
+						createFaceMeshSTL(tEdges, true)
+						createFaceMeshSTL(iEdges, true)
+						createFaceMeshSTL(oEdges, false)
+					}
 				}
 			}
 		}

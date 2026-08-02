@@ -5576,6 +5576,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.NbStepP1P2), formDiv)
 		case "ChosenStep":
 			FormDivBasicFieldToField(&(plant_.ChosenStep), formDiv)
+		case "RelativeHorizontalRingsHeight":
+			FormDivBasicFieldToField(&(plant_.RelativeHorizontalRingsHeight), formDiv)
 		case "OffsetKeyX":
 			FormDivBasicFieldToField(&(plant_.OffsetKeyX), formDiv)
 		case "OffsetKeyY":

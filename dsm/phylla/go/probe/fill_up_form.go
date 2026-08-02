@@ -1070,6 +1070,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ChosenStep", instanceWithInferedType.ChosenStep, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHorizontalRingsHeight", instanceWithInferedType.RelativeHorizontalRingsHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OffsetKeyX", instanceWithInferedType.OffsetKeyX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OffsetKeyY", instanceWithInferedType.OffsetKeyY, instanceWithInferedType, probe.formStage, formGroup,

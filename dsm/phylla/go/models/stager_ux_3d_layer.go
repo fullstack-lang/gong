@@ -8,7 +8,7 @@ import (
 )
 
 func (stager *Stager) generateLayerWithModulo(
-	h int, dx, dy, thetaOffset float64, namePrefix string,
+	h int, stackHeight int, dx, dy, thetaOffset float64, namePrefix string,
 	plant *Plant, checkedDiagram *PlantDiagram,
 	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
 	thickness float64, globalR float64,
@@ -40,5 +40,62 @@ func (stager *Stager) generateLayerWithModulo(
 		stager.addPointSpheres(massiveTopCurve.Points, "blue", canvas, namePrefix+" Top", dy, numPointsPerRep)
 	}
 
-	stager.generateRibbonMesh(h, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
+	stager.generateRibbonMesh(h, stackHeight, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
+
+	h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
+	if h_horiz == 0 {
+		h_horiz = plant.RelativeVerticalThickness * plant.RhombusSideLength
+	}
+
+	if h == 0 && len(massiveBottomCurve.Points) > 0 {
+		minY_bottom := math.MaxFloat64
+		for _, p := range massiveBottomCurve.Points {
+			yVal := p.Y + dy
+			if yVal < minY_bottom {
+				minY_bottom = yVal
+			}
+		}
+
+		horizBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Horiz Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)
+		horizTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Horiz Top h%d", namePrefix, h)}).Stage(stager.threejsStage)
+		for _, p := range massiveBottomCurve.Points {
+			horizBottomCurve.Points = append(horizBottomCurve.Points, (&threejs.Vector3{
+				X: p.X,
+				Y: minY_bottom - dy,
+				Z: p.Z,
+			}).Stage(stager.threejsStage))
+			horizTopCurve.Points = append(horizTopCurve.Points, (&threejs.Vector3{
+				X: p.X,
+				Y: (minY_bottom + h_horiz) - dy,
+				Z: p.Z,
+			}).Stage(stager.threejsStage))
+		}
+		stager.generateRibbonMesh(h, stackHeight, thetaOffset, namePrefix+" Horiz Bottom", plant, checkedDiagram, horizBottomCurve, horizTopCurve, dy, thickness, globalR, canvas)
+	}
+
+	if h == stackHeight-1 && len(massiveTopCurve.Points) > 0 {
+		maxY_top := -math.MaxFloat64
+		for _, p := range massiveTopCurve.Points {
+			yVal := p.Y + dy
+			if yVal > maxY_top {
+				maxY_top = yVal
+			}
+		}
+
+		horizBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Horiz Top Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)
+		horizTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Horiz Top Top h%d", namePrefix, h)}).Stage(stager.threejsStage)
+		for _, p := range massiveTopCurve.Points {
+			horizBottomCurve.Points = append(horizBottomCurve.Points, (&threejs.Vector3{
+				X: p.X,
+				Y: (maxY_top - h_horiz) - dy,
+				Z: p.Z,
+			}).Stage(stager.threejsStage))
+			horizTopCurve.Points = append(horizTopCurve.Points, (&threejs.Vector3{
+				X: p.X,
+				Y: maxY_top - dy,
+				Z: p.Z,
+			}).Stage(stager.threejsStage))
+		}
+		stager.generateRibbonMesh(h, stackHeight, thetaOffset, namePrefix+" Horiz Top", plant, checkedDiagram, horizBottomCurve, horizTopCurve, dy, thickness, globalR, canvas)
+	}
 }

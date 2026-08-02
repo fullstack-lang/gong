@@ -2211,6 +2211,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.NbStepP1P2 = GongExtractInt(valueExpr)
 	case "ChosenStep":
 		instance.ChosenStep = GongExtractInt(valueExpr)
+	case "RelativeHorizontalRingsHeight":
+		instance.RelativeHorizontalRingsHeight = GongExtractFloat(valueExpr)
 	case "OffsetKeyX":
 		instance.OffsetKeyX = GongExtractFloat(valueExpr)
 	case "OffsetKeyY":

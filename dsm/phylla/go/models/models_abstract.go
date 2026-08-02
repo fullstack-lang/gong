@@ -67,6 +67,10 @@ type Plant struct {
 	// ChosenStep is
 	ChosenStep int
 
+	// RelativeHorizontalRingsHeight x RhombusSideLength is the manual height of the bottom/top horizontal rings.
+	// If 0.0, the height automatically matches the wave amplitude of the bottom/top ring.
+	RelativeHorizontalRingsHeight float64
+
 	OffsetKeyX float64
 	OffsetKeyY float64
 	HeightKey  float64
