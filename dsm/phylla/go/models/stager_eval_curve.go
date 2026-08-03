@@ -7,8 +7,8 @@ import (
 func evaluateCurveY(plant *Plant, isTop bool, x float64) float64 {
 	bestY := -1e9
 	if !isTop {
-		if plant.StartHalfwayArcShapeGrid != nil {
-			for _, sa := range plant.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
+		if plant.GrowthCurve2D != nil && plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil {
+			for _, sa := range plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
 				if x >= math.Min(sa.StartX, sa.EndX) && x <= math.Max(sa.StartX, sa.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 					y := evalArcY(sa.StartX, sa.StartY, sa.EndX, sa.EndY, cx, cy, r, x)
@@ -18,8 +18,8 @@ func evaluateCurveY(plant *Plant, isTop bool, x float64) float64 {
 				}
 			}
 		}
-		if plant.EndHalfwayArcShapeGrid != nil {
-			for _, ea := range plant.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
+		if plant.GrowthCurve2D != nil && plant.GrowthCurve2D.EndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.GrowthCurve2D.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
 				if x >= math.Min(ea.StartX, ea.EndX) && x <= math.Max(ea.StartX, ea.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 					y := evalArcY(ea.StartX, ea.StartY, ea.EndX, ea.EndY, cx, cy, r, x)
@@ -30,8 +30,8 @@ func evaluateCurveY(plant *Plant, isTop bool, x float64) float64 {
 			}
 		}
 	} else {
-		if plant.TopStartHalfwayArcShapeGrid != nil {
-			for _, sa := range plant.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+		if plant.TopGrowthCurve2D != nil && plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil {
+			for _, sa := range plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
 				if x >= math.Min(sa.StartX, sa.EndX) && x <= math.Max(sa.StartX, sa.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 					y := evalArcY(sa.StartX, sa.StartY, sa.EndX, sa.EndY, cx, cy, r, x)
@@ -41,8 +41,8 @@ func evaluateCurveY(plant *Plant, isTop bool, x float64) float64 {
 				}
 			}
 		}
-		if plant.TopEndHalfwayArcShapeGrid != nil {
-			for _, ea := range plant.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+		if plant.TopGrowthCurve2D != nil && plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
 				if x >= math.Min(ea.StartX, ea.EndX) && x <= math.Max(ea.StartX, ea.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 					y := evalArcY(ea.StartX, ea.StartY, ea.EndX, ea.EndY, cx, cy, r, x)
@@ -105,6 +105,10 @@ func evalArcY(x0, y0, x1, y1, cx, cy, R, x float64) float64 {
 }
 
 func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) (dx float64, dy float64, currentDX float64) {
+	if plant == nil || plant.RhombusStuff == nil || plant.RhombusStuff.PlantCircumferenceShape == nil || plant.GrowthVectorShape == nil || plant.PerpendicularVectorGrid == nil || len(plant.PerpendicularVectorGrid.PerpendicularVectors) == 0 {
+		return 0, 0, 0
+	}
+
 	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
 	if circLen <= 0 {
 		return 0, 0, 0
@@ -177,4 +181,32 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) 
 
 func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, currentDX float64) {
 	return ComputePartiallyGrowthCurveDYForRatio(plant, plant.RotationRatio)
+}
+
+func ComputeStackHeightForRotationRatio(plant *Plant, rotationRatio float64) float64 {
+	stackHeight := plant.StackHeight
+	if stackHeight <= 0 {
+		return 0.0
+	}
+	_, baseDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, 0.0)
+	cumDY := baseDY
+
+	numSteps := stackHeight - 1
+	if numSteps > 0 {
+		totalProgress := rotationRatio * float64(numSteps)
+		for k := 1; k <= numSteps; k++ {
+			var r_k float64
+			kFloat := float64(numSteps - k + 1)
+			if totalProgress >= kFloat {
+				r_k = 1.0
+			} else if totalProgress <= kFloat-1.0 {
+				r_k = 0.0
+			} else {
+				r_k = totalProgress - (kFloat - 1.0)
+			}
+			_, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+			cumDY += stepDY
+		}
+	}
+	return cumDY
 }

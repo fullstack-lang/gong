@@ -55,7 +55,8 @@ func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vec
 		}
 
 		if diff < -1e-7 {
-			log.Fatalf("overlapping segment detected: curve goes backwards at index %d (diff: %f)", i, diff)
+			log.Printf("overlapping segment detected: curve goes backwards at index %d (diff: %f)", i, diff)
+			diff = 0
 		}
 
 		accumulated += diff
