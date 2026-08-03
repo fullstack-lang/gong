@@ -45,14 +45,14 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 6
-	__Plant__00000000_.RhombusInsideAngle = 115.000000
-	__Plant__00000000_.RelativeVerticalThickness = 0.260000
+	__Plant__00000000_.StackHeight = 20
+	__Plant__00000000_.RhombusInsideAngle = 104.000000
+	__Plant__00000000_.RelativeVerticalThickness = 0.130000
 	__Plant__00000000_.RelativeRadialThickness = 0.050000
-	__Plant__00000000_.RhombusSideLength = 595.000000
+	__Plant__00000000_.RhombusSideLength = 160.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.046000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
-	__Plant__00000000_.RotationRatio = 0.995000
+	__Plant__00000000_.RotationRatio = 0.590000
 	__Plant__00000000_.RadialRepetitions = 3
 	__Plant__00000000_.Transparency = 0.100000
 	__Plant__00000000_.HasAlternatingRingColors = true
@@ -76,7 +76,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.OriginY = 597.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000001_.IsArcNodesExpanded = false
-	__PlantDiagram__00000001_.IsHiddenAxesShape = true
+	__PlantDiagram__00000001_.IsHiddenAxesShape = false
 	__PlantDiagram__00000001_.IsHiddenReferenceRhombus = true
 	__PlantDiagram__00000001_.IsHiddenPlantCircumferenceShape = true
 	__PlantDiagram__00000001_.IsHiddenGridPathShape = true
@@ -120,13 +120,13 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
+	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
 	__PlantDiagram__00000001_.IsHiddenPxShape = true
 	__PlantDiagram__00000001_.IsHiddenChosenP1P2PairShape = true
-	__PlantDiagram__00000001_.IsHiddenKeyHoleShape = false
+	__PlantDiagram__00000001_.IsHiddenKeyHoleShape = true
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
@@ -144,9 +144,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = -1435.575314
-	__Rendered3DShape__00000000_.ViewY = 1226.550353
-	__Rendered3DShape__00000000_.ViewZ = -5566.301476
+	__Rendered3DShape__00000000_.ViewX = -2345.402252
+	__Rendered3DShape__00000000_.ViewY = 781.678560
+	__Rendered3DShape__00000000_.ViewZ = 701.660938
 	__Rendered3DShape__00000000_.TargetX = 0.000000
 	__Rendered3DShape__00000000_.TargetY = 100.000000
 	__Rendered3DShape__00000000_.TargetZ = 0.000000

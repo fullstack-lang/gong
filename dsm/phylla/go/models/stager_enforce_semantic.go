@@ -93,6 +93,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce plant diagram key 3d shape", stager.enforcePlantDiagramKey3DShape},
 		{"Enforce plant diagram volume key 3d shape", stager.enforcePlantDiagramVolumeKey3DShape},
 		{"Enforce plant diagram torus edge 3d shape", stager.enforcePlantDiagramTorusEdge3DShape},
+		{"Enforce plant rotation ratio heights", stager.enforcePlantRotationRatioHeights},
 
 		// concrete semantic check
 
@@ -146,5 +147,22 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		}
 	}
 
+	return modified
+}
+
+func (stager *Stager) enforcePlantRotationRatioHeights() bool {
+	modified := false
+	for plant := range stager.stage.Plants {
+		h0 := ComputeStackHeightForRotationRatio(plant, 0.0)
+		if plant.heightAtRotRatio0 != h0 {
+			plant.heightAtRotRatio0 = h0
+			modified = true
+		}
+		h1 := ComputeStackHeightForRotationRatio(plant, 1.0)
+		if plant.heightAtRotRatio1 != h1 {
+			plant.heightAtRotRatio1 = h1
+			modified = true
+		}
+	}
 	return modified
 }

@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/base64"
+	"fmt"
 	"time"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
@@ -10,8 +11,14 @@ import (
 )
 
 func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DView bool) {
+	var ratio float64
+	if plant.heightAtRotRatio0 > 0 {
+		ratio = plant.heightAtRotRatio1 / plant.heightAtRotRatio0
+	}
+	nodeName := fmt.Sprintf("%s (h(0): %.2f, h(1): %.2f, ratio: %.2f)", plant.Name, plant.heightAtRotRatio0, plant.heightAtRotRatio1, ratio)
+
 	plantNode := &tree.Node{
-		Name:            plant.Name,
+		Name:            nodeName,
 		IsExpanded:      plant.IsExpanded,
 		IsNodeClickable: true,
 		IsInEditMode:    plant.isInRenameMode,
