@@ -432,6 +432,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "AmbiantLight"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Meshs"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Camera"))
+		initializerStatements.WriteString(canvas.GongMarshallField(stage, "IsWithLastRenderingUpdate"))
+		initializerStatements.WriteString(canvas.GongMarshallField(stage, "LastRendering"))
 	}
 
 	curveOrdered := []*Curve{}
@@ -1263,6 +1265,16 @@ func (canvas *Canvas) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", canvas.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(canvas.Name))
+	case "IsWithLastRenderingUpdate":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", canvas.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithLastRenderingUpdate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", canvas.IsWithLastRenderingUpdate))
+	case "LastRendering":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", canvas.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LastRendering")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", canvas.LastRendering.String())
 
 	case "DirectionalLights":
 		var sb strings.Builder
@@ -2056,6 +2068,8 @@ func (canvas *Canvas) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "AmbiantLight"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Meshs"))
 		pointersInitializesStatements.WriteString(canvas.GongMarshallField(stage, "Camera"))
+		initializerStatements.WriteString(canvas.GongMarshallField(stage, "IsWithLastRenderingUpdate"))
+		initializerStatements.WriteString(canvas.GongMarshallField(stage, "LastRendering"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

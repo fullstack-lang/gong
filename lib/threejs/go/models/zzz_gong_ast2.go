@@ -641,6 +641,16 @@ func (u *CanvasUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallSliceOfPointers(&instance.Meshs, valueExpr, identifierMap)
 	case "Camera":
 		GongUnmarshallPointer(&instance.Camera, valueExpr, identifierMap)
+	case "IsWithLastRenderingUpdate":
+		instance.IsWithLastRenderingUpdate = GongExtractBool(valueExpr)
+	case "LastRendering":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.LastRendering, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
 	}
 	return nil
 }

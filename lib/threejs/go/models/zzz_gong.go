@@ -5424,6 +5424,14 @@ func (canvas *Canvas) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Camera",
 		},
+		{
+			Name:               "IsWithLastRenderingUpdate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "LastRendering",
+			GongFieldValueType: GongFieldValueTypeDate,
+		},
 	}
 	return
 }
@@ -6076,6 +6084,12 @@ func (canvas *Canvas) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString = canvas.Camera.Name
 			res.ids = canvas.Camera.GongGetUUID(stage)
 		}
+	case "IsWithLastRenderingUpdate":
+		res.valueString = fmt.Sprintf("%t", canvas.IsWithLastRenderingUpdate)
+		res.valueBool = canvas.IsWithLastRenderingUpdate
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LastRendering":
+		res.valueString = canvas.LastRendering.String()
 	}
 	return
 }
@@ -6674,6 +6688,8 @@ func (canvas *Canvas) GongSetFieldValue(fieldName string, value GongFieldValue, 
 				}
 			}
 		}
+	case "IsWithLastRenderingUpdate":
+		canvas.IsWithLastRenderingUpdate = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
