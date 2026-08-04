@@ -15,6 +15,8 @@ export class CanvasAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	IsWithLastRenderingUpdate: boolean = false
+	LastRendering: Date = new Date
 
 	// insertion point for other decls
 

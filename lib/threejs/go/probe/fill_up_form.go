@@ -95,6 +95,10 @@ func FillUpForm(
 		AssociationFieldToForm("AmbiantLight", instanceWithInferedType.AmbiantLight, formGroup, probe)
 		AssociationSliceToForm("Meshs", instanceWithInferedType, &instanceWithInferedType.Meshs, formGroup, probe)
 		AssociationFieldToForm("Camera", instanceWithInferedType.Camera, formGroup, probe)
+		BasicFieldtoForm("IsWithLastRenderingUpdate", instanceWithInferedType.IsWithLastRenderingUpdate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("LastRendering", instanceWithInferedType.LastRendering, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

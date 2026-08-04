@@ -538,6 +538,10 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 
 		case "Camera":
 			FormDivSelectFieldToField(&(canvas_.Camera), canvasFormCallback.probe.stageOfInterest, formDiv)
+		case "IsWithLastRenderingUpdate":
+			FormDivBasicFieldToField(&(canvas_.IsWithLastRenderingUpdate), formDiv)
+		case "LastRendering":
+			FormDivTimeFieldToField(&(canvas_.LastRendering), formDiv, false)
 		}
 	}
 

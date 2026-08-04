@@ -2294,6 +2294,12 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 			diffs = append(diffs, canvas.GongMarshallField(stage, "Camera"))
 		}
 	}
+	if canvas.IsWithLastRenderingUpdate != canvasOther.IsWithLastRenderingUpdate {
+		diffs = append(diffs, canvas.GongMarshallField(stage, "IsWithLastRenderingUpdate"))
+	}
+	if canvas.LastRendering != canvasOther.LastRendering {
+		diffs = append(diffs, canvas.GongMarshallField(stage, "LastRendering"))
+	}
 
 	return
 }

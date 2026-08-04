@@ -13,6 +13,17 @@ func (orchestrator *CameraOrchestrator) OnAfterUpdate(
 	stagedCamera.OnAfterUpdate(gongsvgStage, stagedCamera, backRepoCamera)
 }
 
+// CanvasOrchestrator
+type CanvasOrchestrator struct {
+}
+
+func (orchestrator *CanvasOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedCanvas, backRepoCanvas *Canvas) {
+
+	stagedCanvas.OnAfterUpdate(gongsvgStage, stagedCanvas, backRepoCanvas)
+}
+
 func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
@@ -21,6 +32,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 	// insertion point
 	case Camera:
 		stage.OnAfterCameraUpdateCallback = new(CameraOrchestrator)
+	case Canvas:
+		stage.OnAfterCanvasUpdateCallback = new(CanvasOrchestrator)
 
 	}
 

@@ -99,11 +99,17 @@ type Canvas_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsWithLastRenderingUpdate bool
+
+	LastRendering time.Time
 }
 
 func (from *Canvas) CopyBasicFields(to *Canvas) {
 	// insertion point
 	to.Name = from.Name
+	to.IsWithLastRenderingUpdate = from.IsWithLastRenderingUpdate
+	to.LastRendering = from.LastRendering
 }
 
 type Curve_WOP struct {

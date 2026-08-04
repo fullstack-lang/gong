@@ -80,6 +80,13 @@ type CanvasDB struct {
 	// Declation for basic field canvasDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field canvasDB.IsWithLastRenderingUpdate
+	// provide the sql storage for the boolan
+	IsWithLastRenderingUpdate_Data sql.NullBool
+
+	// Declation for basic field canvasDB.LastRendering
+	LastRendering_Data sql.NullTime
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CanvasPointersEncoding
@@ -103,6 +110,10 @@ type CanvasWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	IsWithLastRenderingUpdate bool `xlsx:"2"`
+
+	LastRendering time.Time `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -110,6 +121,8 @@ var Canvas_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"IsWithLastRenderingUpdate",
+	"LastRendering",
 }
 
 type BackRepoCanvasStruct struct {
@@ -507,6 +520,12 @@ func (canvasDB *CanvasDB) CopyBasicFieldsFromCanvas(canvas *models.Canvas) {
 
 	canvasDB.Name_Data.String = canvas.Name
 	canvasDB.Name_Data.Valid = true
+
+	canvasDB.IsWithLastRenderingUpdate_Data.Bool = canvas.IsWithLastRenderingUpdate
+	canvasDB.IsWithLastRenderingUpdate_Data.Valid = true
+
+	canvasDB.LastRendering_Data.Time = canvas.LastRendering
+	canvasDB.LastRendering_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCanvas_WOP
@@ -515,6 +534,12 @@ func (canvasDB *CanvasDB) CopyBasicFieldsFromCanvas_WOP(canvas *models.Canvas_WO
 
 	canvasDB.Name_Data.String = canvas.Name
 	canvasDB.Name_Data.Valid = true
+
+	canvasDB.IsWithLastRenderingUpdate_Data.Bool = canvas.IsWithLastRenderingUpdate
+	canvasDB.IsWithLastRenderingUpdate_Data.Valid = true
+
+	canvasDB.LastRendering_Data.Time = canvas.LastRendering
+	canvasDB.LastRendering_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCanvasWOP
@@ -523,18 +548,28 @@ func (canvasDB *CanvasDB) CopyBasicFieldsFromCanvasWOP(canvas *CanvasWOP) {
 
 	canvasDB.Name_Data.String = canvas.Name
 	canvasDB.Name_Data.Valid = true
+
+	canvasDB.IsWithLastRenderingUpdate_Data.Bool = canvas.IsWithLastRenderingUpdate
+	canvasDB.IsWithLastRenderingUpdate_Data.Valid = true
+
+	canvasDB.LastRendering_Data.Time = canvas.LastRendering
+	canvasDB.LastRendering_Data.Valid = true
 }
 
 // CopyBasicFieldsToCanvas
 func (canvasDB *CanvasDB) CopyBasicFieldsToCanvas(canvas *models.Canvas) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	canvas.Name = canvasDB.Name_Data.String
+	canvas.IsWithLastRenderingUpdate = canvasDB.IsWithLastRenderingUpdate_Data.Bool
+	canvas.LastRendering = canvasDB.LastRendering_Data.Time
 }
 
 // CopyBasicFieldsToCanvas_WOP
 func (canvasDB *CanvasDB) CopyBasicFieldsToCanvas_WOP(canvas *models.Canvas_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	canvas.Name = canvasDB.Name_Data.String
+	canvas.IsWithLastRenderingUpdate = canvasDB.IsWithLastRenderingUpdate_Data.Bool
+	canvas.LastRendering = canvasDB.LastRendering_Data.Time
 }
 
 // CopyBasicFieldsToCanvasWOP
@@ -542,6 +577,8 @@ func (canvasDB *CanvasDB) CopyBasicFieldsToCanvasWOP(canvas *CanvasWOP) {
 	canvas.ID = int(canvasDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	canvas.Name = canvasDB.Name_Data.String
+	canvas.IsWithLastRenderingUpdate = canvasDB.IsWithLastRenderingUpdate_Data.Bool
+	canvas.LastRendering = canvasDB.LastRendering_Data.Time
 }
 
 // Backup generates a json file from a slice of all CanvasDB instances in the backrepo

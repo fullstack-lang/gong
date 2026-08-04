@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Canvas struct {
 	Name              string
 	DirectionalLights []*DirectionalLight
@@ -8,6 +10,12 @@ type Canvas struct {
 	Meshs []*Mesh
 
 	Camera *Camera
+
+	// usefull for movie creation
+	IsWithLastRenderingUpdate bool      // if true, LastRendering is updated by the front
+	LastRendering             time.Time // when the back detects an update, it can generates the next frame
+
+	OnUpdate func(updatedCanvas *Canvas)
 }
 
 type Camera struct {
@@ -154,12 +162,12 @@ type TubeGeometry struct {
 }
 
 type Vector3 struct {
-	Name string
+	Name    string
 	X, Y, Z float64
 }
 
 type Curve struct {
-	Name string
+	Name   string
 	Points []*Vector3
 }
 
@@ -177,6 +185,6 @@ type Vector2 struct {
 }
 
 type Shape struct {
-	Name string
+	Name   string
 	Points []*Vector2
 }
