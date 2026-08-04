@@ -91,12 +91,12 @@ func _(stage *models.Stage) {
 	__BoxGeometry__00000000_.DepthSegments = 0
 
 	__Camera__00000000_.Name = `Camera`
-	__Camera__00000000_.X = 12.000000
-	__Camera__00000000_.Y = 10.000000
-	__Camera__00000000_.Z = 18.000000
-	__Camera__00000000_.TargetX = 0.000000
-	__Camera__00000000_.TargetY = 2.000000
-	__Camera__00000000_.TargetZ = -3.000000
+	__Camera__00000000_.X = 28.523025
+	__Camera__00000000_.Y = 3.258255
+	__Camera__00000000_.Z = 13.553576
+	__Camera__00000000_.TargetX = 14.328491
+	__Camera__00000000_.TargetY = 4.500352
+	__Camera__00000000_.TargetZ = -11.117900
 	__Camera__00000000_.Fov = 60.000000
 
 	__Canvas__00000000_.Name = `Singloton`
