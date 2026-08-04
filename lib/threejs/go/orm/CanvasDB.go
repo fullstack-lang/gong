@@ -87,6 +87,9 @@ type CanvasDB struct {
 	// Declation for basic field canvasDB.LastRendering
 	LastRendering_Data sql.NullTime
 
+	// Declation for basic field canvasDB.Frame64BitsEncoded
+	Frame64BitsEncoded_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CanvasPointersEncoding
@@ -114,6 +117,8 @@ type CanvasWOP struct {
 	IsWithLastRenderingUpdate bool `xlsx:"2"`
 
 	LastRendering time.Time `xlsx:"3"`
+
+	Frame64BitsEncoded string `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -123,6 +128,7 @@ var Canvas_Fields = []string{
 	"Name",
 	"IsWithLastRenderingUpdate",
 	"LastRendering",
+	"Frame64BitsEncoded",
 }
 
 type BackRepoCanvasStruct struct {
@@ -526,6 +532,9 @@ func (canvasDB *CanvasDB) CopyBasicFieldsFromCanvas(canvas *models.Canvas) {
 
 	canvasDB.LastRendering_Data.Time = canvas.LastRendering
 	canvasDB.LastRendering_Data.Valid = true
+
+	canvasDB.Frame64BitsEncoded_Data.String = canvas.Frame64BitsEncoded
+	canvasDB.Frame64BitsEncoded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCanvas_WOP
@@ -540,6 +549,9 @@ func (canvasDB *CanvasDB) CopyBasicFieldsFromCanvas_WOP(canvas *models.Canvas_WO
 
 	canvasDB.LastRendering_Data.Time = canvas.LastRendering
 	canvasDB.LastRendering_Data.Valid = true
+
+	canvasDB.Frame64BitsEncoded_Data.String = canvas.Frame64BitsEncoded
+	canvasDB.Frame64BitsEncoded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCanvasWOP
@@ -554,6 +566,9 @@ func (canvasDB *CanvasDB) CopyBasicFieldsFromCanvasWOP(canvas *CanvasWOP) {
 
 	canvasDB.LastRendering_Data.Time = canvas.LastRendering
 	canvasDB.LastRendering_Data.Valid = true
+
+	canvasDB.Frame64BitsEncoded_Data.String = canvas.Frame64BitsEncoded
+	canvasDB.Frame64BitsEncoded_Data.Valid = true
 }
 
 // CopyBasicFieldsToCanvas
@@ -562,6 +577,7 @@ func (canvasDB *CanvasDB) CopyBasicFieldsToCanvas(canvas *models.Canvas) {
 	canvas.Name = canvasDB.Name_Data.String
 	canvas.IsWithLastRenderingUpdate = canvasDB.IsWithLastRenderingUpdate_Data.Bool
 	canvas.LastRendering = canvasDB.LastRendering_Data.Time
+	canvas.Frame64BitsEncoded = canvasDB.Frame64BitsEncoded_Data.String
 }
 
 // CopyBasicFieldsToCanvas_WOP
@@ -570,6 +586,7 @@ func (canvasDB *CanvasDB) CopyBasicFieldsToCanvas_WOP(canvas *models.Canvas_WOP)
 	canvas.Name = canvasDB.Name_Data.String
 	canvas.IsWithLastRenderingUpdate = canvasDB.IsWithLastRenderingUpdate_Data.Bool
 	canvas.LastRendering = canvasDB.LastRendering_Data.Time
+	canvas.Frame64BitsEncoded = canvasDB.Frame64BitsEncoded_Data.String
 }
 
 // CopyBasicFieldsToCanvasWOP
@@ -579,6 +596,7 @@ func (canvasDB *CanvasDB) CopyBasicFieldsToCanvasWOP(canvas *CanvasWOP) {
 	canvas.Name = canvasDB.Name_Data.String
 	canvas.IsWithLastRenderingUpdate = canvasDB.IsWithLastRenderingUpdate_Data.Bool
 	canvas.LastRendering = canvasDB.LastRendering_Data.Time
+	canvas.Frame64BitsEncoded = canvasDB.Frame64BitsEncoded_Data.String
 }
 
 // Backup generates a json file from a slice of all CanvasDB instances in the backrepo

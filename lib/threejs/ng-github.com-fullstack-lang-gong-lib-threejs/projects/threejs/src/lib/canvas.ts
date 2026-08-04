@@ -22,6 +22,7 @@ export class Canvas {
 	Name: string = ""
 	IsWithLastRenderingUpdate: boolean = false
 	LastRendering: Date = new Date
+	Frame64BitsEncoded: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	DirectionalLights: Array<DirectionalLight> = []
@@ -45,6 +46,7 @@ export function CopyCanvasToCanvasAPI(canvas: Canvas, canvasAPI: CanvasAPI) {
 	canvasAPI.Name = canvas.Name
 	canvasAPI.IsWithLastRenderingUpdate = canvas.IsWithLastRenderingUpdate
 	canvasAPI.LastRendering = canvas.LastRendering
+	canvasAPI.Frame64BitsEncoded = canvas.Frame64BitsEncoded
 
 	// insertion point for pointer fields encoding
 	canvasAPI.CanvasPointersEncoding.AmbiantLightID.Valid = true
@@ -89,6 +91,7 @@ export function CopyCanvasAPIToCanvas(canvasAPI: CanvasAPI, canvas: Canvas, fron
 	canvas.Name = canvasAPI.Name
 	canvas.IsWithLastRenderingUpdate = canvasAPI.IsWithLastRenderingUpdate
 	canvas.LastRendering = canvasAPI.LastRendering
+	canvas.Frame64BitsEncoded = canvasAPI.Frame64BitsEncoded
 
 	// insertion point for pointer fields encoding
 	canvas.AmbiantLight = frontRepo.map_ID_AmbiantLight.get(canvasAPI.CanvasPointersEncoding.AmbiantLightID.Int64)

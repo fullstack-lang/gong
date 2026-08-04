@@ -5432,6 +5432,10 @@ func (canvas *Canvas) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "LastRendering",
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
+		{
+			Name:               "Frame64BitsEncoded",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -6090,6 +6094,8 @@ func (canvas *Canvas) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LastRendering":
 		res.valueString = canvas.LastRendering.String()
+	case "Frame64BitsEncoded":
+		res.valueString = canvas.Frame64BitsEncoded
 	}
 	return
 }
@@ -6690,6 +6696,8 @@ func (canvas *Canvas) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		}
 	case "IsWithLastRenderingUpdate":
 		canvas.IsWithLastRenderingUpdate = value.GetValueBool()
+	case "Frame64BitsEncoded":
+		canvas.Frame64BitsEncoded = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

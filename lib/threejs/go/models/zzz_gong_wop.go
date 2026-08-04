@@ -103,6 +103,8 @@ type Canvas_WOP struct {
 	IsWithLastRenderingUpdate bool
 
 	LastRendering time.Time
+
+	Frame64BitsEncoded string
 }
 
 func (from *Canvas) CopyBasicFields(to *Canvas) {
@@ -110,6 +112,7 @@ func (from *Canvas) CopyBasicFields(to *Canvas) {
 	to.Name = from.Name
 	to.IsWithLastRenderingUpdate = from.IsWithLastRenderingUpdate
 	to.LastRendering = from.LastRendering
+	to.Frame64BitsEncoded = from.Frame64BitsEncoded
 }
 
 type Curve_WOP struct {

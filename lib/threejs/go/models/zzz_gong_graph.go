@@ -2300,6 +2300,9 @@ func (canvas *Canvas) GongDiff(stage *Stage, canvasOther *Canvas) (diffs []strin
 	if canvas.LastRendering != canvasOther.LastRendering {
 		diffs = append(diffs, canvas.GongMarshallField(stage, "LastRendering"))
 	}
+	if canvas.Frame64BitsEncoded != canvasOther.Frame64BitsEncoded {
+		diffs = append(diffs, canvas.GongMarshallField(stage, "Frame64BitsEncoded"))
+	}
 
 	return
 }
