@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef, ViewChild, Directive, inject, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef, ViewChild, Directive, inject, OnChanges, OnInit, OnDestroy, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { NgtCanvas } from 'angular-three/dom';
 import { extend, NgtArgs } from 'angular-three';
 import * as THREE from 'three';
@@ -41,7 +41,7 @@ import { injectStore } from 'angular-three';
   selector: '[cameraUpdater]',
   standalone: true
 })
-export class CameraUpdaterDirective implements OnChanges {
+export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
   @Input('cameraUpdater') cam: any;
   @Output() cameraMoved = new EventEmitter<any>();
   
@@ -55,34 +55,53 @@ export class CameraUpdaterDirective implements OnChanges {
     this.pollCamera();
   }
 
+  ngOnDestroy() {
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+    }
+    if (this.debounceTimeout) {
+      clearTimeout(this.debounceTimeout);
+    }
+  }
+
   private lastPosition = { x: -9999, y: -9999, z: -9999 };
+  private lastTarget = { x: -9999, y: -9999, z: -9999 };
   private debounceTimeout: any;
+  private pollInterval: any;
 
   pollCamera() {
-    setInterval(() => {
+    this.pollInterval = setInterval(() => {
       const state = this.store();
       const camera = state.camera;
       if (!camera) return;
+
+      const controls = state.controls as any;
 
       const x = camera.position.x;
       const y = camera.position.y;
       const z = camera.position.z;
 
-      const diff = Math.abs(x - this.lastPosition.x) + Math.abs(y - this.lastPosition.y) + Math.abs(z - this.lastPosition.z);
+      const tx = controls?.target?.x ?? 0;
+      const ty = controls?.target?.y ?? 0;
+      const tz = controls?.target?.z ?? 0;
 
-      if (diff > 0.001) {
-        // camera moved
+      const diffPos = Math.abs(x - this.lastPosition.x) + Math.abs(y - this.lastPosition.y) + Math.abs(z - this.lastPosition.z);
+      const diffTarget = Math.abs(tx - this.lastTarget.x) + Math.abs(ty - this.lastTarget.y) + Math.abs(tz - this.lastTarget.z);
+
+      if (diffPos > 0.001 || diffTarget > 0.001) {
+        // camera or target moved
         this.lastPosition = { x, y, z };
+        this.lastTarget = { x: tx, y: ty, z: tz };
         
-        // debounce emitting until it stops moving for 500ms
+        // Debounce camera update: queue update for 250 ms before sending it to backend.
+        // Any new update cancels all more ancient queued updates.
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
-          const controls = state.controls as any;
           console.log("cameraMoved emitted! camera:", camera, "controls:", controls);
           this.cameraMoved.emit({ camera: camera, controls: controls });
-        }, 500);
+        }, 250);
       }
-    }, 100);
+    }, 50);
   }
 
   updateCamera() {
@@ -105,12 +124,13 @@ export class CameraUpdaterDirective implements OnChanges {
 
         camera.updateProjectionMatrix();
         
-        // Sync lastPosition to avoid immediate bounce back
+        // Sync lastPosition and lastTarget to avoid immediate bounce back
         this.lastPosition = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
       }
       if (controls) {
         controls.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
         controls.update();
+        this.lastTarget = { x: controls.target.x, y: controls.target.y, z: controls.target.z };
       } else {
         // Retry for controls
         const retryInterval = setInterval(() => {
@@ -119,8 +139,14 @@ export class CameraUpdaterDirective implements OnChanges {
             clearInterval(retryInterval);
             c.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
             c.update();
+            this.lastTarget = { x: c.target.x, y: c.target.y, z: c.target.z };
           }
         }, 200);
+      }
+
+      // Cancel any pending debounce timeout when camera is updated from backend
+      if (this.debounceTimeout) {
+        clearTimeout(this.debounceTimeout);
       }
     }
   }
