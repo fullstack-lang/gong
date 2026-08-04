@@ -3,7 +3,9 @@ package models
 // OnAfterUpdate, notice that camera == stagedCamera
 func (camera *Camera) OnAfterUpdate(stage *Stage, _, frontCamera *Camera) {
 
-	camera.Position = frontCamera.Position
+	camera.X = frontCamera.X
+	camera.Y = frontCamera.Y
+	camera.Z = frontCamera.Z
 	camera.TargetX = frontCamera.TargetX
 	camera.TargetY = frontCamera.TargetY
 	camera.TargetZ = frontCamera.TargetZ

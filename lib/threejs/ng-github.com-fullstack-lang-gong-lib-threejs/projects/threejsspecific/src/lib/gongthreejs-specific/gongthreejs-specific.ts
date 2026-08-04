@@ -46,6 +46,7 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
   @Output() cameraMoved = new EventEmitter<any>();
   
   private store = injectStore();
+  private ngtsOrbitControls = inject(NgtsOrbitControls, { optional: true, host: true });
   
   ngOnChanges(changes: SimpleChanges) {
     this.updateCamera();
@@ -69,21 +70,38 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
   private debounceTimeout: any;
   private pollInterval: any;
 
+  private getControls(): any {
+    const state = this.store();
+    if (state && state.controls) {
+      return state.controls;
+    }
+    if (this.ngtsOrbitControls) {
+      const controlsSignal = (this.ngtsOrbitControls as any).controls;
+      if (typeof controlsSignal === 'function') {
+        return controlsSignal();
+      }
+      if (controlsSignal) {
+        return controlsSignal;
+      }
+    }
+    return null;
+  }
+
   pollCamera() {
     this.pollInterval = setInterval(() => {
       const state = this.store();
       const camera = state.camera;
       if (!camera) return;
 
-      const controls = state.controls as any;
+      const controls = this.getControls();
 
       const x = camera.position.x;
       const y = camera.position.y;
       const z = camera.position.z;
 
-      const tx = controls?.target?.x ?? 0;
-      const ty = controls?.target?.y ?? 0;
-      const tz = controls?.target?.z ?? 0;
+      const tx = controls?.target?.x ?? this.cam?.TargetX ?? 0;
+      const ty = controls?.target?.y ?? this.cam?.TargetY ?? 0;
+      const tz = controls?.target?.z ?? this.cam?.TargetZ ?? 0;
 
       const diffPos = Math.abs(x - this.lastPosition.x) + Math.abs(y - this.lastPosition.y) + Math.abs(z - this.lastPosition.z);
       const diffTarget = Math.abs(tx - this.lastTarget.x) + Math.abs(ty - this.lastTarget.y) + Math.abs(tz - this.lastTarget.z);
@@ -97,7 +115,7 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
         // Any new update cancels all more ancient queued updates.
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
-          console.log("cameraMoved emitted! camera:", camera, "controls:", controls);
+          console.log("cameraMoved emitted! camera:", camera, "controls:", controls, "target:", { tx, ty, tz });
           this.cameraMoved.emit({ camera: camera, controls: controls });
         }, 250);
       }
@@ -108,7 +126,7 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
     if (this.cam) {
       const state = this.store();
       const camera = state.camera;
-      const controls = state.controls as any;
+      const controls = this.getControls();
       if (camera) {
         camera.position.set(this.cam.X ?? 15, this.cam.Y ?? 15, this.cam.Z ?? 15);
         camera.lookAt(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
@@ -134,7 +152,7 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
       } else {
         // Retry for controls
         const retryInterval = setInterval(() => {
-          const c = this.store().controls as any;
+          const c = this.getControls();
           if (c) {
             clearInterval(retryInterval);
             c.target.set(this.cam.TargetX ?? 0, this.cam.TargetY ?? 0, this.cam.TargetZ ?? 0);
