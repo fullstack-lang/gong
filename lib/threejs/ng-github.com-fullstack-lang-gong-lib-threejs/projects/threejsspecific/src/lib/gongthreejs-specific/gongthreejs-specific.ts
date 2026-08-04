@@ -184,7 +184,7 @@ export class GongthreejsSpecific {
   public frontRepo?: threejs.FrontRepo
 
   canvasSingloton?: threejs.Canvas
-
+  private lastProcessedGongIndex: number = -1;
 
   constructor(
     private threejsFrontRepoService: threejs.FrontRepoService,
@@ -192,6 +192,7 @@ export class GongthreejsSpecific {
     private threejsPushFromFrontNbService: threejs.PushFromFrontNbService,
     private cdr: ChangeDetectorRef,
     private cameraService: threejs.CameraService,
+    private canvasService: threejs.CanvasService,
   ) {
   }
 
@@ -308,6 +309,17 @@ export class GongthreejsSpecific {
 
         this.canvasSingloton = canvasSingloton
         this.cdr.detectChanges()
+
+        if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
+          console.log('[Front TRACE] WebSocket update received with IsWithLastRenderingUpdate=true');
+          requestAnimationFrame(() => {
+            if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
+              this.canvasSingloton.LastRendering = new Date();
+              console.log('[Front TRACE] Frame rendered, sending updateFront with LastRendering:', this.canvasSingloton.LastRendering);
+              this.canvasService.updateFront(this.canvasSingloton, this.Name).subscribe();
+            }
+          });
+        }
       }
     )
   }
