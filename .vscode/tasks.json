@@ -1160,6 +1160,22 @@
             "group": "build"
         },
         {
+            "label": "lib - threejs: go run . edit data/stage.go --test-rendering-time",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/threejs/go/cmd/threejs"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go",
+                "--test-rendering-time"
+            ],
+            "group": "build"
+        },
+        {
             "label": "lib - tone: go run . edit data/stage.go --out data/stage",
             "type": "shell",
             "options": {

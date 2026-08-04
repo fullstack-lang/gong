@@ -17,6 +17,7 @@ var (
 	embeddedDiagrams         bool
 	port                     int
 	generateStrangeFormsFlag bool
+	testRenderingTimeFlag    bool
 )
 
 var rootCmd = &cobra.Command{
@@ -33,6 +34,7 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&logGINFlag, "logGIN", false, "log mode for gin")
+	rootCmd.PersistentFlags().BoolVar(&testRenderingTimeFlag, "test-rendering-time", false, "test rendering time mode")
 
 	cobra.OnInitialize(initConfig)
 }
