@@ -13,5 +13,7 @@ func (camera *Camera) OnAfterUpdate(stage *Stage, _, frontCamera *Camera) {
 		camera.OnUpdate(frontCamera)
 	}
 
-	stage.Commit()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
 }
