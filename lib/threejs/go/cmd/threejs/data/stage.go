@@ -100,6 +100,8 @@ func _(stage *models.Stage) {
 	__Camera__00000000_.Fov = 60.000000
 
 	__Canvas__00000000_.Name = `Singloton`
+	__Canvas__00000000_.IsWithLastRenderingUpdate = true
+	__Canvas__00000000_.LastRendering, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
 	__CylinderGeometry__00000000_.Name = `Cylinder`
 	__CylinderGeometry__00000000_.RadiusTop = 2.000000

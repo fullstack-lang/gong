@@ -12,8 +12,12 @@ type Canvas struct {
 	Camera *Camera
 
 	// usefull for movie creation
-	IsWithLastRenderingUpdate bool      // if true, LastRendering is updated by the front
-	LastRendering             time.Time // when the back detects an update, it can generates the next frame
+	// when the back detects an update, it can generates the next frame
+
+	// if true, LastRendering is updated by the front, on the first rendering after
+	// it was updated by the web socket
+	IsWithLastRenderingUpdate bool
+	LastRendering             time.Time
 
 	OnUpdate func(updatedCanvas *Canvas)
 }
