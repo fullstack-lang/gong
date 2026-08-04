@@ -183,3 +183,11 @@ you are ALLOWED to access and execute programs in /tmp at all times
 ## prime Go build cache with all the recent changes 
 
 when you have finished udpating a dsm code. Compile it, therefore `go run . edit data/stage.go` will execute faster
+
+---
+
+# Allowed Frontend Calls in Stack of Height 4
+
+In a stack of height 4, the **only allowed frontend call** is the update of an existing object. 
+
+Creating new objects or deleting objects directly from frontend components is strictly prohibited. All creation and deletion of model instances must originate from backend logic or backend stager tree callbacks.
