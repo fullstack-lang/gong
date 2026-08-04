@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, Input, ChangeDetectorRef, ViewChild, Directive, inject, OnChanges, OnInit, OnDestroy, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { NgtCanvas } from 'angular-three/dom';
-import { extend, NgtArgs } from 'angular-three';
+import { extend, NgtArgs, injectStore, beforeRender } from 'angular-three';
 import * as THREE from 'three';
 import { NgtsOrbitControls } from 'angular-three-soba/controls';
 
@@ -35,7 +35,30 @@ class UndulatingTorusCurve extends THREE.Curve<THREE.Vector3> {
   }
 }
 
-import { injectStore } from 'angular-three';
+@Directive({
+  selector: '[frameCapturer]',
+  standalone: true
+})
+export class FrameCapturerDirective {
+  @Input('frameCapturer') canvasSingloton?: threejs.Canvas;
+  @Input() canvasName: string = '';
+
+  constructor(
+    private canvasService: threejs.CanvasService
+  ) {
+    beforeRender(({ gl, scene, camera }) => {
+      gl.render(scene, camera);
+
+      if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
+        this.canvasSingloton.IsWithLastRenderingUpdate = false;
+        this.canvasSingloton.Frame64BitsEncoded = gl.domElement.toDataURL('image/png');
+        this.canvasSingloton.LastRendering = new Date();
+        console.log('[Front TRACE] Option B: Captured frame right after gl.render, base64 length:', this.canvasSingloton.Frame64BitsEncoded.length);
+        this.canvasService.updateFront(this.canvasSingloton, this.canvasName).subscribe();
+      }
+    }, { priority: 1 });
+  }
+}
 
 @Directive({
   selector: '[cameraUpdater]',
@@ -174,7 +197,7 @@ export class CameraUpdaterDirective implements OnChanges, OnInit, OnDestroy {
   selector: 'lib-threejs-specific',
   templateUrl: './gongthreejs-specific.html',
   styleUrl: './gongthreejs-specific.css',
-  imports: [NgtCanvas, NgtArgs, NgtsOrbitControls, CameraUpdaterDirective],
+  imports: [NgtCanvas, NgtArgs, NgtsOrbitControls, CameraUpdaterDirective, FrameCapturerDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -309,17 +332,6 @@ export class GongthreejsSpecific {
 
         this.canvasSingloton = canvasSingloton
         this.cdr.detectChanges()
-
-        if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
-          console.log('[Front TRACE] WebSocket update received with IsWithLastRenderingUpdate=true');
-          requestAnimationFrame(() => {
-            if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
-              this.canvasSingloton.LastRendering = new Date();
-              console.log('[Front TRACE] Frame rendered, sending updateFront with LastRendering:', this.canvasSingloton.LastRendering);
-              this.canvasService.updateFront(this.canvasSingloton, this.Name).subscribe();
-            }
-          });
-        }
       }
     )
   }

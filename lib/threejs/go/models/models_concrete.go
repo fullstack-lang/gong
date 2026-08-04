@@ -18,6 +18,7 @@ type Canvas struct {
 	// it was updated by the web socket
 	IsWithLastRenderingUpdate bool
 	LastRendering             time.Time
+	Frame64BitsEncoded        string
 
 	OnUpdate func(updatedCanvas *Canvas)
 }

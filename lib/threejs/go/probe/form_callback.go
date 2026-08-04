@@ -542,6 +542,8 @@ func (canvasFormCallback *CanvasFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(canvas_.IsWithLastRenderingUpdate), formDiv)
 		case "LastRendering":
 			FormDivTimeFieldToField(&(canvas_.LastRendering), formDiv, false)
+		case "Frame64BitsEncoded":
+			FormDivBasicFieldToField(&(canvas_.Frame64BitsEncoded), formDiv)
 		}
 	}
 

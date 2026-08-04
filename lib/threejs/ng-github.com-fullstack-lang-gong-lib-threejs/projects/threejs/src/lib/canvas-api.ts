@@ -17,6 +17,7 @@ export class CanvasAPI {
 	Name: string = ""
 	IsWithLastRenderingUpdate: boolean = false
 	LastRendering: Date = new Date
+	Frame64BitsEncoded: string = ""
 
 	// insertion point for other decls
 

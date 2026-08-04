@@ -651,6 +651,8 @@ func (u *CanvasUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 				}
 			}
 		}
+	case "Frame64BitsEncoded":
+		instance.Frame64BitsEncoded = GongExtractString(valueExpr)
 	}
 	return nil
 }
