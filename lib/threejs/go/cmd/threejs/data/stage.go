@@ -29,6 +29,8 @@ func _(stage *models.Stage) {
 
 	__BoxGeometry__00000000_ := (&models.BoxGeometry{Name: `Box`}).Stage(stage)
 
+	__Camera__00000000_ := (&models.Camera{Name: `Camera`}).Stage(stage)
+
 	__Canvas__00000000_ := (&models.Canvas{Name: `Singloton`}).Stage(stage)
 
 	__CylinderGeometry__00000000_ := (&models.CylinderGeometry{Name: `Cylinder`}).Stage(stage)
@@ -87,6 +89,15 @@ func _(stage *models.Stage) {
 	__BoxGeometry__00000000_.WidthSegments = 0
 	__BoxGeometry__00000000_.HeightSegments = 0
 	__BoxGeometry__00000000_.DepthSegments = 0
+
+	__Camera__00000000_.Name = `Camera`
+	__Camera__00000000_.X = 14.359415
+	__Camera__00000000_.Y = 10.814950
+	__Camera__00000000_.Z = 10.901368
+	__Camera__00000000_.TargetX = 0.000000
+	__Camera__00000000_.TargetY = 0.000000
+	__Camera__00000000_.TargetZ = 0.000000
+	__Camera__00000000_.Fov = 75.000000
 
 	__Canvas__00000000_.Name = `Singloton`
 
@@ -265,7 +276,7 @@ func _(stage *models.Stage) {
 	__Canvas__00000000_.Meshs = append(__Canvas__00000000_.Meshs, __Mesh__00000006_)
 	__Canvas__00000000_.Meshs = append(__Canvas__00000000_.Meshs, __Mesh__00000007_)
 	__Canvas__00000000_.Meshs = append(__Canvas__00000000_.Meshs, __Mesh__00000008_)
-	__Canvas__00000000_.Camera = nil
+	__Canvas__00000000_.Camera = __Camera__00000000_
 	__ExtrudeGeometry__00000000_.Shape = __Shape__00000000_
 	__ExtrudeGeometry__00000000_.ExtrudePath = nil
 	__Mesh__00000000_.MeshMaterialBasic = nil

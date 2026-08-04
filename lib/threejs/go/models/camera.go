@@ -12,4 +12,6 @@ func (camera *Camera) OnAfterUpdate(stage *Stage, _, frontCamera *Camera) {
 	if camera.OnUpdate != nil {
 		camera.OnUpdate(frontCamera)
 	}
+
+	stage.Commit()
 }
