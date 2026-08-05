@@ -172,7 +172,7 @@ func (stager *Stager) createViews() {
 					Direction:     split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 525,
+							Size: 300,
 							AsSplit: &split.AsSplit{
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
@@ -209,7 +209,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 			{
-				Size: 525,
+				Size: 10,
 				Slider: &split.Slider{
 					StackName: stager.sliderStage.GetName(),
 				},

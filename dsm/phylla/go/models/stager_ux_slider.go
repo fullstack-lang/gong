@@ -303,6 +303,18 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"Movie Nb Frames",
+				0,
+				1000,
+				1,
+				&plant.MovieNbFrames,
+			),
+		)
+
 	}
 
 	// Add sliders for PlantDiagram 3D view

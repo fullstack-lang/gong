@@ -10402,6 +10402,9 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.RelativeKeySize != plantOther.RelativeKeySize {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeKeySize"))
 	}
+	if plant.MovieNbFrames != plantOther.MovieNbFrames {
+		diffs = append(diffs, plant.GongMarshallField(stage, "MovieNbFrames"))
+	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
 	}
