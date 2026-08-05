@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -82,6 +84,27 @@ func (stager *Stager) treePlantDiagram(
 		stager.probeForm.FillUpFormFromGongstruct(plantDiagram, GetPointerToGongstructName[*PlantDiagram]())
 		stager.stage.Commit()
 	}
+
+	recordMovieBtn := &tree.Button{
+		Name:            "Record Movie",
+		Icon:            string(buttons.BUTTON_videocam),
+		ToolTipText:     "Record movie frames from rot 0.0 to 1.0",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			if stager.isRecording {
+				stager.stopMovieRecording()
+			} else {
+				stager.startMovieRecording(plant, plantDiagram)
+			}
+		},
+	}
+	if stager.isRecording {
+		recordMovieBtn.Name = "Stop Recording"
+		recordMovieBtn.Icon = string(buttons.BUTTON_stop)
+		recordMovieBtn.ToolTipText = fmt.Sprintf("Recording... frame %d (rot: %.3f)", stager.recordingFrameCount, plant.RotationRatio)
+	}
+	plantDiagramNode.Buttons = append(plantDiagramNode.Buttons, recordMovieBtn)
 
 	if !is3DView {
 		axesNode := appendDiagramNode(stager, plantDiagramNode, "Axes", plant.AxesShape, &plantDiagram.IsHiddenAxesShape)
