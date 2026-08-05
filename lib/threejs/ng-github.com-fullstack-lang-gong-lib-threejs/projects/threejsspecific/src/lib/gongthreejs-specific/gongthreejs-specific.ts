@@ -51,10 +51,28 @@ export class FrameCapturerDirective {
 
       if (this.canvasSingloton && this.canvasSingloton.IsWithLastRenderingUpdate) {
         this.canvasSingloton.IsWithLastRenderingUpdate = false;
-        this.canvasSingloton.Frame64BitsEncoded = gl.domElement.toDataURL('image/png');
-        this.canvasSingloton.LastRendering = new Date();
-        console.log('[Front TRACE] Option B: Captured frame right after gl.render, base64 length:', this.canvasSingloton.Frame64BitsEncoded.length);
-        this.canvasService.updateFront(this.canvasSingloton, this.canvasName).subscribe();
+
+        const canvasEl = gl.domElement;
+        // Use asynchronous toBlob with JPEG encoding (0.85 quality) to minimize memory allocations & V8 heap pressure
+        canvasEl.toBlob((blob) => {
+          if (!blob) return;
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            if (this.canvasSingloton) {
+              const base64Data = reader.result as string;
+              this.canvasSingloton.Frame64BitsEncoded = base64Data;
+              this.canvasSingloton.LastRendering = new Date();
+              console.log('[Front TRACE] Option B: Captured frame via toBlob, base64 length:', base64Data.length);
+
+              // updateFront synchronously serializes canvasSingloton for HTTP request
+              this.canvasService.updateFront(this.canvasSingloton, this.canvasName).subscribe();
+
+              // Immediately release string reference from frontRepo model instance to free JS memory!
+              this.canvasSingloton.Frame64BitsEncoded = '';
+            }
+          };
+          reader.readAsDataURL(blob);
+        }, 'image/jpeg', 0.85);
       }
     }, { priority: 1 });
   }
