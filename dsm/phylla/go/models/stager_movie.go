@@ -82,10 +82,16 @@ func (stager *Stager) onCanvasFrameCaptured(canvas *threejs.Canvas) {
 	}
 
 	stager.recordingFrameCount++
-	stager.recordingRot += 0.001
-	nextRot := math.Round(stager.recordingRot*1000.0) / 1000.0
 
-	if nextRot <= 1.0000001 {
+	nbFrames := stager.recordingPlant.MovieNbFrames
+	if nbFrames <= 0 {
+		nbFrames = 1000
+	}
+	rotIncrement := 1.0 / float64(nbFrames)
+	stager.recordingRot += rotIncrement
+	nextRot := math.Round(stager.recordingRot/rotIncrement) * rotIncrement
+
+	if stager.recordingFrameCount < nbFrames {
 		stager.recordingPlant.RotationRatio = nextRot
 		stager.enforceSemantic()
 		stager.ux_3d_plant_diagram()

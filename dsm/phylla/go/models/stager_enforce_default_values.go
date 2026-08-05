@@ -66,6 +66,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.Name = "New Plant"
 		}
+		if plant.MovieNbFrames <= 0 {
+			needCommit = true
+			plant.MovieNbFrames = 1000
+		}
 	}
 
 	for _, plantDiagram := range GetGongstrucsSorted[*PlantDiagram](stager.stage) {

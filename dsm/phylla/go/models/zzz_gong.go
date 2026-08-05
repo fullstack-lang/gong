@@ -26423,6 +26423,10 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "MovieNbFrames",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -30742,6 +30746,10 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.RelativeKeySize)
 		res.valueFloat = plant.RelativeKeySize
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "MovieNbFrames":
+		res.valueString = fmt.Sprintf("%d", plant.MovieNbFrames)
+		res.valueInt = plant.MovieNbFrames
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -34931,6 +34939,8 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.WidthKey = value.GetValueFloat()
 	case "RelativeKeySize":
 		plant.RelativeKeySize = value.GetValueFloat()
+	case "MovieNbFrames":
+		plant.MovieNbFrames = int(value.GetValueInt())
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

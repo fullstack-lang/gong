@@ -5590,6 +5590,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.WidthKey), formDiv)
 		case "RelativeKeySize":
 			FormDivBasicFieldToField(&(plant_.RelativeKeySize), formDiv)
+		case "MovieNbFrames":
+			FormDivBasicFieldToField(&(plant_.MovieNbFrames), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":

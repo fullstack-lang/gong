@@ -85,6 +85,10 @@ type Plant struct {
 	// 1.0 is full hey hole occupency
 	RelativeKeySize float64
 
+	// MovieNbFrames is the number of frames for movie recording.
+	// The rotation increment per frame is 1.0 / MovieNbFrames.
+	MovieNbFrames int
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
