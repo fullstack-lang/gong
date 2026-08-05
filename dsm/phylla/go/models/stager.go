@@ -59,6 +59,13 @@ type Stager struct {
 	// the plant that is currently selected for the form
 	selectedPlant *Plant
 
+	// movie recording
+	isRecording             bool
+	recordingRot            float64
+	recordingFrameCount     int
+	recordingPlant          *Plant
+	savedInitCommitCallback OnInitCommitInterface
+
 	// maps
 	m_Plant_Library map[*Plant]*Library
 }

@@ -123,3 +123,4 @@ dsm/phylla/go/cmd/phylla/out.go
 
 // gemini generated
 dsm/phylla/go/models/*.py 
+dsm/phylla/go/cmd/phylla/movie_frames

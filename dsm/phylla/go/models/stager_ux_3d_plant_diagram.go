@@ -38,6 +38,13 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		Name: "Plant 3D Canvas",
 	}).Stage(stager.threejsStage)
 
+	if stager.isRecording {
+		canvas.IsWithLastRenderingUpdate = true
+		canvas.OnUpdate = func(updatedCanvas *threejs.Canvas) {
+			stager.onCanvasFrameCaptured(updatedCanvas)
+		}
+	}
+
 	var checkedDiagram *PlantDiagram
 	for _, diagram := range plant.PlantDiagrams {
 		if diagram.IsChecked {
