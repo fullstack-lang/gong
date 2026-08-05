@@ -45,14 +45,14 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.Name = `Plant 1`
 	__Plant__00000000_.N = 1
 	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 3
+	__Plant__00000000_.StackHeight = 12
 	__Plant__00000000_.RhombusInsideAngle = 104.000000
-	__Plant__00000000_.RelativeVerticalThickness = 0.130000
+	__Plant__00000000_.RelativeVerticalThickness = 0.300000
 	__Plant__00000000_.RelativeRadialThickness = 0.050000
-	__Plant__00000000_.RhombusSideLength = 160.000000
+	__Plant__00000000_.RhombusSideLength = 350.000000
 	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.046000
 	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
-	__Plant__00000000_.RotationRatio = 0.975000
+	__Plant__00000000_.RotationRatio = 0.999000
 	__Plant__00000000_.RadialRepetitions = 3
 	__Plant__00000000_.Transparency = 0.100000
 	__Plant__00000000_.HasAlternatingRingColors = true
@@ -62,11 +62,11 @@ func _(stage *models.Stage) {
 	__Plant__00000000_.ChosenStep = 7
 	__Plant__00000000_.RelativeHorizontalRingsHeight = 0.080000
 	__Plant__00000000_.OffsetKeyX = 54.000000
-	__Plant__00000000_.OffsetKeyY = 73.000000
-	__Plant__00000000_.HeightKey = 86.000000
-	__Plant__00000000_.WidthKey = 26.000000
+	__Plant__00000000_.OffsetKeyY = 48.000000
+	__Plant__00000000_.HeightKey = 39.000000
+	__Plant__00000000_.WidthKey = 22.000000
 	__Plant__00000000_.RelativeKeySize = 0.870000
-	__Plant__00000000_.MovieNbFrames = 206
+	__Plant__00000000_.MovieNbFrames = 1000
 	__Plant__00000000_.ComputedPrefix = ``
 	__Plant__00000000_.IsExpanded = true
 	__Plant__00000000_.IsSelected = true
@@ -116,18 +116,18 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenTopStackOfGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2DRibbon = false
-	__PlantDiagram__00000001_.IsHiddenShiftedRightGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftGrowthCurve2DRibbon = true
+	__PlantDiagram__00000001_.IsHiddenShiftedRightGrowthCurve2DRibbon = false
+	__PlantDiagram__00000001_.IsHiddenShiftedLeftGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = true
+	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = false
+	__PlantDiagram__00000001_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = false
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
 	__PlantDiagram__00000001_.IsHiddenPxShape = true
 	__PlantDiagram__00000001_.IsHiddenChosenP1P2PairShape = true
-	__PlantDiagram__00000001_.IsHiddenKeyHoleShape = true
+	__PlantDiagram__00000001_.IsHiddenKeyHoleShape = false
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
@@ -145,12 +145,12 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = -2270.740162
-	__Rendered3DShape__00000000_.ViewY = 590.596682
-	__Rendered3DShape__00000000_.ViewZ = 528.557168
-	__Rendered3DShape__00000000_.TargetX = 218.863938
-	__Rendered3DShape__00000000_.TargetY = 741.199071
-	__Rendered3DShape__00000000_.TargetZ = 41.611791
+	__Rendered3DShape__00000000_.ViewX = -3042.745074
+	__Rendered3DShape__00000000_.ViewY = 1613.037880
+	__Rendered3DShape__00000000_.ViewZ = 3260.213665
+	__Rendered3DShape__00000000_.TargetX = -182.865739
+	__Rendered3DShape__00000000_.TargetY = 1304.462442
+	__Rendered3DShape__00000000_.TargetZ = 139.265437
 	__Rendered3DShape__00000000_.Fov = 45.000000
 
 	// insertion point for setup of pointers
