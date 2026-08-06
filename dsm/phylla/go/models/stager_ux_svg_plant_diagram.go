@@ -2563,26 +2563,55 @@ func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, 
 
 	px := plant.PxShape
 
-	circle := new(svg.Circle)
-	layer.Circles = append(layer.Circles, circle)
-	circle.Name = px.Name
-	circle.CX = plantDiagram.OriginX + px.X
-	circle.CY = plantDiagram.OriginY - px.Y
-	circle.Radius = 4.0
-	circle.Presentation.Color = "magenta"
-	circle.Presentation.FillOpacity = 1.0
-	circle.Presentation.Stroke = "darkmagenta"
-	circle.Presentation.StrokeWidth = 1.0
-	circle.Presentation.StrokeOpacity = 1.0
+	circLen := 0.0
+	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
+		circLen = plant.RhombusStuff.PlantCircumferenceShape.Length
+	}
 
-	text := new(svg.Text)
-	layer.Texts = append(layer.Texts, text)
-	text.Name = px.Name + "-Text"
-	text.X = plantDiagram.OriginX + px.X - 14
-	text.Y = plantDiagram.OriginY - px.Y - 6
-	text.Content = "Px"
-	text.Presentation.Color = "magenta"
-	text.Presentation.FillOpacity = 1.0
+	_, dy, currentDX := ComputePartiallyGrowthCurveDY(plant)
+
+	drawPxAt := func(nameSuffix string, pxX, pxY float64) {
+		circle := new(svg.Circle)
+		layer.Circles = append(layer.Circles, circle)
+		circle.Name = px.Name + nameSuffix
+		circle.CX = plantDiagram.OriginX + pxX
+		circle.CY = plantDiagram.OriginY - pxY
+		circle.Radius = 4.0
+		circle.Presentation.Color = "magenta"
+		circle.Presentation.FillOpacity = 1.0
+		circle.Presentation.Stroke = "darkmagenta"
+		circle.Presentation.StrokeWidth = 1.0
+		circle.Presentation.StrokeOpacity = 1.0
+
+		text := new(svg.Text)
+		layer.Texts = append(layer.Texts, text)
+		text.Name = px.Name + nameSuffix + "-Text"
+		text.X = plantDiagram.OriginX + pxX - 14
+		text.Y = plantDiagram.OriginY - pxY - 6
+		text.Content = "Px"
+		text.Presentation.Color = "magenta"
+		text.Presentation.FillOpacity = 1.0
+	}
+
+	if !plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
+		drawPxAt("-Partially", px.X, px.Y)
+	}
+
+	if !plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon && circLen > 0 {
+		drawPxAt("-ShiftedLeftPartially", px.X-circLen, px.Y)
+	}
+
+	if !plantDiagram.IsHiddenGrowthCurve2DRibbon {
+		drawPxAt("-GrowthCurve2DRibbon", px.X-currentDX, px.Y-dy)
+	}
+
+	if !plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon && circLen > 0 {
+		drawPxAt("-ShiftedLeft", px.X-currentDX-circLen, px.Y-dy)
+	}
+
+	if !plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon && circLen > 0 {
+		drawPxAt("-ShiftedRight", px.X-currentDX+circLen, px.Y-dy)
+	}
 }
 
 func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.Layer, plant *Plant) {
