@@ -160,6 +160,96 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for ViewType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (viewtype ViewType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch viewtype {
+	// insertion code per enum code
+	case VIEW_TREE_SVG_FORM:
+		res = "Tree - SVG - Form"
+	case VIEW_TREE_SVG_SLIDER:
+		res = "Tree - SVG - Slider"
+	case VIEW_TREE_3D_SLIDER:
+		res = "Tree - 3D - Slider"
+	}
+	return
+}
+
+func (viewtype *ViewType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Tree - SVG - Form":
+		*viewtype = VIEW_TREE_SVG_FORM
+		return
+	case "Tree - SVG - Slider":
+		*viewtype = VIEW_TREE_SVG_SLIDER
+		return
+	case "Tree - 3D - Slider":
+		*viewtype = VIEW_TREE_3D_SLIDER
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (viewtype *ViewType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "VIEW_TREE_SVG_FORM":
+		*viewtype = VIEW_TREE_SVG_FORM
+	case "VIEW_TREE_SVG_SLIDER":
+		*viewtype = VIEW_TREE_SVG_SLIDER
+	case "VIEW_TREE_3D_SLIDER":
+		*viewtype = VIEW_TREE_3D_SLIDER
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (viewtype *ViewType) ToCodeString() (res string) {
+
+	switch *viewtype {
+	// insertion code per enum code
+	case VIEW_TREE_SVG_FORM:
+		res = "VIEW_TREE_SVG_FORM"
+	case VIEW_TREE_SVG_SLIDER:
+		res = "VIEW_TREE_SVG_SLIDER"
+	case VIEW_TREE_3D_SLIDER:
+		res = "VIEW_TREE_3D_SLIDER"
+	}
+	return
+}
+
+func (viewtype ViewType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "VIEW_TREE_SVG_FORM")
+	res = append(res, "VIEW_TREE_SVG_SLIDER")
+	res = append(res, "VIEW_TREE_3D_SLIDER")
+
+	return
+}
+
+func (viewtype ViewType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Tree - SVG - Form")
+	res = append(res, "Tree - SVG - Slider")
+	res = append(res, "Tree - 3D - Slider")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {

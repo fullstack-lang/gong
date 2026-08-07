@@ -5555,7 +5555,7 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 		case "VaseAbstract":
 			FormDivSelectFieldToField(&(plantabstract_.VaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "CurrentView":
-			FormDivBasicFieldToField(&(plantabstract_.CurrentView), formDiv)
+			FormDivEnumStringFieldToField(&(plantabstract_.CurrentView), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plantabstract_.ComputedPrefix), formDiv)
 		case "IsExpanded":

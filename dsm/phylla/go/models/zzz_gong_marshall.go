@@ -2254,10 +2254,18 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plantabstract.RhombusInsideAngle))
 	case "CurrentView":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentView")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.CurrentView))
+		if plantabstract.CurrentView.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentView")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+plantabstract.CurrentView.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentView")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))

@@ -999,7 +999,7 @@ type PlantAbstract_WOP struct {
 
 	RhombusInsideAngle float64
 
-	CurrentView string
+	CurrentView ViewType
 
 	ComputedPrefix string
 
