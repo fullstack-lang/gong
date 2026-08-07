@@ -5552,6 +5552,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantabstract_.StackHeight), formDiv)
 		case "RhombusInsideAngle":
 			FormDivBasicFieldToField(&(plantabstract_.RhombusInsideAngle), formDiv)
+		case "PlantType":
+			FormDivEnumStringFieldToField(&(plantabstract_.PlantType), formDiv)
 		case "VaseAbstract":
 			FormDivSelectFieldToField(&(plantabstract_.VaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "CurrentView":

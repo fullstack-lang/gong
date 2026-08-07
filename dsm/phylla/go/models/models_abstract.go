@@ -86,6 +86,14 @@ const (
 	VIEW_VASE_3D   ViewType = "Vase 3D"
 )
 
+type PlantType string
+
+const (
+	PLANT_TYPE_PLANT PlantType = "Plant"
+	PLANT_TYPE_VASE  PlantType = "Vase"
+	PLANT_TYPE_STOOL PlantType = "Stool"
+)
+
 // Depending on the specific chirality (handedness) of the plant specimen, N may
 // represent the number of clockwise spirals while M represents the counter-clockwise
 // spirals, or vice versa.
@@ -101,6 +109,8 @@ type PlantAbstract struct {
 	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
 	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
 	RhombusInsideAngle float64
+
+	PlantType PlantType
 
 	VaseAbstract *VaseAbstract
 

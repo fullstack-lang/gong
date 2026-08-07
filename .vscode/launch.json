@@ -278,6 +278,18 @@
             ]
         },
         {
+            "name": "dsm - phylla: go run plant.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/phylla/go/cmd/phylla",
+            "args": [
+                "edit",
+                "--embedded-diagrams=false",
+                "data/plant.go"
+            ]
+        },
+        {
             "name": "dsm - process : merge",
             "type": "go",
             "request": "launch",
@@ -1702,6 +1714,18 @@
                 "edit",
                 "--embedded-diagrams=false",
                 "data/vase.go"
+            ]
+        },
+        {
+            "name": "dsm - phylla: go run plant.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/phylla/go/cmd/phylla",
+            "args": [
+                "edit",
+                "--embedded-diagrams=false",
+                "data/plant.go"
             ]
         },
     ]

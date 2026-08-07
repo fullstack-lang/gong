@@ -2187,6 +2187,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.StackHeight = GongExtractInt(valueExpr)
 	case "RhombusInsideAngle":
 		instance.RhombusInsideAngle = GongExtractFloat(valueExpr)
+	case "PlantType":
+		GongUnmarshallEnum(&instance.PlantType, valueExpr)
 	case "VaseAbstract":
 		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
 	case "CurrentView":

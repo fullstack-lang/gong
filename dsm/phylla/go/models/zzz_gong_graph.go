@@ -10445,6 +10445,9 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 	if plantabstract.RhombusInsideAngle != plantabstractOther.RhombusInsideAngle {
 		diffs = append(diffs, plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
 	}
+	if plantabstract.PlantType != plantabstractOther.PlantType {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "PlantType"))
+	}
 	if (plantabstract.VaseAbstract == nil) != (plantabstractOther.VaseAbstract == nil) {
 		diffs = append(diffs, plantabstract.GongMarshallField(stage, "VaseAbstract"))
 	} else if plantabstract.VaseAbstract != nil && plantabstractOther.VaseAbstract != nil {

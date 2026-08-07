@@ -160,6 +160,96 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for PlantType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (planttype PlantType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch planttype {
+	// insertion code per enum code
+	case PLANT_TYPE_PLANT:
+		res = "Plant"
+	case PLANT_TYPE_VASE:
+		res = "Vase"
+	case PLANT_TYPE_STOOL:
+		res = "Stool"
+	}
+	return
+}
+
+func (planttype *PlantType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Plant":
+		*planttype = PLANT_TYPE_PLANT
+		return
+	case "Vase":
+		*planttype = PLANT_TYPE_VASE
+		return
+	case "Stool":
+		*planttype = PLANT_TYPE_STOOL
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (planttype *PlantType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "PLANT_TYPE_PLANT":
+		*planttype = PLANT_TYPE_PLANT
+	case "PLANT_TYPE_VASE":
+		*planttype = PLANT_TYPE_VASE
+	case "PLANT_TYPE_STOOL":
+		*planttype = PLANT_TYPE_STOOL
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (planttype *PlantType) ToCodeString() (res string) {
+
+	switch *planttype {
+	// insertion code per enum code
+	case PLANT_TYPE_PLANT:
+		res = "PLANT_TYPE_PLANT"
+	case PLANT_TYPE_VASE:
+		res = "PLANT_TYPE_VASE"
+	case PLANT_TYPE_STOOL:
+		res = "PLANT_TYPE_STOOL"
+	}
+	return
+}
+
+func (planttype PlantType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "PLANT_TYPE_PLANT")
+	res = append(res, "PLANT_TYPE_VASE")
+	res = append(res, "PLANT_TYPE_STOOL")
+
+	return
+}
+
+func (planttype PlantType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Plant")
+	res = append(res, "Vase")
+	res = append(res, "Stool")
+
+	return
+}
+
 // Utility function for ViewType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
