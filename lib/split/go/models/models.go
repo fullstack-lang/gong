@@ -37,6 +37,15 @@ type View struct {
 	IsSizeInPixel          bool
 	IsWithCustomGutterSize bool
 	GutterSize             float64
+
+	OnClick func()
+}
+
+// OnAfterUpdate is called when there is an update to the view
+func (view *View) OnAfterUpdate(stage *Stage, _, frontView *View) {
+	if frontView.IsSelectedView && view.OnClick != nil {
+		view.OnClick()
+	}
 }
 
 type Direction string

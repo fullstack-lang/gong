@@ -6,16 +6,6 @@ import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
-type ViewUpdateCallback struct {
-	stager *Stager
-}
-
-func (c *ViewUpdateCallback) OnAfterUpdate(stage *split.Stage, old, new *split.View) {
-	if new.IsSelectedView && strings.Contains(new.Name, "3D") {
-		c.stager.ux_3d_plant_diagram()
-	}
-}
-
 func getPersistanceFile(stager *Stager) string {
 	if stager.stage.OnInitCommitCallback != nil {
 		return stager.persistanceFile
@@ -24,21 +14,63 @@ func getPersistanceFile(stager *Stager) string {
 	}
 }
 
+func (stager *Stager) updateSelectedViewFromPlant(plant *PlantAbstract) {
+	if plant == nil || plant.CurrentView == "" {
+		return
+	}
+	modified := false
+	for view := range *split.GetGongstructInstancesSetFromPointerType[*split.View](stager.splitStage) {
+		isSelected := (view.Name == plant.CurrentView) || strings.HasPrefix(view.Name, plant.CurrentView) || strings.HasPrefix(plant.CurrentView, view.Name)
+		if view.IsSelectedView != isSelected {
+			view.IsSelectedView = isSelected
+			modified = true
+		}
+	}
+	if modified {
+		stager.splitStage.Commit()
+	}
+}
+
 func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
-	split.SetCallbackAfterUpdateFromFront[split.View](stager.splitStage, &ViewUpdateCallback{stager: stager})
+	split.SetOrchestratorOnAfterUpdate[split.View](stager.splitStage)
 
 	tabTitle := &split.Title{
 		Name: "Phylla (" + getPersistanceFile(stager) + ")",
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Tree - SVG - Form (" + getPersistanceFile(stager) + ")",
+	currentView := ""
+	plant := stager.GetCurrentPlant()
+	if plant != nil {
+		currentView = plant.CurrentView
+	}
+
+	view1Name := "Tree - SVG - Form (" + getPersistanceFile(stager) + ")"
+	view2Name := "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")"
+	view3Name := "Tree - 3D - Slider (" + getPersistanceFile(stager) + ")"
+
+	if currentView == "" {
+		currentView = view3Name
+		if plant != nil {
+			plant.CurrentView = "Tree - 3D - Slider"
+		}
+	}
+
+	isView1Selected := (currentView == view1Name) || strings.HasPrefix(currentView, "Tree - SVG - Form")
+	isView2Selected := (currentView == view2Name) || strings.HasPrefix(currentView, "Tree - SVG - Slider")
+	isView3Selected := (currentView == view3Name) || strings.HasPrefix(currentView, "Tree - 3D - Slider")
+
+	if !isView1Selected && !isView2Selected && !isView3Selected {
+		isView3Selected = true
+	}
+
+	v1 := &split.View{
+		Name:           view1Name,
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
-		IsSelectedView: false,
+		IsSelectedView: isView1Selected,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
@@ -93,13 +125,21 @@ func (stager *Stager) createViews() {
 				},
 			},
 		},
-	})
+	}
+	split.StageBranch(stager.splitStage, v1)
+	v1.OnClick = func() {
+		plant := stager.GetCurrentPlant()
+		if plant != nil && plant.CurrentView != "Tree - SVG - Form" {
+			plant.CurrentView = "Tree - SVG - Form"
+			stager.stage.Commit()
+		}
+	}
 
-	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")",
+	v2 := &split.View{
+		Name:           view2Name,
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
-		IsSelectedView: false,
+		IsSelectedView: isView2Selected,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
@@ -154,13 +194,21 @@ func (stager *Stager) createViews() {
 				},
 			},
 		},
-	})
+	}
+	split.StageBranch(stager.splitStage, v2)
+	v2.OnClick = func() {
+		plant := stager.GetCurrentPlant()
+		if plant != nil && plant.CurrentView != "Tree - SVG - Slider" {
+			plant.CurrentView = "Tree - SVG - Slider"
+			stager.stage.Commit()
+		}
+	}
 
-	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Tree - 3D - Slider (" + getPersistanceFile(stager) + ")",
+	v3 := &split.View{
+		Name:           view3Name,
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
-		IsSelectedView: true,
+		IsSelectedView: isView3Selected,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
@@ -215,7 +263,16 @@ func (stager *Stager) createViews() {
 				},
 			},
 		},
-	})
+	}
+	split.StageBranch(stager.splitStage, v3)
+	v3.OnClick = func() {
+		plant := stager.GetCurrentPlant()
+		if plant != nil && plant.CurrentView != "Tree - 3D - Slider" {
+			plant.CurrentView = "Tree - 3D - Slider"
+			stager.stage.Commit()
+		}
+		stager.ux_3d_plant_diagram()
+	}
 
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",

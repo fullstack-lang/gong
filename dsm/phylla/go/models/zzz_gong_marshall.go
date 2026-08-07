@@ -398,6 +398,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsSelected"))
@@ -2252,6 +2253,11 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plantabstract.RhombusInsideAngle))
+	case "CurrentView":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentView")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.CurrentView))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
@@ -6236,6 +6242,7 @@ func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsSelected"))

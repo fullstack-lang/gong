@@ -95,6 +95,8 @@ type PlantAbstract struct {
 
 	VaseAbstract *VaseAbstract
 
+	CurrentView string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 

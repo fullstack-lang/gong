@@ -999,6 +999,8 @@ type PlantAbstract_WOP struct {
 
 	RhombusInsideAngle float64
 
+	CurrentView string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -1015,6 +1017,7 @@ func (from *PlantAbstract) CopyBasicFields(to *PlantAbstract) {
 	to.M = from.M
 	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
+	to.CurrentView = from.CurrentView
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected
