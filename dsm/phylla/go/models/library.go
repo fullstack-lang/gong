@@ -21,5 +21,5 @@ type Library struct {
 	objects []AbstractType
 
 	// DSM specific
-	Plants []*Plant
+	Plants []*PlantAbstract
 }

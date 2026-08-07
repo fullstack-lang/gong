@@ -13,7 +13,7 @@ func (stager *Stager) generateRibbonMesh(
 	stackHeight int,
 	totalThetaOffset float64,
 	namePrefix string,
-	plant *Plant,
+	plant *PlantAbstract,
 	checkedDiagram *PlantDiagram,
 	localBottomCurve *threejs.Curve,
 	localTopCurve *threejs.Curve,
@@ -22,8 +22,32 @@ func (stager *Stager) generateRibbonMesh(
 	globalR float64,
 	canvas *threejs.Canvas,
 ) {
+	hasAlternatingRingColors := false
+	offsetKeyX := 0.0
+	widthKey := 0.0
+	offsetKeyY := 0.0
+	heightKey := 0.0
+	radialRepetitions := 1
+	transparency := 0.0
+	trajOffsetXRel := 0.0
+	trajOffsetYRel := 0.0
+	rotRatio := 0.0
+	if plant.VaseAbstract != nil {
+		vase := plant.VaseAbstract
+		hasAlternatingRingColors = vase.HasAlternatingRingColors
+		offsetKeyX = vase.OffsetKeyX
+		widthKey = vase.WidthKey
+		offsetKeyY = vase.OffsetKeyY
+		heightKey = vase.HeightKey
+		radialRepetitions = vase.RadialRepetitions
+		transparency = vase.Transparency
+		trajOffsetXRel = vase.RelativeTrajectoryOffsetX
+		trajOffsetYRel = vase.RelativeTrajectoryOffsetY
+		rotRatio = vase.RotationRatio
+	}
+
 	japanesePaperColor := "#fdf6e3" // Off-white cream color for Washi paper
-	if plant.HasAlternatingRingColors && h%2 != 0 {
+	if hasAlternatingRingColors && h%2 != 0 {
 		japanesePaperColor = "#8d6e63" // Warm rose brown / wood paper color for alternating rings
 	}
 
@@ -56,14 +80,14 @@ func (stager *Stager) generateRibbonMesh(
 	var y_bottom_abs, y_top_abs float64
 
 	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 && h != 0 {
-		x_left := plant.OffsetKeyX - plant.WidthKey/2.0
-		x_right := plant.OffsetKeyX + plant.WidthKey/2.0
-		y_bottom_abs = plant.OffsetKeyY - plant.HeightKey/2.0 + dy
-		y_top_abs = plant.OffsetKeyY + plant.HeightKey/2.0 + dy
+		x_left := offsetKeyX - widthKey/2.0
+		x_right := offsetKeyX + widthKey/2.0
+		y_bottom_abs = offsetKeyY - heightKey/2.0 + dy
+		y_top_abs = offsetKeyY + heightKey/2.0 + dy
 
 		hasHole = true
 
-		numPointsPerRep := len(localBottomCurve.Points) / plant.RadialRepetitions
+		numPointsPerRep := len(localBottomCurve.Points) / radialRepetitions
 		if numPointsPerRep == 0 {
 			numPointsPerRep = 1
 		}
@@ -76,8 +100,12 @@ func (stager *Stager) generateRibbonMesh(
 			firstP := curve.Points[0]
 			lastTheta := math.Atan2(firstP.Z, firstP.X)
 			accumulated := lastTheta
-			for accumulated < 0 { accumulated += 2 * math.Pi }
-			for accumulated >= 2*math.Pi { accumulated -= 2 * math.Pi }
+			for accumulated < 0 {
+				accumulated += 2 * math.Pi
+			}
+			for accumulated >= 2*math.Pi {
+				accumulated -= 2 * math.Pi
+			}
 			angles[0] = accumulated
 			lastTheta = math.Atan2(firstP.Z, firstP.X)
 
@@ -85,8 +113,12 @@ func (stager *Stager) generateRibbonMesh(
 				p := curve.Points[i]
 				theta := math.Atan2(p.Z, p.X)
 				diff := theta - lastTheta
-				for diff < -math.Pi { diff += 2 * math.Pi }
-				for diff > math.Pi { diff -= 2 * math.Pi }
+				for diff < -math.Pi {
+					diff += 2 * math.Pi
+				}
+				for diff > math.Pi {
+					diff -= 2 * math.Pi
+				}
 				accumulated += diff
 				angles[i] = accumulated
 				lastTheta = theta
@@ -98,19 +130,29 @@ func (stager *Stager) generateRibbonMesh(
 
 		for i := 0; i < len(localBottomCurve.Points); i++ {
 			k := i / numPointsPerRep
-			if k >= plant.RadialRepetitions { k = plant.RadialRepetitions - 1 }
+			if k >= radialRepetitions {
+				k = radialRepetitions - 1
+			}
 
-			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(plant.RadialRepetitions)
+			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 			th_left := x_left/globalR + totalThetaOffset + baseThetaOffset
 			th_right := x_right/globalR + totalThetaOffset + baseThetaOffset
-			
+
 			diff_left := th_continuous[i] - th_left
-			for diff_left > math.Pi { diff_left -= 2 * math.Pi }
-			for diff_left < -math.Pi { diff_left += 2 * math.Pi }
-			
+			for diff_left > math.Pi {
+				diff_left -= 2 * math.Pi
+			}
+			for diff_left < -math.Pi {
+				diff_left += 2 * math.Pi
+			}
+
 			diff_right := th_continuous[i] - th_right
-			for diff_right > math.Pi { diff_right -= 2 * math.Pi }
-			for diff_right < -math.Pi { diff_right += 2 * math.Pi }
+			for diff_right > math.Pi {
+				diff_right -= 2 * math.Pi
+			}
+			for diff_right < -math.Pi {
+				diff_right += 2 * math.Pi
+			}
 
 			if diff_left >= 0 && diff_right <= 0 {
 				inHoleArr[i] = true
@@ -195,7 +237,7 @@ func (stager *Stager) generateRibbonMesh(
 	// The ribbon surface is vertically subdivided into 3 horizontal bands formed
 	// by the 4 elevation levels (y0, y1, y2, y3) computed during the vertex pass.
 
-	numPointsPerRep := len(localBottomCurve.Points) / plant.RadialRepetitions
+	numPointsPerRep := len(localBottomCurve.Points) / radialRepetitions
 	if numPointsPerRep == 0 {
 		numPointsPerRep = 1
 	}
@@ -244,7 +286,7 @@ func (stager *Stager) generateRibbonMesh(
 		}
 	}
 
-	opacity := 1.0 - plant.Transparency
+	opacity := 1.0 - transparency
 	if opacity < 0.0 {
 		opacity = 0.0
 	}
@@ -299,8 +341,8 @@ func (stager *Stager) generateRibbonMesh(
 		canvas.Meshs = append(canvas.Meshs, holeWallsMesh)
 	}
 
-	bottomFace := stager.createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, plant.Transparency)
-	topFace := stager.createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true, plant.Transparency)
+	bottomFace := stager.createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, transparency)
+	topFace := stager.createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true, transparency)
 	canvas.Meshs = append(canvas.Meshs, bottomFace, topFace)
 
 	outerRadius := 0.1
@@ -332,13 +374,13 @@ func (stager *Stager) generateRibbonMesh(
 		if plant.StackOfGrowthCurve2DRibbon != nil && len(plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes) > 0 && plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
 			baseShape := plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes[0]
 			circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
-			trajOffsetX := plant.RelativeTrajectoryOffsetX * circLen
-			trajOffsetY := plant.RelativeTrajectoryOffsetY * circLen
+			trajOffsetX := trajOffsetXRel * circLen
+			trajOffsetY := trajOffsetYRel * circLen
 
 			var r_h1 float64
 			if stackHeight > 1 {
 				numSteps := stackHeight - 1
-				totalProgress := plant.RotationRatio * float64(numSteps)
+				totalProgress := rotRatio * float64(numSteps)
 				kStep := float64(numSteps - h)
 				if totalProgress >= kStep {
 					r_h1 = 1.0
@@ -348,7 +390,7 @@ func (stager *Stager) generateRibbonMesh(
 					r_h1 = totalProgress - (kStep - 1.0)
 				}
 			} else {
-				r_h1 = plant.RotationRatio
+				r_h1 = rotRatio
 			}
 
 			_, dyStep, currentDXStep := ComputePartiallyGrowthCurveDYForRatio(plant, r_h1)
@@ -363,8 +405,8 @@ func (stager *Stager) generateRibbonMesh(
 			sphereRad = 0.3
 		}
 
-		for rep := 0; rep < plant.RadialRepetitions; rep++ {
-			baseThetaOffset := float64(rep) * 2.0 * math.Pi / float64(plant.RadialRepetitions)
+		for rep := 0; rep < radialRepetitions; rep++ {
+			baseThetaOffset := float64(rep) * 2.0 * math.Pi / float64(radialRepetitions)
 			currentThetaOffset := totalThetaOffset + baseThetaOffset
 
 			get3DPt := func(ptX, ptY float64, ptName string) *threejs.Vector3 {
@@ -462,3 +504,5 @@ func (stager *Stager) generateRibbonMesh(
 		}
 	}
 }
+
+

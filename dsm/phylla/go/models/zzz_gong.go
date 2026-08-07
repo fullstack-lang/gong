@@ -549,7 +549,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
-	Library_Plants_reverseMap map[*Plant]*Library
+	Library_Plants_reverseMap map[*PlantAbstract]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -863,22 +863,22 @@ type Stage struct {
 	OnAfterPerpendicularVectorHalfwayDeleteCallback OnAfterDeleteInterface[PerpendicularVectorHalfway]
 	OnAfterPerpendicularVectorHalfwayReadCallback   OnAfterReadInterface[PerpendicularVectorHalfway]
 
-	Plants                map[*Plant]struct{}
-	Plants_instance       map[*Plant]*Plant
-	Plants_mapString      map[string]*Plant
-	PlantOrder            uint
-	Plant_stagedOrder     map[*Plant]uint
-	Plant_orderStaged     map[uint]*Plant
-	Plants_reference      map[*Plant]*Plant
-	Plants_referenceOrder map[*Plant]uint
+	PlantAbstracts                map[*PlantAbstract]struct{}
+	PlantAbstracts_instance       map[*PlantAbstract]*PlantAbstract
+	PlantAbstracts_mapString      map[string]*PlantAbstract
+	PlantAbstractOrder            uint
+	PlantAbstract_stagedOrder     map[*PlantAbstract]uint
+	PlantAbstract_orderStaged     map[uint]*PlantAbstract
+	PlantAbstracts_reference      map[*PlantAbstract]*PlantAbstract
+	PlantAbstracts_referenceOrder map[*PlantAbstract]uint
 
 	// insertion point for slice of pointers maps
-	Plant_PlantDiagrams_reverseMap map[*PlantDiagram]*Plant
+	PlantAbstract_PlantDiagrams_reverseMap map[*PlantDiagram]*PlantAbstract
 
-	OnAfterPlantCreateCallback OnAfterCreateInterface[Plant]
-	OnAfterPlantUpdateCallback OnAfterUpdateInterface[Plant]
-	OnAfterPlantDeleteCallback OnAfterDeleteInterface[Plant]
-	OnAfterPlantReadCallback   OnAfterReadInterface[Plant]
+	OnAfterPlantAbstractCreateCallback OnAfterCreateInterface[PlantAbstract]
+	OnAfterPlantAbstractUpdateCallback OnAfterUpdateInterface[PlantAbstract]
+	OnAfterPlantAbstractDeleteCallback OnAfterDeleteInterface[PlantAbstract]
+	OnAfterPlantAbstractReadCallback   OnAfterReadInterface[PlantAbstract]
 
 	PlantCircumferenceShapes                map[*PlantCircumferenceShape]struct{}
 	PlantCircumferenceShapes_instance       map[*PlantCircumferenceShape]*PlantCircumferenceShape
@@ -1870,6 +1870,21 @@ type Stage struct {
 	OnAfterTorusStackShapeDeleteCallback OnAfterDeleteInterface[TorusStackShape]
 	OnAfterTorusStackShapeReadCallback   OnAfterReadInterface[TorusStackShape]
 
+	VaseAbstracts                map[*VaseAbstract]struct{}
+	VaseAbstracts_instance       map[*VaseAbstract]*VaseAbstract
+	VaseAbstracts_mapString      map[string]*VaseAbstract
+	VaseAbstractOrder            uint
+	VaseAbstract_stagedOrder     map[*VaseAbstract]uint
+	VaseAbstract_orderStaged     map[uint]*VaseAbstract
+	VaseAbstracts_reference      map[*VaseAbstract]*VaseAbstract
+	VaseAbstracts_referenceOrder map[*VaseAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVaseAbstractCreateCallback OnAfterCreateInterface[VaseAbstract]
+	OnAfterVaseAbstractUpdateCallback OnAfterUpdateInterface[VaseAbstract]
+	OnAfterVaseAbstractDeleteCallback OnAfterDeleteInterface[VaseAbstract]
+	OnAfterVaseAbstractReadCallback   OnAfterReadInterface[VaseAbstract]
+
 	VerticalTorusStackShapes                map[*VerticalTorusStackShape]struct{}
 	VerticalTorusStackShapes_instance       map[*VerticalTorusStackShape]*VerticalTorusStackShape
 	VerticalTorusStackShapes_mapString      map[string]*VerticalTorusStackShape
@@ -2320,9 +2335,9 @@ func (stage *Stage) Squash() {
 	stage.PerpendicularVectorHalfways_instance = make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway)
 	stage.PerpendicularVectorHalfways_referenceOrder = make(map[*PerpendicularVectorHalfway]uint)
 
-	stage.Plants_reference = make(map[*Plant]*Plant)
-	stage.Plants_instance = make(map[*Plant]*Plant)
-	stage.Plants_referenceOrder = make(map[*Plant]uint)
+	stage.PlantAbstracts_reference = make(map[*PlantAbstract]*PlantAbstract)
+	stage.PlantAbstracts_instance = make(map[*PlantAbstract]*PlantAbstract)
+	stage.PlantAbstracts_referenceOrder = make(map[*PlantAbstract]uint)
 
 	stage.PlantCircumferenceShapes_reference = make(map[*PlantCircumferenceShape]*PlantCircumferenceShape)
 	stage.PlantCircumferenceShapes_instance = make(map[*PlantCircumferenceShape]*PlantCircumferenceShape)
@@ -2571,6 +2586,10 @@ func (stage *Stage) Squash() {
 	stage.TorusStackShapes_reference = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint)
+
+	stage.VaseAbstracts_reference = make(map[*VaseAbstract]*VaseAbstract)
+	stage.VaseAbstracts_instance = make(map[*VaseAbstract]*VaseAbstract)
+	stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint)
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShapes_instance = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -3251,18 +3270,18 @@ func (stage *Stage) recomputeOrders() {
 		stage.PerpendicularVectorHalfwayOrder = 0
 	}
 
-	var maxPlantOrder uint
-	var foundPlant bool
-	for _, order := range stage.Plant_stagedOrder {
-		if !foundPlant || order > maxPlantOrder {
-			maxPlantOrder = order
-			foundPlant = true
+	var maxPlantAbstractOrder uint
+	var foundPlantAbstract bool
+	for _, order := range stage.PlantAbstract_stagedOrder {
+		if !foundPlantAbstract || order > maxPlantAbstractOrder {
+			maxPlantAbstractOrder = order
+			foundPlantAbstract = true
 		}
 	}
-	if foundPlant {
-		stage.PlantOrder = maxPlantOrder + 1
+	if foundPlantAbstract {
+		stage.PlantAbstractOrder = maxPlantAbstractOrder + 1
 	} else {
-		stage.PlantOrder = 0
+		stage.PlantAbstractOrder = 0
 	}
 
 	var maxPlantCircumferenceShapeOrder uint
@@ -4133,6 +4152,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.TorusStackShapeOrder = 0
 	}
 
+	var maxVaseAbstractOrder uint
+	var foundVaseAbstract bool
+	for _, order := range stage.VaseAbstract_stagedOrder {
+		if !foundVaseAbstract || order > maxVaseAbstractOrder {
+			maxVaseAbstractOrder = order
+			foundVaseAbstract = true
+		}
+	}
+	if foundVaseAbstract {
+		stage.VaseAbstractOrder = maxVaseAbstractOrder + 1
+	} else {
+		stage.VaseAbstractOrder = 0
+	}
+
 	var maxVerticalTorusStackShapeOrder uint
 	var foundVerticalTorusStackShape bool
 	for _, order := range stage.VerticalTorusStackShape_stagedOrder {
@@ -4866,8 +4899,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Plant:
-		tmp := GetStructInstancesByOrder(stage.Plants, stage.Plant_stagedOrder)
+	case *PlantAbstract:
+		tmp := GetStructInstancesByOrder(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4876,7 +4909,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Plant implements.
+			// is an interface that *PlantAbstract implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -5748,6 +5781,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *VaseAbstract:
+		tmp := GetStructInstancesByOrder(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *VaseAbstract implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *VerticalTorusStackShape:
 		tmp := GetStructInstancesByOrder(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 
@@ -5897,8 +5944,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
 	case "PerpendicularVectorHalfway":
 		res = GetNamedStructInstances(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
-	case "Plant":
-		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
+	case "PlantAbstract":
+		res = GetNamedStructInstances(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
 	case "PlantCircumferenceShape":
 		res = GetNamedStructInstances(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
 	case "PlantDiagram":
@@ -6023,6 +6070,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
 	case "TorusStackShape":
 		res = GetNamedStructInstances(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
+	case "VaseAbstract":
+		res = GetNamedStructInstances(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
 	case "VerticalTorusStackShape":
 		res = GetNamedStructInstances(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 	case "VolumeKey3DShape":
@@ -6188,8 +6237,8 @@ type BackRepoInterface interface {
 	CheckoutPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway)
 	CommitPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
 	CheckoutPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
-	CommitPlant(plant *Plant)
-	CheckoutPlant(plant *Plant)
+	CommitPlantAbstract(plantabstract *PlantAbstract)
+	CheckoutPlantAbstract(plantabstract *PlantAbstract)
 	CommitPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
 	CheckoutPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
 	CommitPlantDiagram(plantdiagram *PlantDiagram)
@@ -6314,6 +6363,8 @@ type BackRepoInterface interface {
 	CheckoutTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
 	CommitTorusStackShape(torusstackshape *TorusStackShape)
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
+	CommitVaseAbstract(vaseabstract *VaseAbstract)
+	CheckoutVaseAbstract(vaseabstract *VaseAbstract)
 	CommitVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CheckoutVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CommitVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape)
@@ -6462,8 +6513,8 @@ func NewStage(name string) (stage *Stage) {
 		PerpendicularVectorHalfways:           make(map[*PerpendicularVectorHalfway]struct{}),
 		PerpendicularVectorHalfways_mapString: make(map[string]*PerpendicularVectorHalfway),
 
-		Plants:           make(map[*Plant]struct{}),
-		Plants_mapString: make(map[string]*Plant),
+		PlantAbstracts:           make(map[*PlantAbstract]struct{}),
+		PlantAbstracts_mapString: make(map[string]*PlantAbstract),
 
 		PlantCircumferenceShapes:           make(map[*PlantCircumferenceShape]struct{}),
 		PlantCircumferenceShapes_mapString: make(map[string]*PlantCircumferenceShape),
@@ -6650,6 +6701,9 @@ func NewStage(name string) (stage *Stage) {
 
 		TorusStackShapes:           make(map[*TorusStackShape]struct{}),
 		TorusStackShapes_mapString: make(map[string]*TorusStackShape),
+
+		VaseAbstracts:           make(map[*VaseAbstract]struct{}),
+		VaseAbstracts_mapString: make(map[string]*VaseAbstract),
 
 		VerticalTorusStackShapes:           make(map[*VerticalTorusStackShape]struct{}),
 		VerticalTorusStackShapes_mapString: make(map[string]*VerticalTorusStackShape),
@@ -6851,9 +6905,9 @@ func NewStage(name string) (stage *Stage) {
 		PerpendicularVectorHalfway_orderStaged: make(map[uint]*PerpendicularVectorHalfway),
 		PerpendicularVectorHalfways_reference:  make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway),
 
-		Plant_stagedOrder: make(map[*Plant]uint),
-		Plant_orderStaged: make(map[uint]*Plant),
-		Plants_reference:  make(map[*Plant]*Plant),
+		PlantAbstract_stagedOrder: make(map[*PlantAbstract]uint),
+		PlantAbstract_orderStaged: make(map[uint]*PlantAbstract),
+		PlantAbstracts_reference:  make(map[*PlantAbstract]*PlantAbstract),
 
 		PlantCircumferenceShape_stagedOrder: make(map[*PlantCircumferenceShape]uint),
 		PlantCircumferenceShape_orderStaged: make(map[uint]*PlantCircumferenceShape),
@@ -7103,6 +7157,10 @@ func NewStage(name string) (stage *Stage) {
 		TorusStackShape_orderStaged: make(map[uint]*TorusStackShape),
 		TorusStackShapes_reference:  make(map[*TorusStackShape]*TorusStackShape),
 
+		VaseAbstract_stagedOrder: make(map[*VaseAbstract]uint),
+		VaseAbstract_orderStaged: make(map[uint]*VaseAbstract),
+		VaseAbstracts_reference:  make(map[*VaseAbstract]*VaseAbstract),
+
 		VerticalTorusStackShape_stagedOrder: make(map[*VerticalTorusStackShape]uint),
 		VerticalTorusStackShape_orderStaged: make(map[uint]*VerticalTorusStackShape),
 		VerticalTorusStackShapes_reference:  make(map[*VerticalTorusStackShape]*VerticalTorusStackShape),
@@ -7205,7 +7263,7 @@ func NewStage(name string) (stage *Stage) {
 
 			"PerpendicularVectorHalfway": &PerpendicularVectorHalfwayUnmarshaller{},
 
-			"Plant": &PlantUnmarshaller{},
+			"PlantAbstract": &PlantAbstractUnmarshaller{},
 
 			"PlantCircumferenceShape": &PlantCircumferenceShapeUnmarshaller{},
 
@@ -7331,6 +7389,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"TorusStackShape": &TorusStackShapeUnmarshaller{},
 
+			"VaseAbstract": &VaseAbstractUnmarshaller{},
+
 			"VerticalTorusStackShape": &VerticalTorusStackShapeUnmarshaller{},
 
 			"VolumeKey3DShape": &VolumeKey3DShapeUnmarshaller{},
@@ -7385,7 +7445,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PerpendicularVectorGrid"},
 			{name: "PerpendicularVectorGridHalfway"},
 			{name: "PerpendicularVectorHalfway"},
-			{name: "Plant"},
+			{name: "PlantAbstract"},
 			{name: "PlantCircumferenceShape"},
 			{name: "PlantDiagram"},
 			{name: "PointsAndLines3DShape"},
@@ -7448,6 +7508,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TopStartHalfwayArcShapeGrid"},
 			{name: "TorusEdge3DShape"},
 			{name: "TorusStackShape"},
+			{name: "VaseAbstract"},
 			{name: "VerticalTorusStackShape"},
 			{name: "VolumeKey3DShape"},
 		}, // end of insertion point
@@ -7553,8 +7614,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
 	case *PerpendicularVectorHalfway:
 		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
-	case *Plant:
-		return stage.Plant_stagedOrder[instance]
+	case *PlantAbstract:
+		return stage.PlantAbstract_stagedOrder[instance]
 	case *PlantCircumferenceShape:
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
@@ -7679,6 +7740,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
+	case *VaseAbstract:
+		return stage.VaseAbstract_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -7784,8 +7847,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PerpendicularVectorGridHalfway_orderStaged[order]).(Type)
 	case *PerpendicularVectorHalfway:
 		return any(stage.PerpendicularVectorHalfway_orderStaged[order]).(Type)
-	case *Plant:
-		return any(stage.Plant_orderStaged[order]).(Type)
+	case *PlantAbstract:
+		return any(stage.PlantAbstract_orderStaged[order]).(Type)
 	case *PlantCircumferenceShape:
 		return any(stage.PlantCircumferenceShape_orderStaged[order]).(Type)
 	case *PlantDiagram:
@@ -7910,6 +7973,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TorusEdge3DShape_orderStaged[order]).(Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
+	case *VaseAbstract:
+		return any(stage.VaseAbstract_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShape_orderStaged[order]).(Type)
 	case *VolumeKey3DShape:
@@ -8014,8 +8079,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
 	case *PerpendicularVectorHalfway:
 		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
-	case *Plant:
-		return stage.Plant_stagedOrder[instance]
+	case *PlantAbstract:
+		return stage.PlantAbstract_stagedOrder[instance]
 	case *PlantCircumferenceShape:
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
@@ -8140,6 +8205,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
+	case *VaseAbstract:
+		return stage.VaseAbstract_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -8255,7 +8322,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGrid"] = len(stage.PerpendicularVectorGrids)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGridHalfway"] = len(stage.PerpendicularVectorGridHalfways)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorHalfway"] = len(stage.PerpendicularVectorHalfways)
-	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
+	stage.Map_GongStructName_InstancesNb["PlantAbstract"] = len(stage.PlantAbstracts)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
 	stage.Map_GongStructName_InstancesNb["PointsAndLines3DShape"] = len(stage.PointsAndLines3DShapes)
@@ -8318,6 +8385,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShapeGrid"] = len(stage.TopStartHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
+	stage.Map_GongStructName_InstancesNb["VaseAbstract"] = len(stage.VaseAbstracts)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VolumeKey3DShape"] = len(stage.VolumeKey3DShapes)
 }
@@ -12408,92 +12476,92 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) SetName(name strin
 	perpendicularvectorhalfway.Name = name
 }
 
-// Stage puts plant to the model stage
-func (plant *Plant) Stage(stage *Stage) *Plant {
-	if _, ok := stage.Plants[plant]; !ok {
-		stage.Plants[plant] = struct{}{}
-		stage.Plant_stagedOrder[plant] = stage.PlantOrder
-		stage.Plant_orderStaged[stage.PlantOrder] = plant
-		stage.PlantOrder++
+// Stage puts plantabstract to the model stage
+func (plantabstract *PlantAbstract) Stage(stage *Stage) *PlantAbstract {
+	if _, ok := stage.PlantAbstracts[plantabstract]; !ok {
+		stage.PlantAbstracts[plantabstract] = struct{}{}
+		stage.PlantAbstract_stagedOrder[plantabstract] = stage.PlantAbstractOrder
+		stage.PlantAbstract_orderStaged[stage.PlantAbstractOrder] = plantabstract
+		stage.PlantAbstractOrder++
 	}
-	stage.Plants_mapString[plant.Name] = plant
+	stage.PlantAbstracts_mapString[plantabstract.Name] = plantabstract
 
-	return plant
+	return plantabstract
 }
 
-// StagePreserveOrder puts plant to the model stage, and if the astrtuct
+// StagePreserveOrder puts plantabstract to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.PlantOrder
-// - update stage.PlantOrder accordingly
-func (plant *Plant) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Plants[plant]; !ok {
-		stage.Plants[plant] = struct{}{}
+// - force the order if the order is equal or greater than the stage.PlantAbstractOrder
+// - update stage.PlantAbstractOrder accordingly
+func (plantabstract *PlantAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PlantAbstracts[plantabstract]; !ok {
+		stage.PlantAbstracts[plantabstract] = struct{}{}
 
-		if order > stage.PlantOrder {
-			stage.PlantOrder = order
+		if order > stage.PlantAbstractOrder {
+			stage.PlantAbstractOrder = order
 		}
-		stage.Plant_stagedOrder[plant] = order
-		stage.Plant_orderStaged[order] = plant
-		stage.PlantOrder++
+		stage.PlantAbstract_stagedOrder[plantabstract] = order
+		stage.PlantAbstract_orderStaged[order] = plantabstract
+		stage.PlantAbstractOrder++
 	}
-	stage.Plants_mapString[plant.Name] = plant
+	stage.PlantAbstracts_mapString[plantabstract.Name] = plantabstract
 }
 
-// Unstage removes plant off the model stage
-func (plant *Plant) Unstage(stage *Stage) *Plant {
-	delete(stage.Plants, plant)
+// Unstage removes plantabstract off the model stage
+func (plantabstract *PlantAbstract) Unstage(stage *Stage) *PlantAbstract {
+	delete(stage.PlantAbstracts, plantabstract)
 	// issue1150
-	// delete(stage.Plant_stagedOrder, plant)
-	delete(stage.Plants_mapString, plant.Name)
+	// delete(stage.PlantAbstract_stagedOrder, plantabstract)
+	delete(stage.PlantAbstracts_mapString, plantabstract.Name)
 
-	return plant
+	return plantabstract
 }
 
-// UnstageVoid removes plant off the model stage
-func (plant *Plant) UnstageVoid(stage *Stage) {
-	delete(stage.Plants, plant)
+// UnstageVoid removes plantabstract off the model stage
+func (plantabstract *PlantAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.PlantAbstracts, plantabstract)
 	// issue1150
-	// delete(stage.Plant_stagedOrder, plant)
-	delete(stage.Plants_mapString, plant.Name)
+	// delete(stage.PlantAbstract_stagedOrder, plantabstract)
+	delete(stage.PlantAbstracts_mapString, plantabstract.Name)
 }
 
-// commit plant to the back repo (if it is already staged)
-func (plant *Plant) Commit(stage *Stage) *Plant {
-	if _, ok := stage.Plants[plant]; ok {
+// commit plantabstract to the back repo (if it is already staged)
+func (plantabstract *PlantAbstract) Commit(stage *Stage) *PlantAbstract {
+	if _, ok := stage.PlantAbstracts[plantabstract]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPlant(plant)
+			stage.BackRepo.CommitPlantAbstract(plantabstract)
 		}
 	}
-	return plant
+	return plantabstract
 }
 
-func (plant *Plant) CommitVoid(stage *Stage) {
-	plant.Commit(stage)
+func (plantabstract *PlantAbstract) CommitVoid(stage *Stage) {
+	plantabstract.Commit(stage)
 }
 
-func (plant *Plant) StageVoid(stage *Stage) {
-	plant.Stage(stage)
+func (plantabstract *PlantAbstract) StageVoid(stage *Stage) {
+	plantabstract.Stage(stage)
 }
 
-// Checkout plant to the back repo (if it is already staged)
-func (plant *Plant) Checkout(stage *Stage) *Plant {
-	if _, ok := stage.Plants[plant]; ok {
+// Checkout plantabstract to the back repo (if it is already staged)
+func (plantabstract *PlantAbstract) Checkout(stage *Stage) *PlantAbstract {
+	if _, ok := stage.PlantAbstracts[plantabstract]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPlant(plant)
+			stage.BackRepo.CheckoutPlantAbstract(plantabstract)
 		}
 	}
-	return plant
+	return plantabstract
 }
 
 // for satisfaction of GongStruct interface
-func (plant *Plant) GetName() (res string) {
-	return plant.Name
+func (plantabstract *PlantAbstract) GetName() (res string) {
+	return plantabstract.Name
 }
 
 // for satisfaction of GongStruct interface
-func (plant *Plant) SetName(name string) {
-	plant.Name = name
+func (plantabstract *PlantAbstract) SetName(name string) {
+	plantabstract.Name = name
 }
 
 // Stage puts plantcircumferenceshape to the model stage
@@ -17952,6 +18020,94 @@ func (torusstackshape *TorusStackShape) SetName(name string) {
 	torusstackshape.Name = name
 }
 
+// Stage puts vaseabstract to the model stage
+func (vaseabstract *VaseAbstract) Stage(stage *Stage) *VaseAbstract {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; !ok {
+		stage.VaseAbstracts[vaseabstract] = struct{}{}
+		stage.VaseAbstract_stagedOrder[vaseabstract] = stage.VaseAbstractOrder
+		stage.VaseAbstract_orderStaged[stage.VaseAbstractOrder] = vaseabstract
+		stage.VaseAbstractOrder++
+	}
+	stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
+
+	return vaseabstract
+}
+
+// StagePreserveOrder puts vaseabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.VaseAbstractOrder
+// - update stage.VaseAbstractOrder accordingly
+func (vaseabstract *VaseAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; !ok {
+		stage.VaseAbstracts[vaseabstract] = struct{}{}
+
+		if order > stage.VaseAbstractOrder {
+			stage.VaseAbstractOrder = order
+		}
+		stage.VaseAbstract_stagedOrder[vaseabstract] = order
+		stage.VaseAbstract_orderStaged[order] = vaseabstract
+		stage.VaseAbstractOrder++
+	}
+	stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
+}
+
+// Unstage removes vaseabstract off the model stage
+func (vaseabstract *VaseAbstract) Unstage(stage *Stage) *VaseAbstract {
+	delete(stage.VaseAbstracts, vaseabstract)
+	// issue1150
+	// delete(stage.VaseAbstract_stagedOrder, vaseabstract)
+	delete(stage.VaseAbstracts_mapString, vaseabstract.Name)
+
+	return vaseabstract
+}
+
+// UnstageVoid removes vaseabstract off the model stage
+func (vaseabstract *VaseAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.VaseAbstracts, vaseabstract)
+	// issue1150
+	// delete(stage.VaseAbstract_stagedOrder, vaseabstract)
+	delete(stage.VaseAbstracts_mapString, vaseabstract.Name)
+}
+
+// commit vaseabstract to the back repo (if it is already staged)
+func (vaseabstract *VaseAbstract) Commit(stage *Stage) *VaseAbstract {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitVaseAbstract(vaseabstract)
+		}
+	}
+	return vaseabstract
+}
+
+func (vaseabstract *VaseAbstract) CommitVoid(stage *Stage) {
+	vaseabstract.Commit(stage)
+}
+
+func (vaseabstract *VaseAbstract) StageVoid(stage *Stage) {
+	vaseabstract.Stage(stage)
+}
+
+// Checkout vaseabstract to the back repo (if it is already staged)
+func (vaseabstract *VaseAbstract) Checkout(stage *Stage) *VaseAbstract {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutVaseAbstract(vaseabstract)
+		}
+	}
+	return vaseabstract
+}
+
+// for satisfaction of GongStruct interface
+func (vaseabstract *VaseAbstract) GetName() (res string) {
+	return vaseabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (vaseabstract *VaseAbstract) SetName(name string) {
+	vaseabstract.Name = name
+}
+
 // Stage puts verticaltorusstackshape to the model stage
 func (verticaltorusstackshape *VerticalTorusStackShape) Stage(stage *Stage) *VerticalTorusStackShape {
 	if _, ok := stage.VerticalTorusStackShapes[verticaltorusstackshape]; !ok {
@@ -18176,7 +18332,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	CreateORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
 	CreateORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
-	CreateORMPlant(Plant *Plant)
+	CreateORMPlantAbstract(PlantAbstract *PlantAbstract)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
 	CreateORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
@@ -18239,6 +18395,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
 	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
+	CreateORMVaseAbstract(VaseAbstract *VaseAbstract)
 	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	CreateORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -18290,7 +18447,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	DeleteORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
 	DeleteORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
-	DeleteORMPlant(Plant *Plant)
+	DeleteORMPlantAbstract(PlantAbstract *PlantAbstract)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
 	DeleteORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
@@ -18353,6 +18510,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
 	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
+	DeleteORMVaseAbstract(VaseAbstract *VaseAbstract)
 	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	DeleteORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -18588,10 +18746,10 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PerpendicularVectorHalfway_stagedOrder = make(map[*PerpendicularVectorHalfway]uint)
 	stage.PerpendicularVectorHalfwayOrder = 0
 
-	stage.Plants = make(map[*Plant]struct{})
-	stage.Plants_mapString = make(map[string]*Plant)
-	stage.Plant_stagedOrder = make(map[*Plant]uint)
-	stage.PlantOrder = 0
+	stage.PlantAbstracts = make(map[*PlantAbstract]struct{})
+	stage.PlantAbstracts_mapString = make(map[string]*PlantAbstract)
+	stage.PlantAbstract_stagedOrder = make(map[*PlantAbstract]uint)
+	stage.PlantAbstractOrder = 0
 
 	stage.PlantCircumferenceShapes = make(map[*PlantCircumferenceShape]struct{})
 	stage.PlantCircumferenceShapes_mapString = make(map[string]*PlantCircumferenceShape)
@@ -18903,6 +19061,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TorusStackShape_stagedOrder = make(map[*TorusStackShape]uint)
 	stage.TorusStackShapeOrder = 0
 
+	stage.VaseAbstracts = make(map[*VaseAbstract]struct{})
+	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
+	stage.VaseAbstract_stagedOrder = make(map[*VaseAbstract]uint)
+	stage.VaseAbstractOrder = 0
+
 	stage.VerticalTorusStackShapes = make(map[*VerticalTorusStackShape]struct{})
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShape_stagedOrder = make(map[*VerticalTorusStackShape]uint)
@@ -19060,8 +19223,8 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PerpendicularVectorHalfways = nil
 	stage.PerpendicularVectorHalfways_mapString = nil
 
-	stage.Plants = nil
-	stage.Plants_mapString = nil
+	stage.PlantAbstracts = nil
+	stage.PlantAbstracts_mapString = nil
 
 	stage.PlantCircumferenceShapes = nil
 	stage.PlantCircumferenceShapes_mapString = nil
@@ -19248,6 +19411,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.TorusStackShapes = nil
 	stage.TorusStackShapes_mapString = nil
+
+	stage.VaseAbstracts = nil
+	stage.VaseAbstracts_mapString = nil
 
 	stage.VerticalTorusStackShapes = nil
 	stage.VerticalTorusStackShapes_mapString = nil
@@ -19443,8 +19609,8 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		perpendicularvectorhalfway.Unstage(stage)
 	}
 
-	for plant := range stage.Plants {
-		plant.Unstage(stage)
+	for plantabstract := range stage.PlantAbstracts {
+		plantabstract.Unstage(stage)
 	}
 
 	for plantcircumferenceshape := range stage.PlantCircumferenceShapes {
@@ -19695,6 +19861,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		torusstackshape.Unstage(stage)
 	}
 
+	for vaseabstract := range stage.VaseAbstracts {
+		vaseabstract.Unstage(stage)
+	}
+
 	for verticaltorusstackshape := range stage.VerticalTorusStackShapes {
 		verticaltorusstackshape.Unstage(stage)
 	}
@@ -19871,8 +20041,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PerpendicularVectorGridHalfways).(*Type)
 	case map[*PerpendicularVectorHalfway]any:
 		return any(&stage.PerpendicularVectorHalfways).(*Type)
-	case map[*Plant]any:
-		return any(&stage.Plants).(*Type)
+	case map[*PlantAbstract]any:
+		return any(&stage.PlantAbstracts).(*Type)
 	case map[*PlantCircumferenceShape]any:
 		return any(&stage.PlantCircumferenceShapes).(*Type)
 	case map[*PlantDiagram]any:
@@ -19997,6 +20167,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TorusEdge3DShapes).(*Type)
 	case map[*TorusStackShape]any:
 		return any(&stage.TorusStackShapes).(*Type)
+	case map[*VaseAbstract]any:
+		return any(&stage.VaseAbstracts).(*Type)
 	case map[*VerticalTorusStackShape]any:
 		return any(&stage.VerticalTorusStackShapes).(*Type)
 	case map[*VolumeKey3DShape]any:
@@ -20105,8 +20277,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PerpendicularVectorGridHalfways_mapString).(map[string]Type)
 	case *PerpendicularVectorHalfway:
 		return any(stage.PerpendicularVectorHalfways_mapString).(map[string]Type)
-	case *Plant:
-		return any(stage.Plants_mapString).(map[string]Type)
+	case *PlantAbstract:
+		return any(stage.PlantAbstracts_mapString).(map[string]Type)
 	case *PlantCircumferenceShape:
 		return any(stage.PlantCircumferenceShapes_mapString).(map[string]Type)
 	case *PlantDiagram:
@@ -20231,6 +20403,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TorusEdge3DShapes_mapString).(map[string]Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
+	case *VaseAbstract:
+		return any(stage.VaseAbstracts_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShapes_mapString).(map[string]Type)
 	case *VolumeKey3DShape:
@@ -20339,8 +20513,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PerpendicularVectorGridHalfways).(*map[*Type]struct{})
 	case PerpendicularVectorHalfway:
 		return any(&stage.PerpendicularVectorHalfways).(*map[*Type]struct{})
-	case Plant:
-		return any(&stage.Plants).(*map[*Type]struct{})
+	case PlantAbstract:
+		return any(&stage.PlantAbstracts).(*map[*Type]struct{})
 	case PlantCircumferenceShape:
 		return any(&stage.PlantCircumferenceShapes).(*map[*Type]struct{})
 	case PlantDiagram:
@@ -20465,6 +20639,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TorusEdge3DShapes).(*map[*Type]struct{})
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
+	case VaseAbstract:
+		return any(&stage.VaseAbstracts).(*map[*Type]struct{})
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[*Type]struct{})
 	case VolumeKey3DShape:
@@ -20573,8 +20749,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PerpendicularVectorGridHalfways).(*map[Type]struct{})
 	case *PerpendicularVectorHalfway:
 		return any(&stage.PerpendicularVectorHalfways).(*map[Type]struct{})
-	case *Plant:
-		return any(&stage.Plants).(*map[Type]struct{})
+	case *PlantAbstract:
+		return any(&stage.PlantAbstracts).(*map[Type]struct{})
 	case *PlantCircumferenceShape:
 		return any(&stage.PlantCircumferenceShapes).(*map[Type]struct{})
 	case *PlantDiagram:
@@ -20699,6 +20875,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TorusEdge3DShapes).(*map[Type]struct{})
 	case *TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
+	case *VaseAbstract:
+		return any(&stage.VaseAbstracts).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[Type]struct{})
 	case *VolumeKey3DShape:
@@ -20807,8 +20985,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PerpendicularVectorGridHalfways_mapString).(*map[string]*Type)
 	case PerpendicularVectorHalfway:
 		return any(&stage.PerpendicularVectorHalfways_mapString).(*map[string]*Type)
-	case Plant:
-		return any(&stage.Plants_mapString).(*map[string]*Type)
+	case PlantAbstract:
+		return any(&stage.PlantAbstracts_mapString).(*map[string]*Type)
 	case PlantCircumferenceShape:
 		return any(&stage.PlantCircumferenceShapes_mapString).(*map[string]*Type)
 	case PlantDiagram:
@@ -20933,6 +21111,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TorusEdge3DShapes_mapString).(*map[string]*Type)
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
+	case VaseAbstract:
+		return any(&stage.VaseAbstracts_mapString).(*map[string]*Type)
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes_mapString).(*map[string]*Type)
 	case VolumeKey3DShape:
@@ -21080,8 +21260,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Plant with the name of the field
-			Plants: []*Plant{{Name: "Plants"}},
+			// field is initialized with an instance of PlantAbstract with the name of the field
+			Plants: []*PlantAbstract{{Name: "Plants"}},
 		}).(*Type)
 	case MidArcVectorShape:
 		return any(&MidArcVectorShape{
@@ -21181,9 +21361,11 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&PerpendicularVectorHalfway{
 			// Initialisation of associations
 		}).(*Type)
-	case Plant:
-		return any(&Plant{
+	case PlantAbstract:
+		return any(&PlantAbstract{
 			// Initialisation of associations
+			// field is initialized with an instance of VaseAbstract with the name of the field
+			VaseAbstract: &VaseAbstract{Name: "VaseAbstract"},
 			// field is initialized with an instance of PlantDiagram with the name of the field
 			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
 			// field is initialized with an instance of AxesShape with the name of the field
@@ -21625,6 +21807,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&TorusStackShape{
 			// Initialisation of associations
 		}).(*Type)
+	case VaseAbstract:
+		return any(&VaseAbstract{
+			// Initialisation of associations
+		}).(*Type)
 	case VerticalTorusStackShape:
 		return any(&VerticalTorusStackShape{
 			// Initialisation of associations
@@ -21914,619 +22100,636 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Plant
-	case Plant:
+	// reverse maps of direct associations of PlantAbstract
+	case PlantAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "VaseAbstract":
+			res := make(map[*VaseAbstract][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.VaseAbstract != nil {
+					vaseabstract_ := plantabstract.VaseAbstract
+					var plantabstracts []*PlantAbstract
+					_, ok := res[vaseabstract_]
+					if ok {
+						plantabstracts = res[vaseabstract_]
+					} else {
+						plantabstracts = make([]*PlantAbstract, 0)
+					}
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[vaseabstract_] = plantabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "AxesShape":
-			res := make(map[*AxesShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.AxesShape != nil {
-					axesshape_ := plant.AxesShape
-					var plants []*Plant
+			res := make(map[*AxesShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.AxesShape != nil {
+					axesshape_ := plantabstract.AxesShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[axesshape_]
 					if ok {
-						plants = res[axesshape_]
+						plantabstracts = res[axesshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[axesshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[axesshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "RhombusStuff":
-			res := make(map[*RhombusStuff][]*Plant)
-			for plant := range stage.Plants {
-				if plant.RhombusStuff != nil {
-					rhombusstuff_ := plant.RhombusStuff
-					var plants []*Plant
+			res := make(map[*RhombusStuff][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.RhombusStuff != nil {
+					rhombusstuff_ := plantabstract.RhombusStuff
+					var plantabstracts []*PlantAbstract
 					_, ok := res[rhombusstuff_]
 					if ok {
-						plants = res[rhombusstuff_]
+						plantabstracts = res[rhombusstuff_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[rhombusstuff_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[rhombusstuff_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "GrowthVectorShape":
-			res := make(map[*GrowthVectorShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.GrowthVectorShape != nil {
-					growthvectorshape_ := plant.GrowthVectorShape
-					var plants []*Plant
+			res := make(map[*GrowthVectorShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.GrowthVectorShape != nil {
+					growthvectorshape_ := plantabstract.GrowthVectorShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[growthvectorshape_]
 					if ok {
-						plants = res[growthvectorshape_]
+						plantabstracts = res[growthvectorshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[growthvectorshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[growthvectorshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PerpendicularVectorGrid":
-			res := make(map[*PerpendicularVectorGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PerpendicularVectorGrid != nil {
-					perpendicularvectorgrid_ := plant.PerpendicularVectorGrid
-					var plants []*Plant
+			res := make(map[*PerpendicularVectorGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PerpendicularVectorGrid != nil {
+					perpendicularvectorgrid_ := plantabstract.PerpendicularVectorGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[perpendicularvectorgrid_]
 					if ok {
-						plants = res[perpendicularvectorgrid_]
+						plantabstracts = res[perpendicularvectorgrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[perpendicularvectorgrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[perpendicularvectorgrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PerpendicularVectorGridHalfway":
-			res := make(map[*PerpendicularVectorGridHalfway][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PerpendicularVectorGridHalfway != nil {
-					perpendicularvectorgridhalfway_ := plant.PerpendicularVectorGridHalfway
-					var plants []*Plant
+			res := make(map[*PerpendicularVectorGridHalfway][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PerpendicularVectorGridHalfway != nil {
+					perpendicularvectorgridhalfway_ := plantabstract.PerpendicularVectorGridHalfway
+					var plantabstracts []*PlantAbstract
 					_, ok := res[perpendicularvectorgridhalfway_]
 					if ok {
-						plants = res[perpendicularvectorgridhalfway_]
+						plantabstracts = res[perpendicularvectorgridhalfway_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[perpendicularvectorgridhalfway_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[perpendicularvectorgridhalfway_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "BaseVectorShapeGrid":
-			res := make(map[*BaseVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.BaseVectorShapeGrid != nil {
-					basevectorshapegrid_ := plant.BaseVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*BaseVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.BaseVectorShapeGrid != nil {
+					basevectorshapegrid_ := plantabstract.BaseVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[basevectorshapegrid_]
 					if ok {
-						plants = res[basevectorshapegrid_]
+						plantabstracts = res[basevectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[basevectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[basevectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ArcNormalVectorShapeGrid":
-			res := make(map[*ArcNormalVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ArcNormalVectorShapeGrid != nil {
-					arcnormalvectorshapegrid_ := plant.ArcNormalVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*ArcNormalVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ArcNormalVectorShapeGrid != nil {
+					arcnormalvectorshapegrid_ := plantabstract.ArcNormalVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[arcnormalvectorshapegrid_]
 					if ok {
-						plants = res[arcnormalvectorshapegrid_]
+						plantabstracts = res[arcnormalvectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[arcnormalvectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[arcnormalvectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StartArcShapeGrid":
-			res := make(map[*StartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StartArcShapeGrid != nil {
-					startarcshapegrid_ := plant.StartArcShapeGrid
-					var plants []*Plant
+			res := make(map[*StartArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StartArcShapeGrid != nil {
+					startarcshapegrid_ := plantabstract.StartArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[startarcshapegrid_]
 					if ok {
-						plants = res[startarcshapegrid_]
+						plantabstracts = res[startarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[startarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[startarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStartArcShapeGrid":
-			res := make(map[*TopStartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStartArcShapeGrid != nil {
-					topstartarcshapegrid_ := plant.TopStartArcShapeGrid
-					var plants []*Plant
+			res := make(map[*TopStartArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopStartArcShapeGrid != nil {
+					topstartarcshapegrid_ := plantabstract.TopStartArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topstartarcshapegrid_]
 					if ok {
-						plants = res[topstartarcshapegrid_]
+						plantabstracts = res[topstartarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topstartarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topstartarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "EndArcShapeGrid":
-			res := make(map[*EndArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.EndArcShapeGrid != nil {
-					endarcshapegrid_ := plant.EndArcShapeGrid
-					var plants []*Plant
+			res := make(map[*EndArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.EndArcShapeGrid != nil {
+					endarcshapegrid_ := plantabstract.EndArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[endarcshapegrid_]
 					if ok {
-						plants = res[endarcshapegrid_]
+						plantabstracts = res[endarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[endarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[endarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopEndArcShapeGrid":
-			res := make(map[*TopEndArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopEndArcShapeGrid != nil {
-					topendarcshapegrid_ := plant.TopEndArcShapeGrid
-					var plants []*Plant
+			res := make(map[*TopEndArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopEndArcShapeGrid != nil {
+					topendarcshapegrid_ := plantabstract.TopEndArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topendarcshapegrid_]
 					if ok {
-						plants = res[topendarcshapegrid_]
+						plantabstracts = res[topendarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topendarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topendarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedBottomTopStartArcShapeGrid":
-			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedBottomTopStartArcShapeGrid != nil {
-					shiftedbottomtopstartarcshapegrid_ := plant.ShiftedBottomTopStartArcShapeGrid
-					var plants []*Plant
+			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+					shiftedbottomtopstartarcshapegrid_ := plantabstract.ShiftedBottomTopStartArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[shiftedbottomtopstartarcshapegrid_]
 					if ok {
-						plants = res[shiftedbottomtopstartarcshapegrid_]
+						plantabstracts = res[shiftedbottomtopstartarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[shiftedbottomtopstartarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[shiftedbottomtopstartarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "MidArcVectorShapeGrid":
-			res := make(map[*MidArcVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.MidArcVectorShapeGrid != nil {
-					midarcvectorshapegrid_ := plant.MidArcVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*MidArcVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.MidArcVectorShapeGrid != nil {
+					midarcvectorshapegrid_ := plantabstract.MidArcVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[midarcvectorshapegrid_]
 					if ok {
-						plants = res[midarcvectorshapegrid_]
+						plantabstracts = res[midarcvectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[midarcvectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[midarcvectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopMidArcVectorShapeGrid":
-			res := make(map[*TopMidArcVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopMidArcVectorShapeGrid != nil {
-					topmidarcvectorshapegrid_ := plant.TopMidArcVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*TopMidArcVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopMidArcVectorShapeGrid != nil {
+					topmidarcvectorshapegrid_ := plantabstract.TopMidArcVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topmidarcvectorshapegrid_]
 					if ok {
-						plants = res[topmidarcvectorshapegrid_]
+						plantabstracts = res[topmidarcvectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topmidarcvectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topmidarcvectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StartHalfwayArcShapeGrid":
-			res := make(map[*StartHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StartHalfwayArcShapeGrid != nil {
-					starthalfwayarcshapegrid_ := plant.StartHalfwayArcShapeGrid
-					var plants []*Plant
+			res := make(map[*StartHalfwayArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StartHalfwayArcShapeGrid != nil {
+					starthalfwayarcshapegrid_ := plantabstract.StartHalfwayArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[starthalfwayarcshapegrid_]
 					if ok {
-						plants = res[starthalfwayarcshapegrid_]
+						plantabstracts = res[starthalfwayarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[starthalfwayarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[starthalfwayarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStartHalfwayArcShapeGrid":
-			res := make(map[*TopStartHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStartHalfwayArcShapeGrid != nil {
-					topstarthalfwayarcshapegrid_ := plant.TopStartHalfwayArcShapeGrid
-					var plants []*Plant
+			res := make(map[*TopStartHalfwayArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopStartHalfwayArcShapeGrid != nil {
+					topstarthalfwayarcshapegrid_ := plantabstract.TopStartHalfwayArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topstarthalfwayarcshapegrid_]
 					if ok {
-						plants = res[topstarthalfwayarcshapegrid_]
+						plantabstracts = res[topstarthalfwayarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topstarthalfwayarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topstarthalfwayarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "EndHalfwayArcShapeGrid":
-			res := make(map[*EndHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.EndHalfwayArcShapeGrid != nil {
-					endhalfwayarcshapegrid_ := plant.EndHalfwayArcShapeGrid
-					var plants []*Plant
+			res := make(map[*EndHalfwayArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.EndHalfwayArcShapeGrid != nil {
+					endhalfwayarcshapegrid_ := plantabstract.EndHalfwayArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[endhalfwayarcshapegrid_]
 					if ok {
-						plants = res[endhalfwayarcshapegrid_]
+						plantabstracts = res[endhalfwayarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[endhalfwayarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[endhalfwayarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopEndHalfwayArcShapeGrid":
-			res := make(map[*TopEndHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopEndHalfwayArcShapeGrid != nil {
-					topendhalfwayarcshapegrid_ := plant.TopEndHalfwayArcShapeGrid
-					var plants []*Plant
+			res := make(map[*TopEndHalfwayArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopEndHalfwayArcShapeGrid != nil {
+					topendhalfwayarcshapegrid_ := plantabstract.TopEndHalfwayArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topendhalfwayarcshapegrid_]
 					if ok {
-						plants = res[topendhalfwayarcshapegrid_]
+						plantabstracts = res[topendhalfwayarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topendhalfwayarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topendhalfwayarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfRotatedGrowthCurve2D":
-			res := make(map[*StackOfRotatedGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfRotatedGrowthCurve2D != nil {
-					stackofrotatedgrowthcurve2d_ := plant.StackOfRotatedGrowthCurve2D
-					var plants []*Plant
+			res := make(map[*StackOfRotatedGrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StackOfRotatedGrowthCurve2D != nil {
+					stackofrotatedgrowthcurve2d_ := plantabstract.StackOfRotatedGrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[stackofrotatedgrowthcurve2d_]
 					if ok {
-						plants = res[stackofrotatedgrowthcurve2d_]
+						plantabstracts = res[stackofrotatedgrowthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[stackofrotatedgrowthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[stackofrotatedgrowthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStackOfRotatedGrowthCurve2D":
-			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStackOfRotatedGrowthCurve2D != nil {
-					topstackofrotatedgrowthcurve2d_ := plant.TopStackOfRotatedGrowthCurve2D
-					var plants []*Plant
+			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopStackOfRotatedGrowthCurve2D != nil {
+					topstackofrotatedgrowthcurve2d_ := plantabstract.TopStackOfRotatedGrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topstackofrotatedgrowthcurve2d_]
 					if ok {
-						plants = res[topstackofrotatedgrowthcurve2d_]
+						plantabstracts = res[topstackofrotatedgrowthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topstackofrotatedgrowthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topstackofrotatedgrowthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2D":
-			res := make(map[*GrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.GrowthCurve2D != nil {
-					growthcurve2d_ := plant.GrowthCurve2D
-					var plants []*Plant
+			res := make(map[*GrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.GrowthCurve2D != nil {
+					growthcurve2d_ := plantabstract.GrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[growthcurve2d_]
 					if ok {
-						plants = res[growthcurve2d_]
+						plantabstracts = res[growthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[growthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[growthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopGrowthCurve2D":
-			res := make(map[*TopGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopGrowthCurve2D != nil {
-					topgrowthcurve2d_ := plant.TopGrowthCurve2D
-					var plants []*Plant
+			res := make(map[*TopGrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopGrowthCurve2D != nil {
+					topgrowthcurve2d_ := plantabstract.TopGrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topgrowthcurve2d_]
 					if ok {
-						plants = res[topgrowthcurve2d_]
+						plantabstracts = res[topgrowthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topgrowthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topgrowthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfGrowthCurve2D":
-			res := make(map[*StackOfGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfGrowthCurve2D != nil {
-					stackofgrowthcurve2d_ := plant.StackOfGrowthCurve2D
-					var plants []*Plant
+			res := make(map[*StackOfGrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StackOfGrowthCurve2D != nil {
+					stackofgrowthcurve2d_ := plantabstract.StackOfGrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[stackofgrowthcurve2d_]
 					if ok {
-						plants = res[stackofgrowthcurve2d_]
+						plantabstracts = res[stackofgrowthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[stackofgrowthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[stackofgrowthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TopStackOfGrowthCurve2D":
-			res := make(map[*TopStackOfGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStackOfGrowthCurve2D != nil {
-					topstackofgrowthcurve2d_ := plant.TopStackOfGrowthCurve2D
-					var plants []*Plant
+			res := make(map[*TopStackOfGrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.TopStackOfGrowthCurve2D != nil {
+					topstackofgrowthcurve2d_ := plantabstract.TopStackOfGrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[topstackofgrowthcurve2d_]
 					if ok {
-						plants = res[topstackofgrowthcurve2d_]
+						plantabstracts = res[topstackofgrowthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topstackofgrowthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[topstackofgrowthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfGrowthCurve2DRibbon":
-			res := make(map[*StackOfGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfGrowthCurve2DRibbon != nil {
-					stackofgrowthcurve2dribbon_ := plant.StackOfGrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*StackOfGrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StackOfGrowthCurve2DRibbon != nil {
+					stackofgrowthcurve2dribbon_ := plantabstract.StackOfGrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[stackofgrowthcurve2dribbon_]
 					if ok {
-						plants = res[stackofgrowthcurve2dribbon_]
+						plantabstracts = res[stackofgrowthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[stackofgrowthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[stackofgrowthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StackOfRotatedGrowthCurve2DRibbon":
-			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-					stackofrotatedgrowthcurve2dribbon_ := plant.StackOfRotatedGrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+					stackofrotatedgrowthcurve2dribbon_ := plantabstract.StackOfRotatedGrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[stackofrotatedgrowthcurve2dribbon_]
 					if ok {
-						plants = res[stackofrotatedgrowthcurve2dribbon_]
+						plantabstracts = res[stackofrotatedgrowthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[stackofrotatedgrowthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[stackofrotatedgrowthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2DRibbon":
-			res := make(map[*GrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.GrowthCurve2DRibbon != nil {
-					growthcurve2dribbon_ := plant.GrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*GrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.GrowthCurve2DRibbon != nil {
+					growthcurve2dribbon_ := plantabstract.GrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[growthcurve2dribbon_]
 					if ok {
-						plants = res[growthcurve2dribbon_]
+						plantabstracts = res[growthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[growthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[growthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedRightGrowthCurve2DRibbon":
-			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-					shiftedrightgrowthcurve2dribbon_ := plant.ShiftedRightGrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+					shiftedrightgrowthcurve2dribbon_ := plantabstract.ShiftedRightGrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[shiftedrightgrowthcurve2dribbon_]
 					if ok {
-						plants = res[shiftedrightgrowthcurve2dribbon_]
+						plantabstracts = res[shiftedrightgrowthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[shiftedrightgrowthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[shiftedrightgrowthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedLeftGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-					shiftedleftgrowthcurve2dribbon_ := plant.ShiftedLeftGrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+					shiftedleftgrowthcurve2dribbon_ := plantabstract.ShiftedLeftGrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[shiftedleftgrowthcurve2dribbon_]
 					if ok {
-						plants = res[shiftedleftgrowthcurve2dribbon_]
+						plantabstracts = res[shiftedleftgrowthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[shiftedleftgrowthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[shiftedleftgrowthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyGrowthCurve2DRibbon":
-			res := make(map[*PartiallyGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DRibbon != nil {
-					partiallygrowthcurve2dribbon_ := plant.PartiallyGrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*PartiallyGrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PartiallyGrowthCurve2DRibbon != nil {
+					partiallygrowthcurve2dribbon_ := plantabstract.PartiallyGrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[partiallygrowthcurve2dribbon_]
 					if ok {
-						plants = res[partiallygrowthcurve2dribbon_]
+						plantabstracts = res[partiallygrowthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[partiallygrowthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-					shiftedleftpartiallygrowthcurve2dribbon_ := plant.ShiftedLeftPartiallyGrowthCurve2DRibbon
-					var plants []*Plant
+			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+					shiftedleftpartiallygrowthcurve2dribbon_ := plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
+					var plantabstracts []*PlantAbstract
 					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
 					if ok {
-						plants = res[shiftedleftpartiallygrowthcurve2dribbon_]
+						plantabstracts = res[shiftedleftpartiallygrowthcurve2dribbon_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[shiftedleftpartiallygrowthcurve2dribbon_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[shiftedleftpartiallygrowthcurve2dribbon_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyGrowthCurve2DTrajectory":
-			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DTrajectory != nil {
-					partiallygrowthcurve2dtrajectory_ := plant.PartiallyGrowthCurve2DTrajectory
-					var plants []*Plant
+			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PartiallyGrowthCurve2DTrajectory != nil {
+					partiallygrowthcurve2dtrajectory_ := plantabstract.PartiallyGrowthCurve2DTrajectory
+					var plantabstracts []*PlantAbstract
 					_, ok := res[partiallygrowthcurve2dtrajectory_]
 					if ok {
-						plants = res[partiallygrowthcurve2dtrajectory_]
+						plantabstracts = res[partiallygrowthcurve2dtrajectory_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dtrajectory_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[partiallygrowthcurve2dtrajectory_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-					partiallygrowthcurve2dtrajectoryp1p2_ := plant.PartiallyGrowthCurve2DTrajectoryP1P2
-					var plants []*Plant
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+					partiallygrowthcurve2dtrajectoryp1p2_ := plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2
+					var plantabstracts []*PlantAbstract
 					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
 					if ok {
-						plants = res[partiallygrowthcurve2dtrajectoryp1p2_]
+						plantabstracts = res[partiallygrowthcurve2dtrajectoryp1p2_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dtrajectoryp1p2_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[partiallygrowthcurve2dtrajectoryp1p2_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PxShape":
-			res := make(map[*PxShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PxShape != nil {
-					pxshape_ := plant.PxShape
-					var plants []*Plant
+			res := make(map[*PxShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PxShape != nil {
+					pxshape_ := plantabstract.PxShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[pxshape_]
 					if ok {
-						plants = res[pxshape_]
+						plantabstracts = res[pxshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[pxshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[pxshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ChosenP1P2PairShape":
-			res := make(map[*ChosenP1P2PairShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ChosenP1P2PairShape != nil {
-					chosenp1p2pairshape_ := plant.ChosenP1P2PairShape
-					var plants []*Plant
+			res := make(map[*ChosenP1P2PairShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ChosenP1P2PairShape != nil {
+					chosenp1p2pairshape_ := plantabstract.ChosenP1P2PairShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[chosenp1p2pairshape_]
 					if ok {
-						plants = res[chosenp1p2pairshape_]
+						plantabstracts = res[chosenp1p2pairshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[chosenp1p2pairshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[chosenp1p2pairshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "KeyHoleShape":
-			res := make(map[*KeyHoleShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.KeyHoleShape != nil {
-					keyholeshape_ := plant.KeyHoleShape
-					var plants []*Plant
+			res := make(map[*KeyHoleShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.KeyHoleShape != nil {
+					keyholeshape_ := plantabstract.KeyHoleShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[keyholeshape_]
 					if ok {
-						plants = res[keyholeshape_]
+						plantabstracts = res[keyholeshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[keyholeshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[keyholeshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -23334,6 +23537,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of VaseAbstract
+	case VaseAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of VerticalTorusStackShape
 	case VerticalTorusStackShape:
 		switch fieldname {
@@ -23566,10 +23774,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		case "Plants":
-			res := make(map[*Plant][]*Library)
+			res := make(map[*PlantAbstract][]*Library)
 			for library := range stage.Librarys {
-				for _, plant_ := range library.Plants {
-					res[plant_] = append(res[plant_], library)
+				for _, plantabstract_ := range library.Plants {
+					res[plantabstract_] = append(res[plantabstract_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -23757,15 +23965,15 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Plant
-	case Plant:
+	// reverse maps of direct associations of PlantAbstract
+	case PlantAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "PlantDiagrams":
-			res := make(map[*PlantDiagram][]*Plant)
-			for plant := range stage.Plants {
-				for _, plantdiagram_ := range plant.PlantDiagrams {
-					res[plantdiagram_] = append(res[plantdiagram_], plant)
+			res := make(map[*PlantDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, plantdiagram_ := range plantabstract.PlantDiagrams {
+					res[plantdiagram_] = append(res[plantdiagram_], plantabstract)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -24320,6 +24528,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of VaseAbstract
+	case VaseAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of VerticalTorusStackShape
 	case VerticalTorusStackShape:
 		switch fieldname {
@@ -24433,8 +24646,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PerpendicularVectorGridHalfway"
 	case *PerpendicularVectorHalfway:
 		res = "PerpendicularVectorHalfway"
-	case *Plant:
-		res = "Plant"
+	case *PlantAbstract:
+		res = "PlantAbstract"
 	case *PlantCircumferenceShape:
 		res = "PlantCircumferenceShape"
 	case *PlantDiagram:
@@ -24559,6 +24772,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TorusEdge3DShape"
 	case *TorusStackShape:
 		res = "TorusStackShape"
+	case *VaseAbstract:
+		res = "VaseAbstract"
 	case *VerticalTorusStackShape:
 		res = "VerticalTorusStackShape"
 	case *VolumeKey3DShape:
@@ -24778,7 +24993,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "PerpendicularVectorGridHalfway"
 		rf.Fieldname = "PerpendicularVectorHalfways"
 		res = append(res, rf)
-	case *Plant:
+	case *PlantAbstract:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Library"
@@ -24790,7 +25005,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *PlantDiagram:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Plant"
+		rf.GongstructName = "PlantAbstract"
 		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
 	case *PointsAndLines3DShape:
@@ -25061,6 +25276,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *TorusStackShape:
+		var rf ReverseField
+		_ = rf
+	case *VaseAbstract:
 		var rf ReverseField
 		_ = rf
 	case *VerticalTorusStackShape:
@@ -25781,7 +25999,7 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:                 "Plants",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Plant",
+			TargetGongstructName: "PlantAbstract",
 		},
 	}
 	return
@@ -26323,7 +26541,7 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetFieldHeader
 	return
 }
 
-func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -26347,84 +26565,9 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "RelativeVerticalThickness",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeRadialThickness",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RhombusSideLength",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeCuttedStackFloorHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeRotatedTorusSeparation",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RotationRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RadialRepetitions",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "Transparency",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "HasAlternatingRingColors",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "RelativeTrajectoryOffsetX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeTrajectoryOffsetY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "NbStepP1P2",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "ChosenStep",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "RelativeHorizontalRingsHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "OffsetKeyX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "OffsetKeyY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "HeightKey",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "WidthKey",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeKeySize",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "MovieNbFrames",
-			GongFieldValueType: GongFieldValueTypeInt,
+			Name:                 "VaseAbstract",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "VaseAbstract",
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -29312,6 +29455,97 @@ func (torusstackshape *TorusStackShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
+func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RelativeVerticalThickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeRadialThickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RhombusSideLength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeCuttedStackFloorHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeRotatedTorusSeparation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RotationRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadialRepetitions",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HasAlternatingRingColors",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "RelativeTrajectoryOffsetX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTrajectoryOffsetY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "NbStepP1P2",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "ChosenStep",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "RelativeHorizontalRingsHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OffsetKeyX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OffsetKeyY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HeightKey",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "WidthKey",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeKeySize",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "MovieNbFrames",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+	}
+	return
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -30649,124 +30883,50 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetFieldValue(
 	return
 }
 
-func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = plant.Name
+		res.valueString = plantabstract.Name
 	case "N":
-		res.valueString = fmt.Sprintf("%d", plant.N)
-		res.valueInt = plant.N
+		res.valueString = fmt.Sprintf("%d", plantabstract.N)
+		res.valueInt = plantabstract.N
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "M":
-		res.valueString = fmt.Sprintf("%d", plant.M)
-		res.valueInt = plant.M
+		res.valueString = fmt.Sprintf("%d", plantabstract.M)
+		res.valueInt = plantabstract.M
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "StackHeight":
-		res.valueString = fmt.Sprintf("%d", plant.StackHeight)
-		res.valueInt = plant.StackHeight
+		res.valueString = fmt.Sprintf("%d", plantabstract.StackHeight)
+		res.valueInt = plantabstract.StackHeight
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "RhombusInsideAngle":
-		res.valueString = fmt.Sprintf("%f", plant.RhombusInsideAngle)
-		res.valueFloat = plant.RhombusInsideAngle
+		res.valueString = fmt.Sprintf("%f", plantabstract.RhombusInsideAngle)
+		res.valueFloat = plantabstract.RhombusInsideAngle
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeVerticalThickness":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeVerticalThickness)
-		res.valueFloat = plant.RelativeVerticalThickness
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeRadialThickness":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeRadialThickness)
-		res.valueFloat = plant.RelativeRadialThickness
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RhombusSideLength":
-		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
-		res.valueFloat = plant.RhombusSideLength
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeCuttedStackFloorHeight":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeCuttedStackFloorHeight)
-		res.valueFloat = plant.RelativeCuttedStackFloorHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeRotatedTorusSeparation":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeRotatedTorusSeparation)
-		res.valueFloat = plant.RelativeRotatedTorusSeparation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RotationRatio":
-		res.valueString = fmt.Sprintf("%f", plant.RotationRatio)
-		res.valueFloat = plant.RotationRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadialRepetitions":
-		res.valueString = fmt.Sprintf("%d", plant.RadialRepetitions)
-		res.valueInt = plant.RadialRepetitions
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "Transparency":
-		res.valueString = fmt.Sprintf("%f", plant.Transparency)
-		res.valueFloat = plant.Transparency
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HasAlternatingRingColors":
-		res.valueString = fmt.Sprintf("%t", plant.HasAlternatingRingColors)
-		res.valueBool = plant.HasAlternatingRingColors
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RelativeTrajectoryOffsetX":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetX)
-		res.valueFloat = plant.RelativeTrajectoryOffsetX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeTrajectoryOffsetY":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetY)
-		res.valueFloat = plant.RelativeTrajectoryOffsetY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NbStepP1P2":
-		res.valueString = fmt.Sprintf("%d", plant.NbStepP1P2)
-		res.valueInt = plant.NbStepP1P2
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "ChosenStep":
-		res.valueString = fmt.Sprintf("%d", plant.ChosenStep)
-		res.valueInt = plant.ChosenStep
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "RelativeHorizontalRingsHeight":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeHorizontalRingsHeight)
-		res.valueFloat = plant.RelativeHorizontalRingsHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OffsetKeyX":
-		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyX)
-		res.valueFloat = plant.OffsetKeyX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OffsetKeyY":
-		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyY)
-		res.valueFloat = plant.OffsetKeyY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HeightKey":
-		res.valueString = fmt.Sprintf("%f", plant.HeightKey)
-		res.valueFloat = plant.HeightKey
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "WidthKey":
-		res.valueString = fmt.Sprintf("%f", plant.WidthKey)
-		res.valueFloat = plant.WidthKey
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeKeySize":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeKeySize)
-		res.valueFloat = plant.RelativeKeySize
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "MovieNbFrames":
-		res.valueString = fmt.Sprintf("%d", plant.MovieNbFrames)
-		res.valueInt = plant.MovieNbFrames
-		res.GongFieldValueType = GongFieldValueTypeInt
+	case "VaseAbstract":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantabstract.VaseAbstract != nil {
+			res.valueString = plantabstract.VaseAbstract.Name
+			res.ids = plantabstract.VaseAbstract.GongGetUUID(stage)
+		}
 	case "ComputedPrefix":
-		res.valueString = plant.ComputedPrefix
+		res.valueString = plantabstract.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", plant.IsExpanded)
-		res.valueBool = plant.IsExpanded
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsExpanded)
+		res.valueBool = plantabstract.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsSelected":
-		res.valueString = fmt.Sprintf("%t", plant.IsSelected)
-		res.valueBool = plant.IsSelected
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsSelected)
+		res.valueBool = plantabstract.IsSelected
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsPlantDiagramsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded)
-		res.valueBool = plant.IsPlantDiagramsNodeExpanded
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsPlantDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsPlantDiagramsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "PlantDiagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range plant.PlantDiagrams {
+		for idx, __instance__ := range plantabstract.PlantDiagrams {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -30776,219 +30936,219 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		}
 	case "AxesShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.AxesShape != nil {
-			res.valueString = plant.AxesShape.Name
-			res.ids = plant.AxesShape.GongGetUUID(stage)
+		if plantabstract.AxesShape != nil {
+			res.valueString = plantabstract.AxesShape.Name
+			res.ids = plantabstract.AxesShape.GongGetUUID(stage)
 		}
 	case "RhombusStuff":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.RhombusStuff != nil {
-			res.valueString = plant.RhombusStuff.Name
-			res.ids = plant.RhombusStuff.GongGetUUID(stage)
+		if plantabstract.RhombusStuff != nil {
+			res.valueString = plantabstract.RhombusStuff.Name
+			res.ids = plantabstract.RhombusStuff.GongGetUUID(stage)
 		}
 	case "GrowthVectorShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.GrowthVectorShape != nil {
-			res.valueString = plant.GrowthVectorShape.Name
-			res.ids = plant.GrowthVectorShape.GongGetUUID(stage)
+		if plantabstract.GrowthVectorShape != nil {
+			res.valueString = plantabstract.GrowthVectorShape.Name
+			res.ids = plantabstract.GrowthVectorShape.GongGetUUID(stage)
 		}
 	case "PerpendicularVectorGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PerpendicularVectorGrid != nil {
-			res.valueString = plant.PerpendicularVectorGrid.Name
-			res.ids = plant.PerpendicularVectorGrid.GongGetUUID(stage)
+		if plantabstract.PerpendicularVectorGrid != nil {
+			res.valueString = plantabstract.PerpendicularVectorGrid.Name
+			res.ids = plantabstract.PerpendicularVectorGrid.GongGetUUID(stage)
 		}
 	case "PerpendicularVectorGridHalfway":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PerpendicularVectorGridHalfway != nil {
-			res.valueString = plant.PerpendicularVectorGridHalfway.Name
-			res.ids = plant.PerpendicularVectorGridHalfway.GongGetUUID(stage)
+		if plantabstract.PerpendicularVectorGridHalfway != nil {
+			res.valueString = plantabstract.PerpendicularVectorGridHalfway.Name
+			res.ids = plantabstract.PerpendicularVectorGridHalfway.GongGetUUID(stage)
 		}
 	case "BaseVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.BaseVectorShapeGrid != nil {
-			res.valueString = plant.BaseVectorShapeGrid.Name
-			res.ids = plant.BaseVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.BaseVectorShapeGrid != nil {
+			res.valueString = plantabstract.BaseVectorShapeGrid.Name
+			res.ids = plantabstract.BaseVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "ArcNormalVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ArcNormalVectorShapeGrid != nil {
-			res.valueString = plant.ArcNormalVectorShapeGrid.Name
-			res.ids = plant.ArcNormalVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.ArcNormalVectorShapeGrid != nil {
+			res.valueString = plantabstract.ArcNormalVectorShapeGrid.Name
+			res.ids = plantabstract.ArcNormalVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "StartArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StartArcShapeGrid != nil {
-			res.valueString = plant.StartArcShapeGrid.Name
-			res.ids = plant.StartArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.StartArcShapeGrid != nil {
+			res.valueString = plantabstract.StartArcShapeGrid.Name
+			res.ids = plantabstract.StartArcShapeGrid.GongGetUUID(stage)
 		}
 	case "TopStartArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStartArcShapeGrid != nil {
-			res.valueString = plant.TopStartArcShapeGrid.Name
-			res.ids = plant.TopStartArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.TopStartArcShapeGrid != nil {
+			res.valueString = plantabstract.TopStartArcShapeGrid.Name
+			res.ids = plantabstract.TopStartArcShapeGrid.GongGetUUID(stage)
 		}
 	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.EndArcShapeGrid != nil {
-			res.valueString = plant.EndArcShapeGrid.Name
-			res.ids = plant.EndArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.EndArcShapeGrid != nil {
+			res.valueString = plantabstract.EndArcShapeGrid.Name
+			res.ids = plantabstract.EndArcShapeGrid.GongGetUUID(stage)
 		}
 	case "TopEndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopEndArcShapeGrid != nil {
-			res.valueString = plant.TopEndArcShapeGrid.Name
-			res.ids = plant.TopEndArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.TopEndArcShapeGrid != nil {
+			res.valueString = plantabstract.TopEndArcShapeGrid.Name
+			res.ids = plantabstract.TopEndArcShapeGrid.GongGetUUID(stage)
 		}
 	case "ShiftedBottomTopStartArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedBottomTopStartArcShapeGrid != nil {
-			res.valueString = plant.ShiftedBottomTopStartArcShapeGrid.Name
-			res.ids = plant.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+			res.valueString = plantabstract.ShiftedBottomTopStartArcShapeGrid.Name
+			res.ids = plantabstract.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
 		}
 	case "MidArcVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.MidArcVectorShapeGrid != nil {
-			res.valueString = plant.MidArcVectorShapeGrid.Name
-			res.ids = plant.MidArcVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.MidArcVectorShapeGrid != nil {
+			res.valueString = plantabstract.MidArcVectorShapeGrid.Name
+			res.ids = plantabstract.MidArcVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "TopMidArcVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopMidArcVectorShapeGrid != nil {
-			res.valueString = plant.TopMidArcVectorShapeGrid.Name
-			res.ids = plant.TopMidArcVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.TopMidArcVectorShapeGrid != nil {
+			res.valueString = plantabstract.TopMidArcVectorShapeGrid.Name
+			res.ids = plantabstract.TopMidArcVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "StartHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StartHalfwayArcShapeGrid != nil {
-			res.valueString = plant.StartHalfwayArcShapeGrid.Name
-			res.ids = plant.StartHalfwayArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.StartHalfwayArcShapeGrid != nil {
+			res.valueString = plantabstract.StartHalfwayArcShapeGrid.Name
+			res.ids = plantabstract.StartHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	case "TopStartHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStartHalfwayArcShapeGrid != nil {
-			res.valueString = plant.TopStartHalfwayArcShapeGrid.Name
-			res.ids = plant.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.TopStartHalfwayArcShapeGrid != nil {
+			res.valueString = plantabstract.TopStartHalfwayArcShapeGrid.Name
+			res.ids = plantabstract.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	case "EndHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.EndHalfwayArcShapeGrid != nil {
-			res.valueString = plant.EndHalfwayArcShapeGrid.Name
-			res.ids = plant.EndHalfwayArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.EndHalfwayArcShapeGrid != nil {
+			res.valueString = plantabstract.EndHalfwayArcShapeGrid.Name
+			res.ids = plantabstract.EndHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	case "TopEndHalfwayArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopEndHalfwayArcShapeGrid != nil {
-			res.valueString = plant.TopEndHalfwayArcShapeGrid.Name
-			res.ids = plant.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.TopEndHalfwayArcShapeGrid != nil {
+			res.valueString = plantabstract.TopEndHalfwayArcShapeGrid.Name
+			res.ids = plantabstract.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
 		}
 	case "StackOfRotatedGrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfRotatedGrowthCurve2D != nil {
-			res.valueString = plant.StackOfRotatedGrowthCurve2D.Name
-			res.ids = plant.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.StackOfRotatedGrowthCurve2D != nil {
+			res.valueString = plantabstract.StackOfRotatedGrowthCurve2D.Name
+			res.ids = plantabstract.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
 		}
 	case "TopStackOfRotatedGrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStackOfRotatedGrowthCurve2D != nil {
-			res.valueString = plant.TopStackOfRotatedGrowthCurve2D.Name
-			res.ids = plant.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.TopStackOfRotatedGrowthCurve2D != nil {
+			res.valueString = plantabstract.TopStackOfRotatedGrowthCurve2D.Name
+			res.ids = plantabstract.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
 		}
 	case "GrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.GrowthCurve2D != nil {
-			res.valueString = plant.GrowthCurve2D.Name
-			res.ids = plant.GrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.GrowthCurve2D != nil {
+			res.valueString = plantabstract.GrowthCurve2D.Name
+			res.ids = plantabstract.GrowthCurve2D.GongGetUUID(stage)
 		}
 	case "TopGrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopGrowthCurve2D != nil {
-			res.valueString = plant.TopGrowthCurve2D.Name
-			res.ids = plant.TopGrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.TopGrowthCurve2D != nil {
+			res.valueString = plantabstract.TopGrowthCurve2D.Name
+			res.ids = plantabstract.TopGrowthCurve2D.GongGetUUID(stage)
 		}
 	case "StackOfGrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfGrowthCurve2D != nil {
-			res.valueString = plant.StackOfGrowthCurve2D.Name
-			res.ids = plant.StackOfGrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.StackOfGrowthCurve2D != nil {
+			res.valueString = plantabstract.StackOfGrowthCurve2D.Name
+			res.ids = plantabstract.StackOfGrowthCurve2D.GongGetUUID(stage)
 		}
 	case "TopStackOfGrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStackOfGrowthCurve2D != nil {
-			res.valueString = plant.TopStackOfGrowthCurve2D.Name
-			res.ids = plant.TopStackOfGrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.TopStackOfGrowthCurve2D != nil {
+			res.valueString = plantabstract.TopStackOfGrowthCurve2D.Name
+			res.ids = plantabstract.TopStackOfGrowthCurve2D.GongGetUUID(stage)
 		}
 	case "StackOfGrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfGrowthCurve2DRibbon != nil {
-			res.valueString = plant.StackOfGrowthCurve2DRibbon.Name
-			res.ids = plant.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.StackOfGrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.StackOfGrowthCurve2DRibbon.Name
+			res.ids = plantabstract.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "StackOfRotatedGrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-			res.valueString = plant.StackOfRotatedGrowthCurve2DRibbon.Name
-			res.ids = plant.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.StackOfRotatedGrowthCurve2DRibbon.Name
+			res.ids = plantabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "GrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.GrowthCurve2DRibbon != nil {
-			res.valueString = plant.GrowthCurve2DRibbon.Name
-			res.ids = plant.GrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.GrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.GrowthCurve2DRibbon.Name
+			res.ids = plantabstract.GrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "ShiftedRightGrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-			res.valueString = plant.ShiftedRightGrowthCurve2DRibbon.Name
-			res.ids = plant.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.ShiftedRightGrowthCurve2DRibbon.Name
+			res.ids = plantabstract.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "ShiftedLeftGrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-			res.valueString = plant.ShiftedLeftGrowthCurve2DRibbon.Name
-			res.ids = plant.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.ShiftedLeftGrowthCurve2DRibbon.Name
+			res.ids = plantabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "PartiallyGrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DRibbon.Name
-			res.ids = plant.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.PartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.PartiallyGrowthCurve2DRibbon.Name
+			res.ids = plantabstract.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
-			res.ids = plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		if plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
+			res.ids = plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
 		}
 	case "PartiallyGrowthCurve2DTrajectory":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DTrajectory != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DTrajectory.Name
-			res.ids = plant.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
+		if plantabstract.PartiallyGrowthCurve2DTrajectory != nil {
+			res.valueString = plantabstract.PartiallyGrowthCurve2DTrajectory.Name
+			res.ids = plantabstract.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
 		}
 	case "PartiallyGrowthCurve2DTrajectoryP1P2":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DTrajectoryP1P2.Name
-			res.ids = plant.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
+		if plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+			res.valueString = plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2.Name
+			res.ids = plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
 		}
 	case "PxShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PxShape != nil {
-			res.valueString = plant.PxShape.Name
-			res.ids = plant.PxShape.GongGetUUID(stage)
+		if plantabstract.PxShape != nil {
+			res.valueString = plantabstract.PxShape.Name
+			res.ids = plantabstract.PxShape.GongGetUUID(stage)
 		}
 	case "ChosenP1P2PairShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ChosenP1P2PairShape != nil {
-			res.valueString = plant.ChosenP1P2PairShape.Name
-			res.ids = plant.ChosenP1P2PairShape.GongGetUUID(stage)
+		if plantabstract.ChosenP1P2PairShape != nil {
+			res.valueString = plantabstract.ChosenP1P2PairShape.Name
+			res.ids = plantabstract.ChosenP1P2PairShape.GongGetUUID(stage)
 		}
 	case "KeyHoleShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.KeyHoleShape != nil {
-			res.valueString = plant.KeyHoleShape.Name
-			res.ids = plant.KeyHoleShape.GongGetUUID(stage)
+		if plantabstract.KeyHoleShape != nil {
+			res.valueString = plantabstract.KeyHoleShape.Name
+			res.ids = plantabstract.KeyHoleShape.GongGetUUID(stage)
 		}
 	}
 	return
@@ -33728,6 +33888,95 @@ func (torusstackshape *TorusStackShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (vaseabstract *VaseAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = vaseabstract.Name
+	case "RelativeVerticalThickness":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeVerticalThickness)
+		res.valueFloat = vaseabstract.RelativeVerticalThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRadialThickness":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRadialThickness)
+		res.valueFloat = vaseabstract.RelativeRadialThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RhombusSideLength":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RhombusSideLength)
+		res.valueFloat = vaseabstract.RhombusSideLength
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeCuttedStackFloorHeight":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeCuttedStackFloorHeight)
+		res.valueFloat = vaseabstract.RelativeCuttedStackFloorHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRotatedTorusSeparation":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRotatedTorusSeparation)
+		res.valueFloat = vaseabstract.RelativeRotatedTorusSeparation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RotationRatio":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RotationRatio)
+		res.valueFloat = vaseabstract.RotationRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.RadialRepetitions)
+		res.valueInt = vaseabstract.RadialRepetitions
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.Transparency)
+		res.valueFloat = vaseabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasAlternatingRingColors":
+		res.valueString = fmt.Sprintf("%t", vaseabstract.HasAlternatingRingColors)
+		res.valueBool = vaseabstract.HasAlternatingRingColors
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RelativeTrajectoryOffsetX":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetX)
+		res.valueFloat = vaseabstract.RelativeTrajectoryOffsetX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTrajectoryOffsetY":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetY)
+		res.valueFloat = vaseabstract.RelativeTrajectoryOffsetY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbStepP1P2":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.NbStepP1P2)
+		res.valueInt = vaseabstract.NbStepP1P2
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "ChosenStep":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.ChosenStep)
+		res.valueInt = vaseabstract.ChosenStep
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "RelativeHorizontalRingsHeight":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeHorizontalRingsHeight)
+		res.valueFloat = vaseabstract.RelativeHorizontalRingsHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyX":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.OffsetKeyX)
+		res.valueFloat = vaseabstract.OffsetKeyX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyY":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.OffsetKeyY)
+		res.valueFloat = vaseabstract.OffsetKeyY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HeightKey":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.HeightKey)
+		res.valueFloat = vaseabstract.HeightKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "WidthKey":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.WidthKey)
+		res.valueFloat = vaseabstract.WidthKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeKeySize":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeKeySize)
+		res.valueFloat = vaseabstract.RelativeKeySize
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "MovieNbFrames":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.MovieNbFrames)
+		res.valueInt = vaseabstract.MovieNbFrames
+		res.GongFieldValueType = GongFieldValueTypeInt
+	}
+	return
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -34370,13 +34619,13 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "Plants":
-		library.Plants = make([]*Plant, 0)
+		library.Plants = make([]*PlantAbstract, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Plants {
-					if stage.Plant_stagedOrder[__instance__] == uint(id) {
+				for __instance__ := range stage.PlantAbstracts {
+					if stage.PlantAbstract_stagedOrder[__instance__] == uint(id) {
 						library.Plants = append(library.Plants, __instance__)
 						break
 					}
@@ -34888,76 +35137,47 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongSetFieldValue(
 	return nil
 }
 
-func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		plant.Name = value.GetValueString()
+		plantabstract.Name = value.GetValueString()
 	case "N":
-		plant.N = int(value.GetValueInt())
+		plantabstract.N = int(value.GetValueInt())
 	case "M":
-		plant.M = int(value.GetValueInt())
+		plantabstract.M = int(value.GetValueInt())
 	case "StackHeight":
-		plant.StackHeight = int(value.GetValueInt())
+		plantabstract.StackHeight = int(value.GetValueInt())
 	case "RhombusInsideAngle":
-		plant.RhombusInsideAngle = value.GetValueFloat()
-	case "RelativeVerticalThickness":
-		plant.RelativeVerticalThickness = value.GetValueFloat()
-	case "RelativeRadialThickness":
-		plant.RelativeRadialThickness = value.GetValueFloat()
-	case "RhombusSideLength":
-		plant.RhombusSideLength = value.GetValueFloat()
-	case "RelativeCuttedStackFloorHeight":
-		plant.RelativeCuttedStackFloorHeight = value.GetValueFloat()
-	case "RelativeRotatedTorusSeparation":
-		plant.RelativeRotatedTorusSeparation = value.GetValueFloat()
-	case "RotationRatio":
-		plant.RotationRatio = value.GetValueFloat()
-	case "RadialRepetitions":
-		plant.RadialRepetitions = int(value.GetValueInt())
-	case "Transparency":
-		plant.Transparency = value.GetValueFloat()
-	case "HasAlternatingRingColors":
-		plant.HasAlternatingRingColors = value.GetValueBool()
-	case "RelativeTrajectoryOffsetX":
-		plant.RelativeTrajectoryOffsetX = value.GetValueFloat()
-	case "RelativeTrajectoryOffsetY":
-		plant.RelativeTrajectoryOffsetY = value.GetValueFloat()
-	case "NbStepP1P2":
-		plant.NbStepP1P2 = int(value.GetValueInt())
-	case "ChosenStep":
-		plant.ChosenStep = int(value.GetValueInt())
-	case "RelativeHorizontalRingsHeight":
-		plant.RelativeHorizontalRingsHeight = value.GetValueFloat()
-	case "OffsetKeyX":
-		plant.OffsetKeyX = value.GetValueFloat()
-	case "OffsetKeyY":
-		plant.OffsetKeyY = value.GetValueFloat()
-	case "HeightKey":
-		plant.HeightKey = value.GetValueFloat()
-	case "WidthKey":
-		plant.WidthKey = value.GetValueFloat()
-	case "RelativeKeySize":
-		plant.RelativeKeySize = value.GetValueFloat()
-	case "MovieNbFrames":
-		plant.MovieNbFrames = int(value.GetValueInt())
+		plantabstract.RhombusInsideAngle = value.GetValueFloat()
+	case "VaseAbstract":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantabstract.VaseAbstract = nil
+			for __instance__ := range stage.VaseAbstracts {
+				if stage.VaseAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.VaseAbstract = __instance__
+					break
+				}
+			}
+		}
 	case "ComputedPrefix":
-		plant.ComputedPrefix = value.GetValueString()
+		plantabstract.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		plant.IsExpanded = value.GetValueBool()
+		plantabstract.IsExpanded = value.GetValueBool()
 	case "IsSelected":
-		plant.IsSelected = value.GetValueBool()
+		plantabstract.IsSelected = value.GetValueBool()
 	case "IsPlantDiagramsNodeExpanded":
-		plant.IsPlantDiagramsNodeExpanded = value.GetValueBool()
+		plantabstract.IsPlantDiagramsNodeExpanded = value.GetValueBool()
 	case "PlantDiagrams":
-		plant.PlantDiagrams = make([]*PlantDiagram, 0)
+		plantabstract.PlantDiagrams = make([]*PlantDiagram, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.PlantDiagrams {
 					if stage.PlantDiagram_stagedOrder[__instance__] == uint(id) {
-						plant.PlantDiagrams = append(plant.PlantDiagrams, __instance__)
+						plantabstract.PlantDiagrams = append(plantabstract.PlantDiagrams, __instance__)
 						break
 					}
 				}
@@ -34966,10 +35186,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "AxesShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.AxesShape = nil
+			plantabstract.AxesShape = nil
 			for __instance__ := range stage.AxesShapes {
 				if stage.AxesShape_stagedOrder[__instance__] == uint(id) {
-					plant.AxesShape = __instance__
+					plantabstract.AxesShape = __instance__
 					break
 				}
 			}
@@ -34977,10 +35197,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "RhombusStuff":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.RhombusStuff = nil
+			plantabstract.RhombusStuff = nil
 			for __instance__ := range stage.RhombusStuffs {
 				if stage.RhombusStuff_stagedOrder[__instance__] == uint(id) {
-					plant.RhombusStuff = __instance__
+					plantabstract.RhombusStuff = __instance__
 					break
 				}
 			}
@@ -34988,10 +35208,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "GrowthVectorShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.GrowthVectorShape = nil
+			plantabstract.GrowthVectorShape = nil
 			for __instance__ := range stage.GrowthVectorShapes {
 				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
-					plant.GrowthVectorShape = __instance__
+					plantabstract.GrowthVectorShape = __instance__
 					break
 				}
 			}
@@ -34999,10 +35219,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PerpendicularVectorGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PerpendicularVectorGrid = nil
+			plantabstract.PerpendicularVectorGrid = nil
 			for __instance__ := range stage.PerpendicularVectorGrids {
 				if stage.PerpendicularVectorGrid_stagedOrder[__instance__] == uint(id) {
-					plant.PerpendicularVectorGrid = __instance__
+					plantabstract.PerpendicularVectorGrid = __instance__
 					break
 				}
 			}
@@ -35010,10 +35230,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PerpendicularVectorGridHalfway":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PerpendicularVectorGridHalfway = nil
+			plantabstract.PerpendicularVectorGridHalfway = nil
 			for __instance__ := range stage.PerpendicularVectorGridHalfways {
 				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
-					plant.PerpendicularVectorGridHalfway = __instance__
+					plantabstract.PerpendicularVectorGridHalfway = __instance__
 					break
 				}
 			}
@@ -35021,10 +35241,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "BaseVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.BaseVectorShapeGrid = nil
+			plantabstract.BaseVectorShapeGrid = nil
 			for __instance__ := range stage.BaseVectorShapeGrids {
 				if stage.BaseVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.BaseVectorShapeGrid = __instance__
+					plantabstract.BaseVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35032,10 +35252,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ArcNormalVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ArcNormalVectorShapeGrid = nil
+			plantabstract.ArcNormalVectorShapeGrid = nil
 			for __instance__ := range stage.ArcNormalVectorShapeGrids {
 				if stage.ArcNormalVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.ArcNormalVectorShapeGrid = __instance__
+					plantabstract.ArcNormalVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35043,10 +35263,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StartArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StartArcShapeGrid = nil
+			plantabstract.StartArcShapeGrid = nil
 			for __instance__ := range stage.StartArcShapeGrids {
 				if stage.StartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.StartArcShapeGrid = __instance__
+					plantabstract.StartArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35054,10 +35274,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopStartArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStartArcShapeGrid = nil
+			plantabstract.TopStartArcShapeGrid = nil
 			for __instance__ := range stage.TopStartArcShapeGrids {
 				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopStartArcShapeGrid = __instance__
+					plantabstract.TopStartArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35065,10 +35285,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "EndArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.EndArcShapeGrid = nil
+			plantabstract.EndArcShapeGrid = nil
 			for __instance__ := range stage.EndArcShapeGrids {
 				if stage.EndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.EndArcShapeGrid = __instance__
+					plantabstract.EndArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35076,10 +35296,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopEndArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopEndArcShapeGrid = nil
+			plantabstract.TopEndArcShapeGrid = nil
 			for __instance__ := range stage.TopEndArcShapeGrids {
 				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopEndArcShapeGrid = __instance__
+					plantabstract.TopEndArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35087,10 +35307,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ShiftedBottomTopStartArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedBottomTopStartArcShapeGrid = nil
+			plantabstract.ShiftedBottomTopStartArcShapeGrid = nil
 			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
 				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedBottomTopStartArcShapeGrid = __instance__
+					plantabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35098,10 +35318,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "MidArcVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.MidArcVectorShapeGrid = nil
+			plantabstract.MidArcVectorShapeGrid = nil
 			for __instance__ := range stage.MidArcVectorShapeGrids {
 				if stage.MidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.MidArcVectorShapeGrid = __instance__
+					plantabstract.MidArcVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35109,10 +35329,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopMidArcVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopMidArcVectorShapeGrid = nil
+			plantabstract.TopMidArcVectorShapeGrid = nil
 			for __instance__ := range stage.TopMidArcVectorShapeGrids {
 				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopMidArcVectorShapeGrid = __instance__
+					plantabstract.TopMidArcVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35120,10 +35340,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StartHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StartHalfwayArcShapeGrid = nil
+			plantabstract.StartHalfwayArcShapeGrid = nil
 			for __instance__ := range stage.StartHalfwayArcShapeGrids {
 				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.StartHalfwayArcShapeGrid = __instance__
+					plantabstract.StartHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35131,10 +35351,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopStartHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStartHalfwayArcShapeGrid = nil
+			plantabstract.TopStartHalfwayArcShapeGrid = nil
 			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
 				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopStartHalfwayArcShapeGrid = __instance__
+					plantabstract.TopStartHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35142,10 +35362,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "EndHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.EndHalfwayArcShapeGrid = nil
+			plantabstract.EndHalfwayArcShapeGrid = nil
 			for __instance__ := range stage.EndHalfwayArcShapeGrids {
 				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.EndHalfwayArcShapeGrid = __instance__
+					plantabstract.EndHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35153,10 +35373,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopEndHalfwayArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopEndHalfwayArcShapeGrid = nil
+			plantabstract.TopEndHalfwayArcShapeGrid = nil
 			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
 				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopEndHalfwayArcShapeGrid = __instance__
+					plantabstract.TopEndHalfwayArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35164,10 +35384,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StackOfRotatedGrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfRotatedGrowthCurve2D = nil
+			plantabstract.StackOfRotatedGrowthCurve2D = nil
 			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
 				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfRotatedGrowthCurve2D = __instance__
+					plantabstract.StackOfRotatedGrowthCurve2D = __instance__
 					break
 				}
 			}
@@ -35175,10 +35395,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopStackOfRotatedGrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStackOfRotatedGrowthCurve2D = nil
+			plantabstract.TopStackOfRotatedGrowthCurve2D = nil
 			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
 				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.TopStackOfRotatedGrowthCurve2D = __instance__
+					plantabstract.TopStackOfRotatedGrowthCurve2D = __instance__
 					break
 				}
 			}
@@ -35186,10 +35406,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "GrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.GrowthCurve2D = nil
+			plantabstract.GrowthCurve2D = nil
 			for __instance__ := range stage.GrowthCurve2Ds {
 				if stage.GrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.GrowthCurve2D = __instance__
+					plantabstract.GrowthCurve2D = __instance__
 					break
 				}
 			}
@@ -35197,10 +35417,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopGrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopGrowthCurve2D = nil
+			plantabstract.TopGrowthCurve2D = nil
 			for __instance__ := range stage.TopGrowthCurve2Ds {
 				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.TopGrowthCurve2D = __instance__
+					plantabstract.TopGrowthCurve2D = __instance__
 					break
 				}
 			}
@@ -35208,10 +35428,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StackOfGrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfGrowthCurve2D = nil
+			plantabstract.StackOfGrowthCurve2D = nil
 			for __instance__ := range stage.StackOfGrowthCurve2Ds {
 				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfGrowthCurve2D = __instance__
+					plantabstract.StackOfGrowthCurve2D = __instance__
 					break
 				}
 			}
@@ -35219,10 +35439,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "TopStackOfGrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStackOfGrowthCurve2D = nil
+			plantabstract.TopStackOfGrowthCurve2D = nil
 			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
 				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.TopStackOfGrowthCurve2D = __instance__
+					plantabstract.TopStackOfGrowthCurve2D = __instance__
 					break
 				}
 			}
@@ -35230,10 +35450,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StackOfGrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfGrowthCurve2DRibbon = nil
+			plantabstract.StackOfGrowthCurve2DRibbon = nil
 			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
 				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfGrowthCurve2DRibbon = __instance__
+					plantabstract.StackOfGrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35241,10 +35461,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StackOfRotatedGrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfRotatedGrowthCurve2DRibbon = nil
+			plantabstract.StackOfRotatedGrowthCurve2DRibbon = nil
 			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
 				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfRotatedGrowthCurve2DRibbon = __instance__
+					plantabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35252,10 +35472,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "GrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.GrowthCurve2DRibbon = nil
+			plantabstract.GrowthCurve2DRibbon = nil
 			for __instance__ := range stage.GrowthCurve2DRibbons {
 				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.GrowthCurve2DRibbon = __instance__
+					plantabstract.GrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35263,10 +35483,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ShiftedRightGrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedRightGrowthCurve2DRibbon = nil
+			plantabstract.ShiftedRightGrowthCurve2DRibbon = nil
 			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
 				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedRightGrowthCurve2DRibbon = __instance__
+					plantabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35274,10 +35494,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ShiftedLeftGrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedLeftGrowthCurve2DRibbon = nil
+			plantabstract.ShiftedLeftGrowthCurve2DRibbon = nil
 			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
 				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedLeftGrowthCurve2DRibbon = __instance__
+					plantabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35285,10 +35505,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PartiallyGrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DRibbon = nil
+			plantabstract.PartiallyGrowthCurve2DRibbon = nil
 			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
 				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DRibbon = __instance__
+					plantabstract.PartiallyGrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35296,10 +35516,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
+			plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
 			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
 				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
+					plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
 					break
 				}
 			}
@@ -35307,10 +35527,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PartiallyGrowthCurve2DTrajectory":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DTrajectory = nil
+			plantabstract.PartiallyGrowthCurve2DTrajectory = nil
 			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
 				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DTrajectory = __instance__
+					plantabstract.PartiallyGrowthCurve2DTrajectory = __instance__
 					break
 				}
 			}
@@ -35318,10 +35538,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PartiallyGrowthCurve2DTrajectoryP1P2":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
+			plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
 			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
 				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
+					plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
 					break
 				}
 			}
@@ -35329,10 +35549,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PxShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PxShape = nil
+			plantabstract.PxShape = nil
 			for __instance__ := range stage.PxShapes {
 				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
-					plant.PxShape = __instance__
+					plantabstract.PxShape = __instance__
 					break
 				}
 			}
@@ -35340,10 +35560,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ChosenP1P2PairShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ChosenP1P2PairShape = nil
+			plantabstract.ChosenP1P2PairShape = nil
 			for __instance__ := range stage.ChosenP1P2PairShapes {
 				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
-					plant.ChosenP1P2PairShape = __instance__
+					plantabstract.ChosenP1P2PairShape = __instance__
 					break
 				}
 			}
@@ -35351,10 +35571,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "KeyHoleShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.KeyHoleShape = nil
+			plantabstract.KeyHoleShape = nil
 			for __instance__ := range stage.KeyHoleShapes {
 				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
-					plant.KeyHoleShape = __instance__
+					plantabstract.KeyHoleShape = __instance__
 					break
 				}
 			}
@@ -37638,6 +37858,57 @@ func (torusstackshape *TorusStackShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (vaseabstract *VaseAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		vaseabstract.Name = value.GetValueString()
+	case "RelativeVerticalThickness":
+		vaseabstract.RelativeVerticalThickness = value.GetValueFloat()
+	case "RelativeRadialThickness":
+		vaseabstract.RelativeRadialThickness = value.GetValueFloat()
+	case "RhombusSideLength":
+		vaseabstract.RhombusSideLength = value.GetValueFloat()
+	case "RelativeCuttedStackFloorHeight":
+		vaseabstract.RelativeCuttedStackFloorHeight = value.GetValueFloat()
+	case "RelativeRotatedTorusSeparation":
+		vaseabstract.RelativeRotatedTorusSeparation = value.GetValueFloat()
+	case "RotationRatio":
+		vaseabstract.RotationRatio = value.GetValueFloat()
+	case "RadialRepetitions":
+		vaseabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		vaseabstract.Transparency = value.GetValueFloat()
+	case "HasAlternatingRingColors":
+		vaseabstract.HasAlternatingRingColors = value.GetValueBool()
+	case "RelativeTrajectoryOffsetX":
+		vaseabstract.RelativeTrajectoryOffsetX = value.GetValueFloat()
+	case "RelativeTrajectoryOffsetY":
+		vaseabstract.RelativeTrajectoryOffsetY = value.GetValueFloat()
+	case "NbStepP1P2":
+		vaseabstract.NbStepP1P2 = int(value.GetValueInt())
+	case "ChosenStep":
+		vaseabstract.ChosenStep = int(value.GetValueInt())
+	case "RelativeHorizontalRingsHeight":
+		vaseabstract.RelativeHorizontalRingsHeight = value.GetValueFloat()
+	case "OffsetKeyX":
+		vaseabstract.OffsetKeyX = value.GetValueFloat()
+	case "OffsetKeyY":
+		vaseabstract.OffsetKeyY = value.GetValueFloat()
+	case "HeightKey":
+		vaseabstract.HeightKey = value.GetValueFloat()
+	case "WidthKey":
+		vaseabstract.WidthKey = value.GetValueFloat()
+	case "RelativeKeySize":
+		vaseabstract.RelativeKeySize = value.GetValueFloat()
+	case "MovieNbFrames":
+		vaseabstract.MovieNbFrames = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -37849,8 +38120,8 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetGongstructN
 	return "PerpendicularVectorHalfway"
 }
 
-func (plant *Plant) GongGetGongstructName() string {
-	return "Plant"
+func (plantabstract *PlantAbstract) GongGetGongstructName() string {
+	return "PlantAbstract"
 }
 
 func (plantcircumferenceshape *PlantCircumferenceShape) GongGetGongstructName() string {
@@ -38101,6 +38372,10 @@ func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
 	return "TorusStackShape"
 }
 
+func (vaseabstract *VaseAbstract) GongGetGongstructName() string {
+	return "VaseAbstract"
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetGongstructName() string {
 	return "VerticalTorusStackShape"
 }
@@ -38346,9 +38621,9 @@ func (stage *Stage) ResetMapStrings() {
 		stage.PerpendicularVectorHalfways_mapString[perpendicularvectorhalfway.Name] = perpendicularvectorhalfway
 	}
 
-	stage.Plants_mapString = make(map[string]*Plant)
-	for plant := range stage.Plants {
-		stage.Plants_mapString[plant.Name] = plant
+	stage.PlantAbstracts_mapString = make(map[string]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		stage.PlantAbstracts_mapString[plantabstract.Name] = plantabstract
 	}
 
 	stage.PlantCircumferenceShapes_mapString = make(map[string]*PlantCircumferenceShape)
@@ -38659,6 +38934,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TorusStackShapes_mapString = make(map[string]*TorusStackShape)
 	for torusstackshape := range stage.TorusStackShapes {
 		stage.TorusStackShapes_mapString[torusstackshape.Name] = torusstackshape
+	}
+
+	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
+	for vaseabstract := range stage.VaseAbstracts {
+		stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
 	}
 
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)

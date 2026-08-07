@@ -6,7 +6,7 @@ import (
 
 func enforceGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 ) (needCommit bool) {
 	ribbon := plant.GrowthCurve2DRibbon
 	stack := plant.StackOfRotatedGrowthCurve2DRibbon
@@ -121,7 +121,7 @@ func enforceGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -186,7 +186,7 @@ func enforceGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -217,7 +217,7 @@ func enforceGrowthCurve2DRibbonHasShapes(
 
 func enforceShiftedRightGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 ) (needCommit bool) {
 	ribbon := plant.ShiftedRightGrowthCurve2DRibbon
 	stack := plant.StackOfRotatedGrowthCurve2DRibbon
@@ -332,7 +332,7 @@ func enforceShiftedRightGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -397,7 +397,7 @@ func enforceShiftedRightGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -428,7 +428,7 @@ func enforceShiftedRightGrowthCurve2DRibbonHasShapes(
 
 func enforceShiftedLeftGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 ) (needCommit bool) {
 	ribbon := plant.ShiftedLeftGrowthCurve2DRibbon
 	stack := plant.StackOfRotatedGrowthCurve2DRibbon
@@ -543,7 +543,7 @@ func enforceShiftedLeftGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY
@@ -608,7 +608,7 @@ func enforceShiftedLeftGrowthCurve2DRibbonHasShapes(
 				b.BottomEndX != exp.bottomEndX || b.BottomEndY != exp.bottomEndY ||
 				b.TopStartX != exp.topStartX || b.TopStartY != exp.topStartY ||
 				b.TopEndX != exp.topEndX || b.TopEndY != exp.topEndY {
-				
+
 				b.Name = exp.name
 				b.BottomStartX = exp.bottomStartX
 				b.BottomStartY = exp.bottomStartY

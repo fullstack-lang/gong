@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-func evaluateCurveY(plant *Plant, isTop bool, x float64) float64 {
+func evaluateCurveY(plant *PlantAbstract, isTop bool, x float64) float64 {
 	bestY := -1e9
 	if !isTop {
 		if plant.GrowthCurve2D != nil && plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil {
@@ -84,7 +84,7 @@ func evalArcY(x0, y0, x1, y1, cx, cy, R, x float64) float64 {
 	} else {
 		lineY = (y0 + y1) / 2
 	}
-	
+
 	bestY := lineY
 	minDist := math.MaxFloat64
 
@@ -104,7 +104,7 @@ func evalArcY(x0, y0, x1, y1, cx, cy, R, x float64) float64 {
 	return bestY
 }
 
-func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) (dx float64, dy float64, currentDX float64) {
+func ComputePartiallyGrowthCurveDYForRatio(plant *PlantAbstract, rotationRatio float64) (dx float64, dy float64, currentDX float64) {
 	if plant == nil || plant.RhombusStuff == nil || plant.RhombusStuff.PlantCircumferenceShape == nil || plant.GrowthVectorShape == nil || plant.PerpendicularVectorGrid == nil || len(plant.PerpendicularVectorGrid.PerpendicularVectors) == 0 {
 		return 0, 0, 0
 	}
@@ -114,7 +114,12 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) 
 		return 0, 0, 0
 	}
 
-	vThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+	vThickness := 0.0
+	rotatedSeparation := 0.0
+	if plant.VaseAbstract != nil {
+		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
+		rotatedSeparation = plant.VaseAbstract.RelativeRotatedTorusSeparation * plant.VaseAbstract.RhombusSideLength
+	}
 	var vx, vy float64
 	if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {
 		vFirst := plant.PerpendicularVectorGrid.PerpendicularVectors[0]
@@ -149,7 +154,7 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) 
 	for step := 0; step <= steps; step++ {
 		x := minX + (float64(step)/float64(steps))*(maxX-minX)
 		yTop := evaluateCurveY(plant, true, x)
-		
+
 		xBot := x - currentDX
 		// Wrap xBot so it stays within [minX, maxX] due to the cylindrical geometry
 		for xBot < minX {
@@ -158,32 +163,34 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *Plant, rotationRatio float64) 
 		for xBot > maxX {
 			xBot -= circLen
 		}
-		
+
 		yBot := evaluateCurveY(plant, false, xBot)
-		
+
 		if yTop != -1e9 && yBot != -1e9 {
 			if yTop-yBot > dy {
 				dy = yTop - yBot
 			}
 		}
 	}
-	
+
 	if dy == -1e9 {
 		dy = vThickness
 	}
 
-	rotatedSeparation := plant.RelativeRotatedTorusSeparation * plant.RhombusSideLength
 	dy += rotatedSeparation
-
 
 	return dx, dy, currentDX
 }
 
-func ComputePartiallyGrowthCurveDY(plant *Plant) (dx float64, dy float64, currentDX float64) {
-	return ComputePartiallyGrowthCurveDYForRatio(plant, plant.RotationRatio)
+func ComputePartiallyGrowthCurveDY(plant *PlantAbstract) (dx float64, dy float64, currentDX float64) {
+	rotRatio := 0.0
+	if plant.VaseAbstract != nil {
+		rotRatio = plant.VaseAbstract.RotationRatio
+	}
+	return ComputePartiallyGrowthCurveDYForRatio(plant, rotRatio)
 }
 
-func ComputeStackHeightForRotationRatio(plant *Plant, rotationRatio float64) float64 {
+func ComputeStackHeightForRotationRatio(plant *PlantAbstract, rotationRatio float64) float64 {
 	stackHeight := plant.StackHeight
 	if stackHeight <= 0 {
 		return 0.0

@@ -93,9 +93,34 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
 	}
 
-	thickness := plant.RelativeRadialThickness * plant.RhombusSideLength
-	if thickness == 0 {
-		thickness = 5.0
+	sideLength := 0.0
+	radialRepetitions := 1
+	rotRatio := 0.0
+	relativeVerticalThickness := 0.0
+	relativeRotatedTorusSeparation := 0.0
+	relativeCuttedStackFloorHeight := 0.0
+	offsetKeyX := 0.0
+	offsetKeyY := 0.0
+	widthKey := 0.0
+	heightKey := 0.0
+	relativeKeySize := 0.0
+	thickness := 5.0
+	if plant.VaseAbstract != nil {
+		vase := plant.VaseAbstract
+		sideLength = vase.RhombusSideLength
+		if vase.RelativeRadialThickness*sideLength > 0 {
+			thickness = vase.RelativeRadialThickness * sideLength
+		}
+		radialRepetitions = vase.RadialRepetitions
+		rotRatio = vase.RotationRatio
+		relativeVerticalThickness = vase.RelativeVerticalThickness
+		relativeRotatedTorusSeparation = vase.RelativeRotatedTorusSeparation
+		relativeCuttedStackFloorHeight = vase.RelativeCuttedStackFloorHeight
+		offsetKeyX = vase.OffsetKeyX
+		offsetKeyY = vase.OffsetKeyY
+		widthKey = vase.WidthKey
+		heightKey = vase.HeightKey
+		relativeKeySize = vase.RelativeKeySize
 	}
 
 	// We will use BufferGeometry directly, no need for 2D shapes
@@ -134,11 +159,11 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	stackHeight := plant.StackHeight
 
-	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := stager.getTargetAngles(curve, topCurve, 0.5, plant.RadialRepetitions)
+	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := stager.getTargetAngles(curve, topCurve, 0.5, radialRepetitions)
 
 	expectedDegrees := 360.0
-	if plant.RadialRepetitions > 1 {
-		expectedDegrees = 360.0 / float64(plant.RadialRepetitions)
+	if radialRepetitions > 1 {
+		expectedDegrees = 360.0 / float64(radialRepetitions)
 	}
 
 	resampledBaseBottom := stager.resampleCurveAtAngles(anglesBottom, bottomPoints, targetAngles, "Base Bottom", expectedDegrees)
@@ -169,8 +194,8 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			vx, vy = vx/vLen, vy/vLen
 		}
 
-		verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
-		rotatedSeparation := plant.RelativeRotatedTorusSeparation * plant.RhombusSideLength
+		verticalThickness := relativeVerticalThickness * sideLength
+		rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
 		for h := 0; h < stackHeight; h++ {
 			dx := float64(h)*growthVectorX + float64(h)*verticalThickness*vx
@@ -184,7 +209,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 	if !checkedDiagram.IsHiddenVerticalTorusStackShape {
 		for h := 0; h < stackHeight; h++ {
 			dx := 0.0
-			dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+			dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 			thetaOffset := 0.0
 
 			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
@@ -210,7 +235,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		dys[0] = 0.0
 
 		if numSteps > 0 {
-			totalProgress := plant.RotationRatio * float64(numSteps)
+			totalProgress := rotRatio * float64(numSteps)
 			var cumDX, cumDY float64
 			for k := 1; k <= numSteps; k++ {
 				var r_k float64
@@ -250,7 +275,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 		numSteps3D := stackH - 1
 		if numSteps3D > 0 {
-			totalProgress := plant.RotationRatio * float64(numSteps3D)
+			totalProgress := rotRatio * float64(numSteps3D)
 			var cumDX, cumDY float64
 			for k := 1; k <= numSteps3D; k++ {
 				var r_k float64
@@ -270,17 +295,17 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			}
 		}
 
-		x_left := plant.OffsetKeyX - plant.WidthKey/2.0
-		x_right := plant.OffsetKeyX + plant.WidthKey/2.0
-		y_bottom := plant.OffsetKeyY - plant.HeightKey/2.0
-		y_top := plant.OffsetKeyY + plant.HeightKey/2.0
+		x_left := offsetKeyX - widthKey/2.0
+		x_right := offsetKeyX + widthKey/2.0
+		y_bottom := offsetKeyY - heightKey/2.0
+		y_top := offsetKeyY + heightKey/2.0
 
-		vk_width := plant.WidthKey * plant.RelativeKeySize
-		vk_height := plant.HeightKey * plant.RelativeKeySize
-		vk_x_left := plant.OffsetKeyX - vk_width/2.0
-		vk_x_right := plant.OffsetKeyX + vk_width/2.0
-		vk_y_bottom := plant.OffsetKeyY - vk_height/2.0
-		vk_y_top := plant.OffsetKeyY + vk_height/2.0
+		vk_width := widthKey * relativeKeySize
+		vk_height := heightKey * relativeKeySize
+		vk_x_left := offsetKeyX - vk_width/2.0
+		vk_x_right := offsetKeyX + vk_width/2.0
+		vk_y_bottom := offsetKeyY - vk_height/2.0
+		vk_y_top := offsetKeyY + vk_height/2.0
 
 		tubeRadius := globalR * 0.005
 
@@ -288,7 +313,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			tubeRadius = 0.2
 		}
 
-		threeDModulo := plant.RadialRepetitions
+		threeDModulo := radialRepetitions
 
 		for h := 0; h < stackH; h++ {
 			// Do not dig holes in the first ring
@@ -338,7 +363,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 						vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL, color,
 					))
 
-					verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+					verticalThickness := relativeVerticalThickness * sideLength
 					append_y_top := vk_y_bottom
 					append_y_bottom := vk_y_bottom - verticalThickness
 
@@ -369,7 +394,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			tubeRadius = 0.5
 		}
 
-		topY := floorMinY + float64(plant.StackHeight)*plant.RhombusSideLength
+		topY := floorMinY + float64(plant.StackHeight)*sideLength
 		if plant.StackHeight == 0 {
 			topY = floorMinY + 50.0
 		}

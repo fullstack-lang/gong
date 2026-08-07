@@ -556,7 +556,7 @@ func (inst *PerpendicularVectorHalfway) GongGetReverseFieldOwnerName(stage *Stag
 	return
 }
 
-func (inst *Plant) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *PlantAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -586,11 +586,11 @@ func (inst *PlantDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Plant":
+	case "PlantAbstract":
 		switch reverseField.Fieldname {
 		case "PlantDiagrams":
-			if _plant, ok := stage.Plant_PlantDiagrams_reverseMap[inst]; ok {
-				res = _plant.Name
+			if _plantabstract, ok := stage.PlantAbstract_PlantDiagrams_reverseMap[inst]; ok {
+				res = _plantabstract.Name
 			}
 		}
 	}
@@ -1347,6 +1347,15 @@ func (inst *TorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	return
 }
 
+func (inst *VaseAbstract) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *VerticalTorusStackShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1880,7 +1889,7 @@ func (inst *PerpendicularVectorHalfway) GongGetReverseFieldOwner(stage *Stage, r
 	return res
 }
 
-func (inst *Plant) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *PlantAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -1908,10 +1917,10 @@ func (inst *PlantDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Plant":
+	case "PlantAbstract":
 		switch reverseField.Fieldname {
 		case "PlantDiagrams":
-			res = stage.Plant_PlantDiagrams_reverseMap[inst]
+			res = stage.PlantAbstract_PlantDiagrams_reverseMap[inst]
 		}
 	}
 	return res
@@ -2599,6 +2608,15 @@ func (inst *TorusEdge3DShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 }
 
 func (inst *TorusStackShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *VaseAbstract) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

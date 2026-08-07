@@ -21,9 +21,9 @@ func (stager *Stager) ux_svg_plant_diagram() {
 		}
 	}
 
-	var plant *Plant
+	var plant *PlantAbstract
 	if plantDiagram != nil {
-		for p_ := range *GetGongstructInstancesSet[Plant](stager.stage) {
+		for p_ := range *GetGongstructInstancesSet[PlantAbstract](stager.stage) {
 			for _, d_ := range p_.PlantDiagrams {
 				if d_ == plantDiagram {
 					plant = p_
@@ -44,7 +44,7 @@ func (stager *Stager) ux_svg_plant_diagram() {
 	stager.svgStage.Commit()
 }
 
-func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant) (svg_ *svg.SVG) {
+func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *PlantAbstract) (svg_ *svg.SVG) {
 
 	svg_ = new(svg.SVG)
 	svg_.Name = "Plant Diagram" // or any name, if name is an attribute.
@@ -102,13 +102,12 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedLeftGrowthCurve2DRibbon(stager, layer, plant)
 
-
 	return
 }
 
 const AxisHandleBorderLength = 25
 
-func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenAxesShape {
 		return
@@ -229,7 +228,7 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer, pla
 		horizontalAxisRightHandle)
 }
 
-func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenExplanationTextShape {
 		return
 	}
@@ -262,7 +261,7 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenPlantCircumferenceShape {
 		return
@@ -287,14 +286,17 @@ func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, la
 	line.Presentation.StrokeOpacity = 1.0
 }
 
-func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenReferenceRhombus {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// Vertices
 	v0x := plantDiagram.OriginX
@@ -329,14 +331,17 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 	polygon.Presentation.FillOpacity = 0.5
 }
 
-func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenGridPathShape {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -392,7 +397,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	polyline.Points = strings.Join(points, " ")
 }
 
-func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenRotatedPlantCircumferenceShape {
 		return
@@ -420,14 +425,17 @@ func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Sta
 	line.Presentation.StrokeDashArray = "5, 5" // make it dashed
 }
 
-func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenRotatedReferenceRhombus {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// Vertices
 	v0x := plantDiagram.OriginX
@@ -466,14 +474,17 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plant.RhombusStuff.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 }
 
-func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenRotatedGridPathShape {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -532,14 +543,17 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	polyline.Points = strings.Join(points, " ")
 }
 
-func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenRhombusGridShape {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -611,14 +625,17 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenRotatedRhombusGridShape {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
@@ -707,14 +724,17 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plantDiagram.IsHiddenGrowthPathRhombusGridShape {
 		return
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := 0.0
+	if plant.VaseAbstract != nil {
+		length = plant.VaseAbstract.RhombusSideLength
+	}
 
 	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
@@ -802,7 +822,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenGrowthVectorShape {
 		return
 	}
@@ -833,7 +853,7 @@ func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *s
 	line.Presentation.StrokeOpacity = 1.0
 }
 
-func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenPerpendicularVectorGrid {
 		return
 	}
@@ -860,7 +880,7 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, la
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenPerpendicularVectorGridHalfway {
 		return
 	}
@@ -887,7 +907,7 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Sta
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenBaseVectorShapeGrid {
 		return
 	}
@@ -909,7 +929,7 @@ func (plantDiagram *PlantDiagram) drawBaseVectorShapeGrid(stager *Stager, layer 
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenArcNormalVectorShapeGrid {
 		return
 	}
@@ -929,7 +949,7 @@ func (plantDiagram *PlantDiagram) drawArcNormalVectorShapeGrid(stager *Stager, l
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenStartArcShapeGrid {
 		return
 	}
@@ -961,7 +981,7 @@ func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer 
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopStartArcShapeGrid {
 		return
 	}
@@ -993,7 +1013,7 @@ func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, lay
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenEndArcShapeGrid {
 		return
 	}
@@ -1025,7 +1045,7 @@ func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *s
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopEndArcShapeGrid {
 		return
 	}
@@ -1057,7 +1077,7 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenStackOfGrowthCurve {
 		return
 	}
@@ -1115,7 +1135,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopStackOfGrowthCurve {
 		return
 	}
@@ -1173,7 +1193,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenGrowthCurve2D {
 		return
 	}
@@ -1191,7 +1211,7 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.L
 	plantDiagram.IsHiddenEndArcShapeGrid = originalEndHidden
 }
 
-func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopGrowthCurve2D {
 		return
 	}
@@ -1209,13 +1229,13 @@ func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *sv
 	plantDiagram.IsHiddenTopEndArcShapeGrid = originalEndHidden
 }
 
-func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve {
 		return
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid {
 		return
 	}
@@ -1247,7 +1267,7 @@ func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenMidArcVectorShapeGrid {
 		return
 	}
@@ -1269,7 +1289,7 @@ func (plantDiagram *PlantDiagram) drawMidArcVectorShapeGrid(stager *Stager, laye
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopMidArcVectorShapeGrid {
 		return
 	}
@@ -1291,7 +1311,7 @@ func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, l
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenStartHalfwayArcShapeGrid {
 		return
 	}
@@ -1330,7 +1350,7 @@ func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, l
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenEndHalfwayArcShapeGrid {
 		return
 	}
@@ -1369,7 +1389,7 @@ func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, lay
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid {
 		return
 	}
@@ -1408,7 +1428,7 @@ func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid {
 		return
 	}
@@ -1447,7 +1467,7 @@ func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, 
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenStackOfGrowthCurve2D {
 		return
 	}
@@ -1523,7 +1543,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenTopStackOfGrowthCurve2D {
 		return
 	}
@@ -1599,7 +1619,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, la
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenStackOfGrowthCurve2DRibbon {
 		return
 	}
@@ -1656,7 +1676,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.HasAlternatingRingColors && i%2 != 0 {
+		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1710,14 +1730,14 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.HasAlternatingRingColors && i%2 != 0 {
+		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon {
 		return
 	}
@@ -1774,7 +1794,7 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.HasAlternatingRingColors && i%2 != 0 {
+		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1828,17 +1848,14 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.HasAlternatingRingColors && i%2 != 0 {
+		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
 	}
 }
 
-
-
-
-func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
 		return
 	}
@@ -1950,7 +1967,7 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stage
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
 		return
 	}
@@ -2068,7 +2085,7 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(st
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenGrowthCurve2DRibbon {
 		return
 	}
@@ -2180,7 +2197,7 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2DRibbon(stager *Stager, layer 
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon {
 		return
 	}
@@ -2298,7 +2315,7 @@ func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *St
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon {
 		return
 	}
@@ -2416,7 +2433,7 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Sta
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory {
 		return
 	}
@@ -2442,7 +2459,7 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *S
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
 		return
 	}
@@ -2552,7 +2569,7 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stage
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenPxShape {
 		return
 	}
@@ -2614,7 +2631,7 @@ func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, 
 	}
 }
 
-func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenKeyHoleShape {
 		return
 	}
@@ -2624,21 +2641,34 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	}
 
 	keyHole := plant.KeyHoleShape
-	keyHole.X = plant.OffsetKeyX
-	keyHole.Y = plant.OffsetKeyY
-	keyHole.Width = plant.WidthKey
-	keyHole.Height = plant.HeightKey
+	if plant.VaseAbstract != nil {
+		keyHole.X = plant.VaseAbstract.OffsetKeyX
+		keyHole.Y = plant.VaseAbstract.OffsetKeyY
+		keyHole.Width = plant.VaseAbstract.WidthKey
+		keyHole.Height = plant.VaseAbstract.HeightKey
+	}
 
-	vThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+	vThickness := 0.0
+	widthKey := 0.0
+	heightKey := 0.0
+	offsetKeyX := 0.0
+	offsetKeyY := 0.0
+	if plant.VaseAbstract != nil {
+		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
+		widthKey = plant.VaseAbstract.WidthKey
+		heightKey = plant.VaseAbstract.HeightKey
+		offsetKeyX = plant.VaseAbstract.OffsetKeyX
+		offsetKeyY = plant.VaseAbstract.OffsetKeyY
+	}
 
 	drawRect := func(name string, offsetX, offsetY float64, withLine bool) {
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		rect.Name = name
-		rect.X = plantDiagram.OriginX + offsetX - plant.WidthKey/2.0
-		rect.Y = plantDiagram.OriginY - offsetY - plant.HeightKey/2.0
-		rect.Width = plant.WidthKey
-		rect.Height = plant.HeightKey
+		rect.X = plantDiagram.OriginX + offsetX - widthKey/2.0
+		rect.Y = plantDiagram.OriginY - offsetY - heightKey/2.0
+		rect.Width = widthKey
+		rect.Height = heightKey
 
 		rect.Presentation.Stroke = "darkred"
 		rect.Presentation.StrokeWidth = 1.5
@@ -2669,34 +2699,27 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	_, dy, currentDX := ComputePartiallyGrowthCurveDY(plant)
 
 	if !plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
-		drawRect(keyHole.Name+"-Partially", plant.OffsetKeyX+currentDX, plant.OffsetKeyY+dy, true)
+		drawRect(keyHole.Name+"-Partially", offsetKeyX+currentDX, offsetKeyY+dy, true)
 	}
 
 	if !plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon && circLen > 0 {
-		drawRect(keyHole.Name+"-ShiftedLeftPartially", plant.OffsetKeyX+currentDX-circLen, plant.OffsetKeyY+dy, false)
+		drawRect(keyHole.Name+"-ShiftedLeftPartially", offsetKeyX+currentDX-circLen, offsetKeyY+dy, false)
 	}
 
 	if !plantDiagram.IsHiddenGrowthCurve2DRibbon {
-		drawRect(keyHole.Name, plant.OffsetKeyX, plant.OffsetKeyY, false)
+		drawRect(keyHole.Name, offsetKeyX, offsetKeyY, false)
 	}
 
 	if !plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon && circLen > 0 {
-		drawRect(keyHole.Name+"-ShiftedLeft", plant.OffsetKeyX-circLen, plant.OffsetKeyY, false)
+		drawRect(keyHole.Name+"-ShiftedLeft", offsetKeyX-circLen, offsetKeyY, false)
 	}
 
 	if !plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon && circLen > 0 {
-		drawRect(keyHole.Name+"-ShiftedRight", plant.OffsetKeyX+circLen, plant.OffsetKeyY, false)
+		drawRect(keyHole.Name+"-ShiftedRight", offsetKeyX+circLen, offsetKeyY, false)
 	}
 }
 
-
-
-
-
-
-
-
-func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	if plantDiagram.IsHiddenChosenP1P2PairShape {
 		return
 	}
@@ -2742,7 +2765,6 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 	lineP2Px.Presentation.Stroke = "darkred"
 	lineP2Px.Presentation.StrokeWidth = 1.5
 	lineP2Px.Presentation.StrokeOpacity = 0.9
-
 
 	// Chosen P1 Dot
 	circleP1 := new(svg.Circle)
@@ -2829,11 +2851,15 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 						R2 := radius - R1
 
 						if R1 >= 0 && R2 > 0 {
-							refSteps := plant.NbStepP1P2
+							refSteps := 10
+							chosenK := 0
+							if plant.VaseAbstract != nil {
+								refSteps = plant.VaseAbstract.NbStepP1P2
+								chosenK = plant.VaseAbstract.ChosenStep
+							}
 							if refSteps <= 0 {
 								refSteps = 10
 							}
-							chosenK := plant.ChosenStep
 							if chosenK < 0 {
 								chosenK = 0
 							}
@@ -2890,8 +2916,3 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 		}
 	}
 }
-
-
-
-
-

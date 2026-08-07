@@ -11,7 +11,7 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (stager *Stager) startMovieRecording(plant *Plant, plantDiagram *PlantDiagram) {
+func (stager *Stager) startMovieRecording(plant *PlantAbstract, plantDiagram *PlantDiagram) {
 	if plant == nil {
 		plant = stager.GetCurrentPlant()
 	}
@@ -36,7 +36,9 @@ func (stager *Stager) startMovieRecording(plant *Plant, plantDiagram *PlantDiagr
 	stager.savedInitCommitCallback = stager.stage.OnInitCommitCallback
 	stager.stage.OnInitCommitCallback = nil
 
-	plant.RotationRatio = 0.0
+	if plant.VaseAbstract != nil {
+		plant.VaseAbstract.RotationRatio = 0.0
+	}
 	stager.stage.Commit()
 }
 
@@ -58,6 +60,11 @@ func (stager *Stager) onCanvasFrameCaptured(canvas *threejs.Canvas) {
 		return
 	}
 
+	currentRot := 0.0
+	if stager.recordingPlant.VaseAbstract != nil {
+		currentRot = stager.recordingPlant.VaseAbstract.RotationRatio
+	}
+
 	b64Data := canvas.Frame64BitsEncoded
 	ext := ".png"
 	if strings.HasPrefix(b64Data, "data:image/jpeg") {
@@ -77,26 +84,28 @@ func (stager *Stager) onCanvasFrameCaptured(canvas *threejs.Canvas) {
 				log.Printf("[Movie Recorder] Error writing frame %s: %v", fileName, err)
 			} else {
 				log.Printf("[Movie Recorder] Saved frame %d (rot: %.3f) -> %s (%d bytes)",
-					stager.recordingFrameCount, stager.recordingPlant.RotationRatio, fileName, len(imgBytes))
+					stager.recordingFrameCount, currentRot, fileName, len(imgBytes))
 			}
 		}
 	} else {
 		log.Printf("[Movie Recorder] Warning: frame %d (rot: %.3f) received empty Frame64BitsEncoded",
-			stager.recordingFrameCount, stager.recordingPlant.RotationRatio)
+			stager.recordingFrameCount, currentRot)
 	}
 
 	stager.recordingFrameCount++
 
-	nbFrames := stager.recordingPlant.MovieNbFrames
-	if nbFrames <= 0 {
-		nbFrames = 1000
+	nbFrames := 1000
+	if stager.recordingPlant.VaseAbstract != nil && stager.recordingPlant.VaseAbstract.MovieNbFrames > 0 {
+		nbFrames = stager.recordingPlant.VaseAbstract.MovieNbFrames
 	}
 	rotIncrement := 1.0 / float64(nbFrames)
 	stager.recordingRot += rotIncrement
 	nextRot := math.Round(stager.recordingRot/rotIncrement) * rotIncrement
 
 	if stager.recordingFrameCount < nbFrames {
-		stager.recordingPlant.RotationRatio = nextRot
+		if stager.recordingPlant.VaseAbstract != nil {
+			stager.recordingPlant.VaseAbstract.RotationRatio = nextRot
+		}
 		stager.enforceSemantic()
 		stager.ux_3d_plant_diagram()
 	} else {

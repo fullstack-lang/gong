@@ -9,7 +9,7 @@ import (
 func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 	stage := stager.stage
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		if len(plant.PlantDiagrams) == 0 {
 			for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
 				plantDiagram_.IsChecked = false

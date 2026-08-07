@@ -69,6 +69,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce axes shape name", stager.enforceAxesShapeName},
 		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff},
 		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName},
+		{"Enforce plant has vase abstract", stager.enforcePlantHasVaseAbstract},
+		{"Enforce vase abstract name", stager.enforceVaseAbstractName},
 		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus},
 		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName},
 		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape},
@@ -97,7 +99,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 		// concrete semantic check
 
-
 	}
 
 	for _, method := range methods {
@@ -116,8 +117,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 func (stager *Stager) enforceSingleSelectedPlant() bool {
 	modified := false
 
-	var selectedPlant *Plant
-	for plant := range stager.stage.Plants {
+	var selectedPlant *PlantAbstract
+	plants := *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage)
+	for plant := range plants {
 		if plant.IsSelected {
 			if selectedPlant == nil {
 				selectedPlant = plant
@@ -133,9 +135,9 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		if stager.selectedPlant != selectedPlant {
 			stager.selectedPlant = selectedPlant
 		}
-	} else if len(stager.stage.Plants) > 0 {
+	} else if len(plants) > 0 {
 		// No plant selected, select the first one
-		for plant := range stager.stage.Plants {
+		for plant := range plants {
 			plant.IsSelected = true
 			stager.selectedPlant = plant
 			modified = true
@@ -152,15 +154,18 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 
 func (stager *Stager) enforcePlantRotationRatioHeights() bool {
 	modified := false
-	for plant := range stager.stage.Plants {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		if plant.VaseAbstract == nil {
+			continue
+		}
 		h0 := ComputeStackHeightForRotationRatio(plant, 0.0)
-		if plant.heightAtRotRatio0 != h0 {
-			plant.heightAtRotRatio0 = h0
+		if plant.VaseAbstract.heightAtRotRatio0 != h0 {
+			plant.VaseAbstract.heightAtRotRatio0 = h0
 			modified = true
 		}
 		h1 := ComputeStackHeightForRotationRatio(plant, 1.0)
-		if plant.heightAtRotRatio1 != h1 {
-			plant.heightAtRotRatio1 = h1
+		if plant.VaseAbstract.heightAtRotRatio1 != h1 {
+			plant.VaseAbstract.heightAtRotRatio1 = h1
 			modified = true
 		}
 	}

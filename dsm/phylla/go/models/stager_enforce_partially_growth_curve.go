@@ -7,7 +7,7 @@ import (
 
 func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 ) (needCommit bool) {
 	ribbon := plant.PartiallyGrowthCurve2DRibbon
 	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
@@ -218,7 +218,7 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 
 func enforceShiftedLeftPartiallyGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 ) (needCommit bool) {
 	ribbon := plant.ShiftedLeftPartiallyGrowthCurve2DRibbon
 	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
@@ -435,7 +435,7 @@ func enforceShiftedLeftPartiallyGrowthCurve2DRibbonHasShapes(
 
 func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 ) (needCommit bool) {
 	traj := plant.PartiallyGrowthCurve2DTrajectory
 	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
@@ -472,8 +472,12 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	pointsY := make([]float64, numSteps+1)
 
 	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
-	trajOffsetX := plant.RelativeTrajectoryOffsetX * circLen
-	trajOffsetY := plant.RelativeTrajectoryOffsetY * circLen
+	trajOffsetX := 0.0
+	trajOffsetY := 0.0
+	if plant.VaseAbstract != nil {
+		trajOffsetX = plant.VaseAbstract.RelativeTrajectoryOffsetX * circLen
+		trajOffsetY = plant.VaseAbstract.RelativeTrajectoryOffsetY * circLen
+	}
 
 	var prevX, prevY float64
 	for step := 0; step <= numSteps; step++ {
@@ -568,7 +572,7 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	return needCommit
 }
 
-func enforcePxShape(stage *Stage, plant *Plant, pxX, pxY float64) (needCommit bool) {
+func enforcePxShape(stage *Stage, plant *PlantAbstract, pxX, pxY float64) (needCommit bool) {
 	if plant.PxShape == nil {
 		return false
 	}
@@ -582,10 +586,9 @@ func enforcePxShape(stage *Stage, plant *Plant, pxX, pxY float64) (needCommit bo
 	return needCommit
 }
 
-
 func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 	stage *Stage,
-	plant *Plant,
+	plant *PlantAbstract,
 	pointsX []float64,
 	pointsY []float64,
 ) (needCommit bool) {
@@ -710,7 +713,10 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 		return clearAll()
 	}
 
-	refSteps := plant.NbStepP1P2
+	refSteps := 0
+	if plant.VaseAbstract != nil {
+		refSteps = plant.VaseAbstract.NbStepP1P2
+	}
 	if refSteps <= 0 {
 		refSteps = 10
 	}
@@ -882,7 +888,10 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 	}
 
 	if plant.ChosenP1P2PairShape != nil {
-		chosenK := plant.ChosenStep
+		chosenK := 0
+		if plant.VaseAbstract != nil {
+			chosenK = plant.VaseAbstract.ChosenStep
+		}
 		if chosenK < 0 {
 			chosenK = 0
 		}
@@ -925,5 +934,3 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 
 	return needCommit
 }
-
-

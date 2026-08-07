@@ -7,7 +7,7 @@ import (
 
 // enforcePlantNM ensures that N is always less than or equal to M for each Plant
 func (stager *Stager) enforcePlantNM() (needCommit bool) {
-	for _, plant := range GetGongstrucsSorted[*Plant](stager.stage) {
+	for _, plant := range GetGongstrucsSorted[*PlantAbstract](stager.stage) {
 		if plant.N > plant.M {
 			// Swap N and M to ensure N <= M
 			plant.N, plant.M = plant.M, plant.N

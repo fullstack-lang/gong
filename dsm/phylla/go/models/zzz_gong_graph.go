@@ -145,8 +145,8 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PerpendicularVectorHalfway:
 		ok = stage.IsStagedPerpendicularVectorHalfway(target)
 
-	case *Plant:
-		ok = stage.IsStagedPlant(target)
+	case *PlantAbstract:
+		ok = stage.IsStagedPlantAbstract(target)
 
 	case *PlantCircumferenceShape:
 		ok = stage.IsStagedPlantCircumferenceShape(target)
@@ -333,6 +333,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *TorusStackShape:
 		ok = stage.IsStagedTorusStackShape(target)
+
+	case *VaseAbstract:
+		ok = stage.IsStagedVaseAbstract(target)
 
 	case *VerticalTorusStackShape:
 		ok = stage.IsStagedVerticalTorusStackShape(target)
@@ -488,8 +491,8 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *PerpendicularVectorHalfway:
 		ok = stage.IsStagedPerpendicularVectorHalfway(target)
 
-	case *Plant:
-		ok = stage.IsStagedPlant(target)
+	case *PlantAbstract:
+		ok = stage.IsStagedPlantAbstract(target)
 
 	case *PlantCircumferenceShape:
 		ok = stage.IsStagedPlantCircumferenceShape(target)
@@ -676,6 +679,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *TorusStackShape:
 		ok = stage.IsStagedTorusStackShape(target)
+
+	case *VaseAbstract:
+		ok = stage.IsStagedVaseAbstract(target)
 
 	case *VerticalTorusStackShape:
 		ok = stage.IsStagedVerticalTorusStackShape(target)
@@ -1012,9 +1018,9 @@ func (stage *Stage) IsStagedPerpendicularVectorHalfway(perpendicularvectorhalfwa
 	return
 }
 
-func (stage *Stage) IsStagedPlant(plant *Plant) (ok bool) {
+func (stage *Stage) IsStagedPlantAbstract(plantabstract *PlantAbstract) (ok bool) {
 
-	_, ok = stage.Plants[plant]
+	_, ok = stage.PlantAbstracts[plantabstract]
 
 	return
 }
@@ -1453,6 +1459,13 @@ func (stage *Stage) IsStagedTorusStackShape(torusstackshape *TorusStackShape) (o
 	return
 }
 
+func (stage *Stage) IsStagedVaseAbstract(vaseabstract *VaseAbstract) (ok bool) {
+
+	_, ok = stage.VaseAbstracts[vaseabstract]
+
+	return
+}
+
 func (stage *Stage) IsStagedVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) (ok bool) {
 
 	_, ok = stage.VerticalTorusStackShapes[verticaltorusstackshape]
@@ -1613,8 +1626,8 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PerpendicularVectorHalfway:
 		stage.StageBranchPerpendicularVectorHalfway(target)
 
-	case *Plant:
-		stage.StageBranchPlant(target)
+	case *PlantAbstract:
+		stage.StageBranchPlantAbstract(target)
 
 	case *PlantCircumferenceShape:
 		stage.StageBranchPlantCircumferenceShape(target)
@@ -1801,6 +1814,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *TorusStackShape:
 		stage.StageBranchTorusStackShape(target)
+
+	case *VaseAbstract:
+		stage.StageBranchVaseAbstract(target)
 
 	case *VerticalTorusStackShape:
 		stage.StageBranchVerticalTorusStackShape(target)
@@ -2219,8 +2235,8 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		StageBranch(stage, _library)
 	}
-	for _, _plant := range library.Plants {
-		StageBranch(stage, _plant)
+	for _, _plantabstract := range library.Plants {
+		StageBranch(stage, _plantabstract)
 	}
 
 }
@@ -2510,19 +2526,22 @@ func (stage *Stage) StageBranchPerpendicularVectorHalfway(perpendicularvectorhal
 
 }
 
-func (stage *Stage) StageBranchPlant(plant *Plant) {
+func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 
 	// check if instance is already staged
-	if IsStaged(stage, plant) {
+	if IsStaged(stage, plantabstract) {
 		return
 	}
 
-	plant.Stage(stage)
+	plantabstract.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantabstract.VaseAbstract != nil {
+		StageBranch(stage, plantabstract.VaseAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _plantdiagram := range plant.PlantDiagrams {
+	for _, _plantdiagram := range plantabstract.PlantDiagrams {
 		StageBranch(stage, _plantdiagram)
 	}
 
@@ -3470,6 +3489,21 @@ func (stage *Stage) StageBranchTorusStackShape(torusstackshape *TorusStackShape)
 
 }
 
+func (stage *Stage) StageBranchVaseAbstract(vaseabstract *VaseAbstract) {
+
+	// check if instance is already staged
+	if IsStaged(stage, vaseabstract) {
+		return
+	}
+
+	vaseabstract.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) {
 
 	// check if instance is already staged
@@ -3695,8 +3729,8 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchPerpendicularVectorHalfway(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Plant:
-		toT := CopyBranchPlant(mapOrigCopy, fromT)
+	case *PlantAbstract:
+		toT := CopyBranchPlantAbstract(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *PlantCircumferenceShape:
@@ -3945,6 +3979,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *TorusStackShape:
 		toT := CopyBranchTorusStackShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *VaseAbstract:
+		toT := CopyBranchVaseAbstract(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *VerticalTorusStackShape:
@@ -4474,8 +4512,8 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
-	for _, _plant := range libraryFrom.Plants {
-		libraryTo.Plants = append(libraryTo.Plants, CopyBranchPlant(mapOrigCopy, _plant))
+	for _, _plantabstract := range libraryFrom.Plants {
+		libraryTo.Plants = append(libraryTo.Plants, CopyBranchPlantAbstract(mapOrigCopy, _plantabstract))
 	}
 
 	return
@@ -4842,23 +4880,26 @@ func CopyBranchPerpendicularVectorHalfway(mapOrigCopy map[any]any, perpendicular
 	return
 }
 
-func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant) {
+func CopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *PlantAbstract) (plantabstractTo *PlantAbstract) {
 
-	// plantFrom has already been copied
-	if _plantTo, ok := mapOrigCopy[plantFrom]; ok {
-		plantTo = _plantTo.(*Plant)
+	// plantabstractFrom has already been copied
+	if _plantabstractTo, ok := mapOrigCopy[plantabstractFrom]; ok {
+		plantabstractTo = _plantabstractTo.(*PlantAbstract)
 		return
 	}
 
-	plantTo = new(Plant)
-	mapOrigCopy[plantFrom] = plantTo
-	plantFrom.CopyBasicFields(plantTo)
+	plantabstractTo = new(PlantAbstract)
+	mapOrigCopy[plantabstractFrom] = plantabstractTo
+	plantabstractFrom.CopyBasicFields(plantabstractTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantabstractFrom.VaseAbstract != nil {
+		plantabstractTo.VaseAbstract = CopyBranchVaseAbstract(mapOrigCopy, plantabstractFrom.VaseAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _plantdiagram := range plantFrom.PlantDiagrams {
-		plantTo.PlantDiagrams = append(plantTo.PlantDiagrams, CopyBranchPlantDiagram(mapOrigCopy, _plantdiagram))
+	for _, _plantdiagram := range plantabstractFrom.PlantDiagrams {
+		plantabstractTo.PlantDiagrams = append(plantabstractTo.PlantDiagrams, CopyBranchPlantDiagram(mapOrigCopy, _plantdiagram))
 	}
 
 	return
@@ -6054,6 +6095,25 @@ func CopyBranchTorusStackShape(mapOrigCopy map[any]any, torusstackshapeFrom *Tor
 	return
 }
 
+func CopyBranchVaseAbstract(mapOrigCopy map[any]any, vaseabstractFrom *VaseAbstract) (vaseabstractTo *VaseAbstract) {
+
+	// vaseabstractFrom has already been copied
+	if _vaseabstractTo, ok := mapOrigCopy[vaseabstractFrom]; ok {
+		vaseabstractTo = _vaseabstractTo.(*VaseAbstract)
+		return
+	}
+
+	vaseabstractTo = new(VaseAbstract)
+	mapOrigCopy[vaseabstractFrom] = vaseabstractTo
+	vaseabstractFrom.CopyBasicFields(vaseabstractTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchVerticalTorusStackShape(mapOrigCopy map[any]any, verticaltorusstackshapeFrom *VerticalTorusStackShape) (verticaltorusstackshapeTo *VerticalTorusStackShape) {
 
 	// verticaltorusstackshapeFrom has already been copied
@@ -6238,8 +6298,8 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PerpendicularVectorHalfway:
 		stage.UnstageBranchPerpendicularVectorHalfway(target)
 
-	case *Plant:
-		stage.UnstageBranchPlant(target)
+	case *PlantAbstract:
+		stage.UnstageBranchPlantAbstract(target)
 
 	case *PlantCircumferenceShape:
 		stage.UnstageBranchPlantCircumferenceShape(target)
@@ -6426,6 +6486,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *TorusStackShape:
 		stage.UnstageBranchTorusStackShape(target)
+
+	case *VaseAbstract:
+		stage.UnstageBranchVaseAbstract(target)
 
 	case *VerticalTorusStackShape:
 		stage.UnstageBranchVerticalTorusStackShape(target)
@@ -6844,8 +6907,8 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		UnstageBranch(stage, _library)
 	}
-	for _, _plant := range library.Plants {
-		UnstageBranch(stage, _plant)
+	for _, _plantabstract := range library.Plants {
+		UnstageBranch(stage, _plantabstract)
 	}
 
 }
@@ -7135,19 +7198,22 @@ func (stage *Stage) UnstageBranchPerpendicularVectorHalfway(perpendicularvectorh
 
 }
 
-func (stage *Stage) UnstageBranchPlant(plant *Plant) {
+func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, plant) {
+	if !IsStaged(stage, plantabstract) {
 		return
 	}
 
-	plant.Unstage(stage)
+	plantabstract.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantabstract.VaseAbstract != nil {
+		UnstageBranch(stage, plantabstract.VaseAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _plantdiagram := range plant.PlantDiagrams {
+	for _, _plantdiagram := range plantabstract.PlantDiagrams {
 		UnstageBranch(stage, _plantdiagram)
 	}
 
@@ -8095,6 +8161,21 @@ func (stage *Stage) UnstageBranchTorusStackShape(torusstackshape *TorusStackShap
 
 }
 
+func (stage *Stage) UnstageBranchVaseAbstract(vaseabstract *VaseAbstract) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, vaseabstract) {
+		return
+	}
+
+	vaseabstract.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) {
 
 	// check if instance is already staged
@@ -8265,7 +8346,7 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	}
 	reference.Plants = reference.Plants[:0]
 	for _, _b := range instance.Plants {
-		reference.Plants = append(reference.Plants, stage.Plants_reference[_b])
+		reference.Plants = append(reference.Plants, stage.PlantAbstracts_reference[_b])
 	}
 }
 
@@ -8364,8 +8445,11 @@ func (reference *PerpendicularVectorHalfway) GongReconstructPointersFromReferenc
 	// insertion point for slice of pointers field
 }
 
-func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
+func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *PlantAbstract) {
 	// insertion point for pointers field
+	if instance.VaseAbstract != nil {
+		reference.VaseAbstract = stage.VaseAbstracts_reference[instance.VaseAbstract]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
@@ -8695,6 +8779,11 @@ func (reference *TorusStackShape) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
+func (reference *VaseAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *VaseAbstract) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *VerticalTorusStackShape) GongReconstructPointersFromReferences(stage *Stage, instance *VerticalTorusStackShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -8846,9 +8935,9 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubLibraries = _SubLibraries
-	var _Plants []*Plant
+	var _Plants []*PlantAbstract
 	for _, _reference := range reference.Plants {
-		if _instance, ok := stage.Plants_instance[_reference]; ok {
+		if _instance, ok := stage.PlantAbstracts_instance[_reference]; ok {
 			_Plants = append(_Plants, _instance)
 		}
 	}
@@ -8950,8 +9039,14 @@ func (reference *PerpendicularVectorHalfway) GongReconstructPointersFromInstance
 	// insertion point for slice of pointers fields
 }
 
-func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.VaseAbstract; _reference != nil {
+		reference.VaseAbstract = nil
+		if _instance, ok := stage.VaseAbstracts_instance[_reference]; ok {
+			reference.VaseAbstract = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
@@ -9292,6 +9387,11 @@ func (reference *TorusEdge3DShape) GongReconstructPointersFromInstances(stage *S
 }
 
 func (reference *TorusStackShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *VaseAbstract) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10328,106 +10428,53 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongDiff(stage *St
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
+func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *PlantAbstract) (diffs []string) {
 	// insertion point for field diffs
-	if plant.Name != plantOther.Name {
-		diffs = append(diffs, plant.GongMarshallField(stage, "Name"))
+	if plantabstract.Name != plantabstractOther.Name {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "Name"))
 	}
-	if plant.N != plantOther.N {
-		diffs = append(diffs, plant.GongMarshallField(stage, "N"))
+	if plantabstract.N != plantabstractOther.N {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "N"))
 	}
-	if plant.M != plantOther.M {
-		diffs = append(diffs, plant.GongMarshallField(stage, "M"))
+	if plantabstract.M != plantabstractOther.M {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "M"))
 	}
-	if plant.StackHeight != plantOther.StackHeight {
-		diffs = append(diffs, plant.GongMarshallField(stage, "StackHeight"))
+	if plantabstract.StackHeight != plantabstractOther.StackHeight {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "StackHeight"))
 	}
-	if plant.RhombusInsideAngle != plantOther.RhombusInsideAngle {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusInsideAngle"))
+	if plantabstract.RhombusInsideAngle != plantabstractOther.RhombusInsideAngle {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
 	}
-	if plant.RelativeVerticalThickness != plantOther.RelativeVerticalThickness {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeVerticalThickness"))
+	if (plantabstract.VaseAbstract == nil) != (plantabstractOther.VaseAbstract == nil) {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "VaseAbstract"))
+	} else if plantabstract.VaseAbstract != nil && plantabstractOther.VaseAbstract != nil {
+		if plantabstract.VaseAbstract != plantabstractOther.VaseAbstract {
+			diffs = append(diffs, plantabstract.GongMarshallField(stage, "VaseAbstract"))
+		}
 	}
-	if plant.RelativeRadialThickness != plantOther.RelativeRadialThickness {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeRadialThickness"))
+	if plantabstract.ComputedPrefix != plantabstractOther.ComputedPrefix {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if plant.RhombusSideLength != plantOther.RhombusSideLength {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusSideLength"))
+	if plantabstract.IsExpanded != plantabstractOther.IsExpanded {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "IsExpanded"))
 	}
-	if plant.RelativeCuttedStackFloorHeight != plantOther.RelativeCuttedStackFloorHeight {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
+	if plantabstract.IsSelected != plantabstractOther.IsSelected {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "IsSelected"))
 	}
-	if plant.RelativeRotatedTorusSeparation != plantOther.RelativeRotatedTorusSeparation {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
-	}
-	if plant.RotationRatio != plantOther.RotationRatio {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RotationRatio"))
-	}
-	if plant.RadialRepetitions != plantOther.RadialRepetitions {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RadialRepetitions"))
-	}
-	if plant.Transparency != plantOther.Transparency {
-		diffs = append(diffs, plant.GongMarshallField(stage, "Transparency"))
-	}
-	if plant.HasAlternatingRingColors != plantOther.HasAlternatingRingColors {
-		diffs = append(diffs, plant.GongMarshallField(stage, "HasAlternatingRingColors"))
-	}
-	if plant.RelativeTrajectoryOffsetX != plantOther.RelativeTrajectoryOffsetX {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
-	}
-	if plant.RelativeTrajectoryOffsetY != plantOther.RelativeTrajectoryOffsetY {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
-	}
-	if plant.NbStepP1P2 != plantOther.NbStepP1P2 {
-		diffs = append(diffs, plant.GongMarshallField(stage, "NbStepP1P2"))
-	}
-	if plant.ChosenStep != plantOther.ChosenStep {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ChosenStep"))
-	}
-	if plant.RelativeHorizontalRingsHeight != plantOther.RelativeHorizontalRingsHeight {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
-	}
-	if plant.OffsetKeyX != plantOther.OffsetKeyX {
-		diffs = append(diffs, plant.GongMarshallField(stage, "OffsetKeyX"))
-	}
-	if plant.OffsetKeyY != plantOther.OffsetKeyY {
-		diffs = append(diffs, plant.GongMarshallField(stage, "OffsetKeyY"))
-	}
-	if plant.HeightKey != plantOther.HeightKey {
-		diffs = append(diffs, plant.GongMarshallField(stage, "HeightKey"))
-	}
-	if plant.WidthKey != plantOther.WidthKey {
-		diffs = append(diffs, plant.GongMarshallField(stage, "WidthKey"))
-	}
-	if plant.RelativeKeySize != plantOther.RelativeKeySize {
-		diffs = append(diffs, plant.GongMarshallField(stage, "RelativeKeySize"))
-	}
-	if plant.MovieNbFrames != plantOther.MovieNbFrames {
-		diffs = append(diffs, plant.GongMarshallField(stage, "MovieNbFrames"))
-	}
-	if plant.ComputedPrefix != plantOther.ComputedPrefix {
-		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if plant.IsExpanded != plantOther.IsExpanded {
-		diffs = append(diffs, plant.GongMarshallField(stage, "IsExpanded"))
-	}
-	if plant.IsSelected != plantOther.IsSelected {
-		diffs = append(diffs, plant.GongMarshallField(stage, "IsSelected"))
-	}
-	if plant.IsPlantDiagramsNodeExpanded != plantOther.IsPlantDiagramsNodeExpanded {
-		diffs = append(diffs, plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
+	if plantabstract.IsPlantDiagramsNodeExpanded != plantabstractOther.IsPlantDiagramsNodeExpanded {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
 	}
 	PlantDiagramsDifferent := false
-	if len(plant.PlantDiagrams) != len(plantOther.PlantDiagrams) {
+	if len(plantabstract.PlantDiagrams) != len(plantabstractOther.PlantDiagrams) {
 		PlantDiagramsDifferent = true
 	} else {
-		for i := range plant.PlantDiagrams {
-			if (plant.PlantDiagrams[i] == nil) != (plantOther.PlantDiagrams[i] == nil) {
+		for i := range plantabstract.PlantDiagrams {
+			if (plantabstract.PlantDiagrams[i] == nil) != (plantabstractOther.PlantDiagrams[i] == nil) {
 				PlantDiagramsDifferent = true
 				break
-			} else if plant.PlantDiagrams[i] != nil && plantOther.PlantDiagrams[i] != nil {
+			} else if plantabstract.PlantDiagrams[i] != nil && plantabstractOther.PlantDiagrams[i] != nil {
 				// this is a pointer comparaison
-				if plant.PlantDiagrams[i] != plantOther.PlantDiagrams[i] {
+				if plantabstract.PlantDiagrams[i] != plantabstractOther.PlantDiagrams[i] {
 					PlantDiagramsDifferent = true
 					break
 				}
@@ -10435,7 +10482,7 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 		}
 	}
 	if PlantDiagramsDifferent {
-		ops := Diff(stage, plant, plantOther, "PlantDiagrams", plantOther.PlantDiagrams, plant.PlantDiagrams)
+		ops := Diff(stage, plantabstract, plantabstractOther, "PlantDiagrams", plantabstractOther.PlantDiagrams, plantabstract.PlantDiagrams)
 		diffs = append(diffs, ops)
 	}
 
@@ -12425,6 +12472,77 @@ func (torusstackshape *TorusStackShape) GongDiff(stage *Stage, torusstackshapeOt
 	// insertion point for field diffs
 	if torusstackshape.Name != torusstackshapeOther.Name {
 		diffs = append(diffs, torusstackshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (vaseabstract *VaseAbstract) GongDiff(stage *Stage, vaseabstractOther *VaseAbstract) (diffs []string) {
+	// insertion point for field diffs
+	if vaseabstract.Name != vaseabstractOther.Name {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "Name"))
+	}
+	if vaseabstract.RelativeVerticalThickness != vaseabstractOther.RelativeVerticalThickness {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
+	}
+	if vaseabstract.RelativeRadialThickness != vaseabstractOther.RelativeRadialThickness {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
+	}
+	if vaseabstract.RhombusSideLength != vaseabstractOther.RhombusSideLength {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RhombusSideLength"))
+	}
+	if vaseabstract.RelativeCuttedStackFloorHeight != vaseabstractOther.RelativeCuttedStackFloorHeight {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
+	}
+	if vaseabstract.RelativeRotatedTorusSeparation != vaseabstractOther.RelativeRotatedTorusSeparation {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
+	}
+	if vaseabstract.RotationRatio != vaseabstractOther.RotationRatio {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RotationRatio"))
+	}
+	if vaseabstract.RadialRepetitions != vaseabstractOther.RadialRepetitions {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RadialRepetitions"))
+	}
+	if vaseabstract.Transparency != vaseabstractOther.Transparency {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "Transparency"))
+	}
+	if vaseabstract.HasAlternatingRingColors != vaseabstractOther.HasAlternatingRingColors {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "HasAlternatingRingColors"))
+	}
+	if vaseabstract.RelativeTrajectoryOffsetX != vaseabstractOther.RelativeTrajectoryOffsetX {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
+	}
+	if vaseabstract.RelativeTrajectoryOffsetY != vaseabstractOther.RelativeTrajectoryOffsetY {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
+	}
+	if vaseabstract.NbStepP1P2 != vaseabstractOther.NbStepP1P2 {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "NbStepP1P2"))
+	}
+	if vaseabstract.ChosenStep != vaseabstractOther.ChosenStep {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "ChosenStep"))
+	}
+	if vaseabstract.RelativeHorizontalRingsHeight != vaseabstractOther.RelativeHorizontalRingsHeight {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
+	}
+	if vaseabstract.OffsetKeyX != vaseabstractOther.OffsetKeyX {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "OffsetKeyX"))
+	}
+	if vaseabstract.OffsetKeyY != vaseabstractOther.OffsetKeyY {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "OffsetKeyY"))
+	}
+	if vaseabstract.HeightKey != vaseabstractOther.HeightKey {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "HeightKey"))
+	}
+	if vaseabstract.WidthKey != vaseabstractOther.WidthKey {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "WidthKey"))
+	}
+	if vaseabstract.RelativeKeySize != vaseabstractOther.RelativeKeySize {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeKeySize"))
+	}
+	if vaseabstract.MovieNbFrames != vaseabstractOther.MovieNbFrames {
+		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "MovieNbFrames"))
 	}
 
 	return

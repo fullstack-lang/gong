@@ -291,11 +291,11 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.perpendicularvectorhalfway, probe)
 			}
-		case *PlantFormCallback:
+		case *PlantAbstractFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Plant", true)
+				FillUpFormFromGongstructName(probe, "PlantAbstract", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.plant, probe)
+				FillUpFormFromGongstruct(onSave.plantabstract, probe)
 			}
 		case *PlantCircumferenceShapeFormCallback:
 			if onSave.CreationMode {
@@ -668,6 +668,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "TorusStackShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.torusstackshape, probe)
+			}
+		case *VaseAbstractFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "VaseAbstract", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.vaseabstract, probe)
 			}
 		case *VerticalTorusStackShapeFormCallback:
 			if onSave.CreationMode {
@@ -1301,19 +1307,19 @@ func FillUpFormFromGongstructName(
 		perpendicularvectorhalfway := new(models.PerpendicularVectorHalfway)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(perpendicularvectorhalfway, formGroup, probe)
-	case "Plant":
+	case "PlantAbstract":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Plant Form",
+			Label: prefix + "PlantAbstract Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PlantFormCallback(
+		formGroup.OnSave = __gong__New__PlantAbstractFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		plant := new(models.Plant)
+		plantabstract := new(models.PlantAbstract)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(plant, formGroup, probe)
+		FillUpForm(plantabstract, formGroup, probe)
 	case "PlantCircumferenceShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2120,6 +2126,19 @@ func FillUpFormFromGongstructName(
 		torusstackshape := new(models.TorusStackShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(torusstackshape, formGroup, probe)
+	case "VaseAbstract":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "VaseAbstract Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VaseAbstractFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		vaseabstract := new(models.VaseAbstract)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(vaseabstract, formGroup, probe)
 	case "VerticalTorusStackShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

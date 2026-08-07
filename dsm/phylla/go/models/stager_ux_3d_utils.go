@@ -102,7 +102,7 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 	}
 }
 
-func (*Stager) computeGlobalRadius(plant *Plant) (globalR float64) {
+func (*Stager) computeGlobalRadius(plant *PlantAbstract) (globalR float64) {
 	circumference := 10.0
 	if plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
 		circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
@@ -114,18 +114,24 @@ func (*Stager) computeGlobalRadius(plant *Plant) (globalR float64) {
 	if circumference <= 0 {
 		circumference = 10.0
 	}
-	threeDModulo := plant.RadialRepetitions
+	threeDModulo := 1
+	if plant.VaseAbstract != nil {
+		threeDModulo = plant.VaseAbstract.RadialRepetitions
+	}
 	if threeDModulo < 1 {
 		threeDModulo = 1
 	}
 	globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 	return globalR
 }
-func (stager *Stager) addFloorTiles(floorMinY float64, plant *Plant, globalR float64, canvas *threejs.Canvas) {
+func (stager *Stager) addFloorTiles(floorMinY float64, plant *PlantAbstract, globalR float64, canvas *threejs.Canvas) {
 	if floorMinY == math.MaxFloat64 {
 		floorMinY = 0.0
 	} else {
-		thickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
+		thickness := 0.0
+		if plant.VaseAbstract != nil {
+			thickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
+		}
 		if thickness == 0 {
 			thickness = 5.0
 		}

@@ -27,11 +27,13 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Herbarium`}).Stage(stage)
 
-	__Plant__00000000_ := (&models.Plant{Name: `Plant 1`}).Stage(stage)
+	__PlantAbstract__00000000_ := (&models.PlantAbstract{Name: `Plant 1`}).Stage(stage)
 
 	__PlantDiagram__00000001_ := (&models.PlantDiagram{Name: `Plant 1`}).Stage(stage)
 
 	__Rendered3DShape__00000000_ := (&models.Rendered3DShape{Name: `Plant 1-Rendered3DShape`}).Stage(stage)
+
+	__VaseAbstract__00000000_ := (&models.VaseAbstract{Name: `Plant 1-VaseAbstract`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -42,35 +44,15 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
-	__Plant__00000000_.Name = `Plant 1`
-	__Plant__00000000_.N = 1
-	__Plant__00000000_.M = 2
-	__Plant__00000000_.StackHeight = 4
-	__Plant__00000000_.RhombusInsideAngle = 104.000000
-	__Plant__00000000_.RelativeVerticalThickness = 0.300000
-	__Plant__00000000_.RelativeRadialThickness = 0.050000
-	__Plant__00000000_.RhombusSideLength = 350.000000
-	__Plant__00000000_.RelativeCuttedStackFloorHeight = 0.046000
-	__Plant__00000000_.RelativeRotatedTorusSeparation = 0.000000
-	__Plant__00000000_.RotationRatio = 1.000000
-	__Plant__00000000_.RadialRepetitions = 3
-	__Plant__00000000_.Transparency = 0.000000
-	__Plant__00000000_.HasAlternatingRingColors = true
-	__Plant__00000000_.RelativeTrajectoryOffsetX = -0.089000
-	__Plant__00000000_.RelativeTrajectoryOffsetY = 0.029000
-	__Plant__00000000_.NbStepP1P2 = 30
-	__Plant__00000000_.ChosenStep = 6
-	__Plant__00000000_.RelativeHorizontalRingsHeight = 0.080000
-	__Plant__00000000_.OffsetKeyX = 54.000000
-	__Plant__00000000_.OffsetKeyY = 56.000000
-	__Plant__00000000_.HeightKey = 39.000000
-	__Plant__00000000_.WidthKey = 22.000000
-	__Plant__00000000_.RelativeKeySize = 0.870000
-	__Plant__00000000_.MovieNbFrames = 1000
-	__Plant__00000000_.ComputedPrefix = ``
-	__Plant__00000000_.IsExpanded = true
-	__Plant__00000000_.IsSelected = true
-	__Plant__00000000_.IsPlantDiagramsNodeExpanded = true
+	__PlantAbstract__00000000_.Name = `Plant 1`
+	__PlantAbstract__00000000_.N = 1
+	__PlantAbstract__00000000_.M = 2
+	__PlantAbstract__00000000_.StackHeight = 4
+	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
+	__PlantAbstract__00000000_.ComputedPrefix = ``
+	__PlantAbstract__00000000_.IsExpanded = true
+	__PlantAbstract__00000000_.IsSelected = true
+	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
 	__PlantDiagram__00000001_.OriginX = 424.918010
@@ -153,9 +135,32 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000000_.TargetZ = 306.457687
 	__Rendered3DShape__00000000_.Fov = 45.000000
 
+	__VaseAbstract__00000000_.Name = `Plant 1-VaseAbstract`
+	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000
+	__VaseAbstract__00000000_.RelativeRadialThickness = 0.050000
+	__VaseAbstract__00000000_.RhombusSideLength = 350.000000
+	__VaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.046000
+	__VaseAbstract__00000000_.RelativeRotatedTorusSeparation = 0.000000
+	__VaseAbstract__00000000_.RotationRatio = 1.000000
+	__VaseAbstract__00000000_.RadialRepetitions = 3
+	__VaseAbstract__00000000_.Transparency = 0.000000
+	__VaseAbstract__00000000_.HasAlternatingRingColors = true
+	__VaseAbstract__00000000_.RelativeTrajectoryOffsetX = -0.089000
+	__VaseAbstract__00000000_.RelativeTrajectoryOffsetY = 0.029000
+	__VaseAbstract__00000000_.NbStepP1P2 = 30
+	__VaseAbstract__00000000_.ChosenStep = 6
+	__VaseAbstract__00000000_.RelativeHorizontalRingsHeight = 0.080000
+	__VaseAbstract__00000000_.OffsetKeyX = 54.000000
+	__VaseAbstract__00000000_.OffsetKeyY = 56.000000
+	__VaseAbstract__00000000_.HeightKey = 39.000000
+	__VaseAbstract__00000000_.WidthKey = 22.000000
+	__VaseAbstract__00000000_.RelativeKeySize = 0.870000
+	__VaseAbstract__00000000_.MovieNbFrames = 1000
+
 	// insertion point for setup of pointers
-	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __Plant__00000000_)
-	__Plant__00000000_.PlantDiagrams = append(__Plant__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
+	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000000_)
+	__PlantAbstract__00000000_.VaseAbstract = __VaseAbstract__00000000_
+	__PlantAbstract__00000000_.PlantDiagrams = append(__PlantAbstract__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
 	__PlantDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000000_
 	__PlantDiagram__00000001_.SampledPoints3DShape = nil
 	__PlantDiagram__00000001_.OriginalPoints3DShape = nil

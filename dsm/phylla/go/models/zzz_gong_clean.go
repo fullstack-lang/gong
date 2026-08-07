@@ -385,47 +385,48 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongClean(stage *S
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Plant
-func (plant *Plant) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by PlantAbstract
+func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &plant.PlantDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.PlantDiagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &plant.AxesShape) || modified
-	modified = GongCleanPointer(stage, &plant.RhombusStuff) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
-	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
-	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
-	modified = GongCleanPointer(stage, &plant.BaseVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.ArcNormalVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopStartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopEndArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedBottomTopStartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.MidArcVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopMidArcVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.StartHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopStartHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.EndHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopEndHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.TopStackOfRotatedGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.TopGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedRightGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedLeftGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
-	modified = GongCleanPointer(stage, &plant.PxShape) || modified
-	modified = GongCleanPointer(stage, &plant.ChosenP1P2PairShape) || modified
-	modified = GongCleanPointer(stage, &plant.KeyHoleShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.VaseAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.AxesShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.RhombusStuff) || modified
+	modified = GongCleanPointer(stage, &plantabstract.GrowthVectorShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PerpendicularVectorGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PerpendicularVectorGridHalfway) || modified
+	modified = GongCleanPointer(stage, &plantabstract.BaseVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ArcNormalVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopStartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.EndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopEndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ShiftedBottomTopStartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.MidArcVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopMidArcVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StartHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopStartHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.EndHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopEndHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StackOfRotatedGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopStackOfRotatedGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.GrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StackOfGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.TopStackOfGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StackOfGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StackOfRotatedGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.GrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ShiftedRightGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ShiftedLeftGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PartiallyGrowthCurve2DTrajectory) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PxShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ChosenP1P2PairShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.KeyHoleShape) || modified
 	return
 }
 
@@ -917,6 +918,13 @@ func (torusedge3dshape *TorusEdge3DShape) GongClean(stage *Stage) (modified bool
 
 // Clean garbage collect unstaged instances that are referenced by TorusStackShape
 func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by VaseAbstract
+func (vaseabstract *VaseAbstract) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

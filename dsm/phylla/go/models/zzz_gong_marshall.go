@@ -369,59 +369,40 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(originalpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 
-	plantOrdered := []*Plant{}
-	for plant := range stage.Plants {
-		plantOrdered = append(plantOrdered, plant)
+	plantabstractOrdered := []*PlantAbstract{}
+	for plantabstract := range stage.PlantAbstracts {
+		plantabstractOrdered = append(plantabstractOrdered, plantabstract)
 	}
-	sort.Slice(plantOrdered[:], func(i, j int) bool {
-		planti := plantOrdered[i]
-		plantj := plantOrdered[j]
-		planti_order, oki := stage.Plant_stagedOrder[planti]
-		plantj_order, okj := stage.Plant_stagedOrder[plantj]
+	sort.Slice(plantabstractOrdered[:], func(i, j int) bool {
+		plantabstracti := plantabstractOrdered[i]
+		plantabstractj := plantabstractOrdered[j]
+		plantabstracti_order, oki := stage.PlantAbstract_stagedOrder[plantabstracti]
+		plantabstractj_order, okj := stage.PlantAbstract_stagedOrder[plantabstractj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return planti_order < plantj_order
+		return plantabstracti_order < plantabstractj_order
 	})
-	if len(plantOrdered) > 0 {
+	if len(plantabstractOrdered) > 0 {
 		identifiersDecl.WriteString("\n")
 	}
-	for _, plant := range plantOrdered {
+	for _, plantabstract := range plantabstractOrdered {
 
-		identifiersDecl.WriteString(plant.GongMarshallIdentifier(stage))
+		identifiersDecl.WriteString(plantabstract.GongMarshallIdentifier(stage))
 
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "StackHeight"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeVerticalThickness"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRadialThickness"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "HasAlternatingRingColors"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "ChosenStep"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyX"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "WidthKey"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeKeySize"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "MovieNbFrames"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagrams"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "N"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "M"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsSelected"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantDiagrams"))
 	}
 
 	plantdiagramOrdered := []*PlantDiagram{}
@@ -583,6 +564,52 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(sampledpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 
+	vaseabstractOrdered := []*VaseAbstract{}
+	for vaseabstract := range stage.VaseAbstracts {
+		vaseabstractOrdered = append(vaseabstractOrdered, vaseabstract)
+	}
+	sort.Slice(vaseabstractOrdered[:], func(i, j int) bool {
+		vaseabstracti := vaseabstractOrdered[i]
+		vaseabstractj := vaseabstractOrdered[j]
+		vaseabstracti_order, oki := stage.VaseAbstract_stagedOrder[vaseabstracti]
+		vaseabstractj_order, okj := stage.VaseAbstract_stagedOrder[vaseabstractj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return vaseabstracti_order < vaseabstractj_order
+	})
+	if len(vaseabstractOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, vaseabstract := range vaseabstractOrdered {
+
+		identifiersDecl.WriteString(vaseabstract.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RhombusSideLength"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RotationRatio"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RadialRepetitions"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "Transparency"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "HasAlternatingRingColors"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "NbStepP1P2"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "ChosenStep"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "OffsetKeyX"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "OffsetKeyY"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "HeightKey"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "WidthKey"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeKeySize"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "MovieNbFrames"))
+	}
+
 	// insertion initialization of objects to stage
 	for _, angle0shape := range angle0shapeOrdered {
 		_ = angle0shape
@@ -608,8 +635,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, plant := range plantOrdered {
-		_ = plant
+	for _, plantabstract := range plantabstractOrdered {
+		_ = plantabstract
 		var setPointerField string
 		_ = setPointerField
 
@@ -634,6 +661,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, sampledpoints3dshape := range sampledpoints3dshapeOrdered {
 		_ = sampledpoints3dshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, vaseabstract := range vaseabstractOrdered {
+		_ = vaseabstract
 		var setPointerField string
 		_ = setPointerField
 
@@ -1550,11 +1585,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "Plants":
 		var sb strings.Builder
-		for _, _plant := range library.Plants {
+		for _, _plantabstract := range library.Plants {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Plants")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plantabstract.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -2189,167 +2224,80 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongMarshallField(
 	return
 }
 
-func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res string) {
+func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.Name))
 	case "N":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "N")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.N))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plantabstract.N))
 	case "M":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "M")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.M))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plantabstract.M))
 	case "StackHeight":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.StackHeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plantabstract.StackHeight))
 	case "RhombusInsideAngle":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RhombusInsideAngle))
-	case "RelativeVerticalThickness":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeVerticalThickness")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeVerticalThickness))
-	case "RelativeRadialThickness":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeRadialThickness")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeRadialThickness))
-	case "RhombusSideLength":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusSideLength")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RhombusSideLength))
-	case "RelativeCuttedStackFloorHeight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeCuttedStackFloorHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeCuttedStackFloorHeight))
-	case "RelativeRotatedTorusSeparation":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeRotatedTorusSeparation")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeRotatedTorusSeparation))
-	case "RotationRatio":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RotationRatio")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RotationRatio))
-	case "RadialRepetitions":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.RadialRepetitions))
-	case "Transparency":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.Transparency))
-	case "HasAlternatingRingColors":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasAlternatingRingColors")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.HasAlternatingRingColors))
-	case "RelativeTrajectoryOffsetX":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTrajectoryOffsetX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetX))
-	case "RelativeTrajectoryOffsetY":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTrajectoryOffsetY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetY))
-	case "NbStepP1P2":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbStepP1P2")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.NbStepP1P2))
-	case "ChosenStep":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ChosenStep")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ChosenStep))
-	case "RelativeHorizontalRingsHeight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHorizontalRingsHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeHorizontalRingsHeight))
-	case "OffsetKeyX":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OffsetKeyX")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.OffsetKeyX))
-	case "OffsetKeyY":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OffsetKeyY")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.OffsetKeyY))
-	case "HeightKey":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HeightKey")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.HeightKey))
-	case "WidthKey":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WidthKey")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.WidthKey))
-	case "RelativeKeySize":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeKeySize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RelativeKeySize))
-	case "MovieNbFrames":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MovieNbFrames")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.MovieNbFrames))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plantabstract.RhombusInsideAngle))
 	case "ComputedPrefix":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantabstract.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantabstract.IsExpanded))
 	case "IsSelected":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantabstract.IsSelected))
 	case "IsPlantDiagramsNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlantDiagramsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantabstract.IsPlantDiagramsNodeExpanded))
 
+	case "VaseAbstract":
+		if plantabstract.VaseAbstract != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VaseAbstract")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantabstract.VaseAbstract.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VaseAbstract")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "PlantDiagrams":
 		var sb strings.Builder
-		for _, _plantdiagram := range plant.PlantDiagrams {
+		for _, _plantdiagram := range plantabstract.PlantDiagrams {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PlantDiagrams")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plantdiagram.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
 	default:
-		log.Panicf("Unknown field %s for Gongstruct Plant", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct PlantAbstract", fieldName)
 	}
 	return
 }
@@ -5466,6 +5414,121 @@ func (torusstackshape *TorusStackShape) GongMarshallField(stage *Stage, fieldNam
 	return
 }
 
+func (vaseabstract *VaseAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vaseabstract.Name))
+	case "RelativeVerticalThickness":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeVerticalThickness")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeVerticalThickness))
+	case "RelativeRadialThickness":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeRadialThickness")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeRadialThickness))
+	case "RhombusSideLength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusSideLength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RhombusSideLength))
+	case "RelativeCuttedStackFloorHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeCuttedStackFloorHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeCuttedStackFloorHeight))
+	case "RelativeRotatedTorusSeparation":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeRotatedTorusSeparation")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeRotatedTorusSeparation))
+	case "RotationRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RotationRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RotationRatio))
+	case "RadialRepetitions":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", vaseabstract.RadialRepetitions))
+	case "Transparency":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.Transparency))
+	case "HasAlternatingRingColors":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasAlternatingRingColors")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vaseabstract.HasAlternatingRingColors))
+	case "RelativeTrajectoryOffsetX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTrajectoryOffsetX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetX))
+	case "RelativeTrajectoryOffsetY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTrajectoryOffsetY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetY))
+	case "NbStepP1P2":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbStepP1P2")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", vaseabstract.NbStepP1P2))
+	case "ChosenStep":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ChosenStep")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", vaseabstract.ChosenStep))
+	case "RelativeHorizontalRingsHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHorizontalRingsHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeHorizontalRingsHeight))
+	case "OffsetKeyX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OffsetKeyX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.OffsetKeyX))
+	case "OffsetKeyY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OffsetKeyY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.OffsetKeyY))
+	case "HeightKey":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HeightKey")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.HeightKey))
+	case "WidthKey":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WidthKey")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.WidthKey))
+	case "RelativeKeySize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeKeySize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeKeySize))
+	case "MovieNbFrames":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MovieNbFrames")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", vaseabstract.MovieNbFrames))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct VaseAbstract", fieldName)
+	}
+	return
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -6162,41 +6225,22 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongMarshallAllFie
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "StackHeight"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeVerticalThickness"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRadialThickness"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RotationRatio"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RadialRepetitions"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "Transparency"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "HasAlternatingRingColors"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "NbStepP1P2"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "ChosenStep"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyX"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "OffsetKeyY"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "HeightKey"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "WidthKey"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "RelativeKeySize"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "MovieNbFrames"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagrams"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "N"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "M"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsSelected"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantDiagrams"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -7309,6 +7353,37 @@ func (torusstackshape *TorusStackShape) GongMarshallAllFields(stage *Stage) (ini
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(torusstackshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (vaseabstract *VaseAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RhombusSideLength"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RotationRatio"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RadialRepetitions"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "Transparency"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "HasAlternatingRingColors"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetX"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeTrajectoryOffsetY"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "NbStepP1P2"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "ChosenStep"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeHorizontalRingsHeight"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "OffsetKeyX"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "OffsetKeyY"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "HeightKey"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "WidthKey"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeKeySize"))
+		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "MovieNbFrames"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

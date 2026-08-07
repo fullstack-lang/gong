@@ -57,17 +57,17 @@ type Stager struct {
 
 	// DSM specific
 	// the plant that is currently selected for the form
-	selectedPlant *Plant
+	selectedPlant *PlantAbstract
 
 	// movie recording
 	isRecording             bool
 	recordingRot            float64
 	recordingFrameCount     int
-	recordingPlant          *Plant
+	recordingPlant          *PlantAbstract
 	savedInitCommitCallback OnInitCommitInterface
 
 	// maps
-	m_Plant_Library map[*Plant]*Library
+	m_Plant_Library map[*PlantAbstract]*Library
 }
 
 func NewStager(
@@ -114,9 +114,9 @@ func NewStager(
 	beforeCommit(stager.stage)
 	afterCommit(stager.stage)
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		if plant.IsSelected {
-			stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*Plant]())
+			stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*PlantAbstract]())
 			break
 		}
 	}
@@ -139,7 +139,7 @@ func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObject
 }
 
-func (stager *Stager) GetCurrentPlant() *Plant {
+func (stager *Stager) GetCurrentPlant() *PlantAbstract {
 	return stager.selectedPlant
 }
 

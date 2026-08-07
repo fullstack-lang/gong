@@ -93,10 +93,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refChosenP1P2PairShape := make(map[*ChosenP1P2PairShape]bool)
 	refKeyHoleShape := make(map[*KeyHoleShape]bool)
 
-
-
-
-
 	refGrowthCurve2DRibbon := make(map[*GrowthCurve2DRibbon]bool)
 	refGrowthCurve2DRibbonStartShape := make(map[*GrowthCurve2DRibbonStartShape]bool)
 	refGrowthCurve2DRibbonEndShape := make(map[*GrowthCurve2DRibbonEndShape]bool)
@@ -109,8 +105,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refShiftedLeftGrowthCurve2DRibbonStartShape := make(map[*ShiftedLeftGrowthCurve2DRibbonStartShape]bool)
 	refShiftedLeftGrowthCurve2DRibbonEndShape := make(map[*ShiftedLeftGrowthCurve2DRibbonEndShape]bool)
 
-
-
 	refTorusStackShape := make(map[*TorusStackShape]bool)
 	refVerticalTorusStackShape := make(map[*VerticalTorusStackShape]bool)
 	refPartiallyRotatedTorusShape := make(map[*PartiallyRotatedTorusShape]bool)
@@ -121,9 +115,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refVolumeKey3DShape := make(map[*VolumeKey3DShape]bool)
 	refTorusEdge3DShape := make(map[*TorusEdge3DShape]bool)
 
-
 	// Collect referenced shapes from all plants
-	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		if plant.AxesShape != nil {
 			refAxes[plant.AxesShape] = true
 		}
@@ -383,9 +376,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refKeyHoleShape[plant.KeyHoleShape] = true
 		}
 
-
-
-
 		if plant.GrowthCurve2DRibbon != nil {
 			refGrowthCurve2DRibbon[plant.GrowthCurve2DRibbon] = true
 			for _, start := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
@@ -415,8 +405,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 				refShiftedLeftGrowthCurve2DRibbonEndShape[end] = true
 			}
 		}
-
-
 
 		if plant.ShiftedBottomTopStartArcShapeGrid != nil {
 			refShiftedBottomTopStartArcShapeGrid[plant.ShiftedBottomTopStartArcShapeGrid] = true
@@ -476,7 +464,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refTorusEdge3DShape[diagram.TorusEdge3DShape] = true
 		}
 	}
-
 
 	// Unstage unreferenced shapes
 	for shape := range *GetGongstructInstancesSetFromPointerType[*AxesShape](stage) {
@@ -980,10 +967,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-
-
-
-
 	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbon](stage) {
 		if !refGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
@@ -1046,8 +1029,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			needCommit = true
 		}
 	}
-
-
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusStackShape](stage) {
 		if !refTorusStackShape[shape] {

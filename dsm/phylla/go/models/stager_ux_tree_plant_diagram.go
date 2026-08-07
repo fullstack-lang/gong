@@ -45,7 +45,7 @@ func appendDiagramNode[T GongstructIF](
 }
 
 func (stager *Stager) treePlantDiagram(
-	plant *Plant,
+	plant *PlantAbstract,
 	plantDiagram *PlantDiagram,
 	parentNodes *[]*tree.Node,
 	is3DView bool,
@@ -100,9 +100,13 @@ func (stager *Stager) treePlantDiagram(
 		},
 	}
 	if stager.isRecording {
+		rotRatio := 0.0
+		if plant.VaseAbstract != nil {
+			rotRatio = plant.VaseAbstract.RotationRatio
+		}
 		recordMovieBtn.Name = "Stop Recording"
 		recordMovieBtn.Icon = string(buttons.BUTTON_stop)
-		recordMovieBtn.ToolTipText = fmt.Sprintf("Recording... frame %d (rot: %.3f)", stager.recordingFrameCount, plant.RotationRatio)
+		recordMovieBtn.ToolTipText = fmt.Sprintf("Recording... frame %d (rot: %.3f)", stager.recordingFrameCount, rotRatio)
 	}
 	plantDiagramNode.Buttons = append(plantDiagramNode.Buttons, recordMovieBtn)
 
@@ -188,10 +192,6 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Chosen P1 P2 Pair Shape", plant.ChosenP1P2PairShape, &plantDiagram.IsHiddenChosenP1P2PairShape)
 		appendDiagramNode(stager, plantDiagramNode, "Key Hole", plant.KeyHoleShape, &plantDiagram.IsHiddenKeyHoleShape)
 
-
-
-
-
 		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve 2D", plant.StackOfGrowthCurve2D, &plantDiagram.IsHiddenStackOfGrowthCurve2D)
 		appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve 2D", plant.TopStackOfGrowthCurve2D, &plantDiagram.IsHiddenTopStackOfGrowthCurve2D)
 		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve 2D Ribbon", plant.StackOfGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfGrowthCurve2DRibbon)
@@ -212,4 +212,3 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Angle 0 Shape", plantDiagram.Angle0Shape, &plantDiagram.IsHiddenAngle0Shape)
 	}
 }
-
