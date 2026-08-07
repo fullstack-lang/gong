@@ -61,6 +61,18 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
+				"Side Length",
+				5,
+				600,
+				5,
+				&plant.VaseAbstract.RhombusSideLength,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
 				"Inside Angle",
 				0,
 				180,
@@ -82,17 +94,6 @@ func (stager *Stager) ux_slider() {
 		)
 
 		if plant.CurrentView != VIEW_PLANT_2D && plant.VaseAbstract != nil {
-			group1.Sliders = append(
-				group1.Sliders,
-				m.NewSlider(
-					stager,
-					"Side Length",
-					5,
-					600,
-					5,
-					&plant.VaseAbstract.RhombusSideLength,
-				),
-			)
 
 			group1.Sliders = append(
 				group1.Sliders,
