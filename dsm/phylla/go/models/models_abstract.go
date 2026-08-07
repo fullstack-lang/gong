@@ -11,11 +11,6 @@ type VaseAbstract struct {
 	// radial with of the solid torus is RelativeRadialThickness x RhombusSideLength
 	RelativeRadialThickness float64
 
-	// RhombusSideLength is set by the user. It represents the physical length of the side of the
-	// fundamental diamond (rhombus) shape. It acts as the scale or distance for each step
-	// taken along the lattice paths.
-	RhombusSideLength float64
-
 	// For laser cutting the torus forms, they will be stack on top of another, without the rotation
 	// RelativeCuttedStackFloorHeight x RhombusSideLength is the distance between each ribbon
 	RelativeCuttedStackFloorHeight float64
@@ -109,6 +104,11 @@ type PlantAbstract struct {
 	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
 	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
 	RhombusInsideAngle float64
+
+	// RhombusSideLength is set by the user. It represents the physical length of the side of the
+	// fundamental diamond (rhombus) shape. It acts as the scale or distance for each step
+	// taken along the lattice paths.
+	RhombusSideLength float64
 
 	PlantType PlantType
 

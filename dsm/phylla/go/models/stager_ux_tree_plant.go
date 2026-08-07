@@ -11,17 +11,16 @@ import (
 )
 
 func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, is3DView bool) {
-	var ratio float64
-	h0 := 0.0
-	h1 := 0.0
-	if plant.VaseAbstract != nil {
-		h0 = plant.VaseAbstract.heightAtRotRatio0
-		h1 = plant.VaseAbstract.heightAtRotRatio1
+	nodeName := plant.Name
+	if plant.PlantType == PLANT_TYPE_VASE && plant.VaseAbstract != nil {
+		h0 := plant.VaseAbstract.heightAtRotRatio0
+		h1 := plant.VaseAbstract.heightAtRotRatio1
+		var ratio float64
 		if h0 > 0 {
 			ratio = h1 / h0
 		}
+		nodeName = fmt.Sprintf("%s (h(0): %.2f, h(1): %.2f, ratio: %.2f)", plant.Name, h0, h1, ratio)
 	}
-	nodeName := fmt.Sprintf("%s (h(0): %.2f, h(1): %.2f, ratio: %.2f)", plant.Name, h0, h1, ratio)
 
 	plantNode := &tree.Node{
 		Name:            nodeName,

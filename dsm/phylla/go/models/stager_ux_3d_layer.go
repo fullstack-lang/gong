@@ -18,7 +18,7 @@ func (stager *Stager) generateLayerWithModulo(
 	h_horiz := 0.0
 	if plant.VaseAbstract != nil {
 		radialRepetition = plant.VaseAbstract.RadialRepetitions
-		h_horiz = plant.VaseAbstract.RelativeHorizontalRingsHeight * plant.VaseAbstract.RhombusSideLength
+		h_horiz = plant.VaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
 	}
 
 	massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)

@@ -114,7 +114,7 @@ func (stager *Stager) createViews() {
 						{
 							IsAny: true,
 							Svg: &split.Svg{
-								StackName: stager.svgStage.GetName(),
+								StackName: stager.svgPlantStage.GetName(),
 							},
 						},
 					},
@@ -198,7 +198,7 @@ func (stager *Stager) createViews() {
 							{
 								IsAny: true,
 								Svg: &split.Svg{
-									StackName: stager.svgStage.GetName(),
+									StackName: stager.svgVaseStage.GetName(),
 								},
 							},
 						},
@@ -267,7 +267,7 @@ func (stager *Stager) createViews() {
 							{
 								IsAny: true,
 								Svg: &split.Svg{
-									StackName: stager.svgStage.GetName(),
+									StackName: stager.svgVaseStage.GetName(),
 								},
 							},
 						},
@@ -385,12 +385,24 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:            "Svg Probe",
+		Name:            "Svg Plant Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
-					StackName: stager.svgStage.GetProbeSplitStageName(),
+					StackName: stager.svgPlantStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "Svg Vase Probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.svgVaseStage.GetProbeSplitStageName(),
 				},
 			},
 		},

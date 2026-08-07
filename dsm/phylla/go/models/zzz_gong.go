@@ -26783,6 +26783,10 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "RhombusSideLength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:                 "PlantType",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "PlantType",
@@ -29471,10 +29475,6 @@ func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "RhombusSideLength",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
 			Name:               "RelativeCuttedStackFloorHeight",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -31155,6 +31155,10 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 	case "RhombusInsideAngle":
 		res.valueString = fmt.Sprintf("%f", plantabstract.RhombusInsideAngle)
 		res.valueFloat = plantabstract.RhombusInsideAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RhombusSideLength":
+		res.valueString = fmt.Sprintf("%f", plantabstract.RhombusSideLength)
+		res.valueFloat = plantabstract.RhombusSideLength
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "PlantType":
 		enum := plantabstract.PlantType
@@ -33915,10 +33919,6 @@ func (vaseabstract *VaseAbstract) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRadialThickness)
 		res.valueFloat = vaseabstract.RelativeRadialThickness
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RhombusSideLength":
-		res.valueString = fmt.Sprintf("%f", vaseabstract.RhombusSideLength)
-		res.valueFloat = vaseabstract.RhombusSideLength
-		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeCuttedStackFloorHeight":
 		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeCuttedStackFloorHeight)
 		res.valueFloat = vaseabstract.RelativeCuttedStackFloorHeight
@@ -35431,6 +35431,8 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 		plantabstract.StackHeight = int(value.GetValueInt())
 	case "RhombusInsideAngle":
 		plantabstract.RhombusInsideAngle = value.GetValueFloat()
+	case "RhombusSideLength":
+		plantabstract.RhombusSideLength = value.GetValueFloat()
 	case "PlantType":
 		plantabstract.PlantType.FromCodeString(value.GetValueString())
 	case "VaseAbstract":
@@ -37902,8 +37904,6 @@ func (vaseabstract *VaseAbstract) GongSetFieldValue(fieldName string, value Gong
 		vaseabstract.RelativeVerticalThickness = value.GetValueFloat()
 	case "RelativeRadialThickness":
 		vaseabstract.RelativeRadialThickness = value.GetValueFloat()
-	case "RhombusSideLength":
-		vaseabstract.RhombusSideLength = value.GetValueFloat()
 	case "RelativeCuttedStackFloorHeight":
 		vaseabstract.RelativeCuttedStackFloorHeight = value.GetValueFloat()
 	case "RelativeRotatedTorusSeparation":

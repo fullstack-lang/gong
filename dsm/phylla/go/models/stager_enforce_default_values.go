@@ -38,15 +38,15 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.PlantType = PLANT_TYPE_PLANT
 		}
+		if plant.RhombusSideLength == 0.0 {
+			needCommit = true
+			plant.RhombusSideLength = 100.0
+		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"
 		}
 		if vase := plant.VaseAbstract; vase != nil {
-			if vase.RhombusSideLength == 0.0 {
-				needCommit = true
-				vase.RhombusSideLength = 100.0
-			}
 			if vase.RelativeVerticalThickness == 0.0 {
 				needCommit = true
 				vase.RelativeVerticalThickness = 0.1

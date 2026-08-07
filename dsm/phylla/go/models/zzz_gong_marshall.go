@@ -397,6 +397,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
@@ -552,7 +553,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
-		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RotationRatio"))
@@ -2291,6 +2291,11 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plantabstract.RhombusInsideAngle))
+	case "RhombusSideLength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusSideLength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plantabstract.RhombusSideLength))
 	case "PlantType":
 		if plantabstract.PlantType.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -5273,11 +5278,6 @@ func (vaseabstract *VaseAbstract) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeRadialThickness")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RelativeRadialThickness))
-	case "RhombusSideLength":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusSideLength")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vaseabstract.RhombusSideLength))
 	case "RelativeCuttedStackFloorHeight":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
@@ -6338,6 +6338,7 @@ func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
@@ -7431,7 +7432,6 @@ func (vaseabstract *VaseAbstract) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeVerticalThickness"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
-		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RelativeRotatedTorusSeparation"))
 		initializerStatements.WriteString(vaseabstract.GongMarshallField(stage, "RotationRatio"))

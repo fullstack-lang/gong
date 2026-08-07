@@ -9,10 +9,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-		length := 0.0
-		if plant.VaseAbstract != nil {
-			length = plant.VaseAbstract.RhombusSideLength
-		}
+		length := plant.RhombusSideLength
 
 		// Cartesian Y-axis points UP
 		v1x := length * math.Cos(angleRad/2.0)
@@ -95,8 +92,8 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		vThickness := 0.0
 		cHeight := 0.0
 		if plant.VaseAbstract != nil {
-			vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
-			cHeight = plant.VaseAbstract.RelativeCuttedStackFloorHeight * plant.VaseAbstract.RhombusSideLength
+			vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
+			cHeight = plant.VaseAbstract.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 		}
 
 		{

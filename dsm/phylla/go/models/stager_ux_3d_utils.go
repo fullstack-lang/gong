@@ -130,7 +130,7 @@ func (stager *Stager) addFloorTiles(floorMinY float64, plant *PlantAbstract, glo
 	} else {
 		thickness := 0.0
 		if plant.VaseAbstract != nil {
-			thickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
+			thickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		}
 		if thickness == 0 {
 			thickness = 5.0

@@ -999,6 +999,8 @@ type PlantAbstract_WOP struct {
 
 	RhombusInsideAngle float64
 
+	RhombusSideLength float64
+
 	PlantType PlantType
 
 	CurrentView ViewType
@@ -1019,6 +1021,7 @@ func (from *PlantAbstract) CopyBasicFields(to *PlantAbstract) {
 	to.M = from.M
 	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
+	to.RhombusSideLength = from.RhombusSideLength
 	to.PlantType = from.PlantType
 	to.CurrentView = from.CurrentView
 	to.ComputedPrefix = from.ComputedPrefix
@@ -2885,8 +2888,6 @@ type VaseAbstract_WOP struct {
 
 	RelativeRadialThickness float64
 
-	RhombusSideLength float64
-
 	RelativeCuttedStackFloorHeight float64
 
 	RelativeRotatedTorusSeparation float64
@@ -2927,7 +2928,6 @@ func (from *VaseAbstract) CopyBasicFields(to *VaseAbstract) {
 	to.Name = from.Name
 	to.RelativeVerticalThickness = from.RelativeVerticalThickness
 	to.RelativeRadialThickness = from.RelativeRadialThickness
-	to.RhombusSideLength = from.RhombusSideLength
 	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
 	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
 	to.RotationRatio = from.RotationRatio
