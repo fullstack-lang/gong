@@ -26827,6 +26827,14 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsVaseArcNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsVaseClampingNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsHiddenAxesShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -31207,6 +31215,14 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsArcNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsArcNodesExpanded)
 		res.valueBool = plantdiagram.IsArcNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsVaseArcNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsVaseArcNodesExpanded)
+		res.valueBool = plantdiagram.IsVaseArcNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsVaseClampingNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsVaseClampingNodesExpanded)
+		res.valueBool = plantdiagram.IsVaseClampingNodesExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenAxesShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenAxesShape)
@@ -35633,6 +35649,10 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsRhombusNodesExpanded = value.GetValueBool()
 	case "IsArcNodesExpanded":
 		plantdiagram.IsArcNodesExpanded = value.GetValueBool()
+	case "IsVaseArcNodesExpanded":
+		plantdiagram.IsVaseArcNodesExpanded = value.GetValueBool()
+	case "IsVaseClampingNodesExpanded":
+		plantdiagram.IsVaseClampingNodesExpanded = value.GetValueBool()
 	case "IsHiddenAxesShape":
 		plantdiagram.IsHiddenAxesShape = value.GetValueBool()
 	case "IsHiddenReferenceRhombus":

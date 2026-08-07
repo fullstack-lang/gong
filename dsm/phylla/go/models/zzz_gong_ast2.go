@@ -2345,6 +2345,10 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsRhombusNodesExpanded = GongExtractBool(valueExpr)
 	case "IsArcNodesExpanded":
 		instance.IsArcNodesExpanded = GongExtractBool(valueExpr)
+	case "IsVaseArcNodesExpanded":
+		instance.IsVaseArcNodesExpanded = GongExtractBool(valueExpr)
+	case "IsVaseClampingNodesExpanded":
+		instance.IsVaseClampingNodesExpanded = GongExtractBool(valueExpr)
 	case "IsHiddenAxesShape":
 		instance.IsHiddenAxesShape = GongExtractBool(valueExpr)
 	case "IsHiddenReferenceRhombus":

@@ -1057,6 +1057,10 @@ type PlantDiagram_WOP struct {
 
 	IsArcNodesExpanded bool
 
+	IsVaseArcNodesExpanded bool
+
+	IsVaseClampingNodesExpanded bool
+
 	IsHiddenAxesShape bool
 
 	IsHiddenReferenceRhombus bool
@@ -1197,6 +1201,8 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.OriginY = from.OriginY
 	to.IsRhombusNodesExpanded = from.IsRhombusNodesExpanded
 	to.IsArcNodesExpanded = from.IsArcNodesExpanded
+	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
+	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
 	to.IsHiddenAxesShape = from.IsHiddenAxesShape
 	to.IsHiddenReferenceRhombus = from.IsHiddenReferenceRhombus
 	to.IsHiddenPlantCircumferenceShape = from.IsHiddenPlantCircumferenceShape
