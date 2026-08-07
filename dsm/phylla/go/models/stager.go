@@ -111,6 +111,7 @@ func NewStager(
 		stager.ux_tree() // DSM mandatory name, to be changed
 		stager.button()
 		stager.load()
+		stager.createViews()
 		stager.ux_slider()
 		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
