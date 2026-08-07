@@ -39,7 +39,7 @@ func (stager *Stager) generateLayerWithModulo(
 		}
 	}
 
-	if !checkedDiagram.IsHiddenSampledPoints3DShape {
+	if !checkedDiagram.VaseDiagram.IsHiddenSampledPoints3DShape {
 		numPointsPerRep := len(resampledBaseBottom.Points)
 		stager.addPointSpheres(massiveBottomCurve.Points, "red", canvas, namePrefix+" Bottom", dy, numPointsPerRep)
 		stager.addPointSpheres(massiveTopCurve.Points, "blue", canvas, namePrefix+" Top", dy, numPointsPerRep)

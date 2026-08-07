@@ -5937,72 +5937,12 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
 		case "IsHiddenGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
-		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenTorusStackShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
-		case "IsHiddenVerticalTorusStackShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenVerticalTorusStackShape), formDiv)
-		case "IsHiddenPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
-		case "IsHiddenStackOfPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
-		case "IsHiddenPointsAndLines3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPointsAndLines3DShape), formDiv)
-		case "IsHiddenKeyHole3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHole3DShape), formDiv)
-		case "IsHiddenKey3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKey3DShape), formDiv)
-		case "IsHiddenVolumeKey3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenVolumeKey3DShape), formDiv)
-		case "IsHiddenTorusEdge3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusEdge3DShape), formDiv)
-		case "IsHiddenSampledPoints3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenSampledPoints3DShape), formDiv)
-		case "IsHiddenOriginalPoints3DShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenOriginalPoints3DShape), formDiv)
-		case "IsHiddenAngle0Shape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenAngle0Shape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
-		case "Rendered3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.Rendered3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantdiagram_.GrowthCurve2DRibbon), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantdiagram_.ShiftedRightGrowthCurve2DRibbon), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantdiagram_.ShiftedLeftGrowthCurve2DRibbon), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantdiagram_.ShiftedLeftPartiallyGrowthCurve2DRibbon), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TorusStackShape":
-			FormDivSelectFieldToField(&(plantdiagram_.TorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "VerticalTorusStackShape":
-			FormDivSelectFieldToField(&(plantdiagram_.VerticalTorusStackShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(plantdiagram_.PartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfPartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(plantdiagram_.StackOfPartiallyRotatedTorusShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PointsAndLines3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.PointsAndLines3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "SampledPoints3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.SampledPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "OriginalPoints3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.OriginalPoints3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Angle0Shape":
-			FormDivSelectFieldToField(&(plantdiagram_.Angle0Shape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "KeyHole3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.KeyHole3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Key3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.Key3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "VolumeKey3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.VolumeKey3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TorusEdge3DShape":
-			FormDivSelectFieldToField(&(plantdiagram_.TorusEdge3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "PlantAbstract:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -14018,6 +13958,66 @@ func (vasediagramFormCallback *VaseDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vasediagram_.IsHiddenChosenP1P2PairShape), formDiv)
 		case "IsHiddenKeyHoleShape":
 			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKeyHoleShape), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenTorusStackShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTorusStackShape), formDiv)
+		case "IsHiddenVerticalTorusStackShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenVerticalTorusStackShape), formDiv)
+		case "IsHiddenPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenPointsAndLines3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPointsAndLines3DShape), formDiv)
+		case "IsHiddenKeyHole3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKeyHole3DShape), formDiv)
+		case "IsHiddenKey3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKey3DShape), formDiv)
+		case "IsHiddenVolumeKey3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenVolumeKey3DShape), formDiv)
+		case "IsHiddenTorusEdge3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTorusEdge3DShape), formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "IsHiddenOriginalPoints3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenOriginalPoints3DShape), formDiv)
+		case "IsHiddenAngle0Shape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenAngle0Shape), formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.Rendered3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vasediagram_.GrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedRightGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vasediagram_.ShiftedRightGrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vasediagram_.ShiftedLeftGrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vasediagram_.ShiftedLeftPartiallyGrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusStackShape":
+			FormDivSelectFieldToField(&(vasediagram_.TorusStackShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VerticalTorusStackShape":
+			FormDivSelectFieldToField(&(vasediagram_.VerticalTorusStackShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(vasediagram_.PartiallyRotatedTorusShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfPartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(vasediagram_.StackOfPartiallyRotatedTorusShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PointsAndLines3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.PointsAndLines3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.SampledPoints3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "OriginalPoints3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.OriginalPoints3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Angle0Shape":
+			FormDivSelectFieldToField(&(vasediagram_.Angle0Shape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHole3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.KeyHole3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Key3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.Key3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VolumeKey3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.VolumeKey3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusEdge3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.TorusEdge3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 

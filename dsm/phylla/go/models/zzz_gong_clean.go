@@ -442,23 +442,6 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.VaseDiagram) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.GrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ShiftedRightGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ShiftedLeftGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.TorusStackShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.VerticalTorusStackShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.StackOfPartiallyRotatedTorusShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.PointsAndLines3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.SampledPoints3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.OriginalPoints3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.Angle0Shape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.KeyHole3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.Key3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.VolumeKey3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.TorusEdge3DShape) || modified
 	return
 }
 
@@ -935,6 +918,23 @@ func (vaseabstract *VaseAbstract) GongClean(stage *Stage) (modified bool) {
 func (vasediagram *VaseDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	modified = GongCleanPointer(stage, &vasediagram.Rendered3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.GrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vasediagram.ShiftedRightGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vasediagram.ShiftedLeftGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vasediagram.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vasediagram.TorusStackShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.VerticalTorusStackShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.PartiallyRotatedTorusShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.StackOfPartiallyRotatedTorusShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.PointsAndLines3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.OriginalPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.Angle0Shape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.KeyHole3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.Key3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.VolumeKey3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.TorusEdge3DShape) || modified
 	return
 }
 

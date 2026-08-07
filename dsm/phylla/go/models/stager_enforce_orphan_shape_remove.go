@@ -433,35 +433,37 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-		if diagram.Rendered3DShape != nil {
-			refRendered3DShape[diagram.Rendered3DShape] = true
-		}
-		if diagram.TorusStackShape != nil {
-			refTorusStackShape[diagram.TorusStackShape] = true
-		}
-		if diagram.VerticalTorusStackShape != nil {
-			refVerticalTorusStackShape[diagram.VerticalTorusStackShape] = true
-		}
-		if diagram.PartiallyRotatedTorusShape != nil {
-			refPartiallyRotatedTorusShape[diagram.PartiallyRotatedTorusShape] = true
-		}
-		if diagram.StackOfPartiallyRotatedTorusShape != nil {
-			refStackOfPartiallyRotatedTorusShape[diagram.StackOfPartiallyRotatedTorusShape] = true
-		}
-		if diagram.PointsAndLines3DShape != nil {
-			refPointsAndLines3DShape[diagram.PointsAndLines3DShape] = true
-		}
-		if diagram.KeyHole3DShape != nil {
-			refKeyHole3DShape[diagram.KeyHole3DShape] = true
-		}
-		if diagram.Key3DShape != nil {
-			refKey3DShape[diagram.Key3DShape] = true
-		}
-		if diagram.VolumeKey3DShape != nil {
-			refVolumeKey3DShape[diagram.VolumeKey3DShape] = true
-		}
-		if diagram.TorusEdge3DShape != nil {
-			refTorusEdge3DShape[diagram.TorusEdge3DShape] = true
+		if diagram.VaseDiagram != nil {
+			if diagram.VaseDiagram.Rendered3DShape != nil {
+				refRendered3DShape[diagram.VaseDiagram.Rendered3DShape] = true
+			}
+			if diagram.VaseDiagram.TorusStackShape != nil {
+				refTorusStackShape[diagram.VaseDiagram.TorusStackShape] = true
+			}
+			if diagram.VaseDiagram.VerticalTorusStackShape != nil {
+				refVerticalTorusStackShape[diagram.VaseDiagram.VerticalTorusStackShape] = true
+			}
+			if diagram.VaseDiagram.PartiallyRotatedTorusShape != nil {
+				refPartiallyRotatedTorusShape[diagram.VaseDiagram.PartiallyRotatedTorusShape] = true
+			}
+			if diagram.VaseDiagram.StackOfPartiallyRotatedTorusShape != nil {
+				refStackOfPartiallyRotatedTorusShape[diagram.VaseDiagram.StackOfPartiallyRotatedTorusShape] = true
+			}
+			if diagram.VaseDiagram.PointsAndLines3DShape != nil {
+				refPointsAndLines3DShape[diagram.VaseDiagram.PointsAndLines3DShape] = true
+			}
+			if diagram.VaseDiagram.KeyHole3DShape != nil {
+				refKeyHole3DShape[diagram.VaseDiagram.KeyHole3DShape] = true
+			}
+			if diagram.VaseDiagram.Key3DShape != nil {
+				refKey3DShape[diagram.VaseDiagram.Key3DShape] = true
+			}
+			if diagram.VaseDiagram.VolumeKey3DShape != nil {
+				refVolumeKey3DShape[diagram.VaseDiagram.VolumeKey3DShape] = true
+			}
+			if diagram.VaseDiagram.TorusEdge3DShape != nil {
+				refTorusEdge3DShape[diagram.VaseDiagram.TorusEdge3DShape] = true
+			}
 		}
 	}
 

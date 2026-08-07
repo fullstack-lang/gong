@@ -2399,72 +2399,12 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenShiftedLeftStackOfNormalVector = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurve2D":
 		instance.IsHiddenGrowthCurve2D = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		instance.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = GongExtractBool(valueExpr)
-	case "IsHiddenTorusStackShape":
-		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
-	case "IsHiddenVerticalTorusStackShape":
-		instance.IsHiddenVerticalTorusStackShape = GongExtractBool(valueExpr)
-	case "IsHiddenPartiallyRotatedTorusShape":
-		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		instance.IsHiddenStackOfPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
-	case "IsHiddenPointsAndLines3DShape":
-		instance.IsHiddenPointsAndLines3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenKeyHole3DShape":
-		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenKey3DShape":
-		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenVolumeKey3DShape":
-		instance.IsHiddenVolumeKey3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenTorusEdge3DShape":
-		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenSampledPoints3DShape":
-		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenOriginalPoints3DShape":
-		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
-	case "IsHiddenAngle0Shape":
-		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "Rendered3DShape":
-		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
-	case "GrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedRightGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "TorusStackShape":
-		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
-	case "VerticalTorusStackShape":
-		GongUnmarshallPointer(&instance.VerticalTorusStackShape, valueExpr, identifierMap)
-	case "PartiallyRotatedTorusShape":
-		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
-	case "StackOfPartiallyRotatedTorusShape":
-		GongUnmarshallPointer(&instance.StackOfPartiallyRotatedTorusShape, valueExpr, identifierMap)
-	case "PointsAndLines3DShape":
-		GongUnmarshallPointer(&instance.PointsAndLines3DShape, valueExpr, identifierMap)
-	case "SampledPoints3DShape":
-		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
-	case "OriginalPoints3DShape":
-		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
-	case "Angle0Shape":
-		GongUnmarshallPointer(&instance.Angle0Shape, valueExpr, identifierMap)
-	case "KeyHole3DShape":
-		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
-	case "Key3DShape":
-		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
-	case "VolumeKey3DShape":
-		GongUnmarshallPointer(&instance.VolumeKey3DShape, valueExpr, identifierMap)
-	case "TorusEdge3DShape":
-		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -5147,6 +5087,66 @@ func (u *VaseDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsHiddenChosenP1P2PairShape = GongExtractBool(valueExpr)
 	case "IsHiddenKeyHoleShape":
 		instance.IsHiddenKeyHoleShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		instance.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = GongExtractBool(valueExpr)
+	case "IsHiddenTorusStackShape":
+		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
+	case "IsHiddenVerticalTorusStackShape":
+		instance.IsHiddenVerticalTorusStackShape = GongExtractBool(valueExpr)
+	case "IsHiddenPartiallyRotatedTorusShape":
+		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		instance.IsHiddenStackOfPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
+	case "IsHiddenPointsAndLines3DShape":
+		instance.IsHiddenPointsAndLines3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenKeyHole3DShape":
+		instance.IsHiddenKeyHole3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenKey3DShape":
+		instance.IsHiddenKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenVolumeKey3DShape":
+		instance.IsHiddenVolumeKey3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenTorusEdge3DShape":
+		instance.IsHiddenTorusEdge3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenSampledPoints3DShape":
+		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenOriginalPoints3DShape":
+		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
+	case "IsHiddenAngle0Shape":
+		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
+	case "Rendered3DShape":
+		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
+	case "GrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedRightGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "TorusStackShape":
+		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
+	case "VerticalTorusStackShape":
+		GongUnmarshallPointer(&instance.VerticalTorusStackShape, valueExpr, identifierMap)
+	case "PartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
+	case "StackOfPartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.StackOfPartiallyRotatedTorusShape, valueExpr, identifierMap)
+	case "PointsAndLines3DShape":
+		GongUnmarshallPointer(&instance.PointsAndLines3DShape, valueExpr, identifierMap)
+	case "SampledPoints3DShape":
+		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
+	case "OriginalPoints3DShape":
+		GongUnmarshallPointer(&instance.OriginalPoints3DShape, valueExpr, identifierMap)
+	case "Angle0Shape":
+		GongUnmarshallPointer(&instance.Angle0Shape, valueExpr, identifierMap)
+	case "KeyHole3DShape":
+		GongUnmarshallPointer(&instance.KeyHole3DShape, valueExpr, identifierMap)
+	case "Key3DShape":
+		GongUnmarshallPointer(&instance.Key3DShape, valueExpr, identifierMap)
+	case "VolumeKey3DShape":
+		GongUnmarshallPointer(&instance.VolumeKey3DShape, valueExpr, identifierMap)
+	case "TorusEdge3DShape":
+		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
 	}
 	return nil
 }

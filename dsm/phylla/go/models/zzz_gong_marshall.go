@@ -462,26 +462,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Angle0Shape"))
 	}
 
 	rendered3dshapeOrdered := []*Rendered3DShape{}
@@ -639,6 +622,23 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPxShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "Rendered3DShape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "Angle0Shape"))
 	}
 
 	// insertion initialization of objects to stage
@@ -2550,71 +2550,6 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenGrowthCurve2D")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2D))
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon))
-	case "IsHiddenTorusStackShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusStackShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape))
-	case "IsHiddenVerticalTorusStackShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenVerticalTorusStackShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenVerticalTorusStackShape))
-	case "IsHiddenPartiallyRotatedTorusShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPartiallyRotatedTorusShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyRotatedTorusShape))
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfPartiallyRotatedTorusShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfPartiallyRotatedTorusShape))
-	case "IsHiddenPointsAndLines3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPointsAndLines3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenPointsAndLines3DShape))
-	case "IsHiddenKeyHole3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKeyHole3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenKeyHole3DShape))
-	case "IsHiddenKey3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKey3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenKey3DShape))
-	case "IsHiddenVolumeKey3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenVolumeKey3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenVolumeKey3DShape))
-	case "IsHiddenTorusEdge3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusEdge3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenTorusEdge3DShape))
-	case "IsHiddenSampledPoints3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenSampledPoints3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenSampledPoints3DShape))
-	case "IsHiddenOriginalPoints3DShape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenOriginalPoints3DShape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenOriginalPoints3DShape))
-	case "IsHiddenAngle0Shape":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAngle0Shape")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenAngle0Shape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -2642,58 +2577,6 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VaseDiagram")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "Rendered3DShape":
-		if plantdiagram.Rendered3DShape != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.Rendered3DShape.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "SampledPoints3DShape":
-		if plantdiagram.SampledPoints3DShape != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.SampledPoints3DShape.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "OriginalPoints3DShape":
-		if plantdiagram.OriginalPoints3DShape != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginalPoints3DShape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.OriginalPoints3DShape.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginalPoints3DShape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
-	case "Angle0Shape":
-		if plantdiagram.Angle0Shape != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.Angle0Shape.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -5625,7 +5508,124 @@ func (vasediagram *VaseDiagram) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKeyHoleShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenKeyHoleShape))
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon))
+	case "IsHiddenTorusStackShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusStackShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenTorusStackShape))
+	case "IsHiddenVerticalTorusStackShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenVerticalTorusStackShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenVerticalTorusStackShape))
+	case "IsHiddenPartiallyRotatedTorusShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPartiallyRotatedTorusShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenPartiallyRotatedTorusShape))
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfPartiallyRotatedTorusShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenStackOfPartiallyRotatedTorusShape))
+	case "IsHiddenPointsAndLines3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenPointsAndLines3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenPointsAndLines3DShape))
+	case "IsHiddenKeyHole3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKeyHole3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenKeyHole3DShape))
+	case "IsHiddenKey3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenKey3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenKey3DShape))
+	case "IsHiddenVolumeKey3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenVolumeKey3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenVolumeKey3DShape))
+	case "IsHiddenTorusEdge3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusEdge3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenTorusEdge3DShape))
+	case "IsHiddenSampledPoints3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenSampledPoints3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenSampledPoints3DShape))
+	case "IsHiddenOriginalPoints3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenOriginalPoints3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenOriginalPoints3DShape))
+	case "IsHiddenAngle0Shape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAngle0Shape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenAngle0Shape))
 
+	case "Rendered3DShape":
+		if vasediagram.Rendered3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", vasediagram.Rendered3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "SampledPoints3DShape":
+		if vasediagram.SampledPoints3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", vasediagram.SampledPoints3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "OriginalPoints3DShape":
+		if vasediagram.OriginalPoints3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginalPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", vasediagram.OriginalPoints3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginalPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Angle0Shape":
+		if vasediagram.Angle0Shape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", vasediagram.Angle0Shape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Angle0Shape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct VaseDiagram", fieldName)
 	}
@@ -6401,26 +6401,9 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Rendered3DShape"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginalPoints3DShape"))
-		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "Angle0Shape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -7503,6 +7486,23 @@ func (vasediagram *VaseDiagram) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPxShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenVerticalTorusStackShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedTorusShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPointsAndLines3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenKeyHole3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenKey3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenVolumeKey3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTorusEdge3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "Rendered3DShape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "OriginalPoints3DShape"))
+		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "Angle0Shape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

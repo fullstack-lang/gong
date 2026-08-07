@@ -79,7 +79,7 @@ func (stager *Stager) generateRibbonMesh(
 	inHoleArr := make([]bool, len(localBottomCurve.Points))
 	var y_bottom_abs, y_top_abs float64
 
-	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 && h != 0 {
+	if !checkedDiagram.VaseDiagram.IsHiddenKeyHole3DShape && plant.KeyHoleShape != nil && globalR > 0 && h != 0 {
 		x_left := offsetKeyX - widthKey/2.0
 		x_right := offsetKeyX + widthKey/2.0
 		y_bottom_abs = offsetKeyY - heightKey/2.0 + dy
@@ -349,7 +349,7 @@ func (stager *Stager) generateRibbonMesh(
 	innerRadius := outerRadius * 0.85
 	bambooColor := "#4a3623"
 
-	if !checkedDiagram.IsHiddenTorusEdge3DShape {
+	if !checkedDiagram.VaseDiagram.IsHiddenTorusEdge3DShape {
 		canvas.Meshs = append(canvas.Meshs,
 			stager.createTorusEdgeMesh(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
 			stager.createTorusEdgeMesh(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
@@ -358,7 +358,7 @@ func (stager *Stager) generateRibbonMesh(
 		)
 	}
 
-	if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
+	if !checkedDiagram.VaseDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && (plant.ChosenP1P2PairShape != nil || plant.PxShape != nil) {
 		var p1x, p1y, p2x, p2y, pxx, pxy float64
 		hasP1P2 := false
 		if plant.ChosenP1P2PairShape != nil {

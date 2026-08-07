@@ -4,11 +4,11 @@ func (stager *Stager) enforcePlantDiagramStackOfPartiallyRotatedTorusShape() boo
 	modified := false
 
 	for _, plantDiagram := range GetGongstrucsSorted[*PlantDiagram](stager.stage) {
-		if plantDiagram.StackOfPartiallyRotatedTorusShape == nil {
+		if plantDiagram.VaseDiagram.StackOfPartiallyRotatedTorusShape == nil {
 			shape := (&StackOfPartiallyRotatedTorusShape{
 				Name:    plantDiagram.Name + "-StackOfPartiallyRotatedTorusShape",
 			}).Stage(stager.stage)
-			plantDiagram.StackOfPartiallyRotatedTorusShape = shape
+			plantDiagram.VaseDiagram.StackOfPartiallyRotatedTorusShape = shape
 			modified = true
 		}
 	}
