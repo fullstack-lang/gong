@@ -1,8 +1,6 @@
 package models
 
 import (
-	"strings"
-
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
@@ -20,7 +18,7 @@ func (stager *Stager) updateSelectedViewFromPlant(plant *PlantAbstract) {
 	}
 	modified := false
 	for view := range *split.GetGongstructInstancesSetFromPointerType[*split.View](stager.splitStage) {
-		isSelected := strings.HasPrefix(view.Name, string(plant.CurrentView))
+		isSelected := (view.Name == string(plant.CurrentView))
 		if view.IsSelectedView != isSelected {
 			view.IsSelectedView = isSelected
 			modified = true
@@ -47,10 +45,10 @@ func (stager *Stager) createViews() {
 		currentView = plant.CurrentView
 	}
 
-	view0Name := string(VIEW_PLANT_2D) + " (" + getPersistanceFile(stager) + ")"
-	view1Name := string(VIEW_VASE_FORM) + " (" + getPersistanceFile(stager) + ")"
-	view2Name := string(VIEW_VASE_2D) + " (" + getPersistanceFile(stager) + ")"
-	view3Name := string(VIEW_VASE_3D) + " (" + getPersistanceFile(stager) + ")"
+	view0Name := string(VIEW_PLANT_2D)
+	view1Name := string(VIEW_VASE_FORM)
+	view2Name := string(VIEW_VASE_2D)
+	view3Name := string(VIEW_VASE_3D)
 
 	if plant != nil && plant.CurrentView == "" {
 		plant.CurrentView = VIEW_PLANT_2D
