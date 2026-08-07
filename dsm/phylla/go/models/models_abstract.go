@@ -77,6 +77,14 @@ type VaseAbstract struct {
 // axis. By standard convention, N and M are consecutive Fibonacci numbers ordered such
 // that N < M (e.g., 8 and 13). These variables do not strictly dictate clockwise or
 // counter-clockwise directions; rather, they quantify the two opposing sets of spirals.
+type ViewType string
+
+const (
+	VIEW_TREE_SVG_FORM   ViewType = "Tree - SVG - Form"
+	VIEW_TREE_SVG_SLIDER ViewType = "Tree - SVG - Slider"
+	VIEW_TREE_3D_SLIDER   ViewType = "Tree - 3D - Slider"
+)
+
 // Depending on the specific chirality (handedness) of the plant specimen, N may
 // represent the number of clockwise spirals while M represents the counter-clockwise
 // spirals, or vice versa.
@@ -95,7 +103,7 @@ type PlantAbstract struct {
 
 	VaseAbstract *VaseAbstract
 
-	CurrentView string
+	CurrentView ViewType
 
 	LibraryAbstractFields
 	AbstractTypeFields

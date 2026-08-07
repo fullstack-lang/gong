@@ -26570,8 +26570,9 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "VaseAbstract",
 		},
 		{
-			Name:               "CurrentView",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "CurrentView",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "ViewType",
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -30915,7 +30916,8 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 			res.ids = plantabstract.VaseAbstract.GongGetUUID(stage)
 		}
 	case "CurrentView":
-		res.valueString = plantabstract.CurrentView
+		enum := plantabstract.CurrentView
+		res.valueString = enum.ToCodeString()
 	case "ComputedPrefix":
 		res.valueString = plantabstract.ComputedPrefix
 	case "IsExpanded":
@@ -35168,7 +35170,7 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 			}
 		}
 	case "CurrentView":
-		plantabstract.CurrentView = value.GetValueString()
+		plantabstract.CurrentView.FromCodeString(value.GetValueString())
 	case "ComputedPrefix":
 		plantabstract.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

@@ -20,7 +20,7 @@ func (stager *Stager) updateSelectedViewFromPlant(plant *PlantAbstract) {
 	}
 	modified := false
 	for view := range *split.GetGongstructInstancesSetFromPointerType[*split.View](stager.splitStage) {
-		isSelected := (view.Name == plant.CurrentView) || strings.HasPrefix(view.Name, plant.CurrentView) || strings.HasPrefix(plant.CurrentView, view.Name)
+		isSelected := strings.HasPrefix(view.Name, string(plant.CurrentView))
 		if view.IsSelectedView != isSelected {
 			view.IsSelectedView = isSelected
 			modified = true
@@ -41,26 +41,23 @@ func (stager *Stager) createViews() {
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	currentView := ""
+	currentView := VIEW_TREE_3D_SLIDER
 	plant := stager.GetCurrentPlant()
-	if plant != nil {
+	if plant != nil && plant.CurrentView != "" {
 		currentView = plant.CurrentView
 	}
 
-	view1Name := "Tree - SVG - Form (" + getPersistanceFile(stager) + ")"
-	view2Name := "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")"
-	view3Name := "Tree - 3D - Slider (" + getPersistanceFile(stager) + ")"
+	view1Name := string(VIEW_TREE_SVG_FORM) + " (" + getPersistanceFile(stager) + ")"
+	view2Name := string(VIEW_TREE_SVG_SLIDER) + " (" + getPersistanceFile(stager) + ")"
+	view3Name := string(VIEW_TREE_3D_SLIDER) + " (" + getPersistanceFile(stager) + ")"
 
-	if currentView == "" {
-		currentView = view3Name
-		if plant != nil {
-			plant.CurrentView = "Tree - 3D - Slider"
-		}
+	if plant != nil && plant.CurrentView == "" {
+		plant.CurrentView = VIEW_TREE_3D_SLIDER
 	}
 
-	isView1Selected := (currentView == view1Name) || strings.HasPrefix(currentView, "Tree - SVG - Form")
-	isView2Selected := (currentView == view2Name) || strings.HasPrefix(currentView, "Tree - SVG - Slider")
-	isView3Selected := (currentView == view3Name) || strings.HasPrefix(currentView, "Tree - 3D - Slider")
+	isView1Selected := (currentView == VIEW_TREE_SVG_FORM)
+	isView2Selected := (currentView == VIEW_TREE_SVG_SLIDER)
+	isView3Selected := (currentView == VIEW_TREE_3D_SLIDER)
 
 	if !isView1Selected && !isView2Selected && !isView3Selected {
 		isView3Selected = true
@@ -129,8 +126,8 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, v1)
 	v1.OnClick = func() {
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != "Tree - SVG - Form" {
-			plant.CurrentView = "Tree - SVG - Form"
+		if plant != nil && plant.CurrentView != VIEW_TREE_SVG_FORM {
+			plant.CurrentView = VIEW_TREE_SVG_FORM
 			stager.stage.Commit()
 		}
 	}
@@ -198,8 +195,8 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, v2)
 	v2.OnClick = func() {
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != "Tree - SVG - Slider" {
-			plant.CurrentView = "Tree - SVG - Slider"
+		if plant != nil && plant.CurrentView != VIEW_TREE_SVG_SLIDER {
+			plant.CurrentView = VIEW_TREE_SVG_SLIDER
 			stager.stage.Commit()
 		}
 	}
@@ -267,8 +264,8 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, v3)
 	v3.OnClick = func() {
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != "Tree - 3D - Slider" {
-			plant.CurrentView = "Tree - 3D - Slider"
+		if plant != nil && plant.CurrentView != VIEW_TREE_3D_SLIDER {
+			plant.CurrentView = VIEW_TREE_3D_SLIDER
 			stager.stage.Commit()
 		}
 		stager.ux_3d_plant_diagram()

@@ -2190,7 +2190,7 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "VaseAbstract":
 		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
 	case "CurrentView":
-		instance.CurrentView = GongExtractString(valueExpr)
+		GongUnmarshallEnum(&instance.CurrentView, valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
