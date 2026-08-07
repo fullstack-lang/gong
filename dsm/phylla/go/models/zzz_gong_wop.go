@@ -986,7 +986,7 @@ func (from *PerpendicularVectorHalfway) CopyBasicFields(to *PerpendicularVectorH
 	to.EndY = from.EndY
 }
 
-type Plant_WOP struct {
+type PlantAbstract_WOP struct {
 	// insertion point
 
 	Name string
@@ -999,46 +999,6 @@ type Plant_WOP struct {
 
 	RhombusInsideAngle float64
 
-	RelativeVerticalThickness float64
-
-	RelativeRadialThickness float64
-
-	RhombusSideLength float64
-
-	RelativeCuttedStackFloorHeight float64
-
-	RelativeRotatedTorusSeparation float64
-
-	RotationRatio float64
-
-	RadialRepetitions int
-
-	Transparency float64
-
-	HasAlternatingRingColors bool
-
-	RelativeTrajectoryOffsetX float64
-
-	RelativeTrajectoryOffsetY float64
-
-	NbStepP1P2 int
-
-	ChosenStep int
-
-	RelativeHorizontalRingsHeight float64
-
-	OffsetKeyX float64
-
-	OffsetKeyY float64
-
-	HeightKey float64
-
-	WidthKey float64
-
-	RelativeKeySize float64
-
-	MovieNbFrames int
-
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -1048,33 +1008,13 @@ type Plant_WOP struct {
 	IsPlantDiagramsNodeExpanded bool
 }
 
-func (from *Plant) CopyBasicFields(to *Plant) {
+func (from *PlantAbstract) CopyBasicFields(to *PlantAbstract) {
 	// insertion point
 	to.Name = from.Name
 	to.N = from.N
 	to.M = from.M
 	to.StackHeight = from.StackHeight
 	to.RhombusInsideAngle = from.RhombusInsideAngle
-	to.RelativeVerticalThickness = from.RelativeVerticalThickness
-	to.RelativeRadialThickness = from.RelativeRadialThickness
-	to.RhombusSideLength = from.RhombusSideLength
-	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
-	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
-	to.RotationRatio = from.RotationRatio
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.HasAlternatingRingColors = from.HasAlternatingRingColors
-	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
-	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
-	to.NbStepP1P2 = from.NbStepP1P2
-	to.ChosenStep = from.ChosenStep
-	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
-	to.OffsetKeyX = from.OffsetKeyX
-	to.OffsetKeyY = from.OffsetKeyY
-	to.HeightKey = from.HeightKey
-	to.WidthKey = from.WidthKey
-	to.RelativeKeySize = from.RelativeKeySize
-	to.MovieNbFrames = from.MovieNbFrames
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsSelected = from.IsSelected
@@ -3039,6 +2979,77 @@ type TorusStackShape_WOP struct {
 func (from *TorusStackShape) CopyBasicFields(to *TorusStackShape) {
 	// insertion point
 	to.Name = from.Name
+}
+
+type VaseAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RelativeVerticalThickness float64
+
+	RelativeRadialThickness float64
+
+	RhombusSideLength float64
+
+	RelativeCuttedStackFloorHeight float64
+
+	RelativeRotatedTorusSeparation float64
+
+	RotationRatio float64
+
+	RadialRepetitions int
+
+	Transparency float64
+
+	HasAlternatingRingColors bool
+
+	RelativeTrajectoryOffsetX float64
+
+	RelativeTrajectoryOffsetY float64
+
+	NbStepP1P2 int
+
+	ChosenStep int
+
+	RelativeHorizontalRingsHeight float64
+
+	OffsetKeyX float64
+
+	OffsetKeyY float64
+
+	HeightKey float64
+
+	WidthKey float64
+
+	RelativeKeySize float64
+
+	MovieNbFrames int
+}
+
+func (from *VaseAbstract) CopyBasicFields(to *VaseAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RelativeVerticalThickness = from.RelativeVerticalThickness
+	to.RelativeRadialThickness = from.RelativeRadialThickness
+	to.RhombusSideLength = from.RhombusSideLength
+	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
+	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
+	to.RotationRatio = from.RotationRatio
+	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.HasAlternatingRingColors = from.HasAlternatingRingColors
+	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
+	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
+	to.NbStepP1P2 = from.NbStepP1P2
+	to.ChosenStep = from.ChosenStep
+	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
+	to.OffsetKeyX = from.OffsetKeyX
+	to.OffsetKeyY = from.OffsetKeyY
+	to.HeightKey = from.HeightKey
+	to.WidthKey = from.WidthKey
+	to.RelativeKeySize = from.RelativeKeySize
+	to.MovieNbFrames = from.MovieNbFrames
 }
 
 type VerticalTorusStackShape_WOP struct {

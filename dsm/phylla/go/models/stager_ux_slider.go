@@ -58,18 +58,6 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Side Length",
-				5,
-				600,
-				5,
-				&plant.RhombusSideLength,
-			),
-		)
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
 				"Inside Angle",
 				0,
 				180,
@@ -90,230 +78,244 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Thickness",
-				0.01,
-				0.3,
-				0.01,
-				&plant.RelativeVerticalThickness,
-			),
-		)
+		if plant.VaseAbstract != nil {
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Side Length",
+					5,
+					600,
+					5,
+					&plant.VaseAbstract.RhombusSideLength,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"2D Separation",
-				0.0,
-				0.1,
-				0.002,
-				&plant.RelativeCuttedStackFloorHeight,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Thickness",
+					0.01,
+					0.3,
+					0.01,
+					&plant.VaseAbstract.RelativeVerticalThickness,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"3D Separation",
-				0.0,
-				1.0,
-				0.01,
-				&plant.RelativeRotatedTorusSeparation,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"2D Separation",
+					0.0,
+					0.1,
+					0.002,
+					&plant.VaseAbstract.RelativeCuttedStackFloorHeight,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Radial Thickness",
-				0.01,
-				0.5,
-				0.01,
-				&plant.RelativeRadialThickness,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"3D Separation",
+					0.0,
+					1.0,
+					0.01,
+					&plant.VaseAbstract.RelativeRotatedTorusSeparation,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Rot Ratio",
-				0.0,
-				1.0,
-				0.005,
-				&plant.RotationRatio,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Radial Thickness",
+					0.01,
+					0.5,
+					0.01,
+					&plant.VaseAbstract.RelativeRadialThickness,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Radial Repetition",
-				1,
-				4,
-				1,
-				&plant.RadialRepetitions,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Rot Ratio",
+					0.0,
+					1.0,
+					0.005,
+					&plant.VaseAbstract.RotationRatio,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Transparency",
-				0.0,
-				1.0,
-				0.05,
-				&plant.Transparency,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Radial Repetition",
+					1,
+					4,
+					1,
+					&plant.VaseAbstract.RadialRepetitions,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			NewBoolSlider(
-				stager,
-				"Alternating Ring Colors",
-				&plant.HasAlternatingRingColors,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Transparency",
+					0.0,
+					1.0,
+					0.05,
+					&plant.VaseAbstract.Transparency,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Traj offset X",
-				-0.15,
-				0.15,
-				0.001,
-				&plant.RelativeTrajectoryOffsetX,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				NewBoolSlider(
+					stager,
+					"Alternating Ring Colors",
+					&plant.VaseAbstract.HasAlternatingRingColors,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Traj offset Y",
-				-0.15,
-				0.15,
-				0.001,
-				&plant.RelativeTrajectoryOffsetY,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Traj offset X",
+					-0.15,
+					0.15,
+					0.001,
+					&plant.VaseAbstract.RelativeTrajectoryOffsetX,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Nb Step P1 P2",
-				1,
-				30,
-				1,
-				&plant.NbStepP1P2,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Traj offset Y",
+					-0.15,
+					0.15,
+					0.001,
+					&plant.VaseAbstract.RelativeTrajectoryOffsetY,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Chosen Step",
-				1,
-				plant.NbStepP1P2,
-				1,
-				&plant.ChosenStep,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Nb Step P1 P2",
+					1,
+					30,
+					1,
+					&plant.VaseAbstract.NbStepP1P2,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Horiz Ring Height",
-				0.0,
-				1.0,
-				0.005,
-				&plant.RelativeHorizontalRingsHeight,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Chosen Step",
+					1,
+					plant.VaseAbstract.NbStepP1P2,
+					1,
+					&plant.VaseAbstract.ChosenStep,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Offset Key X",
-				-500,
-				500,
-				1,
-				&plant.OffsetKeyX,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Horiz Ring Height",
+					0.0,
+					1.0,
+					0.005,
+					&plant.VaseAbstract.RelativeHorizontalRingsHeight,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Offset Key Y",
-				-500,
-				500,
-				1,
-				&plant.OffsetKeyY,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Offset Key X",
+					-500,
+					500,
+					1,
+					&plant.VaseAbstract.OffsetKeyX,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Width Key",
-				0,
-				500,
-				1,
-				&plant.WidthKey,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Offset Key Y",
+					-500,
+					500,
+					1,
+					&plant.VaseAbstract.OffsetKeyY,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Height Key",
-				0,
-				500,
-				1,
-				&plant.HeightKey,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Width Key",
+					0,
+					500,
+					1,
+					&plant.VaseAbstract.WidthKey,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Key Size Reduction",
-				0.0,
-				1.0,
-				0.01,
-				&plant.RelativeKeySize,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Height Key",
+					0,
+					500,
+					1,
+					&plant.VaseAbstract.HeightKey,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Movie Nb Frames",
-				0,
-				1000,
-				1,
-				&plant.MovieNbFrames,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Key Size Reduction",
+					0.0,
+					1.0,
+					0.01,
+					&plant.VaseAbstract.RelativeKeySize,
+				),
+			)
+
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Movie Nb Frames",
+					0,
+					1000,
+					1,
+					&plant.VaseAbstract.MovieNbFrames,
+				),
+			)
+		}
 
 	}
 

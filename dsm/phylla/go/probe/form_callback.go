@@ -2925,11 +2925,11 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "Plants":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Plant, 0)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PlantAbstract, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Plant)
+			map_id_instances := make(map[uint]*models.PlantAbstract)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2944,7 +2944,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Plant](libraryFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](libraryFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -5497,23 +5497,23 @@ func (perpendicularvectorhalfwayFormCallback *PerpendicularVectorHalfwayFormCall
 
 	perpendicularvectorhalfwayFormCallback.probe.ux_tree()
 }
-func __gong__New__PlantFormCallback(
-	plant *models.Plant,
+func __gong__New__PlantAbstractFormCallback(
+	plantabstract *models.PlantAbstract,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (plantFormCallback *PlantFormCallback) {
-	plantFormCallback = new(PlantFormCallback)
-	plantFormCallback.probe = probe
-	plantFormCallback.plant = plant
-	plantFormCallback.formGroup = formGroup
+) (plantabstractFormCallback *PlantAbstractFormCallback) {
+	plantabstractFormCallback = new(PlantAbstractFormCallback)
+	plantabstractFormCallback.probe = probe
+	plantabstractFormCallback.plantabstract = plantabstract
+	plantabstractFormCallback.formGroup = formGroup
 
-	plantFormCallback.CreationMode = (plant == nil)
+	plantabstractFormCallback.CreationMode = (plantabstract == nil)
 
 	return
 }
 
-type PlantFormCallback struct {
-	plant *models.Plant
+type PlantAbstractFormCallback struct {
+	plantabstract *models.PlantAbstract
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -5523,85 +5523,47 @@ type PlantFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (plantFormCallback *PlantFormCallback) OnSave() {
-	plantFormCallback.probe.stageOfInterest.Lock()
-	defer plantFormCallback.probe.stageOfInterest.Unlock()
+func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
+	plantabstractFormCallback.probe.stageOfInterest.Lock()
+	defer plantabstractFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("PlantFormCallback, OnSave")
+	// log.Println("PlantAbstractFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	plantFormCallback.probe.formStage.Checkout()
+	plantabstractFormCallback.probe.formStage.Checkout()
 
-	if plantFormCallback.plant == nil {
-		plantFormCallback.plant = new(models.Plant).Stage(plantFormCallback.probe.stageOfInterest)
+	if plantabstractFormCallback.plantabstract == nil {
+		plantabstractFormCallback.plantabstract = new(models.PlantAbstract).Stage(plantabstractFormCallback.probe.stageOfInterest)
 	}
-	plant_ := plantFormCallback.plant
-	_ = plant_
+	plantabstract_ := plantabstractFormCallback.plantabstract
+	_ = plantabstract_
 
-	for _, formDiv := range plantFormCallback.formGroup.FormDivs {
+	for _, formDiv := range plantabstractFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(plant_.Name), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.Name), formDiv)
 		case "N":
-			FormDivBasicFieldToField(&(plant_.N), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.N), formDiv)
 		case "M":
-			FormDivBasicFieldToField(&(plant_.M), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.M), formDiv)
 		case "StackHeight":
-			FormDivBasicFieldToField(&(plant_.StackHeight), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.StackHeight), formDiv)
 		case "RhombusInsideAngle":
-			FormDivBasicFieldToField(&(plant_.RhombusInsideAngle), formDiv)
-		case "RelativeVerticalThickness":
-			FormDivBasicFieldToField(&(plant_.RelativeVerticalThickness), formDiv)
-		case "RelativeRadialThickness":
-			FormDivBasicFieldToField(&(plant_.RelativeRadialThickness), formDiv)
-		case "RhombusSideLength":
-			FormDivBasicFieldToField(&(plant_.RhombusSideLength), formDiv)
-		case "RelativeCuttedStackFloorHeight":
-			FormDivBasicFieldToField(&(plant_.RelativeCuttedStackFloorHeight), formDiv)
-		case "RelativeRotatedTorusSeparation":
-			FormDivBasicFieldToField(&(plant_.RelativeRotatedTorusSeparation), formDiv)
-		case "RotationRatio":
-			FormDivBasicFieldToField(&(plant_.RotationRatio), formDiv)
-		case "RadialRepetitions":
-			FormDivBasicFieldToField(&(plant_.RadialRepetitions), formDiv)
-		case "Transparency":
-			FormDivBasicFieldToField(&(plant_.Transparency), formDiv)
-		case "HasAlternatingRingColors":
-			FormDivBasicFieldToField(&(plant_.HasAlternatingRingColors), formDiv)
-		case "RelativeTrajectoryOffsetX":
-			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetX), formDiv)
-		case "RelativeTrajectoryOffsetY":
-			FormDivBasicFieldToField(&(plant_.RelativeTrajectoryOffsetY), formDiv)
-		case "NbStepP1P2":
-			FormDivBasicFieldToField(&(plant_.NbStepP1P2), formDiv)
-		case "ChosenStep":
-			FormDivBasicFieldToField(&(plant_.ChosenStep), formDiv)
-		case "RelativeHorizontalRingsHeight":
-			FormDivBasicFieldToField(&(plant_.RelativeHorizontalRingsHeight), formDiv)
-		case "OffsetKeyX":
-			FormDivBasicFieldToField(&(plant_.OffsetKeyX), formDiv)
-		case "OffsetKeyY":
-			FormDivBasicFieldToField(&(plant_.OffsetKeyY), formDiv)
-		case "HeightKey":
-			FormDivBasicFieldToField(&(plant_.HeightKey), formDiv)
-		case "WidthKey":
-			FormDivBasicFieldToField(&(plant_.WidthKey), formDiv)
-		case "RelativeKeySize":
-			FormDivBasicFieldToField(&(plant_.RelativeKeySize), formDiv)
-		case "MovieNbFrames":
-			FormDivBasicFieldToField(&(plant_.MovieNbFrames), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.RhombusInsideAngle), formDiv)
+		case "VaseAbstract":
+			FormDivSelectFieldToField(&(plantabstract_.VaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(plant_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.IsExpanded), formDiv)
 		case "IsSelected":
-			FormDivBasicFieldToField(&(plant_.IsSelected), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.IsSelected), formDiv)
 		case "IsPlantDiagramsNodeExpanded":
-			FormDivBasicFieldToField(&(plant_.IsPlantDiagramsNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(plantabstract_.IsPlantDiagramsNodeExpanded), formDiv)
 		case "PlantDiagrams":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantabstractFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PlantDiagram, 0)
 
 			// make a map of all instances by their ID
@@ -5609,7 +5571,7 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					plantFormCallback.probe.stageOfInterest,
+					plantabstractFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -5620,7 +5582,7 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantDiagram](plantabstractFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -5629,81 +5591,81 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			plant_.PlantDiagrams = instanceSlice
-			plantFormCallback.probe.UpdateSliceOfPointersCallback(plant_, "PlantDiagrams", &plant_.PlantDiagrams)
+			plantabstract_.PlantDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "PlantDiagrams", &plantabstract_.PlantDiagrams)
 
 		case "AxesShape":
-			FormDivSelectFieldToField(&(plant_.AxesShape), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.AxesShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "RhombusStuff":
-			FormDivSelectFieldToField(&(plant_.RhombusStuff), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.RhombusStuff), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthVectorShape":
-			FormDivSelectFieldToField(&(plant_.GrowthVectorShape), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.GrowthVectorShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PerpendicularVectorGrid":
-			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.PerpendicularVectorGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PerpendicularVectorGridHalfway":
-			FormDivSelectFieldToField(&(plant_.PerpendicularVectorGridHalfway), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.PerpendicularVectorGridHalfway), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "BaseVectorShapeGrid":
-			FormDivSelectFieldToField(&(plant_.BaseVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.BaseVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ArcNormalVectorShapeGrid":
-			FormDivSelectFieldToField(&(plant_.ArcNormalVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.ArcNormalVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StartArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.StartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.StartArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.TopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopStartArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "EndArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.EndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.EndArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.TopEndArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopEndArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedBottomTopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.ShiftedBottomTopStartArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.ShiftedBottomTopStartArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "MidArcVectorShapeGrid":
-			FormDivSelectFieldToField(&(plant_.MidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.MidArcVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopMidArcVectorShapeGrid":
-			FormDivSelectFieldToField(&(plant_.TopMidArcVectorShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopMidArcVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StartHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.StartHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.StartHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStartHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.TopStartHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopStartHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "EndHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.EndHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.EndHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopEndHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plant_.TopEndHalfwayArcShapeGrid), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopEndHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfRotatedGrowthCurve2D":
-			FormDivSelectFieldToField(&(plant_.StackOfRotatedGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.StackOfRotatedGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStackOfRotatedGrowthCurve2D":
-			FormDivSelectFieldToField(&(plant_.TopStackOfRotatedGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopStackOfRotatedGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2D":
-			FormDivSelectFieldToField(&(plant_.GrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.GrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopGrowthCurve2D":
-			FormDivSelectFieldToField(&(plant_.TopGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurve2D":
-			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.StackOfGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "TopStackOfGrowthCurve2D":
-			FormDivSelectFieldToField(&(plant_.TopStackOfGrowthCurve2D), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.TopStackOfGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.StackOfGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.StackOfGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StackOfRotatedGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.StackOfRotatedGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.StackOfRotatedGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.GrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.GrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedRightGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.ShiftedRightGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.ShiftedRightGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedLeftGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.ShiftedLeftGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.ShiftedLeftGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.PartiallyGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plant_.ShiftedLeftPartiallyGrowthCurve2DRibbon), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.ShiftedLeftPartiallyGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PartiallyGrowthCurve2DTrajectory":
-			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectory), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.PartiallyGrowthCurve2DTrajectory), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			FormDivSelectFieldToField(&(plant_.PartiallyGrowthCurve2DTrajectoryP1P2), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.PartiallyGrowthCurve2DTrajectoryP1P2), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PxShape":
-			FormDivSelectFieldToField(&(plant_.PxShape), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.PxShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ChosenP1P2PairShape":
-			FormDivSelectFieldToField(&(plant_.ChosenP1P2PairShape), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.ChosenP1P2PairShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "KeyHoleShape":
-			FormDivSelectFieldToField(&(plant_.KeyHoleShape), plantFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(plantabstract_.KeyHoleShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5712,7 +5674,7 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			}
 
 			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](plantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](plantabstractFormCallback.probe.stageOfInterest)
 			targetLibraryIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -5723,29 +5685,29 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Library instances and update their Plants slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](plantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plantFormCallback.probe.stageOfInterest, _library)
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](plantabstractFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(plantabstractFormCallback.probe.stageOfInterest, _library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
-					// ensure plant_ is in _library.Plants
+					// ensure plantabstract_ is in _library.Plants
 					found := false
 					for _, _b := range _library.Plants {
-						if _b == plant_ {
+						if _b == plantabstract_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.Plants = append(_library.Plants, plant_)
-						plantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Plants", &_library.Plants)
+						_library.Plants = append(_library.Plants, plantabstract_)
+						plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Plants", &_library.Plants)
 					}
 				} else {
-					// ensure plant_ is NOT in _library.Plants
-					idx := slices.Index(_library.Plants, plant_)
+					// ensure plantabstract_ is NOT in _library.Plants
+					idx := slices.Index(_library.Plants, plantabstract_)
 					if idx != -1 {
 						_library.Plants = slices.Delete(_library.Plants, idx, idx+1)
-						plantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Plants", &_library.Plants)
+						plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Plants", &_library.Plants)
 					}
 				}
 			}
@@ -5753,32 +5715,32 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if plantFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		plant_.Unstage(plantFormCallback.probe.stageOfInterest)
+	if plantabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plantabstract_.Unstage(plantabstractFormCallback.probe.stageOfInterest)
 	}
 
-	plantFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Plant](
-		plantFormCallback.probe,
+	plantabstractFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PlantAbstract](
+		plantabstractFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if plantFormCallback.CreationMode || plantFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		plantFormCallback.probe.formStage.Reset()
+	if plantabstractFormCallback.CreationMode || plantabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plantabstractFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(plantFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__PlantFormCallback(
+		}).Stage(plantabstractFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PlantAbstractFormCallback(
 			nil,
-			plantFormCallback.probe,
+			plantabstractFormCallback.probe,
 			newFormGroup,
 		)
-		plant := new(models.Plant)
-		FillUpForm(plant, newFormGroup, plantFormCallback.probe)
-		plantFormCallback.probe.formStage.Commit()
+		plantabstract := new(models.PlantAbstract)
+		FillUpForm(plantabstract, newFormGroup, plantabstractFormCallback.probe)
+		plantabstractFormCallback.probe.formStage.Commit()
 	}
 
-	plantFormCallback.probe.ux_tree()
+	plantabstractFormCallback.probe.ux_tree()
 }
 func __gong__New__PlantCircumferenceShapeFormCallback(
 	plantcircumferenceshape *models.PlantCircumferenceShape,
@@ -6083,48 +6045,48 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.VolumeKey3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "TorusEdge3DShape":
 			FormDivSelectFieldToField(&(plantdiagram_.TorusEdge3DShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Plant:PlantDiagrams":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
+		case "PlantAbstract:PlantDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Plant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest)
-			targetPlantIDs := make(map[uint]bool)
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](plantdiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetPlantIDs[id] = true
+					targetPlantAbstractIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Plant instances and update their PlantDiagrams slice
-			for _plant := range *models.GetGongstructInstancesSetFromPointerType[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plantdiagramFormCallback.probe.stageOfInterest, _plant)
+			// 3. Iterate over all PlantAbstract instances and update their PlantDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](plantdiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(plantdiagramFormCallback.probe.stageOfInterest, _plantabstract)
 				
-				// if Plant is selected
-				if targetPlantIDs[id] {
-					// ensure plantdiagram_ is in _plant.PlantDiagrams
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure plantdiagram_ is in _plantabstract.PlantDiagrams
 					found := false
-					for _, _b := range _plant.PlantDiagrams {
+					for _, _b := range _plantabstract.PlantDiagrams {
 						if _b == plantdiagram_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_plant.PlantDiagrams = append(_plant.PlantDiagrams, plantdiagram_)
-						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagrams", &_plant.PlantDiagrams)
+						_plantabstract.PlantDiagrams = append(_plantabstract.PlantDiagrams, plantdiagram_)
+						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "PlantDiagrams", &_plantabstract.PlantDiagrams)
 					}
 				} else {
-					// ensure plantdiagram_ is NOT in _plant.PlantDiagrams
-					idx := slices.Index(_plant.PlantDiagrams, plantdiagram_)
+					// ensure plantdiagram_ is NOT in _plantabstract.PlantDiagrams
+					idx := slices.Index(_plantabstract.PlantDiagrams, plantdiagram_)
 					if idx != -1 {
-						_plant.PlantDiagrams = slices.Delete(_plant.PlantDiagrams, idx, idx+1)
-						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagrams", &_plant.PlantDiagrams)
+						_plantabstract.PlantDiagrams = slices.Delete(_plantabstract.PlantDiagrams, idx, idx+1)
+						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "PlantDiagrams", &_plantabstract.PlantDiagrams)
 					}
 				}
 			}
@@ -13880,6 +13842,124 @@ func (torusstackshapeFormCallback *TorusStackShapeFormCallback) OnSave() {
 	}
 
 	torusstackshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__VaseAbstractFormCallback(
+	vaseabstract *models.VaseAbstract,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (vaseabstractFormCallback *VaseAbstractFormCallback) {
+	vaseabstractFormCallback = new(VaseAbstractFormCallback)
+	vaseabstractFormCallback.probe = probe
+	vaseabstractFormCallback.vaseabstract = vaseabstract
+	vaseabstractFormCallback.formGroup = formGroup
+
+	vaseabstractFormCallback.CreationMode = (vaseabstract == nil)
+
+	return
+}
+
+type VaseAbstractFormCallback struct {
+	vaseabstract *models.VaseAbstract
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (vaseabstractFormCallback *VaseAbstractFormCallback) OnSave() {
+	vaseabstractFormCallback.probe.stageOfInterest.Lock()
+	defer vaseabstractFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("VaseAbstractFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	vaseabstractFormCallback.probe.formStage.Checkout()
+
+	if vaseabstractFormCallback.vaseabstract == nil {
+		vaseabstractFormCallback.vaseabstract = new(models.VaseAbstract).Stage(vaseabstractFormCallback.probe.stageOfInterest)
+	}
+	vaseabstract_ := vaseabstractFormCallback.vaseabstract
+	_ = vaseabstract_
+
+	for _, formDiv := range vaseabstractFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(vaseabstract_.Name), formDiv)
+		case "RelativeVerticalThickness":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeVerticalThickness), formDiv)
+		case "RelativeRadialThickness":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeRadialThickness), formDiv)
+		case "RhombusSideLength":
+			FormDivBasicFieldToField(&(vaseabstract_.RhombusSideLength), formDiv)
+		case "RelativeCuttedStackFloorHeight":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeCuttedStackFloorHeight), formDiv)
+		case "RelativeRotatedTorusSeparation":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeRotatedTorusSeparation), formDiv)
+		case "RotationRatio":
+			FormDivBasicFieldToField(&(vaseabstract_.RotationRatio), formDiv)
+		case "RadialRepetitions":
+			FormDivBasicFieldToField(&(vaseabstract_.RadialRepetitions), formDiv)
+		case "Transparency":
+			FormDivBasicFieldToField(&(vaseabstract_.Transparency), formDiv)
+		case "HasAlternatingRingColors":
+			FormDivBasicFieldToField(&(vaseabstract_.HasAlternatingRingColors), formDiv)
+		case "RelativeTrajectoryOffsetX":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeTrajectoryOffsetX), formDiv)
+		case "RelativeTrajectoryOffsetY":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeTrajectoryOffsetY), formDiv)
+		case "NbStepP1P2":
+			FormDivBasicFieldToField(&(vaseabstract_.NbStepP1P2), formDiv)
+		case "ChosenStep":
+			FormDivBasicFieldToField(&(vaseabstract_.ChosenStep), formDiv)
+		case "RelativeHorizontalRingsHeight":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeHorizontalRingsHeight), formDiv)
+		case "OffsetKeyX":
+			FormDivBasicFieldToField(&(vaseabstract_.OffsetKeyX), formDiv)
+		case "OffsetKeyY":
+			FormDivBasicFieldToField(&(vaseabstract_.OffsetKeyY), formDiv)
+		case "HeightKey":
+			FormDivBasicFieldToField(&(vaseabstract_.HeightKey), formDiv)
+		case "WidthKey":
+			FormDivBasicFieldToField(&(vaseabstract_.WidthKey), formDiv)
+		case "RelativeKeySize":
+			FormDivBasicFieldToField(&(vaseabstract_.RelativeKeySize), formDiv)
+		case "MovieNbFrames":
+			FormDivBasicFieldToField(&(vaseabstract_.MovieNbFrames), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if vaseabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vaseabstract_.Unstage(vaseabstractFormCallback.probe.stageOfInterest)
+	}
+
+	vaseabstractFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.VaseAbstract](
+		vaseabstractFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if vaseabstractFormCallback.CreationMode || vaseabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vaseabstractFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(vaseabstractFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__VaseAbstractFormCallback(
+			nil,
+			vaseabstractFormCallback.probe,
+			newFormGroup,
+		)
+		vaseabstract := new(models.VaseAbstract)
+		FillUpForm(vaseabstract, newFormGroup, vaseabstractFormCallback.probe)
+		vaseabstractFormCallback.probe.formStage.Commit()
+	}
+
+	vaseabstractFormCallback.probe.ux_tree()
 }
 func __gong__New__VerticalTorusStackShapeFormCallback(
 	verticaltorusstackshape *models.VerticalTorusStackShape,

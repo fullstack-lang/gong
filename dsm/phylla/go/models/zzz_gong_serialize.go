@@ -70,7 +70,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*PerpendicularVectorGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PerpendicularVectorGridHalfway](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PerpendicularVectorHalfway](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Plant](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*PlantAbstract](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PlantCircumferenceShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PlantDiagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PointsAndLines3DShape](stage, f, addIDs)
@@ -133,6 +133,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*TopStartHalfwayArcShapeGrid](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TorusEdge3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TorusStackShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*VaseAbstract](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*VerticalTorusStackShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*VolumeKey3DShape](stage, f, addIDs)
 	}

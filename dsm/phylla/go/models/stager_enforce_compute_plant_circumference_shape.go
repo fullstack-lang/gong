@@ -9,7 +9,7 @@ import (
 func (stager *Stager) enforceComputePlantCircumferenceShape() (needCommit bool) {
 	stage := stager.stage
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		// The lattice of the plant surface is formed by rhombuses.
 		// There are two main grid directions (parastichies):
 		// 1. Up and to the right
@@ -19,7 +19,10 @@ func (stager *Stager) enforceComputePlantCircumferenceShape() (needCommit bool) 
 		insideAngleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 		sinHalfInsideAngle := math.Sin(insideAngleRad / 2.0)
 		cosHalfInsideAngle := math.Cos(insideAngleRad / 2.0)
-		sideLength := plant.RhombusSideLength
+		sideLength := 0.0
+		if plant.VaseAbstract != nil {
+			sideLength = plant.VaseAbstract.RhombusSideLength
+		}
 
 		// Y movement: moving N steps along the up-right path and M steps along the up-left path.
 		// Both paths go up, so we add the Y components together.

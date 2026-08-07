@@ -1,26 +1,7 @@
 package models
 
-// Plant
-// In botanical phyllotaxy, N and M denote a contact parastichy pair, which represents
-// the number of visible spirals winding in opposite directions around a plant's central
-// axis. By standard convention, N and M are consecutive Fibonacci numbers ordered such
-// that N < M (e.g., 8 and 13). These variables do not strictly dictate clockwise or
-// counter-clockwise directions; rather, they quantify the two opposing sets of spirals.
-// Depending on the specific chirality (handedness) of the plant specimen, N may
-// represent the number of clockwise spirals while M represents the counter-clockwise
-// spirals, or vice versa.
-type Plant struct {
+type VaseAbstract struct {
 	Name string
-
-	N int
-	M int
-
-	StackHeight int // height of growth curve stack
-
-	// RhombusInsideAngle is set by the user. It represents the inside angle (in degrees) of the
-	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
-	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
-	RhombusInsideAngle float64
 
 	// RelativeVerticalThickness of the growth curve. when growth curve are stacked, each is separate from the next
 	// the vertical thickness is RelativeVerticalThickness x RhombusSideLength
@@ -88,6 +69,31 @@ type Plant struct {
 	// MovieNbFrames is the number of frames for movie recording.
 	// The rotation increment per frame is 1.0 / MovieNbFrames.
 	MovieNbFrames int
+}
+
+// PlantAbstract
+// In botanical phyllotaxy, N and M denote a contact parastichy pair, which represents
+// the number of visible spirals winding in opposite directions around a plant's central
+// axis. By standard convention, N and M are consecutive Fibonacci numbers ordered such
+// that N < M (e.g., 8 and 13). These variables do not strictly dictate clockwise or
+// counter-clockwise directions; rather, they quantify the two opposing sets of spirals.
+// Depending on the specific chirality (handedness) of the plant specimen, N may
+// represent the number of clockwise spirals while M represents the counter-clockwise
+// spirals, or vice versa.
+type PlantAbstract struct {
+	Name string
+
+	N int
+	M int
+
+	StackHeight int // height of growth curve stack
+
+	// RhombusInsideAngle is set by the user. It represents the inside angle (in degrees) of the
+	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
+	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
+	RhombusInsideAngle float64
+
+	VaseAbstract *VaseAbstract
 
 	LibraryAbstractFields
 	AbstractTypeFields

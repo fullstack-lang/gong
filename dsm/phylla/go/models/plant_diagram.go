@@ -56,7 +56,7 @@ type PlantDiagram struct {
 	IsHiddenStackOfRotatedGrowthCurve2DRibbon          bool
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
 	IsHiddenPartiallyGrowthCurve2DRibbon               bool
-	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon            bool
+	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon    bool
 	IsHiddenPartiallyGrowthCurve2DTrajectory           bool
 	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2       bool
 	IsHiddenPxShape                                    bool
@@ -78,23 +78,23 @@ type PlantDiagram struct {
 	IsChecked bool
 	AbstractTypeFields
 
-	Rendered3DShape                   *Rendered3DShape
-	GrowthCurve2DRibbon               *GrowthCurve2DRibbon
-	ShiftedRightGrowthCurve2DRibbon   *ShiftedRightGrowthCurve2DRibbon
+	Rendered3DShape                         *Rendered3DShape
+	GrowthCurve2DRibbon                     *GrowthCurve2DRibbon
+	ShiftedRightGrowthCurve2DRibbon         *ShiftedRightGrowthCurve2DRibbon
 	ShiftedLeftGrowthCurve2DRibbon          *ShiftedLeftGrowthCurve2DRibbon
 	ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon
-	TorusStackShape                   *TorusStackShape
-	VerticalTorusStackShape           *VerticalTorusStackShape
-	PartiallyRotatedTorusShape        *PartiallyRotatedTorusShape
-	StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape
-	PointsAndLines3DShape             *PointsAndLines3DShape
-	SampledPoints3DShape              *SampledPoints3DShape
-	OriginalPoints3DShape             *OriginalPoints3DShape
-	Angle0Shape                       *Angle0Shape
-	KeyHole3DShape                    *KeyHole3DShape
-	Key3DShape                        *Key3DShape
-	VolumeKey3DShape                  *VolumeKey3DShape
-	TorusEdge3DShape                  *TorusEdge3DShape
+	TorusStackShape                         *TorusStackShape
+	VerticalTorusStackShape                 *VerticalTorusStackShape
+	PartiallyRotatedTorusShape              *PartiallyRotatedTorusShape
+	StackOfPartiallyRotatedTorusShape       *StackOfPartiallyRotatedTorusShape
+	PointsAndLines3DShape                   *PointsAndLines3DShape
+	SampledPoints3DShape                    *SampledPoints3DShape
+	OriginalPoints3DShape                   *OriginalPoints3DShape
+	Angle0Shape                             *Angle0Shape
+	KeyHole3DShape                          *KeyHole3DShape
+	Key3DShape                              *Key3DShape
+	VolumeKey3DShape                        *VolumeKey3DShape
+	TorusEdge3DShape                        *TorusEdge3DShape
 }
 
 type Angle0Shape struct {

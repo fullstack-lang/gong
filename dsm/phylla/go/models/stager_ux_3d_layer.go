@@ -9,12 +9,17 @@ import (
 
 func (stager *Stager) generateLayerWithModulo(
 	h int, stackHeight int, dx, dy, thetaOffset float64, namePrefix string,
-	plant *Plant, checkedDiagram *PlantDiagram,
+	plant *PlantAbstract, checkedDiagram *PlantDiagram,
 	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
 	thickness float64, globalR float64,
 	canvas *threejs.Canvas,
 ) {
-	radialRepetition := plant.RadialRepetitions
+	radialRepetition := 1
+	h_horiz := 0.0
+	if plant.VaseAbstract != nil {
+		radialRepetition = plant.VaseAbstract.RadialRepetitions
+		h_horiz = plant.VaseAbstract.RelativeHorizontalRingsHeight * plant.VaseAbstract.RhombusSideLength
+	}
 
 	massiveBottomCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Bottom h%d", namePrefix, h)}).Stage(stager.threejsStage)
 	massiveTopCurve := (&threejs.Curve{Name: fmt.Sprintf("%s Massive Top h%d", namePrefix, h)}).Stage(stager.threejsStage)
@@ -41,8 +46,6 @@ func (stager *Stager) generateLayerWithModulo(
 	}
 
 	stager.generateRibbonMesh(h, stackHeight, thetaOffset, namePrefix, plant, checkedDiagram, massiveBottomCurve, massiveTopCurve, dy, thickness, globalR, canvas)
-
-	h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
 
 	if h_horiz > 0 && h == 0 && len(massiveBottomCurve.Points) > 0 {
 		minY_bottom := math.MaxFloat64

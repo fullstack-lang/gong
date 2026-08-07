@@ -116,8 +116,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PerpendicularVectorGridHalfway](probe)
 	case "PerpendicularVectorHalfway":
 		updateProbeTable[*models.PerpendicularVectorHalfway](probe)
-	case "Plant":
-		updateProbeTable[*models.Plant](probe)
+	case "PlantAbstract":
+		updateProbeTable[*models.PlantAbstract](probe)
 	case "PlantCircumferenceShape":
 		updateProbeTable[*models.PlantCircumferenceShape](probe)
 	case "PlantDiagram":
@@ -242,6 +242,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
+	case "VaseAbstract":
+		updateProbeTable[*models.VaseAbstract](probe)
 	case "VerticalTorusStackShape":
 		updateProbeTable[*models.VerticalTorusStackShape](probe)
 	case "VolumeKey3DShape":

@@ -166,7 +166,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorGridHalfway](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PerpendicularVectorHalfway](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Plant](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PlantAbstract](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PlantCircumferenceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PlantDiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PointsAndLines3DShape](stage)
@@ -229,6 +229,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.TopStartHalfwayArcShapeGrid](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TorusEdge3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TorusStackShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.VaseAbstract](stage)
 	models.SetOrchestratorOnAfterUpdate[models.VerticalTorusStackShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.VolumeKey3DShape](stage)
 

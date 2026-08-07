@@ -312,13 +312,41 @@ type stlLayerConfig struct {
 	dx, dy, thetaOffset float64
 }
 
-func GenerateSTL(plant *Plant) string {
+func GenerateSTL(plant *PlantAbstract) string {
 	if plant == nil {
 		return ""
 	}
 
 	var sb strings.Builder
 	sb.WriteString(fmt.Sprintf("solid %s\n", plant.Name))
+
+	sideLength := 0.0
+	relativeRadialThickness := 0.0
+	relativeVerticalThickness := 0.0
+	relativeRotatedTorusSeparation := 0.0
+	relativeCuttedStackFloorHeight := 0.0
+	rotationRatio := 0.0
+	relativeHorizontalRingsHeight := 0.0
+	radialRepetitions := 1
+	thickness := 5.0
+
+	if plant.VaseAbstract != nil {
+		vase := plant.VaseAbstract
+		radialRepetitions = vase.RadialRepetitions
+		if radialRepetitions < 1 {
+			radialRepetitions = 1
+		}
+		sideLength = vase.RhombusSideLength
+		relativeRadialThickness = vase.RelativeRadialThickness
+		relativeVerticalThickness = vase.RelativeVerticalThickness
+		relativeRotatedTorusSeparation = vase.RelativeRotatedTorusSeparation
+		relativeCuttedStackFloorHeight = vase.RelativeCuttedStackFloorHeight
+		rotationRatio = vase.RotationRatio
+		relativeHorizontalRingsHeight = vase.RelativeHorizontalRingsHeight
+		if relativeRadialThickness*sideLength > 0 {
+			thickness = relativeRadialThickness * sideLength
+		}
+	}
 
 	var globalR float64
 	{
@@ -334,7 +362,7 @@ func GenerateSTL(plant *Plant) string {
 		if circumference <= 0 {
 			circumference = 10.0
 		}
-		threeDModulo := plant.RadialRepetitions
+		threeDModulo := radialRepetitions
 		if threeDModulo < 1 {
 			threeDModulo = 1
 		}
@@ -360,11 +388,6 @@ func GenerateSTL(plant *Plant) string {
 		var topEndArcs []*TopEndHalfwayArcShape
 		if tgc.TopEndHalfwayArcShapeGrid != nil {
 			topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
-		}
-
-		thickness := plant.RelativeRadialThickness * plant.RhombusSideLength
-		if thickness == 0 {
-			thickness = 5.0
 		}
 
 		var curvePoints []vector3
@@ -442,11 +465,11 @@ func GenerateSTL(plant *Plant) string {
 		}
 
 		if len(curvePoints) > 1 && len(topCurvePoints) > 1 {
-			targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := getTargetAnglesSTL(curvePoints, topCurvePoints, 0.5, plant.RadialRepetitions)
+			targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := getTargetAnglesSTL(curvePoints, topCurvePoints, 0.5, radialRepetitions)
 
 			expectedDegrees := 360.0
-			if plant.RadialRepetitions > 1 {
-				expectedDegrees = 360.0 / float64(plant.RadialRepetitions)
+			if radialRepetitions > 1 {
+				expectedDegrees = 360.0 / float64(radialRepetitions)
 			}
 
 			resampledBaseBottom := resampleCurveAtAnglesSTL(anglesBottom, bottomPoints, targetAngles, expectedDegrees)
@@ -483,8 +506,8 @@ func GenerateSTL(plant *Plant) string {
 						}
 						vx, vy = vx/vLen, vy/vLen
 					}
-					verticalThickness := plant.RelativeVerticalThickness * plant.RhombusSideLength
-					rotatedSeparation := plant.RelativeRotatedTorusSeparation * plant.RhombusSideLength
+					verticalThickness := relativeVerticalThickness * sideLength
+					rotatedSeparation := relativeRotatedTorusSeparation * sideLength
 
 					var run []stlLayerConfig
 					for h := 0; h < stackHeight; h++ {
@@ -500,7 +523,7 @@ func GenerateSTL(plant *Plant) string {
 					var run []stlLayerConfig
 					for h := 0; h < stackHeight; h++ {
 						dx := 0.0
-						dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+						dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 						thetaOffset := 0.0
 						run = append(run, stlLayerConfig{dx: dx, dy: dy, thetaOffset: thetaOffset})
 					}
@@ -524,7 +547,7 @@ func GenerateSTL(plant *Plant) string {
 					dys[0] = 0.0
 
 					if numSteps > 0 {
-						totalProgress := plant.RotationRatio * float64(numSteps)
+						totalProgress := rotationRatio * float64(numSteps)
 						var cumDX, cumDY float64
 						for k := 1; k <= numSteps; k++ {
 							var r_k float64
@@ -558,21 +581,21 @@ func GenerateSTL(plant *Plant) string {
 			if len(activeShapeRuns) == 0 {
 				var run []stlLayerConfig
 				for h := 0; h < stackHeight; h++ {
-					dy := float64(h) * plant.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+					dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 					run = append(run, stlLayerConfig{dx: 0, dy: dy, thetaOffset: 0})
 				}
 				activeShapeRuns = append(activeShapeRuns, run)
 			}
 
-			h_horiz := plant.RelativeHorizontalRingsHeight * plant.RhombusSideLength
+			h_horiz := relativeHorizontalRingsHeight * sideLength
 
 			for _, run := range activeShapeRuns {
 				for h, cfg := range run {
-					massiveBottom := make([]vector3, 0, len(resampledBaseBottom)*plant.RadialRepetitions)
-					massiveTop := make([]vector3, 0, len(resampledBaseTop)*plant.RadialRepetitions)
+					massiveBottom := make([]vector3, 0, len(resampledBaseBottom)*radialRepetitions)
+					massiveTop := make([]vector3, 0, len(resampledBaseTop)*radialRepetitions)
 
-					for k := 0; k < plant.RadialRepetitions; k++ {
-						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(plant.RadialRepetitions)
+					for k := 0; k < radialRepetitions; k++ {
+						baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 						totalThetaOffset := cfg.thetaOffset + baseThetaOffset
 
 						localBottom := rotateCurveSTL(resampledBaseBottom, totalThetaOffset)
@@ -582,7 +605,7 @@ func GenerateSTL(plant *Plant) string {
 						massiveTop = append(massiveTop, localTop...)
 					}
 
-					writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, cfg.dy, thickness, plant.RadialRepetitions)
+					writeRibbonLayerSTL(&sb, massiveBottom, massiveTop, cfg.dy, thickness, radialRepetitions)
 
 					if h_horiz > 0 && h == 0 && len(massiveBottom) > 0 {
 						minY_bottom := math.MaxFloat64
@@ -599,7 +622,7 @@ func GenerateSTL(plant *Plant) string {
 							horizBottom[idx] = vector3{X: p.X, Y: minY_bottom - cfg.dy, Z: p.Z}
 							horizTop[idx] = vector3{X: p.X, Y: (minY_bottom + h_horiz) - cfg.dy, Z: p.Z}
 						}
-						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, plant.RadialRepetitions)
+						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, radialRepetitions)
 					}
 
 					if h_horiz > 0 && h == len(run)-1 && len(massiveTop) > 0 {
@@ -617,7 +640,7 @@ func GenerateSTL(plant *Plant) string {
 							horizBottom[idx] = vector3{X: p.X, Y: (maxY_top - h_horiz) - cfg.dy, Z: p.Z}
 							horizTop[idx] = vector3{X: p.X, Y: maxY_top - cfg.dy, Z: p.Z}
 						}
-						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, plant.RadialRepetitions)
+						writeRibbonLayerSTL(&sb, horizBottom, horizTop, cfg.dy, thickness, radialRepetitions)
 					}
 				}
 			}

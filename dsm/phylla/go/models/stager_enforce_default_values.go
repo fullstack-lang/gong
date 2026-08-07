@@ -21,7 +21,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
 	}
 
-	for _, plant := range GetGongstrucsSorted[*Plant](stager.stage) {
+	for _, plant := range GetGongstrucsSorted[*PlantAbstract](stager.stage) {
 		if plant.N == 0 {
 			needCommit = true
 			plant.N = 1
@@ -30,45 +30,47 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.M = 1
 		}
-		if plant.RhombusSideLength == 0.0 {
-			needCommit = true
-			plant.RhombusSideLength = 100.0
-		}
 		if plant.RhombusInsideAngle == 0.0 {
 			needCommit = true
 			plant.RhombusInsideAngle = 65.0
-		}
-		if plant.RelativeVerticalThickness == 0.0 {
-			needCommit = true
-			plant.RelativeVerticalThickness = 0.1
-		}
-		if plant.RadialRepetitions < 1 {
-			needCommit = true
-			plant.RadialRepetitions = 1
-		}
-		if plant.NbStepP1P2 <= 0 {
-			needCommit = true
-			plant.NbStepP1P2 = 10
-		}
-		if plant.WidthKey == 0.0 {
-			needCommit = true
-			plant.WidthKey = 30.0
-		}
-		if plant.HeightKey == 0.0 {
-			needCommit = true
-			plant.HeightKey = 50.0
-		}
-		if plant.RelativeKeySize == 0.0 {
-			needCommit = true
-			plant.RelativeKeySize = 0.20
 		}
 		if plant.Name == "" {
 			needCommit = true
 			plant.Name = "New Plant"
 		}
-		if plant.MovieNbFrames <= 0 {
-			needCommit = true
-			plant.MovieNbFrames = 1000
+		if vase := plant.VaseAbstract; vase != nil {
+			if vase.RhombusSideLength == 0.0 {
+				needCommit = true
+				vase.RhombusSideLength = 100.0
+			}
+			if vase.RelativeVerticalThickness == 0.0 {
+				needCommit = true
+				vase.RelativeVerticalThickness = 0.1
+			}
+			if vase.RadialRepetitions < 1 {
+				needCommit = true
+				vase.RadialRepetitions = 1
+			}
+			if vase.NbStepP1P2 <= 0 {
+				needCommit = true
+				vase.NbStepP1P2 = 10
+			}
+			if vase.WidthKey == 0.0 {
+				needCommit = true
+				vase.WidthKey = 30.0
+			}
+			if vase.HeightKey == 0.0 {
+				needCommit = true
+				vase.HeightKey = 50.0
+			}
+			if vase.RelativeKeySize == 0.0 {
+				needCommit = true
+				vase.RelativeKeySize = 0.20
+			}
+			if vase.MovieNbFrames <= 0 {
+				needCommit = true
+				vase.MovieNbFrames = 1000
+			}
 		}
 	}
 

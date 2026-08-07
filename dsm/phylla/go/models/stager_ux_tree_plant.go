@@ -10,12 +10,18 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DView bool) {
+func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, is3DView bool) {
 	var ratio float64
-	if plant.heightAtRotRatio0 > 0 {
-		ratio = plant.heightAtRotRatio1 / plant.heightAtRotRatio0
+	h0 := 0.0
+	h1 := 0.0
+	if plant.VaseAbstract != nil {
+		h0 = plant.VaseAbstract.heightAtRotRatio0
+		h1 = plant.VaseAbstract.heightAtRotRatio1
+		if h0 > 0 {
+			ratio = h1 / h0
+		}
 	}
-	nodeName := fmt.Sprintf("%s (h(0): %.2f, h(1): %.2f, ratio: %.2f)", plant.Name, plant.heightAtRotRatio0, plant.heightAtRotRatio1, ratio)
+	nodeName := fmt.Sprintf("%s (h(0): %.2f, h(1): %.2f, ratio: %.2f)", plant.Name, h0, h1, ratio)
 
 	plantNode := &tree.Node{
 		Name:            nodeName,
@@ -28,10 +34,10 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DVie
 	plantNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsExpanded)
 	plantNode.OnNameChange = stager.onNameChange(plant)
 	plantNode.OnClick = func(frontNode *tree.Node) {
-		stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*Plant]())
+		stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*PlantAbstract]())
 
 		if !plant.IsSelected {
-			for p := range stager.stage.Plants {
+			for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
 				p.IsSelected = false
 			}
 			plant.IsSelected = true
@@ -65,7 +71,7 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node, is3DVie
 
 	confPlants := ItemButtonConfiguration[
 		PlantDiagram, *PlantDiagram, // AT, PAT (Added Element)
-		Plant, *Plant, // ParentAT, PParentAT (Parent Element)
+		PlantAbstract, *PlantAbstract, // ParentAT, PParentAT (Parent Element)
 	]{
 		parentNode:                         plantNode,
 		sliceForNewAddedItem:               &plant.PlantDiagrams,

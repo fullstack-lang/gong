@@ -2154,10 +2154,10 @@ func (u *PerpendicularVectorHalfwayUnmarshaller) UnmarshallField(stage *Stage, i
 	return nil
 }
 
-type PlantUnmarshaller struct{}
+type PlantAbstractUnmarshaller struct{}
 
-func (u *PlantUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Plant)
+func (u *PlantAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PlantAbstract)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -2172,8 +2172,8 @@ func (u *PlantUnmarshaller) Initialize(stage *Stage, identifier string, instance
 	return instance, nil
 }
 
-func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Plant)
+func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PlantAbstract)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -2187,46 +2187,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.StackHeight = GongExtractInt(valueExpr)
 	case "RhombusInsideAngle":
 		instance.RhombusInsideAngle = GongExtractFloat(valueExpr)
-	case "RelativeVerticalThickness":
-		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
-	case "RelativeRadialThickness":
-		instance.RelativeRadialThickness = GongExtractFloat(valueExpr)
-	case "RhombusSideLength":
-		instance.RhombusSideLength = GongExtractFloat(valueExpr)
-	case "RelativeCuttedStackFloorHeight":
-		instance.RelativeCuttedStackFloorHeight = GongExtractFloat(valueExpr)
-	case "RelativeRotatedTorusSeparation":
-		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
-	case "RotationRatio":
-		instance.RotationRatio = GongExtractFloat(valueExpr)
-	case "RadialRepetitions":
-		instance.RadialRepetitions = GongExtractInt(valueExpr)
-	case "Transparency":
-		instance.Transparency = GongExtractFloat(valueExpr)
-	case "HasAlternatingRingColors":
-		instance.HasAlternatingRingColors = GongExtractBool(valueExpr)
-	case "RelativeTrajectoryOffsetX":
-		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
-	case "RelativeTrajectoryOffsetY":
-		instance.RelativeTrajectoryOffsetY = GongExtractFloat(valueExpr)
-	case "NbStepP1P2":
-		instance.NbStepP1P2 = GongExtractInt(valueExpr)
-	case "ChosenStep":
-		instance.ChosenStep = GongExtractInt(valueExpr)
-	case "RelativeHorizontalRingsHeight":
-		instance.RelativeHorizontalRingsHeight = GongExtractFloat(valueExpr)
-	case "OffsetKeyX":
-		instance.OffsetKeyX = GongExtractFloat(valueExpr)
-	case "OffsetKeyY":
-		instance.OffsetKeyY = GongExtractFloat(valueExpr)
-	case "HeightKey":
-		instance.HeightKey = GongExtractFloat(valueExpr)
-	case "WidthKey":
-		instance.WidthKey = GongExtractFloat(valueExpr)
-	case "RelativeKeySize":
-		instance.RelativeKeySize = GongExtractFloat(valueExpr)
-	case "MovieNbFrames":
-		instance.MovieNbFrames = GongExtractInt(valueExpr)
+	case "VaseAbstract":
+		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -5077,6 +5039,75 @@ func (u *TorusStackShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type VaseAbstractUnmarshaller struct{}
+
+func (u *VaseAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(VaseAbstract)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *VaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*VaseAbstract)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "RelativeVerticalThickness":
+		instance.RelativeVerticalThickness = GongExtractFloat(valueExpr)
+	case "RelativeRadialThickness":
+		instance.RelativeRadialThickness = GongExtractFloat(valueExpr)
+	case "RhombusSideLength":
+		instance.RhombusSideLength = GongExtractFloat(valueExpr)
+	case "RelativeCuttedStackFloorHeight":
+		instance.RelativeCuttedStackFloorHeight = GongExtractFloat(valueExpr)
+	case "RelativeRotatedTorusSeparation":
+		instance.RelativeRotatedTorusSeparation = GongExtractFloat(valueExpr)
+	case "RotationRatio":
+		instance.RotationRatio = GongExtractFloat(valueExpr)
+	case "RadialRepetitions":
+		instance.RadialRepetitions = GongExtractInt(valueExpr)
+	case "Transparency":
+		instance.Transparency = GongExtractFloat(valueExpr)
+	case "HasAlternatingRingColors":
+		instance.HasAlternatingRingColors = GongExtractBool(valueExpr)
+	case "RelativeTrajectoryOffsetX":
+		instance.RelativeTrajectoryOffsetX = GongExtractFloat(valueExpr)
+	case "RelativeTrajectoryOffsetY":
+		instance.RelativeTrajectoryOffsetY = GongExtractFloat(valueExpr)
+	case "NbStepP1P2":
+		instance.NbStepP1P2 = GongExtractInt(valueExpr)
+	case "ChosenStep":
+		instance.ChosenStep = GongExtractInt(valueExpr)
+	case "RelativeHorizontalRingsHeight":
+		instance.RelativeHorizontalRingsHeight = GongExtractFloat(valueExpr)
+	case "OffsetKeyX":
+		instance.OffsetKeyX = GongExtractFloat(valueExpr)
+	case "OffsetKeyY":
+		instance.OffsetKeyY = GongExtractFloat(valueExpr)
+	case "HeightKey":
+		instance.HeightKey = GongExtractFloat(valueExpr)
+	case "WidthKey":
+		instance.WidthKey = GongExtractFloat(valueExpr)
+	case "RelativeKeySize":
+		instance.RelativeKeySize = GongExtractFloat(valueExpr)
+	case "MovieNbFrames":
+		instance.MovieNbFrames = GongExtractInt(valueExpr)
 	}
 	return nil
 }
