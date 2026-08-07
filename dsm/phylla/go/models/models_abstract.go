@@ -80,6 +80,7 @@ type VaseAbstract struct {
 type ViewType string
 
 const (
+	VIEW_PLANT_2D  ViewType = "Plant 2D"
 	VIEW_VASE_FORM ViewType = "Vase Form"
 	VIEW_VASE_2D   ViewType = "Vase 2D"
 	VIEW_VASE_3D   ViewType = "Vase 3D"

@@ -41,26 +41,97 @@ func (stager *Stager) createViews() {
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	currentView := VIEW_VASE_3D
+	currentView := VIEW_PLANT_2D
 	plant := stager.GetCurrentPlant()
 	if plant != nil && plant.CurrentView != "" {
 		currentView = plant.CurrentView
 	}
 
+	view0Name := string(VIEW_PLANT_2D) + " (" + getPersistanceFile(stager) + ")"
 	view1Name := string(VIEW_VASE_FORM) + " (" + getPersistanceFile(stager) + ")"
 	view2Name := string(VIEW_VASE_2D) + " (" + getPersistanceFile(stager) + ")"
 	view3Name := string(VIEW_VASE_3D) + " (" + getPersistanceFile(stager) + ")"
 
 	if plant != nil && plant.CurrentView == "" {
-		plant.CurrentView = VIEW_VASE_3D
+		plant.CurrentView = VIEW_PLANT_2D
 	}
 
+	isView0Selected := (currentView == VIEW_PLANT_2D)
 	isView1Selected := (currentView == VIEW_VASE_FORM)
 	isView2Selected := (currentView == VIEW_VASE_2D)
 	isView3Selected := (currentView == VIEW_VASE_3D)
 
-	if !isView1Selected && !isView2Selected && !isView3Selected {
-		isView3Selected = true
+	if !isView0Selected && !isView1Selected && !isView2Selected && !isView3Selected {
+		isView0Selected = true
+	}
+
+	v0 := &split.View{
+		Name:           view0Name,
+		Direction:      split.Horizontal,
+		IsSizeInPixel:  true,
+		IsSelectedView: isView0Selected,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with both trees",
+				ShowNameInHeader: false,
+				IsAny:            true,
+				AsSplit: &split.AsSplit{
+					Name:          "as split",
+					IsSizeInPixel: true,
+					Direction:     split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 525,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "Libraries",
+										Size:             80,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage2D.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Button: &split.Button{
+											StackName: stager.buttonStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							IsAny: true,
+							Svg: &split.Svg{
+								StackName: stager.svgStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 525,
+				Slider: &split.Slider{
+					StackName: stager.sliderStage.GetName(),
+				},
+			},
+		},
+	}
+	split.StageBranch(stager.splitStage, v0)
+	v0.OnClick = func() {
+		plant := stager.GetCurrentPlant()
+		if plant != nil && plant.CurrentView != VIEW_PLANT_2D {
+			plant.CurrentView = VIEW_PLANT_2D
+			stager.stage.Commit()
+		}
 	}
 
 	v1 := &split.View{
