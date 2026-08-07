@@ -10452,6 +10452,9 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 			diffs = append(diffs, plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		}
 	}
+	if plantabstract.CurrentView != plantabstractOther.CurrentView {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "CurrentView"))
+	}
 	if plantabstract.ComputedPrefix != plantabstractOther.ComputedPrefix {
 		diffs = append(diffs, plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 	}

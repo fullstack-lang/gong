@@ -2189,6 +2189,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.RhombusInsideAngle = GongExtractFloat(valueExpr)
 	case "VaseAbstract":
 		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
+	case "CurrentView":
+		instance.CurrentView = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
