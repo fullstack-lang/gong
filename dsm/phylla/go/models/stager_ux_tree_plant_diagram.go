@@ -214,18 +214,18 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D Ribbon", plant.StackOfGrowthCurve2DRibbon, &plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve2DRibbon)
 	}
 
-	if is3DView {
-		appendDiagramNode(stager, plantDiagramNode, "3D Torus Stack", plantDiagram.TorusStackShape, &plantDiagram.IsHiddenTorusStackShape)
-		appendDiagramNode(stager, plantDiagramNode, "Vertical 3D Torus Stack", plantDiagram.VerticalTorusStackShape, &plantDiagram.IsHiddenVerticalTorusStackShape)
-		appendDiagramNode(stager, plantDiagramNode, "Partially Rotated 3D Torus", plantDiagram.PartiallyRotatedTorusShape, &plantDiagram.IsHiddenPartiallyRotatedTorusShape)
-		appendDiagramNode(stager, plantDiagramNode, "Stack Of Partially Rotated 3D Torus", plantDiagram.StackOfPartiallyRotatedTorusShape, &plantDiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Key Hole", plantDiagram.KeyHole3DShape, &plantDiagram.IsHiddenKeyHole3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Key", plantDiagram.Key3DShape, &plantDiagram.IsHiddenKey3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Volume Key", plantDiagram.VolumeKey3DShape, &plantDiagram.IsHiddenVolumeKey3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Torus Edge", plantDiagram.TorusEdge3DShape, &plantDiagram.IsHiddenTorusEdge3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Points and lines between points", plantDiagram.PointsAndLines3DShape, &plantDiagram.IsHiddenPointsAndLines3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.SampledPoints3DShape, &plantDiagram.IsHiddenSampledPoints3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Original Points", plantDiagram.OriginalPoints3DShape, &plantDiagram.IsHiddenOriginalPoints3DShape)
-		appendDiagramNode(stager, plantDiagramNode, "3D Angle 0 Shape", plantDiagram.Angle0Shape, &plantDiagram.IsHiddenAngle0Shape)
+	if is3DView && plantDiagram.VaseDiagram != nil {
+		appendDiagramNode(stager, plantDiagramNode, "3D Torus Stack", plantDiagram.VaseDiagram.TorusStackShape, &plantDiagram.VaseDiagram.IsHiddenTorusStackShape)
+		appendDiagramNode(stager, plantDiagramNode, "Vertical 3D Torus Stack", plantDiagram.VaseDiagram.VerticalTorusStackShape, &plantDiagram.VaseDiagram.IsHiddenVerticalTorusStackShape)
+		appendDiagramNode(stager, plantDiagramNode, "Partially Rotated 3D Torus", plantDiagram.VaseDiagram.PartiallyRotatedTorusShape, &plantDiagram.VaseDiagram.IsHiddenPartiallyRotatedTorusShape)
+		appendDiagramNode(stager, plantDiagramNode, "Stack Of Partially Rotated 3D Torus", plantDiagram.VaseDiagram.StackOfPartiallyRotatedTorusShape, &plantDiagram.VaseDiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Key Hole", plantDiagram.VaseDiagram.KeyHole3DShape, &plantDiagram.VaseDiagram.IsHiddenKeyHole3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Key", plantDiagram.VaseDiagram.Key3DShape, &plantDiagram.VaseDiagram.IsHiddenKey3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Volume Key", plantDiagram.VaseDiagram.VolumeKey3DShape, &plantDiagram.VaseDiagram.IsHiddenVolumeKey3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Torus Edge", plantDiagram.VaseDiagram.TorusEdge3DShape, &plantDiagram.VaseDiagram.IsHiddenTorusEdge3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Points and lines between points", plantDiagram.VaseDiagram.PointsAndLines3DShape, &plantDiagram.VaseDiagram.IsHiddenPointsAndLines3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.VaseDiagram.SampledPoints3DShape, &plantDiagram.VaseDiagram.IsHiddenSampledPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Original Points", plantDiagram.VaseDiagram.OriginalPoints3DShape, &plantDiagram.VaseDiagram.IsHiddenOriginalPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Angle 0 Shape", plantDiagram.VaseDiagram.Angle0Shape, &plantDiagram.VaseDiagram.IsHiddenAngle0Shape)
 	}
 }

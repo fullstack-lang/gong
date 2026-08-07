@@ -4,7 +4,7 @@ func (stager *Stager) enforcePlantDiagramRendered3DShape() bool {
 	modified := false
 
 	for plantDiagram := range stager.stage.PlantDiagrams {
-		if plantDiagram.Rendered3DShape == nil {
+		if plantDiagram.VaseDiagram.Rendered3DShape == nil {
 			shape := (&Rendered3DShape{
 				Name:    plantDiagram.Name + "-Rendered3DShape",
 				ViewX:   300,
@@ -15,7 +15,7 @@ func (stager *Stager) enforcePlantDiagramRendered3DShape() bool {
 				TargetZ: 0,
 				Fov:     45,
 			}).Stage(stager.stage)
-			plantDiagram.Rendered3DShape = shape
+			plantDiagram.VaseDiagram.Rendered3DShape = shape
 			modified = true
 		}
 	}

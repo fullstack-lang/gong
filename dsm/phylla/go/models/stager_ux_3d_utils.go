@@ -57,18 +57,18 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 			TargetZ: preservedTargetZ,
 			Fov:     preservedFov,
 		}).Stage(stager.threejsStage)
-	} else if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+	} else if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil && checkedDiagram.VaseDiagram.Rendered3DShape != nil {
 		canvas.Camera = (&threejs.Camera{
 			Name: "Camera",
 			Position: threejs.Position{
-				X: checkedDiagram.Rendered3DShape.ViewX,
-				Y: checkedDiagram.Rendered3DShape.ViewY,
-				Z: checkedDiagram.Rendered3DShape.ViewZ,
+				X: checkedDiagram.VaseDiagram.Rendered3DShape.ViewX,
+				Y: checkedDiagram.VaseDiagram.Rendered3DShape.ViewY,
+				Z: checkedDiagram.VaseDiagram.Rendered3DShape.ViewZ,
 			},
-			TargetX: checkedDiagram.Rendered3DShape.TargetX,
-			TargetY: checkedDiagram.Rendered3DShape.TargetY,
-			TargetZ: checkedDiagram.Rendered3DShape.TargetZ,
-			Fov:     checkedDiagram.Rendered3DShape.Fov,
+			TargetX: checkedDiagram.VaseDiagram.Rendered3DShape.TargetX,
+			TargetY: checkedDiagram.VaseDiagram.Rendered3DShape.TargetY,
+			TargetZ: checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ,
+			Fov:     checkedDiagram.VaseDiagram.Rendered3DShape.Fov,
 		}).Stage(stager.threejsStage)
 	} else {
 		camDist := globalR * 2.5
@@ -88,14 +88,14 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 	}
 
 	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
-		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
-			checkedDiagram.Rendered3DShape.ViewX = updatedCamera.X
-			checkedDiagram.Rendered3DShape.ViewY = updatedCamera.Y
-			checkedDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
-			checkedDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
-			checkedDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
-			checkedDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
-			checkedDiagram.Rendered3DShape.Fov = updatedCamera.Fov
+		if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil && checkedDiagram.VaseDiagram.Rendered3DShape != nil {
+			checkedDiagram.VaseDiagram.Rendered3DShape.ViewX = updatedCamera.X
+			checkedDiagram.VaseDiagram.Rendered3DShape.ViewY = updatedCamera.Y
+			checkedDiagram.VaseDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
+			checkedDiagram.VaseDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
+			checkedDiagram.VaseDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
+			checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
+			checkedDiagram.VaseDiagram.Rendered3DShape.Fov = updatedCamera.Fov
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.ux_slider()
 		}

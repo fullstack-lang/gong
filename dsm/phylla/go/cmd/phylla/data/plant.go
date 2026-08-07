@@ -63,8 +63,8 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.OriginY = 661.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000001_.IsArcNodesExpanded = false
-	__PlantDiagram__00000001_.IsVaseArcNodesExpanded = true
-	__PlantDiagram__00000001_.IsVaseClampingNodesExpanded = false
+	__PlantDiagram__00000001_.IsVaseArcNodesExpanded = false
+	__PlantDiagram__00000001_.IsVaseClampingNodesExpanded = true
 	__PlantDiagram__00000001_.IsHiddenAxesShape = false
 	__PlantDiagram__00000001_.IsHiddenReferenceRhombus = true
 	__PlantDiagram__00000001_.IsHiddenPlantCircumferenceShape = true
@@ -89,19 +89,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfNormalVector = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = false
-	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
-	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
-	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
-	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedTorusShape = false
-	__PlantDiagram__00000001_.IsHiddenPointsAndLines3DShape = false
-	__PlantDiagram__00000001_.IsHiddenKeyHole3DShape = true
-	__PlantDiagram__00000001_.IsHiddenKey3DShape = true
-	__PlantDiagram__00000001_.IsHiddenVolumeKey3DShape = true
-	__PlantDiagram__00000001_.IsHiddenTorusEdge3DShape = true
-	__PlantDiagram__00000001_.IsHiddenSampledPoints3DShape = true
-	__PlantDiagram__00000001_.IsHiddenOriginalPoints3DShape = true
-	__PlantDiagram__00000001_.IsHiddenAngle0Shape = true
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = true
@@ -164,14 +151,27 @@ func _(stage *models.Stage) {
 	__VaseDiagram__00000000_.IsHiddenPxShape = true
 	__VaseDiagram__00000000_.IsHiddenChosenP1P2PairShape = true
 	__VaseDiagram__00000000_.IsHiddenKeyHoleShape = true
+	__VaseDiagram__00000000_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = false
+	__VaseDiagram__00000000_.IsHiddenTorusStackShape = false
+	__VaseDiagram__00000000_.IsHiddenVerticalTorusStackShape = false
+	__VaseDiagram__00000000_.IsHiddenPartiallyRotatedTorusShape = false
+	__VaseDiagram__00000000_.IsHiddenStackOfPartiallyRotatedTorusShape = false
+	__VaseDiagram__00000000_.IsHiddenPointsAndLines3DShape = false
+	__VaseDiagram__00000000_.IsHiddenKeyHole3DShape = false
+	__VaseDiagram__00000000_.IsHiddenKey3DShape = false
+	__VaseDiagram__00000000_.IsHiddenVolumeKey3DShape = false
+	__VaseDiagram__00000000_.IsHiddenTorusEdge3DShape = false
+	__VaseDiagram__00000000_.IsHiddenSampledPoints3DShape = false
+	__VaseDiagram__00000000_.IsHiddenOriginalPoints3DShape = false
+	__VaseDiagram__00000000_.IsHiddenAngle0Shape = false
 
 	// insertion point for setup of pointers
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000000_)
 	__PlantAbstract__00000000_.VaseAbstract = __VaseAbstract__00000000_
 	__PlantAbstract__00000000_.PlantDiagrams = append(__PlantAbstract__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
 	__PlantDiagram__00000001_.VaseDiagram = __VaseDiagram__00000000_
-	__PlantDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000000_
-	__PlantDiagram__00000001_.SampledPoints3DShape = nil
-	__PlantDiagram__00000001_.OriginalPoints3DShape = nil
-	__PlantDiagram__00000001_.Angle0Shape = nil
+	__VaseDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000000_
+	__VaseDiagram__00000000_.SampledPoints3DShape = nil
+	__VaseDiagram__00000000_.OriginalPoints3DShape = nil
+	__VaseDiagram__00000000_.Angle0Shape = nil
 }

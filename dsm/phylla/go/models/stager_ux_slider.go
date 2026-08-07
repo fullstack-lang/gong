@@ -332,7 +332,7 @@ func (stager *Stager) ux_slider() {
 		}
 	}
 
-	if plant.CurrentView != VIEW_PLANT_2D && checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+	if plant.CurrentView != VIEW_PLANT_2D && checkedDiagram != nil && checkedDiagram.VaseDiagram != nil && checkedDiagram.VaseDiagram.Rendered3DShape != nil {
 		group2 := new(m.Group).Stage(stager.sliderStage)
 		group2.Percentage = 35
 		layout.Groups = append(layout.Groups, group2)
@@ -345,7 +345,7 @@ func (stager *Stager) ux_slider() {
 				-500,
 				500,
 				1,
-				&checkedDiagram.Rendered3DShape.ViewX,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.ViewX,
 			),
 		)
 		group2.Sliders = append(
@@ -356,7 +356,7 @@ func (stager *Stager) ux_slider() {
 				-500,
 				500,
 				1,
-				&checkedDiagram.Rendered3DShape.ViewY,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.ViewY,
 			),
 		)
 		group2.Sliders = append(
@@ -367,7 +367,7 @@ func (stager *Stager) ux_slider() {
 				-500,
 				500,
 				1,
-				&checkedDiagram.Rendered3DShape.ViewZ,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.ViewZ,
 			),
 		)
 		group2.Sliders = append(
@@ -378,7 +378,7 @@ func (stager *Stager) ux_slider() {
 				-500,
 				500,
 				1,
-				&checkedDiagram.Rendered3DShape.TargetX,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.TargetX,
 			),
 		)
 		group2.Sliders = append(
@@ -389,7 +389,7 @@ func (stager *Stager) ux_slider() {
 				-500,
 				500,
 				1,
-				&checkedDiagram.Rendered3DShape.TargetY,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.TargetY,
 			),
 		)
 		group2.Sliders = append(
@@ -400,18 +400,18 @@ func (stager *Stager) ux_slider() {
 				-500,
 				500,
 				1,
-				&checkedDiagram.Rendered3DShape.TargetZ,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ,
 			),
 		)
 		group2.Sliders = append(
 			group2.Sliders,
 			m.NewSlider(
 				stager,
-				"Field of View",
-				10,
-				120,
+				"Fov",
+				-500,
+				500,
 				1,
-				&checkedDiagram.Rendered3DShape.Fov,
+				&checkedDiagram.VaseDiagram.Rendered3DShape.Fov,
 			),
 		)
 	}

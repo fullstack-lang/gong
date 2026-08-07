@@ -1109,32 +1109,6 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenGrowthCurve2D bool
 
-	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
-
-	IsHiddenTorusStackShape bool
-
-	IsHiddenVerticalTorusStackShape bool
-
-	IsHiddenPartiallyRotatedTorusShape bool
-
-	IsHiddenStackOfPartiallyRotatedTorusShape bool
-
-	IsHiddenPointsAndLines3DShape bool
-
-	IsHiddenKeyHole3DShape bool
-
-	IsHiddenKey3DShape bool
-
-	IsHiddenVolumeKey3DShape bool
-
-	IsHiddenTorusEdge3DShape bool
-
-	IsHiddenSampledPoints3DShape bool
-
-	IsHiddenOriginalPoints3DShape bool
-
-	IsHiddenAngle0Shape bool
-
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1175,19 +1149,6 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
 	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
-	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
-	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
-	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
-	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
-	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
-	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
-	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
-	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
-	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
-	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
-	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
-	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -3042,6 +3003,32 @@ type VaseDiagram_WOP struct {
 	IsHiddenChosenP1P2PairShape bool
 
 	IsHiddenKeyHoleShape bool
+
+	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
+
+	IsHiddenTorusStackShape bool
+
+	IsHiddenVerticalTorusStackShape bool
+
+	IsHiddenPartiallyRotatedTorusShape bool
+
+	IsHiddenStackOfPartiallyRotatedTorusShape bool
+
+	IsHiddenPointsAndLines3DShape bool
+
+	IsHiddenKeyHole3DShape bool
+
+	IsHiddenKey3DShape bool
+
+	IsHiddenVolumeKey3DShape bool
+
+	IsHiddenTorusEdge3DShape bool
+
+	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenOriginalPoints3DShape bool
+
+	IsHiddenAngle0Shape bool
 }
 
 func (from *VaseDiagram) CopyBasicFields(to *VaseDiagram) {
@@ -3073,6 +3060,19 @@ func (from *VaseDiagram) CopyBasicFields(to *VaseDiagram) {
 	to.IsHiddenPxShape = from.IsHiddenPxShape
 	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
 	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
+	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
+	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
+	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
+	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
+	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
+	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
+	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
+	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
+	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
+	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
+	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
 }
 
 type VerticalTorusStackShape_WOP struct {
