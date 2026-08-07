@@ -230,6 +230,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.TorusEdge3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TorusStackShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.VaseAbstract](stage)
+	models.SetOrchestratorOnAfterUpdate[models.VaseDiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.VerticalTorusStackShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.VolumeKey3DShape](stage)
 

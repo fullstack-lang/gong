@@ -441,6 +441,7 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongClean(stage *Stage) 
 func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	modified = GongCleanPointer(stage, &plantdiagram.VaseDiagram) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.GrowthCurve2DRibbon) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.ShiftedRightGrowthCurve2DRibbon) || modified
@@ -925,6 +926,13 @@ func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) 
 
 // Clean garbage collect unstaged instances that are referenced by VaseAbstract
 func (vaseabstract *VaseAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by VaseDiagram
+func (vasediagram *VaseDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

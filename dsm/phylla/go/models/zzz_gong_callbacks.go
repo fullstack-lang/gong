@@ -446,6 +446,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterVaseAbstractCreateCallback != nil {
 			stage.OnAfterVaseAbstractCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *VaseDiagram:
+		if stage.OnAfterVaseDiagramCreateCallback != nil {
+			stage.OnAfterVaseDiagramCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *VerticalTorusStackShape:
 		if stage.OnAfterVerticalTorusStackShapeCreateCallback != nil {
 			stage.OnAfterVerticalTorusStackShapeCreateCallback.OnAfterCreate(stage, target)
@@ -1018,6 +1022,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterVaseAbstractUpdateCallback != nil {
 			stage.OnAfterVaseAbstractUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *VaseDiagram:
+		newTarget := any(new).(*VaseDiagram)
+		if stage.OnAfterVaseDiagramUpdateCallback != nil {
+			stage.OnAfterVaseDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *VerticalTorusStackShape:
 		newTarget := any(new).(*VerticalTorusStackShape)
 		if stage.OnAfterVerticalTorusStackShapeUpdateCallback != nil {
@@ -1588,6 +1597,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*VaseAbstract)
 			stage.OnAfterVaseAbstractDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *VaseDiagram:
+		if stage.OnAfterVaseDiagramDeleteCallback != nil {
+			staged := any(staged).(*VaseDiagram)
+			stage.OnAfterVaseDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *VerticalTorusStackShape:
 		if stage.OnAfterVerticalTorusStackShapeDeleteCallback != nil {
 			staged := any(staged).(*VerticalTorusStackShape)
@@ -2048,6 +2062,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterVaseAbstractReadCallback != nil {
 			stage.OnAfterVaseAbstractReadCallback.OnAfterRead(stage, target)
 		}
+	case *VaseDiagram:
+		if stage.OnAfterVaseDiagramReadCallback != nil {
+			stage.OnAfterVaseDiagramReadCallback.OnAfterRead(stage, target)
+		}
 	case *VerticalTorusStackShape:
 		if stage.OnAfterVerticalTorusStackShapeReadCallback != nil {
 			stage.OnAfterVerticalTorusStackShapeReadCallback.OnAfterRead(stage, target)
@@ -2287,6 +2305,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTorusStackShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TorusStackShape])
 	case *VaseAbstract:
 		stage.OnAfterVaseAbstractUpdateCallback = any(callback).(OnAfterUpdateInterface[VaseAbstract])
+	case *VaseDiagram:
+		stage.OnAfterVaseDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[VaseDiagram])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[VerticalTorusStackShape])
 	case *VolumeKey3DShape:
@@ -2518,6 +2538,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTorusStackShapeCreateCallback = any(callback).(OnAfterCreateInterface[TorusStackShape])
 	case *VaseAbstract:
 		stage.OnAfterVaseAbstractCreateCallback = any(callback).(OnAfterCreateInterface[VaseAbstract])
+	case *VaseDiagram:
+		stage.OnAfterVaseDiagramCreateCallback = any(callback).(OnAfterCreateInterface[VaseDiagram])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeCreateCallback = any(callback).(OnAfterCreateInterface[VerticalTorusStackShape])
 	case *VolumeKey3DShape:
@@ -2749,6 +2771,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTorusStackShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TorusStackShape])
 	case *VaseAbstract:
 		stage.OnAfterVaseAbstractDeleteCallback = any(callback).(OnAfterDeleteInterface[VaseAbstract])
+	case *VaseDiagram:
+		stage.OnAfterVaseDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[VaseDiagram])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[VerticalTorusStackShape])
 	case *VolumeKey3DShape:
@@ -2980,6 +3004,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterTorusStackShapeReadCallback = any(callback).(OnAfterReadInterface[TorusStackShape])
 	case *VaseAbstract:
 		stage.OnAfterVaseAbstractReadCallback = any(callback).(OnAfterReadInterface[VaseAbstract])
+	case *VaseDiagram:
+		stage.OnAfterVaseDiagramReadCallback = any(callback).(OnAfterReadInterface[VaseDiagram])
 	case *VerticalTorusStackShape:
 		stage.OnAfterVerticalTorusStackShapeReadCallback = any(callback).(OnAfterReadInterface[VerticalTorusStackShape])
 	case *VolumeKey3DShape:

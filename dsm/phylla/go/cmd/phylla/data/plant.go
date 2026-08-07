@@ -35,6 +35,8 @@ func _(stage *models.Stage) {
 
 	__VaseAbstract__00000000_ := (&models.VaseAbstract{Name: `Plant 1-VaseAbstract`}).Stage(stage)
 
+	__VaseDiagram__00000000_ := (&models.VaseDiagram{Name: `Plant 1-VaseDiagram`}).Stage(stage)
+
 	// insertion point for initialization of values
 
 	__Library__00000000_.Name = `Herbarium`
@@ -76,44 +78,18 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenGrowthPathRhombusGridShape = true
 	__PlantDiagram__00000001_.IsHiddenGrowthVectorShape = false
 	__PlantDiagram__00000001_.IsHiddenPerpendicularVectorGrid = false
-	__PlantDiagram__00000001_.IsHiddenPerpendicularVectorGridHalfway = true
 	__PlantDiagram__00000001_.IsHiddenBaseVectorShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenArcNormalVectorShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenStartArcShapeGrid = false
-	__PlantDiagram__00000001_.IsHiddenTopStartArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenShiftedBottomTopStartArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenMidArcVectorShapeGrid = false
-	__PlantDiagram__00000001_.IsHiddenTopMidArcVectorShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenStartHalfwayArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenTopStartHalfwayArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenEndHalfwayArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenTopEndHalfwayArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenEndArcShapeGrid = false
-	__PlantDiagram__00000001_.IsHiddenTopEndArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenBottomStartArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenBottomEndArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve = true
-	__PlantDiagram__00000001_.IsHiddenTopStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenBottomStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfNormalVector = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = false
-	__PlantDiagram__00000001_.IsHiddenTopGrowthCurve2D = true
-	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2D = true
-	__PlantDiagram__00000001_.IsHiddenTopStackOfGrowthCurve2D = true
-	__PlantDiagram__00000001_.IsHiddenGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenShiftedRightGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__PlantDiagram__00000001_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = true
-	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectory = true
-	__PlantDiagram__00000001_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
-	__PlantDiagram__00000001_.IsHiddenPxShape = true
-	__PlantDiagram__00000001_.IsHiddenChosenP1P2PairShape = true
-	__PlantDiagram__00000001_.IsHiddenKeyHoleShape = true
 	__PlantDiagram__00000001_.IsHiddenTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenVerticalTorusStackShape = true
 	__PlantDiagram__00000001_.IsHiddenPartiallyRotatedTorusShape = true
@@ -161,10 +137,39 @@ func _(stage *models.Stage) {
 	__VaseAbstract__00000000_.RelativeKeySize = 0.870000
 	__VaseAbstract__00000000_.MovieNbFrames = 1000
 
+	__VaseDiagram__00000000_.Name = `Plant 1-VaseDiagram`
+	__VaseDiagram__00000000_.IsHiddenPerpendicularVectorGridHalfway = true
+	__VaseDiagram__00000000_.IsHiddenTopStartArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenShiftedBottomTopStartArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenTopMidArcVectorShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenStartHalfwayArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenTopStartHalfwayArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenEndHalfwayArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenTopEndHalfwayArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenTopEndArcShapeGrid = true
+	__VaseDiagram__00000000_.IsHiddenStackOfGrowthCurve = true
+	__VaseDiagram__00000000_.IsHiddenTopStackOfGrowthCurve = true
+	__VaseDiagram__00000000_.IsHiddenTopGrowthCurve2D = true
+	__VaseDiagram__00000000_.IsHiddenStackOfGrowthCurve2D = true
+	__VaseDiagram__00000000_.IsHiddenTopStackOfGrowthCurve2D = true
+	__VaseDiagram__00000000_.IsHiddenGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenShiftedRightGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenShiftedLeftGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenStackOfGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenPartiallyGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = true
+	__VaseDiagram__00000000_.IsHiddenPartiallyGrowthCurve2DTrajectory = true
+	__VaseDiagram__00000000_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
+	__VaseDiagram__00000000_.IsHiddenPxShape = true
+	__VaseDiagram__00000000_.IsHiddenChosenP1P2PairShape = true
+	__VaseDiagram__00000000_.IsHiddenKeyHoleShape = true
+
 	// insertion point for setup of pointers
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000000_)
 	__PlantAbstract__00000000_.VaseAbstract = __VaseAbstract__00000000_
 	__PlantAbstract__00000000_.PlantDiagrams = append(__PlantAbstract__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
+	__PlantDiagram__00000001_.VaseDiagram = __VaseDiagram__00000000_
 	__PlantDiagram__00000001_.Rendered3DShape = __Rendered3DShape__00000000_
 	__PlantDiagram__00000001_.SampledPoints3DShape = nil
 	__PlantDiagram__00000001_.OriginalPoints3DShape = nil

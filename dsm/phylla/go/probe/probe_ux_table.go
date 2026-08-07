@@ -244,6 +244,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TorusStackShape](probe)
 	case "VaseAbstract":
 		updateProbeTable[*models.VaseAbstract](probe)
+	case "VaseDiagram":
+		updateProbeTable[*models.VaseDiagram](probe)
 	case "VerticalTorusStackShape":
 		updateProbeTable[*models.VerticalTorusStackShape](probe)
 	case "VolumeKey3DShape":

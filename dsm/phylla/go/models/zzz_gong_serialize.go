@@ -134,6 +134,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*TorusEdge3DShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*TorusStackShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*VaseAbstract](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*VaseDiagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*VerticalTorusStackShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*VolumeKey3DShape](stage, f, addIDs)
 	}

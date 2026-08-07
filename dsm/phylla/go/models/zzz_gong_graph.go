@@ -337,6 +337,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *VaseAbstract:
 		ok = stage.IsStagedVaseAbstract(target)
 
+	case *VaseDiagram:
+		ok = stage.IsStagedVaseDiagram(target)
+
 	case *VerticalTorusStackShape:
 		ok = stage.IsStagedVerticalTorusStackShape(target)
 
@@ -682,6 +685,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *VaseAbstract:
 		ok = stage.IsStagedVaseAbstract(target)
+
+	case *VaseDiagram:
+		ok = stage.IsStagedVaseDiagram(target)
 
 	case *VerticalTorusStackShape:
 		ok = stage.IsStagedVerticalTorusStackShape(target)
@@ -1466,6 +1472,13 @@ func (stage *Stage) IsStagedVaseAbstract(vaseabstract *VaseAbstract) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedVaseDiagram(vasediagram *VaseDiagram) (ok bool) {
+
+	_, ok = stage.VaseDiagrams[vasediagram]
+
+	return
+}
+
 func (stage *Stage) IsStagedVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) (ok bool) {
 
 	_, ok = stage.VerticalTorusStackShapes[verticaltorusstackshape]
@@ -1817,6 +1830,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *VaseAbstract:
 		stage.StageBranchVaseAbstract(target)
+
+	case *VaseDiagram:
+		stage.StageBranchVaseDiagram(target)
 
 	case *VerticalTorusStackShape:
 		stage.StageBranchVerticalTorusStackShape(target)
@@ -2572,6 +2588,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	plantdiagram.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantdiagram.VaseDiagram != nil {
+		StageBranch(stage, plantdiagram.VaseDiagram)
+	}
 	if plantdiagram.Rendered3DShape != nil {
 		StageBranch(stage, plantdiagram.Rendered3DShape)
 	}
@@ -3504,6 +3523,21 @@ func (stage *Stage) StageBranchVaseAbstract(vaseabstract *VaseAbstract) {
 
 }
 
+func (stage *Stage) StageBranchVaseDiagram(vasediagram *VaseDiagram) {
+
+	// check if instance is already staged
+	if IsStaged(stage, vasediagram) {
+		return
+	}
+
+	vasediagram.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) {
 
 	// check if instance is already staged
@@ -3983,6 +4017,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *VaseAbstract:
 		toT := CopyBranchVaseAbstract(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *VaseDiagram:
+		toT := CopyBranchVaseDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *VerticalTorusStackShape:
@@ -4937,6 +4975,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	plantdiagramFrom.CopyBasicFields(plantdiagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantdiagramFrom.VaseDiagram != nil {
+		plantdiagramTo.VaseDiagram = CopyBranchVaseDiagram(mapOrigCopy, plantdiagramFrom.VaseDiagram)
+	}
 	if plantdiagramFrom.Rendered3DShape != nil {
 		plantdiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, plantdiagramFrom.Rendered3DShape)
 	}
@@ -6114,6 +6155,25 @@ func CopyBranchVaseAbstract(mapOrigCopy map[any]any, vaseabstractFrom *VaseAbstr
 	return
 }
 
+func CopyBranchVaseDiagram(mapOrigCopy map[any]any, vasediagramFrom *VaseDiagram) (vasediagramTo *VaseDiagram) {
+
+	// vasediagramFrom has already been copied
+	if _vasediagramTo, ok := mapOrigCopy[vasediagramFrom]; ok {
+		vasediagramTo = _vasediagramTo.(*VaseDiagram)
+		return
+	}
+
+	vasediagramTo = new(VaseDiagram)
+	mapOrigCopy[vasediagramFrom] = vasediagramTo
+	vasediagramFrom.CopyBasicFields(vasediagramTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchVerticalTorusStackShape(mapOrigCopy map[any]any, verticaltorusstackshapeFrom *VerticalTorusStackShape) (verticaltorusstackshapeTo *VerticalTorusStackShape) {
 
 	// verticaltorusstackshapeFrom has already been copied
@@ -6489,6 +6549,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *VaseAbstract:
 		stage.UnstageBranchVaseAbstract(target)
+
+	case *VaseDiagram:
+		stage.UnstageBranchVaseDiagram(target)
 
 	case *VerticalTorusStackShape:
 		stage.UnstageBranchVerticalTorusStackShape(target)
@@ -7244,6 +7307,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	plantdiagram.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantdiagram.VaseDiagram != nil {
+		UnstageBranch(stage, plantdiagram.VaseDiagram)
+	}
 	if plantdiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, plantdiagram.Rendered3DShape)
 	}
@@ -8176,6 +8242,21 @@ func (stage *Stage) UnstageBranchVaseAbstract(vaseabstract *VaseAbstract) {
 
 }
 
+func (stage *Stage) UnstageBranchVaseDiagram(vasediagram *VaseDiagram) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, vasediagram) {
+		return
+	}
+
+	vasediagram.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape) {
 
 	// check if instance is already staged
@@ -8464,6 +8545,9 @@ func (reference *PlantCircumferenceShape) GongReconstructPointersFromReferences(
 
 func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *PlantDiagram) {
 	// insertion point for pointers field
+	if instance.VaseDiagram != nil {
+		reference.VaseDiagram = stage.VaseDiagrams_reference[instance.VaseDiagram]
+	}
 	if instance.Rendered3DShape != nil {
 		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
 	}
@@ -8784,6 +8868,11 @@ func (reference *VaseAbstract) GongReconstructPointersFromReferences(stage *Stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *VaseDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *VaseDiagram) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *VerticalTorusStackShape) GongReconstructPointersFromReferences(stage *Stage, instance *VerticalTorusStackShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9064,6 +9153,12 @@ func (reference *PlantCircumferenceShape) GongReconstructPointersFromInstances(s
 
 func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.VaseDiagram; _reference != nil {
+		reference.VaseDiagram = nil
+		if _instance, ok := stage.VaseDiagrams_instance[_reference]; ok {
+			reference.VaseDiagram = _instance
+		}
+	}
 	if _reference := reference.Rendered3DShape; _reference != nil {
 		reference.Rendered3DShape = nil
 		if _instance, ok := stage.Rendered3DShapes_instance[_reference]; ok {
@@ -9392,6 +9487,11 @@ func (reference *TorusStackShape) GongReconstructPointersFromInstances(stage *St
 }
 
 func (reference *VaseAbstract) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *VaseDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10525,6 +10625,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.OriginY != plantdiagramOther.OriginY {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginY"))
 	}
+	if (plantdiagram.VaseDiagram == nil) != (plantdiagramOther.VaseDiagram == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "VaseDiagram"))
+	} else if plantdiagram.VaseDiagram != nil && plantdiagramOther.VaseDiagram != nil {
+		if plantdiagram.VaseDiagram != plantdiagramOther.VaseDiagram {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "VaseDiagram"))
+		}
+	}
 	if plantdiagram.IsRhombusNodesExpanded != plantdiagramOther.IsRhombusNodesExpanded {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 	}
@@ -10576,9 +10683,6 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenPerpendicularVectorGrid != plantdiagramOther.IsHiddenPerpendicularVectorGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGrid"))
 	}
-	if plantdiagram.IsHiddenPerpendicularVectorGridHalfway != plantdiagramOther.IsHiddenPerpendicularVectorGridHalfway {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGridHalfway"))
-	}
 	if plantdiagram.IsHiddenBaseVectorShapeGrid != plantdiagramOther.IsHiddenBaseVectorShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBaseVectorShapeGrid"))
 	}
@@ -10588,47 +10692,17 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenStartArcShapeGrid != plantdiagramOther.IsHiddenStartArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStartArcShapeGrid"))
 	}
-	if plantdiagram.IsHiddenTopStartArcShapeGrid != plantdiagramOther.IsHiddenTopStartArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid != plantdiagramOther.IsHiddenShiftedBottomTopStartArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedBottomTopStartArcShapeGrid"))
-	}
 	if plantdiagram.IsHiddenMidArcVectorShapeGrid != plantdiagramOther.IsHiddenMidArcVectorShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenMidArcVectorShapeGrid"))
 	}
-	if plantdiagram.IsHiddenTopMidArcVectorShapeGrid != plantdiagramOther.IsHiddenTopMidArcVectorShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopMidArcVectorShapeGrid"))
-	}
-	if plantdiagram.IsHiddenStartHalfwayArcShapeGrid != plantdiagramOther.IsHiddenStartHalfwayArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStartHalfwayArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid != plantdiagramOther.IsHiddenTopStartHalfwayArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopStartHalfwayArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenEndHalfwayArcShapeGrid != plantdiagramOther.IsHiddenEndHalfwayArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndHalfwayArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid != plantdiagramOther.IsHiddenTopEndHalfwayArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopEndHalfwayArcShapeGrid"))
-	}
 	if plantdiagram.IsHiddenEndArcShapeGrid != plantdiagramOther.IsHiddenEndArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenTopEndArcShapeGrid != plantdiagramOther.IsHiddenTopEndArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopEndArcShapeGrid"))
 	}
 	if plantdiagram.IsHiddenBottomStartArcShapeGrid != plantdiagramOther.IsHiddenBottomStartArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
 	}
 	if plantdiagram.IsHiddenBottomEndArcShapeGrid != plantdiagramOther.IsHiddenBottomEndArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenStackOfGrowthCurve != plantdiagramOther.IsHiddenStackOfGrowthCurve {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve"))
-	}
-	if plantdiagram.IsHiddenTopStackOfGrowthCurve != plantdiagramOther.IsHiddenTopStackOfGrowthCurve {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve"))
 	}
 	if plantdiagram.IsHiddenBottomStackOfGrowthCurve != plantdiagramOther.IsHiddenBottomStackOfGrowthCurve {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
@@ -10642,53 +10716,8 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenGrowthCurve2D != plantdiagramOther.IsHiddenGrowthCurve2D {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
 	}
-	if plantdiagram.IsHiddenTopGrowthCurve2D != plantdiagramOther.IsHiddenTopGrowthCurve2D {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopGrowthCurve2D"))
-	}
-	if plantdiagram.IsHiddenStackOfGrowthCurve2D != plantdiagramOther.IsHiddenStackOfGrowthCurve2D {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2D"))
-	}
-	if plantdiagram.IsHiddenTopStackOfGrowthCurve2D != plantdiagramOther.IsHiddenTopStackOfGrowthCurve2D {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve2D"))
-	}
-	if plantdiagram.IsHiddenGrowthCurve2DRibbon != plantdiagramOther.IsHiddenGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon != plantdiagramOther.IsHiddenShiftedRightGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedRightGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon != plantdiagramOther.IsHiddenShiftedLeftGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon != plantdiagramOther.IsHiddenStackOfGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon != plantdiagramOther.IsHiddenStackOfRotatedGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfRotatedGrowthCurve2DRibbon"))
-	}
 	if plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon != plantdiagramOther.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon != plantdiagramOther.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon"))
-	}
-	if plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DTrajectory {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
-	}
-	if plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 != plantdiagramOther.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
-	}
-	if plantdiagram.IsHiddenPxShape != plantdiagramOther.IsHiddenPxShape {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenPxShape"))
-	}
-	if plantdiagram.IsHiddenChosenP1P2PairShape != plantdiagramOther.IsHiddenChosenP1P2PairShape {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
-	}
-	if plantdiagram.IsHiddenKeyHoleShape != plantdiagramOther.IsHiddenKeyHoleShape {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
 	}
 	if plantdiagram.IsHiddenTorusStackShape != plantdiagramOther.IsHiddenTorusStackShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
@@ -12555,6 +12584,95 @@ func (vaseabstract *VaseAbstract) GongDiff(stage *Stage, vaseabstractOther *Vase
 	}
 	if vaseabstract.MovieNbFrames != vaseabstractOther.MovieNbFrames {
 		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "MovieNbFrames"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (vasediagram *VaseDiagram) GongDiff(stage *Stage, vasediagramOther *VaseDiagram) (diffs []string) {
+	// insertion point for field diffs
+	if vasediagram.Name != vasediagramOther.Name {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "Name"))
+	}
+	if vasediagram.IsHiddenPerpendicularVectorGridHalfway != vasediagramOther.IsHiddenPerpendicularVectorGridHalfway {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGridHalfway"))
+	}
+	if vasediagram.IsHiddenTopStartArcShapeGrid != vasediagramOther.IsHiddenTopStartArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenShiftedBottomTopStartArcShapeGrid != vasediagramOther.IsHiddenShiftedBottomTopStartArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenShiftedBottomTopStartArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenTopMidArcVectorShapeGrid != vasediagramOther.IsHiddenTopMidArcVectorShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopMidArcVectorShapeGrid"))
+	}
+	if vasediagram.IsHiddenStartHalfwayArcShapeGrid != vasediagramOther.IsHiddenStartHalfwayArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenStartHalfwayArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenTopStartHalfwayArcShapeGrid != vasediagramOther.IsHiddenTopStartHalfwayArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopStartHalfwayArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenEndHalfwayArcShapeGrid != vasediagramOther.IsHiddenEndHalfwayArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenEndHalfwayArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenTopEndHalfwayArcShapeGrid != vasediagramOther.IsHiddenTopEndHalfwayArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopEndHalfwayArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenTopEndArcShapeGrid != vasediagramOther.IsHiddenTopEndArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopEndArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenStackOfGrowthCurve != vasediagramOther.IsHiddenStackOfGrowthCurve {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve"))
+	}
+	if vasediagram.IsHiddenTopStackOfGrowthCurve != vasediagramOther.IsHiddenTopStackOfGrowthCurve {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve"))
+	}
+	if vasediagram.IsHiddenTopGrowthCurve2D != vasediagramOther.IsHiddenTopGrowthCurve2D {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopGrowthCurve2D"))
+	}
+	if vasediagram.IsHiddenStackOfGrowthCurve2D != vasediagramOther.IsHiddenStackOfGrowthCurve2D {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2D"))
+	}
+	if vasediagram.IsHiddenTopStackOfGrowthCurve2D != vasediagramOther.IsHiddenTopStackOfGrowthCurve2D {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTopStackOfGrowthCurve2D"))
+	}
+	if vasediagram.IsHiddenGrowthCurve2DRibbon != vasediagramOther.IsHiddenGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenShiftedRightGrowthCurve2DRibbon != vasediagramOther.IsHiddenShiftedRightGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenShiftedRightGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenShiftedLeftGrowthCurve2DRibbon != vasediagramOther.IsHiddenShiftedLeftGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenStackOfGrowthCurve2DRibbon != vasediagramOther.IsHiddenStackOfGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon != vasediagramOther.IsHiddenStackOfRotatedGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenStackOfRotatedGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenPartiallyGrowthCurve2DRibbon != vasediagramOther.IsHiddenPartiallyGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon != vasediagramOther.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon"))
+	}
+	if vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectory != vasediagramOther.IsHiddenPartiallyGrowthCurve2DTrajectory {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectory"))
+	}
+	if vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 != vasediagramOther.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2"))
+	}
+	if vasediagram.IsHiddenPxShape != vasediagramOther.IsHiddenPxShape {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenPxShape"))
+	}
+	if vasediagram.IsHiddenChosenP1P2PairShape != vasediagramOther.IsHiddenChosenP1P2PairShape {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenChosenP1P2PairShape"))
+	}
+	if vasediagram.IsHiddenKeyHoleShape != vasediagramOther.IsHiddenKeyHoleShape {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenKeyHoleShape"))
 	}
 
 	return
