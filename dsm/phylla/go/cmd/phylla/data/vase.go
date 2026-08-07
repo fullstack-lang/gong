@@ -51,8 +51,9 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.M = 2
 	__PlantAbstract__00000000_.StackHeight = 4
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
+	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.PLANT_TYPE_VASE
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_FORM
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_2D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = true
@@ -62,7 +63,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.OriginX = 424.918010
 	__PlantDiagram__00000001_.OriginY = 597.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
-	__PlantDiagram__00000001_.IsArcNodesExpanded = true
+	__PlantDiagram__00000001_.IsArcNodesExpanded = false
 	__PlantDiagram__00000001_.IsVaseArcNodesExpanded = false
 	__PlantDiagram__00000001_.IsVaseClampingNodesExpanded = false
 	__PlantDiagram__00000001_.IsHiddenAxesShape = true
@@ -105,7 +106,6 @@ func _(stage *models.Stage) {
 	__VaseAbstract__00000000_.Name = `Plant 1-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000
 	__VaseAbstract__00000000_.RelativeRadialThickness = 0.050000
-	__VaseAbstract__00000000_.RhombusSideLength = 350.000000
 	__VaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.000000
 	__VaseAbstract__00000000_.RelativeRotatedTorusSeparation = 0.000000
 	__VaseAbstract__00000000_.RotationRatio = 0.000000

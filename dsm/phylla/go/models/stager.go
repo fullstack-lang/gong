@@ -47,6 +47,8 @@ type Stager struct {
 	sliderStage    *slider.Stage
 	plantFormStage *form.Stage
 	ssgStage       *ssg.Stage // mandatory
+	svgPlantStage  *svg.Stage
+	svgVaseStage   *svg.Stage
 	svgStage       *svg.Stage
 
 	svgObject *svg.SVG
@@ -94,7 +96,9 @@ func NewStager(
 	stager.sliderStage = slider_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
-	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.svgPlantStage = svg_stack.NewStack(r, "svgPlantStage", "", "", "", true, true).Stage
+	stager.svgVaseStage = svg_stack.NewStack(r, "svgVaseStage", "", "", "", true, true).Stage
+	stager.svgStage = stager.svgPlantStage
 	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage

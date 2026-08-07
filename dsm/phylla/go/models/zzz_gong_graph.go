@@ -10545,6 +10545,9 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 	if plantabstract.RhombusInsideAngle != plantabstractOther.RhombusInsideAngle {
 		diffs = append(diffs, plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
 	}
+	if plantabstract.RhombusSideLength != plantabstractOther.RhombusSideLength {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "RhombusSideLength"))
+	}
 	if plantabstract.PlantType != plantabstractOther.PlantType {
 		diffs = append(diffs, plantabstract.GongMarshallField(stage, "PlantType"))
 	}
@@ -12463,9 +12466,6 @@ func (vaseabstract *VaseAbstract) GongDiff(stage *Stage, vaseabstractOther *Vase
 	}
 	if vaseabstract.RelativeRadialThickness != vaseabstractOther.RelativeRadialThickness {
 		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeRadialThickness"))
-	}
-	if vaseabstract.RhombusSideLength != vaseabstractOther.RhombusSideLength {
-		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RhombusSideLength"))
 	}
 	if vaseabstract.RelativeCuttedStackFloorHeight != vaseabstractOther.RelativeCuttedStackFloorHeight {
 		diffs = append(diffs, vaseabstract.GongMarshallField(stage, "RelativeCuttedStackFloorHeight"))

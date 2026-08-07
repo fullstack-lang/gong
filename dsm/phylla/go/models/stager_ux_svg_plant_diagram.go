@@ -10,7 +10,8 @@ import (
 
 func (stager *Stager) ux_svg_plant_diagram() {
 
-	stager.svgStage.Reset()
+	stager.svgPlantStage.Reset()
+	stager.svgVaseStage.Reset()
 
 	var plantDiagram *PlantDiagram
 	{
@@ -33,26 +34,24 @@ func (stager *Stager) ux_svg_plant_diagram() {
 	}
 
 	if plantDiagram == nil || plant == nil {
-		stager.svgStage.Commit()
+		stager.svgPlantStage.Commit()
+		stager.svgVaseStage.Commit()
 		return
 	}
-	svgObject := stager.generateSvgObject(plantDiagram, plant)
 
-	svg.StageBranch(stager.svgStage, svgObject)
-	stager.svgObject = svgObject
+	// 1. Generate and stage Plant 2D SVG
+	svgPlantObject := stager.generateSvgPlantObject(plantDiagram, plant)
+	svg.StageBranch(stager.svgPlantStage, svgPlantObject)
+	stager.svgPlantStage.Commit()
 
-	stager.svgStage.Commit()
+	// 2. Generate and stage Vase 2D SVG
+	svgVaseObject := stager.generateSvgVaseObject(plantDiagram, plant)
+	svg.StageBranch(stager.svgVaseStage, svgVaseObject)
+	stager.svgObject = svgVaseObject
+	stager.svgVaseStage.Commit()
 }
 
-func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *PlantAbstract) (svg_ *svg.SVG) {
-
-	svg_ = new(svg.SVG)
-	svg_.Name = "Plant Diagram" // or any name, if name is an attribute.
-	svg_.IsEditable = true
-
-	layer := &svg.Layer{Name: `Axis Shape Layer`}
-	svg_.Layers = append(svg_.Layers, layer)
-
+func (plantDiagram *PlantDiagram) drawCommonPlant(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	// creation of 2 transparant rects, one at each ends of the vertical
 	plantDiagram.drawAxes(stager, layer, plant)
 	plantDiagram.drawPlantCircumferenceShape(stager, layer, plant)
@@ -67,24 +66,30 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthPathRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawGrowthVectorShape(stager, layer, plant)
 	plantDiagram.drawPerpendicularVectorGrid(stager, layer, plant)
-	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
 	plantDiagram.drawBaseVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawArcNormalVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
+	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
+	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
+}
+
+func (plantDiagram *PlantDiagram) drawVaseDiagram(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
+	if plantDiagram.VaseDiagram == nil {
+		return
+	}
+	plantDiagram.drawPerpendicularVectorGridHalfway(stager, layer, plant)
 	plantDiagram.drawTopStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawShiftedBottomTopStartArcShapeV2Grid(stager, layer, plant)
-	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawTopMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawStartHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawTopStartHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndHalfwayArcShapeGrid(stager, layer, plant)
 	plantDiagram.drawTopEndHalfwayArcShapeGrid(stager, layer, plant)
-	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawTopEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawShiftedLeftStackOfGrowthCurveV2(stager, layer, plant)
 	plantDiagram.drawTopStackOfGrowthCurveV2(stager, layer, plant)
-	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawTopGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawStackOfGrowthCurve2D(stager, layer, plant)
 	plantDiagram.drawTopStackOfGrowthCurve2D(stager, layer, plant)
@@ -98,9 +103,33 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawChosenP1P2PairShape(stager, layer, plant)
 	plantDiagram.drawKeyHoleShape(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2DRibbon(stager, layer, plant)
-
 	plantDiagram.drawShiftedRightGrowthCurve2DRibbon(stager, layer, plant)
 	plantDiagram.drawShiftedLeftGrowthCurve2DRibbon(stager, layer, plant)
+}
+
+func (stager *Stager) generateSvgPlantObject(plantDiagram *PlantDiagram, plant *PlantAbstract) (svg_ *svg.SVG) {
+	svg_ = new(svg.SVG)
+	svg_.Name = "Plant Diagram"
+	svg_.IsEditable = true
+
+	layer := &svg.Layer{Name: `Axis Shape Layer`}
+	svg_.Layers = append(svg_.Layers, layer)
+
+	plantDiagram.drawCommonPlant(stager, layer, plant)
+
+	return
+}
+
+func (stager *Stager) generateSvgVaseObject(plantDiagram *PlantDiagram, plant *PlantAbstract) (svg_ *svg.SVG) {
+	svg_ = new(svg.SVG)
+	svg_.Name = "Vase Diagram"
+	svg_.IsEditable = true
+
+	layer := &svg.Layer{Name: `Axis Shape Layer`}
+	svg_.Layers = append(svg_.Layers, layer)
+
+	plantDiagram.drawCommonPlant(stager, layer, plant)
+	plantDiagram.drawVaseDiagram(stager, layer, plant)
 
 	return
 }
@@ -293,10 +322,7 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// Vertices
 	v0x := plantDiagram.OriginX
@@ -338,10 +364,7 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -432,10 +455,7 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// Vertices
 	v0x := plantDiagram.OriginX
@@ -481,10 +501,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -550,10 +567,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -632,10 +646,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
@@ -731,10 +742,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := 0.0
-	if plant.VaseAbstract != nil {
-		length = plant.VaseAbstract.RhombusSideLength
-	}
+	length := plant.RhombusSideLength
 
 	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
@@ -1078,7 +1086,7 @@ func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve {
 		return
 	}
 
@@ -1136,7 +1144,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopStackOfGrowthCurve {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopStackOfGrowthCurve {
 		return
 	}
 
@@ -2654,7 +2662,7 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	offsetKeyX := 0.0
 	offsetKeyY := 0.0
 	if plant.VaseAbstract != nil {
-		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
+		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		widthKey = plant.VaseAbstract.WidthKey
 		heightKey = plant.VaseAbstract.HeightKey
 		offsetKeyX = plant.VaseAbstract.OffsetKeyX

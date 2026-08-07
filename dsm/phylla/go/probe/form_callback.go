@@ -5552,6 +5552,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantabstract_.StackHeight), formDiv)
 		case "RhombusInsideAngle":
 			FormDivBasicFieldToField(&(plantabstract_.RhombusInsideAngle), formDiv)
+		case "RhombusSideLength":
+			FormDivBasicFieldToField(&(plantabstract_.RhombusSideLength), formDiv)
 		case "PlantType":
 			FormDivEnumStringFieldToField(&(plantabstract_.PlantType), formDiv)
 		case "VaseAbstract":
@@ -13792,8 +13794,6 @@ func (vaseabstractFormCallback *VaseAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vaseabstract_.RelativeVerticalThickness), formDiv)
 		case "RelativeRadialThickness":
 			FormDivBasicFieldToField(&(vaseabstract_.RelativeRadialThickness), formDiv)
-		case "RhombusSideLength":
-			FormDivBasicFieldToField(&(vaseabstract_.RhombusSideLength), formDiv)
 		case "RelativeCuttedStackFloorHeight":
 			FormDivBasicFieldToField(&(vaseabstract_.RelativeCuttedStackFloorHeight), formDiv)
 		case "RelativeRotatedTorusSeparation":

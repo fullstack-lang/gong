@@ -117,8 +117,8 @@ func ComputePartiallyGrowthCurveDYForRatio(plant *PlantAbstract, rotationRatio f
 	vThickness := 0.0
 	rotatedSeparation := 0.0
 	if plant.VaseAbstract != nil {
-		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.VaseAbstract.RhombusSideLength
-		rotatedSeparation = plant.VaseAbstract.RelativeRotatedTorusSeparation * plant.VaseAbstract.RhombusSideLength
+		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
+		rotatedSeparation = plant.VaseAbstract.RelativeRotatedTorusSeparation * plant.RhombusSideLength
 	}
 	var vx, vy float64
 	if plant.PerpendicularVectorGrid != nil && len(plant.PerpendicularVectorGrid.PerpendicularVectors) > 0 {

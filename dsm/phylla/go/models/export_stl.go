@@ -336,7 +336,7 @@ func GenerateSTL(plant *PlantAbstract) string {
 		if radialRepetitions < 1 {
 			radialRepetitions = 1
 		}
-		sideLength = vase.RhombusSideLength
+		sideLength = plant.RhombusSideLength
 		relativeRadialThickness = vase.RelativeRadialThickness
 		relativeVerticalThickness = vase.RelativeVerticalThickness
 		relativeRotatedTorusSeparation = vase.RelativeRotatedTorusSeparation
@@ -487,7 +487,7 @@ func GenerateSTL(plant *PlantAbstract) string {
 
 			var activeShapeRuns [][]stlLayerConfig
 
-			if checkedDiagram != nil {
+			if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil {
 				if !checkedDiagram.VaseDiagram.IsHiddenTorusStackShape {
 					var growthVectorX, growthVectorY float64
 					if plant.GrowthVectorShape != nil {

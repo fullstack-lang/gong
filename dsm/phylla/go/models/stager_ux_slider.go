@@ -65,7 +65,7 @@ func (stager *Stager) ux_slider() {
 				5,
 				600,
 				5,
-				&plant.VaseAbstract.RhombusSideLength,
+				&plant.RhombusSideLength,
 			),
 		)
 

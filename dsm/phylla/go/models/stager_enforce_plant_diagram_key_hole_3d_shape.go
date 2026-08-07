@@ -4,7 +4,7 @@ func (stager *Stager) enforcePlantDiagramKeyHole3DShape() bool {
 	modified := false
 
 	for plantDiagram := range stager.stage.PlantDiagrams {
-		if plantDiagram.VaseDiagram.KeyHole3DShape == nil {
+		if plantDiagram.VaseDiagram != nil && plantDiagram.VaseDiagram.KeyHole3DShape == nil {
 			shape := (&KeyHole3DShape{
 				Name: plantDiagram.Name + "-KeyHole3DShape",
 			}).Stage(stager.stage)

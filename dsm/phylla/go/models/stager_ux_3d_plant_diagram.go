@@ -112,7 +112,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 	thickness := 5.0
 	if plant.VaseAbstract != nil {
 		vase := plant.VaseAbstract
-		sideLength = vase.RhombusSideLength
+		sideLength = plant.RhombusSideLength
 		if vase.RelativeRadialThickness*sideLength > 0 {
 			thickness = vase.RelativeRadialThickness * sideLength
 		}
