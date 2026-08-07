@@ -49,7 +49,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.M = 2
 	__PlantAbstract__00000000_.StackHeight = 4
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
-	__PlantAbstract__00000000_.PlantType = models.PLANT_TYPE_PLANT
+	__PlantAbstract__00000000_.PlantType = models.PLANT_TYPE_STOOL
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true

@@ -7,6 +7,9 @@ import (
 func (stager *Stager) ux_slider() {
 
 	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
 
 	stager.sliderStage.Reset()
 
@@ -328,7 +331,7 @@ func (stager *Stager) ux_slider() {
 		}
 	}
 
-	if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+	if plant.CurrentView != VIEW_PLANT_2D && checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 		group2 := new(m.Group).Stage(stager.sliderStage)
 		group2.Percentage = 35
 		layout.Groups = append(layout.Groups, group2)
