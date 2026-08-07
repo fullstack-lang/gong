@@ -26,6 +26,9 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
 
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 )
@@ -39,11 +42,12 @@ type Stager struct {
 	loadStage    *load.Stage    // mandatory
 	threejsStage *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
 
-	treeStage2D *tree.Stage
-	treeStage3D *tree.Stage
-	sliderStage *slider.Stage
-	ssgStage    *ssg.Stage // mandatory
-	svgStage    *svg.Stage
+	treeStage2D    *tree.Stage
+	treeStage3D    *tree.Stage
+	sliderStage    *slider.Stage
+	plantFormStage *form.Stage
+	ssgStage       *ssg.Stage // mandatory
+	svgStage       *svg.Stage
 
 	svgObject *svg.SVG
 
@@ -74,12 +78,14 @@ func NewStager(
 	r *gin.Engine,
 	stage *Stage,
 	probeForm ProbeIF,
+	persistanceFile string,
 ) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
 	stager.probeForm = probeForm
+	stager.persistanceFile = persistanceFile
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
@@ -93,6 +99,8 @@ func NewStager(
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
 	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
+	stager.plantFormStage = form_stack.NewStack(r, "plantFormStage", "", "", "", true, true).Stage
+	form.SetOrchestratorOnAfterUpdate[form.FormGroup](stager.plantFormStage)
 
 	stager.createViews()
 
@@ -104,6 +112,7 @@ func NewStager(
 		stager.button()
 		stager.load()
 		stager.ux_slider()
+		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
 		stager.ux_3d_plant_diagram()
 	}
