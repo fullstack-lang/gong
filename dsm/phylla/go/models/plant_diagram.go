@@ -6,6 +6,8 @@ type PlantDiagram struct {
 	OriginX float64
 	OriginY float64
 
+	VaseDiagram *VaseDiagram
+
 	IsRhombusNodesExpanded      bool
 	IsArcNodesExpanded          bool
 	IsVaseArcNodesExpanded      bool
@@ -24,46 +26,20 @@ type PlantDiagram struct {
 	IsHiddenGrowthPathRhombusGridShape        bool
 	IsHiddenGrowthVectorShape                 bool
 	IsHiddenPerpendicularVectorGrid           bool
-	IsHiddenPerpendicularVectorGridHalfway    bool
 	IsHiddenBaseVectorShapeGrid               bool
 	IsHiddenArcNormalVectorShapeGrid          bool
 	IsHiddenStartArcShapeGrid                 bool
-	IsHiddenTopStartArcShapeGrid              bool
-	IsHiddenShiftedBottomTopStartArcShapeGrid bool
 	IsHiddenMidArcVectorShapeGrid             bool
-	IsHiddenTopMidArcVectorShapeGrid          bool
-	IsHiddenStartHalfwayArcShapeGrid          bool
-	IsHiddenTopStartHalfwayArcShapeGrid       bool
-	IsHiddenEndHalfwayArcShapeGrid            bool
-	IsHiddenTopEndHalfwayArcShapeGrid         bool
 	IsHiddenEndArcShapeGrid                   bool
-	IsHiddenTopEndArcShapeGrid                bool
 	IsHiddenBottomStartArcShapeGrid           bool
 	IsHiddenBottomEndArcShapeGrid             bool
-	IsHiddenStackOfGrowthCurve                bool
-	IsHiddenTopStackOfGrowthCurve             bool
 	IsHiddenBottomStackOfGrowthCurve          bool
 	IsHiddenShiftedLeftStackOfGrowthCurve     bool
 	IsHiddenShiftedLeftStackOfNormalVector    bool
 
-	IsHiddenGrowthCurve2D           bool
-	IsHiddenTopGrowthCurve2D        bool
-	IsHiddenStackOfGrowthCurve2D    bool
-	IsHiddenTopStackOfGrowthCurve2D bool
+	IsHiddenGrowthCurve2D bool
 
-	IsHiddenGrowthCurve2DRibbon                        bool
-	IsHiddenShiftedRightGrowthCurve2DRibbon            bool
-	IsHiddenShiftedLeftGrowthCurve2DRibbon             bool
-	IsHiddenStackOfGrowthCurve2DRibbon                 bool
-	IsHiddenStackOfRotatedGrowthCurve2DRibbon          bool
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
-	IsHiddenPartiallyGrowthCurve2DRibbon               bool
-	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon    bool
-	IsHiddenPartiallyGrowthCurve2DTrajectory           bool
-	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2       bool
-	IsHiddenPxShape                                    bool
-	IsHiddenChosenP1P2PairShape                        bool
-	IsHiddenKeyHoleShape                               bool
 	IsHiddenTorusStackShape                            bool
 	IsHiddenVerticalTorusStackShape                    bool
 	IsHiddenPartiallyRotatedTorusShape                 bool
@@ -97,6 +73,39 @@ type PlantDiagram struct {
 	Key3DShape                              *Key3DShape
 	VolumeKey3DShape                        *VolumeKey3DShape
 	TorusEdge3DShape                        *TorusEdge3DShape
+}
+
+type VaseDiagram struct {
+	Name string
+
+	IsHiddenPerpendicularVectorGridHalfway     bool
+	IsHiddenTopStartArcShapeGrid              bool
+	IsHiddenShiftedBottomTopStartArcShapeGrid  bool
+	IsHiddenTopMidArcVectorShapeGrid          bool
+	IsHiddenStartHalfwayArcShapeGrid          bool
+	IsHiddenTopStartHalfwayArcShapeGrid       bool
+	IsHiddenEndHalfwayArcShapeGrid            bool
+	IsHiddenTopEndHalfwayArcShapeGrid         bool
+	IsHiddenTopEndArcShapeGrid                bool
+	IsHiddenStackOfGrowthCurve                bool
+	IsHiddenTopStackOfGrowthCurve             bool
+
+	IsHiddenTopGrowthCurve2D        bool
+	IsHiddenStackOfGrowthCurve2D    bool
+	IsHiddenTopStackOfGrowthCurve2D bool
+
+	IsHiddenGrowthCurve2DRibbon                     bool
+	IsHiddenShiftedRightGrowthCurve2DRibbon         bool
+	IsHiddenShiftedLeftGrowthCurve2DRibbon          bool
+	IsHiddenStackOfGrowthCurve2DRibbon              bool
+	IsHiddenStackOfRotatedGrowthCurve2DRibbon       bool
+	IsHiddenPartiallyGrowthCurve2DRibbon            bool
+	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon bool
+	IsHiddenPartiallyGrowthCurve2DTrajectory        bool
+	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2    bool
+	IsHiddenPxShape                                 bool
+	IsHiddenChosenP1P2PairShape                     bool
+	IsHiddenKeyHoleShape                            bool
 }
 
 type Angle0Shape struct {

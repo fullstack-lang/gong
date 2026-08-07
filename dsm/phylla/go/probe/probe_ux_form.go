@@ -675,6 +675,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.vaseabstract, probe)
 			}
+		case *VaseDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "VaseDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.vasediagram, probe)
+			}
 		case *VerticalTorusStackShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "VerticalTorusStackShape", true)
@@ -2139,6 +2145,19 @@ func FillUpFormFromGongstructName(
 		vaseabstract := new(models.VaseAbstract)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(vaseabstract, formGroup, probe)
+	case "VaseDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "VaseDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__VaseDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		vasediagram := new(models.VaseDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(vasediagram, formGroup, probe)
 	case "VerticalTorusStackShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

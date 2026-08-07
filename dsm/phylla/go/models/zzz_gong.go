@@ -1885,6 +1885,21 @@ type Stage struct {
 	OnAfterVaseAbstractDeleteCallback OnAfterDeleteInterface[VaseAbstract]
 	OnAfterVaseAbstractReadCallback   OnAfterReadInterface[VaseAbstract]
 
+	VaseDiagrams                map[*VaseDiagram]struct{}
+	VaseDiagrams_instance       map[*VaseDiagram]*VaseDiagram
+	VaseDiagrams_mapString      map[string]*VaseDiagram
+	VaseDiagramOrder            uint
+	VaseDiagram_stagedOrder     map[*VaseDiagram]uint
+	VaseDiagram_orderStaged     map[uint]*VaseDiagram
+	VaseDiagrams_reference      map[*VaseDiagram]*VaseDiagram
+	VaseDiagrams_referenceOrder map[*VaseDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVaseDiagramCreateCallback OnAfterCreateInterface[VaseDiagram]
+	OnAfterVaseDiagramUpdateCallback OnAfterUpdateInterface[VaseDiagram]
+	OnAfterVaseDiagramDeleteCallback OnAfterDeleteInterface[VaseDiagram]
+	OnAfterVaseDiagramReadCallback   OnAfterReadInterface[VaseDiagram]
+
 	VerticalTorusStackShapes                map[*VerticalTorusStackShape]struct{}
 	VerticalTorusStackShapes_instance       map[*VerticalTorusStackShape]*VerticalTorusStackShape
 	VerticalTorusStackShapes_mapString      map[string]*VerticalTorusStackShape
@@ -2590,6 +2605,10 @@ func (stage *Stage) Squash() {
 	stage.VaseAbstracts_reference = make(map[*VaseAbstract]*VaseAbstract)
 	stage.VaseAbstracts_instance = make(map[*VaseAbstract]*VaseAbstract)
 	stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint)
+
+	stage.VaseDiagrams_reference = make(map[*VaseDiagram]*VaseDiagram)
+	stage.VaseDiagrams_instance = make(map[*VaseDiagram]*VaseDiagram)
+	stage.VaseDiagrams_referenceOrder = make(map[*VaseDiagram]uint)
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShapes_instance = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -4164,6 +4183,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.VaseAbstractOrder = maxVaseAbstractOrder + 1
 	} else {
 		stage.VaseAbstractOrder = 0
+	}
+
+	var maxVaseDiagramOrder uint
+	var foundVaseDiagram bool
+	for _, order := range stage.VaseDiagram_stagedOrder {
+		if !foundVaseDiagram || order > maxVaseDiagramOrder {
+			maxVaseDiagramOrder = order
+			foundVaseDiagram = true
+		}
+	}
+	if foundVaseDiagram {
+		stage.VaseDiagramOrder = maxVaseDiagramOrder + 1
+	} else {
+		stage.VaseDiagramOrder = 0
 	}
 
 	var maxVerticalTorusStackShapeOrder uint
@@ -5795,6 +5828,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *VaseDiagram:
+		tmp := GetStructInstancesByOrder(stage.VaseDiagrams, stage.VaseDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *VaseDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *VerticalTorusStackShape:
 		tmp := GetStructInstancesByOrder(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 
@@ -6072,6 +6119,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
 	case "VaseAbstract":
 		res = GetNamedStructInstances(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
+	case "VaseDiagram":
+		res = GetNamedStructInstances(stage.VaseDiagrams, stage.VaseDiagram_stagedOrder)
 	case "VerticalTorusStackShape":
 		res = GetNamedStructInstances(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 	case "VolumeKey3DShape":
@@ -6365,6 +6414,8 @@ type BackRepoInterface interface {
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
 	CommitVaseAbstract(vaseabstract *VaseAbstract)
 	CheckoutVaseAbstract(vaseabstract *VaseAbstract)
+	CommitVaseDiagram(vasediagram *VaseDiagram)
+	CheckoutVaseDiagram(vasediagram *VaseDiagram)
 	CommitVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CheckoutVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CommitVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape)
@@ -6704,6 +6755,9 @@ func NewStage(name string) (stage *Stage) {
 
 		VaseAbstracts:           make(map[*VaseAbstract]struct{}),
 		VaseAbstracts_mapString: make(map[string]*VaseAbstract),
+
+		VaseDiagrams:           make(map[*VaseDiagram]struct{}),
+		VaseDiagrams_mapString: make(map[string]*VaseDiagram),
 
 		VerticalTorusStackShapes:           make(map[*VerticalTorusStackShape]struct{}),
 		VerticalTorusStackShapes_mapString: make(map[string]*VerticalTorusStackShape),
@@ -7161,6 +7215,10 @@ func NewStage(name string) (stage *Stage) {
 		VaseAbstract_orderStaged: make(map[uint]*VaseAbstract),
 		VaseAbstracts_reference:  make(map[*VaseAbstract]*VaseAbstract),
 
+		VaseDiagram_stagedOrder: make(map[*VaseDiagram]uint),
+		VaseDiagram_orderStaged: make(map[uint]*VaseDiagram),
+		VaseDiagrams_reference:  make(map[*VaseDiagram]*VaseDiagram),
+
 		VerticalTorusStackShape_stagedOrder: make(map[*VerticalTorusStackShape]uint),
 		VerticalTorusStackShape_orderStaged: make(map[uint]*VerticalTorusStackShape),
 		VerticalTorusStackShapes_reference:  make(map[*VerticalTorusStackShape]*VerticalTorusStackShape),
@@ -7391,6 +7449,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"VaseAbstract": &VaseAbstractUnmarshaller{},
 
+			"VaseDiagram": &VaseDiagramUnmarshaller{},
+
 			"VerticalTorusStackShape": &VerticalTorusStackShapeUnmarshaller{},
 
 			"VolumeKey3DShape": &VolumeKey3DShapeUnmarshaller{},
@@ -7509,6 +7569,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TorusEdge3DShape"},
 			{name: "TorusStackShape"},
 			{name: "VaseAbstract"},
+			{name: "VaseDiagram"},
 			{name: "VerticalTorusStackShape"},
 			{name: "VolumeKey3DShape"},
 		}, // end of insertion point
@@ -7742,6 +7803,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TorusStackShape_stagedOrder[instance]
 	case *VaseAbstract:
 		return stage.VaseAbstract_stagedOrder[instance]
+	case *VaseDiagram:
+		return stage.VaseDiagram_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -7975,6 +8038,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
 	case *VaseAbstract:
 		return any(stage.VaseAbstract_orderStaged[order]).(Type)
+	case *VaseDiagram:
+		return any(stage.VaseDiagram_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShape_orderStaged[order]).(Type)
 	case *VolumeKey3DShape:
@@ -8207,6 +8272,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TorusStackShape_stagedOrder[instance]
 	case *VaseAbstract:
 		return stage.VaseAbstract_stagedOrder[instance]
+	case *VaseDiagram:
+		return stage.VaseDiagram_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -8386,6 +8453,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VaseAbstract"] = len(stage.VaseAbstracts)
+	stage.Map_GongStructName_InstancesNb["VaseDiagram"] = len(stage.VaseDiagrams)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VolumeKey3DShape"] = len(stage.VolumeKey3DShapes)
 }
@@ -18108,6 +18176,94 @@ func (vaseabstract *VaseAbstract) SetName(name string) {
 	vaseabstract.Name = name
 }
 
+// Stage puts vasediagram to the model stage
+func (vasediagram *VaseDiagram) Stage(stage *Stage) *VaseDiagram {
+	if _, ok := stage.VaseDiagrams[vasediagram]; !ok {
+		stage.VaseDiagrams[vasediagram] = struct{}{}
+		stage.VaseDiagram_stagedOrder[vasediagram] = stage.VaseDiagramOrder
+		stage.VaseDiagram_orderStaged[stage.VaseDiagramOrder] = vasediagram
+		stage.VaseDiagramOrder++
+	}
+	stage.VaseDiagrams_mapString[vasediagram.Name] = vasediagram
+
+	return vasediagram
+}
+
+// StagePreserveOrder puts vasediagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.VaseDiagramOrder
+// - update stage.VaseDiagramOrder accordingly
+func (vasediagram *VaseDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.VaseDiagrams[vasediagram]; !ok {
+		stage.VaseDiagrams[vasediagram] = struct{}{}
+
+		if order > stage.VaseDiagramOrder {
+			stage.VaseDiagramOrder = order
+		}
+		stage.VaseDiagram_stagedOrder[vasediagram] = order
+		stage.VaseDiagram_orderStaged[order] = vasediagram
+		stage.VaseDiagramOrder++
+	}
+	stage.VaseDiagrams_mapString[vasediagram.Name] = vasediagram
+}
+
+// Unstage removes vasediagram off the model stage
+func (vasediagram *VaseDiagram) Unstage(stage *Stage) *VaseDiagram {
+	delete(stage.VaseDiagrams, vasediagram)
+	// issue1150
+	// delete(stage.VaseDiagram_stagedOrder, vasediagram)
+	delete(stage.VaseDiagrams_mapString, vasediagram.Name)
+
+	return vasediagram
+}
+
+// UnstageVoid removes vasediagram off the model stage
+func (vasediagram *VaseDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.VaseDiagrams, vasediagram)
+	// issue1150
+	// delete(stage.VaseDiagram_stagedOrder, vasediagram)
+	delete(stage.VaseDiagrams_mapString, vasediagram.Name)
+}
+
+// commit vasediagram to the back repo (if it is already staged)
+func (vasediagram *VaseDiagram) Commit(stage *Stage) *VaseDiagram {
+	if _, ok := stage.VaseDiagrams[vasediagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitVaseDiagram(vasediagram)
+		}
+	}
+	return vasediagram
+}
+
+func (vasediagram *VaseDiagram) CommitVoid(stage *Stage) {
+	vasediagram.Commit(stage)
+}
+
+func (vasediagram *VaseDiagram) StageVoid(stage *Stage) {
+	vasediagram.Stage(stage)
+}
+
+// Checkout vasediagram to the back repo (if it is already staged)
+func (vasediagram *VaseDiagram) Checkout(stage *Stage) *VaseDiagram {
+	if _, ok := stage.VaseDiagrams[vasediagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutVaseDiagram(vasediagram)
+		}
+	}
+	return vasediagram
+}
+
+// for satisfaction of GongStruct interface
+func (vasediagram *VaseDiagram) GetName() (res string) {
+	return vasediagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (vasediagram *VaseDiagram) SetName(name string) {
+	vasediagram.Name = name
+}
+
 // Stage puts verticaltorusstackshape to the model stage
 func (verticaltorusstackshape *VerticalTorusStackShape) Stage(stage *Stage) *VerticalTorusStackShape {
 	if _, ok := stage.VerticalTorusStackShapes[verticaltorusstackshape]; !ok {
@@ -18396,6 +18552,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
 	CreateORMVaseAbstract(VaseAbstract *VaseAbstract)
+	CreateORMVaseDiagram(VaseDiagram *VaseDiagram)
 	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	CreateORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -18511,6 +18668,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
 	DeleteORMVaseAbstract(VaseAbstract *VaseAbstract)
+	DeleteORMVaseDiagram(VaseDiagram *VaseDiagram)
 	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	DeleteORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -19066,6 +19224,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.VaseAbstract_stagedOrder = make(map[*VaseAbstract]uint)
 	stage.VaseAbstractOrder = 0
 
+	stage.VaseDiagrams = make(map[*VaseDiagram]struct{})
+	stage.VaseDiagrams_mapString = make(map[string]*VaseDiagram)
+	stage.VaseDiagram_stagedOrder = make(map[*VaseDiagram]uint)
+	stage.VaseDiagramOrder = 0
+
 	stage.VerticalTorusStackShapes = make(map[*VerticalTorusStackShape]struct{})
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShape_stagedOrder = make(map[*VerticalTorusStackShape]uint)
@@ -19414,6 +19577,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.VaseAbstracts = nil
 	stage.VaseAbstracts_mapString = nil
+
+	stage.VaseDiagrams = nil
+	stage.VaseDiagrams_mapString = nil
 
 	stage.VerticalTorusStackShapes = nil
 	stage.VerticalTorusStackShapes_mapString = nil
@@ -19865,6 +20031,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		vaseabstract.Unstage(stage)
 	}
 
+	for vasediagram := range stage.VaseDiagrams {
+		vasediagram.Unstage(stage)
+	}
+
 	for verticaltorusstackshape := range stage.VerticalTorusStackShapes {
 		verticaltorusstackshape.Unstage(stage)
 	}
@@ -20169,6 +20339,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TorusStackShapes).(*Type)
 	case map[*VaseAbstract]any:
 		return any(&stage.VaseAbstracts).(*Type)
+	case map[*VaseDiagram]any:
+		return any(&stage.VaseDiagrams).(*Type)
 	case map[*VerticalTorusStackShape]any:
 		return any(&stage.VerticalTorusStackShapes).(*Type)
 	case map[*VolumeKey3DShape]any:
@@ -20405,6 +20577,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
 	case *VaseAbstract:
 		return any(stage.VaseAbstracts_mapString).(map[string]Type)
+	case *VaseDiagram:
+		return any(stage.VaseDiagrams_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShapes_mapString).(map[string]Type)
 	case *VolumeKey3DShape:
@@ -20641,6 +20815,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
 	case VaseAbstract:
 		return any(&stage.VaseAbstracts).(*map[*Type]struct{})
+	case VaseDiagram:
+		return any(&stage.VaseDiagrams).(*map[*Type]struct{})
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[*Type]struct{})
 	case VolumeKey3DShape:
@@ -20877,6 +21053,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
 	case *VaseAbstract:
 		return any(&stage.VaseAbstracts).(*map[Type]struct{})
+	case *VaseDiagram:
+		return any(&stage.VaseDiagrams).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[Type]struct{})
 	case *VolumeKey3DShape:
@@ -21113,6 +21291,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
 	case VaseAbstract:
 		return any(&stage.VaseAbstracts_mapString).(*map[string]*Type)
+	case VaseDiagram:
+		return any(&stage.VaseDiagrams_mapString).(*map[string]*Type)
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes_mapString).(*map[string]*Type)
 	case VolumeKey3DShape:
@@ -21448,6 +21628,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case PlantDiagram:
 		return any(&PlantDiagram{
 			// Initialisation of associations
+			// field is initialized with an instance of VaseDiagram with the name of the field
+			VaseDiagram: &VaseDiagram{Name: "VaseDiagram"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
@@ -21809,6 +21991,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case VaseAbstract:
 		return any(&VaseAbstract{
+			// Initialisation of associations
+		}).(*Type)
+	case VaseDiagram:
+		return any(&VaseDiagram{
 			// Initialisation of associations
 		}).(*Type)
 	case VerticalTorusStackShape:
@@ -22743,6 +22929,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case PlantDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "VaseDiagram":
+			res := make(map[*VaseDiagram][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.VaseDiagram != nil {
+					vasediagram_ := plantdiagram.VaseDiagram
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[vasediagram_]
+					if ok {
+						plantdiagrams = res[vasediagram_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[vasediagram_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Rendered3DShape":
 			res := make(map[*Rendered3DShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -23539,6 +23742,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of VaseAbstract
 	case VaseAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of VaseDiagram
+	case VaseDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -24533,6 +24741,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of VaseDiagram
+	case VaseDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of VerticalTorusStackShape
 	case VerticalTorusStackShape:
 		switch fieldname {
@@ -24774,6 +24987,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TorusStackShape"
 	case *VaseAbstract:
 		res = "VaseAbstract"
+	case *VaseDiagram:
+		res = "VaseDiagram"
 	case *VerticalTorusStackShape:
 		res = "VerticalTorusStackShape"
 	case *VolumeKey3DShape:
@@ -25279,6 +25494,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *VaseAbstract:
+		var rf ReverseField
+		_ = rf
+	case *VaseDiagram:
 		var rf ReverseField
 		_ = rf
 	case *VerticalTorusStackShape:
@@ -26819,6 +27037,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:                 "VaseDiagram",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "VaseDiagram",
+		},
+		{
 			Name:               "IsRhombusNodesExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -26887,10 +27110,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenPerpendicularVectorGridHalfway",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenBaseVectorShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -26903,43 +27122,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenTopStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenMidArcVectorShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenTopMidArcVectorShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStartHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenEndHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopEndArcShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -26948,14 +27135,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenBottomEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStackOfGrowthCurve",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -26975,67 +27154,7 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenTopGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStackOfGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfRotatedGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPxShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenChosenP1P2PairShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenKeyHoleShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -29564,6 +29683,121 @@ func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) 
 	return
 }
 
+func (vasediagram *VaseDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenPerpendicularVectorGridHalfway",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopMidArcVectorShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedRightGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfRotatedGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPxShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenChosenP1P2PairShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenKeyHoleShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -31208,6 +31442,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginY)
 		res.valueFloat = plantdiagram.OriginY
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "VaseDiagram":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.VaseDiagram != nil {
+			res.valueString = plantdiagram.VaseDiagram.Name
+			res.ids = plantdiagram.VaseDiagram.GongGetUUID(stage)
+		}
 	case "IsRhombusNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsRhombusNodesExpanded)
 		res.valueBool = plantdiagram.IsRhombusNodesExpanded
@@ -31276,10 +31516,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGrid)
 		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPerpendicularVectorGridHalfway":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGridHalfway)
-		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGridHalfway
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenBaseVectorShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBaseVectorShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenBaseVectorShapeGrid
@@ -31292,45 +31528,13 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenStartArcShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenMidArcVectorShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenMidArcVectorShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenMidArcVectorShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopMidArcVectorShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopMidArcVectorShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopMidArcVectorShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStartHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenStartHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStartHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenEndHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenEndHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopEndHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopEndArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopEndArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopEndArcShapeGrid
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenBottomStartArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStartArcShapeGrid)
@@ -31339,14 +31543,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenBottomEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomEndArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenBottomEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenTopStackOfGrowthCurve
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenBottomStackOfGrowthCurve":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStackOfGrowthCurve)
@@ -31364,69 +31560,9 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2D)
 		res.valueBool = plantdiagram.IsHiddenGrowthCurve2D
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenTopGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStackOfGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStackOfGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenTopStackOfGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon)
 		res.valueBool = plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
-		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
-		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPxShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPxShape)
-		res.valueBool = plantdiagram.IsHiddenPxShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenChosenP1P2PairShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenChosenP1P2PairShape)
-		res.valueBool = plantdiagram.IsHiddenChosenP1P2PairShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenKeyHoleShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKeyHoleShape)
-		res.valueBool = plantdiagram.IsHiddenKeyHoleShape
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenTorusStackShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
@@ -34009,6 +34145,119 @@ func (vaseabstract *VaseAbstract) GongGetFieldValue(fieldName string, stage *Sta
 	return
 }
 
+func (vasediagram *VaseDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = vasediagram.Name
+	case "IsHiddenPerpendicularVectorGridHalfway":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenPerpendicularVectorGridHalfway)
+		res.valueBool = vasediagram.IsHiddenPerpendicularVectorGridHalfway
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopStartArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenTopStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenShiftedBottomTopStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopMidArcVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopMidArcVectorShapeGrid)
+		res.valueBool = vasediagram.IsHiddenTopMidArcVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenStartHalfwayArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenStartHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopStartHalfwayArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenTopStartHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenEndHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenEndHalfwayArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenEndHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopEndHalfwayArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenTopEndHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopEndArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopEndArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenTopEndArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenStackOfGrowthCurve)
+		res.valueBool = vasediagram.IsHiddenStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopStackOfGrowthCurve)
+		res.valueBool = vasediagram.IsHiddenTopStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopGrowthCurve2D)
+		res.valueBool = vasediagram.IsHiddenTopGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenStackOfGrowthCurve2D)
+		res.valueBool = vasediagram.IsHiddenStackOfGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStackOfGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTopStackOfGrowthCurve2D)
+		res.valueBool = vasediagram.IsHiddenTopStackOfGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenShiftedRightGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenShiftedLeftGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenStackOfGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenStackOfGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenPartiallyGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenPartiallyGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
+		res.valueBool = vasediagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
+		res.valueBool = vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectory
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
+		res.valueBool = vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPxShape":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenPxShape)
+		res.valueBool = vasediagram.IsHiddenPxShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenChosenP1P2PairShape":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenChosenP1P2PairShape)
+		res.valueBool = vasediagram.IsHiddenChosenP1P2PairShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKeyHoleShape":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenKeyHoleShape)
+		res.valueBool = vasediagram.IsHiddenKeyHoleShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -35645,6 +35894,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.OriginX = value.GetValueFloat()
 	case "OriginY":
 		plantdiagram.OriginY = value.GetValueFloat()
+	case "VaseDiagram":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.VaseDiagram = nil
+			for __instance__ := range stage.VaseDiagrams {
+				if stage.VaseDiagram_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.VaseDiagram = __instance__
+					break
+				}
+			}
+		}
 	case "IsRhombusNodesExpanded":
 		plantdiagram.IsRhombusNodesExpanded = value.GetValueBool()
 	case "IsArcNodesExpanded":
@@ -35679,42 +35939,20 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
 	case "IsHiddenPerpendicularVectorGrid":
 		plantdiagram.IsHiddenPerpendicularVectorGrid = value.GetValueBool()
-	case "IsHiddenPerpendicularVectorGridHalfway":
-		plantdiagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
 	case "IsHiddenBaseVectorShapeGrid":
 		plantdiagram.IsHiddenBaseVectorShapeGrid = value.GetValueBool()
 	case "IsHiddenArcNormalVectorShapeGrid":
 		plantdiagram.IsHiddenArcNormalVectorShapeGrid = value.GetValueBool()
 	case "IsHiddenStartArcShapeGrid":
 		plantdiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopStartArcShapeGrid":
-		plantdiagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-		plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenMidArcVectorShapeGrid":
 		plantdiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenTopMidArcVectorShapeGrid":
-		plantdiagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenStartHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenStartHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopStartHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenEndHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenEndHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopEndHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopEndArcShapeGrid":
-		plantdiagram.IsHiddenTopEndArcShapeGrid = value.GetValueBool()
 	case "IsHiddenBottomStartArcShapeGrid":
 		plantdiagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenBottomEndArcShapeGrid":
 		plantdiagram.IsHiddenBottomEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve":
-		plantdiagram.IsHiddenStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenTopStackOfGrowthCurve":
-		plantdiagram.IsHiddenTopStackOfGrowthCurve = value.GetValueBool()
 	case "IsHiddenBottomStackOfGrowthCurve":
 		plantdiagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
 	case "IsHiddenShiftedLeftStackOfGrowthCurve":
@@ -35723,38 +35961,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
 	case "IsHiddenGrowthCurve2D":
 		plantdiagram.IsHiddenGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenTopGrowthCurve2D":
-		plantdiagram.IsHiddenTopGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2D":
-		plantdiagram.IsHiddenStackOfGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenTopStackOfGrowthCurve2D":
-		plantdiagram.IsHiddenTopStackOfGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon = value.GetValueBool()
 	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
 		plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
-	case "IsHiddenPxShape":
-		plantdiagram.IsHiddenPxShape = value.GetValueBool()
-	case "IsHiddenChosenP1P2PairShape":
-		plantdiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
-	case "IsHiddenKeyHoleShape":
-		plantdiagram.IsHiddenKeyHoleShape = value.GetValueBool()
 	case "IsHiddenTorusStackShape":
 		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
 	case "IsHiddenVerticalTorusStackShape":
@@ -37949,6 +38157,69 @@ func (vaseabstract *VaseAbstract) GongSetFieldValue(fieldName string, value Gong
 	return nil
 }
 
+func (vasediagram *VaseDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		vasediagram.Name = value.GetValueString()
+	case "IsHiddenPerpendicularVectorGridHalfway":
+		vasediagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
+	case "IsHiddenTopStartArcShapeGrid":
+		vasediagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		vasediagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopMidArcVectorShapeGrid":
+		vasediagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		vasediagram.IsHiddenStartHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		vasediagram.IsHiddenTopStartHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenEndHalfwayArcShapeGrid":
+		vasediagram.IsHiddenEndHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		vasediagram.IsHiddenTopEndHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopEndArcShapeGrid":
+		vasediagram.IsHiddenTopEndArcShapeGrid = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve":
+		vasediagram.IsHiddenStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenTopStackOfGrowthCurve":
+		vasediagram.IsHiddenTopStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenTopGrowthCurve2D":
+		vasediagram.IsHiddenTopGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve2D":
+		vasediagram.IsHiddenStackOfGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenTopStackOfGrowthCurve2D":
+		vasediagram.IsHiddenTopStackOfGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenGrowthCurve2DRibbon":
+		vasediagram.IsHiddenGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+		vasediagram.IsHiddenShiftedRightGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+		vasediagram.IsHiddenShiftedLeftGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve2DRibbon":
+		vasediagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+		vasediagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DRibbon":
+		vasediagram.IsHiddenPartiallyGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+		vasediagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+		vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		vasediagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
+	case "IsHiddenPxShape":
+		vasediagram.IsHiddenPxShape = value.GetValueBool()
+	case "IsHiddenChosenP1P2PairShape":
+		vasediagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
+	case "IsHiddenKeyHoleShape":
+		vasediagram.IsHiddenKeyHoleShape = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (verticaltorusstackshape *VerticalTorusStackShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -38414,6 +38685,10 @@ func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
 
 func (vaseabstract *VaseAbstract) GongGetGongstructName() string {
 	return "VaseAbstract"
+}
+
+func (vasediagram *VaseDiagram) GongGetGongstructName() string {
+	return "VaseDiagram"
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetGongstructName() string {
@@ -38979,6 +39254,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
 	for vaseabstract := range stage.VaseAbstracts {
 		stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
+	}
+
+	stage.VaseDiagrams_mapString = make(map[string]*VaseDiagram)
+	for vasediagram := range stage.VaseDiagrams {
+		stage.VaseDiagrams_mapString[vasediagram.Name] = vasediagram
 	}
 
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)

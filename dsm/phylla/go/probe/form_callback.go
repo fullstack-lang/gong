@@ -5879,6 +5879,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.OriginX), formDiv)
 		case "OriginY":
 			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
+		case "VaseDiagram":
+			FormDivSelectFieldToField(&(plantdiagram_.VaseDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsRhombusNodesExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsRhombusNodesExpanded), formDiv)
 		case "IsArcNodesExpanded":
@@ -5913,42 +5915,20 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthVectorShape), formDiv)
 		case "IsHiddenPerpendicularVectorGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGrid), formDiv)
-		case "IsHiddenPerpendicularVectorGridHalfway":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
 		case "IsHiddenBaseVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBaseVectorShapeGrid), formDiv)
 		case "IsHiddenArcNormalVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenArcNormalVectorShapeGrid), formDiv)
 		case "IsHiddenStartArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeGrid), formDiv)
-		case "IsHiddenTopStartArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStartArcShapeGrid), formDiv)
-		case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedBottomTopStartArcShapeGrid), formDiv)
 		case "IsHiddenMidArcVectorShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
-		case "IsHiddenTopMidArcVectorShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
-		case "IsHiddenStartHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenTopStartHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStartHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenEndHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenTopEndHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopEndHalfwayArcShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
-		case "IsHiddenTopEndArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopEndArcShapeGrid), formDiv)
 		case "IsHiddenBottomStartArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStartArcShapeGrid), formDiv)
 		case "IsHiddenBottomEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomEndArcShapeGrid), formDiv)
-		case "IsHiddenStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve), formDiv)
-		case "IsHiddenTopStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStackOfGrowthCurve), formDiv)
 		case "IsHiddenBottomStackOfGrowthCurve":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
 		case "IsHiddenShiftedLeftStackOfGrowthCurve":
@@ -5957,38 +5937,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
 		case "IsHiddenGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
-		case "IsHiddenTopGrowthCurve2D":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopGrowthCurve2D), formDiv)
-		case "IsHiddenStackOfGrowthCurve2D":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve2D), formDiv)
-		case "IsHiddenTopStackOfGrowthCurve2D":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTopStackOfGrowthCurve2D), formDiv)
-		case "IsHiddenGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedRightGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenStackOfGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfRotatedGrowthCurve2DRibbon), formDiv)
 		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenPartiallyGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectory), formDiv)
-		case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
-		case "IsHiddenPxShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPxShape), formDiv)
-		case "IsHiddenChosenP1P2PairShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenChosenP1P2PairShape), formDiv)
-		case "IsHiddenKeyHoleShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenKeyHoleShape), formDiv)
 		case "IsHiddenTorusStackShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenTorusStackShape), formDiv)
 		case "IsHiddenVerticalTorusStackShape":
@@ -13968,6 +13918,136 @@ func (vaseabstractFormCallback *VaseAbstractFormCallback) OnSave() {
 	}
 
 	vaseabstractFormCallback.probe.ux_tree()
+}
+func __gong__New__VaseDiagramFormCallback(
+	vasediagram *models.VaseDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (vasediagramFormCallback *VaseDiagramFormCallback) {
+	vasediagramFormCallback = new(VaseDiagramFormCallback)
+	vasediagramFormCallback.probe = probe
+	vasediagramFormCallback.vasediagram = vasediagram
+	vasediagramFormCallback.formGroup = formGroup
+
+	vasediagramFormCallback.CreationMode = (vasediagram == nil)
+
+	return
+}
+
+type VaseDiagramFormCallback struct {
+	vasediagram *models.VaseDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (vasediagramFormCallback *VaseDiagramFormCallback) OnSave() {
+	vasediagramFormCallback.probe.stageOfInterest.Lock()
+	defer vasediagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("VaseDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	vasediagramFormCallback.probe.formStage.Checkout()
+
+	if vasediagramFormCallback.vasediagram == nil {
+		vasediagramFormCallback.vasediagram = new(models.VaseDiagram).Stage(vasediagramFormCallback.probe.stageOfInterest)
+	}
+	vasediagram_ := vasediagramFormCallback.vasediagram
+	_ = vasediagram_
+
+	for _, formDiv := range vasediagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(vasediagram_.Name), formDiv)
+		case "IsHiddenPerpendicularVectorGridHalfway":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
+		case "IsHiddenTopStartArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStartArcShapeGrid), formDiv)
+		case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedBottomTopStartArcShapeGrid), formDiv)
+		case "IsHiddenTopMidArcVectorShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
+		case "IsHiddenStartHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStartHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopStartHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStartHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenEndHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenEndHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopEndHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopEndHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopEndArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopEndArcShapeGrid), formDiv)
+		case "IsHiddenStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfGrowthCurve), formDiv)
+		case "IsHiddenTopStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStackOfGrowthCurve), formDiv)
+		case "IsHiddenTopGrowthCurve2D":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopGrowthCurve2D), formDiv)
+		case "IsHiddenStackOfGrowthCurve2D":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfGrowthCurve2D), formDiv)
+		case "IsHiddenTopStackOfGrowthCurve2D":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStackOfGrowthCurve2D), formDiv)
+		case "IsHiddenGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedRightGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenStackOfGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfRotatedGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyGrowthCurve2DTrajectory), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
+		case "IsHiddenPxShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPxShape), formDiv)
+		case "IsHiddenChosenP1P2PairShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenChosenP1P2PairShape), formDiv)
+		case "IsHiddenKeyHoleShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKeyHoleShape), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if vasediagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vasediagram_.Unstage(vasediagramFormCallback.probe.stageOfInterest)
+	}
+
+	vasediagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.VaseDiagram](
+		vasediagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if vasediagramFormCallback.CreationMode || vasediagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vasediagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(vasediagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__VaseDiagramFormCallback(
+			nil,
+			vasediagramFormCallback.probe,
+			newFormGroup,
+		)
+		vasediagram := new(models.VaseDiagram)
+		FillUpForm(vasediagram, newFormGroup, vasediagramFormCallback.probe)
+		vasediagramFormCallback.probe.formStage.Commit()
+	}
+
+	vasediagramFormCallback.probe.ux_tree()
 }
 func __gong__New__VerticalTorusStackShapeFormCallback(
 	verticaltorusstackshape *models.VerticalTorusStackShape,

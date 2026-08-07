@@ -1087,41 +1087,19 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPerpendicularVectorGrid bool
 
-	IsHiddenPerpendicularVectorGridHalfway bool
-
 	IsHiddenBaseVectorShapeGrid bool
 
 	IsHiddenArcNormalVectorShapeGrid bool
 
 	IsHiddenStartArcShapeGrid bool
 
-	IsHiddenTopStartArcShapeGrid bool
-
-	IsHiddenShiftedBottomTopStartArcShapeGrid bool
-
 	IsHiddenMidArcVectorShapeGrid bool
 
-	IsHiddenTopMidArcVectorShapeGrid bool
-
-	IsHiddenStartHalfwayArcShapeGrid bool
-
-	IsHiddenTopStartHalfwayArcShapeGrid bool
-
-	IsHiddenEndHalfwayArcShapeGrid bool
-
-	IsHiddenTopEndHalfwayArcShapeGrid bool
-
 	IsHiddenEndArcShapeGrid bool
-
-	IsHiddenTopEndArcShapeGrid bool
 
 	IsHiddenBottomStartArcShapeGrid bool
 
 	IsHiddenBottomEndArcShapeGrid bool
-
-	IsHiddenStackOfGrowthCurve bool
-
-	IsHiddenTopStackOfGrowthCurve bool
 
 	IsHiddenBottomStackOfGrowthCurve bool
 
@@ -1131,37 +1109,7 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenGrowthCurve2D bool
 
-	IsHiddenTopGrowthCurve2D bool
-
-	IsHiddenStackOfGrowthCurve2D bool
-
-	IsHiddenTopStackOfGrowthCurve2D bool
-
-	IsHiddenGrowthCurve2DRibbon bool
-
-	IsHiddenShiftedRightGrowthCurve2DRibbon bool
-
-	IsHiddenShiftedLeftGrowthCurve2DRibbon bool
-
-	IsHiddenStackOfGrowthCurve2DRibbon bool
-
-	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
-
 	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
-
-	IsHiddenPartiallyGrowthCurve2DRibbon bool
-
-	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon bool
-
-	IsHiddenPartiallyGrowthCurve2DTrajectory bool
-
-	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
-
-	IsHiddenPxShape bool
-
-	IsHiddenChosenP1P2PairShape bool
-
-	IsHiddenKeyHoleShape bool
 
 	IsHiddenTorusStackShape bool
 
@@ -1216,44 +1164,18 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
-	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
 	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
-	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
-	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
 	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
-	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
-	to.IsHiddenStartHalfwayArcShapeGrid = from.IsHiddenStartHalfwayArcShapeGrid
-	to.IsHiddenTopStartHalfwayArcShapeGrid = from.IsHiddenTopStartHalfwayArcShapeGrid
-	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
-	to.IsHiddenTopEndHalfwayArcShapeGrid = from.IsHiddenTopEndHalfwayArcShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
-	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
 	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
-	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
-	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
 	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
 	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
 	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
-	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
-	to.IsHiddenStackOfGrowthCurve2D = from.IsHiddenStackOfGrowthCurve2D
-	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
-	to.IsHiddenGrowthCurve2DRibbon = from.IsHiddenGrowthCurve2DRibbon
-	to.IsHiddenShiftedRightGrowthCurve2DRibbon = from.IsHiddenShiftedRightGrowthCurve2DRibbon
-	to.IsHiddenShiftedLeftGrowthCurve2DRibbon = from.IsHiddenShiftedLeftGrowthCurve2DRibbon
-	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
-	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
 	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
-	to.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = from.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
-	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
-	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
-	to.IsHiddenPxShape = from.IsHiddenPxShape
-	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
-	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
 	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
@@ -3062,6 +2984,95 @@ func (from *VaseAbstract) CopyBasicFields(to *VaseAbstract) {
 	to.WidthKey = from.WidthKey
 	to.RelativeKeySize = from.RelativeKeySize
 	to.MovieNbFrames = from.MovieNbFrames
+}
+
+type VaseDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenPerpendicularVectorGridHalfway bool
+
+	IsHiddenTopStartArcShapeGrid bool
+
+	IsHiddenShiftedBottomTopStartArcShapeGrid bool
+
+	IsHiddenTopMidArcVectorShapeGrid bool
+
+	IsHiddenStartHalfwayArcShapeGrid bool
+
+	IsHiddenTopStartHalfwayArcShapeGrid bool
+
+	IsHiddenEndHalfwayArcShapeGrid bool
+
+	IsHiddenTopEndHalfwayArcShapeGrid bool
+
+	IsHiddenTopEndArcShapeGrid bool
+
+	IsHiddenStackOfGrowthCurve bool
+
+	IsHiddenTopStackOfGrowthCurve bool
+
+	IsHiddenTopGrowthCurve2D bool
+
+	IsHiddenStackOfGrowthCurve2D bool
+
+	IsHiddenTopStackOfGrowthCurve2D bool
+
+	IsHiddenGrowthCurve2DRibbon bool
+
+	IsHiddenShiftedRightGrowthCurve2DRibbon bool
+
+	IsHiddenShiftedLeftGrowthCurve2DRibbon bool
+
+	IsHiddenStackOfGrowthCurve2DRibbon bool
+
+	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
+
+	IsHiddenPartiallyGrowthCurve2DRibbon bool
+
+	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon bool
+
+	IsHiddenPartiallyGrowthCurve2DTrajectory bool
+
+	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
+
+	IsHiddenPxShape bool
+
+	IsHiddenChosenP1P2PairShape bool
+
+	IsHiddenKeyHoleShape bool
+}
+
+func (from *VaseDiagram) CopyBasicFields(to *VaseDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
+	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
+	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
+	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
+	to.IsHiddenStartHalfwayArcShapeGrid = from.IsHiddenStartHalfwayArcShapeGrid
+	to.IsHiddenTopStartHalfwayArcShapeGrid = from.IsHiddenTopStartHalfwayArcShapeGrid
+	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
+	to.IsHiddenTopEndHalfwayArcShapeGrid = from.IsHiddenTopEndHalfwayArcShapeGrid
+	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
+	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
+	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
+	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
+	to.IsHiddenStackOfGrowthCurve2D = from.IsHiddenStackOfGrowthCurve2D
+	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
+	to.IsHiddenGrowthCurve2DRibbon = from.IsHiddenGrowthCurve2DRibbon
+	to.IsHiddenShiftedRightGrowthCurve2DRibbon = from.IsHiddenShiftedRightGrowthCurve2DRibbon
+	to.IsHiddenShiftedLeftGrowthCurve2DRibbon = from.IsHiddenShiftedLeftGrowthCurve2DRibbon
+	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
+	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
+	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
+	to.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = from.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
+	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
+	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
+	to.IsHiddenPxShape = from.IsHiddenPxShape
+	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
+	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
 }
 
 type VerticalTorusStackShape_WOP struct {

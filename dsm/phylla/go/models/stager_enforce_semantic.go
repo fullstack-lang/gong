@@ -86,6 +86,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName},
 		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
 		{"Enforce plant diagram rendered 3d shape", stager.enforcePlantDiagramRendered3DShape},
+		{"Enforce plant diagram vase diagram", stager.enforcePlantDiagramVaseDiagram},
 		{"Enforce plant diagram torus stack shape", stager.enforcePlantDiagramTorusStackShape},
 		{"Enforce plant diagram vertical torus stack shape", stager.enforcePlantDiagramVerticalTorusStackShape},
 		{"Enforce plant diagram partially rotated torus shape", stager.enforcePlantDiagramPartiallyRotatedTorusShape},
