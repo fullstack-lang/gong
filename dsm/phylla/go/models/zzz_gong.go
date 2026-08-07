@@ -26565,6 +26565,11 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:                 "PlantType",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "PlantType",
+		},
+		{
 			Name:                 "VaseAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "VaseAbstract",
@@ -30909,6 +30914,9 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", plantabstract.RhombusInsideAngle)
 		res.valueFloat = plantabstract.RhombusInsideAngle
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "PlantType":
+		enum := plantabstract.PlantType
+		res.valueString = enum.ToCodeString()
 	case "VaseAbstract":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantabstract.VaseAbstract != nil {
@@ -35158,6 +35166,8 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 		plantabstract.StackHeight = int(value.GetValueInt())
 	case "RhombusInsideAngle":
 		plantabstract.RhombusInsideAngle = value.GetValueFloat()
+	case "PlantType":
+		plantabstract.PlantType.FromCodeString(value.GetValueString())
 	case "VaseAbstract":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {

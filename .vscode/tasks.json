@@ -205,6 +205,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - phylla: go run . edit data/plant.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/phylla/go/cmd/phylla"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/plant.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - phylla: gong portable",
             "type": "shell",
             "options": {

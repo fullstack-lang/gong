@@ -397,6 +397,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
@@ -2253,6 +2254,19 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plantabstract.RhombusInsideAngle))
+	case "PlantType":
+		if plantabstract.PlantType.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PlantType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+plantabstract.PlantType.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PlantType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 	case "CurrentView":
 		if plantabstract.CurrentView.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -6249,6 +6263,7 @@ func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "StackHeight"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "RhombusInsideAngle"))
+		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
