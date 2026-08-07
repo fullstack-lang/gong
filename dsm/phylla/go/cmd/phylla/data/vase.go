@@ -59,7 +59,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.OriginX = 424.918010
 	__PlantDiagram__00000001_.OriginY = 597.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
-	__PlantDiagram__00000001_.IsArcNodesExpanded = false
+	__PlantDiagram__00000001_.IsArcNodesExpanded = true
 	__PlantDiagram__00000001_.IsHiddenAxesShape = true
 	__PlantDiagram__00000001_.IsHiddenReferenceRhombus = true
 	__PlantDiagram__00000001_.IsHiddenPlantCircumferenceShape = true
