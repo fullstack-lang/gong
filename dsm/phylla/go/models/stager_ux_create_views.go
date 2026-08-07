@@ -41,18 +41,23 @@ func (stager *Stager) createViews() {
 
 	currentView := VIEW_PLANT_2D
 	plant := stager.GetCurrentPlant()
-	if plant != nil && plant.CurrentView != "" {
-		currentView = plant.CurrentView
+	isVase := (plant == nil || plant.PlantType == PLANT_TYPE_VASE)
+
+	if plant != nil {
+		if !isVase && plant.CurrentView != VIEW_PLANT_2D {
+			plant.CurrentView = VIEW_PLANT_2D
+		}
+		if plant.CurrentView != "" {
+			currentView = plant.CurrentView
+		} else {
+			plant.CurrentView = VIEW_PLANT_2D
+		}
 	}
 
 	view0Name := string(VIEW_PLANT_2D)
 	view1Name := string(VIEW_VASE_FORM)
 	view2Name := string(VIEW_VASE_2D)
 	view3Name := string(VIEW_VASE_3D)
-
-	if plant != nil && plant.CurrentView == "" {
-		plant.CurrentView = VIEW_PLANT_2D
-	}
 
 	isView0Selected := (currentView == VIEW_PLANT_2D)
 	isView1Selected := (currentView == VIEW_VASE_FORM)
@@ -146,212 +151,214 @@ func (stager *Stager) createViews() {
 		}
 	}
 
-	v1 := &split.View{
-		Name:           view1Name,
-		Direction:      split.Horizontal,
-		IsSizeInPixel:  true,
-		IsSelectedView: isView1Selected,
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Sidebar with both trees",
-				ShowNameInHeader: false,
-				IsAny:            true,
-				AsSplit: &split.AsSplit{
-					Name:          "as split",
-					IsSizeInPixel: true,
-					Direction:     split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 525,
-							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "Libraries",
-										Size:             80,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeStage2D.GetName(),
+	if isVase {
+		v1 := &split.View{
+			Name:           view1Name,
+			Direction:      split.Horizontal,
+			IsSizeInPixel:  true,
+			IsSelectedView: isView1Selected,
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Name:             "Sidebar with both trees",
+					ShowNameInHeader: false,
+					IsAny:            true,
+					AsSplit: &split.AsSplit{
+						Name:          "as split",
+						IsSizeInPixel: true,
+						Direction:     split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 525,
+								AsSplit: &split.AsSplit{
+									Direction: split.Vertical,
+									AsSplitAreas: []*split.AsSplitArea{
+										{
+											Name:             "Libraries",
+											Size:             80,
+											ShowNameInHeader: false,
+											Tree: &split.Tree{
+												StackName: stager.treeStage2D.GetName(),
+											},
 										},
-									},
-									{
-										Size: 10,
-										Load: &split.Load{
-											StackName: stager.loadStage.GetName(),
+										{
+											Size: 10,
+											Load: &split.Load{
+												StackName: stager.loadStage.GetName(),
+											},
 										},
-									},
-									{
-										Size: 10,
-										Button: &split.Button{
-											StackName: stager.buttonStage.GetName(),
+										{
+											Size: 10,
+											Button: &split.Button{
+												StackName: stager.buttonStage.GetName(),
+											},
 										},
 									},
 								},
 							},
-						},
-						{
-							IsAny: true,
-							Svg: &split.Svg{
-								StackName: stager.svgStage.GetName(),
+							{
+								IsAny: true,
+								Svg: &split.Svg{
+									StackName: stager.svgStage.GetName(),
+								},
 							},
 						},
 					},
 				},
-			},
-			{
-				Size: 525,
-				Form: &split.Form{
-					StackName: stager.probeForm.GetFormStage().GetName(),
+				{
+					Size: 525,
+					Slider: &split.Slider{
+						StackName: stager.sliderStage.GetName(),
+					},
 				},
 			},
-		},
-	}
-	split.StageBranch(stager.splitStage, v1)
-	v1.OnClick = func() {
-		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != VIEW_VASE_FORM {
-			plant.CurrentView = VIEW_VASE_FORM
-			stager.stage.Commit()
 		}
-	}
+		split.StageBranch(stager.splitStage, v1)
+		v1.OnClick = func() {
+			plant := stager.GetCurrentPlant()
+			if plant != nil && plant.CurrentView != VIEW_VASE_FORM {
+				plant.CurrentView = VIEW_VASE_FORM
+				stager.stage.Commit()
+			}
+		}
 
-	v2 := &split.View{
-		Name:           view2Name,
-		Direction:      split.Horizontal,
-		IsSizeInPixel:  true,
-		IsSelectedView: isView2Selected,
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Sidebar with both trees",
-				ShowNameInHeader: false,
-				IsAny:            true,
-				AsSplit: &split.AsSplit{
-					Name:          "as split",
-					IsSizeInPixel: true,
-					Direction:     split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 525,
-							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "Libraries",
-										Size:             80,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeStage2D.GetName(),
+		v2 := &split.View{
+			Name:           view2Name,
+			Direction:      split.Horizontal,
+			IsSizeInPixel:  true,
+			IsSelectedView: isView2Selected,
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Name:             "Sidebar with both trees",
+					ShowNameInHeader: false,
+					IsAny:            true,
+					AsSplit: &split.AsSplit{
+						Name:          "as split",
+						IsSizeInPixel: true,
+						Direction:     split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 525,
+								AsSplit: &split.AsSplit{
+									Direction: split.Vertical,
+									AsSplitAreas: []*split.AsSplitArea{
+										{
+											Name:             "Libraries",
+											Size:             80,
+											ShowNameInHeader: false,
+											Tree: &split.Tree{
+												StackName: stager.treeStage2D.GetName(),
+											},
 										},
-									},
-									{
-										Size: 10,
-										Load: &split.Load{
-											StackName: stager.loadStage.GetName(),
+										{
+											Size: 10,
+											Load: &split.Load{
+												StackName: stager.loadStage.GetName(),
+											},
 										},
-									},
-									{
-										Size: 10,
-										Button: &split.Button{
-											StackName: stager.buttonStage.GetName(),
+										{
+											Size: 10,
+											Button: &split.Button{
+												StackName: stager.buttonStage.GetName(),
+											},
 										},
 									},
 								},
 							},
-						},
-						{
-							IsAny: true,
-							Svg: &split.Svg{
-								StackName: stager.svgStage.GetName(),
+							{
+								IsAny: true,
+								Svg: &split.Svg{
+									StackName: stager.svgStage.GetName(),
+								},
 							},
 						},
 					},
 				},
-			},
-			{
-				Size: 525,
-				Slider: &split.Slider{
-					StackName: stager.sliderStage.GetName(),
+				{
+					Size: 525,
+					Slider: &split.Slider{
+						StackName: stager.sliderStage.GetName(),
+					},
 				},
 			},
-		},
-	}
-	split.StageBranch(stager.splitStage, v2)
-	v2.OnClick = func() {
-		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != VIEW_VASE_2D {
-			plant.CurrentView = VIEW_VASE_2D
-			stager.stage.Commit()
 		}
-	}
+		split.StageBranch(stager.splitStage, v2)
+		v2.OnClick = func() {
+			plant := stager.GetCurrentPlant()
+			if plant != nil && plant.CurrentView != VIEW_VASE_2D {
+				plant.CurrentView = VIEW_VASE_2D
+				stager.stage.Commit()
+			}
+		}
 
-	v3 := &split.View{
-		Name:           view3Name,
-		Direction:      split.Horizontal,
-		IsSizeInPixel:  true,
-		IsSelectedView: isView3Selected,
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Sidebar with both trees",
-				ShowNameInHeader: false,
-				IsAny:            true,
-				AsSplit: &split.AsSplit{
-					Name:          "as split",
-					IsSizeInPixel: true,
-					Direction:     split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 585,
-							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "Libraries",
-										Size:             80,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeStage3D.GetName(),
+		v3 := &split.View{
+			Name:           view3Name,
+			Direction:      split.Horizontal,
+			IsSizeInPixel:  true,
+			IsSelectedView: isView3Selected,
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Name:             "Sidebar with both trees",
+					ShowNameInHeader: false,
+					IsAny:            true,
+					AsSplit: &split.AsSplit{
+						Name:          "as split",
+						IsSizeInPixel: true,
+						Direction:     split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 525,
+								AsSplit: &split.AsSplit{
+									Direction: split.Vertical,
+									AsSplitAreas: []*split.AsSplitArea{
+										{
+											Name:             "Libraries",
+											Size:             80,
+											ShowNameInHeader: false,
+											Tree: &split.Tree{
+												StackName: stager.treeStage3D.GetName(),
+											},
 										},
-									},
-									{
-										Size: 10,
-										Load: &split.Load{
-											StackName: stager.loadStage.GetName(),
+										{
+											Size: 10,
+											Load: &split.Load{
+												StackName: stager.loadStage.GetName(),
+											},
 										},
-									},
-									{
-										Size: 10,
-										Button: &split.Button{
-											StackName: stager.buttonStage.GetName(),
+										{
+											Size: 10,
+											Button: &split.Button{
+												StackName: stager.buttonStage.GetName(),
+											},
 										},
 									},
 								},
 							},
-						},
-						{
-							IsAny: true,
-							Threejs: &split.Threejs{
-								StackName: stager.threejsStage.GetName(),
+							{
+								IsAny: true,
+								Threejs: &split.Threejs{
+									StackName: stager.threejsStage.GetName(),
+								},
 							},
 						},
 					},
 				},
-			},
-			{
-				Size: 585,
-				Slider: &split.Slider{
-					StackName: stager.sliderStage.GetName(),
+				{
+					Size: 585,
+					Slider: &split.Slider{
+						StackName: stager.sliderStage.GetName(),
+					},
 				},
 			},
-		},
-	}
-	split.StageBranch(stager.splitStage, v3)
-	v3.OnClick = func() {
-		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != VIEW_VASE_3D {
-			plant.CurrentView = VIEW_VASE_3D
-			stager.stage.Commit()
 		}
-		stager.ux_3d_plant_diagram()
+		split.StageBranch(stager.splitStage, v3)
+		v3.OnClick = func() {
+			plant := stager.GetCurrentPlant()
+			if plant != nil && plant.CurrentView != VIEW_VASE_3D {
+				plant.CurrentView = VIEW_VASE_3D
+				stager.stage.Commit()
+			}
+			stager.ux_3d_plant_diagram()
+		}
 	}
 
 	split.StageBranch(stager.splitStage, &split.View{
