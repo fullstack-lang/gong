@@ -5883,6 +5883,10 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsRhombusNodesExpanded), formDiv)
 		case "IsArcNodesExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsArcNodesExpanded), formDiv)
+		case "IsVaseArcNodesExpanded":
+			FormDivBasicFieldToField(&(plantdiagram_.IsVaseArcNodesExpanded), formDiv)
+		case "IsVaseClampingNodesExpanded":
+			FormDivBasicFieldToField(&(plantdiagram_.IsVaseClampingNodesExpanded), formDiv)
 		case "IsHiddenAxesShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenAxesShape), formDiv)
 		case "IsHiddenReferenceRhombus":

@@ -160,41 +160,58 @@ func (stager *Stager) treePlantDiagram(
 
 		appendDiagramNode(stager, arcNodes, "Growth Vector", plant.GrowthVectorShape, &plantDiagram.IsHiddenGrowthVectorShape)
 		appendDiagramNode(stager, arcNodes, "Perpendicular Vector Grid", plant.PerpendicularVectorGrid, &plantDiagram.IsHiddenPerpendicularVectorGrid)
-		appendDiagramNode(stager, arcNodes, "Perpendicular Vector Grid Halfway", plant.PerpendicularVectorGridHalfway, &plantDiagram.IsHiddenPerpendicularVectorGridHalfway)
 		appendDiagramNode(stager, arcNodes, "Base Vector Grid", plant.BaseVectorShapeGrid, &plantDiagram.IsHiddenBaseVectorShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Arc Normal Vector Grid", plant.ArcNormalVectorShapeGrid, &plantDiagram.IsHiddenArcNormalVectorShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Start Arc Grid", plant.StartArcShapeGrid, &plantDiagram.IsHiddenStartArcShapeGrid)
-		appendDiagramNode(stager, arcNodes, "Top Start Arc Grid", plant.TopStartArcShapeGrid, &plantDiagram.IsHiddenTopStartArcShapeGrid)
-		appendDiagramNode(stager, arcNodes, "Shifted Bottom Top Start Arc Grid", plant.ShiftedBottomTopStartArcShapeGrid, &plantDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Mid Arc Vector Shape Grid", plant.MidArcVectorShapeGrid, &plantDiagram.IsHiddenMidArcVectorShapeGrid)
-		appendDiagramNode(stager, arcNodes, "Top Mid Arc Vector Shape Grid", plant.TopMidArcVectorShapeGrid, &plantDiagram.IsHiddenTopMidArcVectorShapeGrid)
 		appendDiagramNode(stager, arcNodes, "End Arc Grid", plant.EndArcShapeGrid, &plantDiagram.IsHiddenEndArcShapeGrid)
-		appendDiagramNode(stager, arcNodes, "Top End Arc Grid", plant.TopEndArcShapeGrid, &plantDiagram.IsHiddenTopEndArcShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
-		appendDiagramNode(stager, arcNodes, "Top Growth Curve 2D", plant.TopGrowthCurve2D, &plantDiagram.IsHiddenTopGrowthCurve2D)
 
-		appendDiagramNode(stager, plantDiagramNode, "Start Halfway Arc Shape Grid", plant.StartHalfwayArcShapeGrid, &plantDiagram.IsHiddenStartHalfwayArcShapeGrid)
-		appendDiagramNode(stager, plantDiagramNode, "Top Start Halfway Arc Shape Grid", plant.TopStartHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid)
-		appendDiagramNode(stager, plantDiagramNode, "End Halfway Arc Shape Grid", plant.EndHalfwayArcShapeGrid, &plantDiagram.IsHiddenEndHalfwayArcShapeGrid)
-		appendDiagramNode(stager, plantDiagramNode, "Top End Halfway Arc Shape Grid", plant.TopEndHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid)
+		vaseArcNodes := &tree.Node{
+			Name:            "Arc Confs Vase",
+			IsExpanded:      plantDiagram.IsVaseArcNodesExpanded,
+			IsNodeClickable: true,
+		}
+		plantDiagramNode.Children = append(plantDiagramNode.Children, vaseArcNodes)
+		vaseArcNodes.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plantDiagram.IsVaseArcNodesExpanded)
 
-		appendDiagramNode(stager, plantDiagramNode, "Stack Of Rotated Growth Curve 2D", plant.StackOfRotatedGrowthCurve2D, &plantDiagram.IsHiddenStackOfGrowthCurve)
-		appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Rotated Growth Curve 2D", plant.TopStackOfRotatedGrowthCurve2D, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
-		appendDiagramNode(stager, plantDiagramNode, "Stack Of Rotated Growth Curve 2D Ribbon", plant.StackOfRotatedGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Growth Curve 2D Ribbon", plant.GrowthCurve2DRibbon, &plantDiagram.IsHiddenGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Shifted Right Growth Curve 2D Ribbon", plant.ShiftedRightGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Shifted Left Growth Curve 2D Ribbon", plant.ShiftedLeftGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Partially Growth Curve 2D Ribbon", plant.PartiallyGrowthCurve2DRibbon, &plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Shifted Left Partially Growth Curve 2D Ribbon", plant.ShiftedLeftPartiallyGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
-		appendDiagramNode(stager, plantDiagramNode, "Partially Growth Curve 2D Trajectory", plant.PartiallyGrowthCurve2DTrajectory, &plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
-		appendDiagramNode(stager, plantDiagramNode, "Partially Growth Curve 2D Trajectory P1 P2", plant.PartiallyGrowthCurve2DTrajectoryP1P2, &plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
-		appendDiagramNode(stager, plantDiagramNode, "Px Shape", plant.PxShape, &plantDiagram.IsHiddenPxShape)
-		appendDiagramNode(stager, plantDiagramNode, "Chosen P1 P2 Pair Shape", plant.ChosenP1P2PairShape, &plantDiagram.IsHiddenChosenP1P2PairShape)
-		appendDiagramNode(stager, plantDiagramNode, "Key Hole", plant.KeyHoleShape, &plantDiagram.IsHiddenKeyHoleShape)
+		appendDiagramNode(stager, vaseArcNodes, "Top Growth Curve 2D", plant.TopGrowthCurve2D, &plantDiagram.IsHiddenTopGrowthCurve2D)
+		appendDiagramNode(stager, vaseArcNodes, "Top End Arc Grid", plant.TopEndArcShapeGrid, &plantDiagram.IsHiddenTopEndArcShapeGrid)
+		appendDiagramNode(stager, vaseArcNodes, "Top Mid Arc Vector Shape Grid", plant.TopMidArcVectorShapeGrid, &plantDiagram.IsHiddenTopMidArcVectorShapeGrid)
+		appendDiagramNode(stager, vaseArcNodes, "Top Start Arc Grid", plant.TopStartArcShapeGrid, &plantDiagram.IsHiddenTopStartArcShapeGrid)
+		appendDiagramNode(stager, vaseArcNodes, "Shifted Bottom Top Start Arc Grid", plant.ShiftedBottomTopStartArcShapeGrid, &plantDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
+		appendDiagramNode(stager, vaseArcNodes, "Perpendicular Vector Grid Halfway", plant.PerpendicularVectorGridHalfway, &plantDiagram.IsHiddenPerpendicularVectorGridHalfway)
 
-		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve 2D", plant.StackOfGrowthCurve2D, &plantDiagram.IsHiddenStackOfGrowthCurve2D)
-		appendDiagramNode(stager, plantDiagramNode, "Top Stack Of Growth Curve 2D", plant.TopStackOfGrowthCurve2D, &plantDiagram.IsHiddenTopStackOfGrowthCurve2D)
-		appendDiagramNode(stager, plantDiagramNode, "Stack Of Growth Curve 2D Ribbon", plant.StackOfGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfGrowthCurve2DRibbon)
+		vaseClampingNodes := &tree.Node{
+			Name:            "Clamping Confs Vase",
+			IsExpanded:      plantDiagram.IsVaseClampingNodesExpanded,
+			IsNodeClickable: true,
+		}
+		plantDiagramNode.Children = append(plantDiagramNode.Children, vaseClampingNodes)
+		vaseClampingNodes.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plantDiagram.IsVaseClampingNodesExpanded)
+
+		appendDiagramNode(stager, vaseClampingNodes, "Start Halfway Arc Shape Grid", plant.StartHalfwayArcShapeGrid, &plantDiagram.IsHiddenStartHalfwayArcShapeGrid)
+		appendDiagramNode(stager, vaseClampingNodes, "Top Start Halfway Arc Shape Grid", plant.TopStartHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopStartHalfwayArcShapeGrid)
+		appendDiagramNode(stager, vaseClampingNodes, "End Halfway Arc Shape Grid", plant.EndHalfwayArcShapeGrid, &plantDiagram.IsHiddenEndHalfwayArcShapeGrid)
+		appendDiagramNode(stager, vaseClampingNodes, "Top End Halfway Arc Shape Grid", plant.TopEndHalfwayArcShapeGrid, &plantDiagram.IsHiddenTopEndHalfwayArcShapeGrid)
+
+		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Rotated Growth Curve 2D", plant.StackOfRotatedGrowthCurve2D, &plantDiagram.IsHiddenStackOfGrowthCurve)
+		appendDiagramNode(stager, vaseClampingNodes, "Top Stack Of Rotated Growth Curve 2D", plant.TopStackOfRotatedGrowthCurve2D, &plantDiagram.IsHiddenTopStackOfGrowthCurve)
+		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Rotated Growth Curve 2D Ribbon", plant.StackOfRotatedGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon)
+		appendDiagramNode(stager, vaseClampingNodes, "Growth Curve 2D Ribbon", plant.GrowthCurve2DRibbon, &plantDiagram.IsHiddenGrowthCurve2DRibbon)
+		appendDiagramNode(stager, vaseClampingNodes, "Shifted Right Growth Curve 2D Ribbon", plant.ShiftedRightGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
+		appendDiagramNode(stager, vaseClampingNodes, "Shifted Left Growth Curve 2D Ribbon", plant.ShiftedLeftGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
+		appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Ribbon", plant.PartiallyGrowthCurve2DRibbon, &plantDiagram.IsHiddenPartiallyGrowthCurve2DRibbon)
+		appendDiagramNode(stager, vaseClampingNodes, "Shifted Left Partially Growth Curve 2D Ribbon", plant.ShiftedLeftPartiallyGrowthCurve2DRibbon, &plantDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
+		appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Trajectory", plant.PartiallyGrowthCurve2DTrajectory, &plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
+		appendDiagramNode(stager, vaseClampingNodes, "Partially Growth Curve 2D Trajectory P1 P2", plant.PartiallyGrowthCurve2DTrajectoryP1P2, &plantDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
+		appendDiagramNode(stager, vaseClampingNodes, "Px Shape", plant.PxShape, &plantDiagram.IsHiddenPxShape)
+		appendDiagramNode(stager, vaseClampingNodes, "Chosen P1 P2 Pair Shape", plant.ChosenP1P2PairShape, &plantDiagram.IsHiddenChosenP1P2PairShape)
+		appendDiagramNode(stager, vaseClampingNodes, "Key Hole", plant.KeyHoleShape, &plantDiagram.IsHiddenKeyHoleShape)
+
+		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D", plant.StackOfGrowthCurve2D, &plantDiagram.IsHiddenStackOfGrowthCurve2D)
+		appendDiagramNode(stager, vaseClampingNodes, "Top Stack Of Growth Curve 2D", plant.TopStackOfGrowthCurve2D, &plantDiagram.IsHiddenTopStackOfGrowthCurve2D)
+		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D Ribbon", plant.StackOfGrowthCurve2DRibbon, &plantDiagram.IsHiddenStackOfGrowthCurve2DRibbon)
 	}
 
 	if is3DView {

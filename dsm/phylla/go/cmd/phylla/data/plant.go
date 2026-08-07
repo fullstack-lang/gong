@@ -57,10 +57,12 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
-	__PlantDiagram__00000001_.OriginX = 424.918010
-	__PlantDiagram__00000001_.OriginY = 597.755377
+	__PlantDiagram__00000001_.OriginX = 184.918010
+	__PlantDiagram__00000001_.OriginY = 661.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
-	__PlantDiagram__00000001_.IsArcNodesExpanded = true
+	__PlantDiagram__00000001_.IsArcNodesExpanded = false
+	__PlantDiagram__00000001_.IsVaseArcNodesExpanded = true
+	__PlantDiagram__00000001_.IsVaseClampingNodesExpanded = false
 	__PlantDiagram__00000001_.IsHiddenAxesShape = false
 	__PlantDiagram__00000001_.IsHiddenReferenceRhombus = true
 	__PlantDiagram__00000001_.IsHiddenPlantCircumferenceShape = true
@@ -74,13 +76,13 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenGrowthPathRhombusGridShape = true
 	__PlantDiagram__00000001_.IsHiddenGrowthVectorShape = false
 	__PlantDiagram__00000001_.IsHiddenPerpendicularVectorGrid = false
-	__PlantDiagram__00000001_.IsHiddenPerpendicularVectorGridHalfway = false
+	__PlantDiagram__00000001_.IsHiddenPerpendicularVectorGridHalfway = true
 	__PlantDiagram__00000001_.IsHiddenBaseVectorShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenArcNormalVectorShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenStartArcShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenTopStartArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenShiftedBottomTopStartArcShapeGrid = false
-	__PlantDiagram__00000001_.IsHiddenMidArcVectorShapeGrid = true
+	__PlantDiagram__00000001_.IsHiddenShiftedBottomTopStartArcShapeGrid = true
+	__PlantDiagram__00000001_.IsHiddenMidArcVectorShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenTopMidArcVectorShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenStartHalfwayArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenTopStartHalfwayArcShapeGrid = true
@@ -95,7 +97,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenBottomStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfNormalVector = true
-	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = true
+	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = false
 	__PlantDiagram__00000001_.IsHiddenTopGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenTopStackOfGrowthCurve2D = true

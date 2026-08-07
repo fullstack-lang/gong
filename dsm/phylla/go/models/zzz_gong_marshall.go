@@ -435,6 +435,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenReferenceRhombus"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPlantCircumferenceShape"))
@@ -2383,6 +2385,16 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsArcNodesExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsArcNodesExpanded))
+	case "IsVaseArcNodesExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseArcNodesExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsVaseArcNodesExpanded))
+	case "IsVaseClampingNodesExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseClampingNodesExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsVaseClampingNodesExpanded))
 	case "IsHiddenAxesShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -6299,6 +6311,8 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenReferenceRhombus"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPlantCircumferenceShape"))
