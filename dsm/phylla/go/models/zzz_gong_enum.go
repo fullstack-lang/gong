@@ -168,12 +168,12 @@ func (viewtype ViewType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch viewtype {
 	// insertion code per enum code
-	case VIEW_TREE_SVG_FORM:
-		res = "Tree - SVG - Form"
-	case VIEW_TREE_SVG_SLIDER:
-		res = "Tree - SVG - Slider"
-	case VIEW_TREE_3D_SLIDER:
-		res = "Tree - 3D - Slider"
+	case VIEW_VASE_FORM:
+		res = "Vase Form"
+	case VIEW_VASE_2D:
+		res = "Vase 2D"
+	case VIEW_VASE_3D:
+		res = "Vase 3D"
 	}
 	return
 }
@@ -182,14 +182,14 @@ func (viewtype *ViewType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "Tree - SVG - Form":
-		*viewtype = VIEW_TREE_SVG_FORM
+	case "Vase Form":
+		*viewtype = VIEW_VASE_FORM
 		return
-	case "Tree - SVG - Slider":
-		*viewtype = VIEW_TREE_SVG_SLIDER
+	case "Vase 2D":
+		*viewtype = VIEW_VASE_2D
 		return
-	case "Tree - 3D - Slider":
-		*viewtype = VIEW_TREE_3D_SLIDER
+	case "Vase 3D":
+		*viewtype = VIEW_VASE_3D
 		return
 	default:
 		return errUnkownEnum
@@ -200,12 +200,12 @@ func (viewtype *ViewType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "VIEW_TREE_SVG_FORM":
-		*viewtype = VIEW_TREE_SVG_FORM
-	case "VIEW_TREE_SVG_SLIDER":
-		*viewtype = VIEW_TREE_SVG_SLIDER
-	case "VIEW_TREE_3D_SLIDER":
-		*viewtype = VIEW_TREE_3D_SLIDER
+	case "VIEW_VASE_FORM":
+		*viewtype = VIEW_VASE_FORM
+	case "VIEW_VASE_2D":
+		*viewtype = VIEW_VASE_2D
+	case "VIEW_VASE_3D":
+		*viewtype = VIEW_VASE_3D
 	default:
 		err = errUnkownEnum
 	}
@@ -216,12 +216,12 @@ func (viewtype *ViewType) ToCodeString() (res string) {
 
 	switch *viewtype {
 	// insertion code per enum code
-	case VIEW_TREE_SVG_FORM:
-		res = "VIEW_TREE_SVG_FORM"
-	case VIEW_TREE_SVG_SLIDER:
-		res = "VIEW_TREE_SVG_SLIDER"
-	case VIEW_TREE_3D_SLIDER:
-		res = "VIEW_TREE_3D_SLIDER"
+	case VIEW_VASE_FORM:
+		res = "VIEW_VASE_FORM"
+	case VIEW_VASE_2D:
+		res = "VIEW_VASE_2D"
+	case VIEW_VASE_3D:
+		res = "VIEW_VASE_3D"
 	}
 	return
 }
@@ -231,9 +231,9 @@ func (viewtype ViewType) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "VIEW_TREE_SVG_FORM")
-	res = append(res, "VIEW_TREE_SVG_SLIDER")
-	res = append(res, "VIEW_TREE_3D_SLIDER")
+	res = append(res, "VIEW_VASE_FORM")
+	res = append(res, "VIEW_VASE_2D")
+	res = append(res, "VIEW_VASE_3D")
 
 	return
 }
@@ -243,9 +243,9 @@ func (viewtype ViewType) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "Tree - SVG - Form")
-	res = append(res, "Tree - SVG - Slider")
-	res = append(res, "Tree - 3D - Slider")
+	res = append(res, "Vase Form")
+	res = append(res, "Vase 2D")
+	res = append(res, "Vase 3D")
 
 	return
 }

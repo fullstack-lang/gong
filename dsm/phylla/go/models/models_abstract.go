@@ -80,9 +80,9 @@ type VaseAbstract struct {
 type ViewType string
 
 const (
-	VIEW_TREE_SVG_FORM   ViewType = "Tree - SVG - Form"
-	VIEW_TREE_SVG_SLIDER ViewType = "Tree - SVG - Slider"
-	VIEW_TREE_3D_SLIDER   ViewType = "Tree - 3D - Slider"
+	VIEW_VASE_FORM ViewType = "Vase Form"
+	VIEW_VASE_2D   ViewType = "Vase 2D"
+	VIEW_VASE_3D   ViewType = "Vase 3D"
 )
 
 // Depending on the specific chirality (handedness) of the plant specimen, N may

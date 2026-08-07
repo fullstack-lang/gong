@@ -41,23 +41,23 @@ func (stager *Stager) createViews() {
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	currentView := VIEW_TREE_3D_SLIDER
+	currentView := VIEW_VASE_3D
 	plant := stager.GetCurrentPlant()
 	if plant != nil && plant.CurrentView != "" {
 		currentView = plant.CurrentView
 	}
 
-	view1Name := string(VIEW_TREE_SVG_FORM) + " (" + getPersistanceFile(stager) + ")"
-	view2Name := string(VIEW_TREE_SVG_SLIDER) + " (" + getPersistanceFile(stager) + ")"
-	view3Name := string(VIEW_TREE_3D_SLIDER) + " (" + getPersistanceFile(stager) + ")"
+	view1Name := string(VIEW_VASE_FORM) + " (" + getPersistanceFile(stager) + ")"
+	view2Name := string(VIEW_VASE_2D) + " (" + getPersistanceFile(stager) + ")"
+	view3Name := string(VIEW_VASE_3D) + " (" + getPersistanceFile(stager) + ")"
 
 	if plant != nil && plant.CurrentView == "" {
-		plant.CurrentView = VIEW_TREE_3D_SLIDER
+		plant.CurrentView = VIEW_VASE_3D
 	}
 
-	isView1Selected := (currentView == VIEW_TREE_SVG_FORM)
-	isView2Selected := (currentView == VIEW_TREE_SVG_SLIDER)
-	isView3Selected := (currentView == VIEW_TREE_3D_SLIDER)
+	isView1Selected := (currentView == VIEW_VASE_FORM)
+	isView2Selected := (currentView == VIEW_VASE_2D)
+	isView3Selected := (currentView == VIEW_VASE_3D)
 
 	if !isView1Selected && !isView2Selected && !isView3Selected {
 		isView3Selected = true
@@ -126,8 +126,8 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, v1)
 	v1.OnClick = func() {
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != VIEW_TREE_SVG_FORM {
-			plant.CurrentView = VIEW_TREE_SVG_FORM
+		if plant != nil && plant.CurrentView != VIEW_VASE_FORM {
+			plant.CurrentView = VIEW_VASE_FORM
 			stager.stage.Commit()
 		}
 	}
@@ -195,8 +195,8 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, v2)
 	v2.OnClick = func() {
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != VIEW_TREE_SVG_SLIDER {
-			plant.CurrentView = VIEW_TREE_SVG_SLIDER
+		if plant != nil && plant.CurrentView != VIEW_VASE_2D {
+			plant.CurrentView = VIEW_VASE_2D
 			stager.stage.Commit()
 		}
 	}
@@ -264,8 +264,8 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, v3)
 	v3.OnClick = func() {
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView != VIEW_TREE_3D_SLIDER {
-			plant.CurrentView = VIEW_TREE_3D_SLIDER
+		if plant != nil && plant.CurrentView != VIEW_VASE_3D {
+			plant.CurrentView = VIEW_VASE_3D
 			stager.stage.Commit()
 		}
 		stager.ux_3d_plant_diagram()
