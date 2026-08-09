@@ -55,11 +55,11 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_2D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_FORM
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = false
-	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = false
+	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantAbstract__00000001_.Name = `Plant (3, 5, 100)`
 	__PlantAbstract__00000001_.N = 3
@@ -107,7 +107,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsChecked = false
 	__PlantDiagram__00000001_.ComputedPrefix = ``
-	__PlantDiagram__00000001_.IsExpanded = true
+	__PlantDiagram__00000001_.IsExpanded = false
 
 	__PlantDiagram__00000002_.Name = `New Plant - Diagram`
 	__PlantDiagram__00000002_.OriginX = 240.000000

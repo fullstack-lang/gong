@@ -37,14 +37,29 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 	plantNode.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*PlantAbstract]())
 
-		if !plant.IsSelected {
-			for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-				p.IsSelected = false
-			}
-			plant.IsSelected = true
+		for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+			p.IsSelected = (p == plant)
 		}
 
 		stager.selectedPlant = plant
+		if plant.PlantType != Vase {
+			plant.CurrentView = VIEW_PLANT_2D
+		}
+
+		hasCheckedDiagram := false
+		for _, d := range plant.PlantDiagrams {
+			if d.IsChecked {
+				hasCheckedDiagram = true
+				break
+			}
+		}
+		if !hasCheckedDiagram && len(plant.PlantDiagrams) > 0 {
+			for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
+				plantDiagram_.IsChecked = false
+			}
+			plant.PlantDiagrams[0].IsChecked = true
+		}
+
 		stager.stage.Commit()
 	}
 
