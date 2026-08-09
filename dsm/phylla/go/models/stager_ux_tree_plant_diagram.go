@@ -69,6 +69,13 @@ func (stager *Stager) treePlantDiagram(
 				plantDiagram_.IsChecked = false
 			}
 			plantDiagram.IsChecked = true
+			for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+				p.IsSelected = (p == plant)
+			}
+			stager.selectedPlant = plant
+			if plant.PlantType != Vase {
+				plant.CurrentView = VIEW_PLANT_2D
+			}
 		} else {
 			plantDiagram.IsChecked = false
 			for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
@@ -82,6 +89,13 @@ func (stager *Stager) treePlantDiagram(
 	plantDiagramNode.OnNameChange = stager.onNameChange(plantDiagram)
 	plantDiagramNode.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(plantDiagram, GetPointerToGongstructName[*PlantDiagram]())
+		for p := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+			p.IsSelected = (p == plant)
+		}
+		stager.selectedPlant = plant
+		if plant.PlantType != Vase {
+			plant.CurrentView = VIEW_PLANT_2D
+		}
 		stager.stage.Commit()
 	}
 

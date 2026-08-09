@@ -11,12 +11,23 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		if len(plant.PlantDiagrams) == 0 {
-			for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
-				plantDiagram_.IsChecked = false
-			}
 			plantDiagram := new(PlantDiagram).Stage(stage)
 			plantDiagram.Name = plant.Name + " - Diagram"
-			plantDiagram.IsChecked = true
+			hasAnyChecked := false
+			for d := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
+				if d.IsChecked {
+					hasAnyChecked = true
+					break
+				}
+			}
+			if !hasAnyChecked || plant.IsSelected {
+				if plant.IsSelected {
+					for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
+						plantDiagram_.IsChecked = false
+					}
+				}
+				plantDiagram.IsChecked = true
+			}
 			plant.PlantDiagrams = append(plant.PlantDiagrams, plantDiagram)
 
 			if stager.probeForm != nil {

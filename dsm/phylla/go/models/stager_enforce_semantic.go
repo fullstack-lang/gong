@@ -118,36 +118,79 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 func (stager *Stager) enforceSingleSelectedPlant() bool {
 	modified := false
 
-	var selectedPlant *PlantAbstract
-	plants := *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage)
-	for plant := range plants {
-		if plant.IsSelected {
-			if selectedPlant == nil {
-				selectedPlant = plant
-			} else {
-				// Only one plant can be selected, unselect the other one
-				plant.IsSelected = false
+	// If there is a checked PlantDiagram, the plant owning that diagram must be the selected plant
+	var plantWithCheckedDiagram *PlantAbstract
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+		for _, diagram := range plant.PlantDiagrams {
+			if diagram.IsChecked {
+				plantWithCheckedDiagram = plant
+				break
+			}
+		}
+		if plantWithCheckedDiagram != nil {
+			break
+		}
+	}
+
+	if plantWithCheckedDiagram != nil {
+		for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
+			shouldBeSelected := (plant == plantWithCheckedDiagram)
+			if plant.IsSelected != shouldBeSelected {
+				plant.IsSelected = shouldBeSelected
 				modified = true
+			}
+		}
+		if stager.selectedPlant != plantWithCheckedDiagram {
+			stager.selectedPlant = plantWithCheckedDiagram
+		}
+	} else {
+		var selectedPlant *PlantAbstract
+		plants := *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage)
+		for plant := range plants {
+			if plant.IsSelected {
+				if selectedPlant == nil {
+					selectedPlant = plant
+				} else {
+					plant.IsSelected = false
+					modified = true
+				}
+			}
+		}
+
+		if selectedPlant != nil {
+			if stager.selectedPlant != selectedPlant {
+				stager.selectedPlant = selectedPlant
+			}
+			if len(selectedPlant.PlantDiagrams) > 0 && !selectedPlant.PlantDiagrams[0].IsChecked {
+				for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
+					plantDiagram_.IsChecked = false
+				}
+				selectedPlant.PlantDiagrams[0].IsChecked = true
+				modified = true
+			}
+		} else if len(plants) > 0 {
+			for plant := range plants {
+				plant.IsSelected = true
+				stager.selectedPlant = plant
+				if len(plant.PlantDiagrams) > 0 && !plant.PlantDiagrams[0].IsChecked {
+					for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
+						plantDiagram_.IsChecked = false
+					}
+					plant.PlantDiagrams[0].IsChecked = true
+				}
+				modified = true
+				break
+			}
+		} else {
+			if stager.selectedPlant != nil {
+				stager.selectedPlant = nil
 			}
 		}
 	}
 
-	if selectedPlant != nil {
-		if stager.selectedPlant != selectedPlant {
-			stager.selectedPlant = selectedPlant
-		}
-	} else if len(plants) > 0 {
-		// No plant selected, select the first one
-		for plant := range plants {
-			plant.IsSelected = true
-			stager.selectedPlant = plant
-			modified = true
-			break
-		}
-	} else {
-		if stager.selectedPlant != nil {
-			stager.selectedPlant = nil
-		}
+	if stager.selectedPlant != nil && stager.selectedPlant.PlantType != Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D {
+		stager.selectedPlant.CurrentView = VIEW_PLANT_2D
+		modified = true
 	}
 
 	return modified
