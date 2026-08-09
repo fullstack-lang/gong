@@ -210,35 +210,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// 4. Resample the curve at every 0.5 degree
 		resampledBaseCurve := u.resampleCurveAtAngles(stool3dStage, sortedAngles, sortedPoints, targetAngles, "Stool Resampled", expectedDegrees)
 
-		// 5. Replicate across all radial repetitions to create massiveCurve
-		massiveCurve := (&threejs.Curve{
-			Name: "Stool Massive Curve",
-		}).Stage(stool3dStage)
-
-		for k := 0; k < radialRepetitions; k++ {
-			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-
-			for _, pt := range resampledBaseCurve.Points {
-				origTheta := math.Atan2(pt.Z, pt.X)
-				r := math.Hypot(pt.X, pt.Z)
-				newTheta := origTheta + baseThetaOffset
-
-				massiveCurve.Points = append(massiveCurve.Points, (&threejs.Vector3{
-					Name: fmt.Sprintf("Stool Point k%d %.1f", k, newTheta*180.0/math.Pi),
-					X:    r * math.Cos(newTheta),
-					Y:    pt.Y,
-					Z:    r * math.Sin(newTheta),
-				}).Stage(stool3dStage))
-			}
-		}
-
-		// 6. Add 3D Sampled Points visualization if toggled on
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
-			numPointsPerRep := len(resampledBaseCurve.Points)
-			u.addPointSpheres(stool3dStage, massiveCurve.Points, "red", canvas, "Stool Sampled", 0, numPointsPerRep)
-		}
-
-		// 7. Calculate tube radius from RelativeTubeDiameter
+		// 5. Calculate tube radius from RelativeTubeDiameter
 		relDiameter := plant.StoolAbstract.RelativeTubeDiameter
 		if relDiameter <= 0 {
 			relDiameter = 0.01
@@ -247,20 +219,6 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		if tubeRadius <= 0 {
 			tubeRadius = 2.0
 		}
-
-		numSegments := len(massiveCurve.Points)
-		if numSegments < 2 {
-			numSegments = 2
-		}
-
-		tGeom := (&threejs.TubeGeometry{
-			Name:            "Stool GrowthCurve2D TubeGeom",
-			Path:            massiveCurve,
-			TubularSegments: numSegments,
-			Radius:          tubeRadius,
-			RadialSegments:  16,
-			Closed:          true,
-		}).Stage(stool3dStage)
 
 		transparency := plant.StoolAbstract.Transparency
 		opacity := 1.0 - transparency
@@ -271,19 +229,101 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			opacity = 1.0
 		}
 
-		tubeMesh := (&threejs.Mesh{
-			Name:         "Stool GrowthCurve2D Mesh",
-			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-			TubeGeometry: tGeom,
-			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-				Name:                 "Stool GrowthCurve2D Material",
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgreen"},
-				Transparent:          true,
-				Opacity:              opacity,
-			}).Stage(stool3dStage),
-		}).Stage(stool3dStage)
+		// 6. Generate Torus Stack with rotation and elevation per layer h
+		stackHeight := plant.StackHeight
+		if stackHeight < 1 {
+			stackHeight = 1
+		}
 
-		canvas.Meshs = append(canvas.Meshs, tubeMesh)
+		var growthVectorX, growthVectorY float64
+		if plant.GrowthVectorShape != nil {
+			growthVectorX = plant.GrowthVectorShape.X
+			growthVectorY = plant.GrowthVectorShape.Y
+		}
+
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenTorusStackShape {
+			for h := 0; h < stackHeight; h++ {
+				dx := float64(h) * growthVectorX
+				dy := float64(h) * growthVectorY
+				thetaOffset := dx / globalR
+
+				layerCurve := (&threejs.Curve{
+					Name: fmt.Sprintf("Stool Torus Stack Curve h%d", h),
+				}).Stage(stool3dStage)
+
+				for k := 0; k < radialRepetitions; k++ {
+					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+					totalThetaOffset := baseThetaOffset + thetaOffset
+
+					for _, pt := range resampledBaseCurve.Points {
+						origTheta := math.Atan2(pt.Z, pt.X)
+						r := math.Hypot(pt.X, pt.Z)
+						newTheta := origTheta + totalThetaOffset
+
+						layerPtY := pt.Y + dy
+						if layerPtY < floorMinY {
+							floorMinY = layerPtY
+						}
+
+						layerCurve.Points = append(layerCurve.Points, (&threejs.Vector3{
+							Name: fmt.Sprintf("Stool Point h%d k%d %.1f", h, k, newTheta*180.0/math.Pi),
+							X:    r * math.Cos(newTheta),
+							Y:    layerPtY,
+							Z:    r * math.Sin(newTheta),
+						}).Stage(stool3dStage))
+					}
+				}
+
+				numSegments := len(layerCurve.Points)
+				if numSegments < 2 {
+					numSegments = 2
+				}
+
+				tGeom := (&threejs.TubeGeometry{
+					Name:            fmt.Sprintf("Stool TubeGeom h%d", h),
+					Path:            layerCurve,
+					TubularSegments: numSegments,
+					Radius:          tubeRadius,
+					RadialSegments:  16,
+					Closed:          true,
+				}).Stage(stool3dStage)
+
+				tubeMesh := (&threejs.Mesh{
+					Name:         fmt.Sprintf("Stool TubeMesh h%d", h),
+					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					TubeGeometry: tGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 fmt.Sprintf("Stool Material h%d", h),
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgreen"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, tubeMesh)
+			}
+		}
+
+		// 7. Add 3D Sampled Points visualization if toggled on
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
+			numPointsPerRep := len(resampledBaseCurve.Points)
+			var basePoints []*threejs.Vector3
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + baseThetaOffset
+					basePoints = append(basePoints, (&threejs.Vector3{
+						Name: fmt.Sprintf("Sampled Point k%d %.1f", k, newTheta*180.0/math.Pi),
+						X:    r * math.Cos(newTheta),
+						Y:    pt.Y,
+						Z:    r * math.Sin(newTheta),
+					}).Stage(stool3dStage))
+				}
+			}
+			u.addPointSpheres(stool3dStage, basePoints, "red", canvas, "Stool Sampled", 0, numPointsPerRep)
+		}
 	}
 
 	// Floor tiles that encompass the stool cylinder

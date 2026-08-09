@@ -89,7 +89,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.Name = `Stool`
 	__PlantAbstract__00000002_.N = 1
 	__PlantAbstract__00000002_.M = 2
-	__PlantAbstract__00000002_.StackHeight = 3
+	__PlantAbstract__00000002_.StackHeight = 2
 	__PlantAbstract__00000002_.RhombusInsideAngle = 140.000000
 	__PlantAbstract__00000002_.RhombusSideLength = 230.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -616.994036
-	__Rendered3DShape__00000002_.ViewY = 261.526730
-	__Rendered3DShape__00000002_.ViewZ = 19.062887
+	__Rendered3DShape__00000002_.ViewX = -1007.310182
+	__Rendered3DShape__00000002_.ViewY = 149.860274
+	__Rendered3DShape__00000002_.ViewZ = -88.420028
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 100.000000
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
@@ -250,6 +250,7 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
+	__StoolDiagram__00000000_.IsHiddenTorusStackShape = false
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`

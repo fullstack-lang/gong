@@ -4249,6 +4249,10 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsHiddenTorusStackShape":
+		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
+	case "TorusStackShape":
+		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
 	case "IsHiddenSampledPoints3DShape":
 		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "SampledPoints3DShape":
