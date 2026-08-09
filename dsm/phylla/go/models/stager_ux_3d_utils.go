@@ -115,7 +115,7 @@ func (*Stager) computeGlobalRadius(plant *PlantAbstract) (globalR float64) {
 		circumference = 10.0
 	}
 	threeDModulo := 1
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		threeDModulo = plant.VaseAbstract.RadialRepetitions
 	}
 	if threeDModulo < 1 {
@@ -129,7 +129,7 @@ func (stager *Stager) addFloorTiles(floorMinY float64, plant *PlantAbstract, glo
 		floorMinY = 0.0
 	} else {
 		thickness := 0.0
-		if plant.VaseAbstract != nil {
+		if plant.PlantType == Vase {
 			thickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		}
 		if thickness == 0 {

@@ -41,7 +41,7 @@ func (stager *Stager) createViews() {
 
 	currentView := VIEW_PLANT_2D
 	plant := stager.GetCurrentPlant()
-	isVase := (plant == nil || plant.PlantType == PLANT_TYPE_VASE)
+	isVase := (plant == nil || plant.PlantType == Vase)
 
 	if plant != nil {
 		if !isVase && plant.CurrentView != VIEW_PLANT_2D {

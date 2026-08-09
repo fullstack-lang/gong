@@ -91,7 +91,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 		vThickness := 0.0
 		cHeight := 0.0
-		if plant.VaseAbstract != nil {
+		if plant.PlantType == Vase {
 			vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 			cHeight = plant.VaseAbstract.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
 		}

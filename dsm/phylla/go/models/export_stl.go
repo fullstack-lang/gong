@@ -330,7 +330,7 @@ func GenerateSTL(plant *PlantAbstract) string {
 	radialRepetitions := 1
 	thickness := 5.0
 
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		vase := plant.VaseAbstract
 		radialRepetitions = vase.RadialRepetitions
 		if radialRepetitions < 1 {

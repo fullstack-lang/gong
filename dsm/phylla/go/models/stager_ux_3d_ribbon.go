@@ -32,7 +32,7 @@ func (stager *Stager) generateRibbonMesh(
 	trajOffsetXRel := 0.0
 	trajOffsetYRel := 0.0
 	rotRatio := 0.0
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		vase := plant.VaseAbstract
 		hasAlternatingRingColors = vase.HasAlternatingRingColors
 		offsetKeyX = vase.OffsetKeyX
@@ -504,5 +504,3 @@ func (stager *Stager) generateRibbonMesh(
 		}
 	}
 }
-
-

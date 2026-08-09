@@ -93,7 +93,7 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
-		if plant.CurrentView != VIEW_PLANT_2D && plant.VaseAbstract != nil {
+		if plant.CurrentView != VIEW_PLANT_2D && plant.PlantType == Vase {
 
 			group1.Sliders = append(
 				group1.Sliders,

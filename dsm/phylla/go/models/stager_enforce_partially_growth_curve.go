@@ -474,7 +474,7 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	circLen := plant.RhombusStuff.PlantCircumferenceShape.Length
 	trajOffsetX := 0.0
 	trajOffsetY := 0.0
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		trajOffsetX = plant.VaseAbstract.RelativeTrajectoryOffsetX * circLen
 		trajOffsetY = plant.VaseAbstract.RelativeTrajectoryOffsetY * circLen
 	}
@@ -714,7 +714,7 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 	}
 
 	refSteps := 0
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		refSteps = plant.VaseAbstract.NbStepP1P2
 	}
 	if refSteps <= 0 {
@@ -889,7 +889,7 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 
 	if plant.ChosenP1P2PairShape != nil {
 		chosenK := 0
-		if plant.VaseAbstract != nil {
+		if plant.PlantType == Vase {
 			chosenK = plant.VaseAbstract.ChosenStep
 		}
 		if chosenK < 0 {

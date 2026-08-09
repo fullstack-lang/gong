@@ -36,7 +36,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		}
 		if plant.PlantType == "" {
 			needCommit = true
-			plant.PlantType = PLANT_TYPE_PLANT
+			plant.PlantType = Plant
 		}
 		if plant.RhombusSideLength == 0.0 {
 			needCommit = true
