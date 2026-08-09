@@ -25,7 +25,12 @@ func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func(
 		stager.treeStage2D.Commit()
 		stager.treeStage3D.Commit()
 		stager.ux_svg_plant_diagram()
-		stager.UpdateThreeJSStage()
+
+		// only regenerate the 3D stage when the user is actually looking at the 3D view
+		plant := stager.GetCurrentPlant()
+		if plant != nil && plant.CurrentView == VIEW_VASE_3D {
+			stager.UpdateThreeJSStage()
+		}
 	}
 }
 
