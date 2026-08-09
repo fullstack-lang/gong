@@ -963,6 +963,15 @@ func (inst *StackOfGrowthCurve2D) GongGetReverseFieldOwnerName(stage *Stage, rev
 	return
 }
 
+func (inst *StackOfGrowthCurve2DByGrowthVector) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *StackOfGrowthCurve2DRibbon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -2263,6 +2272,15 @@ func (inst *StackGrowthCurve2DStartHalfwayArcShape) GongGetReverseFieldOwner(sta
 }
 
 func (inst *StackOfGrowthCurve2D) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *StackOfGrowthCurve2DByGrowthVector) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

@@ -73,6 +73,10 @@ type PlantAbstract struct {
 	EndArcShapeGrid *EndArcShapeGrid
 
 	GrowthCurve2D *GrowthCurve2D
+
+	// StackOfGrowthCurve2DByGrowthVector draws StackHeight copies of GrowthCurve2D,
+	// each translated by the growth vector (k * GrowthVectorShape).
+	StackOfGrowthCurve2DByGrowthVector *StackOfGrowthCurve2DByGrowthVector
 }
 
 type VaseAbstract struct {

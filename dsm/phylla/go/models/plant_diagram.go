@@ -32,6 +32,8 @@ type PlantDiagram struct {
 
 	IsHiddenGrowthCurve2D bool
 
+	IsHiddenStackOfGrowthCurve2DByGrowthVector bool
+
 	IsChecked bool
 	AbstractTypeFields
 }

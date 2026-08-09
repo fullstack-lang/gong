@@ -1098,6 +1098,8 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenGrowthCurve2D bool
 
+	IsHiddenStackOfGrowthCurve2DByGrowthVector bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -1131,6 +1133,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
+	to.IsHiddenStackOfGrowthCurve2DByGrowthVector = from.IsHiddenStackOfGrowthCurve2DByGrowthVector
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -2069,6 +2072,17 @@ type StackOfGrowthCurve2D_WOP struct {
 }
 
 func (from *StackOfGrowthCurve2D) CopyBasicFields(to *StackOfGrowthCurve2D) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type StackOfGrowthCurve2DByGrowthVector_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StackOfGrowthCurve2DByGrowthVector) CopyBasicFields(to *StackOfGrowthCurve2DByGrowthVector) {
 	// insertion point
 	to.Name = from.Name
 }

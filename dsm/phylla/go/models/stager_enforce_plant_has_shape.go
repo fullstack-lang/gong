@@ -345,7 +345,23 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7_growth_curve || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_base || n7_arc_normal || n7_arc_v2 || n7_arc_v2_end || n7_mid_arc || n7_growth_curve || needCommit
+	n7_stack_by_growth_vector := enforcePlantHasShape[*StackOfGrowthCurve2DByGrowthVector](
+		stager,
+		func() *StackOfGrowthCurve2DByGrowthVector { return new(StackOfGrowthCurve2DByGrowthVector) },
+		func(p *PlantAbstract) *StackOfGrowthCurve2DByGrowthVector {
+			return p.StackOfGrowthCurve2DByGrowthVector
+		},
+		func(p *PlantAbstract, shape *StackOfGrowthCurve2DByGrowthVector) {
+			p.StackOfGrowthCurve2DByGrowthVector = shape
+		},
+		func(p *PlantAbstract, shape *StackOfGrowthCurve2DByGrowthVector) bool {
+			return p.StackOfGrowthCurve2DByGrowthVector == shape
+		},
+		"StackOfGrowthCurve2DByGrowthVector",
+	)
+	needCommit = n7_stack_by_growth_vector || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_base || n7_arc_normal || n7_arc_v2 || n7_arc_v2_end || n7_mid_arc || n7_growth_curve || n7_stack_by_growth_vector || needCommit
 }
 
 func enforceVaseHasShape[ShapePointerType PointerToGongstruct](

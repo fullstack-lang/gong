@@ -72,6 +72,7 @@ func (plantDiagram *PlantDiagram) drawCommonPlant(stager *Stager, layer *svg.Lay
 	plantDiagram.drawMidArcVectorShapeGrid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawGrowthCurve2D(stager, layer, plant)
+	plantDiagram.drawStackOfGrowthCurve2DByGrowthVector(stager, layer, plant)
 }
 
 func (plantDiagram *PlantDiagram) drawVaseDiagram(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
@@ -1230,6 +1231,38 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.L
 	plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
 	plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
 
+	plantDiagram.IsHiddenStartArcShapeGrid = originalStartHidden
+	plantDiagram.IsHiddenEndArcShapeGrid = originalEndHidden
+}
+
+// drawStackOfGrowthCurve2DByGrowthVector draws plant.StackHeight copies of GrowthCurve2D,
+// each translated by k * GrowthVectorShape (k = 0..StackHeight-1).
+func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DByGrowthVector(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
+	if plantDiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector {
+		return
+	}
+	if plant.GrowthVectorShape == nil || plant.StartArcShapeGrid == nil || plant.EndArcShapeGrid == nil {
+		return
+	}
+
+	originalOriginX := plantDiagram.OriginX
+	originalOriginY := plantDiagram.OriginY
+	originalStartHidden := plantDiagram.IsHiddenStartArcShapeGrid
+	originalEndHidden := plantDiagram.IsHiddenEndArcShapeGrid
+
+	plantDiagram.IsHiddenStartArcShapeGrid = false
+	plantDiagram.IsHiddenEndArcShapeGrid = false
+
+	for k := 0; k < plant.StackHeight; k++ {
+		// shift the origin by k growth-vector steps (SVG y-axis is inverted, hence the minus)
+		plantDiagram.OriginX = originalOriginX + float64(k)*plant.GrowthVectorShape.X
+		plantDiagram.OriginY = originalOriginY - float64(k)*plant.GrowthVectorShape.Y
+		plantDiagram.drawStartArcShapeV2Grid(stager, layer, plant)
+		plantDiagram.drawEndArcShapeV2Grid(stager, layer, plant)
+	}
+
+	plantDiagram.OriginX = originalOriginX
+	plantDiagram.OriginY = originalOriginY
 	plantDiagram.IsHiddenStartArcShapeGrid = originalStartHidden
 	plantDiagram.IsHiddenEndArcShapeGrid = originalEndHidden
 }

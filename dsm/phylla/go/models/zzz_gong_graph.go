@@ -241,6 +241,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *StackOfGrowthCurve2D:
 		ok = stage.IsStagedStackOfGrowthCurve2D(target)
 
+	case *StackOfGrowthCurve2DByGrowthVector:
+		ok = stage.IsStagedStackOfGrowthCurve2DByGrowthVector(target)
+
 	case *StackOfGrowthCurve2DRibbon:
 		ok = stage.IsStagedStackOfGrowthCurve2DRibbon(target)
 
@@ -589,6 +592,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StackOfGrowthCurve2D:
 		ok = stage.IsStagedStackOfGrowthCurve2D(target)
+
+	case *StackOfGrowthCurve2DByGrowthVector:
+		ok = stage.IsStagedStackOfGrowthCurve2DByGrowthVector(target)
 
 	case *StackOfGrowthCurve2DRibbon:
 		ok = stage.IsStagedStackOfGrowthCurve2DRibbon(target)
@@ -1248,6 +1254,13 @@ func (stage *Stage) IsStagedStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGr
 	return
 }
 
+func (stage *Stage) IsStagedStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) (ok bool) {
+
+	_, ok = stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector]
+
+	return
+}
+
 func (stage *Stage) IsStagedStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) (ok bool) {
 
 	_, ok = stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]
@@ -1734,6 +1747,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StackOfGrowthCurve2D:
 		stage.StageBranchStackOfGrowthCurve2D(target)
+
+	case *StackOfGrowthCurve2DByGrowthVector:
+		stage.StageBranchStackOfGrowthCurve2DByGrowthVector(target)
 
 	case *StackOfGrowthCurve2DRibbon:
 		stage.StageBranchStackOfGrowthCurve2DRibbon(target)
@@ -3031,6 +3047,21 @@ func (stage *Stage) StageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d *StackO
 
 }
 
+func (stage *Stage) StageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) {
+
+	// check if instance is already staged
+	if IsStaged(stage, stackofgrowthcurve2dbygrowthvector) {
+		return
+	}
+
+	stackofgrowthcurve2dbygrowthvector.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -3889,6 +3920,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StackOfGrowthCurve2D:
 		toT := CopyBranchStackOfGrowthCurve2D(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StackOfGrowthCurve2DByGrowthVector:
+		toT := CopyBranchStackOfGrowthCurve2DByGrowthVector(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *StackOfGrowthCurve2DRibbon:
@@ -5535,6 +5570,25 @@ func CopyBranchStackOfGrowthCurve2D(mapOrigCopy map[any]any, stackofgrowthcurve2
 	return
 }
 
+func CopyBranchStackOfGrowthCurve2DByGrowthVector(mapOrigCopy map[any]any, stackofgrowthcurve2dbygrowthvectorFrom *StackOfGrowthCurve2DByGrowthVector) (stackofgrowthcurve2dbygrowthvectorTo *StackOfGrowthCurve2DByGrowthVector) {
+
+	// stackofgrowthcurve2dbygrowthvectorFrom has already been copied
+	if _stackofgrowthcurve2dbygrowthvectorTo, ok := mapOrigCopy[stackofgrowthcurve2dbygrowthvectorFrom]; ok {
+		stackofgrowthcurve2dbygrowthvectorTo = _stackofgrowthcurve2dbygrowthvectorTo.(*StackOfGrowthCurve2DByGrowthVector)
+		return
+	}
+
+	stackofgrowthcurve2dbygrowthvectorTo = new(StackOfGrowthCurve2DByGrowthVector)
+	mapOrigCopy[stackofgrowthcurve2dbygrowthvectorFrom] = stackofgrowthcurve2dbygrowthvectorTo
+	stackofgrowthcurve2dbygrowthvectorFrom.CopyBasicFields(stackofgrowthcurve2dbygrowthvectorTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchStackOfGrowthCurve2DRibbon(mapOrigCopy map[any]any, stackofgrowthcurve2dribbonFrom *StackOfGrowthCurve2DRibbon) (stackofgrowthcurve2dribbonTo *StackOfGrowthCurve2DRibbon) {
 
 	// stackofgrowthcurve2dribbonFrom has already been copied
@@ -6453,6 +6507,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StackOfGrowthCurve2D:
 		stage.UnstageBranchStackOfGrowthCurve2D(target)
+
+	case *StackOfGrowthCurve2DByGrowthVector:
+		stage.UnstageBranchStackOfGrowthCurve2DByGrowthVector(target)
 
 	case *StackOfGrowthCurve2DRibbon:
 		stage.UnstageBranchStackOfGrowthCurve2DRibbon(target)
@@ -7750,6 +7807,21 @@ func (stage *Stage) UnstageBranchStackOfGrowthCurve2D(stackofgrowthcurve2d *Stac
 
 }
 
+func (stage *Stage) UnstageBranchStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, stackofgrowthcurve2dbygrowthvector) {
+		return
+	}
+
+	stackofgrowthcurve2dbygrowthvector.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) {
 
 	// check if instance is already staged
@@ -8696,6 +8768,11 @@ func (reference *StackOfGrowthCurve2D) GongReconstructPointersFromReferences(sta
 	// insertion point for slice of pointers field
 }
 
+func (reference *StackOfGrowthCurve2DByGrowthVector) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfGrowthCurve2DByGrowthVector) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *StackOfGrowthCurve2DRibbon) GongReconstructPointersFromReferences(stage *Stage, instance *StackOfGrowthCurve2DRibbon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9303,6 +9380,11 @@ func (reference *StackGrowthCurve2DStartHalfwayArcShape) GongReconstructPointers
 }
 
 func (reference *StackOfGrowthCurve2D) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *StackOfGrowthCurve2DByGrowthVector) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10698,6 +10780,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsHiddenGrowthCurve2D != plantdiagramOther.IsHiddenGrowthCurve2D {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
 	}
+	if plantdiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector != plantdiagramOther.IsHiddenStackOfGrowthCurve2DByGrowthVector {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DByGrowthVector"))
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -11643,6 +11728,17 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongDiff(stage *Stage, stackof
 	// insertion point for field diffs
 	if stackofgrowthcurve2d.Name != stackofgrowthcurve2dOther.Name {
 		diffs = append(diffs, stackofgrowthcurve2d.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongDiff(stage *Stage, stackofgrowthcurve2dbygrowthvectorOther *StackOfGrowthCurve2DByGrowthVector) (diffs []string) {
+	// insertion point for field diffs
+	if stackofgrowthcurve2dbygrowthvector.Name != stackofgrowthcurve2dbygrowthvectorOther.Name {
+		diffs = append(diffs, stackofgrowthcurve2dbygrowthvector.GongMarshallField(stage, "Name"))
 	}
 
 	return
