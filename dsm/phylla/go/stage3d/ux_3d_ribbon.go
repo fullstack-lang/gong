@@ -1,20 +1,22 @@
-package models
+package stage3d
 
 import (
 	"fmt"
 	"log"
 	"math"
 
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (stager *Stager) generateRibbonMesh(
+func (u *ThreeJSStageUpdater) generateRibbonMesh(
+	stager *models.Stager,
 	h int,
 	stackHeight int,
 	totalThetaOffset float64,
 	namePrefix string,
-	plant *PlantAbstract,
-	checkedDiagram *PlantDiagram,
+	plant *models.PlantAbstract,
+	checkedDiagram *models.PlantDiagram,
 	localBottomCurve *threejs.Curve,
 	localTopCurve *threejs.Curve,
 	dy float64,
@@ -22,6 +24,8 @@ func (stager *Stager) generateRibbonMesh(
 	globalR float64,
 	canvas *threejs.Canvas,
 ) {
+	threejsStage := stager.GetThreejsStage()
+
 	hasAlternatingRingColors := false
 	offsetKeyX := 0.0
 	widthKey := 0.0
@@ -32,7 +36,7 @@ func (stager *Stager) generateRibbonMesh(
 	trajOffsetXRel := 0.0
 	trajOffsetYRel := 0.0
 	rotRatio := 0.0
-	if plant.PlantType == Vase {
+	if plant.PlantType == models.Vase {
 		vase := plant.VaseAbstract
 		hasAlternatingRingColors = vase.HasAlternatingRingColors
 		offsetKeyX = vase.OffsetKeyX
@@ -68,10 +72,10 @@ func (stager *Stager) generateRibbonMesh(
 	//   - Level 3 (y3): The absolute top edge of the ribbon (yBaseTop)
 
 	// geomInner is the inner surface of the ribbon
-	geomInner := (&threejs.BufferGeometry{Name: namePrefix + " Inner BufferGeometry"}).Stage(stager.threejsStage)
+	geomInner := (&threejs.BufferGeometry{Name: namePrefix + " Inner BufferGeometry"}).Stage(threejsStage)
 	// geomOuter is the outer surface of the ribbon
-	geomOuter := (&threejs.BufferGeometry{Name: namePrefix + " Outer BufferGeometry"}).Stage(stager.threejsStage)
-	geomHoleWalls := (&threejs.BufferGeometry{Name: namePrefix + " HoleWalls BufferGeometry"}).Stage(stager.threejsStage)
+	geomOuter := (&threejs.BufferGeometry{Name: namePrefix + " Outer BufferGeometry"}).Stage(threejsStage)
+	geomHoleWalls := (&threejs.BufferGeometry{Name: namePrefix + " HoleWalls BufferGeometry"}).Stage(threejsStage)
 
 	var bottomEdges, topEdges [][2]*threejs.Vector3
 
@@ -207,7 +211,7 @@ func (stager *Stager) generateRibbonMesh(
 			vIn := (&threejs.Vector3{
 				Name: fmt.Sprintf("%s Inner i%d j%d", namePrefix, i, j),
 				X:    xIn, Y: yVal, Z: zIn,
-			}).Stage(stager.threejsStage)
+			}).Stage(threejsStage)
 			geomInner.Vertices = append(geomInner.Vertices, vIn)
 
 			rOut_interp := rOuter + ratio*(rOuterTop-rOuter)
@@ -217,7 +221,7 @@ func (stager *Stager) generateRibbonMesh(
 			vOut := (&threejs.Vector3{
 				Name: fmt.Sprintf("%s Outer i%d j%d", namePrefix, i, j),
 				X:    xOut, Y: yVal, Z: zOut,
-			}).Stage(stager.threejsStage)
+			}).Stage(threejsStage)
 			geomOuter.Vertices = append(geomOuter.Vertices, vOut)
 		}
 
@@ -250,38 +254,38 @@ func (stager *Stager) generateRibbonMesh(
 
 		if !hasHole || !inHoleArr[i] {
 			// Add full quads for all 3 bands
-			stager.addQuad(geomInner, i, 0, true, "inner")
-			stager.addQuad(geomInner, i, 1, true, "inner")
-			stager.addQuad(geomInner, i, 2, true, "inner")
+			u.addQuad(stager, geomInner, i, 0, true, "inner")
+			u.addQuad(stager, geomInner, i, 1, true, "inner")
+			u.addQuad(stager, geomInner, i, 2, true, "inner")
 
-			stager.addQuad(geomOuter, i, 0, false, "outer")
-			stager.addQuad(geomOuter, i, 1, false, "outer")
-			stager.addQuad(geomOuter, i, 2, false, "outer")
+			u.addQuad(stager, geomOuter, i, 0, false, "outer")
+			u.addQuad(stager, geomOuter, i, 1, false, "outer")
+			u.addQuad(stager, geomOuter, i, 2, false, "outer")
 		} else {
 			// Hole segment: only add bottom band (0) and top band (2)
-			stager.addQuad(geomInner, i, 0, true, "inner_below")
-			stager.addQuad(geomInner, i, 2, true, "inner_above")
+			u.addQuad(stager, geomInner, i, 0, true, "inner_below")
+			u.addQuad(stager, geomInner, i, 2, true, "inner_above")
 
-			stager.addQuad(geomOuter, i, 0, false, "outer_below")
-			stager.addQuad(geomOuter, i, 2, false, "outer_above")
+			u.addQuad(stager, geomOuter, i, 0, false, "outer_below")
+			u.addQuad(stager, geomOuter, i, 2, false, "outer_above")
 
 			// Hole walls
 			vB1 := geomInner.Vertices[i*4+1]
 			vB2 := geomOuter.Vertices[i*4+1]
 			vB3 := geomInner.Vertices[(i+1)*4+1]
 			vB4 := geomOuter.Vertices[(i+1)*4+1]
-			stager.addWallQuad(geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", true)
+			u.addWallQuad(stager, geomHoleWalls, vB1, vB2, vB3, vB4, "bottom_wall", true)
 
 			vT1 := geomInner.Vertices[i*4+2]
 			vT2 := geomOuter.Vertices[i*4+2]
 			vT3 := geomInner.Vertices[(i+1)*4+2]
 			vT4 := geomOuter.Vertices[(i+1)*4+2]
-			stager.addWallQuad(geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", false)
+			u.addWallQuad(stager, geomHoleWalls, vT1, vT2, vT3, vT4, "top_wall", false)
 			if i == 0 || !inHoleArr[i-1] {
-				stager.addWallQuad(geomHoleWalls, geomInner.Vertices[i*4+1], geomInner.Vertices[i*4+2], geomOuter.Vertices[i*4+1], geomOuter.Vertices[i*4+2], "left_wall", true)
+				u.addWallQuad(stager, geomHoleWalls, geomInner.Vertices[i*4+1], geomInner.Vertices[i*4+2], geomOuter.Vertices[i*4+1], geomOuter.Vertices[i*4+2], "left_wall", true)
 			}
 			if i == len(localBottomCurve.Points)-2 || !inHoleArr[i+1] {
-				stager.addWallQuad(geomHoleWalls, geomInner.Vertices[(i+1)*4+1], geomInner.Vertices[(i+1)*4+2], geomOuter.Vertices[(i+1)*4+1], geomOuter.Vertices[(i+1)*4+2], "right_wall", false)
+				u.addWallQuad(stager, geomHoleWalls, geomInner.Vertices[(i+1)*4+1], geomInner.Vertices[(i+1)*4+2], geomOuter.Vertices[(i+1)*4+1], geomOuter.Vertices[(i+1)*4+2], "right_wall", false)
 			}
 		}
 	}
@@ -309,8 +313,8 @@ func (stager *Stager) generateRibbonMesh(
 			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
 			Transparent:          true,
 			Opacity:              opacity,
-		}).Stage(stager.threejsStage),
-	}).Stage(stager.threejsStage)
+		}).Stage(threejsStage),
+	}).Stage(threejsStage)
 
 	outerMesh := (&threejs.Mesh{
 		Name:           namePrefix + " Outer Mesh",
@@ -321,8 +325,8 @@ func (stager *Stager) generateRibbonMesh(
 			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
 			Transparent:          true,
 			Opacity:              opacity,
-		}).Stage(stager.threejsStage),
-	}).Stage(stager.threejsStage)
+		}).Stage(threejsStage),
+	}).Stage(threejsStage)
 
 	canvas.Meshs = append(canvas.Meshs, innerMesh, outerMesh)
 
@@ -336,13 +340,13 @@ func (stager *Stager) generateRibbonMesh(
 				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: japanesePaperColor},
 				Transparent:          true,
 				Opacity:              opacity,
-			}).Stage(stager.threejsStage),
-		}).Stage(stager.threejsStage)
+			}).Stage(threejsStage),
+		}).Stage(threejsStage)
 		canvas.Meshs = append(canvas.Meshs, holeWallsMesh)
 	}
 
-	bottomFace := stager.createFaceMesh(namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, transparency)
-	topFace := stager.createFaceMesh(namePrefix+" Top", japanesePaperColor, topEdges, true, transparency)
+	bottomFace := u.createFaceMesh(stager, namePrefix+" Bottom", japanesePaperColor, bottomEdges, false, transparency)
+	topFace := u.createFaceMesh(stager, namePrefix+" Top", japanesePaperColor, topEdges, true, transparency)
 	canvas.Meshs = append(canvas.Meshs, bottomFace, topFace)
 
 	outerRadius := 0.1
@@ -351,10 +355,10 @@ func (stager *Stager) generateRibbonMesh(
 
 	if !checkedDiagram.VaseDiagram.IsHiddenTorusEdge3DShape {
 		canvas.Meshs = append(canvas.Meshs,
-			stager.createTorusEdgeMesh(namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
-			stager.createTorusEdgeMesh(namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
-			stager.createTorusEdgeMesh(namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
-			stager.createTorusEdgeMesh(namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
+			u.createTorusEdgeMesh(stager, namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
+			u.createTorusEdgeMesh(stager, namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
+			u.createTorusEdgeMesh(stager, namePrefix+" TopInner", bambooColor, topEdges, true, innerRadius),
+			u.createTorusEdgeMesh(stager, namePrefix+" TopOuter", bambooColor, topEdges, false, outerRadius),
 		)
 	}
 
@@ -393,7 +397,7 @@ func (stager *Stager) generateRibbonMesh(
 				r_h1 = rotRatio
 			}
 
-			_, dyStep, currentDXStep := ComputePartiallyGrowthCurveDYForRatio(plant, r_h1)
+			_, dyStep, currentDXStep := models.ComputePartiallyGrowthCurveDYForRatio(plant, r_h1)
 			pxx = baseShape.BottomStartX + currentDXStep + trajOffsetX
 			pxy = baseShape.BottomStartY + dyStep + trajOffsetY
 		}
@@ -416,7 +420,7 @@ func (stager *Stager) generateRibbonMesh(
 					X:    rSurf * math.Cos(th),
 					Y:    ptY + dy,
 					Z:    rSurf * math.Sin(th),
-				}).Stage(stager.threejsStage)
+				}).Stage(threejsStage)
 			}
 
 			createPointSphere := func(ptName string, color string, vec *threejs.Vector3) *threejs.Mesh {
@@ -432,19 +436,19 @@ func (stager *Stager) generateRibbonMesh(
 						Radius:         sphereRad,
 						WidthSegments:  16,
 						HeightSegments: 16,
-					}).Stage(stager.threejsStage),
+					}).Stage(threejsStage),
 					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
 						Name:                 fmt.Sprintf("Material %s %s h%d r%d", ptName, namePrefix, h, rep),
 						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					}).Stage(stager.threejsStage),
-				}).Stage(stager.threejsStage)
+					}).Stage(threejsStage),
+				}).Stage(threejsStage)
 			}
 
 			createPairTube := func(lineName string, color string, pA, pB *threejs.Vector3) *threejs.Mesh {
 				crv := (&threejs.Curve{
 					Name:   fmt.Sprintf("Curve %s %s h%d r%d", lineName, namePrefix, h, rep),
 					Points: []*threejs.Vector3{pA, pB},
-				}).Stage(stager.threejsStage)
+				}).Stage(threejsStage)
 
 				tGeom := (&threejs.TubeGeometry{
 					Name:            fmt.Sprintf("TubeGeom %s %s h%d r%d", lineName, namePrefix, h, rep),
@@ -453,7 +457,7 @@ func (stager *Stager) generateRibbonMesh(
 					Radius:          sphereRad * 0.25,
 					RadialSegments:  8,
 					Closed:          false,
-				}).Stage(stager.threejsStage)
+				}).Stage(threejsStage)
 
 				return (&threejs.Mesh{
 					Name:         fmt.Sprintf("TubeMesh %s %s h%d r%d", lineName, namePrefix, h, rep),
@@ -462,8 +466,8 @@ func (stager *Stager) generateRibbonMesh(
 					MeshMaterialBasic: (&threejs.MeshMaterialBasic{
 						Name:                 fmt.Sprintf("Material %s %s h%d r%d", lineName, namePrefix, h, rep),
 						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					}).Stage(stager.threejsStage),
-				}).Stage(stager.threejsStage)
+					}).Stage(threejsStage),
+				}).Stage(threejsStage)
 			}
 
 			vPx_3d := get3DPt(pxx, pxy, "Px")

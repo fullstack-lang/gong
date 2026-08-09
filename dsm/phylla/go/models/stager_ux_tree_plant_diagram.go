@@ -92,21 +92,21 @@ func (stager *Stager) treePlantDiagram(
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 		OnClick: func() {
-			if stager.isRecording {
-				stager.stopMovieRecording()
+			if stager.IsMovieRecording() {
+				stager.StopMovieRecording()
 			} else {
-				stager.startMovieRecording(plant, plantDiagram)
+				stager.StartMovieRecording(plant, plantDiagram)
 			}
 		},
 	}
-	if stager.isRecording {
+	if stager.IsMovieRecording() {
 		rotRatio := 0.0
 		if plant.PlantType == Vase {
 			rotRatio = plant.VaseAbstract.RotationRatio
 		}
 		recordMovieBtn.Name = "Stop Recording"
 		recordMovieBtn.Icon = string(buttons.BUTTON_stop)
-		recordMovieBtn.ToolTipText = fmt.Sprintf("Recording... frame %d (rot: %.3f)", stager.recordingFrameCount, rotRatio)
+		recordMovieBtn.ToolTipText = fmt.Sprintf("Recording... frame %d (rot: %.3f)", stager.GetMovieRecordingFrameCount(), rotRatio)
 	}
 	plantDiagramNode.Buttons = append(plantDiagramNode.Buttons, recordMovieBtn)
 

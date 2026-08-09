@@ -424,7 +424,7 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.enforceSemantic()
 	stager.ux_tree()
 	stager.ux_svg_plant_diagram()
-	stager.ux_3d_plant_diagram()
+	stager.UpdateThreeJSStage()
 
 	stager.stage.CommitWithSuspendedCallbacks()
 }

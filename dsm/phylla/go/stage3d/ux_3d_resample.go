@@ -1,12 +1,15 @@
-package models
+package stage3d
 
 import (
 	"fmt"
+
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
+func (u *ThreeJSStageUpdater) addPointSpheres(stager *models.Stager, points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
+	threejsStage := stager.GetThreejsStage()
 
-func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
 	for i, pt := range points {
 		sphereColor := color
 		radius := 2.0
@@ -31,14 +34,14 @@ func (stager *Stager) addPointSpheres(points []*threejs.Vector3, color string, c
 			SphereGeometry: (&threejs.SphereGeometry{
 				Name:   fmt.Sprintf("%s SphereGeom %d", namePrefix, i),
 				Radius: radius,
-			}).Stage(stager.threejsStage),
+			}).Stage(threejsStage),
 			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
 				Name: fmt.Sprintf("%s SphereMat %d", namePrefix, i),
 				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
 					Color: sphereColor,
 				},
-			}).Stage(stager.threejsStage),
-		}).Stage(stager.threejsStage)
+			}).Stage(threejsStage),
+		}).Stage(threejsStage)
 		canvas.Meshs = append(canvas.Meshs, sphere)
 	}
 }

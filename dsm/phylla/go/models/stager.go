@@ -33,6 +33,14 @@ import (
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 )
 
+type ThreeJSStageUpdaterInterface interface {
+	UpdateThreeJSStage(stager *Stager)
+	StartMovieRecording(stager *Stager, plant *PlantAbstract, plantDiagram *PlantDiagram)
+	StopMovieRecording(stager *Stager)
+	IsMovieRecording() bool
+	GetMovieRecordingFrameCount() int
+}
+
 type Stager struct {
 	stage      *Stage
 	splitStage *split.Stage
@@ -65,12 +73,7 @@ type Stager struct {
 	// the plant that is currently selected for the form
 	selectedPlant *PlantAbstract
 
-	// movie recording
-	isRecording             bool
-	recordingRot            float64
-	recordingFrameCount     int
-	recordingPlant          *PlantAbstract
-	savedInitCommitCallback OnInitCommitInterface
+	threeJSUpdater ThreeJSStageUpdaterInterface
 
 	// maps
 	m_Plant_Library map[*PlantAbstract]*Library
@@ -81,6 +84,7 @@ func NewStager(
 	stage *Stage,
 	probeForm ProbeIF,
 	persistanceFile string,
+	threeJSUpdater ThreeJSStageUpdaterInterface,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -88,6 +92,7 @@ func NewStager(
 	stager.stage = stage
 	stager.probeForm = probeForm
 	stager.persistanceFile = persistanceFile
+	stager.threeJSUpdater = threeJSUpdater
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
@@ -119,7 +124,7 @@ func NewStager(
 		stager.ux_slider()
 		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
-		stager.ux_3d_plant_diagram()
+		stager.UpdateThreeJSStage()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
@@ -135,6 +140,54 @@ func NewStager(
 		}
 	}
 	return
+}
+
+func (stager *Stager) GetStage() *Stage {
+	return stager.stage
+}
+
+func (stager *Stager) EnforceSemantic() {
+	stager.enforceSemantic()
+}
+
+func (stager *Stager) UxSlider() {
+	stager.ux_slider()
+}
+
+func (stager *Stager) SetThreeJSUpdater(updater ThreeJSStageUpdaterInterface) {
+	stager.threeJSUpdater = updater
+}
+
+func (stager *Stager) UpdateThreeJSStage() {
+	if stager.threeJSUpdater != nil {
+		stager.threeJSUpdater.UpdateThreeJSStage(stager)
+	}
+}
+
+func (stager *Stager) StartMovieRecording(plant *PlantAbstract, plantDiagram *PlantDiagram) {
+	if stager.threeJSUpdater != nil {
+		stager.threeJSUpdater.StartMovieRecording(stager, plant, plantDiagram)
+	}
+}
+
+func (stager *Stager) StopMovieRecording() {
+	if stager.threeJSUpdater != nil {
+		stager.threeJSUpdater.StopMovieRecording(stager)
+	}
+}
+
+func (stager *Stager) IsMovieRecording() bool {
+	if stager.threeJSUpdater != nil {
+		return stager.threeJSUpdater.IsMovieRecording()
+	}
+	return false
+}
+
+func (stager *Stager) GetMovieRecordingFrameCount() int {
+	if stager.threeJSUpdater != nil {
+		return stager.threeJSUpdater.GetMovieRecordingFrameCount()
+	}
+	return 0
 }
 
 func (stager *Stager) GetSvgStage() *svg.Stage {
