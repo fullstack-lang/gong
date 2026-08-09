@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -452.871507
-	__Rendered3DShape__00000002_.ViewY = 242.958170
-	__Rendered3DShape__00000002_.ViewZ = 894.118734
+	__Rendered3DShape__00000002_.ViewX = -452.870310
+	__Rendered3DShape__00000002_.ViewY = 242.952321
+	__Rendered3DShape__00000002_.ViewZ = 894.120275
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 100.000000
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
@@ -248,9 +248,9 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RadialRepetitions = 3
 	__StoolAbstract__00000000_.Transparency = 0.300000
 	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
-	__StoolAbstract__00000000_.RelativeHeight = 0.000000
-	__StoolAbstract__00000000_.RelativeSeatThickness = 0.000000
-	__StoolAbstract__00000000_.ProjectionAngle = 0.000000
+	__StoolAbstract__00000000_.RelativeHeight = 0.900000
+	__StoolAbstract__00000000_.RelativeSeatThickness = 0.150000
+	__StoolAbstract__00000000_.ProjectionAngle = 24.000000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
 	__StoolDiagram__00000000_.IsHiddenPartiallyRotatedTorusShape = false

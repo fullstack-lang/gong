@@ -229,6 +229,8 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			opacity = 1.0
 		}
 
+		stoolHeight := plant.StoolAbstract.RelativeHeight * plant.RhombusSideLength
+
 		createTorusLayer := func(dx, dy float64, namePrefix string, color string) {
 			thetaOffset := dx / globalR
 
@@ -245,7 +247,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					r := math.Hypot(pt.X, pt.Z)
 					newTheta := origTheta + totalThetaOffset
 
-					layerPtY := pt.Y + dy
+					layerPtY := pt.Y + dy + stoolHeight
 					if layerPtY < floorMinY {
 						floorMinY = layerPtY
 					}
@@ -301,7 +303,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			createTorusLayer(growthVectorX, growthVectorY, "Stool Partially Rotated Torus", "darkgreen")
 		}
 
-		// 7. Add 3D Sampled Points visualization if toggled on
+		// 8. Add 3D Sampled Points visualization if toggled on
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
 			numPointsPerRep := len(resampledBaseCurve.Points)
 			var basePoints []*threejs.Vector3
@@ -314,7 +316,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					basePoints = append(basePoints, (&threejs.Vector3{
 						Name: fmt.Sprintf("Sampled Point k%d %.1f", k, newTheta*180.0/math.Pi),
 						X:    r * math.Cos(newTheta),
-						Y:    pt.Y,
+						Y:    pt.Y + stoolHeight,
 						Z:    r * math.Sin(newTheta),
 					}).Stage(stool3dStage))
 				}
@@ -324,11 +326,10 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	}
 
 	// Floor tiles that encompass the stool cylinder
-	if floorMinY == math.MaxFloat64 {
+	if floorMinY > 0.0 {
 		floorMinY = 0.0
-	} else {
-		floorMinY = floorMinY - 2.0
 	}
+	floorMinY = floorMinY - 2.0
 
 	floorSize := globalR * 3.0
 	if floorSize < 200 {
