@@ -11485,6 +11485,12 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stoolabstract_.Transparency), formDiv)
 		case "RelativeTubeDiameter":
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeTubeDiameter), formDiv)
+		case "RelativeHeight":
+			FormDivBasicFieldToField(&(stoolabstract_.RelativeHeight), formDiv)
+		case "RelativeSeatThickness":
+			FormDivBasicFieldToField(&(stoolabstract_.RelativeSeatThickness), formDiv)
+		case "ProjectionAngle":
+			FormDivBasicFieldToField(&(stoolabstract_.ProjectionAngle), formDiv)
 		}
 	}
 
@@ -11563,10 +11569,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(stooldiagram_.Name), formDiv)
-		case "IsHiddenTorusStackShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTorusStackShape), formDiv)
-		case "TorusStackShape":
-			FormDivSelectFieldToField(&(stooldiagram_.TorusStackShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
+		case "PartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(stooldiagram_.PartiallyRotatedTorusShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHiddenSampledPoints3DShape":
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSampledPoints3DShape), formDiv)
 		case "SampledPoints3DShape":

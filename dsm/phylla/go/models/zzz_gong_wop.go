@@ -2445,6 +2445,12 @@ type StoolAbstract_WOP struct {
 	Transparency float64
 
 	RelativeTubeDiameter float64
+
+	RelativeHeight float64
+
+	RelativeSeatThickness float64
+
+	ProjectionAngle float64
 }
 
 func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
@@ -2453,6 +2459,9 @@ func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	to.RadialRepetitions = from.RadialRepetitions
 	to.Transparency = from.Transparency
 	to.RelativeTubeDiameter = from.RelativeTubeDiameter
+	to.RelativeHeight = from.RelativeHeight
+	to.RelativeSeatThickness = from.RelativeSeatThickness
+	to.ProjectionAngle = from.ProjectionAngle
 }
 
 type StoolDiagram_WOP struct {
@@ -2460,7 +2469,7 @@ type StoolDiagram_WOP struct {
 
 	Name string
 
-	IsHiddenTorusStackShape bool
+	IsHiddenPartiallyRotatedTorusShape bool
 
 	IsHiddenSampledPoints3DShape bool
 }
@@ -2468,7 +2477,7 @@ type StoolDiagram_WOP struct {
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
+	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 }
 

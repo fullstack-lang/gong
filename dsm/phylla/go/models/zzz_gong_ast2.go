@@ -4220,6 +4220,12 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Transparency = GongExtractFloat(valueExpr)
 	case "RelativeTubeDiameter":
 		instance.RelativeTubeDiameter = GongExtractFloat(valueExpr)
+	case "RelativeHeight":
+		instance.RelativeHeight = GongExtractFloat(valueExpr)
+	case "RelativeSeatThickness":
+		instance.RelativeSeatThickness = GongExtractFloat(valueExpr)
+	case "ProjectionAngle":
+		instance.ProjectionAngle = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -4249,10 +4255,10 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsHiddenTorusStackShape":
-		instance.IsHiddenTorusStackShape = GongExtractBool(valueExpr)
-	case "TorusStackShape":
-		GongUnmarshallPointer(&instance.TorusStackShape, valueExpr, identifierMap)
+	case "IsHiddenPartiallyRotatedTorusShape":
+		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
+	case "PartiallyRotatedTorusShape":
+		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
 	case "IsHiddenSampledPoints3DShape":
 		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "SampledPoints3DShape":

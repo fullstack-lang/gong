@@ -229,79 +229,76 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			opacity = 1.0
 		}
 
-		// 6. Generate Torus Stack with rotation and elevation per layer h
-		stackHeight := plant.StackHeight
-		if stackHeight < 1 {
-			stackHeight = 1
-		}
+		createTorusLayer := func(dx, dy float64, namePrefix string, color string) {
+			thetaOffset := dx / globalR
 
-		var growthVectorX, growthVectorY float64
-		if plant.GrowthVectorShape != nil {
-			growthVectorX = plant.GrowthVectorShape.X
-			growthVectorY = plant.GrowthVectorShape.Y
-		}
+			layerCurve := (&threejs.Curve{
+				Name: fmt.Sprintf("%s Curve", namePrefix),
+			}).Stage(stool3dStage)
 
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenTorusStackShape {
-			for h := 0; h < stackHeight; h++ {
-				dx := float64(h) * growthVectorX
-				dy := float64(h) * growthVectorY
-				thetaOffset := dx / globalR
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+				totalThetaOffset := baseThetaOffset + thetaOffset
 
-				layerCurve := (&threejs.Curve{
-					Name: fmt.Sprintf("Stool Torus Stack Curve h%d", h),
-				}).Stage(stool3dStage)
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + totalThetaOffset
 
-				for k := 0; k < radialRepetitions; k++ {
-					baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-					totalThetaOffset := baseThetaOffset + thetaOffset
-
-					for _, pt := range resampledBaseCurve.Points {
-						origTheta := math.Atan2(pt.Z, pt.X)
-						r := math.Hypot(pt.X, pt.Z)
-						newTheta := origTheta + totalThetaOffset
-
-						layerPtY := pt.Y + dy
-						if layerPtY < floorMinY {
-							floorMinY = layerPtY
-						}
-
-						layerCurve.Points = append(layerCurve.Points, (&threejs.Vector3{
-							Name: fmt.Sprintf("Stool Point h%d k%d %.1f", h, k, newTheta*180.0/math.Pi),
-							X:    r * math.Cos(newTheta),
-							Y:    layerPtY,
-							Z:    r * math.Sin(newTheta),
-						}).Stage(stool3dStage))
+					layerPtY := pt.Y + dy
+					if layerPtY < floorMinY {
+						floorMinY = layerPtY
 					}
+
+					layerCurve.Points = append(layerCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Point k%d %.1f", namePrefix, k, newTheta*180.0/math.Pi),
+						X:    r * math.Cos(newTheta),
+						Y:    layerPtY,
+						Z:    r * math.Sin(newTheta),
+					}).Stage(stool3dStage))
 				}
-
-				numSegments := len(layerCurve.Points)
-				if numSegments < 2 {
-					numSegments = 2
-				}
-
-				tGeom := (&threejs.TubeGeometry{
-					Name:            fmt.Sprintf("Stool TubeGeom h%d", h),
-					Path:            layerCurve,
-					TubularSegments: numSegments,
-					Radius:          tubeRadius,
-					RadialSegments:  16,
-					Closed:          true,
-				}).Stage(stool3dStage)
-
-				tubeMesh := (&threejs.Mesh{
-					Name:         fmt.Sprintf("Stool TubeMesh h%d", h),
-					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-					TubeGeometry: tGeom,
-					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 fmt.Sprintf("Stool Material h%d", h),
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgreen"},
-						Transparent:          true,
-						Opacity:              opacity,
-					}).Stage(stool3dStage),
-				}).Stage(stool3dStage)
-
-				canvas.Meshs = append(canvas.Meshs, tubeMesh)
 			}
+
+			numSegments := len(layerCurve.Points)
+			if numSegments < 2 {
+				numSegments = 2
+			}
+
+			tGeom := (&threejs.TubeGeometry{
+				Name:            fmt.Sprintf("%s TubeGeom", namePrefix),
+				Path:            layerCurve,
+				TubularSegments: numSegments,
+				Radius:          tubeRadius,
+				RadialSegments:  16,
+				Closed:          true,
+			}).Stage(stool3dStage)
+
+			tubeMesh := (&threejs.Mesh{
+				Name:         fmt.Sprintf("%s Mesh", namePrefix),
+				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				TubeGeometry: tGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:                 fmt.Sprintf("%s Material", namePrefix),
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+					Transparent:          true,
+					Opacity:              opacity,
+				}).Stage(stool3dStage),
+			}).Stage(stool3dStage)
+
+			canvas.Meshs = append(canvas.Meshs, tubeMesh)
+		}
+
+		// 6. Base 3D Torus
+		createTorusLayer(0.0, 0.0, "Stool Base Torus", "darkgreen")
+
+		// 7. Single rotated and elevated torus with growth vector parameters
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenPartiallyRotatedTorusShape {
+			var growthVectorX, growthVectorY float64
+			if plant.GrowthVectorShape != nil {
+				growthVectorX = plant.GrowthVectorShape.X
+				growthVectorY = plant.GrowthVectorShape.Y
+			}
+			createTorusLayer(growthVectorX, growthVectorY, "Stool Partially Rotated Torus", "darkgreen")
 		}
 
 		// 7. Add 3D Sampled Points visualization if toggled on
