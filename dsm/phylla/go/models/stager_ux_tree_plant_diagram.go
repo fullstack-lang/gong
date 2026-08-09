@@ -246,6 +246,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, arcNodes, "Mid Arc Vector Shape Grid", plant.MidArcVectorShapeGrid, &plantDiagram.IsHiddenMidArcVectorShapeGrid)
 		appendDiagramNode(stager, arcNodes, "End Arc Grid", plant.EndArcShapeGrid, &plantDiagram.IsHiddenEndArcShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
+		appendDiagramNode(stager, arcNodes, "Growth Curve 2D (stack by growth vector)", plant.StackOfGrowthCurve2DByGrowthVector, &plantDiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector)
 		stager.addHideAllButton(arcNodes,
 			&plantDiagram.IsHiddenGrowthVectorShape,
 			&plantDiagram.IsHiddenPerpendicularVectorGrid,
@@ -255,6 +256,7 @@ func (stager *Stager) treePlantDiagram(
 			&plantDiagram.IsHiddenMidArcVectorShapeGrid,
 			&plantDiagram.IsHiddenEndArcShapeGrid,
 			&plantDiagram.IsHiddenGrowthCurve2D,
+			&plantDiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector,
 		)
 
 		if plant.PlantType == Vase && plantDiagram.VaseDiagram != nil && plant.VaseAbstract != nil {

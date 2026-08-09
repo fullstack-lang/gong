@@ -108,6 +108,13 @@ type GrowthVectorShape struct {
 	X, Y float64
 }
 
+// StackOfGrowthCurve2DByGrowthVector of a plant,
+// draws StackHeight copies of GrowthCurve2D, each shifted by the growth vector.
+// gong:omit
+type StackOfGrowthCurve2DByGrowthVector struct {
+	Name string
+}
+
 // InitialRhombusGridShape of a plant,
 // gong:omit
 type InitialRhombusGridShape struct {

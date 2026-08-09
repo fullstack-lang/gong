@@ -275,6 +275,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct StackOfGrowthCurve2D
 	// insertion point per field
 
+	// Compute reverse map for named struct StackOfGrowthCurve2DByGrowthVector
+	// insertion point per field
+
 	// Compute reverse map for named struct StackOfGrowthCurve2DRibbon
 	// insertion point per field
 
@@ -694,6 +697,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StackOfGrowthCurve2Ds {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StackOfGrowthCurve2DByGrowthVectors {
 		res = append(res, instance)
 	}
 
@@ -1306,6 +1313,12 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongCopy() GongstructIF {
 	newInstance := new(StackOfGrowthCurve2D)
 	stackofgrowthcurve2d.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongCopy() GongstructIF {
+	newInstance := new(StackOfGrowthCurve2DByGrowthVector)
+	stackofgrowthcurve2dbygrowthvector.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2297,6 +2310,16 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetUUID(stage *Stage) (uui
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2d), uint64(GetOrderPointerGongstruct(stage, stackofgrowthcurve2d)))
+	return
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stackofgrowthcurve2dbygrowthvector).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stackofgrowthcurve2dbygrowthvector), uint64(GetOrderPointerGongstruct(stage, stackofgrowthcurve2dbygrowthvector)))
 	return
 }
 
@@ -3978,6 +4001,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StackOfGrowthCurve2Ds_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StackOfGrowthCurve2DByGrowthVectors_reference = make(map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector)
+	stage.StackOfGrowthCurve2DByGrowthVectors_referenceOrder = make(map[*StackOfGrowthCurve2DByGrowthVector]uint) // diff Unstage needs the reference order
+	stage.StackOfGrowthCurve2DByGrowthVectors_instance = make(map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector)
+	for instance := range stage.StackOfGrowthCurve2DByGrowthVectors {
+		_copy := instance.GongCopy().(*StackOfGrowthCurve2DByGrowthVector)
+		stage.StackOfGrowthCurve2DByGrowthVectors_reference[instance] = _copy
+		stage.StackOfGrowthCurve2DByGrowthVectors_instance[_copy] = instance
+		stage.StackOfGrowthCurve2DByGrowthVectors_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.StackOfGrowthCurve2DRibbons_reference = make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon)
 	stage.StackOfGrowthCurve2DRibbons_referenceOrder = make(map[*StackOfGrowthCurve2DRibbon]uint) // diff Unstage needs the reference order
 	stage.StackOfGrowthCurve2DRibbons_instance = make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon)
@@ -4716,6 +4749,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StackOfGrowthCurve2Ds {
 		reference := stage.StackOfGrowthCurve2Ds_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StackOfGrowthCurve2DByGrowthVectors {
+		reference := stage.StackOfGrowthCurve2DByGrowthVectors_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5836,6 +5874,18 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetOrder(stage *Stage) uin
 		return order
 	} else {
 		log.Printf("instance %p of type StackOfGrowthCurve2D was not staged and does not have a reference order", stackofgrowthcurve2d)
+		return 0
+	}
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[stackofgrowthcurve2dbygrowthvector]; ok {
+		return order
+	}
+	if order, ok := stage.StackOfGrowthCurve2DByGrowthVectors_referenceOrder[stackofgrowthcurve2dbygrowthvector]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StackOfGrowthCurve2DByGrowthVector was not staged and does not have a reference order", stackofgrowthcurve2dbygrowthvector)
 		return 0
 	}
 }
@@ -6967,6 +7017,15 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetReferenceIdentifier(sta
 	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2d.GongGetGongstructName(), stackofgrowthcurve2d.GongGetOrder(stage))
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2dbygrowthvector.GongGetGongstructName(), stackofgrowthcurve2dbygrowthvector.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2dbygrowthvector.GongGetGongstructName(), stackofgrowthcurve2dbygrowthvector.GongGetOrder(stage))
+}
+
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stackofgrowthcurve2dribbon.GongGetGongstructName(), stackofgrowthcurve2dribbon.GongGetOrder(stage))
 }
@@ -7909,6 +7968,14 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallIdentifier(stage *
 	return
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2dbygrowthvector.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StackOfGrowthCurve2DByGrowthVector")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2dbygrowthvector.Name))
+	return
+}
+
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2dribbon.GongGetIdentifier(stage))
@@ -8655,6 +8722,12 @@ func (stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcS
 func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2d.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stackofgrowthcurve2dbygrowthvector.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -456,6 +456,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenMidArcVectorShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DByGrowthVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -2520,6 +2521,11 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenGrowthCurve2D")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2D))
+	case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenStackOfGrowthCurve2DByGrowthVector")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -4016,6 +4022,21 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallField(stage *Stage
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StackOfGrowthCurve2D", fieldName)
+	}
+	return
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stackofgrowthcurve2dbygrowthvector.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stackofgrowthcurve2dbygrowthvector.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StackOfGrowthCurve2DByGrowthVector", fieldName)
 	}
 	return
 }
@@ -6395,6 +6416,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenMidArcVectorShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStackOfGrowthCurve2DByGrowthVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
@@ -6923,6 +6945,17 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongMarshallAllFields(stage *S
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stackofgrowthcurve2d.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stackofgrowthcurve2dbygrowthvector.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

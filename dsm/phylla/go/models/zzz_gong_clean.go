@@ -401,6 +401,7 @@ func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantabstract.MidArcVectorShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plantabstract.EndArcShapeGrid) || modified
 	modified = GongCleanPointer(stage, &plantabstract.GrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StackOfGrowthCurve2DByGrowthVector) || modified
 	return
 }
 
@@ -641,6 +642,13 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongClean(stage *Stage) (modif
 	// insertion point per field
 	modified = GongCleanSlice(stage, &stackofgrowthcurve2d.StackGrowthCurve2DStartHalfwayArcShapes) || modified
 	modified = GongCleanSlice(stage, &stackofgrowthcurve2d.StackGrowthCurve2DEndHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StackOfGrowthCurve2DByGrowthVector
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }

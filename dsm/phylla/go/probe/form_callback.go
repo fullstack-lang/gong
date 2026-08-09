@@ -5620,6 +5620,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantabstract_.EndArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2D":
 			FormDivSelectFieldToField(&(plantabstract_.GrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfGrowthCurve2DByGrowthVector":
+			FormDivSelectFieldToField(&(plantabstract_.StackOfGrowthCurve2DByGrowthVector), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5873,6 +5875,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
 		case "IsHiddenGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
+		case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve2DByGrowthVector), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -9739,6 +9743,84 @@ func (stackofgrowthcurve2dFormCallback *StackOfGrowthCurve2DFormCallback) OnSave
 	}
 
 	stackofgrowthcurve2dFormCallback.probe.ux_tree()
+}
+func __gong__New__StackOfGrowthCurve2DByGrowthVectorFormCallback(
+	stackofgrowthcurve2dbygrowthvector *models.StackOfGrowthCurve2DByGrowthVector,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stackofgrowthcurve2dbygrowthvectorFormCallback *StackOfGrowthCurve2DByGrowthVectorFormCallback) {
+	stackofgrowthcurve2dbygrowthvectorFormCallback = new(StackOfGrowthCurve2DByGrowthVectorFormCallback)
+	stackofgrowthcurve2dbygrowthvectorFormCallback.probe = probe
+	stackofgrowthcurve2dbygrowthvectorFormCallback.stackofgrowthcurve2dbygrowthvector = stackofgrowthcurve2dbygrowthvector
+	stackofgrowthcurve2dbygrowthvectorFormCallback.formGroup = formGroup
+
+	stackofgrowthcurve2dbygrowthvectorFormCallback.CreationMode = (stackofgrowthcurve2dbygrowthvector == nil)
+
+	return
+}
+
+type StackOfGrowthCurve2DByGrowthVectorFormCallback struct {
+	stackofgrowthcurve2dbygrowthvector *models.StackOfGrowthCurve2DByGrowthVector
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stackofgrowthcurve2dbygrowthvectorFormCallback *StackOfGrowthCurve2DByGrowthVectorFormCallback) OnSave() {
+	stackofgrowthcurve2dbygrowthvectorFormCallback.probe.stageOfInterest.Lock()
+	defer stackofgrowthcurve2dbygrowthvectorFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StackOfGrowthCurve2DByGrowthVectorFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stackofgrowthcurve2dbygrowthvectorFormCallback.probe.formStage.Checkout()
+
+	if stackofgrowthcurve2dbygrowthvectorFormCallback.stackofgrowthcurve2dbygrowthvector == nil {
+		stackofgrowthcurve2dbygrowthvectorFormCallback.stackofgrowthcurve2dbygrowthvector = new(models.StackOfGrowthCurve2DByGrowthVector).Stage(stackofgrowthcurve2dbygrowthvectorFormCallback.probe.stageOfInterest)
+	}
+	stackofgrowthcurve2dbygrowthvector_ := stackofgrowthcurve2dbygrowthvectorFormCallback.stackofgrowthcurve2dbygrowthvector
+	_ = stackofgrowthcurve2dbygrowthvector_
+
+	for _, formDiv := range stackofgrowthcurve2dbygrowthvectorFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stackofgrowthcurve2dbygrowthvector_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if stackofgrowthcurve2dbygrowthvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackofgrowthcurve2dbygrowthvector_.Unstage(stackofgrowthcurve2dbygrowthvectorFormCallback.probe.stageOfInterest)
+	}
+
+	stackofgrowthcurve2dbygrowthvectorFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StackOfGrowthCurve2DByGrowthVector](
+		stackofgrowthcurve2dbygrowthvectorFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stackofgrowthcurve2dbygrowthvectorFormCallback.CreationMode || stackofgrowthcurve2dbygrowthvectorFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stackofgrowthcurve2dbygrowthvectorFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stackofgrowthcurve2dbygrowthvectorFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StackOfGrowthCurve2DByGrowthVectorFormCallback(
+			nil,
+			stackofgrowthcurve2dbygrowthvectorFormCallback.probe,
+			newFormGroup,
+		)
+		stackofgrowthcurve2dbygrowthvector := new(models.StackOfGrowthCurve2DByGrowthVector)
+		FillUpForm(stackofgrowthcurve2dbygrowthvector, newFormGroup, stackofgrowthcurve2dbygrowthvectorFormCallback.probe)
+		stackofgrowthcurve2dbygrowthvectorFormCallback.probe.formStage.Commit()
+	}
+
+	stackofgrowthcurve2dbygrowthvectorFormCallback.probe.ux_tree()
 }
 func __gong__New__StackOfGrowthCurve2DRibbonFormCallback(
 	stackofgrowthcurve2dribbon *models.StackOfGrowthCurve2DRibbon,

@@ -2225,6 +2225,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
 	case "GrowthCurve2D":
 		GongUnmarshallPointer(&instance.GrowthCurve2D, valueExpr, identifierMap)
+	case "StackOfGrowthCurve2DByGrowthVector":
+		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DByGrowthVector, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2335,6 +2337,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenEndArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurve2D":
 		instance.IsHiddenGrowthCurve2D = GongExtractBool(valueExpr)
+	case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+		instance.IsHiddenStackOfGrowthCurve2DByGrowthVector = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -3640,6 +3644,35 @@ func (u *StackOfGrowthCurve2DUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurve2DStartHalfwayArcShapes, valueExpr, identifierMap)
 	case "StackGrowthCurve2DEndHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.StackGrowthCurve2DEndHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StackOfGrowthCurve2DByGrowthVectorUnmarshaller struct{}
+
+func (u *StackOfGrowthCurve2DByGrowthVectorUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StackOfGrowthCurve2DByGrowthVector)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StackOfGrowthCurve2DByGrowthVectorUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StackOfGrowthCurve2DByGrowthVector)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }
