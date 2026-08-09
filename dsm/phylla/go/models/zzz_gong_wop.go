@@ -2435,6 +2435,20 @@ func (from *StartHalfwayArcShapeGrid) CopyBasicFields(to *StartHalfwayArcShapeGr
 	to.Name = from.Name
 }
 
+type StoolAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RadialRepetitions int
+}
+
+func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RadialRepetitions = from.RadialRepetitions
+}
+
 type TopEndArcShape_WOP struct {
 	// insertion point
 

@@ -27,7 +27,11 @@ func (onSave *plantFormOnSave) OnSave() {
 				if err := (&newType).FromCodeString(value.Name); err == nil {
 					if onSave.plant.PlantType != newType {
 						onSave.plant.PlantType = newType
-						if newType != Vase {
+						if newType == Stool {
+							if onSave.plant.CurrentView != VIEW_PLANT_2D && onSave.plant.CurrentView != VIEW_STOOL_3D {
+								onSave.plant.CurrentView = VIEW_PLANT_2D
+							}
+						} else if newType != Vase {
 							onSave.plant.CurrentView = VIEW_PLANT_2D
 						}
 						modified = true

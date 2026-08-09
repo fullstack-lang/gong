@@ -1050,6 +1050,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		EnumTypeStringToForm("PlantType", instanceWithInferedType.PlantType, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("VaseAbstract", instanceWithInferedType.VaseAbstract, formGroup, probe)
+		AssociationFieldToForm("StoolAbstract", instanceWithInferedType.StoolAbstract, formGroup, probe)
 		EnumTypeStringToForm("CurrentView", instanceWithInferedType.CurrentView, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -2410,6 +2411,18 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("StartHalfwayArcShapes", instanceWithInferedType, &instanceWithInferedType.StartHalfwayArcShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.StoolAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

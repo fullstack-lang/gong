@@ -561,6 +561,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.starthalfwayarcshapegrid, probe)
 			}
+		case *StoolAbstractFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "StoolAbstract", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stoolabstract, probe)
+			}
 		case *TopEndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TopEndArcShape", true)
@@ -1904,6 +1910,19 @@ func FillUpFormFromGongstructName(
 		starthalfwayarcshapegrid := new(models.StartHalfwayArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(starthalfwayarcshapegrid, formGroup, probe)
+	case "StoolAbstract":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "StoolAbstract Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__StoolAbstractFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stoolabstract := new(models.StoolAbstract)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stoolabstract, formGroup, probe)
 	case "TopEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

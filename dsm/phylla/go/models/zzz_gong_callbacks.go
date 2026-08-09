@@ -370,6 +370,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStartHalfwayArcShapeGridCreateCallback != nil {
 			stage.OnAfterStartHalfwayArcShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *StoolAbstract:
+		if stage.OnAfterStoolAbstractCreateCallback != nil {
+			stage.OnAfterStoolAbstractCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *TopEndArcShape:
 		if stage.OnAfterTopEndArcShapeCreateCallback != nil {
 			stage.OnAfterTopEndArcShapeCreateCallback.OnAfterCreate(stage, target)
@@ -930,6 +934,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*StartHalfwayArcShapeGrid)
 		if stage.OnAfterStartHalfwayArcShapeGridUpdateCallback != nil {
 			stage.OnAfterStartHalfwayArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *StoolAbstract:
+		newTarget := any(new).(*StoolAbstract)
+		if stage.OnAfterStoolAbstractUpdateCallback != nil {
+			stage.OnAfterStoolAbstractUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *TopEndArcShape:
 		newTarget := any(new).(*TopEndArcShape)
@@ -1511,6 +1520,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*StartHalfwayArcShapeGrid)
 			stage.OnAfterStartHalfwayArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *StoolAbstract:
+		if stage.OnAfterStoolAbstractDeleteCallback != nil {
+			staged := any(staged).(*StoolAbstract)
+			stage.OnAfterStoolAbstractDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *TopEndArcShape:
 		if stage.OnAfterTopEndArcShapeDeleteCallback != nil {
 			staged := any(staged).(*TopEndArcShape)
@@ -2000,6 +2014,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStartHalfwayArcShapeGridReadCallback != nil {
 			stage.OnAfterStartHalfwayArcShapeGridReadCallback.OnAfterRead(stage, target)
 		}
+	case *StoolAbstract:
+		if stage.OnAfterStoolAbstractReadCallback != nil {
+			stage.OnAfterStoolAbstractReadCallback.OnAfterRead(stage, target)
+		}
 	case *TopEndArcShape:
 		if stage.OnAfterTopEndArcShapeReadCallback != nil {
 			stage.OnAfterTopEndArcShapeReadCallback.OnAfterRead(stage, target)
@@ -2285,6 +2303,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartHalfwayArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[StartHalfwayArcShapeGrid])
+	case *StoolAbstract:
+		stage.OnAfterStoolAbstractUpdateCallback = any(callback).(OnAfterUpdateInterface[StoolAbstract])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:
@@ -2520,6 +2540,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartHalfwayArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[StartHalfwayArcShapeGrid])
+	case *StoolAbstract:
+		stage.OnAfterStoolAbstractCreateCallback = any(callback).(OnAfterCreateInterface[StoolAbstract])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:
@@ -2755,6 +2777,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStartHalfwayArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[StartHalfwayArcShapeGrid])
+	case *StoolAbstract:
+		stage.OnAfterStoolAbstractDeleteCallback = any(callback).(OnAfterDeleteInterface[StoolAbstract])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:
@@ -2990,6 +3014,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterStartHalfwayArcShapeReadCallback = any(callback).(OnAfterReadInterface[StartHalfwayArcShape])
 	case *StartHalfwayArcShapeGrid:
 		stage.OnAfterStartHalfwayArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[StartHalfwayArcShapeGrid])
+	case *StoolAbstract:
+		stage.OnAfterStoolAbstractReadCallback = any(callback).(OnAfterReadInterface[StoolAbstract])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:

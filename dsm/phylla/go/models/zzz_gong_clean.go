@@ -391,6 +391,7 @@ func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &plantabstract.PlantDiagrams) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantabstract.VaseAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StoolAbstract) || modified
 	modified = GongCleanPointer(stage, &plantabstract.AxesShape) || modified
 	modified = GongCleanPointer(stage, &plantabstract.RhombusStuff) || modified
 	modified = GongCleanPointer(stage, &plantabstract.GrowthVectorShape) || modified
@@ -741,6 +742,13 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongClean(stage *Stage) (modif
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &starthalfwayarcshapegrid.StartHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StoolAbstract
+func (stoolabstract *StoolAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }

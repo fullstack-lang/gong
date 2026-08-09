@@ -13,6 +13,7 @@ const (
 	VIEW_VASE_FORM ViewType = "Vase Form"
 	VIEW_VASE_2D   ViewType = "Vase 2D"
 	VIEW_VASE_3D   ViewType = "Vase 3D"
+	VIEW_STOOL_3D  ViewType = "Stool 3D"
 )
 
 type PlantType string
@@ -46,7 +47,8 @@ type PlantAbstract struct {
 
 	PlantType PlantType
 
-	VaseAbstract *VaseAbstract
+	VaseAbstract  *VaseAbstract
+	StoolAbstract *StoolAbstract
 
 	CurrentView ViewType
 
@@ -64,19 +66,28 @@ type PlantAbstract struct {
 
 	GrowthVectorShape *GrowthVectorShape
 
-	PerpendicularVectorGrid *PerpendicularVectorGrid
-	BaseVectorShapeGrid     *BaseVectorShapeGrid
+	PerpendicularVectorGrid  *PerpendicularVectorGrid
+	BaseVectorShapeGrid      *BaseVectorShapeGrid
 	ArcNormalVectorShapeGrid *ArcNormalVectorShapeGrid
 
-	StartArcShapeGrid *StartArcShapeGrid
+	StartArcShapeGrid     *StartArcShapeGrid
 	MidArcVectorShapeGrid *MidArcVectorShapeGrid
-	EndArcShapeGrid *EndArcShapeGrid
+	EndArcShapeGrid       *EndArcShapeGrid
 
 	GrowthCurve2D *GrowthCurve2D
 
 	// StackOfGrowthCurve2DByGrowthVector draws StackHeight copies of GrowthCurve2D,
 	// each translated by the growth vector (k * GrowthVectorShape).
 	StackOfGrowthCurve2DByGrowthVector *StackOfGrowthCurve2DByGrowthVector
+}
+
+type StoolAbstract struct {
+	Name string
+
+	// RadialRepetitions impacts the conversion from 2D ribbons to 3D torus.
+	// The 3D torus  is construed by 2Pi/RadialRepetitions each time it ranges over the  GrowthCurve2DRibbon
+	// If ThreeDModule is 1, the 3D torus wraps 360 degrees while ranging over the GrowthCurve2DRibbon
+	RadialRepetitions int
 }
 
 type VaseAbstract struct {

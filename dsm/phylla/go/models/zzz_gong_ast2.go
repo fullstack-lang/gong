@@ -2193,6 +2193,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallEnum(&instance.PlantType, valueExpr)
 	case "VaseAbstract":
 		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
+	case "StoolAbstract":
+		GongUnmarshallPointer(&instance.StoolAbstract, valueExpr, identifierMap)
 	case "CurrentView":
 		GongUnmarshallEnum(&instance.CurrentView, valueExpr)
 	case "ComputedPrefix":
@@ -4181,6 +4183,37 @@ func (u *StartHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.Name = GongExtractString(valueExpr)
 	case "StartHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.StartHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type StoolAbstractUnmarshaller struct{}
+
+func (u *StoolAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(StoolAbstract)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*StoolAbstract)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "RadialRepetitions":
+		instance.RadialRepetitions = GongExtractInt(valueExpr)
 	}
 	return nil
 }
