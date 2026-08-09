@@ -156,7 +156,7 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 func (stager *Stager) enforcePlantRotationRatioHeights() bool {
 	modified := false
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		if plant.VaseAbstract == nil {
+		if plant.PlantType != Vase {
 			continue
 		}
 		h0 := ComputeStackHeightForRotationRatio(plant, 0.0)

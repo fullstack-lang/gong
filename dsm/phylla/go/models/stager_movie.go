@@ -36,7 +36,7 @@ func (stager *Stager) startMovieRecording(plant *PlantAbstract, plantDiagram *Pl
 	stager.savedInitCommitCallback = stager.stage.OnInitCommitCallback
 	stager.stage.OnInitCommitCallback = nil
 
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		plant.VaseAbstract.RotationRatio = 0.0
 	}
 	stager.stage.Commit()
@@ -61,7 +61,7 @@ func (stager *Stager) onCanvasFrameCaptured(canvas *threejs.Canvas) {
 	}
 
 	currentRot := 0.0
-	if stager.recordingPlant.VaseAbstract != nil {
+	if stager.recordingPlant.PlantType == Vase {
 		currentRot = stager.recordingPlant.VaseAbstract.RotationRatio
 	}
 
@@ -95,7 +95,7 @@ func (stager *Stager) onCanvasFrameCaptured(canvas *threejs.Canvas) {
 	stager.recordingFrameCount++
 
 	nbFrames := 1000
-	if stager.recordingPlant.VaseAbstract != nil && stager.recordingPlant.VaseAbstract.MovieNbFrames > 0 {
+	if stager.recordingPlant.PlantType == Vase && stager.recordingPlant.VaseAbstract.MovieNbFrames > 0 {
 		nbFrames = stager.recordingPlant.VaseAbstract.MovieNbFrames
 	}
 	rotIncrement := 1.0 / float64(nbFrames)
@@ -103,7 +103,7 @@ func (stager *Stager) onCanvasFrameCaptured(canvas *threejs.Canvas) {
 	nextRot := math.Round(stager.recordingRot/rotIncrement) * rotIncrement
 
 	if stager.recordingFrameCount < nbFrames {
-		if stager.recordingPlant.VaseAbstract != nil {
+		if stager.recordingPlant.PlantType == Vase {
 			stager.recordingPlant.VaseAbstract.RotationRatio = nextRot
 		}
 		stager.enforceSemantic()

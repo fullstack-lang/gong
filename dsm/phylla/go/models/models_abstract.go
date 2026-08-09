@@ -84,9 +84,9 @@ const (
 type PlantType string
 
 const (
-	PLANT_TYPE_PLANT PlantType = "Plant"
-	PLANT_TYPE_VASE  PlantType = "Vase"
-	PLANT_TYPE_STOOL PlantType = "Stool"
+	Plant PlantType = "Plant"
+	Vase  PlantType = "Vase"
+	Stool PlantType = "Stool"
 )
 
 // Depending on the specific chirality (handedness) of the plant specimen, N may

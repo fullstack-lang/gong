@@ -16,7 +16,7 @@ func (stager *Stager) generateLayerWithModulo(
 ) {
 	radialRepetition := 1
 	h_horiz := 0.0
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		radialRepetition = plant.VaseAbstract.RadialRepetitions
 		h_horiz = plant.VaseAbstract.RelativeHorizontalRingsHeight * plant.RhombusSideLength
 	}

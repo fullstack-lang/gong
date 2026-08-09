@@ -1684,7 +1684,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1738,7 +1738,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "blue"
-		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1802,7 +1802,7 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -1856,7 +1856,7 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 
 		path.Presentation.FillOpacity = 0.3
 		path.Presentation.Color = "purple"
-		if plant.VaseAbstract != nil && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
+		if plant.PlantType == Vase && plant.VaseAbstract.HasAlternatingRingColors && i%2 != 0 {
 			path.Presentation.Color = "saddlebrown"
 		}
 		path.Presentation.Stroke = "none"
@@ -2649,7 +2649,7 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	}
 
 	keyHole := plant.KeyHoleShape
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		keyHole.X = plant.VaseAbstract.OffsetKeyX
 		keyHole.Y = plant.VaseAbstract.OffsetKeyY
 		keyHole.Width = plant.VaseAbstract.WidthKey
@@ -2661,7 +2661,7 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 	heightKey := 0.0
 	offsetKeyX := 0.0
 	offsetKeyY := 0.0
-	if plant.VaseAbstract != nil {
+	if plant.PlantType == Vase {
 		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		widthKey = plant.VaseAbstract.WidthKey
 		heightKey = plant.VaseAbstract.HeightKey
@@ -2861,7 +2861,7 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 						if R1 >= 0 && R2 > 0 {
 							refSteps := 10
 							chosenK := 0
-							if plant.VaseAbstract != nil {
+							if plant.PlantType == Vase {
 								refSteps = plant.VaseAbstract.NbStepP1P2
 								chosenK = plant.VaseAbstract.ChosenStep
 							}

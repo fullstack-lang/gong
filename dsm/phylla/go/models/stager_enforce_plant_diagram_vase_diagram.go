@@ -13,7 +13,7 @@ func (stager *Stager) enforcePlantDiagramVaseDiagram() bool {
 
 	for plantDiagram := range stager.stage.PlantDiagrams {
 		owner := diagramOwner[plantDiagram]
-		if owner != nil && owner.PlantType == PLANT_TYPE_VASE {
+		if owner != nil && owner.PlantType == Vase {
 			if plantDiagram.VaseDiagram == nil {
 				vd := (&VaseDiagram{
 					Name: plantDiagram.Name + "-VaseDiagram",
@@ -49,4 +49,3 @@ func (stager *Stager) enforcePlantDiagramVaseDiagram() bool {
 
 	return modified
 }
-

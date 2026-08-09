@@ -12,7 +12,7 @@ import (
 
 func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node, is3DView bool) {
 	nodeName := plant.Name
-	if plant.PlantType == PLANT_TYPE_VASE && plant.VaseAbstract != nil {
+	if !plant.isInRenameMode && plant.PlantType == Vase {
 		h0 := plant.VaseAbstract.heightAtRotRatio0
 		h1 := plant.VaseAbstract.heightAtRotRatio1
 		var ratio float64
@@ -29,6 +29,8 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		IsInEditMode:    plant.isInRenameMode,
 	}
 	*parentNodes = append(*parentNodes, plantNode)
+
+	addRenameButton(plant, plantNode, stager)
 
 	plantNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsExpanded)
 	plantNode.OnNameChange = stager.onNameChange(plant)

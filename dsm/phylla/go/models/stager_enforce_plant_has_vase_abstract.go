@@ -2,7 +2,7 @@ package models
 
 func (stager *Stager) enforcePlantHasVaseAbstract() (needCommit bool) {
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		if plant.PlantType == PLANT_TYPE_VASE {
+		if plant.PlantType == Vase {
 			if plant.VaseAbstract == nil {
 				va := (&VaseAbstract{
 					Name: plant.Name + "-VaseAbstract",
@@ -38,7 +38,7 @@ func (stager *Stager) enforcePlantHasVaseAbstract() (needCommit bool) {
 
 func (stager *Stager) enforceVaseAbstractName() (needCommit bool) {
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		if plant.VaseAbstract != nil {
+		if plant.PlantType == Vase {
 			expectedName := plant.Name + "-VaseAbstract"
 			if plant.VaseAbstract.Name != expectedName {
 				plant.VaseAbstract.Name = expectedName
@@ -48,4 +48,3 @@ func (stager *Stager) enforceVaseAbstractName() (needCommit bool) {
 	}
 	return needCommit
 }
-

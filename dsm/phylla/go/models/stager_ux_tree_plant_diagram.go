@@ -101,7 +101,7 @@ func (stager *Stager) treePlantDiagram(
 	}
 	if stager.isRecording {
 		rotRatio := 0.0
-		if plant.VaseAbstract != nil {
+		if plant.PlantType == Vase {
 			rotRatio = plant.VaseAbstract.RotationRatio
 		}
 		recordMovieBtn.Name = "Stop Recording"
@@ -167,7 +167,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, arcNodes, "End Arc Grid", plant.EndArcShapeGrid, &plantDiagram.IsHiddenEndArcShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
 
-		if plant.PlantType == PLANT_TYPE_VASE && plantDiagram.VaseDiagram != nil {
+		if plant.PlantType == Vase && plantDiagram.VaseDiagram != nil {
 			vaseArcNodes := &tree.Node{
 				Name:            "Arc Confs Vase",
 				IsExpanded:      plantDiagram.IsVaseArcNodesExpanded,

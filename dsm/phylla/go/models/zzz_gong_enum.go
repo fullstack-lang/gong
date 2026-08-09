@@ -168,11 +168,11 @@ func (planttype PlantType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch planttype {
 	// insertion code per enum code
-	case PLANT_TYPE_PLANT:
+	case Plant:
 		res = "Plant"
-	case PLANT_TYPE_VASE:
+	case Vase:
 		res = "Vase"
-	case PLANT_TYPE_STOOL:
+	case Stool:
 		res = "Stool"
 	}
 	return
@@ -183,13 +183,13 @@ func (planttype *PlantType) FromString(input string) (err error) {
 	switch input {
 	// insertion code per enum code
 	case "Plant":
-		*planttype = PLANT_TYPE_PLANT
+		*planttype = Plant
 		return
 	case "Vase":
-		*planttype = PLANT_TYPE_VASE
+		*planttype = Vase
 		return
 	case "Stool":
-		*planttype = PLANT_TYPE_STOOL
+		*planttype = Stool
 		return
 	default:
 		return errUnkownEnum
@@ -200,12 +200,12 @@ func (planttype *PlantType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "PLANT_TYPE_PLANT":
-		*planttype = PLANT_TYPE_PLANT
-	case "PLANT_TYPE_VASE":
-		*planttype = PLANT_TYPE_VASE
-	case "PLANT_TYPE_STOOL":
-		*planttype = PLANT_TYPE_STOOL
+	case "Plant":
+		*planttype = Plant
+	case "Vase":
+		*planttype = Vase
+	case "Stool":
+		*planttype = Stool
 	default:
 		err = errUnkownEnum
 	}
@@ -216,12 +216,12 @@ func (planttype *PlantType) ToCodeString() (res string) {
 
 	switch *planttype {
 	// insertion code per enum code
-	case PLANT_TYPE_PLANT:
-		res = "PLANT_TYPE_PLANT"
-	case PLANT_TYPE_VASE:
-		res = "PLANT_TYPE_VASE"
-	case PLANT_TYPE_STOOL:
-		res = "PLANT_TYPE_STOOL"
+	case Plant:
+		res = "Plant"
+	case Vase:
+		res = "Vase"
+	case Stool:
+		res = "Stool"
 	}
 	return
 }
@@ -231,9 +231,9 @@ func (planttype PlantType) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "PLANT_TYPE_PLANT")
-	res = append(res, "PLANT_TYPE_VASE")
-	res = append(res, "PLANT_TYPE_STOOL")
+	res = append(res, "Plant")
+	res = append(res, "Vase")
+	res = append(res, "Stool")
 
 	return
 }
