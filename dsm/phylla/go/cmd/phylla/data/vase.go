@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -452.870310
-	__Rendered3DShape__00000002_.ViewY = 242.952321
-	__Rendered3DShape__00000002_.ViewZ = 894.120275
+	__Rendered3DShape__00000002_.ViewX = -452.872080
+	__Rendered3DShape__00000002_.ViewY = 242.964853
+	__Rendered3DShape__00000002_.ViewZ = 894.117375
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 100.000000
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
@@ -253,7 +253,8 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.ProjectionAngle = 24.000000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
-	__StoolDiagram__00000000_.IsHiddenPartiallyRotatedTorusShape = false
+	__StoolDiagram__00000000_.IsHiddenSeatTopCurveShape = false
+	__StoolDiagram__00000000_.IsHiddenPartiallyRotatedTorusShape = true
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`

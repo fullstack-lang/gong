@@ -579,6 +579,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSeatTopCurveShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
@@ -2852,6 +2853,21 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallField(stage *Stage
 	return
 }
 
+func (seattopcurveshape *SeatTopCurveShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", seattopcurveshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seattopcurveshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SeatTopCurveShape", fieldName)
+	}
+	return
+}
+
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -4740,6 +4756,11 @@ func (stooldiagram *StoolDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stooldiagram.Name))
+	case "IsHiddenSeatTopCurveShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenSeatTopCurveShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stooldiagram.IsHiddenSeatTopCurveShape))
 	case "IsHiddenPartiallyRotatedTorusShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
@@ -6730,6 +6751,17 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallAllFields(stage *S
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (seattopcurveshape *SeatTopCurveShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(seattopcurveshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -7392,6 +7424,7 @@ func (stooldiagram *StoolDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSeatTopCurveShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))

@@ -1266,6 +1266,17 @@ func (from *SampledPoints3DShape) CopyBasicFields(to *SampledPoints3DShape) {
 	to.Name = from.Name
 }
 
+type SeatTopCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SeatTopCurveShape) CopyBasicFields(to *SeatTopCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type ShiftedBottomTopStartArcShape_WOP struct {
 	// insertion point
 
@@ -2469,6 +2480,8 @@ type StoolDiagram_WOP struct {
 
 	Name string
 
+	IsHiddenSeatTopCurveShape bool
+
 	IsHiddenPartiallyRotatedTorusShape bool
 
 	IsHiddenSampledPoints3DShape bool
@@ -2477,6 +2490,7 @@ type StoolDiagram_WOP struct {
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.IsHiddenSeatTopCurveShape = from.IsHiddenSeatTopCurveShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 }

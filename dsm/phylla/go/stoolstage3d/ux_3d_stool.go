@@ -303,6 +303,64 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			createTorusLayer(growthVectorX, growthVectorY, "Stool Partially Rotated Torus", "darkgreen")
 		}
 
+		// 8. Seat Top 2D Projected Curve on the horizontal stool top plane
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSeatTopCurveShape {
+			seatTopCurve := (&threejs.Curve{
+				Name: "Stool Seat Top Curve",
+			}).Stage(stool3dStage)
+
+			projAngleRad := plant.StoolAbstract.ProjectionAngle * math.Pi / 180.0
+
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + baseThetaOffset
+
+					ptY := pt.Y + stoolHeight
+					deltaY := stoolHeight - ptY
+					rProj := r + deltaY*math.Tan(projAngleRad)
+
+					seatTopCurve.Points = append(seatTopCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
+						X:    rProj * math.Cos(newTheta),
+						Y:    stoolHeight,
+						Z:    rProj * math.Sin(newTheta),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			numSegments := len(seatTopCurve.Points)
+			if numSegments < 2 {
+				numSegments = 2
+			}
+
+			stGeom := (&threejs.TubeGeometry{
+				Name:            "Stool Seat Top TubeGeom",
+				Path:            seatTopCurve,
+				TubularSegments: numSegments,
+				Radius:          tubeRadius,
+				RadialSegments:  16,
+				Closed:          true,
+			}).Stage(stool3dStage)
+
+			stMesh := (&threejs.Mesh{
+				Name:         "Stool Seat Top Mesh",
+				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				TubeGeometry: stGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:                 "Stool Seat Top Material",
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "royalblue"},
+					Transparent:          true,
+					Opacity:              opacity,
+				}).Stage(stool3dStage),
+			}).Stage(stool3dStage)
+
+			canvas.Meshs = append(canvas.Meshs, stMesh)
+		}
+
 		// 8. Add 3D Sampled Points visualization if toggled on
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
 			numPointsPerRep := len(resampledBaseCurve.Points)

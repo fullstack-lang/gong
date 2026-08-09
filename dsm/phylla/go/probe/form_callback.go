@@ -6710,6 +6710,84 @@ func (sampledpoints3dshapeFormCallback *SampledPoints3DShapeFormCallback) OnSave
 
 	sampledpoints3dshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__SeatTopCurveShapeFormCallback(
+	seattopcurveshape *models.SeatTopCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (seattopcurveshapeFormCallback *SeatTopCurveShapeFormCallback) {
+	seattopcurveshapeFormCallback = new(SeatTopCurveShapeFormCallback)
+	seattopcurveshapeFormCallback.probe = probe
+	seattopcurveshapeFormCallback.seattopcurveshape = seattopcurveshape
+	seattopcurveshapeFormCallback.formGroup = formGroup
+
+	seattopcurveshapeFormCallback.CreationMode = (seattopcurveshape == nil)
+
+	return
+}
+
+type SeatTopCurveShapeFormCallback struct {
+	seattopcurveshape *models.SeatTopCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (seattopcurveshapeFormCallback *SeatTopCurveShapeFormCallback) OnSave() {
+	seattopcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer seattopcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SeatTopCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	seattopcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if seattopcurveshapeFormCallback.seattopcurveshape == nil {
+		seattopcurveshapeFormCallback.seattopcurveshape = new(models.SeatTopCurveShape).Stage(seattopcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	seattopcurveshape_ := seattopcurveshapeFormCallback.seattopcurveshape
+	_ = seattopcurveshape_
+
+	for _, formDiv := range seattopcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(seattopcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if seattopcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		seattopcurveshape_.Unstage(seattopcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	seattopcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SeatTopCurveShape](
+		seattopcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if seattopcurveshapeFormCallback.CreationMode || seattopcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		seattopcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(seattopcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SeatTopCurveShapeFormCallback(
+			nil,
+			seattopcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		seattopcurveshape := new(models.SeatTopCurveShape)
+		FillUpForm(seattopcurveshape, newFormGroup, seattopcurveshapeFormCallback.probe)
+		seattopcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	seattopcurveshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__ShiftedBottomTopStartArcShapeFormCallback(
 	shiftedbottomtopstartarcshape *models.ShiftedBottomTopStartArcShape,
 	probe *Probe,
@@ -11569,6 +11647,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(stooldiagram_.Name), formDiv)
+		case "IsHiddenSeatTopCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatTopCurveShape), formDiv)
+		case "SeatTopCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.SeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHiddenPartiallyRotatedTorusShape":
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
 		case "PartiallyRotatedTorusShape":

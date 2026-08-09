@@ -178,6 +178,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *SampledPoints3DShape:
 		ok = stage.IsStagedSampledPoints3DShape(target)
 
+	case *SeatTopCurveShape:
+		ok = stage.IsStagedSeatTopCurveShape(target)
+
 	case *ShiftedBottomTopStartArcShape:
 		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
 
@@ -535,6 +538,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *SampledPoints3DShape:
 		ok = stage.IsStagedSampledPoints3DShape(target)
+
+	case *SeatTopCurveShape:
+		ok = stage.IsStagedSeatTopCurveShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		ok = stage.IsStagedShiftedBottomTopStartArcShape(target)
@@ -1115,6 +1121,13 @@ func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhom
 func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
 
 	_, ok = stage.SampledPoints3DShapes[sampledpoints3dshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) (ok bool) {
+
+	_, ok = stage.SeatTopCurveShapes[seattopcurveshape]
 
 	return
 }
@@ -1710,6 +1723,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *SampledPoints3DShape:
 		stage.StageBranchSampledPoints3DShape(target)
+
+	case *SeatTopCurveShape:
+		stage.StageBranchSeatTopCurveShape(target)
 
 	case *ShiftedBottomTopStartArcShape:
 		stage.StageBranchShiftedBottomTopStartArcShape(target)
@@ -2763,6 +2779,21 @@ func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *Sample
 	}
 
 	sampledpoints3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, seattopcurveshape) {
+		return
+	}
+
+	seattopcurveshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3910,6 +3941,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *SampledPoints3DShape:
 		toT := CopyBranchSampledPoints3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SeatTopCurveShape:
+		toT := CopyBranchSeatTopCurveShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *ShiftedBottomTopStartArcShape:
@@ -5259,6 +5294,25 @@ func CopyBranchSampledPoints3DShape(mapOrigCopy map[any]any, sampledpoints3dshap
 	return
 }
 
+func CopyBranchSeatTopCurveShape(mapOrigCopy map[any]any, seattopcurveshapeFrom *SeatTopCurveShape) (seattopcurveshapeTo *SeatTopCurveShape) {
+
+	// seattopcurveshapeFrom has already been copied
+	if _seattopcurveshapeTo, ok := mapOrigCopy[seattopcurveshapeFrom]; ok {
+		seattopcurveshapeTo = _seattopcurveshapeTo.(*SeatTopCurveShape)
+		return
+	}
+
+	seattopcurveshapeTo = new(SeatTopCurveShape)
+	mapOrigCopy[seattopcurveshapeFrom] = seattopcurveshapeTo
+	seattopcurveshapeFrom.CopyBasicFields(seattopcurveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchShiftedBottomTopStartArcShape(mapOrigCopy map[any]any, shiftedbottomtopstartarcshapeFrom *ShiftedBottomTopStartArcShape) (shiftedbottomtopstartarcshapeTo *ShiftedBottomTopStartArcShape) {
 
 	// shiftedbottomtopstartarcshapeFrom has already been copied
@@ -6577,6 +6631,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *SampledPoints3DShape:
 		stage.UnstageBranchSampledPoints3DShape(target)
 
+	case *SeatTopCurveShape:
+		stage.UnstageBranchSeatTopCurveShape(target)
+
 	case *ShiftedBottomTopStartArcShape:
 		stage.UnstageBranchShiftedBottomTopStartArcShape(target)
 
@@ -7629,6 +7686,21 @@ func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *Samp
 	}
 
 	sampledpoints3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, seattopcurveshape) {
+		return
+	}
+
+	seattopcurveshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -8849,6 +8921,11 @@ func (reference *SampledPoints3DShape) GongReconstructPointersFromReferences(sta
 	// insertion point for slice of pointers field
 }
 
+func (reference *SeatTopCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *SeatTopCurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *ShiftedBottomTopStartArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *ShiftedBottomTopStartArcShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9489,6 +9566,11 @@ func (reference *RotatedRhombusShape) GongReconstructPointersFromInstances(stage
 }
 
 func (reference *SampledPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *SeatTopCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -11175,6 +11257,17 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongDiff(stage *Stage, sampled
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (seattopcurveshape *SeatTopCurveShape) GongDiff(stage *Stage, seattopcurveshapeOther *SeatTopCurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if seattopcurveshape.Name != seattopcurveshapeOther.Name {
+		diffs = append(diffs, seattopcurveshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongDiff(stage *Stage, shiftedbottomtopstartarcshapeOther *ShiftedBottomTopStartArcShape) (diffs []string) {
 	// insertion point for field diffs
 	if shiftedbottomtopstartarcshape.Name != shiftedbottomtopstartarcshapeOther.Name {
@@ -12377,6 +12470,9 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	// insertion point for field diffs
 	if stooldiagram.Name != stooldiagramOther.Name {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Name"))
+	}
+	if stooldiagram.IsHiddenSeatTopCurveShape != stooldiagramOther.IsHiddenSeatTopCurveShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSeatTopCurveShape"))
 	}
 	if stooldiagram.IsHiddenPartiallyRotatedTorusShape != stooldiagramOther.IsHiddenPartiallyRotatedTorusShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
