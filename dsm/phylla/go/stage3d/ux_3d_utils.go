@@ -1,46 +1,50 @@
-package models
+package stage3d
 
 import (
 	"fmt"
 	"math"
-
 	"strconv"
 
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (stager *Stager) addLights(canvas *threejs.Canvas) {
+func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.Canvas) {
+	threejsStage := stager.GetThreejsStage()
+
 	dirLight1 := (&threejs.DirectionalLight{
 		Name:             "Directional Light 1 (Key)",
 		Position:         threejs.Position{X: 15, Y: 20, Z: 15},
 		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
 		IsWithCastShadow: true,
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	dirLight2 := (&threejs.DirectionalLight{
 		Name:             "Directional Light 2 (Fill)",
 		Position:         threejs.Position{X: -15, Y: 10, Z: -15},
 		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
 		IsWithCastShadow: false,
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	dirLight3 := (&threejs.DirectionalLight{
 		Name:             "Directional Light 3 (Rim)",
 		Position:         threejs.Position{X: 0, Y: 30, Z: -20},
 		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
 		IsWithCastShadow: false,
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
 
 	ambiantLight := (&threejs.AmbiantLight{
 		Name:          "Ambiant Light",
 		LightAbstract: threejs.LightAbstract{Intensity: 0.3},
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 	canvas.AmbiantLight = ambiantLight
 }
 
-func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float64, canvas *threejs.Canvas, preservedX float64, preservedY float64, preservedZ float64, preservedTargetX float64, preservedTargetY float64, preservedTargetZ float64, checkedDiagram *PlantDiagram, globalR float64) {
+func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreservedCamera bool, preservedFov float64, canvas *threejs.Canvas, preservedX float64, preservedY float64, preservedZ float64, preservedTargetX float64, preservedTargetY float64, preservedTargetZ float64, checkedDiagram *models.PlantDiagram, globalR float64) {
+	threejsStage := stager.GetThreejsStage()
+
 	if hasPreservedCamera {
 		if preservedFov == 0 {
 			preservedFov = 50
@@ -56,7 +60,7 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 			TargetY: preservedTargetY,
 			TargetZ: preservedTargetZ,
 			Fov:     preservedFov,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 	} else if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil && checkedDiagram.VaseDiagram.Rendered3DShape != nil {
 		canvas.Camera = (&threejs.Camera{
 			Name: "Camera",
@@ -69,7 +73,7 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 			TargetY: checkedDiagram.VaseDiagram.Rendered3DShape.TargetY,
 			TargetZ: checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ,
 			Fov:     checkedDiagram.VaseDiagram.Rendered3DShape.Fov,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 	} else {
 		camDist := globalR * 2.5
 		if camDist < 15 {
@@ -84,7 +88,7 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 				Z: camDist,
 			},
 			TargetY: globalR,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 	}
 
 	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
@@ -96,13 +100,13 @@ func (stager *Stager) preserveCamera(hasPreservedCamera bool, preservedFov float
 			checkedDiagram.VaseDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
 			checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
 			checkedDiagram.VaseDiagram.Rendered3DShape.Fov = updatedCamera.Fov
-			stager.stage.CommitWithSuspendedCallbacks()
-			stager.ux_slider()
+			stager.GetStage().CommitWithSuspendedCallbacks()
+			stager.UxSlider()
 		}
 	}
 }
 
-func (*Stager) computeGlobalRadius(plant *PlantAbstract) (globalR float64) {
+func (u *ThreeJSStageUpdater) computeGlobalRadius(plant *models.PlantAbstract) (globalR float64) {
 	circumference := 10.0
 	if plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
 		circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
@@ -115,7 +119,7 @@ func (*Stager) computeGlobalRadius(plant *PlantAbstract) (globalR float64) {
 		circumference = 10.0
 	}
 	threeDModulo := 1
-	if plant.PlantType == Vase {
+	if plant.PlantType == models.Vase {
 		threeDModulo = plant.VaseAbstract.RadialRepetitions
 	}
 	if threeDModulo < 1 {
@@ -124,12 +128,15 @@ func (*Stager) computeGlobalRadius(plant *PlantAbstract) (globalR float64) {
 	globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 	return globalR
 }
-func (stager *Stager) addFloorTiles(floorMinY float64, plant *PlantAbstract, globalR float64, canvas *threejs.Canvas) {
+
+func (u *ThreeJSStageUpdater) addFloorTiles(stager *models.Stager, floorMinY float64, plant *models.PlantAbstract, globalR float64, canvas *threejs.Canvas) {
+	threejsStage := stager.GetThreejsStage()
+
 	if floorMinY == math.MaxFloat64 {
 		floorMinY = 0.0
 	} else {
 		thickness := 0.0
-		if plant.PlantType == Vase {
+		if plant.PlantType == models.Vase {
 			thickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
 		}
 		if thickness == 0 {
@@ -167,19 +174,21 @@ func (stager *Stager) addFloorTiles(floorMinY float64, plant *PlantAbstract, glo
 					WidthSegments:  1,
 					HeightSegments: 1,
 					DepthSegments:  1,
-				}).Stage(stager.threejsStage),
+				}).Stage(threejsStage),
 				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
 					Name:                 "Tile Material " + color,
 					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-				}).Stage(stager.threejsStage),
-			}).Stage(stager.threejsStage)
+				}).Stage(threejsStage),
+			}).Stage(threejsStage)
 
 			canvas.Meshs = append(canvas.Meshs, tileMesh)
 		}
 	}
 }
 
-func (stager *Stager) appendArcPoints(targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, floorMinY *float64) {
+func (u *ThreeJSStageUpdater) appendArcPoints(stager *models.Stager, targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, floorMinY *float64) {
+	threejsStage := stager.GetThreejsStage()
+
 	dx := (x1 - x2) / 2.0
 	dy := (y1 - y2) / 2.0
 	d2 := dx*dx + dy*dy
@@ -236,15 +245,17 @@ func (stager *Stager) appendArcPoints(targetCurve *threejs.Curve, x1, y1, x2, y2
 			X:    x3d,
 			Y:    y3d,
 			Z:    z3d,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 		targetCurve.Points = append(targetCurve.Points, vec)
 	}
 }
 
-func (stager *Stager) createFaceMesh(faceName string, color string, edges [][2]*threejs.Vector3, reverseWinding bool, transparency float64) *threejs.Mesh {
+func (u *ThreeJSStageUpdater) createFaceMesh(stager *models.Stager, faceName string, color string, edges [][2]*threejs.Vector3, reverseWinding bool, transparency float64) *threejs.Mesh {
+	threejsStage := stager.GetThreejsStage()
+
 	geom := (&threejs.BufferGeometry{
 		Name: fmt.Sprintf("%s BufferGeometry", faceName),
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	for i := 0; i < len(edges); i++ {
 		p1_src := edges[i][0]
@@ -255,14 +266,14 @@ func (stager *Stager) createFaceMesh(faceName string, color string, edges [][2]*
 			X:    p1_src.X,
 			Y:    p1_src.Y,
 			Z:    p1_src.Z,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 
 		p2 := (&threejs.Vector3{
 			Name: fmt.Sprintf("%s %s %d", p2_src.Name, faceName, i),
 			X:    p2_src.X,
 			Y:    p2_src.Y,
 			Z:    p2_src.Z,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 
 		geom.Vertices = append(geom.Vertices, p1, p2)
 
@@ -282,14 +293,14 @@ func (stager *Stager) createFaceMesh(faceName string, color string, edges [][2]*
 				V1:   v1_t1,
 				V2:   v2_t1,
 				V3:   v3_t1,
-			}).Stage(stager.threejsStage)
+			}).Stage(threejsStage)
 
 			t2 := (&threejs.Triangle{
 				Name: fmt.Sprintf("T2 %d", i),
 				V1:   v1_t2,
 				V2:   v2_t2,
 				V3:   v3_t2,
-			}).Stage(stager.threejsStage)
+			}).Stage(threejsStage)
 
 			geom.Faces = append(geom.Faces, t1, t2)
 		}
@@ -312,14 +323,16 @@ func (stager *Stager) createFaceMesh(faceName string, color string, edges [][2]*
 			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
 			Transparent:          true,
 			Opacity:              opacity,
-		}).Stage(stager.threejsStage),
-	}).Stage(stager.threejsStage)
+		}).Stage(threejsStage),
+	}).Stage(threejsStage)
 }
 
-func (stager *Stager) createTorusEdgeMesh(name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
+func (u *ThreeJSStageUpdater) createTorusEdgeMesh(stager *models.Stager, name string, color string, edges [][2]*threejs.Vector3, useLeft bool, tubeRadius float64) *threejs.Mesh {
+	threejsStage := stager.GetThreejsStage()
+
 	curve := (&threejs.Curve{
 		Name: "Curve " + name,
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	for i := 0; i < len(edges); i++ {
 		p := edges[i][0]
@@ -331,7 +344,7 @@ func (stager *Stager) createTorusEdgeMesh(name string, color string, edges [][2]
 			X:    p.X,
 			Y:    p.Y,
 			Z:    p.Z,
-		}).Stage(stager.threejsStage))
+		}).Stage(threejsStage))
 	}
 
 	tubeGeometry := (&threejs.TubeGeometry{
@@ -341,21 +354,23 @@ func (stager *Stager) createTorusEdgeMesh(name string, color string, edges [][2]
 		Radius:          tubeRadius,
 		RadialSegments:  8,
 		Closed:          false,
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	return (&threejs.Mesh{
 		Name:              "TubeMesh " + name,
 		Position:          threejs.Position{X: 0, Y: 0, Z: 0},
 		TubeGeometry:      tubeGeometry,
-		MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(stager.threejsStage),
-	}).Stage(stager.threejsStage)
+		MeshMaterialBasic: (&threejs.MeshMaterialBasic{Name: name + " Material", MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color}}).Stage(threejsStage),
+	}).Stage(threejsStage)
 }
 
-func (stager *Stager) createKeyHole3DTubeMesh(tubeName string, pA, pB *threejs.Vector3, tubeRadius float64) *threejs.Mesh {
+func (u *ThreeJSStageUpdater) createKeyHole3DTubeMesh(stager *models.Stager, tubeName string, pA, pB *threejs.Vector3, tubeRadius float64) *threejs.Mesh {
+	threejsStage := stager.GetThreejsStage()
+
 	crv := (&threejs.Curve{
 		Name:   fmt.Sprintf("Curve %s", tubeName),
 		Points: []*threejs.Vector3{pA, pB},
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	tGeom := (&threejs.TubeGeometry{
 		Name:            fmt.Sprintf("TubeGeom %s", tubeName),
@@ -364,7 +379,7 @@ func (stager *Stager) createKeyHole3DTubeMesh(tubeName string, pA, pB *threejs.V
 		Radius:          tubeRadius,
 		RadialSegments:  8,
 		Closed:          false,
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	return (&threejs.Mesh{
 		Name:         fmt.Sprintf("TubeMesh %s", tubeName),
@@ -373,24 +388,28 @@ func (stager *Stager) createKeyHole3DTubeMesh(tubeName string, pA, pB *threejs.V
 		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
 			Name:                 fmt.Sprintf("Material %s", tubeName),
 			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkred"},
-		}).Stage(stager.threejsStage),
-	}).Stage(stager.threejsStage)
+		}).Stage(threejsStage),
+	}).Stage(threejsStage)
 }
 
-func (stager *Stager) get3DPtHK(ptX, ptY float64, ptName string, dx_h, dy_h, globalR, baseThetaOffset float64, h, k int) *threejs.Vector3 {
+func (u *ThreeJSStageUpdater) get3DPtHK(stager *models.Stager, ptX, ptY float64, ptName string, dx_h, dy_h, globalR, baseThetaOffset float64, h, k int) *threejs.Vector3 {
+	threejsStage := stager.GetThreejsStage()
+
 	th := (ptX+dx_h)/globalR + baseThetaOffset
 	return (&threejs.Vector3{
 		Name: fmt.Sprintf("KeyHole3D %s h%d k%d", ptName, h, k),
 		X:    globalR * math.Cos(th),
 		Y:    ptY + dy_h,
 		Z:    globalR * math.Sin(th),
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 }
 
-func (stager *Stager) cloneAndRotateCurve(source *threejs.Curve, thetaOffset float64) *threejs.Curve {
+func (u *ThreeJSStageUpdater) cloneAndRotateCurve(stager *models.Stager, source *threejs.Curve, thetaOffset float64) *threejs.Curve {
+	threejsStage := stager.GetThreejsStage()
+
 	clone := (&threejs.Curve{
 		Name: source.Name + fmt.Sprintf(" Rotated %.2f", thetaOffset),
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	for _, p := range source.Points {
 		thetaBase := math.Atan2(p.Z, p.X)
@@ -402,43 +421,45 @@ func (stager *Stager) cloneAndRotateCurve(source *threejs.Curve, thetaOffset flo
 			X:    r * math.Cos(newTheta),
 			Y:    p.Y,
 			Z:    r * math.Sin(newTheta),
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 		clone.Points = append(clone.Points, newP)
 	}
 
 	return clone
 }
 
-func (stager *Stager) createVolumeKey3DBoxMesh(name string, vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL *threejs.Vector3, color string) *threejs.Mesh {
+func (u *ThreeJSStageUpdater) createVolumeKey3DBoxMesh(stager *models.Stager, name string, vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL *threejs.Vector3, color string) *threejs.Mesh {
+	threejsStage := stager.GetThreejsStage()
+
 	geom := (&threejs.BufferGeometry{
 		Name: name + " Geometry",
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	geom.Vertices = append(geom.Vertices, vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL)
 
 	// Front face (0, 1, 2) and (0, 2, 3)
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face1", V1: 0, V2: 1, V3: 2}).Stage(stager.threejsStage))
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face2", V1: 0, V2: 2, V3: 3}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face1", V1: 0, V2: 1, V3: 2}).Stage(threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face2", V1: 0, V2: 2, V3: 3}).Stage(threejsStage))
 
 	// Back face (4, 7, 6) and (4, 6, 5)
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face3", V1: 4, V2: 7, V3: 6}).Stage(stager.threejsStage))
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face4", V1: 4, V2: 6, V3: 5}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face3", V1: 4, V2: 7, V3: 6}).Stage(threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face4", V1: 4, V2: 6, V3: 5}).Stage(threejsStage))
 
 	// Left face (0, 3, 7) and (0, 7, 4)
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face5", V1: 0, V2: 3, V3: 7}).Stage(stager.threejsStage))
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face6", V1: 0, V2: 7, V3: 4}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face5", V1: 0, V2: 3, V3: 7}).Stage(threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face6", V1: 0, V2: 7, V3: 4}).Stage(threejsStage))
 
 	// Right face (1, 5, 6) and (1, 6, 2)
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face7", V1: 1, V2: 5, V3: 6}).Stage(stager.threejsStage))
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face8", V1: 1, V2: 6, V3: 2}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face7", V1: 1, V2: 5, V3: 6}).Stage(threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face8", V1: 1, V2: 6, V3: 2}).Stage(threejsStage))
 
 	// Top face (3, 2, 6) and (3, 6, 7)
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face9", V1: 3, V2: 2, V3: 6}).Stage(stager.threejsStage))
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face10", V1: 3, V2: 6, V3: 7}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face9", V1: 3, V2: 2, V3: 6}).Stage(threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face10", V1: 3, V2: 6, V3: 7}).Stage(threejsStage))
 
 	// Bottom face (0, 4, 5) and (0, 5, 1)
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face11", V1: 0, V2: 4, V3: 5}).Stage(stager.threejsStage))
-	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face12", V1: 0, V2: 5, V3: 1}).Stage(stager.threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face11", V1: 0, V2: 4, V3: 5}).Stage(threejsStage))
+	geom.Faces = append(geom.Faces, (&threejs.Triangle{Name: name + " Face12", V1: 0, V2: 5, V3: 1}).Stage(threejsStage))
 
 	mesh := (&threejs.Mesh{
 		Name:           name + " Mesh",
@@ -446,8 +467,8 @@ func (stager *Stager) createVolumeKey3DBoxMesh(name string, vF_BL, vF_BR, vF_TR,
 		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
 			Name:                 name + " Material",
 			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-		}).Stage(stager.threejsStage),
-	}).Stage(stager.threejsStage)
+		}).Stage(threejsStage),
+	}).Stage(threejsStage)
 
 	return mesh
 }

@@ -357,7 +357,7 @@ func (stager *Stager) createViews() {
 				plant.CurrentView = VIEW_VASE_3D
 				stager.stage.Commit()
 			}
-			stager.ux_3d_plant_diagram()
+			stager.UpdateThreeJSStage()
 		}
 	}
 

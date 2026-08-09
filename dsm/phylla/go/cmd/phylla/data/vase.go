@@ -53,7 +53,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_FORM
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = false
 	__PlantAbstract__00000000_.IsSelected = true
@@ -108,7 +108,7 @@ func _(stage *models.Stage) {
 	__VaseAbstract__00000000_.RelativeRadialThickness = 0.050000
 	__VaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.000000
 	__VaseAbstract__00000000_.RelativeRotatedTorusSeparation = 0.000000
-	__VaseAbstract__00000000_.RotationRatio = 0.230000
+	__VaseAbstract__00000000_.RotationRatio = 0.875000
 	__VaseAbstract__00000000_.RadialRepetitions = 3
 	__VaseAbstract__00000000_.Transparency = 0.000000
 	__VaseAbstract__00000000_.HasAlternatingRingColors = true

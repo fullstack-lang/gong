@@ -1,20 +1,23 @@
-package models
+package stage3d
 
 import (
 	"fmt"
 	"math"
 
+	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (stager *Stager) ux_3d_plant_diagram() {
+func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
+
+	threejsStage := stager.GetThreejsStage()
 
 	var preservedX, preservedY, preservedZ float64
 	var preservedTargetX, preservedTargetY, preservedTargetZ float64
 	var preservedFov float64
 	var hasPreservedCamera bool
 
-	for cam := range stager.threejsStage.Cameras {
+	for cam := range threejsStage.Cameras {
 		preservedX = cam.X
 		preservedY = cam.Y
 		preservedZ = cam.Z
@@ -26,26 +29,26 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		break
 	}
 
-	stager.threejsStage.Reset()
+	threejsStage.Reset()
 
 	plant := stager.GetCurrentPlant()
 	if plant == nil {
-		stager.threejsStage.Commit()
+		threejsStage.Commit()
 		return
 	}
 
 	canvas := (&threejs.Canvas{
 		Name: "Plant 3D Canvas",
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
-	if stager.isRecording {
+	if u.isRecording {
 		canvas.IsWithLastRenderingUpdate = true
 		canvas.OnUpdate = func(updatedCanvas *threejs.Canvas) {
-			stager.onCanvasFrameCaptured(updatedCanvas)
+			u.onCanvasFrameCaptured(stager, updatedCanvas)
 		}
 	}
 
-	var checkedDiagram *PlantDiagram
+	var checkedDiagram *models.PlantDiagram
 	for _, diagram := range plant.PlantDiagrams {
 		if diagram.IsChecked {
 			checkedDiagram = diagram
@@ -54,16 +57,16 @@ func (stager *Stager) ux_3d_plant_diagram() {
 	}
 
 	// lights
-	stager.addLights(canvas)
+	u.addLights(stager, canvas)
 
-	globalR := stager.computeGlobalRadius(plant)
+	globalR := u.computeGlobalRadius(plant)
 
-	stager.preserveCamera(hasPreservedCamera, preservedFov, canvas, preservedX, preservedY, preservedZ, preservedTargetX, preservedTargetY, preservedTargetZ, checkedDiagram, globalR)
+	u.preserveCamera(stager, hasPreservedCamera, preservedFov, canvas, preservedX, preservedY, preservedZ, preservedTargetX, preservedTargetY, preservedTargetZ, checkedDiagram, globalR)
 
 	floorMinY := math.MaxFloat64
 
 	if checkedDiagram == nil || checkedDiagram.VaseDiagram == nil {
-		stager.threejsStage.Commit()
+		threejsStage.Commit()
 		return
 	}
 
@@ -78,7 +81,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 	if !isOne3DShapeVisible || plant.StackHeight == 0 {
-		stager.threejsStage.Commit()
+		threejsStage.Commit()
 		return
 	}
 
@@ -86,14 +89,14 @@ func (stager *Stager) ux_3d_plant_diagram() {
 	tgc := plant.TopGrowthCurve2D
 
 	startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
-	var endArcs []*EndHalfwayArcShape
+	var endArcs []*models.EndHalfwayArcShape
 	if gc.EndHalfwayArcShapeGrid != nil {
 		endArcs = gc.EndHalfwayArcShapeGrid.EndHalfwayArcShapes
 	}
 
 	topStartArcs := tgc.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes
 
-	var topEndArcs []*TopEndHalfwayArcShape
+	var topEndArcs []*models.TopEndHalfwayArcShape
 	if tgc.TopEndHalfwayArcShapeGrid != nil {
 		topEndArcs = tgc.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes
 	}
@@ -110,7 +113,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 	heightKey := 0.0
 	relativeKeySize := 0.0
 	thickness := 5.0
-	if plant.PlantType == Vase {
+	if plant.PlantType == models.Vase {
 		vase := plant.VaseAbstract
 		sideLength = plant.RhombusSideLength
 		if vase.RelativeRadialThickness*sideLength > 0 {
@@ -132,51 +135,51 @@ func (stager *Stager) ux_3d_plant_diagram() {
 
 	curve := (&threejs.Curve{
 		Name: "Torus Continuous Curve Base",
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	topCurve := (&threejs.Curve{
 		Name: "Torus Continuous Curve Top",
-	}).Stage(stager.threejsStage)
+	}).Stage(threejsStage)
 
 	for i := 0; i < len(startArcs); i++ {
 		sa := startArcs[i]
 		// Cartesian sweep is the inverse of SVG sweep due to Y-axis mirroring
-		stager.appendArcPoints(curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, &floorMinY)
+		u.appendArcPoints(stager, curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, &floorMinY)
 
 		if i < len(endArcs) {
 			ea := endArcs[i]
 			// Cartesian sweep is !ea.SweepFlag.
 			// Traversing forwards, so we pass !ea.SweepFlag.
-			stager.appendArcPoints(curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, &floorMinY)
+			u.appendArcPoints(stager, curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, &floorMinY)
 		}
 	}
 
 	for i := 0; i < len(topStartArcs); i++ {
 		tsa := topStartArcs[i]
-		stager.appendArcPoints(topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag, globalR, &floorMinY)
+		u.appendArcPoints(stager, topCurve, tsa.StartX, tsa.StartY, tsa.EndX, tsa.EndY, tsa.RadiusX, !tsa.SweepFlag, tsa.LargeArcFlag, globalR, &floorMinY)
 
 		if i < len(topEndArcs) {
 			ea := topEndArcs[i]
 			// Traversing forwards
-			stager.appendArcPoints(topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, &floorMinY)
+			u.appendArcPoints(stager, topCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, &floorMinY)
 		}
 	}
 
 	stackHeight := plant.StackHeight
 
-	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := stager.getTargetAngles(curve, topCurve, 0.5, radialRepetitions)
+	targetAngles, anglesBottom, bottomPoints, anglesTop, topPoints := u.getTargetAngles(curve, topCurve, 0.5, radialRepetitions)
 
 	expectedDegrees := 360.0
 	if radialRepetitions > 1 {
 		expectedDegrees = 360.0 / float64(radialRepetitions)
 	}
 
-	resampledBaseBottom := stager.resampleCurveAtAngles(anglesBottom, bottomPoints, targetAngles, "Base Bottom", expectedDegrees)
-	resampledBaseTop := stager.resampleCurveAtAngles(anglesTop, topPoints, targetAngles, "Base Top", expectedDegrees)
+	resampledBaseBottom := u.resampleCurveAtAngles(stager, anglesBottom, bottomPoints, targetAngles, "Base Bottom", expectedDegrees)
+	resampledBaseTop := u.resampleCurveAtAngles(stager, anglesTop, topPoints, targetAngles, "Base Top", expectedDegrees)
 
 	if !checkedDiagram.VaseDiagram.IsHiddenOriginalPoints3DShape {
-		stager.addPointSpheres(curve.Points, "green", canvas, plant.Name+" Original Bottom", 0, len(curve.Points))
-		stager.addPointSpheres(topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0, len(topCurve.Points))
+		u.addPointSpheres(stager, curve.Points, "green", canvas, plant.Name+" Original Bottom", 0, len(curve.Points))
+		u.addPointSpheres(stager, topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0, len(topCurve.Points))
 	}
 
 	if !checkedDiagram.VaseDiagram.IsHiddenTorusStackShape {
@@ -207,7 +210,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h)*growthVectorY + float64(h)*verticalThickness*vy + float64(h)*rotatedSeparation
 			thetaOffset := dx / globalR
 
-			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			u.generateLayerWithModulo(stager, h, stackHeight, dx, dy, thetaOffset, "Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
 	}
 
@@ -217,19 +220,19 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
 			thetaOffset := 0.0
 
-			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			u.generateLayerWithModulo(stager, h, stackHeight, dx, dy, thetaOffset, "Vertical Torus Continuous", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
 	}
 
 	if !checkedDiagram.VaseDiagram.IsHiddenPartiallyRotatedTorusShape {
-		dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
+		dx, dy, _ := models.ComputePartiallyGrowthCurveDY(plant)
 		thetaOffset := dx / globalR
 
 		// The Y component of GrowthVectorShape is applied for the overall stack in 2D,
 		// but here the dy from ComputePartiallyGrowthCurveDY ALREADY includes the Y-shift
 		// required to perfectly rest on the first ribbon (h=0).
 
-		stager.generateLayerWithModulo(1, 2, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+		u.generateLayerWithModulo(stager, 1, 2, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 	}
 
 	if !checkedDiagram.VaseDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
@@ -252,7 +255,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				} else {
 					r_k = totalProgress - (kFloat - 1.0)
 				}
-				stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+				stepDX, stepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
 				cumDX += stepDX
 				cumDY += stepDY
 				dxs[k] = cumDX
@@ -265,7 +268,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			dy := dys[h]
 			thetaOffset := dx / globalR
 
-			stager.generateLayerWithModulo(h, stackHeight, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
+			u.generateLayerWithModulo(stager, h, stackHeight, dx, dy, thetaOffset, "Stack Of Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 		}
 	}
 
@@ -292,7 +295,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				} else {
 					r_k = totalProgress - (kFloat - 1.0)
 				}
-				stepDX, stepDY, _ := ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
+				stepDX, stepDY, _ := models.ComputePartiallyGrowthCurveDYForRatio(plant, r_k)
 				cumDX += stepDX
 				cumDY += stepDY
 				dxs3D[k] = cumDX
@@ -333,37 +336,38 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
 				if !checkedDiagram.VaseDiagram.IsHiddenKey3DShape {
-					vBL := stager.get3DPtHK(x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vBR := stager.get3DPtHK(x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vTR := stager.get3DPtHK(x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vTL := stager.get3DPtHK(x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vBL := u.get3DPtHK(stager, x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vBR := u.get3DPtHK(stager, x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vTR := u.get3DPtHK(stager, x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vTL := u.get3DPtHK(stager, x_left, y_top, "TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 
 					canvas.Meshs = append(canvas.Meshs,
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
-						stager.createKeyHole3DTubeMesh(fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
+						u.createKeyHole3DTubeMesh(stager, fmt.Sprintf("KeyHole-BL-BR-h%d-k%d", h, k), vBL, vBR, tubeRadius),
+						u.createKeyHole3DTubeMesh(stager, fmt.Sprintf("KeyHole-BR-TR-h%d-k%d", h, k), vBR, vTR, tubeRadius),
+						u.createKeyHole3DTubeMesh(stager, fmt.Sprintf("KeyHole-TR-TL-h%d-k%d", h, k), vTR, vTL, tubeRadius),
+						u.createKeyHole3DTubeMesh(stager, fmt.Sprintf("KeyHole-TL-BL-h%d-k%d", h, k), vTL, vBL, tubeRadius),
 					)
 				}
 
 				if !checkedDiagram.VaseDiagram.IsHiddenVolumeKey3DShape {
 					// Front face at globalR - thickness
 					frontR := globalR - thickness
-					vF_BL := stager.get3DPtHK(vk_x_left, vk_y_bottom, "F-BL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
-					vF_BR := stager.get3DPtHK(vk_x_right, vk_y_bottom, "F-BR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
-					vF_TR := stager.get3DPtHK(vk_x_right, vk_y_top, "F-TR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
-					vF_TL := stager.get3DPtHK(vk_x_left, vk_y_top, "F-TL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vF_BL := u.get3DPtHK(stager, vk_x_left, vk_y_bottom, "F-BL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vF_BR := u.get3DPtHK(stager, vk_x_right, vk_y_bottom, "F-BR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vF_TR := u.get3DPtHK(stager, vk_x_right, vk_y_top, "F-TR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vF_TL := u.get3DPtHK(stager, vk_x_left, vk_y_top, "F-TL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
 
 					// Back face at globalR + 2*thickness
 					backR := globalR + 2.0*thickness
-					vB_BL := stager.get3DPtHK(vk_x_left, vk_y_bottom, "B-BL", dx_h, dy_h, backR, baseThetaOffset, h, k)
-					vB_BR := stager.get3DPtHK(vk_x_right, vk_y_bottom, "B-BR", dx_h, dy_h, backR, baseThetaOffset, h, k)
-					vB_TR := stager.get3DPtHK(vk_x_right, vk_y_top, "B-TR", dx_h, dy_h, backR, baseThetaOffset, h, k)
-					vB_TL := stager.get3DPtHK(vk_x_left, vk_y_top, "B-TL", dx_h, dy_h, backR, baseThetaOffset, h, k)
+					vB_BL := u.get3DPtHK(stager, vk_x_left, vk_y_bottom, "B-BL", dx_h, dy_h, backR, baseThetaOffset, h, k)
+					vB_BR := u.get3DPtHK(stager, vk_x_right, vk_y_bottom, "B-BR", dx_h, dy_h, backR, baseThetaOffset, h, k)
+					vB_TR := u.get3DPtHK(stager, vk_x_right, vk_y_top, "B-TR", dx_h, dy_h, backR, baseThetaOffset, h, k)
+					vB_TL := u.get3DPtHK(stager, vk_x_left, vk_y_top, "B-TL", dx_h, dy_h, backR, baseThetaOffset, h, k)
 
 					// Opaque volume key (darkgrey for a more discrete look)
 					color := "darkgrey"
-					canvas.Meshs = append(canvas.Meshs, stager.createVolumeKey3DBoxMesh(
+					canvas.Meshs = append(canvas.Meshs, u.createVolumeKey3DBoxMesh(
+						stager,
 						fmt.Sprintf("VolKey-h%d-k%d", h, k),
 						vF_BL, vF_BR, vF_TR, vF_TL, vB_BL, vB_BR, vB_TR, vB_TL, color,
 					))
@@ -373,18 +377,19 @@ func (stager *Stager) ux_3d_plant_diagram() {
 					append_y_bottom := vk_y_bottom - verticalThickness
 
 					// Front face of appended volume at globalR - thickness
-					vA_F_BL := stager.get3DPtHK(vk_x_left, append_y_bottom, "AF-BL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
-					vA_F_BR := stager.get3DPtHK(vk_x_right, append_y_bottom, "AF-BR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
-					vA_F_TR := stager.get3DPtHK(vk_x_right, append_y_top, "AF-TR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
-					vA_F_TL := stager.get3DPtHK(vk_x_left, append_y_top, "AF-TL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vA_F_BL := u.get3DPtHK(stager, vk_x_left, append_y_bottom, "AF-BL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vA_F_BR := u.get3DPtHK(stager, vk_x_right, append_y_bottom, "AF-BR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vA_F_TR := u.get3DPtHK(stager, vk_x_right, append_y_top, "AF-TR", dx_h, dy_h, frontR, baseThetaOffset, h, k)
+					vA_F_TL := u.get3DPtHK(stager, vk_x_left, append_y_top, "AF-TL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
 
 					// Back face of appended volume at globalR (which is the end of the internal third part)
-					vA_B_BL := stager.get3DPtHK(vk_x_left, append_y_bottom, "AB-BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vA_B_BR := stager.get3DPtHK(vk_x_right, append_y_bottom, "AB-BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vA_B_TR := stager.get3DPtHK(vk_x_right, append_y_top, "AB-TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
-					vA_B_TL := stager.get3DPtHK(vk_x_left, append_y_top, "AB-TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vA_B_BL := u.get3DPtHK(stager, vk_x_left, append_y_bottom, "AB-BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vA_B_BR := u.get3DPtHK(stager, vk_x_right, append_y_bottom, "AB-BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vA_B_TR := u.get3DPtHK(stager, vk_x_right, append_y_top, "AB-TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
+					vA_B_TL := u.get3DPtHK(stager, vk_x_left, append_y_top, "AB-TL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 
-					canvas.Meshs = append(canvas.Meshs, stager.createVolumeKey3DBoxMesh(
+					canvas.Meshs = append(canvas.Meshs, u.createVolumeKey3DBoxMesh(
+						stager,
 						fmt.Sprintf("VolKeyAppend-h%d-k%d", h, k),
 						vA_F_BL, vA_F_BR, vA_F_TR, vA_F_TL, vA_B_BL, vA_B_BR, vA_B_TR, vA_B_TL, color,
 					))
@@ -405,13 +410,13 @@ func (stager *Stager) ux_3d_plant_diagram() {
 		}
 
 		// Vertical pole at radius
-		pA := (&threejs.Vector3{Name: "Angle0 Pole Base", X: globalR, Y: floorMinY, Z: 0}).Stage(stager.threejsStage)
-		pB := (&threejs.Vector3{Name: "Angle0 Pole Top", X: globalR, Y: topY, Z: 0}).Stage(stager.threejsStage)
+		pA := (&threejs.Vector3{Name: "Angle0 Pole Base", X: globalR, Y: floorMinY, Z: 0}).Stage(threejsStage)
+		pB := (&threejs.Vector3{Name: "Angle0 Pole Top", X: globalR, Y: topY, Z: 0}).Stage(threejsStage)
 
 		crvPole := (&threejs.Curve{
 			Name:   "Angle0 Pole Curve",
 			Points: []*threejs.Vector3{pA, pB},
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 
 		tGeomPole := (&threejs.TubeGeometry{
 			Name:            "Angle0 Pole TubeGeom",
@@ -420,7 +425,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			Radius:          tubeRadius,
 			RadialSegments:  8,
 			Closed:          false,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 
 		poleMesh := (&threejs.Mesh{
 			Name:         "Angle0 Pole Mesh",
@@ -431,17 +436,17 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "magenta"},
 				Transparent:          true,
 				Opacity:              0.2,
-			}).Stage(stager.threejsStage),
-		}).Stage(stager.threejsStage)
+			}).Stage(threejsStage),
+		}).Stage(threejsStage)
 
 		// Line from center out to 1.5x radius
-		pC := (&threejs.Vector3{Name: "Angle0 Axis Start", X: 0, Y: floorMinY, Z: 0}).Stage(stager.threejsStage)
-		pD := (&threejs.Vector3{Name: "Angle0 Axis End", X: globalR * 1.5, Y: floorMinY, Z: 0}).Stage(stager.threejsStage)
+		pC := (&threejs.Vector3{Name: "Angle0 Axis Start", X: 0, Y: floorMinY, Z: 0}).Stage(threejsStage)
+		pD := (&threejs.Vector3{Name: "Angle0 Axis End", X: globalR * 1.5, Y: floorMinY, Z: 0}).Stage(threejsStage)
 
 		crvAxis := (&threejs.Curve{
 			Name:   "Angle0 Axis Curve",
 			Points: []*threejs.Vector3{pC, pD},
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 
 		tGeomAxis := (&threejs.TubeGeometry{
 			Name:            "Angle0 Axis TubeGeom",
@@ -450,7 +455,7 @@ func (stager *Stager) ux_3d_plant_diagram() {
 			Radius:          tubeRadius,
 			RadialSegments:  8,
 			Closed:          false,
-		}).Stage(stager.threejsStage)
+		}).Stage(threejsStage)
 
 		axisMesh := (&threejs.Mesh{
 			Name:         "Angle0 Axis Mesh",
@@ -461,14 +466,14 @@ func (stager *Stager) ux_3d_plant_diagram() {
 				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "magenta"},
 				Transparent:          true,
 				Opacity:              0.2,
-			}).Stage(stager.threejsStage),
-		}).Stage(stager.threejsStage)
+			}).Stage(threejsStage),
+		}).Stage(threejsStage)
 
 		canvas.Meshs = append(canvas.Meshs, poleMesh, axisMesh)
 	}
 
-	stager.addFloorTiles(floorMinY, plant, globalR, canvas)
+	u.addFloorTiles(stager, floorMinY, plant, globalR, canvas)
 
-	stager.threejsStage.Commit()
+	threejsStage.Commit()
 
 }

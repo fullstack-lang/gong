@@ -8,6 +8,7 @@ import (
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/stage3d"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
@@ -44,6 +45,7 @@ func main() {
 		stack.Stage,
 		stack.Probe,
 		marshallOnCommit,
+		stage3d.NewThreeJSStageUpdater(),
 	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
