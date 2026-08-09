@@ -78,10 +78,6 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		}
 
 		{
-			needCommit = enforcePerpendicularVectorGridHalfwayHasVectors(stage, plant.PerpendicularVectorGridHalfway, plant.PerpendicularVectorGrid) || needCommit
-		}
-
-		{
 			needCommit = enforceBaseVectorShapeGridHasShapes(stage, plant.BaseVectorShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
@@ -89,36 +85,12 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = enforceArcNormalVectorShapeGridHasShapes(stage, plant.ArcNormalVectorShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
-		vThickness := 0.0
-		cHeight := 0.0
-		if plant.PlantType == Vase {
-			vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
-			cHeight = plant.VaseAbstract.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
-		}
-
 		{
 			needCommit = enforceStartArcShapeV2GridHasShapes(stage, plant.StartArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
 		}
 
 		{
-			needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, plant.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-		}
-
-		if plant.ShiftedBottomTopStartArcShapeGrid == nil {
-			plant.ShiftedBottomTopStartArcShapeGrid = new(ShiftedBottomTopStartArcShapeGrid).Stage(stage)
-			plant.ShiftedBottomTopStartArcShapeGrid.Name = plant.Name + "-ShiftedBottomTopStartArcShapeGrid"
-			needCommit = true
-		}
-		{
-			needCommit = enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage, plant.ShiftedBottomTopStartArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-		}
-
-		{
 			needCommit = enforceEndArcShapeV2GridHasShapes(stage, plant.EndArcShapeGrid, plant.PerpendicularVectorGrid) || needCommit
-		}
-
-		{
-			needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, plant.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
 		}
 
 		if plant.MidArcVectorShapeGrid == nil {
@@ -127,43 +99,11 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			needCommit = true
 		}
 		{
-			needCommit = enforceMidArcVectorShapeGridHasShapes(stage, plant.MidArcVectorShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-		}
-
-		if plant.TopMidArcVectorShapeGrid == nil {
-			plant.TopMidArcVectorShapeGrid = new(TopMidArcVectorShapeGrid).Stage(stage)
-			plant.TopMidArcVectorShapeGrid.Name = plant.Name + "-TopMidArcVectorShapeGrid"
-			needCommit = true
-		}
-		{
-			needCommit = enforceTopMidArcVectorShapeGridHasShapes(stage, plant.TopMidArcVectorShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-		}
-
-		if plant.StartHalfwayArcShapeGrid == nil {
-			plant.StartHalfwayArcShapeGrid = new(StartHalfwayArcShapeGrid).Stage(stage)
-			plant.StartHalfwayArcShapeGrid.Name = plant.Name + "-StartHalfwayArcShapeGrid"
-			needCommit = true
-		}
-		if plant.TopStartHalfwayArcShapeGrid == nil {
-			plant.TopStartHalfwayArcShapeGrid = new(TopStartHalfwayArcShapeGrid).Stage(stage)
-			plant.TopStartHalfwayArcShapeGrid.Name = plant.Name + "-TopStartHalfwayArcShapeGrid"
-			needCommit = true
-		}
-		if plant.EndHalfwayArcShapeGrid == nil {
-			plant.EndHalfwayArcShapeGrid = new(EndHalfwayArcShapeGrid).Stage(stage)
-			plant.EndHalfwayArcShapeGrid.Name = plant.Name + "-EndHalfwayArcShapeGrid"
-			needCommit = true
-		}
-		if plant.TopEndHalfwayArcShapeGrid == nil {
-			plant.TopEndHalfwayArcShapeGrid = new(TopEndHalfwayArcShapeGrid).Stage(stage)
-			plant.TopEndHalfwayArcShapeGrid.Name = plant.Name + "-TopEndHalfwayArcShapeGrid"
-			needCommit = true
-		}
-		{
-			needCommit = enforceHalfwayArcShapeGridHasShapes(stage, plant.StartHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-			needCommit = enforceTopStartHalfwayArcShapeGridHasShapes(stage, plant.TopStartHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-			needCommit = enforceEndHalfwayArcShapeGridHasShapes(stage, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
-			needCommit = enforceTopEndHalfwayArcShapeGridHasShapes(stage, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+			vThicknessMid := 0.0
+			if plant.PlantType == Vase && plant.VaseAbstract != nil {
+				vThicknessMid = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
+			}
+			needCommit = enforceMidArcVectorShapeGridHasShapes(stage, plant.MidArcVectorShapeGrid, plant.PerpendicularVectorGrid, vThicknessMid) || needCommit
 		}
 
 		if plant.GrowthCurve2D == nil {
@@ -171,79 +111,137 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 			plant.GrowthCurve2D.Name = plant.Name + "-GrowthCurve2D"
 			needCommit = true
 		}
-		{
-			if plant.GrowthCurve2D.StartHalfwayArcShapeGrid != plant.StartHalfwayArcShapeGrid {
-				plant.GrowthCurve2D.StartHalfwayArcShapeGrid = plant.StartHalfwayArcShapeGrid
+
+		if plant.PlantType == Vase && plant.VaseAbstract != nil {
+			vase := plant.VaseAbstract
+			vThickness := vase.RelativeVerticalThickness * plant.RhombusSideLength
+			cHeight := vase.RelativeCuttedStackFloorHeight * plant.RhombusSideLength
+
+			{
+				needCommit = enforcePerpendicularVectorGridHalfwayHasVectors(stage, vase.PerpendicularVectorGridHalfway, plant.PerpendicularVectorGrid) || needCommit
+			}
+
+			{
+				needCommit = enforceTopStartArcShapeV2GridHasShapes(stage, vase.TopStartArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+			}
+
+			if vase.ShiftedBottomTopStartArcShapeGrid == nil {
+				vase.ShiftedBottomTopStartArcShapeGrid = new(ShiftedBottomTopStartArcShapeGrid).Stage(stage)
+				vase.ShiftedBottomTopStartArcShapeGrid.Name = plant.Name + "-ShiftedBottomTopStartArcShapeGrid"
 				needCommit = true
 			}
-			if plant.GrowthCurve2D.EndHalfwayArcShapeGrid != plant.EndHalfwayArcShapeGrid {
-				plant.GrowthCurve2D.EndHalfwayArcShapeGrid = plant.EndHalfwayArcShapeGrid
+			{
+				needCommit = enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage, vase.ShiftedBottomTopStartArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+			}
+
+			{
+				needCommit = enforceTopEndArcShapeV2GridHasShapes(stage, vase.TopEndArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+			}
+
+			if vase.TopMidArcVectorShapeGrid == nil {
+				vase.TopMidArcVectorShapeGrid = new(TopMidArcVectorShapeGrid).Stage(stage)
+				vase.TopMidArcVectorShapeGrid.Name = plant.Name + "-TopMidArcVectorShapeGrid"
 				needCommit = true
 			}
-		}
+			{
+				needCommit = enforceTopMidArcVectorShapeGridHasShapes(stage, vase.TopMidArcVectorShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+			}
 
-		if plant.TopGrowthCurve2D == nil {
-			plant.TopGrowthCurve2D = new(TopGrowthCurve2D).Stage(stage)
-			plant.TopGrowthCurve2D.Name = plant.Name + "-TopGrowthCurve2D"
-			needCommit = true
-		}
-		{
-			if plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != plant.TopStartHalfwayArcShapeGrid {
-				plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid = plant.TopStartHalfwayArcShapeGrid
+			if vase.StartHalfwayArcShapeGrid == nil {
+				vase.StartHalfwayArcShapeGrid = new(StartHalfwayArcShapeGrid).Stage(stage)
+				vase.StartHalfwayArcShapeGrid.Name = plant.Name + "-StartHalfwayArcShapeGrid"
 				needCommit = true
 			}
-			if plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != plant.TopEndHalfwayArcShapeGrid {
-				plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid = plant.TopEndHalfwayArcShapeGrid
+			if vase.TopStartHalfwayArcShapeGrid == nil {
+				vase.TopStartHalfwayArcShapeGrid = new(TopStartHalfwayArcShapeGrid).Stage(stage)
+				vase.TopStartHalfwayArcShapeGrid.Name = plant.Name + "-TopStartHalfwayArcShapeGrid"
 				needCommit = true
 			}
-		}
+			if vase.EndHalfwayArcShapeGrid == nil {
+				vase.EndHalfwayArcShapeGrid = new(EndHalfwayArcShapeGrid).Stage(stage)
+				vase.EndHalfwayArcShapeGrid.Name = plant.Name + "-EndHalfwayArcShapeGrid"
+				needCommit = true
+			}
+			if vase.TopEndHalfwayArcShapeGrid == nil {
+				vase.TopEndHalfwayArcShapeGrid = new(TopEndHalfwayArcShapeGrid).Stage(stage)
+				vase.TopEndHalfwayArcShapeGrid.Name = plant.Name + "-TopEndHalfwayArcShapeGrid"
+				needCommit = true
+			}
+			{
+				needCommit = enforceHalfwayArcShapeGridHasShapes(stage, vase.StartHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+				needCommit = enforceTopStartHalfwayArcShapeGridHasShapes(stage, vase.TopStartHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+				needCommit = enforceEndHalfwayArcShapeGridHasShapes(stage, vase.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+				needCommit = enforceTopEndHalfwayArcShapeGridHasShapes(stage, vase.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, vThickness) || needCommit
+			}
 
-		{
-		}
+			{
+				if plant.GrowthCurve2D.StartHalfwayArcShapeGrid != vase.StartHalfwayArcShapeGrid {
+					plant.GrowthCurve2D.StartHalfwayArcShapeGrid = vase.StartHalfwayArcShapeGrid
+					needCommit = true
+				}
+				if plant.GrowthCurve2D.EndHalfwayArcShapeGrid != vase.EndHalfwayArcShapeGrid {
+					plant.GrowthCurve2D.EndHalfwayArcShapeGrid = vase.EndHalfwayArcShapeGrid
+					needCommit = true
+				}
+			}
 
-		{
-		}
+			if vase.TopGrowthCurve2D == nil {
+				vase.TopGrowthCurve2D = new(TopGrowthCurve2D).Stage(stage)
+				vase.TopGrowthCurve2D.Name = plant.Name + "-TopGrowthCurve2D"
+				needCommit = true
+			}
+			{
+				if vase.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != vase.TopStartHalfwayArcShapeGrid {
+					vase.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid = vase.TopStartHalfwayArcShapeGrid
+					needCommit = true
+				}
+				if vase.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != vase.TopEndHalfwayArcShapeGrid {
+					vase.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid = vase.TopEndHalfwayArcShapeGrid
+					needCommit = true
+				}
+			}
 
-		circLen := 0.0
-		{
-			circLen = plant.RhombusStuff.PlantCircumferenceShape.Length
-		}
+			circLen := 0.0
+			if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
+				circLen = plant.RhombusStuff.PlantCircumferenceShape.Length
+			}
 
-		{
-			needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, plant.StackOfRotatedGrowthCurve2D, plant.StartHalfwayArcShapeGrid, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, vThickness) || needCommit
-		}
-		if plant.TopStackOfRotatedGrowthCurve2D != nil {
-			needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, plant.TopStackOfRotatedGrowthCurve2D, plant.TopStartHalfwayArcShapeGrid, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, vThickness) || needCommit
-		}
-		if plant.StackOfGrowthCurve2D != nil {
-			needCommit = enforceStackOfGrowthCurve2DHasShapes(stage, plant.StackOfGrowthCurve2D, plant.StartHalfwayArcShapeGrid, plant.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.StackHeight, circLen, cHeight) || needCommit
-		}
-		if plant.TopStackOfGrowthCurve2D != nil {
-			needCommit = enforceTopStackOfGrowthCurve2DHasShapes(stage, plant.TopStackOfGrowthCurve2D, plant.TopStartHalfwayArcShapeGrid, plant.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.StackHeight, circLen, cHeight) || needCommit
-		}
-		if plant.StackOfGrowthCurve2DRibbon != nil {
-			needCommit = enforceStackOfGrowthCurve2DRibbonHasShapes(stage, plant.StackOfGrowthCurve2DRibbon, plant.StackOfGrowthCurve2D, plant.TopStackOfGrowthCurve2D) || needCommit
-		}
-		if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-			needCommit = enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(stage, plant.StackOfRotatedGrowthCurve2DRibbon, plant.StackOfRotatedGrowthCurve2D, plant.TopStackOfRotatedGrowthCurve2D) || needCommit
-		}
-		if plant.PartiallyGrowthCurve2DRibbon != nil {
-			needCommit = enforcePartiallyGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
-		}
-		if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			needCommit = enforceShiftedLeftPartiallyGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
-		}
-		if plant.PartiallyGrowthCurve2DTrajectory != nil {
-			needCommit = enforcePartiallyGrowthCurve2DTrajectoryHasShapes(stage, plant) || needCommit
-		}
-		if plant.GrowthCurve2DRibbon != nil {
-			needCommit = enforceGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
-		}
-		if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-			needCommit = enforceShiftedRightGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
-		}
-		if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-			needCommit = enforceShiftedLeftGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+			{
+				needCommit = enforceStackOfGrowthCurveV2HasShapes(stage, vase.StackOfRotatedGrowthCurve2D, vase.StartHalfwayArcShapeGrid, vase.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, vThickness) || needCommit
+			}
+			if vase.TopStackOfRotatedGrowthCurve2D != nil {
+				needCommit = enforceTopStackOfGrowthCurveV2HasShapes(stage, vase.TopStackOfRotatedGrowthCurve2D, vase.TopStartHalfwayArcShapeGrid, vase.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.GrowthVectorShape, plant.StackHeight, circLen, vThickness) || needCommit
+			}
+			if vase.StackOfGrowthCurve2D != nil {
+				needCommit = enforceStackOfGrowthCurve2DHasShapes(stage, vase.StackOfGrowthCurve2D, vase.StartHalfwayArcShapeGrid, vase.EndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.StackHeight, circLen, cHeight) || needCommit
+			}
+			if vase.TopStackOfGrowthCurve2D != nil {
+				needCommit = enforceTopStackOfGrowthCurve2DHasShapes(stage, vase.TopStackOfGrowthCurve2D, vase.TopStartHalfwayArcShapeGrid, vase.TopEndHalfwayArcShapeGrid, plant.PerpendicularVectorGrid, plant.StackHeight, circLen, cHeight) || needCommit
+			}
+			if vase.StackOfGrowthCurve2DRibbon != nil {
+				needCommit = enforceStackOfGrowthCurve2DRibbonHasShapes(stage, vase.StackOfGrowthCurve2DRibbon, vase.StackOfGrowthCurve2D, vase.TopStackOfGrowthCurve2D) || needCommit
+			}
+			if vase.StackOfRotatedGrowthCurve2DRibbon != nil {
+				needCommit = enforceStackOfRotatedGrowthCurve2DRibbonHasShapes(stage, vase.StackOfRotatedGrowthCurve2DRibbon, vase.StackOfRotatedGrowthCurve2D, vase.TopStackOfRotatedGrowthCurve2D) || needCommit
+			}
+			if vase.PartiallyGrowthCurve2DRibbon != nil {
+				needCommit = enforcePartiallyGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+			}
+			if vase.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+				needCommit = enforceShiftedLeftPartiallyGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+			}
+			if vase.PartiallyGrowthCurve2DTrajectory != nil {
+				needCommit = enforcePartiallyGrowthCurve2DTrajectoryHasShapes(stage, plant) || needCommit
+			}
+			if vase.GrowthCurve2DRibbon != nil {
+				needCommit = enforceGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+			}
+			if vase.ShiftedRightGrowthCurve2DRibbon != nil {
+				needCommit = enforceShiftedRightGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+			}
+			if vase.ShiftedLeftGrowthCurve2DRibbon != nil {
+				needCommit = enforceShiftedLeftGrowthCurve2DRibbonHasShapes(stage, plant) || needCommit
+			}
 		}
 
 	}

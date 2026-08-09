@@ -889,11 +889,14 @@ func (plantDiagram *PlantDiagram) drawPerpendicularVectorGrid(stager *Stager, la
 }
 
 func (plantDiagram *PlantDiagram) drawPerpendicularVectorGridHalfway(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenPerpendicularVectorGridHalfway {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenPerpendicularVectorGridHalfway {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.PerpendicularVectorGridHalfway == nil {
 		return
 	}
 
-	for _, vec := range plant.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
+	for _, vec := range plant.VaseAbstract.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
 		line := new(svg.Line)
 		layer.Lines = append(layer.Lines, line)
 		line.Name = vec.Name
@@ -990,11 +993,14 @@ func (plantDiagram *PlantDiagram) drawStartArcShapeV2Grid(stager *Stager, layer 
 }
 
 func (plantDiagram *PlantDiagram) drawTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopStartArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopStartArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStartArcShapeGrid == nil {
 		return
 	}
 
-	for _, arc := range plant.TopStartArcShapeGrid.TopStartArcShapes {
+	for _, arc := range plant.VaseAbstract.TopStartArcShapeGrid.TopStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1054,11 +1060,14 @@ func (plantDiagram *PlantDiagram) drawEndArcShapeV2Grid(stager *Stager, layer *s
 }
 
 func (plantDiagram *PlantDiagram) drawTopEndArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopEndArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopEndArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopEndArcShapeGrid == nil {
 		return
 	}
 
-	for _, arc := range plant.TopEndArcShapeGrid.TopEndArcShapes {
+	for _, arc := range plant.VaseAbstract.TopEndArcShapeGrid.TopEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1089,8 +1098,11 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve {
 		return
 	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfRotatedGrowthCurve2D == nil {
+		return
+	}
 
-	for _, sa := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
+	for _, sa := range plant.VaseAbstract.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1116,7 +1128,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurveV2(stager *Stager, layer
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
+	for _, ea := range plant.VaseAbstract.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1147,8 +1159,11 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopStackOfGrowthCurve {
 		return
 	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStackOfRotatedGrowthCurve2D == nil {
+		return
+	}
 
-	for _, sa := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
+	for _, sa := range plant.VaseAbstract.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = sa.Name
@@ -1174,7 +1189,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurveV2(stager *Stager, la
 		path.Presentation.StrokeOpacity = 0.6
 	}
 
-	for _, ea := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
+	for _, ea := range plant.VaseAbstract.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = ea.Name
@@ -1220,7 +1235,7 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2D(stager *Stager, layer *svg.L
 }
 
 func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopGrowthCurve2D {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopGrowthCurve2D {
 		return
 	}
 
@@ -1238,17 +1253,20 @@ func (plantDiagram *PlantDiagram) drawTopGrowthCurve2D(stager *Stager, layer *sv
 }
 
 func (plantDiagram *PlantDiagram) drawShiftedLeftStackOfGrowthCurveV2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.IsHiddenShiftedLeftStackOfGrowthCurve {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenShiftedLeftStackOfGrowthCurve {
 		return
 	}
 }
 
 func (plantDiagram *PlantDiagram) drawShiftedBottomTopStartArcShapeV2Grid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedBottomTopStartArcShapeGrid == nil {
 		return
 	}
 
-	for _, arc := range plant.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
+	for _, arc := range plant.VaseAbstract.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 		path.Name = arc.Name
@@ -1298,11 +1316,14 @@ func (plantDiagram *PlantDiagram) drawMidArcVectorShapeGrid(stager *Stager, laye
 }
 
 func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopMidArcVectorShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopMidArcVectorShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopMidArcVectorShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
+	for _, base := range plant.VaseAbstract.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
 		line := new(svg.Line)
 		layer.Lines = append(layer.Lines, line)
 
@@ -1320,11 +1341,14 @@ func (plantDiagram *PlantDiagram) drawTopMidArcVectorShapeGrid(stager *Stager, l
 }
 
 func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenStartHalfwayArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenStartHalfwayArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.StartHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
+	for _, base := range plant.VaseAbstract.StartHalfwayArcShapeGrid.StartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1359,11 +1383,14 @@ func (plantDiagram *PlantDiagram) drawStartHalfwayArcShapeGrid(stager *Stager, l
 }
 
 func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenEndHalfwayArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenEndHalfwayArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.EndHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
+	for _, base := range plant.VaseAbstract.EndHalfwayArcShapeGrid.EndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1398,11 +1425,14 @@ func (plantDiagram *PlantDiagram) drawEndHalfwayArcShapeGrid(stager *Stager, lay
 }
 
 func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopStartHalfwayArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopStartHalfwayArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStartHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+	for _, base := range plant.VaseAbstract.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1437,11 +1467,14 @@ func (plantDiagram *PlantDiagram) drawTopStartHalfwayArcShapeGrid(stager *Stager
 }
 
 func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopEndHalfwayArcShapeGrid {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopEndHalfwayArcShapeGrid {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopEndHalfwayArcShapeGrid == nil {
 		return
 	}
 
-	for _, base := range plant.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+	for _, base := range plant.VaseAbstract.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1476,15 +1509,14 @@ func (plantDiagram *PlantDiagram) drawTopEndHalfwayArcShapeGrid(stager *Stager, 
 }
 
 func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve2D {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve2D {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfGrowthCurve2D == nil {
 		return
 	}
 
-	if plant.StackOfGrowthCurve2D == nil {
-		return
-	}
-
-	for _, start := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
+	for _, start := range plant.VaseAbstract.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1517,7 +1549,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer
 		path.Presentation.StrokeOpacity = 1.0
 	}
 
-	for _, end := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
+	for _, end := range plant.VaseAbstract.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1552,15 +1584,14 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2D(stager *Stager, layer
 }
 
 func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenTopStackOfGrowthCurve2D {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenTopStackOfGrowthCurve2D {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.TopStackOfGrowthCurve2D == nil {
 		return
 	}
 
-	if plant.TopStackOfGrowthCurve2D == nil {
-		return
-	}
-
-	for _, start := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
+	for _, start := range plant.VaseAbstract.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1593,7 +1624,7 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, la
 		path.Presentation.StrokeOpacity = 1.0
 	}
 
-	for _, end := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
+	for _, end := range plant.VaseAbstract.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1628,15 +1659,14 @@ func (plantDiagram *PlantDiagram) drawTopStackOfGrowthCurve2D(stager *Stager, la
 }
 
 func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenStackOfGrowthCurve2DRibbon {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfGrowthCurve2DRibbon == nil {
 		return
 	}
 
-	if plant.StackOfGrowthCurve2DRibbon == nil {
-		return
-	}
-
-	for i, start := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
+	for i, start := range plant.VaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1690,7 +1720,7 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 		path.Presentation.Stroke = "none"
 	}
 
-	for i, end := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
+	for i, end := range plant.VaseAbstract.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1746,15 +1776,14 @@ func (plantDiagram *PlantDiagram) drawStackOfGrowthCurve2DRibbon(stager *Stager,
 }
 
 func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.StackOfRotatedGrowthCurve2DRibbon == nil {
 		return
 	}
 
-	if plant.StackOfRotatedGrowthCurve2DRibbon == nil {
-		return
-	}
-
-	for i, start := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
+	for i, start := range plant.VaseAbstract.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1808,7 +1837,7 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 		path.Presentation.Stroke = "none"
 	}
 
-	for i, end := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
+	for i, end := range plant.VaseAbstract.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1864,15 +1893,14 @@ func (plantDiagram *PlantDiagram) drawStackOfRotatedGrowthCurve2DRibbon(stager *
 }
 
 func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenPartiallyGrowthCurve2DRibbon {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.PartiallyGrowthCurve2DRibbon == nil {
 		return
 	}
 
-	if plant.PartiallyGrowthCurve2DRibbon == nil {
-		return
-	}
-
-	for _, start := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.VaseAbstract.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1923,7 +1951,7 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stage
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.VaseAbstract.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -1976,11 +2004,10 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DRibbon(stager *Stage
 }
 
 func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon {
 		return
 	}
-
-	if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon == nil {
+	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon == nil {
 		return
 	}
 
@@ -1990,7 +2017,7 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(st
 		dx = -plant.RhombusStuff.PlantCircumferenceShape.Length
 	}
 
-	for _, start := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2041,7 +2068,7 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(st
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2094,15 +2121,14 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftPartiallyGrowthCurve2DRibbon(st
 }
 
 func (plantDiagram *PlantDiagram) drawGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenGrowthCurve2DRibbon {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.GrowthCurve2DRibbon == nil {
 		return
 	}
 
-	if plant.GrowthCurve2DRibbon == nil {
-		return
-	}
-
-	for _, start := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.VaseAbstract.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2153,7 +2179,7 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2DRibbon(stager *Stager, layer 
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.VaseAbstract.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2206,11 +2232,10 @@ func (plantDiagram *PlantDiagram) drawGrowthCurve2DRibbon(stager *Stager, layer 
 }
 
 func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon {
 		return
 	}
-
-	if plant.ShiftedRightGrowthCurve2DRibbon == nil {
+	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedRightGrowthCurve2DRibbon == nil {
 		return
 	}
 
@@ -2220,7 +2245,7 @@ func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *St
 		dx = plant.RhombusStuff.PlantCircumferenceShape.Length
 	}
 
-	for _, start := range plant.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.VaseAbstract.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2271,7 +2296,7 @@ func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *St
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.VaseAbstract.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2324,11 +2349,10 @@ func (plantDiagram *PlantDiagram) drawShiftedRightGrowthCurve2DRibbon(stager *St
 }
 
 func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon {
 		return
 	}
-
-	if plant.ShiftedLeftGrowthCurve2DRibbon == nil {
+	if plant.VaseAbstract == nil || plant.VaseAbstract.ShiftedLeftGrowthCurve2DRibbon == nil {
 		return
 	}
 
@@ -2338,7 +2362,7 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Sta
 		dx = -plant.RhombusStuff.PlantCircumferenceShape.Length
 	}
 
-	for _, start := range plant.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
+	for _, start := range plant.VaseAbstract.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2389,7 +2413,7 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Sta
 		path.Presentation.Stroke = "none"
 	}
 
-	for _, end := range plant.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
+	for _, end := range plant.VaseAbstract.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
 		path := new(svg.Path)
 		layer.Paths = append(layer.Paths, path)
 
@@ -2442,15 +2466,14 @@ func (plantDiagram *PlantDiagram) drawShiftedLeftGrowthCurve2DRibbon(stager *Sta
 }
 
 func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory == nil {
 		return
 	}
 
-	if plant.PartiallyGrowthCurve2DTrajectory == nil {
-		return
-	}
-
-	for _, shape := range plant.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
+	for _, shape := range plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
 		line := new(svg.Line)
 		layer.Lines = append(layer.Lines, line)
 
@@ -2468,15 +2491,14 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectory(stager *S
 }
 
 func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2 == nil {
 		return
 	}
 
-	if plant.PartiallyGrowthCurve2DTrajectoryP1P2 == nil {
-		return
-	}
-
-	p1p2 := plant.PartiallyGrowthCurve2DTrajectoryP1P2
+	p1p2 := plant.VaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2
 
 	// Draw P1 Dots
 	for _, shape := range p1p2.P1PointShapes {
@@ -2578,15 +2600,14 @@ func (plantDiagram *PlantDiagram) drawPartiallyGrowthCurve2DTrajectoryP1P2(stage
 }
 
 func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenPxShape {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenPxShape {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.PxShape == nil {
 		return
 	}
 
-	if plant.PxShape == nil {
-		return
-	}
-
-	px := plant.PxShape
+	px := plant.VaseAbstract.PxShape
 
 	circLen := 0.0
 	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil {
@@ -2640,15 +2661,14 @@ func (plantDiagram *PlantDiagram) drawPxShape(stager *Stager, layer *svg.Layer, 
 }
 
 func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenKeyHoleShape {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenKeyHoleShape {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.KeyHoleShape == nil {
 		return
 	}
 
-	if plant.KeyHoleShape == nil {
-		return
-	}
-
-	keyHole := plant.KeyHoleShape
+	keyHole := plant.VaseAbstract.KeyHoleShape
 	if plant.PlantType == Vase {
 		keyHole.X = plant.VaseAbstract.OffsetKeyX
 		keyHole.Y = plant.VaseAbstract.OffsetKeyY
@@ -2728,15 +2748,14 @@ func (plantDiagram *PlantDiagram) drawKeyHoleShape(stager *Stager, layer *svg.La
 }
 
 func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
-	if plantDiagram.VaseDiagram.IsHiddenChosenP1P2PairShape {
+	if plantDiagram.VaseDiagram == nil || plantDiagram.VaseDiagram.IsHiddenChosenP1P2PairShape {
+		return
+	}
+	if plant.VaseAbstract == nil || plant.VaseAbstract.ChosenP1P2PairShape == nil {
 		return
 	}
 
-	if plant.ChosenP1P2PairShape == nil {
-		return
-	}
-
-	chosen := plant.ChosenP1P2PairShape
+	chosen := plant.VaseAbstract.ChosenP1P2PairShape
 
 	// Line connecting Chosen P1 and P2
 	line := new(svg.Line)
@@ -2811,8 +2830,8 @@ func (plantDiagram *PlantDiagram) drawChosenP1P2PairShape(stager *Stager, layer 
 	textDist.Presentation.FillOpacity = 1.0
 
 	// Draw Partial Ellipse defined ONLY by P1 & P2 (independent of ratio)
-	if plant.PartiallyGrowthCurve2DTrajectory != nil {
-		traj := plant.PartiallyGrowthCurve2DTrajectory
+	if plant.VaseAbstract != nil && plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory != nil {
+		traj := plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory
 		nShapes := len(traj.PartiallyGrowthCurve2DTrajectoryShapes)
 		if nShapes > 0 {
 			x1 := traj.PartiallyGrowthCurve2DTrajectoryShapes[0].StartX

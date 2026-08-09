@@ -2213,70 +2213,18 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.GrowthVectorShape, valueExpr, identifierMap)
 	case "PerpendicularVectorGrid":
 		GongUnmarshallPointer(&instance.PerpendicularVectorGrid, valueExpr, identifierMap)
-	case "PerpendicularVectorGridHalfway":
-		GongUnmarshallPointer(&instance.PerpendicularVectorGridHalfway, valueExpr, identifierMap)
 	case "BaseVectorShapeGrid":
 		GongUnmarshallPointer(&instance.BaseVectorShapeGrid, valueExpr, identifierMap)
 	case "ArcNormalVectorShapeGrid":
 		GongUnmarshallPointer(&instance.ArcNormalVectorShapeGrid, valueExpr, identifierMap)
 	case "StartArcShapeGrid":
 		GongUnmarshallPointer(&instance.StartArcShapeGrid, valueExpr, identifierMap)
-	case "TopStartArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
-	case "EndArcShapeGrid":
-		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
-	case "TopEndArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
-	case "ShiftedBottomTopStartArcShapeGrid":
-		GongUnmarshallPointer(&instance.ShiftedBottomTopStartArcShapeGrid, valueExpr, identifierMap)
 	case "MidArcVectorShapeGrid":
 		GongUnmarshallPointer(&instance.MidArcVectorShapeGrid, valueExpr, identifierMap)
-	case "TopMidArcVectorShapeGrid":
-		GongUnmarshallPointer(&instance.TopMidArcVectorShapeGrid, valueExpr, identifierMap)
-	case "StartHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.StartHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "TopStartHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopStartHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "EndHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "TopEndHalfwayArcShapeGrid":
-		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
-	case "StackOfRotatedGrowthCurve2D":
-		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
-	case "TopStackOfRotatedGrowthCurve2D":
-		GongUnmarshallPointer(&instance.TopStackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
+	case "EndArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndArcShapeGrid, valueExpr, identifierMap)
 	case "GrowthCurve2D":
 		GongUnmarshallPointer(&instance.GrowthCurve2D, valueExpr, identifierMap)
-	case "TopGrowthCurve2D":
-		GongUnmarshallPointer(&instance.TopGrowthCurve2D, valueExpr, identifierMap)
-	case "StackOfGrowthCurve2D":
-		GongUnmarshallPointer(&instance.StackOfGrowthCurve2D, valueExpr, identifierMap)
-	case "TopStackOfGrowthCurve2D":
-		GongUnmarshallPointer(&instance.TopStackOfGrowthCurve2D, valueExpr, identifierMap)
-	case "StackOfGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "GrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedRightGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DTrajectory":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectoryP1P2, valueExpr, identifierMap)
-	case "PxShape":
-		GongUnmarshallPointer(&instance.PxShape, valueExpr, identifierMap)
-	case "ChosenP1P2PairShape":
-		GongUnmarshallPointer(&instance.ChosenP1P2PairShape, valueExpr, identifierMap)
-	case "KeyHoleShape":
-		GongUnmarshallPointer(&instance.KeyHoleShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -2349,10 +2297,6 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsRhombusNodesExpanded = GongExtractBool(valueExpr)
 	case "IsArcNodesExpanded":
 		instance.IsArcNodesExpanded = GongExtractBool(valueExpr)
-	case "IsVaseArcNodesExpanded":
-		instance.IsVaseArcNodesExpanded = GongExtractBool(valueExpr)
-	case "IsVaseClampingNodesExpanded":
-		instance.IsVaseClampingNodesExpanded = GongExtractBool(valueExpr)
 	case "IsHiddenAxesShape":
 		instance.IsHiddenAxesShape = GongExtractBool(valueExpr)
 	case "IsHiddenReferenceRhombus":
@@ -2389,16 +2333,6 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenMidArcVectorShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenEndArcShapeGrid":
 		instance.IsHiddenEndArcShapeGrid = GongExtractBool(valueExpr)
-	case "IsHiddenBottomStartArcShapeGrid":
-		instance.IsHiddenBottomStartArcShapeGrid = GongExtractBool(valueExpr)
-	case "IsHiddenBottomEndArcShapeGrid":
-		instance.IsHiddenBottomEndArcShapeGrid = GongExtractBool(valueExpr)
-	case "IsHiddenBottomStackOfGrowthCurve":
-		instance.IsHiddenBottomStackOfGrowthCurve = GongExtractBool(valueExpr)
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		instance.IsHiddenShiftedLeftStackOfGrowthCurve = GongExtractBool(valueExpr)
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		instance.IsHiddenShiftedLeftStackOfNormalVector = GongExtractBool(valueExpr)
 	case "IsHiddenGrowthCurve2D":
 		instance.IsHiddenGrowthCurve2D = GongExtractBool(valueExpr)
 	case "IsChecked":
@@ -5006,6 +4940,58 @@ func (u *VaseAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.RelativeKeySize = GongExtractFloat(valueExpr)
 	case "MovieNbFrames":
 		instance.MovieNbFrames = GongExtractInt(valueExpr)
+	case "PerpendicularVectorGridHalfway":
+		GongUnmarshallPointer(&instance.PerpendicularVectorGridHalfway, valueExpr, identifierMap)
+	case "TopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndArcShapeGrid, valueExpr, identifierMap)
+	case "ShiftedBottomTopStartArcShapeGrid":
+		GongUnmarshallPointer(&instance.ShiftedBottomTopStartArcShapeGrid, valueExpr, identifierMap)
+	case "TopMidArcVectorShapeGrid":
+		GongUnmarshallPointer(&instance.TopMidArcVectorShapeGrid, valueExpr, identifierMap)
+	case "StartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.StartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopStartHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopStartHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "EndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.EndHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "TopEndHalfwayArcShapeGrid":
+		GongUnmarshallPointer(&instance.TopEndHalfwayArcShapeGrid, valueExpr, identifierMap)
+	case "StackOfRotatedGrowthCurve2D":
+		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
+	case "TopStackOfRotatedGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopStackOfRotatedGrowthCurve2D, valueExpr, identifierMap)
+	case "TopGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopGrowthCurve2D, valueExpr, identifierMap)
+	case "StackOfGrowthCurve2D":
+		GongUnmarshallPointer(&instance.StackOfGrowthCurve2D, valueExpr, identifierMap)
+	case "TopStackOfGrowthCurve2D":
+		GongUnmarshallPointer(&instance.TopStackOfGrowthCurve2D, valueExpr, identifierMap)
+	case "StackOfGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.StackOfGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.StackOfRotatedGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "GrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedRightGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DTrajectory":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectory, valueExpr, identifierMap)
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		GongUnmarshallPointer(&instance.PartiallyGrowthCurve2DTrajectoryP1P2, valueExpr, identifierMap)
+	case "PxShape":
+		GongUnmarshallPointer(&instance.PxShape, valueExpr, identifierMap)
+	case "ChosenP1P2PairShape":
+		GongUnmarshallPointer(&instance.ChosenP1P2PairShape, valueExpr, identifierMap)
+	case "KeyHoleShape":
+		GongUnmarshallPointer(&instance.KeyHoleShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -5035,6 +5021,20 @@ func (u *VaseDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsVaseArcNodesExpanded":
+		instance.IsVaseArcNodesExpanded = GongExtractBool(valueExpr)
+	case "IsVaseClampingNodesExpanded":
+		instance.IsVaseClampingNodesExpanded = GongExtractBool(valueExpr)
+	case "IsHiddenBottomStartArcShapeGrid":
+		instance.IsHiddenBottomStartArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenBottomEndArcShapeGrid":
+		instance.IsHiddenBottomEndArcShapeGrid = GongExtractBool(valueExpr)
+	case "IsHiddenBottomStackOfGrowthCurve":
+		instance.IsHiddenBottomStackOfGrowthCurve = GongExtractBool(valueExpr)
+	case "IsHiddenShiftedLeftStackOfGrowthCurve":
+		instance.IsHiddenShiftedLeftStackOfGrowthCurve = GongExtractBool(valueExpr)
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		instance.IsHiddenShiftedLeftStackOfNormalVector = GongExtractBool(valueExpr)
 	case "IsHiddenPerpendicularVectorGridHalfway":
 		instance.IsHiddenPerpendicularVectorGridHalfway = GongExtractBool(valueExpr)
 	case "IsHiddenTopStartArcShapeGrid":

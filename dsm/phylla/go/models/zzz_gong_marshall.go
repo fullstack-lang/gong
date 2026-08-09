@@ -437,8 +437,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VaseDiagram"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenReferenceRhombus"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPlantCircumferenceShape"))
@@ -457,11 +455,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStartArcShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenMidArcVectorShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
@@ -596,6 +589,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGridHalfway"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeGrid"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenShiftedBottomTopStartArcShapeGrid"))
@@ -2425,16 +2425,6 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsArcNodesExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsArcNodesExpanded))
-	case "IsVaseArcNodesExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseArcNodesExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsVaseArcNodesExpanded))
-	case "IsVaseClampingNodesExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseClampingNodesExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsVaseClampingNodesExpanded))
 	case "IsHiddenAxesShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -2525,31 +2515,6 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenEndArcShapeGrid")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid))
-	case "IsHiddenBottomStartArcShapeGrid":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomStartArcShapeGrid")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStartArcShapeGrid))
-	case "IsHiddenBottomEndArcShapeGrid":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomEndArcShapeGrid")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenBottomEndArcShapeGrid))
-	case "IsHiddenBottomStackOfGrowthCurve":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomStackOfGrowthCurve")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStackOfGrowthCurve))
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenShiftedLeftStackOfGrowthCurve")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve))
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenShiftedLeftStackOfNormalVector")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfNormalVector))
 	case "IsHiddenGrowthCurve2D":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
@@ -5378,6 +5343,41 @@ func (vasediagram *VaseDiagram) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vasediagram.Name))
+	case "IsVaseArcNodesExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseArcNodesExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsVaseArcNodesExpanded))
+	case "IsVaseClampingNodesExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseClampingNodesExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsVaseClampingNodesExpanded))
+	case "IsHiddenBottomStartArcShapeGrid":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomStartArcShapeGrid")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenBottomStartArcShapeGrid))
+	case "IsHiddenBottomEndArcShapeGrid":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomEndArcShapeGrid")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenBottomEndArcShapeGrid))
+	case "IsHiddenBottomStackOfGrowthCurve":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenBottomStackOfGrowthCurve")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenBottomStackOfGrowthCurve))
+	case "IsHiddenShiftedLeftStackOfGrowthCurve":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenShiftedLeftStackOfGrowthCurve")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenShiftedLeftStackOfGrowthCurve))
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenShiftedLeftStackOfNormalVector")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenShiftedLeftStackOfNormalVector))
 	case "IsHiddenPerpendicularVectorGridHalfway":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
@@ -6376,8 +6376,6 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VaseDiagram"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenReferenceRhombus"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenPlantCircumferenceShape"))
@@ -6396,11 +6394,6 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenStartArcShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenMidArcVectorShapeGrid"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
-		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
@@ -7460,6 +7453,13 @@ func (vasediagram *VaseDiagram) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGridHalfway"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTopStartArcShapeGrid"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenShiftedBottomTopStartArcShapeGrid"))

@@ -79,8 +79,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.OriginY = 597.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = true
 	__PlantDiagram__00000001_.IsArcNodesExpanded = false
-	__PlantDiagram__00000001_.IsVaseArcNodesExpanded = false
-	__PlantDiagram__00000001_.IsVaseClampingNodesExpanded = false
 	__PlantDiagram__00000001_.IsHiddenAxesShape = true
 	__PlantDiagram__00000001_.IsHiddenReferenceRhombus = true
 	__PlantDiagram__00000001_.IsHiddenPlantCircumferenceShape = true
@@ -99,11 +97,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStartArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenMidArcVectorShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenEndArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenBottomStartArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenBottomEndArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenBottomStackOfGrowthCurve = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfGrowthCurve = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfNormalVector = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
@@ -114,8 +107,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000002_.OriginY = 337.000000
 	__PlantDiagram__00000002_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000002_.IsArcNodesExpanded = false
-	__PlantDiagram__00000002_.IsVaseArcNodesExpanded = false
-	__PlantDiagram__00000002_.IsVaseClampingNodesExpanded = false
 	__PlantDiagram__00000002_.IsHiddenAxesShape = false
 	__PlantDiagram__00000002_.IsHiddenReferenceRhombus = true
 	__PlantDiagram__00000002_.IsHiddenPlantCircumferenceShape = true
@@ -134,11 +125,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000002_.IsHiddenStartArcShapeGrid = true
 	__PlantDiagram__00000002_.IsHiddenMidArcVectorShapeGrid = true
 	__PlantDiagram__00000002_.IsHiddenEndArcShapeGrid = true
-	__PlantDiagram__00000002_.IsHiddenBottomStartArcShapeGrid = false
-	__PlantDiagram__00000002_.IsHiddenBottomEndArcShapeGrid = false
-	__PlantDiagram__00000002_.IsHiddenBottomStackOfGrowthCurve = false
-	__PlantDiagram__00000002_.IsHiddenShiftedLeftStackOfGrowthCurve = false
-	__PlantDiagram__00000002_.IsHiddenShiftedLeftStackOfNormalVector = false
 	__PlantDiagram__00000002_.IsHiddenGrowthCurve2D = false
 	__PlantDiagram__00000002_.IsChecked = false
 	__PlantDiagram__00000002_.ComputedPrefix = ``
@@ -175,6 +161,13 @@ func _(stage *models.Stage) {
 	__VaseAbstract__00000000_.MovieNbFrames = 1000
 
 	__VaseDiagram__00000000_.Name = `Plant 1-VaseDiagram`
+	__VaseDiagram__00000000_.IsVaseArcNodesExpanded = false
+	__VaseDiagram__00000000_.IsVaseClampingNodesExpanded = false
+	__VaseDiagram__00000000_.IsHiddenBottomStartArcShapeGrid = false
+	__VaseDiagram__00000000_.IsHiddenBottomEndArcShapeGrid = false
+	__VaseDiagram__00000000_.IsHiddenBottomStackOfGrowthCurve = false
+	__VaseDiagram__00000000_.IsHiddenShiftedLeftStackOfGrowthCurve = false
+	__VaseDiagram__00000000_.IsHiddenShiftedLeftStackOfNormalVector = false
 	__VaseDiagram__00000000_.IsHiddenPerpendicularVectorGridHalfway = true
 	__VaseDiagram__00000000_.IsHiddenTopStartArcShapeGrid = true
 	__VaseDiagram__00000000_.IsHiddenShiftedBottomTopStartArcShapeGrid = true

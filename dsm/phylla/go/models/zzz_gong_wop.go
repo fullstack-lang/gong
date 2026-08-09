@@ -1060,10 +1060,6 @@ type PlantDiagram_WOP struct {
 
 	IsArcNodesExpanded bool
 
-	IsVaseArcNodesExpanded bool
-
-	IsVaseClampingNodesExpanded bool
-
 	IsHiddenAxesShape bool
 
 	IsHiddenReferenceRhombus bool
@@ -1100,16 +1096,6 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenEndArcShapeGrid bool
 
-	IsHiddenBottomStartArcShapeGrid bool
-
-	IsHiddenBottomEndArcShapeGrid bool
-
-	IsHiddenBottomStackOfGrowthCurve bool
-
-	IsHiddenShiftedLeftStackOfGrowthCurve bool
-
-	IsHiddenShiftedLeftStackOfNormalVector bool
-
 	IsHiddenGrowthCurve2D bool
 
 	IsChecked bool
@@ -1126,8 +1112,6 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.OriginY = from.OriginY
 	to.IsRhombusNodesExpanded = from.IsRhombusNodesExpanded
 	to.IsArcNodesExpanded = from.IsArcNodesExpanded
-	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
-	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
 	to.IsHiddenAxesShape = from.IsHiddenAxesShape
 	to.IsHiddenReferenceRhombus = from.IsHiddenReferenceRhombus
 	to.IsHiddenPlantCircumferenceShape = from.IsHiddenPlantCircumferenceShape
@@ -1146,11 +1130,6 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
 	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
-	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
-	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
-	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
-	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
-	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
@@ -2952,6 +2931,20 @@ type VaseDiagram_WOP struct {
 
 	Name string
 
+	IsVaseArcNodesExpanded bool
+
+	IsVaseClampingNodesExpanded bool
+
+	IsHiddenBottomStartArcShapeGrid bool
+
+	IsHiddenBottomEndArcShapeGrid bool
+
+	IsHiddenBottomStackOfGrowthCurve bool
+
+	IsHiddenShiftedLeftStackOfGrowthCurve bool
+
+	IsHiddenShiftedLeftStackOfNormalVector bool
+
 	IsHiddenPerpendicularVectorGridHalfway bool
 
 	IsHiddenTopStartArcShapeGrid bool
@@ -3034,6 +3027,13 @@ type VaseDiagram_WOP struct {
 func (from *VaseDiagram) CopyBasicFields(to *VaseDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
+	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
+	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
+	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
+	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
+	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
+	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
 	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid

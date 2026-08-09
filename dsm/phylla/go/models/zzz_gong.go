@@ -21556,70 +21556,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 			// field is initialized with an instance of PerpendicularVectorGrid with the name of the field
 			PerpendicularVectorGrid: &PerpendicularVectorGrid{Name: "PerpendicularVectorGrid"},
-			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
-			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
 			// field is initialized with an instance of BaseVectorShapeGrid with the name of the field
 			BaseVectorShapeGrid: &BaseVectorShapeGrid{Name: "BaseVectorShapeGrid"},
 			// field is initialized with an instance of ArcNormalVectorShapeGrid with the name of the field
 			ArcNormalVectorShapeGrid: &ArcNormalVectorShapeGrid{Name: "ArcNormalVectorShapeGrid"},
 			// field is initialized with an instance of StartArcShapeGrid with the name of the field
 			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
-			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
-			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
-			// field is initialized with an instance of EndArcShapeGrid with the name of the field
-			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
-			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
-			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
-			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
-			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
 			// field is initialized with an instance of MidArcVectorShapeGrid with the name of the field
 			MidArcVectorShapeGrid: &MidArcVectorShapeGrid{Name: "MidArcVectorShapeGrid"},
-			// field is initialized with an instance of TopMidArcVectorShapeGrid with the name of the field
-			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
-			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
-			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
-			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
-			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
-			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
-			// field is initialized with an instance of StackOfRotatedGrowthCurve2D with the name of the field
-			StackOfRotatedGrowthCurve2D: &StackOfRotatedGrowthCurve2D{Name: "StackOfRotatedGrowthCurve2D"},
-			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2D with the name of the field
-			TopStackOfRotatedGrowthCurve2D: &TopStackOfRotatedGrowthCurve2D{Name: "TopStackOfRotatedGrowthCurve2D"},
+			// field is initialized with an instance of EndArcShapeGrid with the name of the field
+			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of GrowthCurve2D with the name of the field
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
-			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
-			TopGrowthCurve2D: &TopGrowthCurve2D{Name: "TopGrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2D with the name of the field
-			StackOfGrowthCurve2D: &StackOfGrowthCurve2D{Name: "StackOfGrowthCurve2D"},
-			// field is initialized with an instance of TopStackOfGrowthCurve2D with the name of the field
-			TopStackOfGrowthCurve2D: &TopStackOfGrowthCurve2D{Name: "TopStackOfGrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2DRibbon with the name of the field
-			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
-			// field is initialized with an instance of StackOfRotatedGrowthCurve2DRibbon with the name of the field
-			StackOfRotatedGrowthCurve2DRibbon: &StackOfRotatedGrowthCurve2DRibbon{Name: "StackOfRotatedGrowthCurve2DRibbon"},
-			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
-			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
-			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
-			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
-			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
-			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
-			// field is initialized with an instance of PxShape with the name of the field
-			PxShape: &PxShape{Name: "PxShape"},
-			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
-			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
-			// field is initialized with an instance of KeyHoleShape with the name of the field
-			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
@@ -21958,6 +21906,58 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case VaseAbstract:
 		return any(&VaseAbstract{
 			// Initialisation of associations
+			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
+			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
+			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
+			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
+			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
+			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
+			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
+			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
+			// field is initialized with an instance of TopMidArcVectorShapeGrid with the name of the field
+			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
+			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
+			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
+			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
+			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
+			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
+			// field is initialized with an instance of StackOfRotatedGrowthCurve2D with the name of the field
+			StackOfRotatedGrowthCurve2D: &StackOfRotatedGrowthCurve2D{Name: "StackOfRotatedGrowthCurve2D"},
+			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2D with the name of the field
+			TopStackOfRotatedGrowthCurve2D: &TopStackOfRotatedGrowthCurve2D{Name: "TopStackOfRotatedGrowthCurve2D"},
+			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
+			TopGrowthCurve2D: &TopGrowthCurve2D{Name: "TopGrowthCurve2D"},
+			// field is initialized with an instance of StackOfGrowthCurve2D with the name of the field
+			StackOfGrowthCurve2D: &StackOfGrowthCurve2D{Name: "StackOfGrowthCurve2D"},
+			// field is initialized with an instance of TopStackOfGrowthCurve2D with the name of the field
+			TopStackOfGrowthCurve2D: &TopStackOfGrowthCurve2D{Name: "TopStackOfGrowthCurve2D"},
+			// field is initialized with an instance of StackOfGrowthCurve2DRibbon with the name of the field
+			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
+			// field is initialized with an instance of StackOfRotatedGrowthCurve2DRibbon with the name of the field
+			StackOfRotatedGrowthCurve2DRibbon: &StackOfRotatedGrowthCurve2DRibbon{Name: "StackOfRotatedGrowthCurve2DRibbon"},
+			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
+			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
+			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
+			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
+			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
+			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
+			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
+			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
+			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
+			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
+			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
+			// field is initialized with an instance of PxShape with the name of the field
+			PxShape: &PxShape{Name: "PxShape"},
+			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
+			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
+			// field is initialized with an instance of KeyHoleShape with the name of the field
+			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
 		}).(*Type)
 	case VaseDiagram:
 		return any(&VaseDiagram{
@@ -22375,23 +22375,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "PerpendicularVectorGridHalfway":
-			res := make(map[*PerpendicularVectorGridHalfway][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.PerpendicularVectorGridHalfway != nil {
-					perpendicularvectorgridhalfway_ := plantabstract.PerpendicularVectorGridHalfway
-					var plantabstracts []*PlantAbstract
-					_, ok := res[perpendicularvectorgridhalfway_]
-					if ok {
-						plantabstracts = res[perpendicularvectorgridhalfway_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[perpendicularvectorgridhalfway_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "BaseVectorShapeGrid":
 			res := make(map[*BaseVectorShapeGrid][]*PlantAbstract)
 			for plantabstract := range stage.PlantAbstracts {
@@ -22443,20 +22426,20 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TopStartArcShapeGrid":
-			res := make(map[*TopStartArcShapeGrid][]*PlantAbstract)
+		case "MidArcVectorShapeGrid":
+			res := make(map[*MidArcVectorShapeGrid][]*PlantAbstract)
 			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopStartArcShapeGrid != nil {
-					topstartarcshapegrid_ := plantabstract.TopStartArcShapeGrid
+				if plantabstract.MidArcVectorShapeGrid != nil {
+					midarcvectorshapegrid_ := plantabstract.MidArcVectorShapeGrid
 					var plantabstracts []*PlantAbstract
-					_, ok := res[topstartarcshapegrid_]
+					_, ok := res[midarcvectorshapegrid_]
 					if ok {
-						plantabstracts = res[topstartarcshapegrid_]
+						plantabstracts = res[midarcvectorshapegrid_]
 					} else {
 						plantabstracts = make([]*PlantAbstract, 0)
 					}
 					plantabstracts = append(plantabstracts, plantabstract)
-					res[topstartarcshapegrid_] = plantabstracts
+					res[midarcvectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -22477,176 +22460,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TopEndArcShapeGrid":
-			res := make(map[*TopEndArcShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopEndArcShapeGrid != nil {
-					topendarcshapegrid_ := plantabstract.TopEndArcShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topendarcshapegrid_]
-					if ok {
-						plantabstracts = res[topendarcshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topendarcshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedBottomTopStartArcShapeGrid":
-			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.ShiftedBottomTopStartArcShapeGrid != nil {
-					shiftedbottomtopstartarcshapegrid_ := plantabstract.ShiftedBottomTopStartArcShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[shiftedbottomtopstartarcshapegrid_]
-					if ok {
-						plantabstracts = res[shiftedbottomtopstartarcshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[shiftedbottomtopstartarcshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "MidArcVectorShapeGrid":
-			res := make(map[*MidArcVectorShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.MidArcVectorShapeGrid != nil {
-					midarcvectorshapegrid_ := plantabstract.MidArcVectorShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[midarcvectorshapegrid_]
-					if ok {
-						plantabstracts = res[midarcvectorshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[midarcvectorshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopMidArcVectorShapeGrid":
-			res := make(map[*TopMidArcVectorShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopMidArcVectorShapeGrid != nil {
-					topmidarcvectorshapegrid_ := plantabstract.TopMidArcVectorShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topmidarcvectorshapegrid_]
-					if ok {
-						plantabstracts = res[topmidarcvectorshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topmidarcvectorshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StartHalfwayArcShapeGrid":
-			res := make(map[*StartHalfwayArcShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.StartHalfwayArcShapeGrid != nil {
-					starthalfwayarcshapegrid_ := plantabstract.StartHalfwayArcShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[starthalfwayarcshapegrid_]
-					if ok {
-						plantabstracts = res[starthalfwayarcshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[starthalfwayarcshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStartHalfwayArcShapeGrid":
-			res := make(map[*TopStartHalfwayArcShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopStartHalfwayArcShapeGrid != nil {
-					topstarthalfwayarcshapegrid_ := plantabstract.TopStartHalfwayArcShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topstarthalfwayarcshapegrid_]
-					if ok {
-						plantabstracts = res[topstarthalfwayarcshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topstarthalfwayarcshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "EndHalfwayArcShapeGrid":
-			res := make(map[*EndHalfwayArcShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.EndHalfwayArcShapeGrid != nil {
-					endhalfwayarcshapegrid_ := plantabstract.EndHalfwayArcShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[endhalfwayarcshapegrid_]
-					if ok {
-						plantabstracts = res[endhalfwayarcshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[endhalfwayarcshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopEndHalfwayArcShapeGrid":
-			res := make(map[*TopEndHalfwayArcShapeGrid][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopEndHalfwayArcShapeGrid != nil {
-					topendhalfwayarcshapegrid_ := plantabstract.TopEndHalfwayArcShapeGrid
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topendhalfwayarcshapegrid_]
-					if ok {
-						plantabstracts = res[topendhalfwayarcshapegrid_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topendhalfwayarcshapegrid_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfRotatedGrowthCurve2D":
-			res := make(map[*StackOfRotatedGrowthCurve2D][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.StackOfRotatedGrowthCurve2D != nil {
-					stackofrotatedgrowthcurve2d_ := plantabstract.StackOfRotatedGrowthCurve2D
-					var plantabstracts []*PlantAbstract
-					_, ok := res[stackofrotatedgrowthcurve2d_]
-					if ok {
-						plantabstracts = res[stackofrotatedgrowthcurve2d_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[stackofrotatedgrowthcurve2d_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStackOfRotatedGrowthCurve2D":
-			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopStackOfRotatedGrowthCurve2D != nil {
-					topstackofrotatedgrowthcurve2d_ := plantabstract.TopStackOfRotatedGrowthCurve2D
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topstackofrotatedgrowthcurve2d_]
-					if ok {
-						plantabstracts = res[topstackofrotatedgrowthcurve2d_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topstackofrotatedgrowthcurve2d_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2D":
 			res := make(map[*GrowthCurve2D][]*PlantAbstract)
 			for plantabstract := range stage.PlantAbstracts {
@@ -22661,261 +22474,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plantabstracts = append(plantabstracts, plantabstract)
 					res[growthcurve2d_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopGrowthCurve2D":
-			res := make(map[*TopGrowthCurve2D][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopGrowthCurve2D != nil {
-					topgrowthcurve2d_ := plantabstract.TopGrowthCurve2D
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topgrowthcurve2d_]
-					if ok {
-						plantabstracts = res[topgrowthcurve2d_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topgrowthcurve2d_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfGrowthCurve2D":
-			res := make(map[*StackOfGrowthCurve2D][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.StackOfGrowthCurve2D != nil {
-					stackofgrowthcurve2d_ := plantabstract.StackOfGrowthCurve2D
-					var plantabstracts []*PlantAbstract
-					_, ok := res[stackofgrowthcurve2d_]
-					if ok {
-						plantabstracts = res[stackofgrowthcurve2d_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[stackofgrowthcurve2d_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStackOfGrowthCurve2D":
-			res := make(map[*TopStackOfGrowthCurve2D][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.TopStackOfGrowthCurve2D != nil {
-					topstackofgrowthcurve2d_ := plantabstract.TopStackOfGrowthCurve2D
-					var plantabstracts []*PlantAbstract
-					_, ok := res[topstackofgrowthcurve2d_]
-					if ok {
-						plantabstracts = res[topstackofgrowthcurve2d_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[topstackofgrowthcurve2d_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfGrowthCurve2DRibbon":
-			res := make(map[*StackOfGrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.StackOfGrowthCurve2DRibbon != nil {
-					stackofgrowthcurve2dribbon_ := plantabstract.StackOfGrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[stackofgrowthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[stackofgrowthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[stackofgrowthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfRotatedGrowthCurve2DRibbon":
-			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
-					stackofrotatedgrowthcurve2dribbon_ := plantabstract.StackOfRotatedGrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[stackofrotatedgrowthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[stackofrotatedgrowthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[stackofrotatedgrowthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "GrowthCurve2DRibbon":
-			res := make(map[*GrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.GrowthCurve2DRibbon != nil {
-					growthcurve2dribbon_ := plantabstract.GrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[growthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[growthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[growthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.ShiftedRightGrowthCurve2DRibbon != nil {
-					shiftedrightgrowthcurve2dribbon_ := plantabstract.ShiftedRightGrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[shiftedrightgrowthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[shiftedrightgrowthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[shiftedrightgrowthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
-					shiftedleftgrowthcurve2dribbon_ := plantabstract.ShiftedLeftGrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[shiftedleftgrowthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[shiftedleftgrowthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[shiftedleftgrowthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DRibbon":
-			res := make(map[*PartiallyGrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.PartiallyGrowthCurve2DRibbon != nil {
-					partiallygrowthcurve2dribbon_ := plantabstract.PartiallyGrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[partiallygrowthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[partiallygrowthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[partiallygrowthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-					shiftedleftpartiallygrowthcurve2dribbon_ := plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
-					var plantabstracts []*PlantAbstract
-					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
-					if ok {
-						plantabstracts = res[shiftedleftpartiallygrowthcurve2dribbon_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[shiftedleftpartiallygrowthcurve2dribbon_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DTrajectory":
-			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.PartiallyGrowthCurve2DTrajectory != nil {
-					partiallygrowthcurve2dtrajectory_ := plantabstract.PartiallyGrowthCurve2DTrajectory
-					var plantabstracts []*PlantAbstract
-					_, ok := res[partiallygrowthcurve2dtrajectory_]
-					if ok {
-						plantabstracts = res[partiallygrowthcurve2dtrajectory_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[partiallygrowthcurve2dtrajectory_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-					partiallygrowthcurve2dtrajectoryp1p2_ := plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2
-					var plantabstracts []*PlantAbstract
-					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
-					if ok {
-						plantabstracts = res[partiallygrowthcurve2dtrajectoryp1p2_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[partiallygrowthcurve2dtrajectoryp1p2_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PxShape":
-			res := make(map[*PxShape][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.PxShape != nil {
-					pxshape_ := plantabstract.PxShape
-					var plantabstracts []*PlantAbstract
-					_, ok := res[pxshape_]
-					if ok {
-						plantabstracts = res[pxshape_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[pxshape_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ChosenP1P2PairShape":
-			res := make(map[*ChosenP1P2PairShape][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.ChosenP1P2PairShape != nil {
-					chosenp1p2pairshape_ := plantabstract.ChosenP1P2PairShape
-					var plantabstracts []*PlantAbstract
-					_, ok := res[chosenp1p2pairshape_]
-					if ok {
-						plantabstracts = res[chosenp1p2pairshape_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[chosenp1p2pairshape_] = plantabstracts
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "KeyHoleShape":
-			res := make(map[*KeyHoleShape][]*PlantAbstract)
-			for plantabstract := range stage.PlantAbstracts {
-				if plantabstract.KeyHoleShape != nil {
-					keyholeshape_ := plantabstract.KeyHoleShape
-					var plantabstracts []*PlantAbstract
-					_, ok := res[keyholeshape_]
-					if ok {
-						plantabstracts = res[keyholeshape_]
-					} else {
-						plantabstracts = make([]*PlantAbstract, 0)
-					}
-					plantabstracts = append(plantabstracts, plantabstract)
-					res[keyholeshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -23455,6 +23013,448 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case VaseAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "PerpendicularVectorGridHalfway":
+			res := make(map[*PerpendicularVectorGridHalfway][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PerpendicularVectorGridHalfway != nil {
+					perpendicularvectorgridhalfway_ := vaseabstract.PerpendicularVectorGridHalfway
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[perpendicularvectorgridhalfway_]
+					if ok {
+						vaseabstracts = res[perpendicularvectorgridhalfway_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[perpendicularvectorgridhalfway_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStartArcShapeGrid":
+			res := make(map[*TopStartArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStartArcShapeGrid != nil {
+					topstartarcshapegrid_ := vaseabstract.TopStartArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstartarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topstartarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstartarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopEndArcShapeGrid":
+			res := make(map[*TopEndArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopEndArcShapeGrid != nil {
+					topendarcshapegrid_ := vaseabstract.TopEndArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topendarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topendarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topendarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedBottomTopStartArcShapeGrid":
+			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+					shiftedbottomtopstartarcshapegrid_ := vaseabstract.ShiftedBottomTopStartArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedbottomtopstartarcshapegrid_]
+					if ok {
+						vaseabstracts = res[shiftedbottomtopstartarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedbottomtopstartarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopMidArcVectorShapeGrid":
+			res := make(map[*TopMidArcVectorShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopMidArcVectorShapeGrid != nil {
+					topmidarcvectorshapegrid_ := vaseabstract.TopMidArcVectorShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topmidarcvectorshapegrid_]
+					if ok {
+						vaseabstracts = res[topmidarcvectorshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topmidarcvectorshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StartHalfwayArcShapeGrid":
+			res := make(map[*StartHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StartHalfwayArcShapeGrid != nil {
+					starthalfwayarcshapegrid_ := vaseabstract.StartHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[starthalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[starthalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[starthalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStartHalfwayArcShapeGrid":
+			res := make(map[*TopStartHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStartHalfwayArcShapeGrid != nil {
+					topstarthalfwayarcshapegrid_ := vaseabstract.TopStartHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstarthalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topstarthalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstarthalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EndHalfwayArcShapeGrid":
+			res := make(map[*EndHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.EndHalfwayArcShapeGrid != nil {
+					endhalfwayarcshapegrid_ := vaseabstract.EndHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[endhalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[endhalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[endhalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopEndHalfwayArcShapeGrid":
+			res := make(map[*TopEndHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopEndHalfwayArcShapeGrid != nil {
+					topendhalfwayarcshapegrid_ := vaseabstract.TopEndHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topendhalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topendhalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topendhalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfRotatedGrowthCurve2D":
+			res := make(map[*StackOfRotatedGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfRotatedGrowthCurve2D != nil {
+					stackofrotatedgrowthcurve2d_ := vaseabstract.StackOfRotatedGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofrotatedgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[stackofrotatedgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofrotatedgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStackOfRotatedGrowthCurve2D":
+			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
+					topstackofrotatedgrowthcurve2d_ := vaseabstract.TopStackOfRotatedGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstackofrotatedgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[topstackofrotatedgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstackofrotatedgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopGrowthCurve2D":
+			res := make(map[*TopGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopGrowthCurve2D != nil {
+					topgrowthcurve2d_ := vaseabstract.TopGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[topgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfGrowthCurve2D":
+			res := make(map[*StackOfGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfGrowthCurve2D != nil {
+					stackofgrowthcurve2d_ := vaseabstract.StackOfGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[stackofgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStackOfGrowthCurve2D":
+			res := make(map[*TopStackOfGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStackOfGrowthCurve2D != nil {
+					topstackofgrowthcurve2d_ := vaseabstract.TopStackOfGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstackofgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[topstackofgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstackofgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfGrowthCurve2DRibbon":
+			res := make(map[*StackOfGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfGrowthCurve2DRibbon != nil {
+					stackofgrowthcurve2dribbon_ := vaseabstract.StackOfGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[stackofgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfRotatedGrowthCurve2DRibbon":
+			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+					stackofrotatedgrowthcurve2dribbon_ := vaseabstract.StackOfRotatedGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofrotatedgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[stackofrotatedgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofrotatedgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "GrowthCurve2DRibbon":
+			res := make(map[*GrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.GrowthCurve2DRibbon != nil {
+					growthcurve2dribbon_ := vaseabstract.GrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[growthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[growthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[growthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedRightGrowthCurve2DRibbon":
+			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+					shiftedrightgrowthcurve2dribbon_ := vaseabstract.ShiftedRightGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedrightgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[shiftedrightgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedrightgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedLeftGrowthCurve2DRibbon":
+			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+					shiftedleftgrowthcurve2dribbon_ := vaseabstract.ShiftedLeftGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedleftgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[shiftedleftgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedleftgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DRibbon":
+			res := make(map[*PartiallyGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PartiallyGrowthCurve2DRibbon != nil {
+					partiallygrowthcurve2dribbon_ := vaseabstract.PartiallyGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[partiallygrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[partiallygrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[partiallygrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+					shiftedleftpartiallygrowthcurve2dribbon_ := vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[shiftedleftpartiallygrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedleftpartiallygrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DTrajectory":
+			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
+					partiallygrowthcurve2dtrajectory_ := vaseabstract.PartiallyGrowthCurve2DTrajectory
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[partiallygrowthcurve2dtrajectory_]
+					if ok {
+						vaseabstracts = res[partiallygrowthcurve2dtrajectory_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[partiallygrowthcurve2dtrajectory_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+					partiallygrowthcurve2dtrajectoryp1p2_ := vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
+					if ok {
+						vaseabstracts = res[partiallygrowthcurve2dtrajectoryp1p2_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[partiallygrowthcurve2dtrajectoryp1p2_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PxShape":
+			res := make(map[*PxShape][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PxShape != nil {
+					pxshape_ := vaseabstract.PxShape
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[pxshape_]
+					if ok {
+						vaseabstracts = res[pxshape_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[pxshape_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ChosenP1P2PairShape":
+			res := make(map[*ChosenP1P2PairShape][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ChosenP1P2PairShape != nil {
+					chosenp1p2pairshape_ := vaseabstract.ChosenP1P2PairShape
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[chosenp1p2pairshape_]
+					if ok {
+						vaseabstracts = res[chosenp1p2pairshape_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[chosenp1p2pairshape_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "KeyHoleShape":
+			res := make(map[*KeyHoleShape][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.KeyHoleShape != nil {
+					keyholeshape_ := vaseabstract.KeyHoleShape
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[keyholeshape_]
+					if ok {
+						vaseabstracts = res[keyholeshape_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[keyholeshape_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of VaseDiagram
 	case VaseDiagram:
@@ -26843,11 +26843,6 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "PerpendicularVectorGrid",
 		},
 		{
-			Name:                 "PerpendicularVectorGridHalfway",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PerpendicularVectorGridHalfway",
-		},
-		{
 			Name:                 "BaseVectorShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "BaseVectorShapeGrid",
@@ -26863,9 +26858,9 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "StartArcShapeGrid",
 		},
 		{
-			Name:                 "TopStartArcShapeGrid",
+			Name:                 "MidArcVectorShapeGrid",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStartArcShapeGrid",
+			TargetGongstructName: "MidArcVectorShapeGrid",
 		},
 		{
 			Name:                 "EndArcShapeGrid",
@@ -26873,134 +26868,9 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "EndArcShapeGrid",
 		},
 		{
-			Name:                 "TopEndArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopEndArcShapeGrid",
-		},
-		{
-			Name:                 "ShiftedBottomTopStartArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedBottomTopStartArcShapeGrid",
-		},
-		{
-			Name:                 "MidArcVectorShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "MidArcVectorShapeGrid",
-		},
-		{
-			Name:                 "TopMidArcVectorShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopMidArcVectorShapeGrid",
-		},
-		{
-			Name:                 "StartHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StartHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "TopStartHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStartHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "EndHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "EndHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "TopEndHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopEndHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "StackOfRotatedGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfRotatedGrowthCurve2D",
-		},
-		{
-			Name:                 "TopStackOfRotatedGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStackOfRotatedGrowthCurve2D",
-		},
-		{
 			Name:                 "GrowthCurve2D",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthCurve2D",
-		},
-		{
-			Name:                 "TopGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopGrowthCurve2D",
-		},
-		{
-			Name:                 "StackOfGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfGrowthCurve2D",
-		},
-		{
-			Name:                 "TopStackOfGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStackOfGrowthCurve2D",
-		},
-		{
-			Name:                 "StackOfGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "StackOfRotatedGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfRotatedGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "GrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DTrajectory",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DTrajectoryP1P2",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
-		},
-		{
-			Name:                 "PxShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PxShape",
-		},
-		{
-			Name:                 "ChosenP1P2PairShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ChosenP1P2PairShape",
-		},
-		{
-			Name:                 "KeyHoleShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "KeyHoleShape",
 		},
 	}
 	return
@@ -27051,14 +26921,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsArcNodesExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsVaseArcNodesExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsVaseClampingNodesExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -27131,26 +26993,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHiddenEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -29542,6 +29384,136 @@ func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "MovieNbFrames",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
+		{
+			Name:                 "PerpendicularVectorGridHalfway",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PerpendicularVectorGridHalfway",
+		},
+		{
+			Name:                 "TopStartArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStartArcShapeGrid",
+		},
+		{
+			Name:                 "TopEndArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopEndArcShapeGrid",
+		},
+		{
+			Name:                 "ShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedBottomTopStartArcShapeGrid",
+		},
+		{
+			Name:                 "TopMidArcVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopMidArcVectorShapeGrid",
+		},
+		{
+			Name:                 "StartHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StartHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "TopStartHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStartHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "EndHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EndHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "TopEndHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopEndHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "StackOfRotatedGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfRotatedGrowthCurve2D",
+		},
+		{
+			Name:                 "TopStackOfRotatedGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStackOfRotatedGrowthCurve2D",
+		},
+		{
+			Name:                 "TopGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopGrowthCurve2D",
+		},
+		{
+			Name:                 "StackOfGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfGrowthCurve2D",
+		},
+		{
+			Name:                 "TopStackOfGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStackOfGrowthCurve2D",
+		},
+		{
+			Name:                 "StackOfGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "StackOfRotatedGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfRotatedGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "GrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "ShiftedRightGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "ShiftedLeftGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedLeftGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DTrajectoryP1P2",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+		},
+		{
+			Name:                 "PxShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PxShape",
+		},
+		{
+			Name:                 "ChosenP1P2PairShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ChosenP1P2PairShape",
+		},
+		{
+			Name:                 "KeyHoleShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "KeyHoleShape",
+		},
 	}
 	return
 }
@@ -29552,6 +29524,34 @@ func (vasediagram *VaseDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsVaseArcNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsVaseClampingNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsHiddenPerpendicularVectorGridHalfway",
@@ -31220,12 +31220,6 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = plantabstract.PerpendicularVectorGrid.Name
 			res.ids = plantabstract.PerpendicularVectorGrid.GongGetUUID(stage)
 		}
-	case "PerpendicularVectorGridHalfway":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.PerpendicularVectorGridHalfway != nil {
-			res.valueString = plantabstract.PerpendicularVectorGridHalfway.Name
-			res.ids = plantabstract.PerpendicularVectorGridHalfway.GongGetUUID(stage)
-		}
 	case "BaseVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantabstract.BaseVectorShapeGrid != nil {
@@ -31244,11 +31238,11 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = plantabstract.StartArcShapeGrid.Name
 			res.ids = plantabstract.StartArcShapeGrid.GongGetUUID(stage)
 		}
-	case "TopStartArcShapeGrid":
+	case "MidArcVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopStartArcShapeGrid != nil {
-			res.valueString = plantabstract.TopStartArcShapeGrid.Name
-			res.ids = plantabstract.TopStartArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.MidArcVectorShapeGrid != nil {
+			res.valueString = plantabstract.MidArcVectorShapeGrid.Name
+			res.ids = plantabstract.MidArcVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -31256,161 +31250,11 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = plantabstract.EndArcShapeGrid.Name
 			res.ids = plantabstract.EndArcShapeGrid.GongGetUUID(stage)
 		}
-	case "TopEndArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopEndArcShapeGrid != nil {
-			res.valueString = plantabstract.TopEndArcShapeGrid.Name
-			res.ids = plantabstract.TopEndArcShapeGrid.GongGetUUID(stage)
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.ShiftedBottomTopStartArcShapeGrid != nil {
-			res.valueString = plantabstract.ShiftedBottomTopStartArcShapeGrid.Name
-			res.ids = plantabstract.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
-		}
-	case "MidArcVectorShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.MidArcVectorShapeGrid != nil {
-			res.valueString = plantabstract.MidArcVectorShapeGrid.Name
-			res.ids = plantabstract.MidArcVectorShapeGrid.GongGetUUID(stage)
-		}
-	case "TopMidArcVectorShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopMidArcVectorShapeGrid != nil {
-			res.valueString = plantabstract.TopMidArcVectorShapeGrid.Name
-			res.ids = plantabstract.TopMidArcVectorShapeGrid.GongGetUUID(stage)
-		}
-	case "StartHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.StartHalfwayArcShapeGrid != nil {
-			res.valueString = plantabstract.StartHalfwayArcShapeGrid.Name
-			res.ids = plantabstract.StartHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopStartHalfwayArcShapeGrid != nil {
-			res.valueString = plantabstract.TopStartHalfwayArcShapeGrid.Name
-			res.ids = plantabstract.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "EndHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.EndHalfwayArcShapeGrid != nil {
-			res.valueString = plantabstract.EndHalfwayArcShapeGrid.Name
-			res.ids = plantabstract.EndHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopEndHalfwayArcShapeGrid != nil {
-			res.valueString = plantabstract.TopEndHalfwayArcShapeGrid.Name
-			res.ids = plantabstract.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.StackOfRotatedGrowthCurve2D != nil {
-			res.valueString = plantabstract.StackOfRotatedGrowthCurve2D.Name
-			res.ids = plantabstract.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopStackOfRotatedGrowthCurve2D != nil {
-			res.valueString = plantabstract.TopStackOfRotatedGrowthCurve2D.Name
-			res.ids = plantabstract.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
-		}
 	case "GrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantabstract.GrowthCurve2D != nil {
 			res.valueString = plantabstract.GrowthCurve2D.Name
 			res.ids = plantabstract.GrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopGrowthCurve2D != nil {
-			res.valueString = plantabstract.TopGrowthCurve2D.Name
-			res.ids = plantabstract.TopGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "StackOfGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.StackOfGrowthCurve2D != nil {
-			res.valueString = plantabstract.StackOfGrowthCurve2D.Name
-			res.ids = plantabstract.StackOfGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopStackOfGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.TopStackOfGrowthCurve2D != nil {
-			res.valueString = plantabstract.TopStackOfGrowthCurve2D.Name
-			res.ids = plantabstract.TopStackOfGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.StackOfGrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.StackOfGrowthCurve2DRibbon.Name
-			res.ids = plantabstract.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.StackOfRotatedGrowthCurve2DRibbon.Name
-			res.ids = plantabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "GrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.GrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.GrowthCurve2DRibbon.Name
-			res.ids = plantabstract.GrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.ShiftedRightGrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.ShiftedRightGrowthCurve2DRibbon.Name
-			res.ids = plantabstract.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.ShiftedLeftGrowthCurve2DRibbon.Name
-			res.ids = plantabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.PartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.PartiallyGrowthCurve2DRibbon.Name
-			res.ids = plantabstract.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
-			res.ids = plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.PartiallyGrowthCurve2DTrajectory != nil {
-			res.valueString = plantabstract.PartiallyGrowthCurve2DTrajectory.Name
-			res.ids = plantabstract.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-			res.valueString = plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2.Name
-			res.ids = plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
-		}
-	case "PxShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.PxShape != nil {
-			res.valueString = plantabstract.PxShape.Name
-			res.ids = plantabstract.PxShape.GongGetUUID(stage)
-		}
-	case "ChosenP1P2PairShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.ChosenP1P2PairShape != nil {
-			res.valueString = plantabstract.ChosenP1P2PairShape.Name
-			res.ids = plantabstract.ChosenP1P2PairShape.GongGetUUID(stage)
-		}
-	case "KeyHoleShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantabstract.KeyHoleShape != nil {
-			res.valueString = plantabstract.KeyHoleShape.Name
-			res.ids = plantabstract.KeyHoleShape.GongGetUUID(stage)
 		}
 	}
 	return
@@ -31459,14 +31303,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsArcNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsArcNodesExpanded)
 		res.valueBool = plantdiagram.IsArcNodesExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsVaseArcNodesExpanded":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsVaseArcNodesExpanded)
-		res.valueBool = plantdiagram.IsVaseArcNodesExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsVaseClampingNodesExpanded":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsVaseClampingNodesExpanded)
-		res.valueBool = plantdiagram.IsVaseClampingNodesExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenAxesShape":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenAxesShape)
@@ -31539,26 +31375,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHiddenEndArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
 		res.valueBool = plantdiagram.IsHiddenEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBottomStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenBottomStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBottomEndArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomEndArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenBottomEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBottomStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenBottomStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfNormalVector)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftStackOfNormalVector
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenGrowthCurve2D":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2D)
@@ -33987,6 +33803,162 @@ func (vaseabstract *VaseAbstract) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%d", vaseabstract.MovieNbFrames)
 		res.valueInt = vaseabstract.MovieNbFrames
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "PerpendicularVectorGridHalfway":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PerpendicularVectorGridHalfway != nil {
+			res.valueString = vaseabstract.PerpendicularVectorGridHalfway.Name
+			res.ids = vaseabstract.PerpendicularVectorGridHalfway.GongGetUUID(stage)
+		}
+	case "TopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStartArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopStartArcShapeGrid.Name
+			res.ids = vaseabstract.TopStartArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopEndArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopEndArcShapeGrid.Name
+			res.ids = vaseabstract.TopEndArcShapeGrid.GongGetUUID(stage)
+		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+			res.valueString = vaseabstract.ShiftedBottomTopStartArcShapeGrid.Name
+			res.ids = vaseabstract.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopMidArcVectorShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopMidArcVectorShapeGrid != nil {
+			res.valueString = vaseabstract.TopMidArcVectorShapeGrid.Name
+			res.ids = vaseabstract.TopMidArcVectorShapeGrid.GongGetUUID(stage)
+		}
+	case "StartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StartHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.StartHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.StartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopStartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStartHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopStartHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "EndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.EndHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.EndHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.EndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopEndHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopEndHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "StackOfRotatedGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfRotatedGrowthCurve2D != nil {
+			res.valueString = vaseabstract.StackOfRotatedGrowthCurve2D.Name
+			res.ids = vaseabstract.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopStackOfRotatedGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
+			res.valueString = vaseabstract.TopStackOfRotatedGrowthCurve2D.Name
+			res.ids = vaseabstract.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopGrowthCurve2D != nil {
+			res.valueString = vaseabstract.TopGrowthCurve2D.Name
+			res.ids = vaseabstract.TopGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "StackOfGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfGrowthCurve2D != nil {
+			res.valueString = vaseabstract.StackOfGrowthCurve2D.Name
+			res.ids = vaseabstract.StackOfGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopStackOfGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStackOfGrowthCurve2D != nil {
+			res.valueString = vaseabstract.TopStackOfGrowthCurve2D.Name
+			res.ids = vaseabstract.TopStackOfGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "StackOfGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.StackOfGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.StackOfRotatedGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "GrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.GrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.GrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.GrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedRightGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.ShiftedRightGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.ShiftedLeftGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.PartiallyGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
+			res.valueString = vaseabstract.PartiallyGrowthCurve2DTrajectory.Name
+			res.ids = vaseabstract.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+			res.valueString = vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.Name
+			res.ids = vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
+		}
+	case "PxShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PxShape != nil {
+			res.valueString = vaseabstract.PxShape.Name
+			res.ids = vaseabstract.PxShape.GongGetUUID(stage)
+		}
+	case "ChosenP1P2PairShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ChosenP1P2PairShape != nil {
+			res.valueString = vaseabstract.ChosenP1P2PairShape.Name
+			res.ids = vaseabstract.ChosenP1P2PairShape.GongGetUUID(stage)
+		}
+	case "KeyHoleShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.KeyHoleShape != nil {
+			res.valueString = vaseabstract.KeyHoleShape.Name
+			res.ids = vaseabstract.KeyHoleShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -33996,6 +33968,34 @@ func (vasediagram *VaseDiagram) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = vasediagram.Name
+	case "IsVaseArcNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsVaseArcNodesExpanded)
+		res.valueBool = vasediagram.IsVaseArcNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsVaseClampingNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsVaseClampingNodesExpanded)
+		res.valueBool = vasediagram.IsVaseClampingNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenBottomStartArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenBottomStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomEndArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenBottomEndArcShapeGrid)
+		res.valueBool = vasediagram.IsHiddenBottomEndArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenBottomStackOfGrowthCurve)
+		res.valueBool = vasediagram.IsHiddenBottomStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenShiftedLeftStackOfGrowthCurve)
+		res.valueBool = vasediagram.IsHiddenShiftedLeftStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenShiftedLeftStackOfNormalVector)
+		res.valueBool = vasediagram.IsHiddenShiftedLeftStackOfNormalVector
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenPerpendicularVectorGridHalfway":
 		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenPerpendicularVectorGridHalfway)
 		res.valueBool = vasediagram.IsHiddenPerpendicularVectorGridHalfway
@@ -35514,17 +35514,6 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
-	case "PerpendicularVectorGridHalfway":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.PerpendicularVectorGridHalfway = nil
-			for __instance__ := range stage.PerpendicularVectorGridHalfways {
-				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
-					plantabstract.PerpendicularVectorGridHalfway = __instance__
-					break
-				}
-			}
-		}
 	case "BaseVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -35558,13 +35547,13 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
-	case "TopStartArcShapeGrid":
+	case "MidArcVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopStartArcShapeGrid = nil
-			for __instance__ := range stage.TopStartArcShapeGrids {
-				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopStartArcShapeGrid = __instance__
+			plantabstract.MidArcVectorShapeGrid = nil
+			for __instance__ := range stage.MidArcVectorShapeGrids {
+				if stage.MidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plantabstract.MidArcVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35580,116 +35569,6 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
-	case "TopEndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopEndArcShapeGrid = nil
-			for __instance__ := range stage.TopEndArcShapeGrids {
-				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopEndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ShiftedBottomTopStartArcShapeGrid = nil
-			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
-				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "MidArcVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.MidArcVectorShapeGrid = nil
-			for __instance__ := range stage.MidArcVectorShapeGrids {
-				if stage.MidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.MidArcVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopMidArcVectorShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopMidArcVectorShapeGrid = nil
-			for __instance__ := range stage.TopMidArcVectorShapeGrids {
-				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopMidArcVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.StartHalfwayArcShapeGrids {
-				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopStartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
-				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopStartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.EndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.EndHalfwayArcShapeGrids {
-				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.EndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopEndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
-				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopEndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
-				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopStackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
-				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopStackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
 	case "GrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -35697,171 +35576,6 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 			for __instance__ := range stage.GrowthCurve2Ds {
 				if stage.GrowthCurve2D_stagedOrder[__instance__] == uint(id) {
 					plantabstract.GrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopGrowthCurve2D = nil
-			for __instance__ := range stage.TopGrowthCurve2Ds {
-				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StackOfGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfGrowthCurve2Ds {
-				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.TopStackOfGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
-				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plantabstract.TopStackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StackOfGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
-				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StackOfGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.StackOfRotatedGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
-				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.GrowthCurve2DRibbon = nil
-			for __instance__ := range stage.GrowthCurve2DRibbons {
-				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.GrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ShiftedRightGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
-				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ShiftedLeftGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
-				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.PartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
-				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.PartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.PartiallyGrowthCurve2DTrajectory = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
-				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
-					plantabstract.PartiallyGrowthCurve2DTrajectory = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
-				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
-					plantabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
-					break
-				}
-			}
-		}
-	case "PxShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.PxShape = nil
-			for __instance__ := range stage.PxShapes {
-				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
-					plantabstract.PxShape = __instance__
-					break
-				}
-			}
-		}
-	case "ChosenP1P2PairShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.ChosenP1P2PairShape = nil
-			for __instance__ := range stage.ChosenP1P2PairShapes {
-				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
-					plantabstract.ChosenP1P2PairShape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHoleShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantabstract.KeyHoleShape = nil
-			for __instance__ := range stage.KeyHoleShapes {
-				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
-					plantabstract.KeyHoleShape = __instance__
 					break
 				}
 			}
@@ -35911,10 +35625,6 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsRhombusNodesExpanded = value.GetValueBool()
 	case "IsArcNodesExpanded":
 		plantdiagram.IsArcNodesExpanded = value.GetValueBool()
-	case "IsVaseArcNodesExpanded":
-		plantdiagram.IsVaseArcNodesExpanded = value.GetValueBool()
-	case "IsVaseClampingNodesExpanded":
-		plantdiagram.IsVaseClampingNodesExpanded = value.GetValueBool()
 	case "IsHiddenAxesShape":
 		plantdiagram.IsHiddenAxesShape = value.GetValueBool()
 	case "IsHiddenReferenceRhombus":
@@ -35951,16 +35661,6 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
 	case "IsHiddenEndArcShapeGrid":
 		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomStartArcShapeGrid":
-		plantdiagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomEndArcShapeGrid":
-		plantdiagram.IsHiddenBottomEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomStackOfGrowthCurve":
-		plantdiagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		plantdiagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
 	case "IsHiddenGrowthCurve2D":
 		plantdiagram.IsHiddenGrowthCurve2D = value.GetValueBool()
 	case "IsChecked":
@@ -37938,6 +37638,292 @@ func (vaseabstract *VaseAbstract) GongSetFieldValue(fieldName string, value Gong
 		vaseabstract.RelativeKeySize = value.GetValueFloat()
 	case "MovieNbFrames":
 		vaseabstract.MovieNbFrames = int(value.GetValueInt())
+	case "PerpendicularVectorGridHalfway":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PerpendicularVectorGridHalfway = nil
+			for __instance__ := range stage.PerpendicularVectorGridHalfways {
+				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PerpendicularVectorGridHalfway = __instance__
+					break
+				}
+			}
+		}
+	case "TopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStartArcShapeGrid = nil
+			for __instance__ := range stage.TopStartArcShapeGrids {
+				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopEndArcShapeGrid = nil
+			for __instance__ := range stage.TopEndArcShapeGrids {
+				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopEndArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedBottomTopStartArcShapeGrid = nil
+			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
+				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopMidArcVectorShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopMidArcVectorShapeGrid = nil
+			for __instance__ := range stage.TopMidArcVectorShapeGrids {
+				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopMidArcVectorShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "StartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.StartHalfwayArcShapeGrids {
+				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopStartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
+				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "EndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.EndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.EndHalfwayArcShapeGrids {
+				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.EndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopEndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
+				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopEndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfRotatedGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfRotatedGrowthCurve2D = nil
+			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
+				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfRotatedGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopStackOfRotatedGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStackOfRotatedGrowthCurve2D = nil
+			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
+				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStackOfRotatedGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopGrowthCurve2D = nil
+			for __instance__ := range stage.TopGrowthCurve2Ds {
+				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfGrowthCurve2D = nil
+			for __instance__ := range stage.StackOfGrowthCurve2Ds {
+				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopStackOfGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStackOfGrowthCurve2D = nil
+			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
+				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStackOfGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
+				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfRotatedGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
+				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "GrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.GrowthCurve2DRibbon = nil
+			for __instance__ := range stage.GrowthCurve2DRibbons {
+				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.GrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedRightGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedRightGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
+				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedLeftGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
+				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
+				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
+				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PartiallyGrowthCurve2DTrajectory = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
+				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PartiallyGrowthCurve2DTrajectory = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
+					break
+				}
+			}
+		}
+	case "PxShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PxShape = nil
+			for __instance__ := range stage.PxShapes {
+				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PxShape = __instance__
+					break
+				}
+			}
+		}
+	case "ChosenP1P2PairShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ChosenP1P2PairShape = nil
+			for __instance__ := range stage.ChosenP1P2PairShapes {
+				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ChosenP1P2PairShape = __instance__
+					break
+				}
+			}
+		}
+	case "KeyHoleShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.KeyHoleShape = nil
+			for __instance__ := range stage.KeyHoleShapes {
+				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.KeyHoleShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -37949,6 +37935,20 @@ func (vasediagram *VaseDiagram) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		vasediagram.Name = value.GetValueString()
+	case "IsVaseArcNodesExpanded":
+		vasediagram.IsVaseArcNodesExpanded = value.GetValueBool()
+	case "IsVaseClampingNodesExpanded":
+		vasediagram.IsVaseClampingNodesExpanded = value.GetValueBool()
+	case "IsHiddenBottomStartArcShapeGrid":
+		vasediagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenBottomEndArcShapeGrid":
+		vasediagram.IsHiddenBottomEndArcShapeGrid = value.GetValueBool()
+	case "IsHiddenBottomStackOfGrowthCurve":
+		vasediagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenShiftedLeftStackOfGrowthCurve":
+		vasediagram.IsHiddenShiftedLeftStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		vasediagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
 	case "IsHiddenPerpendicularVectorGridHalfway":
 		vasediagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
 	case "IsHiddenTopStartArcShapeGrid":

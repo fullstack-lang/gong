@@ -273,20 +273,6 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 	)
 	needCommit = n7 || needCommit
 
-	n7_halfway := enforcePlantHasShape[*PerpendicularVectorGridHalfway](
-		stager,
-		func() *PerpendicularVectorGridHalfway { return new(PerpendicularVectorGridHalfway) },
-		func(p *PlantAbstract) *PerpendicularVectorGridHalfway { return p.PerpendicularVectorGridHalfway },
-		func(p *PlantAbstract, shape *PerpendicularVectorGridHalfway) {
-			p.PerpendicularVectorGridHalfway = shape
-		},
-		func(p *PlantAbstract, shape *PerpendicularVectorGridHalfway) bool {
-			return p.PerpendicularVectorGridHalfway == shape
-		},
-		"PerpendicularVectorGridHalfway",
-	)
-	needCommit = n7_halfway || needCommit
-
 	n7_base := enforcePlantHasShape[*BaseVectorShapeGrid](
 		stager,
 		func() *BaseVectorShapeGrid { return new(BaseVectorShapeGrid) },
@@ -319,21 +305,9 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		func(p *PlantAbstract, shape *StartArcShapeGrid) bool {
 			return p.StartArcShapeGrid == shape
 		},
-		"StartArcShapeV2Grid",
+		"StartArcShapeGrid",
 	)
 	needCommit = n7_arc_v2 || needCommit
-
-	n7_top_arc_v2 := enforcePlantHasShape[*TopStartArcShapeGrid](
-		stager,
-		func() *TopStartArcShapeGrid { return new(TopStartArcShapeGrid) },
-		func(p *PlantAbstract) *TopStartArcShapeGrid { return p.TopStartArcShapeGrid },
-		func(p *PlantAbstract, shape *TopStartArcShapeGrid) { p.TopStartArcShapeGrid = shape },
-		func(p *PlantAbstract, shape *TopStartArcShapeGrid) bool {
-			return p.TopStartArcShapeGrid == shape
-		},
-		"TopStartArcShapeV2Grid",
-	)
-	needCommit = n7_top_arc_v2 || needCommit
 
 	n7_arc_v2_end := enforcePlantHasShape[*EndArcShapeGrid](
 		stager,
@@ -343,49 +317,11 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		func(p *PlantAbstract, shape *EndArcShapeGrid) bool {
 			return p.EndArcShapeGrid == shape
 		},
-		"EndArcShapeV2Grid",
+		"EndArcShapeGrid",
 	)
 	needCommit = n7_arc_v2_end || needCommit
 
-	n7_top_arc_v2_end := enforcePlantHasShape[*TopEndArcShapeGrid](
-		stager,
-		func() *TopEndArcShapeGrid { return new(TopEndArcShapeGrid) },
-		func(p *PlantAbstract) *TopEndArcShapeGrid { return p.TopEndArcShapeGrid },
-		func(p *PlantAbstract, shape *TopEndArcShapeGrid) { p.TopEndArcShapeGrid = shape },
-		func(p *PlantAbstract, shape *TopEndArcShapeGrid) bool {
-			return p.TopEndArcShapeGrid == shape
-		},
-		"TopEndArcShapeV2Grid",
-	)
-	needCommit = n7_top_arc_v2_end || needCommit
-
-	n10 := enforcePlantHasShape[*StackOfRotatedGrowthCurve2D](
-		stager,
-		func() *StackOfRotatedGrowthCurve2D { return new(StackOfRotatedGrowthCurve2D) },
-		func(p *PlantAbstract) *StackOfRotatedGrowthCurve2D { return p.StackOfRotatedGrowthCurve2D },
-		func(p *PlantAbstract, shape *StackOfRotatedGrowthCurve2D) { p.StackOfRotatedGrowthCurve2D = shape },
-		func(p *PlantAbstract, shape *StackOfRotatedGrowthCurve2D) bool {
-			return p.StackOfRotatedGrowthCurve2D == shape
-		},
-		"StackOfGrowthCurveV2",
-	)
-	needCommit = n10 || needCommit
-
-	n11 := enforcePlantHasShape[*TopStackOfRotatedGrowthCurve2D](
-		stager,
-		func() *TopStackOfRotatedGrowthCurve2D { return new(TopStackOfRotatedGrowthCurve2D) },
-		func(p *PlantAbstract) *TopStackOfRotatedGrowthCurve2D { return p.TopStackOfRotatedGrowthCurve2D },
-		func(p *PlantAbstract, shape *TopStackOfRotatedGrowthCurve2D) {
-			p.TopStackOfRotatedGrowthCurve2D = shape
-		},
-		func(p *PlantAbstract, shape *TopStackOfRotatedGrowthCurve2D) bool {
-			return p.TopStackOfRotatedGrowthCurve2D == shape
-		},
-		"TopStackOfGrowthCurveV2",
-	)
-	needCommit = n11 || needCommit
-
-	n15 := enforcePlantHasShape[*MidArcVectorShapeGrid](
+	n7_mid_arc := enforcePlantHasShape[*MidArcVectorShapeGrid](
 		stager,
 		func() *MidArcVectorShapeGrid { return new(MidArcVectorShapeGrid) },
 		func(p *PlantAbstract) *MidArcVectorShapeGrid { return p.MidArcVectorShapeGrid },
@@ -395,219 +331,432 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		},
 		"MidArcVectorShapeGrid",
 	)
-	needCommit = n15 || needCommit
+	needCommit = n7_mid_arc || needCommit
 
-	n16 := enforcePlantHasShape[*TopMidArcVectorShapeGrid](
+	n7_growth_curve := enforcePlantHasShape[*GrowthCurve2D](
+		stager,
+		func() *GrowthCurve2D { return new(GrowthCurve2D) },
+		func(p *PlantAbstract) *GrowthCurve2D { return p.GrowthCurve2D },
+		func(p *PlantAbstract, shape *GrowthCurve2D) { p.GrowthCurve2D = shape },
+		func(p *PlantAbstract, shape *GrowthCurve2D) bool {
+			return p.GrowthCurve2D == shape
+		},
+		"GrowthCurve2D",
+	)
+	needCommit = n7_growth_curve || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_base || n7_arc_normal || n7_arc_v2 || n7_arc_v2_end || n7_mid_arc || n7_growth_curve || needCommit
+}
+
+func enforceVaseHasShape[ShapePointerType PointerToGongstruct](
+	stager *Stager,
+	newShape func() ShapePointerType,
+	getShape func(vase *VaseAbstract) ShapePointerType,
+	setShape func(vase *VaseAbstract, shape ShapePointerType),
+	isOwned func(vase *VaseAbstract, shape ShapePointerType) bool,
+	shapeName string,
+) (needCommit bool) {
+	stage := stager.stage
+
+	// 1. Ensure each Vase has the shape
+	for vase := range *GetGongstructInstancesSetFromPointerType[*VaseAbstract](stage) {
+		var zero ShapePointerType
+		if getShape(vase) == zero {
+			shapePointer := newShape()
+			shapePointer.StageVoid(stage)
+
+			setShape(vase, shapePointer)
+
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default %s for %s", shapeName, vase.Name))
+			}
+
+			needCommit = true
+		}
+	}
+
+	// 2. Ensure each Shape belongs to exactly one Vase. If orphaned, remove it.
+	for shape := range *GetGongstructInstancesSetFromPointerType[ShapePointerType](stage) {
+		hasOwner := false
+		for vase := range *GetGongstructInstancesSetFromPointerType[*VaseAbstract](stage) {
+			if isOwned(vase, shape) {
+				hasOwner = true
+				break
+			}
+		}
+		if !hasOwner {
+			shape.UnstageVoid(stage)
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Removed orphaned %s %s", shapeName, shape.GetName()))
+			}
+			needCommit = true
+		}
+	}
+
+	return
+}
+
+func enforceVaseShapeName[ShapePointerType PointerToGongstruct](
+	stager *Stager,
+	getShape func(vase *VaseAbstract) ShapePointerType,
+	shapeNameSuffix string,
+) (needCommit bool) {
+	stage := stager.stage
+
+	for vase := range *GetGongstructInstancesSetFromPointerType[*VaseAbstract](stage) {
+		var zero ShapePointerType
+		shape := getShape(vase)
+		if shape != zero {
+			expectedName := vase.Name + "-" + shapeNameSuffix
+			if shape.GetName() != expectedName {
+				shape.SetName(expectedName)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Renamed %s to %s", shapeNameSuffix, expectedName))
+				}
+				needCommit = true
+			}
+		}
+	}
+
+	return
+}
+
+func (stager *Stager) enforceVaseHasShapes() (needCommit bool) {
+	n7_halfway := enforceVaseHasShape[*PerpendicularVectorGridHalfway](
+		stager,
+		func() *PerpendicularVectorGridHalfway { return new(PerpendicularVectorGridHalfway) },
+		func(v *VaseAbstract) *PerpendicularVectorGridHalfway { return v.PerpendicularVectorGridHalfway },
+		func(v *VaseAbstract, shape *PerpendicularVectorGridHalfway) {
+			v.PerpendicularVectorGridHalfway = shape
+		},
+		func(v *VaseAbstract, shape *PerpendicularVectorGridHalfway) bool {
+			return v.PerpendicularVectorGridHalfway == shape
+		},
+		"PerpendicularVectorGridHalfway",
+	)
+	needCommit = n7_halfway || needCommit
+
+	n7_top_arc_v2 := enforceVaseHasShape[*TopStartArcShapeGrid](
+		stager,
+		func() *TopStartArcShapeGrid { return new(TopStartArcShapeGrid) },
+		func(v *VaseAbstract) *TopStartArcShapeGrid { return v.TopStartArcShapeGrid },
+		func(v *VaseAbstract, shape *TopStartArcShapeGrid) { v.TopStartArcShapeGrid = shape },
+		func(v *VaseAbstract, shape *TopStartArcShapeGrid) bool {
+			return v.TopStartArcShapeGrid == shape
+		},
+		"TopStartArcShapeV2Grid",
+	)
+	needCommit = n7_top_arc_v2 || needCommit
+
+	n7_top_arc_v2_end := enforceVaseHasShape[*TopEndArcShapeGrid](
+		stager,
+		func() *TopEndArcShapeGrid { return new(TopEndArcShapeGrid) },
+		func(v *VaseAbstract) *TopEndArcShapeGrid { return v.TopEndArcShapeGrid },
+		func(v *VaseAbstract, shape *TopEndArcShapeGrid) { v.TopEndArcShapeGrid = shape },
+		func(v *VaseAbstract, shape *TopEndArcShapeGrid) bool {
+			return v.TopEndArcShapeGrid == shape
+		},
+		"TopEndArcShapeV2Grid",
+	)
+	needCommit = n7_top_arc_v2_end || needCommit
+
+	n10 := enforceVaseHasShape[*StackOfRotatedGrowthCurve2D](
+		stager,
+		func() *StackOfRotatedGrowthCurve2D { return new(StackOfRotatedGrowthCurve2D) },
+		func(v *VaseAbstract) *StackOfRotatedGrowthCurve2D { return v.StackOfRotatedGrowthCurve2D },
+		func(v *VaseAbstract, shape *StackOfRotatedGrowthCurve2D) { v.StackOfRotatedGrowthCurve2D = shape },
+		func(v *VaseAbstract, shape *StackOfRotatedGrowthCurve2D) bool {
+			return v.StackOfRotatedGrowthCurve2D == shape
+		},
+		"StackOfGrowthCurveV2",
+	)
+	needCommit = n10 || needCommit
+
+	n11 := enforceVaseHasShape[*TopStackOfRotatedGrowthCurve2D](
+		stager,
+		func() *TopStackOfRotatedGrowthCurve2D { return new(TopStackOfRotatedGrowthCurve2D) },
+		func(v *VaseAbstract) *TopStackOfRotatedGrowthCurve2D { return v.TopStackOfRotatedGrowthCurve2D },
+		func(v *VaseAbstract, shape *TopStackOfRotatedGrowthCurve2D) {
+			v.TopStackOfRotatedGrowthCurve2D = shape
+		},
+		func(v *VaseAbstract, shape *TopStackOfRotatedGrowthCurve2D) bool {
+			return v.TopStackOfRotatedGrowthCurve2D == shape
+		},
+		"TopStackOfGrowthCurveV2",
+	)
+	needCommit = n11 || needCommit
+
+	n16 := enforceVaseHasShape[*TopMidArcVectorShapeGrid](
 		stager,
 		func() *TopMidArcVectorShapeGrid { return new(TopMidArcVectorShapeGrid) },
-		func(p *PlantAbstract) *TopMidArcVectorShapeGrid { return p.TopMidArcVectorShapeGrid },
-		func(p *PlantAbstract, shape *TopMidArcVectorShapeGrid) { p.TopMidArcVectorShapeGrid = shape },
-		func(p *PlantAbstract, shape *TopMidArcVectorShapeGrid) bool {
-			return p.TopMidArcVectorShapeGrid == shape
+		func(v *VaseAbstract) *TopMidArcVectorShapeGrid { return v.TopMidArcVectorShapeGrid },
+		func(v *VaseAbstract, shape *TopMidArcVectorShapeGrid) { v.TopMidArcVectorShapeGrid = shape },
+		func(v *VaseAbstract, shape *TopMidArcVectorShapeGrid) bool {
+			return v.TopMidArcVectorShapeGrid == shape
 		},
 		"TopMidArcVectorShapeGrid",
 	)
 	needCommit = n16 || needCommit
 
-	n14 := enforcePlantHasShape[*ShiftedBottomTopStartArcShapeGrid](
+	n14 := enforceVaseHasShape[*ShiftedBottomTopStartArcShapeGrid](
 		stager,
 		func() *ShiftedBottomTopStartArcShapeGrid { return new(ShiftedBottomTopStartArcShapeGrid) },
-		func(p *PlantAbstract) *ShiftedBottomTopStartArcShapeGrid { return p.ShiftedBottomTopStartArcShapeGrid },
-		func(p *PlantAbstract, shape *ShiftedBottomTopStartArcShapeGrid) {
-			p.ShiftedBottomTopStartArcShapeGrid = shape
+		func(v *VaseAbstract) *ShiftedBottomTopStartArcShapeGrid { return v.ShiftedBottomTopStartArcShapeGrid },
+		func(v *VaseAbstract, shape *ShiftedBottomTopStartArcShapeGrid) {
+			v.ShiftedBottomTopStartArcShapeGrid = shape
 		},
-		func(p *PlantAbstract, shape *ShiftedBottomTopStartArcShapeGrid) bool {
-			return p.ShiftedBottomTopStartArcShapeGrid == shape
+		func(v *VaseAbstract, shape *ShiftedBottomTopStartArcShapeGrid) bool {
+			return v.ShiftedBottomTopStartArcShapeGrid == shape
 		},
 		"ShiftedBottomTopStartArcShapeGrid",
 	)
 	needCommit = n14 || needCommit
 
-	n17 := enforcePlantHasShape[*StackOfGrowthCurve2D](
+	n_halfway_start := enforceVaseHasShape[*StartHalfwayArcShapeGrid](
+		stager,
+		func() *StartHalfwayArcShapeGrid { return new(StartHalfwayArcShapeGrid) },
+		func(v *VaseAbstract) *StartHalfwayArcShapeGrid { return v.StartHalfwayArcShapeGrid },
+		func(v *VaseAbstract, shape *StartHalfwayArcShapeGrid) { v.StartHalfwayArcShapeGrid = shape },
+		func(v *VaseAbstract, shape *StartHalfwayArcShapeGrid) bool {
+			return v.StartHalfwayArcShapeGrid == shape
+		},
+		"StartHalfwayArcShapeGrid",
+	)
+	needCommit = n_halfway_start || needCommit
+
+	n_top_halfway_start := enforceVaseHasShape[*TopStartHalfwayArcShapeGrid](
+		stager,
+		func() *TopStartHalfwayArcShapeGrid { return new(TopStartHalfwayArcShapeGrid) },
+		func(v *VaseAbstract) *TopStartHalfwayArcShapeGrid { return v.TopStartHalfwayArcShapeGrid },
+		func(v *VaseAbstract, shape *TopStartHalfwayArcShapeGrid) { v.TopStartHalfwayArcShapeGrid = shape },
+		func(v *VaseAbstract, shape *TopStartHalfwayArcShapeGrid) bool {
+			return v.TopStartHalfwayArcShapeGrid == shape
+		},
+		"TopStartHalfwayArcShapeGrid",
+	)
+	needCommit = n_top_halfway_start || needCommit
+
+	n_halfway_end := enforceVaseHasShape[*EndHalfwayArcShapeGrid](
+		stager,
+		func() *EndHalfwayArcShapeGrid { return new(EndHalfwayArcShapeGrid) },
+		func(v *VaseAbstract) *EndHalfwayArcShapeGrid { return v.EndHalfwayArcShapeGrid },
+		func(v *VaseAbstract, shape *EndHalfwayArcShapeGrid) { v.EndHalfwayArcShapeGrid = shape },
+		func(v *VaseAbstract, shape *EndHalfwayArcShapeGrid) bool {
+			return v.EndHalfwayArcShapeGrid == shape
+		},
+		"EndHalfwayArcShapeGrid",
+	)
+	needCommit = n_halfway_end || needCommit
+
+	n_top_halfway_end := enforceVaseHasShape[*TopEndHalfwayArcShapeGrid](
+		stager,
+		func() *TopEndHalfwayArcShapeGrid { return new(TopEndHalfwayArcShapeGrid) },
+		func(v *VaseAbstract) *TopEndHalfwayArcShapeGrid { return v.TopEndHalfwayArcShapeGrid },
+		func(v *VaseAbstract, shape *TopEndHalfwayArcShapeGrid) { v.TopEndHalfwayArcShapeGrid = shape },
+		func(v *VaseAbstract, shape *TopEndHalfwayArcShapeGrid) bool {
+			return v.TopEndHalfwayArcShapeGrid == shape
+		},
+		"TopEndHalfwayArcShapeGrid",
+	)
+	needCommit = n_top_halfway_end || needCommit
+
+	n_top_gc := enforceVaseHasShape[*TopGrowthCurve2D](
+		stager,
+		func() *TopGrowthCurve2D { return new(TopGrowthCurve2D) },
+		func(v *VaseAbstract) *TopGrowthCurve2D { return v.TopGrowthCurve2D },
+		func(v *VaseAbstract, shape *TopGrowthCurve2D) { v.TopGrowthCurve2D = shape },
+		func(v *VaseAbstract, shape *TopGrowthCurve2D) bool {
+			return v.TopGrowthCurve2D == shape
+		},
+		"TopGrowthCurve2D",
+	)
+	needCommit = n_top_gc || needCommit
+
+	n17 := enforceVaseHasShape[*StackOfGrowthCurve2D](
 		stager,
 		func() *StackOfGrowthCurve2D { return new(StackOfGrowthCurve2D) },
-		func(p *PlantAbstract) *StackOfGrowthCurve2D { return p.StackOfGrowthCurve2D },
-		func(p *PlantAbstract, shape *StackOfGrowthCurve2D) { p.StackOfGrowthCurve2D = shape },
-		func(p *PlantAbstract, shape *StackOfGrowthCurve2D) bool {
-			return p.StackOfGrowthCurve2D == shape
+		func(v *VaseAbstract) *StackOfGrowthCurve2D { return v.StackOfGrowthCurve2D },
+		func(v *VaseAbstract, shape *StackOfGrowthCurve2D) { v.StackOfGrowthCurve2D = shape },
+		func(v *VaseAbstract, shape *StackOfGrowthCurve2D) bool {
+			return v.StackOfGrowthCurve2D == shape
 		},
 		"StackOfGrowthCurve2D",
 	)
 	needCommit = n17 || needCommit
 
-	n18 := enforcePlantHasShape[*TopStackOfGrowthCurve2D](
+	n18 := enforceVaseHasShape[*TopStackOfGrowthCurve2D](
 		stager,
 		func() *TopStackOfGrowthCurve2D { return new(TopStackOfGrowthCurve2D) },
-		func(p *PlantAbstract) *TopStackOfGrowthCurve2D { return p.TopStackOfGrowthCurve2D },
-		func(p *PlantAbstract, shape *TopStackOfGrowthCurve2D) { p.TopStackOfGrowthCurve2D = shape },
-		func(p *PlantAbstract, shape *TopStackOfGrowthCurve2D) bool {
-			return p.TopStackOfGrowthCurve2D == shape
+		func(v *VaseAbstract) *TopStackOfGrowthCurve2D { return v.TopStackOfGrowthCurve2D },
+		func(v *VaseAbstract, shape *TopStackOfGrowthCurve2D) { v.TopStackOfGrowthCurve2D = shape },
+		func(v *VaseAbstract, shape *TopStackOfGrowthCurve2D) bool {
+			return v.TopStackOfGrowthCurve2D == shape
 		},
 		"TopStackOfGrowthCurve2D",
 	)
 	needCommit = n18 || needCommit
 
-	n19 := enforcePlantHasShape[*StackOfGrowthCurve2DRibbon](
+	n19 := enforceVaseHasShape[*StackOfGrowthCurve2DRibbon](
 		stager,
 		func() *StackOfGrowthCurve2DRibbon { return new(StackOfGrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *StackOfGrowthCurve2DRibbon { return p.StackOfGrowthCurve2DRibbon },
-		func(p *PlantAbstract, shape *StackOfGrowthCurve2DRibbon) { p.StackOfGrowthCurve2DRibbon = shape },
-		func(p *PlantAbstract, shape *StackOfGrowthCurve2DRibbon) bool {
-			return p.StackOfGrowthCurve2DRibbon == shape
+		func(v *VaseAbstract) *StackOfGrowthCurve2DRibbon { return v.StackOfGrowthCurve2DRibbon },
+		func(v *VaseAbstract, shape *StackOfGrowthCurve2DRibbon) { v.StackOfGrowthCurve2DRibbon = shape },
+		func(v *VaseAbstract, shape *StackOfGrowthCurve2DRibbon) bool {
+			return v.StackOfGrowthCurve2DRibbon == shape
 		},
 		"StackOfGrowthCurve2DRibbon",
 	)
 	needCommit = n19 || needCommit
 
-	n20 := enforcePlantHasShape[*StackOfRotatedGrowthCurve2DRibbon](
+	n20 := enforceVaseHasShape[*StackOfRotatedGrowthCurve2DRibbon](
 		stager,
 		func() *StackOfRotatedGrowthCurve2DRibbon { return new(StackOfRotatedGrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *StackOfRotatedGrowthCurve2DRibbon { return p.StackOfRotatedGrowthCurve2DRibbon },
-		func(p *PlantAbstract, shape *StackOfRotatedGrowthCurve2DRibbon) {
-			p.StackOfRotatedGrowthCurve2DRibbon = shape
+		func(v *VaseAbstract) *StackOfRotatedGrowthCurve2DRibbon { return v.StackOfRotatedGrowthCurve2DRibbon },
+		func(v *VaseAbstract, shape *StackOfRotatedGrowthCurve2DRibbon) {
+			v.StackOfRotatedGrowthCurve2DRibbon = shape
 		},
-		func(p *PlantAbstract, shape *StackOfRotatedGrowthCurve2DRibbon) bool {
-			return p.StackOfRotatedGrowthCurve2DRibbon == shape
+		func(v *VaseAbstract, shape *StackOfRotatedGrowthCurve2DRibbon) bool {
+			return v.StackOfRotatedGrowthCurve2DRibbon == shape
 		},
 		"StackOfRotatedGrowthCurve2DRibbon",
 	)
 	needCommit = n20 || needCommit
 
-	n21 := enforcePlantHasShape[*PartiallyGrowthCurve2DRibbon](
+	n21 := enforceVaseHasShape[*PartiallyGrowthCurve2DRibbon](
 		stager,
 		func() *PartiallyGrowthCurve2DRibbon { return new(PartiallyGrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *PartiallyGrowthCurve2DRibbon { return p.PartiallyGrowthCurve2DRibbon },
-		func(p *PlantAbstract, shape *PartiallyGrowthCurve2DRibbon) { p.PartiallyGrowthCurve2DRibbon = shape },
-		func(p *PlantAbstract, shape *PartiallyGrowthCurve2DRibbon) bool {
-			return p.PartiallyGrowthCurve2DRibbon == shape
+		func(v *VaseAbstract) *PartiallyGrowthCurve2DRibbon { return v.PartiallyGrowthCurve2DRibbon },
+		func(v *VaseAbstract, shape *PartiallyGrowthCurve2DRibbon) { v.PartiallyGrowthCurve2DRibbon = shape },
+		func(v *VaseAbstract, shape *PartiallyGrowthCurve2DRibbon) bool {
+			return v.PartiallyGrowthCurve2DRibbon == shape
 		},
 		"PartiallyGrowthCurve2DRibbon",
 	)
 	needCommit = n21 || needCommit
 
-	n21_shiftedleft_partially := enforcePlantHasShape[*ShiftedLeftPartiallyGrowthCurve2DRibbon](
+	n21_shiftedleft_partially := enforceVaseHasShape[*ShiftedLeftPartiallyGrowthCurve2DRibbon](
 		stager,
 		func() *ShiftedLeftPartiallyGrowthCurve2DRibbon { return new(ShiftedLeftPartiallyGrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *ShiftedLeftPartiallyGrowthCurve2DRibbon {
-			return p.ShiftedLeftPartiallyGrowthCurve2DRibbon
+		func(v *VaseAbstract) *ShiftedLeftPartiallyGrowthCurve2DRibbon {
+			return v.ShiftedLeftPartiallyGrowthCurve2DRibbon
 		},
-		func(p *PlantAbstract, shape *ShiftedLeftPartiallyGrowthCurve2DRibbon) {
-			p.ShiftedLeftPartiallyGrowthCurve2DRibbon = shape
+		func(v *VaseAbstract, shape *ShiftedLeftPartiallyGrowthCurve2DRibbon) {
+			v.ShiftedLeftPartiallyGrowthCurve2DRibbon = shape
 		},
-		func(p *PlantAbstract, shape *ShiftedLeftPartiallyGrowthCurve2DRibbon) bool {
-			return p.ShiftedLeftPartiallyGrowthCurve2DRibbon == shape
+		func(v *VaseAbstract, shape *ShiftedLeftPartiallyGrowthCurve2DRibbon) bool {
+			return v.ShiftedLeftPartiallyGrowthCurve2DRibbon == shape
 		},
 		"ShiftedLeftPartiallyGrowthCurve2DRibbon",
 	)
 	needCommit = n21_shiftedleft_partially || needCommit
 
-	n21_traj := enforcePlantHasShape[*PartiallyGrowthCurve2DTrajectory](
+	n21_traj := enforceVaseHasShape[*PartiallyGrowthCurve2DTrajectory](
 		stager,
 		func() *PartiallyGrowthCurve2DTrajectory { return new(PartiallyGrowthCurve2DTrajectory) },
-		func(p *PlantAbstract) *PartiallyGrowthCurve2DTrajectory { return p.PartiallyGrowthCurve2DTrajectory },
-		func(p *PlantAbstract, shape *PartiallyGrowthCurve2DTrajectory) {
-			p.PartiallyGrowthCurve2DTrajectory = shape
+		func(v *VaseAbstract) *PartiallyGrowthCurve2DTrajectory { return v.PartiallyGrowthCurve2DTrajectory },
+		func(v *VaseAbstract, shape *PartiallyGrowthCurve2DTrajectory) {
+			v.PartiallyGrowthCurve2DTrajectory = shape
 		},
-		func(p *PlantAbstract, shape *PartiallyGrowthCurve2DTrajectory) bool {
-			return p.PartiallyGrowthCurve2DTrajectory == shape
+		func(v *VaseAbstract, shape *PartiallyGrowthCurve2DTrajectory) bool {
+			return v.PartiallyGrowthCurve2DTrajectory == shape
 		},
 		"PartiallyGrowthCurve2DTrajectory",
 	)
 	needCommit = n21_traj || needCommit
 
-	n21_trajP1P2 := enforcePlantHasShape[*PartiallyGrowthCurve2DTrajectoryP1P2](
+	n21_trajP1P2 := enforceVaseHasShape[*PartiallyGrowthCurve2DTrajectoryP1P2](
 		stager,
 		func() *PartiallyGrowthCurve2DTrajectoryP1P2 { return new(PartiallyGrowthCurve2DTrajectoryP1P2) },
-		func(p *PlantAbstract) *PartiallyGrowthCurve2DTrajectoryP1P2 {
-			return p.PartiallyGrowthCurve2DTrajectoryP1P2
+		func(v *VaseAbstract) *PartiallyGrowthCurve2DTrajectoryP1P2 {
+			return v.PartiallyGrowthCurve2DTrajectoryP1P2
 		},
-		func(p *PlantAbstract, shape *PartiallyGrowthCurve2DTrajectoryP1P2) {
-			p.PartiallyGrowthCurve2DTrajectoryP1P2 = shape
+		func(v *VaseAbstract, shape *PartiallyGrowthCurve2DTrajectoryP1P2) {
+			v.PartiallyGrowthCurve2DTrajectoryP1P2 = shape
 		},
-		func(p *PlantAbstract, shape *PartiallyGrowthCurve2DTrajectoryP1P2) bool {
-			return p.PartiallyGrowthCurve2DTrajectoryP1P2 == shape
+		func(v *VaseAbstract, shape *PartiallyGrowthCurve2DTrajectoryP1P2) bool {
+			return v.PartiallyGrowthCurve2DTrajectoryP1P2 == shape
 		},
 		"PartiallyGrowthCurve2DTrajectoryP1P2",
 	)
 	needCommit = n21_trajP1P2 || needCommit
 
-	n21_px := enforcePlantHasShape[*PxShape](
+	n21_px := enforceVaseHasShape[*PxShape](
 		stager,
 		func() *PxShape { return new(PxShape) },
-		func(p *PlantAbstract) *PxShape { return p.PxShape },
-		func(p *PlantAbstract, shape *PxShape) { p.PxShape = shape },
-		func(p *PlantAbstract, shape *PxShape) bool {
-			return p.PxShape == shape
+		func(v *VaseAbstract) *PxShape { return v.PxShape },
+		func(v *VaseAbstract, shape *PxShape) { v.PxShape = shape },
+		func(v *VaseAbstract, shape *PxShape) bool {
+			return v.PxShape == shape
 		},
 		"PxShape",
 	)
 	needCommit = n21_px || needCommit
 
-	n21_chosenP1P2 := enforcePlantHasShape[*ChosenP1P2PairShape](
+	n21_chosenP1P2 := enforceVaseHasShape[*ChosenP1P2PairShape](
 		stager,
 		func() *ChosenP1P2PairShape { return new(ChosenP1P2PairShape) },
-		func(p *PlantAbstract) *ChosenP1P2PairShape { return p.ChosenP1P2PairShape },
-		func(p *PlantAbstract, shape *ChosenP1P2PairShape) { p.ChosenP1P2PairShape = shape },
-		func(p *PlantAbstract, shape *ChosenP1P2PairShape) bool {
-			return p.ChosenP1P2PairShape == shape
+		func(v *VaseAbstract) *ChosenP1P2PairShape { return v.ChosenP1P2PairShape },
+		func(v *VaseAbstract, shape *ChosenP1P2PairShape) { v.ChosenP1P2PairShape = shape },
+		func(v *VaseAbstract, shape *ChosenP1P2PairShape) bool {
+			return v.ChosenP1P2PairShape == shape
 		},
 		"ChosenP1P2PairShape",
 	)
 	needCommit = n21_chosenP1P2 || needCommit
 
-	n21_keyHole := enforcePlantHasShape[*KeyHoleShape](
+	n21_keyHole := enforceVaseHasShape[*KeyHoleShape](
 		stager,
 		func() *KeyHoleShape { return new(KeyHoleShape) },
-		func(p *PlantAbstract) *KeyHoleShape { return p.KeyHoleShape },
-		func(p *PlantAbstract, shape *KeyHoleShape) { p.KeyHoleShape = shape },
-		func(p *PlantAbstract, shape *KeyHoleShape) bool {
-			return p.KeyHoleShape == shape
+		func(v *VaseAbstract) *KeyHoleShape { return v.KeyHoleShape },
+		func(v *VaseAbstract, shape *KeyHoleShape) { v.KeyHoleShape = shape },
+		func(v *VaseAbstract, shape *KeyHoleShape) bool {
+			return v.KeyHoleShape == shape
 		},
 		"KeyHoleShape",
 	)
 	needCommit = n21_keyHole || needCommit
 
-	n22 := enforcePlantHasShape[*GrowthCurve2DRibbon](
+	n22 := enforceVaseHasShape[*GrowthCurve2DRibbon](
 		stager,
 		func() *GrowthCurve2DRibbon { return new(GrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *GrowthCurve2DRibbon { return p.GrowthCurve2DRibbon },
-		func(p *PlantAbstract, shape *GrowthCurve2DRibbon) { p.GrowthCurve2DRibbon = shape },
-		func(p *PlantAbstract, shape *GrowthCurve2DRibbon) bool {
-			return p.GrowthCurve2DRibbon == shape
+		func(v *VaseAbstract) *GrowthCurve2DRibbon { return v.GrowthCurve2DRibbon },
+		func(v *VaseAbstract, shape *GrowthCurve2DRibbon) { v.GrowthCurve2DRibbon = shape },
+		func(v *VaseAbstract, shape *GrowthCurve2DRibbon) bool {
+			return v.GrowthCurve2DRibbon == shape
 		},
 		"GrowthCurve2DRibbon",
 	)
 	needCommit = n22 || needCommit
 
-	n23 := enforcePlantHasShape[*ShiftedRightGrowthCurve2DRibbon](
+	n23 := enforceVaseHasShape[*ShiftedRightGrowthCurve2DRibbon](
 		stager,
 		func() *ShiftedRightGrowthCurve2DRibbon { return new(ShiftedRightGrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *ShiftedRightGrowthCurve2DRibbon { return p.ShiftedRightGrowthCurve2DRibbon },
-		func(p *PlantAbstract, shape *ShiftedRightGrowthCurve2DRibbon) {
-			p.ShiftedRightGrowthCurve2DRibbon = shape
+		func(v *VaseAbstract) *ShiftedRightGrowthCurve2DRibbon { return v.ShiftedRightGrowthCurve2DRibbon },
+		func(v *VaseAbstract, shape *ShiftedRightGrowthCurve2DRibbon) {
+			v.ShiftedRightGrowthCurve2DRibbon = shape
 		},
-		func(p *PlantAbstract, shape *ShiftedRightGrowthCurve2DRibbon) bool {
-			return p.ShiftedRightGrowthCurve2DRibbon == shape
+		func(v *VaseAbstract, shape *ShiftedRightGrowthCurve2DRibbon) bool {
+			return v.ShiftedRightGrowthCurve2DRibbon == shape
 		},
 		"ShiftedRightGrowthCurve2DRibbon",
 	)
 	needCommit = n23 || needCommit
 
-	n24 := enforcePlantHasShape[*ShiftedLeftGrowthCurve2DRibbon](
+	n24 := enforceVaseHasShape[*ShiftedLeftGrowthCurve2DRibbon](
 		stager,
 		func() *ShiftedLeftGrowthCurve2DRibbon { return new(ShiftedLeftGrowthCurve2DRibbon) },
-		func(p *PlantAbstract) *ShiftedLeftGrowthCurve2DRibbon { return p.ShiftedLeftGrowthCurve2DRibbon },
-		func(p *PlantAbstract, shape *ShiftedLeftGrowthCurve2DRibbon) {
-			p.ShiftedLeftGrowthCurve2DRibbon = shape
+		func(v *VaseAbstract) *ShiftedLeftGrowthCurve2DRibbon { return v.ShiftedLeftGrowthCurve2DRibbon },
+		func(v *VaseAbstract, shape *ShiftedLeftGrowthCurve2DRibbon) {
+			v.ShiftedLeftGrowthCurve2DRibbon = shape
 		},
-		func(p *PlantAbstract, shape *ShiftedLeftGrowthCurve2DRibbon) bool {
-			return p.ShiftedLeftGrowthCurve2DRibbon == shape
+		func(v *VaseAbstract, shape *ShiftedLeftGrowthCurve2DRibbon) bool {
+			return v.ShiftedLeftGrowthCurve2DRibbon == shape
 		},
 		"ShiftedLeftGrowthCurve2DRibbon",
 	)
 	needCommit = n24 || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n14 || n15 || n16 || n17 || n18 || n19 || n20 || n21 || n22 || n23 || n24
+	return
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning Plant
@@ -682,13 +831,6 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	)
 	needCommit = n7 || needCommit
 
-	n7_halfway := enforcePlantShapeName[*PerpendicularVectorGridHalfway](
-		stager,
-		func(p *PlantAbstract) *PerpendicularVectorGridHalfway { return p.PerpendicularVectorGridHalfway },
-		"PerpendicularVectorGridHalfway",
-	)
-	needCommit = n7_halfway || needCommit
-
 	n7_base := enforcePlantShapeName[*BaseVectorShapeGrid](
 		stager,
 		func(p *PlantAbstract) *BaseVectorShapeGrid { return p.BaseVectorShapeGrid },
@@ -706,112 +848,136 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	n7_arc_v2 := enforcePlantShapeName[*StartArcShapeGrid](
 		stager,
 		func(p *PlantAbstract) *StartArcShapeGrid { return p.StartArcShapeGrid },
-		"StartArcShapeV2Grid",
+		"StartArcShapeGrid",
 	)
 	needCommit = n7_arc_v2 || needCommit
-
-	n7_top_arc_v2 := enforcePlantShapeName[*TopStartArcShapeGrid](
-		stager,
-		func(p *PlantAbstract) *TopStartArcShapeGrid { return p.TopStartArcShapeGrid },
-		"TopStartArcShapeV2Grid",
-	)
-	needCommit = n7_top_arc_v2 || needCommit
 
 	n7_arc_v2_end := enforcePlantShapeName[*EndArcShapeGrid](
 		stager,
 		func(p *PlantAbstract) *EndArcShapeGrid { return p.EndArcShapeGrid },
-		"EndArcShapeV2Grid",
+		"EndArcShapeGrid",
 	)
 	needCommit = n7_arc_v2_end || needCommit
 
-	n7_top_arc_v2_end := enforcePlantShapeName[*TopEndArcShapeGrid](
+	n7_mid_arc := enforcePlantShapeName[*MidArcVectorShapeGrid](
 		stager,
-		func(p *PlantAbstract) *TopEndArcShapeGrid { return p.TopEndArcShapeGrid },
+		func(p *PlantAbstract) *MidArcVectorShapeGrid { return p.MidArcVectorShapeGrid },
+		"MidArcVectorShapeGrid",
+	)
+	needCommit = n7_mid_arc || needCommit
+
+	n7_growth_curve := enforcePlantShapeName[*GrowthCurve2D](
+		stager,
+		func(p *PlantAbstract) *GrowthCurve2D { return p.GrowthCurve2D },
+		"GrowthCurve2D",
+	)
+	needCommit = n7_growth_curve || needCommit
+
+	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_base || n7_arc_normal || n7_arc_v2 || n7_arc_v2_end || n7_mid_arc || n7_growth_curve || needCommit
+}
+
+func (stager *Stager) enforceVaseShapeNames() (needCommit bool) {
+	n7_halfway := enforceVaseShapeName[*PerpendicularVectorGridHalfway](
+		stager,
+		func(v *VaseAbstract) *PerpendicularVectorGridHalfway { return v.PerpendicularVectorGridHalfway },
+		"PerpendicularVectorGridHalfway",
+	)
+	needCommit = n7_halfway || needCommit
+
+	n7_top_arc_v2 := enforceVaseShapeName[*TopStartArcShapeGrid](
+		stager,
+		func(v *VaseAbstract) *TopStartArcShapeGrid { return v.TopStartArcShapeGrid },
+		"TopStartArcShapeV2Grid",
+	)
+	needCommit = n7_top_arc_v2 || needCommit
+
+	n7_top_arc_v2_end := enforceVaseShapeName[*TopEndArcShapeGrid](
+		stager,
+		func(v *VaseAbstract) *TopEndArcShapeGrid { return v.TopEndArcShapeGrid },
 		"TopEndArcShapeV2Grid",
 	)
 	needCommit = n7_top_arc_v2_end || needCommit
 
-	n10 := enforcePlantShapeName[*StackOfRotatedGrowthCurve2D](
+	n10 := enforceVaseShapeName[*StackOfRotatedGrowthCurve2D](
 		stager,
-		func(p *PlantAbstract) *StackOfRotatedGrowthCurve2D { return p.StackOfRotatedGrowthCurve2D },
+		func(v *VaseAbstract) *StackOfRotatedGrowthCurve2D { return v.StackOfRotatedGrowthCurve2D },
 		"StackOfGrowthCurveV2",
 	)
 	needCommit = n10 || needCommit
 
-	n11 := enforcePlantShapeName[*TopStackOfRotatedGrowthCurve2D](
+	n11 := enforceVaseShapeName[*TopStackOfRotatedGrowthCurve2D](
 		stager,
-		func(p *PlantAbstract) *TopStackOfRotatedGrowthCurve2D { return p.TopStackOfRotatedGrowthCurve2D },
+		func(v *VaseAbstract) *TopStackOfRotatedGrowthCurve2D { return v.TopStackOfRotatedGrowthCurve2D },
 		"TopStackOfGrowthCurveV2",
 	)
 	needCommit = n11 || needCommit
 
-	n12 := enforcePlantShapeName[*StackOfGrowthCurve2D](
+	n12 := enforceVaseShapeName[*StackOfGrowthCurve2D](
 		stager,
-		func(p *PlantAbstract) *StackOfGrowthCurve2D { return p.StackOfGrowthCurve2D },
+		func(v *VaseAbstract) *StackOfGrowthCurve2D { return v.StackOfGrowthCurve2D },
 		"StackOfGrowthCurve2D",
 	)
 	needCommit = n12 || needCommit
 
-	n13 := enforcePlantShapeName[*TopStackOfGrowthCurve2D](
+	n13 := enforceVaseShapeName[*TopStackOfGrowthCurve2D](
 		stager,
-		func(p *PlantAbstract) *TopStackOfGrowthCurve2D { return p.TopStackOfGrowthCurve2D },
+		func(v *VaseAbstract) *TopStackOfGrowthCurve2D { return v.TopStackOfGrowthCurve2D },
 		"TopStackOfGrowthCurve2D",
 	)
 	needCommit = n13 || needCommit
 
-	n14 := enforcePlantShapeName[*StackOfGrowthCurve2DRibbon](
+	n14 := enforceVaseShapeName[*StackOfGrowthCurve2DRibbon](
 		stager,
-		func(p *PlantAbstract) *StackOfGrowthCurve2DRibbon { return p.StackOfGrowthCurve2DRibbon },
+		func(v *VaseAbstract) *StackOfGrowthCurve2DRibbon { return v.StackOfGrowthCurve2DRibbon },
 		"StackOfGrowthCurve2DRibbon",
 	)
 	needCommit = n14 || needCommit
 
-	n15 := enforcePlantShapeName[*StackOfRotatedGrowthCurve2DRibbon](
+	n15 := enforceVaseShapeName[*StackOfRotatedGrowthCurve2DRibbon](
 		stager,
-		func(p *PlantAbstract) *StackOfRotatedGrowthCurve2DRibbon { return p.StackOfRotatedGrowthCurve2DRibbon },
+		func(v *VaseAbstract) *StackOfRotatedGrowthCurve2DRibbon { return v.StackOfRotatedGrowthCurve2DRibbon },
 		"StackOfRotatedGrowthCurve2DRibbon",
 	)
 	needCommit = n15 || needCommit
 
-	n16_r := enforcePlantShapeName[*GrowthCurve2DRibbon](
+	n16_r := enforceVaseShapeName[*GrowthCurve2DRibbon](
 		stager,
-		func(p *PlantAbstract) *GrowthCurve2DRibbon { return p.GrowthCurve2DRibbon },
+		func(v *VaseAbstract) *GrowthCurve2DRibbon { return v.GrowthCurve2DRibbon },
 		"GrowthCurve2DRibbon",
 	)
 	needCommit = n16_r || needCommit
 
-	n17_r := enforcePlantShapeName[*ShiftedRightGrowthCurve2DRibbon](
+	n17_r := enforceVaseShapeName[*ShiftedRightGrowthCurve2DRibbon](
 		stager,
-		func(p *PlantAbstract) *ShiftedRightGrowthCurve2DRibbon { return p.ShiftedRightGrowthCurve2DRibbon },
+		func(v *VaseAbstract) *ShiftedRightGrowthCurve2DRibbon { return v.ShiftedRightGrowthCurve2DRibbon },
 		"ShiftedRightGrowthCurve2DRibbon",
 	)
 	needCommit = n17_r || needCommit
 
-	n18_r := enforcePlantShapeName[*ShiftedLeftGrowthCurve2DRibbon](
+	n18_r := enforceVaseShapeName[*ShiftedLeftGrowthCurve2DRibbon](
 		stager,
-		func(p *PlantAbstract) *ShiftedLeftGrowthCurve2DRibbon { return p.ShiftedLeftGrowthCurve2DRibbon },
+		func(v *VaseAbstract) *ShiftedLeftGrowthCurve2DRibbon { return v.ShiftedLeftGrowthCurve2DRibbon },
 		"ShiftedLeftGrowthCurve2DRibbon",
 	)
 	needCommit = n18_r || needCommit
 
-	n19_r := enforcePlantShapeName[*ShiftedLeftPartiallyGrowthCurve2DRibbon](
+	n19_r := enforceVaseShapeName[*ShiftedLeftPartiallyGrowthCurve2DRibbon](
 		stager,
-		func(p *PlantAbstract) *ShiftedLeftPartiallyGrowthCurve2DRibbon {
-			return p.ShiftedLeftPartiallyGrowthCurve2DRibbon
+		func(v *VaseAbstract) *ShiftedLeftPartiallyGrowthCurve2DRibbon {
+			return v.ShiftedLeftPartiallyGrowthCurve2DRibbon
 		},
 		"ShiftedLeftPartiallyGrowthCurve2DRibbon",
 	)
 	needCommit = n19_r || needCommit
 
-	n20_keyHole := enforcePlantShapeName[*KeyHoleShape](
+	n20_keyHole := enforceVaseShapeName[*KeyHoleShape](
 		stager,
-		func(p *PlantAbstract) *KeyHoleShape { return p.KeyHoleShape },
+		func(v *VaseAbstract) *KeyHoleShape { return v.KeyHoleShape },
 		"KeyHoleShape",
 	)
 	needCommit = n20_keyHole || needCommit
 
-	return n1 || n2 || n3 || n4 || n5 || n6 || n7 || n7_halfway || n7_base || n7_arc_normal || n7_arc_v2 || n7_top_arc_v2 || n7_arc_v2_end || n7_top_arc_v2_end || n10 || n11 || n12 || n13 || n14 || n15 || n16_r || n17_r || n18_r || n19_r || n20_keyHole
-
+	return needCommit
 }
 
 // enforcePlantRhombusGridShapeHasRhombuses ensures that each RhombusGridShape has the correct number of RhombusShapes and their X,Y fields are correctly computed

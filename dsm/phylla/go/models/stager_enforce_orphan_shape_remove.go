@@ -184,15 +184,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.PerpendicularVectorGridHalfway != nil {
-			refPerpendicularVectorGridHalfway[plant.PerpendicularVectorGridHalfway] = true
-			for _, vec := range plant.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
-				if vec != nil {
-					refPerpendicularVectorHalfway[vec] = true
-				}
-			}
-		}
-
 		if plant.BaseVectorShapeGrid != nil {
 			refBaseVectorShapeGrid[plant.BaseVectorShapeGrid] = true
 			for _, shape := range plant.BaseVectorShapeGrid.BaseVectorShapes {
@@ -220,15 +211,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.TopStartArcShapeGrid != nil {
-			refTopStartArcShapeV2Grid[plant.TopStartArcShapeGrid] = true
-			for _, shape := range plant.TopStartArcShapeGrid.TopStartArcShapes {
-				if shape != nil {
-					refTopStartArcShapeV2[shape] = true
-				}
-			}
-		}
-
 		if plant.EndArcShapeGrid != nil {
 			refEndArcShapeV2Grid[plant.EndArcShapeGrid] = true
 			for _, shape := range plant.EndArcShapeGrid.EndArcShapes {
@@ -238,182 +220,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.TopEndArcShapeGrid != nil {
-			refTopEndArcShapeV2Grid[plant.TopEndArcShapeGrid] = true
-			for _, shape := range plant.TopEndArcShapeGrid.TopEndArcShapes {
-				if shape != nil {
-					refTopEndArcShapeV2[shape] = true
-				}
-			}
-		}
-
-		if plant.StackOfRotatedGrowthCurve2D != nil {
-			refStackOfGrowthCurveV2[plant.StackOfRotatedGrowthCurve2D] = true
-			for _, shape := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
-				if shape != nil {
-					refStackGrowthCurveStartArcShapeV2[shape] = true
-				}
-			}
-			for _, shape := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
-				if shape != nil {
-					refStackGrowthCurveEndArcShapeV2[shape] = true
-				}
-			}
-		}
-		if plant.TopStackOfRotatedGrowthCurve2D != nil {
-			refTopStackOfGrowthCurveV2[plant.TopStackOfRotatedGrowthCurve2D] = true
-			for _, shape := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
-				if shape != nil {
-					refTopStackGrowthCurveStartArcShapeV2[shape] = true
-				}
-			}
-			for _, shape := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
-				if shape != nil {
-					refTopStackGrowthCurveEndArcShapeV2[shape] = true
-				}
-			}
-		}
-
-		if plant.StackOfGrowthCurve2D != nil {
-			refStackOfGrowthCurve2D[plant.StackOfGrowthCurve2D] = true
-			for _, shape := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
-				if shape != nil {
-					refStackGrowthCurve2DStartHalfwayArcShape[shape] = true
-				}
-			}
-			for _, shape := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
-				if shape != nil {
-					refStackGrowthCurve2DEndHalfwayArcShape[shape] = true
-				}
-			}
-		}
-
-		if plant.TopStackOfGrowthCurve2D != nil {
-			refTopStackOfGrowthCurve2D[plant.TopStackOfGrowthCurve2D] = true
-			for _, start := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
-				refTopStackGrowthCurve2DStartHalfwayArcShape[start] = true
-			}
-			for _, end := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
-				refTopStackGrowthCurve2DEndHalfwayArcShape[end] = true
-			}
-		}
-
-		if plant.StackOfGrowthCurve2DRibbon != nil {
-			refStackOfGrowthCurve2DRibbon[plant.StackOfGrowthCurve2DRibbon] = true
-			for _, start := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
-				refStackGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
-				refStackGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-			refStackOfRotatedGrowthCurve2DRibbon[plant.StackOfRotatedGrowthCurve2DRibbon] = true
-			for _, start := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
-				refStackRotatedGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
-				refStackRotatedGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.PartiallyGrowthCurve2DRibbon != nil {
-			refPartiallyGrowthCurve2DRibbon[plant.PartiallyGrowthCurve2DRibbon] = true
-			for _, start := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
-				refPartiallyGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
-				refPartiallyGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			refShiftedLeftPartiallyGrowthCurve2DRibbon[plant.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
-			for _, start := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
-				refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
-				refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.PartiallyGrowthCurve2DTrajectory != nil {
-			refPartiallyGrowthCurve2DTrajectory[plant.PartiallyGrowthCurve2DTrajectory] = true
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
-				refPartiallyGrowthCurve2DTrajectoryShape[shape] = true
-			}
-		}
-
-		if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-			refPartiallyGrowthCurve2DTrajectoryP1P2[plant.PartiallyGrowthCurve2DTrajectoryP1P2] = true
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1PointShapes {
-				refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P2PointShapes {
-				refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1CurveShapes {
-				refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P2CurveShapes {
-				refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1P2PairLineShapes {
-				refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] = true
-			}
-		}
-
-		if plant.PxShape != nil {
-			refPxShape[plant.PxShape] = true
-		}
-
-		if plant.ChosenP1P2PairShape != nil {
-			refChosenP1P2PairShape[plant.ChosenP1P2PairShape] = true
-		}
-
-		if plant.KeyHoleShape != nil {
-			refKeyHoleShape[plant.KeyHoleShape] = true
-		}
-
-		if plant.GrowthCurve2DRibbon != nil {
-			refGrowthCurve2DRibbon[plant.GrowthCurve2DRibbon] = true
-			for _, start := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
-				refGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
-				refGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-			refShiftedRightGrowthCurve2DRibbon[plant.ShiftedRightGrowthCurve2DRibbon] = true
-			for _, start := range plant.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
-				refShiftedRightGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
-				refShiftedRightGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-			refShiftedLeftGrowthCurve2DRibbon[plant.ShiftedLeftGrowthCurve2DRibbon] = true
-			for _, start := range plant.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
-				refShiftedLeftGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
-				refShiftedLeftGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedBottomTopStartArcShapeGrid != nil {
-			refShiftedBottomTopStartArcShapeGrid[plant.ShiftedBottomTopStartArcShapeGrid] = true
-			for _, shape := range plant.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
-				if shape != nil {
-					refShiftedBottomTopStartArcShape[shape] = true
-				}
-			}
-		}
 		if plant.MidArcVectorShapeGrid != nil {
 			refMidArcVectorShapeGrid[plant.MidArcVectorShapeGrid] = true
 			for _, shape := range plant.MidArcVectorShapeGrid.MidArcVectorShapes {
@@ -422,11 +228,208 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 				}
 			}
 		}
-		if plant.TopMidArcVectorShapeGrid != nil {
-			refTopMidArcVectorShapeGrid[plant.TopMidArcVectorShapeGrid] = true
-			for _, shape := range plant.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
-				if shape != nil {
-					refTopMidArcVectorShape[shape] = true
+
+		if vase := plant.VaseAbstract; vase != nil {
+			if vase.PerpendicularVectorGridHalfway != nil {
+				refPerpendicularVectorGridHalfway[vase.PerpendicularVectorGridHalfway] = true
+				for _, vec := range vase.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
+					if vec != nil {
+						refPerpendicularVectorHalfway[vec] = true
+					}
+				}
+			}
+
+			if vase.TopStartArcShapeGrid != nil {
+				refTopStartArcShapeV2Grid[vase.TopStartArcShapeGrid] = true
+				for _, shape := range vase.TopStartArcShapeGrid.TopStartArcShapes {
+					if shape != nil {
+						refTopStartArcShapeV2[shape] = true
+					}
+				}
+			}
+
+			if vase.TopEndArcShapeGrid != nil {
+				refTopEndArcShapeV2Grid[vase.TopEndArcShapeGrid] = true
+				for _, shape := range vase.TopEndArcShapeGrid.TopEndArcShapes {
+					if shape != nil {
+						refTopEndArcShapeV2[shape] = true
+					}
+				}
+			}
+
+			if vase.StackOfRotatedGrowthCurve2D != nil {
+				refStackOfGrowthCurveV2[vase.StackOfRotatedGrowthCurve2D] = true
+				for _, shape := range vase.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
+					if shape != nil {
+						refStackGrowthCurveStartArcShapeV2[shape] = true
+					}
+				}
+				for _, shape := range vase.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
+					if shape != nil {
+						refStackGrowthCurveEndArcShapeV2[shape] = true
+					}
+				}
+			}
+			if vase.TopStackOfRotatedGrowthCurve2D != nil {
+				refTopStackOfGrowthCurveV2[vase.TopStackOfRotatedGrowthCurve2D] = true
+				for _, shape := range vase.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
+					if shape != nil {
+						refTopStackGrowthCurveStartArcShapeV2[shape] = true
+					}
+				}
+				for _, shape := range vase.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
+					if shape != nil {
+						refTopStackGrowthCurveEndArcShapeV2[shape] = true
+					}
+				}
+			}
+
+			if vase.StackOfGrowthCurve2D != nil {
+				refStackOfGrowthCurve2D[vase.StackOfGrowthCurve2D] = true
+				for _, shape := range vase.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
+					if shape != nil {
+						refStackGrowthCurve2DStartHalfwayArcShape[shape] = true
+					}
+				}
+				for _, shape := range vase.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
+					if shape != nil {
+						refStackGrowthCurve2DEndHalfwayArcShape[shape] = true
+					}
+				}
+			}
+
+			if vase.TopStackOfGrowthCurve2D != nil {
+				refTopStackOfGrowthCurve2D[vase.TopStackOfGrowthCurve2D] = true
+				for _, start := range vase.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
+					refTopStackGrowthCurve2DStartHalfwayArcShape[start] = true
+				}
+				for _, end := range vase.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
+					refTopStackGrowthCurve2DEndHalfwayArcShape[end] = true
+				}
+			}
+
+			if vase.StackOfGrowthCurve2DRibbon != nil {
+				refStackOfGrowthCurve2DRibbon[vase.StackOfGrowthCurve2DRibbon] = true
+				for _, start := range vase.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
+					refStackGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
+					refStackGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.StackOfRotatedGrowthCurve2DRibbon != nil {
+				refStackOfRotatedGrowthCurve2DRibbon[vase.StackOfRotatedGrowthCurve2DRibbon] = true
+				for _, start := range vase.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
+					refStackRotatedGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
+					refStackRotatedGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.PartiallyGrowthCurve2DRibbon != nil {
+				refPartiallyGrowthCurve2DRibbon[vase.PartiallyGrowthCurve2DRibbon] = true
+				for _, start := range vase.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
+					refPartiallyGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
+					refPartiallyGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+				refShiftedLeftPartiallyGrowthCurve2DRibbon[vase.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
+				for _, start := range vase.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+					refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+					refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.PartiallyGrowthCurve2DTrajectory != nil {
+				refPartiallyGrowthCurve2DTrajectory[vase.PartiallyGrowthCurve2DTrajectory] = true
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
+					refPartiallyGrowthCurve2DTrajectoryShape[shape] = true
+				}
+			}
+
+			if vase.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+				refPartiallyGrowthCurve2DTrajectoryP1P2[vase.PartiallyGrowthCurve2DTrajectoryP1P2] = true
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P1PointShapes {
+					refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P2PointShapes {
+					refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P1CurveShapes {
+					refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P2CurveShapes {
+					refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P1P2PairLineShapes {
+					refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] = true
+				}
+			}
+
+			if vase.PxShape != nil {
+				refPxShape[vase.PxShape] = true
+			}
+
+			if vase.ChosenP1P2PairShape != nil {
+				refChosenP1P2PairShape[vase.ChosenP1P2PairShape] = true
+			}
+
+			if vase.KeyHoleShape != nil {
+				refKeyHoleShape[vase.KeyHoleShape] = true
+			}
+
+			if vase.GrowthCurve2DRibbon != nil {
+				refGrowthCurve2DRibbon[vase.GrowthCurve2DRibbon] = true
+				for _, start := range vase.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
+					refGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
+					refGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedRightGrowthCurve2DRibbon != nil {
+				refShiftedRightGrowthCurve2DRibbon[vase.ShiftedRightGrowthCurve2DRibbon] = true
+				for _, start := range vase.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+					refShiftedRightGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+					refShiftedRightGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedLeftGrowthCurve2DRibbon != nil {
+				refShiftedLeftGrowthCurve2DRibbon[vase.ShiftedLeftGrowthCurve2DRibbon] = true
+				for _, start := range vase.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
+					refShiftedLeftGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
+					refShiftedLeftGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedBottomTopStartArcShapeGrid != nil {
+				refShiftedBottomTopStartArcShapeGrid[vase.ShiftedBottomTopStartArcShapeGrid] = true
+				for _, shape := range vase.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
+					if shape != nil {
+						refShiftedBottomTopStartArcShape[shape] = true
+					}
+				}
+			}
+			if vase.TopMidArcVectorShapeGrid != nil {
+				refTopMidArcVectorShapeGrid[vase.TopMidArcVectorShapeGrid] = true
+				for _, shape := range vase.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
+					if shape != nil {
+						refTopMidArcVectorShape[shape] = true
+					}
 				}
 			}
 		}
