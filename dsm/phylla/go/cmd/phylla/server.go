@@ -9,7 +9,7 @@ import (
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
-	"github.com/fullstack-lang/gong/dsm/phylla/go/stage3d"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/vasestage3d"
 )
 
 //go:embed data/*
@@ -32,7 +32,7 @@ func executeServer() {
 		stack.Stage,
 		stack.Probe,
 		marshallOnCommit,
-		stage3d.NewThreeJSStageUpdater(),
+		vasestage3d.NewThreeJSStageUpdater(),
 	)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
