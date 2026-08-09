@@ -22362,8 +22362,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case StoolDiagram:
 		return any(&StoolDiagram{
 			// Initialisation of associations
-			// field is initialized with an instance of TorusStackShape with the name of the field
-			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
+			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
+			PartiallyRotatedTorusShape: &PartiallyRotatedTorusShape{Name: "PartiallyRotatedTorusShape"},
 			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
@@ -23509,20 +23509,20 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case StoolDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "TorusStackShape":
-			res := make(map[*TorusStackShape][]*StoolDiagram)
+		case "PartiallyRotatedTorusShape":
+			res := make(map[*PartiallyRotatedTorusShape][]*StoolDiagram)
 			for stooldiagram := range stage.StoolDiagrams {
-				if stooldiagram.TorusStackShape != nil {
-					torusstackshape_ := stooldiagram.TorusStackShape
+				if stooldiagram.PartiallyRotatedTorusShape != nil {
+					partiallyrotatedtorusshape_ := stooldiagram.PartiallyRotatedTorusShape
 					var stooldiagrams []*StoolDiagram
-					_, ok := res[torusstackshape_]
+					_, ok := res[partiallyrotatedtorusshape_]
 					if ok {
-						stooldiagrams = res[torusstackshape_]
+						stooldiagrams = res[partiallyrotatedtorusshape_]
 					} else {
 						stooldiagrams = make([]*StoolDiagram, 0)
 					}
 					stooldiagrams = append(stooldiagrams, stooldiagram)
-					res[torusstackshape_] = stooldiagrams
+					res[partiallyrotatedtorusshape_] = stooldiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -29493,6 +29493,18 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "RelativeTubeDiameter",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "RelativeHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeSeatThickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ProjectionAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -29505,13 +29517,13 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsHiddenTorusStackShape",
+			Name:               "IsHiddenPartiallyRotatedTorusShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "TorusStackShape",
+			Name:                 "PartiallyRotatedTorusShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TorusStackShape",
+			TargetGongstructName: "PartiallyRotatedTorusShape",
 		},
 		{
 			Name:               "IsHiddenSampledPoints3DShape",
@@ -33991,6 +34003,18 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeTubeDiameter)
 		res.valueFloat = stoolabstract.RelativeTubeDiameter
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight)
+		res.valueFloat = stoolabstract.RelativeHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeSeatThickness":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeSeatThickness)
+		res.valueFloat = stoolabstract.RelativeSeatThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ProjectionAngle":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.ProjectionAngle)
+		res.valueFloat = stoolabstract.ProjectionAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -34000,15 +34024,15 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = stooldiagram.Name
-	case "IsHiddenTorusStackShape":
-		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenTorusStackShape)
-		res.valueBool = stooldiagram.IsHiddenTorusStackShape
+	case "IsHiddenPartiallyRotatedTorusShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenPartiallyRotatedTorusShape)
+		res.valueBool = stooldiagram.IsHiddenPartiallyRotatedTorusShape
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "TorusStackShape":
+	case "PartiallyRotatedTorusShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if stooldiagram.TorusStackShape != nil {
-			res.valueString = stooldiagram.TorusStackShape.Name
-			res.ids = stooldiagram.TorusStackShape.GongGetUUID(stage)
+		if stooldiagram.PartiallyRotatedTorusShape != nil {
+			res.valueString = stooldiagram.PartiallyRotatedTorusShape.Name
+			res.ids = stooldiagram.PartiallyRotatedTorusShape.GongGetUUID(stage)
 		}
 	case "IsHiddenSampledPoints3DShape":
 		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenSampledPoints3DShape)
@@ -38028,6 +38052,12 @@ func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value Go
 		stoolabstract.Transparency = value.GetValueFloat()
 	case "RelativeTubeDiameter":
 		stoolabstract.RelativeTubeDiameter = value.GetValueFloat()
+	case "RelativeHeight":
+		stoolabstract.RelativeHeight = value.GetValueFloat()
+	case "RelativeSeatThickness":
+		stoolabstract.RelativeSeatThickness = value.GetValueFloat()
+	case "ProjectionAngle":
+		stoolabstract.ProjectionAngle = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -38039,15 +38069,15 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		stooldiagram.Name = value.GetValueString()
-	case "IsHiddenTorusStackShape":
-		stooldiagram.IsHiddenTorusStackShape = value.GetValueBool()
-	case "TorusStackShape":
+	case "IsHiddenPartiallyRotatedTorusShape":
+		stooldiagram.IsHiddenPartiallyRotatedTorusShape = value.GetValueBool()
+	case "PartiallyRotatedTorusShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			stooldiagram.TorusStackShape = nil
-			for __instance__ := range stage.TorusStackShapes {
-				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
-					stooldiagram.TorusStackShape = __instance__
+			stooldiagram.PartiallyRotatedTorusShape = nil
+			for __instance__ := range stage.PartiallyRotatedTorusShapes {
+				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.PartiallyRotatedTorusShape = __instance__
 					break
 				}
 			}

@@ -12358,6 +12358,15 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	if stoolabstract.RelativeTubeDiameter != stoolabstractOther.RelativeTubeDiameter {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
 	}
+	if stoolabstract.RelativeHeight != stoolabstractOther.RelativeHeight {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeHeight"))
+	}
+	if stoolabstract.RelativeSeatThickness != stoolabstractOther.RelativeSeatThickness {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
+	}
+	if stoolabstract.ProjectionAngle != stoolabstractOther.ProjectionAngle {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
+	}
 
 	return
 }
@@ -12369,8 +12378,8 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	if stooldiagram.Name != stooldiagramOther.Name {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Name"))
 	}
-	if stooldiagram.IsHiddenTorusStackShape != stooldiagramOther.IsHiddenTorusStackShape {
-		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
+	if stooldiagram.IsHiddenPartiallyRotatedTorusShape != stooldiagramOther.IsHiddenPartiallyRotatedTorusShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
 	}
 	if stooldiagram.IsHiddenSampledPoints3DShape != stooldiagramOther.IsHiddenSampledPoints3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))

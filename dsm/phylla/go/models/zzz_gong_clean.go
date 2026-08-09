@@ -758,7 +758,7 @@ func (stoolabstract *StoolAbstract) GongClean(stage *Stage) (modified bool) {
 func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &stooldiagram.TorusStackShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.PartiallyRotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.SampledPoints3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
 	return

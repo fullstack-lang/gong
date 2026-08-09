@@ -3,8 +3,8 @@ package models
 type StoolDiagram struct {
 	Name string
 
-	IsHiddenTorusStackShape bool
-	TorusStackShape         *TorusStackShape
+	IsHiddenPartiallyRotatedTorusShape bool
+	PartiallyRotatedTorusShape         *PartiallyRotatedTorusShape
 
 	IsHiddenSampledPoints3DShape bool
 	SampledPoints3DShape         *SampledPoints3DShape
