@@ -1,4 +1,4 @@
-package vasestage3d
+package stoolstage3d
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (u *ThreeJSStageUpdater) ux_3d_stool(stager *models.Stager) {
+func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	stool3dStage := stager.GetStool3dStage()
 	if stool3dStage == nil {
 		return
@@ -44,36 +44,6 @@ func (u *ThreeJSStageUpdater) ux_3d_stool(stager *models.Stager) {
 		Name: "Stool 3D Canvas",
 	}).Stage(stool3dStage)
 
-	// Directional and ambient lights
-	dirLight1 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 1 (Key)",
-		Position:         threejs.Position{X: 15, Y: 20, Z: 15},
-		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
-		IsWithCastShadow: true,
-	}).Stage(stool3dStage)
-
-	dirLight2 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 2 (Fill)",
-		Position:         threejs.Position{X: -15, Y: 10, Z: -15},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
-		IsWithCastShadow: false,
-	}).Stage(stool3dStage)
-
-	dirLight3 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 3 (Rim)",
-		Position:         threejs.Position{X: 0, Y: 30, Z: -20},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
-		IsWithCastShadow: false,
-	}).Stage(stool3dStage)
-
-	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
-
-	ambiantLight := (&threejs.AmbiantLight{
-		Name:          "Ambiant Light",
-		LightAbstract: threejs.LightAbstract{Intensity: 0.3},
-	}).Stage(stool3dStage)
-	canvas.AmbiantLight = ambiantLight
-
 	// Circumference and cylinder radius
 	circumference := 10.0
 	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil && plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
@@ -94,6 +64,37 @@ func (u *ThreeJSStageUpdater) ux_3d_stool(stager *models.Stager) {
 
 	globalR := circumference * float64(radialRepetitions) / (2 * math.Pi)
 
+	// Directional and ambient lights positioned relative to scene scale
+	lightScale := math.Max(globalR, 50.0)
+	dirLight1 := (&threejs.DirectionalLight{
+		Name:             "Directional Light 1 (Key)",
+		Position:         threejs.Position{X: lightScale * 2.0, Y: lightScale * 2.5, Z: lightScale * 2.0},
+		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
+		IsWithCastShadow: true,
+	}).Stage(stool3dStage)
+
+	dirLight2 := (&threejs.DirectionalLight{
+		Name:             "Directional Light 2 (Fill)",
+		Position:         threejs.Position{X: -lightScale * 2.0, Y: lightScale * 1.5, Z: -lightScale * 2.0},
+		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
+		IsWithCastShadow: false,
+	}).Stage(stool3dStage)
+
+	dirLight3 := (&threejs.DirectionalLight{
+		Name:             "Directional Light 3 (Rim)",
+		Position:         threejs.Position{X: 0, Y: lightScale * 3.5, Z: -lightScale * 2.5},
+		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
+		IsWithCastShadow: false,
+	}).Stage(stool3dStage)
+
+	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
+
+	ambiantLight := (&threejs.AmbiantLight{
+		Name:          "Ambiant Light",
+		LightAbstract: threejs.LightAbstract{Intensity: 0.4},
+	}).Stage(stool3dStage)
+	canvas.AmbiantLight = ambiantLight
+
 	// Camera setup
 	if hasPreservedCamera {
 		if preservedFov == 0 {
@@ -113,8 +114,8 @@ func (u *ThreeJSStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}).Stage(stool3dStage)
 	} else {
 		camDist := globalR * 2.5
-		if camDist < 15 {
-			camDist = 15
+		if camDist < 30 {
+			camDist = 30
 		}
 		canvas.Camera = (&threejs.Camera{
 			Name: "Camera",
@@ -128,80 +129,80 @@ func (u *ThreeJSStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}).Stage(stool3dStage)
 	}
 
-	// Extract GrowthCurve2D
-	gc := plant.GrowthCurve2D
-	if gc == nil || gc.StartHalfwayArcShapeGrid == nil {
-		stool3dStage.Commit()
-		return
-	}
-
-	startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
-	var endArcs []*models.EndHalfwayArcShape
-	if gc.EndHalfwayArcShapeGrid != nil {
-		endArcs = gc.EndHalfwayArcShapeGrid.EndHalfwayArcShapes
+	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
+		// camera orientation preserved
 	}
 
 	floorMinY := math.MaxFloat64
 
-	curve := (&threejs.Curve{
-		Name: "Stool GrowthCurve2D Curve",
-	}).Stage(stool3dStage)
+	// Extract GrowthCurve2D arcs from PlantAbstract (StartArcShapeGrid and EndArcShapeGrid)
+	if plant.StartArcShapeGrid != nil && len(plant.StartArcShapeGrid.StartArcShapes) > 0 {
+		startArcs := plant.StartArcShapeGrid.StartArcShapes
+		var endArcs []*models.EndArcShape
+		if plant.EndArcShapeGrid != nil {
+			endArcs = plant.EndArcShapeGrid.EndArcShapes
+		}
 
-	for k := 0; k < radialRepetitions; k++ {
-		baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+		curve := (&threejs.Curve{
+			Name: "Stool GrowthCurve2D Curve",
+		}).Stage(stool3dStage)
 
-		for i := 0; i < len(startArcs); i++ {
-			sa := startArcs[i]
-			u.appendArcPointsStool(stool3dStage, curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, baseThetaOffset, &floorMinY)
+		for k := 0; k < radialRepetitions; k++ {
+			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 
-			if i < len(endArcs) {
-				ea := endArcs[i]
-				u.appendArcPointsStool(stool3dStage, curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, baseThetaOffset, &floorMinY)
+			for i := 0; i < len(startArcs); i++ {
+				sa := startArcs[i]
+				u.appendArcPointsStool(stool3dStage, curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, baseThetaOffset, &floorMinY)
+
+				if i < len(endArcs) {
+					ea := endArcs[i]
+					u.appendArcPointsStool(stool3dStage, curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, baseThetaOffset, &floorMinY)
+				}
 			}
 		}
+
+		tubeRadius := plant.RhombusSideLength * 0.02
+		if tubeRadius <= 0 {
+			tubeRadius = 2.0
+		}
+
+		numSegments := len(curve.Points)
+		if numSegments < 2 {
+			numSegments = 2
+		}
+
+		tGeom := (&threejs.TubeGeometry{
+			Name:            "Stool GrowthCurve2D TubeGeom",
+			Path:            curve,
+			TubularSegments: numSegments,
+			Radius:          tubeRadius,
+			RadialSegments:  8,
+			Closed:          true,
+		}).Stage(stool3dStage)
+
+		tubeMesh := (&threejs.Mesh{
+			Name:         "Stool GrowthCurve2D Mesh",
+			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+			TubeGeometry: tGeom,
+			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+				Name:                 "Stool GrowthCurve2D Material",
+				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgreen"},
+			}).Stage(stool3dStage),
+		}).Stage(stool3dStage)
+
+		canvas.Meshs = append(canvas.Meshs, tubeMesh)
 	}
 
-	tubeRadius := plant.RhombusSideLength * 0.02
-	if tubeRadius <= 0 {
-		tubeRadius = 2.0
-	}
-
-	numSegments := len(curve.Points)
-	if numSegments < 2 {
-		numSegments = 2
-	}
-
-	tGeom := (&threejs.TubeGeometry{
-		Name:            "Stool GrowthCurve2D TubeGeom",
-		Path:            curve,
-		TubularSegments: numSegments,
-		Radius:          tubeRadius,
-		RadialSegments:  8,
-		Closed:          true,
-	}).Stage(stool3dStage)
-
-	tubeMesh := (&threejs.Mesh{
-		Name:         "Stool GrowthCurve2D Mesh",
-		Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-		TubeGeometry: tGeom,
-		MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-			Name:                 "Stool GrowthCurve2D Material",
-			MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "#2e7d32"},
-		}).Stage(stool3dStage),
-	}).Stage(stool3dStage)
-
-	canvas.Meshs = append(canvas.Meshs, tubeMesh)
-
-	// Floor tiles
+	// Floor tiles that encompass the stool cylinder
 	if floorMinY == math.MaxFloat64 {
 		floorMinY = 0.0
 	} else {
-		floorMinY = floorMinY - tubeRadius
+		floorMinY = floorMinY - 2.0
 	}
 
-	floorSize := globalR * 2.5
-	if floorSize < 100 {
-		floorSize = 100
+	floorSize := globalR * 3.0
+	if floorSize < 200 {
+		floorSize = 200
 	}
 	gridSize := 20
 	tileSize := floorSize / float64(gridSize)
@@ -242,7 +243,7 @@ func (u *ThreeJSStageUpdater) ux_3d_stool(stager *models.Stager) {
 	stool3dStage.Commit()
 }
 
-func (u *ThreeJSStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, baseThetaOffset float64, floorMinY *float64) {
+func (u *Stool3DStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, baseThetaOffset float64, floorMinY *float64) {
 	dx := (x1 - x2) / 2.0
 	dy := (y1 - y2) / 2.0
 	d2 := dx*dx + dy*dy
@@ -275,7 +276,6 @@ func (u *ThreeJSStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, 
 
 	steps := 50
 	for i := 0; i <= steps; i++ {
-		// avoid duplicating the exact same point if it's not the first point of the curve
 		if i == 0 && len(targetCurve.Points) > 0 {
 			continue
 		}

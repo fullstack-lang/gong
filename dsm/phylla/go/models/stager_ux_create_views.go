@@ -436,7 +436,7 @@ func (stager *Stager) createViews() {
 				plant.CurrentView = VIEW_STOOL_3D
 				stager.stage.Commit()
 			}
-			stager.UpdateThreeJSStage()
+			stager.UpdateStool3DStage()
 		}
 	}
 

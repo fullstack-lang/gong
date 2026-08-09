@@ -192,9 +192,17 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 		}
 	}
 
-	if stager.selectedPlant != nil && stager.selectedPlant.PlantType != Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D {
-		stager.selectedPlant.CurrentView = VIEW_PLANT_2D
-		modified = true
+	if stager.selectedPlant != nil {
+		if stager.selectedPlant.PlantType == Plant && stager.selectedPlant.CurrentView != VIEW_PLANT_2D {
+			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
+			modified = true
+		} else if stager.selectedPlant.PlantType == Stool && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_STOOL_3D {
+			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
+			modified = true
+		} else if stager.selectedPlant.PlantType == Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_VASE_3D {
+			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
+			modified = true
+		}
 	}
 
 	return modified
