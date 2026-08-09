@@ -2,7 +2,9 @@ package stoolstage3d
 
 import (
 	"fmt"
+	"log"
 	"math"
+	"sort"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
@@ -176,50 +178,108 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			endArcs = plant.EndArcShapeGrid.EndArcShapes
 		}
 
-		curve := (&threejs.Curve{
-			Name: "Stool GrowthCurve2D Curve",
+		// 1. Build initial continuous 3D curve for 1 base repetition
+		baseCurve := (&threejs.Curve{
+			Name: "Stool Base Curve",
+		}).Stage(stool3dStage)
+
+		for i := 0; i < len(startArcs); i++ {
+			sa := startArcs[i]
+			u.appendArcPointsStool(stool3dStage, baseCurve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, 0.0, &floorMinY)
+
+			if i < len(endArcs) {
+				ea := endArcs[i]
+				u.appendArcPointsStool(stool3dStage, baseCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, 0.0, &floorMinY)
+			}
+		}
+
+		// 2. Order and unwrap angles
+		sortedAngles, sortedPoints := unwrapAngles(baseCurve)
+
+		// 3. Generate target angles spaced every 0.5 degrees across 1 repetition
+		degreeInterval := 0.5
+		expectedDegrees := 360.0 / float64(radialRepetitions)
+		radInterval := degreeInterval * math.Pi / 180.0
+		nbPoints := int(math.Round(expectedDegrees / degreeInterval))
+
+		var targetAngles []float64
+		for i := 0; i <= nbPoints; i++ {
+			targetAngles = append(targetAngles, float64(i)*radInterval)
+		}
+
+		// 4. Resample the curve at every 0.5 degree
+		resampledBaseCurve := u.resampleCurveAtAngles(stool3dStage, sortedAngles, sortedPoints, targetAngles, "Stool Resampled", expectedDegrees)
+
+		// 5. Replicate across all radial repetitions to create massiveCurve
+		massiveCurve := (&threejs.Curve{
+			Name: "Stool Massive Curve",
 		}).Stage(stool3dStage)
 
 		for k := 0; k < radialRepetitions; k++ {
 			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
 
-			for i := 0; i < len(startArcs); i++ {
-				sa := startArcs[i]
-				u.appendArcPointsStool(stool3dStage, curve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, baseThetaOffset, &floorMinY)
+			for _, pt := range resampledBaseCurve.Points {
+				origTheta := math.Atan2(pt.Z, pt.X)
+				r := math.Hypot(pt.X, pt.Z)
+				newTheta := origTheta + baseThetaOffset
 
-				if i < len(endArcs) {
-					ea := endArcs[i]
-					u.appendArcPointsStool(stool3dStage, curve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, baseThetaOffset, &floorMinY)
-				}
+				massiveCurve.Points = append(massiveCurve.Points, (&threejs.Vector3{
+					Name: fmt.Sprintf("Stool Point k%d %.1f", k, newTheta*180.0/math.Pi),
+					X:    r * math.Cos(newTheta),
+					Y:    pt.Y,
+					Z:    r * math.Sin(newTheta),
+				}).Stage(stool3dStage))
 			}
 		}
 
-		tubeRadius := plant.RhombusSideLength * 0.02
+		// 6. Add 3D Sampled Points visualization if toggled on
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
+			numPointsPerRep := len(resampledBaseCurve.Points)
+			u.addPointSpheres(stool3dStage, massiveCurve.Points, "red", canvas, "Stool Sampled", 0, numPointsPerRep)
+		}
+
+		// 7. Calculate tube radius from RelativeTubeDiameter
+		relDiameter := plant.StoolAbstract.RelativeTubeDiameter
+		if relDiameter <= 0 {
+			relDiameter = 0.01
+		}
+		tubeRadius := (relDiameter * plant.RhombusSideLength) / 2.0
 		if tubeRadius <= 0 {
 			tubeRadius = 2.0
 		}
 
-		numSegments := len(curve.Points)
+		numSegments := len(massiveCurve.Points)
 		if numSegments < 2 {
 			numSegments = 2
 		}
 
 		tGeom := (&threejs.TubeGeometry{
 			Name:            "Stool GrowthCurve2D TubeGeom",
-			Path:            curve,
+			Path:            massiveCurve,
 			TubularSegments: numSegments,
 			Radius:          tubeRadius,
-			RadialSegments:  8,
+			RadialSegments:  16,
 			Closed:          true,
 		}).Stage(stool3dStage)
+
+		transparency := plant.StoolAbstract.Transparency
+		opacity := 1.0 - transparency
+		if opacity < 0.0 {
+			opacity = 0.0
+		}
+		if opacity > 1.0 {
+			opacity = 1.0
+		}
 
 		tubeMesh := (&threejs.Mesh{
 			Name:         "Stool GrowthCurve2D Mesh",
 			Position:     threejs.Position{X: 0, Y: 0, Z: 0},
 			TubeGeometry: tGeom,
-			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+			MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
 				Name:                 "Stool GrowthCurve2D Material",
 				MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgreen"},
+				Transparent:          true,
+				Opacity:              opacity,
 			}).Stage(stool3dStage),
 		}).Stage(stool3dStage)
 
@@ -328,11 +388,214 @@ func (u *Stool3DStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, 
 		}
 
 		vec := (&threejs.Vector3{
-			Name: fmt.Sprintf("Stool Point %d", len(targetCurve.Points)),
+			Name: fmt.Sprintf("Stool Base Point %d", len(targetCurve.Points)),
 			X:    x3d,
 			Y:    y3d,
 			Z:    z3d,
 		}).Stage(stool3dStage)
 		targetCurve.Points = append(targetCurve.Points, vec)
+	}
+}
+
+// unwrapAngles processes a 3D curve to extract a strictly monotonic,
+// duplicate-free mapping of points to their cylindrical angle (theta).
+func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vector3) {
+	angleToPoint := make(map[float64]*threejs.Vector3)
+	if len(curve.Points) == 0 {
+		return nil, nil
+	}
+
+	firstP := curve.Points[0]
+	lastTheta := math.Atan2(firstP.Z, firstP.X)
+
+	accumulated := lastTheta
+	for accumulated < 0 {
+		accumulated += 2 * math.Pi
+	}
+	for accumulated >= 2*math.Pi {
+		accumulated -= 2 * math.Pi
+	}
+
+	angleToPoint[accumulated] = firstP
+	lastTheta = math.Atan2(firstP.Z, firstP.X)
+
+	for i := 1; i < len(curve.Points); i++ {
+		p := curve.Points[i]
+		theta := math.Atan2(p.Z, p.X)
+		diff := theta - lastTheta
+
+		for diff < -math.Pi {
+			diff += 2 * math.Pi
+		}
+		for diff > math.Pi {
+			diff -= 2 * math.Pi
+		}
+
+		if diff < -1e-7 {
+			log.Printf("overlapping segment detected: curve goes backwards at index %d (diff: %f)", i, diff)
+			diff = 0
+		}
+
+		accumulated += diff
+
+		angleToPoint[accumulated] = p
+		lastTheta = theta
+	}
+
+	for a := range angleToPoint {
+		angles = append(angles, a)
+	}
+	sort.Float64s(angles)
+
+	for _, a := range angles {
+		points = append(points, angleToPoint[a])
+	}
+
+	return angles, points
+}
+
+// resampleCurveAtAngles forces an existing 3D curve to conform to a specific set of target angles.
+func (u *Stool3DStageUpdater) resampleCurveAtAngles(
+	stool3dStage *threejs.Stage,
+	sortedAngles []float64,
+	sortedPoints []*threejs.Vector3,
+	targetAngles []float64,
+	namePrefix string,
+	expectedDegrees float64,
+) *threejs.Curve {
+	resampled := (&threejs.Curve{
+		Name: fmt.Sprintf("%s Resampled", namePrefix),
+	}).Stage(stool3dStage)
+
+	if len(sortedAngles) == 0 {
+		return resampled
+	}
+
+	for _, target := range targetAngles {
+		evalTarget := target
+		if len(sortedAngles) > 0 && expectedDegrees > 0 {
+			minA := sortedAngles[0]
+			maxA := sortedAngles[len(sortedAngles)-1]
+			expectedRad := expectedDegrees * math.Pi / 180.0
+
+			for evalTarget < minA {
+				evalTarget += expectedRad
+			}
+			for evalTarget > maxA {
+				evalTarget -= expectedRad
+			}
+			if evalTarget < minA {
+				evalTarget = minA
+			}
+			if evalTarget > maxA {
+				evalTarget = maxA
+			}
+		}
+
+		idx := -1
+
+		// Use binary search to find the first index where sortedAngles[i] >= evalTarget
+		searchIdx := sort.SearchFloat64s(sortedAngles, evalTarget)
+
+		if searchIdx > 0 && searchIdx < len(sortedAngles) {
+			idx = searchIdx - 1
+		} else if searchIdx == 0 && sortedAngles[0] == evalTarget {
+			idx = 0
+		}
+
+		isExtrapolating := false
+		if idx == -1 {
+			isExtrapolating = true
+			if searchIdx == 0 {
+				idx = 0
+			} else {
+				idx = len(sortedAngles) - 2
+			}
+		}
+
+		a1 := sortedAngles[idx]
+		a2 := sortedAngles[idx+1]
+		p1 := sortedPoints[idx]
+		p2 := sortedPoints[idx+1]
+
+		t := 0.0
+		if a1 != a2 {
+			t = (evalTarget - a1) / (a2 - a1)
+		}
+		if t < 0 {
+			t = 0
+		}
+		if t > 1 {
+			t = 1
+		}
+
+		var x, y, z float64
+		if isExtrapolating {
+			var r float64
+			if t == 0 {
+				r = math.Hypot(p1.X, p1.Z)
+				y = p1.Y
+			} else {
+				r = math.Hypot(p2.X, p2.Z)
+				y = p2.Y
+			}
+			x = r * math.Cos(target)
+			z = r * math.Sin(target)
+		} else {
+			r1 := math.Hypot(p1.X, p1.Z)
+			r2 := math.Hypot(p2.X, p2.Z)
+			r := r1 + t*(r2-r1)
+			y = p1.Y + t*(p2.Y-p1.Y)
+			x = r * math.Cos(target)
+			z = r * math.Sin(target)
+		}
+
+		pt := (&threejs.Vector3{
+			Name: fmt.Sprintf("%s %.1f", namePrefix, target*180.0/math.Pi),
+			X:    x,
+			Y:    y,
+			Z:    z,
+		}).Stage(stool3dStage)
+
+		resampled.Points = append(resampled.Points, pt)
+	}
+
+	return resampled
+}
+
+func (u *Stool3DStageUpdater) addPointSpheres(stool3dStage *threejs.Stage, points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
+	for i, pt := range points {
+		sphereColor := color
+		radius := 2.0
+
+		localIdx := i
+		if numPointsPerRep > 0 {
+			localIdx = i % numPointsPerRep
+		}
+
+		if localIdx%20 == 0 {
+			sphereColor = "yellow"
+			radius = 4.0
+		}
+
+		sphere := (&threejs.Mesh{
+			Name: fmt.Sprintf("%s Sphere %d", namePrefix, i),
+			Position: threejs.Position{
+				X: pt.X,
+				Y: pt.Y + dy,
+				Z: pt.Z,
+			},
+			SphereGeometry: (&threejs.SphereGeometry{
+				Name:   fmt.Sprintf("%s SphereGeom %d", namePrefix, i),
+				Radius: radius,
+			}).Stage(stool3dStage),
+			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+				Name: fmt.Sprintf("%s SphereMat %d", namePrefix, i),
+				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
+					Color: sphereColor,
+				},
+			}).Stage(stool3dStage),
+		}).Stage(stool3dStage)
+		canvas.Meshs = append(canvas.Meshs, sphere)
 	}
 }

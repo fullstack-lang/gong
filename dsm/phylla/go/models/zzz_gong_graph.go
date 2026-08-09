@@ -3305,6 +3305,9 @@ func (stage *Stage) StageBranchStoolDiagram(stooldiagram *StoolDiagram) {
 	stooldiagram.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if stooldiagram.SampledPoints3DShape != nil {
+		StageBranch(stage, stooldiagram.SampledPoints3DShape)
+	}
 	if stooldiagram.Rendered3DShape != nil {
 		StageBranch(stage, stooldiagram.Rendered3DShape)
 	}
@@ -5934,6 +5937,9 @@ func CopyBranchStoolDiagram(mapOrigCopy map[any]any, stooldiagramFrom *StoolDiag
 	stooldiagramFrom.CopyBasicFields(stooldiagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if stooldiagramFrom.SampledPoints3DShape != nil {
+		stooldiagramTo.SampledPoints3DShape = CopyBranchSampledPoints3DShape(mapOrigCopy, stooldiagramFrom.SampledPoints3DShape)
+	}
 	if stooldiagramFrom.Rendered3DShape != nil {
 		stooldiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, stooldiagramFrom.Rendered3DShape)
 	}
@@ -8165,6 +8171,9 @@ func (stage *Stage) UnstageBranchStoolDiagram(stooldiagram *StoolDiagram) {
 	stooldiagram.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if stooldiagram.SampledPoints3DShape != nil {
+		UnstageBranch(stage, stooldiagram.SampledPoints3DShape)
+	}
 	if stooldiagram.Rendered3DShape != nil {
 		UnstageBranch(stage, stooldiagram.Rendered3DShape)
 	}
@@ -9017,6 +9026,9 @@ func (reference *StoolAbstract) GongReconstructPointersFromReferences(stage *Sta
 
 func (reference *StoolDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *StoolDiagram) {
 	// insertion point for pointers field
+	if instance.SampledPoints3DShape != nil {
+		reference.SampledPoints3DShape = stage.SampledPoints3DShapes_reference[instance.SampledPoints3DShape]
+	}
 	if instance.Rendered3DShape != nil {
 		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
 	}
@@ -9658,6 +9670,12 @@ func (reference *StoolAbstract) GongReconstructPointersFromInstances(stage *Stag
 
 func (reference *StoolDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.SampledPoints3DShape; _reference != nil {
+		reference.SampledPoints3DShape = nil
+		if _instance, ok := stage.SampledPoints3DShapes_instance[_reference]; ok {
+			reference.SampledPoints3DShape = _instance
+		}
+	}
 	if _reference := reference.Rendered3DShape; _reference != nil {
 		reference.Rendered3DShape = nil
 		if _instance, ok := stage.Rendered3DShapes_instance[_reference]; ok {
@@ -12334,6 +12352,12 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	if stoolabstract.RadialRepetitions != stoolabstractOther.RadialRepetitions {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
 	}
+	if stoolabstract.Transparency != stoolabstractOther.Transparency {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "Transparency"))
+	}
+	if stoolabstract.RelativeTubeDiameter != stoolabstractOther.RelativeTubeDiameter {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
+	}
 
 	return
 }
@@ -12344,6 +12368,16 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	// insertion point for field diffs
 	if stooldiagram.Name != stooldiagramOther.Name {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Name"))
+	}
+	if stooldiagram.IsHiddenSampledPoints3DShape != stooldiagramOther.IsHiddenSampledPoints3DShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+	}
+	if (stooldiagram.SampledPoints3DShape == nil) != (stooldiagramOther.SampledPoints3DShape == nil) {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+	} else if stooldiagram.SampledPoints3DShape != nil && stooldiagramOther.SampledPoints3DShape != nil {
+		if stooldiagram.SampledPoints3DShape != stooldiagramOther.SampledPoints3DShape {
+			diffs = append(diffs, stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		}
 	}
 	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))

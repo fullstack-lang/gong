@@ -11481,6 +11481,10 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stoolabstract_.Name), formDiv)
 		case "RadialRepetitions":
 			FormDivBasicFieldToField(&(stoolabstract_.RadialRepetitions), formDiv)
+		case "Transparency":
+			FormDivBasicFieldToField(&(stoolabstract_.Transparency), formDiv)
+		case "RelativeTubeDiameter":
+			FormDivBasicFieldToField(&(stoolabstract_.RelativeTubeDiameter), formDiv)
 		}
 	}
 
@@ -11559,6 +11563,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(stooldiagram_.Name), formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.SampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}

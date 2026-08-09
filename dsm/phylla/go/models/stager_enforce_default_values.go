@@ -81,6 +81,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 				stool.RadialRepetitions = 1
 			}
+			if stool.RelativeTubeDiameter == 0.0 {
+				needCommit = true
+				stool.RelativeTubeDiameter = 0.01
+			}
 		}
 	}
 

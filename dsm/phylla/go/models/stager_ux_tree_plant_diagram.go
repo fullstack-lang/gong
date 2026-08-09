@@ -359,4 +359,8 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Original Points", plantDiagram.VaseDiagram.OriginalPoints3DShape, &plantDiagram.VaseDiagram.IsHiddenOriginalPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Angle 0 Shape", plantDiagram.VaseDiagram.Angle0Shape, &plantDiagram.VaseDiagram.IsHiddenAngle0Shape)
 	}
+
+	if is3DView && plantDiagram.StoolDiagram != nil {
+		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.StoolDiagram.SampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenSampledPoints3DShape)
+	}
 }

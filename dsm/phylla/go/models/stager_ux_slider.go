@@ -431,6 +431,30 @@ func (stager *Stager) ux_slider_stool() {
 		),
 	)
 
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Transparency",
+			0.0,
+			1.0,
+			0.05,
+			&plant.StoolAbstract.Transparency,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Tube Rel Diameter",
+			0.001,
+			0.05,
+			0.001,
+			&plant.StoolAbstract.RelativeTubeDiameter,
+		),
+	)
+
 	stager.sliderStoolStage.Commit()
 }
 

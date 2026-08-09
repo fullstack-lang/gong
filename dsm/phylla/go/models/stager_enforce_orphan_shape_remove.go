@@ -114,6 +114,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refKey3DShape := make(map[*Key3DShape]bool)
 	refVolumeKey3DShape := make(map[*VolumeKey3DShape]bool)
 	refTorusEdge3DShape := make(map[*TorusEdge3DShape]bool)
+	refSampledPoints3DShape := make(map[*SampledPoints3DShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
@@ -445,6 +446,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			if diagram.StoolDiagram.Rendered3DShape != nil {
 				refRendered3DShape[diagram.StoolDiagram.Rendered3DShape] = true
 			}
+			if diagram.StoolDiagram.SampledPoints3DShape != nil {
+				refSampledPoints3DShape[diagram.StoolDiagram.SampledPoints3DShape] = true
+			}
 		}
 		if diagram.VaseDiagram != nil {
 			if diagram.VaseDiagram.TorusStackShape != nil {
@@ -473,6 +477,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			if diagram.VaseDiagram.TorusEdge3DShape != nil {
 				refTorusEdge3DShape[diagram.VaseDiagram.TorusEdge3DShape] = true
+			}
+			if diagram.VaseDiagram.SampledPoints3DShape != nil {
+				refSampledPoints3DShape[diagram.VaseDiagram.SampledPoints3DShape] = true
 			}
 		}
 	}
@@ -1092,6 +1099,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusEdge3DShape](stage) {
 		if !refTorusEdge3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*SampledPoints3DShape](stage) {
+		if !refSampledPoints3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

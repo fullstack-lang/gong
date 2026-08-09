@@ -22362,6 +22362,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case StoolDiagram:
 		return any(&StoolDiagram{
 			// Initialisation of associations
+			// field is initialized with an instance of SampledPoints3DShape with the name of the field
+			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
@@ -23505,6 +23507,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case StoolDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SampledPoints3DShape":
+			res := make(map[*SampledPoints3DShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := stooldiagram.SampledPoints3DShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[sampledpoints3dshape_]
+					if ok {
+						stooldiagrams = res[sampledpoints3dshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[sampledpoints3dshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Rendered3DShape":
 			res := make(map[*Rendered3DShape][]*StoolDiagram)
 			for stooldiagram := range stage.StoolDiagrams {
@@ -29447,6 +29466,14 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "RadialRepetitions",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTubeDiameter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -29457,6 +29484,15 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SampledPoints3DShape",
 		},
 		{
 			Name:                 "Rendered3DShape",
@@ -33919,6 +33955,14 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%d", stoolabstract.RadialRepetitions)
 		res.valueInt = stoolabstract.RadialRepetitions
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.Transparency)
+		res.valueFloat = stoolabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTubeDiameter":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeTubeDiameter)
+		res.valueFloat = stoolabstract.RelativeTubeDiameter
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -33928,6 +33972,16 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = stooldiagram.Name
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = stooldiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.SampledPoints3DShape != nil {
+			res.valueString = stooldiagram.SampledPoints3DShape.Name
+			res.ids = stooldiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if stooldiagram.Rendered3DShape != nil {
@@ -37932,6 +37986,10 @@ func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value Go
 		stoolabstract.Name = value.GetValueString()
 	case "RadialRepetitions":
 		stoolabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		stoolabstract.Transparency = value.GetValueFloat()
+	case "RelativeTubeDiameter":
+		stoolabstract.RelativeTubeDiameter = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -37943,6 +38001,19 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		stooldiagram.Name = value.GetValueString()
+	case "IsHiddenSampledPoints3DShape":
+		stooldiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
 	case "Rendered3DShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {

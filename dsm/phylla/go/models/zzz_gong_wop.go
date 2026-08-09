@@ -2441,23 +2441,32 @@ type StoolAbstract_WOP struct {
 	Name string
 
 	RadialRepetitions int
+
+	Transparency float64
+
+	RelativeTubeDiameter float64
 }
 
 func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	// insertion point
 	to.Name = from.Name
 	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.RelativeTubeDiameter = from.RelativeTubeDiameter
 }
 
 type StoolDiagram_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsHiddenSampledPoints3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 }
 
 type TopEndArcShape_WOP struct {
