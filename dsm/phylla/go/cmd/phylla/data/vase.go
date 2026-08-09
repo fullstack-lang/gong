@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -387.364635
-	__Rendered3DShape__00000002_.ViewY = 15.478777
-	__Rendered3DShape__00000002_.ViewZ = -499.940717
+	__Rendered3DShape__00000002_.ViewX = -616.994036
+	__Rendered3DShape__00000002_.ViewY = 261.526730
+	__Rendered3DShape__00000002_.ViewZ = 19.062887
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 100.000000
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
@@ -245,9 +245,9 @@ func _(stage *models.Stage) {
 	__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
 
 	__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
-	__StoolAbstract__00000000_.RadialRepetitions = 1
+	__StoolAbstract__00000000_.RadialRepetitions = 2
 	__StoolAbstract__00000000_.Transparency = 0.300000
-	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.010000
+	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
