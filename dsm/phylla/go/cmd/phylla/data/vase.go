@@ -27,13 +27,13 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Herbarium`}).Stage(stage)
 
-	__PlantAbstract__00000000_ := (&models.PlantAbstract{Name: `Plant 1`}).Stage(stage)
+	__PlantAbstract__00000000_ := (&models.PlantAbstract{Name: `Plant 2,1,104 - Vase 1`}).Stage(stage)
 
 	__PlantDiagram__00000001_ := (&models.PlantDiagram{Name: `Plant 1`}).Stage(stage)
 
 	__Rendered3DShape__00000000_ := (&models.Rendered3DShape{Name: `Plant 1-Rendered3DShape`}).Stage(stage)
 
-	__VaseAbstract__00000000_ := (&models.VaseAbstract{Name: `Plant 1-VaseAbstract`}).Stage(stage)
+	__VaseAbstract__00000000_ := (&models.VaseAbstract{Name: `Plant 2,1,104 - Vase 1-VaseAbstract`}).Stage(stage)
 
 	__VaseDiagram__00000000_ := (&models.VaseDiagram{Name: `Plant 1-VaseDiagram`}).Stage(stage)
 
@@ -46,7 +46,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
-	__PlantAbstract__00000000_.Name = `Plant 1`
+	__PlantAbstract__00000000_.Name = `Plant 2,1,104 - Vase 1`
 	__PlantAbstract__00000000_.N = 1
 	__PlantAbstract__00000000_.M = 2
 	__PlantAbstract__00000000_.StackHeight = 4
@@ -55,9 +55,9 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.PlantType = models.Vase
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
-	__PlantAbstract__00000000_.IsExpanded = true
+	__PlantAbstract__00000000_.IsExpanded = false
 	__PlantAbstract__00000000_.IsSelected = true
-	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
+	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = false
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
 	__PlantDiagram__00000001_.OriginX = 424.918010
@@ -103,7 +103,7 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000000_.TargetZ = 207.400716
 	__Rendered3DShape__00000000_.Fov = 45.000000
 
-	__VaseAbstract__00000000_.Name = `Plant 1-VaseAbstract`
+	__VaseAbstract__00000000_.Name = `Plant 2,1,104 - Vase 1-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000
 	__VaseAbstract__00000000_.RelativeRadialThickness = 0.050000
 	__VaseAbstract__00000000_.RelativeCuttedStackFloorHeight = 0.000000
