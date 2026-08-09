@@ -1597,6 +1597,21 @@ type Stage struct {
 	OnAfterStoolAbstractDeleteCallback OnAfterDeleteInterface[StoolAbstract]
 	OnAfterStoolAbstractReadCallback   OnAfterReadInterface[StoolAbstract]
 
+	StoolDiagrams                map[*StoolDiagram]struct{}
+	StoolDiagrams_instance       map[*StoolDiagram]*StoolDiagram
+	StoolDiagrams_mapString      map[string]*StoolDiagram
+	StoolDiagramOrder            uint
+	StoolDiagram_stagedOrder     map[*StoolDiagram]uint
+	StoolDiagram_orderStaged     map[uint]*StoolDiagram
+	StoolDiagrams_reference      map[*StoolDiagram]*StoolDiagram
+	StoolDiagrams_referenceOrder map[*StoolDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStoolDiagramCreateCallback OnAfterCreateInterface[StoolDiagram]
+	OnAfterStoolDiagramUpdateCallback OnAfterUpdateInterface[StoolDiagram]
+	OnAfterStoolDiagramDeleteCallback OnAfterDeleteInterface[StoolDiagram]
+	OnAfterStoolDiagramReadCallback   OnAfterReadInterface[StoolDiagram]
+
 	TopEndArcShapes                map[*TopEndArcShape]struct{}
 	TopEndArcShapes_instance       map[*TopEndArcShape]*TopEndArcShape
 	TopEndArcShapes_mapString      map[string]*TopEndArcShape
@@ -2563,6 +2578,10 @@ func (stage *Stage) Squash() {
 	stage.StoolAbstracts_reference = make(map[*StoolAbstract]*StoolAbstract)
 	stage.StoolAbstracts_instance = make(map[*StoolAbstract]*StoolAbstract)
 	stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint)
+
+	stage.StoolDiagrams_reference = make(map[*StoolDiagram]*StoolDiagram)
+	stage.StoolDiagrams_instance = make(map[*StoolDiagram]*StoolDiagram)
+	stage.StoolDiagrams_referenceOrder = make(map[*StoolDiagram]uint)
 
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
@@ -3969,6 +3988,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.StoolAbstractOrder = maxStoolAbstractOrder + 1
 	} else {
 		stage.StoolAbstractOrder = 0
+	}
+
+	var maxStoolDiagramOrder uint
+	var foundStoolDiagram bool
+	for _, order := range stage.StoolDiagram_stagedOrder {
+		if !foundStoolDiagram || order > maxStoolDiagramOrder {
+			maxStoolDiagramOrder = order
+			foundStoolDiagram = true
+		}
+	}
+	if foundStoolDiagram {
+		stage.StoolDiagramOrder = maxStoolDiagramOrder + 1
+	} else {
+		stage.StoolDiagramOrder = 0
 	}
 
 	var maxTopEndArcShapeOrder uint
@@ -5642,6 +5675,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *StoolDiagram:
+		tmp := GetStructInstancesByOrder(stage.StoolDiagrams, stage.StoolDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StoolDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TopEndArcShape:
 		tmp := GetStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 
@@ -6177,6 +6224,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder)
 	case "StoolAbstract":
 		res = GetNamedStructInstances(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
+	case "StoolDiagram":
+		res = GetNamedStructInstances(stage.StoolDiagrams, stage.StoolDiagram_stagedOrder)
 	case "TopEndArcShape":
 		res = GetNamedStructInstances(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 	case "TopEndArcShapeGrid":
@@ -6476,6 +6525,8 @@ type BackRepoInterface interface {
 	CheckoutStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid)
 	CommitStoolAbstract(stoolabstract *StoolAbstract)
 	CheckoutStoolAbstract(stoolabstract *StoolAbstract)
+	CommitStoolDiagram(stooldiagram *StoolDiagram)
+	CheckoutStoolDiagram(stooldiagram *StoolDiagram)
 	CommitTopEndArcShape(topendarcshape *TopEndArcShape)
 	CheckoutTopEndArcShape(topendarcshape *TopEndArcShape)
 	CommitTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
@@ -6803,6 +6854,9 @@ func NewStage(name string) (stage *Stage) {
 
 		StoolAbstracts:           make(map[*StoolAbstract]struct{}),
 		StoolAbstracts_mapString: make(map[string]*StoolAbstract),
+
+		StoolDiagrams:           make(map[*StoolDiagram]struct{}),
+		StoolDiagrams_mapString: make(map[string]*StoolDiagram),
 
 		TopEndArcShapes:           make(map[*TopEndArcShape]struct{}),
 		TopEndArcShapes_mapString: make(map[string]*TopEndArcShape),
@@ -7251,6 +7305,10 @@ func NewStage(name string) (stage *Stage) {
 		StoolAbstract_orderStaged: make(map[uint]*StoolAbstract),
 		StoolAbstracts_reference:  make(map[*StoolAbstract]*StoolAbstract),
 
+		StoolDiagram_stagedOrder: make(map[*StoolDiagram]uint),
+		StoolDiagram_orderStaged: make(map[uint]*StoolDiagram),
+		StoolDiagrams_reference:  make(map[*StoolDiagram]*StoolDiagram),
+
 		TopEndArcShape_stagedOrder: make(map[*TopEndArcShape]uint),
 		TopEndArcShape_orderStaged: make(map[uint]*TopEndArcShape),
 		TopEndArcShapes_reference:  make(map[*TopEndArcShape]*TopEndArcShape),
@@ -7529,6 +7587,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"StoolAbstract": &StoolAbstractUnmarshaller{},
 
+			"StoolDiagram": &StoolDiagramUnmarshaller{},
+
 			"TopEndArcShape": &TopEndArcShapeUnmarshaller{},
 
 			"TopEndArcShapeGrid": &TopEndArcShapeGridUnmarshaller{},
@@ -7671,6 +7731,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StartHalfwayArcShape"},
 			{name: "StartHalfwayArcShapeGrid"},
 			{name: "StoolAbstract"},
+			{name: "StoolDiagram"},
 			{name: "TopEndArcShape"},
 			{name: "TopEndArcShapeGrid"},
 			{name: "TopEndHalfwayArcShape"},
@@ -7889,6 +7950,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
 	case *StoolAbstract:
 		return stage.StoolAbstract_stagedOrder[instance]
+	case *StoolDiagram:
+		return stage.StoolDiagram_stagedOrder[instance]
 	case *TopEndArcShape:
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
@@ -8128,6 +8191,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StartHalfwayArcShapeGrid_orderStaged[order]).(Type)
 	case *StoolAbstract:
 		return any(stage.StoolAbstract_orderStaged[order]).(Type)
+	case *StoolDiagram:
+		return any(stage.StoolDiagram_orderStaged[order]).(Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShape_orderStaged[order]).(Type)
 	case *TopEndArcShapeGrid:
@@ -8366,6 +8431,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
 	case *StoolAbstract:
 		return stage.StoolAbstract_stagedOrder[instance]
+	case *StoolDiagram:
+		return stage.StoolDiagram_stagedOrder[instance]
 	case *TopEndArcShape:
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
@@ -8569,6 +8636,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShape"] = len(stage.StartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShapeGrid"] = len(stage.StartHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["StoolAbstract"] = len(stage.StoolAbstracts)
+	stage.Map_GongStructName_InstancesNb["StoolDiagram"] = len(stage.StoolDiagrams)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShape"] = len(stage.TopEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShapeGrid"] = len(stage.TopEndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopEndHalfwayArcShape"] = len(stage.TopEndHalfwayArcShapes)
@@ -16728,6 +16796,94 @@ func (stoolabstract *StoolAbstract) SetName(name string) {
 	stoolabstract.Name = name
 }
 
+// Stage puts stooldiagram to the model stage
+func (stooldiagram *StoolDiagram) Stage(stage *Stage) *StoolDiagram {
+	if _, ok := stage.StoolDiagrams[stooldiagram]; !ok {
+		stage.StoolDiagrams[stooldiagram] = struct{}{}
+		stage.StoolDiagram_stagedOrder[stooldiagram] = stage.StoolDiagramOrder
+		stage.StoolDiagram_orderStaged[stage.StoolDiagramOrder] = stooldiagram
+		stage.StoolDiagramOrder++
+	}
+	stage.StoolDiagrams_mapString[stooldiagram.Name] = stooldiagram
+
+	return stooldiagram
+}
+
+// StagePreserveOrder puts stooldiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StoolDiagramOrder
+// - update stage.StoolDiagramOrder accordingly
+func (stooldiagram *StoolDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StoolDiagrams[stooldiagram]; !ok {
+		stage.StoolDiagrams[stooldiagram] = struct{}{}
+
+		if order > stage.StoolDiagramOrder {
+			stage.StoolDiagramOrder = order
+		}
+		stage.StoolDiagram_stagedOrder[stooldiagram] = order
+		stage.StoolDiagram_orderStaged[order] = stooldiagram
+		stage.StoolDiagramOrder++
+	}
+	stage.StoolDiagrams_mapString[stooldiagram.Name] = stooldiagram
+}
+
+// Unstage removes stooldiagram off the model stage
+func (stooldiagram *StoolDiagram) Unstage(stage *Stage) *StoolDiagram {
+	delete(stage.StoolDiagrams, stooldiagram)
+	// issue1150
+	// delete(stage.StoolDiagram_stagedOrder, stooldiagram)
+	delete(stage.StoolDiagrams_mapString, stooldiagram.Name)
+
+	return stooldiagram
+}
+
+// UnstageVoid removes stooldiagram off the model stage
+func (stooldiagram *StoolDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.StoolDiagrams, stooldiagram)
+	// issue1150
+	// delete(stage.StoolDiagram_stagedOrder, stooldiagram)
+	delete(stage.StoolDiagrams_mapString, stooldiagram.Name)
+}
+
+// commit stooldiagram to the back repo (if it is already staged)
+func (stooldiagram *StoolDiagram) Commit(stage *Stage) *StoolDiagram {
+	if _, ok := stage.StoolDiagrams[stooldiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStoolDiagram(stooldiagram)
+		}
+	}
+	return stooldiagram
+}
+
+func (stooldiagram *StoolDiagram) CommitVoid(stage *Stage) {
+	stooldiagram.Commit(stage)
+}
+
+func (stooldiagram *StoolDiagram) StageVoid(stage *Stage) {
+	stooldiagram.Stage(stage)
+}
+
+// Checkout stooldiagram to the back repo (if it is already staged)
+func (stooldiagram *StoolDiagram) Checkout(stage *Stage) *StoolDiagram {
+	if _, ok := stage.StoolDiagrams[stooldiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStoolDiagram(stooldiagram)
+		}
+	}
+	return stooldiagram
+}
+
+// for satisfaction of GongStruct interface
+func (stooldiagram *StoolDiagram) GetName() (res string) {
+	return stooldiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stooldiagram *StoolDiagram) SetName(name string) {
+	stooldiagram.Name = name
+}
+
 // Stage puts topendarcshape to the model stage
 func (topendarcshape *TopEndArcShape) Stage(stage *Stage) *TopEndArcShape {
 	if _, ok := stage.TopEndArcShapes[topendarcshape]; !ok {
@@ -18846,6 +19002,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
 	CreateORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
 	CreateORMStoolAbstract(StoolAbstract *StoolAbstract)
+	CreateORMStoolDiagram(StoolDiagram *StoolDiagram)
 	CreateORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	CreateORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	CreateORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
@@ -18964,6 +19121,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
 	DeleteORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
 	DeleteORMStoolAbstract(StoolAbstract *StoolAbstract)
+	DeleteORMStoolDiagram(StoolDiagram *StoolDiagram)
 	DeleteORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	DeleteORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	DeleteORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
@@ -19450,6 +19608,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StoolAbstract_stagedOrder = make(map[*StoolAbstract]uint)
 	stage.StoolAbstractOrder = 0
 
+	stage.StoolDiagrams = make(map[*StoolDiagram]struct{})
+	stage.StoolDiagrams_mapString = make(map[string]*StoolDiagram)
+	stage.StoolDiagram_stagedOrder = make(map[*StoolDiagram]uint)
+	stage.StoolDiagramOrder = 0
+
 	stage.TopEndArcShapes = make(map[*TopEndArcShape]struct{})
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)
 	stage.TopEndArcShape_stagedOrder = make(map[*TopEndArcShape]uint)
@@ -19849,6 +20012,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.StoolAbstracts = nil
 	stage.StoolAbstracts_mapString = nil
+
+	stage.StoolDiagrams = nil
+	stage.StoolDiagrams_mapString = nil
 
 	stage.TopEndArcShapes = nil
 	stage.TopEndArcShapes_mapString = nil
@@ -20291,6 +20457,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		stoolabstract.Unstage(stage)
 	}
 
+	for stooldiagram := range stage.StoolDiagrams {
+		stooldiagram.Unstage(stage)
+	}
+
 	for topendarcshape := range stage.TopEndArcShapes {
 		topendarcshape.Unstage(stage)
 	}
@@ -20643,6 +20813,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StartHalfwayArcShapeGrids).(*Type)
 	case map[*StoolAbstract]any:
 		return any(&stage.StoolAbstracts).(*Type)
+	case map[*StoolDiagram]any:
+		return any(&stage.StoolDiagrams).(*Type)
 	case map[*TopEndArcShape]any:
 		return any(&stage.TopEndArcShapes).(*Type)
 	case map[*TopEndArcShapeGrid]any:
@@ -20885,6 +21057,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StartHalfwayArcShapeGrids_mapString).(map[string]Type)
 	case *StoolAbstract:
 		return any(stage.StoolAbstracts_mapString).(map[string]Type)
+	case *StoolDiagram:
+		return any(stage.StoolDiagrams_mapString).(map[string]Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShapes_mapString).(map[string]Type)
 	case *TopEndArcShapeGrid:
@@ -21127,6 +21301,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StartHalfwayArcShapeGrids).(*map[*Type]struct{})
 	case StoolAbstract:
 		return any(&stage.StoolAbstracts).(*map[*Type]struct{})
+	case StoolDiagram:
+		return any(&stage.StoolDiagrams).(*map[*Type]struct{})
 	case TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[*Type]struct{})
 	case TopEndArcShapeGrid:
@@ -21369,6 +21545,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StartHalfwayArcShapeGrids).(*map[Type]struct{})
 	case *StoolAbstract:
 		return any(&stage.StoolAbstracts).(*map[Type]struct{})
+	case *StoolDiagram:
+		return any(&stage.StoolDiagrams).(*map[Type]struct{})
 	case *TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[Type]struct{})
 	case *TopEndArcShapeGrid:
@@ -21611,6 +21789,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
 	case StoolAbstract:
 		return any(&stage.StoolAbstracts_mapString).(*map[string]*Type)
+	case StoolDiagram:
+		return any(&stage.StoolDiagrams_mapString).(*map[string]*Type)
 	case TopEndArcShape:
 		return any(&stage.TopEndArcShapes_mapString).(*map[string]*Type)
 	case TopEndArcShapeGrid:
@@ -21942,6 +22122,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of VaseDiagram with the name of the field
 			VaseDiagram: &VaseDiagram{Name: "VaseDiagram"},
+			// field is initialized with an instance of StoolDiagram with the name of the field
+			StoolDiagram: &StoolDiagram{Name: "StoolDiagram"},
 		}).(*Type)
 	case PointsAndLines3DShape:
 		return any(&PointsAndLines3DShape{
@@ -22176,6 +22358,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case StoolAbstract:
 		return any(&StoolAbstract{
 			// Initialisation of associations
+		}).(*Type)
+	case StoolDiagram:
+		return any(&StoolDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
 	case TopEndArcShape:
 		return any(&TopEndArcShape{
@@ -22910,6 +23098,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "StoolDiagram":
+			res := make(map[*StoolDiagram][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.StoolDiagram != nil {
+					stooldiagram_ := plantdiagram.StoolDiagram
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[stooldiagram_]
+					if ok {
+						plantdiagrams = res[stooldiagram_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[stooldiagram_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PointsAndLines3DShape
 	case PointsAndLines3DShape:
@@ -23295,6 +23500,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case StoolAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StoolDiagram
+	case StoolDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.Rendered3DShape != nil {
+					rendered3dshape_ := stooldiagram.Rendered3DShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						stooldiagrams = res[rendered3dshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[rendered3dshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
@@ -24995,6 +25222,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of StoolDiagram
+	case StoolDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
 		switch fieldname {
@@ -25377,6 +25609,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StartHalfwayArcShapeGrid"
 	case *StoolAbstract:
 		res = "StoolAbstract"
+	case *StoolDiagram:
+		res = "StoolDiagram"
 	case *TopEndArcShape:
 		res = "TopEndArcShape"
 	case *TopEndArcShapeGrid:
@@ -25843,6 +26077,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *StoolAbstract:
+		var rf ReverseField
+		_ = rf
+	case *StoolDiagram:
 		var rf ReverseField
 		_ = rf
 	case *TopEndArcShape:
@@ -27360,6 +27597,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "VaseDiagram",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "VaseDiagram",
+		},
+		{
+			Name:                 "StoolDiagram",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StoolDiagram",
 		},
 		{
 			Name:               "IsRhombusNodesExpanded",
@@ -29204,6 +29446,22 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "RadialRepetitions",
 			GongFieldValueType: GongFieldValueTypeInt,
+		},
+	}
+	return
+}
+
+func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
 		},
 	}
 	return
@@ -31784,6 +32042,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.VaseDiagram.Name
 			res.ids = plantdiagram.VaseDiagram.GongGetUUID(stage)
 		}
+	case "StoolDiagram":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.StoolDiagram != nil {
+			res.valueString = plantdiagram.StoolDiagram.Name
+			res.ids = plantdiagram.StoolDiagram.GongGetUUID(stage)
+		}
 	case "IsRhombusNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsRhombusNodesExpanded)
 		res.valueBool = plantdiagram.IsRhombusNodesExpanded
@@ -33655,6 +33919,21 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%d", stoolabstract.RadialRepetitions)
 		res.valueInt = stoolabstract.RadialRepetitions
 		res.GongFieldValueType = GongFieldValueTypeInt
+	}
+	return
+}
+
+func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stooldiagram.Name
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.Rendered3DShape != nil {
+			res.valueString = stooldiagram.Rendered3DShape.Name
+			res.ids = stooldiagram.Rendered3DShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -36157,6 +36436,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "StoolDiagram":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.StoolDiagram = nil
+			for __instance__ := range stage.StoolDiagrams {
+				if stage.StoolDiagram_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.StoolDiagram = __instance__
+					break
+				}
+			}
+		}
 	case "IsRhombusNodesExpanded":
 		plantdiagram.IsRhombusNodesExpanded = value.GetValueBool()
 	case "IsArcNodesExpanded":
@@ -37642,6 +37932,28 @@ func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value Go
 		stoolabstract.Name = value.GetValueString()
 	case "RadialRepetitions":
 		stoolabstract.RadialRepetitions = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stooldiagram.Name = value.GetValueString()
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -39177,6 +39489,10 @@ func (stoolabstract *StoolAbstract) GongGetGongstructName() string {
 	return "StoolAbstract"
 }
 
+func (stooldiagram *StoolDiagram) GongGetGongstructName() string {
+	return "StoolDiagram"
+}
+
 func (topendarcshape *TopEndArcShape) GongGetGongstructName() string {
 	return "TopEndArcShape"
 }
@@ -39734,6 +40050,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.StoolAbstracts_mapString = make(map[string]*StoolAbstract)
 	for stoolabstract := range stage.StoolAbstracts {
 		stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
+	}
+
+	stage.StoolDiagrams_mapString = make(map[string]*StoolDiagram)
+	for stooldiagram := range stage.StoolDiagrams {
+		stage.StoolDiagrams_mapString[stooldiagram.Name] = stooldiagram
 	}
 
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)

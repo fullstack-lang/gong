@@ -18,6 +18,20 @@ func (stager *Stager) enforcePlantDiagramRendered3DShape() bool {
 			plantDiagram.VaseDiagram.Rendered3DShape = shape
 			modified = true
 		}
+		if plantDiagram.StoolDiagram != nil && plantDiagram.StoolDiagram.Rendered3DShape == nil {
+			shape := (&Rendered3DShape{
+				Name:    plantDiagram.Name + "-Rendered3DShape",
+				ViewX:   300,
+				ViewY:   300,
+				ViewZ:   300,
+				TargetX: 0,
+				TargetY: 100,
+				TargetZ: 0,
+				Fov:     45,
+			}).Stage(stager.stage)
+			plantDiagram.StoolDiagram.Rendered3DShape = shape
+			modified = true
+		}
 	}
 
 	return modified

@@ -88,6 +88,9 @@ type StoolAbstract struct {
 	// The 3D torus  is construed by 2Pi/RadialRepetitions each time it ranges over the  GrowthCurve2DRibbon
 	// If ThreeDModule is 1, the 3D torus wraps 360 degrees while ranging over the GrowthCurve2DRibbon
 	RadialRepetitions int
+
+	// Transparency of the stool (between 0.0 for opaque and 1.0 for transparent)
+	Transparency float64
 }
 
 type VaseAbstract struct {

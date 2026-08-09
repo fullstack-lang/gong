@@ -283,6 +283,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *StoolAbstract:
 		ok = stage.IsStagedStoolAbstract(target)
 
+	case *StoolDiagram:
+		ok = stage.IsStagedStoolDiagram(target)
+
 	case *TopEndArcShape:
 		ok = stage.IsStagedTopEndArcShape(target)
 
@@ -637,6 +640,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StoolAbstract:
 		ok = stage.IsStagedStoolAbstract(target)
+
+	case *StoolDiagram:
+		ok = stage.IsStagedStoolDiagram(target)
 
 	case *TopEndArcShape:
 		ok = stage.IsStagedTopEndArcShape(target)
@@ -1358,6 +1364,13 @@ func (stage *Stage) IsStagedStoolAbstract(stoolabstract *StoolAbstract) (ok bool
 	return
 }
 
+func (stage *Stage) IsStagedStoolDiagram(stooldiagram *StoolDiagram) (ok bool) {
+
+	_, ok = stage.StoolDiagrams[stooldiagram]
+
+	return
+}
+
 func (stage *Stage) IsStagedTopEndArcShape(topendarcshape *TopEndArcShape) (ok bool) {
 
 	_, ok = stage.TopEndArcShapes[topendarcshape]
@@ -1802,6 +1815,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StoolAbstract:
 		stage.StageBranchStoolAbstract(target)
+
+	case *StoolDiagram:
+		stage.StageBranchStoolDiagram(target)
 
 	case *TopEndArcShape:
 		stage.StageBranchTopEndArcShape(target)
@@ -2626,6 +2642,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.VaseDiagram != nil {
 		StageBranch(stage, plantdiagram.VaseDiagram)
 	}
+	if plantdiagram.StoolDiagram != nil {
+		StageBranch(stage, plantdiagram.StoolDiagram)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -3271,6 +3290,24 @@ func (stage *Stage) StageBranchStoolAbstract(stoolabstract *StoolAbstract) {
 	stoolabstract.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchStoolDiagram(stooldiagram *StoolDiagram) {
+
+	// check if instance is already staged
+	if IsStaged(stage, stooldiagram) {
+		return
+	}
+
+	stooldiagram.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if stooldiagram.Rendered3DShape != nil {
+		StageBranch(stage, stooldiagram.Rendered3DShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -4010,6 +4047,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StoolAbstract:
 		toT := CopyBranchStoolAbstract(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StoolDiagram:
+		toT := CopyBranchStoolDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TopEndArcShape:
@@ -5054,6 +5095,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.VaseDiagram != nil {
 		plantdiagramTo.VaseDiagram = CopyBranchVaseDiagram(mapOrigCopy, plantdiagramFrom.VaseDiagram)
 	}
+	if plantdiagramFrom.StoolDiagram != nil {
+		plantdiagramTo.StoolDiagram = CopyBranchStoolDiagram(mapOrigCopy, plantdiagramFrom.StoolDiagram)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -5877,6 +5921,28 @@ func CopyBranchStoolAbstract(mapOrigCopy map[any]any, stoolabstractFrom *StoolAb
 	return
 }
 
+func CopyBranchStoolDiagram(mapOrigCopy map[any]any, stooldiagramFrom *StoolDiagram) (stooldiagramTo *StoolDiagram) {
+
+	// stooldiagramFrom has already been copied
+	if _stooldiagramTo, ok := mapOrigCopy[stooldiagramFrom]; ok {
+		stooldiagramTo = _stooldiagramTo.(*StoolDiagram)
+		return
+	}
+
+	stooldiagramTo = new(StoolDiagram)
+	mapOrigCopy[stooldiagramFrom] = stooldiagramTo
+	stooldiagramFrom.CopyBasicFields(stooldiagramTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if stooldiagramFrom.Rendered3DShape != nil {
+		stooldiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, stooldiagramFrom.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTopEndArcShape(mapOrigCopy map[any]any, topendarcshapeFrom *TopEndArcShape) (topendarcshapeTo *TopEndArcShape) {
 
 	// topendarcshapeFrom has already been copied
@@ -6609,6 +6675,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StoolAbstract:
 		stage.UnstageBranchStoolAbstract(target)
+
+	case *StoolDiagram:
+		stage.UnstageBranchStoolDiagram(target)
 
 	case *TopEndArcShape:
 		stage.UnstageBranchTopEndArcShape(target)
@@ -7433,6 +7502,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.VaseDiagram != nil {
 		UnstageBranch(stage, plantdiagram.VaseDiagram)
 	}
+	if plantdiagram.StoolDiagram != nil {
+		UnstageBranch(stage, plantdiagram.StoolDiagram)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -8083,6 +8155,24 @@ func (stage *Stage) UnstageBranchStoolAbstract(stoolabstract *StoolAbstract) {
 
 }
 
+func (stage *Stage) UnstageBranchStoolDiagram(stooldiagram *StoolDiagram) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, stooldiagram) {
+		return
+	}
+
+	stooldiagram.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if stooldiagram.Rendered3DShape != nil {
+		UnstageBranch(stage, stooldiagram.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	// check if instance is already staged
@@ -8704,6 +8794,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.VaseDiagram != nil {
 		reference.VaseDiagram = stage.VaseDiagrams_reference[instance.VaseDiagram]
 	}
+	if instance.StoolDiagram != nil {
+		reference.StoolDiagram = stage.StoolDiagrams_reference[instance.StoolDiagram]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -8919,6 +9012,14 @@ func (reference *StartHalfwayArcShapeGrid) GongReconstructPointersFromReferences
 
 func (reference *StoolAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *StoolAbstract) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *StoolDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *StoolDiagram) {
+	// insertion point for pointers field
+	if instance.Rendered3DShape != nil {
+		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -9331,6 +9432,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.VaseDiagram = _instance
 		}
 	}
+	if _reference := reference.StoolDiagram; _reference != nil {
+		reference.StoolDiagram = nil
+		if _instance, ok := stage.StoolDiagrams_instance[_reference]; ok {
+			reference.StoolDiagram = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -9546,6 +9653,17 @@ func (reference *StartHalfwayArcShapeGrid) GongReconstructPointersFromInstances(
 
 func (reference *StoolAbstract) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *StoolDiagram) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Rendered3DShape; _reference != nil {
+		reference.Rendered3DShape = nil
+		if _instance, ok := stage.Rendered3DShapes_instance[_reference]; ok {
+			reference.Rendered3DShape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -10822,6 +10940,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.VaseDiagram != nil && plantdiagramOther.VaseDiagram != nil {
 		if plantdiagram.VaseDiagram != plantdiagramOther.VaseDiagram {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "VaseDiagram"))
+		}
+	}
+	if (plantdiagram.StoolDiagram == nil) != (plantdiagramOther.StoolDiagram == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "StoolDiagram"))
+	} else if plantdiagram.StoolDiagram != nil && plantdiagramOther.StoolDiagram != nil {
+		if plantdiagram.StoolDiagram != plantdiagramOther.StoolDiagram {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "StoolDiagram"))
 		}
 	}
 	if plantdiagram.IsRhombusNodesExpanded != plantdiagramOther.IsRhombusNodesExpanded {
@@ -12208,6 +12333,24 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	}
 	if stoolabstract.RadialRepetitions != stoolabstractOther.RadialRepetitions {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *StoolDiagram) (diffs []string) {
+	// insertion point for field diffs
+	if stooldiagram.Name != stooldiagramOther.Name {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Name"))
+	}
+	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
+	} else if stooldiagram.Rendered3DShape != nil && stooldiagramOther.Rendered3DShape != nil {
+		if stooldiagram.Rendered3DShape != stooldiagramOther.Rendered3DShape {
+			diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
+		}
 	}
 
 	return

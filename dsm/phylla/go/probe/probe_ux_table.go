@@ -208,6 +208,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StartHalfwayArcShapeGrid](probe)
 	case "StoolAbstract":
 		updateProbeTable[*models.StoolAbstract](probe)
+	case "StoolDiagram":
+		updateProbeTable[*models.StoolDiagram](probe)
 	case "TopEndArcShape":
 		updateProbeTable[*models.TopEndArcShape](probe)
 	case "TopEndArcShapeGrid":

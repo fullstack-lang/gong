@@ -95,6 +95,17 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	}).Stage(stool3dStage)
 	canvas.AmbiantLight = ambiantLight
 
+	// Find checked diagram
+	var checkedDiagram *models.PlantDiagram
+	if plant != nil {
+		for _, d := range plant.PlantDiagrams {
+			if d.IsChecked {
+				checkedDiagram = d
+				break
+			}
+		}
+	}
+
 	// Camera setup
 	if hasPreservedCamera {
 		if preservedFov == 0 {
@@ -111,6 +122,19 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			TargetY: preservedTargetY,
 			TargetZ: preservedTargetZ,
 			Fov:     preservedFov,
+		}).Stage(stool3dStage)
+	} else if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && checkedDiagram.StoolDiagram.Rendered3DShape != nil {
+		canvas.Camera = (&threejs.Camera{
+			Name: "Camera",
+			Position: threejs.Position{
+				X: checkedDiagram.StoolDiagram.Rendered3DShape.ViewX,
+				Y: checkedDiagram.StoolDiagram.Rendered3DShape.ViewY,
+				Z: checkedDiagram.StoolDiagram.Rendered3DShape.ViewZ,
+			},
+			TargetX: checkedDiagram.StoolDiagram.Rendered3DShape.TargetX,
+			TargetY: checkedDiagram.StoolDiagram.Rendered3DShape.TargetY,
+			TargetZ: checkedDiagram.StoolDiagram.Rendered3DShape.TargetZ,
+			Fov:     checkedDiagram.StoolDiagram.Rendered3DShape.Fov,
 		}).Stage(stool3dStage)
 	} else {
 		camDist := globalR * 2.5
@@ -130,7 +154,16 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	}
 
 	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
-		// camera orientation preserved
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && checkedDiagram.StoolDiagram.Rendered3DShape != nil {
+			checkedDiagram.StoolDiagram.Rendered3DShape.ViewX = updatedCamera.X
+			checkedDiagram.StoolDiagram.Rendered3DShape.ViewY = updatedCamera.Y
+			checkedDiagram.StoolDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
+			checkedDiagram.StoolDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
+			checkedDiagram.StoolDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
+			checkedDiagram.StoolDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
+			checkedDiagram.StoolDiagram.Rendered3DShape.Fov = updatedCamera.Fov
+			stager.GetStage().CommitWithSuspendedCallbacks()
+		}
 	}
 
 	floorMinY := math.MaxFloat64

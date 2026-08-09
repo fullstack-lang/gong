@@ -38,8 +38,11 @@ func _(stage *models.Stage) {
 
 	__Rendered3DShape__00000000_ := (&models.Rendered3DShape{Name: `Plant 1-Rendered3DShape`}).Stage(stage)
 	__Rendered3DShape__00000001_ := (&models.Rendered3DShape{Name: `New Plant Diagram-Rendered3DShape`}).Stage(stage)
+	__Rendered3DShape__00000002_ := (&models.Rendered3DShape{Name: `New Plant - Diagram-Rendered3DShape`}).Stage(stage)
 
 	__StoolAbstract__00000000_ := (&models.StoolAbstract{Name: `Stool-StoolAbstract`}).Stage(stage)
+
+	__StoolDiagram__00000000_ := (&models.StoolDiagram{Name: `New Plant - Diagram-StoolDiagram`}).Stage(stage)
 
 	__VaseAbstract__00000000_ := (&models.VaseAbstract{Name: `Vase (2,1,104)-VaseAbstract`}).Stage(stage)
 
@@ -228,8 +231,19 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.TargetZ = -118.467669
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
+	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
+	__Rendered3DShape__00000002_.ViewX = 354.154027
+	__Rendered3DShape__00000002_.ViewY = -48.305179
+	__Rendered3DShape__00000002_.ViewZ = -269.407682
+	__Rendered3DShape__00000002_.TargetX = 0.000000
+	__Rendered3DShape__00000002_.TargetY = 100.000000
+	__Rendered3DShape__00000002_.TargetZ = 0.000000
+	__Rendered3DShape__00000002_.Fov = 45.000000
+
 	__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
 	__StoolAbstract__00000000_.RadialRepetitions = 1
+
+	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000
@@ -363,9 +377,14 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.StoolAbstract = __StoolAbstract__00000000_
 	__PlantAbstract__00000002_.PlantDiagrams = append(__PlantAbstract__00000002_.PlantDiagrams, __PlantDiagram__00000004_)
 	__PlantDiagram__00000001_.VaseDiagram = __VaseDiagram__00000000_
+	__PlantDiagram__00000001_.StoolDiagram = nil
 	__PlantDiagram__00000002_.VaseDiagram = nil
+	__PlantDiagram__00000002_.StoolDiagram = nil
 	__PlantDiagram__00000003_.VaseDiagram = __VaseDiagram__00000001_
+	__PlantDiagram__00000003_.StoolDiagram = nil
 	__PlantDiagram__00000004_.VaseDiagram = nil
+	__PlantDiagram__00000004_.StoolDiagram = __StoolDiagram__00000000_
+	__StoolDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000002_
 	__VaseDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000000_
 	__VaseDiagram__00000000_.SampledPoints3DShape = nil
 	__VaseDiagram__00000000_.OriginalPoints3DShape = nil

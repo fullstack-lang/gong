@@ -6,7 +6,8 @@ type PlantDiagram struct {
 	OriginX float64
 	OriginY float64
 
-	VaseDiagram *VaseDiagram
+	VaseDiagram  *VaseDiagram
+	StoolDiagram *StoolDiagram
 
 	IsRhombusNodesExpanded bool
 	IsArcNodesExpanded     bool

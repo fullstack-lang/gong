@@ -2449,6 +2449,17 @@ func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	to.RadialRepetitions = from.RadialRepetitions
 }
 
+type StoolDiagram_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type TopEndArcShape_WOP struct {
 	// insertion point
 
