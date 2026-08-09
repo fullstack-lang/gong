@@ -24,6 +24,16 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.Name = plantDiagram.Name + "-StoolDiagram"
 				modified = true
 			}
+			if plantDiagram.StoolDiagram.SeatTopCurveShape == nil {
+				s := (&SeatTopCurveShape{
+					Name: plantDiagram.Name + "-SeatTopCurveShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.SeatTopCurveShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.SeatTopCurveShape.Name != plantDiagram.Name+"-SeatTopCurveShape" {
+				plantDiagram.StoolDiagram.SeatTopCurveShape.Name = plantDiagram.Name + "-SeatTopCurveShape"
+				modified = true
+			}
 			if plantDiagram.StoolDiagram.PartiallyRotatedTorusShape == nil {
 				ts := (&PartiallyRotatedTorusShape{
 					Name: plantDiagram.Name + "-PartiallyRotatedTorusShape",

@@ -138,6 +138,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.RotatedRhombusShape](probe)
 	case "SampledPoints3DShape":
 		updateProbeTable[*models.SampledPoints3DShape](probe)
+	case "SeatTopCurveShape":
+		updateProbeTable[*models.SeatTopCurveShape](probe)
 	case "ShiftedBottomTopStartArcShape":
 		updateProbeTable[*models.ShiftedBottomTopStartArcShape](probe)
 	case "ShiftedBottomTopStartArcShapeGrid":

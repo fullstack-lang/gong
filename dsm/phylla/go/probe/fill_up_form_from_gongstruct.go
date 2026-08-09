@@ -760,6 +760,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.SeatTopCurveShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "SeatTopCurveShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SeatTopCurveShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ShiftedBottomTopStartArcShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
