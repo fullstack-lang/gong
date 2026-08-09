@@ -326,6 +326,18 @@ func (stager *Stager) ux_slider() {
 	stager.sliderStage.Commit()
 }
 
+type StoolSliderTarget struct {
+	stager *Stager
+}
+
+func (t *StoolSliderTarget) GetSliderStage() *m.Stage {
+	return t.stager.sliderStoolStage
+}
+
+func (t *StoolSliderTarget) OnAfterUpdateSliderElement() {
+	t.stager.OnAfterUpdateSliderElement()
+}
+
 func (stager *Stager) ux_slider_stool() {
 	plant := stager.selectedPlant
 	if plant == nil {
@@ -345,10 +357,72 @@ func (stager *Stager) ux_slider_stool() {
 	group1.Percentage = 65
 	layout.Groups = append(layout.Groups, group1)
 
+	target := &StoolSliderTarget{stager: stager}
+
 	group1.Sliders = append(
 		group1.Sliders,
 		m.NewSlider(
-			stager,
+			target,
+			"N",
+			1,
+			20,
+			1,
+			&plant.N,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"M",
+			1,
+			20,
+			1,
+			&plant.M,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Side Length",
+			5,
+			600,
+			5,
+			&plant.RhombusSideLength,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Inside Angle",
+			0,
+			180,
+			1,
+			&plant.RhombusInsideAngle,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Stack Height",
+			0,
+			20,
+			1,
+			&plant.StackHeight,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
 			"Radial Repetition",
 			1,
 			10,
@@ -366,6 +440,7 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.ux_tree()
 	stager.ux_svg_plant_diagram()
 	stager.UpdateThreeJSStage()
+	stager.UpdateStool3DStage()
 
 	stager.stage.CommitWithSuspendedCallbacks()
 }

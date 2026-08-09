@@ -64,7 +64,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.PlantType = models.Vase
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
-	__PlantAbstract__00000000_.IsExpanded = false
+	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = false
 	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
@@ -88,7 +88,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.RhombusInsideAngle = 117.000000
 	__PlantAbstract__00000002_.RhombusSideLength = 150.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
-	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
+	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
 	__PlantAbstract__00000002_.IsExpanded = true
 	__PlantAbstract__00000002_.IsSelected = true
@@ -211,13 +211,13 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000004_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = -1323.395150
-	__Rendered3DShape__00000000_.ViewY = 1918.131191
-	__Rendered3DShape__00000000_.ViewZ = 1209.075444
-	__Rendered3DShape__00000000_.TargetX = -46.083604
-	__Rendered3DShape__00000000_.TargetY = 346.826909
-	__Rendered3DShape__00000000_.TargetZ = -118.467669
-	__Rendered3DShape__00000000_.Fov = 45.000000
+	__Rendered3DShape__00000000_.ViewX = 1624.706478
+	__Rendered3DShape__00000000_.ViewY = 752.420556
+	__Rendered3DShape__00000000_.ViewZ = 1624.706478
+	__Rendered3DShape__00000000_.TargetX = 0.000000
+	__Rendered3DShape__00000000_.TargetY = 102.537965
+	__Rendered3DShape__00000000_.TargetZ = 0.000000
+	__Rendered3DShape__00000000_.Fov = 50.000000
 
 	__Rendered3DShape__00000001_.Name = `New Plant Diagram-Rendered3DShape`
 	__Rendered3DShape__00000001_.ViewX = -1323.528567

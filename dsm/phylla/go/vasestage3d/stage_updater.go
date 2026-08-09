@@ -19,7 +19,6 @@ func NewThreeJSStageUpdater() *ThreeJSStageUpdater {
 
 func (u *ThreeJSStageUpdater) UpdateThreeJSStage(stager *models.Stager) {
 	u.ux_3d_plant_diagram(stager)
-	u.ux_3d_stool(stager)
 }
 
 func (u *ThreeJSStageUpdater) StartMovieRecording(stager *models.Stager, plant *models.PlantAbstract, plantDiagram *models.PlantDiagram) {

@@ -41,6 +41,10 @@ type ThreeJSStageUpdaterInterface interface {
 	GetMovieRecordingFrameCount() int
 }
 
+type Stool3DStageUpdaterInterface interface {
+	UpdateStool3DStage(stager *Stager)
+}
+
 type Stager struct {
 	stage      *Stage
 	splitStage *split.Stage
@@ -76,6 +80,7 @@ type Stager struct {
 	selectedPlant *PlantAbstract
 
 	threeJSUpdater ThreeJSStageUpdaterInterface
+	stool3DUpdater Stool3DStageUpdaterInterface
 
 	// maps
 	m_Plant_Library map[*PlantAbstract]*Library
@@ -87,6 +92,7 @@ func NewStager(
 	probeForm ProbeIF,
 	persistanceFile string,
 	threeJSUpdater ThreeJSStageUpdaterInterface,
+	stool3DUpdater Stool3DStageUpdaterInterface,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -95,6 +101,7 @@ func NewStager(
 	stager.probeForm = probeForm
 	stager.persistanceFile = persistanceFile
 	stager.threeJSUpdater = threeJSUpdater
+	stager.stool3DUpdater = stool3DUpdater
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
@@ -131,6 +138,7 @@ func NewStager(
 		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
 		stager.UpdateThreeJSStage()
+		stager.UpdateStool3DStage()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
@@ -167,6 +175,16 @@ func (stager *Stager) SetThreeJSUpdater(updater ThreeJSStageUpdaterInterface) {
 func (stager *Stager) UpdateThreeJSStage() {
 	if stager.threeJSUpdater != nil {
 		stager.threeJSUpdater.UpdateThreeJSStage(stager)
+	}
+}
+
+func (stager *Stager) SetStool3DUpdater(updater Stool3DStageUpdaterInterface) {
+	stager.stool3DUpdater = updater
+}
+
+func (stager *Stager) UpdateStool3DStage() {
+	if stager.stool3DUpdater != nil {
+		stager.stool3DUpdater.UpdateStool3DStage(stager)
 	}
 }
 
