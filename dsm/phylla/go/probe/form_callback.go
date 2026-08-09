@@ -5558,6 +5558,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(plantabstract_.PlantType), formDiv)
 		case "VaseAbstract":
 			FormDivSelectFieldToField(&(plantabstract_.VaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StoolAbstract":
+			FormDivSelectFieldToField(&(plantabstract_.StoolAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "CurrentView":
 			FormDivEnumStringFieldToField(&(plantabstract_.CurrentView), formDiv)
 		case "ComputedPrefix":
@@ -11427,6 +11429,86 @@ func (starthalfwayarcshapegridFormCallback *StartHalfwayArcShapeGridFormCallback
 	}
 
 	starthalfwayarcshapegridFormCallback.probe.ux_tree()
+}
+func __gong__New__StoolAbstractFormCallback(
+	stoolabstract *models.StoolAbstract,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stoolabstractFormCallback *StoolAbstractFormCallback) {
+	stoolabstractFormCallback = new(StoolAbstractFormCallback)
+	stoolabstractFormCallback.probe = probe
+	stoolabstractFormCallback.stoolabstract = stoolabstract
+	stoolabstractFormCallback.formGroup = formGroup
+
+	stoolabstractFormCallback.CreationMode = (stoolabstract == nil)
+
+	return
+}
+
+type StoolAbstractFormCallback struct {
+	stoolabstract *models.StoolAbstract
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
+	stoolabstractFormCallback.probe.stageOfInterest.Lock()
+	defer stoolabstractFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StoolAbstractFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stoolabstractFormCallback.probe.formStage.Checkout()
+
+	if stoolabstractFormCallback.stoolabstract == nil {
+		stoolabstractFormCallback.stoolabstract = new(models.StoolAbstract).Stage(stoolabstractFormCallback.probe.stageOfInterest)
+	}
+	stoolabstract_ := stoolabstractFormCallback.stoolabstract
+	_ = stoolabstract_
+
+	for _, formDiv := range stoolabstractFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stoolabstract_.Name), formDiv)
+		case "RadialRepetitions":
+			FormDivBasicFieldToField(&(stoolabstract_.RadialRepetitions), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if stoolabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stoolabstract_.Unstage(stoolabstractFormCallback.probe.stageOfInterest)
+	}
+
+	stoolabstractFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StoolAbstract](
+		stoolabstractFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stoolabstractFormCallback.CreationMode || stoolabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stoolabstractFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stoolabstractFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StoolAbstractFormCallback(
+			nil,
+			stoolabstractFormCallback.probe,
+			newFormGroup,
+		)
+		stoolabstract := new(models.StoolAbstract)
+		FillUpForm(stoolabstract, newFormGroup, stoolabstractFormCallback.probe)
+		stoolabstractFormCallback.probe.formStage.Commit()
+	}
+
+	stoolabstractFormCallback.probe.ux_tree()
 }
 func __gong__New__TopEndArcShapeFormCallback(
 	topendarcshape *models.TopEndArcShape,

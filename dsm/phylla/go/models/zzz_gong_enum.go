@@ -266,6 +266,8 @@ func (viewtype ViewType) ToString() (res string) {
 		res = "Vase 2D"
 	case VIEW_VASE_3D:
 		res = "Vase 3D"
+	case VIEW_STOOL_3D:
+		res = "Stool 3D"
 	}
 	return
 }
@@ -286,6 +288,9 @@ func (viewtype *ViewType) FromString(input string) (err error) {
 	case "Vase 3D":
 		*viewtype = VIEW_VASE_3D
 		return
+	case "Stool 3D":
+		*viewtype = VIEW_STOOL_3D
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -303,6 +308,8 @@ func (viewtype *ViewType) FromCodeString(input string) (err error) {
 		*viewtype = VIEW_VASE_2D
 	case "VIEW_VASE_3D":
 		*viewtype = VIEW_VASE_3D
+	case "VIEW_STOOL_3D":
+		*viewtype = VIEW_STOOL_3D
 	default:
 		err = errUnkownEnum
 	}
@@ -321,6 +328,8 @@ func (viewtype *ViewType) ToCodeString() (res string) {
 		res = "VIEW_VASE_2D"
 	case VIEW_VASE_3D:
 		res = "VIEW_VASE_3D"
+	case VIEW_STOOL_3D:
+		res = "VIEW_STOOL_3D"
 	}
 	return
 }
@@ -334,6 +343,7 @@ func (viewtype ViewType) Codes() (res []string) {
 	res = append(res, "VIEW_VASE_FORM")
 	res = append(res, "VIEW_VASE_2D")
 	res = append(res, "VIEW_VASE_3D")
+	res = append(res, "VIEW_STOOL_3D")
 
 	return
 }
@@ -347,6 +357,7 @@ func (viewtype ViewType) CodeValues() (res []string) {
 	res = append(res, "Vase Form")
 	res = append(res, "Vase 2D")
 	res = append(res, "Vase 3D")
+	res = append(res, "Stool 3D")
 
 	return
 }

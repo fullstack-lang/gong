@@ -29,13 +29,17 @@ func _(stage *models.Stage) {
 
 	__PlantAbstract__00000000_ := (&models.PlantAbstract{Name: `Vase (2,1,104)`}).Stage(stage)
 	__PlantAbstract__00000001_ := (&models.PlantAbstract{Name: `Plant (3, 5, 100)`}).Stage(stage)
+	__PlantAbstract__00000002_ := (&models.PlantAbstract{Name: `Stool`}).Stage(stage)
 
 	__PlantDiagram__00000001_ := (&models.PlantDiagram{Name: `Plant 1`}).Stage(stage)
 	__PlantDiagram__00000002_ := (&models.PlantDiagram{Name: `New Plant - Diagram`}).Stage(stage)
 	__PlantDiagram__00000003_ := (&models.PlantDiagram{Name: `Vase arcs`}).Stage(stage)
+	__PlantDiagram__00000004_ := (&models.PlantDiagram{Name: `New Plant - Diagram`}).Stage(stage)
 
 	__Rendered3DShape__00000000_ := (&models.Rendered3DShape{Name: `Plant 1-Rendered3DShape`}).Stage(stage)
 	__Rendered3DShape__00000001_ := (&models.Rendered3DShape{Name: `New Plant Diagram-Rendered3DShape`}).Stage(stage)
+
+	__StoolAbstract__00000000_ := (&models.StoolAbstract{Name: `Stool-StoolAbstract`}).Stage(stage)
 
 	__VaseAbstract__00000000_ := (&models.VaseAbstract{Name: `Vase (2,1,104)-VaseAbstract`}).Stage(stage)
 
@@ -58,11 +62,11 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_2D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
-	__PlantAbstract__00000000_.IsExpanded = true
+	__PlantAbstract__00000000_.IsExpanded = false
 	__PlantAbstract__00000000_.IsSelected = false
-	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = false
+	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantAbstract__00000001_.Name = `Plant (3, 5, 100)`
 	__PlantAbstract__00000001_.N = 2
@@ -73,9 +77,22 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.PlantType = models.Plant
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
-	__PlantAbstract__00000001_.IsExpanded = true
-	__PlantAbstract__00000001_.IsSelected = true
+	__PlantAbstract__00000001_.IsExpanded = false
+	__PlantAbstract__00000001_.IsSelected = false
 	__PlantAbstract__00000001_.IsPlantDiagramsNodeExpanded = false
+
+	__PlantAbstract__00000002_.Name = `Stool`
+	__PlantAbstract__00000002_.N = 2
+	__PlantAbstract__00000002_.M = 3
+	__PlantAbstract__00000002_.StackHeight = 3
+	__PlantAbstract__00000002_.RhombusInsideAngle = 117.000000
+	__PlantAbstract__00000002_.RhombusSideLength = 150.000000
+	__PlantAbstract__00000002_.PlantType = models.Stool
+	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
+	__PlantAbstract__00000002_.ComputedPrefix = ``
+	__PlantAbstract__00000002_.IsExpanded = true
+	__PlantAbstract__00000002_.IsSelected = true
+	__PlantAbstract__00000002_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
 	__PlantDiagram__00000001_.OriginX = 424.918010
@@ -131,7 +148,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000002_.IsHiddenEndArcShapeGrid = true
 	__PlantDiagram__00000002_.IsHiddenGrowthCurve2D = false
 	__PlantDiagram__00000002_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
-	__PlantDiagram__00000002_.IsChecked = true
+	__PlantDiagram__00000002_.IsChecked = false
 	__PlantDiagram__00000002_.ComputedPrefix = ``
 	__PlantDiagram__00000002_.IsExpanded = false
 
@@ -162,7 +179,36 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000003_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
 	__PlantDiagram__00000003_.IsChecked = false
 	__PlantDiagram__00000003_.ComputedPrefix = ``
-	__PlantDiagram__00000003_.IsExpanded = true
+	__PlantDiagram__00000003_.IsExpanded = false
+
+	__PlantDiagram__00000004_.Name = `New Plant - Diagram`
+	__PlantDiagram__00000004_.OriginX = 280.000000
+	__PlantDiagram__00000004_.OriginY = 950.000000
+	__PlantDiagram__00000004_.IsRhombusNodesExpanded = false
+	__PlantDiagram__00000004_.IsArcNodesExpanded = false
+	__PlantDiagram__00000004_.IsHiddenAxesShape = false
+	__PlantDiagram__00000004_.IsHiddenReferenceRhombus = true
+	__PlantDiagram__00000004_.IsHiddenPlantCircumferenceShape = true
+	__PlantDiagram__00000004_.IsHiddenGridPathShape = true
+	__PlantDiagram__00000004_.IsHiddenRhombusGridShape = true
+	__PlantDiagram__00000004_.IsHiddenExplanationTextShape = true
+	__PlantDiagram__00000004_.IsHiddenRotatedReferenceRhombus = true
+	__PlantDiagram__00000004_.IsHiddenRotatedPlantCircumferenceShape = true
+	__PlantDiagram__00000004_.IsHiddenRotatedGridPathShape = true
+	__PlantDiagram__00000004_.IsHiddenRotatedRhombusGridShape = true
+	__PlantDiagram__00000004_.IsHiddenGrowthPathRhombusGridShape = true
+	__PlantDiagram__00000004_.IsHiddenGrowthVectorShape = true
+	__PlantDiagram__00000004_.IsHiddenPerpendicularVectorGrid = true
+	__PlantDiagram__00000004_.IsHiddenBaseVectorShapeGrid = true
+	__PlantDiagram__00000004_.IsHiddenArcNormalVectorShapeGrid = true
+	__PlantDiagram__00000004_.IsHiddenStartArcShapeGrid = true
+	__PlantDiagram__00000004_.IsHiddenMidArcVectorShapeGrid = true
+	__PlantDiagram__00000004_.IsHiddenEndArcShapeGrid = true
+	__PlantDiagram__00000004_.IsHiddenGrowthCurve2D = false
+	__PlantDiagram__00000004_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
+	__PlantDiagram__00000004_.IsChecked = true
+	__PlantDiagram__00000004_.ComputedPrefix = ``
+	__PlantDiagram__00000004_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
 	__Rendered3DShape__00000000_.ViewX = -1323.395150
@@ -181,6 +227,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.TargetY = 346.826909
 	__Rendered3DShape__00000001_.TargetZ = -118.467669
 	__Rendered3DShape__00000001_.Fov = 45.000000
+
+	__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
+	__StoolAbstract__00000000_.RadialRepetitions = 1
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000
@@ -302,14 +351,21 @@ func _(stage *models.Stage) {
 	// insertion point for setup of pointers
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000000_)
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000001_)
+	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __PlantAbstract__00000002_)
 	__PlantAbstract__00000000_.VaseAbstract = __VaseAbstract__00000000_
+	__PlantAbstract__00000000_.StoolAbstract = nil
 	__PlantAbstract__00000000_.PlantDiagrams = append(__PlantAbstract__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
 	__PlantAbstract__00000000_.PlantDiagrams = append(__PlantAbstract__00000000_.PlantDiagrams, __PlantDiagram__00000003_)
 	__PlantAbstract__00000001_.VaseAbstract = nil
+	__PlantAbstract__00000001_.StoolAbstract = nil
 	__PlantAbstract__00000001_.PlantDiagrams = append(__PlantAbstract__00000001_.PlantDiagrams, __PlantDiagram__00000002_)
+	__PlantAbstract__00000002_.VaseAbstract = nil
+	__PlantAbstract__00000002_.StoolAbstract = __StoolAbstract__00000000_
+	__PlantAbstract__00000002_.PlantDiagrams = append(__PlantAbstract__00000002_.PlantDiagrams, __PlantDiagram__00000004_)
 	__PlantDiagram__00000001_.VaseDiagram = __VaseDiagram__00000000_
 	__PlantDiagram__00000002_.VaseDiagram = nil
 	__PlantDiagram__00000003_.VaseDiagram = __VaseDiagram__00000001_
+	__PlantDiagram__00000004_.VaseDiagram = nil
 	__VaseDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000000_
 	__VaseDiagram__00000000_.SampledPoints3DShape = nil
 	__VaseDiagram__00000000_.OriginalPoints3DShape = nil

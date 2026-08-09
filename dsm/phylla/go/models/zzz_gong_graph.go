@@ -280,6 +280,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *StartHalfwayArcShapeGrid:
 		ok = stage.IsStagedStartHalfwayArcShapeGrid(target)
 
+	case *StoolAbstract:
+		ok = stage.IsStagedStoolAbstract(target)
+
 	case *TopEndArcShape:
 		ok = stage.IsStagedTopEndArcShape(target)
 
@@ -631,6 +634,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StartHalfwayArcShapeGrid:
 		ok = stage.IsStagedStartHalfwayArcShapeGrid(target)
+
+	case *StoolAbstract:
+		ok = stage.IsStagedStoolAbstract(target)
 
 	case *TopEndArcShape:
 		ok = stage.IsStagedTopEndArcShape(target)
@@ -1345,6 +1351,13 @@ func (stage *Stage) IsStagedStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *S
 	return
 }
 
+func (stage *Stage) IsStagedStoolAbstract(stoolabstract *StoolAbstract) (ok bool) {
+
+	_, ok = stage.StoolAbstracts[stoolabstract]
+
+	return
+}
+
 func (stage *Stage) IsStagedTopEndArcShape(topendarcshape *TopEndArcShape) (ok bool) {
 
 	_, ok = stage.TopEndArcShapes[topendarcshape]
@@ -1786,6 +1799,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StartHalfwayArcShapeGrid:
 		stage.StageBranchStartHalfwayArcShapeGrid(target)
+
+	case *StoolAbstract:
+		stage.StageBranchStoolAbstract(target)
 
 	case *TopEndArcShape:
 		stage.StageBranchTopEndArcShape(target)
@@ -2571,6 +2587,9 @@ func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	if plantabstract.VaseAbstract != nil {
 		StageBranch(stage, plantabstract.VaseAbstract)
 	}
+	if plantabstract.StoolAbstract != nil {
+		StageBranch(stage, plantabstract.StoolAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantabstract.PlantDiagrams {
@@ -3235,6 +3254,21 @@ func (stage *Stage) StageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegrid
 	}
 
 	starthalfwayarcshapegrid.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchStoolAbstract(stoolabstract *StoolAbstract) {
+
+	// check if instance is already staged
+	if IsStaged(stage, stoolabstract) {
+		return
+	}
+
+	stoolabstract.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3972,6 +4006,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StartHalfwayArcShapeGrid:
 		toT := CopyBranchStartHalfwayArcShapeGrid(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *StoolAbstract:
+		toT := CopyBranchStoolAbstract(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TopEndArcShape:
@@ -4969,6 +5007,9 @@ func CopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *PlantAb
 	if plantabstractFrom.VaseAbstract != nil {
 		plantabstractTo.VaseAbstract = CopyBranchVaseAbstract(mapOrigCopy, plantabstractFrom.VaseAbstract)
 	}
+	if plantabstractFrom.StoolAbstract != nil {
+		plantabstractTo.StoolAbstract = CopyBranchStoolAbstract(mapOrigCopy, plantabstractFrom.StoolAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantabstractFrom.PlantDiagrams {
@@ -5817,6 +5858,25 @@ func CopyBranchStartHalfwayArcShapeGrid(mapOrigCopy map[any]any, starthalfwayarc
 	return
 }
 
+func CopyBranchStoolAbstract(mapOrigCopy map[any]any, stoolabstractFrom *StoolAbstract) (stoolabstractTo *StoolAbstract) {
+
+	// stoolabstractFrom has already been copied
+	if _stoolabstractTo, ok := mapOrigCopy[stoolabstractFrom]; ok {
+		stoolabstractTo = _stoolabstractTo.(*StoolAbstract)
+		return
+	}
+
+	stoolabstractTo = new(StoolAbstract)
+	mapOrigCopy[stoolabstractFrom] = stoolabstractTo
+	stoolabstractFrom.CopyBasicFields(stoolabstractTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTopEndArcShape(mapOrigCopy map[any]any, topendarcshapeFrom *TopEndArcShape) (topendarcshapeTo *TopEndArcShape) {
 
 	// topendarcshapeFrom has already been copied
@@ -6546,6 +6606,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StartHalfwayArcShapeGrid:
 		stage.UnstageBranchStartHalfwayArcShapeGrid(target)
+
+	case *StoolAbstract:
+		stage.UnstageBranchStoolAbstract(target)
 
 	case *TopEndArcShape:
 		stage.UnstageBranchTopEndArcShape(target)
@@ -7331,6 +7394,9 @@ func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	if plantabstract.VaseAbstract != nil {
 		UnstageBranch(stage, plantabstract.VaseAbstract)
 	}
+	if plantabstract.StoolAbstract != nil {
+		UnstageBranch(stage, plantabstract.StoolAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantabstract.PlantDiagrams {
@@ -8002,6 +8068,21 @@ func (stage *Stage) UnstageBranchStartHalfwayArcShapeGrid(starthalfwayarcshapegr
 
 }
 
+func (stage *Stage) UnstageBranchStoolAbstract(stoolabstract *StoolAbstract) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, stoolabstract) {
+		return
+	}
+
+	stoolabstract.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	// check if instance is already staged
@@ -8603,6 +8684,9 @@ func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Sta
 	if instance.VaseAbstract != nil {
 		reference.VaseAbstract = stage.VaseAbstracts_reference[instance.VaseAbstract]
 	}
+	if instance.StoolAbstract != nil {
+		reference.StoolAbstract = stage.StoolAbstracts_reference[instance.StoolAbstract]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
@@ -8829,6 +8913,11 @@ func (reference *StartHalfwayArcShape) GongReconstructPointersFromReferences(sta
 }
 
 func (reference *StartHalfwayArcShapeGrid) GongReconstructPointersFromReferences(stage *Stage, instance *StartHalfwayArcShapeGrid) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *StoolAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *StoolAbstract) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -9213,6 +9302,12 @@ func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stag
 			reference.VaseAbstract = _instance
 		}
 	}
+	if _reference := reference.StoolAbstract; _reference != nil {
+		reference.StoolAbstract = nil
+		if _instance, ok := stage.StoolAbstracts_instance[_reference]; ok {
+			reference.StoolAbstract = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
@@ -9445,6 +9540,11 @@ func (reference *StartHalfwayArcShape) GongReconstructPointersFromInstances(stag
 }
 
 func (reference *StartHalfwayArcShapeGrid) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *StoolAbstract) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10638,6 +10738,13 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 	} else if plantabstract.VaseAbstract != nil && plantabstractOther.VaseAbstract != nil {
 		if plantabstract.VaseAbstract != plantabstractOther.VaseAbstract {
 			diffs = append(diffs, plantabstract.GongMarshallField(stage, "VaseAbstract"))
+		}
+	}
+	if (plantabstract.StoolAbstract == nil) != (plantabstractOther.StoolAbstract == nil) {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "StoolAbstract"))
+	} else if plantabstract.StoolAbstract != nil && plantabstractOther.StoolAbstract != nil {
+		if plantabstract.StoolAbstract != plantabstractOther.StoolAbstract {
+			diffs = append(diffs, plantabstract.GongMarshallField(stage, "StoolAbstract"))
 		}
 	}
 	if plantabstract.CurrentView != plantabstractOther.CurrentView {
@@ -12087,6 +12194,20 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongDiff(stage *Stage,
 	// insertion point for field diffs
 	if starthalfwayarcshapegrid.Name != starthalfwayarcshapegridOther.Name {
 		diffs = append(diffs, starthalfwayarcshapegrid.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *StoolAbstract) (diffs []string) {
+	// insertion point for field diffs
+	if stoolabstract.Name != stoolabstractOther.Name {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "Name"))
+	}
+	if stoolabstract.RadialRepetitions != stoolabstractOther.RadialRepetitions {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
 	}
 
 	return

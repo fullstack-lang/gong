@@ -41,10 +41,15 @@ func (stager *Stager) createViews() {
 
 	currentView := VIEW_PLANT_2D
 	plant := stager.GetCurrentPlant()
-	isVase := (plant == nil || plant.PlantType == Vase)
+	isVase := (plant != nil && plant.PlantType == Vase)
+	isStool := (plant != nil && plant.PlantType == Stool)
 
 	if plant != nil {
-		if !isVase && plant.CurrentView != VIEW_PLANT_2D {
+		if plant.PlantType == Plant && plant.CurrentView != VIEW_PLANT_2D {
+			plant.CurrentView = VIEW_PLANT_2D
+		} else if plant.PlantType == Stool && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D {
+			plant.CurrentView = VIEW_PLANT_2D
+		} else if plant.PlantType == Vase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D {
 			plant.CurrentView = VIEW_PLANT_2D
 		}
 		if plant.CurrentView != "" {
@@ -58,13 +63,15 @@ func (stager *Stager) createViews() {
 	view1Name := string(VIEW_VASE_FORM)
 	view2Name := string(VIEW_VASE_2D)
 	view3Name := string(VIEW_VASE_3D)
+	viewStool3DName := string(VIEW_STOOL_3D)
 
 	isView0Selected := (currentView == VIEW_PLANT_2D)
 	isView1Selected := (currentView == VIEW_VASE_FORM)
 	isView2Selected := (currentView == VIEW_VASE_2D)
 	isView3Selected := (currentView == VIEW_VASE_3D)
+	isViewStool3DSelected := (currentView == VIEW_STOOL_3D)
 
-	if !isView0Selected && !isView1Selected && !isView2Selected && !isView3Selected {
+	if !isView0Selected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected {
 		isView0Selected = true
 	}
 
@@ -361,6 +368,78 @@ func (stager *Stager) createViews() {
 		}
 	}
 
+	if isStool {
+		vStool := &split.View{
+			Name:           viewStool3DName,
+			Direction:      split.Horizontal,
+			IsSizeInPixel:  true,
+			IsSelectedView: isViewStool3DSelected,
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Name:             "Sidebar with both trees",
+					ShowNameInHeader: false,
+					IsAny:            true,
+					AsSplit: &split.AsSplit{
+						Name:          "as split",
+						IsSizeInPixel: true,
+						Direction:     split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 525,
+								AsSplit: &split.AsSplit{
+									Direction: split.Vertical,
+									AsSplitAreas: []*split.AsSplitArea{
+										{
+											Name:             "Libraries",
+											Size:             80,
+											ShowNameInHeader: false,
+											Tree: &split.Tree{
+												StackName: stager.treeStage3D.GetName(),
+											},
+										},
+										{
+											Size: 10,
+											Load: &split.Load{
+												StackName: stager.loadStage.GetName(),
+											},
+										},
+										{
+											Size: 10,
+											Button: &split.Button{
+												StackName: stager.buttonStage.GetName(),
+											},
+										},
+									},
+								},
+							},
+							{
+								IsAny: true,
+								Threejs: &split.Threejs{
+									StackName: stager.stool3dStage.GetName(),
+								},
+							},
+						},
+					},
+				},
+				{
+					Size: 585,
+					Slider: &split.Slider{
+						StackName: stager.sliderStoolStage.GetName(),
+					},
+				},
+			},
+		}
+		split.StageBranch(stager.splitStage, vStool)
+		vStool.OnClick = func() {
+			plant := stager.GetCurrentPlant()
+			if plant != nil && plant.CurrentView != VIEW_STOOL_3D {
+				plant.CurrentView = VIEW_STOOL_3D
+				stager.stage.Commit()
+			}
+			stager.UpdateThreeJSStage()
+		}
+	}
+
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -427,6 +506,30 @@ func (stager *Stager) createViews() {
 			{
 				Split: &split.Split{
 					StackName: stager.threejsStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "stool3d Probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.stool3dStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "sliderStool Probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.sliderStoolStage.GetProbeSplitStageName(),
 				},
 			},
 		},

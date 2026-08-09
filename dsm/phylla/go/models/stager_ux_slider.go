@@ -326,6 +326,40 @@ func (stager *Stager) ux_slider() {
 	stager.sliderStage.Commit()
 }
 
+func (stager *Stager) ux_slider_stool() {
+	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
+
+	stager.sliderStoolStage.Reset()
+
+	if plant == nil || plant.PlantType != Stool || plant.StoolAbstract == nil {
+		stager.sliderStoolStage.Commit()
+		return
+	}
+
+	layout := new(m.Layout).Stage(stager.sliderStoolStage)
+
+	group1 := new(m.Group).Stage(stager.sliderStoolStage)
+	group1.Percentage = 65
+	layout.Groups = append(layout.Groups, group1)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			stager,
+			"Radial Repetition",
+			1,
+			10,
+			1,
+			&plant.StoolAbstract.RadialRepetitions,
+		),
+	)
+
+	stager.sliderStoolStage.Commit()
+}
+
 func (stager *Stager) OnAfterUpdateSliderElement() {
 
 	stager.enforceSemantic()

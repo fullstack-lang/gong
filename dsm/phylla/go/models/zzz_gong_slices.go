@@ -314,6 +314,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct StartHalfwayArcShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct StoolAbstract
+	// insertion point per field
+
 	// Compute reverse map for named struct TopEndArcShape
 	// insertion point per field
 
@@ -749,6 +752,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StartHalfwayArcShapeGrids {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StoolAbstracts {
 		res = append(res, instance)
 	}
 
@@ -1391,6 +1398,12 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongCopy() GongstructIF {
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(StartHalfwayArcShapeGrid)
 	starthalfwayarcshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stoolabstract *StoolAbstract) GongCopy() GongstructIF {
+	newInstance := new(StoolAbstract)
+	stoolabstract.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2443,6 +2456,16 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetUUID(stage *Sta
 	return
 }
 
+func (stoolabstract *StoolAbstract) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stoolabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stoolabstract), uint64(GetOrderPointerGongstruct(stage, stoolabstract)))
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(topendarcshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -3076,6 +3099,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(sampledpoints3dshapes_newInstances)
 	lenDeletedInstances += len(sampledpoints3dshapes_deletedInstances)
+	var stoolabstracts_newInstances []*StoolAbstract
+	var stoolabstracts_deletedInstances []*StoolAbstract
+
+	// parse all staged instances and check if they have a reference
+	for stoolabstract := range stage.StoolAbstracts {
+		if ref, ok := stage.StoolAbstracts_reference[stoolabstract]; !ok {
+			stoolabstracts_newInstances = append(stoolabstracts_newInstances, stoolabstract)
+			newInstancesSlice = append(newInstancesSlice, stoolabstract.GongMarshallIdentifier(stage))
+			if stage.StoolAbstracts_referenceOrder == nil {
+				stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint)
+			}
+			stage.StoolAbstracts_referenceOrder[stoolabstract] = stage.StoolAbstract_stagedOrder[stoolabstract]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stoolabstract.GongMarshallUnstaging(stage))
+			// delete(stage.StoolAbstracts_referenceOrder, stoolabstract)
+			fieldInitializers, pointersInitializations := stoolabstract.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.StoolAbstract_stagedOrder[ref] = stage.StoolAbstract_stagedOrder[stoolabstract]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stoolabstract.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stoolabstract)
+			// delete(stage.StoolAbstract_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stoolabstract.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stoolabstract.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.StoolAbstracts_reference {
+		instance := stage.StoolAbstracts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.StoolAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stoolabstracts_deletedInstances = append(stoolabstracts_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stoolabstracts_newInstances)
+	lenDeletedInstances += len(stoolabstracts_deletedInstances)
 	var vaseabstracts_newInstances []*VaseAbstract
 	var vaseabstracts_deletedInstances []*VaseAbstract
 
@@ -4131,6 +4209,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StartHalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.StoolAbstracts_reference = make(map[*StoolAbstract]*StoolAbstract)
+	stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint) // diff Unstage needs the reference order
+	stage.StoolAbstracts_instance = make(map[*StoolAbstract]*StoolAbstract)
+	for instance := range stage.StoolAbstracts {
+		_copy := instance.GongCopy().(*StoolAbstract)
+		stage.StoolAbstracts_reference[instance] = _copy
+		stage.StoolAbstracts_instance[_copy] = instance
+		stage.StoolAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_referenceOrder = make(map[*TopEndArcShape]uint) // diff Unstage needs the reference order
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
@@ -4814,6 +4902,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StartHalfwayArcShapeGrids {
 		reference := stage.StartHalfwayArcShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StoolAbstracts {
+		reference := stage.StoolAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6034,6 +6127,18 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetOrder(stage *St
 	}
 }
 
+func (stoolabstract *StoolAbstract) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.StoolAbstract_stagedOrder[stoolabstract]; ok {
+		return order
+	}
+	if order, ok := stage.StoolAbstracts_referenceOrder[stoolabstract]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type StoolAbstract was not staged and does not have a reference order", stoolabstract)
+		return 0
+	}
+}
+
 func (topendarcshape *TopEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TopEndArcShape_stagedOrder[topendarcshape]; ok {
 		return order
@@ -7134,6 +7239,15 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetReferenceIdenti
 	return fmt.Sprintf("__%s__%08d_", starthalfwayarcshapegrid.GongGetGongstructName(), starthalfwayarcshapegrid.GongGetOrder(stage))
 }
 
+func (stoolabstract *StoolAbstract) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stoolabstract.GongGetGongstructName(), stoolabstract.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stoolabstract *StoolAbstract) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stoolabstract.GongGetGongstructName(), stoolabstract.GongGetOrder(stage))
+}
+
 func (topendarcshape *TopEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", topendarcshape.GongGetGongstructName(), topendarcshape.GongGetOrder(stage))
 }
@@ -8072,6 +8186,14 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallIdentifier
 	return
 }
 
+func (stoolabstract *StoolAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StoolAbstract")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stoolabstract.Name))
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendarcshape.GongGetIdentifier(stage))
@@ -8800,6 +8922,12 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongMarshallUnstaging(stage *S
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", starthalfwayarcshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stoolabstract *StoolAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 

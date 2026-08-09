@@ -28,7 +28,7 @@ func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func(
 
 		// only regenerate the 3D stage when the user is actually looking at the 3D view
 		plant := stager.GetCurrentPlant()
-		if plant != nil && plant.CurrentView == VIEW_VASE_3D {
+		if plant != nil && (plant.CurrentView == VIEW_VASE_3D || plant.CurrentView == VIEW_STOOL_3D) {
 			stager.UpdateThreeJSStage()
 		}
 	}

@@ -76,6 +76,12 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				vase.MovieNbFrames = 1000
 			}
 		}
+		if stool := plant.StoolAbstract; stool != nil {
+			if stool.RadialRepetitions < 1 {
+				needCommit = true
+				stool.RadialRepetitions = 1
+			}
+		}
 	}
 
 	for _, plantDiagram := range GetGongstrucsSorted[*PlantDiagram](stager.stage) {

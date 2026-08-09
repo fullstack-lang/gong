@@ -42,7 +42,11 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		}
 
 		stager.selectedPlant = plant
-		if plant.PlantType != Vase {
+		if plant.PlantType == Stool {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D {
+				plant.CurrentView = VIEW_PLANT_2D
+			}
+		} else if plant.PlantType != Vase {
 			plant.CurrentView = VIEW_PLANT_2D
 		}
 

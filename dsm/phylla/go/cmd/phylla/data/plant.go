@@ -58,8 +58,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.OriginY = 661.755377
 	__PlantDiagram__00000001_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000001_.IsArcNodesExpanded = true
-	__PlantDiagram__00000001_.IsVaseArcNodesExpanded = false
-	__PlantDiagram__00000001_.IsVaseClampingNodesExpanded = true
 	__PlantDiagram__00000001_.IsHiddenAxesShape = false
 	__PlantDiagram__00000001_.IsHiddenReferenceRhombus = false
 	__PlantDiagram__00000001_.IsHiddenPlantCircumferenceShape = false
@@ -78,11 +76,6 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenStartArcShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenMidArcVectorShapeGrid = false
 	__PlantDiagram__00000001_.IsHiddenEndArcShapeGrid = false
-	__PlantDiagram__00000001_.IsHiddenBottomStartArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenBottomEndArcShapeGrid = true
-	__PlantDiagram__00000001_.IsHiddenBottomStackOfGrowthCurve = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfGrowthCurve = true
-	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfNormalVector = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = false
 	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
