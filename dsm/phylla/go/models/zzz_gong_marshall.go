@@ -436,6 +436,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VaseDiagram"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "StoolDiagram"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
@@ -547,6 +548,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
+	}
+
+	stooldiagramOrdered := []*StoolDiagram{}
+	for stooldiagram := range stage.StoolDiagrams {
+		stooldiagramOrdered = append(stooldiagramOrdered, stooldiagram)
+	}
+	sort.Slice(stooldiagramOrdered[:], func(i, j int) bool {
+		stooldiagrami := stooldiagramOrdered[i]
+		stooldiagramj := stooldiagramOrdered[j]
+		stooldiagrami_order, oki := stage.StoolDiagram_stagedOrder[stooldiagrami]
+		stooldiagramj_order, okj := stage.StoolDiagram_stagedOrder[stooldiagramj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return stooldiagrami_order < stooldiagramj_order
+	})
+	if len(stooldiagramOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, stooldiagram := range stooldiagramOrdered {
+
+		identifiersDecl.WriteString(stooldiagram.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 
 	vaseabstractOrdered := []*VaseAbstract{}
@@ -729,6 +757,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, stoolabstract := range stoolabstractOrdered {
 		_ = stoolabstract
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, stooldiagram := range stooldiagramOrdered {
+		_ = stooldiagram
 		var setPointerField string
 		_ = setPointerField
 
@@ -2602,6 +2638,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VaseDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "StoolDiagram":
+		if plantdiagram.StoolDiagram != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.StoolDiagram.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolDiagram")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -4650,6 +4699,34 @@ func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName st
 	return
 }
 
+func (stooldiagram *StoolDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stooldiagram.Name))
+
+	case "Rendered3DShape":
+		if stooldiagram.Rendered3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", stooldiagram.Rendered3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct StoolDiagram", fieldName)
+	}
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -6465,6 +6542,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VaseDiagram"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "StoolDiagram"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
@@ -7242,6 +7320,18 @@ func (stoolabstract *StoolAbstract) GongMarshallAllFields(stage *Stage) (initRes
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RadialRepetitions"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (stooldiagram *StoolDiagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

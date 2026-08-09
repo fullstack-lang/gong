@@ -418,6 +418,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.VaseDiagram) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.StoolDiagram) || modified
 	return
 }
 
@@ -750,6 +751,14 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongClean(stage *Stage
 func (stoolabstract *StoolAbstract) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StoolDiagram
+func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
 	return
 }
 

@@ -5835,6 +5835,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
 		case "VaseDiagram":
 			FormDivSelectFieldToField(&(plantdiagram_.VaseDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "StoolDiagram":
+			FormDivSelectFieldToField(&(plantdiagram_.StoolDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsRhombusNodesExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsRhombusNodesExpanded), formDiv)
 		case "IsArcNodesExpanded":
@@ -11509,6 +11511,86 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 	}
 
 	stoolabstractFormCallback.probe.ux_tree()
+}
+func __gong__New__StoolDiagramFormCallback(
+	stooldiagram *models.StoolDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stooldiagramFormCallback *StoolDiagramFormCallback) {
+	stooldiagramFormCallback = new(StoolDiagramFormCallback)
+	stooldiagramFormCallback.probe = probe
+	stooldiagramFormCallback.stooldiagram = stooldiagram
+	stooldiagramFormCallback.formGroup = formGroup
+
+	stooldiagramFormCallback.CreationMode = (stooldiagram == nil)
+
+	return
+}
+
+type StoolDiagramFormCallback struct {
+	stooldiagram *models.StoolDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
+	stooldiagramFormCallback.probe.stageOfInterest.Lock()
+	defer stooldiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("StoolDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stooldiagramFormCallback.probe.formStage.Checkout()
+
+	if stooldiagramFormCallback.stooldiagram == nil {
+		stooldiagramFormCallback.stooldiagram = new(models.StoolDiagram).Stage(stooldiagramFormCallback.probe.stageOfInterest)
+	}
+	stooldiagram_ := stooldiagramFormCallback.stooldiagram
+	_ = stooldiagram_
+
+	for _, formDiv := range stooldiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stooldiagram_.Name), formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if stooldiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stooldiagram_.Unstage(stooldiagramFormCallback.probe.stageOfInterest)
+	}
+
+	stooldiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.StoolDiagram](
+		stooldiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stooldiagramFormCallback.CreationMode || stooldiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stooldiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stooldiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__StoolDiagramFormCallback(
+			nil,
+			stooldiagramFormCallback.probe,
+			newFormGroup,
+		)
+		stooldiagram := new(models.StoolDiagram)
+		FillUpForm(stooldiagram, newFormGroup, stooldiagramFormCallback.probe)
+		stooldiagramFormCallback.probe.formStage.Commit()
+	}
+
+	stooldiagramFormCallback.probe.ux_tree()
 }
 func __gong__New__TopEndArcShapeFormCallback(
 	topendarcshape *models.TopEndArcShape,

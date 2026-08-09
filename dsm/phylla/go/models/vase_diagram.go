@@ -54,7 +54,8 @@ type VaseDiagram struct {
 	IsHiddenOriginalPoints3DShape                      bool
 	IsHiddenAngle0Shape                                bool
 
-	Rendered3DShape                         *Rendered3DShape
+	Rendered3DShape *Rendered3DShape
+
 	GrowthCurve2DRibbon                     *GrowthCurve2DRibbon
 	ShiftedRightGrowthCurve2DRibbon         *ShiftedRightGrowthCurve2DRibbon
 	ShiftedLeftGrowthCurve2DRibbon          *ShiftedLeftGrowthCurve2DRibbon
