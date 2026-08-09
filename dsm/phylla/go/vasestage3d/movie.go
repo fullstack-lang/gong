@@ -1,4 +1,4 @@
-package stage3d
+package vasestage3d
 
 import (
 	"encoding/base64"
