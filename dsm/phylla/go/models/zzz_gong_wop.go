@@ -2460,12 +2460,15 @@ type StoolDiagram_WOP struct {
 
 	Name string
 
+	IsHiddenTorusStackShape bool
+
 	IsHiddenSampledPoints3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 }
 

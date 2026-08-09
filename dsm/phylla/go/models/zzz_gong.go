@@ -22362,6 +22362,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case StoolDiagram:
 		return any(&StoolDiagram{
 			// Initialisation of associations
+			// field is initialized with an instance of TorusStackShape with the name of the field
+			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
 			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
@@ -23507,6 +23509,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case StoolDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "TorusStackShape":
+			res := make(map[*TorusStackShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.TorusStackShape != nil {
+					torusstackshape_ := stooldiagram.TorusStackShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[torusstackshape_]
+					if ok {
+						stooldiagrams = res[torusstackshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[torusstackshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "SampledPoints3DShape":
 			res := make(map[*SampledPoints3DShape][]*StoolDiagram)
 			for stooldiagram := range stage.StoolDiagrams {
@@ -29486,6 +29505,15 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsHiddenTorusStackShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TorusStackShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TorusStackShape",
+		},
+		{
 			Name:               "IsHiddenSampledPoints3DShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -33972,6 +34000,16 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = stooldiagram.Name
+	case "IsHiddenTorusStackShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenTorusStackShape)
+		res.valueBool = stooldiagram.IsHiddenTorusStackShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TorusStackShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.TorusStackShape != nil {
+			res.valueString = stooldiagram.TorusStackShape.Name
+			res.ids = stooldiagram.TorusStackShape.GongGetUUID(stage)
+		}
 	case "IsHiddenSampledPoints3DShape":
 		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenSampledPoints3DShape)
 		res.valueBool = stooldiagram.IsHiddenSampledPoints3DShape
@@ -38001,6 +38039,19 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		stooldiagram.Name = value.GetValueString()
+	case "IsHiddenTorusStackShape":
+		stooldiagram.IsHiddenTorusStackShape = value.GetValueBool()
+	case "TorusStackShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.TorusStackShape = nil
+			for __instance__ := range stage.TorusStackShapes {
+				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.TorusStackShape = __instance__
+					break
+				}
+			}
+		}
 	case "IsHiddenSampledPoints3DShape":
 		stooldiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
 	case "SampledPoints3DShape":

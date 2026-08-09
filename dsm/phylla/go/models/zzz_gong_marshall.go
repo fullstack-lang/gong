@@ -576,6 +576,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
@@ -4721,6 +4722,11 @@ func (stooldiagram *StoolDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stooldiagram.Name))
+	case "IsHiddenTorusStackShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorusStackShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stooldiagram.IsHiddenTorusStackShape))
 	case "IsHiddenSampledPoints3DShape":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
@@ -7365,6 +7371,7 @@ func (stooldiagram *StoolDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))

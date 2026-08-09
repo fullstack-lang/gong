@@ -449,6 +449,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			if diagram.StoolDiagram.SampledPoints3DShape != nil {
 				refSampledPoints3DShape[diagram.StoolDiagram.SampledPoints3DShape] = true
 			}
+			if diagram.StoolDiagram.TorusStackShape != nil {
+				refTorusStackShape[diagram.StoolDiagram.TorusStackShape] = true
+			}
 		}
 		if diagram.VaseDiagram != nil {
 			if diagram.VaseDiagram.TorusStackShape != nil {

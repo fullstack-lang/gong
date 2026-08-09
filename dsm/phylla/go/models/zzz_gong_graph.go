@@ -12369,6 +12369,9 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	if stooldiagram.Name != stooldiagramOther.Name {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Name"))
 	}
+	if stooldiagram.IsHiddenTorusStackShape != stooldiagramOther.IsHiddenTorusStackShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenTorusStackShape"))
+	}
 	if stooldiagram.IsHiddenSampledPoints3DShape != stooldiagramOther.IsHiddenSampledPoints3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 	}
