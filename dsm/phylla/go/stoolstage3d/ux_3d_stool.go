@@ -189,7 +189,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 
 			if i < len(endArcs) {
 				ea := endArcs[i]
-				u.appendArcPointsStool(stool3dStage, baseCurve, ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag, globalR, 0.0, &floorMinY)
+				u.appendArcPointsStool(stool3dStage, baseCurve, ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag, globalR, 0.0, &floorMinY)
 			}
 		}
 
