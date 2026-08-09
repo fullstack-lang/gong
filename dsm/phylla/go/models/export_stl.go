@@ -369,14 +369,14 @@ func GenerateSTL(plant *PlantAbstract) string {
 		globalR = circumference * float64(threeDModulo) / (2 * math.Pi)
 	}
 
-	if plant.GrowthCurve2D != nil && plant.TopGrowthCurve2D != nil &&
+	if plant.GrowthCurve2D != nil && plant.VaseAbstract != nil && plant.VaseAbstract.TopGrowthCurve2D != nil &&
 		plant.GrowthCurve2D.StartHalfwayArcShapeGrid != nil &&
-		plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
+		plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil &&
 		len(plant.GrowthCurve2D.StartHalfwayArcShapeGrid.StartHalfwayArcShapes) > 0 &&
-		len(plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
+		len(plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes) > 0 {
 
 		gc := plant.GrowthCurve2D
-		tgc := plant.TopGrowthCurve2D
+		tgc := plant.VaseAbstract.TopGrowthCurve2D
 
 		startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
 		var endArcs []*EndHalfwayArcShape

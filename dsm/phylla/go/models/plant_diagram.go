@@ -8,10 +8,8 @@ type PlantDiagram struct {
 
 	VaseDiagram *VaseDiagram
 
-	IsRhombusNodesExpanded      bool
-	IsArcNodesExpanded          bool
-	IsVaseArcNodesExpanded      bool
-	IsVaseClampingNodesExpanded bool
+	IsRhombusNodesExpanded bool
+	IsArcNodesExpanded     bool
 
 	IsHiddenAxesShape                      bool
 	IsHiddenReferenceRhombus               bool
@@ -31,11 +29,6 @@ type PlantDiagram struct {
 	IsHiddenStartArcShapeGrid              bool
 	IsHiddenMidArcVectorShapeGrid          bool
 	IsHiddenEndArcShapeGrid                bool
-	IsHiddenBottomStartArcShapeGrid        bool
-	IsHiddenBottomEndArcShapeGrid          bool
-	IsHiddenBottomStackOfGrowthCurve       bool
-	IsHiddenShiftedLeftStackOfGrowthCurve  bool
-	IsHiddenShiftedLeftStackOfNormalVector bool
 
 	IsHiddenGrowthCurve2D bool
 

@@ -3,6 +3,14 @@ package models
 type VaseDiagram struct {
 	Name string
 
+	IsVaseArcNodesExpanded      bool
+	IsVaseClampingNodesExpanded bool
+
+	IsHiddenBottomStartArcShapeGrid           bool
+	IsHiddenBottomEndArcShapeGrid             bool
+	IsHiddenBottomStackOfGrowthCurve          bool
+	IsHiddenShiftedLeftStackOfGrowthCurve     bool
+	IsHiddenShiftedLeftStackOfNormalVector    bool
 	IsHiddenPerpendicularVectorGridHalfway    bool
 	IsHiddenTopStartArcShapeGrid              bool
 	IsHiddenShiftedBottomTopStartArcShapeGrid bool

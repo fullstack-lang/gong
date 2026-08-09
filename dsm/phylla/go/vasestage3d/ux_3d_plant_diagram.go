@@ -86,7 +86,15 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	}
 
 	gc := plant.GrowthCurve2D
-	tgc := plant.TopGrowthCurve2D
+	var tgc *models.TopGrowthCurve2D
+	if plant.VaseAbstract != nil {
+		tgc = plant.VaseAbstract.TopGrowthCurve2D
+	}
+
+	if gc == nil || gc.StartHalfwayArcShapeGrid == nil || tgc == nil || tgc.TopStartHalfwayArcShapeGrid == nil {
+		threejsStage.Commit()
+		return
+	}
 
 	startArcs := gc.StartHalfwayArcShapeGrid.StartHalfwayArcShapes
 	var endArcs []*models.EndHalfwayArcShape
@@ -272,7 +280,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if (!checkedDiagram.VaseDiagram.IsHiddenKey3DShape || !checkedDiagram.VaseDiagram.IsHiddenVolumeKey3DShape) && plant.KeyHoleShape != nil && globalR > 0 {
+	if (!checkedDiagram.VaseDiagram.IsHiddenKey3DShape || !checkedDiagram.VaseDiagram.IsHiddenVolumeKey3DShape) && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 {
 		stackH := stackHeight
 		if stackH <= 0 {
 			stackH = 1

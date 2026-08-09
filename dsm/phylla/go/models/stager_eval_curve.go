@@ -30,8 +30,8 @@ func evaluateCurveY(plant *PlantAbstract, isTop bool, x float64) float64 {
 			}
 		}
 	} else {
-		if plant.TopGrowthCurve2D != nil && plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil {
-			for _, sa := range plant.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
+		if plant.VaseAbstract != nil && plant.VaseAbstract.TopGrowthCurve2D != nil && plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid != nil {
+			for _, sa := range plant.VaseAbstract.TopGrowthCurve2D.TopStartHalfwayArcShapeGrid.TopStartHalfwayArcShapes {
 				if x >= math.Min(sa.StartX, sa.EndX) && x <= math.Max(sa.StartX, sa.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag)
 					y := evalArcY(sa.StartX, sa.StartY, sa.EndX, sa.EndY, cx, cy, r, x)
@@ -41,8 +41,8 @@ func evaluateCurveY(plant *PlantAbstract, isTop bool, x float64) float64 {
 				}
 			}
 		}
-		if plant.TopGrowthCurve2D != nil && plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != nil {
-			for _, ea := range plant.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
+		if plant.VaseAbstract != nil && plant.VaseAbstract.TopGrowthCurve2D != nil && plant.VaseAbstract.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid != nil {
+			for _, ea := range plant.VaseAbstract.TopGrowthCurve2D.TopEndHalfwayArcShapeGrid.TopEndHalfwayArcShapes {
 				if x >= math.Min(ea.StartX, ea.EndX) && x <= math.Max(ea.StartX, ea.EndX) {
 					cx, cy, r := computeArcCenterFromEndpoints(ea.StartX, ea.StartY, ea.EndX, ea.EndY, ea.RadiusX, !ea.SweepFlag, ea.LargeArcFlag)
 					y := evalArcY(ea.StartX, ea.StartY, ea.EndX, ea.EndY, cx, cy, r, x)

@@ -81,6 +81,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName},
 		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes},
 		{"Enforce rotated shapes names", stager.enforceRotatedShapesNames},
+		{"Enforce vase has shapes", stager.enforceVaseHasShapes},
+		{"Enforce vase shape names", stager.enforceVaseShapeNames},
 		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape},
 		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape},
 		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName},

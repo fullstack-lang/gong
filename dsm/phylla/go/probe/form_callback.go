@@ -5608,70 +5608,18 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantabstract_.GrowthVectorShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "PerpendicularVectorGrid":
 			FormDivSelectFieldToField(&(plantabstract_.PerpendicularVectorGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PerpendicularVectorGridHalfway":
-			FormDivSelectFieldToField(&(plantabstract_.PerpendicularVectorGridHalfway), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "BaseVectorShapeGrid":
 			FormDivSelectFieldToField(&(plantabstract_.BaseVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "ArcNormalVectorShapeGrid":
 			FormDivSelectFieldToField(&(plantabstract_.ArcNormalVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StartArcShapeGrid":
 			FormDivSelectFieldToField(&(plantabstract_.StartArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.TopStartArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "EndArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.EndArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopEndArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.TopEndArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedBottomTopStartArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.ShiftedBottomTopStartArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "MidArcVectorShapeGrid":
 			FormDivSelectFieldToField(&(plantabstract_.MidArcVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopMidArcVectorShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.TopMidArcVectorShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StartHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.StartHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStartHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.TopStartHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "EndHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.EndHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopEndHalfwayArcShapeGrid":
-			FormDivSelectFieldToField(&(plantabstract_.TopEndHalfwayArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfRotatedGrowthCurve2D":
-			FormDivSelectFieldToField(&(plantabstract_.StackOfRotatedGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStackOfRotatedGrowthCurve2D":
-			FormDivSelectFieldToField(&(plantabstract_.TopStackOfRotatedGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "EndArcShapeGrid":
+			FormDivSelectFieldToField(&(plantabstract_.EndArcShapeGrid), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2D":
 			FormDivSelectFieldToField(&(plantabstract_.GrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopGrowthCurve2D":
-			FormDivSelectFieldToField(&(plantabstract_.TopGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfGrowthCurve2D":
-			FormDivSelectFieldToField(&(plantabstract_.StackOfGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "TopStackOfGrowthCurve2D":
-			FormDivSelectFieldToField(&(plantabstract_.TopStackOfGrowthCurve2D), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.StackOfGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfRotatedGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.StackOfRotatedGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.GrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.ShiftedRightGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.ShiftedLeftGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.PartiallyGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(plantabstract_.ShiftedLeftPartiallyGrowthCurve2DRibbon), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DTrajectory":
-			FormDivSelectFieldToField(&(plantabstract_.PartiallyGrowthCurve2DTrajectory), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			FormDivSelectFieldToField(&(plantabstract_.PartiallyGrowthCurve2DTrajectoryP1P2), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "PxShape":
-			FormDivSelectFieldToField(&(plantabstract_.PxShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "ChosenP1P2PairShape":
-			FormDivSelectFieldToField(&(plantabstract_.ChosenP1P2PairShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
-		case "KeyHoleShape":
-			FormDivSelectFieldToField(&(plantabstract_.KeyHoleShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5887,10 +5835,6 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsRhombusNodesExpanded), formDiv)
 		case "IsArcNodesExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsArcNodesExpanded), formDiv)
-		case "IsVaseArcNodesExpanded":
-			FormDivBasicFieldToField(&(plantdiagram_.IsVaseArcNodesExpanded), formDiv)
-		case "IsVaseClampingNodesExpanded":
-			FormDivBasicFieldToField(&(plantdiagram_.IsVaseClampingNodesExpanded), formDiv)
 		case "IsHiddenAxesShape":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenAxesShape), formDiv)
 		case "IsHiddenReferenceRhombus":
@@ -5927,16 +5871,6 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
 		case "IsHiddenEndArcShapeGrid":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
-		case "IsHiddenBottomStartArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStartArcShapeGrid), formDiv)
-		case "IsHiddenBottomEndArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomEndArcShapeGrid), formDiv)
-		case "IsHiddenBottomStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
-		case "IsHiddenShiftedLeftStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfGrowthCurve), formDiv)
-		case "IsHiddenShiftedLeftStackOfNormalVector":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
 		case "IsHiddenGrowthCurve2D":
 			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
 		case "IsChecked":
@@ -13828,6 +13762,58 @@ func (vaseabstractFormCallback *VaseAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vaseabstract_.RelativeKeySize), formDiv)
 		case "MovieNbFrames":
 			FormDivBasicFieldToField(&(vaseabstract_.MovieNbFrames), formDiv)
+		case "PerpendicularVectorGridHalfway":
+			FormDivSelectFieldToField(&(vaseabstract_.PerpendicularVectorGridHalfway), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStartArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.TopStartArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.TopEndArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedBottomTopStartArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.ShiftedBottomTopStartArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopMidArcVectorShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.TopMidArcVectorShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.StartHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStartHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.TopStartHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "EndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.EndHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopEndHalfwayArcShapeGrid":
+			FormDivSelectFieldToField(&(vaseabstract_.TopEndHalfwayArcShapeGrid), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfRotatedGrowthCurve2D":
+			FormDivSelectFieldToField(&(vaseabstract_.StackOfRotatedGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStackOfRotatedGrowthCurve2D":
+			FormDivSelectFieldToField(&(vaseabstract_.TopStackOfRotatedGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopGrowthCurve2D":
+			FormDivSelectFieldToField(&(vaseabstract_.TopGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfGrowthCurve2D":
+			FormDivSelectFieldToField(&(vaseabstract_.StackOfGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "TopStackOfGrowthCurve2D":
+			FormDivSelectFieldToField(&(vaseabstract_.TopStackOfGrowthCurve2D), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.StackOfGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfRotatedGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.StackOfRotatedGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.GrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedRightGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.ShiftedRightGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.ShiftedLeftGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.PartiallyGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vaseabstract_.ShiftedLeftPartiallyGrowthCurve2DRibbon), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DTrajectory":
+			FormDivSelectFieldToField(&(vaseabstract_.PartiallyGrowthCurve2DTrajectory), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2":
+			FormDivSelectFieldToField(&(vaseabstract_.PartiallyGrowthCurve2DTrajectoryP1P2), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "PxShape":
+			FormDivSelectFieldToField(&(vaseabstract_.PxShape), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ChosenP1P2PairShape":
+			FormDivSelectFieldToField(&(vaseabstract_.ChosenP1P2PairShape), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHoleShape":
+			FormDivSelectFieldToField(&(vaseabstract_.KeyHoleShape), vaseabstractFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 
@@ -13906,6 +13892,20 @@ func (vasediagramFormCallback *VaseDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(vasediagram_.Name), formDiv)
+		case "IsVaseArcNodesExpanded":
+			FormDivBasicFieldToField(&(vasediagram_.IsVaseArcNodesExpanded), formDiv)
+		case "IsVaseClampingNodesExpanded":
+			FormDivBasicFieldToField(&(vasediagram_.IsVaseClampingNodesExpanded), formDiv)
+		case "IsHiddenBottomStartArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenBottomStartArcShapeGrid), formDiv)
+		case "IsHiddenBottomEndArcShapeGrid":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenBottomEndArcShapeGrid), formDiv)
+		case "IsHiddenBottomStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
+		case "IsHiddenShiftedLeftStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftStackOfGrowthCurve), formDiv)
+		case "IsHiddenShiftedLeftStackOfNormalVector":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
 		case "IsHiddenPerpendicularVectorGridHalfway":
 			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
 		case "IsHiddenTopStartArcShapeGrid":

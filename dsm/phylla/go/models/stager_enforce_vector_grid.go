@@ -87,7 +87,7 @@ func enforcePerpendicularVectorGridHasVectors(stage *Stage, grid *PerpendicularV
 
 func enforceBaseVectorShapeGridHasShapes(stage *Stage, grid *BaseVectorShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.BaseVectorShapes) > 0 {
+		if grid != nil && len(grid.BaseVectorShapes) > 0 {
 			grid.BaseVectorShapes = nil
 			return true
 		}
@@ -154,7 +154,7 @@ func enforceBaseVectorShapeGridHasShapes(stage *Stage, grid *BaseVectorShapeGrid
 
 func enforceArcNormalVectorShapeGridHasShapes(stage *Stage, grid *ArcNormalVectorShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.ArcNormalVectorShapes) > 0 {
+		if grid != nil && len(grid.ArcNormalVectorShapes) > 0 {
 			grid.ArcNormalVectorShapes = nil
 			return true
 		}
@@ -335,7 +335,7 @@ func enforceArcNormalVectorShapeGridHasShapes(stage *Stage, grid *ArcNormalVecto
 
 func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *PerpendicularVectorGridHalfway, sourceGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if sourceGrid == nil || grid == nil || len(sourceGrid.PerpendicularVectors) < 2 {
-		if len(grid.PerpendicularVectorHalfways) > 0 {
+		if grid != nil && len(grid.PerpendicularVectorHalfways) > 0 {
 			grid.PerpendicularVectorHalfways = nil
 			return true
 		}
@@ -410,7 +410,7 @@ func enforcePerpendicularVectorGridHalfwayHasVectors(stage *Stage, grid *Perpend
 
 func enforceShiftedLeftStackOfNormalVectorHasShapes(stage *Stage, stack *ShiftedLeftStackOfNormalVector, nGrid *ArcNormalVectorShapeGrid, pGrid *PerpendicularVectorGrid, vector *GrowthVectorShape, stackHeight int, circLen float64, thickness float64) (needCommit bool) {
 	if stack == nil || nGrid == nil || pGrid == nil || vector == nil || stackHeight < 1 || circLen <= 0 || len(nGrid.ArcNormalVectorShapes) == 0 || len(pGrid.PerpendicularVectors) == 0 {
-		if len(stack.ShiftedLeftStackNormalVectors) > 0 {
+		if stack != nil && len(stack.ShiftedLeftStackNormalVectors) > 0 {
 			stack.ShiftedLeftStackNormalVectors = nil
 			return true
 		}

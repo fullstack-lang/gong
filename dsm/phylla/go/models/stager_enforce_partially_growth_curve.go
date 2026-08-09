@@ -9,8 +9,11 @@ func enforcePartiallyGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
 	plant *PlantAbstract,
 ) (needCommit bool) {
-	ribbon := plant.PartiallyGrowthCurve2DRibbon
-	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
+	if plant.VaseAbstract == nil {
+		return false
+	}
+	ribbon := plant.VaseAbstract.PartiallyGrowthCurve2DRibbon
+	baseRibbonStack := plant.VaseAbstract.StackOfGrowthCurve2DRibbon
 
 	if ribbon == nil || baseRibbonStack == nil || plant.GrowthVectorShape == nil || plant.RhombusStuff == nil || plant.RhombusStuff.PlantCircumferenceShape == nil {
 		if ribbon != nil && (len(ribbon.PartiallyGrowthCurve2DRibbonStartShapes) > 0 || len(ribbon.PartiallyGrowthCurve2DRibbonEndShapes) > 0) {
@@ -220,8 +223,11 @@ func enforceShiftedLeftPartiallyGrowthCurve2DRibbonHasShapes(
 	stage *Stage,
 	plant *PlantAbstract,
 ) (needCommit bool) {
-	ribbon := plant.ShiftedLeftPartiallyGrowthCurve2DRibbon
-	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
+	if plant.VaseAbstract == nil {
+		return false
+	}
+	ribbon := plant.VaseAbstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
+	baseRibbonStack := plant.VaseAbstract.StackOfGrowthCurve2DRibbon
 
 	if ribbon == nil || baseRibbonStack == nil || plant.GrowthVectorShape == nil || plant.RhombusStuff == nil || plant.RhombusStuff.PlantCircumferenceShape == nil {
 		if ribbon != nil && (len(ribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes) > 0 || len(ribbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes) > 0) {
@@ -437,8 +443,11 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 	stage *Stage,
 	plant *PlantAbstract,
 ) (needCommit bool) {
-	traj := plant.PartiallyGrowthCurve2DTrajectory
-	baseRibbonStack := plant.StackOfGrowthCurve2DRibbon
+	if plant.VaseAbstract == nil {
+		return false
+	}
+	traj := plant.VaseAbstract.PartiallyGrowthCurve2DTrajectory
+	baseRibbonStack := plant.VaseAbstract.StackOfGrowthCurve2DRibbon
 
 	if traj == nil || baseRibbonStack == nil || plant.GrowthVectorShape == nil || plant.RhombusStuff == nil || plant.RhombusStuff.PlantCircumferenceShape == nil || plant.PerpendicularVectorGrid == nil || len(plant.PerpendicularVectorGrid.PerpendicularVectors) < 2 {
 		if traj != nil && len(traj.PartiallyGrowthCurve2DTrajectoryShapes) > 0 {
@@ -573,14 +582,14 @@ func enforcePartiallyGrowthCurve2DTrajectoryHasShapes(
 }
 
 func enforcePxShape(stage *Stage, plant *PlantAbstract, pxX, pxY float64) (needCommit bool) {
-	if plant.PxShape == nil {
+	if plant.VaseAbstract == nil || plant.VaseAbstract.PxShape == nil {
 		return false
 	}
 	expectedName := fmt.Sprintf("%s-Px", plant.Name)
-	if plant.PxShape.Name != expectedName || math.Abs(plant.PxShape.X-pxX) > 1e-4 || math.Abs(plant.PxShape.Y-pxY) > 1e-4 {
-		plant.PxShape.Name = expectedName
-		plant.PxShape.X = pxX
-		plant.PxShape.Y = pxY
+	if plant.VaseAbstract.PxShape.Name != expectedName || math.Abs(plant.VaseAbstract.PxShape.X-pxX) > 1e-4 || math.Abs(plant.VaseAbstract.PxShape.Y-pxY) > 1e-4 {
+		plant.VaseAbstract.PxShape.Name = expectedName
+		plant.VaseAbstract.PxShape.X = pxX
+		plant.VaseAbstract.PxShape.Y = pxY
 		needCommit = true
 	}
 	return needCommit
@@ -592,7 +601,10 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 	pointsX []float64,
 	pointsY []float64,
 ) (needCommit bool) {
-	p1p2 := plant.PartiallyGrowthCurve2DTrajectoryP1P2
+	if plant.VaseAbstract == nil {
+		return false
+	}
+	p1p2 := plant.VaseAbstract.PartiallyGrowthCurve2DTrajectoryP1P2
 	if p1p2 == nil {
 		return false
 	}
@@ -887,7 +899,7 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 		}
 	}
 
-	if plant.ChosenP1P2PairShape != nil {
+	if plant.VaseAbstract != nil && plant.VaseAbstract.ChosenP1P2PairShape != nil {
 		chosenK := 0
 		if plant.PlantType == Vase {
 			chosenK = plant.VaseAbstract.ChosenStep
@@ -904,30 +916,30 @@ func enforcePartiallyGrowthCurve2DTrajectoryP1P2HasShapes(
 		p2x := p2PtsX[chosenK]
 		p2y := p2PtsY[chosenK]
 		var pxX, pxY float64
-		if plant.PxShape != nil {
-			pxX = plant.PxShape.X
-			pxY = plant.PxShape.Y
+		if plant.VaseAbstract.PxShape != nil {
+			pxX = plant.VaseAbstract.PxShape.X
+			pxY = plant.VaseAbstract.PxShape.Y
 		}
 		d1 := math.Hypot(p1x-pxX, p1y-pxY)
 		d2 := math.Hypot(p2x-pxX, p2y-pxY)
 		sum := d1 + d2
 
 		expectedName := fmt.Sprintf("%s-ChosenP1P2Pair", plant.Name)
-		if plant.ChosenP1P2PairShape.Name != expectedName ||
-			math.Abs(plant.ChosenP1P2PairShape.P1X-p1x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P1Y-p1y) > 1e-4 ||
-			math.Abs(plant.ChosenP1P2PairShape.P2X-p2x) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.P2Y-p2y) > 1e-4 ||
-			math.Abs(plant.ChosenP1P2PairShape.PxX-pxX) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.PxY-pxY) > 1e-4 ||
-			math.Abs(plant.ChosenP1P2PairShape.DistanceP1Px-d1) > 1e-4 || math.Abs(plant.ChosenP1P2PairShape.DistanceP2Px-d2) > 1e-4 {
-			plant.ChosenP1P2PairShape.Name = expectedName
-			plant.ChosenP1P2PairShape.P1X = p1x
-			plant.ChosenP1P2PairShape.P1Y = p1y
-			plant.ChosenP1P2PairShape.P2X = p2x
-			plant.ChosenP1P2PairShape.P2Y = p2y
-			plant.ChosenP1P2PairShape.PxX = pxX
-			plant.ChosenP1P2PairShape.PxY = pxY
-			plant.ChosenP1P2PairShape.DistanceP1Px = d1
-			plant.ChosenP1P2PairShape.DistanceP2Px = d2
-			plant.ChosenP1P2PairShape.DistanceSum = sum
+		if plant.VaseAbstract.ChosenP1P2PairShape.Name != expectedName ||
+			math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.P1X-p1x) > 1e-4 || math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.P1Y-p1y) > 1e-4 ||
+			math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.P2X-p2x) > 1e-4 || math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.P2Y-p2y) > 1e-4 ||
+			math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.PxX-pxX) > 1e-4 || math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.PxY-pxY) > 1e-4 ||
+			math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.DistanceP1Px-d1) > 1e-4 || math.Abs(plant.VaseAbstract.ChosenP1P2PairShape.DistanceP2Px-d2) > 1e-4 {
+			plant.VaseAbstract.ChosenP1P2PairShape.Name = expectedName
+			plant.VaseAbstract.ChosenP1P2PairShape.P1X = p1x
+			plant.VaseAbstract.ChosenP1P2PairShape.P1Y = p1y
+			plant.VaseAbstract.ChosenP1P2PairShape.P2X = p2x
+			plant.VaseAbstract.ChosenP1P2PairShape.P2Y = p2y
+			plant.VaseAbstract.ChosenP1P2PairShape.PxX = pxX
+			plant.VaseAbstract.ChosenP1P2PairShape.PxY = pxY
+			plant.VaseAbstract.ChosenP1P2PairShape.DistanceP1Px = d1
+			plant.VaseAbstract.ChosenP1P2PairShape.DistanceP2Px = d2
+			plant.VaseAbstract.ChosenP1P2PairShape.DistanceSum = sum
 			needCommit = true
 		}
 	}

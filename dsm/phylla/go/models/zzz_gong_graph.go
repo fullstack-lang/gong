@@ -10641,12 +10641,6 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsArcNodesExpanded != plantdiagramOther.IsArcNodesExpanded {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
 	}
-	if plantdiagram.IsVaseArcNodesExpanded != plantdiagramOther.IsVaseArcNodesExpanded {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
-	}
-	if plantdiagram.IsVaseClampingNodesExpanded != plantdiagramOther.IsVaseClampingNodesExpanded {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
-	}
 	if plantdiagram.IsHiddenAxesShape != plantdiagramOther.IsHiddenAxesShape {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 	}
@@ -10700,21 +10694,6 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsHiddenEndArcShapeGrid != plantdiagramOther.IsHiddenEndArcShapeGrid {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenEndArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenBottomStartArcShapeGrid != plantdiagramOther.IsHiddenBottomStartArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenBottomEndArcShapeGrid != plantdiagramOther.IsHiddenBottomEndArcShapeGrid {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
-	}
-	if plantdiagram.IsHiddenBottomStackOfGrowthCurve != plantdiagramOther.IsHiddenBottomStackOfGrowthCurve {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
-	}
-	if plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve != plantdiagramOther.IsHiddenShiftedLeftStackOfGrowthCurve {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
-	}
-	if plantdiagram.IsHiddenShiftedLeftStackOfNormalVector != plantdiagramOther.IsHiddenShiftedLeftStackOfNormalVector {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 	}
 	if plantdiagram.IsHiddenGrowthCurve2D != plantdiagramOther.IsHiddenGrowthCurve2D {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsHiddenGrowthCurve2D"))
@@ -12528,6 +12507,27 @@ func (vasediagram *VaseDiagram) GongDiff(stage *Stage, vasediagramOther *VaseDia
 	// insertion point for field diffs
 	if vasediagram.Name != vasediagramOther.Name {
 		diffs = append(diffs, vasediagram.GongMarshallField(stage, "Name"))
+	}
+	if vasediagram.IsVaseArcNodesExpanded != vasediagramOther.IsVaseArcNodesExpanded {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
+	}
+	if vasediagram.IsVaseClampingNodesExpanded != vasediagramOther.IsVaseClampingNodesExpanded {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
+	}
+	if vasediagram.IsHiddenBottomStartArcShapeGrid != vasediagramOther.IsHiddenBottomStartArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenBottomEndArcShapeGrid != vasediagramOther.IsHiddenBottomEndArcShapeGrid {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
+	}
+	if vasediagram.IsHiddenBottomStackOfGrowthCurve != vasediagramOther.IsHiddenBottomStackOfGrowthCurve {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
+	}
+	if vasediagram.IsHiddenShiftedLeftStackOfGrowthCurve != vasediagramOther.IsHiddenShiftedLeftStackOfGrowthCurve {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfGrowthCurve"))
+	}
+	if vasediagram.IsHiddenShiftedLeftStackOfNormalVector != vasediagramOther.IsHiddenShiftedLeftStackOfNormalVector {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenShiftedLeftStackOfNormalVector"))
 	}
 	if vasediagram.IsHiddenPerpendicularVectorGridHalfway != vasediagramOther.IsHiddenPerpendicularVectorGridHalfway {
 		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenPerpendicularVectorGridHalfway"))
