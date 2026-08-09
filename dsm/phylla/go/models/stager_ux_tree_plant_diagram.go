@@ -7,6 +7,28 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func() {
+	return func() {
+		*isHidden = !*isHidden
+		stager.stage.CommitWithSuspendedCallbacks()
+
+		if *isHidden {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		} else {
+			btn.Icon = string(buttons.BUTTON_visibility_off)
+			btn.Name = "Hide"
+			btn.ToolTipText = "Hide from diagram"
+		}
+
+		stager.treeStage2D.Commit()
+		stager.treeStage3D.Commit()
+		stager.ux_svg_plant_diagram()
+		stager.UpdateThreeJSStage()
+	}
+}
+
 func appendDiagramNode[T GongstructIF](
 	stager *Stager,
 	parentNode *tree.Node,
@@ -21,7 +43,7 @@ func appendDiagramNode[T GongstructIF](
 	}
 	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(gongstructPointer, GetPointerToGongstructName[T]())
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 	btn := &tree.Button{
 		Name:            "Hide",
@@ -29,11 +51,8 @@ func appendDiagramNode[T GongstructIF](
 		ToolTipText:     "Hide from diagram",
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
-		OnClick: func() {
-			*isHidden = !*isHidden
-			stager.stage.Commit()
-		},
 	}
+	btn.OnClick = stager.onToggleVisibility(isHidden, btn)
 	if *isHidden {
 		btn.Icon = string(buttons.BUTTON_visibility)
 		btn.Name = "Show"
@@ -133,11 +152,8 @@ func (stager *Stager) treePlantDiagram(
 			ToolTipText:     "Hide handles",
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
-			OnClick: func() {
-				plant.AxesShape.IsWithHiddenHandle = !plant.AxesShape.IsWithHiddenHandle
-				stager.stage.Commit()
-			},
 		}
+		handleBtn.OnClick = stager.onToggleVisibility(&plant.AxesShape.IsWithHiddenHandle, handleBtn)
 		if plant.AxesShape.IsWithHiddenHandle {
 			handleBtn.Icon = string(buttons.BUTTON_visibility)
 			handleBtn.Name = "Show Handle"
