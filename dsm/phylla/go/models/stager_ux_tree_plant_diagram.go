@@ -68,6 +68,39 @@ func appendDiagramNode[T GongstructIF](
 	return node
 }
 
+// addHideAllButton adds a "hide all" button to a category node.
+// The button only appears when at least one item in the category is currently visible.
+// Because the tree is rebuilt on every commit, the button disappears automatically
+// once all items are already hidden.
+func (stager *Stager) addHideAllButton(categoryNode *tree.Node, hiddenPtrs ...*bool) {
+	// anyVisible := false
+	// for _, h := range hiddenPtrs {
+	// 	if !*h {
+	// 		anyVisible = true
+	// 		break
+	// 	}
+	// }
+	// if !anyVisible {
+	// 	return
+	// }
+
+	captured := hiddenPtrs // capture slice for closure
+	btn := &tree.Button{
+		Name:            "Hide All",
+		Icon:            string(buttons.BUTTON_visibility_off),
+		ToolTipText:     "Hide all items in this category",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			for _, h := range captured {
+				*h = true
+			}
+			stager.stage.Commit()
+		},
+	}
+	categoryNode.Buttons = append(categoryNode.Buttons, btn)
+}
+
 func (stager *Stager) treePlantDiagram(
 	plant *PlantAbstract,
 	plantDiagram *PlantDiagram,
@@ -184,6 +217,18 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, rhombusNodes, "Rotated Grid Path", plant.RhombusStuff.RotatedGridPathShape, &plantDiagram.IsHiddenRotatedGridPathShape)
 		appendDiagramNode(stager, rhombusNodes, "Rotated Rhombus Grid 2", plant.RhombusStuff.RotatedRhombusGridShape2, &plantDiagram.IsHiddenRotatedRhombusGridShape)
 		appendDiagramNode(stager, rhombusNodes, "Growth Curve Rhombus Grid", plant.RhombusStuff.GrowthCurveRhombusGridShape, &plantDiagram.IsHiddenGrowthPathRhombusGridShape)
+		stager.addHideAllButton(rhombusNodes,
+			&plantDiagram.IsHiddenReferenceRhombus,
+			&plantDiagram.IsHiddenPlantCircumferenceShape,
+			&plantDiagram.IsHiddenGridPathShape,
+			&plantDiagram.IsHiddenRhombusGridShape,
+			&plantDiagram.IsHiddenExplanationTextShape,
+			&plantDiagram.IsHiddenRotatedReferenceRhombus,
+			&plantDiagram.IsHiddenRotatedPlantCircumferenceShape,
+			&plantDiagram.IsHiddenRotatedGridPathShape,
+			&plantDiagram.IsHiddenRotatedRhombusGridShape,
+			&plantDiagram.IsHiddenGrowthPathRhombusGridShape,
+		)
 
 		arcNodes := &tree.Node{
 			Name:            "Arc confs",
@@ -201,6 +246,16 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, arcNodes, "Mid Arc Vector Shape Grid", plant.MidArcVectorShapeGrid, &plantDiagram.IsHiddenMidArcVectorShapeGrid)
 		appendDiagramNode(stager, arcNodes, "End Arc Grid", plant.EndArcShapeGrid, &plantDiagram.IsHiddenEndArcShapeGrid)
 		appendDiagramNode(stager, arcNodes, "Growth Curve 2D", plant.GrowthCurve2D, &plantDiagram.IsHiddenGrowthCurve2D)
+		stager.addHideAllButton(arcNodes,
+			&plantDiagram.IsHiddenGrowthVectorShape,
+			&plantDiagram.IsHiddenPerpendicularVectorGrid,
+			&plantDiagram.IsHiddenBaseVectorShapeGrid,
+			&plantDiagram.IsHiddenArcNormalVectorShapeGrid,
+			&plantDiagram.IsHiddenStartArcShapeGrid,
+			&plantDiagram.IsHiddenMidArcVectorShapeGrid,
+			&plantDiagram.IsHiddenEndArcShapeGrid,
+			&plantDiagram.IsHiddenGrowthCurve2D,
+		)
 
 		if plant.PlantType == Vase && plantDiagram.VaseDiagram != nil && plant.VaseAbstract != nil {
 			vase := plant.VaseAbstract
@@ -220,6 +275,14 @@ func (stager *Stager) treePlantDiagram(
 			appendDiagramNode(stager, vaseArcNodes, "Top Start Arc Grid", vase.TopStartArcShapeGrid, &vaseDiagram.IsHiddenTopStartArcShapeGrid)
 			appendDiagramNode(stager, vaseArcNodes, "Shifted Bottom Top Start Arc Grid", vase.ShiftedBottomTopStartArcShapeGrid, &vaseDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
 			appendDiagramNode(stager, vaseArcNodes, "Perpendicular Vector Grid Halfway", vase.PerpendicularVectorGridHalfway, &vaseDiagram.IsHiddenPerpendicularVectorGridHalfway)
+			stager.addHideAllButton(vaseArcNodes,
+				&vaseDiagram.IsHiddenTopGrowthCurve2D,
+				&vaseDiagram.IsHiddenTopEndArcShapeGrid,
+				&vaseDiagram.IsHiddenTopMidArcVectorShapeGrid,
+				&vaseDiagram.IsHiddenTopStartArcShapeGrid,
+				&vaseDiagram.IsHiddenShiftedBottomTopStartArcShapeGrid,
+				&vaseDiagram.IsHiddenPerpendicularVectorGridHalfway,
+			)
 
 			vaseClampingNodes := &tree.Node{
 				Name:            "Clamping Confs Vase",
@@ -251,6 +314,28 @@ func (stager *Stager) treePlantDiagram(
 			appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D", vase.StackOfGrowthCurve2D, &vaseDiagram.IsHiddenStackOfGrowthCurve2D)
 			appendDiagramNode(stager, vaseClampingNodes, "Top Stack Of Growth Curve 2D", vase.TopStackOfGrowthCurve2D, &vaseDiagram.IsHiddenTopStackOfGrowthCurve2D)
 			appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D Ribbon", vase.StackOfGrowthCurve2DRibbon, &vaseDiagram.IsHiddenStackOfGrowthCurve2DRibbon)
+			stager.addHideAllButton(vaseClampingNodes,
+				&vaseDiagram.IsHiddenStartHalfwayArcShapeGrid,
+				&vaseDiagram.IsHiddenTopStartHalfwayArcShapeGrid,
+				&vaseDiagram.IsHiddenEndHalfwayArcShapeGrid,
+				&vaseDiagram.IsHiddenTopEndHalfwayArcShapeGrid,
+				&vaseDiagram.IsHiddenStackOfGrowthCurve,
+				&vaseDiagram.IsHiddenTopStackOfGrowthCurve,
+				&vaseDiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon,
+				&vaseDiagram.IsHiddenGrowthCurve2DRibbon,
+				&vaseDiagram.IsHiddenShiftedRightGrowthCurve2DRibbon,
+				&vaseDiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon,
+				&vaseDiagram.IsHiddenPartiallyGrowthCurve2DRibbon,
+				&vaseDiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon,
+				&vaseDiagram.IsHiddenPartiallyGrowthCurve2DTrajectory,
+				&vaseDiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2,
+				&vaseDiagram.IsHiddenPxShape,
+				&vaseDiagram.IsHiddenChosenP1P2PairShape,
+				&vaseDiagram.IsHiddenKeyHoleShape,
+				&vaseDiagram.IsHiddenStackOfGrowthCurve2D,
+				&vaseDiagram.IsHiddenTopStackOfGrowthCurve2D,
+				&vaseDiagram.IsHiddenStackOfGrowthCurve2DRibbon,
+			)
 		}
 	}
 
