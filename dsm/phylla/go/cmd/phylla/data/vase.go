@@ -55,10 +55,10 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_FORM
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
-	__PlantAbstract__00000000_.IsSelected = false
+	__PlantAbstract__00000000_.IsSelected = true
 	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantAbstract__00000001_.Name = `Plant (3, 5, 100)`
@@ -71,7 +71,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
 	__PlantAbstract__00000001_.IsExpanded = true
-	__PlantAbstract__00000001_.IsSelected = true
+	__PlantAbstract__00000001_.IsSelected = false
 	__PlantAbstract__00000001_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
@@ -105,7 +105,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfGrowthCurve = true
 	__PlantDiagram__00000001_.IsHiddenShiftedLeftStackOfNormalVector = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = true
-	__PlantDiagram__00000001_.IsChecked = false
+	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
 	__PlantDiagram__00000001_.IsExpanded = false
 
@@ -140,7 +140,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000002_.IsHiddenShiftedLeftStackOfGrowthCurve = false
 	__PlantDiagram__00000002_.IsHiddenShiftedLeftStackOfNormalVector = false
 	__PlantDiagram__00000002_.IsHiddenGrowthCurve2D = false
-	__PlantDiagram__00000002_.IsChecked = true
+	__PlantDiagram__00000002_.IsChecked = false
 	__PlantDiagram__00000002_.ComputedPrefix = ``
 	__PlantDiagram__00000002_.IsExpanded = true
 

@@ -206,8 +206,8 @@ func (stager *Stager) createViews() {
 				},
 				{
 					Size: 525,
-					Slider: &split.Slider{
-						StackName: stager.sliderStage.GetName(),
+					Form: &split.Form{
+						StackName: stager.probeForm.GetFormStage().GetName(),
 					},
 				},
 			},
