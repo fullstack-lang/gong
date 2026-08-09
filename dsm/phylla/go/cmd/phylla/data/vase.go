@@ -40,6 +40,8 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_ := (&models.Rendered3DShape{Name: `New Plant Diagram-Rendered3DShape`}).Stage(stage)
 	__Rendered3DShape__00000002_ := (&models.Rendered3DShape{Name: `New Plant - Diagram-Rendered3DShape`}).Stage(stage)
 
+	__SampledPoints3DShape__00000000_ := (&models.SampledPoints3DShape{Name: `New Plant - Diagram-SampledPoints3DShape`}).Stage(stage)
+
 	__StoolAbstract__00000000_ := (&models.StoolAbstract{Name: `Stool-StoolAbstract`}).Stage(stage)
 
 	__StoolDiagram__00000000_ := (&models.StoolDiagram{Name: `New Plant - Diagram-StoolDiagram`}).Stage(stage)
@@ -85,11 +87,11 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.IsPlantDiagramsNodeExpanded = false
 
 	__PlantAbstract__00000002_.Name = `Stool`
-	__PlantAbstract__00000002_.N = 2
-	__PlantAbstract__00000002_.M = 3
+	__PlantAbstract__00000002_.N = 1
+	__PlantAbstract__00000002_.M = 2
 	__PlantAbstract__00000002_.StackHeight = 3
-	__PlantAbstract__00000002_.RhombusInsideAngle = 117.000000
-	__PlantAbstract__00000002_.RhombusSideLength = 150.000000
+	__PlantAbstract__00000002_.RhombusInsideAngle = 140.000000
+	__PlantAbstract__00000002_.RhombusSideLength = 230.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
 	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
@@ -232,18 +234,23 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = 354.154027
-	__Rendered3DShape__00000002_.ViewY = -48.305179
-	__Rendered3DShape__00000002_.ViewZ = -269.407682
+	__Rendered3DShape__00000002_.ViewX = 52.935311
+	__Rendered3DShape__00000002_.ViewY = 43.395831
+	__Rendered3DShape__00000002_.ViewZ = -633.348039
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 100.000000
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
 	__Rendered3DShape__00000002_.Fov = 45.000000
 
+	__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
+
 	__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
 	__StoolAbstract__00000000_.RadialRepetitions = 1
+	__StoolAbstract__00000000_.Transparency = 0.300000
+	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.010000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
+	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = false
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000
@@ -384,6 +391,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000003_.StoolDiagram = nil
 	__PlantDiagram__00000004_.VaseDiagram = nil
 	__PlantDiagram__00000004_.StoolDiagram = __StoolDiagram__00000000_
+	__StoolDiagram__00000000_.SampledPoints3DShape = __SampledPoints3DShape__00000000_
 	__StoolDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000002_
 	__VaseDiagram__00000000_.Rendered3DShape = __Rendered3DShape__00000000_
 	__VaseDiagram__00000000_.SampledPoints3DShape = nil

@@ -4216,6 +4216,10 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "RadialRepetitions":
 		instance.RadialRepetitions = GongExtractInt(valueExpr)
+	case "Transparency":
+		instance.Transparency = GongExtractFloat(valueExpr)
+	case "RelativeTubeDiameter":
+		instance.RelativeTubeDiameter = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -4245,6 +4249,10 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsHiddenSampledPoints3DShape":
+		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "SampledPoints3DShape":
+		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	}

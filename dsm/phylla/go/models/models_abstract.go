@@ -91,6 +91,9 @@ type StoolAbstract struct {
 
 	// Transparency of the stool (between 0.0 for opaque and 1.0 for transparent)
 	Transparency float64
+
+	// RelativeTubeDiameter of the 3D tube (default is 0.01)
+	RelativeTubeDiameter float64
 }
 
 type VaseAbstract struct {
