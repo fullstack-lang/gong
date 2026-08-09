@@ -455,6 +455,42 @@ func (stager *Stager) ux_slider_stool() {
 		),
 	)
 
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Rel Height",
+			0.0,
+			3.0,
+			0.01,
+			&plant.StoolAbstract.RelativeHeight,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Rel Seat Thickness",
+			0.01,
+			0.5,
+			0.01,
+			&plant.StoolAbstract.RelativeSeatThickness,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Projection Angle",
+			0.0,
+			15,
+			0.1,
+			&plant.StoolAbstract.ProjectionAngle,
+		),
+	)
+
 	stager.sliderStoolStage.Commit()
 }
 
