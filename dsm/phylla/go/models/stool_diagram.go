@@ -6,14 +6,14 @@ type StoolDiagram struct {
 	IsHiddenSeatTopCurveShape bool
 	SeatTopCurveShape         *SeatTopCurveShape
 
-	IsHiddenPartiallyRotatedSeatTopCurveShape bool
-	PartiallyRotatedSeatTopCurveShape         *PartiallyRotatedSeatTopCurveShape
+	IsHiddenRotatedSeatTopCurveShape bool
+	RotatedSeatTopCurveShape         *PartiallyRotatedSeatTopCurveShape
 
 	IsHiddenTorus3DShape bool
 	Torus3DShape         *Torus3DShape
 
-	IsHiddenPartiallyRotatedTorusShape bool
-	PartiallyRotatedTorusShape         *PartiallyRotatedTorusShape
+	IsHiddenRotatedTorusShape bool
+	RotatedTorusShape         *PartiallyRotatedTorusShape
 
 	IsHiddenSampledPoints3DShape bool
 	SampledPoints3DShape         *SampledPoints3DShape

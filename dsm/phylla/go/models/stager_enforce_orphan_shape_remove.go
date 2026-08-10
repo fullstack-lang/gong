@@ -452,8 +452,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			if diagram.StoolDiagram.SeatTopCurveShape != nil {
 				refSeatTopCurveShape[diagram.StoolDiagram.SeatTopCurveShape] = true
 			}
-			if diagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape != nil {
-				refPartiallyRotatedSeatTopCurveShape[diagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape] = true
+			if diagram.StoolDiagram.RotatedSeatTopCurveShape != nil {
+				refPartiallyRotatedSeatTopCurveShape[diagram.StoolDiagram.RotatedSeatTopCurveShape] = true
 			}
 			if diagram.StoolDiagram.Torus3DShape != nil {
 				refTorus3DShape[diagram.StoolDiagram.Torus3DShape] = true
@@ -461,8 +461,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			if diagram.StoolDiagram.SampledPoints3DShape != nil {
 				refSampledPoints3DShape[diagram.StoolDiagram.SampledPoints3DShape] = true
 			}
-			if diagram.StoolDiagram.PartiallyRotatedTorusShape != nil {
-				refPartiallyRotatedTorusShape[diagram.StoolDiagram.PartiallyRotatedTorusShape] = true
+			if diagram.StoolDiagram.RotatedTorusShape != nil {
+				refPartiallyRotatedTorusShape[diagram.StoolDiagram.RotatedTorusShape] = true
 			}
 		}
 		if diagram.VaseDiagram != nil {

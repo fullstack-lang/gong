@@ -2469,15 +2469,15 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenSeatTopCurveShape", instanceWithInferedType.IsHiddenSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("SeatTopCurveShape", instanceWithInferedType.SeatTopCurveShape, formGroup, probe)
-		BasicFieldtoForm("IsHiddenPartiallyRotatedSeatTopCurveShape", instanceWithInferedType.IsHiddenPartiallyRotatedSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsHiddenRotatedSeatTopCurveShape", instanceWithInferedType.IsHiddenRotatedSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("PartiallyRotatedSeatTopCurveShape", instanceWithInferedType.PartiallyRotatedSeatTopCurveShape, formGroup, probe)
+		AssociationFieldToForm("RotatedSeatTopCurveShape", instanceWithInferedType.RotatedSeatTopCurveShape, formGroup, probe)
 		BasicFieldtoForm("IsHiddenTorus3DShape", instanceWithInferedType.IsHiddenTorus3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Torus3DShape", instanceWithInferedType.Torus3DShape, formGroup, probe)
-		BasicFieldtoForm("IsHiddenPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsHiddenRotatedTorusShape", instanceWithInferedType.IsHiddenRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("PartiallyRotatedTorusShape", instanceWithInferedType.PartiallyRotatedTorusShape, formGroup, probe)
+		AssociationFieldToForm("RotatedTorusShape", instanceWithInferedType.RotatedTorusShape, formGroup, probe)
 		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)

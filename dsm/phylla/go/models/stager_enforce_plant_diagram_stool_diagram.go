@@ -34,14 +34,14 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.SeatTopCurveShape.Name = plantDiagram.Name + "-SeatTopCurveShape"
 				modified = true
 			}
-			if plantDiagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape == nil {
+			if plantDiagram.StoolDiagram.RotatedSeatTopCurveShape == nil {
 				s := (&PartiallyRotatedSeatTopCurveShape{
 					Name: plantDiagram.Name + "-PartiallyRotatedSeatTopCurveShape",
 				}).Stage(stager.stage)
-				plantDiagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape = s
+				plantDiagram.StoolDiagram.RotatedSeatTopCurveShape = s
 				modified = true
-			} else if plantDiagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape.Name != plantDiagram.Name+"-PartiallyRotatedSeatTopCurveShape" {
-				plantDiagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape.Name = plantDiagram.Name + "-PartiallyRotatedSeatTopCurveShape"
+			} else if plantDiagram.StoolDiagram.RotatedSeatTopCurveShape.Name != plantDiagram.Name+"-PartiallyRotatedSeatTopCurveShape" {
+				plantDiagram.StoolDiagram.RotatedSeatTopCurveShape.Name = plantDiagram.Name + "-PartiallyRotatedSeatTopCurveShape"
 				modified = true
 			}
 			if plantDiagram.StoolDiagram.Torus3DShape == nil {
@@ -54,14 +54,14 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.Torus3DShape.Name = plantDiagram.Name + "-Torus3DShape"
 				modified = true
 			}
-			if plantDiagram.StoolDiagram.PartiallyRotatedTorusShape == nil {
+			if plantDiagram.StoolDiagram.RotatedTorusShape == nil {
 				ts := (&PartiallyRotatedTorusShape{
 					Name: plantDiagram.Name + "-PartiallyRotatedTorusShape",
 				}).Stage(stager.stage)
-				plantDiagram.StoolDiagram.PartiallyRotatedTorusShape = ts
+				plantDiagram.StoolDiagram.RotatedTorusShape = ts
 				modified = true
-			} else if plantDiagram.StoolDiagram.PartiallyRotatedTorusShape.Name != plantDiagram.Name+"-PartiallyRotatedTorusShape" {
-				plantDiagram.StoolDiagram.PartiallyRotatedTorusShape.Name = plantDiagram.Name + "-PartiallyRotatedTorusShape"
+			} else if plantDiagram.StoolDiagram.RotatedTorusShape.Name != plantDiagram.Name+"-PartiallyRotatedTorusShape" {
+				plantDiagram.StoolDiagram.RotatedTorusShape.Name = plantDiagram.Name + "-PartiallyRotatedTorusShape"
 				modified = true
 			}
 			if plantDiagram.StoolDiagram.SampledPoints3DShape == nil {
