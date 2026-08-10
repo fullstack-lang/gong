@@ -266,6 +266,17 @@ func (from *ExplanationTextShape) CopyBasicFields(to *ExplanationTextShape) {
 	to.Name = from.Name
 }
 
+type EyeSampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeSampledPoints3DShape) CopyBasicFields(to *EyeSampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type GridPathShape_WOP struct {
 	// insertion point
 
@@ -2508,6 +2519,8 @@ type StoolAbstract_WOP struct {
 	RelativeSeatThickness float64
 
 	ProjectionAngle float64
+
+	RelativeEyeSeparationCriteria float64
 }
 
 func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
@@ -2520,6 +2533,7 @@ func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	to.RelativeHeight = from.RelativeHeight
 	to.RelativeSeatThickness = from.RelativeSeatThickness
 	to.ProjectionAngle = from.ProjectionAngle
+	to.RelativeEyeSeparationCriteria = from.RelativeEyeSeparationCriteria
 }
 
 type StoolDiagram_WOP struct {
@@ -2542,6 +2556,8 @@ type StoolDiagram_WOP struct {
 	IsHiddenSampledPoints3DShape bool
 
 	IsHiddenRotatedSampledPoints3DShape bool
+
+	IsHiddenEyeSampledPoints3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
@@ -2555,6 +2571,7 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.IsHiddenRotatedTorusShape = from.IsHiddenRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 	to.IsHiddenRotatedSampledPoints3DShape = from.IsHiddenRotatedSampledPoints3DShape
+	to.IsHiddenEyeSampledPoints3DShape = from.IsHiddenEyeSampledPoints3DShape
 }
 
 type TopEndArcShape_WOP struct {

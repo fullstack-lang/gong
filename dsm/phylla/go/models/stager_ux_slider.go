@@ -503,6 +503,18 @@ func (stager *Stager) ux_slider_stool() {
 		),
 	)
 
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Rel Eye Separation",
+			0.0,
+			0.5,
+			0.005,
+			&plant.StoolAbstract.RelativeEyeSeparationCriteria,
+		),
+	)
+
 	stager.sliderStoolStage.Commit()
 }
 

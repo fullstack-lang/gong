@@ -27,5 +27,8 @@ type StoolDiagram struct {
 	IsHiddenRotatedSampledPoints3DShape bool
 	RotatedSampledPoints3DShape         *RotatedSampledPoints3DShape
 
+	IsHiddenEyeSampledPoints3DShape bool
+	EyeSampledPoints3DShape         *EyeSampledPoints3DShape
+
 	Rendered3DShape *Rendered3DShape
 }

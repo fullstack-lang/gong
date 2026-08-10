@@ -147,6 +147,15 @@ func (inst *ExplanationTextShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 	return
 }
 
+func (inst *EyeSampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *GridPathShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1594,6 +1603,15 @@ func (inst *EndHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, rever
 }
 
 func (inst *ExplanationTextShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *EyeSampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

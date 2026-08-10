@@ -921,6 +921,35 @@ func (u *ExplanationTextShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 	return nil
 }
 
+type EyeSampledPoints3DShapeUnmarshaller struct{}
+
+func (u *EyeSampledPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(EyeSampledPoints3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *EyeSampledPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*EyeSampledPoints3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type GridPathShapeUnmarshaller struct{}
 
 func (u *GridPathShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -4373,6 +4402,8 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.RelativeSeatThickness = GongExtractFloat(valueExpr)
 	case "ProjectionAngle":
 		instance.ProjectionAngle = GongExtractFloat(valueExpr)
+	case "RelativeEyeSeparationCriteria":
+		instance.RelativeEyeSeparationCriteria = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -4434,6 +4465,10 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenRotatedSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "RotatedSampledPoints3DShape":
 		GongUnmarshallPointer(&instance.RotatedSampledPoints3DShape, valueExpr, identifierMap)
+	case "IsHiddenEyeSampledPoints3DShape":
+		instance.IsHiddenEyeSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "EyeSampledPoints3DShape":
+		GongUnmarshallPointer(&instance.EyeSampledPoints3DShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	}
