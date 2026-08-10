@@ -4433,6 +4433,8 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.ProjectionAngle = GongExtractFloat(valueExpr)
 	case "RelativeEyeSeparationCriteria":
 		instance.RelativeEyeSeparationCriteria = GongExtractFloat(valueExpr)
+	case "RelativeEyeCornerControlVectorStrength":
+		instance.RelativeEyeCornerControlVectorStrength = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

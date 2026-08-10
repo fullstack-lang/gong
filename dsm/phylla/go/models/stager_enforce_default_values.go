@@ -101,6 +101,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 				stool.RelativeEyeSeparationCriteria = 0.05
 			}
+			if stool.RelativeEyeCornerControlVectorStrength == 0.0 {
+				needCommit = true
+				stool.RelativeEyeCornerControlVectorStrength = 0.55
+			}
 		}
 	}
 

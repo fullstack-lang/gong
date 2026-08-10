@@ -253,6 +253,7 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RelativeSeatThickness = 0.400000
 	__StoolAbstract__00000000_.ProjectionAngle = 14.700000
 	__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
+	__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
 	__StoolDiagram__00000000_.IsHiddenSeatTopCurveShape = true

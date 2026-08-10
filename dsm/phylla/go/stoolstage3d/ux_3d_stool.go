@@ -702,37 +702,140 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				inEye[i] = (dist > eyeCriteria)
 			}
 
-			addCornerInterpolation := func(angle float64, yBottom, yTop float64, cornerName string) {
-				deltaY := math.Abs(yTop - yBottom)
-				n := int(math.Round(deltaY / dStep))
+			type point2D struct {
+				U, Y float64
+			}
+
+			evalBezier := func(c0, c1, c2, c3 point2D, t float64) point2D {
+				omt := 1.0 - t
+				omt2 := omt * omt
+				omt3 := omt2 * omt
+				t2 := t * t
+				t3 := t2 * t
+				return point2D{
+					U: omt3*c0.U + 3*omt2*t*c1.U + 3*omt*t2*c2.U + t3*c3.U,
+					Y: omt3*c0.Y + 3*omt2*t*c1.Y + 3*omt*t2*c2.Y + t3*c3.Y,
+				}
+			}
+
+			sampleBezierCorner := func(c0, c1, c2, c3 point2D, cornerName string) {
+				const numSub = 200
+				pts := make([]point2D, numSub+1)
+				cumLen := make([]float64, numSub+1)
+				totalLen := 0.0
+				pts[0] = c0
+				cumLen[0] = 0.0
+
+				for k := 1; k <= numSub; k++ {
+					t := float64(k) / float64(numSub)
+					pts[k] = evalBezier(c0, c1, c2, c3, t)
+					du := pts[k].U - pts[k-1].U
+					dy := pts[k].Y - pts[k-1].Y
+					totalLen += math.Hypot(du, dy)
+					cumLen[k] = totalLen
+				}
+
+				n := int(math.Round(totalLen / dStep))
 				if n < 2 {
 					n = 2
 				}
+
 				for j := 1; j < n; j++ {
-					t := float64(j) / float64(n)
-					y := yBottom + t*(yTop-yBottom)
-					x := globalR * math.Cos(angle)
-					z := globalR * math.Sin(angle)
+					targetDist := float64(j) * (totalLen / float64(n))
+					searchIdx := sort.SearchFloat64s(cumLen, targetDist)
+					if searchIdx <= 0 {
+						searchIdx = 1
+					}
+					if searchIdx > numSub {
+						searchIdx = numSub
+					}
+					segL := cumLen[searchIdx] - cumLen[searchIdx-1]
+					segT := 0.0
+					if segL > 0 {
+						segT = (targetDist - cumLen[searchIdx-1]) / segL
+					}
+					uVal := pts[searchIdx-1].U + segT*(pts[searchIdx].U-pts[searchIdx-1].U)
+					yVal := pts[searchIdx-1].Y + segT*(pts[searchIdx].Y-pts[searchIdx-1].Y)
+
+					theta := uVal / globalR
+					x := globalR * math.Cos(theta)
+					z := globalR * math.Sin(theta)
 
 					cornerPoints = append(cornerPoints, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s Point %d/%.1f", cornerName, j, angle*180.0/math.Pi),
+						Name: fmt.Sprintf("%s Bezier Point %d/%.1f", cornerName, j, theta*180.0/math.Pi),
 						X:    x,
-						Y:    y,
+						Y:    yVal,
 						Z:    z,
 					}).Stage(stool3dStage))
 				}
 			}
 
+			normalize2D := func(du, dy float64, defU, defY float64) (float64, float64) {
+				lenV := math.Hypot(du, dy)
+				if lenV > 1e-7 {
+					return du / lenV, dy / lenV
+				}
+				return defU, defY
+			}
+
+			controlStrength := plant.StoolAbstract.RelativeEyeCornerControlVectorStrength
+			if controlStrength <= 0.0 {
+				controlStrength = 0.55
+			}
+
 			for i := 0; i < numPts; i++ {
 				// Start of an eye segment (left corner)
 				if inEye[i] && (i == 0 || !inEye[i-1]) {
-					alpha := targetAngles[i]
-					addCornerInterpolation(alpha, yBaseList[i], yRotList[i], "Left Corner")
+					i0 := i
+					i1 := i + 1
+					if i1 >= numPts {
+						i1 = i0
+					}
+
+					pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
+					pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
+					tBottomU, tBottomY := normalize2D(pBottom0.U-pBottom1.U, pBottom0.Y-pBottom1.Y, -1.0, 0.0)
+
+					pTop0 := point2D{U: targetAngles[i0] * globalR, Y: yRotList[i0]}
+					pTop1 := point2D{U: targetAngles[i1] * globalR, Y: yRotList[i1]}
+					tTopU, tTopY := normalize2D(pTop1.U-pTop0.U, pTop1.Y-pTop0.Y, 1.0, 0.0)
+
+					c0 := pBottom0
+					c3 := pTop0
+					chord := math.Abs(c3.Y - c0.Y)
+					handleLen := controlStrength * chord
+
+					c1 := point2D{U: c0.U + handleLen*tBottomU, Y: c0.Y + handleLen*tBottomY}
+					c2 := point2D{U: c3.U - handleLen*tTopU, Y: c3.Y - handleLen*tTopY}
+
+					sampleBezierCorner(c0, c1, c2, c3, "Left Corner")
 				}
+
 				// End of an eye segment (right corner)
 				if inEye[i] && (i == numPts-1 || !inEye[i+1]) {
-					alpha := targetAngles[i]
-					addCornerInterpolation(alpha, yBaseList[i], yRotList[i], "Right Corner")
+					i0 := i
+					i1 := i - 1
+					if i1 < 0 {
+						i1 = 0
+					}
+
+					pTop0 := point2D{U: targetAngles[i0] * globalR, Y: yRotList[i0]}
+					pTop1 := point2D{U: targetAngles[i1] * globalR, Y: yRotList[i1]}
+					tTopU, tTopY := normalize2D(pTop0.U-pTop1.U, pTop0.Y-pTop1.Y, 1.0, 0.0)
+
+					pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
+					pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
+					tBottomU, tBottomY := normalize2D(pBottom1.U-pBottom0.U, pBottom1.Y-pBottom0.Y, -1.0, 0.0)
+
+					c0 := pTop0
+					c3 := pBottom0
+					chord := math.Abs(c3.Y - c0.Y)
+					handleLen := controlStrength * chord
+
+					c1 := point2D{U: c0.U + handleLen*tTopU, Y: c0.Y + handleLen*tTopY}
+					c2 := point2D{U: c3.U - handleLen*tBottomU, Y: c3.Y - handleLen*tBottomY}
+
+					sampleBezierCorner(c0, c1, c2, c3, "Right Corner")
 				}
 			}
 

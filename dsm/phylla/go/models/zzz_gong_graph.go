@@ -13106,6 +13106,9 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	if stoolabstract.RelativeEyeSeparationCriteria != stoolabstractOther.RelativeEyeSeparationCriteria {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
 	}
+	if stoolabstract.RelativeEyeCornerControlVectorStrength != stoolabstractOther.RelativeEyeCornerControlVectorStrength {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
+	}
 
 	return
 }
