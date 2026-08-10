@@ -119,6 +119,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refEyeSampledPoints3DShape := make(map[*EyeSampledPoints3DShape]bool)
 	refEyeCornersSampledPoints3DShape := make(map[*EyeCornersSampledPoints3DShape]bool)
 	refEye3DShape := make(map[*Eye3DShape]bool)
+	refEyeSeatBottomCurveShape := make(map[*EyeSeatBottomCurveShape]bool)
+	refEyeStoolBottomCurveShape := make(map[*EyeStoolBottomCurveShape]bool)
 	refSeatTopCurveShape := make(map[*SeatTopCurveShape]bool)
 	refPartiallyRotatedSeatTopCurveShape := make(map[*PartiallyRotatedSeatTopCurveShape]bool)
 	refSeatBottomCurveShape := make(map[*SeatBottomCurveShape]bool)
@@ -484,6 +486,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			if diagram.StoolDiagram.Eye3DShape != nil {
 				refEye3DShape[diagram.StoolDiagram.Eye3DShape] = true
+			}
+			if diagram.StoolDiagram.EyeSeatBottomCurveShape != nil {
+				refEyeSeatBottomCurveShape[diagram.StoolDiagram.EyeSeatBottomCurveShape] = true
+			}
+			if diagram.StoolDiagram.EyeStoolBottomCurveShape != nil {
+				refEyeStoolBottomCurveShape[diagram.StoolDiagram.EyeStoolBottomCurveShape] = true
 			}
 			if diagram.StoolDiagram.RotatedTorusShape != nil {
 				refPartiallyRotatedTorusShape[diagram.StoolDiagram.RotatedTorusShape] = true
@@ -1208,6 +1216,20 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*Eye3DShape](stage) {
 		if !refEye3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeSeatBottomCurveShape](stage) {
+		if !refEyeSeatBottomCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeStoolBottomCurveShape](stage) {
+		if !refEyeStoolBottomCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

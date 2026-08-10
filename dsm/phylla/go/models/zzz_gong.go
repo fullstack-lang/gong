@@ -379,6 +379,36 @@ type Stage struct {
 	OnAfterEyeSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[EyeSampledPoints3DShape]
 	OnAfterEyeSampledPoints3DShapeReadCallback   OnAfterReadInterface[EyeSampledPoints3DShape]
 
+	EyeSeatBottomCurveShapes                map[*EyeSeatBottomCurveShape]struct{}
+	EyeSeatBottomCurveShapes_instance       map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapes_mapString      map[string]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapeOrder            uint
+	EyeSeatBottomCurveShape_stagedOrder     map[*EyeSeatBottomCurveShape]uint
+	EyeSeatBottomCurveShape_orderStaged     map[uint]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapes_reference      map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapes_referenceOrder map[*EyeSeatBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeReadCallback   OnAfterReadInterface[EyeSeatBottomCurveShape]
+
+	EyeStoolBottomCurveShapes                map[*EyeStoolBottomCurveShape]struct{}
+	EyeStoolBottomCurveShapes_instance       map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapes_mapString      map[string]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapeOrder            uint
+	EyeStoolBottomCurveShape_stagedOrder     map[*EyeStoolBottomCurveShape]uint
+	EyeStoolBottomCurveShape_orderStaged     map[uint]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapes_reference      map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapes_referenceOrder map[*EyeStoolBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeStoolBottomCurveShapeCreateCallback OnAfterCreateInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeUpdateCallback OnAfterUpdateInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeDeleteCallback OnAfterDeleteInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeReadCallback   OnAfterReadInterface[EyeStoolBottomCurveShape]
+
 	GridPathShapes                map[*GridPathShape]struct{}
 	GridPathShapes_instance       map[*GridPathShape]*GridPathShape
 	GridPathShapes_mapString      map[string]*GridPathShape
@@ -2410,6 +2440,14 @@ func (stage *Stage) Squash() {
 	stage.EyeSampledPoints3DShapes_instance = make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape)
 	stage.EyeSampledPoints3DShapes_referenceOrder = make(map[*EyeSampledPoints3DShape]uint)
 
+	stage.EyeSeatBottomCurveShapes_reference = make(map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape)
+	stage.EyeSeatBottomCurveShapes_instance = make(map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape)
+	stage.EyeSeatBottomCurveShapes_referenceOrder = make(map[*EyeSeatBottomCurveShape]uint)
+
+	stage.EyeStoolBottomCurveShapes_reference = make(map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape)
+	stage.EyeStoolBottomCurveShapes_instance = make(map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape)
+	stage.EyeStoolBottomCurveShapes_referenceOrder = make(map[*EyeStoolBottomCurveShape]uint)
+
 	stage.GridPathShapes_reference = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_instance = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_referenceOrder = make(map[*GridPathShape]uint)
@@ -3095,6 +3133,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.EyeSampledPoints3DShapeOrder = maxEyeSampledPoints3DShapeOrder + 1
 	} else {
 		stage.EyeSampledPoints3DShapeOrder = 0
+	}
+
+	var maxEyeSeatBottomCurveShapeOrder uint
+	var foundEyeSeatBottomCurveShape bool
+	for _, order := range stage.EyeSeatBottomCurveShape_stagedOrder {
+		if !foundEyeSeatBottomCurveShape || order > maxEyeSeatBottomCurveShapeOrder {
+			maxEyeSeatBottomCurveShapeOrder = order
+			foundEyeSeatBottomCurveShape = true
+		}
+	}
+	if foundEyeSeatBottomCurveShape {
+		stage.EyeSeatBottomCurveShapeOrder = maxEyeSeatBottomCurveShapeOrder + 1
+	} else {
+		stage.EyeSeatBottomCurveShapeOrder = 0
+	}
+
+	var maxEyeStoolBottomCurveShapeOrder uint
+	var foundEyeStoolBottomCurveShape bool
+	for _, order := range stage.EyeStoolBottomCurveShape_stagedOrder {
+		if !foundEyeStoolBottomCurveShape || order > maxEyeStoolBottomCurveShapeOrder {
+			maxEyeStoolBottomCurveShapeOrder = order
+			foundEyeStoolBottomCurveShape = true
+		}
+	}
+	if foundEyeStoolBottomCurveShape {
+		stage.EyeStoolBottomCurveShapeOrder = maxEyeStoolBottomCurveShapeOrder + 1
+	} else {
+		stage.EyeStoolBottomCurveShapeOrder = 0
 	}
 
 	var maxGridPathShapeOrder uint
@@ -4908,6 +4974,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *EyeSeatBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeSeatBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EyeStoolBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeStoolBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *GridPathShape:
 		tmp := GetStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 
@@ -6495,6 +6589,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
 	case "EyeSampledPoints3DShape":
 		res = GetNamedStructInstances(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
+	case "EyeSeatBottomCurveShape":
+		res = GetNamedStructInstances(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
+	case "EyeStoolBottomCurveShape":
+		res = GetNamedStructInstances(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
 	case "GridPathShape":
 		res = GetNamedStructInstances(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 	case "GrowthCurve2D":
@@ -6814,6 +6912,10 @@ type BackRepoInterface interface {
 	CheckoutEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape)
 	CommitEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape)
 	CheckoutEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape)
+	CommitEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape)
+	CheckoutEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape)
+	CommitEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape)
+	CheckoutEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape)
 	CommitGridPathShape(gridpathshape *GridPathShape)
 	CheckoutGridPathShape(gridpathshape *GridPathShape)
 	CommitGrowthCurve2D(growthcurve2d *GrowthCurve2D)
@@ -7085,6 +7187,12 @@ func NewStage(name string) (stage *Stage) {
 
 		EyeSampledPoints3DShapes:           make(map[*EyeSampledPoints3DShape]struct{}),
 		EyeSampledPoints3DShapes_mapString: make(map[string]*EyeSampledPoints3DShape),
+
+		EyeSeatBottomCurveShapes:           make(map[*EyeSeatBottomCurveShape]struct{}),
+		EyeSeatBottomCurveShapes_mapString: make(map[string]*EyeSeatBottomCurveShape),
+
+		EyeStoolBottomCurveShapes:           make(map[*EyeStoolBottomCurveShape]struct{}),
+		EyeStoolBottomCurveShapes_mapString: make(map[string]*EyeStoolBottomCurveShape),
 
 		GridPathShapes:           make(map[*GridPathShape]struct{}),
 		GridPathShapes_mapString: make(map[string]*GridPathShape),
@@ -7486,6 +7594,14 @@ func NewStage(name string) (stage *Stage) {
 		EyeSampledPoints3DShape_stagedOrder: make(map[*EyeSampledPoints3DShape]uint),
 		EyeSampledPoints3DShape_orderStaged: make(map[uint]*EyeSampledPoints3DShape),
 		EyeSampledPoints3DShapes_reference:  make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape),
+
+		EyeSeatBottomCurveShape_stagedOrder: make(map[*EyeSeatBottomCurveShape]uint),
+		EyeSeatBottomCurveShape_orderStaged: make(map[uint]*EyeSeatBottomCurveShape),
+		EyeSeatBottomCurveShapes_reference:  make(map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape),
+
+		EyeStoolBottomCurveShape_stagedOrder: make(map[*EyeStoolBottomCurveShape]uint),
+		EyeStoolBottomCurveShape_orderStaged: make(map[uint]*EyeStoolBottomCurveShape),
+		EyeStoolBottomCurveShapes_reference:  make(map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape),
 
 		GridPathShape_stagedOrder: make(map[*GridPathShape]uint),
 		GridPathShape_orderStaged: make(map[uint]*GridPathShape),
@@ -7957,6 +8073,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"EyeSampledPoints3DShape": &EyeSampledPoints3DShapeUnmarshaller{},
 
+			"EyeSeatBottomCurveShape": &EyeSeatBottomCurveShapeUnmarshaller{},
+
+			"EyeStoolBottomCurveShape": &EyeStoolBottomCurveShapeUnmarshaller{},
+
 			"GridPathShape": &GridPathShapeUnmarshaller{},
 
 			"GrowthCurve2D": &GrowthCurve2DUnmarshaller{},
@@ -8195,6 +8315,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Eye3DShape"},
 			{name: "EyeCornersSampledPoints3DShape"},
 			{name: "EyeSampledPoints3DShape"},
+			{name: "EyeSeatBottomCurveShape"},
+			{name: "EyeStoolBottomCurveShape"},
 			{name: "GridPathShape"},
 			{name: "GrowthCurve2D"},
 			{name: "GrowthCurve2DRibbon"},
@@ -8347,6 +8469,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
 	case *EyeSampledPoints3DShape:
 		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
+	case *EyeSeatBottomCurveShape:
+		return stage.EyeSeatBottomCurveShape_stagedOrder[instance]
+	case *EyeStoolBottomCurveShape:
+		return stage.EyeStoolBottomCurveShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
 	case *GrowthCurve2D:
@@ -8606,6 +8732,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.EyeCornersSampledPoints3DShape_orderStaged[order]).(Type)
 	case *EyeSampledPoints3DShape:
 		return any(stage.EyeSampledPoints3DShape_orderStaged[order]).(Type)
+	case *EyeSeatBottomCurveShape:
+		return any(stage.EyeSeatBottomCurveShape_orderStaged[order]).(Type)
+	case *EyeStoolBottomCurveShape:
+		return any(stage.EyeStoolBottomCurveShape_orderStaged[order]).(Type)
 	case *GridPathShape:
 		return any(stage.GridPathShape_orderStaged[order]).(Type)
 	case *GrowthCurve2D:
@@ -8864,6 +8994,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
 	case *EyeSampledPoints3DShape:
 		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
+	case *EyeSeatBottomCurveShape:
+		return stage.EyeSeatBottomCurveShape_stagedOrder[instance]
+	case *EyeStoolBottomCurveShape:
+		return stage.EyeStoolBottomCurveShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
 	case *GrowthCurve2D:
@@ -9163,6 +9297,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Eye3DShape"] = len(stage.Eye3DShapes)
 	stage.Map_GongStructName_InstancesNb["EyeCornersSampledPoints3DShape"] = len(stage.EyeCornersSampledPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["EyeSampledPoints3DShape"] = len(stage.EyeSampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["EyeSeatBottomCurveShape"] = len(stage.EyeSeatBottomCurveShapes)
+	stage.Map_GongStructName_InstancesNb["EyeStoolBottomCurveShape"] = len(stage.EyeStoolBottomCurveShapes)
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthCurve2D"] = len(stage.GrowthCurve2Ds)
 	stage.Map_GongStructName_InstancesNb["GrowthCurve2DRibbon"] = len(stage.GrowthCurve2DRibbons)
@@ -10718,6 +10854,182 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (eyesampledpoints3dshape *EyeSampledPoints3DShape) SetName(name string) {
 	eyesampledpoints3dshape.Name = name
+}
+
+// Stage puts eyeseatbottomcurveshape to the model stage
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Stage(stage *Stage) *EyeSeatBottomCurveShape {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; !ok {
+		stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape] = struct{}{}
+		stage.EyeSeatBottomCurveShape_stagedOrder[eyeseatbottomcurveshape] = stage.EyeSeatBottomCurveShapeOrder
+		stage.EyeSeatBottomCurveShape_orderStaged[stage.EyeSeatBottomCurveShapeOrder] = eyeseatbottomcurveshape
+		stage.EyeSeatBottomCurveShapeOrder++
+	}
+	stage.EyeSeatBottomCurveShapes_mapString[eyeseatbottomcurveshape.Name] = eyeseatbottomcurveshape
+
+	return eyeseatbottomcurveshape
+}
+
+// StagePreserveOrder puts eyeseatbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeSeatBottomCurveShapeOrder
+// - update stage.EyeSeatBottomCurveShapeOrder accordingly
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; !ok {
+		stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape] = struct{}{}
+
+		if order > stage.EyeSeatBottomCurveShapeOrder {
+			stage.EyeSeatBottomCurveShapeOrder = order
+		}
+		stage.EyeSeatBottomCurveShape_stagedOrder[eyeseatbottomcurveshape] = order
+		stage.EyeSeatBottomCurveShape_orderStaged[order] = eyeseatbottomcurveshape
+		stage.EyeSeatBottomCurveShapeOrder++
+	}
+	stage.EyeSeatBottomCurveShapes_mapString[eyeseatbottomcurveshape.Name] = eyeseatbottomcurveshape
+}
+
+// Unstage removes eyeseatbottomcurveshape off the model stage
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Unstage(stage *Stage) *EyeSeatBottomCurveShape {
+	delete(stage.EyeSeatBottomCurveShapes, eyeseatbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeSeatBottomCurveShape_stagedOrder, eyeseatbottomcurveshape)
+	delete(stage.EyeSeatBottomCurveShapes_mapString, eyeseatbottomcurveshape.Name)
+
+	return eyeseatbottomcurveshape
+}
+
+// UnstageVoid removes eyeseatbottomcurveshape off the model stage
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeSeatBottomCurveShapes, eyeseatbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeSeatBottomCurveShape_stagedOrder, eyeseatbottomcurveshape)
+	delete(stage.EyeSeatBottomCurveShapes_mapString, eyeseatbottomcurveshape.Name)
+}
+
+// commit eyeseatbottomcurveshape to the back repo (if it is already staged)
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Commit(stage *Stage) *EyeSeatBottomCurveShape {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeSeatBottomCurveShape(eyeseatbottomcurveshape)
+		}
+	}
+	return eyeseatbottomcurveshape
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) CommitVoid(stage *Stage) {
+	eyeseatbottomcurveshape.Commit(stage)
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) StageVoid(stage *Stage) {
+	eyeseatbottomcurveshape.Stage(stage)
+}
+
+// Checkout eyeseatbottomcurveshape to the back repo (if it is already staged)
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Checkout(stage *Stage) *EyeSeatBottomCurveShape {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeSeatBottomCurveShape(eyeseatbottomcurveshape)
+		}
+	}
+	return eyeseatbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GetName() (res string) {
+	return eyeseatbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) SetName(name string) {
+	eyeseatbottomcurveshape.Name = name
+}
+
+// Stage puts eyestoolbottomcurveshape to the model stage
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Stage(stage *Stage) *EyeStoolBottomCurveShape {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; !ok {
+		stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape] = struct{}{}
+		stage.EyeStoolBottomCurveShape_stagedOrder[eyestoolbottomcurveshape] = stage.EyeStoolBottomCurveShapeOrder
+		stage.EyeStoolBottomCurveShape_orderStaged[stage.EyeStoolBottomCurveShapeOrder] = eyestoolbottomcurveshape
+		stage.EyeStoolBottomCurveShapeOrder++
+	}
+	stage.EyeStoolBottomCurveShapes_mapString[eyestoolbottomcurveshape.Name] = eyestoolbottomcurveshape
+
+	return eyestoolbottomcurveshape
+}
+
+// StagePreserveOrder puts eyestoolbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeStoolBottomCurveShapeOrder
+// - update stage.EyeStoolBottomCurveShapeOrder accordingly
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; !ok {
+		stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape] = struct{}{}
+
+		if order > stage.EyeStoolBottomCurveShapeOrder {
+			stage.EyeStoolBottomCurveShapeOrder = order
+		}
+		stage.EyeStoolBottomCurveShape_stagedOrder[eyestoolbottomcurveshape] = order
+		stage.EyeStoolBottomCurveShape_orderStaged[order] = eyestoolbottomcurveshape
+		stage.EyeStoolBottomCurveShapeOrder++
+	}
+	stage.EyeStoolBottomCurveShapes_mapString[eyestoolbottomcurveshape.Name] = eyestoolbottomcurveshape
+}
+
+// Unstage removes eyestoolbottomcurveshape off the model stage
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Unstage(stage *Stage) *EyeStoolBottomCurveShape {
+	delete(stage.EyeStoolBottomCurveShapes, eyestoolbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeStoolBottomCurveShape_stagedOrder, eyestoolbottomcurveshape)
+	delete(stage.EyeStoolBottomCurveShapes_mapString, eyestoolbottomcurveshape.Name)
+
+	return eyestoolbottomcurveshape
+}
+
+// UnstageVoid removes eyestoolbottomcurveshape off the model stage
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeStoolBottomCurveShapes, eyestoolbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeStoolBottomCurveShape_stagedOrder, eyestoolbottomcurveshape)
+	delete(stage.EyeStoolBottomCurveShapes_mapString, eyestoolbottomcurveshape.Name)
+}
+
+// commit eyestoolbottomcurveshape to the back repo (if it is already staged)
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Commit(stage *Stage) *EyeStoolBottomCurveShape {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeStoolBottomCurveShape(eyestoolbottomcurveshape)
+		}
+	}
+	return eyestoolbottomcurveshape
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) CommitVoid(stage *Stage) {
+	eyestoolbottomcurveshape.Commit(stage)
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) StageVoid(stage *Stage) {
+	eyestoolbottomcurveshape.Stage(stage)
+}
+
+// Checkout eyestoolbottomcurveshape to the back repo (if it is already staged)
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Checkout(stage *Stage) *EyeStoolBottomCurveShape {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeStoolBottomCurveShape(eyestoolbottomcurveshape)
+		}
+	}
+	return eyestoolbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GetName() (res string) {
+	return eyestoolbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) SetName(name string) {
+	eyestoolbottomcurveshape.Name = name
 }
 
 // Stage puts gridpathshape to the model stage
@@ -20330,6 +20642,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMEye3DShape(Eye3DShape *Eye3DShape)
 	CreateORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
 	CreateORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
+	CreateORMEyeSeatBottomCurveShape(EyeSeatBottomCurveShape *EyeSeatBottomCurveShape)
+	CreateORMEyeStoolBottomCurveShape(EyeStoolBottomCurveShape *EyeStoolBottomCurveShape)
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
 	CreateORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
 	CreateORMGrowthCurve2DRibbon(GrowthCurve2DRibbon *GrowthCurve2DRibbon)
@@ -20458,6 +20772,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMEye3DShape(Eye3DShape *Eye3DShape)
 	DeleteORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
 	DeleteORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
+	DeleteORMEyeSeatBottomCurveShape(EyeSeatBottomCurveShape *EyeSeatBottomCurveShape)
+	DeleteORMEyeStoolBottomCurveShape(EyeStoolBottomCurveShape *EyeStoolBottomCurveShape)
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
 	DeleteORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
 	DeleteORMGrowthCurve2DRibbon(GrowthCurve2DRibbon *GrowthCurve2DRibbon)
@@ -20649,6 +20965,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.EyeSampledPoints3DShapes_mapString = make(map[string]*EyeSampledPoints3DShape)
 	stage.EyeSampledPoints3DShape_stagedOrder = make(map[*EyeSampledPoints3DShape]uint)
 	stage.EyeSampledPoints3DShapeOrder = 0
+
+	stage.EyeSeatBottomCurveShapes = make(map[*EyeSeatBottomCurveShape]struct{})
+	stage.EyeSeatBottomCurveShapes_mapString = make(map[string]*EyeSeatBottomCurveShape)
+	stage.EyeSeatBottomCurveShape_stagedOrder = make(map[*EyeSeatBottomCurveShape]uint)
+	stage.EyeSeatBottomCurveShapeOrder = 0
+
+	stage.EyeStoolBottomCurveShapes = make(map[*EyeStoolBottomCurveShape]struct{})
+	stage.EyeStoolBottomCurveShapes_mapString = make(map[string]*EyeStoolBottomCurveShape)
+	stage.EyeStoolBottomCurveShape_stagedOrder = make(map[*EyeStoolBottomCurveShape]uint)
+	stage.EyeStoolBottomCurveShapeOrder = 0
 
 	stage.GridPathShapes = make(map[*GridPathShape]struct{})
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
@@ -21252,6 +21578,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.EyeSampledPoints3DShapes = nil
 	stage.EyeSampledPoints3DShapes_mapString = nil
 
+	stage.EyeSeatBottomCurveShapes = nil
+	stage.EyeSeatBottomCurveShapes_mapString = nil
+
+	stage.EyeStoolBottomCurveShapes = nil
+	stage.EyeStoolBottomCurveShapes_mapString = nil
+
 	stage.GridPathShapes = nil
 	stage.GridPathShapes_mapString = nil
 
@@ -21645,6 +21977,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for eyesampledpoints3dshape := range stage.EyeSampledPoints3DShapes {
 		eyesampledpoints3dshape.Unstage(stage)
+	}
+
+	for eyeseatbottomcurveshape := range stage.EyeSeatBottomCurveShapes {
+		eyeseatbottomcurveshape.Unstage(stage)
+	}
+
+	for eyestoolbottomcurveshape := range stage.EyeStoolBottomCurveShapes {
+		eyestoolbottomcurveshape.Unstage(stage)
 	}
 
 	for gridpathshape := range stage.GridPathShapes {
@@ -22191,6 +22531,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.EyeCornersSampledPoints3DShapes).(*Type)
 	case map[*EyeSampledPoints3DShape]any:
 		return any(&stage.EyeSampledPoints3DShapes).(*Type)
+	case map[*EyeSeatBottomCurveShape]any:
+		return any(&stage.EyeSeatBottomCurveShapes).(*Type)
+	case map[*EyeStoolBottomCurveShape]any:
+		return any(&stage.EyeStoolBottomCurveShapes).(*Type)
 	case map[*GridPathShape]any:
 		return any(&stage.GridPathShapes).(*Type)
 	case map[*GrowthCurve2D]any:
@@ -22453,6 +22797,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.EyeCornersSampledPoints3DShapes_mapString).(map[string]Type)
 	case *EyeSampledPoints3DShape:
 		return any(stage.EyeSampledPoints3DShapes_mapString).(map[string]Type)
+	case *EyeSeatBottomCurveShape:
+		return any(stage.EyeSeatBottomCurveShapes_mapString).(map[string]Type)
+	case *EyeStoolBottomCurveShape:
+		return any(stage.EyeStoolBottomCurveShapes_mapString).(map[string]Type)
 	case *GridPathShape:
 		return any(stage.GridPathShapes_mapString).(map[string]Type)
 	case *GrowthCurve2D:
@@ -22715,6 +23063,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[*Type]struct{})
 	case EyeSampledPoints3DShape:
 		return any(&stage.EyeSampledPoints3DShapes).(*map[*Type]struct{})
+	case EyeSeatBottomCurveShape:
+		return any(&stage.EyeSeatBottomCurveShapes).(*map[*Type]struct{})
+	case EyeStoolBottomCurveShape:
+		return any(&stage.EyeStoolBottomCurveShapes).(*map[*Type]struct{})
 	case GridPathShape:
 		return any(&stage.GridPathShapes).(*map[*Type]struct{})
 	case GrowthCurve2D:
@@ -22977,6 +23329,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[Type]struct{})
 	case *EyeSampledPoints3DShape:
 		return any(&stage.EyeSampledPoints3DShapes).(*map[Type]struct{})
+	case *EyeSeatBottomCurveShape:
+		return any(&stage.EyeSeatBottomCurveShapes).(*map[Type]struct{})
+	case *EyeStoolBottomCurveShape:
+		return any(&stage.EyeStoolBottomCurveShapes).(*map[Type]struct{})
 	case *GridPathShape:
 		return any(&stage.GridPathShapes).(*map[Type]struct{})
 	case *GrowthCurve2D:
@@ -23239,6 +23595,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.EyeCornersSampledPoints3DShapes_mapString).(*map[string]*Type)
 	case EyeSampledPoints3DShape:
 		return any(&stage.EyeSampledPoints3DShapes_mapString).(*map[string]*Type)
+	case EyeSeatBottomCurveShape:
+		return any(&stage.EyeSeatBottomCurveShapes_mapString).(*map[string]*Type)
+	case EyeStoolBottomCurveShape:
+		return any(&stage.EyeStoolBottomCurveShapes_mapString).(*map[string]*Type)
 	case GridPathShape:
 		return any(&stage.GridPathShapes_mapString).(*map[string]*Type)
 	case GrowthCurve2D:
@@ -23541,6 +23901,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case EyeSampledPoints3DShape:
 		return any(&EyeSampledPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeSeatBottomCurveShape:
+		return any(&EyeSeatBottomCurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeStoolBottomCurveShape:
+		return any(&EyeStoolBottomCurveShape{
 			// Initialisation of associations
 		}).(*Type)
 	case GridPathShape:
@@ -24036,6 +24404,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			EyeCornersSampledPoints3DShape: &EyeCornersSampledPoints3DShape{Name: "EyeCornersSampledPoints3DShape"},
 			// field is initialized with an instance of Eye3DShape with the name of the field
 			Eye3DShape: &Eye3DShape{Name: "Eye3DShape"},
+			// field is initialized with an instance of EyeSeatBottomCurveShape with the name of the field
+			EyeSeatBottomCurveShape: &EyeSeatBottomCurveShape{Name: "EyeSeatBottomCurveShape"},
+			// field is initialized with an instance of EyeStoolBottomCurveShape with the name of the field
+			EyeStoolBottomCurveShape: &EyeStoolBottomCurveShape{Name: "EyeStoolBottomCurveShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
@@ -24337,6 +24709,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of EyeSampledPoints3DShape
 	case EyeSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeSeatBottomCurveShape
+	case EyeSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeStoolBottomCurveShape
+	case EyeStoolBottomCurveShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -25410,6 +25792,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "EyeSeatBottomCurveShape":
+			res := make(map[*EyeSeatBottomCurveShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.EyeSeatBottomCurveShape != nil {
+					eyeseatbottomcurveshape_ := stooldiagram.EyeSeatBottomCurveShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[eyeseatbottomcurveshape_]
+					if ok {
+						stooldiagrams = res[eyeseatbottomcurveshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[eyeseatbottomcurveshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EyeStoolBottomCurveShape":
+			res := make(map[*EyeStoolBottomCurveShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.EyeStoolBottomCurveShape != nil {
+					eyestoolbottomcurveshape_ := stooldiagram.EyeStoolBottomCurveShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[eyestoolbottomcurveshape_]
+					if ok {
+						stooldiagrams = res[eyestoolbottomcurveshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[eyestoolbottomcurveshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Rendered3DShape":
 			res := make(map[*Rendered3DShape][]*StoolDiagram)
 			for stooldiagram := range stage.StoolDiagrams {
@@ -26440,6 +26856,16 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of EyeSeatBottomCurveShape
+	case EyeSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeStoolBottomCurveShape
+	case EyeStoolBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of GridPathShape
 	case GridPathShape:
 		switch fieldname {
@@ -27412,6 +27838,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "EyeCornersSampledPoints3DShape"
 	case *EyeSampledPoints3DShape:
 		res = "EyeSampledPoints3DShape"
+	case *EyeSeatBottomCurveShape:
+		res = "EyeSeatBottomCurveShape"
+	case *EyeStoolBottomCurveShape:
+		res = "EyeStoolBottomCurveShape"
 	case *GridPathShape:
 		res = "GridPathShape"
 	case *GrowthCurve2D:
@@ -27705,6 +28135,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *EyeSampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeSeatBottomCurveShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeStoolBottomCurveShape:
 		var rf ReverseField
 		_ = rf
 	case *GridPathShape:
@@ -28521,6 +28957,28 @@ func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetFie
 }
 
 func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -31682,6 +32140,24 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "Eye3DShape",
 		},
 		{
+			Name:               "IsHiddenEyeSeatBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeSeatBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeSeatBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenEyeStoolBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeStoolBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeStoolBottomCurveShape",
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
@@ -33175,6 +33651,24 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetFieldValue(fieldN
 	// string value of fields
 	case "Name":
 		res.valueString = eyesampledpoints3dshape.Name
+	}
+	return
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyeseatbottomcurveshape.Name
+	}
+	return
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyestoolbottomcurveshape.Name
 	}
 	return
 }
@@ -36380,6 +36874,26 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = stooldiagram.Eye3DShape.Name
 			res.ids = stooldiagram.Eye3DShape.GongGetUUID(stage)
 		}
+	case "IsHiddenEyeSeatBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenEyeSeatBottomCurveShape)
+		res.valueBool = stooldiagram.IsHiddenEyeSeatBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeSeatBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.EyeSeatBottomCurveShape != nil {
+			res.valueString = stooldiagram.EyeSeatBottomCurveShape.Name
+			res.ids = stooldiagram.EyeSeatBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEyeStoolBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenEyeStoolBottomCurveShape)
+		res.valueBool = stooldiagram.IsHiddenEyeStoolBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeStoolBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.EyeStoolBottomCurveShape != nil {
+			res.valueString = stooldiagram.EyeStoolBottomCurveShape.Name
+			res.ids = stooldiagram.EyeStoolBottomCurveShape.GongGetUUID(stage)
+		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if stooldiagram.Rendered3DShape != nil {
@@ -37838,6 +38352,28 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongSetFieldValue(fieldN
 	// insertion point for per field code
 	case "Name":
 		eyesampledpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyeseatbottomcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyestoolbottomcurveshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -40653,6 +41189,32 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "IsHiddenEyeSeatBottomCurveShape":
+		stooldiagram.IsHiddenEyeSeatBottomCurveShape = value.GetValueBool()
+	case "EyeSeatBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.EyeSeatBottomCurveShape = nil
+			for __instance__ := range stage.EyeSeatBottomCurveShapes {
+				if stage.EyeSeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.EyeSeatBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEyeStoolBottomCurveShape":
+		stooldiagram.IsHiddenEyeStoolBottomCurveShape = value.GetValueBool()
+	case "EyeStoolBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.EyeStoolBottomCurveShape = nil
+			for __instance__ := range stage.EyeStoolBottomCurveShapes {
+				if stage.EyeStoolBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.EyeStoolBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
 	case "Rendered3DShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -41906,6 +42468,14 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetGongstructName() 
 	return "EyeSampledPoints3DShape"
 }
 
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetGongstructName() string {
+	return "EyeSeatBottomCurveShape"
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetGongstructName() string {
+	return "EyeStoolBottomCurveShape"
+}
+
 func (gridpathshape *GridPathShape) GongGetGongstructName() string {
 	return "GridPathShape"
 }
@@ -42427,6 +42997,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.EyeSampledPoints3DShapes_mapString = make(map[string]*EyeSampledPoints3DShape)
 	for eyesampledpoints3dshape := range stage.EyeSampledPoints3DShapes {
 		stage.EyeSampledPoints3DShapes_mapString[eyesampledpoints3dshape.Name] = eyesampledpoints3dshape
+	}
+
+	stage.EyeSeatBottomCurveShapes_mapString = make(map[string]*EyeSeatBottomCurveShape)
+	for eyeseatbottomcurveshape := range stage.EyeSeatBottomCurveShapes {
+		stage.EyeSeatBottomCurveShapes_mapString[eyeseatbottomcurveshape.Name] = eyeseatbottomcurveshape
+	}
+
+	stage.EyeStoolBottomCurveShapes_mapString = make(map[string]*EyeStoolBottomCurveShape)
+	for eyestoolbottomcurveshape := range stage.EyeStoolBottomCurveShapes {
+		stage.EyeStoolBottomCurveShapes_mapString[eyestoolbottomcurveshape.Name] = eyestoolbottomcurveshape
 	}
 
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)

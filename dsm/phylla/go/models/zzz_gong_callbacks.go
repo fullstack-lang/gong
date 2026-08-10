@@ -70,6 +70,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEyeSampledPoints3DShapeCreateCallback != nil {
 			stage.OnAfterEyeSampledPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *EyeSeatBottomCurveShape:
+		if stage.OnAfterEyeSeatBottomCurveShapeCreateCallback != nil {
+			stage.OnAfterEyeSeatBottomCurveShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *EyeStoolBottomCurveShape:
+		if stage.OnAfterEyeStoolBottomCurveShapeCreateCallback != nil {
+			stage.OnAfterEyeStoolBottomCurveShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeCreateCallback != nil {
 			stage.OnAfterGridPathShapeCreateCallback.OnAfterCreate(stage, target)
@@ -599,6 +607,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*EyeSampledPoints3DShape)
 		if stage.OnAfterEyeSampledPoints3DShapeUpdateCallback != nil {
 			stage.OnAfterEyeSampledPoints3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *EyeSeatBottomCurveShape:
+		newTarget := any(new).(*EyeSeatBottomCurveShape)
+		if stage.OnAfterEyeSeatBottomCurveShapeUpdateCallback != nil {
+			stage.OnAfterEyeSeatBottomCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *EyeStoolBottomCurveShape:
+		newTarget := any(new).(*EyeStoolBottomCurveShape)
+		if stage.OnAfterEyeStoolBottomCurveShapeUpdateCallback != nil {
+			stage.OnAfterEyeStoolBottomCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GridPathShape:
 		newTarget := any(new).(*GridPathShape)
@@ -1235,6 +1253,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*EyeSampledPoints3DShape)
 			stage.OnAfterEyeSampledPoints3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *EyeSeatBottomCurveShape:
+		if stage.OnAfterEyeSeatBottomCurveShapeDeleteCallback != nil {
+			staged := any(staged).(*EyeSeatBottomCurveShape)
+			stage.OnAfterEyeSeatBottomCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *EyeStoolBottomCurveShape:
+		if stage.OnAfterEyeStoolBottomCurveShapeDeleteCallback != nil {
+			staged := any(staged).(*EyeStoolBottomCurveShape)
+			stage.OnAfterEyeStoolBottomCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeDeleteCallback != nil {
 			staged := any(staged).(*GridPathShape)
@@ -1854,6 +1882,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEyeSampledPoints3DShapeReadCallback != nil {
 			stage.OnAfterEyeSampledPoints3DShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *EyeSeatBottomCurveShape:
+		if stage.OnAfterEyeSeatBottomCurveShapeReadCallback != nil {
+			stage.OnAfterEyeSeatBottomCurveShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *EyeStoolBottomCurveShape:
+		if stage.OnAfterEyeStoolBottomCurveShapeReadCallback != nil {
+			stage.OnAfterEyeStoolBottomCurveShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeReadCallback != nil {
 			stage.OnAfterGridPathShapeReadCallback.OnAfterRead(stage, target)
@@ -2333,6 +2369,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEyeCornersSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
 		stage.OnAfterEyeSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EyeSampledPoints3DShape])
+	case *EyeSeatBottomCurveShape:
+		stage.OnAfterEyeSeatBottomCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EyeSeatBottomCurveShape])
+	case *EyeStoolBottomCurveShape:
+		stage.OnAfterEyeStoolBottomCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EyeStoolBottomCurveShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GridPathShape])
 	case *GrowthCurve2D:
@@ -2590,6 +2630,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEyeCornersSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
 		stage.OnAfterEyeSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[EyeSampledPoints3DShape])
+	case *EyeSeatBottomCurveShape:
+		stage.OnAfterEyeSeatBottomCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[EyeSeatBottomCurveShape])
+	case *EyeStoolBottomCurveShape:
+		stage.OnAfterEyeStoolBottomCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[EyeStoolBottomCurveShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeCreateCallback = any(callback).(OnAfterCreateInterface[GridPathShape])
 	case *GrowthCurve2D:
@@ -2847,6 +2891,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEyeCornersSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
 		stage.OnAfterEyeSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EyeSampledPoints3DShape])
+	case *EyeSeatBottomCurveShape:
+		stage.OnAfterEyeSeatBottomCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EyeSeatBottomCurveShape])
+	case *EyeStoolBottomCurveShape:
+		stage.OnAfterEyeStoolBottomCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EyeStoolBottomCurveShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GridPathShape])
 	case *GrowthCurve2D:
@@ -3104,6 +3152,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterEyeCornersSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
 		stage.OnAfterEyeSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[EyeSampledPoints3DShape])
+	case *EyeSeatBottomCurveShape:
+		stage.OnAfterEyeSeatBottomCurveShapeReadCallback = any(callback).(OnAfterReadInterface[EyeSeatBottomCurveShape])
+	case *EyeStoolBottomCurveShape:
+		stage.OnAfterEyeStoolBottomCurveShapeReadCallback = any(callback).(OnAfterReadInterface[EyeStoolBottomCurveShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeReadCallback = any(callback).(OnAfterReadInterface[GridPathShape])
 	case *GrowthCurve2D:

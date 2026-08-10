@@ -1008,6 +1008,64 @@ func (u *EyeSampledPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 	return nil
 }
 
+type EyeSeatBottomCurveShapeUnmarshaller struct{}
+
+func (u *EyeSeatBottomCurveShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(EyeSeatBottomCurveShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *EyeSeatBottomCurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*EyeSeatBottomCurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type EyeStoolBottomCurveShapeUnmarshaller struct{}
+
+func (u *EyeStoolBottomCurveShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(EyeStoolBottomCurveShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *EyeStoolBottomCurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*EyeStoolBottomCurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type GridPathShapeUnmarshaller struct{}
 
 func (u *GridPathShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -4539,6 +4597,14 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenEye3DShape = GongExtractBool(valueExpr)
 	case "Eye3DShape":
 		GongUnmarshallPointer(&instance.Eye3DShape, valueExpr, identifierMap)
+	case "IsHiddenEyeSeatBottomCurveShape":
+		instance.IsHiddenEyeSeatBottomCurveShape = GongExtractBool(valueExpr)
+	case "EyeSeatBottomCurveShape":
+		GongUnmarshallPointer(&instance.EyeSeatBottomCurveShape, valueExpr, identifierMap)
+	case "IsHiddenEyeStoolBottomCurveShape":
+		instance.IsHiddenEyeStoolBottomCurveShape = GongExtractBool(valueExpr)
+	case "EyeStoolBottomCurveShape":
+		GongUnmarshallPointer(&instance.EyeStoolBottomCurveShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	}

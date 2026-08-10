@@ -134,6 +134,26 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.Eye3DShape.Name = plantDiagram.Name + "-Eye3DShape"
 				modified = true
 			}
+			if plantDiagram.StoolDiagram.EyeSeatBottomCurveShape == nil {
+				s := (&EyeSeatBottomCurveShape{
+					Name: plantDiagram.Name + "-EyeSeatBottomCurveShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.EyeSeatBottomCurveShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.EyeSeatBottomCurveShape.Name != plantDiagram.Name+"-EyeSeatBottomCurveShape" {
+				plantDiagram.StoolDiagram.EyeSeatBottomCurveShape.Name = plantDiagram.Name + "-EyeSeatBottomCurveShape"
+				modified = true
+			}
+			if plantDiagram.StoolDiagram.EyeStoolBottomCurveShape == nil {
+				s := (&EyeStoolBottomCurveShape{
+					Name: plantDiagram.Name + "-EyeStoolBottomCurveShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.EyeStoolBottomCurveShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.EyeStoolBottomCurveShape.Name != plantDiagram.Name+"-EyeStoolBottomCurveShape" {
+				plantDiagram.StoolDiagram.EyeStoolBottomCurveShape.Name = plantDiagram.Name + "-EyeStoolBottomCurveShape"
+				modified = true
+			}
 		} else {
 			if plantDiagram.StoolDiagram != nil {
 				plantDiagram.StoolDiagram = nil
