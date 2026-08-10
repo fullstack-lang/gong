@@ -1046,192 +1046,237 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// 17. Seat Bottom Eye 2D Projected Curve on horizontal seat bottom plane
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSeatBottomCurveShape {
 			if len(projSeatBottomEyePoints) > 0 {
-				projSeatBottomCurve := (&threejs.Curve{
-					Name:   "Stool Seat Bottom Eye Curve",
-					Points: projSeatBottomEyePoints,
-				}).Stage(stool3dStage)
-
-				numSegments := len(projSeatBottomCurve.Points)
+				numSegments := len(projSeatBottomEyePoints)
 				if numSegments < 2 {
 					numSegments = 2
 				}
 
-				sbEyeGeom := (&threejs.TubeGeometry{
-					Name:            "Stool Seat Bottom Eye TubeGeom",
-					Path:            projSeatBottomCurve,
-					TubularSegments: numSegments,
-					Radius:          tubeRadius,
-					RadialSegments:  16,
-					Closed:          true,
-				}).Stage(stool3dStage)
+				for k := 0; k < radialRepetitions; k++ {
+					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+					cosRot := math.Cos(rotAngle)
+					sinRot := math.Sin(rotAngle)
 
-				sbEyeMesh := (&threejs.Mesh{
-					Name:         "Stool Seat Bottom Eye Mesh",
-					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-					TubeGeometry: sbEyeGeom,
-					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Seat Bottom Eye Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumvioletred"},
-						Transparent:          true,
-						Opacity:              opacity,
-					}).Stage(stool3dStage),
-				}).Stage(stool3dStage)
+					projSeatBottomCurve := (&threejs.Curve{
+						Name: fmt.Sprintf("Stool Seat Bottom Eye Curve k%d", k),
+					}).Stage(stool3dStage)
 
-				canvas.Meshs = append(canvas.Meshs, sbEyeMesh)
+					for _, pt := range projSeatBottomEyePoints {
+						rx := pt.X*cosRot - pt.Z*sinRot
+						rz := pt.X*sinRot + pt.Z*cosRot
+						projSeatBottomCurve.Points = append(projSeatBottomCurve.Points, (&threejs.Vector3{
+							Name: fmt.Sprintf("Seat Bottom Eye Point k%d", k),
+							X:    rx,
+							Y:    pt.Y,
+							Z:    rz,
+						}).Stage(stool3dStage))
+					}
+
+					sbEyeGeom := (&threejs.TubeGeometry{
+						Name:            fmt.Sprintf("Stool Seat Bottom Eye TubeGeom k%d", k),
+						Path:            projSeatBottomCurve,
+						TubularSegments: numSegments,
+						Radius:          tubeRadius,
+						RadialSegments:  16,
+						Closed:          true,
+					}).Stage(stool3dStage)
+
+					sbEyeMesh := (&threejs.Mesh{
+						Name:         fmt.Sprintf("Stool Seat Bottom Eye Mesh k%d", k),
+						Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+						TubeGeometry: sbEyeGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 fmt.Sprintf("Stool Seat Bottom Eye Material k%d", k),
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumvioletred"},
+							Transparent:          true,
+							Opacity:              opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage)
+
+					canvas.Meshs = append(canvas.Meshs, sbEyeMesh)
+				}
 			}
 		}
 
 		// 18. Stool Bottom Eye 2D Projected Curve on horizontal stool bottom / floor plane (Y = 0)
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeStoolBottomCurveShape {
 			if len(projStoolBottomEyePoints) > 0 {
-				projStoolBottomCurve := (&threejs.Curve{
-					Name:   "Stool Bottom Eye Curve",
-					Points: projStoolBottomEyePoints,
-				}).Stage(stool3dStage)
-
-				numSegments := len(projStoolBottomCurve.Points)
+				numSegments := len(projStoolBottomEyePoints)
 				if numSegments < 2 {
 					numSegments = 2
 				}
 
-				stoolBottomEyeGeom := (&threejs.TubeGeometry{
-					Name:            "Stool Bottom Eye TubeGeom",
-					Path:            projStoolBottomCurve,
-					TubularSegments: numSegments,
-					Radius:          tubeRadius,
-					RadialSegments:  16,
-					Closed:          true,
-				}).Stage(stool3dStage)
+				for k := 0; k < radialRepetitions; k++ {
+					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+					cosRot := math.Cos(rotAngle)
+					sinRot := math.Sin(rotAngle)
 
-				stoolBottomEyeMesh := (&threejs.Mesh{
-					Name:         "Stool Bottom Eye Mesh",
-					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-					TubeGeometry: stoolBottomEyeGeom,
-					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Bottom Eye Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkviolet"},
-						Transparent:          true,
-						Opacity:              opacity,
-					}).Stage(stool3dStage),
-				}).Stage(stool3dStage)
+					projStoolBottomCurve := (&threejs.Curve{
+						Name: fmt.Sprintf("Stool Bottom Eye Curve k%d", k),
+					}).Stage(stool3dStage)
 
-				canvas.Meshs = append(canvas.Meshs, stoolBottomEyeMesh)
+					for _, pt := range projStoolBottomEyePoints {
+						rx := pt.X*cosRot - pt.Z*sinRot
+						rz := pt.X*sinRot + pt.Z*cosRot
+						projStoolBottomCurve.Points = append(projStoolBottomCurve.Points, (&threejs.Vector3{
+							Name: fmt.Sprintf("Stool Bottom Eye Point k%d", k),
+							X:    rx,
+							Y:    pt.Y,
+							Z:    rz,
+						}).Stage(stool3dStage))
+					}
+
+					stoolBottomEyeGeom := (&threejs.TubeGeometry{
+						Name:            fmt.Sprintf("Stool Bottom Eye TubeGeom k%d", k),
+						Path:            projStoolBottomCurve,
+						TubularSegments: numSegments,
+						Radius:          tubeRadius,
+						RadialSegments:  16,
+						Closed:          true,
+					}).Stage(stool3dStage)
+
+					stoolBottomEyeMesh := (&threejs.Mesh{
+						Name:         fmt.Sprintf("Stool Bottom Eye Mesh k%d", k),
+						Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+						TubeGeometry: stoolBottomEyeGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 fmt.Sprintf("Stool Bottom Eye Material k%d", k),
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkviolet"},
+							Transparent:          true,
+							Opacity:              opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage)
+
+					canvas.Meshs = append(canvas.Meshs, stoolBottomEyeMesh)
+				}
 			}
 		}
 
-		// 19. 3D Eye Volume Mesh between Seat Bottom Eye Curve and Stool Bottom Eye Curve
+		// 19. 3D Eye Volume Mesh between Seat Bottom Eye Curve and Stool Bottom Eye Curve (repeated across radialRepetitions)
 		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenEyeVolume3DShape {
 			if len(projSeatBottomEyePoints) >= 3 && len(projSeatBottomEyePoints) == len(projStoolBottomEyePoints) {
 				M := len(projSeatBottomEyePoints)
-				eyeVolGeom := (&threejs.BufferGeometry{
-					Name: "Stool Eye Volume BufferGeometry",
-				}).Stage(stool3dStage)
 
-				var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
-				for i := 0; i < M; i++ {
-					topV := (&threejs.Vector3{
-						Name: fmt.Sprintf("Eye Top V %d", i),
-						X:    projSeatBottomEyePoints[i].X,
-						Y:    projSeatBottomEyePoints[i].Y,
-						Z:    projSeatBottomEyePoints[i].Z,
+				for k := 0; k < radialRepetitions; k++ {
+					rotAngle := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+					cosRot := math.Cos(rotAngle)
+					sinRot := math.Sin(rotAngle)
+
+					eyeVolGeom := (&threejs.BufferGeometry{
+						Name: fmt.Sprintf("Stool Eye Volume BufferGeometry k%d", k),
 					}).Stage(stool3dStage)
-					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, topV)
-					sumTopX += topV.X
-					sumTopZ += topV.Z
-				}
 
-				for i := 0; i < M; i++ {
-					botV := (&threejs.Vector3{
-						Name: fmt.Sprintf("Eye Bottom V %d", i),
-						X:    projStoolBottomEyePoints[i].X,
-						Y:    projStoolBottomEyePoints[i].Y,
-						Z:    projStoolBottomEyePoints[i].Z,
+					var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
+					for i := 0; i < M; i++ {
+						origTop := projSeatBottomEyePoints[i]
+						rx := origTop.X*cosRot - origTop.Z*sinRot
+						rz := origTop.X*sinRot + origTop.Z*cosRot
+						topV := (&threejs.Vector3{
+							Name: fmt.Sprintf("Eye Top V k%d %d", k, i),
+							X:    rx,
+							Y:    origTop.Y,
+							Z:    rz,
+						}).Stage(stool3dStage)
+						eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, topV)
+						sumTopX += topV.X
+						sumTopZ += topV.Z
+					}
+
+					for i := 0; i < M; i++ {
+						origBot := projStoolBottomEyePoints[i]
+						rx := origBot.X*cosRot - origBot.Z*sinRot
+						rz := origBot.X*sinRot + origBot.Z*cosRot
+						botV := (&threejs.Vector3{
+							Name: fmt.Sprintf("Eye Bottom V k%d %d", k, i),
+							X:    rx,
+							Y:    origBot.Y,
+							Z:    rz,
+						}).Stage(stool3dStage)
+						eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botV)
+						sumBottomX += botV.X
+						sumBottomZ += botV.Z
+					}
+
+					topCenterIdx := len(eyeVolGeom.Vertices)
+					topCenterV := (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Top Center k%d", k),
+						X:    sumTopX / float64(M),
+						Y:    seatBottomHeight,
+						Z:    sumTopZ / float64(M),
 					}).Stage(stool3dStage)
-					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botV)
-					sumBottomX += botV.X
-					sumBottomZ += botV.Z
+					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, topCenterV)
+
+					botCenterIdx := len(eyeVolGeom.Vertices)
+					botCenterV := (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Bottom Center k%d", k),
+						X:    sumBottomX / float64(M),
+						Y:    0.0,
+						Z:    sumBottomZ / float64(M),
+					}).Stage(stool3dStage)
+					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botCenterV)
+
+					// 1. Top face (facing +Y): (topCenter, nextI, i)
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("Eye Top Face k%d %d", k, i),
+							V1:   topCenterIdx,
+							V2:   nextI,
+							V3:   i,
+						}).Stage(stool3dStage))
+					}
+
+					// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						botI := M + i
+						botNextI := M + nextI
+						eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("Eye Bottom Face k%d %d", k, i),
+							V1:   botCenterIdx,
+							V2:   botI,
+							V3:   botNextI,
+						}).Stage(stool3dStage))
+					}
+
+					// 3. Side wall quads between Top and Bottom:
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						topI := i
+						topNextI := nextI
+						botI := M + i
+						botNextI := M + nextI
+
+						// Triangle 1: (botI, topI, topNextI)
+						eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("Eye Wall T1 k%d %d", k, i),
+							V1:   botI,
+							V2:   topI,
+							V3:   topNextI,
+						}).Stage(stool3dStage))
+
+						// Triangle 2: (botI, topNextI, botNextI)
+						eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("Eye Wall T2 k%d %d", k, i),
+							V1:   botI,
+							V2:   topNextI,
+							V3:   botNextI,
+						}).Stage(stool3dStage))
+					}
+
+					eyeVolMesh := (&threejs.Mesh{
+						Name:           fmt.Sprintf("Stool Eye Volume 3D Mesh k%d", k),
+						Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+						BufferGeometry: eyeVolGeom,
+						MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+							Name:                 fmt.Sprintf("Stool Eye Volume Material k%d", k),
+							MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumorchid"},
+							Transparent:          true,
+							Opacity:              opacity,
+						}).Stage(stool3dStage),
+					}).Stage(stool3dStage)
+
+					canvas.Meshs = append(canvas.Meshs, eyeVolMesh)
 				}
-
-				topCenterIdx := len(eyeVolGeom.Vertices)
-				topCenterV := (&threejs.Vector3{
-					Name: "Eye Top Center",
-					X:    sumTopX / float64(M),
-					Y:    seatBottomHeight,
-					Z:    sumTopZ / float64(M),
-				}).Stage(stool3dStage)
-				eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, topCenterV)
-
-				botCenterIdx := len(eyeVolGeom.Vertices)
-				botCenterV := (&threejs.Vector3{
-					Name: "Eye Bottom Center",
-					X:    sumBottomX / float64(M),
-					Y:    0.0,
-					Z:    sumBottomZ / float64(M),
-				}).Stage(stool3dStage)
-				eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botCenterV)
-
-				// 1. Top face (facing +Y): (topCenter, nextI, i)
-				for i := 0; i < M; i++ {
-					nextI := (i + 1) % M
-					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
-						Name: fmt.Sprintf("Eye Top Face %d", i),
-						V1:   topCenterIdx,
-						V2:   nextI,
-						V3:   i,
-					}).Stage(stool3dStage))
-				}
-
-				// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
-				for i := 0; i < M; i++ {
-					nextI := (i + 1) % M
-					botI := M + i
-					botNextI := M + nextI
-					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
-						Name: fmt.Sprintf("Eye Bottom Face %d", i),
-						V1:   botCenterIdx,
-						V2:   botI,
-						V3:   botNextI,
-					}).Stage(stool3dStage))
-				}
-
-				// 3. Side wall quads between Top and Bottom:
-				for i := 0; i < M; i++ {
-					nextI := (i + 1) % M
-					topI := i
-					topNextI := nextI
-					botI := M + i
-					botNextI := M + nextI
-
-					// Triangle 1: (botI, topI, topNextI)
-					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
-						Name: fmt.Sprintf("Eye Wall T1 %d", i),
-						V1:   botI,
-						V2:   topI,
-						V3:   topNextI,
-					}).Stage(stool3dStage))
-
-					// Triangle 2: (botI, topNextI, botNextI)
-					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
-						Name: fmt.Sprintf("Eye Wall T2 %d", i),
-						V1:   botI,
-						V2:   topNextI,
-						V3:   botNextI,
-					}).Stage(stool3dStage))
-				}
-
-				eyeVolMesh := (&threejs.Mesh{
-					Name:           "Stool Eye Volume 3D Mesh",
-					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
-					BufferGeometry: eyeVolGeom,
-					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-						Name:                 "Stool Eye Volume Material",
-						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumorchid"},
-						Transparent:          true,
-						Opacity:              opacity,
-					}).Stage(stool3dStage),
-				}).Stage(stool3dStage)
-
-				canvas.Meshs = append(canvas.Meshs, eyeVolMesh)
 			}
 		}
 	}

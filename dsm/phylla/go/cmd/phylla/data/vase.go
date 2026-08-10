@@ -91,7 +91,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.M = 3
 	__PlantAbstract__00000002_.StackHeight = 2
 	__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
-	__PlantAbstract__00000002_.RhombusSideLength = 85.000000
+	__PlantAbstract__00000002_.RhombusSideLength = 95.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
 	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = 131.792587
-	__Rendered3DShape__00000002_.ViewY = 623.122389
-	__Rendered3DShape__00000002_.ViewZ = 1065.353872
+	__Rendered3DShape__00000002_.ViewX = -1462.625524
+	__Rendered3DShape__00000002_.ViewY = 552.959918
+	__Rendered3DShape__00000002_.ViewZ = -195.575945
 	__Rendered3DShape__00000002_.TargetX = 17.241866
 	__Rendered3DShape__00000002_.TargetY = 330.159583
 	__Rendered3DShape__00000002_.TargetZ = 103.049934
@@ -248,11 +248,11 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RadialRepetitions = 3
 	__StoolAbstract__00000000_.Transparency = 0.300000
 	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
-	__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.700000
+	__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.490000
 	__StoolAbstract__00000000_.StoolTorusVerticalScale = 3.980000
-	__StoolAbstract__00000000_.RelativeHeight = 3.390000
-	__StoolAbstract__00000000_.RelativeSeatThickness = 0.400000
-	__StoolAbstract__00000000_.ProjectionAngle = 17.300000
+	__StoolAbstract__00000000_.RelativeHeight = 4.630000
+	__StoolAbstract__00000000_.RelativeSeatThickness = 0.720000
+	__StoolAbstract__00000000_.ProjectionAngle = 11.700000
 	__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
 	__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 
