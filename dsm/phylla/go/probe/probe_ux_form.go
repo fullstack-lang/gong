@@ -261,6 +261,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryshape, probe)
 			}
+		case *PartiallyRotatedSeatBottomCurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyRotatedSeatBottomCurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallyrotatedseatbottomcurveshape, probe)
+			}
 		case *PartiallyRotatedSeatTopCurveShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyRotatedSeatTopCurveShape", true)
@@ -362,6 +368,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "SampledPoints3DShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.sampledpoints3dshape, probe)
+			}
+		case *SeatBottomCurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SeatBottomCurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.seatbottomcurveshape, probe)
 			}
 		case *SeatTopCurveShapeFormCallback:
 			if onSave.CreationMode {
@@ -1284,6 +1296,19 @@ func FillUpFormFromGongstructName(
 		partiallygrowthcurve2dtrajectoryshape := new(models.PartiallyGrowthCurve2DTrajectoryShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(partiallygrowthcurve2dtrajectoryshape, formGroup, probe)
+	case "PartiallyRotatedSeatBottomCurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyRotatedSeatBottomCurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyRotatedSeatBottomCurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallyrotatedseatbottomcurveshape := new(models.PartiallyRotatedSeatBottomCurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallyrotatedseatbottomcurveshape, formGroup, probe)
 	case "PartiallyRotatedSeatTopCurveShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1505,6 +1530,19 @@ func FillUpFormFromGongstructName(
 		sampledpoints3dshape := new(models.SampledPoints3DShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(sampledpoints3dshape, formGroup, probe)
+	case "SeatBottomCurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SeatBottomCurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SeatBottomCurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		seatbottomcurveshape := new(models.SeatBottomCurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(seatbottomcurveshape, formGroup, probe)
 	case "SeatTopCurveShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

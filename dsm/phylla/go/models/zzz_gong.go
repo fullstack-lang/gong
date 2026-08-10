@@ -784,6 +784,21 @@ type Stage struct {
 	OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape]
 	OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape]
 
+	PartiallyRotatedSeatBottomCurveShapes                map[*PartiallyRotatedSeatBottomCurveShape]struct{}
+	PartiallyRotatedSeatBottomCurveShapes_instance       map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapes_mapString      map[string]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapeOrder            uint
+	PartiallyRotatedSeatBottomCurveShape_stagedOrder     map[*PartiallyRotatedSeatBottomCurveShape]uint
+	PartiallyRotatedSeatBottomCurveShape_orderStaged     map[uint]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapes_reference      map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapes_referenceOrder map[*PartiallyRotatedSeatBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback   OnAfterReadInterface[PartiallyRotatedSeatBottomCurveShape]
+
 	PartiallyRotatedSeatTopCurveShapes                map[*PartiallyRotatedSeatTopCurveShape]struct{}
 	PartiallyRotatedSeatTopCurveShapes_instance       map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape
 	PartiallyRotatedSeatTopCurveShapes_mapString      map[string]*PartiallyRotatedSeatTopCurveShape
@@ -1046,6 +1061,21 @@ type Stage struct {
 	OnAfterSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[SampledPoints3DShape]
 	OnAfterSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[SampledPoints3DShape]
 	OnAfterSampledPoints3DShapeReadCallback   OnAfterReadInterface[SampledPoints3DShape]
+
+	SeatBottomCurveShapes                map[*SeatBottomCurveShape]struct{}
+	SeatBottomCurveShapes_instance       map[*SeatBottomCurveShape]*SeatBottomCurveShape
+	SeatBottomCurveShapes_mapString      map[string]*SeatBottomCurveShape
+	SeatBottomCurveShapeOrder            uint
+	SeatBottomCurveShape_stagedOrder     map[*SeatBottomCurveShape]uint
+	SeatBottomCurveShape_orderStaged     map[uint]*SeatBottomCurveShape
+	SeatBottomCurveShapes_reference      map[*SeatBottomCurveShape]*SeatBottomCurveShape
+	SeatBottomCurveShapes_referenceOrder map[*SeatBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeReadCallback   OnAfterReadInterface[SeatBottomCurveShape]
 
 	SeatTopCurveShapes                map[*SeatTopCurveShape]struct{}
 	SeatTopCurveShapes_instance       map[*SeatTopCurveShape]*SeatTopCurveShape
@@ -2420,6 +2450,10 @@ func (stage *Stage) Squash() {
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape)
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryShape]uint)
 
+	stage.PartiallyRotatedSeatBottomCurveShapes_reference = make(map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape)
+	stage.PartiallyRotatedSeatBottomCurveShapes_instance = make(map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape)
+	stage.PartiallyRotatedSeatBottomCurveShapes_referenceOrder = make(map[*PartiallyRotatedSeatBottomCurveShape]uint)
+
 	stage.PartiallyRotatedSeatTopCurveShapes_reference = make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape)
 	stage.PartiallyRotatedSeatTopCurveShapes_instance = make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape)
 	stage.PartiallyRotatedSeatTopCurveShapes_referenceOrder = make(map[*PartiallyRotatedSeatTopCurveShape]uint)
@@ -2487,6 +2521,10 @@ func (stage *Stage) Squash() {
 	stage.SampledPoints3DShapes_reference = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
 	stage.SampledPoints3DShapes_instance = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
 	stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
+
+	stage.SeatBottomCurveShapes_reference = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
+	stage.SeatBottomCurveShapes_instance = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
+	stage.SeatBottomCurveShapes_referenceOrder = make(map[*SeatBottomCurveShape]uint)
 
 	stage.SeatTopCurveShapes_reference = make(map[*SeatTopCurveShape]*SeatTopCurveShape)
 	stage.SeatTopCurveShapes_instance = make(map[*SeatTopCurveShape]*SeatTopCurveShape)
@@ -3333,6 +3371,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PartiallyGrowthCurve2DTrajectoryShapeOrder = 0
 	}
 
+	var maxPartiallyRotatedSeatBottomCurveShapeOrder uint
+	var foundPartiallyRotatedSeatBottomCurveShape bool
+	for _, order := range stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder {
+		if !foundPartiallyRotatedSeatBottomCurveShape || order > maxPartiallyRotatedSeatBottomCurveShapeOrder {
+			maxPartiallyRotatedSeatBottomCurveShapeOrder = order
+			foundPartiallyRotatedSeatBottomCurveShape = true
+		}
+	}
+	if foundPartiallyRotatedSeatBottomCurveShape {
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder = maxPartiallyRotatedSeatBottomCurveShapeOrder + 1
+	} else {
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder = 0
+	}
+
 	var maxPartiallyRotatedSeatTopCurveShapeOrder uint
 	var foundPartiallyRotatedSeatTopCurveShape bool
 	for _, order := range stage.PartiallyRotatedSeatTopCurveShape_stagedOrder {
@@ -3569,6 +3621,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.SampledPoints3DShapeOrder = maxSampledPoints3DShapeOrder + 1
 	} else {
 		stage.SampledPoints3DShapeOrder = 0
+	}
+
+	var maxSeatBottomCurveShapeOrder uint
+	var foundSeatBottomCurveShape bool
+	for _, order := range stage.SeatBottomCurveShape_stagedOrder {
+		if !foundSeatBottomCurveShape || order > maxSeatBottomCurveShapeOrder {
+			maxSeatBottomCurveShapeOrder = order
+			foundSeatBottomCurveShape = true
+		}
+	}
+	if foundSeatBottomCurveShape {
+		stage.SeatBottomCurveShapeOrder = maxSeatBottomCurveShapeOrder + 1
+	} else {
+		stage.SeatBottomCurveShapeOrder = 0
 	}
 
 	var maxSeatTopCurveShapeOrder uint
@@ -5060,6 +5126,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PartiallyRotatedSeatBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyRotatedSeatBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PartiallyRotatedSeatTopCurveShape:
 		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
 
@@ -5295,6 +5375,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *SampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *SeatBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SeatBottomCurveShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -6263,6 +6357,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
+	case "PartiallyRotatedSeatBottomCurveShape":
+		res = GetNamedStructInstances(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
 	case "PartiallyRotatedSeatTopCurveShape":
 		res = GetNamedStructInstances(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
 	case "PartiallyRotatedTorusShape":
@@ -6297,6 +6393,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
 	case "SampledPoints3DShape":
 		res = GetNamedStructInstances(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
+	case "SeatBottomCurveShape":
+		res = GetNamedStructInstances(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
 	case "SeatTopCurveShape":
 		res = GetNamedStructInstances(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder)
 	case "ShiftedBottomTopStartArcShape":
@@ -6570,6 +6668,8 @@ type BackRepoInterface interface {
 	CheckoutPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	CommitPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape)
 	CheckoutPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape)
+	CommitPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape)
+	CheckoutPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape)
 	CommitPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape)
 	CheckoutPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape)
 	CommitPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape)
@@ -6604,6 +6704,8 @@ type BackRepoInterface interface {
 	CheckoutRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
 	CommitSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
 	CheckoutSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
+	CommitSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape)
+	CheckoutSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape)
 	CommitSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape)
 	CheckoutSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape)
 	CommitShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
@@ -6855,6 +6957,9 @@ func NewStage(name string) (stage *Stage) {
 		PartiallyGrowthCurve2DTrajectoryShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryShape]struct{}),
 		PartiallyGrowthCurve2DTrajectoryShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryShape),
 
+		PartiallyRotatedSeatBottomCurveShapes:           make(map[*PartiallyRotatedSeatBottomCurveShape]struct{}),
+		PartiallyRotatedSeatBottomCurveShapes_mapString: make(map[string]*PartiallyRotatedSeatBottomCurveShape),
+
 		PartiallyRotatedSeatTopCurveShapes:           make(map[*PartiallyRotatedSeatTopCurveShape]struct{}),
 		PartiallyRotatedSeatTopCurveShapes_mapString: make(map[string]*PartiallyRotatedSeatTopCurveShape),
 
@@ -6905,6 +7010,9 @@ func NewStage(name string) (stage *Stage) {
 
 		SampledPoints3DShapes:           make(map[*SampledPoints3DShape]struct{}),
 		SampledPoints3DShapes_mapString: make(map[string]*SampledPoints3DShape),
+
+		SeatBottomCurveShapes:           make(map[*SeatBottomCurveShape]struct{}),
+		SeatBottomCurveShapes_mapString: make(map[string]*SeatBottomCurveShape),
 
 		SeatTopCurveShapes:           make(map[*SeatTopCurveShape]struct{}),
 		SeatTopCurveShapes_mapString: make(map[string]*SeatTopCurveShape),
@@ -7263,6 +7371,10 @@ func NewStage(name string) (stage *Stage) {
 		PartiallyGrowthCurve2DTrajectoryShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryShape),
 		PartiallyGrowthCurve2DTrajectoryShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape),
 
+		PartiallyRotatedSeatBottomCurveShape_stagedOrder: make(map[*PartiallyRotatedSeatBottomCurveShape]uint),
+		PartiallyRotatedSeatBottomCurveShape_orderStaged: make(map[uint]*PartiallyRotatedSeatBottomCurveShape),
+		PartiallyRotatedSeatBottomCurveShapes_reference:  make(map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape),
+
 		PartiallyRotatedSeatTopCurveShape_stagedOrder: make(map[*PartiallyRotatedSeatTopCurveShape]uint),
 		PartiallyRotatedSeatTopCurveShape_orderStaged: make(map[uint]*PartiallyRotatedSeatTopCurveShape),
 		PartiallyRotatedSeatTopCurveShapes_reference:  make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape),
@@ -7330,6 +7442,10 @@ func NewStage(name string) (stage *Stage) {
 		SampledPoints3DShape_stagedOrder: make(map[*SampledPoints3DShape]uint),
 		SampledPoints3DShape_orderStaged: make(map[uint]*SampledPoints3DShape),
 		SampledPoints3DShapes_reference:  make(map[*SampledPoints3DShape]*SampledPoints3DShape),
+
+		SeatBottomCurveShape_stagedOrder: make(map[*SeatBottomCurveShape]uint),
+		SeatBottomCurveShape_orderStaged: make(map[uint]*SeatBottomCurveShape),
+		SeatBottomCurveShapes_reference:  make(map[*SeatBottomCurveShape]*SeatBottomCurveShape),
 
 		SeatTopCurveShape_stagedOrder: make(map[*SeatTopCurveShape]uint),
 		SeatTopCurveShape_orderStaged: make(map[uint]*SeatTopCurveShape),
@@ -7659,6 +7775,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"PartiallyGrowthCurve2DTrajectoryShape": &PartiallyGrowthCurve2DTrajectoryShapeUnmarshaller{},
 
+			"PartiallyRotatedSeatBottomCurveShape": &PartiallyRotatedSeatBottomCurveShapeUnmarshaller{},
+
 			"PartiallyRotatedSeatTopCurveShape": &PartiallyRotatedSeatTopCurveShapeUnmarshaller{},
 
 			"PartiallyRotatedTorusShape": &PartiallyRotatedTorusShapeUnmarshaller{},
@@ -7692,6 +7810,8 @@ func NewStage(name string) (stage *Stage) {
 			"RotatedRhombusShape": &RotatedRhombusShapeUnmarshaller{},
 
 			"SampledPoints3DShape": &SampledPoints3DShapeUnmarshaller{},
+
+			"SeatBottomCurveShape": &SeatBottomCurveShapeUnmarshaller{},
 
 			"SeatTopCurveShape": &SeatTopCurveShapeUnmarshaller{},
 
@@ -7860,6 +7980,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PartiallyGrowthCurve2DTrajectoryP2CurveShape"},
 			{name: "PartiallyGrowthCurve2DTrajectoryP2PointShape"},
 			{name: "PartiallyGrowthCurve2DTrajectoryShape"},
+			{name: "PartiallyRotatedSeatBottomCurveShape"},
 			{name: "PartiallyRotatedSeatTopCurveShape"},
 			{name: "PartiallyRotatedTorusShape"},
 			{name: "PerpendicularVector"},
@@ -7877,6 +7998,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "RotatedRhombusGridShape"},
 			{name: "RotatedRhombusShape"},
 			{name: "SampledPoints3DShape"},
+			{name: "SeatBottomCurveShape"},
 			{name: "SeatTopCurveShape"},
 			{name: "ShiftedBottomTopStartArcShape"},
 			{name: "ShiftedBottomTopStartArcShapeGrid"},
@@ -8031,6 +8153,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[instance]
 	case *PartiallyRotatedSeatTopCurveShape:
 		return stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[instance]
 	case *PartiallyRotatedTorusShape:
@@ -8065,6 +8189,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.RotatedRhombusShape_stagedOrder[instance]
 	case *SampledPoints3DShape:
 		return stage.SampledPoints3DShape_stagedOrder[instance]
+	case *SeatBottomCurveShape:
+		return stage.SeatBottomCurveShape_stagedOrder[instance]
 	case *SeatTopCurveShape:
 		return stage.SeatTopCurveShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShape:
@@ -8278,6 +8404,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(stage.PartiallyGrowthCurve2DTrajectoryShape_orderStaged[order]).(Type)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return any(stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[order]).(Type)
 	case *PartiallyRotatedSeatTopCurveShape:
 		return any(stage.PartiallyRotatedSeatTopCurveShape_orderStaged[order]).(Type)
 	case *PartiallyRotatedTorusShape:
@@ -8312,6 +8440,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.RotatedRhombusShape_orderStaged[order]).(Type)
 	case *SampledPoints3DShape:
 		return any(stage.SampledPoints3DShape_orderStaged[order]).(Type)
+	case *SeatBottomCurveShape:
+		return any(stage.SeatBottomCurveShape_orderStaged[order]).(Type)
 	case *SeatTopCurveShape:
 		return any(stage.SeatTopCurveShape_orderStaged[order]).(Type)
 	case *ShiftedBottomTopStartArcShape:
@@ -8524,6 +8654,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[instance]
 	case *PartiallyRotatedSeatTopCurveShape:
 		return stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[instance]
 	case *PartiallyRotatedTorusShape:
@@ -8558,6 +8690,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.RotatedRhombusShape_stagedOrder[instance]
 	case *SampledPoints3DShape:
 		return stage.SampledPoints3DShape_stagedOrder[instance]
+	case *SeatBottomCurveShape:
+		return stage.SeatBottomCurveShape_stagedOrder[instance]
 	case *SeatTopCurveShape:
 		return stage.SeatTopCurveShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShape:
@@ -8786,6 +8920,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP2CurveShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP2PointShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyRotatedSeatBottomCurveShape"] = len(stage.PartiallyRotatedSeatBottomCurveShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyRotatedSeatTopCurveShape"] = len(stage.PartiallyRotatedSeatTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyRotatedTorusShape"] = len(stage.PartiallyRotatedTorusShapes)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
@@ -8803,6 +8938,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusGridShape"] = len(stage.RotatedRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
 	stage.Map_GongStructName_InstancesNb["SampledPoints3DShape"] = len(stage.SampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["SeatBottomCurveShape"] = len(stage.SeatBottomCurveShapes)
 	stage.Map_GongStructName_InstancesNb["SeatTopCurveShape"] = len(stage.SeatTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShape"] = len(stage.ShiftedBottomTopStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShapeGrid"] = len(stage.ShiftedBottomTopStartArcShapeGrids)
@@ -12512,6 +12648,94 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	partiallygrowthcurve2dtrajectoryshape.Name = name
 }
 
+// Stage puts partiallyrotatedseatbottomcurveshape to the model stage
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Stage(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; !ok {
+		stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape] = struct{}{}
+		stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[partiallyrotatedseatbottomcurveshape] = stage.PartiallyRotatedSeatBottomCurveShapeOrder
+		stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[stage.PartiallyRotatedSeatBottomCurveShapeOrder] = partiallyrotatedseatbottomcurveshape
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder++
+	}
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString[partiallyrotatedseatbottomcurveshape.Name] = partiallyrotatedseatbottomcurveshape
+
+	return partiallyrotatedseatbottomcurveshape
+}
+
+// StagePreserveOrder puts partiallyrotatedseatbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyRotatedSeatBottomCurveShapeOrder
+// - update stage.PartiallyRotatedSeatBottomCurveShapeOrder accordingly
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; !ok {
+		stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape] = struct{}{}
+
+		if order > stage.PartiallyRotatedSeatBottomCurveShapeOrder {
+			stage.PartiallyRotatedSeatBottomCurveShapeOrder = order
+		}
+		stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[partiallyrotatedseatbottomcurveshape] = order
+		stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[order] = partiallyrotatedseatbottomcurveshape
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder++
+	}
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString[partiallyrotatedseatbottomcurveshape.Name] = partiallyrotatedseatbottomcurveshape
+}
+
+// Unstage removes partiallyrotatedseatbottomcurveshape off the model stage
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Unstage(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes, partiallyrotatedseatbottomcurveshape)
+	// issue1150
+	// delete(stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder, partiallyrotatedseatbottomcurveshape)
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes_mapString, partiallyrotatedseatbottomcurveshape.Name)
+
+	return partiallyrotatedseatbottomcurveshape
+}
+
+// UnstageVoid removes partiallyrotatedseatbottomcurveshape off the model stage
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes, partiallyrotatedseatbottomcurveshape)
+	// issue1150
+	// delete(stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder, partiallyrotatedseatbottomcurveshape)
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes_mapString, partiallyrotatedseatbottomcurveshape.Name)
+}
+
+// commit partiallyrotatedseatbottomcurveshape to the back repo (if it is already staged)
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Commit(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape)
+		}
+	}
+	return partiallyrotatedseatbottomcurveshape
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) CommitVoid(stage *Stage) {
+	partiallyrotatedseatbottomcurveshape.Commit(stage)
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) StageVoid(stage *Stage) {
+	partiallyrotatedseatbottomcurveshape.Stage(stage)
+}
+
+// Checkout partiallyrotatedseatbottomcurveshape to the back repo (if it is already staged)
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Checkout(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape)
+		}
+	}
+	return partiallyrotatedseatbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GetName() (res string) {
+	return partiallyrotatedseatbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) SetName(name string) {
+	partiallyrotatedseatbottomcurveshape.Name = name
+}
+
 // Stage puts partiallyrotatedseattopcurveshape to the model stage
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Stage(stage *Stage) *PartiallyRotatedSeatTopCurveShape {
 	if _, ok := stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]; !ok {
@@ -14006,6 +14230,94 @@ func (sampledpoints3dshape *SampledPoints3DShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (sampledpoints3dshape *SampledPoints3DShape) SetName(name string) {
 	sampledpoints3dshape.Name = name
+}
+
+// Stage puts seatbottomcurveshape to the model stage
+func (seatbottomcurveshape *SeatBottomCurveShape) Stage(stage *Stage) *SeatBottomCurveShape {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; !ok {
+		stage.SeatBottomCurveShapes[seatbottomcurveshape] = struct{}{}
+		stage.SeatBottomCurveShape_stagedOrder[seatbottomcurveshape] = stage.SeatBottomCurveShapeOrder
+		stage.SeatBottomCurveShape_orderStaged[stage.SeatBottomCurveShapeOrder] = seatbottomcurveshape
+		stage.SeatBottomCurveShapeOrder++
+	}
+	stage.SeatBottomCurveShapes_mapString[seatbottomcurveshape.Name] = seatbottomcurveshape
+
+	return seatbottomcurveshape
+}
+
+// StagePreserveOrder puts seatbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SeatBottomCurveShapeOrder
+// - update stage.SeatBottomCurveShapeOrder accordingly
+func (seatbottomcurveshape *SeatBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; !ok {
+		stage.SeatBottomCurveShapes[seatbottomcurveshape] = struct{}{}
+
+		if order > stage.SeatBottomCurveShapeOrder {
+			stage.SeatBottomCurveShapeOrder = order
+		}
+		stage.SeatBottomCurveShape_stagedOrder[seatbottomcurveshape] = order
+		stage.SeatBottomCurveShape_orderStaged[order] = seatbottomcurveshape
+		stage.SeatBottomCurveShapeOrder++
+	}
+	stage.SeatBottomCurveShapes_mapString[seatbottomcurveshape.Name] = seatbottomcurveshape
+}
+
+// Unstage removes seatbottomcurveshape off the model stage
+func (seatbottomcurveshape *SeatBottomCurveShape) Unstage(stage *Stage) *SeatBottomCurveShape {
+	delete(stage.SeatBottomCurveShapes, seatbottomcurveshape)
+	// issue1150
+	// delete(stage.SeatBottomCurveShape_stagedOrder, seatbottomcurveshape)
+	delete(stage.SeatBottomCurveShapes_mapString, seatbottomcurveshape.Name)
+
+	return seatbottomcurveshape
+}
+
+// UnstageVoid removes seatbottomcurveshape off the model stage
+func (seatbottomcurveshape *SeatBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.SeatBottomCurveShapes, seatbottomcurveshape)
+	// issue1150
+	// delete(stage.SeatBottomCurveShape_stagedOrder, seatbottomcurveshape)
+	delete(stage.SeatBottomCurveShapes_mapString, seatbottomcurveshape.Name)
+}
+
+// commit seatbottomcurveshape to the back repo (if it is already staged)
+func (seatbottomcurveshape *SeatBottomCurveShape) Commit(stage *Stage) *SeatBottomCurveShape {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSeatBottomCurveShape(seatbottomcurveshape)
+		}
+	}
+	return seatbottomcurveshape
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) CommitVoid(stage *Stage) {
+	seatbottomcurveshape.Commit(stage)
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) StageVoid(stage *Stage) {
+	seatbottomcurveshape.Stage(stage)
+}
+
+// Checkout seatbottomcurveshape to the back repo (if it is already staged)
+func (seatbottomcurveshape *SeatBottomCurveShape) Checkout(stage *Stage) *SeatBottomCurveShape {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSeatBottomCurveShape(seatbottomcurveshape)
+		}
+	}
+	return seatbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (seatbottomcurveshape *SeatBottomCurveShape) GetName() (res string) {
+	return seatbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (seatbottomcurveshape *SeatBottomCurveShape) SetName(name string) {
+	seatbottomcurveshape.Name = name
 }
 
 // Stage puts seattopcurveshape to the model stage
@@ -19419,6 +19731,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
 	CreateORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	CreateORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
+	CreateORMPartiallyRotatedSeatBottomCurveShape(PartiallyRotatedSeatBottomCurveShape *PartiallyRotatedSeatBottomCurveShape)
 	CreateORMPartiallyRotatedSeatTopCurveShape(PartiallyRotatedSeatTopCurveShape *PartiallyRotatedSeatTopCurveShape)
 	CreateORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
 	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
@@ -19436,6 +19749,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
 	CreateORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
+	CreateORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
 	CreateORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
 	CreateORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
 	CreateORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
@@ -19541,6 +19855,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
 	DeleteORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	DeleteORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
+	DeleteORMPartiallyRotatedSeatBottomCurveShape(PartiallyRotatedSeatBottomCurveShape *PartiallyRotatedSeatBottomCurveShape)
 	DeleteORMPartiallyRotatedSeatTopCurveShape(PartiallyRotatedSeatTopCurveShape *PartiallyRotatedSeatTopCurveShape)
 	DeleteORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
 	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
@@ -19558,6 +19873,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
 	DeleteORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
+	DeleteORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
 	DeleteORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
 	DeleteORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
 	DeleteORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
@@ -19827,6 +20143,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryShape]uint)
 	stage.PartiallyGrowthCurve2DTrajectoryShapeOrder = 0
 
+	stage.PartiallyRotatedSeatBottomCurveShapes = make(map[*PartiallyRotatedSeatBottomCurveShape]struct{})
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatBottomCurveShape)
+	stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder = make(map[*PartiallyRotatedSeatBottomCurveShape]uint)
+	stage.PartiallyRotatedSeatBottomCurveShapeOrder = 0
+
 	stage.PartiallyRotatedSeatTopCurveShapes = make(map[*PartiallyRotatedSeatTopCurveShape]struct{})
 	stage.PartiallyRotatedSeatTopCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatTopCurveShape)
 	stage.PartiallyRotatedSeatTopCurveShape_stagedOrder = make(map[*PartiallyRotatedSeatTopCurveShape]uint)
@@ -19911,6 +20232,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
 	stage.SampledPoints3DShape_stagedOrder = make(map[*SampledPoints3DShape]uint)
 	stage.SampledPoints3DShapeOrder = 0
+
+	stage.SeatBottomCurveShapes = make(map[*SeatBottomCurveShape]struct{})
+	stage.SeatBottomCurveShapes_mapString = make(map[string]*SeatBottomCurveShape)
+	stage.SeatBottomCurveShape_stagedOrder = make(map[*SeatBottomCurveShape]uint)
+	stage.SeatBottomCurveShapeOrder = 0
 
 	stage.SeatTopCurveShapes = make(map[*SeatTopCurveShape]struct{})
 	stage.SeatTopCurveShapes_mapString = make(map[string]*SeatTopCurveShape)
@@ -20349,6 +20675,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PartiallyGrowthCurve2DTrajectoryShapes = nil
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString = nil
 
+	stage.PartiallyRotatedSeatBottomCurveShapes = nil
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = nil
+
 	stage.PartiallyRotatedSeatTopCurveShapes = nil
 	stage.PartiallyRotatedSeatTopCurveShapes_mapString = nil
 
@@ -20399,6 +20728,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.SampledPoints3DShapes = nil
 	stage.SampledPoints3DShapes_mapString = nil
+
+	stage.SeatBottomCurveShapes = nil
+	stage.SeatBottomCurveShapes_mapString = nil
 
 	stage.SeatTopCurveShapes = nil
 	stage.SeatTopCurveShapes_mapString = nil
@@ -20751,6 +21083,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		partiallygrowthcurve2dtrajectoryshape.Unstage(stage)
 	}
 
+	for partiallyrotatedseatbottomcurveshape := range stage.PartiallyRotatedSeatBottomCurveShapes {
+		partiallyrotatedseatbottomcurveshape.Unstage(stage)
+	}
+
 	for partiallyrotatedseattopcurveshape := range stage.PartiallyRotatedSeatTopCurveShapes {
 		partiallyrotatedseattopcurveshape.Unstage(stage)
 	}
@@ -20817,6 +21153,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
 		sampledpoints3dshape.Unstage(stage)
+	}
+
+	for seatbottomcurveshape := range stage.SeatBottomCurveShapes {
+		seatbottomcurveshape.Unstage(stage)
 	}
 
 	for seattopcurveshape := range stage.SeatTopCurveShapes {
@@ -21221,6 +21561,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*Type)
 	case map[*PartiallyGrowthCurve2DTrajectoryShape]any:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*Type)
+	case map[*PartiallyRotatedSeatBottomCurveShape]any:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*Type)
 	case map[*PartiallyRotatedSeatTopCurveShape]any:
 		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*Type)
 	case map[*PartiallyRotatedTorusShape]any:
@@ -21255,6 +21597,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.RotatedRhombusShapes).(*Type)
 	case map[*SampledPoints3DShape]any:
 		return any(&stage.SampledPoints3DShapes).(*Type)
+	case map[*SeatBottomCurveShape]any:
+		return any(&stage.SeatBottomCurveShapes).(*Type)
 	case map[*SeatTopCurveShape]any:
 		return any(&stage.SeatTopCurveShapes).(*Type)
 	case map[*ShiftedBottomTopStartArcShape]any:
@@ -21471,6 +21815,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(map[string]Type)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return any(stage.PartiallyRotatedSeatBottomCurveShapes_mapString).(map[string]Type)
 	case *PartiallyRotatedSeatTopCurveShape:
 		return any(stage.PartiallyRotatedSeatTopCurveShapes_mapString).(map[string]Type)
 	case *PartiallyRotatedTorusShape:
@@ -21505,6 +21851,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.RotatedRhombusShapes_mapString).(map[string]Type)
 	case *SampledPoints3DShape:
 		return any(stage.SampledPoints3DShapes_mapString).(map[string]Type)
+	case *SeatBottomCurveShape:
+		return any(stage.SeatBottomCurveShapes_mapString).(map[string]Type)
 	case *SeatTopCurveShape:
 		return any(stage.SeatTopCurveShapes_mapString).(map[string]Type)
 	case *ShiftedBottomTopStartArcShape:
@@ -21721,6 +22069,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[*Type]struct{})
+	case PartiallyRotatedSeatBottomCurveShape:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*map[*Type]struct{})
 	case PartiallyRotatedSeatTopCurveShape:
 		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*map[*Type]struct{})
 	case PartiallyRotatedTorusShape:
@@ -21755,6 +22105,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.RotatedRhombusShapes).(*map[*Type]struct{})
 	case SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes).(*map[*Type]struct{})
+	case SeatBottomCurveShape:
+		return any(&stage.SeatBottomCurveShapes).(*map[*Type]struct{})
 	case SeatTopCurveShape:
 		return any(&stage.SeatTopCurveShapes).(*map[*Type]struct{})
 	case ShiftedBottomTopStartArcShape:
@@ -21971,6 +22323,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[Type]struct{})
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*map[Type]struct{})
 	case *PartiallyRotatedSeatTopCurveShape:
 		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*map[Type]struct{})
 	case *PartiallyRotatedTorusShape:
@@ -22005,6 +22359,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.RotatedRhombusShapes).(*map[Type]struct{})
 	case *SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes).(*map[Type]struct{})
+	case *SeatBottomCurveShape:
+		return any(&stage.SeatBottomCurveShapes).(*map[Type]struct{})
 	case *SeatTopCurveShape:
 		return any(&stage.SeatTopCurveShapes).(*map[Type]struct{})
 	case *ShiftedBottomTopStartArcShape:
@@ -22221,6 +22577,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(*map[string]*Type)
+	case PartiallyRotatedSeatBottomCurveShape:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes_mapString).(*map[string]*Type)
 	case PartiallyRotatedSeatTopCurveShape:
 		return any(&stage.PartiallyRotatedSeatTopCurveShapes_mapString).(*map[string]*Type)
 	case PartiallyRotatedTorusShape:
@@ -22255,6 +22613,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.RotatedRhombusShapes_mapString).(*map[string]*Type)
 	case SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes_mapString).(*map[string]*Type)
+	case SeatBottomCurveShape:
+		return any(&stage.SeatBottomCurveShapes_mapString).(*map[string]*Type)
 	case SeatTopCurveShape:
 		return any(&stage.SeatTopCurveShapes_mapString).(*map[string]*Type)
 	case ShiftedBottomTopStartArcShape:
@@ -22597,6 +22957,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&PartiallyGrowthCurve2DTrajectoryShape{
 			// Initialisation of associations
 		}).(*Type)
+	case PartiallyRotatedSeatBottomCurveShape:
+		return any(&PartiallyRotatedSeatBottomCurveShape{
+			// Initialisation of associations
+		}).(*Type)
 	case PartiallyRotatedSeatTopCurveShape:
 		return any(&PartiallyRotatedSeatTopCurveShape{
 			// Initialisation of associations
@@ -22721,6 +23085,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case SampledPoints3DShape:
 		return any(&SampledPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case SeatBottomCurveShape:
+		return any(&SeatBottomCurveShape{
 			// Initialisation of associations
 		}).(*Type)
 	case SeatTopCurveShape:
@@ -22914,6 +23282,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			SeatTopCurveShape: &SeatTopCurveShape{Name: "SeatTopCurveShape"},
 			// field is initialized with an instance of PartiallyRotatedSeatTopCurveShape with the name of the field
 			RotatedSeatTopCurveShape: &PartiallyRotatedSeatTopCurveShape{Name: "RotatedSeatTopCurveShape"},
+			// field is initialized with an instance of SeatBottomCurveShape with the name of the field
+			SeatBottomCurveShape: &SeatBottomCurveShape{Name: "SeatBottomCurveShape"},
+			// field is initialized with an instance of PartiallyRotatedSeatBottomCurveShape with the name of the field
+			RotatedSeatBottomCurveShape: &PartiallyRotatedSeatBottomCurveShape{Name: "RotatedSeatBottomCurveShape"},
 			// field is initialized with an instance of Torus3DShape with the name of the field
 			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
 			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
@@ -23380,6 +23752,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of PartiallyGrowthCurve2DTrajectoryShape
 	case PartiallyGrowthCurve2DTrajectoryShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyRotatedSeatBottomCurveShape
+	case PartiallyRotatedSeatBottomCurveShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -23893,6 +24270,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of SeatBottomCurveShape
+	case SeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of SeatTopCurveShape
 	case SeatTopCurveShape:
 		switch fieldname {
@@ -24108,6 +24490,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					stooldiagrams = append(stooldiagrams, stooldiagram)
 					res[partiallyrotatedseattopcurveshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SeatBottomCurveShape":
+			res := make(map[*SeatBottomCurveShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.SeatBottomCurveShape != nil {
+					seatbottomcurveshape_ := stooldiagram.SeatBottomCurveShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[seatbottomcurveshape_]
+					if ok {
+						stooldiagrams = res[seatbottomcurveshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[seatbottomcurveshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedSeatBottomCurveShape":
+			res := make(map[*PartiallyRotatedSeatBottomCurveShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.RotatedSeatBottomCurveShape != nil {
+					partiallyrotatedseatbottomcurveshape_ := stooldiagram.RotatedSeatBottomCurveShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[partiallyrotatedseatbottomcurveshape_]
+					if ok {
+						stooldiagrams = res[partiallyrotatedseatbottomcurveshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[partiallyrotatedseatbottomcurveshape_] = stooldiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -25437,6 +25853,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of PartiallyRotatedSeatBottomCurveShape
+	case PartiallyRotatedSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyRotatedSeatTopCurveShape
 	case PartiallyRotatedSeatTopCurveShape:
 		switch fieldname {
@@ -25551,6 +25972,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of SampledPoints3DShape
 	case SampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatBottomCurveShape
+	case SeatBottomCurveShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -26184,6 +26610,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PartiallyGrowthCurve2DTrajectoryP2PointShape"
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		res = "PartiallyGrowthCurve2DTrajectoryShape"
+	case *PartiallyRotatedSeatBottomCurveShape:
+		res = "PartiallyRotatedSeatBottomCurveShape"
 	case *PartiallyRotatedSeatTopCurveShape:
 		res = "PartiallyRotatedSeatTopCurveShape"
 	case *PartiallyRotatedTorusShape:
@@ -26218,6 +26646,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "RotatedRhombusShape"
 	case *SampledPoints3DShape:
 		res = "SampledPoints3DShape"
+	case *SeatBottomCurveShape:
+		res = "SeatBottomCurveShape"
 	case *SeatTopCurveShape:
 		res = "SeatTopCurveShape"
 	case *ShiftedBottomTopStartArcShape:
@@ -26534,6 +26964,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "PartiallyGrowthCurve2DTrajectory"
 		rf.Fieldname = "PartiallyGrowthCurve2DTrajectoryShapes"
 		res = append(res, rf)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		var rf ReverseField
+		_ = rf
 	case *PartiallyRotatedSeatTopCurveShape:
 		var rf ReverseField
 		_ = rf
@@ -26598,6 +27031,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "RotatedRhombusShapes"
 		res = append(res, rf)
 	case *SampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *SeatBottomCurveShape:
 		var rf ReverseField
 		_ = rf
 	case *SeatTopCurveShape:
@@ -28027,6 +28463,17 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -28595,6 +29042,17 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldHeaders() (res []Gon
 }
 
 func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -30213,6 +30671,24 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "RotatedSeatTopCurveShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "PartiallyRotatedSeatTopCurveShape",
+		},
+		{
+			Name:               "IsHiddenSeatBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SeatBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SeatBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenRotatedSeatBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "RotatedSeatBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyRotatedSeatBottomCurveShape",
 		},
 		{
 			Name:               "IsHiddenTorus3DShape",
@@ -32566,6 +33042,15 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallyrotatedseatbottomcurveshape.Name
+	}
+	return
+}
+
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -33143,6 +33628,15 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldValue(fieldName st
 	// string value of fields
 	case "Name":
 		res.valueString = sampledpoints3dshape.Name
+	}
+	return
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = seatbottomcurveshape.Name
 	}
 	return
 }
@@ -34783,6 +35277,26 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if stooldiagram.RotatedSeatTopCurveShape != nil {
 			res.valueString = stooldiagram.RotatedSeatTopCurveShape.Name
 			res.ids = stooldiagram.RotatedSeatTopCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSeatBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenSeatBottomCurveShape)
+		res.valueBool = stooldiagram.IsHiddenSeatBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SeatBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.SeatBottomCurveShape != nil {
+			res.valueString = stooldiagram.SeatBottomCurveShape.Name
+			res.ids = stooldiagram.SeatBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenRotatedSeatBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenRotatedSeatBottomCurveShape)
+		res.valueBool = stooldiagram.IsHiddenRotatedSeatBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RotatedSeatBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.RotatedSeatBottomCurveShape != nil {
+			res.valueString = stooldiagram.RotatedSeatBottomCurveShape.Name
+			res.ids = stooldiagram.RotatedSeatBottomCurveShape.GongGetUUID(stage)
 		}
 	case "IsHiddenTorus3DShape":
 		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenTorus3DShape)
@@ -37007,6 +37521,17 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return nil
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallyrotatedseatbottomcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -37641,6 +38166,17 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongSetFieldValue(fieldName st
 	// insertion point for per field code
 	case "Name":
 		sampledpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		seatbottomcurveshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -38894,6 +39430,32 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.PartiallyRotatedSeatTopCurveShapes {
 				if stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[__instance__] == uint(id) {
 					stooldiagram.RotatedSeatTopCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSeatBottomCurveShape":
+		stooldiagram.IsHiddenSeatBottomCurveShape = value.GetValueBool()
+	case "SeatBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.SeatBottomCurveShape = nil
+			for __instance__ := range stage.SeatBottomCurveShapes {
+				if stage.SeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.SeatBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenRotatedSeatBottomCurveShape":
+		stooldiagram.IsHiddenRotatedSeatBottomCurveShape = value.GetValueBool()
+	case "RotatedSeatBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.RotatedSeatBottomCurveShape = nil
+			for __instance__ := range stage.PartiallyRotatedSeatBottomCurveShapes {
+				if stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.RotatedSeatBottomCurveShape = __instance__
 					break
 				}
 			}
@@ -40290,6 +40852,10 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return "PartiallyGrowthCurve2DTrajectoryShape"
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongGetGongstructName() string {
+	return "PartiallyRotatedSeatBottomCurveShape"
+}
+
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetGongstructName() string {
 	return "PartiallyRotatedSeatTopCurveShape"
 }
@@ -40356,6 +40922,10 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetGongstructName() string {
 
 func (sampledpoints3dshape *SampledPoints3DShape) GongGetGongstructName() string {
 	return "SampledPoints3DShape"
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongGetGongstructName() string {
+	return "SeatBottomCurveShape"
 }
 
 func (seattopcurveshape *SeatTopCurveShape) GongGetGongstructName() string {
@@ -40814,6 +41384,11 @@ func (stage *Stage) ResetMapStrings() {
 		stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString[partiallygrowthcurve2dtrajectoryshape.Name] = partiallygrowthcurve2dtrajectoryshape
 	}
 
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatBottomCurveShape)
+	for partiallyrotatedseatbottomcurveshape := range stage.PartiallyRotatedSeatBottomCurveShapes {
+		stage.PartiallyRotatedSeatBottomCurveShapes_mapString[partiallyrotatedseatbottomcurveshape.Name] = partiallyrotatedseatbottomcurveshape
+	}
+
 	stage.PartiallyRotatedSeatTopCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatTopCurveShape)
 	for partiallyrotatedseattopcurveshape := range stage.PartiallyRotatedSeatTopCurveShapes {
 		stage.PartiallyRotatedSeatTopCurveShapes_mapString[partiallyrotatedseattopcurveshape.Name] = partiallyrotatedseattopcurveshape
@@ -40897,6 +41472,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
 	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
 		stage.SampledPoints3DShapes_mapString[sampledpoints3dshape.Name] = sampledpoints3dshape
+	}
+
+	stage.SeatBottomCurveShapes_mapString = make(map[string]*SeatBottomCurveShape)
+	for seatbottomcurveshape := range stage.SeatBottomCurveShapes {
+		stage.SeatBottomCurveShapes_mapString[seatbottomcurveshape.Name] = seatbottomcurveshape
 	}
 
 	stage.SeatTopCurveShapes_mapString = make(map[string]*SeatTopCurveShape)

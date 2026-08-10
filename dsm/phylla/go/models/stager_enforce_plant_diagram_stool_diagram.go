@@ -44,6 +44,26 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.RotatedSeatTopCurveShape.Name = plantDiagram.Name + "-PartiallyRotatedSeatTopCurveShape"
 				modified = true
 			}
+			if plantDiagram.StoolDiagram.SeatBottomCurveShape == nil {
+				s := (&SeatBottomCurveShape{
+					Name: plantDiagram.Name + "-SeatBottomCurveShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.SeatBottomCurveShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.SeatBottomCurveShape.Name != plantDiagram.Name+"-SeatBottomCurveShape" {
+				plantDiagram.StoolDiagram.SeatBottomCurveShape.Name = plantDiagram.Name + "-SeatBottomCurveShape"
+				modified = true
+			}
+			if plantDiagram.StoolDiagram.RotatedSeatBottomCurveShape == nil {
+				s := (&PartiallyRotatedSeatBottomCurveShape{
+					Name: plantDiagram.Name + "-PartiallyRotatedSeatBottomCurveShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.RotatedSeatBottomCurveShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.RotatedSeatBottomCurveShape.Name != plantDiagram.Name+"-PartiallyRotatedSeatBottomCurveShape" {
+				plantDiagram.StoolDiagram.RotatedSeatBottomCurveShape.Name = plantDiagram.Name + "-PartiallyRotatedSeatBottomCurveShape"
+				modified = true
+			}
 			if plantDiagram.StoolDiagram.Torus3DShape == nil {
 				s := (&Torus3DShape{
 					Name: plantDiagram.Name + "-Torus3DShape",

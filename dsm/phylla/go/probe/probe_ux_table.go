@@ -106,6 +106,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](probe)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryShape](probe)
+	case "PartiallyRotatedSeatBottomCurveShape":
+		updateProbeTable[*models.PartiallyRotatedSeatBottomCurveShape](probe)
 	case "PartiallyRotatedSeatTopCurveShape":
 		updateProbeTable[*models.PartiallyRotatedSeatTopCurveShape](probe)
 	case "PartiallyRotatedTorusShape":
@@ -140,6 +142,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.RotatedRhombusShape](probe)
 	case "SampledPoints3DShape":
 		updateProbeTable[*models.SampledPoints3DShape](probe)
+	case "SeatBottomCurveShape":
+		updateProbeTable[*models.SeatBottomCurveShape](probe)
 	case "SeatTopCurveShape":
 		updateProbeTable[*models.SeatTopCurveShape](probe)
 	case "ShiftedBottomTopStartArcShape":
