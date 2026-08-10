@@ -111,6 +111,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.eyesampledpoints3dshape, probe)
 			}
+		case *EyeSeatBottomCurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "EyeSeatBottomCurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.eyeseatbottomcurveshape, probe)
+			}
+		case *EyeStoolBottomCurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "EyeStoolBottomCurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.eyestoolbottomcurveshape, probe)
+			}
 		case *GridPathShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "GridPathShape", true)
@@ -995,6 +1007,32 @@ func FillUpFormFromGongstructName(
 		eyesampledpoints3dshape := new(models.EyeSampledPoints3DShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(eyesampledpoints3dshape, formGroup, probe)
+	case "EyeSeatBottomCurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "EyeSeatBottomCurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EyeSeatBottomCurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		eyeseatbottomcurveshape := new(models.EyeSeatBottomCurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(eyeseatbottomcurveshape, formGroup, probe)
+	case "EyeStoolBottomCurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "EyeStoolBottomCurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EyeStoolBottomCurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		eyestoolbottomcurveshape := new(models.EyeStoolBottomCurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(eyestoolbottomcurveshape, formGroup, probe)
 	case "GridPathShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

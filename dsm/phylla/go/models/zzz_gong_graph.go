@@ -55,6 +55,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *EyeSampledPoints3DShape:
 		ok = stage.IsStagedEyeSampledPoints3DShape(target)
 
+	case *EyeSeatBottomCurveShape:
+		ok = stage.IsStagedEyeSeatBottomCurveShape(target)
+
+	case *EyeStoolBottomCurveShape:
+		ok = stage.IsStagedEyeStoolBottomCurveShape(target)
+
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
 
@@ -439,6 +445,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *EyeSampledPoints3DShape:
 		ok = stage.IsStagedEyeSampledPoints3DShape(target)
+
+	case *EyeSeatBottomCurveShape:
+		ok = stage.IsStagedEyeSeatBottomCurveShape(target)
+
+	case *EyeStoolBottomCurveShape:
+		ok = stage.IsStagedEyeStoolBottomCurveShape(target)
 
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
@@ -882,6 +894,20 @@ func (stage *Stage) IsStagedEyeCornersSampledPoints3DShape(eyecornerssampledpoin
 func (stage *Stage) IsStagedEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape) (ok bool) {
 
 	_, ok = stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) (ok bool) {
+
+	_, ok = stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) (ok bool) {
+
+	_, ok = stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]
 
 	return
 }
@@ -1705,6 +1731,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *EyeSampledPoints3DShape:
 		stage.StageBranchEyeSampledPoints3DShape(target)
 
+	case *EyeSeatBottomCurveShape:
+		stage.StageBranchEyeSeatBottomCurveShape(target)
+
+	case *EyeStoolBottomCurveShape:
+		stage.StageBranchEyeStoolBottomCurveShape(target)
+
 	case *GridPathShape:
 		stage.StageBranchGridPathShape(target)
 
@@ -2271,6 +2303,36 @@ func (stage *Stage) StageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape *
 	}
 
 	eyesampledpoints3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, eyeseatbottomcurveshape) {
+		return
+	}
+
+	eyeseatbottomcurveshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, eyestoolbottomcurveshape) {
+		return
+	}
+
+	eyestoolbottomcurveshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -4027,6 +4089,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchEyeSampledPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *EyeSeatBottomCurveShape:
+		toT := CopyBranchEyeSeatBottomCurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *EyeStoolBottomCurveShape:
+		toT := CopyBranchEyeStoolBottomCurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *GridPathShape:
 		toT := CopyBranchGridPathShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4766,6 +4836,44 @@ func CopyBranchEyeSampledPoints3DShape(mapOrigCopy map[any]any, eyesampledpoints
 	eyesampledpoints3dshapeTo = new(EyeSampledPoints3DShape)
 	mapOrigCopy[eyesampledpoints3dshapeFrom] = eyesampledpoints3dshapeTo
 	eyesampledpoints3dshapeFrom.CopyBasicFields(eyesampledpoints3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchEyeSeatBottomCurveShape(mapOrigCopy map[any]any, eyeseatbottomcurveshapeFrom *EyeSeatBottomCurveShape) (eyeseatbottomcurveshapeTo *EyeSeatBottomCurveShape) {
+
+	// eyeseatbottomcurveshapeFrom has already been copied
+	if _eyeseatbottomcurveshapeTo, ok := mapOrigCopy[eyeseatbottomcurveshapeFrom]; ok {
+		eyeseatbottomcurveshapeTo = _eyeseatbottomcurveshapeTo.(*EyeSeatBottomCurveShape)
+		return
+	}
+
+	eyeseatbottomcurveshapeTo = new(EyeSeatBottomCurveShape)
+	mapOrigCopy[eyeseatbottomcurveshapeFrom] = eyeseatbottomcurveshapeTo
+	eyeseatbottomcurveshapeFrom.CopyBasicFields(eyeseatbottomcurveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchEyeStoolBottomCurveShape(mapOrigCopy map[any]any, eyestoolbottomcurveshapeFrom *EyeStoolBottomCurveShape) (eyestoolbottomcurveshapeTo *EyeStoolBottomCurveShape) {
+
+	// eyestoolbottomcurveshapeFrom has already been copied
+	if _eyestoolbottomcurveshapeTo, ok := mapOrigCopy[eyestoolbottomcurveshapeFrom]; ok {
+		eyestoolbottomcurveshapeTo = _eyestoolbottomcurveshapeTo.(*EyeStoolBottomCurveShape)
+		return
+	}
+
+	eyestoolbottomcurveshapeTo = new(EyeStoolBottomCurveShape)
+	mapOrigCopy[eyestoolbottomcurveshapeFrom] = eyestoolbottomcurveshapeTo
+	eyestoolbottomcurveshapeFrom.CopyBasicFields(eyestoolbottomcurveshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6940,6 +7048,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *EyeSampledPoints3DShape:
 		stage.UnstageBranchEyeSampledPoints3DShape(target)
 
+	case *EyeSeatBottomCurveShape:
+		stage.UnstageBranchEyeSeatBottomCurveShape(target)
+
+	case *EyeStoolBottomCurveShape:
+		stage.UnstageBranchEyeStoolBottomCurveShape(target)
+
 	case *GridPathShape:
 		stage.UnstageBranchGridPathShape(target)
 
@@ -7506,6 +7620,36 @@ func (stage *Stage) UnstageBranchEyeSampledPoints3DShape(eyesampledpoints3dshape
 	}
 
 	eyesampledpoints3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, eyeseatbottomcurveshape) {
+		return
+	}
+
+	eyeseatbottomcurveshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, eyestoolbottomcurveshape) {
+		return
+	}
+
+	eyestoolbottomcurveshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9268,6 +9412,16 @@ func (reference *EyeSampledPoints3DShape) GongReconstructPointersFromReferences(
 	// insertion point for slice of pointers field
 }
 
+func (reference *EyeSeatBottomCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *EyeSeatBottomCurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *EyeStoolBottomCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *EyeStoolBottomCurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *GridPathShape) GongReconstructPointersFromReferences(stage *Stage, instance *GridPathShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9932,6 +10086,16 @@ func (reference *EyeCornersSampledPoints3DShape) GongReconstructPointersFromInst
 }
 
 func (reference *EyeSampledPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *EyeSeatBottomCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *EyeStoolBottomCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10848,6 +11012,28 @@ func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongDiff(stage *Stage, e
 	// insertion point for field diffs
 	if eyesampledpoints3dshape.Name != eyesampledpoints3dshapeOther.Name {
 		diffs = append(diffs, eyesampledpoints3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongDiff(stage *Stage, eyeseatbottomcurveshapeOther *EyeSeatBottomCurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if eyeseatbottomcurveshape.Name != eyeseatbottomcurveshapeOther.Name {
+		diffs = append(diffs, eyeseatbottomcurveshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongDiff(stage *Stage, eyestoolbottomcurveshapeOther *EyeStoolBottomCurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if eyestoolbottomcurveshape.Name != eyestoolbottomcurveshapeOther.Name {
+		diffs = append(diffs, eyestoolbottomcurveshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -13255,6 +13441,12 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	}
 	if stooldiagram.IsHiddenEye3DShape != stooldiagramOther.IsHiddenEye3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEye3DShape"))
+	}
+	if stooldiagram.IsHiddenEyeSeatBottomCurveShape != stooldiagramOther.IsHiddenEyeSeatBottomCurveShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEyeSeatBottomCurveShape"))
+	}
+	if stooldiagram.IsHiddenEyeStoolBottomCurveShape != stooldiagramOther.IsHiddenEyeStoolBottomCurveShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEyeStoolBottomCurveShape"))
 	}
 	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))

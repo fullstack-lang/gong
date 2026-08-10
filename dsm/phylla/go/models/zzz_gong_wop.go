@@ -299,6 +299,28 @@ func (from *EyeSampledPoints3DShape) CopyBasicFields(to *EyeSampledPoints3DShape
 	to.Name = from.Name
 }
 
+type EyeSeatBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeSeatBottomCurveShape) CopyBasicFields(to *EyeSeatBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type EyeStoolBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeStoolBottomCurveShape) CopyBasicFields(to *EyeStoolBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type GridPathShape_WOP struct {
 	// insertion point
 
@@ -2590,6 +2612,10 @@ type StoolDiagram_WOP struct {
 	IsHiddenEyeCornersSampledPoints3DShape bool
 
 	IsHiddenEye3DShape bool
+
+	IsHiddenEyeSeatBottomCurveShape bool
+
+	IsHiddenEyeStoolBottomCurveShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
@@ -2606,6 +2632,8 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.IsHiddenEyeSampledPoints3DShape = from.IsHiddenEyeSampledPoints3DShape
 	to.IsHiddenEyeCornersSampledPoints3DShape = from.IsHiddenEyeCornersSampledPoints3DShape
 	to.IsHiddenEye3DShape = from.IsHiddenEye3DShape
+	to.IsHiddenEyeSeatBottomCurveShape = from.IsHiddenEyeSeatBottomCurveShape
+	to.IsHiddenEyeStoolBottomCurveShape = from.IsHiddenEyeStoolBottomCurveShape
 }
 
 type TopEndArcShape_WOP struct {

@@ -831,44 +831,48 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			u.addPointSpheres(stool3dStage, cornerPoints, "cyan", canvas, "Stool Eye Corners Sampled", 0, 0)
 		}
 
+		var eye3DPoints []*threejs.Vector3
+		if iStart != -1 && iEnd != -1 {
+			// A. Bottom curve: from iStart to iEnd
+			for i := iStart; i <= iEnd; i++ {
+				alpha := targetAngles[i]
+				x := globalR * math.Cos(alpha)
+				z := globalR * math.Sin(alpha)
+				eye3DPoints = append(eye3DPoints, (&threejs.Vector3{
+					Name: fmt.Sprintf("Eye Loop Bottom %.1f", alpha*180.0/math.Pi),
+					X:    x,
+					Y:    yBaseList[i],
+					Z:    z,
+				}).Stage(stool3dStage))
+			}
+
+			// B. Right corner Bézier: Bottom -> Top
+			eye3DPoints = append(eye3DPoints, rightCornerPts...)
+
+			// C. Top curve: from iEnd down to iStart (reversed)
+			for i := iEnd; i >= iStart; i-- {
+				alpha := targetAngles[i]
+				x := globalR * math.Cos(alpha)
+				z := globalR * math.Sin(alpha)
+				eye3DPoints = append(eye3DPoints, (&threejs.Vector3{
+					Name: fmt.Sprintf("Eye Loop Top %.1f", alpha*180.0/math.Pi),
+					X:    x,
+					Y:    yRotList[i],
+					Z:    z,
+				}).Stage(stool3dStage))
+			}
+
+			// D. Left corner Bézier: Top -> Bottom
+			eye3DPoints = append(eye3DPoints, leftCornerPts...)
+		}
+
 		// 16. Add 3D Eye (Continuous interpolated closed tube)
 		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenEye3DShape {
-			if iStart != -1 && iEnd != -1 {
+			if len(eye3DPoints) > 0 {
 				eyeLoopCurve := (&threejs.Curve{
-					Name: "Stool Eye Continuous Loop Curve",
+					Name:   "Stool Eye Continuous Loop Curve",
+					Points: eye3DPoints,
 				}).Stage(stool3dStage)
-
-				// A. Bottom curve: from iStart to iEnd
-				for i := iStart; i <= iEnd; i++ {
-					alpha := targetAngles[i]
-					x := globalR * math.Cos(alpha)
-					z := globalR * math.Sin(alpha)
-					eyeLoopCurve.Points = append(eyeLoopCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Eye Loop Bottom %.1f", alpha*180.0/math.Pi),
-						X:    x,
-						Y:    yBaseList[i],
-						Z:    z,
-					}).Stage(stool3dStage))
-				}
-
-				// B. Right corner Bézier: Bottom -> Top
-				eyeLoopCurve.Points = append(eyeLoopCurve.Points, rightCornerPts...)
-
-				// C. Top curve: from iEnd down to iStart (reversed)
-				for i := iEnd; i >= iStart; i-- {
-					alpha := targetAngles[i]
-					x := globalR * math.Cos(alpha)
-					z := globalR * math.Sin(alpha)
-					eyeLoopCurve.Points = append(eyeLoopCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Eye Loop Top %.1f", alpha*180.0/math.Pi),
-						X:    x,
-						Y:    yRotList[i],
-						Z:    z,
-					}).Stage(stool3dStage))
-				}
-
-				// D. Left corner Bézier: Top -> Bottom
-				eyeLoopCurve.Points = append(eyeLoopCurve.Points, leftCornerPts...)
 
 				numSegments := len(eyeLoopCurve.Points)
 				if numSegments < 2 {
@@ -897,6 +901,111 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				}).Stage(stool3dStage)
 
 				canvas.Meshs = append(canvas.Meshs, eyeMesh)
+			}
+		}
+
+		// 17. Seat Bottom Eye 2D Projected Curve on horizontal seat bottom plane
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSeatBottomCurveShape {
+			if len(eye3DPoints) > 0 {
+				projSeatBottomCurve := (&threejs.Curve{
+					Name: "Stool Seat Bottom Eye Curve",
+				}).Stage(stool3dStage)
+
+				for _, pt := range eye3DPoints {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+
+					deltaY := seatBottomHeight - pt.Y
+					rProj := r + deltaY*math.Tan(projAngleRad)
+
+					projSeatBottomCurve.Points = append(projSeatBottomCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Seat Bottom Eye Point %.1f", origTheta*180.0/math.Pi),
+						X:    rProj * math.Cos(origTheta),
+						Y:    seatBottomHeight,
+						Z:    rProj * math.Sin(origTheta),
+					}).Stage(stool3dStage))
+				}
+
+				numSegments := len(projSeatBottomCurve.Points)
+				if numSegments < 2 {
+					numSegments = 2
+				}
+
+				sbEyeGeom := (&threejs.TubeGeometry{
+					Name:            "Stool Seat Bottom Eye TubeGeom",
+					Path:            projSeatBottomCurve,
+					TubularSegments: numSegments,
+					Radius:          tubeRadius,
+					RadialSegments:  16,
+					Closed:          true,
+				}).Stage(stool3dStage)
+
+				sbEyeMesh := (&threejs.Mesh{
+					Name:         "Stool Seat Bottom Eye Mesh",
+					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					TubeGeometry: sbEyeGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Seat Bottom Eye Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumvioletred"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, sbEyeMesh)
+			}
+		}
+
+		// 18. Stool Bottom Eye 2D Projected Curve on horizontal stool bottom / floor plane (Y = 0)
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeStoolBottomCurveShape {
+			if len(eye3DPoints) > 0 {
+				stoolBottomHeight := 0.0
+				projStoolBottomCurve := (&threejs.Curve{
+					Name: "Stool Bottom Eye Curve",
+				}).Stage(stool3dStage)
+
+				for _, pt := range eye3DPoints {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+
+					deltaY := stoolBottomHeight - pt.Y
+					rProj := r + deltaY*math.Tan(projAngleRad)
+
+					projStoolBottomCurve.Points = append(projStoolBottomCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Stool Bottom Eye Point %.1f", origTheta*180.0/math.Pi),
+						X:    rProj * math.Cos(origTheta),
+						Y:    stoolBottomHeight,
+						Z:    rProj * math.Sin(origTheta),
+					}).Stage(stool3dStage))
+				}
+
+				numSegments := len(projStoolBottomCurve.Points)
+				if numSegments < 2 {
+					numSegments = 2
+				}
+
+				stoolBottomEyeGeom := (&threejs.TubeGeometry{
+					Name:            "Stool Bottom Eye TubeGeom",
+					Path:            projStoolBottomCurve,
+					TubularSegments: numSegments,
+					Radius:          tubeRadius,
+					RadialSegments:  16,
+					Closed:          true,
+				}).Stage(stool3dStage)
+
+				stoolBottomEyeMesh := (&threejs.Mesh{
+					Name:         "Stool Bottom Eye Mesh",
+					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					TubeGeometry: stoolBottomEyeGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Bottom Eye Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkviolet"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, stoolBottomEyeMesh)
 			}
 		}
 	}

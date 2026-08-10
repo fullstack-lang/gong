@@ -379,5 +379,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat Top Curve", plantDiagram.StoolDiagram.RotatedSeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat Bottom Curve", plantDiagram.StoolDiagram.SeatBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenSeatBottomCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat Bottom Curve", plantDiagram.StoolDiagram.RotatedSeatBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatBottomCurveShape)
+		appendDiagramNode(stager, plantDiagramNode, "Seat Bottom Eye Curve", plantDiagram.StoolDiagram.EyeSeatBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenEyeSeatBottomCurveShape)
+		appendDiagramNode(stager, plantDiagramNode, "Stool Bottom Eye Curve", plantDiagram.StoolDiagram.EyeStoolBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenEyeStoolBottomCurveShape)
 	}
 }

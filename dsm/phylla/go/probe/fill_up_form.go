@@ -301,6 +301,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.EyeSeatBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.EyeStoolBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.GridPathShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2565,6 +2585,12 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenEye3DShape", instanceWithInferedType.IsHiddenEye3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Eye3DShape", instanceWithInferedType.Eye3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeSeatBottomCurveShape", instanceWithInferedType.IsHiddenEyeSeatBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeSeatBottomCurveShape", instanceWithInferedType.EyeSeatBottomCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeStoolBottomCurveShape", instanceWithInferedType.IsHiddenEyeStoolBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeStoolBottomCurveShape", instanceWithInferedType.EyeStoolBottomCurveShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

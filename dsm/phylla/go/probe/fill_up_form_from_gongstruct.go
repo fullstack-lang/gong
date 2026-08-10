@@ -227,6 +227,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.EyeSeatBottomCurveShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "EyeSeatBottomCurveShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EyeSeatBottomCurveShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.EyeStoolBottomCurveShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "EyeStoolBottomCurveShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EyeStoolBottomCurveShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GridPathShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,

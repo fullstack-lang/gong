@@ -1651,6 +1651,162 @@ func (eyesampledpoints3dshapeFormCallback *EyeSampledPoints3DShapeFormCallback) 
 
 	eyesampledpoints3dshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__EyeSeatBottomCurveShapeFormCallback(
+	eyeseatbottomcurveshape *models.EyeSeatBottomCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (eyeseatbottomcurveshapeFormCallback *EyeSeatBottomCurveShapeFormCallback) {
+	eyeseatbottomcurveshapeFormCallback = new(EyeSeatBottomCurveShapeFormCallback)
+	eyeseatbottomcurveshapeFormCallback.probe = probe
+	eyeseatbottomcurveshapeFormCallback.eyeseatbottomcurveshape = eyeseatbottomcurveshape
+	eyeseatbottomcurveshapeFormCallback.formGroup = formGroup
+
+	eyeseatbottomcurveshapeFormCallback.CreationMode = (eyeseatbottomcurveshape == nil)
+
+	return
+}
+
+type EyeSeatBottomCurveShapeFormCallback struct {
+	eyeseatbottomcurveshape *models.EyeSeatBottomCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (eyeseatbottomcurveshapeFormCallback *EyeSeatBottomCurveShapeFormCallback) OnSave() {
+	eyeseatbottomcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer eyeseatbottomcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("EyeSeatBottomCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	eyeseatbottomcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if eyeseatbottomcurveshapeFormCallback.eyeseatbottomcurveshape == nil {
+		eyeseatbottomcurveshapeFormCallback.eyeseatbottomcurveshape = new(models.EyeSeatBottomCurveShape).Stage(eyeseatbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	eyeseatbottomcurveshape_ := eyeseatbottomcurveshapeFormCallback.eyeseatbottomcurveshape
+	_ = eyeseatbottomcurveshape_
+
+	for _, formDiv := range eyeseatbottomcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(eyeseatbottomcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if eyeseatbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyeseatbottomcurveshape_.Unstage(eyeseatbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	eyeseatbottomcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.EyeSeatBottomCurveShape](
+		eyeseatbottomcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if eyeseatbottomcurveshapeFormCallback.CreationMode || eyeseatbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyeseatbottomcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(eyeseatbottomcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__EyeSeatBottomCurveShapeFormCallback(
+			nil,
+			eyeseatbottomcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		eyeseatbottomcurveshape := new(models.EyeSeatBottomCurveShape)
+		FillUpForm(eyeseatbottomcurveshape, newFormGroup, eyeseatbottomcurveshapeFormCallback.probe)
+		eyeseatbottomcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	eyeseatbottomcurveshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__EyeStoolBottomCurveShapeFormCallback(
+	eyestoolbottomcurveshape *models.EyeStoolBottomCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (eyestoolbottomcurveshapeFormCallback *EyeStoolBottomCurveShapeFormCallback) {
+	eyestoolbottomcurveshapeFormCallback = new(EyeStoolBottomCurveShapeFormCallback)
+	eyestoolbottomcurveshapeFormCallback.probe = probe
+	eyestoolbottomcurveshapeFormCallback.eyestoolbottomcurveshape = eyestoolbottomcurveshape
+	eyestoolbottomcurveshapeFormCallback.formGroup = formGroup
+
+	eyestoolbottomcurveshapeFormCallback.CreationMode = (eyestoolbottomcurveshape == nil)
+
+	return
+}
+
+type EyeStoolBottomCurveShapeFormCallback struct {
+	eyestoolbottomcurveshape *models.EyeStoolBottomCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (eyestoolbottomcurveshapeFormCallback *EyeStoolBottomCurveShapeFormCallback) OnSave() {
+	eyestoolbottomcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer eyestoolbottomcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("EyeStoolBottomCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	eyestoolbottomcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if eyestoolbottomcurveshapeFormCallback.eyestoolbottomcurveshape == nil {
+		eyestoolbottomcurveshapeFormCallback.eyestoolbottomcurveshape = new(models.EyeStoolBottomCurveShape).Stage(eyestoolbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	eyestoolbottomcurveshape_ := eyestoolbottomcurveshapeFormCallback.eyestoolbottomcurveshape
+	_ = eyestoolbottomcurveshape_
+
+	for _, formDiv := range eyestoolbottomcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(eyestoolbottomcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if eyestoolbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyestoolbottomcurveshape_.Unstage(eyestoolbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	eyestoolbottomcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.EyeStoolBottomCurveShape](
+		eyestoolbottomcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if eyestoolbottomcurveshapeFormCallback.CreationMode || eyestoolbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyestoolbottomcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(eyestoolbottomcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__EyeStoolBottomCurveShapeFormCallback(
+			nil,
+			eyestoolbottomcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		eyestoolbottomcurveshape := new(models.EyeStoolBottomCurveShape)
+		FillUpForm(eyestoolbottomcurveshape, newFormGroup, eyestoolbottomcurveshapeFormCallback.probe)
+		eyestoolbottomcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	eyestoolbottomcurveshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__GridPathShapeFormCallback(
 	gridpathshape *models.GridPathShape,
 	probe *Probe,
@@ -12245,6 +12401,14 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEye3DShape), formDiv)
 		case "Eye3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Eye3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeSeatBottomCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeSeatBottomCurveShape), formDiv)
+		case "EyeSeatBottomCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.EyeSeatBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeStoolBottomCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeStoolBottomCurveShape), formDiv)
+		case "EyeStoolBottomCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.EyeStoolBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}
