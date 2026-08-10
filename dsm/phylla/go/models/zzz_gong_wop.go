@@ -2496,11 +2496,11 @@ type StoolDiagram_WOP struct {
 
 	IsHiddenSeatTopCurveShape bool
 
-	IsHiddenPartiallyRotatedSeatTopCurveShape bool
+	IsHiddenRotatedSeatTopCurveShape bool
 
 	IsHiddenTorus3DShape bool
 
-	IsHiddenPartiallyRotatedTorusShape bool
+	IsHiddenRotatedTorusShape bool
 
 	IsHiddenSampledPoints3DShape bool
 }
@@ -2509,9 +2509,9 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.IsHiddenSeatTopCurveShape = from.IsHiddenSeatTopCurveShape
-	to.IsHiddenPartiallyRotatedSeatTopCurveShape = from.IsHiddenPartiallyRotatedSeatTopCurveShape
+	to.IsHiddenRotatedSeatTopCurveShape = from.IsHiddenRotatedSeatTopCurveShape
 	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
-	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
+	to.IsHiddenRotatedTorusShape = from.IsHiddenRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 }
 

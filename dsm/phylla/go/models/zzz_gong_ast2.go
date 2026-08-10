@@ -4319,18 +4319,18 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenSeatTopCurveShape = GongExtractBool(valueExpr)
 	case "SeatTopCurveShape":
 		GongUnmarshallPointer(&instance.SeatTopCurveShape, valueExpr, identifierMap)
-	case "IsHiddenPartiallyRotatedSeatTopCurveShape":
-		instance.IsHiddenPartiallyRotatedSeatTopCurveShape = GongExtractBool(valueExpr)
-	case "PartiallyRotatedSeatTopCurveShape":
-		GongUnmarshallPointer(&instance.PartiallyRotatedSeatTopCurveShape, valueExpr, identifierMap)
+	case "IsHiddenRotatedSeatTopCurveShape":
+		instance.IsHiddenRotatedSeatTopCurveShape = GongExtractBool(valueExpr)
+	case "RotatedSeatTopCurveShape":
+		GongUnmarshallPointer(&instance.RotatedSeatTopCurveShape, valueExpr, identifierMap)
 	case "IsHiddenTorus3DShape":
 		instance.IsHiddenTorus3DShape = GongExtractBool(valueExpr)
 	case "Torus3DShape":
 		GongUnmarshallPointer(&instance.Torus3DShape, valueExpr, identifierMap)
-	case "IsHiddenPartiallyRotatedTorusShape":
-		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
-	case "PartiallyRotatedTorusShape":
-		GongUnmarshallPointer(&instance.PartiallyRotatedTorusShape, valueExpr, identifierMap)
+	case "IsHiddenRotatedTorusShape":
+		instance.IsHiddenRotatedTorusShape = GongExtractBool(valueExpr)
+	case "RotatedTorusShape":
+		GongUnmarshallPointer(&instance.RotatedTorusShape, valueExpr, identifierMap)
 	case "IsHiddenSampledPoints3DShape":
 		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "SampledPoints3DShape":

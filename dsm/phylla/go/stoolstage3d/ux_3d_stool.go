@@ -303,7 +303,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			growthVectorY = plant.GrowthVectorShape.Y
 		}
 
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenPartiallyRotatedTorusShape {
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedTorusShape {
 			createTorusLayer(growthVectorX, growthVectorY, "Stool Partially Rotated Torus", "darkgreen")
 		}
 
@@ -366,7 +366,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 9. Partially Rotated Seat Top 2D Projected Curve (from Partially Rotated Torus)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenPartiallyRotatedSeatTopCurveShape {
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape {
 			rotSeatTopCurve := (&threejs.Curve{
 				Name: "Stool Partially Rotated Seat Top Curve",
 			}).Stage(stool3dStage)

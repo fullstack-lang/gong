@@ -11731,18 +11731,18 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatTopCurveShape), formDiv)
 		case "SeatTopCurveShape":
 			FormDivSelectFieldToField(&(stooldiagram_.SeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenPartiallyRotatedSeatTopCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenPartiallyRotatedSeatTopCurveShape), formDiv)
-		case "PartiallyRotatedSeatTopCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.PartiallyRotatedSeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSeatTopCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatTopCurveShape), formDiv)
+		case "RotatedSeatTopCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHiddenTorus3DShape":
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTorus3DShape), formDiv)
 		case "Torus3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Torus3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
-		case "PartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(stooldiagram_.PartiallyRotatedTorusShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedTorusShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedTorusShape), formDiv)
+		case "RotatedTorusShape":
+			FormDivSelectFieldToField(&(stooldiagram_.RotatedTorusShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHiddenSampledPoints3DShape":
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSampledPoints3DShape), formDiv)
 		case "SampledPoints3DShape":

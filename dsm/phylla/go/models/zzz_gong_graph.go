@@ -12652,14 +12652,14 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	if stooldiagram.IsHiddenSeatTopCurveShape != stooldiagramOther.IsHiddenSeatTopCurveShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSeatTopCurveShape"))
 	}
-	if stooldiagram.IsHiddenPartiallyRotatedSeatTopCurveShape != stooldiagramOther.IsHiddenPartiallyRotatedSeatTopCurveShape {
-		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedSeatTopCurveShape"))
+	if stooldiagram.IsHiddenRotatedSeatTopCurveShape != stooldiagramOther.IsHiddenRotatedSeatTopCurveShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatTopCurveShape"))
 	}
 	if stooldiagram.IsHiddenTorus3DShape != stooldiagramOther.IsHiddenTorus3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))
 	}
-	if stooldiagram.IsHiddenPartiallyRotatedTorusShape != stooldiagramOther.IsHiddenPartiallyRotatedTorusShape {
-		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenPartiallyRotatedTorusShape"))
+	if stooldiagram.IsHiddenRotatedTorusShape != stooldiagramOther.IsHiddenRotatedTorusShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenRotatedTorusShape"))
 	}
 	if stooldiagram.IsHiddenSampledPoints3DShape != stooldiagramOther.IsHiddenSampledPoints3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
