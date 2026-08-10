@@ -497,6 +497,15 @@ func (inst *PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFieldOwnerName(
 	return
 }
 
+func (inst *PartiallyRotatedSeatTopCurveShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *PartiallyRotatedTorusShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1365,6 +1374,15 @@ func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
+func (inst *Torus3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *TorusEdge3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1875,6 +1893,15 @@ func (inst *PartiallyGrowthCurve2DTrajectoryShape) GongGetReverseFieldOwner(stag
 		case "PartiallyGrowthCurve2DTrajectoryShapes":
 			res = stage.PartiallyGrowthCurve2DTrajectory_PartiallyGrowthCurve2DTrajectoryShapes_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *PartiallyRotatedSeatTopCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }
@@ -2671,6 +2698,15 @@ func (inst *TopStartHalfwayArcShape) GongGetReverseFieldOwner(stage *Stage, reve
 }
 
 func (inst *TopStartHalfwayArcShapeGrid) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *Torus3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

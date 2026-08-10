@@ -85,6 +85,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 				stool.RelativeTubeDiameter = 0.01
 			}
+			if stool.RelativeHeight3DTorus == 0.0 {
+				needCommit = true
+				stool.RelativeHeight3DTorus = 1.0
+			}
 			if stool.RelativeHeight == 0.0 {
 				needCommit = true
 				stool.RelativeHeight = 1.28

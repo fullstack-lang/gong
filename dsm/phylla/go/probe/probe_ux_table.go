@@ -106,6 +106,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](probe)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryShape](probe)
+	case "PartiallyRotatedSeatTopCurveShape":
+		updateProbeTable[*models.PartiallyRotatedSeatTopCurveShape](probe)
 	case "PartiallyRotatedTorusShape":
 		updateProbeTable[*models.PartiallyRotatedTorusShape](probe)
 	case "PerpendicularVector":
@@ -246,6 +248,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopStartHalfwayArcShape](probe)
 	case "TopStartHalfwayArcShapeGrid":
 		updateProbeTable[*models.TopStartHalfwayArcShapeGrid](probe)
+	case "Torus3DShape":
+		updateProbeTable[*models.Torus3DShape](probe)
 	case "TorusEdge3DShape":
 		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":

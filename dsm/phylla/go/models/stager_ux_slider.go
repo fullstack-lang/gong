@@ -459,6 +459,18 @@ func (stager *Stager) ux_slider_stool() {
 		group1.Sliders,
 		m.NewSlider(
 			target,
+			"Rel Height 3D Torus",
+			0.0,
+			3.0,
+			0.01,
+			&plant.StoolAbstract.RelativeHeight3DTorus,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
 			"Rel Height",
 			0.0,
 			3.0,
@@ -485,7 +497,7 @@ func (stager *Stager) ux_slider_stool() {
 			target,
 			"Projection Angle",
 			0.0,
-			15,
+			45,
 			0.1,
 			&plant.StoolAbstract.ProjectionAngle,
 		),

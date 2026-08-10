@@ -944,6 +944,16 @@ func FillUpForm(
 				})
 		}
 
+	case *models.PartiallyRotatedSeatTopCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.PartiallyRotatedTorusShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2438,6 +2448,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeTubeDiameter", instanceWithInferedType.RelativeTubeDiameter, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeSeatThickness", instanceWithInferedType.RelativeSeatThickness, instanceWithInferedType, probe.formStage, formGroup,
@@ -2457,6 +2469,12 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenSeatTopCurveShape", instanceWithInferedType.IsHiddenSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("SeatTopCurveShape", instanceWithInferedType.SeatTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenPartiallyRotatedSeatTopCurveShape", instanceWithInferedType.IsHiddenPartiallyRotatedSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("PartiallyRotatedSeatTopCurveShape", instanceWithInferedType.PartiallyRotatedSeatTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTorus3DShape", instanceWithInferedType.IsHiddenTorus3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Torus3DShape", instanceWithInferedType.Torus3DShape, formGroup, probe)
 		BasicFieldtoForm("IsHiddenPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("PartiallyRotatedTorusShape", instanceWithInferedType.PartiallyRotatedTorusShape, formGroup, probe)
@@ -2896,6 +2914,16 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("TopStartHalfwayArcShapes", instanceWithInferedType, &instanceWithInferedType.TopStartHalfwayArcShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Torus3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

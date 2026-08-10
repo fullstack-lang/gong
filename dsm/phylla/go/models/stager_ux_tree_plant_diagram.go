@@ -369,6 +369,8 @@ func (stager *Stager) treePlantDiagram(
 
 	if is3DView && plantDiagram.StoolDiagram != nil {
 		appendDiagramNode(stager, plantDiagramNode, "Seat Top Curve", plantDiagram.StoolDiagram.SeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenSeatTopCurveShape)
+		appendDiagramNode(stager, plantDiagramNode, "Partially Rotated Seat Top Curve", plantDiagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenPartiallyRotatedSeatTopCurveShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Torus", plantDiagram.StoolDiagram.Torus3DShape, &plantDiagram.StoolDiagram.IsHiddenTorus3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Partially Rotated 3D Torus", plantDiagram.StoolDiagram.PartiallyRotatedTorusShape, &plantDiagram.StoolDiagram.IsHiddenPartiallyRotatedTorusShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.StoolDiagram.SampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenSampledPoints3DShape)
 	}

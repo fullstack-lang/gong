@@ -229,7 +229,8 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			opacity = 1.0
 		}
 
-		stoolHeight := plant.StoolAbstract.RelativeHeight * plant.RhombusSideLength
+		stoolTopHeight := plant.StoolAbstract.RelativeHeight * plant.RhombusSideLength
+		torusHeight := plant.StoolAbstract.RelativeHeight3DTorus * plant.RhombusSideLength
 
 		createTorusLayer := func(dx, dy float64, namePrefix string, color string) {
 			thetaOffset := dx / globalR
@@ -247,7 +248,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					r := math.Hypot(pt.X, pt.Z)
 					newTheta := origTheta + totalThetaOffset
 
-					layerPtY := pt.Y + dy + stoolHeight
+					layerPtY := pt.Y + dy + torusHeight
 					if layerPtY < floorMinY {
 						floorMinY = layerPtY
 					}
@@ -291,25 +292,28 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 6. Base 3D Torus
-		createTorusLayer(0.0, 0.0, "Stool Base Torus", "darkgreen")
+		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenTorus3DShape {
+			createTorusLayer(0.0, 0.0, "Stool Base Torus", "darkgreen")
+		}
 
 		// 7. Single rotated and elevated torus with growth vector parameters
+		var growthVectorX, growthVectorY float64
+		if plant.GrowthVectorShape != nil {
+			growthVectorX = plant.GrowthVectorShape.X
+			growthVectorY = plant.GrowthVectorShape.Y
+		}
+
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenPartiallyRotatedTorusShape {
-			var growthVectorX, growthVectorY float64
-			if plant.GrowthVectorShape != nil {
-				growthVectorX = plant.GrowthVectorShape.X
-				growthVectorY = plant.GrowthVectorShape.Y
-			}
 			createTorusLayer(growthVectorX, growthVectorY, "Stool Partially Rotated Torus", "darkgreen")
 		}
 
-		// 8. Seat Top 2D Projected Curve on the horizontal stool top plane
+		projAngleRad := -plant.StoolAbstract.ProjectionAngle * math.Pi / 180.0
+
+		// 8. Seat Top 2D Projected Curve on the horizontal stool top plane (from Base Torus)
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSeatTopCurveShape {
 			seatTopCurve := (&threejs.Curve{
 				Name: "Stool Seat Top Curve",
 			}).Stage(stool3dStage)
-
-			projAngleRad := plant.StoolAbstract.ProjectionAngle * math.Pi / 180.0
 
 			for k := 0; k < radialRepetitions; k++ {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
@@ -319,14 +323,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					r := math.Hypot(pt.X, pt.Z)
 					newTheta := origTheta + baseThetaOffset
 
-					ptY := pt.Y + stoolHeight
-					deltaY := stoolHeight - ptY
+					ptY := pt.Y + torusHeight
+					deltaY := stoolTopHeight - ptY
 					rProj := r + deltaY*math.Tan(projAngleRad)
 
 					seatTopCurve.Points = append(seatTopCurve.Points, (&threejs.Vector3{
 						Name: fmt.Sprintf("Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
 						X:    rProj * math.Cos(newTheta),
-						Y:    stoolHeight,
+						Y:    stoolTopHeight,
 						Z:    rProj * math.Sin(newTheta),
 					}).Stage(stool3dStage))
 				}
@@ -361,7 +365,66 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			canvas.Meshs = append(canvas.Meshs, stMesh)
 		}
 
-		// 8. Add 3D Sampled Points visualization if toggled on
+		// 9. Partially Rotated Seat Top 2D Projected Curve (from Partially Rotated Torus)
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenPartiallyRotatedSeatTopCurveShape {
+			rotSeatTopCurve := (&threejs.Curve{
+				Name: "Stool Partially Rotated Seat Top Curve",
+			}).Stage(stool3dStage)
+
+			thetaOffset := growthVectorX / globalR
+
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+				totalThetaOffset := baseThetaOffset + thetaOffset
+
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + totalThetaOffset
+
+					ptY := pt.Y + growthVectorY + torusHeight
+					deltaY := stoolTopHeight - ptY
+					rProj := r + deltaY*math.Tan(projAngleRad)
+
+					rotSeatTopCurve.Points = append(rotSeatTopCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Rotated Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
+						X:    rProj * math.Cos(newTheta),
+						Y:    stoolTopHeight,
+						Z:    rProj * math.Sin(newTheta),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			numSegments := len(rotSeatTopCurve.Points)
+			if numSegments < 2 {
+				numSegments = 2
+			}
+
+			rotStGeom := (&threejs.TubeGeometry{
+				Name:            "Stool Partially Rotated Seat Top TubeGeom",
+				Path:            rotSeatTopCurve,
+				TubularSegments: numSegments,
+				Radius:          tubeRadius,
+				RadialSegments:  16,
+				Closed:          true,
+			}).Stage(stool3dStage)
+
+			rotStMesh := (&threejs.Mesh{
+				Name:         "Stool Partially Rotated Seat Top Mesh",
+				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				TubeGeometry: rotStGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:                 "Stool Partially Rotated Seat Top Material",
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkorange"},
+					Transparent:          true,
+					Opacity:              opacity,
+				}).Stage(stool3dStage),
+			}).Stage(stool3dStage)
+
+			canvas.Meshs = append(canvas.Meshs, rotStMesh)
+		}
+
+		// 10. Add 3D Sampled Points visualization if toggled on
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
 			numPointsPerRep := len(resampledBaseCurve.Points)
 			var basePoints []*threejs.Vector3
@@ -374,7 +437,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					basePoints = append(basePoints, (&threejs.Vector3{
 						Name: fmt.Sprintf("Sampled Point k%d %.1f", k, newTheta*180.0/math.Pi),
 						X:    r * math.Cos(newTheta),
-						Y:    pt.Y + stoolHeight,
+						Y:    pt.Y + torusHeight,
 						Z:    r * math.Sin(newTheta),
 					}).Stage(stool3dStage))
 				}

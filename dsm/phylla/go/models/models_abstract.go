@@ -95,6 +95,8 @@ type StoolAbstract struct {
 	// RelativeTubeDiameter of the 3D tube (default is 0.01)
 	RelativeTubeDiameter float64
 
+	RelativeHeight3DTorus float64
+
 	// height to the top of the seat (standard is 45 cm)
 	RelativeHeight        float64
 	RelativeSeatThickness float64 // 5 cm ?

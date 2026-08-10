@@ -1989,6 +1989,35 @@ func (u *PartiallyGrowthCurve2DTrajectoryShapeUnmarshaller) UnmarshallField(stag
 	return nil
 }
 
+type PartiallyRotatedSeatTopCurveShapeUnmarshaller struct{}
+
+func (u *PartiallyRotatedSeatTopCurveShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(PartiallyRotatedSeatTopCurveShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PartiallyRotatedSeatTopCurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*PartiallyRotatedSeatTopCurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type PartiallyRotatedTorusShapeUnmarshaller struct{}
 
 func (u *PartiallyRotatedTorusShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -4249,6 +4278,8 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Transparency = GongExtractFloat(valueExpr)
 	case "RelativeTubeDiameter":
 		instance.RelativeTubeDiameter = GongExtractFloat(valueExpr)
+	case "RelativeHeight3DTorus":
+		instance.RelativeHeight3DTorus = GongExtractFloat(valueExpr)
 	case "RelativeHeight":
 		instance.RelativeHeight = GongExtractFloat(valueExpr)
 	case "RelativeSeatThickness":
@@ -4288,6 +4319,14 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenSeatTopCurveShape = GongExtractBool(valueExpr)
 	case "SeatTopCurveShape":
 		GongUnmarshallPointer(&instance.SeatTopCurveShape, valueExpr, identifierMap)
+	case "IsHiddenPartiallyRotatedSeatTopCurveShape":
+		instance.IsHiddenPartiallyRotatedSeatTopCurveShape = GongExtractBool(valueExpr)
+	case "PartiallyRotatedSeatTopCurveShape":
+		GongUnmarshallPointer(&instance.PartiallyRotatedSeatTopCurveShape, valueExpr, identifierMap)
+	case "IsHiddenTorus3DShape":
+		instance.IsHiddenTorus3DShape = GongExtractBool(valueExpr)
+	case "Torus3DShape":
+		GongUnmarshallPointer(&instance.Torus3DShape, valueExpr, identifierMap)
 	case "IsHiddenPartiallyRotatedTorusShape":
 		instance.IsHiddenPartiallyRotatedTorusShape = GongExtractBool(valueExpr)
 	case "PartiallyRotatedTorusShape":
@@ -4965,6 +5004,35 @@ func (u *TopStartHalfwayArcShapeGridUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.Name = GongExtractString(valueExpr)
 	case "TopStartHalfwayArcShapes":
 		GongUnmarshallSliceOfPointers(&instance.TopStartHalfwayArcShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type Torus3DShapeUnmarshaller struct{}
+
+func (u *Torus3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Torus3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Torus3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Torus3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

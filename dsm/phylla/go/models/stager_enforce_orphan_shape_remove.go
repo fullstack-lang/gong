@@ -116,6 +116,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refTorusEdge3DShape := make(map[*TorusEdge3DShape]bool)
 	refSampledPoints3DShape := make(map[*SampledPoints3DShape]bool)
 	refSeatTopCurveShape := make(map[*SeatTopCurveShape]bool)
+	refPartiallyRotatedSeatTopCurveShape := make(map[*PartiallyRotatedSeatTopCurveShape]bool)
+	refTorus3DShape := make(map[*Torus3DShape]bool)
 
 	// Collect referenced shapes from all plants
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
@@ -449,6 +451,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			if diagram.StoolDiagram.SeatTopCurveShape != nil {
 				refSeatTopCurveShape[diagram.StoolDiagram.SeatTopCurveShape] = true
+			}
+			if diagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape != nil {
+				refPartiallyRotatedSeatTopCurveShape[diagram.StoolDiagram.PartiallyRotatedSeatTopCurveShape] = true
+			}
+			if diagram.StoolDiagram.Torus3DShape != nil {
+				refTorus3DShape[diagram.StoolDiagram.Torus3DShape] = true
 			}
 			if diagram.StoolDiagram.SampledPoints3DShape != nil {
 				refSampledPoints3DShape[diagram.StoolDiagram.SampledPoints3DShape] = true
@@ -1120,6 +1128,20 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatTopCurveShape](stage) {
 		if !refSeatTopCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyRotatedSeatTopCurveShape](stage) {
+		if !refPartiallyRotatedSeatTopCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Torus3DShape](stage) {
+		if !refTorus3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

@@ -170,6 +170,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *PartiallyRotatedSeatTopCurveShape:
+		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback != nil {
+			stage.OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PartiallyRotatedTorusShape:
 		if stage.OnAfterPartiallyRotatedTorusShapeCreateCallback != nil {
 			stage.OnAfterPartiallyRotatedTorusShapeCreateCallback.OnAfterCreate(stage, target)
@@ -450,6 +454,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTopStartHalfwayArcShapeGridCreateCallback != nil {
 			stage.OnAfterTopStartHalfwayArcShapeGridCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Torus3DShape:
+		if stage.OnAfterTorus3DShapeCreateCallback != nil {
+			stage.OnAfterTorus3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *TorusEdge3DShape:
 		if stage.OnAfterTorusEdge3DShapeCreateCallback != nil {
 			stage.OnAfterTorusEdge3DShapeCreateCallback.OnAfterCreate(stage, target)
@@ -692,6 +700,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*PartiallyGrowthCurve2DTrajectoryShape)
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartiallyRotatedSeatTopCurveShape:
+		newTarget := any(new).(*PartiallyRotatedSeatTopCurveShape)
+		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback != nil {
+			stage.OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PartiallyRotatedTorusShape:
 		newTarget := any(new).(*PartiallyRotatedTorusShape)
@@ -1043,6 +1056,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterTopStartHalfwayArcShapeGridUpdateCallback != nil {
 			stage.OnAfterTopStartHalfwayArcShapeGridUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Torus3DShape:
+		newTarget := any(new).(*Torus3DShape)
+		if stage.OnAfterTorus3DShapeUpdateCallback != nil {
+			stage.OnAfterTorus3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *TorusEdge3DShape:
 		newTarget := any(new).(*TorusEdge3DShape)
 		if stage.OnAfterTorusEdge3DShapeUpdateCallback != nil {
@@ -1287,6 +1305,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback != nil {
 			staged := any(staged).(*PartiallyGrowthCurve2DTrajectoryShape)
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PartiallyRotatedSeatTopCurveShape:
+		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback != nil {
+			staged := any(staged).(*PartiallyRotatedSeatTopCurveShape)
+			stage.OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *PartiallyRotatedTorusShape:
 		if stage.OnAfterPartiallyRotatedTorusShapeDeleteCallback != nil {
@@ -1638,6 +1661,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*TopStartHalfwayArcShapeGrid)
 			stage.OnAfterTopStartHalfwayArcShapeGridDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Torus3DShape:
+		if stage.OnAfterTorus3DShapeDeleteCallback != nil {
+			staged := any(staged).(*Torus3DShape)
+			stage.OnAfterTorus3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *TorusEdge3DShape:
 		if stage.OnAfterTorusEdge3DShapeDeleteCallback != nil {
 			staged := any(staged).(*TorusEdge3DShape)
@@ -1841,6 +1869,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *PartiallyRotatedSeatTopCurveShape:
+		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback != nil {
+			stage.OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *PartiallyRotatedTorusShape:
 		if stage.OnAfterPartiallyRotatedTorusShapeReadCallback != nil {
@@ -2122,6 +2154,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTopStartHalfwayArcShapeGridReadCallback != nil {
 			stage.OnAfterTopStartHalfwayArcShapeGridReadCallback.OnAfterRead(stage, target)
 		}
+	case *Torus3DShape:
+		if stage.OnAfterTorus3DShapeReadCallback != nil {
+			stage.OnAfterTorus3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *TorusEdge3DShape:
 		if stage.OnAfterTorusEdge3DShapeReadCallback != nil {
 			stage.OnAfterTorusEdge3DShapeReadCallback.OnAfterRead(stage, target)
@@ -2239,6 +2275,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatTopCurveShape:
+		stage.OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -2379,6 +2417,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTopStartHalfwayArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TopStartHalfwayArcShape])
 	case *TopStartHalfwayArcShapeGrid:
 		stage.OnAfterTopStartHalfwayArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[TopStartHalfwayArcShapeGrid])
+	case *Torus3DShape:
+		stage.OnAfterTorus3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Torus3DShape])
 	case *TorusEdge3DShape:
 		stage.OnAfterTorusEdge3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TorusEdge3DShape])
 	case *TorusStackShape:
@@ -2480,6 +2520,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatTopCurveShape:
+		stage.OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -2620,6 +2662,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTopStartHalfwayArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[TopStartHalfwayArcShape])
 	case *TopStartHalfwayArcShapeGrid:
 		stage.OnAfterTopStartHalfwayArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[TopStartHalfwayArcShapeGrid])
+	case *Torus3DShape:
+		stage.OnAfterTorus3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Torus3DShape])
 	case *TorusEdge3DShape:
 		stage.OnAfterTorusEdge3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[TorusEdge3DShape])
 	case *TorusStackShape:
@@ -2721,6 +2765,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatTopCurveShape:
+		stage.OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -2861,6 +2907,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTopStartHalfwayArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TopStartHalfwayArcShape])
 	case *TopStartHalfwayArcShapeGrid:
 		stage.OnAfterTopStartHalfwayArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[TopStartHalfwayArcShapeGrid])
+	case *Torus3DShape:
+		stage.OnAfterTorus3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Torus3DShape])
 	case *TorusEdge3DShape:
 		stage.OnAfterTorusEdge3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TorusEdge3DShape])
 	case *TorusStackShape:
@@ -2962,6 +3010,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatTopCurveShape:
+		stage.OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
 		stage.OnAfterPartiallyRotatedTorusShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyRotatedTorusShape])
 	case *PerpendicularVector:
@@ -3102,6 +3152,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterTopStartHalfwayArcShapeReadCallback = any(callback).(OnAfterReadInterface[TopStartHalfwayArcShape])
 	case *TopStartHalfwayArcShapeGrid:
 		stage.OnAfterTopStartHalfwayArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[TopStartHalfwayArcShapeGrid])
+	case *Torus3DShape:
+		stage.OnAfterTorus3DShapeReadCallback = any(callback).(OnAfterReadInterface[Torus3DShape])
 	case *TorusEdge3DShape:
 		stage.OnAfterTorusEdge3DShapeReadCallback = any(callback).(OnAfterReadInterface[TorusEdge3DShape])
 	case *TorusStackShape:

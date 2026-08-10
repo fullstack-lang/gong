@@ -348,6 +348,13 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PartiallyRotatedSeatTopCurveShape
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PartiallyRotatedTorusShape
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -766,6 +773,8 @@ func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &stooldiagram.SeatTopCurveShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.PartiallyRotatedSeatTopCurveShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.Torus3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.PartiallyRotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.SampledPoints3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
@@ -898,6 +907,13 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongClean(stage *Stage) 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &topstarthalfwayarcshapegrid.TopStartHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Torus3DShape
+func (torus3dshape *Torus3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }

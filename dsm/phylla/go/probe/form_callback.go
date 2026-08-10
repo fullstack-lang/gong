@@ -4937,6 +4937,84 @@ func (partiallygrowthcurve2dtrajectoryshapeFormCallback *PartiallyGrowthCurve2DT
 
 	partiallygrowthcurve2dtrajectoryshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__PartiallyRotatedSeatTopCurveShapeFormCallback(
+	partiallyrotatedseattopcurveshape *models.PartiallyRotatedSeatTopCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallyrotatedseattopcurveshapeFormCallback *PartiallyRotatedSeatTopCurveShapeFormCallback) {
+	partiallyrotatedseattopcurveshapeFormCallback = new(PartiallyRotatedSeatTopCurveShapeFormCallback)
+	partiallyrotatedseattopcurveshapeFormCallback.probe = probe
+	partiallyrotatedseattopcurveshapeFormCallback.partiallyrotatedseattopcurveshape = partiallyrotatedseattopcurveshape
+	partiallyrotatedseattopcurveshapeFormCallback.formGroup = formGroup
+
+	partiallyrotatedseattopcurveshapeFormCallback.CreationMode = (partiallyrotatedseattopcurveshape == nil)
+
+	return
+}
+
+type PartiallyRotatedSeatTopCurveShapeFormCallback struct {
+	partiallyrotatedseattopcurveshape *models.PartiallyRotatedSeatTopCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallyrotatedseattopcurveshapeFormCallback *PartiallyRotatedSeatTopCurveShapeFormCallback) OnSave() {
+	partiallyrotatedseattopcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallyrotatedseattopcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyRotatedSeatTopCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallyrotatedseattopcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallyrotatedseattopcurveshapeFormCallback.partiallyrotatedseattopcurveshape == nil {
+		partiallyrotatedseattopcurveshapeFormCallback.partiallyrotatedseattopcurveshape = new(models.PartiallyRotatedSeatTopCurveShape).Stage(partiallyrotatedseattopcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallyrotatedseattopcurveshape_ := partiallyrotatedseattopcurveshapeFormCallback.partiallyrotatedseattopcurveshape
+	_ = partiallyrotatedseattopcurveshape_
+
+	for _, formDiv := range partiallyrotatedseattopcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallyrotatedseattopcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if partiallyrotatedseattopcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallyrotatedseattopcurveshape_.Unstage(partiallyrotatedseattopcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallyrotatedseattopcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyRotatedSeatTopCurveShape](
+		partiallyrotatedseattopcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallyrotatedseattopcurveshapeFormCallback.CreationMode || partiallyrotatedseattopcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallyrotatedseattopcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallyrotatedseattopcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyRotatedSeatTopCurveShapeFormCallback(
+			nil,
+			partiallyrotatedseattopcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallyrotatedseattopcurveshape := new(models.PartiallyRotatedSeatTopCurveShape)
+		FillUpForm(partiallyrotatedseattopcurveshape, newFormGroup, partiallyrotatedseattopcurveshapeFormCallback.probe)
+		partiallyrotatedseattopcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallyrotatedseattopcurveshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PartiallyRotatedTorusShapeFormCallback(
 	partiallyrotatedtorusshape *models.PartiallyRotatedTorusShape,
 	probe *Probe,
@@ -11563,6 +11641,8 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stoolabstract_.Transparency), formDiv)
 		case "RelativeTubeDiameter":
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeTubeDiameter), formDiv)
+		case "RelativeHeight3DTorus":
+			FormDivBasicFieldToField(&(stoolabstract_.RelativeHeight3DTorus), formDiv)
 		case "RelativeHeight":
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeHeight), formDiv)
 		case "RelativeSeatThickness":
@@ -11651,6 +11731,14 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatTopCurveShape), formDiv)
 		case "SeatTopCurveShape":
 			FormDivSelectFieldToField(&(stooldiagram_.SeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenPartiallyRotatedSeatTopCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenPartiallyRotatedSeatTopCurveShape), formDiv)
+		case "PartiallyRotatedSeatTopCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.PartiallyRotatedSeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTorus3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTorus3DShape), formDiv)
+		case "Torus3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.Torus3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHiddenPartiallyRotatedTorusShape":
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
 		case "PartiallyRotatedTorusShape":
@@ -13866,6 +13954,84 @@ func (topstarthalfwayarcshapegridFormCallback *TopStartHalfwayArcShapeGridFormCa
 	}
 
 	topstarthalfwayarcshapegridFormCallback.probe.ux_tree()
+}
+func __gong__New__Torus3DShapeFormCallback(
+	torus3dshape *models.Torus3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (torus3dshapeFormCallback *Torus3DShapeFormCallback) {
+	torus3dshapeFormCallback = new(Torus3DShapeFormCallback)
+	torus3dshapeFormCallback.probe = probe
+	torus3dshapeFormCallback.torus3dshape = torus3dshape
+	torus3dshapeFormCallback.formGroup = formGroup
+
+	torus3dshapeFormCallback.CreationMode = (torus3dshape == nil)
+
+	return
+}
+
+type Torus3DShapeFormCallback struct {
+	torus3dshape *models.Torus3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (torus3dshapeFormCallback *Torus3DShapeFormCallback) OnSave() {
+	torus3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer torus3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Torus3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	torus3dshapeFormCallback.probe.formStage.Checkout()
+
+	if torus3dshapeFormCallback.torus3dshape == nil {
+		torus3dshapeFormCallback.torus3dshape = new(models.Torus3DShape).Stage(torus3dshapeFormCallback.probe.stageOfInterest)
+	}
+	torus3dshape_ := torus3dshapeFormCallback.torus3dshape
+	_ = torus3dshape_
+
+	for _, formDiv := range torus3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(torus3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if torus3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		torus3dshape_.Unstage(torus3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	torus3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Torus3DShape](
+		torus3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if torus3dshapeFormCallback.CreationMode || torus3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		torus3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(torus3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Torus3DShapeFormCallback(
+			nil,
+			torus3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		torus3dshape := new(models.Torus3DShape)
+		FillUpForm(torus3dshape, newFormGroup, torus3dshapeFormCallback.probe)
+		torus3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	torus3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TorusEdge3DShapeFormCallback(
 	torusedge3dshape *models.TorusEdge3DShape,
