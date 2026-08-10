@@ -554,6 +554,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
 	}
 
 	stooldiagramOrdered := []*StoolDiagram{}
@@ -589,6 +590,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSampledPoints3DShape"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenEyeSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 
@@ -1237,6 +1239,21 @@ func (explanationtextshape *ExplanationTextShape) GongMarshallField(stage *Stage
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ExplanationTextShape", fieldName)
+	}
+	return
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", eyesampledpoints3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyesampledpoints3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct EyeSampledPoints3DShape", fieldName)
 	}
 	return
 }
@@ -4812,6 +4829,11 @@ func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.ProjectionAngle))
+	case "RelativeEyeSeparationCriteria":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeSeparationCriteria")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StoolAbstract", fieldName)
@@ -4867,6 +4889,11 @@ func (stooldiagram *StoolDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenRotatedSampledPoints3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stooldiagram.IsHiddenRotatedSampledPoints3DShape))
+	case "IsHiddenEyeSampledPoints3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenEyeSampledPoints3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stooldiagram.IsHiddenEyeSampledPoints3DShape))
 
 	case "SampledPoints3DShape":
 		if stooldiagram.SampledPoints3DShape != nil {
@@ -6194,6 +6221,17 @@ func (explanationtextshape *ExplanationTextShape) GongMarshallAllFields(stage *S
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(explanationtextshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(eyesampledpoints3dshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -7569,6 +7607,7 @@ func (stoolabstract *StoolAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -7589,6 +7628,7 @@ func (stooldiagram *StoolDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSampledPoints3DShape"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenEyeSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 	initRes = initializerStatements.String()

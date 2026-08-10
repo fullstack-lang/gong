@@ -50,6 +50,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.EndHalfwayArcShapeGrid](probe)
 	case "ExplanationTextShape":
 		updateProbeTable[*models.ExplanationTextShape](probe)
+	case "EyeSampledPoints3DShape":
+		updateProbeTable[*models.EyeSampledPoints3DShape](probe)
 	case "GridPathShape":
 		updateProbeTable[*models.GridPathShape](probe)
 	case "GrowthCurve2D":

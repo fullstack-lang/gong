@@ -103,6 +103,9 @@ type StoolAbstract struct {
 
 	// angle use to go from the 3D curve on the cylinder to the 2D curves for the seat top, seat bottom and feet bottom
 	ProjectionAngle float64
+
+	// Defines what are the points for the eye and those that are not
+	RelativeEyeSeparationCriteria float64
 }
 
 type VaseAbstract struct {

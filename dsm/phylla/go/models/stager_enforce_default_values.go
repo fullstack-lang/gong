@@ -97,6 +97,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 				stool.RelativeSeatThickness = 0.15
 			}
+			if stool.RelativeEyeSeparationCriteria == 0.0 {
+				needCommit = true
+				stool.RelativeEyeSeparationCriteria = 0.05
+			}
 		}
 	}
 

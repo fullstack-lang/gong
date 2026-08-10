@@ -587,6 +587,72 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}
 			u.addPointSpheres(stool3dStage, rotPoints, "orange", canvas, "Stool Rotated Sampled", 0, numPointsPerRep)
 		}
+
+		// 14. Add 3D Eye Sampled Points visualization for first repetition if toggled on
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSampledPoints3DShape {
+			var eyePoints []*threejs.Vector3
+			thetaOffset := growthVectorX / globalR
+			eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength
+			expectedRad := expectedDegrees * math.Pi / 180.0
+
+			getYAtAngle := func(evalAngle float64) float64 {
+				if len(resampledBaseCurve.Points) == 0 {
+					return 0
+				}
+				for evalAngle < 0 {
+					evalAngle += expectedRad
+				}
+				for evalAngle > expectedRad {
+					evalAngle -= expectedRad
+				}
+				idx := int(math.Floor(evalAngle / radInterval))
+				if idx < 0 {
+					idx = 0
+				}
+				if idx >= len(resampledBaseCurve.Points)-1 {
+					return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
+				}
+				t := (evalAngle - float64(idx)*radInterval) / radInterval
+				y0 := resampledBaseCurve.Points[idx].Y
+				y1 := resampledBaseCurve.Points[idx+1].Y
+				return y0 + t*(y1-y0)
+			}
+
+			for i, pt := range resampledBaseCurve.Points {
+				alpha := targetAngles[i]
+				r := math.Hypot(pt.X, pt.Z)
+
+				// Base point at angle alpha (k=0)
+				yBase := pt.Y + torusHeight
+
+				// Opposite rotated point at the SAME angle alpha (k=0)
+				// Since the rotated curve is shifted by +thetaOffset and +growthVectorY,
+				// the point at angle alpha corresponds to base curve angle (alpha - thetaOffset).
+				yRot := getYAtAngle(alpha-thetaOffset) + growthVectorY + torusHeight
+
+				dist := math.Abs(yBase - yRot)
+
+				if dist > eyeCriteria {
+					x := r * math.Cos(alpha)
+					z := r * math.Sin(alpha)
+
+					eyePoints = append(eyePoints, (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Base Point %.1f", alpha*180.0/math.Pi),
+						X:    x,
+						Y:    yBase,
+						Z:    z,
+					}).Stage(stool3dStage))
+
+					eyePoints = append(eyePoints, (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Rotated Point %.1f", alpha*180.0/math.Pi),
+						X:    x,
+						Y:    yRot,
+						Z:    z,
+					}).Stage(stool3dStage))
+				}
+			}
+			u.addPointSpheres(stool3dStage, eyePoints, "magenta", canvas, "Stool Eye Sampled", 0, 0)
+		}
 	}
 
 	// Floor tiles that encompass the stool cylinder

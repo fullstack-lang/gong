@@ -271,6 +271,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.EyeSampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.GridPathShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2486,6 +2496,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeEyeSeparationCriteria", instanceWithInferedType.RelativeEyeSeparationCriteria, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -2520,6 +2532,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenRotatedSampledPoints3DShape", instanceWithInferedType.IsHiddenRotatedSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("RotatedSampledPoints3DShape", instanceWithInferedType.RotatedSampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeSampledPoints3DShape", instanceWithInferedType.IsHiddenEyeSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeSampledPoints3DShape", instanceWithInferedType.EyeSampledPoints3DShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

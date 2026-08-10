@@ -1417,6 +1417,84 @@ func (explanationtextshapeFormCallback *ExplanationTextShapeFormCallback) OnSave
 
 	explanationtextshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__EyeSampledPoints3DShapeFormCallback(
+	eyesampledpoints3dshape *models.EyeSampledPoints3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (eyesampledpoints3dshapeFormCallback *EyeSampledPoints3DShapeFormCallback) {
+	eyesampledpoints3dshapeFormCallback = new(EyeSampledPoints3DShapeFormCallback)
+	eyesampledpoints3dshapeFormCallback.probe = probe
+	eyesampledpoints3dshapeFormCallback.eyesampledpoints3dshape = eyesampledpoints3dshape
+	eyesampledpoints3dshapeFormCallback.formGroup = formGroup
+
+	eyesampledpoints3dshapeFormCallback.CreationMode = (eyesampledpoints3dshape == nil)
+
+	return
+}
+
+type EyeSampledPoints3DShapeFormCallback struct {
+	eyesampledpoints3dshape *models.EyeSampledPoints3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (eyesampledpoints3dshapeFormCallback *EyeSampledPoints3DShapeFormCallback) OnSave() {
+	eyesampledpoints3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer eyesampledpoints3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("EyeSampledPoints3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	eyesampledpoints3dshapeFormCallback.probe.formStage.Checkout()
+
+	if eyesampledpoints3dshapeFormCallback.eyesampledpoints3dshape == nil {
+		eyesampledpoints3dshapeFormCallback.eyesampledpoints3dshape = new(models.EyeSampledPoints3DShape).Stage(eyesampledpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+	eyesampledpoints3dshape_ := eyesampledpoints3dshapeFormCallback.eyesampledpoints3dshape
+	_ = eyesampledpoints3dshape_
+
+	for _, formDiv := range eyesampledpoints3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(eyesampledpoints3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if eyesampledpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyesampledpoints3dshape_.Unstage(eyesampledpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	eyesampledpoints3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.EyeSampledPoints3DShape](
+		eyesampledpoints3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if eyesampledpoints3dshapeFormCallback.CreationMode || eyesampledpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyesampledpoints3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(eyesampledpoints3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__EyeSampledPoints3DShapeFormCallback(
+			nil,
+			eyesampledpoints3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		eyesampledpoints3dshape := new(models.EyeSampledPoints3DShape)
+		FillUpForm(eyesampledpoints3dshape, newFormGroup, eyesampledpoints3dshapeFormCallback.probe)
+		eyesampledpoints3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	eyesampledpoints3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__GridPathShapeFormCallback(
 	gridpathshape *models.GridPathShape,
 	probe *Probe,
@@ -11883,6 +11961,8 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeSeatThickness), formDiv)
 		case "ProjectionAngle":
 			FormDivBasicFieldToField(&(stoolabstract_.ProjectionAngle), formDiv)
+		case "RelativeEyeSeparationCriteria":
+			FormDivBasicFieldToField(&(stoolabstract_.RelativeEyeSeparationCriteria), formDiv)
 		}
 	}
 
@@ -11993,6 +12073,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSampledPoints3DShape), formDiv)
 		case "RotatedSampledPoints3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.RotatedSampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeSampledPoints3DShape), formDiv)
+		case "EyeSampledPoints3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.EyeSampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}
