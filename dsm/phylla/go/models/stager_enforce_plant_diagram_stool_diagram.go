@@ -114,6 +114,16 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.EyeSampledPoints3DShape.Name = plantDiagram.Name + "-EyeSampledPoints3DShape"
 				modified = true
 			}
+			if plantDiagram.StoolDiagram.EyeCornersSampledPoints3DShape == nil {
+				s := (&EyeCornersSampledPoints3DShape{
+					Name: plantDiagram.Name + "-EyeCornersSampledPoints3DShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.EyeCornersSampledPoints3DShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.EyeCornersSampledPoints3DShape.Name != plantDiagram.Name+"-EyeCornersSampledPoints3DShape" {
+				plantDiagram.StoolDiagram.EyeCornersSampledPoints3DShape.Name = plantDiagram.Name + "-EyeCornersSampledPoints3DShape"
+				modified = true
+			}
 		} else {
 			if plantDiagram.StoolDiagram != nil {
 				plantDiagram.StoolDiagram = nil

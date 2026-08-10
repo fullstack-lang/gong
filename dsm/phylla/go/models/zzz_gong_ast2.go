@@ -921,6 +921,35 @@ func (u *ExplanationTextShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 	return nil
 }
 
+type EyeCornersSampledPoints3DShapeUnmarshaller struct{}
+
+func (u *EyeCornersSampledPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(EyeCornersSampledPoints3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *EyeCornersSampledPoints3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*EyeCornersSampledPoints3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type EyeSampledPoints3DShapeUnmarshaller struct{}
 
 func (u *EyeSampledPoints3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -4469,6 +4498,10 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenEyeSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "EyeSampledPoints3DShape":
 		GongUnmarshallPointer(&instance.EyeSampledPoints3DShape, valueExpr, identifierMap)
+	case "IsHiddenEyeCornersSampledPoints3DShape":
+		instance.IsHiddenEyeCornersSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "EyeCornersSampledPoints3DShape":
+		GongUnmarshallPointer(&instance.EyeCornersSampledPoints3DShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	}

@@ -623,6 +623,12 @@ type EyeSampledPoints3DShape struct {
 	Name string
 }
 
+// EyeCornersSampledPoints3DShape of a plant,
+// gong:omit
+type EyeCornersSampledPoints3DShape struct {
+	Name string
+}
+
 // StackOfPartiallyRotatedTorusShape of a plant,
 // gong:omit
 type StackOfPartiallyRotatedTorusShape struct {
