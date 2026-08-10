@@ -405,6 +405,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.sampledpoints3dshape, probe)
 			}
+		case *Seat3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Seat3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.seat3dshape, probe)
+			}
 		case *SeatBottomCurveShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "SeatBottomCurveShape", true)
@@ -1644,6 +1650,19 @@ func FillUpFormFromGongstructName(
 		sampledpoints3dshape := new(models.SampledPoints3DShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(sampledpoints3dshape, formGroup, probe)
+	case "Seat3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Seat3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Seat3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		seat3dshape := new(models.Seat3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(seat3dshape, formGroup, probe)
 	case "SeatBottomCurveShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

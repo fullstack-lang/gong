@@ -42,5 +42,8 @@ type StoolDiagram struct {
 	IsHiddenEyeStoolBottomCurveShape bool
 	EyeStoolBottomCurveShape         *EyeStoolBottomCurveShape
 
+	IsHiddenSeat3DShape bool
+	Seat3DShape         *Seat3DShape
+
 	Rendered3DShape *Rendered3DShape
 }
