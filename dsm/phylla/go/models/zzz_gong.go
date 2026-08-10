@@ -1152,6 +1152,21 @@ type Stage struct {
 	OnAfterSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[SampledPoints3DShape]
 	OnAfterSampledPoints3DShapeReadCallback   OnAfterReadInterface[SampledPoints3DShape]
 
+	Seat3DShapes                map[*Seat3DShape]struct{}
+	Seat3DShapes_instance       map[*Seat3DShape]*Seat3DShape
+	Seat3DShapes_mapString      map[string]*Seat3DShape
+	Seat3DShapeOrder            uint
+	Seat3DShape_stagedOrder     map[*Seat3DShape]uint
+	Seat3DShape_orderStaged     map[uint]*Seat3DShape
+	Seat3DShapes_reference      map[*Seat3DShape]*Seat3DShape
+	Seat3DShapes_referenceOrder map[*Seat3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSeat3DShapeCreateCallback OnAfterCreateInterface[Seat3DShape]
+	OnAfterSeat3DShapeUpdateCallback OnAfterUpdateInterface[Seat3DShape]
+	OnAfterSeat3DShapeDeleteCallback OnAfterDeleteInterface[Seat3DShape]
+	OnAfterSeat3DShapeReadCallback   OnAfterReadInterface[Seat3DShape]
+
 	SeatBottomCurveShapes                map[*SeatBottomCurveShape]struct{}
 	SeatBottomCurveShapes_instance       map[*SeatBottomCurveShape]*SeatBottomCurveShape
 	SeatBottomCurveShapes_mapString      map[string]*SeatBottomCurveShape
@@ -2636,6 +2651,10 @@ func (stage *Stage) Squash() {
 	stage.SampledPoints3DShapes_instance = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
 	stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
 
+	stage.Seat3DShapes_reference = make(map[*Seat3DShape]*Seat3DShape)
+	stage.Seat3DShapes_instance = make(map[*Seat3DShape]*Seat3DShape)
+	stage.Seat3DShapes_referenceOrder = make(map[*Seat3DShape]uint)
+
 	stage.SeatBottomCurveShapes_reference = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
 	stage.SeatBottomCurveShapes_instance = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
 	stage.SeatBottomCurveShapes_referenceOrder = make(map[*SeatBottomCurveShape]uint)
@@ -3819,6 +3838,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.SampledPoints3DShapeOrder = maxSampledPoints3DShapeOrder + 1
 	} else {
 		stage.SampledPoints3DShapeOrder = 0
+	}
+
+	var maxSeat3DShapeOrder uint
+	var foundSeat3DShape bool
+	for _, order := range stage.Seat3DShape_stagedOrder {
+		if !foundSeat3DShape || order > maxSeat3DShapeOrder {
+			maxSeat3DShapeOrder = order
+			foundSeat3DShape = true
+		}
+	}
+	if foundSeat3DShape {
+		stage.Seat3DShapeOrder = maxSeat3DShapeOrder + 1
+	} else {
+		stage.Seat3DShapeOrder = 0
 	}
 
 	var maxSeatBottomCurveShapeOrder uint
@@ -5660,6 +5693,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Seat3DShape:
+		tmp := GetStructInstancesByOrder(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Seat3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *SeatBottomCurveShape:
 		tmp := GetStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
 
@@ -6687,6 +6734,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder)
 	case "SampledPoints3DShape":
 		res = GetNamedStructInstances(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
+	case "Seat3DShape":
+		res = GetNamedStructInstances(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
 	case "SeatBottomCurveShape":
 		res = GetNamedStructInstances(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
 	case "SeatTopCurveShape":
@@ -7010,6 +7059,8 @@ type BackRepoInterface interface {
 	CheckoutRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape)
 	CommitSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
 	CheckoutSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
+	CommitSeat3DShape(seat3dshape *Seat3DShape)
+	CheckoutSeat3DShape(seat3dshape *Seat3DShape)
 	CommitSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape)
 	CheckoutSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape)
 	CommitSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape)
@@ -7334,6 +7385,9 @@ func NewStage(name string) (stage *Stage) {
 
 		SampledPoints3DShapes:           make(map[*SampledPoints3DShape]struct{}),
 		SampledPoints3DShapes_mapString: make(map[string]*SampledPoints3DShape),
+
+		Seat3DShapes:           make(map[*Seat3DShape]struct{}),
+		Seat3DShapes_mapString: make(map[string]*Seat3DShape),
 
 		SeatBottomCurveShapes:           make(map[*SeatBottomCurveShape]struct{}),
 		SeatBottomCurveShapes_mapString: make(map[string]*SeatBottomCurveShape),
@@ -7791,6 +7845,10 @@ func NewStage(name string) (stage *Stage) {
 		SampledPoints3DShape_orderStaged: make(map[uint]*SampledPoints3DShape),
 		SampledPoints3DShapes_reference:  make(map[*SampledPoints3DShape]*SampledPoints3DShape),
 
+		Seat3DShape_stagedOrder: make(map[*Seat3DShape]uint),
+		Seat3DShape_orderStaged: make(map[uint]*Seat3DShape),
+		Seat3DShapes_reference:  make(map[*Seat3DShape]*Seat3DShape),
+
 		SeatBottomCurveShape_stagedOrder: make(map[*SeatBottomCurveShape]uint),
 		SeatBottomCurveShape_orderStaged: make(map[uint]*SeatBottomCurveShape),
 		SeatBottomCurveShapes_reference:  make(map[*SeatBottomCurveShape]*SeatBottomCurveShape),
@@ -8171,6 +8229,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"SampledPoints3DShape": &SampledPoints3DShapeUnmarshaller{},
 
+			"Seat3DShape": &Seat3DShapeUnmarshaller{},
+
 			"SeatBottomCurveShape": &SeatBottomCurveShapeUnmarshaller{},
 
 			"SeatTopCurveShape": &SeatTopCurveShapeUnmarshaller{},
@@ -8364,6 +8424,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "RotatedRhombusShape"},
 			{name: "RotatedSampledPoints3DShape"},
 			{name: "SampledPoints3DShape"},
+			{name: "Seat3DShape"},
 			{name: "SeatBottomCurveShape"},
 			{name: "SeatTopCurveShape"},
 			{name: "ShiftedBottomTopStartArcShape"},
@@ -8567,6 +8628,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.RotatedSampledPoints3DShape_stagedOrder[instance]
 	case *SampledPoints3DShape:
 		return stage.SampledPoints3DShape_stagedOrder[instance]
+	case *Seat3DShape:
+		return stage.Seat3DShape_stagedOrder[instance]
 	case *SeatBottomCurveShape:
 		return stage.SeatBottomCurveShape_stagedOrder[instance]
 	case *SeatTopCurveShape:
@@ -8830,6 +8893,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.RotatedSampledPoints3DShape_orderStaged[order]).(Type)
 	case *SampledPoints3DShape:
 		return any(stage.SampledPoints3DShape_orderStaged[order]).(Type)
+	case *Seat3DShape:
+		return any(stage.Seat3DShape_orderStaged[order]).(Type)
 	case *SeatBottomCurveShape:
 		return any(stage.SeatBottomCurveShape_orderStaged[order]).(Type)
 	case *SeatTopCurveShape:
@@ -9092,6 +9157,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.RotatedSampledPoints3DShape_stagedOrder[instance]
 	case *SampledPoints3DShape:
 		return stage.SampledPoints3DShape_stagedOrder[instance]
+	case *Seat3DShape:
+		return stage.Seat3DShape_stagedOrder[instance]
 	case *SeatBottomCurveShape:
 		return stage.SeatBottomCurveShape_stagedOrder[instance]
 	case *SeatTopCurveShape:
@@ -9346,6 +9413,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedSampledPoints3DShape"] = len(stage.RotatedSampledPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["SampledPoints3DShape"] = len(stage.SampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["Seat3DShape"] = len(stage.Seat3DShapes)
 	stage.Map_GongStructName_InstancesNb["SeatBottomCurveShape"] = len(stage.SeatBottomCurveShapes)
 	stage.Map_GongStructName_InstancesNb["SeatTopCurveShape"] = len(stage.SeatTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShape"] = len(stage.ShiftedBottomTopStartArcShapes)
@@ -15168,6 +15236,94 @@ func (sampledpoints3dshape *SampledPoints3DShape) SetName(name string) {
 	sampledpoints3dshape.Name = name
 }
 
+// Stage puts seat3dshape to the model stage
+func (seat3dshape *Seat3DShape) Stage(stage *Stage) *Seat3DShape {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; !ok {
+		stage.Seat3DShapes[seat3dshape] = struct{}{}
+		stage.Seat3DShape_stagedOrder[seat3dshape] = stage.Seat3DShapeOrder
+		stage.Seat3DShape_orderStaged[stage.Seat3DShapeOrder] = seat3dshape
+		stage.Seat3DShapeOrder++
+	}
+	stage.Seat3DShapes_mapString[seat3dshape.Name] = seat3dshape
+
+	return seat3dshape
+}
+
+// StagePreserveOrder puts seat3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Seat3DShapeOrder
+// - update stage.Seat3DShapeOrder accordingly
+func (seat3dshape *Seat3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; !ok {
+		stage.Seat3DShapes[seat3dshape] = struct{}{}
+
+		if order > stage.Seat3DShapeOrder {
+			stage.Seat3DShapeOrder = order
+		}
+		stage.Seat3DShape_stagedOrder[seat3dshape] = order
+		stage.Seat3DShape_orderStaged[order] = seat3dshape
+		stage.Seat3DShapeOrder++
+	}
+	stage.Seat3DShapes_mapString[seat3dshape.Name] = seat3dshape
+}
+
+// Unstage removes seat3dshape off the model stage
+func (seat3dshape *Seat3DShape) Unstage(stage *Stage) *Seat3DShape {
+	delete(stage.Seat3DShapes, seat3dshape)
+	// issue1150
+	// delete(stage.Seat3DShape_stagedOrder, seat3dshape)
+	delete(stage.Seat3DShapes_mapString, seat3dshape.Name)
+
+	return seat3dshape
+}
+
+// UnstageVoid removes seat3dshape off the model stage
+func (seat3dshape *Seat3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Seat3DShapes, seat3dshape)
+	// issue1150
+	// delete(stage.Seat3DShape_stagedOrder, seat3dshape)
+	delete(stage.Seat3DShapes_mapString, seat3dshape.Name)
+}
+
+// commit seat3dshape to the back repo (if it is already staged)
+func (seat3dshape *Seat3DShape) Commit(stage *Stage) *Seat3DShape {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSeat3DShape(seat3dshape)
+		}
+	}
+	return seat3dshape
+}
+
+func (seat3dshape *Seat3DShape) CommitVoid(stage *Stage) {
+	seat3dshape.Commit(stage)
+}
+
+func (seat3dshape *Seat3DShape) StageVoid(stage *Stage) {
+	seat3dshape.Stage(stage)
+}
+
+// Checkout seat3dshape to the back repo (if it is already staged)
+func (seat3dshape *Seat3DShape) Checkout(stage *Stage) *Seat3DShape {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSeat3DShape(seat3dshape)
+		}
+	}
+	return seat3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (seat3dshape *Seat3DShape) GetName() (res string) {
+	return seat3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (seat3dshape *Seat3DShape) SetName(name string) {
+	seat3dshape.Name = name
+}
+
 // Stage puts seatbottomcurveshape to the model stage
 func (seatbottomcurveshape *SeatBottomCurveShape) Stage(stage *Stage) *SeatBottomCurveShape {
 	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; !ok {
@@ -20691,6 +20847,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
 	CreateORMRotatedSampledPoints3DShape(RotatedSampledPoints3DShape *RotatedSampledPoints3DShape)
 	CreateORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
+	CreateORMSeat3DShape(Seat3DShape *Seat3DShape)
 	CreateORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
 	CreateORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
 	CreateORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
@@ -20821,6 +20978,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
 	DeleteORMRotatedSampledPoints3DShape(RotatedSampledPoints3DShape *RotatedSampledPoints3DShape)
 	DeleteORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
+	DeleteORMSeat3DShape(Seat3DShape *Seat3DShape)
 	DeleteORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
 	DeleteORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
 	DeleteORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
@@ -21210,6 +21368,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
 	stage.SampledPoints3DShape_stagedOrder = make(map[*SampledPoints3DShape]uint)
 	stage.SampledPoints3DShapeOrder = 0
+
+	stage.Seat3DShapes = make(map[*Seat3DShape]struct{})
+	stage.Seat3DShapes_mapString = make(map[string]*Seat3DShape)
+	stage.Seat3DShape_stagedOrder = make(map[*Seat3DShape]uint)
+	stage.Seat3DShapeOrder = 0
 
 	stage.SeatBottomCurveShapes = make(map[*SeatBottomCurveShape]struct{})
 	stage.SeatBottomCurveShapes_mapString = make(map[string]*SeatBottomCurveShape)
@@ -21725,6 +21888,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.SampledPoints3DShapes = nil
 	stage.SampledPoints3DShapes_mapString = nil
 
+	stage.Seat3DShapes = nil
+	stage.Seat3DShapes_mapString = nil
+
 	stage.SeatBottomCurveShapes = nil
 	stage.SeatBottomCurveShapes_mapString = nil
 
@@ -22173,6 +22339,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
 		sampledpoints3dshape.Unstage(stage)
+	}
+
+	for seat3dshape := range stage.Seat3DShapes {
+		seat3dshape.Unstage(stage)
 	}
 
 	for seatbottomcurveshape := range stage.SeatBottomCurveShapes {
@@ -22629,6 +22799,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.RotatedSampledPoints3DShapes).(*Type)
 	case map[*SampledPoints3DShape]any:
 		return any(&stage.SampledPoints3DShapes).(*Type)
+	case map[*Seat3DShape]any:
+		return any(&stage.Seat3DShapes).(*Type)
 	case map[*SeatBottomCurveShape]any:
 		return any(&stage.SeatBottomCurveShapes).(*Type)
 	case map[*SeatTopCurveShape]any:
@@ -22895,6 +23067,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.RotatedSampledPoints3DShapes_mapString).(map[string]Type)
 	case *SampledPoints3DShape:
 		return any(stage.SampledPoints3DShapes_mapString).(map[string]Type)
+	case *Seat3DShape:
+		return any(stage.Seat3DShapes_mapString).(map[string]Type)
 	case *SeatBottomCurveShape:
 		return any(stage.SeatBottomCurveShapes_mapString).(map[string]Type)
 	case *SeatTopCurveShape:
@@ -23161,6 +23335,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.RotatedSampledPoints3DShapes).(*map[*Type]struct{})
 	case SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes).(*map[*Type]struct{})
+	case Seat3DShape:
+		return any(&stage.Seat3DShapes).(*map[*Type]struct{})
 	case SeatBottomCurveShape:
 		return any(&stage.SeatBottomCurveShapes).(*map[*Type]struct{})
 	case SeatTopCurveShape:
@@ -23427,6 +23603,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.RotatedSampledPoints3DShapes).(*map[Type]struct{})
 	case *SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes).(*map[Type]struct{})
+	case *Seat3DShape:
+		return any(&stage.Seat3DShapes).(*map[Type]struct{})
 	case *SeatBottomCurveShape:
 		return any(&stage.SeatBottomCurveShapes).(*map[Type]struct{})
 	case *SeatTopCurveShape:
@@ -23693,6 +23871,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.RotatedSampledPoints3DShapes_mapString).(*map[string]*Type)
 	case SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes_mapString).(*map[string]*Type)
+	case Seat3DShape:
+		return any(&stage.Seat3DShapes_mapString).(*map[string]*Type)
 	case SeatBottomCurveShape:
 		return any(&stage.SeatBottomCurveShapes_mapString).(*map[string]*Type)
 	case SeatTopCurveShape:
@@ -24191,6 +24371,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&SampledPoints3DShape{
 			// Initialisation of associations
 		}).(*Type)
+	case Seat3DShape:
+		return any(&Seat3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case SeatBottomCurveShape:
 		return any(&SeatBottomCurveShape{
 			// Initialisation of associations
@@ -24408,6 +24592,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			EyeSeatBottomCurveShape: &EyeSeatBottomCurveShape{Name: "EyeSeatBottomCurveShape"},
 			// field is initialized with an instance of EyeStoolBottomCurveShape with the name of the field
 			EyeStoolBottomCurveShape: &EyeStoolBottomCurveShape{Name: "EyeStoolBottomCurveShape"},
+			// field is initialized with an instance of Seat3DShape with the name of the field
+			Seat3DShape: &Seat3DShape{Name: "Seat3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
@@ -25416,6 +25602,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Seat3DShape
+	case Seat3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of SeatBottomCurveShape
 	case SeatBottomCurveShape:
 		switch fieldname {
@@ -25823,6 +26014,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					stooldiagrams = append(stooldiagrams, stooldiagram)
 					res[eyestoolbottomcurveshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Seat3DShape":
+			res := make(map[*Seat3DShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.Seat3DShape != nil {
+					seat3dshape_ := stooldiagram.Seat3DShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[seat3dshape_]
+					if ok {
+						stooldiagrams = res[seat3dshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[seat3dshape_] = stooldiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27253,6 +27461,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Seat3DShape
+	case Seat3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of SeatBottomCurveShape
 	case SeatBottomCurveShape:
 		switch fieldname {
@@ -27936,6 +28149,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "RotatedSampledPoints3DShape"
 	case *SampledPoints3DShape:
 		res = "SampledPoints3DShape"
+	case *Seat3DShape:
+		res = "Seat3DShape"
 	case *SeatBottomCurveShape:
 		res = "SeatBottomCurveShape"
 	case *SeatTopCurveShape:
@@ -28339,6 +28554,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *SampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *Seat3DShape:
 		var rf ReverseField
 		_ = rf
 	case *SeatBottomCurveShape:
@@ -30426,6 +30644,17 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldHeaders() (res []G
 	return
 }
 
+func (seat3dshape *Seat3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (seatbottomcurveshape *SeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -32156,6 +32385,15 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "EyeStoolBottomCurveShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "EyeStoolBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenSeat3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Seat3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Seat3DShape",
 		},
 		{
 			Name:                 "Rendered3DShape",
@@ -35126,6 +35364,15 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldValue(fieldName st
 	return
 }
 
+func (seat3dshape *Seat3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = seat3dshape.Name
+	}
+	return
+}
+
 func (seatbottomcurveshape *SeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -36893,6 +37140,16 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if stooldiagram.EyeStoolBottomCurveShape != nil {
 			res.valueString = stooldiagram.EyeStoolBottomCurveShape.Name
 			res.ids = stooldiagram.EyeStoolBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSeat3DShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenSeat3DShape)
+		res.valueBool = stooldiagram.IsHiddenSeat3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Seat3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.Seat3DShape != nil {
+			res.valueString = stooldiagram.Seat3DShape.Name
+			res.ids = stooldiagram.Seat3DShape.GongGetUUID(stage)
 		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -39804,6 +40061,17 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongSetFieldValue(fieldName st
 	return nil
 }
 
+func (seat3dshape *Seat3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		seat3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (seatbottomcurveshape *SeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -41211,6 +41479,19 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.EyeStoolBottomCurveShapes {
 				if stage.EyeStoolBottomCurveShape_stagedOrder[__instance__] == uint(id) {
 					stooldiagram.EyeStoolBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSeat3DShape":
+		stooldiagram.IsHiddenSeat3DShape = value.GetValueBool()
+	case "Seat3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.Seat3DShape = nil
+			for __instance__ := range stage.Seat3DShapes {
+				if stage.Seat3DShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.Seat3DShape = __instance__
 					break
 				}
 			}
@@ -42664,6 +42945,10 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetGongstructName() string
 	return "SampledPoints3DShape"
 }
 
+func (seat3dshape *Seat3DShape) GongGetGongstructName() string {
+	return "Seat3DShape"
+}
+
 func (seatbottomcurveshape *SeatBottomCurveShape) GongGetGongstructName() string {
 	return "SeatBottomCurveShape"
 }
@@ -43242,6 +43527,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
 	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
 		stage.SampledPoints3DShapes_mapString[sampledpoints3dshape.Name] = sampledpoints3dshape
+	}
+
+	stage.Seat3DShapes_mapString = make(map[string]*Seat3DShape)
+	for seat3dshape := range stage.Seat3DShapes {
+		stage.Seat3DShapes_mapString[seat3dshape.Name] = seat3dshape
 	}
 
 	stage.SeatBottomCurveShapes_mapString = make(map[string]*SeatBottomCurveShape)

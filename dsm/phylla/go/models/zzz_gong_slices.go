@@ -236,6 +236,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct SampledPoints3DShape
 	// insertion point per field
 
+	// Compute reverse map for named struct Seat3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct SeatBottomCurveShape
 	// insertion point per field
 
@@ -684,6 +687,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.SampledPoints3DShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Seat3DShapes {
 		res = append(res, instance)
 	}
 
@@ -1326,6 +1333,12 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongCopy() Gongs
 func (sampledpoints3dshape *SampledPoints3DShape) GongCopy() GongstructIF {
 	newInstance := new(SampledPoints3DShape)
 	sampledpoints3dshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (seat3dshape *Seat3DShape) GongCopy() GongstructIF {
+	newInstance := new(Seat3DShape)
+	seat3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2349,6 +2362,16 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetUUID(stage *Stage) (uui
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sampledpoints3dshape), uint64(GetOrderPointerGongstruct(stage, sampledpoints3dshape)))
+	return
+}
+
+func (seat3dshape *Seat3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(seat3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(seat3dshape), uint64(GetOrderPointerGongstruct(stage, seat3dshape)))
 	return
 }
 
@@ -4280,6 +4303,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.SampledPoints3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Seat3DShapes_reference = make(map[*Seat3DShape]*Seat3DShape)
+	stage.Seat3DShapes_referenceOrder = make(map[*Seat3DShape]uint) // diff Unstage needs the reference order
+	stage.Seat3DShapes_instance = make(map[*Seat3DShape]*Seat3DShape)
+	for instance := range stage.Seat3DShapes {
+		_copy := instance.GongCopy().(*Seat3DShape)
+		stage.Seat3DShapes_reference[instance] = _copy
+		stage.Seat3DShapes_instance[_copy] = instance
+		stage.Seat3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.SeatBottomCurveShapes_reference = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
 	stage.SeatBottomCurveShapes_referenceOrder = make(map[*SeatBottomCurveShape]uint) // diff Unstage needs the reference order
 	stage.SeatBottomCurveShapes_instance = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
@@ -5223,6 +5256,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.SampledPoints3DShapes {
 		reference := stage.SampledPoints3DShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Seat3DShapes {
+		reference := stage.Seat3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6322,6 +6360,18 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetOrder(stage *Stage) uin
 		return order
 	} else {
 		log.Printf("instance %p of type SampledPoints3DShape was not staged and does not have a reference order", sampledpoints3dshape)
+		return 0
+	}
+}
+
+func (seat3dshape *Seat3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Seat3DShape_stagedOrder[seat3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.Seat3DShapes_referenceOrder[seat3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Seat3DShape was not staged and does not have a reference order", seat3dshape)
 		return 0
 	}
 }
@@ -7660,6 +7710,15 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongGetReferenceIdentifier(sta
 	return fmt.Sprintf("__%s__%08d_", sampledpoints3dshape.GongGetGongstructName(), sampledpoints3dshape.GongGetOrder(stage))
 }
 
+func (seat3dshape *Seat3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", seat3dshape.GongGetGongstructName(), seat3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (seat3dshape *Seat3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", seat3dshape.GongGetGongstructName(), seat3dshape.GongGetOrder(stage))
+}
+
 func (seatbottomcurveshape *SeatBottomCurveShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", seatbottomcurveshape.GongGetGongstructName(), seatbottomcurveshape.GongGetOrder(stage))
 }
@@ -8741,6 +8800,14 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallIdentifier(stage *
 	return
 }
 
+func (seat3dshape *Seat3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", seat3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Seat3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(seat3dshape.Name))
+	return
+}
+
 func (seatbottomcurveshape *SeatBottomCurveShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", seatbottomcurveshape.GongGetIdentifier(stage))
@@ -9625,6 +9692,12 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongMarshallUnst
 func (sampledpoints3dshape *SampledPoints3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sampledpoints3dshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (seat3dshape *Seat3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", seat3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

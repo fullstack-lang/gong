@@ -373,35 +373,53 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			canvas.Meshs = append(canvas.Meshs, stMesh)
 		}
 
+		seatThickness := plant.StoolAbstract.RelativeSeatThickness * plant.RhombusSideLength
+		seatBottomHeight := stoolTopHeight - seatThickness
+
+		var rotSeatTopPoints []*threejs.Vector3
+		var rotSeatBottomPoints []*threejs.Vector3
+
+		thetaOffset := growthVectorX / globalR
+
+		for k := 0; k < radialRepetitions; k++ {
+			baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+			totalThetaOffset := baseThetaOffset + thetaOffset
+
+			for _, pt := range resampledBaseCurve.Points {
+				origTheta := math.Atan2(pt.Z, pt.X)
+				r := math.Hypot(pt.X, pt.Z)
+				newTheta := origTheta + totalThetaOffset
+
+				ptY := pt.Y + growthVectorY + torusHeight
+
+				deltaYTop := stoolTopHeight - ptY
+				rProjTop := r + deltaYTop*math.Tan(projAngleRad)
+
+				rotSeatTopPoints = append(rotSeatTopPoints, (&threejs.Vector3{
+					Name: fmt.Sprintf("Rotated Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
+					X:    rProjTop * math.Cos(newTheta),
+					Y:    stoolTopHeight,
+					Z:    rProjTop * math.Sin(newTheta),
+				}).Stage(stool3dStage))
+
+				deltaYBottom := seatBottomHeight - ptY
+				rProjBottom := r + deltaYBottom*math.Tan(projAngleRad)
+
+				rotSeatBottomPoints = append(rotSeatBottomPoints, (&threejs.Vector3{
+					Name: fmt.Sprintf("Rotated Seat Bottom Point k%d %.1f", k, newTheta*180.0/math.Pi),
+					X:    rProjBottom * math.Cos(newTheta),
+					Y:    seatBottomHeight,
+					Z:    rProjBottom * math.Sin(newTheta),
+				}).Stage(stool3dStage))
+			}
+		}
+
 		// 9. Partially Rotated Seat Top 2D Projected Curve (from Partially Rotated Torus)
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape {
 			rotSeatTopCurve := (&threejs.Curve{
-				Name: "Stool Partially Rotated Seat Top Curve",
+				Name:   "Stool Partially Rotated Seat Top Curve",
+				Points: rotSeatTopPoints,
 			}).Stage(stool3dStage)
-
-			thetaOffset := growthVectorX / globalR
-
-			for k := 0; k < radialRepetitions; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-				totalThetaOffset := baseThetaOffset + thetaOffset
-
-				for _, pt := range resampledBaseCurve.Points {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-					newTheta := origTheta + totalThetaOffset
-
-					ptY := pt.Y + growthVectorY + torusHeight
-					deltaY := stoolTopHeight - ptY
-					rProj := r + deltaY*math.Tan(projAngleRad)
-
-					rotSeatTopCurve.Points = append(rotSeatTopCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Rotated Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
-						X:    rProj * math.Cos(newTheta),
-						Y:    stoolTopHeight,
-						Z:    rProj * math.Sin(newTheta),
-					}).Stage(stool3dStage))
-				}
-			}
 
 			numSegments := len(rotSeatTopCurve.Points)
 			if numSegments < 2 {
@@ -431,9 +449,6 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 
 			canvas.Meshs = append(canvas.Meshs, rotStMesh)
 		}
-
-		seatThickness := plant.StoolAbstract.RelativeSeatThickness * plant.RhombusSideLength
-		seatBottomHeight := stoolTopHeight - seatThickness
 
 		// 10. Seat Bottom 2D Projected Curve on the horizontal stool seat bottom plane (from Base Torus)
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSeatBottomCurveShape {
@@ -494,32 +509,9 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// 11. Rotated Seat Bottom 2D Projected Curve (from Partially Rotated Torus)
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatBottomCurveShape {
 			rotSeatBottomCurve := (&threejs.Curve{
-				Name: "Stool Rotated Seat Bottom Curve",
+				Name:   "Stool Rotated Seat Bottom Curve",
+				Points: rotSeatBottomPoints,
 			}).Stage(stool3dStage)
-
-			thetaOffset := growthVectorX / globalR
-
-			for k := 0; k < radialRepetitions; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-				totalThetaOffset := baseThetaOffset + thetaOffset
-
-				for _, pt := range resampledBaseCurve.Points {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-					newTheta := origTheta + totalThetaOffset
-
-					ptY := pt.Y + growthVectorY + torusHeight
-					deltaY := seatBottomHeight - ptY
-					rProj := r + deltaY*math.Tan(projAngleRad)
-
-					rotSeatBottomCurve.Points = append(rotSeatBottomCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Rotated Seat Bottom Point k%d %.1f", k, newTheta*180.0/math.Pi),
-						X:    rProj * math.Cos(newTheta),
-						Y:    seatBottomHeight,
-						Z:    rProj * math.Sin(newTheta),
-					}).Stage(stool3dStage))
-				}
-			}
 
 			numSegments := len(rotSeatBottomCurve.Points)
 			if numSegments < 2 {
@@ -548,6 +540,122 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}).Stage(stool3dStage)
 
 			canvas.Meshs = append(canvas.Meshs, rotSbMesh)
+		}
+
+		// 11b. 3D Seat Volume Mesh between Rotated Seat Top and Rotated Seat Bottom
+		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenSeat3DShape {
+			if len(rotSeatTopPoints) >= 3 && len(rotSeatTopPoints) == len(rotSeatBottomPoints) {
+				N := len(rotSeatTopPoints)
+				seatGeom := (&threejs.BufferGeometry{
+					Name: "Stool Seat BufferGeometry",
+				}).Stage(stool3dStage)
+
+				var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
+				for i := 0; i < N; i++ {
+					topV := (&threejs.Vector3{
+						Name: fmt.Sprintf("Seat Top V %d", i),
+						X:    rotSeatTopPoints[i].X,
+						Y:    rotSeatTopPoints[i].Y,
+						Z:    rotSeatTopPoints[i].Z,
+					}).Stage(stool3dStage)
+					seatGeom.Vertices = append(seatGeom.Vertices, topV)
+					sumTopX += topV.X
+					sumTopZ += topV.Z
+				}
+
+				for i := 0; i < N; i++ {
+					botV := (&threejs.Vector3{
+						Name: fmt.Sprintf("Seat Bottom V %d", i),
+						X:    rotSeatBottomPoints[i].X,
+						Y:    rotSeatBottomPoints[i].Y,
+						Z:    rotSeatBottomPoints[i].Z,
+					}).Stage(stool3dStage)
+					seatGeom.Vertices = append(seatGeom.Vertices, botV)
+					sumBottomX += botV.X
+					sumBottomZ += botV.Z
+				}
+
+				topCenterIdx := len(seatGeom.Vertices)
+				topCenterV := (&threejs.Vector3{
+					Name: "Seat Top Center",
+					X:    sumTopX / float64(N),
+					Y:    stoolTopHeight,
+					Z:    sumTopZ / float64(N),
+				}).Stage(stool3dStage)
+				seatGeom.Vertices = append(seatGeom.Vertices, topCenterV)
+
+				botCenterIdx := len(seatGeom.Vertices)
+				botCenterV := (&threejs.Vector3{
+					Name: "Seat Bottom Center",
+					X:    sumBottomX / float64(N),
+					Y:    seatBottomHeight,
+					Z:    sumBottomZ / float64(N),
+				}).Stage(stool3dStage)
+				seatGeom.Vertices = append(seatGeom.Vertices, botCenterV)
+
+				// 1. Top face (facing +Y): (topCenter, nextI, i)
+				for i := 0; i < N; i++ {
+					nextI := (i + 1) % N
+					seatGeom.Faces = append(seatGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Seat Top Face %d", i),
+						V1:   topCenterIdx,
+						V2:   nextI,
+						V3:   i,
+					}).Stage(stool3dStage))
+				}
+
+				// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
+				for i := 0; i < N; i++ {
+					nextI := (i + 1) % N
+					botI := N + i
+					botNextI := N + nextI
+					seatGeom.Faces = append(seatGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Seat Bottom Face %d", i),
+						V1:   botCenterIdx,
+						V2:   botI,
+						V3:   botNextI,
+					}).Stage(stool3dStage))
+				}
+
+				// 3. Side wall quads between Top and Bottom:
+				for i := 0; i < N; i++ {
+					nextI := (i + 1) % N
+					topI := i
+					topNextI := nextI
+					botI := N + i
+					botNextI := N + nextI
+
+					// Triangle 1: (botI, topI, topNextI)
+					seatGeom.Faces = append(seatGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Seat Wall T1 %d", i),
+						V1:   botI,
+						V2:   topI,
+						V3:   topNextI,
+					}).Stage(stool3dStage))
+
+					// Triangle 2: (botI, topNextI, botNextI)
+					seatGeom.Faces = append(seatGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Seat Wall T2 %d", i),
+						V1:   botI,
+						V2:   topNextI,
+						V3:   botNextI,
+					}).Stage(stool3dStage))
+				}
+
+				seatMesh := (&threejs.Mesh{
+					Name:           "Stool Seat 3D Mesh",
+					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					BufferGeometry: seatGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Seat Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "peru"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, seatMesh)
+			}
 		}
 
 		// 12. Add 3D Sampled Points visualization if toggled on
@@ -597,7 +705,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// Compute Eye geometry, transitions, and Bézier corners for first repetition (k=0)
-		thetaOffset := growthVectorX / globalR
+		thetaOffset = growthVectorX / globalR
 		eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength * vertScale
 		expectedRad := expectedDegrees * math.Pi / 180.0
 		dStep := globalR * radInterval

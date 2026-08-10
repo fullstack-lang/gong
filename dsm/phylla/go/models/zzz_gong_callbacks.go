@@ -266,6 +266,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterSampledPoints3DShapeCreateCallback != nil {
 			stage.OnAfterSampledPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Seat3DShape:
+		if stage.OnAfterSeat3DShapeCreateCallback != nil {
+			stage.OnAfterSeat3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *SeatBottomCurveShape:
 		if stage.OnAfterSeatBottomCurveShapeCreateCallback != nil {
 			stage.OnAfterSeatBottomCurveShapeCreateCallback.OnAfterCreate(stage, target)
@@ -852,6 +856,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*SampledPoints3DShape)
 		if stage.OnAfterSampledPoints3DShapeUpdateCallback != nil {
 			stage.OnAfterSampledPoints3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Seat3DShape:
+		newTarget := any(new).(*Seat3DShape)
+		if stage.OnAfterSeat3DShapeUpdateCallback != nil {
+			stage.OnAfterSeat3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *SeatBottomCurveShape:
 		newTarget := any(new).(*SeatBottomCurveShape)
@@ -1498,6 +1507,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*SampledPoints3DShape)
 			stage.OnAfterSampledPoints3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Seat3DShape:
+		if stage.OnAfterSeat3DShapeDeleteCallback != nil {
+			staged := any(staged).(*Seat3DShape)
+			stage.OnAfterSeat3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *SeatBottomCurveShape:
 		if stage.OnAfterSeatBottomCurveShapeDeleteCallback != nil {
 			staged := any(staged).(*SeatBottomCurveShape)
@@ -2078,6 +2092,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterSampledPoints3DShapeReadCallback != nil {
 			stage.OnAfterSampledPoints3DShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Seat3DShape:
+		if stage.OnAfterSeat3DShapeReadCallback != nil {
+			stage.OnAfterSeat3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *SeatBottomCurveShape:
 		if stage.OnAfterSeatBottomCurveShapeReadCallback != nil {
 			stage.OnAfterSeatBottomCurveShapeReadCallback.OnAfterRead(stage, target)
@@ -2467,6 +2485,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedSampledPoints3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SampledPoints3DShape])
+	case *Seat3DShape:
+		stage.OnAfterSeat3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Seat3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
@@ -2728,6 +2748,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedSampledPoints3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[SampledPoints3DShape])
+	case *Seat3DShape:
+		stage.OnAfterSeat3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Seat3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
@@ -2989,6 +3011,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedSampledPoints3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SampledPoints3DShape])
+	case *Seat3DShape:
+		stage.OnAfterSeat3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Seat3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
@@ -3250,6 +3274,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRotatedSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedSampledPoints3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[SampledPoints3DShape])
+	case *Seat3DShape:
+		stage.OnAfterSeat3DShapeReadCallback = any(callback).(OnAfterReadInterface[Seat3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeReadCallback = any(callback).(OnAfterReadInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:

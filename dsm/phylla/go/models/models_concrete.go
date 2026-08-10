@@ -647,6 +647,12 @@ type EyeStoolBottomCurveShape struct {
 	Name string
 }
 
+// Seat3DShape of a plant,
+// gong:omit
+type Seat3DShape struct {
+	Name string
+}
+
 // StackOfPartiallyRotatedTorusShape of a plant,
 // gong:omit
 type StackOfPartiallyRotatedTorusShape struct {
