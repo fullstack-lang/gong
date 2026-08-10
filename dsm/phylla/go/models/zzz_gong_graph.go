@@ -130,6 +130,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryShape(target)
 
+	case *PartiallyRotatedSeatBottomCurveShape:
+		ok = stage.IsStagedPartiallyRotatedSeatBottomCurveShape(target)
+
 	case *PartiallyRotatedSeatTopCurveShape:
 		ok = stage.IsStagedPartiallyRotatedSeatTopCurveShape(target)
 
@@ -180,6 +183,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *SampledPoints3DShape:
 		ok = stage.IsStagedSampledPoints3DShape(target)
+
+	case *SeatBottomCurveShape:
+		ok = stage.IsStagedSeatBottomCurveShape(target)
 
 	case *SeatTopCurveShape:
 		ok = stage.IsStagedSeatTopCurveShape(target)
@@ -497,6 +503,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		ok = stage.IsStagedPartiallyGrowthCurve2DTrajectoryShape(target)
 
+	case *PartiallyRotatedSeatBottomCurveShape:
+		ok = stage.IsStagedPartiallyRotatedSeatBottomCurveShape(target)
+
 	case *PartiallyRotatedSeatTopCurveShape:
 		ok = stage.IsStagedPartiallyRotatedSeatTopCurveShape(target)
 
@@ -547,6 +556,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *SampledPoints3DShape:
 		ok = stage.IsStagedSampledPoints3DShape(target)
+
+	case *SeatBottomCurveShape:
+		ok = stage.IsStagedSeatBottomCurveShape(target)
 
 	case *SeatTopCurveShape:
 		ok = stage.IsStagedSeatTopCurveShape(target)
@@ -1025,6 +1037,13 @@ func (stage *Stage) IsStagedPartiallyGrowthCurve2DTrajectoryShape(partiallygrowt
 	return
 }
 
+func (stage *Stage) IsStagedPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) (ok bool) {
+
+	_, ok = stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) (ok bool) {
 
 	_, ok = stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]
@@ -1140,6 +1159,13 @@ func (stage *Stage) IsStagedRotatedRhombusShape(rotatedrhombusshape *RotatedRhom
 func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
 
 	_, ok = stage.SampledPoints3DShapes[sampledpoints3dshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) (ok bool) {
+
+	_, ok = stage.SeatBottomCurveShapes[seatbottomcurveshape]
 
 	return
 }
@@ -1702,6 +1728,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.StageBranchPartiallyGrowthCurve2DTrajectoryShape(target)
 
+	case *PartiallyRotatedSeatBottomCurveShape:
+		stage.StageBranchPartiallyRotatedSeatBottomCurveShape(target)
+
 	case *PartiallyRotatedSeatTopCurveShape:
 		stage.StageBranchPartiallyRotatedSeatTopCurveShape(target)
 
@@ -1752,6 +1781,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *SampledPoints3DShape:
 		stage.StageBranchSampledPoints3DShape(target)
+
+	case *SeatBottomCurveShape:
+		stage.StageBranchSeatBottomCurveShape(target)
 
 	case *SeatTopCurveShape:
 		stage.StageBranchSeatTopCurveShape(target)
@@ -2563,6 +2595,21 @@ func (stage *Stage) StageBranchPartiallyGrowthCurve2DTrajectoryShape(partiallygr
 
 }
 
+func (stage *Stage) StageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partiallyrotatedseatbottomcurveshape) {
+		return
+	}
+
+	partiallyrotatedseatbottomcurveshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) {
 
 	// check if instance is already staged
@@ -2826,6 +2873,21 @@ func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *Sample
 	}
 
 	sampledpoints3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, seatbottomcurveshape) {
+		return
+	}
+
+	seatbottomcurveshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3941,6 +4003,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchPartiallyGrowthCurve2DTrajectoryShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *PartiallyRotatedSeatBottomCurveShape:
+		toT := CopyBranchPartiallyRotatedSeatBottomCurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PartiallyRotatedSeatTopCurveShape:
 		toT := CopyBranchPartiallyRotatedSeatTopCurveShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4007,6 +4073,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *SampledPoints3DShape:
 		toT := CopyBranchSampledPoints3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SeatBottomCurveShape:
+		toT := CopyBranchSeatBottomCurveShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SeatTopCurveShape:
@@ -5045,6 +5115,25 @@ func CopyBranchPartiallyGrowthCurve2DTrajectoryShape(mapOrigCopy map[any]any, pa
 	return
 }
 
+func CopyBranchPartiallyRotatedSeatBottomCurveShape(mapOrigCopy map[any]any, partiallyrotatedseatbottomcurveshapeFrom *PartiallyRotatedSeatBottomCurveShape) (partiallyrotatedseatbottomcurveshapeTo *PartiallyRotatedSeatBottomCurveShape) {
+
+	// partiallyrotatedseatbottomcurveshapeFrom has already been copied
+	if _partiallyrotatedseatbottomcurveshapeTo, ok := mapOrigCopy[partiallyrotatedseatbottomcurveshapeFrom]; ok {
+		partiallyrotatedseatbottomcurveshapeTo = _partiallyrotatedseatbottomcurveshapeTo.(*PartiallyRotatedSeatBottomCurveShape)
+		return
+	}
+
+	partiallyrotatedseatbottomcurveshapeTo = new(PartiallyRotatedSeatBottomCurveShape)
+	mapOrigCopy[partiallyrotatedseatbottomcurveshapeFrom] = partiallyrotatedseatbottomcurveshapeTo
+	partiallyrotatedseatbottomcurveshapeFrom.CopyBasicFields(partiallyrotatedseatbottomcurveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPartiallyRotatedSeatTopCurveShape(mapOrigCopy map[any]any, partiallyrotatedseattopcurveshapeFrom *PartiallyRotatedSeatTopCurveShape) (partiallyrotatedseattopcurveshapeTo *PartiallyRotatedSeatTopCurveShape) {
 
 	// partiallyrotatedseattopcurveshapeFrom has already been copied
@@ -5375,6 +5464,25 @@ func CopyBranchSampledPoints3DShape(mapOrigCopy map[any]any, sampledpoints3dshap
 	sampledpoints3dshapeTo = new(SampledPoints3DShape)
 	mapOrigCopy[sampledpoints3dshapeFrom] = sampledpoints3dshapeTo
 	sampledpoints3dshapeFrom.CopyBasicFields(sampledpoints3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSeatBottomCurveShape(mapOrigCopy map[any]any, seatbottomcurveshapeFrom *SeatBottomCurveShape) (seatbottomcurveshapeTo *SeatBottomCurveShape) {
+
+	// seatbottomcurveshapeFrom has already been copied
+	if _seatbottomcurveshapeTo, ok := mapOrigCopy[seatbottomcurveshapeFrom]; ok {
+		seatbottomcurveshapeTo = _seatbottomcurveshapeTo.(*SeatBottomCurveShape)
+		return
+	}
+
+	seatbottomcurveshapeTo = new(SeatBottomCurveShape)
+	mapOrigCopy[seatbottomcurveshapeFrom] = seatbottomcurveshapeTo
+	seatbottomcurveshapeFrom.CopyBasicFields(seatbottomcurveshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6691,6 +6799,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(target)
 
+	case *PartiallyRotatedSeatBottomCurveShape:
+		stage.UnstageBranchPartiallyRotatedSeatBottomCurveShape(target)
+
 	case *PartiallyRotatedSeatTopCurveShape:
 		stage.UnstageBranchPartiallyRotatedSeatTopCurveShape(target)
 
@@ -6741,6 +6852,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *SampledPoints3DShape:
 		stage.UnstageBranchSampledPoints3DShape(target)
+
+	case *SeatBottomCurveShape:
+		stage.UnstageBranchSeatBottomCurveShape(target)
 
 	case *SeatTopCurveShape:
 		stage.UnstageBranchSeatTopCurveShape(target)
@@ -7552,6 +7666,21 @@ func (stage *Stage) UnstageBranchPartiallyGrowthCurve2DTrajectoryShape(partially
 
 }
 
+func (stage *Stage) UnstageBranchPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partiallyrotatedseatbottomcurveshape) {
+		return
+	}
+
+	partiallyrotatedseatbottomcurveshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) {
 
 	// check if instance is already staged
@@ -7815,6 +7944,21 @@ func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *Samp
 	}
 
 	sampledpoints3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, seatbottomcurveshape) {
+		return
+	}
+
+	seatbottomcurveshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -8969,6 +9113,11 @@ func (reference *PartiallyGrowthCurve2DTrajectoryShape) GongReconstructPointersF
 	// insertion point for slice of pointers field
 }
 
+func (reference *PartiallyRotatedSeatBottomCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyRotatedSeatBottomCurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *PartiallyRotatedSeatTopCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartiallyRotatedSeatTopCurveShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9066,6 +9215,11 @@ func (reference *RotatedRhombusShape) GongReconstructPointersFromReferences(stag
 }
 
 func (reference *SampledPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *SampledPoints3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *SeatBottomCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *SeatBottomCurveShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -9613,6 +9767,11 @@ func (reference *PartiallyGrowthCurve2DTrajectoryShape) GongReconstructPointersF
 	// insertion point for slice of pointers fields
 }
 
+func (reference *PartiallyRotatedSeatBottomCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *PartiallyRotatedSeatTopCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -9725,6 +9884,11 @@ func (reference *RotatedRhombusShape) GongReconstructPointersFromInstances(stage
 }
 
 func (reference *SampledPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *SeatBottomCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -11013,6 +11177,17 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongDiff(stage *Stage, partiallyrotatedseatbottomcurveshapeOther *PartiallyRotatedSeatBottomCurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if partiallyrotatedseatbottomcurveshape.Name != partiallyrotatedseatbottomcurveshapeOther.Name {
+		diffs = append(diffs, partiallyrotatedseatbottomcurveshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongDiff(stage *Stage, partiallyrotatedseattopcurveshapeOther *PartiallyRotatedSeatTopCurveShape) (diffs []string) {
 	// insertion point for field diffs
 	if partiallyrotatedseattopcurveshape.Name != partiallyrotatedseattopcurveshapeOther.Name {
@@ -11425,6 +11600,17 @@ func (sampledpoints3dshape *SampledPoints3DShape) GongDiff(stage *Stage, sampled
 	// insertion point for field diffs
 	if sampledpoints3dshape.Name != sampledpoints3dshapeOther.Name {
 		diffs = append(diffs, sampledpoints3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (seatbottomcurveshape *SeatBottomCurveShape) GongDiff(stage *Stage, seatbottomcurveshapeOther *SeatBottomCurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if seatbottomcurveshape.Name != seatbottomcurveshapeOther.Name {
+		diffs = append(diffs, seatbottomcurveshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -12654,6 +12840,12 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	}
 	if stooldiagram.IsHiddenRotatedSeatTopCurveShape != stooldiagramOther.IsHiddenRotatedSeatTopCurveShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatTopCurveShape"))
+	}
+	if stooldiagram.IsHiddenSeatBottomCurveShape != stooldiagramOther.IsHiddenSeatBottomCurveShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSeatBottomCurveShape"))
+	}
+	if stooldiagram.IsHiddenRotatedSeatBottomCurveShape != stooldiagramOther.IsHiddenRotatedSeatBottomCurveShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatBottomCurveShape"))
 	}
 	if stooldiagram.IsHiddenTorus3DShape != stooldiagramOther.IsHiddenTorus3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))

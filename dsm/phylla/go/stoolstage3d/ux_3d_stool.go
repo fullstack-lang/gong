@@ -424,7 +424,125 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			canvas.Meshs = append(canvas.Meshs, rotStMesh)
 		}
 
-		// 10. Add 3D Sampled Points visualization if toggled on
+		seatThickness := plant.StoolAbstract.RelativeSeatThickness * plant.RhombusSideLength
+		seatBottomHeight := stoolTopHeight - seatThickness
+
+		// 10. Seat Bottom 2D Projected Curve on the horizontal stool seat bottom plane (from Base Torus)
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSeatBottomCurveShape {
+			seatBottomCurve := (&threejs.Curve{
+				Name: "Stool Seat Bottom Curve",
+			}).Stage(stool3dStage)
+
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + baseThetaOffset
+
+					ptY := pt.Y + torusHeight
+					deltaY := seatBottomHeight - ptY
+					rProj := r + deltaY*math.Tan(projAngleRad)
+
+					seatBottomCurve.Points = append(seatBottomCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Seat Bottom Point k%d %.1f", k, newTheta*180.0/math.Pi),
+						X:    rProj * math.Cos(newTheta),
+						Y:    seatBottomHeight,
+						Z:    rProj * math.Sin(newTheta),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			numSegments := len(seatBottomCurve.Points)
+			if numSegments < 2 {
+				numSegments = 2
+			}
+
+			sbGeom := (&threejs.TubeGeometry{
+				Name:            "Stool Seat Bottom TubeGeom",
+				Path:            seatBottomCurve,
+				TubularSegments: numSegments,
+				Radius:          tubeRadius,
+				RadialSegments:  16,
+				Closed:          true,
+			}).Stage(stool3dStage)
+
+			sbMesh := (&threejs.Mesh{
+				Name:         "Stool Seat Bottom Mesh",
+				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				TubeGeometry: sbGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:                 "Stool Seat Bottom Material",
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "dodgerblue"},
+					Transparent:          true,
+					Opacity:              opacity,
+				}).Stage(stool3dStage),
+			}).Stage(stool3dStage)
+
+			canvas.Meshs = append(canvas.Meshs, sbMesh)
+		}
+
+		// 11. Rotated Seat Bottom 2D Projected Curve (from Partially Rotated Torus)
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatBottomCurveShape {
+			rotSeatBottomCurve := (&threejs.Curve{
+				Name: "Stool Rotated Seat Bottom Curve",
+			}).Stage(stool3dStage)
+
+			thetaOffset := growthVectorX / globalR
+
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+				totalThetaOffset := baseThetaOffset + thetaOffset
+
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + totalThetaOffset
+
+					ptY := pt.Y + growthVectorY + torusHeight
+					deltaY := seatBottomHeight - ptY
+					rProj := r + deltaY*math.Tan(projAngleRad)
+
+					rotSeatBottomCurve.Points = append(rotSeatBottomCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Rotated Seat Bottom Point k%d %.1f", k, newTheta*180.0/math.Pi),
+						X:    rProj * math.Cos(newTheta),
+						Y:    seatBottomHeight,
+						Z:    rProj * math.Sin(newTheta),
+					}).Stage(stool3dStage))
+				}
+			}
+
+			numSegments := len(rotSeatBottomCurve.Points)
+			if numSegments < 2 {
+				numSegments = 2
+			}
+
+			rotSbGeom := (&threejs.TubeGeometry{
+				Name:            "Stool Rotated Seat Bottom TubeGeom",
+				Path:            rotSeatBottomCurve,
+				TubularSegments: numSegments,
+				Radius:          tubeRadius,
+				RadialSegments:  16,
+				Closed:          true,
+			}).Stage(stool3dStage)
+
+			rotSbMesh := (&threejs.Mesh{
+				Name:         "Stool Rotated Seat Bottom Mesh",
+				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+				TubeGeometry: rotSbGeom,
+				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+					Name:                 "Stool Rotated Seat Bottom Material",
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "coral"},
+					Transparent:          true,
+					Opacity:              opacity,
+				}).Stage(stool3dStage),
+			}).Stage(stool3dStage)
+
+			canvas.Meshs = append(canvas.Meshs, rotSbMesh)
+		}
+
+		// 12. Add 3D Sampled Points visualization if toggled on
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
 			numPointsPerRep := len(resampledBaseCurve.Points)
 			var basePoints []*threejs.Vector3

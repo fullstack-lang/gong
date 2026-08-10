@@ -907,6 +907,17 @@ func (from *PartiallyGrowthCurve2DTrajectoryShape) CopyBasicFields(to *Partially
 	to.EndY = from.EndY
 }
 
+type PartiallyRotatedSeatBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyRotatedSeatBottomCurveShape) CopyBasicFields(to *PartiallyRotatedSeatBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PartiallyRotatedSeatTopCurveShape_WOP struct {
 	// insertion point
 
@@ -1273,6 +1284,17 @@ type SampledPoints3DShape_WOP struct {
 }
 
 func (from *SampledPoints3DShape) CopyBasicFields(to *SampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type SeatBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SeatBottomCurveShape) CopyBasicFields(to *SeatBottomCurveShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -2498,6 +2520,10 @@ type StoolDiagram_WOP struct {
 
 	IsHiddenRotatedSeatTopCurveShape bool
 
+	IsHiddenSeatBottomCurveShape bool
+
+	IsHiddenRotatedSeatBottomCurveShape bool
+
 	IsHiddenTorus3DShape bool
 
 	IsHiddenRotatedTorusShape bool
@@ -2510,6 +2536,8 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.Name = from.Name
 	to.IsHiddenSeatTopCurveShape = from.IsHiddenSeatTopCurveShape
 	to.IsHiddenRotatedSeatTopCurveShape = from.IsHiddenRotatedSeatTopCurveShape
+	to.IsHiddenSeatBottomCurveShape = from.IsHiddenSeatBottomCurveShape
+	to.IsHiddenRotatedSeatBottomCurveShape = from.IsHiddenRotatedSeatBottomCurveShape
 	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
 	to.IsHiddenRotatedTorusShape = from.IsHiddenRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape

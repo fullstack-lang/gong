@@ -4937,6 +4937,84 @@ func (partiallygrowthcurve2dtrajectoryshapeFormCallback *PartiallyGrowthCurve2DT
 
 	partiallygrowthcurve2dtrajectoryshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__PartiallyRotatedSeatBottomCurveShapeFormCallback(
+	partiallyrotatedseatbottomcurveshape *models.PartiallyRotatedSeatBottomCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partiallyrotatedseatbottomcurveshapeFormCallback *PartiallyRotatedSeatBottomCurveShapeFormCallback) {
+	partiallyrotatedseatbottomcurveshapeFormCallback = new(PartiallyRotatedSeatBottomCurveShapeFormCallback)
+	partiallyrotatedseatbottomcurveshapeFormCallback.probe = probe
+	partiallyrotatedseatbottomcurveshapeFormCallback.partiallyrotatedseatbottomcurveshape = partiallyrotatedseatbottomcurveshape
+	partiallyrotatedseatbottomcurveshapeFormCallback.formGroup = formGroup
+
+	partiallyrotatedseatbottomcurveshapeFormCallback.CreationMode = (partiallyrotatedseatbottomcurveshape == nil)
+
+	return
+}
+
+type PartiallyRotatedSeatBottomCurveShapeFormCallback struct {
+	partiallyrotatedseatbottomcurveshape *models.PartiallyRotatedSeatBottomCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partiallyrotatedseatbottomcurveshapeFormCallback *PartiallyRotatedSeatBottomCurveShapeFormCallback) OnSave() {
+	partiallyrotatedseatbottomcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partiallyrotatedseatbottomcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartiallyRotatedSeatBottomCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partiallyrotatedseatbottomcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if partiallyrotatedseatbottomcurveshapeFormCallback.partiallyrotatedseatbottomcurveshape == nil {
+		partiallyrotatedseatbottomcurveshapeFormCallback.partiallyrotatedseatbottomcurveshape = new(models.PartiallyRotatedSeatBottomCurveShape).Stage(partiallyrotatedseatbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	partiallyrotatedseatbottomcurveshape_ := partiallyrotatedseatbottomcurveshapeFormCallback.partiallyrotatedseatbottomcurveshape
+	_ = partiallyrotatedseatbottomcurveshape_
+
+	for _, formDiv := range partiallyrotatedseatbottomcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partiallyrotatedseatbottomcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if partiallyrotatedseatbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallyrotatedseatbottomcurveshape_.Unstage(partiallyrotatedseatbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	partiallyrotatedseatbottomcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartiallyRotatedSeatBottomCurveShape](
+		partiallyrotatedseatbottomcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partiallyrotatedseatbottomcurveshapeFormCallback.CreationMode || partiallyrotatedseatbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partiallyrotatedseatbottomcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partiallyrotatedseatbottomcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartiallyRotatedSeatBottomCurveShapeFormCallback(
+			nil,
+			partiallyrotatedseatbottomcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		partiallyrotatedseatbottomcurveshape := new(models.PartiallyRotatedSeatBottomCurveShape)
+		FillUpForm(partiallyrotatedseatbottomcurveshape, newFormGroup, partiallyrotatedseatbottomcurveshapeFormCallback.probe)
+		partiallyrotatedseatbottomcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	partiallyrotatedseatbottomcurveshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PartiallyRotatedSeatTopCurveShapeFormCallback(
 	partiallyrotatedseattopcurveshape *models.PartiallyRotatedSeatTopCurveShape,
 	probe *Probe,
@@ -6787,6 +6865,84 @@ func (sampledpoints3dshapeFormCallback *SampledPoints3DShapeFormCallback) OnSave
 	}
 
 	sampledpoints3dshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__SeatBottomCurveShapeFormCallback(
+	seatbottomcurveshape *models.SeatBottomCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (seatbottomcurveshapeFormCallback *SeatBottomCurveShapeFormCallback) {
+	seatbottomcurveshapeFormCallback = new(SeatBottomCurveShapeFormCallback)
+	seatbottomcurveshapeFormCallback.probe = probe
+	seatbottomcurveshapeFormCallback.seatbottomcurveshape = seatbottomcurveshape
+	seatbottomcurveshapeFormCallback.formGroup = formGroup
+
+	seatbottomcurveshapeFormCallback.CreationMode = (seatbottomcurveshape == nil)
+
+	return
+}
+
+type SeatBottomCurveShapeFormCallback struct {
+	seatbottomcurveshape *models.SeatBottomCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (seatbottomcurveshapeFormCallback *SeatBottomCurveShapeFormCallback) OnSave() {
+	seatbottomcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer seatbottomcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SeatBottomCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	seatbottomcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if seatbottomcurveshapeFormCallback.seatbottomcurveshape == nil {
+		seatbottomcurveshapeFormCallback.seatbottomcurveshape = new(models.SeatBottomCurveShape).Stage(seatbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	seatbottomcurveshape_ := seatbottomcurveshapeFormCallback.seatbottomcurveshape
+	_ = seatbottomcurveshape_
+
+	for _, formDiv := range seatbottomcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(seatbottomcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if seatbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		seatbottomcurveshape_.Unstage(seatbottomcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	seatbottomcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SeatBottomCurveShape](
+		seatbottomcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if seatbottomcurveshapeFormCallback.CreationMode || seatbottomcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		seatbottomcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(seatbottomcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SeatBottomCurveShapeFormCallback(
+			nil,
+			seatbottomcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		seatbottomcurveshape := new(models.SeatBottomCurveShape)
+		FillUpForm(seatbottomcurveshape, newFormGroup, seatbottomcurveshapeFormCallback.probe)
+		seatbottomcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	seatbottomcurveshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__SeatTopCurveShapeFormCallback(
 	seattopcurveshape *models.SeatTopCurveShape,
@@ -11735,6 +11891,14 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatTopCurveShape), formDiv)
 		case "RotatedSeatTopCurveShape":
 			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSeatBottomCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatBottomCurveShape), formDiv)
+		case "SeatBottomCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.SeatBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSeatBottomCurveShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatBottomCurveShape), formDiv)
+		case "RotatedSeatBottomCurveShape":
+			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHiddenTorus3DShape":
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTorus3DShape), formDiv)
 		case "Torus3DShape":

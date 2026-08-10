@@ -1,6 +1,6 @@
-# 1. Try in your browser
+# 1. Try Domain Specific Modelling (DSM) in your browser
 
-## System Engineering DSM
+## System Engineering
 
 - [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip))
 - [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip))
@@ -10,7 +10,7 @@
 - [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/project-app-portable.zip))
 - [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip))
 
-## Technical DSM
+## Technical
 
 - [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip))
 
@@ -26,11 +26,11 @@ Gong is a framework for lowering the effort for developping Domain Specific Mode
 A DSM is an application that allows a users to edit data and diagrams.
 The data is based on the abstract syntax of the Domain Specific Language (DSL). The diagrams are based on the concrete syntax of the DSL.
 
-General Purpose Modeling Languages (GPML) like UML or SysML are standards with hundreds of elements in their abstract and concrete syntax. However, tailoring them to a specific domain often involves subsetting—ignoring the majority of the standard to focus on a narrow slice — and profiling (stereotypes) to bend generic concepts to specific needs.
+You can do DSM with General Purpose Modeling Languages (GPML) like UML or SysML that are standards with hundreds of elements in their abstract and concrete syntax. However, tailoring them to a specific domain often involves subsetting—ignoring the majority of the standard to focus on a narrow slice — and profiling (stereotypes) to bend generic concepts to specific needs.
 
-Gong allows you to grow your DSM from a General Purpose Programming Language (GPPL), e.g. go. You start with an empty metamodel or an existing small metamodel close to your need and progressively introduce abstract and concrete syntax elements only as your understanding of the domain matures. 
+Gong allows you to grow your DSM from a General Purpose Programming Language (GPPL), e.g. go. You start with a reference domain specific model (like Structure or Project). Then, you introduce abstract and concrete syntax elements as your understanding of the domain matures. 
 
-Developing a robust DSM remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
+Developing a robust DSM remains a complex task that requires familiarity with standard modeling patterns. Gong aims to democratize the development part of this process.
 
 # 3. A "hello world" Domain Specific Modeling (DSM) application
 

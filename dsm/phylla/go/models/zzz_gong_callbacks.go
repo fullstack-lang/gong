@@ -170,6 +170,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *PartiallyRotatedSeatBottomCurveShape:
+		if stage.OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback != nil {
+			stage.OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PartiallyRotatedSeatTopCurveShape:
 		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback != nil {
 			stage.OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback.OnAfterCreate(stage, target)
@@ -237,6 +241,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *SampledPoints3DShape:
 		if stage.OnAfterSampledPoints3DShapeCreateCallback != nil {
 			stage.OnAfterSampledPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *SeatBottomCurveShape:
+		if stage.OnAfterSeatBottomCurveShapeCreateCallback != nil {
+			stage.OnAfterSeatBottomCurveShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *SeatTopCurveShape:
 		if stage.OnAfterSeatTopCurveShapeCreateCallback != nil {
@@ -701,6 +709,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *PartiallyRotatedSeatBottomCurveShape:
+		newTarget := any(new).(*PartiallyRotatedSeatBottomCurveShape)
+		if stage.OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback != nil {
+			stage.OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *PartiallyRotatedSeatTopCurveShape:
 		newTarget := any(new).(*PartiallyRotatedSeatTopCurveShape)
 		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback != nil {
@@ -785,6 +798,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*SampledPoints3DShape)
 		if stage.OnAfterSampledPoints3DShapeUpdateCallback != nil {
 			stage.OnAfterSampledPoints3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *SeatBottomCurveShape:
+		newTarget := any(new).(*SeatBottomCurveShape)
+		if stage.OnAfterSeatBottomCurveShapeUpdateCallback != nil {
+			stage.OnAfterSeatBottomCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *SeatTopCurveShape:
 		newTarget := any(new).(*SeatTopCurveShape)
@@ -1306,6 +1324,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*PartiallyGrowthCurve2DTrajectoryShape)
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *PartiallyRotatedSeatBottomCurveShape:
+		if stage.OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback != nil {
+			staged := any(staged).(*PartiallyRotatedSeatBottomCurveShape)
+			stage.OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PartiallyRotatedSeatTopCurveShape:
 		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback != nil {
 			staged := any(staged).(*PartiallyRotatedSeatTopCurveShape)
@@ -1390,6 +1413,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterSampledPoints3DShapeDeleteCallback != nil {
 			staged := any(staged).(*SampledPoints3DShape)
 			stage.OnAfterSampledPoints3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *SeatBottomCurveShape:
+		if stage.OnAfterSeatBottomCurveShapeDeleteCallback != nil {
+			staged := any(staged).(*SeatBottomCurveShape)
+			stage.OnAfterSeatBottomCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *SeatTopCurveShape:
 		if stage.OnAfterSeatTopCurveShapeDeleteCallback != nil {
@@ -1870,6 +1898,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback != nil {
 			stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *PartiallyRotatedSeatBottomCurveShape:
+		if stage.OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback != nil {
+			stage.OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *PartiallyRotatedSeatTopCurveShape:
 		if stage.OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback != nil {
 			stage.OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback.OnAfterRead(stage, target)
@@ -1937,6 +1969,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *SampledPoints3DShape:
 		if stage.OnAfterSampledPoints3DShapeReadCallback != nil {
 			stage.OnAfterSampledPoints3DShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *SeatBottomCurveShape:
+		if stage.OnAfterSeatBottomCurveShapeReadCallback != nil {
+			stage.OnAfterSeatBottomCurveShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *SeatTopCurveShape:
 		if stage.OnAfterSeatTopCurveShapeReadCallback != nil {
@@ -2275,6 +2311,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatBottomCurveShape:
+		stage.OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyRotatedSeatBottomCurveShape])
 	case *PartiallyRotatedSeatTopCurveShape:
 		stage.OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
@@ -2309,6 +2347,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SampledPoints3DShape])
+	case *SeatBottomCurveShape:
+		stage.OnAfterSeatBottomCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
 		stage.OnAfterSeatTopCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SeatTopCurveShape])
 	case *ShiftedBottomTopStartArcShape:
@@ -2520,6 +2560,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatBottomCurveShape:
+		stage.OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyRotatedSeatBottomCurveShape])
 	case *PartiallyRotatedSeatTopCurveShape:
 		stage.OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
@@ -2554,6 +2596,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[SampledPoints3DShape])
+	case *SeatBottomCurveShape:
+		stage.OnAfterSeatBottomCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
 		stage.OnAfterSeatTopCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[SeatTopCurveShape])
 	case *ShiftedBottomTopStartArcShape:
@@ -2765,6 +2809,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatBottomCurveShape:
+		stage.OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyRotatedSeatBottomCurveShape])
 	case *PartiallyRotatedSeatTopCurveShape:
 		stage.OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
@@ -2799,6 +2845,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SampledPoints3DShape])
+	case *SeatBottomCurveShape:
+		stage.OnAfterSeatBottomCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
 		stage.OnAfterSeatTopCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SeatTopCurveShape])
 	case *ShiftedBottomTopStartArcShape:
@@ -3010,6 +3058,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryP2PointShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryP2PointShape])
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		stage.OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape])
+	case *PartiallyRotatedSeatBottomCurveShape:
+		stage.OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyRotatedSeatBottomCurveShape])
 	case *PartiallyRotatedSeatTopCurveShape:
 		stage.OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback = any(callback).(OnAfterReadInterface[PartiallyRotatedSeatTopCurveShape])
 	case *PartiallyRotatedTorusShape:
@@ -3044,6 +3094,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRotatedRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[SampledPoints3DShape])
+	case *SeatBottomCurveShape:
+		stage.OnAfterSeatBottomCurveShapeReadCallback = any(callback).(OnAfterReadInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
 		stage.OnAfterSeatTopCurveShapeReadCallback = any(callback).(OnAfterReadInterface[SeatTopCurveShape])
 	case *ShiftedBottomTopStartArcShape:

@@ -944,6 +944,16 @@ func FillUpForm(
 				})
 		}
 
+	case *models.PartiallyRotatedSeatBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.PartiallyRotatedSeatTopCurveShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1309,6 +1319,16 @@ func FillUpForm(
 		}
 
 	case *models.SampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.SeatBottomCurveShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -2472,6 +2492,12 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenRotatedSeatTopCurveShape", instanceWithInferedType.IsHiddenRotatedSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("RotatedSeatTopCurveShape", instanceWithInferedType.RotatedSeatTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSeatBottomCurveShape", instanceWithInferedType.IsHiddenSeatBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SeatBottomCurveShape", instanceWithInferedType.SeatBottomCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedSeatBottomCurveShape", instanceWithInferedType.IsHiddenRotatedSeatBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedSeatBottomCurveShape", instanceWithInferedType.RotatedSeatBottomCurveShape, formGroup, probe)
 		BasicFieldtoForm("IsHiddenTorus3DShape", instanceWithInferedType.IsHiddenTorus3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Torus3DShape", instanceWithInferedType.Torus3DShape, formGroup, probe)
