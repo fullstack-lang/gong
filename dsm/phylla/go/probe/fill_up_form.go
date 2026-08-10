@@ -321,6 +321,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.EyeVolume3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.GridPathShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2604,6 +2614,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenSeat3DShape", instanceWithInferedType.IsHiddenSeat3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Seat3DShape", instanceWithInferedType.Seat3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeVolume3DShape", instanceWithInferedType.IsHiddenEyeVolume3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeVolume3DShape", instanceWithInferedType.EyeVolume3DShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

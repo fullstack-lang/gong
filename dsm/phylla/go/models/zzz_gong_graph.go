@@ -61,6 +61,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *EyeStoolBottomCurveShape:
 		ok = stage.IsStagedEyeStoolBottomCurveShape(target)
 
+	case *EyeVolume3DShape:
+		ok = stage.IsStagedEyeVolume3DShape(target)
+
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
 
@@ -454,6 +457,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *EyeStoolBottomCurveShape:
 		ok = stage.IsStagedEyeStoolBottomCurveShape(target)
+
+	case *EyeVolume3DShape:
+		ok = stage.IsStagedEyeVolume3DShape(target)
 
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
@@ -914,6 +920,13 @@ func (stage *Stage) IsStagedEyeSeatBottomCurveShape(eyeseatbottomcurveshape *Eye
 func (stage *Stage) IsStagedEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape) (ok bool) {
 
 	_, ok = stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) (ok bool) {
+
+	_, ok = stage.EyeVolume3DShapes[eyevolume3dshape]
 
 	return
 }
@@ -1750,6 +1763,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *EyeStoolBottomCurveShape:
 		stage.StageBranchEyeStoolBottomCurveShape(target)
 
+	case *EyeVolume3DShape:
+		stage.StageBranchEyeVolume3DShape(target)
+
 	case *GridPathShape:
 		stage.StageBranchGridPathShape(target)
 
@@ -2349,6 +2365,21 @@ func (stage *Stage) StageBranchEyeStoolBottomCurveShape(eyestoolbottomcurveshape
 	}
 
 	eyestoolbottomcurveshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, eyevolume3dshape) {
+		return
+	}
+
+	eyevolume3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -4128,6 +4159,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchEyeStoolBottomCurveShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *EyeVolume3DShape:
+		toT := CopyBranchEyeVolume3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *GridPathShape:
 		toT := CopyBranchGridPathShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4909,6 +4944,25 @@ func CopyBranchEyeStoolBottomCurveShape(mapOrigCopy map[any]any, eyestoolbottomc
 	eyestoolbottomcurveshapeTo = new(EyeStoolBottomCurveShape)
 	mapOrigCopy[eyestoolbottomcurveshapeFrom] = eyestoolbottomcurveshapeTo
 	eyestoolbottomcurveshapeFrom.CopyBasicFields(eyestoolbottomcurveshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchEyeVolume3DShape(mapOrigCopy map[any]any, eyevolume3dshapeFrom *EyeVolume3DShape) (eyevolume3dshapeTo *EyeVolume3DShape) {
+
+	// eyevolume3dshapeFrom has already been copied
+	if _eyevolume3dshapeTo, ok := mapOrigCopy[eyevolume3dshapeFrom]; ok {
+		eyevolume3dshapeTo = _eyevolume3dshapeTo.(*EyeVolume3DShape)
+		return
+	}
+
+	eyevolume3dshapeTo = new(EyeVolume3DShape)
+	mapOrigCopy[eyevolume3dshapeFrom] = eyevolume3dshapeTo
+	eyevolume3dshapeFrom.CopyBasicFields(eyevolume3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -7108,6 +7162,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *EyeStoolBottomCurveShape:
 		stage.UnstageBranchEyeStoolBottomCurveShape(target)
 
+	case *EyeVolume3DShape:
+		stage.UnstageBranchEyeVolume3DShape(target)
+
 	case *GridPathShape:
 		stage.UnstageBranchGridPathShape(target)
 
@@ -7707,6 +7764,21 @@ func (stage *Stage) UnstageBranchEyeStoolBottomCurveShape(eyestoolbottomcurvesha
 	}
 
 	eyestoolbottomcurveshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, eyevolume3dshape) {
+		return
+	}
+
+	eyevolume3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9494,6 +9566,11 @@ func (reference *EyeStoolBottomCurveShape) GongReconstructPointersFromReferences
 	// insertion point for slice of pointers field
 }
 
+func (reference *EyeVolume3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *EyeVolume3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *GridPathShape) GongReconstructPointersFromReferences(stage *Stage, instance *GridPathShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -10173,6 +10250,11 @@ func (reference *EyeSeatBottomCurveShape) GongReconstructPointersFromInstances(s
 }
 
 func (reference *EyeStoolBottomCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *EyeVolume3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -11116,6 +11198,17 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongDiff(stage *Stage,
 	// insertion point for field diffs
 	if eyestoolbottomcurveshape.Name != eyestoolbottomcurveshapeOther.Name {
 		diffs = append(diffs, eyestoolbottomcurveshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (eyevolume3dshape *EyeVolume3DShape) GongDiff(stage *Stage, eyevolume3dshapeOther *EyeVolume3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if eyevolume3dshape.Name != eyevolume3dshapeOther.Name {
+		diffs = append(diffs, eyevolume3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -13543,6 +13636,9 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	}
 	if stooldiagram.IsHiddenSeat3DShape != stooldiagramOther.IsHiddenSeat3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSeat3DShape"))
+	}
+	if stooldiagram.IsHiddenEyeVolume3DShape != stooldiagramOther.IsHiddenEyeVolume3DShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEyeVolume3DShape"))
 	}
 	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))

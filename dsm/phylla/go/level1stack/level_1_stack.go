@@ -138,6 +138,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.EyeSampledPoints3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.EyeSeatBottomCurveShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.EyeStoolBottomCurveShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.EyeVolume3DShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GridPathShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GrowthCurve2D](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GrowthCurve2DRibbon](stage)

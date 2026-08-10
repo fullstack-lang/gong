@@ -1807,6 +1807,84 @@ func (eyestoolbottomcurveshapeFormCallback *EyeStoolBottomCurveShapeFormCallback
 
 	eyestoolbottomcurveshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__EyeVolume3DShapeFormCallback(
+	eyevolume3dshape *models.EyeVolume3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (eyevolume3dshapeFormCallback *EyeVolume3DShapeFormCallback) {
+	eyevolume3dshapeFormCallback = new(EyeVolume3DShapeFormCallback)
+	eyevolume3dshapeFormCallback.probe = probe
+	eyevolume3dshapeFormCallback.eyevolume3dshape = eyevolume3dshape
+	eyevolume3dshapeFormCallback.formGroup = formGroup
+
+	eyevolume3dshapeFormCallback.CreationMode = (eyevolume3dshape == nil)
+
+	return
+}
+
+type EyeVolume3DShapeFormCallback struct {
+	eyevolume3dshape *models.EyeVolume3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (eyevolume3dshapeFormCallback *EyeVolume3DShapeFormCallback) OnSave() {
+	eyevolume3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer eyevolume3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("EyeVolume3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	eyevolume3dshapeFormCallback.probe.formStage.Checkout()
+
+	if eyevolume3dshapeFormCallback.eyevolume3dshape == nil {
+		eyevolume3dshapeFormCallback.eyevolume3dshape = new(models.EyeVolume3DShape).Stage(eyevolume3dshapeFormCallback.probe.stageOfInterest)
+	}
+	eyevolume3dshape_ := eyevolume3dshapeFormCallback.eyevolume3dshape
+	_ = eyevolume3dshape_
+
+	for _, formDiv := range eyevolume3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(eyevolume3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if eyevolume3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyevolume3dshape_.Unstage(eyevolume3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	eyevolume3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.EyeVolume3DShape](
+		eyevolume3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if eyevolume3dshapeFormCallback.CreationMode || eyevolume3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		eyevolume3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(eyevolume3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__EyeVolume3DShapeFormCallback(
+			nil,
+			eyevolume3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		eyevolume3dshape := new(models.EyeVolume3DShape)
+		FillUpForm(eyevolume3dshape, newFormGroup, eyevolume3dshapeFormCallback.probe)
+		eyevolume3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	eyevolume3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__GridPathShapeFormCallback(
 	gridpathshape *models.GridPathShape,
 	probe *Probe,
@@ -12491,6 +12569,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeat3DShape), formDiv)
 		case "Seat3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Seat3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeVolume3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeVolume3DShape), formDiv)
+		case "EyeVolume3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.EyeVolume3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}

@@ -123,6 +123,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.eyestoolbottomcurveshape, probe)
 			}
+		case *EyeVolume3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "EyeVolume3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.eyevolume3dshape, probe)
+			}
 		case *GridPathShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "GridPathShape", true)
@@ -1039,6 +1045,19 @@ func FillUpFormFromGongstructName(
 		eyestoolbottomcurveshape := new(models.EyeStoolBottomCurveShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(eyestoolbottomcurveshape, formGroup, probe)
+	case "EyeVolume3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "EyeVolume3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EyeVolume3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		eyevolume3dshape := new(models.EyeVolume3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(eyevolume3dshape, formGroup, probe)
 	case "GridPathShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
