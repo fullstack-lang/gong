@@ -31334,6 +31334,10 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "RelativeEyeSeparationCriteria",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "RelativeEyeCornerControlVectorStrength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -35998,6 +36002,10 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria)
 		res.valueFloat = stoolabstract.RelativeEyeSeparationCriteria
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeEyeCornerControlVectorStrength":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength)
+		res.valueFloat = stoolabstract.RelativeEyeCornerControlVectorStrength
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -40211,6 +40219,8 @@ func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value Go
 		stoolabstract.ProjectionAngle = value.GetValueFloat()
 	case "RelativeEyeSeparationCriteria":
 		stoolabstract.RelativeEyeSeparationCriteria = value.GetValueFloat()
+	case "RelativeEyeCornerControlVectorStrength":
+		stoolabstract.RelativeEyeCornerControlVectorStrength = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

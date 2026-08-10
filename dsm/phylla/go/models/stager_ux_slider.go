@@ -515,6 +515,18 @@ func (stager *Stager) ux_slider_stool() {
 		),
 	)
 
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Rel Eye Corner Strength",
+			0.0,
+			2.0,
+			0.01,
+			&plant.StoolAbstract.RelativeEyeCornerControlVectorStrength,
+		),
+	)
+
 	stager.sliderStoolStage.Commit()
 }
 

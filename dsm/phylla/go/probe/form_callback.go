@@ -12041,6 +12041,8 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stoolabstract_.ProjectionAngle), formDiv)
 		case "RelativeEyeSeparationCriteria":
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeEyeSeparationCriteria), formDiv)
+		case "RelativeEyeCornerControlVectorStrength":
+			FormDivBasicFieldToField(&(stoolabstract_.RelativeEyeCornerControlVectorStrength), formDiv)
 		}
 	}
 

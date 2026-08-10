@@ -2532,6 +2532,8 @@ type StoolAbstract_WOP struct {
 	ProjectionAngle float64
 
 	RelativeEyeSeparationCriteria float64
+
+	RelativeEyeCornerControlVectorStrength float64
 }
 
 func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
@@ -2545,6 +2547,7 @@ func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	to.RelativeSeatThickness = from.RelativeSeatThickness
 	to.ProjectionAngle = from.ProjectionAngle
 	to.RelativeEyeSeparationCriteria = from.RelativeEyeSeparationCriteria
+	to.RelativeEyeCornerControlVectorStrength = from.RelativeEyeCornerControlVectorStrength
 }
 
 type StoolDiagram_WOP struct {

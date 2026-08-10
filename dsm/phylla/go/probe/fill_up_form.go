@@ -2508,6 +2508,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeEyeSeparationCriteria", instanceWithInferedType.RelativeEyeSeparationCriteria, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeEyeCornerControlVectorStrength", instanceWithInferedType.RelativeEyeCornerControlVectorStrength, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

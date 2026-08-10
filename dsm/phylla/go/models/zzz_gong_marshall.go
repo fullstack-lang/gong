@@ -555,6 +555,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
 
 	stooldiagramOrdered := []*StoolDiagram{}
@@ -4850,6 +4851,11 @@ func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeSeparationCriteria")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria))
+	case "RelativeEyeCornerControlVectorStrength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeEyeCornerControlVectorStrength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StoolAbstract", fieldName)
@@ -7640,6 +7646,7 @@ func (stoolabstract *StoolAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeSeparationCriteria"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeEyeCornerControlVectorStrength"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -106,6 +106,9 @@ type StoolAbstract struct {
 
 	// Defines what are the points for the eye and those that are not
 	RelativeEyeSeparationCriteria float64
+
+	// Strength of the control vector at the eye corner connecting points (default 0.55)
+	RelativeEyeCornerControlVectorStrength float64
 }
 
 type VaseAbstract struct {
