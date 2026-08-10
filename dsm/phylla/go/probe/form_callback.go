@@ -7334,6 +7334,84 @@ func (rotatedsampledpoints3dshapeFormCallback *RotatedSampledPoints3DShapeFormCa
 
 	rotatedsampledpoints3dshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__RotatedSeatAndLegs3DShapeFormCallback(
+	rotatedseatandlegs3dshape *models.RotatedSeatAndLegs3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rotatedseatandlegs3dshapeFormCallback *RotatedSeatAndLegs3DShapeFormCallback) {
+	rotatedseatandlegs3dshapeFormCallback = new(RotatedSeatAndLegs3DShapeFormCallback)
+	rotatedseatandlegs3dshapeFormCallback.probe = probe
+	rotatedseatandlegs3dshapeFormCallback.rotatedseatandlegs3dshape = rotatedseatandlegs3dshape
+	rotatedseatandlegs3dshapeFormCallback.formGroup = formGroup
+
+	rotatedseatandlegs3dshapeFormCallback.CreationMode = (rotatedseatandlegs3dshape == nil)
+
+	return
+}
+
+type RotatedSeatAndLegs3DShapeFormCallback struct {
+	rotatedseatandlegs3dshape *models.RotatedSeatAndLegs3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rotatedseatandlegs3dshapeFormCallback *RotatedSeatAndLegs3DShapeFormCallback) OnSave() {
+	rotatedseatandlegs3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer rotatedseatandlegs3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RotatedSeatAndLegs3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rotatedseatandlegs3dshapeFormCallback.probe.formStage.Checkout()
+
+	if rotatedseatandlegs3dshapeFormCallback.rotatedseatandlegs3dshape == nil {
+		rotatedseatandlegs3dshapeFormCallback.rotatedseatandlegs3dshape = new(models.RotatedSeatAndLegs3DShape).Stage(rotatedseatandlegs3dshapeFormCallback.probe.stageOfInterest)
+	}
+	rotatedseatandlegs3dshape_ := rotatedseatandlegs3dshapeFormCallback.rotatedseatandlegs3dshape
+	_ = rotatedseatandlegs3dshape_
+
+	for _, formDiv := range rotatedseatandlegs3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rotatedseatandlegs3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if rotatedseatandlegs3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rotatedseatandlegs3dshape_.Unstage(rotatedseatandlegs3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	rotatedseatandlegs3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RotatedSeatAndLegs3DShape](
+		rotatedseatandlegs3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rotatedseatandlegs3dshapeFormCallback.CreationMode || rotatedseatandlegs3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rotatedseatandlegs3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rotatedseatandlegs3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RotatedSeatAndLegs3DShapeFormCallback(
+			nil,
+			rotatedseatandlegs3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		rotatedseatandlegs3dshape := new(models.RotatedSeatAndLegs3DShape)
+		FillUpForm(rotatedseatandlegs3dshape, newFormGroup, rotatedseatandlegs3dshapeFormCallback.probe)
+		rotatedseatandlegs3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	rotatedseatandlegs3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__SampledPoints3DShapeFormCallback(
 	sampledpoints3dshape *models.SampledPoints3DShape,
 	probe *Probe,
@@ -7489,6 +7567,84 @@ func (seat3dshapeFormCallback *Seat3DShapeFormCallback) OnSave() {
 	}
 
 	seat3dshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__SeatAndLegs3DShapeFormCallback(
+	seatandlegs3dshape *models.SeatAndLegs3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (seatandlegs3dshapeFormCallback *SeatAndLegs3DShapeFormCallback) {
+	seatandlegs3dshapeFormCallback = new(SeatAndLegs3DShapeFormCallback)
+	seatandlegs3dshapeFormCallback.probe = probe
+	seatandlegs3dshapeFormCallback.seatandlegs3dshape = seatandlegs3dshape
+	seatandlegs3dshapeFormCallback.formGroup = formGroup
+
+	seatandlegs3dshapeFormCallback.CreationMode = (seatandlegs3dshape == nil)
+
+	return
+}
+
+type SeatAndLegs3DShapeFormCallback struct {
+	seatandlegs3dshape *models.SeatAndLegs3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (seatandlegs3dshapeFormCallback *SeatAndLegs3DShapeFormCallback) OnSave() {
+	seatandlegs3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer seatandlegs3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SeatAndLegs3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	seatandlegs3dshapeFormCallback.probe.formStage.Checkout()
+
+	if seatandlegs3dshapeFormCallback.seatandlegs3dshape == nil {
+		seatandlegs3dshapeFormCallback.seatandlegs3dshape = new(models.SeatAndLegs3DShape).Stage(seatandlegs3dshapeFormCallback.probe.stageOfInterest)
+	}
+	seatandlegs3dshape_ := seatandlegs3dshapeFormCallback.seatandlegs3dshape
+	_ = seatandlegs3dshape_
+
+	for _, formDiv := range seatandlegs3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(seatandlegs3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if seatandlegs3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		seatandlegs3dshape_.Unstage(seatandlegs3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	seatandlegs3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SeatAndLegs3DShape](
+		seatandlegs3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if seatandlegs3dshapeFormCallback.CreationMode || seatandlegs3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		seatandlegs3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(seatandlegs3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SeatAndLegs3DShapeFormCallback(
+			nil,
+			seatandlegs3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		seatandlegs3dshape := new(models.SeatAndLegs3DShape)
+		FillUpForm(seatandlegs3dshape, newFormGroup, seatandlegs3dshapeFormCallback.probe)
+		seatandlegs3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	seatandlegs3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__SeatBottomCurveShapeFormCallback(
 	seatbottomcurveshape *models.SeatBottomCurveShape,
@@ -12573,6 +12729,14 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeVolume3DShape), formDiv)
 		case "EyeVolume3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.EyeVolume3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSeatAndLegs3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatAndLegs3DShape), formDiv)
+		case "SeatAndLegs3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.SeatAndLegs3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSeatAndLegs3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatAndLegs3DShape), formDiv)
+		case "RotatedSeatAndLegs3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatAndLegs3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}

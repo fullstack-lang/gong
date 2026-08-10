@@ -748,6 +748,15 @@ func (inst *RotatedSampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Sta
 	return
 }
 
+func (inst *RotatedSeatAndLegs3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *SampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -758,6 +767,15 @@ func (inst *SampledPoints3DShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 }
 
 func (inst *Seat3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *SeatAndLegs3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -2228,6 +2246,15 @@ func (inst *RotatedSampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, 
 	return res
 }
 
+func (inst *RotatedSeatAndLegs3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *SampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -2238,6 +2265,15 @@ func (inst *SampledPoints3DShape) GongGetReverseFieldOwner(stage *Stage, reverse
 }
 
 func (inst *Seat3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *SeatAndLegs3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

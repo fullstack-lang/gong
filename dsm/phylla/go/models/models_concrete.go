@@ -659,6 +659,18 @@ type EyeVolume3DShape struct {
 	Name string
 }
 
+// SeatAndLegs3DShape of a plant,
+// gong:omit
+type SeatAndLegs3DShape struct {
+	Name string
+}
+
+// RotatedSeatAndLegs3DShape of a plant,
+// gong:omit
+type RotatedSeatAndLegs3DShape struct {
+	Name string
+}
+
 // StackOfPartiallyRotatedTorusShape of a plant,
 // gong:omit
 type StackOfPartiallyRotatedTorusShape struct {

@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -1462.625524
-	__Rendered3DShape__00000002_.ViewY = 552.959918
-	__Rendered3DShape__00000002_.ViewZ = -195.575945
+	__Rendered3DShape__00000002_.ViewX = -1151.150666
+	__Rendered3DShape__00000002_.ViewY = 1126.545250
+	__Rendered3DShape__00000002_.ViewZ = -470.930603
 	__Rendered3DShape__00000002_.TargetX = 17.241866
 	__Rendered3DShape__00000002_.TargetY = 330.159583
 	__Rendered3DShape__00000002_.TargetZ = 103.049934
@@ -246,11 +246,11 @@ func _(stage *models.Stage) {
 
 	__StoolAbstract__00000000_.Name = `Stool-StoolAbstract`
 	__StoolAbstract__00000000_.RadialRepetitions = 3
-	__StoolAbstract__00000000_.Transparency = 0.300000
+	__StoolAbstract__00000000_.Transparency = 0.000000
 	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
 	__StoolAbstract__00000000_.RelativeHeight3DTorus = 4.490000
 	__StoolAbstract__00000000_.StoolTorusVerticalScale = 3.980000
-	__StoolAbstract__00000000_.RelativeHeight = 4.630000
+	__StoolAbstract__00000000_.RelativeHeight = 4.670000
 	__StoolAbstract__00000000_.RelativeSeatThickness = 0.720000
 	__StoolAbstract__00000000_.ProjectionAngle = 11.700000
 	__StoolAbstract__00000000_.RelativeEyeSeparationCriteria = 0.400000
@@ -258,9 +258,9 @@ func _(stage *models.Stage) {
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
 	__StoolDiagram__00000000_.IsHiddenSeatTopCurveShape = true
-	__StoolDiagram__00000000_.IsHiddenRotatedSeatTopCurveShape = false
+	__StoolDiagram__00000000_.IsHiddenRotatedSeatTopCurveShape = true
 	__StoolDiagram__00000000_.IsHiddenSeatBottomCurveShape = true
-	__StoolDiagram__00000000_.IsHiddenRotatedSeatBottomCurveShape = false
+	__StoolDiagram__00000000_.IsHiddenRotatedSeatBottomCurveShape = true
 	__StoolDiagram__00000000_.IsHiddenTorus3DShape = true
 	__StoolDiagram__00000000_.IsHiddenRotatedTorusShape = true
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
@@ -268,10 +268,12 @@ func _(stage *models.Stage) {
 	__StoolDiagram__00000000_.IsHiddenEyeSampledPoints3DShape = true
 	__StoolDiagram__00000000_.IsHiddenEyeCornersSampledPoints3DShape = true
 	__StoolDiagram__00000000_.IsHiddenEye3DShape = true
-	__StoolDiagram__00000000_.IsHiddenEyeSeatBottomCurveShape = false
-	__StoolDiagram__00000000_.IsHiddenEyeStoolBottomCurveShape = false
-	__StoolDiagram__00000000_.IsHiddenSeat3DShape = false
-	__StoolDiagram__00000000_.IsHiddenEyeVolume3DShape = false
+	__StoolDiagram__00000000_.IsHiddenEyeSeatBottomCurveShape = true
+	__StoolDiagram__00000000_.IsHiddenEyeStoolBottomCurveShape = true
+	__StoolDiagram__00000000_.IsHiddenSeat3DShape = true
+	__StoolDiagram__00000000_.IsHiddenEyeVolume3DShape = true
+	__StoolDiagram__00000000_.IsHiddenSeatAndLegs3DShape = false
+	__StoolDiagram__00000000_.IsHiddenRotatedSeatAndLegs3DShape = false
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000

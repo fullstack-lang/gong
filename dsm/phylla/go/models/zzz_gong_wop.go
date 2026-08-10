@@ -1354,6 +1354,17 @@ func (from *RotatedSampledPoints3DShape) CopyBasicFields(to *RotatedSampledPoint
 	to.Name = from.Name
 }
 
+type RotatedSeatAndLegs3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *RotatedSeatAndLegs3DShape) CopyBasicFields(to *RotatedSeatAndLegs3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type SampledPoints3DShape_WOP struct {
 	// insertion point
 
@@ -1372,6 +1383,17 @@ type Seat3DShape_WOP struct {
 }
 
 func (from *Seat3DShape) CopyBasicFields(to *Seat3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type SeatAndLegs3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SeatAndLegs3DShape) CopyBasicFields(to *SeatAndLegs3DShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -2642,6 +2664,10 @@ type StoolDiagram_WOP struct {
 	IsHiddenSeat3DShape bool
 
 	IsHiddenEyeVolume3DShape bool
+
+	IsHiddenSeatAndLegs3DShape bool
+
+	IsHiddenRotatedSeatAndLegs3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
@@ -2662,6 +2688,8 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.IsHiddenEyeStoolBottomCurveShape = from.IsHiddenEyeStoolBottomCurveShape
 	to.IsHiddenSeat3DShape = from.IsHiddenSeat3DShape
 	to.IsHiddenEyeVolume3DShape = from.IsHiddenEyeVolume3DShape
+	to.IsHiddenSeatAndLegs3DShape = from.IsHiddenSeatAndLegs3DShape
+	to.IsHiddenRotatedSeatAndLegs3DShape = from.IsHiddenRotatedSeatAndLegs3DShape
 }
 
 type TopEndArcShape_WOP struct {
