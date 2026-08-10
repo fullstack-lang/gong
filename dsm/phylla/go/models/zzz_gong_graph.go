@@ -46,6 +46,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ExplanationTextShape:
 		ok = stage.IsStagedExplanationTextShape(target)
 
+	case *Eye3DShape:
+		ok = stage.IsStagedEye3DShape(target)
+
 	case *EyeCornersSampledPoints3DShape:
 		ok = stage.IsStagedEyeCornersSampledPoints3DShape(target)
 
@@ -427,6 +430,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ExplanationTextShape:
 		ok = stage.IsStagedExplanationTextShape(target)
+
+	case *Eye3DShape:
+		ok = stage.IsStagedEye3DShape(target)
 
 	case *EyeCornersSampledPoints3DShape:
 		ok = stage.IsStagedEyeCornersSampledPoints3DShape(target)
@@ -855,6 +861,13 @@ func (stage *Stage) IsStagedEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHa
 func (stage *Stage) IsStagedExplanationTextShape(explanationtextshape *ExplanationTextShape) (ok bool) {
 
 	_, ok = stage.ExplanationTextShapes[explanationtextshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedEye3DShape(eye3dshape *Eye3DShape) (ok bool) {
+
+	_, ok = stage.Eye3DShapes[eye3dshape]
 
 	return
 }
@@ -1683,6 +1696,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ExplanationTextShape:
 		stage.StageBranchExplanationTextShape(target)
 
+	case *Eye3DShape:
+		stage.StageBranchEye3DShape(target)
+
 	case *EyeCornersSampledPoints3DShape:
 		stage.StageBranchEyeCornersSampledPoints3DShape(target)
 
@@ -2210,6 +2226,21 @@ func (stage *Stage) StageBranchExplanationTextShape(explanationtextshape *Explan
 	}
 
 	explanationtextshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchEye3DShape(eye3dshape *Eye3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, eye3dshape) {
+		return
+	}
+
+	eye3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -3984,6 +4015,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchExplanationTextShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Eye3DShape:
+		toT := CopyBranchEye3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *EyeCornersSampledPoints3DShape:
 		toT := CopyBranchEyeCornersSampledPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4674,6 +4709,25 @@ func CopyBranchExplanationTextShape(mapOrigCopy map[any]any, explanationtextshap
 	explanationtextshapeTo = new(ExplanationTextShape)
 	mapOrigCopy[explanationtextshapeFrom] = explanationtextshapeTo
 	explanationtextshapeFrom.CopyBasicFields(explanationtextshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchEye3DShape(mapOrigCopy map[any]any, eye3dshapeFrom *Eye3DShape) (eye3dshapeTo *Eye3DShape) {
+
+	// eye3dshapeFrom has already been copied
+	if _eye3dshapeTo, ok := mapOrigCopy[eye3dshapeFrom]; ok {
+		eye3dshapeTo = _eye3dshapeTo.(*Eye3DShape)
+		return
+	}
+
+	eye3dshapeTo = new(Eye3DShape)
+	mapOrigCopy[eye3dshapeFrom] = eye3dshapeTo
+	eye3dshapeFrom.CopyBasicFields(eye3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -6877,6 +6931,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ExplanationTextShape:
 		stage.UnstageBranchExplanationTextShape(target)
 
+	case *Eye3DShape:
+		stage.UnstageBranchEye3DShape(target)
+
 	case *EyeCornersSampledPoints3DShape:
 		stage.UnstageBranchEyeCornersSampledPoints3DShape(target)
 
@@ -7404,6 +7461,21 @@ func (stage *Stage) UnstageBranchExplanationTextShape(explanationtextshape *Expl
 	}
 
 	explanationtextshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchEye3DShape(eye3dshape *Eye3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, eye3dshape) {
+		return
+	}
+
+	eye3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9181,6 +9253,11 @@ func (reference *ExplanationTextShape) GongReconstructPointersFromReferences(sta
 	// insertion point for slice of pointers field
 }
 
+func (reference *Eye3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *Eye3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *EyeCornersSampledPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *EyeCornersSampledPoints3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9840,6 +9917,11 @@ func (reference *EndHalfwayArcShapeGrid) GongReconstructPointersFromInstances(st
 }
 
 func (reference *ExplanationTextShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Eye3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -10733,6 +10815,17 @@ func (explanationtextshape *ExplanationTextShape) GongDiff(stage *Stage, explana
 	// insertion point for field diffs
 	if explanationtextshape.Name != explanationtextshapeOther.Name {
 		diffs = append(diffs, explanationtextshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (eye3dshape *Eye3DShape) GongDiff(stage *Stage, eye3dshapeOther *Eye3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if eye3dshape.Name != eye3dshapeOther.Name {
+		diffs = append(diffs, eye3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -13156,6 +13249,9 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	}
 	if stooldiagram.IsHiddenEyeCornersSampledPoints3DShape != stooldiagramOther.IsHiddenEyeCornersSampledPoints3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEyeCornersSampledPoints3DShape"))
+	}
+	if stooldiagram.IsHiddenEye3DShape != stooldiagramOther.IsHiddenEye3DShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEye3DShape"))
 	}
 	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))

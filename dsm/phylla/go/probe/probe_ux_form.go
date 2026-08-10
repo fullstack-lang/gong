@@ -93,6 +93,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.explanationtextshape, probe)
 			}
+		case *Eye3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Eye3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.eye3dshape, probe)
+			}
 		case *EyeCornersSampledPoints3DShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "EyeCornersSampledPoints3DShape", true)
@@ -950,6 +956,19 @@ func FillUpFormFromGongstructName(
 		explanationtextshape := new(models.ExplanationTextShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(explanationtextshape, formGroup, probe)
+	case "Eye3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Eye3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Eye3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		eye3dshape := new(models.Eye3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(eye3dshape, formGroup, probe)
 	case "EyeCornersSampledPoints3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

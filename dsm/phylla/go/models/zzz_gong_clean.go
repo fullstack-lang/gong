@@ -135,6 +135,13 @@ func (explanationtextshape *ExplanationTextShape) GongClean(stage *Stage) (modif
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Eye3DShape
+func (eye3dshape *Eye3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by EyeCornersSampledPoints3DShape
 func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -817,6 +824,7 @@ func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &stooldiagram.RotatedSampledPoints3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.EyeSampledPoints3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.EyeCornersSampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.Eye3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
 	return
 }

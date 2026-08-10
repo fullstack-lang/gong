@@ -588,65 +588,226 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			u.addPointSpheres(stool3dStage, rotPoints, "orange", canvas, "Stool Rotated Sampled", 0, numPointsPerRep)
 		}
 
+		// Compute Eye geometry, transitions, and Bézier corners for first repetition (k=0)
+		thetaOffset := growthVectorX / globalR
+		eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength
+		expectedRad := expectedDegrees * math.Pi / 180.0
+		dStep := globalR * radInterval
+		if dStep <= 0 {
+			dStep = 1.0
+		}
+
+		getYAtAngle := func(evalAngle float64) float64 {
+			if len(resampledBaseCurve.Points) == 0 {
+				return 0
+			}
+			for evalAngle < 0 {
+				evalAngle += expectedRad
+			}
+			for evalAngle > expectedRad {
+				evalAngle -= expectedRad
+			}
+			idx := int(math.Floor(evalAngle / radInterval))
+			if idx < 0 {
+				idx = 0
+			}
+			if idx >= len(resampledBaseCurve.Points)-1 {
+				return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
+			}
+			t := (evalAngle - float64(idx)*radInterval) / radInterval
+			y0 := resampledBaseCurve.Points[idx].Y
+			y1 := resampledBaseCurve.Points[idx+1].Y
+			return y0 + t*(y1-y0)
+		}
+
+		// Identify transitions into and out of eye regions
+		numPts := len(resampledBaseCurve.Points)
+		inEye := make([]bool, numPts)
+		yBaseList := make([]float64, numPts)
+		yRotList := make([]float64, numPts)
+
+		for i, pt := range resampledBaseCurve.Points {
+			alpha := targetAngles[i]
+			yBaseList[i] = pt.Y + torusHeight
+			yRotList[i] = getYAtAngle(alpha-thetaOffset) + growthVectorY + torusHeight
+			dist := math.Abs(yBaseList[i] - yRotList[i])
+			inEye[i] = (dist > eyeCriteria)
+		}
+
+		type point2D struct {
+			U, Y float64
+		}
+
+		evalBezier := func(c0, c1, c2, c3 point2D, t float64) point2D {
+			omt := 1.0 - t
+			omt2 := omt * omt
+			omt3 := omt2 * omt
+			t2 := t * t
+			t3 := t2 * t
+			return point2D{
+				U: omt3*c0.U + 3*omt2*t*c1.U + 3*omt*t2*c2.U + t3*c3.U,
+				Y: omt3*c0.Y + 3*omt2*t*c1.Y + 3*omt*t2*c2.Y + t3*c3.Y,
+			}
+		}
+
+		getBezierPoints := func(c0, c1, c2, c3 point2D, cornerName string) []*threejs.Vector3 {
+			const numSub = 200
+			pts := make([]point2D, numSub+1)
+			cumLen := make([]float64, numSub+1)
+			totalLen := 0.0
+			pts[0] = c0
+			cumLen[0] = 0.0
+
+			for k := 1; k <= numSub; k++ {
+				t := float64(k) / float64(numSub)
+				pts[k] = evalBezier(c0, c1, c2, c3, t)
+				du := pts[k].U - pts[k-1].U
+				dy := pts[k].Y - pts[k-1].Y
+				totalLen += math.Hypot(du, dy)
+				cumLen[k] = totalLen
+			}
+
+			n := int(math.Round(totalLen / dStep))
+			if n < 2 {
+				n = 2
+			}
+
+			var result []*threejs.Vector3
+			for j := 1; j < n; j++ {
+				targetDist := float64(j) * (totalLen / float64(n))
+				searchIdx := sort.SearchFloat64s(cumLen, targetDist)
+				if searchIdx <= 0 {
+					searchIdx = 1
+				}
+				if searchIdx > numSub {
+					searchIdx = numSub
+				}
+				segL := cumLen[searchIdx] - cumLen[searchIdx-1]
+				segT := 0.0
+				if segL > 0 {
+					segT = (targetDist - cumLen[searchIdx-1]) / segL
+				}
+				uVal := pts[searchIdx-1].U + segT*(pts[searchIdx].U-pts[searchIdx-1].U)
+				yVal := pts[searchIdx-1].Y + segT*(pts[searchIdx].Y-pts[searchIdx-1].Y)
+
+				theta := uVal / globalR
+				x := globalR * math.Cos(theta)
+				z := globalR * math.Sin(theta)
+
+				result = append(result, (&threejs.Vector3{
+					Name: fmt.Sprintf("%s Bezier Point %d/%.1f", cornerName, j, theta*180.0/math.Pi),
+					X:    x,
+					Y:    yVal,
+					Z:    z,
+				}).Stage(stool3dStage))
+			}
+			return result
+		}
+
+		normalize2D := func(du, dy float64, defU, defY float64) (float64, float64) {
+			lenV := math.Hypot(du, dy)
+			if lenV > 1e-7 {
+				return du / lenV, dy / lenV
+			}
+			return defU, defY
+		}
+
+		controlStrength := plant.StoolAbstract.RelativeEyeCornerControlVectorStrength
+		if controlStrength <= 0.0 {
+			controlStrength = 0.55
+		}
+
+		// Find eye segment endpoints
+		iStart := -1
+		iEnd := -1
+		for i := 0; i < numPts; i++ {
+			if inEye[i] {
+				if iStart == -1 {
+					iStart = i
+				}
+				iEnd = i
+			}
+		}
+
+		var leftCornerPts []*threejs.Vector3
+		var rightCornerPts []*threejs.Vector3
+
+		if iStart != -1 && iEnd != -1 {
+			// Left corner (connects Top -> Bottom at iStart)
+			{
+				i0 := iStart
+				i1 := iStart + 1
+				if i1 >= numPts {
+					i1 = i0
+				}
+
+				pTop0 := point2D{U: targetAngles[i0] * globalR, Y: yRotList[i0]}
+				pTop1 := point2D{U: targetAngles[i1] * globalR, Y: yRotList[i1]}
+				tTopExitU, tTopExitY := normalize2D(pTop0.U-pTop1.U, pTop0.Y-pTop1.Y, -1.0, 0.0)
+
+				pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
+				pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
+				tBottomEnterU, tBottomEnterY := normalize2D(pBottom1.U-pBottom0.U, pBottom1.Y-pBottom0.Y, 1.0, 0.0)
+
+				c0 := pTop0
+				c3 := pBottom0
+				chord := math.Abs(c3.Y - c0.Y)
+				handleLen := controlStrength * chord
+
+				c1 := point2D{U: c0.U + handleLen*tTopExitU, Y: c0.Y + handleLen*tTopExitY}
+				c2 := point2D{U: c3.U - handleLen*tBottomEnterU, Y: c3.Y - handleLen*tBottomEnterY}
+
+				leftCornerPts = getBezierPoints(c0, c1, c2, c3, "Left Corner")
+			}
+
+			// Right corner (connects Bottom -> Top at iEnd)
+			{
+				i0 := iEnd
+				i1 := iEnd - 1
+				if i1 < 0 {
+					i1 = 0
+				}
+
+				pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
+				pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
+				tBottomExitU, tBottomExitY := normalize2D(pBottom0.U-pBottom1.U, pBottom0.Y-pBottom1.Y, 1.0, 0.0)
+
+				pTop0 := point2D{U: targetAngles[i0] * globalR, Y: yRotList[i0]}
+				pTop1 := point2D{U: targetAngles[i1] * globalR, Y: yRotList[i1]}
+				tTopEnterU, tTopEnterY := normalize2D(pTop1.U-pTop0.U, pTop1.Y-pTop0.Y, -1.0, 0.0)
+
+				c0 := pBottom0
+				c3 := pTop0
+				chord := math.Abs(c3.Y - c0.Y)
+				handleLen := controlStrength * chord
+
+				c1 := point2D{U: c0.U + handleLen*tBottomExitU, Y: c0.Y + handleLen*tBottomExitY}
+				c2 := point2D{U: c3.U - handleLen*tTopEnterU, Y: c3.Y - handleLen*tTopEnterY}
+
+				rightCornerPts = getBezierPoints(c0, c1, c2, c3, "Right Corner")
+			}
+		}
+
 		// 14. Add 3D Eye Sampled Points visualization for first repetition if toggled on
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSampledPoints3DShape {
 			var eyePoints []*threejs.Vector3
-			thetaOffset := growthVectorX / globalR
-			eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength
-			expectedRad := expectedDegrees * math.Pi / 180.0
-
-			getYAtAngle := func(evalAngle float64) float64 {
-				if len(resampledBaseCurve.Points) == 0 {
-					return 0
-				}
-				for evalAngle < 0 {
-					evalAngle += expectedRad
-				}
-				for evalAngle > expectedRad {
-					evalAngle -= expectedRad
-				}
-				idx := int(math.Floor(evalAngle / radInterval))
-				if idx < 0 {
-					idx = 0
-				}
-				if idx >= len(resampledBaseCurve.Points)-1 {
-					return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
-				}
-				t := (evalAngle - float64(idx)*radInterval) / radInterval
-				y0 := resampledBaseCurve.Points[idx].Y
-				y1 := resampledBaseCurve.Points[idx+1].Y
-				return y0 + t*(y1-y0)
-			}
-
-			for i, pt := range resampledBaseCurve.Points {
-				alpha := targetAngles[i]
-				r := math.Hypot(pt.X, pt.Z)
-
-				// Base point at angle alpha (k=0)
-				yBase := pt.Y + torusHeight
-
-				// Opposite rotated point at the SAME angle alpha (k=0)
-				// Since the rotated curve is shifted by +thetaOffset and +growthVectorY,
-				// the point at angle alpha corresponds to base curve angle (alpha - thetaOffset).
-				yRot := getYAtAngle(alpha-thetaOffset) + growthVectorY + torusHeight
-
-				dist := math.Abs(yBase - yRot)
-
-				if dist > eyeCriteria {
-					x := r * math.Cos(alpha)
-					z := r * math.Sin(alpha)
+			for i, inE := range inEye {
+				if inE {
+					alpha := targetAngles[i]
+					x := globalR * math.Cos(alpha)
+					z := globalR * math.Sin(alpha)
 
 					eyePoints = append(eyePoints, (&threejs.Vector3{
 						Name: fmt.Sprintf("Eye Base Point %.1f", alpha*180.0/math.Pi),
 						X:    x,
-						Y:    yBase,
+						Y:    yBaseList[i],
 						Z:    z,
 					}).Stage(stool3dStage))
 
 					eyePoints = append(eyePoints, (&threejs.Vector3{
 						Name: fmt.Sprintf("Eye Rotated Point %.1f", alpha*180.0/math.Pi),
 						X:    x,
-						Y:    yRot,
+						Y:    yRotList[i],
 						Z:    z,
 					}).Stage(stool3dStage))
 				}
@@ -654,192 +815,81 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			u.addPointSpheres(stool3dStage, eyePoints, "magenta", canvas, "Stool Eye Sampled", 0, 0)
 		}
 
-		// 15. Add 3D Eye Corners Sampled Points visualization for first repetition if toggled on
+		// 15. Render 3D Eye Corners Sampled Points
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeCornersSampledPoints3DShape {
 			var cornerPoints []*threejs.Vector3
-			thetaOffset := growthVectorX / globalR
-			eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength
-			expectedRad := expectedDegrees * math.Pi / 180.0
-			dStep := globalR * radInterval
-			if dStep <= 0 {
-				dStep = 1.0
-			}
+			cornerPoints = append(cornerPoints, leftCornerPts...)
+			cornerPoints = append(cornerPoints, rightCornerPts...)
+			u.addPointSpheres(stool3dStage, cornerPoints, "cyan", canvas, "Stool Eye Corners Sampled", 0, 0)
+		}
 
-			getYAtAngle := func(evalAngle float64) float64 {
-				if len(resampledBaseCurve.Points) == 0 {
-					return 0
-				}
-				for evalAngle < 0 {
-					evalAngle += expectedRad
-				}
-				for evalAngle > expectedRad {
-					evalAngle -= expectedRad
-				}
-				idx := int(math.Floor(evalAngle / radInterval))
-				if idx < 0 {
-					idx = 0
-				}
-				if idx >= len(resampledBaseCurve.Points)-1 {
-					return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
-				}
-				t := (evalAngle - float64(idx)*radInterval) / radInterval
-				y0 := resampledBaseCurve.Points[idx].Y
-				y1 := resampledBaseCurve.Points[idx+1].Y
-				return y0 + t*(y1-y0)
-			}
+		// 16. Add 3D Eye (Continuous interpolated closed tube)
+		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenEye3DShape {
+			if iStart != -1 && iEnd != -1 {
+				eyeLoopCurve := (&threejs.Curve{
+					Name: "Stool Eye Continuous Loop Curve",
+				}).Stage(stool3dStage)
 
-			// Identify transitions into and out of eye regions
-			numPts := len(resampledBaseCurve.Points)
-			inEye := make([]bool, numPts)
-			yBaseList := make([]float64, numPts)
-			yRotList := make([]float64, numPts)
-
-			for i, pt := range resampledBaseCurve.Points {
-				alpha := targetAngles[i]
-				yBaseList[i] = pt.Y + torusHeight
-				yRotList[i] = getYAtAngle(alpha-thetaOffset) + growthVectorY + torusHeight
-				dist := math.Abs(yBaseList[i] - yRotList[i])
-				inEye[i] = (dist > eyeCriteria)
-			}
-
-			type point2D struct {
-				U, Y float64
-			}
-
-			evalBezier := func(c0, c1, c2, c3 point2D, t float64) point2D {
-				omt := 1.0 - t
-				omt2 := omt * omt
-				omt3 := omt2 * omt
-				t2 := t * t
-				t3 := t2 * t
-				return point2D{
-					U: omt3*c0.U + 3*omt2*t*c1.U + 3*omt*t2*c2.U + t3*c3.U,
-					Y: omt3*c0.Y + 3*omt2*t*c1.Y + 3*omt*t2*c2.Y + t3*c3.Y,
-				}
-			}
-
-			sampleBezierCorner := func(c0, c1, c2, c3 point2D, cornerName string) {
-				const numSub = 200
-				pts := make([]point2D, numSub+1)
-				cumLen := make([]float64, numSub+1)
-				totalLen := 0.0
-				pts[0] = c0
-				cumLen[0] = 0.0
-
-				for k := 1; k <= numSub; k++ {
-					t := float64(k) / float64(numSub)
-					pts[k] = evalBezier(c0, c1, c2, c3, t)
-					du := pts[k].U - pts[k-1].U
-					dy := pts[k].Y - pts[k-1].Y
-					totalLen += math.Hypot(du, dy)
-					cumLen[k] = totalLen
-				}
-
-				n := int(math.Round(totalLen / dStep))
-				if n < 2 {
-					n = 2
-				}
-
-				for j := 1; j < n; j++ {
-					targetDist := float64(j) * (totalLen / float64(n))
-					searchIdx := sort.SearchFloat64s(cumLen, targetDist)
-					if searchIdx <= 0 {
-						searchIdx = 1
-					}
-					if searchIdx > numSub {
-						searchIdx = numSub
-					}
-					segL := cumLen[searchIdx] - cumLen[searchIdx-1]
-					segT := 0.0
-					if segL > 0 {
-						segT = (targetDist - cumLen[searchIdx-1]) / segL
-					}
-					uVal := pts[searchIdx-1].U + segT*(pts[searchIdx].U-pts[searchIdx-1].U)
-					yVal := pts[searchIdx-1].Y + segT*(pts[searchIdx].Y-pts[searchIdx-1].Y)
-
-					theta := uVal / globalR
-					x := globalR * math.Cos(theta)
-					z := globalR * math.Sin(theta)
-
-					cornerPoints = append(cornerPoints, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s Bezier Point %d/%.1f", cornerName, j, theta*180.0/math.Pi),
+				// A. Bottom curve: from iStart to iEnd
+				for i := iStart; i <= iEnd; i++ {
+					alpha := targetAngles[i]
+					x := globalR * math.Cos(alpha)
+					z := globalR * math.Sin(alpha)
+					eyeLoopCurve.Points = append(eyeLoopCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Loop Bottom %.1f", alpha*180.0/math.Pi),
 						X:    x,
-						Y:    yVal,
+						Y:    yBaseList[i],
 						Z:    z,
 					}).Stage(stool3dStage))
 				}
-			}
 
-			normalize2D := func(du, dy float64, defU, defY float64) (float64, float64) {
-				lenV := math.Hypot(du, dy)
-				if lenV > 1e-7 {
-					return du / lenV, dy / lenV
-				}
-				return defU, defY
-			}
+				// B. Right corner Bézier: Bottom -> Top
+				eyeLoopCurve.Points = append(eyeLoopCurve.Points, rightCornerPts...)
 
-			controlStrength := plant.StoolAbstract.RelativeEyeCornerControlVectorStrength
-			if controlStrength <= 0.0 {
-				controlStrength = 0.55
-			}
-
-			for i := 0; i < numPts; i++ {
-				// Start of an eye segment (left corner)
-				if inEye[i] && (i == 0 || !inEye[i-1]) {
-					i0 := i
-					i1 := i + 1
-					if i1 >= numPts {
-						i1 = i0
-					}
-
-					pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
-					pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
-					tBottomU, tBottomY := normalize2D(pBottom0.U-pBottom1.U, pBottom0.Y-pBottom1.Y, -1.0, 0.0)
-
-					pTop0 := point2D{U: targetAngles[i0] * globalR, Y: yRotList[i0]}
-					pTop1 := point2D{U: targetAngles[i1] * globalR, Y: yRotList[i1]}
-					tTopU, tTopY := normalize2D(pTop1.U-pTop0.U, pTop1.Y-pTop0.Y, 1.0, 0.0)
-
-					c0 := pBottom0
-					c3 := pTop0
-					chord := math.Abs(c3.Y - c0.Y)
-					handleLen := controlStrength * chord
-
-					c1 := point2D{U: c0.U + handleLen*tBottomU, Y: c0.Y + handleLen*tBottomY}
-					c2 := point2D{U: c3.U - handleLen*tTopU, Y: c3.Y - handleLen*tTopY}
-
-					sampleBezierCorner(c0, c1, c2, c3, "Left Corner")
+				// C. Top curve: from iEnd down to iStart (reversed)
+				for i := iEnd; i >= iStart; i-- {
+					alpha := targetAngles[i]
+					x := globalR * math.Cos(alpha)
+					z := globalR * math.Sin(alpha)
+					eyeLoopCurve.Points = append(eyeLoopCurve.Points, (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Loop Top %.1f", alpha*180.0/math.Pi),
+						X:    x,
+						Y:    yRotList[i],
+						Z:    z,
+					}).Stage(stool3dStage))
 				}
 
-				// End of an eye segment (right corner)
-				if inEye[i] && (i == numPts-1 || !inEye[i+1]) {
-					i0 := i
-					i1 := i - 1
-					if i1 < 0 {
-						i1 = 0
-					}
+				// D. Left corner Bézier: Top -> Bottom
+				eyeLoopCurve.Points = append(eyeLoopCurve.Points, leftCornerPts...)
 
-					pTop0 := point2D{U: targetAngles[i0] * globalR, Y: yRotList[i0]}
-					pTop1 := point2D{U: targetAngles[i1] * globalR, Y: yRotList[i1]}
-					tTopU, tTopY := normalize2D(pTop0.U-pTop1.U, pTop0.Y-pTop1.Y, 1.0, 0.0)
-
-					pBottom0 := point2D{U: targetAngles[i0] * globalR, Y: yBaseList[i0]}
-					pBottom1 := point2D{U: targetAngles[i1] * globalR, Y: yBaseList[i1]}
-					tBottomU, tBottomY := normalize2D(pBottom1.U-pBottom0.U, pBottom1.Y-pBottom0.Y, -1.0, 0.0)
-
-					c0 := pTop0
-					c3 := pBottom0
-					chord := math.Abs(c3.Y - c0.Y)
-					handleLen := controlStrength * chord
-
-					c1 := point2D{U: c0.U + handleLen*tTopU, Y: c0.Y + handleLen*tTopY}
-					c2 := point2D{U: c3.U - handleLen*tBottomU, Y: c3.Y - handleLen*tBottomY}
-
-					sampleBezierCorner(c0, c1, c2, c3, "Right Corner")
+				numSegments := len(eyeLoopCurve.Points)
+				if numSegments < 2 {
+					numSegments = 2
 				}
-			}
 
-			u.addPointSpheres(stool3dStage, cornerPoints, "cyan", canvas, "Stool Eye Corners Sampled", 0, 0)
+				eyeGeom := (&threejs.TubeGeometry{
+					Name:            "Stool Eye TubeGeom",
+					Path:            eyeLoopCurve,
+					TubularSegments: numSegments,
+					Radius:          tubeRadius,
+					RadialSegments:  16,
+					Closed:          true,
+				}).Stage(stool3dStage)
+
+				eyeMesh := (&threejs.Mesh{
+					Name:         "Stool Eye Mesh",
+					Position:     threejs.Position{X: 0, Y: 0, Z: 0},
+					TubeGeometry: eyeGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Eye Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "deeppink"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, eyeMesh)
+			}
 		}
 	}
 
