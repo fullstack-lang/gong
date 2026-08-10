@@ -157,6 +157,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct PartiallyGrowthCurve2DTrajectoryShape
 	// insertion point per field
 
+	// Compute reverse map for named struct PartiallyRotatedSeatTopCurveShape
+	// insertion point per field
+
 	// Compute reverse map for named struct PartiallyRotatedTorusShape
 	// insertion point per field
 
@@ -374,6 +377,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TopStartHalfwayArcShapeGrid
 	// insertion point per field
 
+	// Compute reverse map for named struct Torus3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct TorusEdge3DShape
 	// insertion point per field
 
@@ -558,6 +564,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PartiallyRotatedSeatTopCurveShapes {
 		res = append(res, instance)
 	}
 
@@ -841,6 +851,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Torus3DShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.TorusEdge3DShapes {
 		res = append(res, instance)
 	}
@@ -1112,6 +1126,12 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongCopy() GongstructIF {
 	newInstance := new(PartiallyGrowthCurve2DTrajectoryShape)
 	partiallygrowthcurve2dtrajectoryshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongCopy() GongstructIF {
+	newInstance := new(PartiallyRotatedSeatTopCurveShape)
+	partiallyrotatedseattopcurveshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1532,6 +1552,12 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongCopy() GongstructIF 
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongCopy() GongstructIF {
 	newInstance := new(TopStartHalfwayArcShapeGrid)
 	topstarthalfwayarcshapegrid.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (torus3dshape *Torus3DShape) GongCopy() GongstructIF {
+	newInstance := new(Torus3DShape)
+	torus3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1979,6 +2005,16 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallygrowthcurve2dtrajectoryshape), uint64(GetOrderPointerGongstruct(stage, partiallygrowthcurve2dtrajectoryshape)))
+	return
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(partiallyrotatedseattopcurveshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partiallyrotatedseattopcurveshape), uint64(GetOrderPointerGongstruct(stage, partiallyrotatedseattopcurveshape)))
 	return
 }
 
@@ -2679,6 +2715,16 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetUUID(stag
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(topstarthalfwayarcshapegrid), uint64(GetOrderPointerGongstruct(stage, topstarthalfwayarcshapegrid)))
+	return
+}
+
+func (torus3dshape *Torus3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(torus3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(torus3dshape), uint64(GetOrderPointerGongstruct(stage, torus3dshape)))
 	return
 }
 
@@ -3810,6 +3856,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.PartiallyGrowthCurve2DTrajectoryShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.PartiallyRotatedSeatTopCurveShapes_reference = make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape)
+	stage.PartiallyRotatedSeatTopCurveShapes_referenceOrder = make(map[*PartiallyRotatedSeatTopCurveShape]uint) // diff Unstage needs the reference order
+	stage.PartiallyRotatedSeatTopCurveShapes_instance = make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape)
+	for instance := range stage.PartiallyRotatedSeatTopCurveShapes {
+		_copy := instance.GongCopy().(*PartiallyRotatedSeatTopCurveShape)
+		stage.PartiallyRotatedSeatTopCurveShapes_reference[instance] = _copy
+		stage.PartiallyRotatedSeatTopCurveShapes_instance[_copy] = instance
+		stage.PartiallyRotatedSeatTopCurveShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.PartiallyRotatedTorusShapes_reference = make(map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape)
 	stage.PartiallyRotatedTorusShapes_referenceOrder = make(map[*PartiallyRotatedTorusShape]uint) // diff Unstage needs the reference order
 	stage.PartiallyRotatedTorusShapes_instance = make(map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape)
@@ -4510,6 +4566,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TopStartHalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Torus3DShapes_reference = make(map[*Torus3DShape]*Torus3DShape)
+	stage.Torus3DShapes_referenceOrder = make(map[*Torus3DShape]uint) // diff Unstage needs the reference order
+	stage.Torus3DShapes_instance = make(map[*Torus3DShape]*Torus3DShape)
+	for instance := range stage.Torus3DShapes {
+		_copy := instance.GongCopy().(*Torus3DShape)
+		stage.Torus3DShapes_reference[instance] = _copy
+		stage.Torus3DShapes_instance[_copy] = instance
+		stage.Torus3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TorusEdge3DShapes_reference = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
 	stage.TorusEdge3DShapes_referenceOrder = make(map[*TorusEdge3DShape]uint) // diff Unstage needs the reference order
 	stage.TorusEdge3DShapes_instance = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
@@ -4773,6 +4839,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.PartiallyGrowthCurve2DTrajectoryShapes {
 		reference := stage.PartiallyGrowthCurve2DTrajectoryShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PartiallyRotatedSeatTopCurveShapes {
+		reference := stage.PartiallyRotatedSeatTopCurveShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5123,6 +5194,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.TopStartHalfwayArcShapeGrids {
 		reference := stage.TopStartHalfwayArcShapeGrids_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Torus3DShapes {
+		reference := stage.Torus3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5654,6 +5730,18 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 		return order
 	} else {
 		log.Printf("instance %p of type PartiallyGrowthCurve2DTrajectoryShape was not staged and does not have a reference order", partiallygrowthcurve2dtrajectoryshape)
+		return 0
+	}
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[partiallyrotatedseattopcurveshape]; ok {
+		return order
+	}
+	if order, ok := stage.PartiallyRotatedSeatTopCurveShapes_referenceOrder[partiallyrotatedseattopcurveshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PartiallyRotatedSeatTopCurveShape was not staged and does not have a reference order", partiallyrotatedseattopcurveshape)
 		return 0
 	}
 }
@@ -6498,6 +6586,18 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetOrder(sta
 	}
 }
 
+func (torus3dshape *Torus3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Torus3DShape_stagedOrder[torus3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.Torus3DShapes_referenceOrder[torus3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Torus3DShape was not staged and does not have a reference order", torus3dshape)
+		return 0
+	}
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TorusEdge3DShape_stagedOrder[torusedge3dshape]; ok {
 		return order
@@ -6942,6 +7042,15 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", partiallygrowthcurve2dtrajectoryshape.GongGetGongstructName(), partiallygrowthcurve2dtrajectoryshape.GongGetOrder(stage))
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", partiallyrotatedseattopcurveshape.GongGetGongstructName(), partiallyrotatedseattopcurveshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", partiallyrotatedseattopcurveshape.GongGetGongstructName(), partiallyrotatedseattopcurveshape.GongGetOrder(stage))
 }
 
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongGetIdentifier(stage *Stage) string {
@@ -7574,6 +7683,15 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetReference
 	return fmt.Sprintf("__%s__%08d_", topstarthalfwayarcshapegrid.GongGetGongstructName(), topstarthalfwayarcshapegrid.GongGetOrder(stage))
 }
 
+func (torus3dshape *Torus3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", torus3dshape.GongGetGongstructName(), torus3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (torus3dshape *Torus3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", torus3dshape.GongGetGongstructName(), torus3dshape.GongGetOrder(stage))
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", torusedge3dshape.GongGetGongstructName(), torusedge3dshape.GongGetOrder(stage))
 }
@@ -7956,6 +8074,14 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyGrowthCurve2DTrajectoryShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallygrowthcurve2dtrajectoryshape.Name))
+	return
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallyrotatedseattopcurveshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartiallyRotatedSeatTopCurveShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partiallyrotatedseattopcurveshape.Name))
 	return
 }
 
@@ -8519,6 +8645,14 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallIden
 	return
 }
 
+func (torus3dshape *Torus3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", torus3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Torus3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(torus3dshape.Name))
+	return
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", torusedge3dshape.GongGetIdentifier(stage))
@@ -8811,6 +8945,12 @@ func (partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajec
 func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallygrowthcurve2dtrajectoryshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", partiallyrotatedseattopcurveshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -9231,6 +9371,12 @@ func (topstarthalfwayarcshape *TopStartHalfwayArcShape) GongMarshallUnstaging(st
 func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topstarthalfwayarcshapegrid.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (torus3dshape *Torus3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", torus3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

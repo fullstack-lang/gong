@@ -261,6 +261,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.partiallygrowthcurve2dtrajectoryshape, probe)
 			}
+		case *PartiallyRotatedSeatTopCurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartiallyRotatedSeatTopCurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partiallyrotatedseattopcurveshape, probe)
+			}
 		case *PartiallyRotatedTorusShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartiallyRotatedTorusShape", true)
@@ -680,6 +686,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "TopStartHalfwayArcShapeGrid", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.topstarthalfwayarcshapegrid, probe)
+			}
+		case *Torus3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Torus3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.torus3dshape, probe)
 			}
 		case *TorusEdge3DShapeFormCallback:
 			if onSave.CreationMode {
@@ -1272,6 +1284,19 @@ func FillUpFormFromGongstructName(
 		partiallygrowthcurve2dtrajectoryshape := new(models.PartiallyGrowthCurve2DTrajectoryShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(partiallygrowthcurve2dtrajectoryshape, formGroup, probe)
+	case "PartiallyRotatedSeatTopCurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartiallyRotatedSeatTopCurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartiallyRotatedSeatTopCurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partiallyrotatedseattopcurveshape := new(models.PartiallyRotatedSeatTopCurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partiallyrotatedseattopcurveshape, formGroup, probe)
 	case "PartiallyRotatedTorusShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2182,6 +2207,19 @@ func FillUpFormFromGongstructName(
 		topstarthalfwayarcshapegrid := new(models.TopStartHalfwayArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(topstarthalfwayarcshapegrid, formGroup, probe)
+	case "Torus3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Torus3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Torus3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		torus3dshape := new(models.Torus3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(torus3dshape, formGroup, probe)
 	case "TorusEdge3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

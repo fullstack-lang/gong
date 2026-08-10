@@ -907,6 +907,17 @@ func (from *PartiallyGrowthCurve2DTrajectoryShape) CopyBasicFields(to *Partially
 	to.EndY = from.EndY
 }
 
+type PartiallyRotatedSeatTopCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyRotatedSeatTopCurveShape) CopyBasicFields(to *PartiallyRotatedSeatTopCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PartiallyRotatedTorusShape_WOP struct {
 	// insertion point
 
@@ -2457,6 +2468,8 @@ type StoolAbstract_WOP struct {
 
 	RelativeTubeDiameter float64
 
+	RelativeHeight3DTorus float64
+
 	RelativeHeight float64
 
 	RelativeSeatThickness float64
@@ -2470,6 +2483,7 @@ func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	to.RadialRepetitions = from.RadialRepetitions
 	to.Transparency = from.Transparency
 	to.RelativeTubeDiameter = from.RelativeTubeDiameter
+	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
 	to.RelativeHeight = from.RelativeHeight
 	to.RelativeSeatThickness = from.RelativeSeatThickness
 	to.ProjectionAngle = from.ProjectionAngle
@@ -2482,6 +2496,10 @@ type StoolDiagram_WOP struct {
 
 	IsHiddenSeatTopCurveShape bool
 
+	IsHiddenPartiallyRotatedSeatTopCurveShape bool
+
+	IsHiddenTorus3DShape bool
+
 	IsHiddenPartiallyRotatedTorusShape bool
 
 	IsHiddenSampledPoints3DShape bool
@@ -2491,6 +2509,8 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.IsHiddenSeatTopCurveShape = from.IsHiddenSeatTopCurveShape
+	to.IsHiddenPartiallyRotatedSeatTopCurveShape = from.IsHiddenPartiallyRotatedSeatTopCurveShape
+	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
 	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 }
@@ -2906,6 +2926,17 @@ type TopStartHalfwayArcShapeGrid_WOP struct {
 }
 
 func (from *TopStartHalfwayArcShapeGrid) CopyBasicFields(to *TopStartHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type Torus3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Torus3DShape) CopyBasicFields(to *Torus3DShape) {
 	// insertion point
 	to.Name = from.Name
 }

@@ -587,6 +587,18 @@ type SeatTopCurveShape struct {
 	Name string
 }
 
+// PartiallyRotatedSeatTopCurveShape of a plant,
+// gong:omit
+type PartiallyRotatedSeatTopCurveShape struct {
+	Name string
+}
+
+// Torus3DShape of a plant,
+// gong:omit
+type Torus3DShape struct {
+	Name string
+}
+
 // StackOfPartiallyRotatedTorusShape of a plant,
 // gong:omit
 type StackOfPartiallyRotatedTorusShape struct {

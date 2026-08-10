@@ -87,10 +87,10 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.IsPlantDiagramsNodeExpanded = false
 
 	__PlantAbstract__00000002_.Name = `Stool`
-	__PlantAbstract__00000002_.N = 1
-	__PlantAbstract__00000002_.M = 2
+	__PlantAbstract__00000002_.N = 2
+	__PlantAbstract__00000002_.M = 3
 	__PlantAbstract__00000002_.StackHeight = 2
-	__PlantAbstract__00000002_.RhombusInsideAngle = 140.000000
+	__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
 	__PlantAbstract__00000002_.RhombusSideLength = 230.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
 	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
@@ -187,8 +187,8 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000003_.IsExpanded = false
 
 	__PlantDiagram__00000004_.Name = `New Plant - Diagram`
-	__PlantDiagram__00000004_.OriginX = 280.000000
-	__PlantDiagram__00000004_.OriginY = 950.000000
+	__PlantDiagram__00000004_.OriginX = 133.000000
+	__PlantDiagram__00000004_.OriginY = 521.000000
 	__PlantDiagram__00000004_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000004_.IsArcNodesExpanded = false
 	__PlantDiagram__00000004_.IsHiddenAxesShape = false
@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -452.872080
-	__Rendered3DShape__00000002_.ViewY = 242.964853
-	__Rendered3DShape__00000002_.ViewZ = 894.117375
+	__Rendered3DShape__00000002_.ViewX = -487.398902
+	__Rendered3DShape__00000002_.ViewY = 1156.531153
+	__Rendered3DShape__00000002_.ViewZ = -1719.287376
 	__Rendered3DShape__00000002_.TargetX = 0.000000
 	__Rendered3DShape__00000002_.TargetY = 100.000000
 	__Rendered3DShape__00000002_.TargetZ = 0.000000
@@ -248,12 +248,15 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RadialRepetitions = 3
 	__StoolAbstract__00000000_.Transparency = 0.300000
 	__StoolAbstract__00000000_.RelativeTubeDiameter = 0.042000
+	__StoolAbstract__00000000_.RelativeHeight3DTorus = 1.900000
 	__StoolAbstract__00000000_.RelativeHeight = 0.900000
 	__StoolAbstract__00000000_.RelativeSeatThickness = 0.150000
-	__StoolAbstract__00000000_.ProjectionAngle = 24.000000
+	__StoolAbstract__00000000_.ProjectionAngle = 43.700000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
 	__StoolDiagram__00000000_.IsHiddenSeatTopCurveShape = false
+	__StoolDiagram__00000000_.IsHiddenPartiallyRotatedSeatTopCurveShape = true
+	__StoolDiagram__00000000_.IsHiddenTorus3DShape = false
 	__StoolDiagram__00000000_.IsHiddenPartiallyRotatedTorusShape = true
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
 
