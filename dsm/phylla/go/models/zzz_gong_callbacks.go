@@ -58,6 +58,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterExplanationTextShapeCreateCallback != nil {
 			stage.OnAfterExplanationTextShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Eye3DShape:
+		if stage.OnAfterEye3DShapeCreateCallback != nil {
+			stage.OnAfterEye3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *EyeCornersSampledPoints3DShape:
 		if stage.OnAfterEyeCornersSampledPoints3DShapeCreateCallback != nil {
 			stage.OnAfterEyeCornersSampledPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
@@ -580,6 +584,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*ExplanationTextShape)
 		if stage.OnAfterExplanationTextShapeUpdateCallback != nil {
 			stage.OnAfterExplanationTextShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Eye3DShape:
+		newTarget := any(new).(*Eye3DShape)
+		if stage.OnAfterEye3DShapeUpdateCallback != nil {
+			stage.OnAfterEye3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *EyeCornersSampledPoints3DShape:
 		newTarget := any(new).(*EyeCornersSampledPoints3DShape)
@@ -1211,6 +1220,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*ExplanationTextShape)
 			stage.OnAfterExplanationTextShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Eye3DShape:
+		if stage.OnAfterEye3DShapeDeleteCallback != nil {
+			staged := any(staged).(*Eye3DShape)
+			stage.OnAfterEye3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *EyeCornersSampledPoints3DShape:
 		if stage.OnAfterEyeCornersSampledPoints3DShapeDeleteCallback != nil {
 			staged := any(staged).(*EyeCornersSampledPoints3DShape)
@@ -1828,6 +1842,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterExplanationTextShapeReadCallback != nil {
 			stage.OnAfterExplanationTextShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Eye3DShape:
+		if stage.OnAfterEye3DShapeReadCallback != nil {
+			stage.OnAfterEye3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *EyeCornersSampledPoints3DShape:
 		if stage.OnAfterEyeCornersSampledPoints3DShapeReadCallback != nil {
 			stage.OnAfterEyeCornersSampledPoints3DShapeReadCallback.OnAfterRead(stage, target)
@@ -2309,6 +2327,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEndHalfwayArcShapeGridUpdateCallback = any(callback).(OnAfterUpdateInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExplanationTextShape])
+	case *Eye3DShape:
+		stage.OnAfterEye3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Eye3DShape])
 	case *EyeCornersSampledPoints3DShape:
 		stage.OnAfterEyeCornersSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
@@ -2564,6 +2584,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEndHalfwayArcShapeGridCreateCallback = any(callback).(OnAfterCreateInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExplanationTextShape])
+	case *Eye3DShape:
+		stage.OnAfterEye3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Eye3DShape])
 	case *EyeCornersSampledPoints3DShape:
 		stage.OnAfterEyeCornersSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
@@ -2819,6 +2841,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterEndHalfwayArcShapeGridDeleteCallback = any(callback).(OnAfterDeleteInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExplanationTextShape])
+	case *Eye3DShape:
+		stage.OnAfterEye3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Eye3DShape])
 	case *EyeCornersSampledPoints3DShape:
 		stage.OnAfterEyeCornersSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
@@ -3074,6 +3098,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterEndHalfwayArcShapeGridReadCallback = any(callback).(OnAfterReadInterface[EndHalfwayArcShapeGrid])
 	case *ExplanationTextShape:
 		stage.OnAfterExplanationTextShapeReadCallback = any(callback).(OnAfterReadInterface[ExplanationTextShape])
+	case *Eye3DShape:
+		stage.OnAfterEye3DShapeReadCallback = any(callback).(OnAfterReadInterface[Eye3DShape])
 	case *EyeCornersSampledPoints3DShape:
 		stage.OnAfterEyeCornersSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[EyeCornersSampledPoints3DShape])
 	case *EyeSampledPoints3DShape:
