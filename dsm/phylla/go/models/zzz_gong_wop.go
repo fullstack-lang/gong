@@ -1277,6 +1277,17 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Y = from.Y
 }
 
+type RotatedSampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *RotatedSampledPoints3DShape) CopyBasicFields(to *RotatedSampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type SampledPoints3DShape_WOP struct {
 	// insertion point
 
@@ -2529,6 +2540,8 @@ type StoolDiagram_WOP struct {
 	IsHiddenRotatedTorusShape bool
 
 	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenRotatedSampledPoints3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
@@ -2541,6 +2554,7 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
 	to.IsHiddenRotatedTorusShape = from.IsHiddenRotatedTorusShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenRotatedSampledPoints3DShape = from.IsHiddenRotatedSampledPoints3DShape
 }
 
 type TopEndArcShape_WOP struct {

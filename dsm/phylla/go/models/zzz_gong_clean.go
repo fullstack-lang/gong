@@ -496,6 +496,13 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by RotatedSampledPoints3DShape
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by SampledPoints3DShape
 func (sampledpoints3dshape *SampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -793,6 +800,7 @@ func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &stooldiagram.Torus3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.RotatedTorusShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.RotatedSampledPoints3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
 	return
 }

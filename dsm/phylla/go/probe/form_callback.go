@@ -6788,6 +6788,84 @@ func (rotatedrhombusshapeFormCallback *RotatedRhombusShapeFormCallback) OnSave()
 
 	rotatedrhombusshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__RotatedSampledPoints3DShapeFormCallback(
+	rotatedsampledpoints3dshape *models.RotatedSampledPoints3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rotatedsampledpoints3dshapeFormCallback *RotatedSampledPoints3DShapeFormCallback) {
+	rotatedsampledpoints3dshapeFormCallback = new(RotatedSampledPoints3DShapeFormCallback)
+	rotatedsampledpoints3dshapeFormCallback.probe = probe
+	rotatedsampledpoints3dshapeFormCallback.rotatedsampledpoints3dshape = rotatedsampledpoints3dshape
+	rotatedsampledpoints3dshapeFormCallback.formGroup = formGroup
+
+	rotatedsampledpoints3dshapeFormCallback.CreationMode = (rotatedsampledpoints3dshape == nil)
+
+	return
+}
+
+type RotatedSampledPoints3DShapeFormCallback struct {
+	rotatedsampledpoints3dshape *models.RotatedSampledPoints3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rotatedsampledpoints3dshapeFormCallback *RotatedSampledPoints3DShapeFormCallback) OnSave() {
+	rotatedsampledpoints3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer rotatedsampledpoints3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RotatedSampledPoints3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rotatedsampledpoints3dshapeFormCallback.probe.formStage.Checkout()
+
+	if rotatedsampledpoints3dshapeFormCallback.rotatedsampledpoints3dshape == nil {
+		rotatedsampledpoints3dshapeFormCallback.rotatedsampledpoints3dshape = new(models.RotatedSampledPoints3DShape).Stage(rotatedsampledpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+	rotatedsampledpoints3dshape_ := rotatedsampledpoints3dshapeFormCallback.rotatedsampledpoints3dshape
+	_ = rotatedsampledpoints3dshape_
+
+	for _, formDiv := range rotatedsampledpoints3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rotatedsampledpoints3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if rotatedsampledpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rotatedsampledpoints3dshape_.Unstage(rotatedsampledpoints3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	rotatedsampledpoints3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RotatedSampledPoints3DShape](
+		rotatedsampledpoints3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rotatedsampledpoints3dshapeFormCallback.CreationMode || rotatedsampledpoints3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rotatedsampledpoints3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rotatedsampledpoints3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RotatedSampledPoints3DShapeFormCallback(
+			nil,
+			rotatedsampledpoints3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		rotatedsampledpoints3dshape := new(models.RotatedSampledPoints3DShape)
+		FillUpForm(rotatedsampledpoints3dshape, newFormGroup, rotatedsampledpoints3dshapeFormCallback.probe)
+		rotatedsampledpoints3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	rotatedsampledpoints3dshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__SampledPoints3DShapeFormCallback(
 	sampledpoints3dshape *models.SampledPoints3DShape,
 	probe *Probe,
@@ -11911,6 +11989,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSampledPoints3DShape), formDiv)
 		case "SampledPoints3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.SampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSampledPoints3DShape), formDiv)
+		case "RotatedSampledPoints3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.RotatedSampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}

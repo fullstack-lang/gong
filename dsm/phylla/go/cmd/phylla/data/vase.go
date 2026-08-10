@@ -234,12 +234,12 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -449.881600
-	__Rendered3DShape__00000002_.ViewY = 324.046621
-	__Rendered3DShape__00000002_.ViewZ = -1614.495497
-	__Rendered3DShape__00000002_.TargetX = 0.000000
-	__Rendered3DShape__00000002_.TargetY = 100.000000
-	__Rendered3DShape__00000002_.TargetZ = 0.000000
+	__Rendered3DShape__00000002_.ViewX = 584.616077
+	__Rendered3DShape__00000002_.ViewY = 170.870062
+	__Rendered3DShape__00000002_.ViewZ = -429.241838
+	__Rendered3DShape__00000002_.TargetX = -25.025674
+	__Rendered3DShape__00000002_.TargetY = 215.220292
+	__Rendered3DShape__00000002_.TargetZ = -4.710134
 	__Rendered3DShape__00000002_.Fov = 45.000000
 
 	__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -258,9 +258,10 @@ func _(stage *models.Stage) {
 	__StoolDiagram__00000000_.IsHiddenRotatedSeatTopCurveShape = false
 	__StoolDiagram__00000000_.IsHiddenSeatBottomCurveShape = false
 	__StoolDiagram__00000000_.IsHiddenRotatedSeatBottomCurveShape = false
-	__StoolDiagram__00000000_.IsHiddenTorus3DShape = false
-	__StoolDiagram__00000000_.IsHiddenRotatedTorusShape = false
-	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
+	__StoolDiagram__00000000_.IsHiddenTorus3DShape = true
+	__StoolDiagram__00000000_.IsHiddenRotatedTorusShape = true
+	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = false
+	__StoolDiagram__00000000_.IsHiddenRotatedSampledPoints3DShape = false
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000

@@ -611,6 +611,12 @@ type Torus3DShape struct {
 	Name string
 }
 
+// RotatedSampledPoints3DShape of a plant,
+// gong:omit
+type RotatedSampledPoints3DShape struct {
+	Name string
+}
+
 // StackOfPartiallyRotatedTorusShape of a plant,
 // gong:omit
 type StackOfPartiallyRotatedTorusShape struct {

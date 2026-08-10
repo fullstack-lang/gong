@@ -371,6 +371,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Torus", plantDiagram.StoolDiagram.Torus3DShape, &plantDiagram.StoolDiagram.IsHiddenTorus3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated 3D Torus", plantDiagram.StoolDiagram.RotatedTorusShape, &plantDiagram.StoolDiagram.IsHiddenRotatedTorusShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.StoolDiagram.SampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenSampledPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "Rotated 3D Sampled Points", plantDiagram.StoolDiagram.RotatedSampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat Top Curve", plantDiagram.StoolDiagram.SeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenSeatTopCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat Top Curve", plantDiagram.StoolDiagram.RotatedSeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat Bottom Curve", plantDiagram.StoolDiagram.SeatBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenSeatBottomCurveShape)
