@@ -2536,6 +2536,8 @@ type StoolAbstract_WOP struct {
 
 	RelativeHeight3DTorus float64
 
+	StoolTorusVerticalScale float64
+
 	RelativeHeight float64
 
 	RelativeSeatThickness float64
@@ -2554,6 +2556,7 @@ func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
 	to.Transparency = from.Transparency
 	to.RelativeTubeDiameter = from.RelativeTubeDiameter
 	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
+	to.StoolTorusVerticalScale = from.StoolTorusVerticalScale
 	to.RelativeHeight = from.RelativeHeight
 	to.RelativeSeatThickness = from.RelativeSeatThickness
 	to.ProjectionAngle = from.ProjectionAngle

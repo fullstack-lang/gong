@@ -13187,6 +13187,9 @@ func (stoolabstract *StoolAbstract) GongDiff(stage *Stage, stoolabstractOther *S
 	if stoolabstract.RelativeHeight3DTorus != stoolabstractOther.RelativeHeight3DTorus {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
 	}
+	if stoolabstract.StoolTorusVerticalScale != stoolabstractOther.StoolTorusVerticalScale {
+		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
+	}
 	if stoolabstract.RelativeHeight != stoolabstractOther.RelativeHeight {
 		diffs = append(diffs, stoolabstract.GongMarshallField(stage, "RelativeHeight"))
 	}

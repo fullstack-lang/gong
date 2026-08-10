@@ -4454,6 +4454,8 @@ func (u *StoolAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.RelativeTubeDiameter = GongExtractFloat(valueExpr)
 	case "RelativeHeight3DTorus":
 		instance.RelativeHeight3DTorus = GongExtractFloat(valueExpr)
+	case "StoolTorusVerticalScale":
+		instance.StoolTorusVerticalScale = GongExtractFloat(valueExpr)
 	case "RelativeHeight":
 		instance.RelativeHeight = GongExtractFloat(valueExpr)
 	case "RelativeSeatThickness":

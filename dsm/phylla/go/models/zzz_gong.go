@@ -31548,6 +31548,10 @@ func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "StoolTorusVerticalScale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "RelativeHeight",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -36233,6 +36237,10 @@ func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight3DTorus)
 		res.valueFloat = stoolabstract.RelativeHeight3DTorus
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StoolTorusVerticalScale":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.StoolTorusVerticalScale)
+		res.valueFloat = stoolabstract.StoolTorusVerticalScale
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RelativeHeight":
 		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight)
 		res.valueFloat = stoolabstract.RelativeHeight
@@ -40479,6 +40487,8 @@ func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value Go
 		stoolabstract.RelativeTubeDiameter = value.GetValueFloat()
 	case "RelativeHeight3DTorus":
 		stoolabstract.RelativeHeight3DTorus = value.GetValueFloat()
+	case "StoolTorusVerticalScale":
+		stoolabstract.StoolTorusVerticalScale = value.GetValueFloat()
 	case "RelativeHeight":
 		stoolabstract.RelativeHeight = value.GetValueFloat()
 	case "RelativeSeatThickness":

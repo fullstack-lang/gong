@@ -97,6 +97,9 @@ type StoolAbstract struct {
 
 	RelativeHeight3DTorus float64
 
+	// scale applied to 3D Torus sample points
+	StoolTorusVerticalScale float64
+
 	// height to the top of the seat (standard is 45 cm)
 	RelativeHeight        float64
 	RelativeSeatThickness float64 // 5 cm ?
