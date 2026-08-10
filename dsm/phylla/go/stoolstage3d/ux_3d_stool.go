@@ -1279,6 +1279,272 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				}
 			}
 		}
+
+		buildSeatAndLegsGeom := func(geomName string, deltaTheta float64, deltaY float64) *threejs.BufferGeometry {
+			geom := (&threejs.BufferGeometry{
+				Name: geomName,
+			}).Stage(stool3dStage)
+
+			cosOffset := math.Cos(deltaTheta)
+			sinOffset := math.Sin(deltaTheta)
+
+			transformPoint := func(pt *threejs.Vector3, addY float64) (float64, float64, float64) {
+				tx := pt.X*cosOffset - pt.Z*sinOffset
+				tz := pt.X*sinOffset + pt.Z*cosOffset
+				ty := pt.Y + addY
+				return tx, ty, tz
+			}
+
+			// --- A. Seat Volume ---
+			if len(rotSeatTopPoints) >= 3 && len(rotSeatTopPoints) == len(rotSeatBottomPoints) {
+				N := len(rotSeatTopPoints)
+				seatBaseIdx := len(geom.Vertices)
+
+				var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
+				for i := 0; i < N; i++ {
+					tx, ty, tz := transformPoint(rotSeatTopPoints[i], deltaY)
+					topV := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Seat Top V %d", geomName, i),
+						X:    tx,
+						Y:    ty,
+						Z:    tz,
+					}).Stage(stool3dStage)
+					geom.Vertices = append(geom.Vertices, topV)
+					sumTopX += tx
+					sumTopZ += tz
+				}
+
+				for i := 0; i < N; i++ {
+					tx, ty, tz := transformPoint(rotSeatBottomPoints[i], deltaY)
+					botV := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Seat Bottom V %d", geomName, i),
+						X:    tx,
+						Y:    ty,
+						Z:    tz,
+					}).Stage(stool3dStage)
+					geom.Vertices = append(geom.Vertices, botV)
+					sumBottomX += tx
+					sumBottomZ += tz
+				}
+
+				topCenterIdx := len(geom.Vertices)
+				topCenterV := (&threejs.Vector3{
+					Name: fmt.Sprintf("%s Seat Top Center", geomName),
+					X:    sumTopX / float64(N),
+					Y:    stoolTopHeight + deltaY,
+					Z:    sumTopZ / float64(N),
+				}).Stage(stool3dStage)
+				geom.Vertices = append(geom.Vertices, topCenterV)
+
+				botCenterIdx := len(geom.Vertices)
+				botCenterV := (&threejs.Vector3{
+					Name: fmt.Sprintf("%s Seat Bottom Center", geomName),
+					X:    sumBottomX / float64(N),
+					Y:    seatBottomHeight + deltaY,
+					Z:    sumBottomZ / float64(N),
+				}).Stage(stool3dStage)
+				geom.Vertices = append(geom.Vertices, botCenterV)
+
+				// 1. Top face (facing +Y): (topCenter, nextI, i)
+				for i := 0; i < N; i++ {
+					nextI := (i + 1) % N
+					geom.Faces = append(geom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("%s Seat Top Face %d", geomName, i),
+						V1:   topCenterIdx,
+						V2:   seatBaseIdx + nextI,
+						V3:   seatBaseIdx + i,
+					}).Stage(stool3dStage))
+				}
+
+				// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
+				for i := 0; i < N; i++ {
+					nextI := (i + 1) % N
+					botI := seatBaseIdx + N + i
+					botNextI := seatBaseIdx + N + nextI
+					geom.Faces = append(geom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("%s Seat Bottom Face %d", geomName, i),
+						V1:   botCenterIdx,
+						V2:   botI,
+						V3:   botNextI,
+					}).Stage(stool3dStage))
+				}
+
+				// 3. Side wall quads between Top and Bottom:
+				for i := 0; i < N; i++ {
+					nextI := (i + 1) % N
+					topI := seatBaseIdx + i
+					topNextI := seatBaseIdx + nextI
+					botI := seatBaseIdx + N + i
+					botNextI := seatBaseIdx + N + nextI
+
+					geom.Faces = append(geom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("%s Seat Wall T1 %d", geomName, i),
+						V1:   botI,
+						V2:   topI,
+						V3:   topNextI,
+					}).Stage(stool3dStage))
+
+					geom.Faces = append(geom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("%s Seat Wall T2 %d", geomName, i),
+						V1:   botI,
+						V2:   topNextI,
+						V3:   botNextI,
+					}).Stage(stool3dStage))
+				}
+			}
+
+			// --- B. Legs (Eye Volumes across radialRepetitions) ---
+			if len(projSeatBottomEyePoints) >= 3 && len(projSeatBottomEyePoints) == len(projStoolBottomEyePoints) {
+				M := len(projSeatBottomEyePoints)
+
+				for k := 0; k < radialRepetitions; k++ {
+					baseRot := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+					totalRot := baseRot + deltaTheta
+					cosK := math.Cos(totalRot)
+					sinK := math.Sin(totalRot)
+
+					legBaseIdx := len(geom.Vertices)
+
+					var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
+					for i := 0; i < M; i++ {
+						origTop := projSeatBottomEyePoints[i]
+						rx := origTop.X*cosK - origTop.Z*sinK
+						rz := origTop.X*sinK + origTop.Z*cosK
+						topV := (&threejs.Vector3{
+							Name: fmt.Sprintf("%s Leg Top V k%d %d", geomName, k, i),
+							X:    rx,
+							Y:    origTop.Y + deltaY,
+							Z:    rz,
+						}).Stage(stool3dStage)
+						geom.Vertices = append(geom.Vertices, topV)
+						sumTopX += rx
+						sumTopZ += rz
+					}
+
+					for i := 0; i < M; i++ {
+						origBot := projStoolBottomEyePoints[i]
+						rx := origBot.X*cosK - origBot.Z*sinK
+						rz := origBot.X*sinK + origBot.Z*cosK
+						botV := (&threejs.Vector3{
+							Name: fmt.Sprintf("%s Leg Bottom V k%d %d", geomName, k, i),
+							X:    rx,
+							Y:    origBot.Y + deltaY,
+							Z:    rz,
+						}).Stage(stool3dStage)
+						geom.Vertices = append(geom.Vertices, botV)
+						sumBottomX += rx
+						sumBottomZ += rz
+					}
+
+					topCenterIdx := len(geom.Vertices)
+					topCenterV := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Leg Top Center k%d", geomName, k),
+						X:    sumTopX / float64(M),
+						Y:    seatBottomHeight + deltaY,
+						Z:    sumTopZ / float64(M),
+					}).Stage(stool3dStage)
+					geom.Vertices = append(geom.Vertices, topCenterV)
+
+					botCenterIdx := len(geom.Vertices)
+					botCenterV := (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Leg Bottom Center k%d", geomName, k),
+						X:    sumBottomX / float64(M),
+						Y:    0.0 + deltaY,
+						Z:    sumBottomZ / float64(M),
+					}).Stage(stool3dStage)
+					geom.Vertices = append(geom.Vertices, botCenterV)
+
+					// 1. Top face (facing +Y): (topCenter, nextI, i)
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						geom.Faces = append(geom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("%s Leg Top Face k%d %d", geomName, k, i),
+							V1:   topCenterIdx,
+							V2:   legBaseIdx + nextI,
+							V3:   legBaseIdx + i,
+						}).Stage(stool3dStage))
+					}
+
+					// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						botI := legBaseIdx + M + i
+						botNextI := legBaseIdx + M + nextI
+						geom.Faces = append(geom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("%s Leg Bottom Face k%d %d", geomName, k, i),
+							V1:   botCenterIdx,
+							V2:   botI,
+							V3:   botNextI,
+						}).Stage(stool3dStage))
+					}
+
+					// 3. Side wall quads between Top and Bottom:
+					for i := 0; i < M; i++ {
+						nextI := (i + 1) % M
+						topI := legBaseIdx + i
+						topNextI := legBaseIdx + nextI
+						botI := legBaseIdx + M + i
+						botNextI := legBaseIdx + M + nextI
+
+						geom.Faces = append(geom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("%s Leg Wall T1 k%d %d", geomName, k, i),
+							V1:   botI,
+							V2:   topI,
+							V3:   topNextI,
+						}).Stage(stool3dStage))
+
+						geom.Faces = append(geom.Faces, (&threejs.Triangle{
+							Name: fmt.Sprintf("%s Leg Wall T2 k%d %d", geomName, k, i),
+							V1:   botI,
+							V2:   topNextI,
+							V3:   botNextI,
+						}).Stage(stool3dStage))
+					}
+				}
+			}
+
+			return geom
+		}
+
+		// 20. 3D Seat and Legs (Union of seat and all legs)
+		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenSeatAndLegs3DShape {
+			seatAndLegsGeom := buildSeatAndLegsGeom("Stool Seat and Legs", 0.0, 0.0)
+			if len(seatAndLegsGeom.Faces) > 0 {
+				seatAndLegsMesh := (&threejs.Mesh{
+					Name:           "Stool Seat and Legs Mesh",
+					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					BufferGeometry: seatAndLegsGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Seat and Legs Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "saddlebrown"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, seatAndLegsMesh)
+			}
+		}
+
+		// 21. 3D Rotated Seat and Legs (Transformed by growthVector)
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatAndLegs3DShape {
+			rotSeatAndLegsGeom := buildSeatAndLegsGeom("Stool Rotated Seat and Legs", growthVectorX/globalR, growthVectorY)
+			if len(rotSeatAndLegsGeom.Faces) > 0 {
+				rotSeatAndLegsMesh := (&threejs.Mesh{
+					Name:           "Stool Rotated Seat and Legs Mesh",
+					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					BufferGeometry: rotSeatAndLegsGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Rotated Seat and Legs Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkgoldenrod"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, rotSeatAndLegsMesh)
+			}
+		}
 	}
 
 	// Floor tiles that encompass the stool cylinder

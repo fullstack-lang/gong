@@ -864,6 +864,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RotatedSeatAndLegs3DShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "RotatedSeatAndLegs3DShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RotatedSeatAndLegs3DShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.SampledPoints3DShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -884,6 +897,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Seat3DShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__Seat3DShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.SeatAndLegs3DShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "SeatAndLegs3DShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SeatAndLegs3DShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

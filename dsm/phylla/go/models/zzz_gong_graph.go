@@ -202,11 +202,17 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *RotatedSampledPoints3DShape:
 		ok = stage.IsStagedRotatedSampledPoints3DShape(target)
 
+	case *RotatedSeatAndLegs3DShape:
+		ok = stage.IsStagedRotatedSeatAndLegs3DShape(target)
+
 	case *SampledPoints3DShape:
 		ok = stage.IsStagedSampledPoints3DShape(target)
 
 	case *Seat3DShape:
 		ok = stage.IsStagedSeat3DShape(target)
+
+	case *SeatAndLegs3DShape:
+		ok = stage.IsStagedSeatAndLegs3DShape(target)
 
 	case *SeatBottomCurveShape:
 		ok = stage.IsStagedSeatBottomCurveShape(target)
@@ -599,11 +605,17 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *RotatedSampledPoints3DShape:
 		ok = stage.IsStagedRotatedSampledPoints3DShape(target)
 
+	case *RotatedSeatAndLegs3DShape:
+		ok = stage.IsStagedRotatedSeatAndLegs3DShape(target)
+
 	case *SampledPoints3DShape:
 		ok = stage.IsStagedSampledPoints3DShape(target)
 
 	case *Seat3DShape:
 		ok = stage.IsStagedSeat3DShape(target)
+
+	case *SeatAndLegs3DShape:
+		ok = stage.IsStagedSeatAndLegs3DShape(target)
 
 	case *SeatBottomCurveShape:
 		ok = stage.IsStagedSeatBottomCurveShape(target)
@@ -1253,6 +1265,13 @@ func (stage *Stage) IsStagedRotatedSampledPoints3DShape(rotatedsampledpoints3dsh
 	return
 }
 
+func (stage *Stage) IsStagedRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) (ok bool) {
+
+	_, ok = stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) (ok bool) {
 
 	_, ok = stage.SampledPoints3DShapes[sampledpoints3dshape]
@@ -1263,6 +1282,13 @@ func (stage *Stage) IsStagedSampledPoints3DShape(sampledpoints3dshape *SampledPo
 func (stage *Stage) IsStagedSeat3DShape(seat3dshape *Seat3DShape) (ok bool) {
 
 	_, ok = stage.Seat3DShapes[seat3dshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) (ok bool) {
+
+	_, ok = stage.SeatAndLegs3DShapes[seatandlegs3dshape]
 
 	return
 }
@@ -1904,11 +1930,17 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *RotatedSampledPoints3DShape:
 		stage.StageBranchRotatedSampledPoints3DShape(target)
 
+	case *RotatedSeatAndLegs3DShape:
+		stage.StageBranchRotatedSeatAndLegs3DShape(target)
+
 	case *SampledPoints3DShape:
 		stage.StageBranchSampledPoints3DShape(target)
 
 	case *Seat3DShape:
 		stage.StageBranchSeat3DShape(target)
+
+	case *SeatAndLegs3DShape:
+		stage.StageBranchSeatAndLegs3DShape(target)
 
 	case *SeatBottomCurveShape:
 		stage.StageBranchSeatBottomCurveShape(target)
@@ -3098,6 +3130,21 @@ func (stage *Stage) StageBranchRotatedSampledPoints3DShape(rotatedsampledpoints3
 
 }
 
+func (stage *Stage) StageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, rotatedseatandlegs3dshape) {
+		return
+	}
+
+	rotatedseatandlegs3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -3121,6 +3168,21 @@ func (stage *Stage) StageBranchSeat3DShape(seat3dshape *Seat3DShape) {
 	}
 
 	seat3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, seatandlegs3dshape) {
+		return
+	}
+
+	seatandlegs3dshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -4347,12 +4409,20 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchRotatedSampledPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *RotatedSeatAndLegs3DShape:
+		toT := CopyBranchRotatedSeatAndLegs3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *SampledPoints3DShape:
 		toT := CopyBranchSampledPoints3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Seat3DShape:
 		toT := CopyBranchSeat3DShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SeatAndLegs3DShape:
+		toT := CopyBranchSeatAndLegs3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *SeatBottomCurveShape:
@@ -5866,6 +5936,25 @@ func CopyBranchRotatedSampledPoints3DShape(mapOrigCopy map[any]any, rotatedsampl
 	return
 }
 
+func CopyBranchRotatedSeatAndLegs3DShape(mapOrigCopy map[any]any, rotatedseatandlegs3dshapeFrom *RotatedSeatAndLegs3DShape) (rotatedseatandlegs3dshapeTo *RotatedSeatAndLegs3DShape) {
+
+	// rotatedseatandlegs3dshapeFrom has already been copied
+	if _rotatedseatandlegs3dshapeTo, ok := mapOrigCopy[rotatedseatandlegs3dshapeFrom]; ok {
+		rotatedseatandlegs3dshapeTo = _rotatedseatandlegs3dshapeTo.(*RotatedSeatAndLegs3DShape)
+		return
+	}
+
+	rotatedseatandlegs3dshapeTo = new(RotatedSeatAndLegs3DShape)
+	mapOrigCopy[rotatedseatandlegs3dshapeFrom] = rotatedseatandlegs3dshapeTo
+	rotatedseatandlegs3dshapeFrom.CopyBasicFields(rotatedseatandlegs3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchSampledPoints3DShape(mapOrigCopy map[any]any, sampledpoints3dshapeFrom *SampledPoints3DShape) (sampledpoints3dshapeTo *SampledPoints3DShape) {
 
 	// sampledpoints3dshapeFrom has already been copied
@@ -5896,6 +5985,25 @@ func CopyBranchSeat3DShape(mapOrigCopy map[any]any, seat3dshapeFrom *Seat3DShape
 	seat3dshapeTo = new(Seat3DShape)
 	mapOrigCopy[seat3dshapeFrom] = seat3dshapeTo
 	seat3dshapeFrom.CopyBasicFields(seat3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSeatAndLegs3DShape(mapOrigCopy map[any]any, seatandlegs3dshapeFrom *SeatAndLegs3DShape) (seatandlegs3dshapeTo *SeatAndLegs3DShape) {
+
+	// seatandlegs3dshapeFrom has already been copied
+	if _seatandlegs3dshapeTo, ok := mapOrigCopy[seatandlegs3dshapeFrom]; ok {
+		seatandlegs3dshapeTo = _seatandlegs3dshapeTo.(*SeatAndLegs3DShape)
+		return
+	}
+
+	seatandlegs3dshapeTo = new(SeatAndLegs3DShape)
+	mapOrigCopy[seatandlegs3dshapeFrom] = seatandlegs3dshapeTo
+	seatandlegs3dshapeFrom.CopyBasicFields(seatandlegs3dshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -7303,11 +7411,17 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *RotatedSampledPoints3DShape:
 		stage.UnstageBranchRotatedSampledPoints3DShape(target)
 
+	case *RotatedSeatAndLegs3DShape:
+		stage.UnstageBranchRotatedSeatAndLegs3DShape(target)
+
 	case *SampledPoints3DShape:
 		stage.UnstageBranchSampledPoints3DShape(target)
 
 	case *Seat3DShape:
 		stage.UnstageBranchSeat3DShape(target)
+
+	case *SeatAndLegs3DShape:
+		stage.UnstageBranchSeatAndLegs3DShape(target)
 
 	case *SeatBottomCurveShape:
 		stage.UnstageBranchSeatBottomCurveShape(target)
@@ -8497,6 +8611,21 @@ func (stage *Stage) UnstageBranchRotatedSampledPoints3DShape(rotatedsampledpoint
 
 }
 
+func (stage *Stage) UnstageBranchRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, rotatedseatandlegs3dshape) {
+		return
+	}
+
+	rotatedseatandlegs3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape) {
 
 	// check if instance is already staged
@@ -8520,6 +8649,21 @@ func (stage *Stage) UnstageBranchSeat3DShape(seat3dshape *Seat3DShape) {
 	}
 
 	seat3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, seatandlegs3dshape) {
+		return
+	}
+
+	seatandlegs3dshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -9825,12 +9969,22 @@ func (reference *RotatedSampledPoints3DShape) GongReconstructPointersFromReferen
 	// insertion point for slice of pointers field
 }
 
+func (reference *RotatedSeatAndLegs3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *RotatedSeatAndLegs3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *SampledPoints3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *SampledPoints3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
 
 func (reference *Seat3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *Seat3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *SeatAndLegs3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *SeatAndLegs3DShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -10534,12 +10688,22 @@ func (reference *RotatedSampledPoints3DShape) GongReconstructPointersFromInstanc
 	// insertion point for slice of pointers fields
 }
 
+func (reference *RotatedSeatAndLegs3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *SampledPoints3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
 func (reference *Seat3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *SeatAndLegs3DShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -12329,6 +12493,17 @@ func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongDiff(stage *
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongDiff(stage *Stage, rotatedseatandlegs3dshapeOther *RotatedSeatAndLegs3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if rotatedseatandlegs3dshape.Name != rotatedseatandlegs3dshapeOther.Name {
+		diffs = append(diffs, rotatedseatandlegs3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (sampledpoints3dshape *SampledPoints3DShape) GongDiff(stage *Stage, sampledpoints3dshapeOther *SampledPoints3DShape) (diffs []string) {
 	// insertion point for field diffs
 	if sampledpoints3dshape.Name != sampledpoints3dshapeOther.Name {
@@ -12344,6 +12519,17 @@ func (seat3dshape *Seat3DShape) GongDiff(stage *Stage, seat3dshapeOther *Seat3DS
 	// insertion point for field diffs
 	if seat3dshape.Name != seat3dshapeOther.Name {
 		diffs = append(diffs, seat3dshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongDiff(stage *Stage, seatandlegs3dshapeOther *SeatAndLegs3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if seatandlegs3dshape.Name != seatandlegs3dshapeOther.Name {
+		diffs = append(diffs, seatandlegs3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -13639,6 +13825,12 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	}
 	if stooldiagram.IsHiddenEyeVolume3DShape != stooldiagramOther.IsHiddenEyeVolume3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenEyeVolume3DShape"))
+	}
+	if stooldiagram.IsHiddenSeatAndLegs3DShape != stooldiagramOther.IsHiddenSeatAndLegs3DShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenSeatAndLegs3DShape"))
+	}
+	if stooldiagram.IsHiddenRotatedSeatAndLegs3DShape != stooldiagramOther.IsHiddenRotatedSeatAndLegs3DShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatAndLegs3DShape"))
 	}
 	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))

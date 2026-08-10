@@ -266,6 +266,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRotatedSampledPoints3DShapeCreateCallback != nil {
 			stage.OnAfterRotatedSampledPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *RotatedSeatAndLegs3DShape:
+		if stage.OnAfterRotatedSeatAndLegs3DShapeCreateCallback != nil {
+			stage.OnAfterRotatedSeatAndLegs3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *SampledPoints3DShape:
 		if stage.OnAfterSampledPoints3DShapeCreateCallback != nil {
 			stage.OnAfterSampledPoints3DShapeCreateCallback.OnAfterCreate(stage, target)
@@ -273,6 +277,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Seat3DShape:
 		if stage.OnAfterSeat3DShapeCreateCallback != nil {
 			stage.OnAfterSeat3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *SeatAndLegs3DShape:
+		if stage.OnAfterSeatAndLegs3DShapeCreateCallback != nil {
+			stage.OnAfterSeatAndLegs3DShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *SeatBottomCurveShape:
 		if stage.OnAfterSeatBottomCurveShapeCreateCallback != nil {
@@ -861,6 +869,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterRotatedSampledPoints3DShapeUpdateCallback != nil {
 			stage.OnAfterRotatedSampledPoints3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *RotatedSeatAndLegs3DShape:
+		newTarget := any(new).(*RotatedSeatAndLegs3DShape)
+		if stage.OnAfterRotatedSeatAndLegs3DShapeUpdateCallback != nil {
+			stage.OnAfterRotatedSeatAndLegs3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *SampledPoints3DShape:
 		newTarget := any(new).(*SampledPoints3DShape)
 		if stage.OnAfterSampledPoints3DShapeUpdateCallback != nil {
@@ -870,6 +883,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Seat3DShape)
 		if stage.OnAfterSeat3DShapeUpdateCallback != nil {
 			stage.OnAfterSeat3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *SeatAndLegs3DShape:
+		newTarget := any(new).(*SeatAndLegs3DShape)
+		if stage.OnAfterSeatAndLegs3DShapeUpdateCallback != nil {
+			stage.OnAfterSeatAndLegs3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *SeatBottomCurveShape:
 		newTarget := any(new).(*SeatBottomCurveShape)
@@ -1516,6 +1534,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*RotatedSampledPoints3DShape)
 			stage.OnAfterRotatedSampledPoints3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *RotatedSeatAndLegs3DShape:
+		if stage.OnAfterRotatedSeatAndLegs3DShapeDeleteCallback != nil {
+			staged := any(staged).(*RotatedSeatAndLegs3DShape)
+			stage.OnAfterRotatedSeatAndLegs3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *SampledPoints3DShape:
 		if stage.OnAfterSampledPoints3DShapeDeleteCallback != nil {
 			staged := any(staged).(*SampledPoints3DShape)
@@ -1525,6 +1548,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterSeat3DShapeDeleteCallback != nil {
 			staged := any(staged).(*Seat3DShape)
 			stage.OnAfterSeat3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *SeatAndLegs3DShape:
+		if stage.OnAfterSeatAndLegs3DShapeDeleteCallback != nil {
+			staged := any(staged).(*SeatAndLegs3DShape)
+			stage.OnAfterSeatAndLegs3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *SeatBottomCurveShape:
 		if stage.OnAfterSeatBottomCurveShapeDeleteCallback != nil {
@@ -2106,6 +2134,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRotatedSampledPoints3DShapeReadCallback != nil {
 			stage.OnAfterRotatedSampledPoints3DShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *RotatedSeatAndLegs3DShape:
+		if stage.OnAfterRotatedSeatAndLegs3DShapeReadCallback != nil {
+			stage.OnAfterRotatedSeatAndLegs3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *SampledPoints3DShape:
 		if stage.OnAfterSampledPoints3DShapeReadCallback != nil {
 			stage.OnAfterSampledPoints3DShapeReadCallback.OnAfterRead(stage, target)
@@ -2113,6 +2145,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Seat3DShape:
 		if stage.OnAfterSeat3DShapeReadCallback != nil {
 			stage.OnAfterSeat3DShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *SeatAndLegs3DShape:
+		if stage.OnAfterSeatAndLegs3DShapeReadCallback != nil {
+			stage.OnAfterSeatAndLegs3DShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *SeatBottomCurveShape:
 		if stage.OnAfterSeatBottomCurveShapeReadCallback != nil {
@@ -2503,10 +2539,14 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusShape])
 	case *RotatedSampledPoints3DShape:
 		stage.OnAfterRotatedSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedSampledPoints3DShape])
+	case *RotatedSeatAndLegs3DShape:
+		stage.OnAfterRotatedSeatAndLegs3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedSeatAndLegs3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SampledPoints3DShape])
 	case *Seat3DShape:
 		stage.OnAfterSeat3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Seat3DShape])
+	case *SeatAndLegs3DShape:
+		stage.OnAfterSeatAndLegs3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SeatAndLegs3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
@@ -2768,10 +2808,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusShape])
 	case *RotatedSampledPoints3DShape:
 		stage.OnAfterRotatedSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedSampledPoints3DShape])
+	case *RotatedSeatAndLegs3DShape:
+		stage.OnAfterRotatedSeatAndLegs3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedSeatAndLegs3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[SampledPoints3DShape])
 	case *Seat3DShape:
 		stage.OnAfterSeat3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[Seat3DShape])
+	case *SeatAndLegs3DShape:
+		stage.OnAfterSeatAndLegs3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[SeatAndLegs3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
@@ -3033,10 +3077,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRotatedRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusShape])
 	case *RotatedSampledPoints3DShape:
 		stage.OnAfterRotatedSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedSampledPoints3DShape])
+	case *RotatedSeatAndLegs3DShape:
+		stage.OnAfterRotatedSeatAndLegs3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedSeatAndLegs3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SampledPoints3DShape])
 	case *Seat3DShape:
 		stage.OnAfterSeat3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Seat3DShape])
+	case *SeatAndLegs3DShape:
+		stage.OnAfterSeatAndLegs3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SeatAndLegs3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:
@@ -3298,10 +3346,14 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRotatedRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusShape])
 	case *RotatedSampledPoints3DShape:
 		stage.OnAfterRotatedSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedSampledPoints3DShape])
+	case *RotatedSeatAndLegs3DShape:
+		stage.OnAfterRotatedSeatAndLegs3DShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedSeatAndLegs3DShape])
 	case *SampledPoints3DShape:
 		stage.OnAfterSampledPoints3DShapeReadCallback = any(callback).(OnAfterReadInterface[SampledPoints3DShape])
 	case *Seat3DShape:
 		stage.OnAfterSeat3DShapeReadCallback = any(callback).(OnAfterReadInterface[Seat3DShape])
+	case *SeatAndLegs3DShape:
+		stage.OnAfterSeatAndLegs3DShapeReadCallback = any(callback).(OnAfterReadInterface[SeatAndLegs3DShape])
 	case *SeatBottomCurveShape:
 		stage.OnAfterSeatBottomCurveShapeReadCallback = any(callback).(OnAfterReadInterface[SeatBottomCurveShape])
 	case *SeatTopCurveShape:

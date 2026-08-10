@@ -1388,6 +1388,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.RotatedSeatAndLegs3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.SampledPoints3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1399,6 +1409,16 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Seat3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.SeatAndLegs3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -2617,6 +2637,12 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenEyeVolume3DShape", instanceWithInferedType.IsHiddenEyeVolume3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("EyeVolume3DShape", instanceWithInferedType.EyeVolume3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSeatAndLegs3DShape", instanceWithInferedType.IsHiddenSeatAndLegs3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SeatAndLegs3DShape", instanceWithInferedType.SeatAndLegs3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedSeatAndLegs3DShape", instanceWithInferedType.IsHiddenRotatedSeatAndLegs3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedSeatAndLegs3DShape", instanceWithInferedType.RotatedSeatAndLegs3DShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

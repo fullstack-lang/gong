@@ -383,5 +383,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Stool Bottom Eye Curve", plantDiagram.StoolDiagram.EyeStoolBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenEyeStoolBottomCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat", plantDiagram.StoolDiagram.Seat3DShape, &plantDiagram.StoolDiagram.IsHiddenSeat3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Eye Volume", plantDiagram.StoolDiagram.EyeVolume3DShape, &plantDiagram.StoolDiagram.IsHiddenEyeVolume3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "Seat and Legs", plantDiagram.StoolDiagram.SeatAndLegs3DShape, &plantDiagram.StoolDiagram.IsHiddenSeatAndLegs3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat and Legs", plantDiagram.StoolDiagram.RotatedSeatAndLegs3DShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatAndLegs3DShape)
 	}
 }
