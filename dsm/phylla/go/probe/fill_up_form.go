@@ -271,6 +271,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.EyeCornersSampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.EyeSampledPoints3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2535,6 +2545,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenEyeSampledPoints3DShape", instanceWithInferedType.IsHiddenEyeSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("EyeSampledPoints3DShape", instanceWithInferedType.EyeSampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeCornersSampledPoints3DShape", instanceWithInferedType.IsHiddenEyeCornersSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeCornersSampledPoints3DShape", instanceWithInferedType.EyeCornersSampledPoints3DShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

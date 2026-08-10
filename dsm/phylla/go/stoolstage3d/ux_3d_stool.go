@@ -653,6 +653,91 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}
 			u.addPointSpheres(stool3dStage, eyePoints, "magenta", canvas, "Stool Eye Sampled", 0, 0)
 		}
+
+		// 15. Add 3D Eye Corners Sampled Points visualization for first repetition if toggled on
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeCornersSampledPoints3DShape {
+			var cornerPoints []*threejs.Vector3
+			thetaOffset := growthVectorX / globalR
+			eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength
+			expectedRad := expectedDegrees * math.Pi / 180.0
+			dStep := globalR * radInterval
+			if dStep <= 0 {
+				dStep = 1.0
+			}
+
+			getYAtAngle := func(evalAngle float64) float64 {
+				if len(resampledBaseCurve.Points) == 0 {
+					return 0
+				}
+				for evalAngle < 0 {
+					evalAngle += expectedRad
+				}
+				for evalAngle > expectedRad {
+					evalAngle -= expectedRad
+				}
+				idx := int(math.Floor(evalAngle / radInterval))
+				if idx < 0 {
+					idx = 0
+				}
+				if idx >= len(resampledBaseCurve.Points)-1 {
+					return resampledBaseCurve.Points[len(resampledBaseCurve.Points)-1].Y
+				}
+				t := (evalAngle - float64(idx)*radInterval) / radInterval
+				y0 := resampledBaseCurve.Points[idx].Y
+				y1 := resampledBaseCurve.Points[idx+1].Y
+				return y0 + t*(y1-y0)
+			}
+
+			// Identify transitions into and out of eye regions
+			numPts := len(resampledBaseCurve.Points)
+			inEye := make([]bool, numPts)
+			yBaseList := make([]float64, numPts)
+			yRotList := make([]float64, numPts)
+
+			for i, pt := range resampledBaseCurve.Points {
+				alpha := targetAngles[i]
+				yBaseList[i] = pt.Y + torusHeight
+				yRotList[i] = getYAtAngle(alpha-thetaOffset) + growthVectorY + torusHeight
+				dist := math.Abs(yBaseList[i] - yRotList[i])
+				inEye[i] = (dist > eyeCriteria)
+			}
+
+			addCornerInterpolation := func(angle float64, yBottom, yTop float64, cornerName string) {
+				deltaY := math.Abs(yTop - yBottom)
+				n := int(math.Round(deltaY / dStep))
+				if n < 2 {
+					n = 2
+				}
+				for j := 1; j < n; j++ {
+					t := float64(j) / float64(n)
+					y := yBottom + t*(yTop-yBottom)
+					x := globalR * math.Cos(angle)
+					z := globalR * math.Sin(angle)
+
+					cornerPoints = append(cornerPoints, (&threejs.Vector3{
+						Name: fmt.Sprintf("%s Point %d/%.1f", cornerName, j, angle*180.0/math.Pi),
+						X:    x,
+						Y:    y,
+						Z:    z,
+					}).Stage(stool3dStage))
+				}
+			}
+
+			for i := 0; i < numPts; i++ {
+				// Start of an eye segment (left corner)
+				if inEye[i] && (i == 0 || !inEye[i-1]) {
+					alpha := targetAngles[i]
+					addCornerInterpolation(alpha, yBaseList[i], yRotList[i], "Left Corner")
+				}
+				// End of an eye segment (right corner)
+				if inEye[i] && (i == numPts-1 || !inEye[i+1]) {
+					alpha := targetAngles[i]
+					addCornerInterpolation(alpha, yBaseList[i], yRotList[i], "Right Corner")
+				}
+			}
+
+			u.addPointSpheres(stool3dStage, cornerPoints, "cyan", canvas, "Stool Eye Corners Sampled", 0, 0)
+		}
 	}
 
 	// Floor tiles that encompass the stool cylinder

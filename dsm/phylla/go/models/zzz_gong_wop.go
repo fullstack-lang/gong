@@ -266,6 +266,17 @@ func (from *ExplanationTextShape) CopyBasicFields(to *ExplanationTextShape) {
 	to.Name = from.Name
 }
 
+type EyeCornersSampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeCornersSampledPoints3DShape) CopyBasicFields(to *EyeCornersSampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type EyeSampledPoints3DShape_WOP struct {
 	// insertion point
 
@@ -2558,6 +2569,8 @@ type StoolDiagram_WOP struct {
 	IsHiddenRotatedSampledPoints3DShape bool
 
 	IsHiddenEyeSampledPoints3DShape bool
+
+	IsHiddenEyeCornersSampledPoints3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
@@ -2572,6 +2585,7 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 	to.IsHiddenRotatedSampledPoints3DShape = from.IsHiddenRotatedSampledPoints3DShape
 	to.IsHiddenEyeSampledPoints3DShape = from.IsHiddenEyeSampledPoints3DShape
+	to.IsHiddenEyeCornersSampledPoints3DShape = from.IsHiddenEyeCornersSampledPoints3DShape
 }
 
 type TopEndArcShape_WOP struct {

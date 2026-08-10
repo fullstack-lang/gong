@@ -234,12 +234,12 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = 0.772397
-	__Rendered3DShape__00000002_.ViewY = 342.211983
-	__Rendered3DShape__00000002_.ViewZ = 428.608558
-	__Rendered3DShape__00000002_.TargetX = -9.466193
-	__Rendered3DShape__00000002_.TargetY = 286.436831
-	__Rendered3DShape__00000002_.TargetZ = -13.357847
+	__Rendered3DShape__00000002_.ViewX = -73.212180
+	__Rendered3DShape__00000002_.ViewY = 312.093082
+	__Rendered3DShape__00000002_.ViewZ = 353.387799
+	__Rendered3DShape__00000002_.TargetX = 17.241866
+	__Rendered3DShape__00000002_.TargetY = 330.159583
+	__Rendered3DShape__00000002_.TargetZ = 103.049934
 	__Rendered3DShape__00000002_.Fov = 45.000000
 
 	__SampledPoints3DShape__00000000_.Name = `New Plant - Diagram-SampledPoints3DShape`
@@ -264,6 +264,7 @@ func _(stage *models.Stage) {
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
 	__StoolDiagram__00000000_.IsHiddenRotatedSampledPoints3DShape = true
 	__StoolDiagram__00000000_.IsHiddenEyeSampledPoints3DShape = false
+	__StoolDiagram__00000000_.IsHiddenEyeCornersSampledPoints3DShape = false
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
 	__VaseAbstract__00000000_.RelativeVerticalThickness = 0.300000

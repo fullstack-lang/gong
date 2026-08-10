@@ -334,6 +334,21 @@ type Stage struct {
 	OnAfterExplanationTextShapeDeleteCallback OnAfterDeleteInterface[ExplanationTextShape]
 	OnAfterExplanationTextShapeReadCallback   OnAfterReadInterface[ExplanationTextShape]
 
+	EyeCornersSampledPoints3DShapes                map[*EyeCornersSampledPoints3DShape]struct{}
+	EyeCornersSampledPoints3DShapes_instance       map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapes_mapString      map[string]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapeOrder            uint
+	EyeCornersSampledPoints3DShape_stagedOrder     map[*EyeCornersSampledPoints3DShape]uint
+	EyeCornersSampledPoints3DShape_orderStaged     map[uint]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapes_reference      map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapes_referenceOrder map[*EyeCornersSampledPoints3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeCornersSampledPoints3DShapeCreateCallback OnAfterCreateInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeReadCallback   OnAfterReadInterface[EyeCornersSampledPoints3DShape]
+
 	EyeSampledPoints3DShapes                map[*EyeSampledPoints3DShape]struct{}
 	EyeSampledPoints3DShapes_instance       map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape
 	EyeSampledPoints3DShapes_mapString      map[string]*EyeSampledPoints3DShape
@@ -2368,6 +2383,10 @@ func (stage *Stage) Squash() {
 	stage.ExplanationTextShapes_instance = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_referenceOrder = make(map[*ExplanationTextShape]uint)
 
+	stage.EyeCornersSampledPoints3DShapes_reference = make(map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape)
+	stage.EyeCornersSampledPoints3DShapes_instance = make(map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape)
+	stage.EyeCornersSampledPoints3DShapes_referenceOrder = make(map[*EyeCornersSampledPoints3DShape]uint)
+
 	stage.EyeSampledPoints3DShapes_reference = make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape)
 	stage.EyeSampledPoints3DShapes_instance = make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape)
 	stage.EyeSampledPoints3DShapes_referenceOrder = make(map[*EyeSampledPoints3DShape]uint)
@@ -3015,6 +3034,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ExplanationTextShapeOrder = maxExplanationTextShapeOrder + 1
 	} else {
 		stage.ExplanationTextShapeOrder = 0
+	}
+
+	var maxEyeCornersSampledPoints3DShapeOrder uint
+	var foundEyeCornersSampledPoints3DShape bool
+	for _, order := range stage.EyeCornersSampledPoints3DShape_stagedOrder {
+		if !foundEyeCornersSampledPoints3DShape || order > maxEyeCornersSampledPoints3DShapeOrder {
+			maxEyeCornersSampledPoints3DShapeOrder = order
+			foundEyeCornersSampledPoints3DShape = true
+		}
+	}
+	if foundEyeCornersSampledPoints3DShape {
+		stage.EyeCornersSampledPoints3DShapeOrder = maxEyeCornersSampledPoints3DShapeOrder + 1
+	} else {
+		stage.EyeCornersSampledPoints3DShapeOrder = 0
 	}
 
 	var maxEyeSampledPoints3DShapeOrder uint
@@ -4800,6 +4833,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *EyeCornersSampledPoints3DShape:
+		tmp := GetStructInstancesByOrder(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeCornersSampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *EyeSampledPoints3DShape:
 		tmp := GetStructInstancesByOrder(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
 
@@ -6395,6 +6442,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.EndHalfwayArcShapeGrids, stage.EndHalfwayArcShapeGrid_stagedOrder)
 	case "ExplanationTextShape":
 		res = GetNamedStructInstances(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
+	case "EyeCornersSampledPoints3DShape":
+		res = GetNamedStructInstances(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
 	case "EyeSampledPoints3DShape":
 		res = GetNamedStructInstances(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
 	case "GridPathShape":
@@ -6710,6 +6759,8 @@ type BackRepoInterface interface {
 	CheckoutEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHalfwayArcShapeGrid)
 	CommitExplanationTextShape(explanationtextshape *ExplanationTextShape)
 	CheckoutExplanationTextShape(explanationtextshape *ExplanationTextShape)
+	CommitEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape)
+	CheckoutEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape)
 	CommitEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape)
 	CheckoutEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape)
 	CommitGridPathShape(gridpathshape *GridPathShape)
@@ -6974,6 +7025,9 @@ func NewStage(name string) (stage *Stage) {
 
 		ExplanationTextShapes:           make(map[*ExplanationTextShape]struct{}),
 		ExplanationTextShapes_mapString: make(map[string]*ExplanationTextShape),
+
+		EyeCornersSampledPoints3DShapes:           make(map[*EyeCornersSampledPoints3DShape]struct{}),
+		EyeCornersSampledPoints3DShapes_mapString: make(map[string]*EyeCornersSampledPoints3DShape),
 
 		EyeSampledPoints3DShapes:           make(map[*EyeSampledPoints3DShape]struct{}),
 		EyeSampledPoints3DShapes_mapString: make(map[string]*EyeSampledPoints3DShape),
@@ -7366,6 +7420,10 @@ func NewStage(name string) (stage *Stage) {
 		ExplanationTextShape_stagedOrder: make(map[*ExplanationTextShape]uint),
 		ExplanationTextShape_orderStaged: make(map[uint]*ExplanationTextShape),
 		ExplanationTextShapes_reference:  make(map[*ExplanationTextShape]*ExplanationTextShape),
+
+		EyeCornersSampledPoints3DShape_stagedOrder: make(map[*EyeCornersSampledPoints3DShape]uint),
+		EyeCornersSampledPoints3DShape_orderStaged: make(map[uint]*EyeCornersSampledPoints3DShape),
+		EyeCornersSampledPoints3DShapes_reference:  make(map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape),
 
 		EyeSampledPoints3DShape_stagedOrder: make(map[*EyeSampledPoints3DShape]uint),
 		EyeSampledPoints3DShape_orderStaged: make(map[uint]*EyeSampledPoints3DShape),
@@ -7835,6 +7893,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"ExplanationTextShape": &ExplanationTextShapeUnmarshaller{},
 
+			"EyeCornersSampledPoints3DShape": &EyeCornersSampledPoints3DShapeUnmarshaller{},
+
 			"EyeSampledPoints3DShape": &EyeSampledPoints3DShapeUnmarshaller{},
 
 			"GridPathShape": &GridPathShapeUnmarshaller{},
@@ -8072,6 +8132,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "EndHalfwayArcShape"},
 			{name: "EndHalfwayArcShapeGrid"},
 			{name: "ExplanationTextShape"},
+			{name: "EyeCornersSampledPoints3DShape"},
 			{name: "EyeSampledPoints3DShape"},
 			{name: "GridPathShape"},
 			{name: "GrowthCurve2D"},
@@ -8219,6 +8280,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.EndHalfwayArcShapeGrid_stagedOrder[instance]
 	case *ExplanationTextShape:
 		return stage.ExplanationTextShape_stagedOrder[instance]
+	case *EyeCornersSampledPoints3DShape:
+		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
 	case *EyeSampledPoints3DShape:
 		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
 	case *GridPathShape:
@@ -8474,6 +8537,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.EndHalfwayArcShapeGrid_orderStaged[order]).(Type)
 	case *ExplanationTextShape:
 		return any(stage.ExplanationTextShape_orderStaged[order]).(Type)
+	case *EyeCornersSampledPoints3DShape:
+		return any(stage.EyeCornersSampledPoints3DShape_orderStaged[order]).(Type)
 	case *EyeSampledPoints3DShape:
 		return any(stage.EyeSampledPoints3DShape_orderStaged[order]).(Type)
 	case *GridPathShape:
@@ -8728,6 +8793,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.EndHalfwayArcShapeGrid_stagedOrder[instance]
 	case *ExplanationTextShape:
 		return stage.ExplanationTextShape_stagedOrder[instance]
+	case *EyeCornersSampledPoints3DShape:
+		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
 	case *EyeSampledPoints3DShape:
 		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
 	case *GridPathShape:
@@ -9026,6 +9093,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShape"] = len(stage.EndHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShapeGrid"] = len(stage.EndHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ExplanationTextShape"] = len(stage.ExplanationTextShapes)
+	stage.Map_GongStructName_InstancesNb["EyeCornersSampledPoints3DShape"] = len(stage.EyeCornersSampledPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["EyeSampledPoints3DShape"] = len(stage.EyeSampledPoints3DShapes)
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthCurve2D"] = len(stage.GrowthCurve2Ds)
@@ -10318,6 +10386,94 @@ func (explanationtextshape *ExplanationTextShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (explanationtextshape *ExplanationTextShape) SetName(name string) {
 	explanationtextshape.Name = name
+}
+
+// Stage puts eyecornerssampledpoints3dshape to the model stage
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Stage(stage *Stage) *EyeCornersSampledPoints3DShape {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; !ok {
+		stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape] = struct{}{}
+		stage.EyeCornersSampledPoints3DShape_stagedOrder[eyecornerssampledpoints3dshape] = stage.EyeCornersSampledPoints3DShapeOrder
+		stage.EyeCornersSampledPoints3DShape_orderStaged[stage.EyeCornersSampledPoints3DShapeOrder] = eyecornerssampledpoints3dshape
+		stage.EyeCornersSampledPoints3DShapeOrder++
+	}
+	stage.EyeCornersSampledPoints3DShapes_mapString[eyecornerssampledpoints3dshape.Name] = eyecornerssampledpoints3dshape
+
+	return eyecornerssampledpoints3dshape
+}
+
+// StagePreserveOrder puts eyecornerssampledpoints3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeCornersSampledPoints3DShapeOrder
+// - update stage.EyeCornersSampledPoints3DShapeOrder accordingly
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; !ok {
+		stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape] = struct{}{}
+
+		if order > stage.EyeCornersSampledPoints3DShapeOrder {
+			stage.EyeCornersSampledPoints3DShapeOrder = order
+		}
+		stage.EyeCornersSampledPoints3DShape_stagedOrder[eyecornerssampledpoints3dshape] = order
+		stage.EyeCornersSampledPoints3DShape_orderStaged[order] = eyecornerssampledpoints3dshape
+		stage.EyeCornersSampledPoints3DShapeOrder++
+	}
+	stage.EyeCornersSampledPoints3DShapes_mapString[eyecornerssampledpoints3dshape.Name] = eyecornerssampledpoints3dshape
+}
+
+// Unstage removes eyecornerssampledpoints3dshape off the model stage
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Unstage(stage *Stage) *EyeCornersSampledPoints3DShape {
+	delete(stage.EyeCornersSampledPoints3DShapes, eyecornerssampledpoints3dshape)
+	// issue1150
+	// delete(stage.EyeCornersSampledPoints3DShape_stagedOrder, eyecornerssampledpoints3dshape)
+	delete(stage.EyeCornersSampledPoints3DShapes_mapString, eyecornerssampledpoints3dshape.Name)
+
+	return eyecornerssampledpoints3dshape
+}
+
+// UnstageVoid removes eyecornerssampledpoints3dshape off the model stage
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeCornersSampledPoints3DShapes, eyecornerssampledpoints3dshape)
+	// issue1150
+	// delete(stage.EyeCornersSampledPoints3DShape_stagedOrder, eyecornerssampledpoints3dshape)
+	delete(stage.EyeCornersSampledPoints3DShapes_mapString, eyecornerssampledpoints3dshape.Name)
+}
+
+// commit eyecornerssampledpoints3dshape to the back repo (if it is already staged)
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Commit(stage *Stage) *EyeCornersSampledPoints3DShape {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape)
+		}
+	}
+	return eyecornerssampledpoints3dshape
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) CommitVoid(stage *Stage) {
+	eyecornerssampledpoints3dshape.Commit(stage)
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) StageVoid(stage *Stage) {
+	eyecornerssampledpoints3dshape.Stage(stage)
+}
+
+// Checkout eyecornerssampledpoints3dshape to the back repo (if it is already staged)
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Checkout(stage *Stage) *EyeCornersSampledPoints3DShape {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape)
+		}
+	}
+	return eyecornerssampledpoints3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GetName() (res string) {
+	return eyecornerssampledpoints3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) SetName(name string) {
+	eyecornerssampledpoints3dshape.Name = name
 }
 
 // Stage puts eyesampledpoints3dshape to the model stage
@@ -20015,6 +20171,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
 	CreateORMEndHalfwayArcShapeGrid(EndHalfwayArcShapeGrid *EndHalfwayArcShapeGrid)
 	CreateORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
+	CreateORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
 	CreateORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
 	CreateORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
@@ -20141,6 +20298,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
 	DeleteORMEndHalfwayArcShapeGrid(EndHalfwayArcShapeGrid *EndHalfwayArcShapeGrid)
 	DeleteORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
+	DeleteORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
 	DeleteORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
 	DeleteORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
@@ -20318,6 +20476,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
 	stage.ExplanationTextShape_stagedOrder = make(map[*ExplanationTextShape]uint)
 	stage.ExplanationTextShapeOrder = 0
+
+	stage.EyeCornersSampledPoints3DShapes = make(map[*EyeCornersSampledPoints3DShape]struct{})
+	stage.EyeCornersSampledPoints3DShapes_mapString = make(map[string]*EyeCornersSampledPoints3DShape)
+	stage.EyeCornersSampledPoints3DShape_stagedOrder = make(map[*EyeCornersSampledPoints3DShape]uint)
+	stage.EyeCornersSampledPoints3DShapeOrder = 0
 
 	stage.EyeSampledPoints3DShapes = make(map[*EyeSampledPoints3DShape]struct{})
 	stage.EyeSampledPoints3DShapes_mapString = make(map[string]*EyeSampledPoints3DShape)
@@ -20917,6 +21080,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.ExplanationTextShapes = nil
 	stage.ExplanationTextShapes_mapString = nil
 
+	stage.EyeCornersSampledPoints3DShapes = nil
+	stage.EyeCornersSampledPoints3DShapes_mapString = nil
+
 	stage.EyeSampledPoints3DShapes = nil
 	stage.EyeSampledPoints3DShapes_mapString = nil
 
@@ -21301,6 +21467,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for explanationtextshape := range stage.ExplanationTextShapes {
 		explanationtextshape.Unstage(stage)
+	}
+
+	for eyecornerssampledpoints3dshape := range stage.EyeCornersSampledPoints3DShapes {
+		eyecornerssampledpoints3dshape.Unstage(stage)
 	}
 
 	for eyesampledpoints3dshape := range stage.EyeSampledPoints3DShapes {
@@ -21845,6 +22015,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.EndHalfwayArcShapeGrids).(*Type)
 	case map[*ExplanationTextShape]any:
 		return any(&stage.ExplanationTextShapes).(*Type)
+	case map[*EyeCornersSampledPoints3DShape]any:
+		return any(&stage.EyeCornersSampledPoints3DShapes).(*Type)
 	case map[*EyeSampledPoints3DShape]any:
 		return any(&stage.EyeSampledPoints3DShapes).(*Type)
 	case map[*GridPathShape]any:
@@ -22103,6 +22275,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.EndHalfwayArcShapeGrids_mapString).(map[string]Type)
 	case *ExplanationTextShape:
 		return any(stage.ExplanationTextShapes_mapString).(map[string]Type)
+	case *EyeCornersSampledPoints3DShape:
+		return any(stage.EyeCornersSampledPoints3DShapes_mapString).(map[string]Type)
 	case *EyeSampledPoints3DShape:
 		return any(stage.EyeSampledPoints3DShapes_mapString).(map[string]Type)
 	case *GridPathShape:
@@ -22361,6 +22535,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.EndHalfwayArcShapeGrids).(*map[*Type]struct{})
 	case ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes).(*map[*Type]struct{})
+	case EyeCornersSampledPoints3DShape:
+		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[*Type]struct{})
 	case EyeSampledPoints3DShape:
 		return any(&stage.EyeSampledPoints3DShapes).(*map[*Type]struct{})
 	case GridPathShape:
@@ -22619,6 +22795,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.EndHalfwayArcShapeGrids).(*map[Type]struct{})
 	case *ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes).(*map[Type]struct{})
+	case *EyeCornersSampledPoints3DShape:
+		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[Type]struct{})
 	case *EyeSampledPoints3DShape:
 		return any(&stage.EyeSampledPoints3DShapes).(*map[Type]struct{})
 	case *GridPathShape:
@@ -22877,6 +23055,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.EndHalfwayArcShapeGrids_mapString).(*map[string]*Type)
 	case ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes_mapString).(*map[string]*Type)
+	case EyeCornersSampledPoints3DShape:
+		return any(&stage.EyeCornersSampledPoints3DShapes_mapString).(*map[string]*Type)
 	case EyeSampledPoints3DShape:
 		return any(&stage.EyeSampledPoints3DShapes_mapString).(*map[string]*Type)
 	case GridPathShape:
@@ -23169,6 +23349,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case ExplanationTextShape:
 		return any(&ExplanationTextShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeCornersSampledPoints3DShape:
+		return any(&EyeCornersSampledPoints3DShape{
 			// Initialisation of associations
 		}).(*Type)
 	case EyeSampledPoints3DShape:
@@ -23664,6 +23848,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RotatedSampledPoints3DShape: &RotatedSampledPoints3DShape{Name: "RotatedSampledPoints3DShape"},
 			// field is initialized with an instance of EyeSampledPoints3DShape with the name of the field
 			EyeSampledPoints3DShape: &EyeSampledPoints3DShape{Name: "EyeSampledPoints3DShape"},
+			// field is initialized with an instance of EyeCornersSampledPoints3DShape with the name of the field
+			EyeCornersSampledPoints3DShape: &EyeCornersSampledPoints3DShape{Name: "EyeCornersSampledPoints3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
@@ -23950,6 +24136,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of ExplanationTextShape
 	case ExplanationTextShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeCornersSampledPoints3DShape
+	case EyeCornersSampledPoints3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -24994,6 +25185,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "EyeCornersSampledPoints3DShape":
+			res := make(map[*EyeCornersSampledPoints3DShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.EyeCornersSampledPoints3DShape != nil {
+					eyecornerssampledpoints3dshape_ := stooldiagram.EyeCornersSampledPoints3DShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[eyecornerssampledpoints3dshape_]
+					if ok {
+						stooldiagrams = res[eyecornerssampledpoints3dshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[eyecornerssampledpoints3dshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Rendered3DShape":
 			res := make(map[*Rendered3DShape][]*StoolDiagram)
 			for stooldiagram := range stage.StoolDiagrams {
@@ -26009,6 +26217,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of EyeCornersSampledPoints3DShape
+	case EyeCornersSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of EyeSampledPoints3DShape
 	case EyeSampledPoints3DShape:
 		switch fieldname {
@@ -26980,6 +27193,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "EndHalfwayArcShapeGrid"
 	case *ExplanationTextShape:
 		res = "ExplanationTextShape"
+	case *EyeCornersSampledPoints3DShape:
+		res = "EyeCornersSampledPoints3DShape"
 	case *EyeSampledPoints3DShape:
 		res = "EyeSampledPoints3DShape"
 	case *GridPathShape:
@@ -27266,6 +27481,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *ExplanationTextShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeCornersSampledPoints3DShape:
 		var rf ReverseField
 		_ = rf
 	case *EyeSampledPoints3DShape:
@@ -28052,6 +28270,17 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongGetFieldHeaders() (res
 }
 
 func (explanationtextshape *ExplanationTextShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -31198,6 +31427,15 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "EyeSampledPoints3DShape",
 		},
 		{
+			Name:               "IsHiddenEyeCornersSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeCornersSampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeCornersSampledPoints3DShape",
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
@@ -32664,6 +32902,15 @@ func (explanationtextshape *ExplanationTextShape) GongGetFieldValue(fieldName st
 	// string value of fields
 	case "Name":
 		res.valueString = explanationtextshape.Name
+	}
+	return
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyecornerssampledpoints3dshape.Name
 	}
 	return
 }
@@ -35850,6 +36097,16 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = stooldiagram.EyeSampledPoints3DShape.Name
 			res.ids = stooldiagram.EyeSampledPoints3DShape.GongGetUUID(stage)
 		}
+	case "IsHiddenEyeCornersSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenEyeCornersSampledPoints3DShape)
+		res.valueBool = stooldiagram.IsHiddenEyeCornersSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeCornersSampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.EyeCornersSampledPoints3DShape != nil {
+			res.valueString = stooldiagram.EyeCornersSampledPoints3DShape.Name
+			res.ids = stooldiagram.EyeCornersSampledPoints3DShape.GongGetUUID(stage)
+		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if stooldiagram.Rendered3DShape != nil {
@@ -37275,6 +37532,17 @@ func (explanationtextshape *ExplanationTextShape) GongSetFieldValue(fieldName st
 	// insertion point for per field code
 	case "Name":
 		explanationtextshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyecornerssampledpoints3dshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -40071,6 +40339,19 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "IsHiddenEyeCornersSampledPoints3DShape":
+		stooldiagram.IsHiddenEyeCornersSampledPoints3DShape = value.GetValueBool()
+	case "EyeCornersSampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.EyeCornersSampledPoints3DShape = nil
+			for __instance__ := range stage.EyeCornersSampledPoints3DShapes {
+				if stage.EyeCornersSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.EyeCornersSampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
 	case "Rendered3DShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -41312,6 +41593,10 @@ func (explanationtextshape *ExplanationTextShape) GongGetGongstructName() string
 	return "ExplanationTextShape"
 }
 
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetGongstructName() string {
+	return "EyeCornersSampledPoints3DShape"
+}
+
 func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetGongstructName() string {
 	return "EyeSampledPoints3DShape"
 }
@@ -41822,6 +42107,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
 	for explanationtextshape := range stage.ExplanationTextShapes {
 		stage.ExplanationTextShapes_mapString[explanationtextshape.Name] = explanationtextshape
+	}
+
+	stage.EyeCornersSampledPoints3DShapes_mapString = make(map[string]*EyeCornersSampledPoints3DShape)
+	for eyecornerssampledpoints3dshape := range stage.EyeCornersSampledPoints3DShapes {
+		stage.EyeCornersSampledPoints3DShapes_mapString[eyecornerssampledpoints3dshape.Name] = eyecornerssampledpoints3dshape
 	}
 
 	stage.EyeSampledPoints3DShapes_mapString = make(map[string]*EyeSampledPoints3DShape)

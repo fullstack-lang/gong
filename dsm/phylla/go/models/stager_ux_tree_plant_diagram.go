@@ -373,6 +373,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.StoolDiagram.SampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated 3D Sampled Points", plantDiagram.StoolDiagram.RotatedSampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Eye Sampled Points", plantDiagram.StoolDiagram.EyeSampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenEyeSampledPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Eye Corners Sampled Points", plantDiagram.StoolDiagram.EyeCornersSampledPoints3DShape, &plantDiagram.StoolDiagram.IsHiddenEyeCornersSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat Top Curve", plantDiagram.StoolDiagram.SeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenSeatTopCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat Top Curve", plantDiagram.StoolDiagram.RotatedSeatTopCurveShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat Bottom Curve", plantDiagram.StoolDiagram.SeatBottomCurveShape, &plantDiagram.StoolDiagram.IsHiddenSeatBottomCurveShape)
