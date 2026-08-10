@@ -2510,6 +2510,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StoolTorusVerticalScale", instanceWithInferedType.StoolTorusVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("RelativeSeatThickness", instanceWithInferedType.RelativeSeatThickness, instanceWithInferedType, probe.formStage, formGroup,

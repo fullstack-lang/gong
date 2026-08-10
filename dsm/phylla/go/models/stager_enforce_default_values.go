@@ -105,6 +105,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 				stool.RelativeEyeCornerControlVectorStrength = 0.55
 			}
+			if stool.StoolTorusVerticalScale == 0.0 {
+				needCommit = true
+				stool.StoolTorusVerticalScale = 1.0
+			}
 		}
 	}
 

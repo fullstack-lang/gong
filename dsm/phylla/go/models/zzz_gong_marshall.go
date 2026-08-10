@@ -551,6 +551,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Transparency"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))
@@ -4847,6 +4848,11 @@ func (stoolabstract *StoolAbstract) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight3DTorus")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.RelativeHeight3DTorus))
+	case "StoolTorusVerticalScale":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolTorusVerticalScale")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stoolabstract.StoolTorusVerticalScale))
 	case "RelativeHeight":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
@@ -7674,6 +7680,7 @@ func (stoolabstract *StoolAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "Transparency"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
+		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "StoolTorusVerticalScale"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeHeight"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "RelativeSeatThickness"))
 		initializerStatements.WriteString(stoolabstract.GongMarshallField(stage, "ProjectionAngle"))

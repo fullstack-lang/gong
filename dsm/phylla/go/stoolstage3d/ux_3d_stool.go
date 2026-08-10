@@ -210,6 +210,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		// 4. Resample the curve at every 0.5 degree
 		resampledBaseCurve := u.resampleCurveAtAngles(stool3dStage, sortedAngles, sortedPoints, targetAngles, "Stool Resampled", expectedDegrees)
 
+		vertScale := plant.StoolAbstract.StoolTorusVerticalScale
+		if vertScale <= 0.0 {
+			vertScale = 1.0
+		}
+		for _, pt := range resampledBaseCurve.Points {
+			pt.Y = pt.Y * vertScale
+		}
+
 		// 5. Calculate tube radius from RelativeTubeDiameter
 		relDiameter := plant.StoolAbstract.RelativeTubeDiameter
 		if relDiameter <= 0 {
@@ -300,7 +308,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		var growthVectorX, growthVectorY float64
 		if plant.GrowthVectorShape != nil {
 			growthVectorX = plant.GrowthVectorShape.X
-			growthVectorY = plant.GrowthVectorShape.Y
+			growthVectorY = plant.GrowthVectorShape.Y * vertScale
 		}
 
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedTorusShape {
@@ -590,7 +598,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 
 		// Compute Eye geometry, transitions, and Bézier corners for first repetition (k=0)
 		thetaOffset := growthVectorX / globalR
-		eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength
+		eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength * vertScale
 		expectedRad := expectedDegrees * math.Pi / 180.0
 		dStep := globalR * radInterval
 		if dStep <= 0 {

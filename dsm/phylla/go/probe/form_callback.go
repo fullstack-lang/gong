@@ -12111,6 +12111,8 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeTubeDiameter), formDiv)
 		case "RelativeHeight3DTorus":
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeHeight3DTorus), formDiv)
+		case "StoolTorusVerticalScale":
+			FormDivBasicFieldToField(&(stoolabstract_.StoolTorusVerticalScale), formDiv)
 		case "RelativeHeight":
 			FormDivBasicFieldToField(&(stoolabstract_.RelativeHeight), formDiv)
 		case "RelativeSeatThickness":

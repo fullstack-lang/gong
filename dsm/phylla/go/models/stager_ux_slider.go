@@ -471,6 +471,18 @@ func (stager *Stager) ux_slider_stool() {
 		group1.Sliders,
 		m.NewSlider(
 			target,
+			"Torus Vert Scale",
+			0.0,
+			5.0,
+			0.01,
+			&plant.StoolAbstract.StoolTorusVerticalScale,
+		),
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
 			"Rel Height",
 			0.0,
 			6.0,
