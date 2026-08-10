@@ -562,6 +562,31 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}
 			u.addPointSpheres(stool3dStage, basePoints, "red", canvas, "Stool Sampled", 0, numPointsPerRep)
 		}
+
+		// 13. Add Rotated 3D Sampled Points visualization if toggled on
+		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape {
+			numPointsPerRep := len(resampledBaseCurve.Points)
+			var rotPoints []*threejs.Vector3
+			thetaOffset := growthVectorX / globalR
+
+			for k := 0; k < radialRepetitions; k++ {
+				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
+				totalThetaOffset := baseThetaOffset + thetaOffset
+
+				for _, pt := range resampledBaseCurve.Points {
+					origTheta := math.Atan2(pt.Z, pt.X)
+					r := math.Hypot(pt.X, pt.Z)
+					newTheta := origTheta + totalThetaOffset
+					rotPoints = append(rotPoints, (&threejs.Vector3{
+						Name: fmt.Sprintf("Rotated Sampled Point k%d %.1f", k, newTheta*180.0/math.Pi),
+						X:    r * math.Cos(newTheta),
+						Y:    pt.Y + growthVectorY + torusHeight,
+						Z:    r * math.Sin(newTheta),
+					}).Stage(stool3dStage))
+				}
+			}
+			u.addPointSpheres(stool3dStage, rotPoints, "orange", canvas, "Stool Rotated Sampled", 0, numPointsPerRep)
+		}
 	}
 
 	// Floor tiles that encompass the stool cylinder

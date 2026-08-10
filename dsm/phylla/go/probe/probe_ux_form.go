@@ -363,6 +363,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.rotatedrhombusshape, probe)
 			}
+		case *RotatedSampledPoints3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RotatedSampledPoints3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rotatedsampledpoints3dshape, probe)
+			}
 		case *SampledPoints3DShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "SampledPoints3DShape", true)
@@ -1517,6 +1523,19 @@ func FillUpFormFromGongstructName(
 		rotatedrhombusshape := new(models.RotatedRhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rotatedrhombusshape, formGroup, probe)
+	case "RotatedSampledPoints3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RotatedSampledPoints3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RotatedSampledPoints3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rotatedsampledpoints3dshape := new(models.RotatedSampledPoints3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rotatedsampledpoints3dshape, formGroup, probe)
 	case "SampledPoints3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
