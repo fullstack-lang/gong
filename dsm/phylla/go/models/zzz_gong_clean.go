@@ -170,6 +170,13 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongClean(stage *Stage
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by EyeVolume3DShape
+func (eyevolume3dshape *EyeVolume3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by GridPathShape
 func (gridpathshape *GridPathShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -849,6 +856,7 @@ func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &stooldiagram.EyeSeatBottomCurveShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.EyeStoolBottomCurveShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Seat3DShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.EyeVolume3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
 	return
 }

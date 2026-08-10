@@ -1012,27 +1012,44 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}
 		}
 
+		var projSeatBottomEyePoints []*threejs.Vector3
+		var projStoolBottomEyePoints []*threejs.Vector3
+
+		if len(eye3DPoints) > 0 {
+			stoolBottomHeight := 0.0
+			for _, pt := range eye3DPoints {
+				origTheta := math.Atan2(pt.Z, pt.X)
+				r := math.Hypot(pt.X, pt.Z)
+
+				// Seat Bottom projection
+				deltaYSB := seatBottomHeight - pt.Y
+				rProjSB := r + deltaYSB*math.Tan(projAngleRad)
+				projSeatBottomEyePoints = append(projSeatBottomEyePoints, (&threejs.Vector3{
+					Name: fmt.Sprintf("Seat Bottom Eye Point %.1f", origTheta*180.0/math.Pi),
+					X:    rProjSB * math.Cos(origTheta),
+					Y:    seatBottomHeight,
+					Z:    rProjSB * math.Sin(origTheta),
+				}).Stage(stool3dStage))
+
+				// Stool Bottom projection
+				deltaYStool := stoolBottomHeight - pt.Y
+				rProjStool := r + deltaYStool*math.Tan(projAngleRad)
+				projStoolBottomEyePoints = append(projStoolBottomEyePoints, (&threejs.Vector3{
+					Name: fmt.Sprintf("Stool Bottom Eye Point %.1f", origTheta*180.0/math.Pi),
+					X:    rProjStool * math.Cos(origTheta),
+					Y:    stoolBottomHeight,
+					Z:    rProjStool * math.Sin(origTheta),
+				}).Stage(stool3dStage))
+			}
+		}
+
 		// 17. Seat Bottom Eye 2D Projected Curve on horizontal seat bottom plane
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSeatBottomCurveShape {
-			if len(eye3DPoints) > 0 {
+			if len(projSeatBottomEyePoints) > 0 {
 				projSeatBottomCurve := (&threejs.Curve{
-					Name: "Stool Seat Bottom Eye Curve",
+					Name:   "Stool Seat Bottom Eye Curve",
+					Points: projSeatBottomEyePoints,
 				}).Stage(stool3dStage)
-
-				for _, pt := range eye3DPoints {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-
-					deltaY := seatBottomHeight - pt.Y
-					rProj := r + deltaY*math.Tan(projAngleRad)
-
-					projSeatBottomCurve.Points = append(projSeatBottomCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Seat Bottom Eye Point %.1f", origTheta*180.0/math.Pi),
-						X:    rProj * math.Cos(origTheta),
-						Y:    seatBottomHeight,
-						Z:    rProj * math.Sin(origTheta),
-					}).Stage(stool3dStage))
-				}
 
 				numSegments := len(projSeatBottomCurve.Points)
 				if numSegments < 2 {
@@ -1066,26 +1083,11 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 
 		// 18. Stool Bottom Eye 2D Projected Curve on horizontal stool bottom / floor plane (Y = 0)
 		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeStoolBottomCurveShape {
-			if len(eye3DPoints) > 0 {
-				stoolBottomHeight := 0.0
+			if len(projStoolBottomEyePoints) > 0 {
 				projStoolBottomCurve := (&threejs.Curve{
-					Name: "Stool Bottom Eye Curve",
+					Name:   "Stool Bottom Eye Curve",
+					Points: projStoolBottomEyePoints,
 				}).Stage(stool3dStage)
-
-				for _, pt := range eye3DPoints {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-
-					deltaY := stoolBottomHeight - pt.Y
-					rProj := r + deltaY*math.Tan(projAngleRad)
-
-					projStoolBottomCurve.Points = append(projStoolBottomCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Stool Bottom Eye Point %.1f", origTheta*180.0/math.Pi),
-						X:    rProj * math.Cos(origTheta),
-						Y:    stoolBottomHeight,
-						Z:    rProj * math.Sin(origTheta),
-					}).Stage(stool3dStage))
-				}
 
 				numSegments := len(projStoolBottomCurve.Points)
 				if numSegments < 2 {
@@ -1114,6 +1116,122 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 				}).Stage(stool3dStage)
 
 				canvas.Meshs = append(canvas.Meshs, stoolBottomEyeMesh)
+			}
+		}
+
+		// 19. 3D Eye Volume Mesh between Seat Bottom Eye Curve and Stool Bottom Eye Curve
+		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenEyeVolume3DShape {
+			if len(projSeatBottomEyePoints) >= 3 && len(projSeatBottomEyePoints) == len(projStoolBottomEyePoints) {
+				M := len(projSeatBottomEyePoints)
+				eyeVolGeom := (&threejs.BufferGeometry{
+					Name: "Stool Eye Volume BufferGeometry",
+				}).Stage(stool3dStage)
+
+				var sumTopX, sumTopZ, sumBottomX, sumBottomZ float64
+				for i := 0; i < M; i++ {
+					topV := (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Top V %d", i),
+						X:    projSeatBottomEyePoints[i].X,
+						Y:    projSeatBottomEyePoints[i].Y,
+						Z:    projSeatBottomEyePoints[i].Z,
+					}).Stage(stool3dStage)
+					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, topV)
+					sumTopX += topV.X
+					sumTopZ += topV.Z
+				}
+
+				for i := 0; i < M; i++ {
+					botV := (&threejs.Vector3{
+						Name: fmt.Sprintf("Eye Bottom V %d", i),
+						X:    projStoolBottomEyePoints[i].X,
+						Y:    projStoolBottomEyePoints[i].Y,
+						Z:    projStoolBottomEyePoints[i].Z,
+					}).Stage(stool3dStage)
+					eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botV)
+					sumBottomX += botV.X
+					sumBottomZ += botV.Z
+				}
+
+				topCenterIdx := len(eyeVolGeom.Vertices)
+				topCenterV := (&threejs.Vector3{
+					Name: "Eye Top Center",
+					X:    sumTopX / float64(M),
+					Y:    seatBottomHeight,
+					Z:    sumTopZ / float64(M),
+				}).Stage(stool3dStage)
+				eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, topCenterV)
+
+				botCenterIdx := len(eyeVolGeom.Vertices)
+				botCenterV := (&threejs.Vector3{
+					Name: "Eye Bottom Center",
+					X:    sumBottomX / float64(M),
+					Y:    0.0,
+					Z:    sumBottomZ / float64(M),
+				}).Stage(stool3dStage)
+				eyeVolGeom.Vertices = append(eyeVolGeom.Vertices, botCenterV)
+
+				// 1. Top face (facing +Y): (topCenter, nextI, i)
+				for i := 0; i < M; i++ {
+					nextI := (i + 1) % M
+					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Eye Top Face %d", i),
+						V1:   topCenterIdx,
+						V2:   nextI,
+						V3:   i,
+					}).Stage(stool3dStage))
+				}
+
+				// 2. Bottom face (facing -Y): (botCenter, botI, botNextI)
+				for i := 0; i < M; i++ {
+					nextI := (i + 1) % M
+					botI := M + i
+					botNextI := M + nextI
+					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Eye Bottom Face %d", i),
+						V1:   botCenterIdx,
+						V2:   botI,
+						V3:   botNextI,
+					}).Stage(stool3dStage))
+				}
+
+				// 3. Side wall quads between Top and Bottom:
+				for i := 0; i < M; i++ {
+					nextI := (i + 1) % M
+					topI := i
+					topNextI := nextI
+					botI := M + i
+					botNextI := M + nextI
+
+					// Triangle 1: (botI, topI, topNextI)
+					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Eye Wall T1 %d", i),
+						V1:   botI,
+						V2:   topI,
+						V3:   topNextI,
+					}).Stage(stool3dStage))
+
+					// Triangle 2: (botI, topNextI, botNextI)
+					eyeVolGeom.Faces = append(eyeVolGeom.Faces, (&threejs.Triangle{
+						Name: fmt.Sprintf("Eye Wall T2 %d", i),
+						V1:   botI,
+						V2:   topNextI,
+						V3:   botNextI,
+					}).Stage(stool3dStage))
+				}
+
+				eyeVolMesh := (&threejs.Mesh{
+					Name:           "Stool Eye Volume 3D Mesh",
+					Position:       threejs.Position{X: 0, Y: 0, Z: 0},
+					BufferGeometry: eyeVolGeom,
+					MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
+						Name:                 "Stool Eye Volume Material",
+						MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "mediumorchid"},
+						Transparent:          true,
+						Opacity:              opacity,
+					}).Stage(stool3dStage),
+				}).Stage(stool3dStage)
+
+				canvas.Meshs = append(canvas.Meshs, eyeVolMesh)
 			}
 		}
 	}

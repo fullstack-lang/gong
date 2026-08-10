@@ -192,6 +192,15 @@ func (inst *EyeStoolBottomCurveShape) GongGetReverseFieldOwnerName(stage *Stage,
 	return
 }
 
+func (inst *EyeVolume3DShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *GridPathShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -1693,6 +1702,15 @@ func (inst *EyeSeatBottomCurveShape) GongGetReverseFieldOwner(stage *Stage, reve
 }
 
 func (inst *EyeStoolBottomCurveShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *EyeVolume3DShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

@@ -497,7 +497,7 @@ func (stager *Stager) ux_slider_stool() {
 			target,
 			"Rel Seat Thickness",
 			0.01,
-			0.5,
+			1.0,
 			0.01,
 			&plant.StoolAbstract.RelativeSeatThickness,
 		),

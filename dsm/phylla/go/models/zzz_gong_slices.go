@@ -74,6 +74,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct EyeStoolBottomCurveShape
 	// insertion point per field
 
+	// Compute reverse map for named struct EyeVolume3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct GridPathShape
 	// insertion point per field
 
@@ -499,6 +502,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.EyeStoolBottomCurveShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.EyeVolume3DShapes {
 		res = append(res, instance)
 	}
 
@@ -1051,6 +1058,12 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongCopy() GongstructIF 
 func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongCopy() GongstructIF {
 	newInstance := new(EyeStoolBottomCurveShape)
 	eyestoolbottomcurveshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongCopy() GongstructIF {
+	newInstance := new(EyeVolume3DShape)
+	eyevolume3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1892,6 +1905,16 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetUUID(stage *Sta
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyestoolbottomcurveshape), uint64(GetOrderPointerGongstruct(stage, eyestoolbottomcurveshape)))
+	return
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(eyevolume3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(eyevolume3dshape), uint64(GetOrderPointerGongstruct(stage, eyevolume3dshape)))
 	return
 }
 
@@ -3833,6 +3856,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.EyeStoolBottomCurveShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.EyeVolume3DShapes_reference = make(map[*EyeVolume3DShape]*EyeVolume3DShape)
+	stage.EyeVolume3DShapes_referenceOrder = make(map[*EyeVolume3DShape]uint) // diff Unstage needs the reference order
+	stage.EyeVolume3DShapes_instance = make(map[*EyeVolume3DShape]*EyeVolume3DShape)
+	for instance := range stage.EyeVolume3DShapes {
+		_copy := instance.GongCopy().(*EyeVolume3DShape)
+		stage.EyeVolume3DShapes_reference[instance] = _copy
+		stage.EyeVolume3DShapes_instance[_copy] = instance
+		stage.EyeVolume3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.GridPathShapes_reference = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_referenceOrder = make(map[*GridPathShape]uint) // diff Unstage needs the reference order
 	stage.GridPathShapes_instance = make(map[*GridPathShape]*GridPathShape)
@@ -5024,6 +5057,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.EyeVolume3DShapes {
+		reference := stage.EyeVolume3DShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.GridPathShapes {
 		reference := stage.GridPathShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -5796,6 +5834,18 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetOrder(stage *St
 		return order
 	} else {
 		log.Printf("instance %p of type EyeStoolBottomCurveShape was not staged and does not have a reference order", eyestoolbottomcurveshape)
+		return 0
+	}
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.EyeVolume3DShape_stagedOrder[eyevolume3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.EyeVolume3DShapes_referenceOrder[eyevolume3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type EyeVolume3DShape was not staged and does not have a reference order", eyevolume3dshape)
 		return 0
 	}
 }
@@ -7287,6 +7337,15 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetReferenceIdenti
 	return fmt.Sprintf("__%s__%08d_", eyestoolbottomcurveshape.GongGetGongstructName(), eyestoolbottomcurveshape.GongGetOrder(stage))
 }
 
+func (eyevolume3dshape *EyeVolume3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", eyevolume3dshape.GongGetGongstructName(), eyevolume3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (eyevolume3dshape *EyeVolume3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", eyevolume3dshape.GongGetGongstructName(), eyevolume3dshape.GongGetOrder(stage))
+}
+
 func (gridpathshape *GridPathShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gridpathshape.GongGetGongstructName(), gridpathshape.GongGetOrder(stage))
 }
@@ -8424,6 +8483,14 @@ func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongMarshallIdentifier
 	return
 }
 
+func (eyevolume3dshape *EyeVolume3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyevolume3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "EyeVolume3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(eyevolume3dshape.Name))
+	return
+}
+
 func (gridpathshape *GridPathShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
@@ -9410,6 +9477,12 @@ func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongMarshallUnstaging(st
 func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyestoolbottomcurveshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", eyevolume3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

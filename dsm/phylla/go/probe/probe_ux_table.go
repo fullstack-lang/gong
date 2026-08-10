@@ -60,6 +60,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.EyeSeatBottomCurveShape](probe)
 	case "EyeStoolBottomCurveShape":
 		updateProbeTable[*models.EyeStoolBottomCurveShape](probe)
+	case "EyeVolume3DShape":
+		updateProbeTable[*models.EyeVolume3DShape](probe)
 	case "GridPathShape":
 		updateProbeTable[*models.GridPathShape](probe)
 	case "GrowthCurve2D":

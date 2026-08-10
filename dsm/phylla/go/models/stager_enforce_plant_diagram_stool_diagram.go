@@ -164,6 +164,16 @@ func (stager *Stager) enforcePlantDiagramStoolDiagram() bool {
 				plantDiagram.StoolDiagram.Seat3DShape.Name = plantDiagram.Name + "-Seat3DShape"
 				modified = true
 			}
+			if plantDiagram.StoolDiagram.EyeVolume3DShape == nil {
+				s := (&EyeVolume3DShape{
+					Name: plantDiagram.Name + "-EyeVolume3DShape",
+				}).Stage(stager.stage)
+				plantDiagram.StoolDiagram.EyeVolume3DShape = s
+				modified = true
+			} else if plantDiagram.StoolDiagram.EyeVolume3DShape.Name != plantDiagram.Name+"-EyeVolume3DShape" {
+				plantDiagram.StoolDiagram.EyeVolume3DShape.Name = plantDiagram.Name + "-EyeVolume3DShape"
+				modified = true
+			}
 		} else {
 			if plantDiagram.StoolDiagram != nil {
 				plantDiagram.StoolDiagram = nil
