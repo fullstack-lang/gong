@@ -161,6 +161,60 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.ClockAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeTubeDiameter", instanceWithInferedType.RelativeTubeDiameter, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ClockTorusVerticalScale", instanceWithInferedType.ClockTorusVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.ClockDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenClockTopCurveShape", instanceWithInferedType.IsHiddenClockTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("ClockTopCurveShape", instanceWithInferedType.ClockTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTorus3DShape", instanceWithInferedType.IsHiddenTorus3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Torus3DShape", instanceWithInferedType.Torus3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)
+		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.ClockTopCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.EndArcShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1131,6 +1185,7 @@ func FillUpForm(
 		EnumTypeStringToForm("PlantType", instanceWithInferedType.PlantType, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("VaseAbstract", instanceWithInferedType.VaseAbstract, formGroup, probe)
 		AssociationFieldToForm("StoolAbstract", instanceWithInferedType.StoolAbstract, formGroup, probe)
+		AssociationFieldToForm("ClockAbstract", instanceWithInferedType.ClockAbstract, formGroup, probe)
 		EnumTypeStringToForm("CurrentView", instanceWithInferedType.CurrentView, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1193,6 +1248,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("VaseDiagram", instanceWithInferedType.VaseDiagram, formGroup, probe)
 		AssociationFieldToForm("StoolDiagram", instanceWithInferedType.StoolDiagram, formGroup, probe)
+		AssociationFieldToForm("ClockDiagram", instanceWithInferedType.ClockDiagram, formGroup, probe)
 		BasicFieldtoForm("IsRhombusNodesExpanded", instanceWithInferedType.IsRhombusNodesExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsArcNodesExpanded", instanceWithInferedType.IsArcNodesExpanded, instanceWithInferedType, probe.formStage, formGroup,

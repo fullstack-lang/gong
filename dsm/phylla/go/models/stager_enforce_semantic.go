@@ -73,6 +73,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce vase abstract name", stager.enforceVaseAbstractName},
 		{"Enforce plant has stool abstract", stager.enforcePlantHasStoolAbstract},
 		{"Enforce stool abstract name", stager.enforceStoolAbstractName},
+		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract},
+		{"Enforce clock abstract name", stager.enforceClockAbstractName},
 		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus},
 		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName},
 		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape},
@@ -91,6 +93,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
 		{"Enforce plant diagram vase diagram", stager.enforcePlantDiagramVaseDiagram},
 		{"Enforce plant diagram stool diagram", stager.enforcePlantDiagramStoolDiagram},
+		{"Enforce plant diagram clock diagram", stager.enforcePlantDiagramClockDiagram},
 		{"Enforce plant diagram rendered 3d shape", stager.enforcePlantDiagramRendered3DShape},
 		{"Enforce plant diagram torus stack shape", stager.enforcePlantDiagramTorusStackShape},
 		{"Enforce plant diagram vertical torus stack shape", stager.enforcePlantDiagramVerticalTorusStackShape},
@@ -198,6 +201,9 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 		} else if stager.selectedPlant.PlantType == Stool && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_STOOL_3D {
+			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
+			modified = true
+		} else if stager.selectedPlant.PlantType == Clock && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_CLOCK_3D {
 			stager.selectedPlant.CurrentView = VIEW_PLANT_2D
 			modified = true
 		} else if stager.selectedPlant.PlantType == Vase && stager.selectedPlant.CurrentView != VIEW_PLANT_2D && stager.selectedPlant.CurrentView != VIEW_VASE_FORM && stager.selectedPlant.CurrentView != VIEW_VASE_2D && stager.selectedPlant.CurrentView != VIEW_VASE_3D {

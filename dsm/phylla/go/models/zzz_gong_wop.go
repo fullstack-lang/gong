@@ -157,6 +157,69 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
+type ClockAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RadialRepetitions int
+
+	Transparency float64
+
+	RelativeTubeDiameter float64
+
+	RelativeHeight3DTorus float64
+
+	ClockTorusVerticalScale float64
+
+	RelativeHeight float64
+
+	ProjectionAngle float64
+}
+
+func (from *ClockAbstract) CopyBasicFields(to *ClockAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.RelativeTubeDiameter = from.RelativeTubeDiameter
+	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
+	to.ClockTorusVerticalScale = from.ClockTorusVerticalScale
+	to.RelativeHeight = from.RelativeHeight
+	to.ProjectionAngle = from.ProjectionAngle
+}
+
+type ClockDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenClockTopCurveShape bool
+
+	IsHiddenTorus3DShape bool
+
+	IsHiddenSampledPoints3DShape bool
+}
+
+func (from *ClockDiagram) CopyBasicFields(to *ClockDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenClockTopCurveShape = from.IsHiddenClockTopCurveShape
+	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+}
+
+type ClockTopCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ClockTopCurveShape) CopyBasicFields(to *ClockTopCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type EndArcShape_WOP struct {
 	// insertion point
 

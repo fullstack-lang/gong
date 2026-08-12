@@ -63,6 +63,24 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.circlegridshape, probe)
 			}
+		case *ClockAbstractFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ClockAbstract", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.clockabstract, probe)
+			}
+		case *ClockDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ClockDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.clockdiagram, probe)
+			}
+		case *ClockTopCurveShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ClockTopCurveShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.clocktopcurveshape, probe)
+			}
 		case *EndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "EndArcShape", true)
@@ -927,6 +945,45 @@ func FillUpFormFromGongstructName(
 		circlegridshape := new(models.CircleGridShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(circlegridshape, formGroup, probe)
+	case "ClockAbstract":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ClockAbstract Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ClockAbstractFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		clockabstract := new(models.ClockAbstract)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(clockabstract, formGroup, probe)
+	case "ClockDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ClockDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ClockDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		clockdiagram := new(models.ClockDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(clockdiagram, formGroup, probe)
+	case "ClockTopCurveShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ClockTopCurveShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ClockTopCurveShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		clocktopcurveshape := new(models.ClockTopCurveShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(clocktopcurveshape, formGroup, probe)
 	case "EndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

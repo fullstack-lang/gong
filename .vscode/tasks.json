@@ -190,7 +190,7 @@
             ]
         },
         {
-            "label": "dsm - phylla: go run . edit data/vase.go",
+            "label": "dsm - phylla: go run . edit data/stage.go",
             "type": "shell",
             "options": {
                 "cwd": "./dsm/phylla/go/cmd/phylla"
@@ -200,22 +200,7 @@
                 "run",
                 ".",
                 "edit",
-                "data/vase.go"
-            ],
-            "group": "build"
-        },
-        {
-            "label": "dsm - phylla: go run . edit data/plant.go",
-            "type": "shell",
-            "options": {
-                "cwd": "./dsm/phylla/go/cmd/phylla"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                ".",
-                "edit",
-                "data/plant.go"
+                "data/stage.go"
             ],
             "group": "build"
         },

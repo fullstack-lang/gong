@@ -43,6 +43,7 @@ type ThreeJSStageUpdaterInterface interface {
 
 type Stool3DStageUpdaterInterface interface {
 	UpdateStool3DStage(stager *Stager)
+	UpdateClock3DStage(stager *Stager)
 }
 
 type Stager struct {
@@ -52,13 +53,15 @@ type Stager struct {
 
 	buttonStage  *button.Stage  // "buttonStage" is the DSM mandatory name (to be changed)
 	loadStage    *load.Stage    // mandatory
-	threejsStage *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
-	stool3dStage *threejs.Stage
+	threejsStage     *threejs.Stage // "treeStage" is the DSM mandatory name (to be changed)
+	stool3dStage     *threejs.Stage
+	clock3dStage     *threejs.Stage
 
 	treeStage2D      *tree.Stage
 	treeStage3D      *tree.Stage
 	sliderStage      *slider.Stage
 	sliderStoolStage *slider.Stage
+	sliderClockStage *slider.Stage
 	plantFormStage   *form.Stage
 	ssgStage         *ssg.Stage // mandatory
 	svgPlantStage    *svg.Stage
@@ -109,6 +112,7 @@ func NewStager(
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.sliderStage = slider_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.sliderStoolStage = slider_stack.NewStack(r, "sliderStoolStage", "", "", "", true, true).Stage
+	stager.sliderClockStage = slider_stack.NewStack(r, "sliderClockStage", "", "", "", true, true).Stage
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgPlantStage = svg_stack.NewStack(r, "svgPlantStage", "", "", "", true, true).Stage
@@ -116,6 +120,7 @@ func NewStager(
 	stager.svgStage = stager.svgPlantStage
 	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.stool3dStage = threejs_stack.NewStack(r, "stool3d", "", "", "", true, true).Stage
+	stager.clock3dStage = threejs_stack.NewStack(r, "clock3d", "", "", "", true, true).Stage
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
 	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
@@ -135,10 +140,12 @@ func NewStager(
 		stager.updateSelectedViewFromPlant(stager.GetCurrentPlant())
 		stager.ux_slider()
 		stager.ux_slider_stool()
+		stager.ux_slider_clock()
 		stager.ux_plant_form()
 		stager.ux_svg_plant_diagram()
 		stager.UpdateThreeJSStage()
 		stager.UpdateStool3DStage()
+		stager.UpdateClock3DStage()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
@@ -248,4 +255,18 @@ func (stager *Stager) GetStool3dStage() *threejs.Stage {
 
 func (stager *Stager) GetSliderStoolStage() *slider.Stage {
 	return stager.sliderStoolStage
+}
+
+func (stager *Stager) UpdateClock3DStage() {
+	if stager.stool3DUpdater != nil {
+		stager.stool3DUpdater.UpdateClock3DStage(stager)
+	}
+}
+
+func (stager *Stager) GetClock3dStage() *threejs.Stage {
+	return stager.clock3dStage
+}
+
+func (stager *Stager) GetSliderClockStage() *slider.Stage {
+	return stager.sliderClockStage
 }

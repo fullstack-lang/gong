@@ -736,6 +736,121 @@ func (u *CircleGridShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 	return nil
 }
 
+type ClockAbstractUnmarshaller struct{}
+
+func (u *ClockAbstractUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ClockAbstract)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ClockAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ClockAbstract)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "RadialRepetitions":
+		instance.RadialRepetitions = GongExtractInt(valueExpr)
+	case "Transparency":
+		instance.Transparency = GongExtractFloat(valueExpr)
+	case "RelativeTubeDiameter":
+		instance.RelativeTubeDiameter = GongExtractFloat(valueExpr)
+	case "RelativeHeight3DTorus":
+		instance.RelativeHeight3DTorus = GongExtractFloat(valueExpr)
+	case "ClockTorusVerticalScale":
+		instance.ClockTorusVerticalScale = GongExtractFloat(valueExpr)
+	case "RelativeHeight":
+		instance.RelativeHeight = GongExtractFloat(valueExpr)
+	case "ProjectionAngle":
+		instance.ProjectionAngle = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type ClockDiagramUnmarshaller struct{}
+
+func (u *ClockDiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ClockDiagram)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ClockDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ClockDiagram)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHiddenClockTopCurveShape":
+		instance.IsHiddenClockTopCurveShape = GongExtractBool(valueExpr)
+	case "ClockTopCurveShape":
+		GongUnmarshallPointer(&instance.ClockTopCurveShape, valueExpr, identifierMap)
+	case "IsHiddenTorus3DShape":
+		instance.IsHiddenTorus3DShape = GongExtractBool(valueExpr)
+	case "Torus3DShape":
+		GongUnmarshallPointer(&instance.Torus3DShape, valueExpr, identifierMap)
+	case "IsHiddenSampledPoints3DShape":
+		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
+	case "SampledPoints3DShape":
+		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
+	case "Rendered3DShape":
+		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type ClockTopCurveShapeUnmarshaller struct{}
+
+func (u *ClockTopCurveShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ClockTopCurveShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ClockTopCurveShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ClockTopCurveShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type EndArcShapeUnmarshaller struct{}
 
 func (u *EndArcShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -2427,6 +2542,8 @@ func (u *PlantAbstractUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		GongUnmarshallPointer(&instance.VaseAbstract, valueExpr, identifierMap)
 	case "StoolAbstract":
 		GongUnmarshallPointer(&instance.StoolAbstract, valueExpr, identifierMap)
+	case "ClockAbstract":
+		GongUnmarshallPointer(&instance.ClockAbstract, valueExpr, identifierMap)
 	case "CurrentView":
 		GongUnmarshallEnum(&instance.CurrentView, valueExpr)
 	case "ComputedPrefix":
@@ -2531,6 +2648,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.VaseDiagram, valueExpr, identifierMap)
 	case "StoolDiagram":
 		GongUnmarshallPointer(&instance.StoolDiagram, valueExpr, identifierMap)
+	case "ClockDiagram":
+		GongUnmarshallPointer(&instance.ClockDiagram, valueExpr, identifierMap)
 	case "IsRhombusNodesExpanded":
 		instance.IsRhombusNodesExpanded = GongExtractBool(valueExpr)
 	case "IsArcNodesExpanded":

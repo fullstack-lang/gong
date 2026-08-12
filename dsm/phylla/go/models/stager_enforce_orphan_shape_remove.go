@@ -125,6 +125,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refEyeVolume3DShape := make(map[*EyeVolume3DShape]bool)
 	refSeatAndLegs3DShape := make(map[*SeatAndLegs3DShape]bool)
 	refRotatedSeatAndLegs3DShape := make(map[*RotatedSeatAndLegs3DShape]bool)
+	refClockTopCurveShape := make(map[*ClockTopCurveShape]bool)
 	refSeatTopCurveShape := make(map[*SeatTopCurveShape]bool)
 	refPartiallyRotatedSeatTopCurveShape := make(map[*PartiallyRotatedSeatTopCurveShape]bool)
 	refSeatBottomCurveShape := make(map[*SeatBottomCurveShape]bool)
@@ -511,6 +512,20 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			if diagram.StoolDiagram.RotatedTorusShape != nil {
 				refPartiallyRotatedTorusShape[diagram.StoolDiagram.RotatedTorusShape] = true
+			}
+		}
+		if diagram.ClockDiagram != nil {
+			if diagram.ClockDiagram.Rendered3DShape != nil {
+				refRendered3DShape[diagram.ClockDiagram.Rendered3DShape] = true
+			}
+			if diagram.ClockDiagram.ClockTopCurveShape != nil {
+				refClockTopCurveShape[diagram.ClockDiagram.ClockTopCurveShape] = true
+			}
+			if diagram.ClockDiagram.Torus3DShape != nil {
+				refTorus3DShape[diagram.ClockDiagram.Torus3DShape] = true
+			}
+			if diagram.ClockDiagram.SampledPoints3DShape != nil {
+				refSampledPoints3DShape[diagram.ClockDiagram.SampledPoints3DShape] = true
 			}
 		}
 		if diagram.VaseDiagram != nil {
@@ -1169,6 +1184,13 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*SampledPoints3DShape](stage) {
 		if !refSampledPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ClockTopCurveShape](stage) {
+		if !refClockTopCurveShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

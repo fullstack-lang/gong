@@ -46,6 +46,10 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D {
 				plant.CurrentView = VIEW_PLANT_2D
 			}
+		} else if plant.PlantType == Clock {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D {
+				plant.CurrentView = VIEW_PLANT_2D
+			}
 		} else if plant.PlantType != Vase {
 			plant.CurrentView = VIEW_PLANT_2D
 		}
