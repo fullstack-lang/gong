@@ -234,9 +234,9 @@ func _(stage *models.Stage) {
 	__Rendered3DShape__00000001_.Fov = 45.000000
 
 	__Rendered3DShape__00000002_.Name = `New Plant - Diagram-Rendered3DShape`
-	__Rendered3DShape__00000002_.ViewX = -1151.150666
-	__Rendered3DShape__00000002_.ViewY = 1126.545250
-	__Rendered3DShape__00000002_.ViewZ = -470.930603
+	__Rendered3DShape__00000002_.ViewX = -1276.961848
+	__Rendered3DShape__00000002_.ViewY = 1050.753246
+	__Rendered3DShape__00000002_.ViewZ = -263.837535
 	__Rendered3DShape__00000002_.TargetX = 17.241866
 	__Rendered3DShape__00000002_.TargetY = 330.159583
 	__Rendered3DShape__00000002_.TargetZ = 103.049934
