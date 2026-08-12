@@ -198,6 +198,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -2699,7 +2702,20 @@ func FillUpForm(
 		BasicFieldtoForm("IsHiddenRotatedSeatAndLegs3DShape", instanceWithInferedType.IsHiddenRotatedSeatAndLegs3DShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("RotatedSeatAndLegs3DShape", instanceWithInferedType.RotatedSeatAndLegs3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.TiledFloor3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -3338,6 +3354,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenAngle0Shape", instanceWithInferedType.IsHiddenAngle0Shape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
 		AssociationFieldToForm("GrowthCurve2DRibbon", instanceWithInferedType.GrowthCurve2DRibbon, formGroup, probe)
 		AssociationFieldToForm("ShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.ShiftedRightGrowthCurve2DRibbon, formGroup, probe)
@@ -3355,6 +3373,7 @@ func FillUpForm(
 		AssociationFieldToForm("Key3DShape", instanceWithInferedType.Key3DShape, formGroup, probe)
 		AssociationFieldToForm("VolumeKey3DShape", instanceWithInferedType.VolumeKey3DShape, formGroup, probe)
 		AssociationFieldToForm("TorusEdge3DShape", instanceWithInferedType.TorusEdge3DShape, formGroup, probe)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

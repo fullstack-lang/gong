@@ -371,6 +371,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))
 		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 
@@ -667,6 +668,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenEyeVolume3DShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSeatAndLegs3DShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatAndLegs3DShape"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 
@@ -785,6 +787,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "OriginalPoints3DShape"))
@@ -1243,6 +1246,11 @@ func (clockdiagram *ClockDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenSampledPoints3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", clockdiagram.IsHiddenSampledPoints3DShape))
+	case "IsHiddenTiledFloor3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTiledFloor3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", clockdiagram.IsHiddenTiledFloor3DShape))
 
 	case "SampledPoints3DShape":
 		if clockdiagram.SampledPoints3DShape != nil {
@@ -5303,6 +5311,11 @@ func (stooldiagram *StoolDiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenRotatedSeatAndLegs3DShape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stooldiagram.IsHiddenRotatedSeatAndLegs3DShape))
+	case "IsHiddenTiledFloor3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTiledFloor3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stooldiagram.IsHiddenTiledFloor3DShape))
 
 	case "SampledPoints3DShape":
 		if stooldiagram.SampledPoints3DShape != nil {
@@ -5332,6 +5345,21 @@ func (stooldiagram *StoolDiagram) GongMarshallField(stage *Stage, fieldName stri
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StoolDiagram", fieldName)
+	}
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tiledfloor3dshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tiledfloor3dshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TiledFloor3DShape", fieldName)
 	}
 	return
 }
@@ -6364,6 +6392,11 @@ func (vasediagram *VaseDiagram) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAngle0Shape")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenAngle0Shape))
+	case "IsHiddenTiledFloor3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTiledFloor3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vasediagram.IsHiddenTiledFloor3DShape))
 
 	case "Rendered3DShape":
 		if vasediagram.Rendered3DShape != nil {
@@ -6590,6 +6623,7 @@ func (clockdiagram *ClockDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))
 		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
 	}
 	initRes = initializerStatements.String()
@@ -8183,7 +8217,19 @@ func (stooldiagram *StoolDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenEyeVolume3DShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenSeatAndLegs3DShape"))
 		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatAndLegs3DShape"))
+		initializerStatements.WriteString(stooldiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 		pointersInitializesStatements.WriteString(stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(tiledfloor3dshape.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -8567,6 +8613,7 @@ func (vasediagram *VaseDiagram) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenOriginalPoints3DShape"))
 		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+		initializerStatements.WriteString(vasediagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "Rendered3DShape"))
 		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		pointersInitializesStatements.WriteString(vasediagram.GongMarshallField(stage, "OriginalPoints3DShape"))

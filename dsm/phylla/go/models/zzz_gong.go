@@ -1867,6 +1867,21 @@ type Stage struct {
 	OnAfterStoolDiagramDeleteCallback OnAfterDeleteInterface[StoolDiagram]
 	OnAfterStoolDiagramReadCallback   OnAfterReadInterface[StoolDiagram]
 
+	TiledFloor3DShapes                map[*TiledFloor3DShape]struct{}
+	TiledFloor3DShapes_instance       map[*TiledFloor3DShape]*TiledFloor3DShape
+	TiledFloor3DShapes_mapString      map[string]*TiledFloor3DShape
+	TiledFloor3DShapeOrder            uint
+	TiledFloor3DShape_stagedOrder     map[*TiledFloor3DShape]uint
+	TiledFloor3DShape_orderStaged     map[uint]*TiledFloor3DShape
+	TiledFloor3DShapes_reference      map[*TiledFloor3DShape]*TiledFloor3DShape
+	TiledFloor3DShapes_referenceOrder map[*TiledFloor3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTiledFloor3DShapeCreateCallback OnAfterCreateInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeUpdateCallback OnAfterUpdateInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeDeleteCallback OnAfterDeleteInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeReadCallback   OnAfterReadInterface[TiledFloor3DShape]
+
 	TopEndArcShapes                map[*TopEndArcShape]struct{}
 	TopEndArcShapes_instance       map[*TopEndArcShape]*TopEndArcShape
 	TopEndArcShapes_mapString      map[string]*TopEndArcShape
@@ -2920,6 +2935,10 @@ func (stage *Stage) Squash() {
 	stage.StoolDiagrams_reference = make(map[*StoolDiagram]*StoolDiagram)
 	stage.StoolDiagrams_instance = make(map[*StoolDiagram]*StoolDiagram)
 	stage.StoolDiagrams_referenceOrder = make(map[*StoolDiagram]uint)
+
+	stage.TiledFloor3DShapes_reference = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
+	stage.TiledFloor3DShapes_instance = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
+	stage.TiledFloor3DShapes_referenceOrder = make(map[*TiledFloor3DShape]uint)
 
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
@@ -4582,6 +4601,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.StoolDiagramOrder = maxStoolDiagramOrder + 1
 	} else {
 		stage.StoolDiagramOrder = 0
+	}
+
+	var maxTiledFloor3DShapeOrder uint
+	var foundTiledFloor3DShape bool
+	for _, order := range stage.TiledFloor3DShape_stagedOrder {
+		if !foundTiledFloor3DShape || order > maxTiledFloor3DShapeOrder {
+			maxTiledFloor3DShapeOrder = order
+			foundTiledFloor3DShape = true
+		}
+	}
+	if foundTiledFloor3DShape {
+		stage.TiledFloor3DShapeOrder = maxTiledFloor3DShapeOrder + 1
+	} else {
+		stage.TiledFloor3DShapeOrder = 0
 	}
 
 	var maxTopEndArcShapeOrder uint
@@ -6521,6 +6554,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TiledFloor3DShape:
+		tmp := GetStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TiledFloor3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TopEndArcShape:
 		tmp := GetStructInstancesByOrder(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 
@@ -7106,6 +7153,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
 	case "StoolDiagram":
 		res = GetNamedStructInstances(stage.StoolDiagrams, stage.StoolDiagram_stagedOrder)
+	case "TiledFloor3DShape":
+		res = GetNamedStructInstances(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
 	case "TopEndArcShape":
 		res = GetNamedStructInstances(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 	case "TopEndArcShapeGrid":
@@ -7443,6 +7492,8 @@ type BackRepoInterface interface {
 	CheckoutStoolAbstract(stoolabstract *StoolAbstract)
 	CommitStoolDiagram(stooldiagram *StoolDiagram)
 	CheckoutStoolDiagram(stooldiagram *StoolDiagram)
+	CommitTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
+	CheckoutTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
 	CommitTopEndArcShape(topendarcshape *TopEndArcShape)
 	CheckoutTopEndArcShape(topendarcshape *TopEndArcShape)
 	CommitTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
@@ -7826,6 +7877,9 @@ func NewStage(name string) (stage *Stage) {
 
 		StoolDiagrams:           make(map[*StoolDiagram]struct{}),
 		StoolDiagrams_mapString: make(map[string]*StoolDiagram),
+
+		TiledFloor3DShapes:           make(map[*TiledFloor3DShape]struct{}),
+		TiledFloor3DShapes_mapString: make(map[string]*TiledFloor3DShape),
 
 		TopEndArcShapes:           make(map[*TopEndArcShape]struct{}),
 		TopEndArcShapes_mapString: make(map[string]*TopEndArcShape),
@@ -8349,6 +8403,10 @@ func NewStage(name string) (stage *Stage) {
 		StoolDiagram_orderStaged: make(map[uint]*StoolDiagram),
 		StoolDiagrams_reference:  make(map[*StoolDiagram]*StoolDiagram),
 
+		TiledFloor3DShape_stagedOrder: make(map[*TiledFloor3DShape]uint),
+		TiledFloor3DShape_orderStaged: make(map[uint]*TiledFloor3DShape),
+		TiledFloor3DShapes_reference:  make(map[*TiledFloor3DShape]*TiledFloor3DShape),
+
 		TopEndArcShape_stagedOrder: make(map[*TopEndArcShape]uint),
 		TopEndArcShape_orderStaged: make(map[uint]*TopEndArcShape),
 		TopEndArcShapes_reference:  make(map[*TopEndArcShape]*TopEndArcShape),
@@ -8667,6 +8725,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"StoolDiagram": &StoolDiagramUnmarshaller{},
 
+			"TiledFloor3DShape": &TiledFloor3DShapeUnmarshaller{},
+
 			"TopEndArcShape": &TopEndArcShapeUnmarshaller{},
 
 			"TopEndArcShapeGrid": &TopEndArcShapeGridUnmarshaller{},
@@ -8829,6 +8889,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StartHalfwayArcShapeGrid"},
 			{name: "StoolAbstract"},
 			{name: "StoolDiagram"},
+			{name: "TiledFloor3DShape"},
 			{name: "TopEndArcShape"},
 			{name: "TopEndArcShapeGrid"},
 			{name: "TopEndHalfwayArcShape"},
@@ -9084,6 +9145,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StoolAbstract_stagedOrder[instance]
 	case *StoolDiagram:
 		return stage.StoolDiagram_stagedOrder[instance]
+	case *TiledFloor3DShape:
+		return stage.TiledFloor3DShape_stagedOrder[instance]
 	case *TopEndArcShape:
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
@@ -9361,6 +9424,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StoolAbstract_orderStaged[order]).(Type)
 	case *StoolDiagram:
 		return any(stage.StoolDiagram_orderStaged[order]).(Type)
+	case *TiledFloor3DShape:
+		return any(stage.TiledFloor3DShape_orderStaged[order]).(Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShape_orderStaged[order]).(Type)
 	case *TopEndArcShapeGrid:
@@ -9637,6 +9702,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StoolAbstract_stagedOrder[instance]
 	case *StoolDiagram:
 		return stage.StoolDiagram_stagedOrder[instance]
+	case *TiledFloor3DShape:
+		return stage.TiledFloor3DShape_stagedOrder[instance]
 	case *TopEndArcShape:
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
@@ -9860,6 +9927,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShapeGrid"] = len(stage.StartHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["StoolAbstract"] = len(stage.StoolAbstracts)
 	stage.Map_GongStructName_InstancesNb["StoolDiagram"] = len(stage.StoolDiagrams)
+	stage.Map_GongStructName_InstancesNb["TiledFloor3DShape"] = len(stage.TiledFloor3DShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShape"] = len(stage.TopEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShapeGrid"] = len(stage.TopEndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopEndHalfwayArcShape"] = len(stage.TopEndHalfwayArcShapes)
@@ -19604,6 +19672,94 @@ func (stooldiagram *StoolDiagram) SetName(name string) {
 	stooldiagram.Name = name
 }
 
+// Stage puts tiledfloor3dshape to the model stage
+func (tiledfloor3dshape *TiledFloor3DShape) Stage(stage *Stage) *TiledFloor3DShape {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; !ok {
+		stage.TiledFloor3DShapes[tiledfloor3dshape] = struct{}{}
+		stage.TiledFloor3DShape_stagedOrder[tiledfloor3dshape] = stage.TiledFloor3DShapeOrder
+		stage.TiledFloor3DShape_orderStaged[stage.TiledFloor3DShapeOrder] = tiledfloor3dshape
+		stage.TiledFloor3DShapeOrder++
+	}
+	stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
+
+	return tiledfloor3dshape
+}
+
+// StagePreserveOrder puts tiledfloor3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TiledFloor3DShapeOrder
+// - update stage.TiledFloor3DShapeOrder accordingly
+func (tiledfloor3dshape *TiledFloor3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; !ok {
+		stage.TiledFloor3DShapes[tiledfloor3dshape] = struct{}{}
+
+		if order > stage.TiledFloor3DShapeOrder {
+			stage.TiledFloor3DShapeOrder = order
+		}
+		stage.TiledFloor3DShape_stagedOrder[tiledfloor3dshape] = order
+		stage.TiledFloor3DShape_orderStaged[order] = tiledfloor3dshape
+		stage.TiledFloor3DShapeOrder++
+	}
+	stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
+}
+
+// Unstage removes tiledfloor3dshape off the model stage
+func (tiledfloor3dshape *TiledFloor3DShape) Unstage(stage *Stage) *TiledFloor3DShape {
+	delete(stage.TiledFloor3DShapes, tiledfloor3dshape)
+	// issue1150
+	// delete(stage.TiledFloor3DShape_stagedOrder, tiledfloor3dshape)
+	delete(stage.TiledFloor3DShapes_mapString, tiledfloor3dshape.Name)
+
+	return tiledfloor3dshape
+}
+
+// UnstageVoid removes tiledfloor3dshape off the model stage
+func (tiledfloor3dshape *TiledFloor3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.TiledFloor3DShapes, tiledfloor3dshape)
+	// issue1150
+	// delete(stage.TiledFloor3DShape_stagedOrder, tiledfloor3dshape)
+	delete(stage.TiledFloor3DShapes_mapString, tiledfloor3dshape.Name)
+}
+
+// commit tiledfloor3dshape to the back repo (if it is already staged)
+func (tiledfloor3dshape *TiledFloor3DShape) Commit(stage *Stage) *TiledFloor3DShape {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTiledFloor3DShape(tiledfloor3dshape)
+		}
+	}
+	return tiledfloor3dshape
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) CommitVoid(stage *Stage) {
+	tiledfloor3dshape.Commit(stage)
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) StageVoid(stage *Stage) {
+	tiledfloor3dshape.Stage(stage)
+}
+
+// Checkout tiledfloor3dshape to the back repo (if it is already staged)
+func (tiledfloor3dshape *TiledFloor3DShape) Checkout(stage *Stage) *TiledFloor3DShape {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTiledFloor3DShape(tiledfloor3dshape)
+		}
+	}
+	return tiledfloor3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (tiledfloor3dshape *TiledFloor3DShape) GetName() (res string) {
+	return tiledfloor3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (tiledfloor3dshape *TiledFloor3DShape) SetName(name string) {
+	tiledfloor3dshape.Name = name
+}
+
 // Stage puts topendarcshape to the model stage
 func (topendarcshape *TopEndArcShape) Stage(stage *Stage) *TopEndArcShape {
 	if _, ok := stage.TopEndArcShapes[topendarcshape]; !ok {
@@ -21828,6 +21984,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
 	CreateORMStoolAbstract(StoolAbstract *StoolAbstract)
 	CreateORMStoolDiagram(StoolDiagram *StoolDiagram)
+	CreateORMTiledFloor3DShape(TiledFloor3DShape *TiledFloor3DShape)
 	CreateORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	CreateORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	CreateORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
@@ -21965,6 +22122,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
 	DeleteORMStoolAbstract(StoolAbstract *StoolAbstract)
 	DeleteORMStoolDiagram(StoolDiagram *StoolDiagram)
+	DeleteORMTiledFloor3DShape(TiledFloor3DShape *TiledFloor3DShape)
 	DeleteORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	DeleteORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	DeleteORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
@@ -22542,6 +22700,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StoolDiagram_stagedOrder = make(map[*StoolDiagram]uint)
 	stage.StoolDiagramOrder = 0
 
+	stage.TiledFloor3DShapes = make(map[*TiledFloor3DShape]struct{})
+	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)
+	stage.TiledFloor3DShape_stagedOrder = make(map[*TiledFloor3DShape]uint)
+	stage.TiledFloor3DShapeOrder = 0
+
 	stage.TopEndArcShapes = make(map[*TopEndArcShape]struct{})
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)
 	stage.TopEndArcShape_stagedOrder = make(map[*TopEndArcShape]uint)
@@ -23000,6 +23163,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.StoolDiagrams = nil
 	stage.StoolDiagrams_mapString = nil
+
+	stage.TiledFloor3DShapes = nil
+	stage.TiledFloor3DShapes_mapString = nil
 
 	stage.TopEndArcShapes = nil
 	stage.TopEndArcShapes_mapString = nil
@@ -23517,6 +23683,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		stooldiagram.Unstage(stage)
 	}
 
+	for tiledfloor3dshape := range stage.TiledFloor3DShapes {
+		tiledfloor3dshape.Unstage(stage)
+	}
+
 	for topendarcshape := range stage.TopEndArcShapes {
 		topendarcshape.Unstage(stage)
 	}
@@ -23909,6 +24079,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StoolAbstracts).(*Type)
 	case map[*StoolDiagram]any:
 		return any(&stage.StoolDiagrams).(*Type)
+	case map[*TiledFloor3DShape]any:
+		return any(&stage.TiledFloor3DShapes).(*Type)
 	case map[*TopEndArcShape]any:
 		return any(&stage.TopEndArcShapes).(*Type)
 	case map[*TopEndArcShapeGrid]any:
@@ -24189,6 +24361,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StoolAbstracts_mapString).(map[string]Type)
 	case *StoolDiagram:
 		return any(stage.StoolDiagrams_mapString).(map[string]Type)
+	case *TiledFloor3DShape:
+		return any(stage.TiledFloor3DShapes_mapString).(map[string]Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShapes_mapString).(map[string]Type)
 	case *TopEndArcShapeGrid:
@@ -24469,6 +24643,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StoolAbstracts).(*map[*Type]struct{})
 	case StoolDiagram:
 		return any(&stage.StoolDiagrams).(*map[*Type]struct{})
+	case TiledFloor3DShape:
+		return any(&stage.TiledFloor3DShapes).(*map[*Type]struct{})
 	case TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[*Type]struct{})
 	case TopEndArcShapeGrid:
@@ -24749,6 +24925,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StoolAbstracts).(*map[Type]struct{})
 	case *StoolDiagram:
 		return any(&stage.StoolDiagrams).(*map[Type]struct{})
+	case *TiledFloor3DShape:
+		return any(&stage.TiledFloor3DShapes).(*map[Type]struct{})
 	case *TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[Type]struct{})
 	case *TopEndArcShapeGrid:
@@ -25029,6 +25207,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StoolAbstracts_mapString).(*map[string]*Type)
 	case StoolDiagram:
 		return any(&stage.StoolDiagrams_mapString).(*map[string]*Type)
+	case TiledFloor3DShape:
+		return any(&stage.TiledFloor3DShapes_mapString).(*map[string]*Type)
 	case TopEndArcShape:
 		return any(&stage.TopEndArcShapes_mapString).(*map[string]*Type)
 	case TopEndArcShapeGrid:
@@ -25140,6 +25320,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
 			// field is initialized with an instance of SampledPoints3DShape with the name of the field
 			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
 		}).(*Type)
@@ -25716,8 +25898,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			SeatAndLegs3DShape: &SeatAndLegs3DShape{Name: "SeatAndLegs3DShape"},
 			// field is initialized with an instance of RotatedSeatAndLegs3DShape with the name of the field
 			RotatedSeatAndLegs3DShape: &RotatedSeatAndLegs3DShape{Name: "RotatedSeatAndLegs3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 			// field is initialized with an instance of Rendered3DShape with the name of the field
 			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+		}).(*Type)
+	case TiledFloor3DShape:
+		return any(&TiledFloor3DShape{
+			// Initialisation of associations
 		}).(*Type)
 	case TopEndArcShape:
 		return any(&TopEndArcShape{
@@ -25914,6 +26102,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			VolumeKey3DShape: &VolumeKey3DShape{Name: "VolumeKey3DShape"},
 			// field is initialized with an instance of TorusEdge3DShape with the name of the field
 			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
 		}).(*Type)
 	case VerticalTorusStackShape:
 		return any(&VerticalTorusStackShape{
@@ -26037,6 +26227,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					clockdiagrams = append(clockdiagrams, clockdiagram)
 					res[sampledpoints3dshape_] = clockdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*ClockDiagram)
+			for clockdiagram := range stage.ClockDiagrams {
+				if clockdiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := clockdiagram.TiledFloor3DShape
+					var clockdiagrams []*ClockDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						clockdiagrams = res[tiledfloor3dshape_]
+					} else {
+						clockdiagrams = make([]*ClockDiagram, 0)
+					}
+					clockdiagrams = append(clockdiagrams, clockdiagram)
+					res[tiledfloor3dshape_] = clockdiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27339,6 +27546,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*StoolDiagram)
+			for stooldiagram := range stage.StoolDiagrams {
+				if stooldiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := stooldiagram.TiledFloor3DShape
+					var stooldiagrams []*StoolDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						stooldiagrams = res[tiledfloor3dshape_]
+					} else {
+						stooldiagrams = make([]*StoolDiagram, 0)
+					}
+					stooldiagrams = append(stooldiagrams, stooldiagram)
+					res[tiledfloor3dshape_] = stooldiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Rendered3DShape":
 			res := make(map[*Rendered3DShape][]*StoolDiagram)
 			for stooldiagram := range stage.StoolDiagrams {
@@ -27356,6 +27580,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of TiledFloor3DShape
+	case TiledFloor3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
@@ -28228,6 +28457,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					vasediagrams = append(vasediagrams, vasediagram)
 					res[torusedge3dshape_] = vasediagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*VaseDiagram)
+			for vasediagram := range stage.VaseDiagrams {
+				if vasediagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := vasediagram.TiledFloor3DShape
+					var vasediagrams []*VaseDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						vasediagrams = res[tiledfloor3dshape_]
+					} else {
+						vasediagrams = make([]*VaseDiagram, 0)
+					}
+					vasediagrams = append(vasediagrams, vasediagram)
+					res[tiledfloor3dshape_] = vasediagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -29151,6 +29397,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TiledFloor3DShape
+	case TiledFloor3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
 		switch fieldname {
@@ -29574,6 +29825,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StoolAbstract"
 	case *StoolDiagram:
 		res = "StoolDiagram"
+	case *TiledFloor3DShape:
+		res = "TiledFloor3DShape"
 	case *TopEndArcShape:
 		res = "TopEndArcShape"
 	case *TopEndArcShapeGrid:
@@ -30098,6 +30351,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *StoolDiagram:
 		var rf ReverseField
 		_ = rf
+	case *TiledFloor3DShape:
+		var rf ReverseField
+		_ = rf
 	case *TopEndArcShape:
 		var rf ReverseField
 		_ = rf
@@ -30452,6 +30708,15 @@ func (clockdiagram *ClockDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "SampledPoints3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "SampledPoints3DShape",
+		},
+		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
 		},
 		{
 			Name:                 "Rendered3DShape",
@@ -33924,9 +34189,29 @@ func (stooldiagram *StoolDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "RotatedSeatAndLegs3DShape",
 		},
 		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
+		},
+	}
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -34920,6 +35205,10 @@ func (vasediagram *VaseDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Rendered3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rendered3DShape",
@@ -35003,6 +35292,11 @@ func (vasediagram *VaseDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "TorusEdge3DShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "TorusEdge3DShape",
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
 		},
 	}
 	return
@@ -35328,6 +35622,16 @@ func (clockdiagram *ClockDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if clockdiagram.SampledPoints3DShape != nil {
 			res.valueString = clockdiagram.SampledPoints3DShape.Name
 			res.ids = clockdiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", clockdiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = clockdiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clockdiagram.TiledFloor3DShape != nil {
+			res.valueString = clockdiagram.TiledFloor3DShape.Name
+			res.ids = clockdiagram.TiledFloor3DShape.GongGetUUID(stage)
 		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -38839,12 +39143,31 @@ func (stooldiagram *StoolDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = stooldiagram.RotatedSeatAndLegs3DShape.Name
 			res.ids = stooldiagram.RotatedSeatAndLegs3DShape.GongGetUUID(stage)
 		}
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", stooldiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = stooldiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stooldiagram.TiledFloor3DShape != nil {
+			res.valueString = stooldiagram.TiledFloor3DShape.Name
+			res.ids = stooldiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if stooldiagram.Rendered3DShape != nil {
 			res.valueString = stooldiagram.Rendered3DShape.Name
 			res.ids = stooldiagram.Rendered3DShape.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = tiledfloor3dshape.Name
 	}
 	return
 }
@@ -39865,6 +40188,10 @@ func (vasediagram *VaseDiagram) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenAngle0Shape)
 		res.valueBool = vasediagram.IsHiddenAngle0Shape
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", vasediagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = vasediagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Rendered3DShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if vasediagram.Rendered3DShape != nil {
@@ -39966,6 +40293,12 @@ func (vasediagram *VaseDiagram) GongGetFieldValue(fieldName string, stage *Stage
 		if vasediagram.TorusEdge3DShape != nil {
 			res.valueString = vasediagram.TorusEdge3DShape.Name
 			res.ids = vasediagram.TorusEdge3DShape.GongGetUUID(stage)
+		}
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vasediagram.TiledFloor3DShape != nil {
+			res.valueString = vasediagram.TiledFloor3DShape.Name
+			res.ids = vasediagram.TiledFloor3DShape.GongGetUUID(stage)
 		}
 	}
 	return
@@ -40216,6 +40549,19 @@ func (clockdiagram *ClockDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.SampledPoints3DShapes {
 				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
 					clockdiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTiledFloor3DShape":
+		clockdiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clockdiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					clockdiagram.TiledFloor3DShape = __instance__
 					break
 				}
 			}
@@ -43375,6 +43721,19 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "IsHiddenTiledFloor3DShape":
+		stooldiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stooldiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					stooldiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
 	case "Rendered3DShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -43386,6 +43745,17 @@ func (stooldiagram *StoolDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		tiledfloor3dshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -44344,6 +44714,8 @@ func (vasediagram *VaseDiagram) GongSetFieldValue(fieldName string, value GongFi
 		vasediagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
 	case "IsHiddenAngle0Shape":
 		vasediagram.IsHiddenAngle0Shape = value.GetValueBool()
+	case "IsHiddenTiledFloor3DShape":
+		vasediagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
 	case "Rendered3DShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -44527,6 +44899,17 @@ func (vasediagram *VaseDiagram) GongSetFieldValue(fieldName string, value GongFi
 			for __instance__ := range stage.TorusEdge3DShapes {
 				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
 					vasediagram.TorusEdge3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vasediagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					vasediagram.TiledFloor3DShape = __instance__
 					break
 				}
 			}
@@ -45002,6 +45385,10 @@ func (stoolabstract *StoolAbstract) GongGetGongstructName() string {
 
 func (stooldiagram *StoolDiagram) GongGetGongstructName() string {
 	return "StoolDiagram"
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetGongstructName() string {
+	return "TiledFloor3DShape"
 }
 
 func (topendarcshape *TopEndArcShape) GongGetGongstructName() string {
@@ -45655,6 +46042,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.StoolDiagrams_mapString = make(map[string]*StoolDiagram)
 	for stooldiagram := range stage.StoolDiagrams {
 		stage.StoolDiagrams_mapString[stooldiagram.Name] = stooldiagram
+	}
+
+	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)
+	for tiledfloor3dshape := range stage.TiledFloor3DShapes {
+		stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
 	}
 
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)

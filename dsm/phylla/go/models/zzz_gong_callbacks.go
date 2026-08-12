@@ -446,6 +446,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStoolDiagramCreateCallback != nil {
 			stage.OnAfterStoolDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *TiledFloor3DShape:
+		if stage.OnAfterTiledFloor3DShapeCreateCallback != nil {
+			stage.OnAfterTiledFloor3DShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *TopEndArcShape:
 		if stage.OnAfterTopEndArcShapeCreateCallback != nil {
 			stage.OnAfterTopEndArcShapeCreateCallback.OnAfterCreate(stage, target)
@@ -1105,6 +1109,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*StoolDiagram)
 		if stage.OnAfterStoolDiagramUpdateCallback != nil {
 			stage.OnAfterStoolDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *TiledFloor3DShape:
+		newTarget := any(new).(*TiledFloor3DShape)
+		if stage.OnAfterTiledFloor3DShapeUpdateCallback != nil {
+			stage.OnAfterTiledFloor3DShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *TopEndArcShape:
 		newTarget := any(new).(*TopEndArcShape)
@@ -1786,6 +1795,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*StoolDiagram)
 			stage.OnAfterStoolDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *TiledFloor3DShape:
+		if stage.OnAfterTiledFloor3DShapeDeleteCallback != nil {
+			staged := any(staged).(*TiledFloor3DShape)
+			stage.OnAfterTiledFloor3DShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *TopEndArcShape:
 		if stage.OnAfterTopEndArcShapeDeleteCallback != nil {
 			staged := any(staged).(*TopEndArcShape)
@@ -2356,6 +2370,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterStoolDiagramReadCallback != nil {
 			stage.OnAfterStoolDiagramReadCallback.OnAfterRead(stage, target)
 		}
+	case *TiledFloor3DShape:
+		if stage.OnAfterTiledFloor3DShapeReadCallback != nil {
+			stage.OnAfterTiledFloor3DShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *TopEndArcShape:
 		if stage.OnAfterTopEndArcShapeReadCallback != nil {
 			stage.OnAfterTopEndArcShapeReadCallback.OnAfterRead(stage, target)
@@ -2683,6 +2701,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStoolAbstractUpdateCallback = any(callback).(OnAfterUpdateInterface[StoolAbstract])
 	case *StoolDiagram:
 		stage.OnAfterStoolDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[StoolDiagram])
+	case *TiledFloor3DShape:
+		stage.OnAfterTiledFloor3DShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TiledFloor3DShape])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:
@@ -2958,6 +2978,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStoolAbstractCreateCallback = any(callback).(OnAfterCreateInterface[StoolAbstract])
 	case *StoolDiagram:
 		stage.OnAfterStoolDiagramCreateCallback = any(callback).(OnAfterCreateInterface[StoolDiagram])
+	case *TiledFloor3DShape:
+		stage.OnAfterTiledFloor3DShapeCreateCallback = any(callback).(OnAfterCreateInterface[TiledFloor3DShape])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:
@@ -3233,6 +3255,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterStoolAbstractDeleteCallback = any(callback).(OnAfterDeleteInterface[StoolAbstract])
 	case *StoolDiagram:
 		stage.OnAfterStoolDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[StoolDiagram])
+	case *TiledFloor3DShape:
+		stage.OnAfterTiledFloor3DShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TiledFloor3DShape])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:
@@ -3508,6 +3532,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterStoolAbstractReadCallback = any(callback).(OnAfterReadInterface[StoolAbstract])
 	case *StoolDiagram:
 		stage.OnAfterStoolDiagramReadCallback = any(callback).(OnAfterReadInterface[StoolDiagram])
+	case *TiledFloor3DShape:
+		stage.OnAfterTiledFloor3DShapeReadCallback = any(callback).(OnAfterReadInterface[TiledFloor3DShape])
 	case *TopEndArcShape:
 		stage.OnAfterTopEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[TopEndArcShape])
 	case *TopEndArcShapeGrid:

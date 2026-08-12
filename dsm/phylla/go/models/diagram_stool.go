@@ -54,5 +54,8 @@ type StoolDiagram struct {
 	IsHiddenRotatedSeatAndLegs3DShape bool
 	RotatedSeatAndLegs3DShape         *RotatedSeatAndLegs3DShape
 
+	IsHiddenTiledFloor3DShape bool
+	TiledFloor3DShape         *TiledFloor3DShape
+
 	Rendered3DShape *Rendered3DShape
 }

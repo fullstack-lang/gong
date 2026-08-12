@@ -1449,6 +1449,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TiledFloor3DShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "TiledFloor3DShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TiledFloor3DShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TopEndArcShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
