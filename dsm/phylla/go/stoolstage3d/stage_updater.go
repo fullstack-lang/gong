@@ -13,7 +13,3 @@ func NewStool3DStageUpdater() *Stool3DStageUpdater {
 func (u *Stool3DStageUpdater) UpdateStool3DStage(stager *models.Stager) {
 	u.ux_3d_stool(stager)
 }
-
-func (u *Stool3DStageUpdater) UpdateClock3DStage(stager *models.Stager) {
-	u.ux_3d_clock(stager)
-}

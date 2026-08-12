@@ -1,10 +1,11 @@
-package stoolstage3d
+package cylinderstage3d
 
 import (
 	"fmt"
 	"log"
 	"math"
 	"sort"
+	"strconv"
 
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
@@ -58,7 +59,7 @@ type Cylinder3DBaseResult struct {
 	RotTopCurve        *threejs.Curve
 }
 
-func (u *Stool3DStageUpdater) renderCylinder3DBase(
+func RenderCylinder3DBase(
 	stage3d *threejs.Stage,
 	stager *models.Stager,
 	plant *models.PlantAbstract,
@@ -226,15 +227,15 @@ func (u *Stool3DStageUpdater) renderCylinder3DBase(
 
 		for i := 0; i < len(startArcs); i++ {
 			sa := startArcs[i]
-			u.appendArcPointsStool(stage3d, baseCurve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, 0.0, &floorMinY)
+			AppendArcPointsCylinder(stage3d, baseCurve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, 0.0, &floorMinY)
 
 			if i < len(endArcs) {
 				ea := endArcs[i]
-				u.appendArcPointsStool(stage3d, baseCurve, ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag, globalR, 0.0, &floorMinY)
+				AppendArcPointsCylinder(stage3d, baseCurve, ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag, globalR, 0.0, &floorMinY)
 			}
 		}
 
-		sortedAngles, sortedPoints := unwrapAngles(baseCurve)
+		sortedAngles, sortedPoints := UnwrapAngles(baseCurve)
 		res.SortedAngles = sortedAngles
 		res.SortedPoints = sortedPoints
 
@@ -250,7 +251,7 @@ func (u *Stool3DStageUpdater) renderCylinder3DBase(
 		}
 		res.TargetAngles = targetAngles
 
-		resampledBaseCurve := u.resampleCurveAtAngles(stage3d, sortedAngles, sortedPoints, targetAngles, params.NamePrefix, expectedDegrees)
+		resampledBaseCurve := ResampleCurveAtAngles(stage3d, sortedAngles, sortedPoints, targetAngles, params.NamePrefix, expectedDegrees)
 
 		vertScale := params.VerticalScale
 		if vertScale <= 0.0 {
@@ -506,7 +507,7 @@ func (u *Stool3DStageUpdater) renderCylinder3DBase(
 					}).Stage(stage3d))
 				}
 			}
-			u.addPointSpheres(stage3d, basePoints, "red", canvas, fmt.Sprintf("%s Sampled", params.NamePrefix), 0, numPointsPerRep)
+			AddPointSpheres(stage3d, basePoints, "red", canvas, fmt.Sprintf("%s Sampled", params.NamePrefix), 0, numPointsPerRep)
 		}
 
 		// Rotated Sampled points visualization (if enabled)
@@ -531,7 +532,7 @@ func (u *Stool3DStageUpdater) renderCylinder3DBase(
 					}).Stage(stage3d))
 				}
 			}
-			u.addPointSpheres(stage3d, rotPoints, "orange", canvas, fmt.Sprintf("%s Rotated Sampled", params.NamePrefix), 0, numPointsPerRep)
+			AddPointSpheres(stage3d, rotPoints, "orange", canvas, fmt.Sprintf("%s Rotated Sampled", params.NamePrefix), 0, numPointsPerRep)
 		}
 
 		res.FloorMinY = floorMinY
@@ -540,52 +541,7 @@ func (u *Stool3DStageUpdater) renderCylinder3DBase(
 	return res
 }
 
-func (u *Stool3DStageUpdater) ux_3d_clock(stager *models.Stager) {
-	clock3dStage := stager.GetClock3dStage()
-	if clock3dStage == nil {
-		return
-	}
-
-	plant := stager.GetCurrentPlant()
-	if plant == nil || plant.PlantType != models.Clock || plant.ClockAbstract == nil {
-		clock3dStage.Reset()
-		clock3dStage.Commit()
-		return
-	}
-
-	var checkedDiagram *models.PlantDiagram
-	for _, d := range plant.PlantDiagrams {
-		if d.IsChecked {
-			checkedDiagram = d
-			break
-		}
-	}
-
-	params := Cylinder3DParams{
-		NamePrefix:            "Clock",
-		CanvasName:            "Clock 3D Canvas",
-		RadialRepetitions:     plant.ClockAbstract.RadialRepetitions,
-		Transparency:          plant.ClockAbstract.Transparency,
-		RelativeTubeDiameter:  plant.ClockAbstract.RelativeTubeDiameter,
-		RelativeHeight3DTorus: plant.ClockAbstract.RelativeHeight3DTorus,
-		VerticalScale:         plant.ClockAbstract.ClockTorusVerticalScale,
-		RelativeHeight:        plant.ClockAbstract.RelativeHeight,
-		ProjectionAngle:       plant.ClockAbstract.ProjectionAngle,
-		HasRotatedShapes:      false,
-	}
-
-	if checkedDiagram != nil && checkedDiagram.ClockDiagram != nil {
-		params.Rendered3DShape = checkedDiagram.ClockDiagram.Rendered3DShape
-		params.IsHiddenTorus3DShape = checkedDiagram.ClockDiagram.IsHiddenTorus3DShape
-		params.IsHiddenTopCurveShape = checkedDiagram.ClockDiagram.IsHiddenClockTopCurveShape
-		params.IsHiddenSampledPoints3DShape = checkedDiagram.ClockDiagram.IsHiddenSampledPoints3DShape
-	}
-
-	u.renderCylinder3DBase(clock3dStage, stager, plant, params)
-	clock3dStage.Commit()
-}
-
-func (u *Stool3DStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, baseThetaOffset float64, floorMinY *float64) {
+func AppendArcPointsCylinder(stool3dStage *threejs.Stage, targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, baseThetaOffset float64, floorMinY *float64) {
 	dx := (x1 - x2) / 2.0
 	dy := (y1 - y2) / 2.0
 	d2 := dx*dx + dy*dy
@@ -646,9 +602,9 @@ func (u *Stool3DStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, 
 	}
 }
 
-// unwrapAngles processes a 3D curve to extract a strictly monotonic,
+// UnwrapAngles processes a 3D curve to extract a strictly monotonic,
 // duplicate-free mapping of points to their cylindrical angle (theta).
-func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vector3) {
+func UnwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vector3) {
 	angleToPoint := make(map[float64]*threejs.Vector3)
 	if len(curve.Points) == 0 {
 		return nil, nil
@@ -703,8 +659,8 @@ func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vec
 	return angles, points
 }
 
-// resampleCurveAtAngles forces an existing 3D curve to conform to a specific set of target angles.
-func (u *Stool3DStageUpdater) resampleCurveAtAngles(
+// ResampleCurveAtAngles forces an existing 3D curve to conform to a specific set of target angles.
+func ResampleCurveAtAngles(
 	stool3dStage *threejs.Stage,
 	sortedAngles []float64,
 	sortedPoints []*threejs.Vector3,
@@ -812,7 +768,7 @@ func (u *Stool3DStageUpdater) resampleCurveAtAngles(
 	return resampled
 }
 
-func (u *Stool3DStageUpdater) addPointSpheres(stool3dStage *threejs.Stage, points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
+func AddPointSpheres(stool3dStage *threejs.Stage, points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
 	for i, pt := range points {
 		sphereColor := color
 		radius := 2.0
@@ -846,5 +802,52 @@ func (u *Stool3DStageUpdater) addPointSpheres(stool3dStage *threejs.Stage, point
 			}).Stage(stool3dStage),
 		}).Stage(stool3dStage)
 		canvas.Meshs = append(canvas.Meshs, sphere)
+	}
+}
+
+func AddFloorTiles(stage3d *threejs.Stage, canvas *threejs.Canvas, globalR float64, floorMinY float64) {
+	if floorMinY > 0.0 {
+		floorMinY = 0.0
+	}
+	floorMinY = floorMinY - 2.0
+
+	floorSize := globalR * 3.0
+	if floorSize < 200 {
+		floorSize = 200
+	}
+	gridSize := 20
+	tileSize := floorSize / float64(gridSize)
+
+	for i := -gridSize / 2; i < gridSize/2; i++ {
+		for j := -gridSize / 2; j < gridSize/2; j++ {
+			color := "white"
+			if (i+j)%2 != 0 {
+				color = "black"
+			}
+
+			tileMesh := (&threejs.Mesh{
+				Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
+				Position: threejs.Position{
+					X: float64(i)*tileSize + tileSize/2,
+					Y: floorMinY - 0.05,
+					Z: float64(j)*tileSize + tileSize/2,
+				},
+				BoxGeometry: (&threejs.BoxGeometry{
+					Name:           "Tile Geometry",
+					Width:          tileSize,
+					Height:         0.1,
+					Depth:          tileSize,
+					WidthSegments:  1,
+					HeightSegments: 1,
+					DepthSegments:  1,
+				}).Stage(stage3d),
+				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
+					Name:                 "Tile Material " + color,
+					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
+				}).Stage(stage3d),
+			}).Stage(stage3d)
+
+			canvas.Meshs = append(canvas.Meshs, tileMesh)
+		}
 	}
 }

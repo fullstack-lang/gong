@@ -43,6 +43,9 @@ type ThreeJSStageUpdaterInterface interface {
 
 type Stool3DStageUpdaterInterface interface {
 	UpdateStool3DStage(stager *Stager)
+}
+
+type Clock3DStageUpdaterInterface interface {
 	UpdateClock3DStage(stager *Stager)
 }
 
@@ -84,6 +87,7 @@ type Stager struct {
 
 	threeJSUpdater ThreeJSStageUpdaterInterface
 	stool3DUpdater Stool3DStageUpdaterInterface
+	clock3DUpdater Clock3DStageUpdaterInterface
 
 	// maps
 	m_Plant_Library map[*PlantAbstract]*Library
@@ -96,6 +100,7 @@ func NewStager(
 	persistanceFile string,
 	threeJSUpdater ThreeJSStageUpdaterInterface,
 	stool3DUpdater Stool3DStageUpdaterInterface,
+	clock3DUpdater Clock3DStageUpdaterInterface,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -105,6 +110,7 @@ func NewStager(
 	stager.persistanceFile = persistanceFile
 	stager.threeJSUpdater = threeJSUpdater
 	stager.stool3DUpdater = stool3DUpdater
+	stager.clock3DUpdater = clock3DUpdater
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
@@ -257,9 +263,13 @@ func (stager *Stager) GetSliderStoolStage() *slider.Stage {
 	return stager.sliderStoolStage
 }
 
+func (stager *Stager) SetClock3DUpdater(updater Clock3DStageUpdaterInterface) {
+	stager.clock3DUpdater = updater
+}
+
 func (stager *Stager) UpdateClock3DStage() {
-	if stager.stool3DUpdater != nil {
-		stager.stool3DUpdater.UpdateClock3DStage(stager)
+	if stager.clock3DUpdater != nil {
+		stager.clock3DUpdater.UpdateClock3DStage(stager)
 	}
 }
 
