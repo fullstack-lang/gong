@@ -199,6 +199,8 @@ type ClockDiagram_WOP struct {
 	IsHiddenTorus3DShape bool
 
 	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenTiledFloor3DShape bool
 }
 
 func (from *ClockDiagram) CopyBasicFields(to *ClockDiagram) {
@@ -207,6 +209,7 @@ func (from *ClockDiagram) CopyBasicFields(to *ClockDiagram) {
 	to.IsHiddenClockTopCurveShape = from.IsHiddenClockTopCurveShape
 	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
 }
 
 type ClockTopCurveShape_WOP struct {
@@ -2731,6 +2734,8 @@ type StoolDiagram_WOP struct {
 	IsHiddenSeatAndLegs3DShape bool
 
 	IsHiddenRotatedSeatAndLegs3DShape bool
+
+	IsHiddenTiledFloor3DShape bool
 }
 
 func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
@@ -2753,6 +2758,18 @@ func (from *StoolDiagram) CopyBasicFields(to *StoolDiagram) {
 	to.IsHiddenEyeVolume3DShape = from.IsHiddenEyeVolume3DShape
 	to.IsHiddenSeatAndLegs3DShape = from.IsHiddenSeatAndLegs3DShape
 	to.IsHiddenRotatedSeatAndLegs3DShape = from.IsHiddenRotatedSeatAndLegs3DShape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+}
+
+type TiledFloor3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TiledFloor3DShape) CopyBasicFields(to *TiledFloor3DShape) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type TopEndArcShape_WOP struct {
@@ -3367,6 +3384,8 @@ type VaseDiagram_WOP struct {
 	IsHiddenOriginalPoints3DShape bool
 
 	IsHiddenAngle0Shape bool
+
+	IsHiddenTiledFloor3DShape bool
 }
 
 func (from *VaseDiagram) CopyBasicFields(to *VaseDiagram) {
@@ -3418,6 +3437,7 @@ func (from *VaseDiagram) CopyBasicFields(to *VaseDiagram) {
 	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
 	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
 	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
 }
 
 type VerticalTorusStackShape_WOP struct {

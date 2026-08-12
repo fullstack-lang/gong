@@ -112,6 +112,7 @@ func (clockdiagram *ClockDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &clockdiagram.ClockTopCurveShape) || modified
 	modified = GongCleanPointer(stage, &clockdiagram.Torus3DShape) || modified
 	modified = GongCleanPointer(stage, &clockdiagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &clockdiagram.TiledFloor3DShape) || modified
 	modified = GongCleanPointer(stage, &clockdiagram.Rendered3DShape) || modified
 	return
 }
@@ -900,7 +901,15 @@ func (stooldiagram *StoolDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &stooldiagram.EyeVolume3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.SeatAndLegs3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.RotatedSeatAndLegs3DShape) || modified
+	modified = GongCleanPointer(stage, &stooldiagram.TiledFloor3DShape) || modified
 	modified = GongCleanPointer(stage, &stooldiagram.Rendered3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TiledFloor3DShape
+func (tiledfloor3dshape *TiledFloor3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 
@@ -1109,6 +1118,7 @@ func (vasediagram *VaseDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &vasediagram.Key3DShape) || modified
 	modified = GongCleanPointer(stage, &vasediagram.VolumeKey3DShape) || modified
 	modified = GongCleanPointer(stage, &vasediagram.TorusEdge3DShape) || modified
+	modified = GongCleanPointer(stage, &vasediagram.TiledFloor3DShape) || modified
 	return
 }
 

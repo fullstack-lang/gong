@@ -53,6 +53,7 @@ type VaseDiagram struct {
 	IsHiddenSampledPoints3DShape                       bool
 	IsHiddenOriginalPoints3DShape                      bool
 	IsHiddenAngle0Shape                                bool
+	IsHiddenTiledFloor3DShape                          bool
 
 	Rendered3DShape *Rendered3DShape
 
@@ -72,6 +73,7 @@ type VaseDiagram struct {
 	Key3DShape                              *Key3DShape
 	VolumeKey3DShape                        *VolumeKey3DShape
 	TorusEdge3DShape                        *TorusEdge3DShape
+	TiledFloor3DShape                       *TiledFloor3DShape
 }
 
 type Angle0Shape struct {

@@ -713,6 +713,12 @@ type TorusEdge3DShape struct {
 	Name string
 }
 
+// TiledFloor3DShape of a plant,
+// gong:omit
+type TiledFloor3DShape struct {
+	Name string
+}
+
 
 // StackOfGrowthCurve2D of a plant,
 // gong:omit

@@ -988,6 +988,10 @@ func (clockdiagramFormCallback *ClockDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenSampledPoints3DShape), formDiv)
 		case "SampledPoints3DShape":
 			FormDivSelectFieldToField(&(clockdiagram_.SampledPoints3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(clockdiagram_.TiledFloor3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(clockdiagram_.Rendered3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
 		}
@@ -13003,6 +13007,10 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatAndLegs3DShape), formDiv)
 		case "RotatedSeatAndLegs3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatAndLegs3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(stooldiagram_.TiledFloor3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
 		}
@@ -13035,6 +13043,84 @@ func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
 	}
 
 	stooldiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__TiledFloor3DShapeFormCallback(
+	tiledfloor3dshape *models.TiledFloor3DShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (tiledfloor3dshapeFormCallback *TiledFloor3DShapeFormCallback) {
+	tiledfloor3dshapeFormCallback = new(TiledFloor3DShapeFormCallback)
+	tiledfloor3dshapeFormCallback.probe = probe
+	tiledfloor3dshapeFormCallback.tiledfloor3dshape = tiledfloor3dshape
+	tiledfloor3dshapeFormCallback.formGroup = formGroup
+
+	tiledfloor3dshapeFormCallback.CreationMode = (tiledfloor3dshape == nil)
+
+	return
+}
+
+type TiledFloor3DShapeFormCallback struct {
+	tiledfloor3dshape *models.TiledFloor3DShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (tiledfloor3dshapeFormCallback *TiledFloor3DShapeFormCallback) OnSave() {
+	tiledfloor3dshapeFormCallback.probe.stageOfInterest.Lock()
+	defer tiledfloor3dshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("TiledFloor3DShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	tiledfloor3dshapeFormCallback.probe.formStage.Checkout()
+
+	if tiledfloor3dshapeFormCallback.tiledfloor3dshape == nil {
+		tiledfloor3dshapeFormCallback.tiledfloor3dshape = new(models.TiledFloor3DShape).Stage(tiledfloor3dshapeFormCallback.probe.stageOfInterest)
+	}
+	tiledfloor3dshape_ := tiledfloor3dshapeFormCallback.tiledfloor3dshape
+	_ = tiledfloor3dshape_
+
+	for _, formDiv := range tiledfloor3dshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(tiledfloor3dshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if tiledfloor3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tiledfloor3dshape_.Unstage(tiledfloor3dshapeFormCallback.probe.stageOfInterest)
+	}
+
+	tiledfloor3dshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TiledFloor3DShape](
+		tiledfloor3dshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if tiledfloor3dshapeFormCallback.CreationMode || tiledfloor3dshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tiledfloor3dshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(tiledfloor3dshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TiledFloor3DShapeFormCallback(
+			nil,
+			tiledfloor3dshapeFormCallback.probe,
+			newFormGroup,
+		)
+		tiledfloor3dshape := new(models.TiledFloor3DShape)
+		FillUpForm(tiledfloor3dshape, newFormGroup, tiledfloor3dshapeFormCallback.probe)
+		tiledfloor3dshapeFormCallback.probe.formStage.Commit()
+	}
+
+	tiledfloor3dshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TopEndArcShapeFormCallback(
 	topendarcshape *models.TopEndArcShape,
@@ -15752,6 +15838,8 @@ func (vasediagramFormCallback *VaseDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vasediagram_.IsHiddenOriginalPoints3DShape), formDiv)
 		case "IsHiddenAngle0Shape":
 			FormDivBasicFieldToField(&(vasediagram_.IsHiddenAngle0Shape), formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTiledFloor3DShape), formDiv)
 		case "Rendered3DShape":
 			FormDivSelectFieldToField(&(vasediagram_.Rendered3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthCurve2DRibbon":
@@ -15786,6 +15874,8 @@ func (vasediagramFormCallback *VaseDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(vasediagram_.VolumeKey3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
 		case "TorusEdge3DShape":
 			FormDivSelectFieldToField(&(vasediagram_.TorusEdge3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(vasediagram_.TiledFloor3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 

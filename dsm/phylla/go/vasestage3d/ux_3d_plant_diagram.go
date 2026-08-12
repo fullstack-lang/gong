@@ -480,7 +480,9 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		canvas.Meshs = append(canvas.Meshs, poleMesh, axisMesh)
 	}
 
-	u.addFloorTiles(stager, floorMinY, plant, globalR, canvas)
+	if !checkedDiagram.VaseDiagram.IsHiddenTiledFloor3DShape {
+		u.addFloorTiles(stager, floorMinY, plant, globalR, canvas)
+	}
 
 	threejsStage.Commit()
 

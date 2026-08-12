@@ -244,6 +244,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StoolAbstract](probe)
 	case "StoolDiagram":
 		updateProbeTable[*models.StoolDiagram](probe)
+	case "TiledFloor3DShape":
+		updateProbeTable[*models.TiledFloor3DShape](probe)
 	case "TopEndArcShape":
 		updateProbeTable[*models.TopEndArcShape](probe)
 	case "TopEndArcShapeGrid":

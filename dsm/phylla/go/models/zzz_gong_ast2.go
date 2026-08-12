@@ -816,6 +816,10 @@ func (u *ClockDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenSampledPoints3DShape = GongExtractBool(valueExpr)
 	case "SampledPoints3DShape":
 		GongUnmarshallPointer(&instance.SampledPoints3DShape, valueExpr, identifierMap)
+	case "IsHiddenTiledFloor3DShape":
+		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
+	case "TiledFloor3DShape":
+		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	}
@@ -4856,8 +4860,41 @@ func (u *StoolDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsHiddenRotatedSeatAndLegs3DShape = GongExtractBool(valueExpr)
 	case "RotatedSeatAndLegs3DShape":
 		GongUnmarshallPointer(&instance.RotatedSeatAndLegs3DShape, valueExpr, identifierMap)
+	case "IsHiddenTiledFloor3DShape":
+		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
+	case "TiledFloor3DShape":
+		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TiledFloor3DShapeUnmarshaller struct{}
+
+func (u *TiledFloor3DShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TiledFloor3DShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TiledFloor3DShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TiledFloor3DShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -5852,6 +5889,8 @@ func (u *VaseDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsHiddenOriginalPoints3DShape = GongExtractBool(valueExpr)
 	case "IsHiddenAngle0Shape":
 		instance.IsHiddenAngle0Shape = GongExtractBool(valueExpr)
+	case "IsHiddenTiledFloor3DShape":
+		instance.IsHiddenTiledFloor3DShape = GongExtractBool(valueExpr)
 	case "Rendered3DShape":
 		GongUnmarshallPointer(&instance.Rendered3DShape, valueExpr, identifierMap)
 	case "GrowthCurve2DRibbon":
@@ -5886,6 +5925,8 @@ func (u *VaseDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.VolumeKey3DShape, valueExpr, identifierMap)
 	case "TorusEdge3DShape":
 		GongUnmarshallPointer(&instance.TorusEdge3DShape, valueExpr, identifierMap)
+	case "TiledFloor3DShape":
+		GongUnmarshallPointer(&instance.TiledFloor3DShape, valueExpr, identifierMap)
 	}
 	return nil
 }

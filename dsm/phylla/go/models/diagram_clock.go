@@ -12,5 +12,8 @@ type ClockDiagram struct {
 	IsHiddenSampledPoints3DShape bool
 	SampledPoints3DShape         *SampledPoints3DShape
 
+	IsHiddenTiledFloor3DShape bool
+	TiledFloor3DShape         *TiledFloor3DShape
+
 	Rendered3DShape *Rendered3DShape
 }

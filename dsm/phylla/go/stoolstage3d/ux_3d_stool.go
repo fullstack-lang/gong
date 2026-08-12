@@ -1161,7 +1161,9 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 	}
 
-	cylinderstage3d.AddFloorTiles(stool3dStage, canvas, globalR, floorMinY)
+	if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenTiledFloor3DShape {
+		cylinderstage3d.AddFloorTiles(stool3dStage, canvas, globalR, floorMinY)
+	}
 
 	stool3dStage.Commit()
 }

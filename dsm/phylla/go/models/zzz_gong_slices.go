@@ -371,6 +371,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct StoolDiagram
 	// insertion point per field
 
+	// Compute reverse map for named struct TiledFloor3DShape
+	// insertion point per field
+
 	// Compute reverse map for named struct TopEndArcShape
 	// insertion point per field
 
@@ -885,6 +888,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.StoolDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TiledFloor3DShapes {
 		res = append(res, instance)
 	}
 
@@ -1645,6 +1652,12 @@ func (stoolabstract *StoolAbstract) GongCopy() GongstructIF {
 func (stooldiagram *StoolDiagram) GongCopy() GongstructIF {
 	newInstance := new(StoolDiagram)
 	stooldiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongCopy() GongstructIF {
+	newInstance := new(TiledFloor3DShape)
+	tiledfloor3dshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -2890,6 +2903,16 @@ func (stooldiagram *StoolDiagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stooldiagram), uint64(GetOrderPointerGongstruct(stage, stooldiagram)))
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(tiledfloor3dshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tiledfloor3dshape), uint64(GetOrderPointerGongstruct(stage, tiledfloor3dshape)))
 	return
 }
 
@@ -5001,6 +5024,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StoolDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TiledFloor3DShapes_reference = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
+	stage.TiledFloor3DShapes_referenceOrder = make(map[*TiledFloor3DShape]uint) // diff Unstage needs the reference order
+	stage.TiledFloor3DShapes_instance = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
+	for instance := range stage.TiledFloor3DShapes {
+		_copy := instance.GongCopy().(*TiledFloor3DShape)
+		stage.TiledFloor3DShapes_reference[instance] = _copy
+		stage.TiledFloor3DShapes_instance[_copy] = instance
+		stage.TiledFloor3DShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_referenceOrder = make(map[*TopEndArcShape]uint) // diff Unstage needs the reference order
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
@@ -5789,6 +5822,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.StoolDiagrams {
 		reference := stage.StoolDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TiledFloor3DShapes {
+		reference := stage.TiledFloor3DShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -7242,6 +7280,18 @@ func (stooldiagram *StoolDiagram) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TiledFloor3DShape_stagedOrder[tiledfloor3dshape]; ok {
+		return order
+	}
+	if order, ok := stage.TiledFloor3DShapes_referenceOrder[tiledfloor3dshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TiledFloor3DShape was not staged and does not have a reference order", tiledfloor3dshape)
+		return 0
+	}
+}
+
 func (topendarcshape *TopEndArcShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TopEndArcShape_stagedOrder[topendarcshape]; ok {
 		return order
@@ -8525,6 +8575,15 @@ func (stooldiagram *StoolDiagram) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", stooldiagram.GongGetGongstructName(), stooldiagram.GongGetOrder(stage))
 }
 
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tiledfloor3dshape.GongGetGongstructName(), tiledfloor3dshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tiledfloor3dshape.GongGetGongstructName(), tiledfloor3dshape.GongGetOrder(stage))
+}
+
 func (topendarcshape *TopEndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", topendarcshape.GongGetGongstructName(), topendarcshape.GongGetOrder(stage))
 }
@@ -9624,6 +9683,14 @@ func (stooldiagram *StoolDiagram) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tiledfloor3dshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TiledFloor3DShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tiledfloor3dshape.Name))
+	return
+}
+
 func (topendarcshape *TopEndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", topendarcshape.GongGetIdentifier(stage))
@@ -10474,6 +10541,12 @@ func (stoolabstract *StoolAbstract) GongMarshallUnstaging(stage *Stage) (decl st
 func (stooldiagram *StoolDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stooldiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tiledfloor3dshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

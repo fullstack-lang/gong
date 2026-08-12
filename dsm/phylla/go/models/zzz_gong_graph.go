@@ -337,6 +337,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *StoolDiagram:
 		ok = stage.IsStagedStoolDiagram(target)
 
+	case *TiledFloor3DShape:
+		ok = stage.IsStagedTiledFloor3DShape(target)
+
 	case *TopEndArcShape:
 		ok = stage.IsStagedTopEndArcShape(target)
 
@@ -748,6 +751,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *StoolDiagram:
 		ok = stage.IsStagedStoolDiagram(target)
+
+	case *TiledFloor3DShape:
+		ok = stage.IsStagedTiledFloor3DShape(target)
 
 	case *TopEndArcShape:
 		ok = stage.IsStagedTopEndArcShape(target)
@@ -1598,6 +1604,13 @@ func (stage *Stage) IsStagedStoolDiagram(stooldiagram *StoolDiagram) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) (ok bool) {
+
+	_, ok = stage.TiledFloor3DShapes[tiledfloor3dshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedTopEndArcShape(topendarcshape *TopEndArcShape) (ok bool) {
 
 	_, ok = stage.TopEndArcShapes[topendarcshape]
@@ -2103,6 +2116,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StoolDiagram:
 		stage.StageBranchStoolDiagram(target)
+
+	case *TiledFloor3DShape:
+		stage.StageBranchTiledFloor3DShape(target)
 
 	case *TopEndArcShape:
 		stage.StageBranchTopEndArcShape(target)
@@ -3871,6 +3887,21 @@ func (stage *Stage) StageBranchStoolDiagram(stooldiagram *StoolDiagram) {
 
 }
 
+func (stage *Stage) StageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, tiledfloor3dshape) {
+		return
+	}
+
+	tiledfloor3dshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	// check if instance is already staged
@@ -4692,6 +4723,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *StoolDiagram:
 		toT := CopyBranchStoolDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TiledFloor3DShape:
+		toT := CopyBranchTiledFloor3DShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *TopEndArcShape:
@@ -6926,6 +6961,25 @@ func CopyBranchStoolDiagram(mapOrigCopy map[any]any, stooldiagramFrom *StoolDiag
 	return
 }
 
+func CopyBranchTiledFloor3DShape(mapOrigCopy map[any]any, tiledfloor3dshapeFrom *TiledFloor3DShape) (tiledfloor3dshapeTo *TiledFloor3DShape) {
+
+	// tiledfloor3dshapeFrom has already been copied
+	if _tiledfloor3dshapeTo, ok := mapOrigCopy[tiledfloor3dshapeFrom]; ok {
+		tiledfloor3dshapeTo = _tiledfloor3dshapeTo.(*TiledFloor3DShape)
+		return
+	}
+
+	tiledfloor3dshapeTo = new(TiledFloor3DShape)
+	mapOrigCopy[tiledfloor3dshapeFrom] = tiledfloor3dshapeTo
+	tiledfloor3dshapeFrom.CopyBasicFields(tiledfloor3dshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTopEndArcShape(mapOrigCopy map[any]any, topendarcshapeFrom *TopEndArcShape) (topendarcshapeTo *TopEndArcShape) {
 
 	// topendarcshapeFrom has already been copied
@@ -7731,6 +7785,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *StoolDiagram:
 		stage.UnstageBranchStoolDiagram(target)
+
+	case *TiledFloor3DShape:
+		stage.UnstageBranchTiledFloor3DShape(target)
 
 	case *TopEndArcShape:
 		stage.UnstageBranchTopEndArcShape(target)
@@ -9499,6 +9556,21 @@ func (stage *Stage) UnstageBranchStoolDiagram(stooldiagram *StoolDiagram) {
 
 }
 
+func (stage *Stage) UnstageBranchTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, tiledfloor3dshape) {
+		return
+	}
+
+	tiledfloor3dshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTopEndArcShape(topendarcshape *TopEndArcShape) {
 
 	// check if instance is already staged
@@ -10464,6 +10536,11 @@ func (reference *StoolDiagram) GongReconstructPointersFromReferences(stage *Stag
 	// insertion point for slice of pointers field
 }
 
+func (reference *TiledFloor3DShape) GongReconstructPointersFromReferences(stage *Stage, instance *TiledFloor3DShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *TopEndArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *TopEndArcShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -11228,6 +11305,11 @@ func (reference *StoolDiagram) GongReconstructPointersFromInstances(stage *Stage
 	// insertion point for slice of pointers fields
 }
 
+func (reference *TiledFloor3DShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *TopEndArcShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -11575,6 +11657,9 @@ func (clockdiagram *ClockDiagram) GongDiff(stage *Stage, clockdiagramOther *Cloc
 		if clockdiagram.SampledPoints3DShape != clockdiagramOther.SampledPoints3DShape {
 			diffs = append(diffs, clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
 		}
+	}
+	if clockdiagram.IsHiddenTiledFloor3DShape != clockdiagramOther.IsHiddenTiledFloor3DShape {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 	}
 	if (clockdiagram.Rendered3DShape == nil) != (clockdiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
@@ -14241,12 +14326,26 @@ func (stooldiagram *StoolDiagram) GongDiff(stage *Stage, stooldiagramOther *Stoo
 	if stooldiagram.IsHiddenRotatedSeatAndLegs3DShape != stooldiagramOther.IsHiddenRotatedSeatAndLegs3DShape {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenRotatedSeatAndLegs3DShape"))
 	}
+	if stooldiagram.IsHiddenTiledFloor3DShape != stooldiagramOther.IsHiddenTiledFloor3DShape {
+		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
+	}
 	if (stooldiagram.Rendered3DShape == nil) != (stooldiagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 	} else if stooldiagram.Rendered3DShape != nil && stooldiagramOther.Rendered3DShape != nil {
 		if stooldiagram.Rendered3DShape != stooldiagramOther.Rendered3DShape {
 			diffs = append(diffs, stooldiagram.GongMarshallField(stage, "Rendered3DShape"))
 		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tiledfloor3dshape *TiledFloor3DShape) GongDiff(stage *Stage, tiledfloor3dshapeOther *TiledFloor3DShape) (diffs []string) {
+	// insertion point for field diffs
+	if tiledfloor3dshape.Name != tiledfloor3dshapeOther.Name {
+		diffs = append(diffs, tiledfloor3dshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -14912,6 +15011,9 @@ func (vasediagram *VaseDiagram) GongDiff(stage *Stage, vasediagramOther *VaseDia
 	}
 	if vasediagram.IsHiddenAngle0Shape != vasediagramOther.IsHiddenAngle0Shape {
 		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenAngle0Shape"))
+	}
+	if vasediagram.IsHiddenTiledFloor3DShape != vasediagramOther.IsHiddenTiledFloor3DShape {
+		diffs = append(diffs, vasediagram.GongMarshallField(stage, "IsHiddenTiledFloor3DShape"))
 	}
 	if (vasediagram.Rendered3DShape == nil) != (vasediagramOther.Rendered3DShape == nil) {
 		diffs = append(diffs, vasediagram.GongMarshallField(stage, "Rendered3DShape"))

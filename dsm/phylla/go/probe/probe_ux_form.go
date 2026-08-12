@@ -675,6 +675,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.stooldiagram, probe)
 			}
+		case *TiledFloor3DShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TiledFloor3DShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tiledfloor3dshape, probe)
+			}
 		case *TopEndArcShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TopEndArcShape", true)
@@ -2271,6 +2277,19 @@ func FillUpFormFromGongstructName(
 		stooldiagram := new(models.StoolDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stooldiagram, formGroup, probe)
+	case "TiledFloor3DShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TiledFloor3DShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TiledFloor3DShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		tiledfloor3dshape := new(models.TiledFloor3DShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(tiledfloor3dshape, formGroup, probe)
 	case "TopEndArcShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

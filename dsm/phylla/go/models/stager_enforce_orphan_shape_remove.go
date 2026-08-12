@@ -51,6 +51,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refShiftedLeftStackGrowthCurveStartArcShape := make(map[*ShiftedLeftStackGrowthCurveStartArcShape]bool)
 	refShiftedLeftStackGrowthCurveEndArcShape := make(map[*ShiftedLeftStackGrowthCurveEndArcShape]bool)
 	refRendered3DShape := make(map[*Rendered3DShape]bool)
+	refTiledFloor3DShape := make(map[*TiledFloor3DShape]bool)
 	refArcNormalVectorShape := make(map[*ArcNormalVectorShape]bool)
 	refStartArcShapeV2 := make(map[*StartArcShape]bool)
 	refTopStartArcShapeV2 := make(map[*TopStartArcShape]bool)
@@ -457,10 +458,16 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			if diagram.VaseDiagram.Rendered3DShape != nil {
 				refRendered3DShape[diagram.VaseDiagram.Rendered3DShape] = true
 			}
+			if diagram.VaseDiagram.TiledFloor3DShape != nil {
+				refTiledFloor3DShape[diagram.VaseDiagram.TiledFloor3DShape] = true
+			}
 		}
 		if diagram.StoolDiagram != nil {
 			if diagram.StoolDiagram.Rendered3DShape != nil {
 				refRendered3DShape[diagram.StoolDiagram.Rendered3DShape] = true
+			}
+			if diagram.StoolDiagram.TiledFloor3DShape != nil {
+				refTiledFloor3DShape[diagram.StoolDiagram.TiledFloor3DShape] = true
 			}
 			if diagram.StoolDiagram.SeatTopCurveShape != nil {
 				refSeatTopCurveShape[diagram.StoolDiagram.SeatTopCurveShape] = true
@@ -526,6 +533,9 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 			if diagram.ClockDiagram.SampledPoints3DShape != nil {
 				refSampledPoints3DShape[diagram.ClockDiagram.SampledPoints3DShape] = true
+			}
+			if diagram.ClockDiagram.TiledFloor3DShape != nil {
+				refTiledFloor3DShape[diagram.ClockDiagram.TiledFloor3DShape] = true
 			}
 		}
 		if diagram.VaseDiagram != nil {
@@ -775,6 +785,12 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *GetGongstructInstancesSetFromPointerType[*Rendered3DShape](stage) {
 		if !refRendered3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*TiledFloor3DShape](stage) {
+		if !refTiledFloor3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

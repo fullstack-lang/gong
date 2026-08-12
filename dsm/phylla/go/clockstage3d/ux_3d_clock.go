@@ -48,7 +48,9 @@ func (u *Clock3DStageUpdater) ux_3d_clock(stager *models.Stager) {
 
 	base := cylinderstage3d.RenderCylinder3DBase(clock3dStage, stager, plant, params)
 	if base != nil && base.Canvas != nil {
-		cylinderstage3d.AddFloorTiles(clock3dStage, base.Canvas, base.GlobalR, base.FloorMinY)
+		if checkedDiagram == nil || checkedDiagram.ClockDiagram == nil || !checkedDiagram.ClockDiagram.IsHiddenTiledFloor3DShape {
+			cylinderstage3d.AddFloorTiles(clock3dStage, base.Canvas, base.GlobalR, base.FloorMinY)
+		}
 	}
 
 	clock3dStage.Commit()

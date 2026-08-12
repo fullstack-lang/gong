@@ -372,6 +372,7 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.VaseDiagram.SampledPoints3DShape, &plantDiagram.VaseDiagram.IsHiddenSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Original Points", plantDiagram.VaseDiagram.OriginalPoints3DShape, &plantDiagram.VaseDiagram.IsHiddenOriginalPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Angle 0 Shape", plantDiagram.VaseDiagram.Angle0Shape, &plantDiagram.VaseDiagram.IsHiddenAngle0Shape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Tiled Floor", plantDiagram.VaseDiagram.TiledFloor3DShape, &plantDiagram.VaseDiagram.IsHiddenTiledFloor3DShape)
 	}
 
 	if is3DView && plantDiagram.StoolDiagram != nil {
@@ -392,11 +393,13 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Eye Volume", plantDiagram.StoolDiagram.EyeVolume3DShape, &plantDiagram.StoolDiagram.IsHiddenEyeVolume3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat and Legs", plantDiagram.StoolDiagram.SeatAndLegs3DShape, &plantDiagram.StoolDiagram.IsHiddenSeatAndLegs3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat and Legs", plantDiagram.StoolDiagram.RotatedSeatAndLegs3DShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatAndLegs3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Tiled Floor", plantDiagram.StoolDiagram.TiledFloor3DShape, &plantDiagram.StoolDiagram.IsHiddenTiledFloor3DShape)
 	}
 
 	if is3DView && plantDiagram.ClockDiagram != nil {
 		appendDiagramNode(stager, plantDiagramNode, "3D Torus", plantDiagram.ClockDiagram.Torus3DShape, &plantDiagram.ClockDiagram.IsHiddenTorus3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.ClockDiagram.SampledPoints3DShape, &plantDiagram.ClockDiagram.IsHiddenSampledPoints3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Clock Top Curve", plantDiagram.ClockDiagram.ClockTopCurveShape, &plantDiagram.ClockDiagram.IsHiddenClockTopCurveShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Tiled Floor", plantDiagram.ClockDiagram.TiledFloor3DShape, &plantDiagram.ClockDiagram.IsHiddenTiledFloor3DShape)
 	}
 }
