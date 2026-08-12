@@ -2,22 +2,22 @@
 
 ## System Engineering
 
-- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip))
-- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip))
-- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip))
-- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/process-app-portable.zip))
-- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip))
-- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/project-app-portable.zip))
-- [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip))
+- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip)): capture stakeholder needs, operational concerns, high-level requirements & analysis concepts
+- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip)): model system architectures, hierarchical component breakdowns, ports, data & control flows
+- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip)): explore operational scenarios, actor state evolutions, timeline trajectories & parameter trade-offs
+- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/process-app-portable.zip)): define operational processes, participant swimlanes, tasks, data flows & control flows
+- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip)): specify discrete state machines, composite states, transitions, events & actions
+- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)): define product breakdown structures (PBS), work breakdown structures (WBS), resource allocation & planning
+- [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip)): view, edit and exchange requirements using the Requirements Interchange Format (ReqIF) standard
 
 ## Technical
 
-- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip))
+- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip)): interactively render, edit and manipulate Scalable Vector Graphics (SVG) elements
 
 ## For fun
 
-- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/barrgraph-app-portable.zip))
-- [Phylla](https://fullstack-lang.github.io/gong/phylla-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/phylla-app-portable.zip))
+- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/barrgraph-app-portable.zip)): visualize and edit Alfred Barr's genealogical chart of modern art movements and artistic influences
+- [Phylla](https://fullstack-lang.github.io/gong/phylla-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/phylla-app-portable.zip)): explore botanical phyllotaxis spiral patterns, 2D/3D plant geometries and generative designs
 
 # 2. Why Gong ?
 
@@ -32,7 +32,7 @@ Gong allows you to grow your DSM from a General Purpose Programming Language (GP
 
 Developing a robust DSM remains a complex task that requires familiarity with standard modeling patterns. Gong aims to democratize the development part of this process.
 
-# 3. A "hello world" Domain Specific Modeling (DSM) application
+# 3. A "hello world" gong application
 
 ## 3.1. Prerequisite
 
