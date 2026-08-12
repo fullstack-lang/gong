@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math"
 	"sort"
-	"strconv"
 
+	"github.com/fullstack-lang/gong/dsm/phylla/go/cylinderstage3d"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
@@ -31,7 +31,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 	}
 
-	params := Cylinder3DParams{
+	params := cylinderstage3d.Cylinder3DParams{
 		NamePrefix:                          "Stool",
 		CanvasName:                          "Stool 3D Canvas",
 		RadialRepetitions:                   plant.StoolAbstract.RadialRepetitions,
@@ -54,7 +54,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		params.IsHiddenRotatedSampledPoints3DShape = checkedDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape
 	}
 
-	base := u.renderCylinder3DBase(stool3dStage, stager, plant, params)
+	base := cylinderstage3d.RenderCylinder3DBase(stool3dStage, stager, plant, params)
 	if base == nil || base.ResampledBaseCurve == nil {
 		stool3dStage.Commit()
 		return
@@ -542,7 +542,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					}).Stage(stool3dStage))
 				}
 			}
-			u.addPointSpheres(stool3dStage, eyePoints, "magenta", canvas, "Stool Eye Sampled", 0, 0)
+			cylinderstage3d.AddPointSpheres(stool3dStage, eyePoints, "magenta", canvas, "Stool Eye Sampled", 0, 0)
 		}
 
 		// 15. Render 3D Eye Corners Sampled Points
@@ -550,7 +550,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			var cornerPoints []*threejs.Vector3
 			cornerPoints = append(cornerPoints, leftCornerPts...)
 			cornerPoints = append(cornerPoints, rightCornerPts...)
-			u.addPointSpheres(stool3dStage, cornerPoints, "cyan", canvas, "Stool Eye Corners Sampled", 0, 0)
+			cylinderstage3d.AddPointSpheres(stool3dStage, cornerPoints, "cyan", canvas, "Stool Eye Corners Sampled", 0, 0)
 		}
 
 		var eye3DPoints []*threejs.Vector3
@@ -1161,51 +1161,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 	}
 
-	// Floor tiles that encompass the stool cylinder
-	if floorMinY > 0.0 {
-		floorMinY = 0.0
-	}
-	floorMinY = floorMinY - 2.0
-
-	floorSize := globalR * 3.0
-	if floorSize < 200 {
-		floorSize = 200
-	}
-	gridSize := 20
-	tileSize := floorSize / float64(gridSize)
-
-	for i := -gridSize / 2; i < gridSize/2; i++ {
-		for j := -gridSize / 2; j < gridSize/2; j++ {
-			color := "white"
-			if (i+j)%2 != 0 {
-				color = "black"
-			}
-
-			tileMesh := (&threejs.Mesh{
-				Name: "Floor Tile " + strconv.Itoa(i) + "-" + strconv.Itoa(j),
-				Position: threejs.Position{
-					X: float64(i)*tileSize + tileSize/2,
-					Y: floorMinY - 0.05,
-					Z: float64(j)*tileSize + tileSize/2,
-				},
-				BoxGeometry: (&threejs.BoxGeometry{
-					Name:           "Tile Geometry",
-					Width:          tileSize,
-					Height:         0.1,
-					Depth:          tileSize,
-					WidthSegments:  1,
-					HeightSegments: 1,
-					DepthSegments:  1,
-				}).Stage(stool3dStage),
-				MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-					Name:                 "Tile Material " + color,
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-				}).Stage(stool3dStage),
-			}).Stage(stool3dStage)
-
-			canvas.Meshs = append(canvas.Meshs, tileMesh)
-		}
-	}
+	cylinderstage3d.AddFloorTiles(stool3dStage, canvas, globalR, floorMinY)
 
 	stool3dStage.Commit()
 }
