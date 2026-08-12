@@ -8,6 +8,7 @@ type PlantDiagram struct {
 
 	VaseDiagram  *VaseDiagram
 	StoolDiagram *StoolDiagram
+	ClockDiagram *ClockDiagram
 
 	IsRhombusNodesExpanded bool
 	IsArcNodesExpanded     bool

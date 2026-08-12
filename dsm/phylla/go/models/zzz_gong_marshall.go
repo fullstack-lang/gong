@@ -310,6 +310,70 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(angle0shape.GongMarshallField(stage, "Name"))
 	}
 
+	clockabstractOrdered := []*ClockAbstract{}
+	for clockabstract := range stage.ClockAbstracts {
+		clockabstractOrdered = append(clockabstractOrdered, clockabstract)
+	}
+	sort.Slice(clockabstractOrdered[:], func(i, j int) bool {
+		clockabstracti := clockabstractOrdered[i]
+		clockabstractj := clockabstractOrdered[j]
+		clockabstracti_order, oki := stage.ClockAbstract_stagedOrder[clockabstracti]
+		clockabstractj_order, okj := stage.ClockAbstract_stagedOrder[clockabstractj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return clockabstracti_order < clockabstractj_order
+	})
+	if len(clockabstractOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, clockabstract := range clockabstractOrdered {
+
+		identifiersDecl.WriteString(clockabstract.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RadialRepetitions"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Transparency"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ProjectionAngle"))
+	}
+
+	clockdiagramOrdered := []*ClockDiagram{}
+	for clockdiagram := range stage.ClockDiagrams {
+		clockdiagramOrdered = append(clockdiagramOrdered, clockdiagram)
+	}
+	sort.Slice(clockdiagramOrdered[:], func(i, j int) bool {
+		clockdiagrami := clockdiagramOrdered[i]
+		clockdiagramj := clockdiagramOrdered[j]
+		clockdiagrami_order, oki := stage.ClockDiagram_stagedOrder[clockdiagrami]
+		clockdiagramj_order, okj := stage.ClockDiagram_stagedOrder[clockdiagramj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return clockdiagrami_order < clockdiagramj_order
+	})
+	if len(clockdiagramOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, clockdiagram := range clockdiagramOrdered {
+
+		identifiersDecl.WriteString(clockdiagram.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenClockTopCurveShape"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
+	}
+
 	libraryOrdered := []*Library{}
 	for library := range stage.Librarys {
 		libraryOrdered = append(libraryOrdered, library)
@@ -401,6 +465,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "StoolAbstract"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "ClockAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
@@ -437,6 +502,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VaseDiagram"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "StoolDiagram"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "ClockDiagram"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
@@ -728,6 +794,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	// insertion initialization of objects to stage
 	for _, angle0shape := range angle0shapeOrdered {
 		_ = angle0shape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, clockabstract := range clockabstractOrdered {
+		_ = clockabstract
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, clockdiagram := range clockdiagramOrdered {
+		_ = clockdiagram
 		var setPointerField string
 		_ = setPointerField
 
@@ -1084,6 +1166,127 @@ func (circlegridshape *CircleGridShape) GongMarshallField(stage *Stage, fieldNam
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CircleGridShape", fieldName)
+	}
+	return
+}
+
+func (clockabstract *ClockAbstract) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockabstract.Name))
+	case "RadialRepetitions":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RadialRepetitions")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", clockabstract.RadialRepetitions))
+	case "Transparency":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transparency")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.Transparency))
+	case "RelativeTubeDiameter":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeTubeDiameter")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeTubeDiameter))
+	case "RelativeHeight3DTorus":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight3DTorus")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeHeight3DTorus))
+	case "ClockTorusVerticalScale":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockTorusVerticalScale")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.ClockTorusVerticalScale))
+	case "RelativeHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RelativeHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.RelativeHeight))
+	case "ProjectionAngle":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProjectionAngle")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clockabstract.ProjectionAngle))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ClockAbstract", fieldName)
+	}
+	return
+}
+
+func (clockdiagram *ClockDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockdiagram.Name))
+	case "IsHiddenClockTopCurveShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenClockTopCurveShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", clockdiagram.IsHiddenClockTopCurveShape))
+	case "IsHiddenTorus3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenTorus3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", clockdiagram.IsHiddenTorus3DShape))
+	case "IsHiddenSampledPoints3DShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenSampledPoints3DShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", clockdiagram.IsHiddenSampledPoints3DShape))
+
+	case "SampledPoints3DShape":
+		if clockdiagram.SampledPoints3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", clockdiagram.SampledPoints3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SampledPoints3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Rendered3DShape":
+		if clockdiagram.Rendered3DShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", clockdiagram.Rendered3DShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Rendered3DShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ClockDiagram", fieldName)
+	}
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clocktopcurveshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clocktopcurveshape.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ClockTopCurveShape", fieldName)
 	}
 	return
 }
@@ -2589,6 +2792,19 @@ func (plantabstract *PlantAbstract) GongMarshallField(stage *Stage, fieldName st
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolAbstract")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ClockAbstract":
+		if plantabstract.ClockAbstract != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockAbstract")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantabstract.ClockAbstract.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockAbstract")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "PlantDiagrams":
 		var sb strings.Builder
 		for _, _plantdiagram := range plantabstract.PlantDiagrams {
@@ -2798,6 +3014,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StoolDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "ClockDiagram":
+		if plantdiagram.ClockDiagram != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.ClockDiagram.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClockDiagram")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -6333,6 +6562,51 @@ func (circlegridshape *CircleGridShape) GongMarshallAllFields(stage *Stage) (ini
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (clockabstract *ClockAbstract) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RadialRepetitions"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "Transparency"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "RelativeHeight"))
+		initializerStatements.WriteString(clockabstract.GongMarshallField(stage, "ProjectionAngle"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (clockdiagram *ClockDiagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenClockTopCurveShape"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))
+		initializerStatements.WriteString(clockdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		pointersInitializesStatements.WriteString(clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (clocktopcurveshape *ClockTopCurveShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(clocktopcurveshape.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (endarcshape *EndArcShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -6992,6 +7266,7 @@ func (plantabstract *PlantAbstract) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "PlantType"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "VaseAbstract"))
 		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "StoolAbstract"))
+		pointersInitializesStatements.WriteString(plantabstract.GongMarshallField(stage, "ClockAbstract"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "CurrentView"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantabstract.GongMarshallField(stage, "IsExpanded"))
@@ -7026,6 +7301,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "VaseDiagram"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "StoolDiagram"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "ClockDiagram"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsArcNodesExpanded"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsHiddenAxesShape"))

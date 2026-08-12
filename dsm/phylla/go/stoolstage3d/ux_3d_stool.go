@@ -2,7 +2,6 @@ package stoolstage3d
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"sort"
 	"strconv"
@@ -17,368 +16,74 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		return
 	}
 
-	var preservedX, preservedY, preservedZ float64
-	var preservedTargetX, preservedTargetY, preservedTargetZ float64
-	var preservedFov float64
-	var hasPreservedCamera bool
-
-	for cam := range stool3dStage.Cameras {
-		preservedX = cam.X
-		preservedY = cam.Y
-		preservedZ = cam.Z
-		preservedTargetX = cam.TargetX
-		preservedTargetY = cam.TargetY
-		preservedTargetZ = cam.TargetZ
-		preservedFov = cam.Fov
-		hasPreservedCamera = true
-		break
-	}
-
-	stool3dStage.Reset()
-
 	plant := stager.GetCurrentPlant()
 	if plant == nil || plant.PlantType != models.Stool || plant.StoolAbstract == nil {
+		stool3dStage.Reset()
 		stool3dStage.Commit()
 		return
 	}
 
-	canvas := (&threejs.Canvas{
-		Name: "Stool 3D Canvas",
-	}).Stage(stool3dStage)
-
-	// Circumference and cylinder radius
-	circumference := 10.0
-	if plant.RhombusStuff != nil && plant.RhombusStuff.PlantCircumferenceShape != nil && plant.RhombusStuff.PlantCircumferenceShape.Length > 0 {
-		circumference = plant.RhombusStuff.PlantCircumferenceShape.Length
-	} else if pGrid := plant.PerpendicularVectorGrid; pGrid != nil && len(pGrid.PerpendicularVectors) > 0 {
-		first := pGrid.PerpendicularVectors[0]
-		last := pGrid.PerpendicularVectors[len(pGrid.PerpendicularVectors)-1]
-		circumference = last.StartX - first.StartX
-	}
-	if circumference <= 0 {
-		circumference = 10.0
-	}
-
-	radialRepetitions := plant.StoolAbstract.RadialRepetitions
-	if radialRepetitions < 1 {
-		radialRepetitions = 1
-	}
-
-	globalR := circumference * float64(radialRepetitions) / (2 * math.Pi)
-
-	// Directional and ambient lights positioned relative to scene scale
-	lightScale := math.Max(globalR, 50.0)
-	dirLight1 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 1 (Key)",
-		Position:         threejs.Position{X: lightScale * 2.0, Y: lightScale * 2.5, Z: lightScale * 2.0},
-		LightAbstract:    threejs.LightAbstract{Intensity: 1.2},
-		IsWithCastShadow: true,
-	}).Stage(stool3dStage)
-
-	dirLight2 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 2 (Fill)",
-		Position:         threejs.Position{X: -lightScale * 2.0, Y: lightScale * 1.5, Z: -lightScale * 2.0},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.6},
-		IsWithCastShadow: false,
-	}).Stage(stool3dStage)
-
-	dirLight3 := (&threejs.DirectionalLight{
-		Name:             "Directional Light 3 (Rim)",
-		Position:         threejs.Position{X: 0, Y: lightScale * 3.5, Z: -lightScale * 2.5},
-		LightAbstract:    threejs.LightAbstract{Intensity: 0.8},
-		IsWithCastShadow: false,
-	}).Stage(stool3dStage)
-
-	canvas.DirectionalLights = append(canvas.DirectionalLights, dirLight1, dirLight2, dirLight3)
-
-	ambiantLight := (&threejs.AmbiantLight{
-		Name:          "Ambiant Light",
-		LightAbstract: threejs.LightAbstract{Intensity: 0.4},
-	}).Stage(stool3dStage)
-	canvas.AmbiantLight = ambiantLight
-
-	// Find checked diagram
 	var checkedDiagram *models.PlantDiagram
-	if plant != nil {
-		for _, d := range plant.PlantDiagrams {
-			if d.IsChecked {
-				checkedDiagram = d
-				break
-			}
+	for _, d := range plant.PlantDiagrams {
+		if d.IsChecked {
+			checkedDiagram = d
+			break
 		}
 	}
 
-	// Camera setup
-	if hasPreservedCamera {
-		if preservedFov == 0 {
-			preservedFov = 50
-		}
-		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: preservedX,
-				Y: preservedY,
-				Z: preservedZ,
-			},
-			TargetX: preservedTargetX,
-			TargetY: preservedTargetY,
-			TargetZ: preservedTargetZ,
-			Fov:     preservedFov,
-		}).Stage(stool3dStage)
-	} else if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && checkedDiagram.StoolDiagram.Rendered3DShape != nil {
-		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: checkedDiagram.StoolDiagram.Rendered3DShape.ViewX,
-				Y: checkedDiagram.StoolDiagram.Rendered3DShape.ViewY,
-				Z: checkedDiagram.StoolDiagram.Rendered3DShape.ViewZ,
-			},
-			TargetX: checkedDiagram.StoolDiagram.Rendered3DShape.TargetX,
-			TargetY: checkedDiagram.StoolDiagram.Rendered3DShape.TargetY,
-			TargetZ: checkedDiagram.StoolDiagram.Rendered3DShape.TargetZ,
-			Fov:     checkedDiagram.StoolDiagram.Rendered3DShape.Fov,
-		}).Stage(stool3dStage)
-	} else {
-		camDist := globalR * 2.5
-		if camDist < 30 {
-			camDist = 30
-		}
-		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: camDist,
-				Y: camDist * 0.8,
-				Z: camDist,
-			},
-			TargetY: globalR * 0.5,
-			Fov:     50,
-		}).Stage(stool3dStage)
+	params := Cylinder3DParams{
+		NamePrefix:                          "Stool",
+		CanvasName:                          "Stool 3D Canvas",
+		RadialRepetitions:                   plant.StoolAbstract.RadialRepetitions,
+		Transparency:                        plant.StoolAbstract.Transparency,
+		RelativeTubeDiameter:                plant.StoolAbstract.RelativeTubeDiameter,
+		RelativeHeight3DTorus:               plant.StoolAbstract.RelativeHeight3DTorus,
+		VerticalScale:                       plant.StoolAbstract.StoolTorusVerticalScale,
+		RelativeHeight:                      plant.StoolAbstract.RelativeHeight,
+		ProjectionAngle:                     plant.StoolAbstract.ProjectionAngle,
+		HasRotatedShapes:                    true,
 	}
 
-	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && checkedDiagram.StoolDiagram.Rendered3DShape != nil {
-			checkedDiagram.StoolDiagram.Rendered3DShape.ViewX = updatedCamera.X
-			checkedDiagram.StoolDiagram.Rendered3DShape.ViewY = updatedCamera.Y
-			checkedDiagram.StoolDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
-			checkedDiagram.StoolDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
-			checkedDiagram.StoolDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
-			checkedDiagram.StoolDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
-			checkedDiagram.StoolDiagram.Rendered3DShape.Fov = updatedCamera.Fov
-			stager.GetStage().CommitWithSuspendedCallbacks()
-		}
+	if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil {
+		params.Rendered3DShape = checkedDiagram.StoolDiagram.Rendered3DShape
+		params.IsHiddenTorus3DShape = checkedDiagram.StoolDiagram.IsHiddenTorus3DShape
+		params.IsHiddenRotatedTorusShape = checkedDiagram.StoolDiagram.IsHiddenRotatedTorusShape
+		params.IsHiddenTopCurveShape = checkedDiagram.StoolDiagram.IsHiddenSeatTopCurveShape
+		params.IsHiddenRotatedTopCurveShape = checkedDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape
+		params.IsHiddenSampledPoints3DShape = checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape
+		params.IsHiddenRotatedSampledPoints3DShape = checkedDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape
 	}
 
-	floorMinY := math.MaxFloat64
+	base := u.renderCylinder3DBase(stool3dStage, stager, plant, params)
+	if base == nil || base.ResampledBaseCurve == nil {
+		stool3dStage.Commit()
+		return
+	}
 
-	// Extract GrowthCurve2D arcs from PlantAbstract (StartArcShapeGrid and EndArcShapeGrid)
+	canvas := base.Canvas
+	resampledBaseCurve := base.ResampledBaseCurve
+	radialRepetitions := base.RadialRepetitions
+	globalR := base.GlobalR
+	tubeRadius := base.TubeRadius
+	opacity := base.Opacity
+	stoolTopHeight := base.TopHeight
+	torusHeight := base.TorusHeight
+	growthVectorX := base.GrowthVectorX
+	growthVectorY := base.GrowthVectorY
+	projAngleRad := base.ProjAngleRad
+	vertScale := base.VertScale
+	floorMinY := base.FloorMinY
+	expectedDegrees := base.ExpectedDegrees
+	targetAngles := base.TargetAngles
+	rotSeatTopPoints := base.RotTopPoints
+	_ = vertScale
+	_ = floorMinY
+
 	if plant.StartArcShapeGrid != nil && len(plant.StartArcShapeGrid.StartArcShapes) > 0 {
-		startArcs := plant.StartArcShapeGrid.StartArcShapes
-		var endArcs []*models.EndArcShape
-		if plant.EndArcShapeGrid != nil {
-			endArcs = plant.EndArcShapeGrid.EndArcShapes
-		}
-
-		// 1. Build initial continuous 3D curve for 1 base repetition
-		baseCurve := (&threejs.Curve{
-			Name: "Stool Base Curve",
-		}).Stage(stool3dStage)
-
-		for i := 0; i < len(startArcs); i++ {
-			sa := startArcs[i]
-			u.appendArcPointsStool(stool3dStage, baseCurve, sa.StartX, sa.StartY, sa.EndX, sa.EndY, sa.RadiusX, !sa.SweepFlag, sa.LargeArcFlag, globalR, 0.0, &floorMinY)
-
-			if i < len(endArcs) {
-				ea := endArcs[i]
-				u.appendArcPointsStool(stool3dStage, baseCurve, ea.EndX, ea.EndY, ea.StartX, ea.StartY, ea.RadiusX, ea.SweepFlag, ea.LargeArcFlag, globalR, 0.0, &floorMinY)
-			}
-		}
-
-		// 2. Order and unwrap angles
-		sortedAngles, sortedPoints := unwrapAngles(baseCurve)
-
-		// 3. Generate target angles spaced every 0.5 degrees across 1 repetition
-		degreeInterval := 0.5
-		expectedDegrees := 360.0 / float64(radialRepetitions)
-		radInterval := degreeInterval * math.Pi / 180.0
-		nbPoints := int(math.Round(expectedDegrees / degreeInterval))
-
-		var targetAngles []float64
-		for i := 0; i <= nbPoints; i++ {
-			targetAngles = append(targetAngles, float64(i)*radInterval)
-		}
-
-		// 4. Resample the curve at every 0.5 degree
-		resampledBaseCurve := u.resampleCurveAtAngles(stool3dStage, sortedAngles, sortedPoints, targetAngles, "Stool Resampled", expectedDegrees)
-
-		vertScale := plant.StoolAbstract.StoolTorusVerticalScale
-		if vertScale <= 0.0 {
-			vertScale = 1.0
-		}
-		for _, pt := range resampledBaseCurve.Points {
-			pt.Y = pt.Y * vertScale
-		}
-
-		// 5. Calculate tube radius from RelativeTubeDiameter
-		relDiameter := plant.StoolAbstract.RelativeTubeDiameter
-		if relDiameter <= 0 {
-			relDiameter = 0.01
-		}
-		tubeRadius := (relDiameter * plant.RhombusSideLength) / 2.0
-		if tubeRadius <= 0 {
-			tubeRadius = 2.0
-		}
-
-		transparency := plant.StoolAbstract.Transparency
-		opacity := 1.0 - transparency
-		if opacity < 0.0 {
-			opacity = 0.0
-		}
-		if opacity > 1.0 {
-			opacity = 1.0
-		}
-
-		stoolTopHeight := plant.StoolAbstract.RelativeHeight * plant.RhombusSideLength
-		torusHeight := plant.StoolAbstract.RelativeHeight3DTorus * plant.RhombusSideLength
-
-		createTorusLayer := func(dx, dy float64, namePrefix string, color string) {
-			thetaOffset := dx / globalR
-
-			layerCurve := (&threejs.Curve{
-				Name: fmt.Sprintf("%s Curve", namePrefix),
-			}).Stage(stool3dStage)
-
-			for k := 0; k < radialRepetitions; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-				totalThetaOffset := baseThetaOffset + thetaOffset
-
-				for _, pt := range resampledBaseCurve.Points {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-					newTheta := origTheta + totalThetaOffset
-
-					layerPtY := pt.Y + dy + torusHeight
-					if layerPtY < floorMinY {
-						floorMinY = layerPtY
-					}
-
-					layerCurve.Points = append(layerCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("%s Point k%d %.1f", namePrefix, k, newTheta*180.0/math.Pi),
-						X:    r * math.Cos(newTheta),
-						Y:    layerPtY,
-						Z:    r * math.Sin(newTheta),
-					}).Stage(stool3dStage))
-				}
-			}
-
-			numSegments := len(layerCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
-
-			tGeom := (&threejs.TubeGeometry{
-				Name:            fmt.Sprintf("%s TubeGeom", namePrefix),
-				Path:            layerCurve,
-				TubularSegments: numSegments,
-				Radius:          tubeRadius,
-				RadialSegments:  16,
-				Closed:          true,
-			}).Stage(stool3dStage)
-
-			tubeMesh := (&threejs.Mesh{
-				Name:         fmt.Sprintf("%s Mesh", namePrefix),
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-				TubeGeometry: tGeom,
-				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 fmt.Sprintf("%s Material", namePrefix),
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: color},
-					Transparent:          true,
-					Opacity:              opacity,
-				}).Stage(stool3dStage),
-			}).Stage(stool3dStage)
-
-			canvas.Meshs = append(canvas.Meshs, tubeMesh)
-		}
-
-		// 6. Base 3D Torus
-		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenTorus3DShape {
-			createTorusLayer(0.0, 0.0, "Stool Base Torus", "darkgreen")
-		}
-
-		// 7. Single rotated and elevated torus with growth vector parameters
-		var growthVectorX, growthVectorY float64
-		if plant.GrowthVectorShape != nil {
-			growthVectorX = plant.GrowthVectorShape.X
-			growthVectorY = plant.GrowthVectorShape.Y * vertScale
-		}
-
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedTorusShape {
-			createTorusLayer(growthVectorX, growthVectorY, "Stool Partially Rotated Torus", "darkgreen")
-		}
-
-		projAngleRad := -plant.StoolAbstract.ProjectionAngle * math.Pi / 180.0
-
-		// 8. Seat Top 2D Projected Curve on the horizontal stool top plane (from Base Torus)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSeatTopCurveShape {
-			seatTopCurve := (&threejs.Curve{
-				Name: "Stool Seat Top Curve",
-			}).Stage(stool3dStage)
-
-			for k := 0; k < radialRepetitions; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-
-				for _, pt := range resampledBaseCurve.Points {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-					newTheta := origTheta + baseThetaOffset
-
-					ptY := pt.Y + torusHeight
-					deltaY := stoolTopHeight - ptY
-					rProj := r + deltaY*math.Tan(projAngleRad)
-
-					seatTopCurve.Points = append(seatTopCurve.Points, (&threejs.Vector3{
-						Name: fmt.Sprintf("Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
-						X:    rProj * math.Cos(newTheta),
-						Y:    stoolTopHeight,
-						Z:    rProj * math.Sin(newTheta),
-					}).Stage(stool3dStage))
-				}
-			}
-
-			numSegments := len(seatTopCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
-
-			stGeom := (&threejs.TubeGeometry{
-				Name:            "Stool Seat Top TubeGeom",
-				Path:            seatTopCurve,
-				TubularSegments: numSegments,
-				Radius:          tubeRadius,
-				RadialSegments:  16,
-				Closed:          true,
-			}).Stage(stool3dStage)
-
-			stMesh := (&threejs.Mesh{
-				Name:         "Stool Seat Top Mesh",
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-				TubeGeometry: stGeom,
-				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 "Stool Seat Top Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "royalblue"},
-					Transparent:          true,
-					Opacity:              opacity,
-				}).Stage(stool3dStage),
-			}).Stage(stool3dStage)
-
-			canvas.Meshs = append(canvas.Meshs, stMesh)
-		}
-
 		seatThickness := plant.StoolAbstract.RelativeSeatThickness * plant.RhombusSideLength
 		seatBottomHeight := stoolTopHeight - seatThickness
 
-		var rotSeatTopPoints []*threejs.Vector3
 		var rotSeatBottomPoints []*threejs.Vector3
-
 		thetaOffset := growthVectorX / globalR
 
 		for k := 0; k < radialRepetitions; k++ {
@@ -392,16 +97,6 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 
 				ptY := pt.Y + growthVectorY + torusHeight
 
-				deltaYTop := stoolTopHeight - ptY
-				rProjTop := r + deltaYTop*math.Tan(projAngleRad)
-
-				rotSeatTopPoints = append(rotSeatTopPoints, (&threejs.Vector3{
-					Name: fmt.Sprintf("Rotated Seat Top Point k%d %.1f", k, newTheta*180.0/math.Pi),
-					X:    rProjTop * math.Cos(newTheta),
-					Y:    stoolTopHeight,
-					Z:    rProjTop * math.Sin(newTheta),
-				}).Stage(stool3dStage))
-
 				deltaYBottom := seatBottomHeight - ptY
 				rProjBottom := r + deltaYBottom*math.Tan(projAngleRad)
 
@@ -412,42 +107,6 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 					Z:    rProjBottom * math.Sin(newTheta),
 				}).Stage(stool3dStage))
 			}
-		}
-
-		// 9. Partially Rotated Seat Top 2D Projected Curve (from Partially Rotated Torus)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape {
-			rotSeatTopCurve := (&threejs.Curve{
-				Name:   "Stool Partially Rotated Seat Top Curve",
-				Points: rotSeatTopPoints,
-			}).Stage(stool3dStage)
-
-			numSegments := len(rotSeatTopCurve.Points)
-			if numSegments < 2 {
-				numSegments = 2
-			}
-
-			rotStGeom := (&threejs.TubeGeometry{
-				Name:            "Stool Partially Rotated Seat Top TubeGeom",
-				Path:            rotSeatTopCurve,
-				TubularSegments: numSegments,
-				Radius:          tubeRadius,
-				RadialSegments:  16,
-				Closed:          true,
-			}).Stage(stool3dStage)
-
-			rotStMesh := (&threejs.Mesh{
-				Name:         "Stool Partially Rotated Seat Top Mesh",
-				Position:     threejs.Position{X: 0, Y: 0, Z: 0},
-				TubeGeometry: rotStGeom,
-				MeshPhysicalMaterial: (&threejs.MeshPhysicalMaterial{
-					Name:                 "Stool Partially Rotated Seat Top Material",
-					MeshMaterialAbstract: threejs.MeshMaterialAbstract{Color: "darkorange"},
-					Transparent:          true,
-					Opacity:              opacity,
-				}).Stage(stool3dStage),
-			}).Stage(stool3dStage)
-
-			canvas.Meshs = append(canvas.Meshs, rotStMesh)
 		}
 
 		// 10. Seat Bottom 2D Projected Curve on the horizontal stool seat bottom plane (from Base Torus)
@@ -658,56 +317,11 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			}
 		}
 
-		// 12. Add 3D Sampled Points visualization if toggled on
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape {
-			numPointsPerRep := len(resampledBaseCurve.Points)
-			var basePoints []*threejs.Vector3
-			for k := 0; k < radialRepetitions; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-				for _, pt := range resampledBaseCurve.Points {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-					newTheta := origTheta + baseThetaOffset
-					basePoints = append(basePoints, (&threejs.Vector3{
-						Name: fmt.Sprintf("Sampled Point k%d %.1f", k, newTheta*180.0/math.Pi),
-						X:    r * math.Cos(newTheta),
-						Y:    pt.Y + torusHeight,
-						Z:    r * math.Sin(newTheta),
-					}).Stage(stool3dStage))
-				}
-			}
-			u.addPointSpheres(stool3dStage, basePoints, "red", canvas, "Stool Sampled", 0, numPointsPerRep)
-		}
-
-		// 13. Add Rotated 3D Sampled Points visualization if toggled on
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape {
-			numPointsPerRep := len(resampledBaseCurve.Points)
-			var rotPoints []*threejs.Vector3
-			thetaOffset := growthVectorX / globalR
-
-			for k := 0; k < radialRepetitions; k++ {
-				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(radialRepetitions)
-				totalThetaOffset := baseThetaOffset + thetaOffset
-
-				for _, pt := range resampledBaseCurve.Points {
-					origTheta := math.Atan2(pt.Z, pt.X)
-					r := math.Hypot(pt.X, pt.Z)
-					newTheta := origTheta + totalThetaOffset
-					rotPoints = append(rotPoints, (&threejs.Vector3{
-						Name: fmt.Sprintf("Rotated Sampled Point k%d %.1f", k, newTheta*180.0/math.Pi),
-						X:    r * math.Cos(newTheta),
-						Y:    pt.Y + growthVectorY + torusHeight,
-						Z:    r * math.Sin(newTheta),
-					}).Stage(stool3dStage))
-				}
-			}
-			u.addPointSpheres(stool3dStage, rotPoints, "orange", canvas, "Stool Rotated Sampled", 0, numPointsPerRep)
-		}
-
 		// Compute Eye geometry, transitions, and Bézier corners for first repetition (k=0)
 		thetaOffset = growthVectorX / globalR
 		eyeCriteria := plant.StoolAbstract.RelativeEyeSeparationCriteria * plant.RhombusSideLength * vertScale
 		expectedRad := expectedDegrees * math.Pi / 180.0
+		radInterval := 0.5 * math.Pi / 180.0
 		dStep := globalR * radInterval
 		if dStep <= 0 {
 			dStep = 1.0
@@ -1594,268 +1208,4 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 	}
 
 	stool3dStage.Commit()
-}
-
-func (u *Stool3DStageUpdater) appendArcPointsStool(stool3dStage *threejs.Stage, targetCurve *threejs.Curve, x1, y1, x2, y2, r float64, sweepFlag bool, largeArcFlag bool, globalR float64, baseThetaOffset float64, floorMinY *float64) {
-	dx := (x1 - x2) / 2.0
-	dy := (y1 - y2) / 2.0
-	d2 := dx*dx + dy*dy
-	var cx, cy float64
-	if d2 == 0 || r*r < d2 {
-		cx = (x1 + x2) / 2.0
-		cy = (y1 + y2) / 2.0
-		r = math.Sqrt(d2)
-	} else {
-		root := math.Sqrt(r*r/d2 - 1.0)
-		if largeArcFlag == sweepFlag {
-			root = -root
-		}
-		cx = (x1+x2)/2.0 + root*dy
-		cy = (y1+y2)/2.0 - root*dx
-	}
-
-	startAngle := math.Atan2(y1-cy, x1-cx)
-	endAngle := math.Atan2(y2-cy, x2-cx)
-
-	if sweepFlag {
-		for endAngle < startAngle {
-			endAngle += 2 * math.Pi
-		}
-	} else {
-		for endAngle > startAngle {
-			endAngle -= 2 * math.Pi
-		}
-	}
-
-	steps := 50
-	for i := 0; i <= steps; i++ {
-		if i == 0 && len(targetCurve.Points) > 0 {
-			continue
-		}
-
-		t := float64(i) / float64(steps)
-		angle := startAngle + t*(endAngle-startAngle)
-		x2d := cx + r*math.Cos(angle)
-		y2d := cy + r*math.Sin(angle)
-
-		theta := x2d/globalR + baseThetaOffset
-		x3d := globalR * math.Cos(theta)
-		z3d := globalR * math.Sin(theta)
-		y3d := y2d
-
-		if y3d < *floorMinY {
-			*floorMinY = y3d
-		}
-
-		vec := (&threejs.Vector3{
-			Name: fmt.Sprintf("Stool Base Point %d", len(targetCurve.Points)),
-			X:    x3d,
-			Y:    y3d,
-			Z:    z3d,
-		}).Stage(stool3dStage)
-		targetCurve.Points = append(targetCurve.Points, vec)
-	}
-}
-
-// unwrapAngles processes a 3D curve to extract a strictly monotonic,
-// duplicate-free mapping of points to their cylindrical angle (theta).
-func unwrapAngles(curve *threejs.Curve) (angles []float64, points []*threejs.Vector3) {
-	angleToPoint := make(map[float64]*threejs.Vector3)
-	if len(curve.Points) == 0 {
-		return nil, nil
-	}
-
-	firstP := curve.Points[0]
-	lastTheta := math.Atan2(firstP.Z, firstP.X)
-
-	accumulated := lastTheta
-	for accumulated < 0 {
-		accumulated += 2 * math.Pi
-	}
-	for accumulated >= 2*math.Pi {
-		accumulated -= 2 * math.Pi
-	}
-
-	angleToPoint[accumulated] = firstP
-	lastTheta = math.Atan2(firstP.Z, firstP.X)
-
-	for i := 1; i < len(curve.Points); i++ {
-		p := curve.Points[i]
-		theta := math.Atan2(p.Z, p.X)
-		diff := theta - lastTheta
-
-		for diff < -math.Pi {
-			diff += 2 * math.Pi
-		}
-		for diff > math.Pi {
-			diff -= 2 * math.Pi
-		}
-
-		if diff < -1e-7 {
-			log.Printf("overlapping segment detected: curve goes backwards at index %d (diff: %f)", i, diff)
-			diff = 0
-		}
-
-		accumulated += diff
-
-		angleToPoint[accumulated] = p
-		lastTheta = theta
-	}
-
-	for a := range angleToPoint {
-		angles = append(angles, a)
-	}
-	sort.Float64s(angles)
-
-	for _, a := range angles {
-		points = append(points, angleToPoint[a])
-	}
-
-	return angles, points
-}
-
-// resampleCurveAtAngles forces an existing 3D curve to conform to a specific set of target angles.
-func (u *Stool3DStageUpdater) resampleCurveAtAngles(
-	stool3dStage *threejs.Stage,
-	sortedAngles []float64,
-	sortedPoints []*threejs.Vector3,
-	targetAngles []float64,
-	namePrefix string,
-	expectedDegrees float64,
-) *threejs.Curve {
-	resampled := (&threejs.Curve{
-		Name: fmt.Sprintf("%s Resampled", namePrefix),
-	}).Stage(stool3dStage)
-
-	if len(sortedAngles) == 0 {
-		return resampled
-	}
-
-	for _, target := range targetAngles {
-		evalTarget := target
-		if len(sortedAngles) > 0 && expectedDegrees > 0 {
-			minA := sortedAngles[0]
-			maxA := sortedAngles[len(sortedAngles)-1]
-			expectedRad := expectedDegrees * math.Pi / 180.0
-
-			for evalTarget < minA {
-				evalTarget += expectedRad
-			}
-			for evalTarget > maxA {
-				evalTarget -= expectedRad
-			}
-			if evalTarget < minA {
-				evalTarget = minA
-			}
-			if evalTarget > maxA {
-				evalTarget = maxA
-			}
-		}
-
-		idx := -1
-
-		// Use binary search to find the first index where sortedAngles[i] >= evalTarget
-		searchIdx := sort.SearchFloat64s(sortedAngles, evalTarget)
-
-		if searchIdx > 0 && searchIdx < len(sortedAngles) {
-			idx = searchIdx - 1
-		} else if searchIdx == 0 && sortedAngles[0] == evalTarget {
-			idx = 0
-		}
-
-		isExtrapolating := false
-		if idx == -1 {
-			isExtrapolating = true
-			if searchIdx == 0 {
-				idx = 0
-			} else {
-				idx = len(sortedAngles) - 2
-			}
-		}
-
-		a1 := sortedAngles[idx]
-		a2 := sortedAngles[idx+1]
-		p1 := sortedPoints[idx]
-		p2 := sortedPoints[idx+1]
-
-		t := 0.0
-		if a1 != a2 {
-			t = (evalTarget - a1) / (a2 - a1)
-		}
-		if t < 0 {
-			t = 0
-		}
-		if t > 1 {
-			t = 1
-		}
-
-		var x, y, z float64
-		if isExtrapolating {
-			var r float64
-			if t == 0 {
-				r = math.Hypot(p1.X, p1.Z)
-				y = p1.Y
-			} else {
-				r = math.Hypot(p2.X, p2.Z)
-				y = p2.Y
-			}
-			x = r * math.Cos(target)
-			z = r * math.Sin(target)
-		} else {
-			r1 := math.Hypot(p1.X, p1.Z)
-			r2 := math.Hypot(p2.X, p2.Z)
-			r := r1 + t*(r2-r1)
-			y = p1.Y + t*(p2.Y-p1.Y)
-			x = r * math.Cos(target)
-			z = r * math.Sin(target)
-		}
-
-		pt := (&threejs.Vector3{
-			Name: fmt.Sprintf("%s %.1f", namePrefix, target*180.0/math.Pi),
-			X:    x,
-			Y:    y,
-			Z:    z,
-		}).Stage(stool3dStage)
-
-		resampled.Points = append(resampled.Points, pt)
-	}
-
-	return resampled
-}
-
-func (u *Stool3DStageUpdater) addPointSpheres(stool3dStage *threejs.Stage, points []*threejs.Vector3, color string, canvas *threejs.Canvas, namePrefix string, dy float64, numPointsPerRep int) {
-	for i, pt := range points {
-		sphereColor := color
-		radius := 2.0
-
-		localIdx := i
-		if numPointsPerRep > 0 {
-			localIdx = i % numPointsPerRep
-		}
-
-		if localIdx%20 == 0 {
-			sphereColor = "yellow"
-			radius = 4.0
-		}
-
-		sphere := (&threejs.Mesh{
-			Name: fmt.Sprintf("%s Sphere %d", namePrefix, i),
-			Position: threejs.Position{
-				X: pt.X,
-				Y: pt.Y + dy,
-				Z: pt.Z,
-			},
-			SphereGeometry: (&threejs.SphereGeometry{
-				Name:   fmt.Sprintf("%s SphereGeom %d", namePrefix, i),
-				Radius: radius,
-			}).Stage(stool3dStage),
-			MeshMaterialBasic: (&threejs.MeshMaterialBasic{
-				Name: fmt.Sprintf("%s SphereMat %d", namePrefix, i),
-				MeshMaterialAbstract: threejs.MeshMaterialAbstract{
-					Color: sphereColor,
-				},
-			}).Stage(stool3dStage),
-		}).Stage(stool3dStage)
-		canvas.Meshs = append(canvas.Meshs, sphere)
-	}
 }

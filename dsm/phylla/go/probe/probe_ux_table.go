@@ -40,6 +40,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ChosenP1P2PairShape](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
+	case "ClockAbstract":
+		updateProbeTable[*models.ClockAbstract](probe)
+	case "ClockDiagram":
+		updateProbeTable[*models.ClockDiagram](probe)
+	case "ClockTopCurveShape":
+		updateProbeTable[*models.ClockTopCurveShape](probe)
 	case "EndArcShape":
 		updateProbeTable[*models.EndArcShape](probe)
 	case "EndArcShapeGrid":

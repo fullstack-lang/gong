@@ -38,6 +38,18 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeCreateCallback != nil {
 			stage.OnAfterCircleGridShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ClockAbstract:
+		if stage.OnAfterClockAbstractCreateCallback != nil {
+			stage.OnAfterClockAbstractCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *ClockDiagram:
+		if stage.OnAfterClockDiagramCreateCallback != nil {
+			stage.OnAfterClockDiagramCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *ClockTopCurveShape:
+		if stage.OnAfterClockTopCurveShapeCreateCallback != nil {
+			stage.OnAfterClockTopCurveShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeCreateCallback != nil {
 			stage.OnAfterEndArcShapeCreateCallback.OnAfterCreate(stage, target)
@@ -583,6 +595,21 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*CircleGridShape)
 		if stage.OnAfterCircleGridShapeUpdateCallback != nil {
 			stage.OnAfterCircleGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ClockAbstract:
+		newTarget := any(new).(*ClockAbstract)
+		if stage.OnAfterClockAbstractUpdateCallback != nil {
+			stage.OnAfterClockAbstractUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ClockDiagram:
+		newTarget := any(new).(*ClockDiagram)
+		if stage.OnAfterClockDiagramUpdateCallback != nil {
+			stage.OnAfterClockDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ClockTopCurveShape:
+		newTarget := any(new).(*ClockTopCurveShape)
+		if stage.OnAfterClockTopCurveShapeUpdateCallback != nil {
+			stage.OnAfterClockTopCurveShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *EndArcShape:
 		newTarget := any(new).(*EndArcShape)
@@ -1249,6 +1276,21 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*CircleGridShape)
 			stage.OnAfterCircleGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ClockAbstract:
+		if stage.OnAfterClockAbstractDeleteCallback != nil {
+			staged := any(staged).(*ClockAbstract)
+			stage.OnAfterClockAbstractDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *ClockDiagram:
+		if stage.OnAfterClockDiagramDeleteCallback != nil {
+			staged := any(staged).(*ClockDiagram)
+			stage.OnAfterClockDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *ClockTopCurveShape:
+		if stage.OnAfterClockTopCurveShapeDeleteCallback != nil {
+			staged := any(staged).(*ClockTopCurveShape)
+			stage.OnAfterClockTopCurveShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeDeleteCallback != nil {
 			staged := any(staged).(*EndArcShape)
@@ -1906,6 +1948,18 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeReadCallback != nil {
 			stage.OnAfterCircleGridShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *ClockAbstract:
+		if stage.OnAfterClockAbstractReadCallback != nil {
+			stage.OnAfterClockAbstractReadCallback.OnAfterRead(stage, target)
+		}
+	case *ClockDiagram:
+		if stage.OnAfterClockDiagramReadCallback != nil {
+			stage.OnAfterClockDiagramReadCallback.OnAfterRead(stage, target)
+		}
+	case *ClockTopCurveShape:
+		if stage.OnAfterClockTopCurveShapeReadCallback != nil {
+			stage.OnAfterClockTopCurveShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *EndArcShape:
 		if stage.OnAfterEndArcShapeReadCallback != nil {
 			stage.OnAfterEndArcShapeReadCallback.OnAfterRead(stage, target)
@@ -2425,6 +2479,12 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChosenP1P2PairShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[CircleGridShape])
+	case *ClockAbstract:
+		stage.OnAfterClockAbstractUpdateCallback = any(callback).(OnAfterUpdateInterface[ClockAbstract])
+	case *ClockDiagram:
+		stage.OnAfterClockDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[ClockDiagram])
+	case *ClockTopCurveShape:
+		stage.OnAfterClockTopCurveShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ClockTopCurveShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -2694,6 +2754,12 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChosenP1P2PairShapeCreateCallback = any(callback).(OnAfterCreateInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[CircleGridShape])
+	case *ClockAbstract:
+		stage.OnAfterClockAbstractCreateCallback = any(callback).(OnAfterCreateInterface[ClockAbstract])
+	case *ClockDiagram:
+		stage.OnAfterClockDiagramCreateCallback = any(callback).(OnAfterCreateInterface[ClockDiagram])
+	case *ClockTopCurveShape:
+		stage.OnAfterClockTopCurveShapeCreateCallback = any(callback).(OnAfterCreateInterface[ClockTopCurveShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeCreateCallback = any(callback).(OnAfterCreateInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -2963,6 +3029,12 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChosenP1P2PairShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[CircleGridShape])
+	case *ClockAbstract:
+		stage.OnAfterClockAbstractDeleteCallback = any(callback).(OnAfterDeleteInterface[ClockAbstract])
+	case *ClockDiagram:
+		stage.OnAfterClockDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[ClockDiagram])
+	case *ClockTopCurveShape:
+		stage.OnAfterClockTopCurveShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ClockTopCurveShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EndArcShape])
 	case *EndArcShapeGrid:
@@ -3232,6 +3304,12 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterChosenP1P2PairShapeReadCallback = any(callback).(OnAfterReadInterface[ChosenP1P2PairShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeReadCallback = any(callback).(OnAfterReadInterface[CircleGridShape])
+	case *ClockAbstract:
+		stage.OnAfterClockAbstractReadCallback = any(callback).(OnAfterReadInterface[ClockAbstract])
+	case *ClockDiagram:
+		stage.OnAfterClockDiagramReadCallback = any(callback).(OnAfterReadInterface[ClockDiagram])
+	case *ClockTopCurveShape:
+		stage.OnAfterClockTopCurveShapeReadCallback = any(callback).(OnAfterReadInterface[ClockTopCurveShape])
 	case *EndArcShape:
 		stage.OnAfterEndArcShapeReadCallback = any(callback).(OnAfterReadInterface[EndArcShape])
 	case *EndArcShapeGrid:

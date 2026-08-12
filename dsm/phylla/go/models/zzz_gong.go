@@ -255,6 +255,51 @@ type Stage struct {
 	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
 	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
 
+	ClockAbstracts                map[*ClockAbstract]struct{}
+	ClockAbstracts_instance       map[*ClockAbstract]*ClockAbstract
+	ClockAbstracts_mapString      map[string]*ClockAbstract
+	ClockAbstractOrder            uint
+	ClockAbstract_stagedOrder     map[*ClockAbstract]uint
+	ClockAbstract_orderStaged     map[uint]*ClockAbstract
+	ClockAbstracts_reference      map[*ClockAbstract]*ClockAbstract
+	ClockAbstracts_referenceOrder map[*ClockAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClockAbstractCreateCallback OnAfterCreateInterface[ClockAbstract]
+	OnAfterClockAbstractUpdateCallback OnAfterUpdateInterface[ClockAbstract]
+	OnAfterClockAbstractDeleteCallback OnAfterDeleteInterface[ClockAbstract]
+	OnAfterClockAbstractReadCallback   OnAfterReadInterface[ClockAbstract]
+
+	ClockDiagrams                map[*ClockDiagram]struct{}
+	ClockDiagrams_instance       map[*ClockDiagram]*ClockDiagram
+	ClockDiagrams_mapString      map[string]*ClockDiagram
+	ClockDiagramOrder            uint
+	ClockDiagram_stagedOrder     map[*ClockDiagram]uint
+	ClockDiagram_orderStaged     map[uint]*ClockDiagram
+	ClockDiagrams_reference      map[*ClockDiagram]*ClockDiagram
+	ClockDiagrams_referenceOrder map[*ClockDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClockDiagramCreateCallback OnAfterCreateInterface[ClockDiagram]
+	OnAfterClockDiagramUpdateCallback OnAfterUpdateInterface[ClockDiagram]
+	OnAfterClockDiagramDeleteCallback OnAfterDeleteInterface[ClockDiagram]
+	OnAfterClockDiagramReadCallback   OnAfterReadInterface[ClockDiagram]
+
+	ClockTopCurveShapes                map[*ClockTopCurveShape]struct{}
+	ClockTopCurveShapes_instance       map[*ClockTopCurveShape]*ClockTopCurveShape
+	ClockTopCurveShapes_mapString      map[string]*ClockTopCurveShape
+	ClockTopCurveShapeOrder            uint
+	ClockTopCurveShape_stagedOrder     map[*ClockTopCurveShape]uint
+	ClockTopCurveShape_orderStaged     map[uint]*ClockTopCurveShape
+	ClockTopCurveShapes_reference      map[*ClockTopCurveShape]*ClockTopCurveShape
+	ClockTopCurveShapes_referenceOrder map[*ClockTopCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClockTopCurveShapeCreateCallback OnAfterCreateInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeUpdateCallback OnAfterUpdateInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeDeleteCallback OnAfterDeleteInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeReadCallback   OnAfterReadInterface[ClockTopCurveShape]
+
 	EndArcShapes                map[*EndArcShape]struct{}
 	EndArcShapes_instance       map[*EndArcShape]*EndArcShape
 	EndArcShapes_mapString      map[string]*EndArcShape
@@ -2468,6 +2513,18 @@ func (stage *Stage) Squash() {
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
 
+	stage.ClockAbstracts_reference = make(map[*ClockAbstract]*ClockAbstract)
+	stage.ClockAbstracts_instance = make(map[*ClockAbstract]*ClockAbstract)
+	stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint)
+
+	stage.ClockDiagrams_reference = make(map[*ClockDiagram]*ClockDiagram)
+	stage.ClockDiagrams_instance = make(map[*ClockDiagram]*ClockDiagram)
+	stage.ClockDiagrams_referenceOrder = make(map[*ClockDiagram]uint)
+
+	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
+	stage.ClockTopCurveShapes_instance = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
+	stage.ClockTopCurveShapes_referenceOrder = make(map[*ClockTopCurveShape]uint)
+
 	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_instance = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_referenceOrder = make(map[*EndArcShape]uint)
@@ -3097,6 +3154,48 @@ func (stage *Stage) recomputeOrders() {
 		stage.CircleGridShapeOrder = maxCircleGridShapeOrder + 1
 	} else {
 		stage.CircleGridShapeOrder = 0
+	}
+
+	var maxClockAbstractOrder uint
+	var foundClockAbstract bool
+	for _, order := range stage.ClockAbstract_stagedOrder {
+		if !foundClockAbstract || order > maxClockAbstractOrder {
+			maxClockAbstractOrder = order
+			foundClockAbstract = true
+		}
+	}
+	if foundClockAbstract {
+		stage.ClockAbstractOrder = maxClockAbstractOrder + 1
+	} else {
+		stage.ClockAbstractOrder = 0
+	}
+
+	var maxClockDiagramOrder uint
+	var foundClockDiagram bool
+	for _, order := range stage.ClockDiagram_stagedOrder {
+		if !foundClockDiagram || order > maxClockDiagramOrder {
+			maxClockDiagramOrder = order
+			foundClockDiagram = true
+		}
+	}
+	if foundClockDiagram {
+		stage.ClockDiagramOrder = maxClockDiagramOrder + 1
+	} else {
+		stage.ClockDiagramOrder = 0
+	}
+
+	var maxClockTopCurveShapeOrder uint
+	var foundClockTopCurveShape bool
+	for _, order := range stage.ClockTopCurveShape_stagedOrder {
+		if !foundClockTopCurveShape || order > maxClockTopCurveShapeOrder {
+			maxClockTopCurveShapeOrder = order
+			foundClockTopCurveShape = true
+		}
+	}
+	if foundClockTopCurveShape {
+		stage.ClockTopCurveShapeOrder = maxClockTopCurveShapeOrder + 1
+	} else {
+		stage.ClockTopCurveShapeOrder = 0
 	}
 
 	var maxEndArcShapeOrder uint
@@ -4994,6 +5093,48 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ClockAbstract:
+		tmp := GetStructInstancesByOrder(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ClockAbstract implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ClockDiagram:
+		tmp := GetStructInstancesByOrder(stage.ClockDiagrams, stage.ClockDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ClockDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ClockTopCurveShape:
+		tmp := GetStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ClockTopCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *EndArcShape:
 		tmp := GetStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 
@@ -6761,6 +6902,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+	case "ClockAbstract":
+		res = GetNamedStructInstances(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
+	case "ClockDiagram":
+		res = GetNamedStructInstances(stage.ClockDiagrams, stage.ClockDiagram_stagedOrder)
+	case "ClockTopCurveShape":
+		res = GetNamedStructInstances(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
 	case "EndArcShape":
 		res = GetNamedStructInstances(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 	case "EndArcShapeGrid":
@@ -7092,6 +7239,12 @@ type BackRepoInterface interface {
 	CheckoutChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
+	CommitClockAbstract(clockabstract *ClockAbstract)
+	CheckoutClockAbstract(clockabstract *ClockAbstract)
+	CommitClockDiagram(clockdiagram *ClockDiagram)
+	CheckoutClockDiagram(clockdiagram *ClockDiagram)
+	CommitClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
+	CheckoutClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
 	CommitEndArcShape(endarcshape *EndArcShape)
 	CheckoutEndArcShape(endarcshape *EndArcShape)
 	CommitEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
@@ -7367,6 +7520,15 @@ func NewStage(name string) (stage *Stage) {
 
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
+
+		ClockAbstracts:           make(map[*ClockAbstract]struct{}),
+		ClockAbstracts_mapString: make(map[string]*ClockAbstract),
+
+		ClockDiagrams:           make(map[*ClockDiagram]struct{}),
+		ClockDiagrams_mapString: make(map[string]*ClockDiagram),
+
+		ClockTopCurveShapes:           make(map[*ClockTopCurveShape]struct{}),
+		ClockTopCurveShapes_mapString: make(map[string]*ClockTopCurveShape),
 
 		EndArcShapes:           make(map[*EndArcShape]struct{}),
 		EndArcShapes_mapString: make(map[string]*EndArcShape),
@@ -7778,6 +7940,18 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShape_stagedOrder: make(map[*CircleGridShape]uint),
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
 		CircleGridShapes_reference:  make(map[*CircleGridShape]*CircleGridShape),
+
+		ClockAbstract_stagedOrder: make(map[*ClockAbstract]uint),
+		ClockAbstract_orderStaged: make(map[uint]*ClockAbstract),
+		ClockAbstracts_reference:  make(map[*ClockAbstract]*ClockAbstract),
+
+		ClockDiagram_stagedOrder: make(map[*ClockDiagram]uint),
+		ClockDiagram_orderStaged: make(map[uint]*ClockDiagram),
+		ClockDiagrams_reference:  make(map[*ClockDiagram]*ClockDiagram),
+
+		ClockTopCurveShape_stagedOrder: make(map[*ClockTopCurveShape]uint),
+		ClockTopCurveShape_orderStaged: make(map[uint]*ClockTopCurveShape),
+		ClockTopCurveShapes_reference:  make(map[*ClockTopCurveShape]*ClockTopCurveShape),
 
 		EndArcShape_stagedOrder: make(map[*EndArcShape]uint),
 		EndArcShape_orderStaged: make(map[uint]*EndArcShape),
@@ -8289,6 +8463,12 @@ func NewStage(name string) (stage *Stage) {
 
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
+			"ClockAbstract": &ClockAbstractUnmarshaller{},
+
+			"ClockDiagram": &ClockDiagramUnmarshaller{},
+
+			"ClockTopCurveShape": &ClockTopCurveShapeUnmarshaller{},
+
 			"EndArcShape": &EndArcShapeUnmarshaller{},
 
 			"EndArcShapeGrid": &EndArcShapeGridUnmarshaller{},
@@ -8547,6 +8727,9 @@ func NewStage(name string) (stage *Stage) {
 			{name: "BaseVectorShapeGrid"},
 			{name: "ChosenP1P2PairShape"},
 			{name: "CircleGridShape"},
+			{name: "ClockAbstract"},
+			{name: "ClockDiagram"},
+			{name: "ClockTopCurveShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
 			{name: "EndHalfwayArcShape"},
@@ -8697,6 +8880,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *ClockAbstract:
+		return stage.ClockAbstract_stagedOrder[instance]
+	case *ClockDiagram:
+		return stage.ClockDiagram_stagedOrder[instance]
+	case *ClockTopCurveShape:
+		return stage.ClockTopCurveShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -8968,6 +9157,12 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ChosenP1P2PairShape_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
+	case *ClockAbstract:
+		return any(stage.ClockAbstract_orderStaged[order]).(Type)
+	case *ClockDiagram:
+		return any(stage.ClockDiagram_orderStaged[order]).(Type)
+	case *ClockTopCurveShape:
+		return any(stage.ClockTopCurveShape_orderStaged[order]).(Type)
 	case *EndArcShape:
 		return any(stage.EndArcShape_orderStaged[order]).(Type)
 	case *EndArcShapeGrid:
@@ -9238,6 +9433,12 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *ClockAbstract:
+		return stage.ClockAbstract_stagedOrder[instance]
+	case *ClockDiagram:
+		return stage.ClockDiagram_stagedOrder[instance]
+	case *ClockTopCurveShape:
+		return stage.ClockTopCurveShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -9557,6 +9758,9 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ChosenP1P2PairShape"] = len(stage.ChosenP1P2PairShapes)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
+	stage.Map_GongStructName_InstancesNb["ClockAbstract"] = len(stage.ClockAbstracts)
+	stage.Map_GongStructName_InstancesNb["ClockDiagram"] = len(stage.ClockDiagrams)
+	stage.Map_GongStructName_InstancesNb["ClockTopCurveShape"] = len(stage.ClockTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShape"] = len(stage.EndHalfwayArcShapes)
@@ -10422,6 +10626,270 @@ func (circlegridshape *CircleGridShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (circlegridshape *CircleGridShape) SetName(name string) {
 	circlegridshape.Name = name
+}
+
+// Stage puts clockabstract to the model stage
+func (clockabstract *ClockAbstract) Stage(stage *Stage) *ClockAbstract {
+	if _, ok := stage.ClockAbstracts[clockabstract]; !ok {
+		stage.ClockAbstracts[clockabstract] = struct{}{}
+		stage.ClockAbstract_stagedOrder[clockabstract] = stage.ClockAbstractOrder
+		stage.ClockAbstract_orderStaged[stage.ClockAbstractOrder] = clockabstract
+		stage.ClockAbstractOrder++
+	}
+	stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
+
+	return clockabstract
+}
+
+// StagePreserveOrder puts clockabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClockAbstractOrder
+// - update stage.ClockAbstractOrder accordingly
+func (clockabstract *ClockAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ClockAbstracts[clockabstract]; !ok {
+		stage.ClockAbstracts[clockabstract] = struct{}{}
+
+		if order > stage.ClockAbstractOrder {
+			stage.ClockAbstractOrder = order
+		}
+		stage.ClockAbstract_stagedOrder[clockabstract] = order
+		stage.ClockAbstract_orderStaged[order] = clockabstract
+		stage.ClockAbstractOrder++
+	}
+	stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
+}
+
+// Unstage removes clockabstract off the model stage
+func (clockabstract *ClockAbstract) Unstage(stage *Stage) *ClockAbstract {
+	delete(stage.ClockAbstracts, clockabstract)
+	// issue1150
+	// delete(stage.ClockAbstract_stagedOrder, clockabstract)
+	delete(stage.ClockAbstracts_mapString, clockabstract.Name)
+
+	return clockabstract
+}
+
+// UnstageVoid removes clockabstract off the model stage
+func (clockabstract *ClockAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.ClockAbstracts, clockabstract)
+	// issue1150
+	// delete(stage.ClockAbstract_stagedOrder, clockabstract)
+	delete(stage.ClockAbstracts_mapString, clockabstract.Name)
+}
+
+// commit clockabstract to the back repo (if it is already staged)
+func (clockabstract *ClockAbstract) Commit(stage *Stage) *ClockAbstract {
+	if _, ok := stage.ClockAbstracts[clockabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClockAbstract(clockabstract)
+		}
+	}
+	return clockabstract
+}
+
+func (clockabstract *ClockAbstract) CommitVoid(stage *Stage) {
+	clockabstract.Commit(stage)
+}
+
+func (clockabstract *ClockAbstract) StageVoid(stage *Stage) {
+	clockabstract.Stage(stage)
+}
+
+// Checkout clockabstract to the back repo (if it is already staged)
+func (clockabstract *ClockAbstract) Checkout(stage *Stage) *ClockAbstract {
+	if _, ok := stage.ClockAbstracts[clockabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClockAbstract(clockabstract)
+		}
+	}
+	return clockabstract
+}
+
+// for satisfaction of GongStruct interface
+func (clockabstract *ClockAbstract) GetName() (res string) {
+	return clockabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clockabstract *ClockAbstract) SetName(name string) {
+	clockabstract.Name = name
+}
+
+// Stage puts clockdiagram to the model stage
+func (clockdiagram *ClockDiagram) Stage(stage *Stage) *ClockDiagram {
+	if _, ok := stage.ClockDiagrams[clockdiagram]; !ok {
+		stage.ClockDiagrams[clockdiagram] = struct{}{}
+		stage.ClockDiagram_stagedOrder[clockdiagram] = stage.ClockDiagramOrder
+		stage.ClockDiagram_orderStaged[stage.ClockDiagramOrder] = clockdiagram
+		stage.ClockDiagramOrder++
+	}
+	stage.ClockDiagrams_mapString[clockdiagram.Name] = clockdiagram
+
+	return clockdiagram
+}
+
+// StagePreserveOrder puts clockdiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClockDiagramOrder
+// - update stage.ClockDiagramOrder accordingly
+func (clockdiagram *ClockDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ClockDiagrams[clockdiagram]; !ok {
+		stage.ClockDiagrams[clockdiagram] = struct{}{}
+
+		if order > stage.ClockDiagramOrder {
+			stage.ClockDiagramOrder = order
+		}
+		stage.ClockDiagram_stagedOrder[clockdiagram] = order
+		stage.ClockDiagram_orderStaged[order] = clockdiagram
+		stage.ClockDiagramOrder++
+	}
+	stage.ClockDiagrams_mapString[clockdiagram.Name] = clockdiagram
+}
+
+// Unstage removes clockdiagram off the model stage
+func (clockdiagram *ClockDiagram) Unstage(stage *Stage) *ClockDiagram {
+	delete(stage.ClockDiagrams, clockdiagram)
+	// issue1150
+	// delete(stage.ClockDiagram_stagedOrder, clockdiagram)
+	delete(stage.ClockDiagrams_mapString, clockdiagram.Name)
+
+	return clockdiagram
+}
+
+// UnstageVoid removes clockdiagram off the model stage
+func (clockdiagram *ClockDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.ClockDiagrams, clockdiagram)
+	// issue1150
+	// delete(stage.ClockDiagram_stagedOrder, clockdiagram)
+	delete(stage.ClockDiagrams_mapString, clockdiagram.Name)
+}
+
+// commit clockdiagram to the back repo (if it is already staged)
+func (clockdiagram *ClockDiagram) Commit(stage *Stage) *ClockDiagram {
+	if _, ok := stage.ClockDiagrams[clockdiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClockDiagram(clockdiagram)
+		}
+	}
+	return clockdiagram
+}
+
+func (clockdiagram *ClockDiagram) CommitVoid(stage *Stage) {
+	clockdiagram.Commit(stage)
+}
+
+func (clockdiagram *ClockDiagram) StageVoid(stage *Stage) {
+	clockdiagram.Stage(stage)
+}
+
+// Checkout clockdiagram to the back repo (if it is already staged)
+func (clockdiagram *ClockDiagram) Checkout(stage *Stage) *ClockDiagram {
+	if _, ok := stage.ClockDiagrams[clockdiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClockDiagram(clockdiagram)
+		}
+	}
+	return clockdiagram
+}
+
+// for satisfaction of GongStruct interface
+func (clockdiagram *ClockDiagram) GetName() (res string) {
+	return clockdiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clockdiagram *ClockDiagram) SetName(name string) {
+	clockdiagram.Name = name
+}
+
+// Stage puts clocktopcurveshape to the model stage
+func (clocktopcurveshape *ClockTopCurveShape) Stage(stage *Stage) *ClockTopCurveShape {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; !ok {
+		stage.ClockTopCurveShapes[clocktopcurveshape] = struct{}{}
+		stage.ClockTopCurveShape_stagedOrder[clocktopcurveshape] = stage.ClockTopCurveShapeOrder
+		stage.ClockTopCurveShape_orderStaged[stage.ClockTopCurveShapeOrder] = clocktopcurveshape
+		stage.ClockTopCurveShapeOrder++
+	}
+	stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
+
+	return clocktopcurveshape
+}
+
+// StagePreserveOrder puts clocktopcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClockTopCurveShapeOrder
+// - update stage.ClockTopCurveShapeOrder accordingly
+func (clocktopcurveshape *ClockTopCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; !ok {
+		stage.ClockTopCurveShapes[clocktopcurveshape] = struct{}{}
+
+		if order > stage.ClockTopCurveShapeOrder {
+			stage.ClockTopCurveShapeOrder = order
+		}
+		stage.ClockTopCurveShape_stagedOrder[clocktopcurveshape] = order
+		stage.ClockTopCurveShape_orderStaged[order] = clocktopcurveshape
+		stage.ClockTopCurveShapeOrder++
+	}
+	stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
+}
+
+// Unstage removes clocktopcurveshape off the model stage
+func (clocktopcurveshape *ClockTopCurveShape) Unstage(stage *Stage) *ClockTopCurveShape {
+	delete(stage.ClockTopCurveShapes, clocktopcurveshape)
+	// issue1150
+	// delete(stage.ClockTopCurveShape_stagedOrder, clocktopcurveshape)
+	delete(stage.ClockTopCurveShapes_mapString, clocktopcurveshape.Name)
+
+	return clocktopcurveshape
+}
+
+// UnstageVoid removes clocktopcurveshape off the model stage
+func (clocktopcurveshape *ClockTopCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.ClockTopCurveShapes, clocktopcurveshape)
+	// issue1150
+	// delete(stage.ClockTopCurveShape_stagedOrder, clocktopcurveshape)
+	delete(stage.ClockTopCurveShapes_mapString, clocktopcurveshape.Name)
+}
+
+// commit clocktopcurveshape to the back repo (if it is already staged)
+func (clocktopcurveshape *ClockTopCurveShape) Commit(stage *Stage) *ClockTopCurveShape {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClockTopCurveShape(clocktopcurveshape)
+		}
+	}
+	return clocktopcurveshape
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) CommitVoid(stage *Stage) {
+	clocktopcurveshape.Commit(stage)
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) StageVoid(stage *Stage) {
+	clocktopcurveshape.Stage(stage)
+}
+
+// Checkout clocktopcurveshape to the back repo (if it is already staged)
+func (clocktopcurveshape *ClockTopCurveShape) Checkout(stage *Stage) *ClockTopCurveShape {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClockTopCurveShape(clocktopcurveshape)
+		}
+	}
+	return clocktopcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (clocktopcurveshape *ClockTopCurveShape) GetName() (res string) {
+	return clocktopcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clocktopcurveshape *ClockTopCurveShape) SetName(name string) {
+	clocktopcurveshape.Name = name
 }
 
 // Stage puts endarcshape to the model stage
@@ -21258,6 +21726,9 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	CreateORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
+	CreateORMClockAbstract(ClockAbstract *ClockAbstract)
+	CreateORMClockDiagram(ClockDiagram *ClockDiagram)
+	CreateORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	CreateORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
@@ -21392,6 +21863,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	DeleteORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
+	DeleteORMClockAbstract(ClockAbstract *ClockAbstract)
+	DeleteORMClockDiagram(ClockDiagram *ClockDiagram)
+	DeleteORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	DeleteORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
@@ -21557,6 +22031,21 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
 	stage.CircleGridShape_stagedOrder = make(map[*CircleGridShape]uint)
 	stage.CircleGridShapeOrder = 0
+
+	stage.ClockAbstracts = make(map[*ClockAbstract]struct{})
+	stage.ClockAbstracts_mapString = make(map[string]*ClockAbstract)
+	stage.ClockAbstract_stagedOrder = make(map[*ClockAbstract]uint)
+	stage.ClockAbstractOrder = 0
+
+	stage.ClockDiagrams = make(map[*ClockDiagram]struct{})
+	stage.ClockDiagrams_mapString = make(map[string]*ClockDiagram)
+	stage.ClockDiagram_stagedOrder = make(map[*ClockDiagram]uint)
+	stage.ClockDiagramOrder = 0
+
+	stage.ClockTopCurveShapes = make(map[*ClockTopCurveShape]struct{})
+	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
+	stage.ClockTopCurveShape_stagedOrder = make(map[*ClockTopCurveShape]uint)
+	stage.ClockTopCurveShapeOrder = 0
 
 	stage.EndArcShapes = make(map[*EndArcShape]struct{})
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)
@@ -22206,6 +22695,15 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
+	stage.ClockAbstracts = nil
+	stage.ClockAbstracts_mapString = nil
+
+	stage.ClockDiagrams = nil
+	stage.ClockDiagrams_mapString = nil
+
+	stage.ClockTopCurveShapes = nil
+	stage.ClockTopCurveShapes_mapString = nil
+
 	stage.EndArcShapes = nil
 	stage.EndArcShapes_mapString = nil
 
@@ -22609,6 +23107,18 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for circlegridshape := range stage.CircleGridShapes {
 		circlegridshape.Unstage(stage)
+	}
+
+	for clockabstract := range stage.ClockAbstracts {
+		clockabstract.Unstage(stage)
+	}
+
+	for clockdiagram := range stage.ClockDiagrams {
+		clockdiagram.Unstage(stage)
+	}
+
+	for clocktopcurveshape := range stage.ClockTopCurveShapes {
+		clocktopcurveshape.Unstage(stage)
 	}
 
 	for endarcshape := range stage.EndArcShapes {
@@ -23195,6 +23705,12 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ChosenP1P2PairShapes).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
+	case map[*ClockAbstract]any:
+		return any(&stage.ClockAbstracts).(*Type)
+	case map[*ClockDiagram]any:
+		return any(&stage.ClockDiagrams).(*Type)
+	case map[*ClockTopCurveShape]any:
+		return any(&stage.ClockTopCurveShapes).(*Type)
 	case map[*EndArcShape]any:
 		return any(&stage.EndArcShapes).(*Type)
 	case map[*EndArcShapeGrid]any:
@@ -23469,6 +23985,12 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ChosenP1P2PairShapes_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
+	case *ClockAbstract:
+		return any(stage.ClockAbstracts_mapString).(map[string]Type)
+	case *ClockDiagram:
+		return any(stage.ClockDiagrams_mapString).(map[string]Type)
+	case *ClockTopCurveShape:
+		return any(stage.ClockTopCurveShapes_mapString).(map[string]Type)
 	case *EndArcShape:
 		return any(stage.EndArcShapes_mapString).(map[string]Type)
 	case *EndArcShapeGrid:
@@ -23743,6 +24265,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ChosenP1P2PairShapes).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
+	case ClockAbstract:
+		return any(&stage.ClockAbstracts).(*map[*Type]struct{})
+	case ClockDiagram:
+		return any(&stage.ClockDiagrams).(*map[*Type]struct{})
+	case ClockTopCurveShape:
+		return any(&stage.ClockTopCurveShapes).(*map[*Type]struct{})
 	case EndArcShape:
 		return any(&stage.EndArcShapes).(*map[*Type]struct{})
 	case EndArcShapeGrid:
@@ -24017,6 +24545,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ChosenP1P2PairShapes).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
+	case *ClockAbstract:
+		return any(&stage.ClockAbstracts).(*map[Type]struct{})
+	case *ClockDiagram:
+		return any(&stage.ClockDiagrams).(*map[Type]struct{})
+	case *ClockTopCurveShape:
+		return any(&stage.ClockTopCurveShapes).(*map[Type]struct{})
 	case *EndArcShape:
 		return any(&stage.EndArcShapes).(*map[Type]struct{})
 	case *EndArcShapeGrid:
@@ -24291,6 +24825,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ChosenP1P2PairShapes_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
+	case ClockAbstract:
+		return any(&stage.ClockAbstracts_mapString).(*map[string]*Type)
+	case ClockDiagram:
+		return any(&stage.ClockDiagrams_mapString).(*map[string]*Type)
+	case ClockTopCurveShape:
+		return any(&stage.ClockTopCurveShapes_mapString).(*map[string]*Type)
 	case EndArcShape:
 		return any(&stage.EndArcShapes_mapString).(*map[string]*Type)
 	case EndArcShapeGrid:
@@ -24587,6 +25127,26 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&CircleGridShape{
 			// Initialisation of associations
 		}).(*Type)
+	case ClockAbstract:
+		return any(&ClockAbstract{
+			// Initialisation of associations
+		}).(*Type)
+	case ClockDiagram:
+		return any(&ClockDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of ClockTopCurveShape with the name of the field
+			ClockTopCurveShape: &ClockTopCurveShape{Name: "ClockTopCurveShape"},
+			// field is initialized with an instance of Torus3DShape with the name of the field
+			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
+			// field is initialized with an instance of SampledPoints3DShape with the name of the field
+			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+		}).(*Type)
+	case ClockTopCurveShape:
+		return any(&ClockTopCurveShape{
+			// Initialisation of associations
+		}).(*Type)
 	case EndArcShape:
 		return any(&EndArcShape{
 			// Initialisation of associations
@@ -24820,6 +25380,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			VaseAbstract: &VaseAbstract{Name: "VaseAbstract"},
 			// field is initialized with an instance of StoolAbstract with the name of the field
 			StoolAbstract: &StoolAbstract{Name: "StoolAbstract"},
+			// field is initialized with an instance of ClockAbstract with the name of the field
+			ClockAbstract: &ClockAbstract{Name: "ClockAbstract"},
 			// field is initialized with an instance of PlantDiagram with the name of the field
 			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
 			// field is initialized with an instance of AxesShape with the name of the field
@@ -24856,6 +25418,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			VaseDiagram: &VaseDiagram{Name: "VaseDiagram"},
 			// field is initialized with an instance of StoolDiagram with the name of the field
 			StoolDiagram: &StoolDiagram{Name: "StoolDiagram"},
+			// field is initialized with an instance of ClockDiagram with the name of the field
+			ClockDiagram: &ClockDiagram{Name: "ClockDiagram"},
 		}).(*Type)
 	case PointsAndLines3DShape:
 		return any(&PointsAndLines3DShape{
@@ -25416,6 +25980,89 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ClockAbstract
+	case ClockAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ClockDiagram
+	case ClockDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ClockTopCurveShape":
+			res := make(map[*ClockTopCurveShape][]*ClockDiagram)
+			for clockdiagram := range stage.ClockDiagrams {
+				if clockdiagram.ClockTopCurveShape != nil {
+					clocktopcurveshape_ := clockdiagram.ClockTopCurveShape
+					var clockdiagrams []*ClockDiagram
+					_, ok := res[clocktopcurveshape_]
+					if ok {
+						clockdiagrams = res[clocktopcurveshape_]
+					} else {
+						clockdiagrams = make([]*ClockDiagram, 0)
+					}
+					clockdiagrams = append(clockdiagrams, clockdiagram)
+					res[clocktopcurveshape_] = clockdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Torus3DShape":
+			res := make(map[*Torus3DShape][]*ClockDiagram)
+			for clockdiagram := range stage.ClockDiagrams {
+				if clockdiagram.Torus3DShape != nil {
+					torus3dshape_ := clockdiagram.Torus3DShape
+					var clockdiagrams []*ClockDiagram
+					_, ok := res[torus3dshape_]
+					if ok {
+						clockdiagrams = res[torus3dshape_]
+					} else {
+						clockdiagrams = make([]*ClockDiagram, 0)
+					}
+					clockdiagrams = append(clockdiagrams, clockdiagram)
+					res[torus3dshape_] = clockdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SampledPoints3DShape":
+			res := make(map[*SampledPoints3DShape][]*ClockDiagram)
+			for clockdiagram := range stage.ClockDiagrams {
+				if clockdiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := clockdiagram.SampledPoints3DShape
+					var clockdiagrams []*ClockDiagram
+					_, ok := res[sampledpoints3dshape_]
+					if ok {
+						clockdiagrams = res[sampledpoints3dshape_]
+					} else {
+						clockdiagrams = make([]*ClockDiagram, 0)
+					}
+					clockdiagrams = append(clockdiagrams, clockdiagram)
+					res[sampledpoints3dshape_] = clockdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*ClockDiagram)
+			for clockdiagram := range stage.ClockDiagrams {
+				if clockdiagram.Rendered3DShape != nil {
+					rendered3dshape_ := clockdiagram.Rendered3DShape
+					var clockdiagrams []*ClockDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						clockdiagrams = res[rendered3dshape_]
+					} else {
+						clockdiagrams = make([]*ClockDiagram, 0)
+					}
+					clockdiagrams = append(clockdiagrams, clockdiagram)
+					res[rendered3dshape_] = clockdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ClockTopCurveShape
+	case ClockTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of EndArcShape
 	case EndArcShape:
 		switch fieldname {
@@ -25718,6 +26365,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ClockAbstract":
+			res := make(map[*ClockAbstract][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ClockAbstract != nil {
+					clockabstract_ := plantabstract.ClockAbstract
+					var plantabstracts []*PlantAbstract
+					_, ok := res[clockabstract_]
+					if ok {
+						plantabstracts = res[clockabstract_]
+					} else {
+						plantabstracts = make([]*PlantAbstract, 0)
+					}
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[clockabstract_] = plantabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "AxesShape":
 			res := make(map[*AxesShape][]*PlantAbstract)
 			for plantabstract := range stage.PlantAbstracts {
@@ -25946,6 +26610,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plantdiagrams = append(plantdiagrams, plantdiagram)
 					res[stooldiagram_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ClockDiagram":
+			res := make(map[*ClockDiagram][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.ClockDiagram != nil {
+					clockdiagram_ := plantdiagram.ClockDiagram
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[clockdiagram_]
+					if ok {
+						plantdiagrams = res[clockdiagram_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[clockdiagram_] = plantdiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -27632,6 +28313,21 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ClockAbstract
+	case ClockAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ClockDiagram
+	case ClockDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ClockTopCurveShape
+	case ClockTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of EndArcShape
 	case EndArcShape:
 		switch fieldname {
@@ -28674,6 +29370,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ChosenP1P2PairShape"
 	case *CircleGridShape:
 		res = "CircleGridShape"
+	case *ClockAbstract:
+		res = "ClockAbstract"
+	case *ClockDiagram:
+		res = "ClockDiagram"
+	case *ClockTopCurveShape:
+		res = "ClockTopCurveShape"
 	case *EndArcShape:
 		res = "EndArcShape"
 	case *EndArcShapeGrid:
@@ -28965,6 +29667,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *CircleGridShape:
+		var rf ReverseField
+		_ = rf
+	case *ClockAbstract:
+		var rf ReverseField
+		_ = rf
+	case *ClockDiagram:
+		var rf ReverseField
+		_ = rf
+	case *ClockTopCurveShape:
 		var rf ReverseField
 		_ = rf
 	case *EndArcShape:
@@ -29659,6 +30370,99 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongGetFieldHeaders() (res []Gon
 }
 
 func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (clockabstract *ClockAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RadialRepetitions",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTubeDiameter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeHeight3DTorus",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ClockTorusVerticalScale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ProjectionAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (clockdiagram *ClockDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenClockTopCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ClockTopCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ClockTopCurveShape",
+		},
+		{
+			Name:               "IsHiddenTorus3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Torus3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Torus3DShape",
+		},
+		{
+			Name:               "IsHiddenSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SampledPoints3DShape",
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
+		},
+	}
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -30871,6 +31675,11 @@ func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader
 			TargetGongstructName: "StoolAbstract",
 		},
 		{
+			Name:                 "ClockAbstract",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ClockAbstract",
+		},
+		{
 			Name:                 "CurrentView",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "ViewType",
@@ -30998,6 +31807,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "StoolDiagram",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "StoolDiagram",
+		},
+		{
+			Name:                 "ClockDiagram",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ClockDiagram",
 		},
 		{
 			Name:               "IsRhombusNodesExpanded",
@@ -34443,6 +35257,97 @@ func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (clockabstract *ClockAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clockabstract.Name
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", clockabstract.RadialRepetitions)
+		res.valueInt = clockabstract.RadialRepetitions
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", clockabstract.Transparency)
+		res.valueFloat = clockabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTubeDiameter":
+		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeTubeDiameter)
+		res.valueFloat = clockabstract.RelativeTubeDiameter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight3DTorus":
+		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeHeight3DTorus)
+		res.valueFloat = clockabstract.RelativeHeight3DTorus
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ClockTorusVerticalScale":
+		res.valueString = fmt.Sprintf("%f", clockabstract.ClockTorusVerticalScale)
+		res.valueFloat = clockabstract.ClockTorusVerticalScale
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight":
+		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeHeight)
+		res.valueFloat = clockabstract.RelativeHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ProjectionAngle":
+		res.valueString = fmt.Sprintf("%f", clockabstract.ProjectionAngle)
+		res.valueFloat = clockabstract.ProjectionAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (clockdiagram *ClockDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clockdiagram.Name
+	case "IsHiddenClockTopCurveShape":
+		res.valueString = fmt.Sprintf("%t", clockdiagram.IsHiddenClockTopCurveShape)
+		res.valueBool = clockdiagram.IsHiddenClockTopCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ClockTopCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clockdiagram.ClockTopCurveShape != nil {
+			res.valueString = clockdiagram.ClockTopCurveShape.Name
+			res.ids = clockdiagram.ClockTopCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTorus3DShape":
+		res.valueString = fmt.Sprintf("%t", clockdiagram.IsHiddenTorus3DShape)
+		res.valueBool = clockdiagram.IsHiddenTorus3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Torus3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clockdiagram.Torus3DShape != nil {
+			res.valueString = clockdiagram.Torus3DShape.Name
+			res.ids = clockdiagram.Torus3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", clockdiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = clockdiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clockdiagram.SampledPoints3DShape != nil {
+			res.valueString = clockdiagram.SampledPoints3DShape.Name
+			res.ids = clockdiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clockdiagram.Rendered3DShape != nil {
+			res.valueString = clockdiagram.Rendered3DShape.Name
+			res.ids = clockdiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clocktopcurveshape.Name
+	}
+	return
+}
+
 func (endarcshape *EndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -35643,6 +36548,12 @@ func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = plantabstract.StoolAbstract.Name
 			res.ids = plantabstract.StoolAbstract.GongGetUUID(stage)
 		}
+	case "ClockAbstract":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantabstract.ClockAbstract != nil {
+			res.valueString = plantabstract.ClockAbstract.Name
+			res.ids = plantabstract.ClockAbstract.GongGetUUID(stage)
+		}
 	case "CurrentView":
 		enum := plantabstract.CurrentView
 		res.valueString = enum.ToCodeString()
@@ -35781,6 +36692,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.StoolDiagram != nil {
 			res.valueString = plantdiagram.StoolDiagram.Name
 			res.ids = plantdiagram.StoolDiagram.GongGetUUID(stage)
+		}
+	case "ClockDiagram":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.ClockDiagram != nil {
+			res.valueString = plantdiagram.ClockDiagram.Name
+			res.ids = plantdiagram.ClockDiagram.GongGetUUID(stage)
 		}
 	case "IsRhombusNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsRhombusNodesExpanded)
@@ -39234,6 +40151,103 @@ func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (clockabstract *ClockAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clockabstract.Name = value.GetValueString()
+	case "RadialRepetitions":
+		clockabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		clockabstract.Transparency = value.GetValueFloat()
+	case "RelativeTubeDiameter":
+		clockabstract.RelativeTubeDiameter = value.GetValueFloat()
+	case "RelativeHeight3DTorus":
+		clockabstract.RelativeHeight3DTorus = value.GetValueFloat()
+	case "ClockTorusVerticalScale":
+		clockabstract.ClockTorusVerticalScale = value.GetValueFloat()
+	case "RelativeHeight":
+		clockabstract.RelativeHeight = value.GetValueFloat()
+	case "ProjectionAngle":
+		clockabstract.ProjectionAngle = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (clockdiagram *ClockDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clockdiagram.Name = value.GetValueString()
+	case "IsHiddenClockTopCurveShape":
+		clockdiagram.IsHiddenClockTopCurveShape = value.GetValueBool()
+	case "ClockTopCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clockdiagram.ClockTopCurveShape = nil
+			for __instance__ := range stage.ClockTopCurveShapes {
+				if stage.ClockTopCurveShape_stagedOrder[__instance__] == uint(id) {
+					clockdiagram.ClockTopCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTorus3DShape":
+		clockdiagram.IsHiddenTorus3DShape = value.GetValueBool()
+	case "Torus3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clockdiagram.Torus3DShape = nil
+			for __instance__ := range stage.Torus3DShapes {
+				if stage.Torus3DShape_stagedOrder[__instance__] == uint(id) {
+					clockdiagram.Torus3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSampledPoints3DShape":
+		clockdiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clockdiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					clockdiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clockdiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					clockdiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clocktopcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (endarcshape *EndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -40341,6 +41355,17 @@ func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
+	case "ClockAbstract":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantabstract.ClockAbstract = nil
+			for __instance__ := range stage.ClockAbstracts {
+				if stage.ClockAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.ClockAbstract = __instance__
+					break
+				}
+			}
+		}
 	case "CurrentView":
 		plantabstract.CurrentView.FromCodeString(value.GetValueString())
 	case "ComputedPrefix":
@@ -40534,6 +41559,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.StoolDiagrams {
 				if stage.StoolDiagram_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.StoolDiagram = __instance__
+					break
+				}
+			}
+		}
+	case "ClockDiagram":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.ClockDiagram = nil
+			for __instance__ := range stage.ClockDiagrams {
+				if stage.ClockDiagram_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.ClockDiagram = __instance__
 					break
 				}
 			}
@@ -43560,6 +44596,18 @@ func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
 
+func (clockabstract *ClockAbstract) GongGetGongstructName() string {
+	return "ClockAbstract"
+}
+
+func (clockdiagram *ClockDiagram) GongGetGongstructName() string {
+	return "ClockDiagram"
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetGongstructName() string {
+	return "ClockTopCurveShape"
+}
+
 func (endarcshape *EndArcShape) GongGetGongstructName() string {
 	return "EndArcShape"
 }
@@ -44097,6 +45145,21 @@ func (stage *Stage) ResetMapStrings() {
 	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
 	for circlegridshape := range stage.CircleGridShapes {
 		stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
+	}
+
+	stage.ClockAbstracts_mapString = make(map[string]*ClockAbstract)
+	for clockabstract := range stage.ClockAbstracts {
+		stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
+	}
+
+	stage.ClockDiagrams_mapString = make(map[string]*ClockDiagram)
+	for clockdiagram := range stage.ClockDiagrams {
+		stage.ClockDiagrams_mapString[clockdiagram.Name] = clockdiagram
+	}
+
+	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
+	for clocktopcurveshape := range stage.ClockTopCurveShapes {
+		stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
 	}
 
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)

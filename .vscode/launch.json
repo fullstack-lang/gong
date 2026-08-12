@@ -274,7 +274,7 @@
             "args": [
                 "edit",
                 "--embedded-diagrams=false",
-                "data/vase.go"
+                "data/stage.go"
             ]
         },
         {
@@ -1713,7 +1713,7 @@
             "args": [
                 "edit",
                 "--embedded-diagrams=false",
-                "data/vase.go"
+                "data/stage.go"
             ]
         },
         {

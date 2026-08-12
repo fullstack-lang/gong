@@ -581,6 +581,12 @@ type PartiallyRotatedTorusShape struct {
 	Name string
 }
 
+// ClockTopCurveShape of a plant,
+// gong:omit
+type ClockTopCurveShape struct {
+	Name string
+}
+
 // SeatTopCurveShape of a plant,
 // gong:omit
 type SeatTopCurveShape struct {

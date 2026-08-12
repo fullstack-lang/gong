@@ -31,6 +31,15 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
 
+	case *ClockAbstract:
+		ok = stage.IsStagedClockAbstract(target)
+
+	case *ClockDiagram:
+		ok = stage.IsStagedClockDiagram(target)
+
+	case *ClockTopCurveShape:
+		ok = stage.IsStagedClockTopCurveShape(target)
+
 	case *EndArcShape:
 		ok = stage.IsStagedEndArcShape(target)
 
@@ -433,6 +442,15 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *CircleGridShape:
 		ok = stage.IsStagedCircleGridShape(target)
+
+	case *ClockAbstract:
+		ok = stage.IsStagedClockAbstract(target)
+
+	case *ClockDiagram:
+		ok = stage.IsStagedClockDiagram(target)
+
+	case *ClockTopCurveShape:
+		ok = stage.IsStagedClockTopCurveShape(target)
 
 	case *EndArcShape:
 		ok = stage.IsStagedEndArcShape(target)
@@ -862,6 +880,27 @@ func (stage *Stage) IsStagedChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2P
 func (stage *Stage) IsStagedCircleGridShape(circlegridshape *CircleGridShape) (ok bool) {
 
 	_, ok = stage.CircleGridShapes[circlegridshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedClockAbstract(clockabstract *ClockAbstract) (ok bool) {
+
+	_, ok = stage.ClockAbstracts[clockabstract]
+
+	return
+}
+
+func (stage *Stage) IsStagedClockDiagram(clockdiagram *ClockDiagram) (ok bool) {
+
+	_, ok = stage.ClockDiagrams[clockdiagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) (ok bool) {
+
+	_, ok = stage.ClockTopCurveShapes[clocktopcurveshape]
 
 	return
 }
@@ -1759,6 +1798,15 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CircleGridShape:
 		stage.StageBranchCircleGridShape(target)
 
+	case *ClockAbstract:
+		stage.StageBranchClockAbstract(target)
+
+	case *ClockDiagram:
+		stage.StageBranchClockDiagram(target)
+
+	case *ClockTopCurveShape:
+		stage.StageBranchClockTopCurveShape(target)
+
 	case *EndArcShape:
 		stage.StageBranchEndArcShape(target)
 
@@ -2247,6 +2295,57 @@ func (stage *Stage) StageBranchCircleGridShape(circlegridshape *CircleGridShape)
 	}
 
 	circlegridshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchClockAbstract(clockabstract *ClockAbstract) {
+
+	// check if instance is already staged
+	if IsStaged(stage, clockabstract) {
+		return
+	}
+
+	clockabstract.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchClockDiagram(clockdiagram *ClockDiagram) {
+
+	// check if instance is already staged
+	if IsStaged(stage, clockdiagram) {
+		return
+	}
+
+	clockdiagram.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if clockdiagram.SampledPoints3DShape != nil {
+		StageBranch(stage, clockdiagram.SampledPoints3DShape)
+	}
+	if clockdiagram.Rendered3DShape != nil {
+		StageBranch(stage, clockdiagram.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, clocktopcurveshape) {
+		return
+	}
+
+	clocktopcurveshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -2966,6 +3065,9 @@ func (stage *Stage) StageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	if plantabstract.StoolAbstract != nil {
 		StageBranch(stage, plantabstract.StoolAbstract)
 	}
+	if plantabstract.ClockAbstract != nil {
+		StageBranch(stage, plantabstract.ClockAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantabstract.PlantDiagrams {
@@ -3004,6 +3106,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.StoolDiagram != nil {
 		StageBranch(stage, plantdiagram.StoolDiagram)
+	}
+	if plantdiagram.ClockDiagram != nil {
+		StageBranch(stage, plantdiagram.ClockDiagram)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -4181,6 +4286,18 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCircleGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ClockAbstract:
+		toT := CopyBranchClockAbstract(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ClockDiagram:
+		toT := CopyBranchClockDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ClockTopCurveShape:
+		toT := CopyBranchClockTopCurveShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *EndArcShape:
 		toT := CopyBranchEndArcShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -4824,6 +4941,69 @@ func CopyBranchCircleGridShape(mapOrigCopy map[any]any, circlegridshapeFrom *Cir
 	circlegridshapeTo = new(CircleGridShape)
 	mapOrigCopy[circlegridshapeFrom] = circlegridshapeTo
 	circlegridshapeFrom.CopyBasicFields(circlegridshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchClockAbstract(mapOrigCopy map[any]any, clockabstractFrom *ClockAbstract) (clockabstractTo *ClockAbstract) {
+
+	// clockabstractFrom has already been copied
+	if _clockabstractTo, ok := mapOrigCopy[clockabstractFrom]; ok {
+		clockabstractTo = _clockabstractTo.(*ClockAbstract)
+		return
+	}
+
+	clockabstractTo = new(ClockAbstract)
+	mapOrigCopy[clockabstractFrom] = clockabstractTo
+	clockabstractFrom.CopyBasicFields(clockabstractTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchClockDiagram(mapOrigCopy map[any]any, clockdiagramFrom *ClockDiagram) (clockdiagramTo *ClockDiagram) {
+
+	// clockdiagramFrom has already been copied
+	if _clockdiagramTo, ok := mapOrigCopy[clockdiagramFrom]; ok {
+		clockdiagramTo = _clockdiagramTo.(*ClockDiagram)
+		return
+	}
+
+	clockdiagramTo = new(ClockDiagram)
+	mapOrigCopy[clockdiagramFrom] = clockdiagramTo
+	clockdiagramFrom.CopyBasicFields(clockdiagramTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if clockdiagramFrom.SampledPoints3DShape != nil {
+		clockdiagramTo.SampledPoints3DShape = CopyBranchSampledPoints3DShape(mapOrigCopy, clockdiagramFrom.SampledPoints3DShape)
+	}
+	if clockdiagramFrom.Rendered3DShape != nil {
+		clockdiagramTo.Rendered3DShape = CopyBranchRendered3DShape(mapOrigCopy, clockdiagramFrom.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchClockTopCurveShape(mapOrigCopy map[any]any, clocktopcurveshapeFrom *ClockTopCurveShape) (clocktopcurveshapeTo *ClockTopCurveShape) {
+
+	// clocktopcurveshapeFrom has already been copied
+	if _clocktopcurveshapeTo, ok := mapOrigCopy[clocktopcurveshapeFrom]; ok {
+		clocktopcurveshapeTo = _clocktopcurveshapeTo.(*ClockTopCurveShape)
+		return
+	}
+
+	clocktopcurveshapeTo = new(ClockTopCurveShape)
+	mapOrigCopy[clocktopcurveshapeFrom] = clocktopcurveshapeTo
+	clocktopcurveshapeFrom.CopyBasicFields(clocktopcurveshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -5731,6 +5911,9 @@ func CopyBranchPlantAbstract(mapOrigCopy map[any]any, plantabstractFrom *PlantAb
 	if plantabstractFrom.StoolAbstract != nil {
 		plantabstractTo.StoolAbstract = CopyBranchStoolAbstract(mapOrigCopy, plantabstractFrom.StoolAbstract)
 	}
+	if plantabstractFrom.ClockAbstract != nil {
+		plantabstractTo.ClockAbstract = CopyBranchClockAbstract(mapOrigCopy, plantabstractFrom.ClockAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantabstractFrom.PlantDiagrams {
@@ -5777,6 +5960,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	}
 	if plantdiagramFrom.StoolDiagram != nil {
 		plantdiagramTo.StoolDiagram = CopyBranchStoolDiagram(mapOrigCopy, plantdiagramFrom.StoolDiagram)
+	}
+	if plantdiagramFrom.ClockDiagram != nil {
+		plantdiagramTo.ClockDiagram = CopyBranchClockDiagram(mapOrigCopy, plantdiagramFrom.ClockDiagram)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -7240,6 +7426,15 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CircleGridShape:
 		stage.UnstageBranchCircleGridShape(target)
 
+	case *ClockAbstract:
+		stage.UnstageBranchClockAbstract(target)
+
+	case *ClockDiagram:
+		stage.UnstageBranchClockDiagram(target)
+
+	case *ClockTopCurveShape:
+		stage.UnstageBranchClockTopCurveShape(target)
+
 	case *EndArcShape:
 		stage.UnstageBranchEndArcShape(target)
 
@@ -7728,6 +7923,57 @@ func (stage *Stage) UnstageBranchCircleGridShape(circlegridshape *CircleGridShap
 	}
 
 	circlegridshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchClockAbstract(clockabstract *ClockAbstract) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, clockabstract) {
+		return
+	}
+
+	clockabstract.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchClockDiagram(clockdiagram *ClockDiagram) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, clockdiagram) {
+		return
+	}
+
+	clockdiagram.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if clockdiagram.SampledPoints3DShape != nil {
+		UnstageBranch(stage, clockdiagram.SampledPoints3DShape)
+	}
+	if clockdiagram.Rendered3DShape != nil {
+		UnstageBranch(stage, clockdiagram.Rendered3DShape)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, clocktopcurveshape) {
+		return
+	}
+
+	clocktopcurveshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -8447,6 +8693,9 @@ func (stage *Stage) UnstageBranchPlantAbstract(plantabstract *PlantAbstract) {
 	if plantabstract.StoolAbstract != nil {
 		UnstageBranch(stage, plantabstract.StoolAbstract)
 	}
+	if plantabstract.ClockAbstract != nil {
+		UnstageBranch(stage, plantabstract.ClockAbstract)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantabstract.PlantDiagrams {
@@ -8485,6 +8734,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	}
 	if plantdiagram.StoolDiagram != nil {
 		UnstageBranch(stage, plantdiagram.StoolDiagram)
+	}
+	if plantdiagram.ClockDiagram != nil {
+		UnstageBranch(stage, plantdiagram.ClockDiagram)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -9660,6 +9912,27 @@ func (reference *CircleGridShape) GongReconstructPointersFromReferences(stage *S
 	// insertion point for slice of pointers field
 }
 
+func (reference *ClockAbstract) GongReconstructPointersFromReferences(stage *Stage, instance *ClockAbstract) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *ClockDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *ClockDiagram) {
+	// insertion point for pointers field
+	if instance.SampledPoints3DShape != nil {
+		reference.SampledPoints3DShape = stage.SampledPoints3DShapes_reference[instance.SampledPoints3DShape]
+	}
+	if instance.Rendered3DShape != nil {
+		reference.Rendered3DShape = stage.Rendered3DShapes_reference[instance.Rendered3DShape]
+	}
+	// insertion point for slice of pointers field
+}
+
+func (reference *ClockTopCurveShape) GongReconstructPointersFromReferences(stage *Stage, instance *ClockTopCurveShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *EndArcShape) GongReconstructPointersFromReferences(stage *Stage, instance *EndArcShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -9906,6 +10179,9 @@ func (reference *PlantAbstract) GongReconstructPointersFromReferences(stage *Sta
 	if instance.StoolAbstract != nil {
 		reference.StoolAbstract = stage.StoolAbstracts_reference[instance.StoolAbstract]
 	}
+	if instance.ClockAbstract != nil {
+		reference.ClockAbstract = stage.ClockAbstracts_reference[instance.ClockAbstract]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
@@ -9925,6 +10201,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.StoolDiagram != nil {
 		reference.StoolDiagram = stage.StoolDiagrams_reference[instance.StoolDiagram]
+	}
+	if instance.ClockDiagram != nil {
+		reference.ClockDiagram = stage.ClockDiagrams_reference[instance.ClockDiagram]
 	}
 	// insertion point for slice of pointers field
 }
@@ -10358,6 +10637,33 @@ func (reference *CircleGridShape) GongReconstructPointersFromInstances(stage *St
 	// insertion point for slice of pointers fields
 }
 
+func (reference *ClockAbstract) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ClockDiagram) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.SampledPoints3DShape; _reference != nil {
+		reference.SampledPoints3DShape = nil
+		if _instance, ok := stage.SampledPoints3DShapes_instance[_reference]; ok {
+			reference.SampledPoints3DShape = _instance
+		}
+	}
+	if _reference := reference.Rendered3DShape; _reference != nil {
+		reference.Rendered3DShape = nil
+		if _instance, ok := stage.Rendered3DShapes_instance[_reference]; ok {
+			reference.Rendered3DShape = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ClockTopCurveShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *EndArcShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -10616,6 +10922,12 @@ func (reference *PlantAbstract) GongReconstructPointersFromInstances(stage *Stag
 			reference.StoolAbstract = _instance
 		}
 	}
+	if _reference := reference.ClockAbstract; _reference != nil {
+		reference.ClockAbstract = nil
+		if _instance, ok := stage.ClockAbstracts_instance[_reference]; ok {
+			reference.ClockAbstract = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
@@ -10643,6 +10955,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.StoolDiagram = nil
 		if _instance, ok := stage.StoolDiagrams_instance[_reference]; ok {
 			reference.StoolDiagram = _instance
+		}
+	}
+	if _reference := reference.ClockDiagram; _reference != nil {
+		reference.ClockDiagram = nil
+		if _instance, ok := stage.ClockDiagrams_instance[_reference]; ok {
+			reference.ClockDiagram = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -11198,6 +11516,83 @@ func (circlegridshape *CircleGridShape) GongDiff(stage *Stage, circlegridshapeOt
 	// insertion point for field diffs
 	if circlegridshape.Name != circlegridshapeOther.Name {
 		diffs = append(diffs, circlegridshape.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (clockabstract *ClockAbstract) GongDiff(stage *Stage, clockabstractOther *ClockAbstract) (diffs []string) {
+	// insertion point for field diffs
+	if clockabstract.Name != clockabstractOther.Name {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "Name"))
+	}
+	if clockabstract.RadialRepetitions != clockabstractOther.RadialRepetitions {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RadialRepetitions"))
+	}
+	if clockabstract.Transparency != clockabstractOther.Transparency {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "Transparency"))
+	}
+	if clockabstract.RelativeTubeDiameter != clockabstractOther.RelativeTubeDiameter {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RelativeTubeDiameter"))
+	}
+	if clockabstract.RelativeHeight3DTorus != clockabstractOther.RelativeHeight3DTorus {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RelativeHeight3DTorus"))
+	}
+	if clockabstract.ClockTorusVerticalScale != clockabstractOther.ClockTorusVerticalScale {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "ClockTorusVerticalScale"))
+	}
+	if clockabstract.RelativeHeight != clockabstractOther.RelativeHeight {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "RelativeHeight"))
+	}
+	if clockabstract.ProjectionAngle != clockabstractOther.ProjectionAngle {
+		diffs = append(diffs, clockabstract.GongMarshallField(stage, "ProjectionAngle"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (clockdiagram *ClockDiagram) GongDiff(stage *Stage, clockdiagramOther *ClockDiagram) (diffs []string) {
+	// insertion point for field diffs
+	if clockdiagram.Name != clockdiagramOther.Name {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "Name"))
+	}
+	if clockdiagram.IsHiddenClockTopCurveShape != clockdiagramOther.IsHiddenClockTopCurveShape {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "IsHiddenClockTopCurveShape"))
+	}
+	if clockdiagram.IsHiddenTorus3DShape != clockdiagramOther.IsHiddenTorus3DShape {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "IsHiddenTorus3DShape"))
+	}
+	if clockdiagram.IsHiddenSampledPoints3DShape != clockdiagramOther.IsHiddenSampledPoints3DShape {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "IsHiddenSampledPoints3DShape"))
+	}
+	if (clockdiagram.SampledPoints3DShape == nil) != (clockdiagramOther.SampledPoints3DShape == nil) {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+	} else if clockdiagram.SampledPoints3DShape != nil && clockdiagramOther.SampledPoints3DShape != nil {
+		if clockdiagram.SampledPoints3DShape != clockdiagramOther.SampledPoints3DShape {
+			diffs = append(diffs, clockdiagram.GongMarshallField(stage, "SampledPoints3DShape"))
+		}
+	}
+	if (clockdiagram.Rendered3DShape == nil) != (clockdiagramOther.Rendered3DShape == nil) {
+		diffs = append(diffs, clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
+	} else if clockdiagram.Rendered3DShape != nil && clockdiagramOther.Rendered3DShape != nil {
+		if clockdiagram.Rendered3DShape != clockdiagramOther.Rendered3DShape {
+			diffs = append(diffs, clockdiagram.GongMarshallField(stage, "Rendered3DShape"))
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (clocktopcurveshape *ClockTopCurveShape) GongDiff(stage *Stage, clocktopcurveshapeOther *ClockTopCurveShape) (diffs []string) {
+	// insertion point for field diffs
+	if clocktopcurveshape.Name != clocktopcurveshapeOther.Name {
+		diffs = append(diffs, clocktopcurveshape.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -12201,6 +12596,13 @@ func (plantabstract *PlantAbstract) GongDiff(stage *Stage, plantabstractOther *P
 			diffs = append(diffs, plantabstract.GongMarshallField(stage, "StoolAbstract"))
 		}
 	}
+	if (plantabstract.ClockAbstract == nil) != (plantabstractOther.ClockAbstract == nil) {
+		diffs = append(diffs, plantabstract.GongMarshallField(stage, "ClockAbstract"))
+	} else if plantabstract.ClockAbstract != nil && plantabstractOther.ClockAbstract != nil {
+		if plantabstract.ClockAbstract != plantabstractOther.ClockAbstract {
+			diffs = append(diffs, plantabstract.GongMarshallField(stage, "ClockAbstract"))
+		}
+	}
 	if plantabstract.CurrentView != plantabstractOther.CurrentView {
 		diffs = append(diffs, plantabstract.GongMarshallField(stage, "CurrentView"))
 	}
@@ -12283,6 +12685,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.StoolDiagram != nil && plantdiagramOther.StoolDiagram != nil {
 		if plantdiagram.StoolDiagram != plantdiagramOther.StoolDiagram {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "StoolDiagram"))
+		}
+	}
+	if (plantdiagram.ClockDiagram == nil) != (plantdiagramOther.ClockDiagram == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ClockDiagram"))
+	} else if plantdiagram.ClockDiagram != nil && plantdiagramOther.ClockDiagram != nil {
+		if plantdiagram.ClockDiagram != plantdiagramOther.ClockDiagram {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ClockDiagram"))
 		}
 	}
 	if plantdiagram.IsRhombusNodesExpanded != plantdiagramOther.IsRhombusNodesExpanded {

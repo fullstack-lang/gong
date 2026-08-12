@@ -35,6 +35,9 @@ func (stager *Stager) onToggleVisibility(isHidden *bool, btn *tree.Button) func(
 			if plant.CurrentView == VIEW_STOOL_3D {
 				stager.UpdateStool3DStage()
 			}
+			if plant.CurrentView == VIEW_CLOCK_3D {
+				stager.UpdateClock3DStage()
+			}
 		}
 	}
 }
@@ -137,6 +140,10 @@ func (stager *Stager) treePlantDiagram(
 			stager.selectedPlant = plant
 			if plant.PlantType == Stool {
 				if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D {
+					plant.CurrentView = VIEW_PLANT_2D
+				}
+			} else if plant.PlantType == Clock {
+				if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D {
 					plant.CurrentView = VIEW_PLANT_2D
 				}
 			} else if plant.PlantType != Vase {
@@ -385,5 +392,11 @@ func (stager *Stager) treePlantDiagram(
 		appendDiagramNode(stager, plantDiagramNode, "Eye Volume", plantDiagram.StoolDiagram.EyeVolume3DShape, &plantDiagram.StoolDiagram.IsHiddenEyeVolume3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Seat and Legs", plantDiagram.StoolDiagram.SeatAndLegs3DShape, &plantDiagram.StoolDiagram.IsHiddenSeatAndLegs3DShape)
 		appendDiagramNode(stager, plantDiagramNode, "Rotated Seat and Legs", plantDiagram.StoolDiagram.RotatedSeatAndLegs3DShape, &plantDiagram.StoolDiagram.IsHiddenRotatedSeatAndLegs3DShape)
+	}
+
+	if is3DView && plantDiagram.ClockDiagram != nil {
+		appendDiagramNode(stager, plantDiagramNode, "3D Torus", plantDiagram.ClockDiagram.Torus3DShape, &plantDiagram.ClockDiagram.IsHiddenTorus3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "3D Sampled Points", plantDiagram.ClockDiagram.SampledPoints3DShape, &plantDiagram.ClockDiagram.IsHiddenSampledPoints3DShape)
+		appendDiagramNode(stager, plantDiagramNode, "Clock Top Curve", plantDiagram.ClockDiagram.ClockTopCurveShape, &plantDiagram.ClockDiagram.IsHiddenClockTopCurveShape)
 	}
 }

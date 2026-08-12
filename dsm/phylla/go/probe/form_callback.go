@@ -837,6 +837,268 @@ func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
 
 	circlegridshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__ClockAbstractFormCallback(
+	clockabstract *models.ClockAbstract,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (clockabstractFormCallback *ClockAbstractFormCallback) {
+	clockabstractFormCallback = new(ClockAbstractFormCallback)
+	clockabstractFormCallback.probe = probe
+	clockabstractFormCallback.clockabstract = clockabstract
+	clockabstractFormCallback.formGroup = formGroup
+
+	clockabstractFormCallback.CreationMode = (clockabstract == nil)
+
+	return
+}
+
+type ClockAbstractFormCallback struct {
+	clockabstract *models.ClockAbstract
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (clockabstractFormCallback *ClockAbstractFormCallback) OnSave() {
+	clockabstractFormCallback.probe.stageOfInterest.Lock()
+	defer clockabstractFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ClockAbstractFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	clockabstractFormCallback.probe.formStage.Checkout()
+
+	if clockabstractFormCallback.clockabstract == nil {
+		clockabstractFormCallback.clockabstract = new(models.ClockAbstract).Stage(clockabstractFormCallback.probe.stageOfInterest)
+	}
+	clockabstract_ := clockabstractFormCallback.clockabstract
+	_ = clockabstract_
+
+	for _, formDiv := range clockabstractFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(clockabstract_.Name), formDiv)
+		case "RadialRepetitions":
+			FormDivBasicFieldToField(&(clockabstract_.RadialRepetitions), formDiv)
+		case "Transparency":
+			FormDivBasicFieldToField(&(clockabstract_.Transparency), formDiv)
+		case "RelativeTubeDiameter":
+			FormDivBasicFieldToField(&(clockabstract_.RelativeTubeDiameter), formDiv)
+		case "RelativeHeight3DTorus":
+			FormDivBasicFieldToField(&(clockabstract_.RelativeHeight3DTorus), formDiv)
+		case "ClockTorusVerticalScale":
+			FormDivBasicFieldToField(&(clockabstract_.ClockTorusVerticalScale), formDiv)
+		case "RelativeHeight":
+			FormDivBasicFieldToField(&(clockabstract_.RelativeHeight), formDiv)
+		case "ProjectionAngle":
+			FormDivBasicFieldToField(&(clockabstract_.ProjectionAngle), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if clockabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clockabstract_.Unstage(clockabstractFormCallback.probe.stageOfInterest)
+	}
+
+	clockabstractFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ClockAbstract](
+		clockabstractFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if clockabstractFormCallback.CreationMode || clockabstractFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clockabstractFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(clockabstractFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ClockAbstractFormCallback(
+			nil,
+			clockabstractFormCallback.probe,
+			newFormGroup,
+		)
+		clockabstract := new(models.ClockAbstract)
+		FillUpForm(clockabstract, newFormGroup, clockabstractFormCallback.probe)
+		clockabstractFormCallback.probe.formStage.Commit()
+	}
+
+	clockabstractFormCallback.probe.ux_tree()
+}
+func __gong__New__ClockDiagramFormCallback(
+	clockdiagram *models.ClockDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (clockdiagramFormCallback *ClockDiagramFormCallback) {
+	clockdiagramFormCallback = new(ClockDiagramFormCallback)
+	clockdiagramFormCallback.probe = probe
+	clockdiagramFormCallback.clockdiagram = clockdiagram
+	clockdiagramFormCallback.formGroup = formGroup
+
+	clockdiagramFormCallback.CreationMode = (clockdiagram == nil)
+
+	return
+}
+
+type ClockDiagramFormCallback struct {
+	clockdiagram *models.ClockDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (clockdiagramFormCallback *ClockDiagramFormCallback) OnSave() {
+	clockdiagramFormCallback.probe.stageOfInterest.Lock()
+	defer clockdiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ClockDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	clockdiagramFormCallback.probe.formStage.Checkout()
+
+	if clockdiagramFormCallback.clockdiagram == nil {
+		clockdiagramFormCallback.clockdiagram = new(models.ClockDiagram).Stage(clockdiagramFormCallback.probe.stageOfInterest)
+	}
+	clockdiagram_ := clockdiagramFormCallback.clockdiagram
+	_ = clockdiagram_
+
+	for _, formDiv := range clockdiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(clockdiagram_.Name), formDiv)
+		case "IsHiddenClockTopCurveShape":
+			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenClockTopCurveShape), formDiv)
+		case "ClockTopCurveShape":
+			FormDivSelectFieldToField(&(clockdiagram_.ClockTopCurveShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTorus3DShape":
+			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenTorus3DShape), formDiv)
+		case "Torus3DShape":
+			FormDivSelectFieldToField(&(clockdiagram_.Torus3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(clockdiagram_.SampledPoints3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(clockdiagram_.Rendered3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if clockdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clockdiagram_.Unstage(clockdiagramFormCallback.probe.stageOfInterest)
+	}
+
+	clockdiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ClockDiagram](
+		clockdiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if clockdiagramFormCallback.CreationMode || clockdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clockdiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(clockdiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ClockDiagramFormCallback(
+			nil,
+			clockdiagramFormCallback.probe,
+			newFormGroup,
+		)
+		clockdiagram := new(models.ClockDiagram)
+		FillUpForm(clockdiagram, newFormGroup, clockdiagramFormCallback.probe)
+		clockdiagramFormCallback.probe.formStage.Commit()
+	}
+
+	clockdiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__ClockTopCurveShapeFormCallback(
+	clocktopcurveshape *models.ClockTopCurveShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (clocktopcurveshapeFormCallback *ClockTopCurveShapeFormCallback) {
+	clocktopcurveshapeFormCallback = new(ClockTopCurveShapeFormCallback)
+	clocktopcurveshapeFormCallback.probe = probe
+	clocktopcurveshapeFormCallback.clocktopcurveshape = clocktopcurveshape
+	clocktopcurveshapeFormCallback.formGroup = formGroup
+
+	clocktopcurveshapeFormCallback.CreationMode = (clocktopcurveshape == nil)
+
+	return
+}
+
+type ClockTopCurveShapeFormCallback struct {
+	clocktopcurveshape *models.ClockTopCurveShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (clocktopcurveshapeFormCallback *ClockTopCurveShapeFormCallback) OnSave() {
+	clocktopcurveshapeFormCallback.probe.stageOfInterest.Lock()
+	defer clocktopcurveshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ClockTopCurveShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	clocktopcurveshapeFormCallback.probe.formStage.Checkout()
+
+	if clocktopcurveshapeFormCallback.clocktopcurveshape == nil {
+		clocktopcurveshapeFormCallback.clocktopcurveshape = new(models.ClockTopCurveShape).Stage(clocktopcurveshapeFormCallback.probe.stageOfInterest)
+	}
+	clocktopcurveshape_ := clocktopcurveshapeFormCallback.clocktopcurveshape
+	_ = clocktopcurveshape_
+
+	for _, formDiv := range clocktopcurveshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(clocktopcurveshape_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if clocktopcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clocktopcurveshape_.Unstage(clocktopcurveshapeFormCallback.probe.stageOfInterest)
+	}
+
+	clocktopcurveshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ClockTopCurveShape](
+		clocktopcurveshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if clocktopcurveshapeFormCallback.CreationMode || clocktopcurveshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clocktopcurveshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(clocktopcurveshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ClockTopCurveShapeFormCallback(
+			nil,
+			clocktopcurveshapeFormCallback.probe,
+			newFormGroup,
+		)
+		clocktopcurveshape := new(models.ClockTopCurveShape)
+		FillUpForm(clocktopcurveshape, newFormGroup, clocktopcurveshapeFormCallback.probe)
+		clocktopcurveshapeFormCallback.probe.formStage.Commit()
+	}
+
+	clocktopcurveshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__EndArcShapeFormCallback(
 	endarcshape *models.EndArcShape,
 	probe *Probe,
@@ -6184,6 +6446,8 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantabstract_.VaseAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "StoolAbstract":
 			FormDivSelectFieldToField(&(plantabstract_.StoolAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
+		case "ClockAbstract":
+			FormDivSelectFieldToField(&(plantabstract_.ClockAbstract), plantabstractFormCallback.probe.stageOfInterest, formDiv)
 		case "CurrentView":
 			FormDivEnumStringFieldToField(&(plantabstract_.CurrentView), formDiv)
 		case "ComputedPrefix":
@@ -6461,6 +6725,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.VaseDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "StoolDiagram":
 			FormDivSelectFieldToField(&(plantdiagram_.StoolDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ClockDiagram":
+			FormDivSelectFieldToField(&(plantdiagram_.ClockDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsRhombusNodesExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsRhombusNodesExpanded), formDiv)
 		case "IsArcNodesExpanded":

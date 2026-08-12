@@ -98,6 +98,31 @@ func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ClockAbstract
+func (clockabstract *ClockAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ClockDiagram
+func (clockdiagram *ClockDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &clockdiagram.ClockTopCurveShape) || modified
+	modified = GongCleanPointer(stage, &clockdiagram.Torus3DShape) || modified
+	modified = GongCleanPointer(stage, &clockdiagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &clockdiagram.Rendered3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ClockTopCurveShape
+func (clocktopcurveshape *ClockTopCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by EndArcShape
 func (endarcshape *EndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -448,6 +473,7 @@ func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantabstract.VaseAbstract) || modified
 	modified = GongCleanPointer(stage, &plantabstract.StoolAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ClockAbstract) || modified
 	modified = GongCleanPointer(stage, &plantabstract.AxesShape) || modified
 	modified = GongCleanPointer(stage, &plantabstract.RhombusStuff) || modified
 	modified = GongCleanPointer(stage, &plantabstract.GrowthVectorShape) || modified
@@ -475,6 +501,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.VaseDiagram) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.StoolDiagram) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.ClockDiagram) || modified
 	return
 }
 

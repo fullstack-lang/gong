@@ -14,6 +14,7 @@ const (
 	VIEW_VASE_2D   ViewType = "Vase 2D"
 	VIEW_VASE_3D   ViewType = "Vase 3D"
 	VIEW_STOOL_3D  ViewType = "Stool 3D"
+	VIEW_CLOCK_3D  ViewType = "Clock 3D"
 )
 
 type PlantType string
@@ -22,6 +23,7 @@ const (
 	Plant PlantType = "Plant"
 	Vase  PlantType = "Vase"
 	Stool PlantType = "Stool"
+	Clock PlantType = "Clock"
 )
 
 // Depending on the specific chirality (handedness) of the plant specimen, N may
@@ -49,6 +51,7 @@ type PlantAbstract struct {
 
 	VaseAbstract  *VaseAbstract
 	StoolAbstract *StoolAbstract
+	ClockAbstract *ClockAbstract
 
 	CurrentView ViewType
 

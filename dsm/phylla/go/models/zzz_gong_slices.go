@@ -44,6 +44,15 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct CircleGridShape
 	// insertion point per field
 
+	// Compute reverse map for named struct ClockAbstract
+	// insertion point per field
+
+	// Compute reverse map for named struct ClockDiagram
+	// insertion point per field
+
+	// Compute reverse map for named struct ClockTopCurveShape
+	// insertion point per field
+
 	// Compute reverse map for named struct EndArcShape
 	// insertion point per field
 
@@ -468,6 +477,18 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.CircleGridShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ClockAbstracts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ClockDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ClockTopCurveShapes {
 		res = append(res, instance)
 	}
 
@@ -1012,6 +1033,24 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongCopy() GongstructIF {
 func (circlegridshape *CircleGridShape) GongCopy() GongstructIF {
 	newInstance := new(CircleGridShape)
 	circlegridshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (clockabstract *ClockAbstract) GongCopy() GongstructIF {
+	newInstance := new(ClockAbstract)
+	clockabstract.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (clockdiagram *ClockDiagram) GongCopy() GongstructIF {
+	newInstance := new(ClockDiagram)
+	clockdiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongCopy() GongstructIF {
+	newInstance := new(ClockTopCurveShape)
+	clocktopcurveshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1831,6 +1870,36 @@ func (circlegridshape *CircleGridShape) GongGetUUID(stage *Stage) (uuid string) 
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(circlegridshape), uint64(GetOrderPointerGongstruct(stage, circlegridshape)))
+	return
+}
+
+func (clockabstract *ClockAbstract) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(clockabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clockabstract), uint64(GetOrderPointerGongstruct(stage, clockabstract)))
+	return
+}
+
+func (clockdiagram *ClockDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(clockdiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clockdiagram), uint64(GetOrderPointerGongstruct(stage, clockdiagram)))
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(clocktopcurveshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clocktopcurveshape), uint64(GetOrderPointerGongstruct(stage, clocktopcurveshape)))
 	return
 }
 
@@ -3137,6 +3206,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(angle0shapes_newInstances)
 	lenDeletedInstances += len(angle0shapes_deletedInstances)
+	var clockabstracts_newInstances []*ClockAbstract
+	var clockabstracts_deletedInstances []*ClockAbstract
+
+	// parse all staged instances and check if they have a reference
+	for clockabstract := range stage.ClockAbstracts {
+		if ref, ok := stage.ClockAbstracts_reference[clockabstract]; !ok {
+			clockabstracts_newInstances = append(clockabstracts_newInstances, clockabstract)
+			newInstancesSlice = append(newInstancesSlice, clockabstract.GongMarshallIdentifier(stage))
+			if stage.ClockAbstracts_referenceOrder == nil {
+				stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint)
+			}
+			stage.ClockAbstracts_referenceOrder[clockabstract] = stage.ClockAbstract_stagedOrder[clockabstract]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, clockabstract.GongMarshallUnstaging(stage))
+			// delete(stage.ClockAbstracts_referenceOrder, clockabstract)
+			fieldInitializers, pointersInitializations := clockabstract.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ClockAbstract_stagedOrder[ref] = stage.ClockAbstract_stagedOrder[clockabstract]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := clockabstract.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, clockabstract)
+			// delete(stage.ClockAbstract_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if clockabstract.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", clockabstract.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ClockAbstracts_reference {
+		instance := stage.ClockAbstracts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ClockAbstracts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			clockabstracts_deletedInstances = append(clockabstracts_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(clockabstracts_newInstances)
+	lenDeletedInstances += len(clockabstracts_deletedInstances)
+	var clockdiagrams_newInstances []*ClockDiagram
+	var clockdiagrams_deletedInstances []*ClockDiagram
+
+	// parse all staged instances and check if they have a reference
+	for clockdiagram := range stage.ClockDiagrams {
+		if ref, ok := stage.ClockDiagrams_reference[clockdiagram]; !ok {
+			clockdiagrams_newInstances = append(clockdiagrams_newInstances, clockdiagram)
+			newInstancesSlice = append(newInstancesSlice, clockdiagram.GongMarshallIdentifier(stage))
+			if stage.ClockDiagrams_referenceOrder == nil {
+				stage.ClockDiagrams_referenceOrder = make(map[*ClockDiagram]uint)
+			}
+			stage.ClockDiagrams_referenceOrder[clockdiagram] = stage.ClockDiagram_stagedOrder[clockdiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, clockdiagram.GongMarshallUnstaging(stage))
+			// delete(stage.ClockDiagrams_referenceOrder, clockdiagram)
+			fieldInitializers, pointersInitializations := clockdiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ClockDiagram_stagedOrder[ref] = stage.ClockDiagram_stagedOrder[clockdiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := clockdiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, clockdiagram)
+			// delete(stage.ClockDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if clockdiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", clockdiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ClockDiagrams_reference {
+		instance := stage.ClockDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ClockDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			clockdiagrams_deletedInstances = append(clockdiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(clockdiagrams_newInstances)
+	lenDeletedInstances += len(clockdiagrams_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -3800,6 +3979,36 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.CircleGridShapes_reference[instance] = _copy
 		stage.CircleGridShapes_instance[_copy] = instance
 		stage.CircleGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.ClockAbstracts_reference = make(map[*ClockAbstract]*ClockAbstract)
+	stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint) // diff Unstage needs the reference order
+	stage.ClockAbstracts_instance = make(map[*ClockAbstract]*ClockAbstract)
+	for instance := range stage.ClockAbstracts {
+		_copy := instance.GongCopy().(*ClockAbstract)
+		stage.ClockAbstracts_reference[instance] = _copy
+		stage.ClockAbstracts_instance[_copy] = instance
+		stage.ClockAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.ClockDiagrams_reference = make(map[*ClockDiagram]*ClockDiagram)
+	stage.ClockDiagrams_referenceOrder = make(map[*ClockDiagram]uint) // diff Unstage needs the reference order
+	stage.ClockDiagrams_instance = make(map[*ClockDiagram]*ClockDiagram)
+	for instance := range stage.ClockDiagrams {
+		_copy := instance.GongCopy().(*ClockDiagram)
+		stage.ClockDiagrams_reference[instance] = _copy
+		stage.ClockDiagrams_instance[_copy] = instance
+		stage.ClockDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
+	stage.ClockTopCurveShapes_referenceOrder = make(map[*ClockTopCurveShape]uint) // diff Unstage needs the reference order
+	stage.ClockTopCurveShapes_instance = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
+	for instance := range stage.ClockTopCurveShapes {
+		_copy := instance.GongCopy().(*ClockTopCurveShape)
+		stage.ClockTopCurveShapes_reference[instance] = _copy
+		stage.ClockTopCurveShapes_instance[_copy] = instance
+		stage.ClockTopCurveShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
@@ -5073,6 +5282,21 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.ClockAbstracts {
+		reference := stage.ClockAbstracts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ClockDiagrams {
+		reference := stage.ClockDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ClockTopCurveShapes {
+		reference := stage.ClockTopCurveShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.EndArcShapes {
 		reference := stage.EndArcShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -5790,6 +6014,42 @@ func (circlegridshape *CircleGridShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type CircleGridShape was not staged and does not have a reference order", circlegridshape)
+		return 0
+	}
+}
+
+func (clockabstract *ClockAbstract) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ClockAbstract_stagedOrder[clockabstract]; ok {
+		return order
+	}
+	if order, ok := stage.ClockAbstracts_referenceOrder[clockabstract]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ClockAbstract was not staged and does not have a reference order", clockabstract)
+		return 0
+	}
+}
+
+func (clockdiagram *ClockDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ClockDiagram_stagedOrder[clockdiagram]; ok {
+		return order
+	}
+	if order, ok := stage.ClockDiagrams_referenceOrder[clockdiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ClockDiagram was not staged and does not have a reference order", clockdiagram)
+		return 0
+	}
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ClockTopCurveShape_stagedOrder[clocktopcurveshape]; ok {
+		return order
+	}
+	if order, ok := stage.ClockTopCurveShapes_referenceOrder[clocktopcurveshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ClockTopCurveShape was not staged and does not have a reference order", clocktopcurveshape)
 		return 0
 	}
 }
@@ -7347,6 +7607,33 @@ func (circlegridshape *CircleGridShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", circlegridshape.GongGetGongstructName(), circlegridshape.GongGetOrder(stage))
 }
 
+func (clockabstract *ClockAbstract) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clockabstract.GongGetGongstructName(), clockabstract.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (clockabstract *ClockAbstract) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clockabstract.GongGetGongstructName(), clockabstract.GongGetOrder(stage))
+}
+
+func (clockdiagram *ClockDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clockdiagram.GongGetGongstructName(), clockdiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (clockdiagram *ClockDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clockdiagram.GongGetGongstructName(), clockdiagram.GongGetOrder(stage))
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clocktopcurveshape.GongGetGongstructName(), clocktopcurveshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (clocktopcurveshape *ClockTopCurveShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clocktopcurveshape.GongGetGongstructName(), clocktopcurveshape.GongGetOrder(stage))
+}
+
 func (endarcshape *EndArcShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", endarcshape.GongGetGongstructName(), endarcshape.GongGetOrder(stage))
 }
@@ -8521,6 +8808,30 @@ func (circlegridshape *CircleGridShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (clockabstract *ClockAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockAbstract")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockabstract.Name))
+	return
+}
+
+func (clockdiagram *ClockDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockdiagram.Name))
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clocktopcurveshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockTopCurveShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clocktopcurveshape.Name))
+	return
+}
+
 func (endarcshape *EndArcShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", endarcshape.GongGetIdentifier(stage))
@@ -9551,6 +9862,24 @@ func (chosenp1p2pairshape *ChosenP1P2PairShape) GongMarshallUnstaging(stage *Sta
 func (circlegridshape *CircleGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", circlegridshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (clockabstract *ClockAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (clockdiagram *ClockDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockdiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clocktopcurveshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

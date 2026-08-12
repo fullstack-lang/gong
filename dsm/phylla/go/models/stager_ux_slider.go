@@ -326,16 +326,130 @@ func (stager *Stager) ux_slider() {
 	stager.sliderStage.Commit()
 }
 
-type StoolSliderTarget struct {
-	stager *Stager
+type SliderStageTarget struct {
+	stager      *Stager
+	sliderStage *m.Stage
 }
 
-func (t *StoolSliderTarget) GetSliderStage() *m.Stage {
-	return t.stager.sliderStoolStage
+func (t *SliderStageTarget) GetSliderStage() *m.Stage {
+	return t.sliderStage
 }
 
-func (t *StoolSliderTarget) OnAfterUpdateSliderElement() {
+func (t *SliderStageTarget) OnAfterUpdateSliderElement() {
 	t.stager.OnAfterUpdateSliderElement()
+}
+
+func appendCommonCylinderSliders(
+	target m.Target,
+	group *m.Group,
+	plant *PlantAbstract,
+	radialReps *int,
+	transparency *float64,
+	relTubeDiam *float64,
+	relHeight3DTorus *float64,
+	torusVertScale *float64,
+	relHeight *float64,
+	projAngle *float64,
+) {
+	group.Sliders = append(
+		group.Sliders,
+		m.NewSlider(
+			target,
+			"N",
+			1,
+			20,
+			1,
+			&plant.N,
+		),
+		m.NewSlider(
+			target,
+			"M",
+			1,
+			20,
+			1,
+			&plant.M,
+		),
+		m.NewSlider(
+			target,
+			"Side Length",
+			5,
+			600,
+			5,
+			&plant.RhombusSideLength,
+		),
+		m.NewSlider(
+			target,
+			"Inside Angle",
+			0,
+			180,
+			1,
+			&plant.RhombusInsideAngle,
+		),
+		m.NewSlider(
+			target,
+			"Stack Height",
+			0,
+			20,
+			1,
+			&plant.StackHeight,
+		),
+		m.NewSlider(
+			target,
+			"Radial Repetition",
+			1,
+			10,
+			1,
+			radialReps,
+		),
+		m.NewSlider(
+			target,
+			"Transparency",
+			0.0,
+			1.0,
+			0.05,
+			transparency,
+		),
+		m.NewSlider(
+			target,
+			"Tube Rel Diameter",
+			0.005,
+			0.1,
+			0.001,
+			relTubeDiam,
+		),
+		m.NewSlider(
+			target,
+			"Rel Height 3D Torus",
+			0.0,
+			6.0,
+			0.01,
+			relHeight3DTorus,
+		),
+		m.NewSlider(
+			target,
+			"Torus Vert Scale",
+			0.0,
+			5.0,
+			0.01,
+			torusVertScale,
+		),
+		m.NewSlider(
+			target,
+			"Rel Height",
+			0.0,
+			6.0,
+			0.01,
+			relHeight,
+		),
+		m.NewSlider(
+			target,
+			"Projection Angle",
+			0.0,
+			45,
+			0.1,
+			projAngle,
+		),
+	)
 }
 
 func (stager *Stager) ux_slider_stool() {
@@ -357,138 +471,19 @@ func (stager *Stager) ux_slider_stool() {
 	group1.Percentage = 65
 	layout.Groups = append(layout.Groups, group1)
 
-	target := &StoolSliderTarget{stager: stager}
+	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderStoolStage}
 
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"N",
-			1,
-			20,
-			1,
-			&plant.N,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"M",
-			1,
-			20,
-			1,
-			&plant.M,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Side Length",
-			5,
-			600,
-			5,
-			&plant.RhombusSideLength,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Inside Angle",
-			0,
-			180,
-			1,
-			&plant.RhombusInsideAngle,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Stack Height",
-			0,
-			20,
-			1,
-			&plant.StackHeight,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Radial Repetition",
-			1,
-			10,
-			1,
-			&plant.StoolAbstract.RadialRepetitions,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Transparency",
-			0.0,
-			1.0,
-			0.05,
-			&plant.StoolAbstract.Transparency,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Tube Rel Diameter",
-			0.005,
-			0.1,
-			0.001,
-			&plant.StoolAbstract.RelativeTubeDiameter,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Rel Height 3D Torus",
-			0.0,
-			6.0,
-			0.01,
-			&plant.StoolAbstract.RelativeHeight3DTorus,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Torus Vert Scale",
-			0.0,
-			5.0,
-			0.01,
-			&plant.StoolAbstract.StoolTorusVerticalScale,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Rel Height",
-			0.0,
-			6.0,
-			0.01,
-			&plant.StoolAbstract.RelativeHeight,
-		),
+	appendCommonCylinderSliders(
+		target,
+		group1,
+		plant,
+		&plant.StoolAbstract.RadialRepetitions,
+		&plant.StoolAbstract.Transparency,
+		&plant.StoolAbstract.RelativeTubeDiameter,
+		&plant.StoolAbstract.RelativeHeight3DTorus,
+		&plant.StoolAbstract.StoolTorusVerticalScale,
+		&plant.StoolAbstract.RelativeHeight,
+		&plant.StoolAbstract.ProjectionAngle,
 	)
 
 	group1.Sliders = append(
@@ -501,22 +496,6 @@ func (stager *Stager) ux_slider_stool() {
 			0.01,
 			&plant.StoolAbstract.RelativeSeatThickness,
 		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
-		m.NewSlider(
-			target,
-			"Projection Angle",
-			0.0,
-			45,
-			0.1,
-			&plant.StoolAbstract.ProjectionAngle,
-		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
 		m.NewSlider(
 			target,
 			"Rel Eye Separation",
@@ -525,10 +504,6 @@ func (stager *Stager) ux_slider_stool() {
 			0.005,
 			&plant.StoolAbstract.RelativeEyeSeparationCriteria,
 		),
-	)
-
-	group1.Sliders = append(
-		group1.Sliders,
 		m.NewSlider(
 			target,
 			"Rel Eye Corner Strength",
@@ -542,6 +517,43 @@ func (stager *Stager) ux_slider_stool() {
 	stager.sliderStoolStage.Commit()
 }
 
+func (stager *Stager) ux_slider_clock() {
+	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
+
+	stager.sliderClockStage.Reset()
+
+	if plant == nil || plant.PlantType != Clock || plant.ClockAbstract == nil {
+		stager.sliderClockStage.Commit()
+		return
+	}
+
+	layout := new(m.Layout).Stage(stager.sliderClockStage)
+
+	group1 := new(m.Group).Stage(stager.sliderClockStage)
+	group1.Percentage = 65
+	layout.Groups = append(layout.Groups, group1)
+
+	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderClockStage}
+
+	appendCommonCylinderSliders(
+		target,
+		group1,
+		plant,
+		&plant.ClockAbstract.RadialRepetitions,
+		&plant.ClockAbstract.Transparency,
+		&plant.ClockAbstract.RelativeTubeDiameter,
+		&plant.ClockAbstract.RelativeHeight3DTorus,
+		&plant.ClockAbstract.ClockTorusVerticalScale,
+		&plant.ClockAbstract.RelativeHeight,
+		&plant.ClockAbstract.ProjectionAngle,
+	)
+
+	stager.sliderClockStage.Commit()
+}
+
 func (stager *Stager) OnAfterUpdateSliderElement() {
 
 	stager.enforceSemantic()
@@ -549,6 +561,7 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.ux_svg_plant_diagram()
 	stager.UpdateThreeJSStage()
 	stager.UpdateStool3DStage()
+	stager.UpdateClock3DStage()
 
 	stager.stage.CommitWithSuspendedCallbacks()
 }

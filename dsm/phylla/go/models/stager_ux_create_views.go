@@ -39,15 +39,18 @@ func (stager *Stager) createViews() {
 	}
 	tabTitle.Stage(stager.splitStage)
 
-	currentView := VIEW_PLANT_2D
 	plant := stager.GetCurrentPlant()
+	currentView := VIEW_PLANT_2D
 	isVase := (plant != nil && plant.PlantType == Vase)
 	isStool := (plant != nil && plant.PlantType == Stool)
+	isClock := (plant != nil && plant.PlantType == Clock)
 
 	if plant != nil {
 		if plant.PlantType == Plant && plant.CurrentView != VIEW_PLANT_2D {
 			plant.CurrentView = VIEW_PLANT_2D
 		} else if plant.PlantType == Stool && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D {
+			plant.CurrentView = VIEW_PLANT_2D
+		} else if plant.PlantType == Clock && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D {
 			plant.CurrentView = VIEW_PLANT_2D
 		} else if plant.PlantType == Vase && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_VASE_FORM && plant.CurrentView != VIEW_VASE_2D && plant.CurrentView != VIEW_VASE_3D {
 			plant.CurrentView = VIEW_PLANT_2D
@@ -64,14 +67,16 @@ func (stager *Stager) createViews() {
 	view2Name := string(VIEW_VASE_2D)
 	view3Name := string(VIEW_VASE_3D)
 	viewStool3DName := string(VIEW_STOOL_3D)
+	viewClock3DName := string(VIEW_CLOCK_3D)
 
 	isView0Selected := (currentView == VIEW_PLANT_2D)
 	isView1Selected := (currentView == VIEW_VASE_FORM)
 	isView2Selected := (currentView == VIEW_VASE_2D)
 	isView3Selected := (currentView == VIEW_VASE_3D)
 	isViewStool3DSelected := (currentView == VIEW_STOOL_3D)
+	isViewClock3DSelected := (currentView == VIEW_CLOCK_3D)
 
-	if !isView0Selected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected {
+	if !isView0Selected && !isView1Selected && !isView2Selected && !isView3Selected && !isViewStool3DSelected && !isViewClock3DSelected {
 		isView0Selected = true
 	}
 
@@ -440,6 +445,78 @@ func (stager *Stager) createViews() {
 		}
 	}
 
+	if isClock {
+		vClock := &split.View{
+			Name:           viewClock3DName,
+			Direction:      split.Horizontal,
+			IsSizeInPixel:  true,
+			IsSelectedView: isViewClock3DSelected,
+			RootAsSplitAreas: []*split.AsSplitArea{
+				{
+					Name:             "Sidebar with both trees",
+					ShowNameInHeader: false,
+					IsAny:            true,
+					AsSplit: &split.AsSplit{
+						Name:          "as split",
+						IsSizeInPixel: true,
+						Direction:     split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							{
+								Size: 525,
+								AsSplit: &split.AsSplit{
+									Direction: split.Vertical,
+									AsSplitAreas: []*split.AsSplitArea{
+										{
+											Name:             "Libraries",
+											Size:             80,
+											ShowNameInHeader: false,
+											Tree: &split.Tree{
+												StackName: stager.treeStage3D.GetName(),
+											},
+										},
+										{
+											Size: 10,
+											Load: &split.Load{
+												StackName: stager.loadStage.GetName(),
+											},
+										},
+										{
+											Size: 10,
+											Button: &split.Button{
+												StackName: stager.buttonStage.GetName(),
+											},
+										},
+									},
+								},
+							},
+							{
+								IsAny: true,
+								Threejs: &split.Threejs{
+									StackName: stager.clock3dStage.GetName(),
+								},
+							},
+						},
+					},
+				},
+				{
+					Size: 585,
+					Slider: &split.Slider{
+						StackName: stager.sliderClockStage.GetName(),
+					},
+				},
+			},
+		}
+		split.StageBranch(stager.splitStage, vClock)
+		vClock.OnClick = func() {
+			plant := stager.GetCurrentPlant()
+			if plant != nil && plant.CurrentView != VIEW_CLOCK_3D {
+				plant.CurrentView = VIEW_CLOCK_3D
+				stager.stage.Commit()
+			}
+			stager.UpdateClock3DStage()
+		}
+	}
+
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -530,6 +607,30 @@ func (stager *Stager) createViews() {
 			{
 				Split: &split.Split{
 					StackName: stager.sliderStoolStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "clock3d Probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.clock3dStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "sliderClock Probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.sliderClockStage.GetProbeSplitStageName(),
 				},
 			},
 		},
