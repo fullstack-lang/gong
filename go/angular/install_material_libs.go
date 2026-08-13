@@ -77,6 +77,8 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"angular-split@20",
 			"tone",
 			"ngx-markdown@20",
+			"katex",
+			"@types/katex",
 			"material-symbols",
 			"three",
 			"angular-three",

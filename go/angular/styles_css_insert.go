@@ -2,6 +2,7 @@ package angular
 
 const StylesCssInsert = `
 @import 'material-symbols/outlined.css';
+@import 'katex/dist/katex.min.css';
 
 @import '@angular/material/prebuilt-themes/azure-blue.css';
 

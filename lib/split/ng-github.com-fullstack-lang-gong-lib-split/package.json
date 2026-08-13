@@ -22,6 +22,7 @@
     "angular-split": "^20.0.0",
     "material-symbols": "^0.40.2",
     "ngx-markdown": "^20.1.0",
+    "katex": "^0.16.21",
     "rxjs": "~7.8.0",
     "tone": "^15.0.4",
     "tslib": "^2.3.0",

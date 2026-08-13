@@ -281,6 +281,8 @@ func (viewtype ViewType) ToString() (res string) {
 		res = "Stool 3D"
 	case VIEW_CLOCK_3D:
 		res = "Clock 3D"
+	case VIEW_ABOUT_SPIRAL_PLANTS:
+		res = "About Spiral Plants"
 	}
 	return
 }
@@ -307,6 +309,9 @@ func (viewtype *ViewType) FromString(input string) (err error) {
 	case "Clock 3D":
 		*viewtype = VIEW_CLOCK_3D
 		return
+	case "About Spiral Plants":
+		*viewtype = VIEW_ABOUT_SPIRAL_PLANTS
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -328,6 +333,8 @@ func (viewtype *ViewType) FromCodeString(input string) (err error) {
 		*viewtype = VIEW_STOOL_3D
 	case "VIEW_CLOCK_3D":
 		*viewtype = VIEW_CLOCK_3D
+	case "VIEW_ABOUT_SPIRAL_PLANTS":
+		*viewtype = VIEW_ABOUT_SPIRAL_PLANTS
 	default:
 		err = errUnkownEnum
 	}
@@ -350,6 +357,8 @@ func (viewtype *ViewType) ToCodeString() (res string) {
 		res = "VIEW_STOOL_3D"
 	case VIEW_CLOCK_3D:
 		res = "VIEW_CLOCK_3D"
+	case VIEW_ABOUT_SPIRAL_PLANTS:
+		res = "VIEW_ABOUT_SPIRAL_PLANTS"
 	}
 	return
 }
@@ -365,6 +374,7 @@ func (viewtype ViewType) Codes() (res []string) {
 	res = append(res, "VIEW_VASE_3D")
 	res = append(res, "VIEW_STOOL_3D")
 	res = append(res, "VIEW_CLOCK_3D")
+	res = append(res, "VIEW_ABOUT_SPIRAL_PLANTS")
 
 	return
 }
@@ -380,6 +390,7 @@ func (viewtype ViewType) CodeValues() (res []string) {
 	res = append(res, "Vase 3D")
 	res = append(res, "Stool 3D")
 	res = append(res, "Clock 3D")
+	res = append(res, "About Spiral Plants")
 
 	return
 }

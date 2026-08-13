@@ -43,15 +43,17 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 
 		stager.selectedPlant = plant
 		if plant.PlantType == Stool {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_STOOL_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_PLANT_2D
 			}
 		} else if plant.PlantType == Clock {
-			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D {
+			if plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_CLOCK_3D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 				plant.CurrentView = VIEW_PLANT_2D
 			}
 		} else if plant.PlantType != Vase {
-			plant.CurrentView = VIEW_PLANT_2D
+			if plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+				plant.CurrentView = VIEW_PLANT_2D
+			}
 		}
 
 		hasCheckedDiagram := false
