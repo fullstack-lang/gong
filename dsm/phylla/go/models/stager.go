@@ -31,6 +31,9 @@ import (
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+
+	markdown "github.com/fullstack-lang/gong/lib/markdown/go/models"
+	markdown_stack "github.com/fullstack-lang/gong/lib/markdown/go/stack"
 )
 
 type ThreeJSStageUpdaterInterface interface {
@@ -70,6 +73,7 @@ type Stager struct {
 	svgPlantStage    *svg.Stage
 	svgVaseStage     *svg.Stage
 	svgStage         *svg.Stage
+	markdownStage    *markdown.Stage
 
 	svgObject *svg.SVG
 
@@ -127,6 +131,7 @@ func NewStager(
 	stager.threejsStage = threejs_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.stool3dStage = threejs_stack.NewStack(r, "stool3d", "", "", "", true, true).Stage
 	stager.clock3dStage = threejs_stack.NewStack(r, "clock3d", "", "", "", true, true).Stage
+	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.treeStage2D = tree_stack.NewStack(r, "treeStage2D", "", "", "", true, true).Stage
 	stager.treeStage3D = tree_stack.NewStack(r, "treeStage3D", "", "", "", true, true).Stage
@@ -143,6 +148,7 @@ func NewStager(
 		stager.ux_tree() // DSM mandatory name, to be changed
 		stager.button()
 		stager.load()
+		stager.ux_markdown()
 		stager.updateSelectedViewFromPlant(stager.GetCurrentPlant())
 		stager.ux_slider()
 		stager.ux_slider_stool()
@@ -279,4 +285,8 @@ func (stager *Stager) GetClock3dStage() *threejs.Stage {
 
 func (stager *Stager) GetSliderClockStage() *slider.Stage {
 	return stager.sliderClockStage
+}
+
+func (stager *Stager) GetMarkdownStage() *markdown.Stage {
+	return stager.markdownStage
 }

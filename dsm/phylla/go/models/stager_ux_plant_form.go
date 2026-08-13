@@ -28,11 +28,17 @@ func (onSave *plantFormOnSave) OnSave() {
 					if onSave.plant.PlantType != newType {
 						onSave.plant.PlantType = newType
 						if newType == Stool {
-							if onSave.plant.CurrentView != VIEW_PLANT_2D && onSave.plant.CurrentView != VIEW_STOOL_3D {
+							if onSave.plant.CurrentView != VIEW_PLANT_2D && onSave.plant.CurrentView != VIEW_STOOL_3D && onSave.plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+								onSave.plant.CurrentView = VIEW_PLANT_2D
+							}
+						} else if newType == Clock {
+							if onSave.plant.CurrentView != VIEW_PLANT_2D && onSave.plant.CurrentView != VIEW_CLOCK_3D && onSave.plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 								onSave.plant.CurrentView = VIEW_PLANT_2D
 							}
 						} else if newType != Vase {
-							onSave.plant.CurrentView = VIEW_PLANT_2D
+							if onSave.plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
+								onSave.plant.CurrentView = VIEW_PLANT_2D
+							}
 						}
 						modified = true
 					}

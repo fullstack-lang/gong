@@ -9,12 +9,13 @@ package models
 type ViewType string
 
 const (
-	VIEW_PLANT_2D  ViewType = "Plant 2D"
-	VIEW_VASE_FORM ViewType = "Vase Form"
-	VIEW_VASE_2D   ViewType = "Vase 2D"
-	VIEW_VASE_3D   ViewType = "Vase 3D"
-	VIEW_STOOL_3D  ViewType = "Stool 3D"
-	VIEW_CLOCK_3D  ViewType = "Clock 3D"
+	VIEW_PLANT_2D            ViewType = "Plant 2D"
+	VIEW_VASE_FORM           ViewType = "Vase Form"
+	VIEW_VASE_2D             ViewType = "Vase 2D"
+	VIEW_VASE_3D             ViewType = "Vase 3D"
+	VIEW_STOOL_3D            ViewType = "Stool 3D"
+	VIEW_CLOCK_3D            ViewType = "Clock 3D"
+	VIEW_ABOUT_SPIRAL_PLANTS ViewType = "About Spiral Plants"
 )
 
 type PlantType string
