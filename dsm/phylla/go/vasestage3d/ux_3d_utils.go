@@ -42,26 +42,15 @@ func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.C
 	canvas.AmbiantLight = ambiantLight
 }
 
-func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreservedCamera bool, preservedFov float64, canvas *threejs.Canvas, preservedX float64, preservedY float64, preservedZ float64, preservedTargetX float64, preservedTargetY float64, preservedTargetZ float64, checkedDiagram *models.Vase3DDiagram, globalR float64) {
+func (u *ThreeJSStageUpdater) setupCamera(stager *models.Stager, canvas *threejs.Canvas, checkedDiagram *models.Vase3DDiagram, globalR float64) {
 	threejsStage := stager.GetThreejsStage()
 
-	if hasPreservedCamera {
-		if preservedFov == 0 {
-			preservedFov = 50
+	if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil &&
+		(checkedDiagram.Rendered3DShape.ViewX != 0 || checkedDiagram.Rendered3DShape.ViewY != 0 || checkedDiagram.Rendered3DShape.ViewZ != 0) {
+		fov := checkedDiagram.Rendered3DShape.Fov
+		if fov == 0 {
+			fov = 50
 		}
-		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: preservedX,
-				Y: preservedY,
-				Z: preservedZ,
-			},
-			TargetX: preservedTargetX,
-			TargetY: preservedTargetY,
-			TargetZ: preservedTargetZ,
-			Fov:     preservedFov,
-		}).Stage(threejsStage)
-	} else if checkedDiagram != nil && checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 		canvas.Camera = (&threejs.Camera{
 			Name: "Camera",
 			Position: threejs.Position{
@@ -72,7 +61,7 @@ func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreserved
 			TargetX: checkedDiagram.Rendered3DShape.TargetX,
 			TargetY: checkedDiagram.Rendered3DShape.TargetY,
 			TargetZ: checkedDiagram.Rendered3DShape.TargetZ,
-			Fov:     checkedDiagram.Rendered3DShape.Fov,
+			Fov:     fov,
 		}).Stage(threejsStage)
 	} else {
 		camDist := globalR * 2.5
@@ -88,11 +77,12 @@ func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreserved
 				Z: camDist,
 			},
 			TargetY: globalR,
+			Fov:     50,
 		}).Stage(threejsStage)
 	}
 
 	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
-		if checkedDiagram != nil && checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+		if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 			checkedDiagram.Rendered3DShape.ViewX = updatedCamera.X
 			checkedDiagram.Rendered3DShape.ViewY = updatedCamera.Y
 			checkedDiagram.Rendered3DShape.ViewZ = updatedCamera.Z

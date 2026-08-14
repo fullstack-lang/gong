@@ -69,23 +69,6 @@ func RenderCylinder3DBase(
 		return nil
 	}
 
-	var preservedX, preservedY, preservedZ float64
-	var preservedTargetX, preservedTargetY, preservedTargetZ float64
-	var preservedFov float64
-	var hasPreservedCamera bool
-
-	for cam := range stage3d.Cameras {
-		preservedX = cam.X
-		preservedY = cam.Y
-		preservedZ = cam.Z
-		preservedTargetX = cam.TargetX
-		preservedTargetY = cam.TargetY
-		preservedTargetZ = cam.TargetZ
-		preservedFov = cam.Fov
-		hasPreservedCamera = true
-		break
-	}
-
 	stage3d.Reset()
 
 	canvas := (&threejs.Canvas{
@@ -143,35 +126,24 @@ func RenderCylinder3DBase(
 	}).Stage(stage3d)
 	canvas.AmbiantLight = ambiantLight
 
-	// Camera setup
-	if hasPreservedCamera {
-		if preservedFov == 0 {
-			preservedFov = 50
+	// Camera setup directly from Rendered3DShape
+	rendered3DShape := params.Rendered3DShape
+	if rendered3DShape != nil && (rendered3DShape.ViewX != 0 || rendered3DShape.ViewY != 0 || rendered3DShape.ViewZ != 0) {
+		fov := rendered3DShape.Fov
+		if fov == 0 {
+			fov = 50
 		}
 		canvas.Camera = (&threejs.Camera{
 			Name: "Camera",
 			Position: threejs.Position{
-				X: preservedX,
-				Y: preservedY,
-				Z: preservedZ,
+				X: rendered3DShape.ViewX,
+				Y: rendered3DShape.ViewY,
+				Z: rendered3DShape.ViewZ,
 			},
-			TargetX: preservedTargetX,
-			TargetY: preservedTargetY,
-			TargetZ: preservedTargetZ,
-			Fov:     preservedFov,
-		}).Stage(stage3d)
-	} else if params.Rendered3DShape != nil {
-		canvas.Camera = (&threejs.Camera{
-			Name: "Camera",
-			Position: threejs.Position{
-				X: params.Rendered3DShape.ViewX,
-				Y: params.Rendered3DShape.ViewY,
-				Z: params.Rendered3DShape.ViewZ,
-			},
-			TargetX: params.Rendered3DShape.TargetX,
-			TargetY: params.Rendered3DShape.TargetY,
-			TargetZ: params.Rendered3DShape.TargetZ,
-			Fov:     params.Rendered3DShape.Fov,
+			TargetX: rendered3DShape.TargetX,
+			TargetY: rendered3DShape.TargetY,
+			TargetZ: rendered3DShape.TargetZ,
+			Fov:     fov,
 		}).Stage(stage3d)
 	} else {
 		camDist := globalR * 2.5
@@ -190,7 +162,6 @@ func RenderCylinder3DBase(
 		}).Stage(stage3d)
 	}
 
-	rendered3DShape := params.Rendered3DShape
 	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
 		if rendered3DShape != nil {
 			rendered3DShape.ViewX = updatedCamera.X

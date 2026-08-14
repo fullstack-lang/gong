@@ -9,7 +9,7 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-		length := plant.RhombusSideLength * stager.GetPlant2DZoom(plant)
+		length := plant.RhombusSideLength
 
 		// Cartesian Y-axis points UP
 		v1x := length * math.Cos(angleRad/2.0)

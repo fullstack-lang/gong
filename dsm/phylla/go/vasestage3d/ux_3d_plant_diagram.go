@@ -11,24 +11,6 @@ import (
 func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 	threejsStage := stager.GetThreejsStage()
-
-	var preservedX, preservedY, preservedZ float64
-	var preservedTargetX, preservedTargetY, preservedTargetZ float64
-	var preservedFov float64
-	var hasPreservedCamera bool
-
-	for cam := range threejsStage.Cameras {
-		preservedX = cam.X
-		preservedY = cam.Y
-		preservedZ = cam.Z
-		preservedTargetX = cam.TargetX
-		preservedTargetY = cam.TargetY
-		preservedTargetZ = cam.TargetZ
-		preservedFov = cam.Fov
-		hasPreservedCamera = true
-		break
-	}
-
 	threejsStage.Reset()
 
 	plant := stager.GetCurrentPlant()
@@ -55,13 +37,16 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			break
 		}
 	}
+	if checkedDiagram == nil && len(plant.Vase3DDiagrams) > 0 {
+		checkedDiagram = plant.Vase3DDiagrams[0]
+	}
 
 	// lights
 	u.addLights(stager, canvas)
 
 	globalR := u.computeGlobalRadius(plant)
 
-	u.preserveCamera(stager, hasPreservedCamera, preservedFov, canvas, preservedX, preservedY, preservedZ, preservedTargetX, preservedTargetY, preservedTargetZ, checkedDiagram, globalR)
+	u.setupCamera(stager, canvas, checkedDiagram, globalR)
 
 	floorMinY := math.MaxFloat64
 

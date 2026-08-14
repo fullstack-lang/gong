@@ -30,6 +30,9 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 			break
 		}
 	}
+	if checkedDiagram == nil && len(plant.Stool3DDiagrams) > 0 {
+		checkedDiagram = plant.Stool3DDiagrams[0]
+	}
 
 	params := cylinderstage3d.Cylinder3DParams{
 		NamePrefix:                          "Stool",
