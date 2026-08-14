@@ -103,7 +103,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.RhombusInsideAngle = 69.000000
 	__PlantAbstract__00000001_.RhombusSideLength = 200.000000
 	__PlantAbstract__00000001_.PlantType = models.Plant
-	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_2D
+	__PlantAbstract__00000001_.CurrentView = models.VIEW_ABOUT_SPIRAL_PLANTS
 	__PlantAbstract__00000001_.ComputedPrefix = ``
 	__PlantAbstract__00000001_.IsExpanded = true
 	__PlantAbstract__00000001_.IsSelected = true
