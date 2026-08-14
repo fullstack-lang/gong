@@ -92,8 +92,8 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.PlantType = models.Vase
 	__PlantAbstract__00000000_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
-	__PlantAbstract__00000000_.IsExpanded = false
-	__PlantAbstract__00000000_.IsSelected = false
+	__PlantAbstract__00000000_.IsExpanded = true
+	__PlantAbstract__00000000_.IsSelected = true
 	__PlantAbstract__00000000_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantAbstract__00000001_.Name = `Plant (3, 5, 100)`
@@ -103,10 +103,10 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.RhombusInsideAngle = 69.000000
 	__PlantAbstract__00000001_.RhombusSideLength = 200.000000
 	__PlantAbstract__00000001_.PlantType = models.Plant
-	__PlantAbstract__00000001_.CurrentView = models.VIEW_ABOUT_SPIRAL_PLANTS
+	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
 	__PlantAbstract__00000001_.IsExpanded = true
-	__PlantAbstract__00000001_.IsSelected = true
+	__PlantAbstract__00000001_.IsSelected = false
 	__PlantAbstract__00000001_.IsPlantDiagramsNodeExpanded = true
 
 	__PlantAbstract__00000002_.Name = `Stool`
@@ -131,7 +131,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000003_.PlantType = models.Clock
 	__PlantAbstract__00000003_.CurrentView = models.VIEW_CLOCK_3D
 	__PlantAbstract__00000003_.ComputedPrefix = ``
-	__PlantAbstract__00000003_.IsExpanded = false
+	__PlantAbstract__00000003_.IsExpanded = true
 	__PlantAbstract__00000003_.IsSelected = false
 	__PlantAbstract__00000003_.IsPlantDiagramsNodeExpanded = true
 
@@ -160,9 +160,9 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsHiddenEndArcShapeGrid = true
 	__PlantDiagram__00000001_.IsHiddenGrowthCurve2D = true
 	__PlantDiagram__00000001_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
-	__PlantDiagram__00000001_.IsChecked = false
+	__PlantDiagram__00000001_.IsChecked = true
 	__PlantDiagram__00000001_.ComputedPrefix = ``
-	__PlantDiagram__00000001_.IsExpanded = true
+	__PlantDiagram__00000001_.IsExpanded = false
 
 	__PlantDiagram__00000002_.Name = `New Plant - Diagram`
 	__PlantDiagram__00000002_.OriginX = 390.000000
@@ -305,16 +305,16 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000006_.IsHiddenEndArcShapeGrid = true
 	__PlantDiagram__00000006_.IsHiddenGrowthCurve2D = true
 	__PlantDiagram__00000006_.IsHiddenStackOfGrowthCurve2DByGrowthVector = true
-	__PlantDiagram__00000006_.IsChecked = true
+	__PlantDiagram__00000006_.IsChecked = false
 	__PlantDiagram__00000006_.ComputedPrefix = ``
 	__PlantDiagram__00000006_.IsExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 1422.118028
-	__Rendered3DShape__00000000_.ViewY = 762.574742
-	__Rendered3DShape__00000000_.ViewZ = 1422.118028
+	__Rendered3DShape__00000000_.ViewX = 1565.907118
+	__Rendered3DShape__00000000_.ViewY = 720.248534
+	__Rendered3DShape__00000000_.ViewZ = 1565.907118
 	__Rendered3DShape__00000000_.TargetX = 0.000000
-	__Rendered3DShape__00000000_.TargetY = 193.727531
+	__Rendered3DShape__00000000_.TargetY = 93.885686
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
 	__Rendered3DShape__00000000_.Fov = 50.000000
 
