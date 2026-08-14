@@ -119,6 +119,8 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refRotatedSampledPoints3DShape := make(map[*RotatedSampledPoints3DShape]bool)
 	refEyeSampledPoints3DShape := make(map[*EyeSampledPoints3DShape]bool)
 	refEyeCornersSampledPoints3DShape := make(map[*EyeCornersSampledPoints3DShape]bool)
+	refOriginalPoints3DShape := make(map[*OriginalPoints3DShape]bool)
+	refAngle0Shape := make(map[*Angle0Shape]bool)
 	refEye3DShape := make(map[*Eye3DShape]bool)
 	refEyeSeatBottomCurveShape := make(map[*EyeSeatBottomCurveShape]bool)
 	refEyeStoolBottomCurveShape := make(map[*EyeStoolBottomCurveShape]bool)
@@ -453,6 +455,21 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase2DDiagram](stage) {
+		if diagram.GrowthCurve2DRibbon != nil {
+			refGrowthCurve2DRibbon[diagram.GrowthCurve2DRibbon] = true
+		}
+		if diagram.ShiftedRightGrowthCurve2DRibbon != nil {
+			refShiftedRightGrowthCurve2DRibbon[diagram.ShiftedRightGrowthCurve2DRibbon] = true
+		}
+		if diagram.ShiftedLeftGrowthCurve2DRibbon != nil {
+			refShiftedLeftGrowthCurve2DRibbon[diagram.ShiftedLeftGrowthCurve2DRibbon] = true
+		}
+		if diagram.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+			refShiftedLeftPartiallyGrowthCurve2DRibbon[diagram.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
+		}
+	}
+
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stage) {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
@@ -476,8 +493,10 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
 		}
 		if diagram.OriginalPoints3DShape != nil {
+			refOriginalPoints3DShape[diagram.OriginalPoints3DShape] = true
 		}
 		if diagram.Angle0Shape != nil {
+			refAngle0Shape[diagram.Angle0Shape] = true
 		}
 		if diagram.KeyHole3DShape != nil {
 			refKeyHole3DShape[diagram.KeyHole3DShape] = true
@@ -791,6 +810,18 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *GetGongstructInstancesSetFromPointerType[*TiledFloor3DShape](stage) {
 		if !refTiledFloor3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*OriginalPoints3DShape](stage) {
+		if !refOriginalPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Angle0Shape](stage) {
+		if !refAngle0Shape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

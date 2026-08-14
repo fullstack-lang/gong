@@ -115,6 +115,25 @@ func (stager *Stager) treePlant2DDiagram(plant *PlantAbstract, diagram *Plant2DD
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Plant2DDiagrams {
+			if d == diagram {
+				plant.Plant2DDiagrams = append(plant.Plant2DDiagrams[:i], plant.Plant2DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_PLANT_2D)
@@ -138,7 +157,11 @@ func (stager *Stager) treePlant2DDiagram(plant *PlantAbstract, diagram *Plant2DD
 		axesNode := appendDiagramNode(stager, node, "Axes", plant.AxesShape, &diagram.IsHiddenAxesShape)
 		handleBtn := &tree.Button{Name: "Hide Handle", Icon: string(buttons.BUTTON_visibility_off), ToolTipText: "Hide handles", HasToolTip: true, ToolTipPosition: tree.Right}
 		handleBtn.OnClick = stager.onToggleVisibility(&plant.AxesShape.IsWithHiddenHandle, handleBtn)
-		if plant.AxesShape.IsWithHiddenHandle { handleBtn.Icon = string(buttons.BUTTON_visibility); handleBtn.Name = "Show Handle"; handleBtn.ToolTipText = "Show handles" }
+		if plant.AxesShape.IsWithHiddenHandle {
+			handleBtn.Icon = string(buttons.BUTTON_visibility)
+			handleBtn.Name = "Show Handle"
+			handleBtn.ToolTipText = "Show handles"
+		}
 		axesNode.Buttons = append(axesNode.Buttons, handleBtn)
 
 		rhombusNodes := &tree.Node{Name: "Rhombus confs", IsExpanded: diagram.IsRhombusNodesExpanded, IsNodeClickable: true}
@@ -180,6 +203,25 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Vase2DDiagrams {
+			if d == diagram {
+				plant.Vase2DDiagrams = append(plant.Vase2DDiagrams[:i], plant.Vase2DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_VASE_2D)
@@ -246,6 +288,25 @@ func (stager *Stager) treeVase3DDiagram(plant *PlantAbstract, diagram *Vase3DDia
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Vase3DDiagrams {
+			if d == diagram {
+				plant.Vase3DDiagrams = append(plant.Vase3DDiagrams[:i], plant.Vase3DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 
 	// Record Movie Button
 	if is3DView && plant.CurrentView == VIEW_VASE_3D {
@@ -315,6 +376,25 @@ func (stager *Stager) treeStool2DDiagram(plant *PlantAbstract, diagram *Stool2DD
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Stool2DDiagrams {
+			if d == diagram {
+				plant.Stool2DDiagrams = append(plant.Stool2DDiagrams[:i], plant.Stool2DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_PLANT_2D)
@@ -343,6 +423,25 @@ func (stager *Stager) treeStool3DDiagram(plant *PlantAbstract, diagram *Stool3DD
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Stool3DDiagrams {
+			if d == diagram {
+				plant.Stool3DDiagrams = append(plant.Stool3DDiagrams[:i], plant.Stool3DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_STOOL_3D)
@@ -392,6 +491,25 @@ func (stager *Stager) treeClock2DDiagram(plant *PlantAbstract, diagram *Clock2DD
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Clock2DDiagrams {
+			if d == diagram {
+				plant.Clock2DDiagrams = append(plant.Clock2DDiagrams[:i], plant.Clock2DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_PLANT_2D)
@@ -420,6 +538,25 @@ func (stager *Stager) treeClock3DDiagram(plant *PlantAbstract, diagram *Clock3DD
 	}
 	*parentNodes = append(*parentNodes, node)
 	addRenameButton(diagram, node, stager)
+
+	suppressBtn := &tree.Button{
+		Name:            "Suppress",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Suppress this diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	suppressBtn.OnClick = func() {
+		for i, d := range plant.Clock3DDiagrams {
+			if d == diagram {
+				plant.Clock3DDiagrams = append(plant.Clock3DDiagrams[:i], plant.Clock3DDiagrams[i+1:]...)
+				break
+			}
+		}
+		diagram.Unstage(stager.stage)
+		stager.stage.Commit()
+	}
+	node.Buttons = append(node.Buttons, suppressBtn)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			stager.handleDiagramCheck(diagram, plant, VIEW_CLOCK_3D)
