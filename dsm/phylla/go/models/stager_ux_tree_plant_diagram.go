@@ -128,6 +128,8 @@ func (stager *Stager) treePlantDiagram(
 	}
 	*parentNodes = append(*parentNodes, plantDiagramNode)
 
+	addRenameButton(plantDiagram, plantDiagramNode, stager)
+
 	plantDiagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {

@@ -90,7 +90,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_PLANT_2D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_2D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = true
@@ -100,8 +100,8 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.N = 2
 	__PlantAbstract__00000001_.M = 3
 	__PlantAbstract__00000001_.StackHeight = 5
-	__PlantAbstract__00000001_.RhombusInsideAngle = 69.000000
-	__PlantAbstract__00000001_.RhombusSideLength = 200.000000
+	__PlantAbstract__00000001_.RhombusInsideAngle = 136.000000
+	__PlantAbstract__00000001_.RhombusSideLength = 120.000000
 	__PlantAbstract__00000001_.PlantType = models.Plant
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
@@ -116,11 +116,11 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.RhombusInsideAngle = 119.000000
 	__PlantAbstract__00000002_.RhombusSideLength = 95.000000
 	__PlantAbstract__00000002_.PlantType = models.Stool
-	__PlantAbstract__00000002_.CurrentView = models.VIEW_STOOL_3D
+	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
 	__PlantAbstract__00000002_.IsExpanded = true
 	__PlantAbstract__00000002_.IsSelected = false
-	__PlantAbstract__00000002_.IsPlantDiagramsNodeExpanded = true
+	__PlantAbstract__00000002_.IsPlantDiagramsNodeExpanded = false
 
 	__PlantAbstract__00000003_.Name = `Clock`
 	__PlantAbstract__00000003_.N = 2
@@ -133,7 +133,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000003_.ComputedPrefix = ``
 	__PlantAbstract__00000003_.IsExpanded = true
 	__PlantAbstract__00000003_.IsSelected = false
-	__PlantAbstract__00000003_.IsPlantDiagramsNodeExpanded = true
+	__PlantAbstract__00000003_.IsPlantDiagramsNodeExpanded = false
 
 	__PlantDiagram__00000001_.Name = `Plant 1`
 	__PlantDiagram__00000001_.OriginX = 424.918010
@@ -165,8 +165,8 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000001_.IsExpanded = false
 
 	__PlantDiagram__00000002_.Name = `New Plant - Diagram`
-	__PlantDiagram__00000002_.OriginX = 390.000000
-	__PlantDiagram__00000002_.OriginY = 691.000000
+	__PlantDiagram__00000002_.OriginX = 50.000000
+	__PlantDiagram__00000002_.OriginY = 587.500000
 	__PlantDiagram__00000002_.IsRhombusNodesExpanded = false
 	__PlantDiagram__00000002_.IsArcNodesExpanded = false
 	__PlantDiagram__00000002_.IsHiddenAxesShape = false
@@ -191,7 +191,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000002_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
 	__PlantDiagram__00000002_.IsChecked = false
 	__PlantDiagram__00000002_.ComputedPrefix = ``
-	__PlantDiagram__00000002_.IsExpanded = true
+	__PlantDiagram__00000002_.IsExpanded = false
 
 	__PlantDiagram__00000003_.Name = `Vase arcs`
 	__PlantDiagram__00000003_.OriginX = 120.000000
@@ -249,7 +249,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000004_.IsHiddenStackOfGrowthCurve2DByGrowthVector = false
 	__PlantDiagram__00000004_.IsChecked = false
 	__PlantDiagram__00000004_.ComputedPrefix = ``
-	__PlantDiagram__00000004_.IsExpanded = false
+	__PlantDiagram__00000004_.IsExpanded = true
 
 	__PlantDiagram__00000005_.Name = `New Plant - Diagram`
 	__PlantDiagram__00000005_.OriginX = 280.000000
@@ -281,8 +281,8 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000005_.IsExpanded = true
 
 	__PlantDiagram__00000006_.Name = `For About spiral plants`
-	__PlantDiagram__00000006_.OriginX = 257.000000
-	__PlantDiagram__00000006_.OriginY = 606.000000
+	__PlantDiagram__00000006_.OriginX = 93.000000
+	__PlantDiagram__00000006_.OriginY = 589.000000
 	__PlantDiagram__00000006_.IsRhombusNodesExpanded = true
 	__PlantDiagram__00000006_.IsArcNodesExpanded = false
 	__PlantDiagram__00000006_.IsHiddenAxesShape = false
@@ -307,7 +307,7 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000006_.IsHiddenStackOfGrowthCurve2DByGrowthVector = true
 	__PlantDiagram__00000006_.IsChecked = false
 	__PlantDiagram__00000006_.ComputedPrefix = ``
-	__PlantDiagram__00000006_.IsExpanded = true
+	__PlantDiagram__00000006_.IsExpanded = false
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
 	__Rendered3DShape__00000000_.ViewX = 1565.907118
@@ -353,12 +353,12 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 
 	__StoolDiagram__00000000_.Name = `New Plant - Diagram-StoolDiagram`
-	__StoolDiagram__00000000_.IsHiddenSeatTopCurveShape = false
-	__StoolDiagram__00000000_.IsHiddenRotatedSeatTopCurveShape = false
+	__StoolDiagram__00000000_.IsHiddenSeatTopCurveShape = true
+	__StoolDiagram__00000000_.IsHiddenRotatedSeatTopCurveShape = true
 	__StoolDiagram__00000000_.IsHiddenSeatBottomCurveShape = true
 	__StoolDiagram__00000000_.IsHiddenRotatedSeatBottomCurveShape = true
-	__StoolDiagram__00000000_.IsHiddenTorus3DShape = false
-	__StoolDiagram__00000000_.IsHiddenRotatedTorusShape = false
+	__StoolDiagram__00000000_.IsHiddenTorus3DShape = true
+	__StoolDiagram__00000000_.IsHiddenRotatedTorusShape = true
 	__StoolDiagram__00000000_.IsHiddenSampledPoints3DShape = true
 	__StoolDiagram__00000000_.IsHiddenRotatedSampledPoints3DShape = true
 	__StoolDiagram__00000000_.IsHiddenEyeSampledPoints3DShape = true
@@ -368,8 +368,8 @@ func _(stage *models.Stage) {
 	__StoolDiagram__00000000_.IsHiddenEyeStoolBottomCurveShape = true
 	__StoolDiagram__00000000_.IsHiddenSeat3DShape = true
 	__StoolDiagram__00000000_.IsHiddenEyeVolume3DShape = true
-	__StoolDiagram__00000000_.IsHiddenSeatAndLegs3DShape = true
-	__StoolDiagram__00000000_.IsHiddenRotatedSeatAndLegs3DShape = true
+	__StoolDiagram__00000000_.IsHiddenSeatAndLegs3DShape = false
+	__StoolDiagram__00000000_.IsHiddenRotatedSeatAndLegs3DShape = false
 	__StoolDiagram__00000000_.IsHiddenTiledFloor3DShape = false
 
 	__VaseAbstract__00000000_.Name = `Vase (2,1,104)-VaseAbstract`
