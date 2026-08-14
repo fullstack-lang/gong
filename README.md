@@ -1,4 +1,4 @@
-# 1. Domain-Specific Modeling (DSM) Demonstrations in the Browser
+# 1. Domain-Specific Modeling (DSM) in the Browser
 
 ## Systems Engineering
 
@@ -18,7 +18,7 @@
 
 - [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip)): exploration of operational scenarios, actor state evolutions, timeline trajectories, and parameter trade-offs.
 
-## DSM Inspection and Diagnostics
+## Stage Inspection and Diagnostics
 
 Diagrams are rendered using Scalable Vector Graphics (SVG). Gong provides a Go-based representation (Go stage) for SVG rendering.
 
@@ -41,7 +41,7 @@ Gong enables the construction and evolution of a DSM directly from a General Pur
 
 While developing a robust DSM requires familiarity with standard modeling patterns, Gong aims to streamline and democratize the engineering effort involved in the development process.
 
-# 3. "Hello World" Application Example
+# 3. "Hello World" Web Application Example
 
 ## 3.1. Prerequisites
 
