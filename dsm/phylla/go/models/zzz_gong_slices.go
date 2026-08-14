@@ -44,10 +44,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct CircleGridShape
 	// insertion point per field
 
-	// Compute reverse map for named struct ClockAbstract
+	// Compute reverse map for named struct Clock2DDiagram
 	// insertion point per field
 
-	// Compute reverse map for named struct ClockDiagram
+	// Compute reverse map for named struct Clock3DDiagram
+	// insertion point per field
+
+	// Compute reverse map for named struct ClockAbstract
 	// insertion point per field
 
 	// Compute reverse map for named struct ClockTopCurveShape
@@ -205,20 +208,62 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct PerpendicularVectorHalfway
 	// insertion point per field
 
+	// Compute reverse map for named struct Plant2DDiagram
+	// insertion point per field
+
 	// Compute reverse map for named struct PlantAbstract
 	// insertion point per field
-	stage.PlantAbstract_PlantDiagrams_reverseMap = make(map[*PlantDiagram]*PlantAbstract)
+	stage.PlantAbstract_Plant2DDiagrams_reverseMap = make(map[*Plant2DDiagram]*PlantAbstract)
 	for plantabstract := range stage.PlantAbstracts {
 		_ = plantabstract
-		for _, _plantdiagram := range plantabstract.PlantDiagrams {
-			stage.PlantAbstract_PlantDiagrams_reverseMap[_plantdiagram] = plantabstract
+		for _, _plant2ddiagram := range plantabstract.Plant2DDiagrams {
+			stage.PlantAbstract_Plant2DDiagrams_reverseMap[_plant2ddiagram] = plantabstract
+		}
+	}
+	stage.PlantAbstract_Vase2DDiagrams_reverseMap = make(map[*Vase2DDiagram]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		_ = plantabstract
+		for _, _vase2ddiagram := range plantabstract.Vase2DDiagrams {
+			stage.PlantAbstract_Vase2DDiagrams_reverseMap[_vase2ddiagram] = plantabstract
+		}
+	}
+	stage.PlantAbstract_Vase3DDiagrams_reverseMap = make(map[*Vase3DDiagram]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		_ = plantabstract
+		for _, _vase3ddiagram := range plantabstract.Vase3DDiagrams {
+			stage.PlantAbstract_Vase3DDiagrams_reverseMap[_vase3ddiagram] = plantabstract
+		}
+	}
+	stage.PlantAbstract_Stool2DDiagrams_reverseMap = make(map[*Stool2DDiagram]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		_ = plantabstract
+		for _, _stool2ddiagram := range plantabstract.Stool2DDiagrams {
+			stage.PlantAbstract_Stool2DDiagrams_reverseMap[_stool2ddiagram] = plantabstract
+		}
+	}
+	stage.PlantAbstract_Stool3DDiagrams_reverseMap = make(map[*Stool3DDiagram]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		_ = plantabstract
+		for _, _stool3ddiagram := range plantabstract.Stool3DDiagrams {
+			stage.PlantAbstract_Stool3DDiagrams_reverseMap[_stool3ddiagram] = plantabstract
+		}
+	}
+	stage.PlantAbstract_Clock2DDiagrams_reverseMap = make(map[*Clock2DDiagram]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		_ = plantabstract
+		for _, _clock2ddiagram := range plantabstract.Clock2DDiagrams {
+			stage.PlantAbstract_Clock2DDiagrams_reverseMap[_clock2ddiagram] = plantabstract
+		}
+	}
+	stage.PlantAbstract_Clock3DDiagrams_reverseMap = make(map[*Clock3DDiagram]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		_ = plantabstract
+		for _, _clock3ddiagram := range plantabstract.Clock3DDiagrams {
+			stage.PlantAbstract_Clock3DDiagrams_reverseMap[_clock3ddiagram] = plantabstract
 		}
 	}
 
 	// Compute reverse map for named struct PlantCircumferenceShape
-	// insertion point per field
-
-	// Compute reverse map for named struct PlantDiagram
 	// insertion point per field
 
 	// Compute reverse map for named struct PointsAndLines3DShape
@@ -365,10 +410,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct StartHalfwayArcShapeGrid
 	// insertion point per field
 
-	// Compute reverse map for named struct StoolAbstract
+	// Compute reverse map for named struct Stool2DDiagram
 	// insertion point per field
 
-	// Compute reverse map for named struct StoolDiagram
+	// Compute reverse map for named struct Stool3DDiagram
+	// insertion point per field
+
+	// Compute reverse map for named struct StoolAbstract
 	// insertion point per field
 
 	// Compute reverse map for named struct TiledFloor3DShape
@@ -434,10 +482,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TorusStackShape
 	// insertion point per field
 
-	// Compute reverse map for named struct VaseAbstract
+	// Compute reverse map for named struct Vase2DDiagram
 	// insertion point per field
 
-	// Compute reverse map for named struct VaseDiagram
+	// Compute reverse map for named struct Vase3DDiagram
+	// insertion point per field
+
+	// Compute reverse map for named struct VaseAbstract
 	// insertion point per field
 
 	// Compute reverse map for named struct VerticalTorusStackShape
@@ -483,11 +534,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.ClockAbstracts {
+	for instance := range stage.Clock2DDiagrams {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.ClockDiagrams {
+	for instance := range stage.Clock3DDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ClockAbstracts {
 		res = append(res, instance)
 	}
 
@@ -679,15 +734,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Plant2DDiagrams {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.PlantAbstracts {
 		res = append(res, instance)
 	}
 
 	for instance := range stage.PlantCircumferenceShapes {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.PlantDiagrams {
 		res = append(res, instance)
 	}
 
@@ -883,11 +938,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.StoolAbstracts {
+	for instance := range stage.Stool2DDiagrams {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.StoolDiagrams {
+	for instance := range stage.Stool3DDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.StoolAbstracts {
 		res = append(res, instance)
 	}
 
@@ -975,11 +1034,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.VaseAbstracts {
+	for instance := range stage.Vase2DDiagrams {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.VaseDiagrams {
+	for instance := range stage.Vase3DDiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.VaseAbstracts {
 		res = append(res, instance)
 	}
 
@@ -1043,15 +1106,21 @@ func (circlegridshape *CircleGridShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (clockabstract *ClockAbstract) GongCopy() GongstructIF {
-	newInstance := new(ClockAbstract)
-	clockabstract.CopyBasicFields(newInstance)
+func (clock2ddiagram *Clock2DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Clock2DDiagram)
+	clock2ddiagram.CopyBasicFields(newInstance)
 	return newInstance
 }
 
-func (clockdiagram *ClockDiagram) GongCopy() GongstructIF {
-	newInstance := new(ClockDiagram)
-	clockdiagram.CopyBasicFields(newInstance)
+func (clock3ddiagram *Clock3DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Clock3DDiagram)
+	clock3ddiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (clockabstract *ClockAbstract) GongCopy() GongstructIF {
+	newInstance := new(ClockAbstract)
+	clockabstract.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1337,6 +1406,12 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongCopy() Gongstr
 	return newInstance
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Plant2DDiagram)
+	plant2ddiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (plantabstract *PlantAbstract) GongCopy() GongstructIF {
 	newInstance := new(PlantAbstract)
 	plantabstract.CopyBasicFields(newInstance)
@@ -1346,12 +1421,6 @@ func (plantabstract *PlantAbstract) GongCopy() GongstructIF {
 func (plantcircumferenceshape *PlantCircumferenceShape) GongCopy() GongstructIF {
 	newInstance := new(PlantCircumferenceShape)
 	plantcircumferenceshape.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (plantdiagram *PlantDiagram) GongCopy() GongstructIF {
-	newInstance := new(PlantDiagram)
-	plantdiagram.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1643,15 +1712,21 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongCopy() GongstructI
 	return newInstance
 }
 
-func (stoolabstract *StoolAbstract) GongCopy() GongstructIF {
-	newInstance := new(StoolAbstract)
-	stoolabstract.CopyBasicFields(newInstance)
+func (stool2ddiagram *Stool2DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Stool2DDiagram)
+	stool2ddiagram.CopyBasicFields(newInstance)
 	return newInstance
 }
 
-func (stooldiagram *StoolDiagram) GongCopy() GongstructIF {
-	newInstance := new(StoolDiagram)
-	stooldiagram.CopyBasicFields(newInstance)
+func (stool3ddiagram *Stool3DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Stool3DDiagram)
+	stool3ddiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (stoolabstract *StoolAbstract) GongCopy() GongstructIF {
+	newInstance := new(StoolAbstract)
+	stoolabstract.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1781,15 +1856,21 @@ func (torusstackshape *TorusStackShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (vaseabstract *VaseAbstract) GongCopy() GongstructIF {
-	newInstance := new(VaseAbstract)
-	vaseabstract.CopyBasicFields(newInstance)
+func (vase2ddiagram *Vase2DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Vase2DDiagram)
+	vase2ddiagram.CopyBasicFields(newInstance)
 	return newInstance
 }
 
-func (vasediagram *VaseDiagram) GongCopy() GongstructIF {
-	newInstance := new(VaseDiagram)
-	vasediagram.CopyBasicFields(newInstance)
+func (vase3ddiagram *Vase3DDiagram) GongCopy() GongstructIF {
+	newInstance := new(Vase3DDiagram)
+	vase3ddiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (vaseabstract *VaseAbstract) GongCopy() GongstructIF {
+	newInstance := new(VaseAbstract)
+	vaseabstract.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -1886,6 +1967,26 @@ func (circlegridshape *CircleGridShape) GongGetUUID(stage *Stage) (uuid string) 
 	return
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(clock2ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clock2ddiagram), uint64(GetOrderPointerGongstruct(stage, clock2ddiagram)))
+	return
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(clock3ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clock3ddiagram), uint64(GetOrderPointerGongstruct(stage, clock3ddiagram)))
+	return
+}
+
 func (clockabstract *ClockAbstract) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(clockabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -1893,16 +1994,6 @@ func (clockabstract *ClockAbstract) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clockabstract), uint64(GetOrderPointerGongstruct(stage, clockabstract)))
-	return
-}
-
-func (clockdiagram *ClockDiagram) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(clockdiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clockdiagram), uint64(GetOrderPointerGongstruct(stage, clockdiagram)))
 	return
 }
 
@@ -2376,6 +2467,16 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetUUID(stage 
 	return
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(plant2ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plant2ddiagram), uint64(GetOrderPointerGongstruct(stage, plant2ddiagram)))
+	return
+}
+
 func (plantabstract *PlantAbstract) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(plantabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -2393,16 +2494,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongGetUUID(stage *Stage
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantcircumferenceshape), uint64(GetOrderPointerGongstruct(stage, plantcircumferenceshape)))
-	return
-}
-
-func (plantdiagram *PlantDiagram) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(plantdiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantdiagram), uint64(GetOrderPointerGongstruct(stage, plantdiagram)))
 	return
 }
 
@@ -2886,6 +2977,26 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetUUID(stage *Sta
 	return
 }
 
+func (stool2ddiagram *Stool2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stool2ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stool2ddiagram), uint64(GetOrderPointerGongstruct(stage, stool2ddiagram)))
+	return
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(stool3ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stool3ddiagram), uint64(GetOrderPointerGongstruct(stage, stool3ddiagram)))
+	return
+}
+
 func (stoolabstract *StoolAbstract) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(stoolabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -2893,16 +3004,6 @@ func (stoolabstract *StoolAbstract) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stoolabstract), uint64(GetOrderPointerGongstruct(stage, stoolabstract)))
-	return
-}
-
-func (stooldiagram *StoolDiagram) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(stooldiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stooldiagram), uint64(GetOrderPointerGongstruct(stage, stooldiagram)))
 	return
 }
 
@@ -3116,6 +3217,26 @@ func (torusstackshape *TorusStackShape) GongGetUUID(stage *Stage) (uuid string) 
 	return
 }
 
+func (vase2ddiagram *Vase2DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(vase2ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vase2ddiagram), uint64(GetOrderPointerGongstruct(stage, vase2ddiagram)))
+	return
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(vase3ddiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vase3ddiagram), uint64(GetOrderPointerGongstruct(stage, vase3ddiagram)))
+	return
+}
+
 func (vaseabstract *VaseAbstract) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(vaseabstract).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -3123,16 +3244,6 @@ func (vaseabstract *VaseAbstract) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vaseabstract), uint64(GetOrderPointerGongstruct(stage, vaseabstract)))
-	return
-}
-
-func (vasediagram *VaseDiagram) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(vasediagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(vasediagram), uint64(GetOrderPointerGongstruct(stage, vasediagram)))
 	return
 }
 
@@ -3229,6 +3340,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(angle0shapes_newInstances)
 	lenDeletedInstances += len(angle0shapes_deletedInstances)
+	var clock2ddiagrams_newInstances []*Clock2DDiagram
+	var clock2ddiagrams_deletedInstances []*Clock2DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for clock2ddiagram := range stage.Clock2DDiagrams {
+		if ref, ok := stage.Clock2DDiagrams_reference[clock2ddiagram]; !ok {
+			clock2ddiagrams_newInstances = append(clock2ddiagrams_newInstances, clock2ddiagram)
+			newInstancesSlice = append(newInstancesSlice, clock2ddiagram.GongMarshallIdentifier(stage))
+			if stage.Clock2DDiagrams_referenceOrder == nil {
+				stage.Clock2DDiagrams_referenceOrder = make(map[*Clock2DDiagram]uint)
+			}
+			stage.Clock2DDiagrams_referenceOrder[clock2ddiagram] = stage.Clock2DDiagram_stagedOrder[clock2ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, clock2ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Clock2DDiagrams_referenceOrder, clock2ddiagram)
+			fieldInitializers, pointersInitializations := clock2ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Clock2DDiagram_stagedOrder[ref] = stage.Clock2DDiagram_stagedOrder[clock2ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := clock2ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, clock2ddiagram)
+			// delete(stage.Clock2DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if clock2ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", clock2ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Clock2DDiagrams_reference {
+		instance := stage.Clock2DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Clock2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			clock2ddiagrams_deletedInstances = append(clock2ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(clock2ddiagrams_newInstances)
+	lenDeletedInstances += len(clock2ddiagrams_deletedInstances)
+	var clock3ddiagrams_newInstances []*Clock3DDiagram
+	var clock3ddiagrams_deletedInstances []*Clock3DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for clock3ddiagram := range stage.Clock3DDiagrams {
+		if ref, ok := stage.Clock3DDiagrams_reference[clock3ddiagram]; !ok {
+			clock3ddiagrams_newInstances = append(clock3ddiagrams_newInstances, clock3ddiagram)
+			newInstancesSlice = append(newInstancesSlice, clock3ddiagram.GongMarshallIdentifier(stage))
+			if stage.Clock3DDiagrams_referenceOrder == nil {
+				stage.Clock3DDiagrams_referenceOrder = make(map[*Clock3DDiagram]uint)
+			}
+			stage.Clock3DDiagrams_referenceOrder[clock3ddiagram] = stage.Clock3DDiagram_stagedOrder[clock3ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, clock3ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Clock3DDiagrams_referenceOrder, clock3ddiagram)
+			fieldInitializers, pointersInitializations := clock3ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Clock3DDiagram_stagedOrder[ref] = stage.Clock3DDiagram_stagedOrder[clock3ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := clock3ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, clock3ddiagram)
+			// delete(stage.Clock3DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if clock3ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", clock3ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Clock3DDiagrams_reference {
+		instance := stage.Clock3DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Clock3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			clock3ddiagrams_deletedInstances = append(clock3ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(clock3ddiagrams_newInstances)
+	lenDeletedInstances += len(clock3ddiagrams_deletedInstances)
 	var clockabstracts_newInstances []*ClockAbstract
 	var clockabstracts_deletedInstances []*ClockAbstract
 
@@ -3284,61 +3505,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(clockabstracts_newInstances)
 	lenDeletedInstances += len(clockabstracts_deletedInstances)
-	var clockdiagrams_newInstances []*ClockDiagram
-	var clockdiagrams_deletedInstances []*ClockDiagram
-
-	// parse all staged instances and check if they have a reference
-	for clockdiagram := range stage.ClockDiagrams {
-		if ref, ok := stage.ClockDiagrams_reference[clockdiagram]; !ok {
-			clockdiagrams_newInstances = append(clockdiagrams_newInstances, clockdiagram)
-			newInstancesSlice = append(newInstancesSlice, clockdiagram.GongMarshallIdentifier(stage))
-			if stage.ClockDiagrams_referenceOrder == nil {
-				stage.ClockDiagrams_referenceOrder = make(map[*ClockDiagram]uint)
-			}
-			stage.ClockDiagrams_referenceOrder[clockdiagram] = stage.ClockDiagram_stagedOrder[clockdiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, clockdiagram.GongMarshallUnstaging(stage))
-			// delete(stage.ClockDiagrams_referenceOrder, clockdiagram)
-			fieldInitializers, pointersInitializations := clockdiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ClockDiagram_stagedOrder[ref] = stage.ClockDiagram_stagedOrder[clockdiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := clockdiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, clockdiagram)
-			// delete(stage.ClockDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if clockdiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", clockdiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ClockDiagrams_reference {
-		instance := stage.ClockDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ClockDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			clockdiagrams_deletedInstances = append(clockdiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(clockdiagrams_newInstances)
-	lenDeletedInstances += len(clockdiagrams_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -3449,6 +3615,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(originalpoints3dshapes_newInstances)
 	lenDeletedInstances += len(originalpoints3dshapes_deletedInstances)
+	var plant2ddiagrams_newInstances []*Plant2DDiagram
+	var plant2ddiagrams_deletedInstances []*Plant2DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for plant2ddiagram := range stage.Plant2DDiagrams {
+		if ref, ok := stage.Plant2DDiagrams_reference[plant2ddiagram]; !ok {
+			plant2ddiagrams_newInstances = append(plant2ddiagrams_newInstances, plant2ddiagram)
+			newInstancesSlice = append(newInstancesSlice, plant2ddiagram.GongMarshallIdentifier(stage))
+			if stage.Plant2DDiagrams_referenceOrder == nil {
+				stage.Plant2DDiagrams_referenceOrder = make(map[*Plant2DDiagram]uint)
+			}
+			stage.Plant2DDiagrams_referenceOrder[plant2ddiagram] = stage.Plant2DDiagram_stagedOrder[plant2ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, plant2ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Plant2DDiagrams_referenceOrder, plant2ddiagram)
+			fieldInitializers, pointersInitializations := plant2ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Plant2DDiagram_stagedOrder[ref] = stage.Plant2DDiagram_stagedOrder[plant2ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := plant2ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, plant2ddiagram)
+			// delete(stage.Plant2DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if plant2ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", plant2ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Plant2DDiagrams_reference {
+		instance := stage.Plant2DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Plant2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			plant2ddiagrams_deletedInstances = append(plant2ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(plant2ddiagrams_newInstances)
+	lenDeletedInstances += len(plant2ddiagrams_deletedInstances)
 	var plantabstracts_newInstances []*PlantAbstract
 	var plantabstracts_deletedInstances []*PlantAbstract
 
@@ -3504,61 +3725,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(plantabstracts_newInstances)
 	lenDeletedInstances += len(plantabstracts_deletedInstances)
-	var plantdiagrams_newInstances []*PlantDiagram
-	var plantdiagrams_deletedInstances []*PlantDiagram
-
-	// parse all staged instances and check if they have a reference
-	for plantdiagram := range stage.PlantDiagrams {
-		if ref, ok := stage.PlantDiagrams_reference[plantdiagram]; !ok {
-			plantdiagrams_newInstances = append(plantdiagrams_newInstances, plantdiagram)
-			newInstancesSlice = append(newInstancesSlice, plantdiagram.GongMarshallIdentifier(stage))
-			if stage.PlantDiagrams_referenceOrder == nil {
-				stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
-			}
-			stage.PlantDiagrams_referenceOrder[plantdiagram] = stage.PlantDiagram_stagedOrder[plantdiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, plantdiagram.GongMarshallUnstaging(stage))
-			// delete(stage.PlantDiagrams_referenceOrder, plantdiagram)
-			fieldInitializers, pointersInitializations := plantdiagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.PlantDiagram_stagedOrder[ref] = stage.PlantDiagram_stagedOrder[plantdiagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := plantdiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, plantdiagram)
-			// delete(stage.PlantDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if plantdiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", plantdiagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.PlantDiagrams_reference {
-		instance := stage.PlantDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.PlantDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			plantdiagrams_deletedInstances = append(plantdiagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(plantdiagrams_newInstances)
-	lenDeletedInstances += len(plantdiagrams_deletedInstances)
 	var rendered3dshapes_newInstances []*Rendered3DShape
 	var rendered3dshapes_deletedInstances []*Rendered3DShape
 
@@ -3669,6 +3835,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(sampledpoints3dshapes_newInstances)
 	lenDeletedInstances += len(sampledpoints3dshapes_deletedInstances)
+	var stool2ddiagrams_newInstances []*Stool2DDiagram
+	var stool2ddiagrams_deletedInstances []*Stool2DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for stool2ddiagram := range stage.Stool2DDiagrams {
+		if ref, ok := stage.Stool2DDiagrams_reference[stool2ddiagram]; !ok {
+			stool2ddiagrams_newInstances = append(stool2ddiagrams_newInstances, stool2ddiagram)
+			newInstancesSlice = append(newInstancesSlice, stool2ddiagram.GongMarshallIdentifier(stage))
+			if stage.Stool2DDiagrams_referenceOrder == nil {
+				stage.Stool2DDiagrams_referenceOrder = make(map[*Stool2DDiagram]uint)
+			}
+			stage.Stool2DDiagrams_referenceOrder[stool2ddiagram] = stage.Stool2DDiagram_stagedOrder[stool2ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stool2ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Stool2DDiagrams_referenceOrder, stool2ddiagram)
+			fieldInitializers, pointersInitializations := stool2ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Stool2DDiagram_stagedOrder[ref] = stage.Stool2DDiagram_stagedOrder[stool2ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stool2ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stool2ddiagram)
+			// delete(stage.Stool2DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stool2ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stool2ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Stool2DDiagrams_reference {
+		instance := stage.Stool2DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Stool2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stool2ddiagrams_deletedInstances = append(stool2ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stool2ddiagrams_newInstances)
+	lenDeletedInstances += len(stool2ddiagrams_deletedInstances)
+	var stool3ddiagrams_newInstances []*Stool3DDiagram
+	var stool3ddiagrams_deletedInstances []*Stool3DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for stool3ddiagram := range stage.Stool3DDiagrams {
+		if ref, ok := stage.Stool3DDiagrams_reference[stool3ddiagram]; !ok {
+			stool3ddiagrams_newInstances = append(stool3ddiagrams_newInstances, stool3ddiagram)
+			newInstancesSlice = append(newInstancesSlice, stool3ddiagram.GongMarshallIdentifier(stage))
+			if stage.Stool3DDiagrams_referenceOrder == nil {
+				stage.Stool3DDiagrams_referenceOrder = make(map[*Stool3DDiagram]uint)
+			}
+			stage.Stool3DDiagrams_referenceOrder[stool3ddiagram] = stage.Stool3DDiagram_stagedOrder[stool3ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, stool3ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Stool3DDiagrams_referenceOrder, stool3ddiagram)
+			fieldInitializers, pointersInitializations := stool3ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Stool3DDiagram_stagedOrder[ref] = stage.Stool3DDiagram_stagedOrder[stool3ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := stool3ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, stool3ddiagram)
+			// delete(stage.Stool3DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if stool3ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", stool3ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Stool3DDiagrams_reference {
+		instance := stage.Stool3DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Stool3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			stool3ddiagrams_deletedInstances = append(stool3ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(stool3ddiagrams_newInstances)
+	lenDeletedInstances += len(stool3ddiagrams_deletedInstances)
 	var stoolabstracts_newInstances []*StoolAbstract
 	var stoolabstracts_deletedInstances []*StoolAbstract
 
@@ -3724,32 +4000,32 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(stoolabstracts_newInstances)
 	lenDeletedInstances += len(stoolabstracts_deletedInstances)
-	var stooldiagrams_newInstances []*StoolDiagram
-	var stooldiagrams_deletedInstances []*StoolDiagram
+	var vase2ddiagrams_newInstances []*Vase2DDiagram
+	var vase2ddiagrams_deletedInstances []*Vase2DDiagram
 
 	// parse all staged instances and check if they have a reference
-	for stooldiagram := range stage.StoolDiagrams {
-		if ref, ok := stage.StoolDiagrams_reference[stooldiagram]; !ok {
-			stooldiagrams_newInstances = append(stooldiagrams_newInstances, stooldiagram)
-			newInstancesSlice = append(newInstancesSlice, stooldiagram.GongMarshallIdentifier(stage))
-			if stage.StoolDiagrams_referenceOrder == nil {
-				stage.StoolDiagrams_referenceOrder = make(map[*StoolDiagram]uint)
+	for vase2ddiagram := range stage.Vase2DDiagrams {
+		if ref, ok := stage.Vase2DDiagrams_reference[vase2ddiagram]; !ok {
+			vase2ddiagrams_newInstances = append(vase2ddiagrams_newInstances, vase2ddiagram)
+			newInstancesSlice = append(newInstancesSlice, vase2ddiagram.GongMarshallIdentifier(stage))
+			if stage.Vase2DDiagrams_referenceOrder == nil {
+				stage.Vase2DDiagrams_referenceOrder = make(map[*Vase2DDiagram]uint)
 			}
-			stage.StoolDiagrams_referenceOrder[stooldiagram] = stage.StoolDiagram_stagedOrder[stooldiagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, stooldiagram.GongMarshallUnstaging(stage))
-			// delete(stage.StoolDiagrams_referenceOrder, stooldiagram)
-			fieldInitializers, pointersInitializations := stooldiagram.GongMarshallAllFields(stage)
+			stage.Vase2DDiagrams_referenceOrder[vase2ddiagram] = stage.Vase2DDiagram_stagedOrder[vase2ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, vase2ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Vase2DDiagrams_referenceOrder, vase2ddiagram)
+			fieldInitializers, pointersInitializations := vase2ddiagram.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.StoolDiagram_stagedOrder[ref] = stage.StoolDiagram_stagedOrder[stooldiagram]
+			stage.Vase2DDiagram_stagedOrder[ref] = stage.Vase2DDiagram_stagedOrder[vase2ddiagram]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := stooldiagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, stooldiagram)
-			// delete(stage.StoolDiagram_stagedOrder, ref)
+			diffs := vase2ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, vase2ddiagram)
+			// delete(stage.Vase2DDiagram_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				if stooldiagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", stooldiagram.GetName())
+				if vase2ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", vase2ddiagram.GetName())
 				} else {
 					fieldsEdit += "\n\t//"
 				}
@@ -3766,10 +4042,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.StoolDiagrams_reference {
-		instance := stage.StoolDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.StoolDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			stooldiagrams_deletedInstances = append(stooldiagrams_deletedInstances, ref)
+	for _, ref := range stage.Vase2DDiagrams_reference {
+		instance := stage.Vase2DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Vase2DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			vase2ddiagrams_deletedInstances = append(vase2ddiagrams_deletedInstances, ref)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -3777,8 +4053,63 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		}
 	}
 
-	lenNewInstances += len(stooldiagrams_newInstances)
-	lenDeletedInstances += len(stooldiagrams_deletedInstances)
+	lenNewInstances += len(vase2ddiagrams_newInstances)
+	lenDeletedInstances += len(vase2ddiagrams_deletedInstances)
+	var vase3ddiagrams_newInstances []*Vase3DDiagram
+	var vase3ddiagrams_deletedInstances []*Vase3DDiagram
+
+	// parse all staged instances and check if they have a reference
+	for vase3ddiagram := range stage.Vase3DDiagrams {
+		if ref, ok := stage.Vase3DDiagrams_reference[vase3ddiagram]; !ok {
+			vase3ddiagrams_newInstances = append(vase3ddiagrams_newInstances, vase3ddiagram)
+			newInstancesSlice = append(newInstancesSlice, vase3ddiagram.GongMarshallIdentifier(stage))
+			if stage.Vase3DDiagrams_referenceOrder == nil {
+				stage.Vase3DDiagrams_referenceOrder = make(map[*Vase3DDiagram]uint)
+			}
+			stage.Vase3DDiagrams_referenceOrder[vase3ddiagram] = stage.Vase3DDiagram_stagedOrder[vase3ddiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, vase3ddiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Vase3DDiagrams_referenceOrder, vase3ddiagram)
+			fieldInitializers, pointersInitializations := vase3ddiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Vase3DDiagram_stagedOrder[ref] = stage.Vase3DDiagram_stagedOrder[vase3ddiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := vase3ddiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, vase3ddiagram)
+			// delete(stage.Vase3DDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if vase3ddiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", vase3ddiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Vase3DDiagrams_reference {
+		instance := stage.Vase3DDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Vase3DDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			vase3ddiagrams_deletedInstances = append(vase3ddiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(vase3ddiagrams_newInstances)
+	lenDeletedInstances += len(vase3ddiagrams_deletedInstances)
 	var vaseabstracts_newInstances []*VaseAbstract
 	var vaseabstracts_deletedInstances []*VaseAbstract
 
@@ -3834,61 +4165,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(vaseabstracts_newInstances)
 	lenDeletedInstances += len(vaseabstracts_deletedInstances)
-	var vasediagrams_newInstances []*VaseDiagram
-	var vasediagrams_deletedInstances []*VaseDiagram
-
-	// parse all staged instances and check if they have a reference
-	for vasediagram := range stage.VaseDiagrams {
-		if ref, ok := stage.VaseDiagrams_reference[vasediagram]; !ok {
-			vasediagrams_newInstances = append(vasediagrams_newInstances, vasediagram)
-			newInstancesSlice = append(newInstancesSlice, vasediagram.GongMarshallIdentifier(stage))
-			if stage.VaseDiagrams_referenceOrder == nil {
-				stage.VaseDiagrams_referenceOrder = make(map[*VaseDiagram]uint)
-			}
-			stage.VaseDiagrams_referenceOrder[vasediagram] = stage.VaseDiagram_stagedOrder[vasediagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, vasediagram.GongMarshallUnstaging(stage))
-			// delete(stage.VaseDiagrams_referenceOrder, vasediagram)
-			fieldInitializers, pointersInitializations := vasediagram.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.VaseDiagram_stagedOrder[ref] = stage.VaseDiagram_stagedOrder[vasediagram]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := vasediagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, vasediagram)
-			// delete(stage.VaseDiagram_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if vasediagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", vasediagram.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.VaseDiagrams_reference {
-		instance := stage.VaseDiagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.VaseDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			vasediagrams_deletedInstances = append(vasediagrams_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(vasediagrams_newInstances)
-	lenDeletedInstances += len(vasediagrams_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -4004,6 +4280,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.CircleGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Clock2DDiagrams_reference = make(map[*Clock2DDiagram]*Clock2DDiagram)
+	stage.Clock2DDiagrams_referenceOrder = make(map[*Clock2DDiagram]uint) // diff Unstage needs the reference order
+	stage.Clock2DDiagrams_instance = make(map[*Clock2DDiagram]*Clock2DDiagram)
+	for instance := range stage.Clock2DDiagrams {
+		_copy := instance.GongCopy().(*Clock2DDiagram)
+		stage.Clock2DDiagrams_reference[instance] = _copy
+		stage.Clock2DDiagrams_instance[_copy] = instance
+		stage.Clock2DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Clock3DDiagrams_reference = make(map[*Clock3DDiagram]*Clock3DDiagram)
+	stage.Clock3DDiagrams_referenceOrder = make(map[*Clock3DDiagram]uint) // diff Unstage needs the reference order
+	stage.Clock3DDiagrams_instance = make(map[*Clock3DDiagram]*Clock3DDiagram)
+	for instance := range stage.Clock3DDiagrams {
+		_copy := instance.GongCopy().(*Clock3DDiagram)
+		stage.Clock3DDiagrams_reference[instance] = _copy
+		stage.Clock3DDiagrams_instance[_copy] = instance
+		stage.Clock3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.ClockAbstracts_reference = make(map[*ClockAbstract]*ClockAbstract)
 	stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint) // diff Unstage needs the reference order
 	stage.ClockAbstracts_instance = make(map[*ClockAbstract]*ClockAbstract)
@@ -4012,16 +4308,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ClockAbstracts_reference[instance] = _copy
 		stage.ClockAbstracts_instance[_copy] = instance
 		stage.ClockAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.ClockDiagrams_reference = make(map[*ClockDiagram]*ClockDiagram)
-	stage.ClockDiagrams_referenceOrder = make(map[*ClockDiagram]uint) // diff Unstage needs the reference order
-	stage.ClockDiagrams_instance = make(map[*ClockDiagram]*ClockDiagram)
-	for instance := range stage.ClockDiagrams {
-		_copy := instance.GongCopy().(*ClockDiagram)
-		stage.ClockDiagrams_reference[instance] = _copy
-		stage.ClockDiagrams_instance[_copy] = instance
-		stage.ClockDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
@@ -4494,6 +4780,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.PerpendicularVectorHalfways_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Plant2DDiagrams_reference = make(map[*Plant2DDiagram]*Plant2DDiagram)
+	stage.Plant2DDiagrams_referenceOrder = make(map[*Plant2DDiagram]uint) // diff Unstage needs the reference order
+	stage.Plant2DDiagrams_instance = make(map[*Plant2DDiagram]*Plant2DDiagram)
+	for instance := range stage.Plant2DDiagrams {
+		_copy := instance.GongCopy().(*Plant2DDiagram)
+		stage.Plant2DDiagrams_reference[instance] = _copy
+		stage.Plant2DDiagrams_instance[_copy] = instance
+		stage.Plant2DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.PlantAbstracts_reference = make(map[*PlantAbstract]*PlantAbstract)
 	stage.PlantAbstracts_referenceOrder = make(map[*PlantAbstract]uint) // diff Unstage needs the reference order
 	stage.PlantAbstracts_instance = make(map[*PlantAbstract]*PlantAbstract)
@@ -4512,16 +4808,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.PlantCircumferenceShapes_reference[instance] = _copy
 		stage.PlantCircumferenceShapes_instance[_copy] = instance
 		stage.PlantCircumferenceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.PlantDiagrams_reference = make(map[*PlantDiagram]*PlantDiagram)
-	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint) // diff Unstage needs the reference order
-	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
-	for instance := range stage.PlantDiagrams {
-		_copy := instance.GongCopy().(*PlantDiagram)
-		stage.PlantDiagrams_reference[instance] = _copy
-		stage.PlantDiagrams_instance[_copy] = instance
-		stage.PlantDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.PointsAndLines3DShapes_reference = make(map[*PointsAndLines3DShape]*PointsAndLines3DShape)
@@ -5004,6 +5290,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StartHalfwayArcShapeGrids_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Stool2DDiagrams_reference = make(map[*Stool2DDiagram]*Stool2DDiagram)
+	stage.Stool2DDiagrams_referenceOrder = make(map[*Stool2DDiagram]uint) // diff Unstage needs the reference order
+	stage.Stool2DDiagrams_instance = make(map[*Stool2DDiagram]*Stool2DDiagram)
+	for instance := range stage.Stool2DDiagrams {
+		_copy := instance.GongCopy().(*Stool2DDiagram)
+		stage.Stool2DDiagrams_reference[instance] = _copy
+		stage.Stool2DDiagrams_instance[_copy] = instance
+		stage.Stool2DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Stool3DDiagrams_reference = make(map[*Stool3DDiagram]*Stool3DDiagram)
+	stage.Stool3DDiagrams_referenceOrder = make(map[*Stool3DDiagram]uint) // diff Unstage needs the reference order
+	stage.Stool3DDiagrams_instance = make(map[*Stool3DDiagram]*Stool3DDiagram)
+	for instance := range stage.Stool3DDiagrams {
+		_copy := instance.GongCopy().(*Stool3DDiagram)
+		stage.Stool3DDiagrams_reference[instance] = _copy
+		stage.Stool3DDiagrams_instance[_copy] = instance
+		stage.Stool3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.StoolAbstracts_reference = make(map[*StoolAbstract]*StoolAbstract)
 	stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint) // diff Unstage needs the reference order
 	stage.StoolAbstracts_instance = make(map[*StoolAbstract]*StoolAbstract)
@@ -5012,16 +5318,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.StoolAbstracts_reference[instance] = _copy
 		stage.StoolAbstracts_instance[_copy] = instance
 		stage.StoolAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.StoolDiagrams_reference = make(map[*StoolDiagram]*StoolDiagram)
-	stage.StoolDiagrams_referenceOrder = make(map[*StoolDiagram]uint) // diff Unstage needs the reference order
-	stage.StoolDiagrams_instance = make(map[*StoolDiagram]*StoolDiagram)
-	for instance := range stage.StoolDiagrams {
-		_copy := instance.GongCopy().(*StoolDiagram)
-		stage.StoolDiagrams_reference[instance] = _copy
-		stage.StoolDiagrams_instance[_copy] = instance
-		stage.StoolDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.TiledFloor3DShapes_reference = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
@@ -5234,6 +5530,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TorusStackShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Vase2DDiagrams_reference = make(map[*Vase2DDiagram]*Vase2DDiagram)
+	stage.Vase2DDiagrams_referenceOrder = make(map[*Vase2DDiagram]uint) // diff Unstage needs the reference order
+	stage.Vase2DDiagrams_instance = make(map[*Vase2DDiagram]*Vase2DDiagram)
+	for instance := range stage.Vase2DDiagrams {
+		_copy := instance.GongCopy().(*Vase2DDiagram)
+		stage.Vase2DDiagrams_reference[instance] = _copy
+		stage.Vase2DDiagrams_instance[_copy] = instance
+		stage.Vase2DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Vase3DDiagrams_reference = make(map[*Vase3DDiagram]*Vase3DDiagram)
+	stage.Vase3DDiagrams_referenceOrder = make(map[*Vase3DDiagram]uint) // diff Unstage needs the reference order
+	stage.Vase3DDiagrams_instance = make(map[*Vase3DDiagram]*Vase3DDiagram)
+	for instance := range stage.Vase3DDiagrams {
+		_copy := instance.GongCopy().(*Vase3DDiagram)
+		stage.Vase3DDiagrams_reference[instance] = _copy
+		stage.Vase3DDiagrams_instance[_copy] = instance
+		stage.Vase3DDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.VaseAbstracts_reference = make(map[*VaseAbstract]*VaseAbstract)
 	stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint) // diff Unstage needs the reference order
 	stage.VaseAbstracts_instance = make(map[*VaseAbstract]*VaseAbstract)
@@ -5242,16 +5558,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.VaseAbstracts_reference[instance] = _copy
 		stage.VaseAbstracts_instance[_copy] = instance
 		stage.VaseAbstracts_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.VaseDiagrams_reference = make(map[*VaseDiagram]*VaseDiagram)
-	stage.VaseDiagrams_referenceOrder = make(map[*VaseDiagram]uint) // diff Unstage needs the reference order
-	stage.VaseDiagrams_instance = make(map[*VaseDiagram]*VaseDiagram)
-	for instance := range stage.VaseDiagrams {
-		_copy := instance.GongCopy().(*VaseDiagram)
-		stage.VaseDiagrams_reference[instance] = _copy
-		stage.VaseDiagrams_instance[_copy] = instance
-		stage.VaseDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -5315,13 +5621,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.ClockAbstracts {
-		reference := stage.ClockAbstracts_reference[instance]
+	for instance := range stage.Clock2DDiagrams {
+		reference := stage.Clock2DDiagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.ClockDiagrams {
-		reference := stage.ClockDiagrams_reference[instance]
+	for instance := range stage.Clock3DDiagrams {
+		reference := stage.Clock3DDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ClockAbstracts {
+		reference := stage.ClockAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5560,6 +5871,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Plant2DDiagrams {
+		reference := stage.Plant2DDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.PlantAbstracts {
 		reference := stage.PlantAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -5567,11 +5883,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.PlantCircumferenceShapes {
 		reference := stage.PlantCircumferenceShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.PlantDiagrams {
-		reference := stage.PlantDiagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5815,13 +6126,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.StoolAbstracts {
-		reference := stage.StoolAbstracts_reference[instance]
+	for instance := range stage.Stool2DDiagrams {
+		reference := stage.Stool2DDiagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.StoolDiagrams {
-		reference := stage.StoolDiagrams_reference[instance]
+	for instance := range stage.Stool3DDiagrams {
+		reference := stage.Stool3DDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.StoolAbstracts {
+		reference := stage.StoolAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -5930,13 +6246,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.VaseAbstracts {
-		reference := stage.VaseAbstracts_reference[instance]
+	for instance := range stage.Vase2DDiagrams {
+		reference := stage.Vase2DDiagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.VaseDiagrams {
-		reference := stage.VaseDiagrams_reference[instance]
+	for instance := range stage.Vase3DDiagrams {
+		reference := stage.Vase3DDiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.VaseAbstracts {
+		reference := stage.VaseAbstracts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -6056,6 +6377,30 @@ func (circlegridshape *CircleGridShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Clock2DDiagram_stagedOrder[clock2ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Clock2DDiagrams_referenceOrder[clock2ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Clock2DDiagram was not staged and does not have a reference order", clock2ddiagram)
+		return 0
+	}
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Clock3DDiagram_stagedOrder[clock3ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Clock3DDiagrams_referenceOrder[clock3ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Clock3DDiagram was not staged and does not have a reference order", clock3ddiagram)
+		return 0
+	}
+}
+
 func (clockabstract *ClockAbstract) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ClockAbstract_stagedOrder[clockabstract]; ok {
 		return order
@@ -6064,18 +6409,6 @@ func (clockabstract *ClockAbstract) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type ClockAbstract was not staged and does not have a reference order", clockabstract)
-		return 0
-	}
-}
-
-func (clockdiagram *ClockDiagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ClockDiagram_stagedOrder[clockdiagram]; ok {
-		return order
-	}
-	if order, ok := stage.ClockDiagrams_referenceOrder[clockdiagram]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ClockDiagram was not staged and does not have a reference order", clockdiagram)
 		return 0
 	}
 }
@@ -6644,6 +6977,18 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetOrder(stage
 	}
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Plant2DDiagram_stagedOrder[plant2ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Plant2DDiagrams_referenceOrder[plant2ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Plant2DDiagram was not staged and does not have a reference order", plant2ddiagram)
+		return 0
+	}
+}
+
 func (plantabstract *PlantAbstract) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.PlantAbstract_stagedOrder[plantabstract]; ok {
 		return order
@@ -6664,18 +7009,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongGetOrder(stage *Stag
 		return order
 	} else {
 		log.Printf("instance %p of type PlantCircumferenceShape was not staged and does not have a reference order", plantcircumferenceshape)
-		return 0
-	}
-}
-
-func (plantdiagram *PlantDiagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.PlantDiagram_stagedOrder[plantdiagram]; ok {
-		return order
-	}
-	if order, ok := stage.PlantDiagrams_referenceOrder[plantdiagram]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type PlantDiagram was not staged and does not have a reference order", plantdiagram)
 		return 0
 	}
 }
@@ -7256,6 +7589,30 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetOrder(stage *St
 	}
 }
 
+func (stool2ddiagram *Stool2DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Stool2DDiagram_stagedOrder[stool2ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Stool2DDiagrams_referenceOrder[stool2ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Stool2DDiagram was not staged and does not have a reference order", stool2ddiagram)
+		return 0
+	}
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Stool3DDiagram_stagedOrder[stool3ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Stool3DDiagrams_referenceOrder[stool3ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Stool3DDiagram was not staged and does not have a reference order", stool3ddiagram)
+		return 0
+	}
+}
+
 func (stoolabstract *StoolAbstract) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.StoolAbstract_stagedOrder[stoolabstract]; ok {
 		return order
@@ -7264,18 +7621,6 @@ func (stoolabstract *StoolAbstract) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type StoolAbstract was not staged and does not have a reference order", stoolabstract)
-		return 0
-	}
-}
-
-func (stooldiagram *StoolDiagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.StoolDiagram_stagedOrder[stooldiagram]; ok {
-		return order
-	}
-	if order, ok := stage.StoolDiagrams_referenceOrder[stooldiagram]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type StoolDiagram was not staged and does not have a reference order", stooldiagram)
 		return 0
 	}
 }
@@ -7532,6 +7877,30 @@ func (torusstackshape *TorusStackShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (vase2ddiagram *Vase2DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Vase2DDiagram_stagedOrder[vase2ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Vase2DDiagrams_referenceOrder[vase2ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Vase2DDiagram was not staged and does not have a reference order", vase2ddiagram)
+		return 0
+	}
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Vase3DDiagram_stagedOrder[vase3ddiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Vase3DDiagrams_referenceOrder[vase3ddiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Vase3DDiagram was not staged and does not have a reference order", vase3ddiagram)
+		return 0
+	}
+}
+
 func (vaseabstract *VaseAbstract) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.VaseAbstract_stagedOrder[vaseabstract]; ok {
 		return order
@@ -7540,18 +7909,6 @@ func (vaseabstract *VaseAbstract) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type VaseAbstract was not staged and does not have a reference order", vaseabstract)
-		return 0
-	}
-}
-
-func (vasediagram *VaseDiagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.VaseDiagram_stagedOrder[vasediagram]; ok {
-		return order
-	}
-	if order, ok := stage.VaseDiagrams_referenceOrder[vasediagram]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type VaseDiagram was not staged and does not have a reference order", vasediagram)
 		return 0
 	}
 }
@@ -7657,6 +8014,24 @@ func (circlegridshape *CircleGridShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", circlegridshape.GongGetGongstructName(), circlegridshape.GongGetOrder(stage))
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clock2ddiagram.GongGetGongstructName(), clock2ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (clock2ddiagram *Clock2DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clock2ddiagram.GongGetGongstructName(), clock2ddiagram.GongGetOrder(stage))
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clock3ddiagram.GongGetGongstructName(), clock3ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (clock3ddiagram *Clock3DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", clock3ddiagram.GongGetGongstructName(), clock3ddiagram.GongGetOrder(stage))
+}
+
 func (clockabstract *ClockAbstract) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", clockabstract.GongGetGongstructName(), clockabstract.GongGetOrder(stage))
 }
@@ -7664,15 +8039,6 @@ func (clockabstract *ClockAbstract) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (clockabstract *ClockAbstract) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", clockabstract.GongGetGongstructName(), clockabstract.GongGetOrder(stage))
-}
-
-func (clockdiagram *ClockDiagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", clockdiagram.GongGetGongstructName(), clockdiagram.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (clockdiagram *ClockDiagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", clockdiagram.GongGetGongstructName(), clockdiagram.GongGetOrder(stage))
 }
 
 func (clocktopcurveshape *ClockTopCurveShape) GongGetIdentifier(stage *Stage) string {
@@ -8098,6 +8464,15 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetReferenceId
 	return fmt.Sprintf("__%s__%08d_", perpendicularvectorhalfway.GongGetGongstructName(), perpendicularvectorhalfway.GongGetOrder(stage))
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", plant2ddiagram.GongGetGongstructName(), plant2ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (plant2ddiagram *Plant2DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", plant2ddiagram.GongGetGongstructName(), plant2ddiagram.GongGetOrder(stage))
+}
+
 func (plantabstract *PlantAbstract) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", plantabstract.GongGetGongstructName(), plantabstract.GongGetOrder(stage))
 }
@@ -8114,15 +8489,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongGetIdentifier(stage 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (plantcircumferenceshape *PlantCircumferenceShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", plantcircumferenceshape.GongGetGongstructName(), plantcircumferenceshape.GongGetOrder(stage))
-}
-
-func (plantdiagram *PlantDiagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (plantdiagram *PlantDiagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
 }
 
 func (pointsandlines3dshape *PointsAndLines3DShape) GongGetIdentifier(stage *Stage) string {
@@ -8557,6 +8923,24 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetReferenceIdenti
 	return fmt.Sprintf("__%s__%08d_", starthalfwayarcshapegrid.GongGetGongstructName(), starthalfwayarcshapegrid.GongGetOrder(stage))
 }
 
+func (stool2ddiagram *Stool2DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stool2ddiagram.GongGetGongstructName(), stool2ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stool2ddiagram *Stool2DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stool2ddiagram.GongGetGongstructName(), stool2ddiagram.GongGetOrder(stage))
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stool3ddiagram.GongGetGongstructName(), stool3ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stool3ddiagram *Stool3DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stool3ddiagram.GongGetGongstructName(), stool3ddiagram.GongGetOrder(stage))
+}
+
 func (stoolabstract *StoolAbstract) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stoolabstract.GongGetGongstructName(), stoolabstract.GongGetOrder(stage))
 }
@@ -8564,15 +8948,6 @@ func (stoolabstract *StoolAbstract) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (stoolabstract *StoolAbstract) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stoolabstract.GongGetGongstructName(), stoolabstract.GongGetOrder(stage))
-}
-
-func (stooldiagram *StoolDiagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", stooldiagram.GongGetGongstructName(), stooldiagram.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (stooldiagram *StoolDiagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", stooldiagram.GongGetGongstructName(), stooldiagram.GongGetOrder(stage))
 }
 
 func (tiledfloor3dshape *TiledFloor3DShape) GongGetIdentifier(stage *Stage) string {
@@ -8764,6 +9139,24 @@ func (torusstackshape *TorusStackShape) GongGetReferenceIdentifier(stage *Stage)
 	return fmt.Sprintf("__%s__%08d_", torusstackshape.GongGetGongstructName(), torusstackshape.GongGetOrder(stage))
 }
 
+func (vase2ddiagram *Vase2DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", vase2ddiagram.GongGetGongstructName(), vase2ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (vase2ddiagram *Vase2DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", vase2ddiagram.GongGetGongstructName(), vase2ddiagram.GongGetOrder(stage))
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", vase3ddiagram.GongGetGongstructName(), vase3ddiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (vase3ddiagram *Vase3DDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", vase3ddiagram.GongGetGongstructName(), vase3ddiagram.GongGetOrder(stage))
+}
+
 func (vaseabstract *VaseAbstract) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", vaseabstract.GongGetGongstructName(), vaseabstract.GongGetOrder(stage))
 }
@@ -8771,15 +9164,6 @@ func (vaseabstract *VaseAbstract) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (vaseabstract *VaseAbstract) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", vaseabstract.GongGetGongstructName(), vaseabstract.GongGetOrder(stage))
-}
-
-func (vasediagram *VaseDiagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", vasediagram.GongGetGongstructName(), vasediagram.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (vasediagram *VaseDiagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", vasediagram.GongGetGongstructName(), vasediagram.GongGetOrder(stage))
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetIdentifier(stage *Stage) string {
@@ -8867,19 +9251,27 @@ func (circlegridshape *CircleGridShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Clock2DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock2ddiagram.Name))
+	return
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clock3ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Clock3DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clock3ddiagram.Name))
+	return
+}
+
 func (clockabstract *ClockAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockAbstract")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockabstract.Name))
-	return
-}
-
-func (clockdiagram *ClockDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockdiagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ClockDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(clockdiagram.Name))
 	return
 }
 
@@ -9259,6 +9651,14 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongMarshallIdenti
 	return
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", plant2ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Plant2DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant2ddiagram.Name))
+	return
+}
+
 func (plantabstract *PlantAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantabstract.GongGetIdentifier(stage))
@@ -9272,14 +9672,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallIdentifier(s
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantcircumferenceshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PlantCircumferenceShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantcircumferenceshape.Name))
-	return
-}
-
-func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PlantDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantdiagram.Name))
 	return
 }
 
@@ -9667,19 +10059,27 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallIdentifier
 	return
 }
 
+func (stool2ddiagram *Stool2DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Stool2DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool2ddiagram.Name))
+	return
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool3ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Stool3DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stool3ddiagram.Name))
+	return
+}
+
 func (stoolabstract *StoolAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StoolAbstract")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stoolabstract.Name))
-	return
-}
-
-func (stooldiagram *StoolDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", stooldiagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StoolDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stooldiagram.Name))
 	return
 }
 
@@ -9851,19 +10251,27 @@ func (torusstackshape *TorusStackShape) GongMarshallIdentifier(stage *Stage) (de
 	return
 }
 
+func (vase2ddiagram *Vase2DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vase2DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase2ddiagram.Name))
+	return
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase3ddiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vase3DDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vase3ddiagram.Name))
+	return
+}
+
 func (vaseabstract *VaseAbstract) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", vaseabstract.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VaseAbstract")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vaseabstract.Name))
-	return
-}
-
-func (vasediagram *VaseDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vasediagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "VaseDiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(vasediagram.Name))
 	return
 }
 
@@ -9932,15 +10340,21 @@ func (circlegridshape *CircleGridShape) GongMarshallUnstaging(stage *Stage) (dec
 	return
 }
 
-func (clockabstract *ClockAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (clock2ddiagram *Clock2DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clock2ddiagram.GongGetReferenceIdentifier(stage))
 	return
 }
 
-func (clockdiagram *ClockDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (clock3ddiagram *Clock3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockdiagram.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clock3ddiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (clockabstract *ClockAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", clockabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -10226,6 +10640,12 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongMarshallUnstag
 	return
 }
 
+func (plant2ddiagram *Plant2DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", plant2ddiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (plantabstract *PlantAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantabstract.GongGetReferenceIdentifier(stage))
@@ -10235,12 +10655,6 @@ func (plantabstract *PlantAbstract) GongMarshallUnstaging(stage *Stage) (decl st
 func (plantcircumferenceshape *PlantCircumferenceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantcircumferenceshape.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (plantdiagram *PlantDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -10532,15 +10946,21 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongMarshallUnstaging(
 	return
 }
 
-func (stoolabstract *StoolAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (stool2ddiagram *Stool2DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool2ddiagram.GongGetReferenceIdentifier(stage))
 	return
 }
 
-func (stooldiagram *StoolDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (stool3ddiagram *Stool3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", stooldiagram.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stool3ddiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (stoolabstract *StoolAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stoolabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -10670,15 +11090,21 @@ func (torusstackshape *TorusStackShape) GongMarshallUnstaging(stage *Stage) (dec
 	return
 }
 
-func (vaseabstract *VaseAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (vase2ddiagram *Vase2DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vaseabstract.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase2ddiagram.GongGetReferenceIdentifier(stage))
 	return
 }
 
-func (vasediagram *VaseDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (vase3ddiagram *Vase3DDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", vasediagram.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vase3ddiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (vaseabstract *VaseAbstract) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", vaseabstract.GongGetReferenceIdentifier(stage))
 	return
 }
 

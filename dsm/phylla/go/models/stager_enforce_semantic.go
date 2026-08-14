@@ -91,20 +91,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape},
 		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName},
 		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
-		{"Enforce plant diagram vase diagram", stager.enforcePlantDiagramVaseDiagram},
-		{"Enforce plant diagram stool diagram", stager.enforcePlantDiagramStoolDiagram},
-		{"Enforce plant diagram clock diagram", stager.enforcePlantDiagramClockDiagram},
-		{"Enforce plant diagram rendered 3d shape", stager.enforcePlantDiagramRendered3DShape},
-		{"Enforce plant diagram torus stack shape", stager.enforcePlantDiagramTorusStackShape},
-		{"Enforce plant diagram vertical torus stack shape", stager.enforcePlantDiagramVerticalTorusStackShape},
-		{"Enforce plant diagram partially rotated torus shape", stager.enforcePlantDiagramPartiallyRotatedTorusShape},
-		{"Enforce plant diagram stack of partially rotated torus shape", stager.enforcePlantDiagramStackOfPartiallyRotatedTorusShape},
-		{"Enforce plant diagram points and lines 3d shape", stager.enforcePlantDiagramPointsAndLines3DShape},
-		{"Enforce plant diagram key hole 3d shape", stager.enforcePlantDiagramKeyHole3DShape},
-		{"Enforce plant diagram key 3d shape", stager.enforcePlantDiagramKey3DShape},
-		{"Enforce plant diagram volume key 3d shape", stager.enforcePlantDiagramVolumeKey3DShape},
-		{"Enforce plant diagram torus edge 3d shape", stager.enforcePlantDiagramTorusEdge3DShape},
-		{"Enforce plant diagram tiled floor 3d shape", stager.enforcePlantDiagramTiledFloor3DShape},
+		{"Enforce diagram shapes", stager.enforceDiagramShapes},
 		{"Enforce plant rotation ratio heights", stager.enforcePlantRotationRatioHeights},
 
 		// concrete semantic check
@@ -114,6 +101,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	for _, method := range methods {
 		modified := method.fn()
 		if modified {
+			log.Printf("Semantic check '%s' generated a stage modification", method.name)
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Semantic check '%s' generated a stage modification", method.name))
 			}
@@ -124,19 +112,24 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	return needCommit
 }
 
+
 func (stager *Stager) enforceSingleSelectedPlant() bool {
 	modified := false
 
-	// If there is a checked PlantDiagram, the plant owning that diagram must be the selected plant
+	// Try to find if any diagram across all plants is checked
 	var plantWithCheckedDiagram *PlantAbstract
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {
-		for _, diagram := range plant.PlantDiagrams {
-			if diagram.IsChecked {
-				plantWithCheckedDiagram = plant
-				break
-			}
-		}
-		if plantWithCheckedDiagram != nil {
+		checked := false
+		for _, d := range plant.Plant2DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Vase2DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Vase3DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Stool2DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Stool3DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Clock2DDiagrams { if d.IsChecked { checked = true } }
+		for _, d := range plant.Clock3DDiagrams { if d.IsChecked { checked = true } }
+
+		if checked {
+			plantWithCheckedDiagram = plant
 			break
 		}
 	}
@@ -170,22 +163,16 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 			if stager.selectedPlant != selectedPlant {
 				stager.selectedPlant = selectedPlant
 			}
-			if len(selectedPlant.PlantDiagrams) > 0 && !selectedPlant.PlantDiagrams[0].IsChecked {
-				for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
-					plantDiagram_.IsChecked = false
-				}
-				selectedPlant.PlantDiagrams[0].IsChecked = true
+			if len(selectedPlant.Plant2DDiagrams) > 0 {
+				selectedPlant.Plant2DDiagrams[0].IsChecked = true
 				modified = true
 			}
 		} else if len(plants) > 0 {
 			for plant := range plants {
 				plant.IsSelected = true
 				stager.selectedPlant = plant
-				if len(plant.PlantDiagrams) > 0 && !plant.PlantDiagrams[0].IsChecked {
-					for plantDiagram_ := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stager.stage) {
-						plantDiagram_.IsChecked = false
-					}
-					plant.PlantDiagrams[0].IsChecked = true
+				if len(plant.Plant2DDiagrams) > 0 {
+					plant.Plant2DDiagrams[0].IsChecked = true
 				}
 				modified = true
 				break
@@ -215,7 +202,6 @@ func (stager *Stager) enforceSingleSelectedPlant() bool {
 
 	return modified
 }
-
 func (stager *Stager) enforcePlantRotationRatioHeights() bool {
 	modified := false
 	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stager.stage) {

@@ -1,6 +1,6 @@
 package models
 
-type ClockDiagram struct {
+type Clock3DDiagram struct {
 	Name string
 
 	IsHiddenClockTopCurveShape bool
@@ -16,4 +16,7 @@ type ClockDiagram struct {
 	TiledFloor3DShape         *TiledFloor3DShape
 
 	Rendered3DShape *Rendered3DShape
+
+	IsChecked bool
+	AbstractTypeFields
 }

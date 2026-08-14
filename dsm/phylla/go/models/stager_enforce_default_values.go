@@ -112,18 +112,18 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		}
 	}
 
-	for _, plantDiagram := range GetGongstrucsSorted[*PlantDiagram](stager.stage) {
-		if plantDiagram.Name == "" {
+	for _, plant2DDiagram := range GetGongstrucsSorted[*Plant2DDiagram](stager.stage) {
+		if plant2DDiagram.Name == "" {
 			needCommit = true
-			plantDiagram.Name = "New Plant Diagram"
+			plant2DDiagram.Name = "New Plant Diagram"
 		}
-		if plantDiagram.OriginX == 0.0 {
+		if plant2DDiagram.OriginX == 0.0 {
 			needCommit = true
-			plantDiagram.OriginX = 280.000000
+			plant2DDiagram.OriginX = 280.000000
 		}
-		if plantDiagram.OriginY == 0.0 {
+		if plant2DDiagram.OriginY == 0.0 {
 			needCommit = true
-			plantDiagram.OriginY = 950.000000
+			plant2DDiagram.OriginY = 950.000000
 		}
 	}
 	for _, axesShape := range GetGongstrucsSorted[*AxesShape](stager.stage) {

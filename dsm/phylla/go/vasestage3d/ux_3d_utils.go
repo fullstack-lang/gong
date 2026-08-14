@@ -42,7 +42,7 @@ func (u *ThreeJSStageUpdater) addLights(stager *models.Stager, canvas *threejs.C
 	canvas.AmbiantLight = ambiantLight
 }
 
-func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreservedCamera bool, preservedFov float64, canvas *threejs.Canvas, preservedX float64, preservedY float64, preservedZ float64, preservedTargetX float64, preservedTargetY float64, preservedTargetZ float64, checkedDiagram *models.PlantDiagram, globalR float64) {
+func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreservedCamera bool, preservedFov float64, canvas *threejs.Canvas, preservedX float64, preservedY float64, preservedZ float64, preservedTargetX float64, preservedTargetY float64, preservedTargetZ float64, checkedDiagram *models.Vase3DDiagram, globalR float64) {
 	threejsStage := stager.GetThreejsStage()
 
 	if hasPreservedCamera {
@@ -61,18 +61,18 @@ func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreserved
 			TargetZ: preservedTargetZ,
 			Fov:     preservedFov,
 		}).Stage(threejsStage)
-	} else if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil && checkedDiagram.VaseDiagram.Rendered3DShape != nil {
+	} else if checkedDiagram != nil && checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
 		canvas.Camera = (&threejs.Camera{
 			Name: "Camera",
 			Position: threejs.Position{
-				X: checkedDiagram.VaseDiagram.Rendered3DShape.ViewX,
-				Y: checkedDiagram.VaseDiagram.Rendered3DShape.ViewY,
-				Z: checkedDiagram.VaseDiagram.Rendered3DShape.ViewZ,
+				X: checkedDiagram.Rendered3DShape.ViewX,
+				Y: checkedDiagram.Rendered3DShape.ViewY,
+				Z: checkedDiagram.Rendered3DShape.ViewZ,
 			},
-			TargetX: checkedDiagram.VaseDiagram.Rendered3DShape.TargetX,
-			TargetY: checkedDiagram.VaseDiagram.Rendered3DShape.TargetY,
-			TargetZ: checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ,
-			Fov:     checkedDiagram.VaseDiagram.Rendered3DShape.Fov,
+			TargetX: checkedDiagram.Rendered3DShape.TargetX,
+			TargetY: checkedDiagram.Rendered3DShape.TargetY,
+			TargetZ: checkedDiagram.Rendered3DShape.TargetZ,
+			Fov:     checkedDiagram.Rendered3DShape.Fov,
 		}).Stage(threejsStage)
 	} else {
 		camDist := globalR * 2.5
@@ -92,14 +92,14 @@ func (u *ThreeJSStageUpdater) preserveCamera(stager *models.Stager, hasPreserved
 	}
 
 	canvas.Camera.OnUpdate = func(updatedCamera *threejs.Camera) {
-		if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil && checkedDiagram.VaseDiagram.Rendered3DShape != nil {
-			checkedDiagram.VaseDiagram.Rendered3DShape.ViewX = updatedCamera.X
-			checkedDiagram.VaseDiagram.Rendered3DShape.ViewY = updatedCamera.Y
-			checkedDiagram.VaseDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
-			checkedDiagram.VaseDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
-			checkedDiagram.VaseDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
-			checkedDiagram.VaseDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
-			checkedDiagram.VaseDiagram.Rendered3DShape.Fov = updatedCamera.Fov
+		if checkedDiagram != nil && checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
+			checkedDiagram.Rendered3DShape.ViewX = updatedCamera.X
+			checkedDiagram.Rendered3DShape.ViewY = updatedCamera.Y
+			checkedDiagram.Rendered3DShape.ViewZ = updatedCamera.Z
+			checkedDiagram.Rendered3DShape.TargetX = updatedCamera.TargetX
+			checkedDiagram.Rendered3DShape.TargetY = updatedCamera.TargetY
+			checkedDiagram.Rendered3DShape.TargetZ = updatedCamera.TargetZ
+			checkedDiagram.Rendered3DShape.Fov = updatedCamera.Fov
 			stager.GetStage().CommitWithSuspendedCallbacks()
 			stager.UxSlider()
 		}

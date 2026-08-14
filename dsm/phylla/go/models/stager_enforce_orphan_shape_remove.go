@@ -453,122 +453,122 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-		if diagram.VaseDiagram != nil {
-			if diagram.VaseDiagram.Rendered3DShape != nil {
-				refRendered3DShape[diagram.VaseDiagram.Rendered3DShape] = true
-			}
-			if diagram.VaseDiagram.TiledFloor3DShape != nil {
-				refTiledFloor3DShape[diagram.VaseDiagram.TiledFloor3DShape] = true
-			}
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
-		if diagram.StoolDiagram != nil {
-			if diagram.StoolDiagram.Rendered3DShape != nil {
-				refRendered3DShape[diagram.StoolDiagram.Rendered3DShape] = true
-			}
-			if diagram.StoolDiagram.TiledFloor3DShape != nil {
-				refTiledFloor3DShape[diagram.StoolDiagram.TiledFloor3DShape] = true
-			}
-			if diagram.StoolDiagram.SeatTopCurveShape != nil {
-				refSeatTopCurveShape[diagram.StoolDiagram.SeatTopCurveShape] = true
-			}
-			if diagram.StoolDiagram.RotatedSeatTopCurveShape != nil {
-				refPartiallyRotatedSeatTopCurveShape[diagram.StoolDiagram.RotatedSeatTopCurveShape] = true
-			}
-			if diagram.StoolDiagram.SeatBottomCurveShape != nil {
-				refSeatBottomCurveShape[diagram.StoolDiagram.SeatBottomCurveShape] = true
-			}
-			if diagram.StoolDiagram.RotatedSeatBottomCurveShape != nil {
-				refPartiallyRotatedSeatBottomCurveShape[diagram.StoolDiagram.RotatedSeatBottomCurveShape] = true
-			}
-			if diagram.StoolDiagram.Torus3DShape != nil {
-				refTorus3DShape[diagram.StoolDiagram.Torus3DShape] = true
-			}
-			if diagram.StoolDiagram.SampledPoints3DShape != nil {
-				refSampledPoints3DShape[diagram.StoolDiagram.SampledPoints3DShape] = true
-			}
-			if diagram.StoolDiagram.RotatedSampledPoints3DShape != nil {
-				refRotatedSampledPoints3DShape[diagram.StoolDiagram.RotatedSampledPoints3DShape] = true
-			}
-			if diagram.StoolDiagram.EyeSampledPoints3DShape != nil {
-				refEyeSampledPoints3DShape[diagram.StoolDiagram.EyeSampledPoints3DShape] = true
-			}
-			if diagram.StoolDiagram.EyeCornersSampledPoints3DShape != nil {
-				refEyeCornersSampledPoints3DShape[diagram.StoolDiagram.EyeCornersSampledPoints3DShape] = true
-			}
-			if diagram.StoolDiagram.Eye3DShape != nil {
-				refEye3DShape[diagram.StoolDiagram.Eye3DShape] = true
-			}
-			if diagram.StoolDiagram.EyeSeatBottomCurveShape != nil {
-				refEyeSeatBottomCurveShape[diagram.StoolDiagram.EyeSeatBottomCurveShape] = true
-			}
-			if diagram.StoolDiagram.EyeStoolBottomCurveShape != nil {
-				refEyeStoolBottomCurveShape[diagram.StoolDiagram.EyeStoolBottomCurveShape] = true
-			}
-			if diagram.StoolDiagram.Seat3DShape != nil {
-				refSeat3DShape[diagram.StoolDiagram.Seat3DShape] = true
-			}
-			if diagram.StoolDiagram.EyeVolume3DShape != nil {
-				refEyeVolume3DShape[diagram.StoolDiagram.EyeVolume3DShape] = true
-			}
-			if diagram.StoolDiagram.SeatAndLegs3DShape != nil {
-				refSeatAndLegs3DShape[diagram.StoolDiagram.SeatAndLegs3DShape] = true
-			}
-			if diagram.StoolDiagram.RotatedSeatAndLegs3DShape != nil {
-				refRotatedSeatAndLegs3DShape[diagram.StoolDiagram.RotatedSeatAndLegs3DShape] = true
-			}
-			if diagram.StoolDiagram.RotatedTorusShape != nil {
-				refPartiallyRotatedTorusShape[diagram.StoolDiagram.RotatedTorusShape] = true
-			}
+		if diagram.TorusStackShape != nil {
+			refTorusStackShape[diagram.TorusStackShape] = true
 		}
-		if diagram.ClockDiagram != nil {
-			if diagram.ClockDiagram.Rendered3DShape != nil {
-				refRendered3DShape[diagram.ClockDiagram.Rendered3DShape] = true
-			}
-			if diagram.ClockDiagram.ClockTopCurveShape != nil {
-				refClockTopCurveShape[diagram.ClockDiagram.ClockTopCurveShape] = true
-			}
-			if diagram.ClockDiagram.Torus3DShape != nil {
-				refTorus3DShape[diagram.ClockDiagram.Torus3DShape] = true
-			}
-			if diagram.ClockDiagram.SampledPoints3DShape != nil {
-				refSampledPoints3DShape[diagram.ClockDiagram.SampledPoints3DShape] = true
-			}
-			if diagram.ClockDiagram.TiledFloor3DShape != nil {
-				refTiledFloor3DShape[diagram.ClockDiagram.TiledFloor3DShape] = true
-			}
+		if diagram.VerticalTorusStackShape != nil {
+			refVerticalTorusStackShape[diagram.VerticalTorusStackShape] = true
 		}
-		if diagram.VaseDiagram != nil {
-			if diagram.VaseDiagram.TorusStackShape != nil {
-				refTorusStackShape[diagram.VaseDiagram.TorusStackShape] = true
-			}
-			if diagram.VaseDiagram.VerticalTorusStackShape != nil {
-				refVerticalTorusStackShape[diagram.VaseDiagram.VerticalTorusStackShape] = true
-			}
-			if diagram.VaseDiagram.PartiallyRotatedTorusShape != nil {
-				refPartiallyRotatedTorusShape[diagram.VaseDiagram.PartiallyRotatedTorusShape] = true
-			}
-			if diagram.VaseDiagram.StackOfPartiallyRotatedTorusShape != nil {
-				refStackOfPartiallyRotatedTorusShape[diagram.VaseDiagram.StackOfPartiallyRotatedTorusShape] = true
-			}
-			if diagram.VaseDiagram.PointsAndLines3DShape != nil {
-				refPointsAndLines3DShape[diagram.VaseDiagram.PointsAndLines3DShape] = true
-			}
-			if diagram.VaseDiagram.KeyHole3DShape != nil {
-				refKeyHole3DShape[diagram.VaseDiagram.KeyHole3DShape] = true
-			}
-			if diagram.VaseDiagram.Key3DShape != nil {
-				refKey3DShape[diagram.VaseDiagram.Key3DShape] = true
-			}
-			if diagram.VaseDiagram.VolumeKey3DShape != nil {
-				refVolumeKey3DShape[diagram.VaseDiagram.VolumeKey3DShape] = true
-			}
-			if diagram.VaseDiagram.TorusEdge3DShape != nil {
-				refTorusEdge3DShape[diagram.VaseDiagram.TorusEdge3DShape] = true
-			}
-			if diagram.VaseDiagram.SampledPoints3DShape != nil {
-				refSampledPoints3DShape[diagram.VaseDiagram.SampledPoints3DShape] = true
-			}
+		if diagram.PartiallyRotatedTorusShape != nil {
+			refPartiallyRotatedTorusShape[diagram.PartiallyRotatedTorusShape] = true
+		}
+		if diagram.StackOfPartiallyRotatedTorusShape != nil {
+			refStackOfPartiallyRotatedTorusShape[diagram.StackOfPartiallyRotatedTorusShape] = true
+		}
+		if diagram.PointsAndLines3DShape != nil {
+			refPointsAndLines3DShape[diagram.PointsAndLines3DShape] = true
+		}
+		if diagram.SampledPoints3DShape != nil {
+			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
+		}
+		if diagram.OriginalPoints3DShape != nil {
+		}
+		if diagram.Angle0Shape != nil {
+		}
+		if diagram.KeyHole3DShape != nil {
+			refKeyHole3DShape[diagram.KeyHole3DShape] = true
+		}
+		if diagram.Key3DShape != nil {
+			refKey3DShape[diagram.Key3DShape] = true
+		}
+		if diagram.VolumeKey3DShape != nil {
+			refVolumeKey3DShape[diagram.VolumeKey3DShape] = true
+		}
+		if diagram.TorusEdge3DShape != nil {
+			refTorusEdge3DShape[diagram.TorusEdge3DShape] = true
+		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
+	}
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
+		}
+		if diagram.Torus3DShape != nil {
+			refTorus3DShape[diagram.Torus3DShape] = true
+		}
+		if diagram.RotatedTorusShape != nil {
+			refPartiallyRotatedTorusShape[diagram.RotatedTorusShape] = true
+		}
+		if diagram.SampledPoints3DShape != nil {
+			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
+		}
+		if diagram.RotatedSampledPoints3DShape != nil {
+			refRotatedSampledPoints3DShape[diagram.RotatedSampledPoints3DShape] = true
+		}
+		if diagram.EyeSampledPoints3DShape != nil {
+			refEyeSampledPoints3DShape[diagram.EyeSampledPoints3DShape] = true
+		}
+		if diagram.EyeCornersSampledPoints3DShape != nil {
+			refEyeCornersSampledPoints3DShape[diagram.EyeCornersSampledPoints3DShape] = true
+		}
+		if diagram.Eye3DShape != nil {
+			refEye3DShape[diagram.Eye3DShape] = true
+		}
+		if diagram.SeatTopCurveShape != nil {
+			refSeatTopCurveShape[diagram.SeatTopCurveShape] = true
+		}
+		if diagram.RotatedSeatTopCurveShape != nil {
+			refPartiallyRotatedSeatTopCurveShape[diagram.RotatedSeatTopCurveShape] = true
+		}
+		if diagram.SeatBottomCurveShape != nil {
+			refSeatBottomCurveShape[diagram.SeatBottomCurveShape] = true
+		}
+		if diagram.RotatedSeatBottomCurveShape != nil {
+			refPartiallyRotatedSeatBottomCurveShape[diagram.RotatedSeatBottomCurveShape] = true
+		}
+		if diagram.EyeSeatBottomCurveShape != nil {
+			refEyeSeatBottomCurveShape[diagram.EyeSeatBottomCurveShape] = true
+		}
+		if diagram.EyeStoolBottomCurveShape != nil {
+			refEyeStoolBottomCurveShape[diagram.EyeStoolBottomCurveShape] = true
+		}
+		if diagram.Seat3DShape != nil {
+			refSeat3DShape[diagram.Seat3DShape] = true
+		}
+		if diagram.EyeVolume3DShape != nil {
+			refEyeVolume3DShape[diagram.EyeVolume3DShape] = true
+		}
+		if diagram.SeatAndLegs3DShape != nil {
+			refSeatAndLegs3DShape[diagram.SeatAndLegs3DShape] = true
+		}
+		if diagram.RotatedSeatAndLegs3DShape != nil {
+			refRotatedSeatAndLegs3DShape[diagram.RotatedSeatAndLegs3DShape] = true
+		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
+	}
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
+		}
+		if diagram.Torus3DShape != nil {
+			refTorus3DShape[diagram.Torus3DShape] = true
+		}
+		if diagram.SampledPoints3DShape != nil {
+			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
+		}
+		if diagram.ClockTopCurveShape != nil {
+			refClockTopCurveShape[diagram.ClockTopCurveShape] = true
+		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
 		}
 	}
 

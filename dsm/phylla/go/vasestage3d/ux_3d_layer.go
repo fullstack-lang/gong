@@ -11,7 +11,7 @@ import (
 func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 	stager *models.Stager,
 	h int, stackHeight int, dx, dy, thetaOffset float64, namePrefix string,
-	plant *models.PlantAbstract, checkedDiagram *models.PlantDiagram,
+	plant *models.PlantAbstract, checkedDiagram *models.Vase3DDiagram,
 	resampledBaseBottom *threejs.Curve, resampledBaseTop *threejs.Curve,
 	thickness float64, globalR float64,
 	canvas *threejs.Canvas,
@@ -43,7 +43,7 @@ func (u *ThreeJSStageUpdater) generateLayerWithModulo(
 		}
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenSampledPoints3DShape {
+	if !checkedDiagram.IsHiddenSampledPoints3DShape {
 		numPointsPerRep := len(resampledBaseBottom.Points)
 		u.addPointSpheres(stager, massiveBottomCurve.Points, "red", canvas, namePrefix+" Bottom", dy, numPointsPerRep)
 		u.addPointSpheres(stager, massiveTopCurve.Points, "blue", canvas, namePrefix+" Top", dy, numPointsPerRep)

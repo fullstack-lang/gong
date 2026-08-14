@@ -16,7 +16,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	totalThetaOffset float64,
 	namePrefix string,
 	plant *models.PlantAbstract,
-	checkedDiagram *models.PlantDiagram,
+	checkedDiagram *models.Vase3DDiagram,
 	localBottomCurve *threejs.Curve,
 	localTopCurve *threejs.Curve,
 	dy float64,
@@ -83,7 +83,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	inHoleArr := make([]bool, len(localBottomCurve.Points))
 	var y_bottom_abs, y_top_abs float64
 
-	if !checkedDiagram.VaseDiagram.IsHiddenKeyHole3DShape && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 && h != 0 {
+	if !checkedDiagram.IsHiddenKeyHole3DShape && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 && h != 0 {
 		x_left := offsetKeyX - widthKey/2.0
 		x_right := offsetKeyX + widthKey/2.0
 		y_bottom_abs = offsetKeyY - heightKey/2.0 + dy
@@ -353,7 +353,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 	innerRadius := outerRadius * 0.85
 	bambooColor := "#4a3623"
 
-	if !checkedDiagram.VaseDiagram.IsHiddenTorusEdge3DShape {
+	if !checkedDiagram.IsHiddenTorusEdge3DShape {
 		canvas.Meshs = append(canvas.Meshs,
 			u.createTorusEdgeMesh(stager, namePrefix+" BottomInner", bambooColor, bottomEdges, true, innerRadius),
 			u.createTorusEdgeMesh(stager, namePrefix+" BottomOuter", bambooColor, bottomEdges, false, outerRadius),
@@ -362,7 +362,7 @@ func (u *ThreeJSStageUpdater) generateRibbonMesh(
 		)
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && plant.VaseAbstract != nil && (plant.VaseAbstract.ChosenP1P2PairShape != nil || plant.VaseAbstract.PxShape != nil) {
+	if !checkedDiagram.IsHiddenPointsAndLines3DShape && h < stackHeight-1 && plant.VaseAbstract != nil && (plant.VaseAbstract.ChosenP1P2PairShape != nil || plant.VaseAbstract.PxShape != nil) {
 		var p1x, p1y, p2x, p2y, pxx, pxy float64
 		hasP1P2 := false
 		if plant.VaseAbstract.ChosenP1P2PairShape != nil {

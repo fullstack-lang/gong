@@ -48,8 +48,8 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	var checkedDiagram *models.PlantDiagram
-	for _, diagram := range plant.PlantDiagrams {
+	var checkedDiagram *models.Vase3DDiagram
+	for _, diagram := range plant.Vase3DDiagrams {
 		if diagram.IsChecked {
 			checkedDiagram = diagram
 			break
@@ -65,19 +65,19 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 
 	floorMinY := math.MaxFloat64
 
-	if checkedDiagram == nil || checkedDiagram.VaseDiagram == nil {
+	if checkedDiagram == nil || checkedDiagram == nil {
 		threejsStage.Commit()
 		return
 	}
 
 	// isOne3DShapeVisible is true if any of the shapes are visible
-	isOne3DShapeVisible := !checkedDiagram.VaseDiagram.IsHiddenTorusStackShape ||
-		!checkedDiagram.VaseDiagram.IsHiddenVerticalTorusStackShape ||
-		!checkedDiagram.VaseDiagram.IsHiddenPartiallyRotatedTorusShape ||
-		!checkedDiagram.VaseDiagram.IsHiddenStackOfPartiallyRotatedTorusShape ||
-		!checkedDiagram.VaseDiagram.IsHiddenPointsAndLines3DShape ||
-		!checkedDiagram.VaseDiagram.IsHiddenKeyHole3DShape ||
-		!checkedDiagram.VaseDiagram.IsHiddenVolumeKey3DShape
+	isOne3DShapeVisible := !checkedDiagram.IsHiddenTorusStackShape ||
+		!checkedDiagram.IsHiddenVerticalTorusStackShape ||
+		!checkedDiagram.IsHiddenPartiallyRotatedTorusShape ||
+		!checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape ||
+		!checkedDiagram.IsHiddenPointsAndLines3DShape ||
+		!checkedDiagram.IsHiddenKeyHole3DShape ||
+		!checkedDiagram.IsHiddenVolumeKey3DShape
 
 	// Ribbon generated from GrowthCurve2D and TopGrowthCurve2D
 	if !isOne3DShapeVisible || plant.StackHeight == 0 {
@@ -185,12 +185,12 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 	resampledBaseBottom := u.resampleCurveAtAngles(stager, anglesBottom, bottomPoints, targetAngles, "Base Bottom", expectedDegrees)
 	resampledBaseTop := u.resampleCurveAtAngles(stager, anglesTop, topPoints, targetAngles, "Base Top", expectedDegrees)
 
-	if !checkedDiagram.VaseDiagram.IsHiddenOriginalPoints3DShape {
+	if !checkedDiagram.IsHiddenOriginalPoints3DShape {
 		u.addPointSpheres(stager, curve.Points, "green", canvas, plant.Name+" Original Bottom", 0, len(curve.Points))
 		u.addPointSpheres(stager, topCurve.Points, "orange", canvas, plant.Name+" Original Top", 0, len(topCurve.Points))
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenTorusStackShape {
+	if !checkedDiagram.IsHiddenTorusStackShape {
 		var growthVectorX, growthVectorY float64
 		if plant.GrowthVectorShape != nil {
 			growthVectorX = plant.GrowthVectorShape.X
@@ -222,7 +222,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenVerticalTorusStackShape {
+	if !checkedDiagram.IsHiddenVerticalTorusStackShape {
 		for h := 0; h < stackHeight; h++ {
 			dx := 0.0
 			dy := float64(h) * relativeCuttedStackFloorHeight * sideLength
@@ -232,7 +232,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenPartiallyRotatedTorusShape {
+	if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
 		dx, dy, _ := models.ComputePartiallyGrowthCurveDY(plant)
 		thetaOffset := dx / globalR
 
@@ -243,7 +243,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		u.generateLayerWithModulo(stager, 1, 2, dx, dy, thetaOffset, "Partially Rotated Torus", plant, checkedDiagram, resampledBaseBottom, resampledBaseTop, thickness, globalR, canvas)
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
+	if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
 		numSteps := stackHeight - 1
 		dxs := make([]float64, stackHeight)
 		dys := make([]float64, stackHeight)
@@ -280,7 +280,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if (!checkedDiagram.VaseDiagram.IsHiddenKey3DShape || !checkedDiagram.VaseDiagram.IsHiddenVolumeKey3DShape) && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 {
+	if (!checkedDiagram.IsHiddenKey3DShape || !checkedDiagram.IsHiddenVolumeKey3DShape) && plant.VaseAbstract != nil && plant.VaseAbstract.KeyHoleShape != nil && globalR > 0 {
 		stackH := stackHeight
 		if stackH <= 0 {
 			stackH = 1
@@ -343,7 +343,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 			for k := 0; k < threeDModulo; k++ {
 				baseThetaOffset := float64(k) * 2.0 * math.Pi / float64(threeDModulo)
 
-				if !checkedDiagram.VaseDiagram.IsHiddenKey3DShape {
+				if !checkedDiagram.IsHiddenKey3DShape {
 					vBL := u.get3DPtHK(stager, x_left, y_bottom, "BL", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 					vBR := u.get3DPtHK(stager, x_right, y_bottom, "BR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
 					vTR := u.get3DPtHK(stager, x_right, y_top, "TR", dx_h, dy_h, globalR, baseThetaOffset, h, k)
@@ -357,7 +357,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 					)
 				}
 
-				if !checkedDiagram.VaseDiagram.IsHiddenVolumeKey3DShape {
+				if !checkedDiagram.IsHiddenVolumeKey3DShape {
 					// Front face at globalR - thickness
 					frontR := globalR - thickness
 					vF_BL := u.get3DPtHK(stager, vk_x_left, vk_y_bottom, "F-BL", dx_h, dy_h, frontR, baseThetaOffset, h, k)
@@ -406,7 +406,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		}
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenAngle0Shape {
+	if !checkedDiagram.IsHiddenAngle0Shape {
 		tubeRadius := globalR * 0.01
 		if tubeRadius < 0.5 {
 			tubeRadius = 0.5
@@ -480,7 +480,7 @@ func (u *ThreeJSStageUpdater) ux_3d_plant_diagram(stager *models.Stager) {
 		canvas.Meshs = append(canvas.Meshs, poleMesh, axisMesh)
 	}
 
-	if !checkedDiagram.VaseDiagram.IsHiddenTiledFloor3DShape {
+	if !checkedDiagram.IsHiddenTiledFloor3DShape {
 		u.addFloorTiles(stager, floorMinY, plant, globalR, canvas)
 	}
 

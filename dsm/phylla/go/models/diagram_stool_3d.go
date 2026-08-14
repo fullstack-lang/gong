@@ -1,6 +1,6 @@
 package models
 
-type StoolDiagram struct {
+type Stool3DDiagram struct {
 	Name string
 
 	IsHiddenSeatTopCurveShape bool
@@ -58,4 +58,7 @@ type StoolDiagram struct {
 	TiledFloor3DShape         *TiledFloor3DShape
 
 	Rendered3DShape *Rendered3DShape
+
+	IsChecked bool
+	AbstractTypeFields
 }

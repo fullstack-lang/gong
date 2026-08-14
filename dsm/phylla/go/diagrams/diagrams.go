@@ -30,9 +30,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000001_ := (&models.AttributeShape{Name: `N`}).Stage(stage)
 	__AttributeShape__00000002_ := (&models.AttributeShape{Name: `M`}).Stage(stage)
 	__AttributeShape__00000004_ := (&models.AttributeShape{Name: `RhombusInsideAngle`}).Stage(stage)
-	__AttributeShape__00000007_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
-	__AttributeShape__00000008_ := (&models.AttributeShape{Name: `OriginX`}).Stage(stage)
-	__AttributeShape__00000009_ := (&models.AttributeShape{Name: `OriginY`}).Stage(stage)
 	__AttributeShape__00000010_ := (&models.AttributeShape{Name: `LengthX`}).Stage(stage)
 	__AttributeShape__00000011_ := (&models.AttributeShape{Name: `LengthY`}).Stage(stage)
 	__AttributeShape__00000012_ := (&models.AttributeShape{Name: `IsSelected`}).Stage(stage)
@@ -51,7 +48,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-Library`}).Stage(stage)
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Plant`}).Stage(stage)
-	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-PlantDiagram`}).Stage(stage)
 	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `Default-AxesShape`}).Stage(stage)
 	__GongStructShape__00000011_ := (&models.GongStructShape{Name: `Default-CircleGridShape`}).Stage(stage)
 	__GongStructShape__00000014_ := (&models.GongStructShape{Name: `Default-PerpendicularVectorGrid`}).Stage(stage)
@@ -111,7 +107,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `SubLibraries`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `RootPlants`}).Stage(stage)
-	__LinkShape__00000002_ := (&models.LinkShape{Name: `PlantDiagrams`}).Stage(stage)
 	__LinkShape__00000014_ := (&models.LinkShape{Name: `AxesShape`}).Stage(stage)
 	__LinkShape__00000026_ := (&models.LinkShape{Name: `GrowthVectorShape`}).Stage(stage)
 	__LinkShape__00000027_ := (&models.LinkShape{Name: `PerpendicularVectorGrid`}).Stage(stage)
@@ -158,24 +153,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000004_.FieldTypeAsString = ``
 	__AttributeShape__00000004_.Structname = `Plant`
 	__AttributeShape__00000004_.Fieldtypename = `float64`
-
-	__AttributeShape__00000007_.Name = `Name`
-	__AttributeShape__00000007_.IdentifierMeta = ref_models.PlantDiagram{}.Name
-	__AttributeShape__00000007_.FieldTypeAsString = ``
-	__AttributeShape__00000007_.Structname = `PlantDiagram`
-	__AttributeShape__00000007_.Fieldtypename = `string`
-
-	__AttributeShape__00000008_.Name = `OriginX`
-	__AttributeShape__00000008_.IdentifierMeta = ref_models.PlantDiagram{}.OriginX
-	__AttributeShape__00000008_.FieldTypeAsString = ``
-	__AttributeShape__00000008_.Structname = `PlantDiagram`
-	__AttributeShape__00000008_.Fieldtypename = `float64`
-
-	__AttributeShape__00000009_.Name = `OriginY`
-	__AttributeShape__00000009_.IdentifierMeta = ref_models.PlantDiagram{}.OriginY
-	__AttributeShape__00000009_.FieldTypeAsString = ``
-	__AttributeShape__00000009_.Structname = `PlantDiagram`
-	__AttributeShape__00000009_.Fieldtypename = `float64`
 
 	__AttributeShape__00000010_.Name = `LengthX`
 	__AttributeShape__00000010_.IdentifierMeta = ref_models.AxesShape{}.LengthX
@@ -296,14 +273,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_.Width = 240.000000
 	__GongStructShape__00000001_.Height = 217.000000
 	__GongStructShape__00000001_.IsSelected = false
-
-	__GongStructShape__00000002_.Name = `Default-PlantDiagram`
-	__GongStructShape__00000002_.X = 692.000000
-	__GongStructShape__00000002_.Y = 720.000000
-	__GongStructShape__00000002_.IdentifierMeta = ref_models.PlantDiagram{}
-	__GongStructShape__00000002_.Width = 240.000000
-	__GongStructShape__00000002_.Height = 123.000000
-	__GongStructShape__00000002_.IsSelected = false
 
 	__GongStructShape__00000006_.Name = `Default-AxesShape`
 	__GongStructShape__00000006_.X = 661.000000
@@ -791,25 +760,6 @@ func _(stage *models.Stage) {
 	__LinkShape__00000001_.EndRatio = 0.338574
 	__LinkShape__00000001_.CornerOffsetRatio = -0.416073
 
-	__LinkShape__00000002_.Name = `PlantDiagrams`
-	__LinkShape__00000002_.IdentifierMeta = ref_models.PlantAbstract{}.PlantDiagrams
-	__LinkShape__00000002_.FieldTypeIdentifierMeta = ref_models.PlantDiagram{}
-	__LinkShape__00000002_.FieldOffsetX = 0.000000
-	__LinkShape__00000002_.FieldOffsetY = 0.000000
-	__LinkShape__00000002_.TargetMultiplicity = models.MANY
-	__LinkShape__00000002_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000002_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000002_.SourceMultiplicity = models.MANY
-	__LinkShape__00000002_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000002_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000002_.X = 1079.500000
-	__LinkShape__00000002_.Y = 162.000000
-	__LinkShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000002_.StartRatio = 0.718978
-	__LinkShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000002_.EndRatio = 0.500000
-	__LinkShape__00000002_.CornerOffsetRatio = 1.380000
-
 	__LinkShape__00000014_.Name = `AxesShape`
 	__LinkShape__00000014_.IdentifierMeta = ref_models.PlantAbstract{}.AxesShape
 	__LinkShape__00000014_.FieldTypeIdentifierMeta = ref_models.AxesShape{}
@@ -1193,7 +1143,6 @@ func _(stage *models.Stage) {
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
-	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000011_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000014_)
@@ -1261,14 +1210,10 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000002_)
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000004_)
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000012_)
-	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000002_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000014_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000026_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000027_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000052_)
-	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000007_)
-	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000008_)
-	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000009_)
 	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000010_)
 	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000011_)
 	__GongStructShape__00000014_.LinkShapes = append(__GongStructShape__00000014_.LinkShapes, __LinkShape__00000031_)

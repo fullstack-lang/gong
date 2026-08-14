@@ -21,8 +21,8 @@ func (u *ThreeJSStageUpdater) UpdateThreeJSStage(stager *models.Stager) {
 	u.ux_3d_plant_diagram(stager)
 }
 
-func (u *ThreeJSStageUpdater) StartMovieRecording(stager *models.Stager, plant *models.PlantAbstract, plantDiagram *models.PlantDiagram) {
-	u.startMovieRecording(stager, plant, plantDiagram)
+func (u *ThreeJSStageUpdater) StartMovieRecordingVase3D(stager *models.Stager, plant *models.PlantAbstract, diagram *models.Vase3DDiagram) {
+	u.startMovieRecording(stager, plant, diagram)
 }
 
 func (u *ThreeJSStageUpdater) StopMovieRecording(stager *models.Stager) {

@@ -475,8 +475,8 @@ func GenerateSTL(plant *PlantAbstract) string {
 			resampledBaseBottom := resampleCurveAtAnglesSTL(anglesBottom, bottomPoints, targetAngles, expectedDegrees)
 			resampledBaseTop := resampleCurveAtAnglesSTL(anglesTop, topPoints, targetAngles, expectedDegrees)
 
-			var checkedDiagram *PlantDiagram
-			for _, diagram := range plant.PlantDiagrams {
+			var checkedDiagram *Vase3DDiagram
+			for _, diagram := range plant.Vase3DDiagrams {
 				if diagram.IsChecked {
 					checkedDiagram = diagram
 					break
@@ -487,8 +487,8 @@ func GenerateSTL(plant *PlantAbstract) string {
 
 			var activeShapeRuns [][]stlLayerConfig
 
-			if checkedDiagram != nil && checkedDiagram.VaseDiagram != nil {
-				if !checkedDiagram.VaseDiagram.IsHiddenTorusStackShape {
+			if checkedDiagram != nil {
+				if !checkedDiagram.IsHiddenTorusStackShape {
 					var growthVectorX, growthVectorY float64
 					if plant.GrowthVectorShape != nil {
 						growthVectorX = plant.GrowthVectorShape.X
@@ -519,7 +519,7 @@ func GenerateSTL(plant *PlantAbstract) string {
 					activeShapeRuns = append(activeShapeRuns, run)
 				}
 
-				if !checkedDiagram.VaseDiagram.IsHiddenVerticalTorusStackShape {
+				if !checkedDiagram.IsHiddenVerticalTorusStackShape {
 					var run []stlLayerConfig
 					for h := 0; h < stackHeight; h++ {
 						dx := 0.0
@@ -530,7 +530,7 @@ func GenerateSTL(plant *PlantAbstract) string {
 					activeShapeRuns = append(activeShapeRuns, run)
 				}
 
-				if !checkedDiagram.VaseDiagram.IsHiddenPartiallyRotatedTorusShape {
+				if !checkedDiagram.IsHiddenPartiallyRotatedTorusShape {
 					dx, dy, _ := ComputePartiallyGrowthCurveDY(plant)
 					thetaOffset := dx / globalR
 					var run []stlLayerConfig
@@ -539,7 +539,7 @@ func GenerateSTL(plant *PlantAbstract) string {
 					activeShapeRuns = append(activeShapeRuns, run)
 				}
 
-				if !checkedDiagram.VaseDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
+				if !checkedDiagram.IsHiddenStackOfPartiallyRotatedTorusShape && stackHeight > 0 {
 					numSteps := stackHeight - 1
 					dxs := make([]float64, stackHeight)
 					dys := make([]float64, stackHeight)
