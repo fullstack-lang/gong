@@ -24,10 +24,6 @@ func enforcePlantHasShape[ShapePointerType PointerToGongstruct](
 
 			setShape(plant, shapePointer)
 
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default %s for %s", shapeName, plant.Name))
-			}
-
 			needCommit = true
 		}
 	}
@@ -67,9 +63,6 @@ func enforcePlantShapeName[ShapePointerType PointerToGongstruct](
 			expectedName := plant.Name + "-" + shapeNameSuffix
 			if shape.GetName() != expectedName {
 				shape.SetName(expectedName)
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Renamed %s to %s", shapeNameSuffix, expectedName))
-				}
 				needCommit = true
 			}
 		}
@@ -383,10 +376,6 @@ func enforceVaseHasShape[ShapePointerType PointerToGongstruct](
 
 			setShape(vase, shapePointer)
 
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Added default %s for %s", shapeName, vase.Name))
-			}
-
 			needCommit = true
 		}
 	}
@@ -426,9 +415,6 @@ func enforceVaseShapeName[ShapePointerType PointerToGongstruct](
 			expectedName := vase.Name + "-" + shapeNameSuffix
 			if shape.GetName() != expectedName {
 				shape.SetName(expectedName)
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Renamed %s to %s", shapeNameSuffix, expectedName))
-				}
 				needCommit = true
 			}
 		}

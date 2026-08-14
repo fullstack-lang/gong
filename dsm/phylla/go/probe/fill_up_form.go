@@ -3365,10 +3365,6 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenKeyHoleShape", instanceWithInferedType.IsHiddenKeyHoleShape, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("GrowthCurve2DRibbon", instanceWithInferedType.GrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.ShiftedRightGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftPartiallyGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftPartiallyGrowthCurve2DRibbon, formGroup, probe)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,

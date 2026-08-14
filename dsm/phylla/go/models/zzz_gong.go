@@ -26578,14 +26578,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Vase2DDiagram:
 		return any(&Vase2DDiagram{
 			// Initialisation of associations
-			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
-			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
-			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
 		}).(*Type)
 	case Vase3DDiagram:
 		return any(&Vase3DDiagram{
@@ -28253,74 +28245,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Vase2DDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "GrowthCurve2DRibbon":
-			res := make(map[*GrowthCurve2DRibbon][]*Vase2DDiagram)
-			for vase2ddiagram := range stage.Vase2DDiagrams {
-				if vase2ddiagram.GrowthCurve2DRibbon != nil {
-					growthcurve2dribbon_ := vase2ddiagram.GrowthCurve2DRibbon
-					var vase2ddiagrams []*Vase2DDiagram
-					_, ok := res[growthcurve2dribbon_]
-					if ok {
-						vase2ddiagrams = res[growthcurve2dribbon_]
-					} else {
-						vase2ddiagrams = make([]*Vase2DDiagram, 0)
-					}
-					vase2ddiagrams = append(vase2ddiagrams, vase2ddiagram)
-					res[growthcurve2dribbon_] = vase2ddiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*Vase2DDiagram)
-			for vase2ddiagram := range stage.Vase2DDiagrams {
-				if vase2ddiagram.ShiftedRightGrowthCurve2DRibbon != nil {
-					shiftedrightgrowthcurve2dribbon_ := vase2ddiagram.ShiftedRightGrowthCurve2DRibbon
-					var vase2ddiagrams []*Vase2DDiagram
-					_, ok := res[shiftedrightgrowthcurve2dribbon_]
-					if ok {
-						vase2ddiagrams = res[shiftedrightgrowthcurve2dribbon_]
-					} else {
-						vase2ddiagrams = make([]*Vase2DDiagram, 0)
-					}
-					vase2ddiagrams = append(vase2ddiagrams, vase2ddiagram)
-					res[shiftedrightgrowthcurve2dribbon_] = vase2ddiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*Vase2DDiagram)
-			for vase2ddiagram := range stage.Vase2DDiagrams {
-				if vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon != nil {
-					shiftedleftgrowthcurve2dribbon_ := vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon
-					var vase2ddiagrams []*Vase2DDiagram
-					_, ok := res[shiftedleftgrowthcurve2dribbon_]
-					if ok {
-						vase2ddiagrams = res[shiftedleftgrowthcurve2dribbon_]
-					} else {
-						vase2ddiagrams = make([]*Vase2DDiagram, 0)
-					}
-					vase2ddiagrams = append(vase2ddiagrams, vase2ddiagram)
-					res[shiftedleftgrowthcurve2dribbon_] = vase2ddiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*Vase2DDiagram)
-			for vase2ddiagram := range stage.Vase2DDiagrams {
-				if vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-					shiftedleftpartiallygrowthcurve2dribbon_ := vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon
-					var vase2ddiagrams []*Vase2DDiagram
-					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
-					if ok {
-						vase2ddiagrams = res[shiftedleftpartiallygrowthcurve2dribbon_]
-					} else {
-						vase2ddiagrams = make([]*Vase2DDiagram, 0)
-					}
-					vase2ddiagrams = append(vase2ddiagrams, vase2ddiagram)
-					res[shiftedleftpartiallygrowthcurve2dribbon_] = vase2ddiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Vase3DDiagram
 	case Vase3DDiagram:
@@ -35691,26 +35615,6 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "GrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-		},
-		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -40825,30 +40729,6 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenKeyHoleShape)
 		res.valueBool = vase2ddiagram.IsHiddenKeyHoleShape
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "GrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase2ddiagram.GrowthCurve2DRibbon != nil {
-			res.valueString = vase2ddiagram.GrowthCurve2DRibbon.Name
-			res.ids = vase2ddiagram.GrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase2ddiagram.ShiftedRightGrowthCurve2DRibbon != nil {
-			res.valueString = vase2ddiagram.ShiftedRightGrowthCurve2DRibbon.Name
-			res.ids = vase2ddiagram.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon != nil {
-			res.valueString = vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon.Name
-			res.ids = vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
-			res.ids = vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsChecked)
 		res.valueBool = vase2ddiagram.IsChecked
@@ -45429,50 +45309,6 @@ func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value Go
 		vase2ddiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
 	case "IsHiddenKeyHoleShape":
 		vase2ddiagram.IsHiddenKeyHoleShape = value.GetValueBool()
-	case "GrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase2ddiagram.GrowthCurve2DRibbon = nil
-			for __instance__ := range stage.GrowthCurve2DRibbons {
-				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vase2ddiagram.GrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase2ddiagram.ShiftedRightGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
-				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vase2ddiagram.ShiftedRightGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
-				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
 	case "IsChecked":
 		vase2ddiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":

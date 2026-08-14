@@ -25,9 +25,6 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		}
 		if stager.enforceSemanticOnePass(false, stage) {
 			needCommit = true
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprint("Stage was modified to enforce semantic, pass ", pass))
-			}
 			pass++
 		} else {
 			break
@@ -48,62 +45,59 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool {
 	methods := []struct {
-		name string
-		fn   func() bool
+		name   string
+		fn     func() bool
+		notify bool
 	}{
-		// abstract semantic check
+		// abstract semantic checks
+		{"Clean the stage", func() bool { return stage.Clean() }, true},
+		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement, true},
+		{"Enforce orphan shape remove", stager.enforceOrphanShapeRemove, true},
+		{"Enforce default values", stager.enforceDefaultValues, true},
+		{"Enforce N <= M", stager.enforcePlantNM, true},
+		{"Enforce duplicate remove", stager.enforceDuplicateRemove, true},
+		{"Enforce single selected plant", stager.enforceSingleSelectedPlant, false},
+		{"Enforce plant has diagram", stager.enforcePlantHasDiagram, true},
 
-		// VERY important because the probe only unstages objects
-		// this is the Clean that delete them from slices and pointers that reference
-		// them. If the checkout is not performed, the stage might be dirty
-		// with slices of pointer or pointer to unstaged instance
-		{"Clean the stage", func() bool { return stage.Clean() }},
-		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
-		{"Enforce orphan shape remove", stager.enforceOrphanShapeRemove},
-		{"Enforce default values", stager.enforceDefaultValues},
-		{"Enforce N <= M", stager.enforcePlantNM},
-		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
-		{"Enforce single selected plant", stager.enforceSingleSelectedPlant},
-		{"Enforce plant has diagram", stager.enforcePlantHasDiagram},
-		{"Enforce plant has axes", stager.enforcePlantHasAxes},
-		{"Enforce axes shape name", stager.enforceAxesShapeName},
-		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff},
-		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName},
-		{"Enforce plant has vase abstract", stager.enforcePlantHasVaseAbstract},
-		{"Enforce vase abstract name", stager.enforceVaseAbstractName},
-		{"Enforce plant has stool abstract", stager.enforcePlantHasStoolAbstract},
-		{"Enforce stool abstract name", stager.enforceStoolAbstractName},
-		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract},
-		{"Enforce clock abstract name", stager.enforceClockAbstractName},
-		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus},
-		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName},
-		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape},
-		{"Enforce grid path shape name", stager.enforceGridPathShapeName},
-		{"Enforce plant has initial rhombus grid shape", stager.enforcePlantHasInitialRhombusGridShape},
-		{"Enforce initial rhombus grid shape name", stager.enforceInitialRhombusGridShapeName},
-		{"Enforce plant has explanation text shape", stager.enforcePlantHasExplanationTextShape},
-		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName},
-		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes},
-		{"Enforce rotated shapes names", stager.enforceRotatedShapesNames},
-		{"Enforce vase has shapes", stager.enforceVaseHasShapes},
-		{"Enforce vase shape names", stager.enforceVaseShapeNames},
-		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape},
-		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape},
-		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName},
-		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses},
-		{"Enforce diagram shapes", stager.enforceDiagramShapes},
-		{"Enforce plant rotation ratio heights", stager.enforcePlantRotationRatioHeights},
-
-		// concrete semantic check
-
+		// concrete / omit shape generation (normal runtime behavior, not notified)
+		{"Enforce plant has axes", stager.enforcePlantHasAxes, false},
+		{"Enforce axes shape name", stager.enforceAxesShapeName, false},
+		{"Enforce plant has rhombus stuff", stager.enforcePlantHasRhombusStuff, false},
+		{"Enforce rhombus stuff name", stager.enforceRhombusStuffName, false},
+		{"Enforce plant has vase abstract", stager.enforcePlantHasVaseAbstract, false},
+		{"Enforce vase abstract name", stager.enforceVaseAbstractName, false},
+		{"Enforce plant has stool abstract", stager.enforcePlantHasStoolAbstract, false},
+		{"Enforce stool abstract name", stager.enforceStoolAbstractName, false},
+		{"Enforce plant has clock abstract", stager.enforcePlantHasClockAbstract, false},
+		{"Enforce clock abstract name", stager.enforceClockAbstractName, false},
+		{"Enforce plant has reference rhombus", stager.enforcePlantHasReferenceRhombus, false},
+		{"Enforce reference rhombus name", stager.enforceReferenceRhombusName, false},
+		{"Enforce plant has grid path shape", stager.enforcePlantHasGridPathShape, false},
+		{"Enforce grid path shape name", stager.enforceGridPathShapeName, false},
+		{"Enforce plant has initial rhombus grid shape", stager.enforcePlantHasInitialRhombusGridShape, false},
+		{"Enforce initial rhombus grid shape name", stager.enforceInitialRhombusGridShapeName, false},
+		{"Enforce plant has explanation text shape", stager.enforcePlantHasExplanationTextShape, false},
+		{"Enforce explanation text shape name", stager.enforceExplanationTextShapeName, false},
+		{"Enforce plant has rotated shapes", stager.enforcePlantHasRotatedShapes, false},
+		{"Enforce rotated shapes names", stager.enforceRotatedShapesNames, false},
+		{"Enforce vase has shapes", stager.enforceVaseHasShapes, false},
+		{"Enforce vase shape names", stager.enforceVaseShapeNames, false},
+		{"Enforce plant has growth vector shape", stager.enforcePlantHasPlantCircumferenceShape, false},
+		{"Enforce compute growth vector shape", stager.enforceComputePlantCircumferenceShape, false},
+		{"Enforce growth vector shape name", stager.enforcePlantCircumferenceShapeName, false},
+		{"Enforce rhombus grid shape has rhombuses", stager.enforcePlantRhombusGridShapeHasRhombuses, false},
+		{"Enforce diagram shapes", stager.enforceDiagramShapes, false},
+		{"Enforce plant rotation ratio heights", stager.enforcePlantRotationRatioHeights, false},
 	}
 
 	for _, method := range methods {
 		modified := method.fn()
 		if modified {
-			log.Printf("Semantic check '%s' generated a stage modification", method.name)
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Semantic check '%s' generated a stage modification", method.name))
+			if method.notify {
+				log.Printf("Semantic check '%s' generated a stage modification", method.name)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Semantic check '%s' generated a stage modification", method.name))
+				}
 			}
 			needCommit = true
 		}

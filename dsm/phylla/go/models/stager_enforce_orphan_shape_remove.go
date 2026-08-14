@@ -455,21 +455,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase2DDiagram](stage) {
-		if diagram.GrowthCurve2DRibbon != nil {
-			refGrowthCurve2DRibbon[diagram.GrowthCurve2DRibbon] = true
-		}
-		if diagram.ShiftedRightGrowthCurve2DRibbon != nil {
-			refShiftedRightGrowthCurve2DRibbon[diagram.ShiftedRightGrowthCurve2DRibbon] = true
-		}
-		if diagram.ShiftedLeftGrowthCurve2DRibbon != nil {
-			refShiftedLeftGrowthCurve2DRibbon[diagram.ShiftedLeftGrowthCurve2DRibbon] = true
-		}
-		if diagram.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			refShiftedLeftPartiallyGrowthCurve2DRibbon[diagram.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
-		}
-	}
-
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stage) {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
