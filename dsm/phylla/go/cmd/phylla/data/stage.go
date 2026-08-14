@@ -262,7 +262,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_2D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_3D
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = true
@@ -440,7 +440,7 @@ func _(stage *models.Stage) {
 	__Vase2DDiagram__00000000_.IsHiddenPxShape = false
 	__Vase2DDiagram__00000000_.IsHiddenChosenP1P2PairShape = false
 	__Vase2DDiagram__00000000_.IsHiddenKeyHoleShape = true
-	__Vase2DDiagram__00000000_.IsChecked = true
+	__Vase2DDiagram__00000000_.IsChecked = false
 	__Vase2DDiagram__00000000_.ComputedPrefix = ``
 	__Vase2DDiagram__00000000_.IsExpanded = true
 
@@ -459,7 +459,7 @@ func _(stage *models.Stage) {
 	__Vase3DDiagram__00000000_.IsHiddenOriginalPoints3DShape = true
 	__Vase3DDiagram__00000000_.IsHiddenAngle0Shape = false
 	__Vase3DDiagram__00000000_.IsHiddenTiledFloor3DShape = false
-	__Vase3DDiagram__00000000_.IsChecked = false
+	__Vase3DDiagram__00000000_.IsChecked = true
 	__Vase3DDiagram__00000000_.ComputedPrefix = ``
 	__Vase3DDiagram__00000000_.IsExpanded = false
 
