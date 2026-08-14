@@ -335,6 +335,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "Zoom"))
+		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -658,6 +659,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "Zoom"))
+		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -775,6 +777,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "Zoom"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
+		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))
@@ -1319,6 +1322,11 @@ func (clock2ddiagram *Clock2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Zoom")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", clock2ddiagram.Zoom))
+	case "IsHiddenAxesShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAxesShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", clock2ddiagram.IsHiddenAxesShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", clock2ddiagram.GongGetIdentifier(stage))
@@ -5405,6 +5413,11 @@ func (stool2ddiagram *Stool2DDiagram) GongMarshallField(stage *Stage, fieldName 
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Zoom")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stool2ddiagram.Zoom))
+	case "IsHiddenAxesShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAxesShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stool2ddiagram.IsHiddenAxesShape))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stool2ddiagram.GongGetIdentifier(stage))
@@ -6356,6 +6369,11 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsVaseClampingNodesExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vase2ddiagram.IsVaseClampingNodesExpanded))
+	case "IsHiddenAxesShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHiddenAxesShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", vase2ddiagram.IsHiddenAxesShape))
 	case "IsHiddenBottomStartArcShapeGrid":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", vase2ddiagram.GongGetIdentifier(stage))
@@ -6941,6 +6959,7 @@ func (clock2ddiagram *Clock2DDiagram) GongMarshallAllFields(stage *Stage) (initR
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "Zoom"))
+		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(clock2ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -8546,6 +8565,7 @@ func (stool2ddiagram *Stool2DDiagram) GongMarshallAllFields(stage *Stage) (initR
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "Zoom"))
+		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(stool2ddiagram.GongMarshallField(stage, "IsExpanded"))
@@ -8925,6 +8945,7 @@ func (vase2ddiagram *Vase2DDiagram) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "Zoom"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
+		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomEndArcShapeGrid"))
 		initializerStatements.WriteString(vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomStackOfGrowthCurve"))

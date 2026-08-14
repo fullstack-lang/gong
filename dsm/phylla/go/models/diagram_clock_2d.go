@@ -5,6 +5,8 @@ type Clock2DDiagram struct {
 
 	Zoom float64
 
+	IsHiddenAxesShape bool
+
 	IsChecked bool
 	AbstractTypeFields
 }

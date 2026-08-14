@@ -74,6 +74,7 @@ func _(stage *models.Stage) {
 
 	__Clock2DDiagram__00000000_.Name = `New Plant - Diagram-Clock2DDiagram`
 	__Clock2DDiagram__00000000_.Zoom = 1.000000
+	__Clock2DDiagram__00000000_.IsHiddenAxesShape = false
 	__Clock2DDiagram__00000000_.IsChecked = false
 	__Clock2DDiagram__00000000_.ComputedPrefix = ``
 	__Clock2DDiagram__00000000_.IsExpanded = false
@@ -366,6 +367,7 @@ func _(stage *models.Stage) {
 
 	__Stool2DDiagram__00000000_.Name = `New Plant - Diagram-Stool2DDiagram`
 	__Stool2DDiagram__00000000_.Zoom = 1.000000
+	__Stool2DDiagram__00000000_.IsHiddenAxesShape = false
 	__Stool2DDiagram__00000000_.IsChecked = false
 	__Stool2DDiagram__00000000_.ComputedPrefix = ``
 	__Stool2DDiagram__00000000_.IsExpanded = false
@@ -408,7 +410,8 @@ func _(stage *models.Stage) {
 	__Vase2DDiagram__00000000_.Name = `Plant 1-Vase2DDiagram`
 	__Vase2DDiagram__00000000_.Zoom = 0.450000
 	__Vase2DDiagram__00000000_.IsVaseArcNodesExpanded = false
-	__Vase2DDiagram__00000000_.IsVaseClampingNodesExpanded = false
+	__Vase2DDiagram__00000000_.IsVaseClampingNodesExpanded = true
+	__Vase2DDiagram__00000000_.IsHiddenAxesShape = false
 	__Vase2DDiagram__00000000_.IsHiddenBottomStartArcShapeGrid = false
 	__Vase2DDiagram__00000000_.IsHiddenBottomEndArcShapeGrid = false
 	__Vase2DDiagram__00000000_.IsHiddenBottomStackOfGrowthCurve = false
@@ -428,21 +431,21 @@ func _(stage *models.Stage) {
 	__Vase2DDiagram__00000000_.IsHiddenTopGrowthCurve2D = true
 	__Vase2DDiagram__00000000_.IsHiddenStackOfGrowthCurve2D = true
 	__Vase2DDiagram__00000000_.IsHiddenTopStackOfGrowthCurve2D = true
-	__Vase2DDiagram__00000000_.IsHiddenGrowthCurve2DRibbon = false
-	__Vase2DDiagram__00000000_.IsHiddenShiftedRightGrowthCurve2DRibbon = false
-	__Vase2DDiagram__00000000_.IsHiddenShiftedLeftGrowthCurve2DRibbon = false
-	__Vase2DDiagram__00000000_.IsHiddenStackOfGrowthCurve2DRibbon = true
+	__Vase2DDiagram__00000000_.IsHiddenGrowthCurve2DRibbon = true
+	__Vase2DDiagram__00000000_.IsHiddenShiftedRightGrowthCurve2DRibbon = true
+	__Vase2DDiagram__00000000_.IsHiddenShiftedLeftGrowthCurve2DRibbon = true
+	__Vase2DDiagram__00000000_.IsHiddenStackOfGrowthCurve2DRibbon = false
 	__Vase2DDiagram__00000000_.IsHiddenStackOfRotatedGrowthCurve2DRibbon = true
 	__Vase2DDiagram__00000000_.IsHiddenPartiallyGrowthCurve2DRibbon = true
-	__Vase2DDiagram__00000000_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = false
+	__Vase2DDiagram__00000000_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = true
 	__Vase2DDiagram__00000000_.IsHiddenPartiallyGrowthCurve2DTrajectory = true
 	__Vase2DDiagram__00000000_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = true
-	__Vase2DDiagram__00000000_.IsHiddenPxShape = false
-	__Vase2DDiagram__00000000_.IsHiddenChosenP1P2PairShape = false
+	__Vase2DDiagram__00000000_.IsHiddenPxShape = true
+	__Vase2DDiagram__00000000_.IsHiddenChosenP1P2PairShape = true
 	__Vase2DDiagram__00000000_.IsHiddenKeyHoleShape = true
 	__Vase2DDiagram__00000000_.IsChecked = false
 	__Vase2DDiagram__00000000_.ComputedPrefix = ``
-	__Vase2DDiagram__00000000_.IsExpanded = true
+	__Vase2DDiagram__00000000_.IsExpanded = false
 
 	__Vase3DDiagram__00000000_.Name = `Plant 1-Vase3DDiagram`
 	__Vase3DDiagram__00000000_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = false

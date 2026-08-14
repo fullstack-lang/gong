@@ -11925,6 +11925,9 @@ func (clock2ddiagram *Clock2DDiagram) GongDiff(stage *Stage, clock2ddiagramOther
 	if clock2ddiagram.Zoom != clock2ddiagramOther.Zoom {
 		diffs = append(diffs, clock2ddiagram.GongMarshallField(stage, "Zoom"))
 	}
+	if clock2ddiagram.IsHiddenAxesShape != clock2ddiagramOther.IsHiddenAxesShape {
+		diffs = append(diffs, clock2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
+	}
 	if clock2ddiagram.IsChecked != clock2ddiagramOther.IsChecked {
 		diffs = append(diffs, clock2ddiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -14700,6 +14703,9 @@ func (stool2ddiagram *Stool2DDiagram) GongDiff(stage *Stage, stool2ddiagramOther
 	if stool2ddiagram.Zoom != stool2ddiagramOther.Zoom {
 		diffs = append(diffs, stool2ddiagram.GongMarshallField(stage, "Zoom"))
 	}
+	if stool2ddiagram.IsHiddenAxesShape != stool2ddiagramOther.IsHiddenAxesShape {
+		diffs = append(diffs, stool2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
+	}
 	if stool2ddiagram.IsChecked != stool2ddiagramOther.IsChecked {
 		diffs = append(diffs, stool2ddiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -15316,6 +15322,9 @@ func (vase2ddiagram *Vase2DDiagram) GongDiff(stage *Stage, vase2ddiagramOther *V
 	}
 	if vase2ddiagram.IsVaseClampingNodesExpanded != vase2ddiagramOther.IsVaseClampingNodesExpanded {
 		diffs = append(diffs, vase2ddiagram.GongMarshallField(stage, "IsVaseClampingNodesExpanded"))
+	}
+	if vase2ddiagram.IsHiddenAxesShape != vase2ddiagramOther.IsHiddenAxesShape {
+		diffs = append(diffs, vase2ddiagram.GongMarshallField(stage, "IsHiddenAxesShape"))
 	}
 	if vase2ddiagram.IsHiddenBottomStartArcShapeGrid != vase2ddiagramOther.IsHiddenBottomStartArcShapeGrid {
 		diffs = append(diffs, vase2ddiagram.GongMarshallField(stage, "IsHiddenBottomStartArcShapeGrid"))
