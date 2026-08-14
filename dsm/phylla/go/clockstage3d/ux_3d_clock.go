@@ -25,6 +25,9 @@ func (u *Clock3DStageUpdater) ux_3d_clock(stager *models.Stager) {
 			break
 		}
 	}
+	if checkedDiagram == nil && len(plant.Clock3DDiagrams) > 0 {
+		checkedDiagram = plant.Clock3DDiagrams[0]
+	}
 
 	params := cylinderstage3d.Cylinder3DParams{
 		NamePrefix:            "Clock",
