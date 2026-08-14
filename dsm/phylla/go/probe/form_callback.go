@@ -886,6 +886,8 @@ func (clock2ddiagramFormCallback *Clock2DDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(clock2ddiagram_.Name), formDiv)
 		case "Zoom":
 			FormDivBasicFieldToField(&(clock2ddiagram_.Zoom), formDiv)
+		case "IsHiddenAxesShape":
+			FormDivBasicFieldToField(&(clock2ddiagram_.IsHiddenAxesShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(clock2ddiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -13225,6 +13227,8 @@ func (stool2ddiagramFormCallback *Stool2DDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stool2ddiagram_.Name), formDiv)
 		case "Zoom":
 			FormDivBasicFieldToField(&(stool2ddiagram_.Zoom), formDiv)
+		case "IsHiddenAxesShape":
+			FormDivBasicFieldToField(&(stool2ddiagram_.IsHiddenAxesShape), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(stool2ddiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -16148,6 +16152,8 @@ func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsVaseArcNodesExpanded), formDiv)
 		case "IsVaseClampingNodesExpanded":
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsVaseClampingNodesExpanded), formDiv)
+		case "IsHiddenAxesShape":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenAxesShape), formDiv)
 		case "IsHiddenBottomStartArcShapeGrid":
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenBottomStartArcShapeGrid), formDiv)
 		case "IsHiddenBottomEndArcShapeGrid":

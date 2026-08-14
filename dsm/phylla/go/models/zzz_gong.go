@@ -31202,6 +31202,10 @@ func (clock2ddiagram *Clock2DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -34625,6 +34629,10 @@ func (stool2ddiagram *Stool2DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -35491,6 +35499,10 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsHiddenBottomStartArcShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -36254,6 +36266,10 @@ func (clock2ddiagram *Clock2DDiagram) GongGetFieldValue(fieldName string, stage 
 		res.valueString = fmt.Sprintf("%f", clock2ddiagram.Zoom)
 		res.valueFloat = clock2ddiagram.Zoom
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", clock2ddiagram.IsHiddenAxesShape)
+		res.valueBool = clock2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", clock2ddiagram.IsChecked)
 		res.valueBool = clock2ddiagram.IsChecked
@@ -39725,6 +39741,10 @@ func (stool2ddiagram *Stool2DDiagram) GongGetFieldValue(fieldName string, stage 
 		res.valueString = fmt.Sprintf("%f", stool2ddiagram.Zoom)
 		res.valueFloat = stool2ddiagram.Zoom
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", stool2ddiagram.IsHiddenAxesShape)
+		res.valueBool = stool2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", stool2ddiagram.IsChecked)
 		res.valueBool = stool2ddiagram.IsChecked
@@ -40605,6 +40625,10 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsVaseClampingNodesExpanded)
 		res.valueBool = vase2ddiagram.IsVaseClampingNodesExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenAxesShape)
+		res.valueBool = vase2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsHiddenBottomStartArcShapeGrid":
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenBottomStartArcShapeGrid)
 		res.valueBool = vase2ddiagram.IsHiddenBottomStartArcShapeGrid
@@ -41330,6 +41354,8 @@ func (clock2ddiagram *Clock2DDiagram) GongSetFieldValue(fieldName string, value 
 		clock2ddiagram.Name = value.GetValueString()
 	case "Zoom":
 		clock2ddiagram.Zoom = value.GetValueFloat()
+	case "IsHiddenAxesShape":
+		clock2ddiagram.IsHiddenAxesShape = value.GetValueBool()
 	case "IsChecked":
 		clock2ddiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -44400,6 +44426,8 @@ func (stool2ddiagram *Stool2DDiagram) GongSetFieldValue(fieldName string, value 
 		stool2ddiagram.Name = value.GetValueString()
 	case "Zoom":
 		stool2ddiagram.Zoom = value.GetValueFloat()
+	case "IsHiddenAxesShape":
+		stool2ddiagram.IsHiddenAxesShape = value.GetValueBool()
 	case "IsChecked":
 		stool2ddiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -45247,6 +45275,8 @@ func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value Go
 		vase2ddiagram.IsVaseArcNodesExpanded = value.GetValueBool()
 	case "IsVaseClampingNodesExpanded":
 		vase2ddiagram.IsVaseClampingNodesExpanded = value.GetValueBool()
+	case "IsHiddenAxesShape":
+		vase2ddiagram.IsHiddenAxesShape = value.GetValueBool()
 	case "IsHiddenBottomStartArcShapeGrid":
 		vase2ddiagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
 	case "IsHiddenBottomEndArcShapeGrid":

@@ -241,6 +241,18 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 		stager.stage.Commit()
 	}
 
+	if !is3DView {
+		axesNode := appendDiagramNode(stager, node, "Axes", plant.AxesShape, &diagram.IsHiddenAxesShape)
+		handleBtn := &tree.Button{Name: "Hide Handle", Icon: string(buttons.BUTTON_visibility_off), ToolTipText: "Hide handles", HasToolTip: true, ToolTipPosition: tree.Right}
+		handleBtn.OnClick = stager.onToggleVisibility(&plant.AxesShape.IsWithHiddenHandle, handleBtn)
+		if plant.AxesShape.IsWithHiddenHandle {
+			handleBtn.Icon = string(buttons.BUTTON_visibility)
+			handleBtn.Name = "Show Handle"
+			handleBtn.ToolTipText = "Show handles"
+		}
+		axesNode.Buttons = append(axesNode.Buttons, handleBtn)
+	}
+
 	if !is3DView && plant.VaseAbstract != nil {
 		vase := plant.VaseAbstract
 		vaseArcNodes := &tree.Node{Name: "Arc Confs Vase", IsExpanded: diagram.IsVaseArcNodesExpanded, IsNodeClickable: true}
@@ -277,6 +289,28 @@ func (stager *Stager) treeVase2DDiagram(plant *PlantAbstract, diagram *Vase2DDia
 		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D", vase.StackOfGrowthCurve2D, &diagram.IsHiddenStackOfGrowthCurve2D)
 		appendDiagramNode(stager, vaseClampingNodes, "Top Stack Of Growth Curve 2D", vase.TopStackOfGrowthCurve2D, &diagram.IsHiddenTopStackOfGrowthCurve2D)
 		appendDiagramNode(stager, vaseClampingNodes, "Stack Of Growth Curve 2D Ribbon", vase.StackOfGrowthCurve2DRibbon, &diagram.IsHiddenStackOfGrowthCurve2DRibbon)
+		stager.addHideAllButton(vaseClampingNodes,
+			&diagram.IsHiddenStartHalfwayArcShapeGrid,
+			&diagram.IsHiddenTopStartHalfwayArcShapeGrid,
+			&diagram.IsHiddenEndHalfwayArcShapeGrid,
+			&diagram.IsHiddenTopEndHalfwayArcShapeGrid,
+			&diagram.IsHiddenStackOfGrowthCurve,
+			&diagram.IsHiddenTopStackOfGrowthCurve,
+			&diagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon,
+			&diagram.IsHiddenGrowthCurve2DRibbon,
+			&diagram.IsHiddenShiftedRightGrowthCurve2DRibbon,
+			&diagram.IsHiddenShiftedLeftGrowthCurve2DRibbon,
+			&diagram.IsHiddenPartiallyGrowthCurve2DRibbon,
+			&diagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon,
+			&diagram.IsHiddenPartiallyGrowthCurve2DTrajectory,
+			&diagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2,
+			&diagram.IsHiddenPxShape,
+			&diagram.IsHiddenChosenP1P2PairShape,
+			&diagram.IsHiddenKeyHoleShape,
+			&diagram.IsHiddenStackOfGrowthCurve2D,
+			&diagram.IsHiddenTopStackOfGrowthCurve2D,
+			&diagram.IsHiddenStackOfGrowthCurve2DRibbon,
+		)
 	}
 }
 
@@ -413,6 +447,18 @@ func (stager *Stager) treeStool2DDiagram(plant *PlantAbstract, diagram *Stool2DD
 		diagram.IsChecked = true
 		stager.stage.Commit()
 	}
+
+	if !is3DView {
+		axesNode := appendDiagramNode(stager, node, "Axes", plant.AxesShape, &diagram.IsHiddenAxesShape)
+		handleBtn := &tree.Button{Name: "Hide Handle", Icon: string(buttons.BUTTON_visibility_off), ToolTipText: "Hide handles", HasToolTip: true, ToolTipPosition: tree.Right}
+		handleBtn.OnClick = stager.onToggleVisibility(&plant.AxesShape.IsWithHiddenHandle, handleBtn)
+		if plant.AxesShape.IsWithHiddenHandle {
+			handleBtn.Icon = string(buttons.BUTTON_visibility)
+			handleBtn.Name = "Show Handle"
+			handleBtn.ToolTipText = "Show handles"
+		}
+		axesNode.Buttons = append(axesNode.Buttons, handleBtn)
+	}
 }
 
 func (stager *Stager) treeStool3DDiagram(plant *PlantAbstract, diagram *Stool3DDiagram, parentNodes *[]*tree.Node, is3DView bool) {
@@ -527,6 +573,18 @@ func (stager *Stager) treeClock2DDiagram(plant *PlantAbstract, diagram *Clock2DD
 		stager.handleDiagramCheck(diagram, plant, VIEW_PLANT_2D)
 		diagram.IsChecked = true
 		stager.stage.Commit()
+	}
+
+	if !is3DView {
+		axesNode := appendDiagramNode(stager, node, "Axes", plant.AxesShape, &diagram.IsHiddenAxesShape)
+		handleBtn := &tree.Button{Name: "Hide Handle", Icon: string(buttons.BUTTON_visibility_off), ToolTipText: "Hide handles", HasToolTip: true, ToolTipPosition: tree.Right}
+		handleBtn.OnClick = stager.onToggleVisibility(&plant.AxesShape.IsWithHiddenHandle, handleBtn)
+		if plant.AxesShape.IsWithHiddenHandle {
+			handleBtn.Icon = string(buttons.BUTTON_visibility)
+			handleBtn.Name = "Show Handle"
+			handleBtn.ToolTipText = "Show handles"
+		}
+		axesNode.Buttons = append(axesNode.Buttons, handleBtn)
 	}
 }
 

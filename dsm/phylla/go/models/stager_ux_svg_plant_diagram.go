@@ -67,7 +67,7 @@ func (stager *Stager) ux_svg_plant_diagram() {
 
 func (plant2DDiagram *Plant2DDiagram) drawCommonPlant(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 	// creation of 2 transparant rects, one at each ends of the vertical
-	plant2DDiagram.drawAxes(stager, layer, plant)
+	plant2DDiagram.drawAxes(stager, layer, plant, plant2DDiagram.IsHiddenAxesShape)
 	plant2DDiagram.drawPlantCircumferenceShape(stager, layer, plant)
 	plant2DDiagram.drawReferenceRhombus(stager, layer, plant)
 	plant2DDiagram.drawGridPathShape(stager, layer, plant)
@@ -143,7 +143,7 @@ func (stager *Stager) generateSvgVaseObject(plant2DDiagram *Plant2DDiagram, vase
 	layer := &svg.Layer{Name: `Axis Shape Layer`}
 	svg_.Layers = append(svg_.Layers, layer)
 
-	plant2DDiagram.drawCommonPlant(stager, layer, plant)
+	plant2DDiagram.drawAxes(stager, layer, plant, vase2DDiagram.IsHiddenAxesShape)
 	vase2DDiagram.drawVaseDiagram(stager, layer, plant, plant2DDiagram)
 
 	return
@@ -151,9 +151,9 @@ func (stager *Stager) generateSvgVaseObject(plant2DDiagram *Plant2DDiagram, vase
 
 const AxisHandleBorderLength = 25
 
-func (plant2DDiagram *Plant2DDiagram) drawAxes(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
+func (plant2DDiagram *Plant2DDiagram) drawAxes(stager *Stager, layer *svg.Layer, plant *PlantAbstract, isHidden bool) {
 
-	if plant2DDiagram.IsHiddenAxesShape {
+	if isHidden {
 		return
 	}
 

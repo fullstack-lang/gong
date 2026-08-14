@@ -8,6 +8,7 @@ type Vase2DDiagram struct {
 	IsVaseArcNodesExpanded      bool
 	IsVaseClampingNodesExpanded bool
 
+	IsHiddenAxesShape                         bool
 	IsHiddenBottomStartArcShapeGrid           bool
 	IsHiddenBottomEndArcShapeGrid             bool
 	IsHiddenBottomStackOfGrowthCurve          bool

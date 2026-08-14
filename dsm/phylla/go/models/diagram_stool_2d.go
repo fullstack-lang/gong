@@ -5,6 +5,8 @@ type Stool2DDiagram struct {
 
 	Zoom float64
 
+	IsHiddenAxesShape bool
+
 	IsChecked bool
 	AbstractTypeFields
 }

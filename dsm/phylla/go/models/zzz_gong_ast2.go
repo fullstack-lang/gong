@@ -763,6 +763,8 @@ func (u *Clock2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Name = GongExtractString(valueExpr)
 	case "Zoom":
 		instance.Zoom = GongExtractFloat(valueExpr)
+	case "IsHiddenAxesShape":
+		instance.IsHiddenAxesShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -4808,6 +4810,8 @@ func (u *Stool2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Name = GongExtractString(valueExpr)
 	case "Zoom":
 		instance.Zoom = GongExtractFloat(valueExpr)
+	case "IsHiddenAxesShape":
+		instance.IsHiddenAxesShape = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -5790,6 +5794,8 @@ func (u *Vase2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.IsVaseArcNodesExpanded = GongExtractBool(valueExpr)
 	case "IsVaseClampingNodesExpanded":
 		instance.IsVaseClampingNodesExpanded = GongExtractBool(valueExpr)
+	case "IsHiddenAxesShape":
+		instance.IsHiddenAxesShape = GongExtractBool(valueExpr)
 	case "IsHiddenBottomStartArcShapeGrid":
 		instance.IsHiddenBottomStartArcShapeGrid = GongExtractBool(valueExpr)
 	case "IsHiddenBottomEndArcShapeGrid":

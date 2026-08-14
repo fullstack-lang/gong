@@ -164,6 +164,8 @@ type Clock2DDiagram_WOP struct {
 
 	Zoom float64
 
+	IsHiddenAxesShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -175,6 +177,7 @@ func (from *Clock2DDiagram) CopyBasicFields(to *Clock2DDiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.Zoom = from.Zoom
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -2715,6 +2718,8 @@ type Stool2DDiagram_WOP struct {
 
 	Zoom float64
 
+	IsHiddenAxesShape bool
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -2726,6 +2731,7 @@ func (from *Stool2DDiagram) CopyBasicFields(to *Stool2DDiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.Zoom = from.Zoom
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -3316,6 +3322,8 @@ type Vase2DDiagram_WOP struct {
 
 	IsVaseClampingNodesExpanded bool
 
+	IsHiddenAxesShape bool
+
 	IsHiddenBottomStartArcShapeGrid bool
 
 	IsHiddenBottomEndArcShapeGrid bool
@@ -3391,6 +3399,7 @@ func (from *Vase2DDiagram) CopyBasicFields(to *Vase2DDiagram) {
 	to.Zoom = from.Zoom
 	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
 	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
 	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
 	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
