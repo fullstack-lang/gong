@@ -69,6 +69,20 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		if zoom := stager.getActive2DDiagramZoom(plant); zoom != nil {
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Zoom",
+					0.05,
+					5.0,
+					0.05,
+					zoom,
+				),
+			)
+		}
+
 		group1.Sliders = append(
 			group1.Sliders,
 			m.NewSlider(
@@ -602,4 +616,76 @@ func NewBoolSlider(
 
 	slider.Proxy = proxy
 	return slider
+}
+
+func getActive2DDiagramZoom(plant *PlantAbstract) *float64 {
+	if plant == nil {
+		return nil
+	}
+
+	if plant.CurrentView == VIEW_VASE_2D {
+		for _, d := range plant.Vase2DDiagrams {
+			if d.IsChecked {
+				return &d.Zoom
+			}
+		}
+		if len(plant.Vase2DDiagrams) > 0 {
+			return &plant.Vase2DDiagrams[0].Zoom
+		}
+	}
+
+	if plant.PlantType == Stool {
+		for _, d := range plant.Stool2DDiagrams {
+			if d.IsChecked {
+				return &d.Zoom
+			}
+		}
+	}
+
+	if plant.PlantType == Clock {
+		for _, d := range plant.Clock2DDiagrams {
+			if d.IsChecked {
+				return &d.Zoom
+			}
+		}
+	}
+
+	for _, d := range plant.Plant2DDiagrams {
+		if d.IsChecked {
+			return &d.Zoom
+		}
+	}
+	if len(plant.Plant2DDiagrams) > 0 {
+		return &plant.Plant2DDiagrams[0].Zoom
+	}
+	if len(plant.Vase2DDiagrams) > 0 {
+		return &plant.Vase2DDiagrams[0].Zoom
+	}
+	if len(plant.Stool2DDiagrams) > 0 {
+		return &plant.Stool2DDiagrams[0].Zoom
+	}
+	if len(plant.Clock2DDiagrams) > 0 {
+		return &plant.Clock2DDiagrams[0].Zoom
+	}
+
+	return nil
+}
+
+func (stager *Stager) getActive2DDiagramZoom(plant *PlantAbstract) *float64 {
+	return getActive2DDiagramZoom(plant)
+}
+
+func GetPlant2DZoom(plant *PlantAbstract) float64 {
+	if plant == nil {
+		return 1.0
+	}
+	zPtr := getActive2DDiagramZoom(plant)
+	if zPtr != nil && *zPtr > 0 {
+		return *zPtr
+	}
+	return 1.0
+}
+
+func (stager *Stager) GetPlant2DZoom(plant *PlantAbstract) float64 {
+	return GetPlant2DZoom(plant)
 }

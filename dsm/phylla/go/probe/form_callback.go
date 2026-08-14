@@ -884,6 +884,8 @@ func (clock2ddiagramFormCallback *Clock2DDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(clock2ddiagram_.Name), formDiv)
+		case "Zoom":
+			FormDivBasicFieldToField(&(clock2ddiagram_.Zoom), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(clock2ddiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -6618,6 +6620,8 @@ func (plant2ddiagramFormCallback *Plant2DDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant2ddiagram_.OriginX), formDiv)
 		case "OriginY":
 			FormDivBasicFieldToField(&(plant2ddiagram_.OriginY), formDiv)
+		case "Zoom":
+			FormDivBasicFieldToField(&(plant2ddiagram_.Zoom), formDiv)
 		case "IsRhombusNodesExpanded":
 			FormDivBasicFieldToField(&(plant2ddiagram_.IsRhombusNodesExpanded), formDiv)
 		case "IsArcNodesExpanded":
@@ -13219,6 +13223,8 @@ func (stool2ddiagramFormCallback *Stool2DDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(stool2ddiagram_.Name), formDiv)
+		case "Zoom":
+			FormDivBasicFieldToField(&(stool2ddiagram_.Zoom), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(stool2ddiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -16136,6 +16142,8 @@ func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(vase2ddiagram_.Name), formDiv)
+		case "Zoom":
+			FormDivBasicFieldToField(&(vase2ddiagram_.Zoom), formDiv)
 		case "IsVaseArcNodesExpanded":
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsVaseArcNodesExpanded), formDiv)
 		case "IsVaseClampingNodesExpanded":

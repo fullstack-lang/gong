@@ -761,6 +761,8 @@ func (u *Clock2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Zoom":
+		instance.Zoom = GongExtractFloat(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -2575,6 +2577,8 @@ func (u *Plant2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.OriginX = GongExtractFloat(valueExpr)
 	case "OriginY":
 		instance.OriginY = GongExtractFloat(valueExpr)
+	case "Zoom":
+		instance.Zoom = GongExtractFloat(valueExpr)
 	case "IsRhombusNodesExpanded":
 		instance.IsRhombusNodesExpanded = GongExtractBool(valueExpr)
 	case "IsArcNodesExpanded":
@@ -4802,6 +4806,8 @@ func (u *Stool2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Zoom":
+		instance.Zoom = GongExtractFloat(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -5778,6 +5784,8 @@ func (u *Vase2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Zoom":
+		instance.Zoom = GongExtractFloat(valueExpr)
 	case "IsVaseArcNodesExpanded":
 		instance.IsVaseArcNodesExpanded = GongExtractBool(valueExpr)
 	case "IsVaseClampingNodesExpanded":

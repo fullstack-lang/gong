@@ -3,6 +3,8 @@ package models
 type Vase2DDiagram struct {
 	Name string
 
+	Zoom float64
+
 	IsVaseArcNodesExpanded      bool
 	IsVaseClampingNodesExpanded bool
 

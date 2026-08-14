@@ -19,7 +19,7 @@ func (stager *Stager) enforceComputePlantCircumferenceShape() (needCommit bool) 
 		insideAngleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 		sinHalfInsideAngle := math.Sin(insideAngleRad / 2.0)
 		cosHalfInsideAngle := math.Cos(insideAngleRad / 2.0)
-		sideLength := plant.RhombusSideLength
+		sideLength := plant.RhombusSideLength * stager.GetPlant2DZoom(plant)
 
 		// Y movement: moving N steps along the up-right path and M steps along the up-left path.
 		// Both paths go up, so we add the Y components together.

@@ -330,6 +330,13 @@ func (plant2DDiagram *Plant2DDiagram) drawPlantCircumferenceShape(stager *Stager
 	line.Presentation.StrokeOpacity = 1.0
 }
 
+func (plant2DDiagram *Plant2DDiagram) getZoom() float64 {
+	if plant2DDiagram == nil || plant2DDiagram.Zoom <= 0 {
+		return 1.0
+	}
+	return plant2DDiagram.Zoom
+}
+
 func (plant2DDiagram *Plant2DDiagram) drawReferenceRhombus(stager *Stager, layer *svg.Layer, plant *PlantAbstract) {
 
 	if plant2DDiagram.IsHiddenReferenceRhombus {
@@ -337,7 +344,7 @@ func (plant2DDiagram *Plant2DDiagram) drawReferenceRhombus(stager *Stager, layer
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// Vertices
 	v0x := plant2DDiagram.OriginX
@@ -379,7 +386,7 @@ func (plant2DDiagram *Plant2DDiagram) drawGridPathShape(stager *Stager, layer *s
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -470,7 +477,7 @@ func (plant2DDiagram *Plant2DDiagram) drawRotatedReferenceRhombus(stager *Stager
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// Vertices
 	v0x := plant2DDiagram.OriginX
@@ -516,7 +523,7 @@ func (plant2DDiagram *Plant2DDiagram) drawRotatedGridPathShape(stager *Stager, l
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -582,7 +589,7 @@ func (plant2DDiagram *Plant2DDiagram) drawRhombusGridShape(stager *Stager, layer
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// SVG Y-axis is inverted
 	v1x := length * math.Cos(angleRad/2.0)
@@ -661,7 +668,7 @@ func (plant2DDiagram *Plant2DDiagram) drawRotatedRhombusGridShape(stager *Stager
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
@@ -757,7 +764,7 @@ func (plant2DDiagram *Plant2DDiagram) drawGrowthPathRhombusGridShape(stager *Sta
 	}
 
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
-	length := plant.RhombusSideLength
+	length := plant.RhombusSideLength * plant2DDiagram.getZoom()
 
 	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
@@ -2729,7 +2736,7 @@ func (plant2DDiagram *Plant2DDiagram) drawKeyHoleShape(stager *Stager, layer *sv
 	offsetKeyX := 0.0
 	offsetKeyY := 0.0
 	if plant.PlantType == Vase {
-		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength
+		vThickness = plant.VaseAbstract.RelativeVerticalThickness * plant.RhombusSideLength * plant2DDiagram.getZoom()
 		widthKey = plant.VaseAbstract.WidthKey
 		heightKey = plant.VaseAbstract.HeightKey
 		offsetKeyX = plant.VaseAbstract.OffsetKeyX
