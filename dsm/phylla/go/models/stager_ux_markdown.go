@@ -76,11 +76,14 @@ Because the Golden Ratio is the "most irrational" number, this angle guarantees:
 
 Imagine taking the cylindrical surface of a growing plant stem and unrolling it flat into a 2D sheet:
 
-![Unrolling Cylindrical Stem to 2D Rhombus Lattice](svg:cylinder_to_lattice?width=760px)
+![Unrolling Cylindrical Stem to 2D Rhombus Lattice](svg:cylinder_to_lattice?width=780px)
 
-1. **The Rhombus Grid:** The helical spiral paths in the 3D cylinder unfold into a periodic grid of diamond (rhombus) shapes.
-2. **Inside Angle & Side Length:**
-   - The **inside angle** (<b>RhombusInsideAngle</b>) of the rhombus determines the steepness of the spirals and the overall geometry of the plant.
+1. **Diagonal Helical Paths:** The helical spiral paths in the 3D cylinder unfold into straight diagonal lines inclined across the 2D sheet:
+   - **Blue lines:** The family of $N$ parastichies (clockwise spirals).
+   - **Orange lines:** The family of $M$ parastichies (counter-clockwise spirals).
+2. **The Rhombus (Diamond) Grid:** The intersection of these two families of diagonal lines tiles the 2D plane into a periodic **rhombus lattice**:
+   - Each diamond/rhombus cell is bounded by two blue edges and two orange edges aligned with the diagonal spiral directions.
+   - The **inside angle** (<b>RhombusInsideAngle</b>) determines the pitch/steepness of the spirals and the overall geometry of the plant.
    - The **side length** (<b>RhombusSideLength</b>) defines the physical distance or scale between adjacent nodes along the lattice.
 3. **Growth Curves:** Stepping continuously across the rhombus grid generates continuous growth curves and ribbons that trace the biological development of the plant.
 
@@ -113,10 +116,10 @@ func stageSvgParastichies(stage *markdown.Stage) {
 	pts := make(map[int]pt)
 	for k := 1; k <= numPts; k++ {
 		r := c * math.Sqrt(float64(k))
-		th := float64(k) * 137.507764 * math.Pi / 180.0
+		theta := float64(k) * 137.507764 * math.Pi / 180.0
 		pts[k] = pt{
-			x: cx + r*math.Cos(th),
-			y: cy + r*math.Sin(th),
+			x: cx + r*math.Cos(theta),
+			y: cy + r*math.Sin(theta),
 		}
 	}
 
@@ -124,67 +127,69 @@ func stageSvgParastichies(stage *markdown.Stage) {
 	sb.WriteString(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 380" width="100%" height="auto">`)
 	sb.WriteString(`<rect width="740" height="380" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>`)
 
-	// Background circle for seed head
-	sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="145" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>`, cx, cy))
+	// Title
+	sb.WriteString(`<text x="370" y="32" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">Sunflower Head Phyllotaxis: Contact Parastichies (8, 13)</text>`)
 
-	// 8 clockwise spirals (step +8)
+	// Draw clockwise spirals (step 8) in Blue
 	for start := 1; start <= 8; start++ {
-		var chain []string
-		k := start
-		for k <= numPts {
-			p := pts[k]
-			chain = append(chain, fmt.Sprintf("%.1f,%.1f", p.x, p.y))
-			k += 8
+		var pathParts []string
+		for k := start; k <= numPts; k += 8 {
+			if p, ok := pts[k]; ok {
+				if len(pathParts) == 0 {
+					pathParts = append(pathParts, fmt.Sprintf("M %.1f %.1f", p.x, p.y))
+				} else {
+					pathParts = append(pathParts, fmt.Sprintf("L %.1f %.1f", p.x, p.y))
+				}
+			}
 		}
-		if len(chain) > 1 {
-			sb.WriteString(fmt.Sprintf(`<path d="M %s" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>`, strings.Join(chain, " L ")))
+		if len(pathParts) > 1 {
+			sb.WriteString(fmt.Sprintf(`<path d="%s" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-opacity="0.85" stroke-linecap="round"/>`, strings.Join(pathParts, " ")))
 		}
 	}
 
-	// 13 counter-clockwise spirals (step +13)
+	// Draw counter-clockwise spirals (step 13) in Orange
 	for start := 1; start <= 13; start++ {
-		var chain []string
-		k := start
-		for k <= numPts {
-			p := pts[k]
-			chain = append(chain, fmt.Sprintf("%.1f,%.1f", p.x, p.y))
-			k += 13
+		var pathParts []string
+		for k := start; k <= numPts; k += 13 {
+			if p, ok := pts[k]; ok {
+				if len(pathParts) == 0 {
+					pathParts = append(pathParts, fmt.Sprintf("M %.1f %.1f", p.x, p.y))
+				} else {
+					pathParts = append(pathParts, fmt.Sprintf("L %.1f %.1f", p.x, p.y))
+				}
+			}
 		}
-		if len(chain) > 1 {
-			sb.WriteString(fmt.Sprintf(`<path d="M %s" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>`, strings.Join(chain, " L ")))
+		if len(pathParts) > 1 {
+			sb.WriteString(fmt.Sprintf(`<path d="%s" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-opacity="0.85" stroke-linecap="round"/>`, strings.Join(pathParts, " ")))
 		}
 	}
 
-	// Points
+	// Draw seeds / florets
 	for k := 1; k <= numPts; k++ {
 		p := pts[k]
-		sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="3.2" fill="#334155"/>`, p.x, p.y))
+		sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="3.2" fill="#1e293b" stroke="#ffffff" stroke-width="0.8"/>`, p.x, p.y))
 	}
-	sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="5" fill="#0f172a"/>`, cx, cy))
 
-	// Right panel: Title and Cards
+	// Legend Box on the right
 	sb.WriteString(`
-	<g transform="translate(365, 30)">
-		<text x="0" y="24" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0f172a">Contact Parastichy Pair (N, M)</text>
-		<text x="0" y="48" font-family="system-ui, sans-serif" font-size="13" fill="#64748b">Pinecone / Sunflower Fibonacci Spirals</text>
+	<g transform="translate(420, 85)">
+		<rect width="290" height="235" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+		<text x="20" y="32" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#0f172a">Parastichy Families</text>
+		
+		<!-- Blue Spiral Legend -->
+		<line x1="20" y1="65" x2="60" y2="65" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+		<text x="75" y="70" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#1e293b">8 Clockwise Spirals (N = 8)</text>
+		<text x="75" y="88" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">Steps along primordium index +8</text>
 
-		<!-- Blue Card (Clockwise N=8) -->
-		<rect x="0" y="70" width="345" height="95" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
-		<circle cx="22" cy="98" r="8" fill="#2563eb"/>
-		<text x="38" y="103" font-family="system-ui, sans-serif" font-size="15" font-weight="bold" fill="#1e40af">8 Clockwise Spirals (N = 8)</text>
-		<text x="22" y="128" font-family="system-ui, sans-serif" font-size="12.5" fill="#3b82f6">• Family of 8 spirals curving clockwise</text>
-		<text x="22" y="148" font-family="system-ui, sans-serif" font-size="12.5" fill="#3b82f6">• Connects node k to node k + 8</text>
+		<!-- Orange Spiral Legend -->
+		<line x1="20" y1="125" x2="60" y2="125" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+		<text x="75" y="130" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#1e293b">13 Counter-Clockwise (M = 13)</text>
+		<text x="75" y="148" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">Steps along primordium index +13</text>
 
-		<!-- Orange Card (Counter-Clockwise M=13) -->
-		<rect x="0" y="180" width="345" height="95" rx="8" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
-		<circle cx="22" cy="208" r="8" fill="#ea580c"/>
-		<text x="38" y="213" font-family="system-ui, sans-serif" font-size="15" font-weight="bold" fill="#9a3412">13 Counter-Clockwise Spirals (M = 13)</text>
-		<text x="22" y="238" font-family="system-ui, sans-serif" font-size="12.5" fill="#c2410c">• Opposing family of 13 spirals</text>
-		<text x="22" y="258" font-family="system-ui, sans-serif" font-size="12.5" fill="#c2410c">• Connects node k to node k + 13</text>
-
-		<!-- Fibonacci bottom banner -->
-		<rect x="0" y="290" width="345" height="42" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
-		<text x="172" y="316" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#334155">Fibonacci Pair: (N, M) = (8, 13) with N &lt; M</text>
+		<!-- Fibonacci Pair Annotation -->
+		<rect x="15" y="175" width="260" height="42" rx="6" fill="#f1f5f9"/>
+		<text x="25" y="195" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#0f172a">Contact Parastichy Pair:</text>
+		<text x="25" y="209" font-family="system-ui, sans-serif" font-size="11" fill="#475569">(N, M) = (8, 13) (Fibonacci numbers)</text>
 	</g>
 	`)
 
@@ -197,89 +202,85 @@ func stageSvgParastichies(stage *markdown.Stage) {
 }
 
 func stageSvgGoldenAngle(stage *markdown.Stage) {
+	cx, cy := 190.0, 190.0
+	rOuter := 130.0
+
 	var sb strings.Builder
-	sb.WriteString(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 360" width="100%" height="auto">`)
-	sb.WriteString(`<rect width="740" height="360" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>`)
+	sb.WriteString(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 380" width="100%" height="auto">`)
+	sb.WriteString(`<rect width="740" height="380" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>`)
 
-	cx, cy := 180.0, 180.0
+	// Title
+	sb.WriteString(`<text x="370" y="32" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">Shoot Apical Meristem: Primordia Divergence Angle α ≈ 137.5°</text>`)
 
-	// Concentric guide rings
-	for _, r := range []float64{45, 80, 115, 145} {
-		sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="%.1f" fill="none" stroke="#e2e8f0" stroke-dasharray="4 4"/>`, cx, cy, r))
-	}
+	// Meristem Circle
+	sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="%.1f" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>`, cx, cy, rOuter))
+	sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="18" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>`, cx, cy))
+	sb.WriteString(fmt.Sprintf(`<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#475569" text-anchor="middle">Apex</text>`, cx, cy+3))
 
-	// Calculate primordia 0..8
+	// Successive Primordia (0 to 6)
 	type prim struct {
-		k    int
-		x, y float64
-		r    float64
-		deg  float64
+		num int
+		deg float64
+		rad float64
 	}
-	var prims []prim
-	c := 44.0
-	for k := 0; k <= 8; k++ {
-		r := c * math.Sqrt(float64(k)+0.4)
-		deg := float64(k) * 137.507764
-		rad := deg * math.Pi / 180.0
-		prims = append(prims, prim{
-			k:   k,
-			x:   cx + r*math.Cos(rad),
-			y:   cy + r*math.Sin(rad),
-			r:   r,
-			deg: deg,
-		})
+	prims := []prim{
+		{num: 0, deg: 0, rad: 110},
+		{num: 1, deg: 137.5077, rad: 95},
+		{num: 2, deg: 275.0154, rad: 80},
+		{num: 3, deg: 52.5231, rad: 65},
+		{num: 4, deg: 190.0308, rad: 50},
+		{num: 5, deg: 327.5385, rad: 35},
 	}
 
-	// Divergence angle arc between 0 and 1
-	p0 := prims[0]
-	p1 := prims[1]
-	sb.WriteString(fmt.Sprintf(`<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>`, cx, cy, p0.x, p0.y))
-	sb.WriteString(fmt.Sprintf(`<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>`, cx, cy, p1.x, p1.y))
+	// Reference radii lines for Node 0 and Node 1
+	p0X := cx + prims[0].rad*math.Cos(prims[0].deg*math.Pi/180.0)
+	p0Y := cy - prims[0].rad*math.Sin(prims[0].deg*math.Pi/180.0)
+	p1X := cx + prims[1].rad*math.Cos(prims[1].deg*math.Pi/180.0)
+	p1Y := cy - prims[1].rad*math.Sin(prims[1].deg*math.Pi/180.0)
 
-	// Arc for 137.5 deg
+	sb.WriteString(fmt.Sprintf(`<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#94a3b8" stroke-width="1.5"/>`, cx, cy, p0X+20, p0Y))
+	sb.WriteString(fmt.Sprintf(`<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#94a3b8" stroke-width="1.5"/>`, cx, cy, p1X-15, p1Y-15))
+
+	// Arc for divergence angle α (counter-clockwise from 0° to 137.5°)
 	arcR := 52.0
-	arcStartX := cx + arcR
-	arcStartY := cy
-	arcEndRad := 137.507764 * math.Pi / 180.0
-	arcEndX := cx + arcR*math.Cos(arcEndRad)
-	arcEndY := cy + arcR*math.Sin(arcEndRad)
-	sb.WriteString(fmt.Sprintf(`<path d="M %.1f %.1f A %.1f %.1f 0 0 1 %.1f %.1f" fill="none" stroke="#059669" stroke-width="3"/>`, arcStartX, arcStartY, arcR, arcR, arcEndX, arcEndY))
-	sb.WriteString(fmt.Sprintf(`<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="#059669"/>`,
-		arcEndX+1, arcEndY-7, arcEndX-6, arcEndY+1, arcEndX+4, arcEndY+4))
+	arcX0 := cx + arcR
+	arcY0 := cy
+	arcX1 := cx + arcR*math.Cos(137.5077*math.Pi/180.0)
+	arcY1 := cy - arcR*math.Sin(137.5077*math.Pi/180.0)
+	sb.WriteString(fmt.Sprintf(`<path d="M %.1f %.1f A %.1f %.1f 0 0 0 %.1f %.1f" fill="none" stroke="#2563eb" stroke-width="2.5"/>`, arcX0, arcY0, arcR, arcR, arcX1, arcY1))
+	sb.WriteString(fmt.Sprintf(`<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="#2563eb"/>`, arcX1+3, arcY1+10, arcX1-8, arcY1+2, arcX1-2, arcY1+12))
+	sb.WriteString(fmt.Sprintf(`<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#2563eb">α ≈ 137.5°</text>`, cx+30, cy-50))
 
-	// Label for the angle
-	sb.WriteString(fmt.Sprintf(`<rect x="%.1f" y="%.1f" width="90" height="26" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>`, cx-15, cy-65))
-	sb.WriteString(fmt.Sprintf(`<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#065f46" text-anchor="middle">α ≈ 137.5°</text>`, cx+30, cy-48))
+	// Draw and label each primordium
+	for _, pr := range prims {
+		px := cx + pr.rad*math.Cos(pr.deg*math.Pi/180.0)
+		py := cy - pr.rad*math.Sin(pr.deg*math.Pi/180.0)
 
-	// Center apex
-	sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="6" fill="#0f172a"/>`, cx, cy))
-	sb.WriteString(fmt.Sprintf(`<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#64748b" text-anchor="middle">Apex</text>`, cx, cy+18))
-
-	// Draw primordia badges
-	for _, p := range prims {
-		sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="14" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>`, p.x, p.y))
-		sb.WriteString(fmt.Sprintf(`<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" dominant-baseline="central">%d</text>`, p.x, p.y, p.k))
+		fillCol := "#10b981"
+		if pr.num == 0 || pr.num == 1 {
+			fillCol = "#2563eb"
+		}
+		sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="11" fill="%s" stroke="#ffffff" stroke-width="1.5"/>`, px, py, fillCol))
+		sb.WriteString(fmt.Sprintf(`<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">P%d</text>`, px, py+4, pr.num))
 	}
 
-	// Right Panel
+	// Right Explanation Box
 	sb.WriteString(`
-	<g transform="translate(365, 25)">
-		<text x="0" y="24" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0f172a">Divergence Angle (α ≈ 137.5°)</text>
-		<text x="0" y="46" font-family="system-ui, sans-serif" font-size="13" fill="#64748b">Growth Tip Primordia Generation (0 → 1 → 2 → ...)</text>
+	<g transform="translate(420, 75)">
+		<rect width="290" height="255" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+		<text x="20" y="32" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#0f172a">Golden Divergence Principle</text>
+		
+		<text x="20" y="62" font-family="system-ui, sans-serif" font-size="12" fill="#334155">• Each new organ primordium (P₀, P₁, P₂...)</text>
+		<text x="30" y="80" font-family="system-ui, sans-serif" font-size="12" fill="#334155">is initiated at the apex.</text>
+		
+		<text x="20" y="110" font-family="system-ui, sans-serif" font-size="12" fill="#334155">• Divergence angle between successive</text>
+		<text x="30" y="128" font-family="system-ui, sans-serif" font-size="12" fill="#334155">primordia is strictly constant:</text>
 
-		<!-- Card 1: Math Formula -->
-		<rect x="0" y="65" width="345" height="110" rx="8" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5"/>
-		<text x="18" y="90" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#166534">Mathematical Derivation</text>
-		<text x="18" y="115" font-family="monospace" font-size="14" font-weight="bold" fill="#14532d">α = 360° × (1 − 1/φ) ≈ 137.5077°</text>
-		<text x="18" y="140" font-family="system-ui, sans-serif" font-size="12" fill="#15803d">where φ = (1 + √5) / 2 ≈ 1.618034 (Golden Ratio)</text>
-		<text x="18" y="158" font-family="system-ui, sans-serif" font-size="12" fill="#15803d">Each step advances by exactly 1 − 1/φ ≈ 0.381966 turns</text>
+		<rect x="20" y="145" width="250" height="40" rx="6" fill="#eff6ff"/>
+		<text x="30" y="170" font-family="monospace" font-size="13" font-weight="bold" fill="#1d4ed8">α = 360° × (1 − 1/φ) ≈ 137.5°</text>
 
-		<!-- Card 2: Biological Advantages -->
-		<rect x="0" y="190" width="345" height="115" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-		<text x="18" y="215" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="#0f172a">Biological Significance</text>
-		<text x="18" y="240" font-family="system-ui, sans-serif" font-size="12.5" fill="#334155">1. <tspan font-weight="bold">No Shadowing:</tspan> Leaves never align directly vertically</text>
-		<text x="18" y="262" font-family="system-ui, sans-serif" font-size="12.5" fill="#334155">2. <tspan font-weight="bold">Optimal Packing:</tspan> Maximizes seed and floret density</text>
-		<text x="18" y="284" font-family="system-ui, sans-serif" font-size="12.5" fill="#334155">3. <tspan font-weight="bold">Irrational Angle:</tspan> Avoids periodic alignment patterns</text>
+		<text x="20" y="210" font-family="system-ui, sans-serif" font-size="11" fill="#475569">Older primordia (P₀) are pushed radially</text>
+		<text x="20" y="226" font-family="system-ui, sans-serif" font-size="11" fill="#475569">outward as new ones (P₁, P₂, ...) emerge.</text>
 	</g>
 	`)
 
@@ -293,82 +294,112 @@ func stageSvgGoldenAngle(stage *markdown.Stage) {
 
 func stageSvgCylinderToLattice(stage *markdown.Stage) {
 	var sb strings.Builder
-	sb.WriteString(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="100%" height="auto">`)
-	sb.WriteString(`<rect width="760" height="360" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>`)
+	sb.WriteString(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 370" width="100%" height="auto">`)
+	sb.WriteString(`<rect width="820" height="370" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>`)
 
 	// Left: 3D Cylinder
 	sb.WriteString(`
-	<g transform="translate(40, 45)">
-		<text x="75" y="0" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">3D Plant Stem Cylinder</text>
+	<g transform="translate(35, 45)">
+		<text x="80" y="0" font-family="system-ui, sans-serif" font-size="15" font-weight="bold" fill="#0f172a" text-anchor="middle">3D Plant Stem Cylinder</text>
 		
-		<!-- Cylinder Body -->
 		<defs>
 			<linearGradient id="cylGrad" x1="0" y1="0" x2="1" y2="0">
-				<stop offset="0%" stop-color="#cbd5e1"/>
-				<stop offset="35%" stop-color="#f8fafc"/>
-				<stop offset="70%" stop-color="#e2e8f0"/>
-				<stop offset="100%" stop-color="#94a3b8"/>
+				<stop offset="0%" stop-color="#94a3b8"/>
+				<stop offset="25%" stop-color="#f1f5f9"/>
+				<stop offset="60%" stop-color="#e2e8f0"/>
+				<stop offset="100%" stop-color="#64748b"/>
 			</linearGradient>
+			<clipPath id="sheetClip">
+				<rect x="25" y="30" width="430" height="215" rx="4"/>
+			</clipPath>
 		</defs>
 
 		<!-- Bottom Ellipse -->
-		<ellipse cx="75" cy="225" rx="65" ry="24" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+		<ellipse cx="80" cy="225" rx="60" ry="22" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
 		<!-- Body rect -->
-		<rect x="10" y="55" width="130" height="170" fill="url(#cylGrad)"/>
+		<rect x="20" y="55" width="120" height="170" fill="url(#cylGrad)"/>
 		<!-- Side lines -->
-		<line x1="10" y1="55" x2="10" y2="225" stroke="#64748b" stroke-width="2"/>
+		<line x1="20" y1="55" x2="20" y2="225" stroke="#64748b" stroke-width="2"/>
 		<line x1="140" y1="55" x2="140" y2="225" stroke="#64748b" stroke-width="2"/>
 		<!-- Top Ellipse -->
-		<ellipse cx="75" cy="55" rx="65" ry="24" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+		<ellipse cx="80" cy="55" rx="60" ry="22" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
 
 		<!-- Helical parastichy curves on cylinder -->
-		<path d="M 10 90 Q 75 125 140 160" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
-		<path d="M 10 135 Q 75 170 140 205" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
-		<path d="M 140 85 Q 75 120 10 155" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
-		<path d="M 140 130 Q 75 165 10 200" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+		<!-- Blue spirals (up and right) -->
+		<path d="M 20 190 Q 80 220 140 160" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+		<path d="M 20 140 Q 80 170 140 110" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+		<path d="M 20 90 Q 80 120 140 60" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+		<!-- Blue dashed back -->
+		<path d="M 140 160 Q 80 140 20 140" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,3"/>
+		<path d="M 140 110 Q 80 90 20 90" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="3,3"/>
 
-		<!-- Labels -->
-		<text x="75" y="270" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">Circumference C = 2πR</text>
+		<!-- Orange spirals (up and left) -->
+		<path d="M 140 190 Q 80 220 20 160" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+		<path d="M 140 140 Q 80 170 20 110" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+		<path d="M 140 90 Q 80 120 20 60" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+		<!-- Orange dashed back -->
+		<path d="M 20 160 Q 80 140 140 140" fill="none" stroke="#fdba74" stroke-width="1.5" stroke-dasharray="3,3"/>
+		<path d="M 20 110 Q 80 90 140 90" fill="none" stroke="#fdba74" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+		<!-- Cut line -->
+		<line x1="20" y1="55" x2="20" y2="225" stroke="#db2777" stroke-width="2" stroke-dasharray="4,4"/>
+		<rect x="0" y="130" width="40" height="18" rx="4" fill="#fdf2f8" stroke="#fbcfe8"/>
+		<text x="20" y="142" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#db2777" text-anchor="middle">Cut Line</text>
+
+		<!-- Bottom Circumference Label -->
+		<line x1="20" y1="260" x2="140" y2="260" stroke="#475569" stroke-width="1.5"/>
+		<text x="80" y="278" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">Circumference C = 2πR</text>
 	</g>
 	`)
 
 	// Center: Transition Arrow
 	sb.WriteString(`
-	<g transform="translate(230, 155)">
-		<rect x="0" y="0" width="85" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe"/>
-		<text x="42" y="16" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8" text-anchor="middle">UNROLL</text>
-		<text x="42" y="28" font-family="system-ui, sans-serif" font-size="9" fill="#3b82f6" text-anchor="middle">Cylinder → 2D</text>
-		<path d="M 92 18 L 115 18 M 107 11 L 115 18 L 107 25" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+	<g transform="translate(205, 150)">
+		<rect x="0" y="0" width="85" height="42" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+		<text x="42" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#1d4ed8" text-anchor="middle">UNROLL</text>
+		<text x="42" y="32" font-family="system-ui, sans-serif" font-size="9" fill="#3b82f6" text-anchor="middle">Cylinder → 2D</text>
+		<path d="M 94 21 L 115 21 M 108 14 L 115 21 L 108 28" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 	</g>
 	`)
 
 	// Right: 2D Periodic Rhombus Grid
 	sb.WriteString(`
-	<g transform="translate(375, 45)">
-		<text x="175" y="0" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">2D Rhombus (Diamond) Lattice</text>
+	<g transform="translate(315, 45)">
+		<text x="240" y="0" font-family="system-ui, sans-serif" font-size="15" font-weight="bold" fill="#0f172a" text-anchor="middle">2D Rhombus Lattice (Diagonal Spiral Lines)</text>
 
-		<!-- Grid of Rhombuses -->
-		<g transform="translate(35, 30)">
+		<!-- Unrolled 2D Sheet Background -->
+		<rect x="25" y="30" width="430" height="215" rx="4" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+
+		<!-- Grid of Rhombuses (Clipped to Sheet) -->
+		<g clip-path="url(#sheetClip)">
 	`)
 
-	// Draw rhombuses grid
-	rW := 65.0
-	rH := 42.0
-	for row := 0; row < 4; row++ {
-		for col := 0; col < 4; col++ {
-			xBase := float64(col)*rW*1.2 + float64(row)*rW*0.35
-			yBase := float64(row)*rH*1.15 + 20.0
-			x0, y0 := xBase, yBase
-			x1, y1 := xBase + rW*0.6, yBase - rH*0.55
-			x2, y2 := xBase + rW*1.2, yBase
-			x3, y3 := xBase + rW*0.6, yBase + rH*0.55
+	// Lattice vectors (diagonal along spiral directions):
+	// Blue vector (up and right): ux, uy = 48.0, -24.6 (length = 54)
+	// Orange vector (up and left): vx, vy = -32.0, -43.5 (length = 54)
+	ux, uy := 48.0, -24.6
+	vx, vy := -32.0, -43.5
+	ox, oy := 140.0, 230.0
 
-			fillCol := "#f1f5f9"
+	// Draw regular rhombus cells
+	for j := -2; j <= 6; j++ {
+		for i := -2; i <= 9; i++ {
+			x0 := ox + float64(i)*ux + float64(j)*vx
+			y0 := oy + float64(i)*uy + float64(j)*vy
+			x1 := x0 + ux
+			y1 := y0 + uy
+			x2 := x0 + ux + vx
+			y2 := y0 + uy + vy
+			x3 := x0 + vx
+			y3 := y0 + vy
+
+			isRef := (i == 2 && j == 1)
+
+			fillCol := "#ffffff"
 			strokeCol := "#cbd5e1"
 			strokeW := "1.2"
 
-			// Highlight one reference rhombus
-			if row == 1 && col == 1 {
+			if isRef {
 				fillCol = "#e0f2fe"
 				strokeCol = "#0284c7"
 				strokeW = "2.5"
@@ -379,38 +410,90 @@ func stageSvgCylinderToLattice(stage *markdown.Stage) {
 		}
 	}
 
-	// Rhombus parameters annotation on the highlighted rhombus (row=1, col=1)
-	refX := 1.0*rW*1.2 + 1.0*rW*0.35
-	refY := 1.0*rH*1.15 + 20.0
-	sb.WriteString(fmt.Sprintf(`
-		<!-- Side Length L -->
-		<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#0369a1">Side Length (L)</text>
-		<!-- Inside Angle α -->
-		<path d="M %.1f %.1f A 14 14 0 0 1 %.1f %.1f" fill="none" stroke="#dc2626" stroke-width="2"/>
-		<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#dc2626">α (Inside Angle)</text>
+	// Draw diagonal parastichy guidelines
+	// Blue diagonal lines (along +u)
+	for j := -1; j <= 5; j++ {
+		lx1 := ox + float64(-2)*ux + float64(j)*vx
+		ly1 := oy + float64(-2)*uy + float64(j)*vy
+		lx2 := ox + float64(9)*ux + float64(j)*vx
+		ly2 := oy + float64(9)*uy + float64(j)*vy
+		sb.WriteString(fmt.Sprintf(`<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#2563eb" stroke-width="1.8" stroke-opacity="0.7"/>`,
+			lx1, ly1, lx2, ly2))
+	}
+	// Orange diagonal lines (along +v)
+	for i := -1; i <= 8; i++ {
+		lx1 := ox + float64(i)*ux + float64(-2)*vx
+		ly1 := oy + float64(i)*uy + float64(-2)*vy
+		lx2 := ox + float64(i)*ux + float64(6)*vx
+		ly2 := oy + float64(i)*uy + float64(6)*vy
+		sb.WriteString(fmt.Sprintf(`<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#ea580c" stroke-width="1.8" stroke-opacity="0.7"/>`,
+			lx1, ly1, lx2, ly2))
+	}
 
-		<!-- Growth Vector Arrow -->
-		<path d="M %.1f %.1f L %.1f %.1f" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
-		<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="#059669"/>
-		<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#059669">Growth Vector G</text>
-	`,
-		refX-40, refY-15,
-		refX+14, refY-3, refX+9, refY+9,
-		refX-25, refY+16,
-		refX+rW*1.2+30, refY+50, refX+rW*1.2+30, refY-35,
-		refX+rW*1.2+30, refY-43, refX+rW*1.2+25, refY-33, refX+rW*1.2+35, refY-33,
-		refX+rW*1.2+36, refY+8,
-	))
+	// Draw primordia / lattice node dots
+	for j := -1; j <= 5; j++ {
+		for i := -1; i <= 8; i++ {
+			nx := ox + float64(i)*ux + float64(j)*vx
+			ny := oy + float64(i)*uy + float64(j)*vy
+			if nx >= 20 && nx <= 460 && ny >= 25 && ny <= 250 {
+				sb.WriteString(fmt.Sprintf(`<circle cx="%.1f" cy="%.1f" r="3" fill="#334155"/>`, nx, ny))
+			}
+		}
+	}
 
 	sb.WriteString(`
 		</g>
 
-		<!-- Bottom summary line -->
-		<text x="175" y="270" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">Periodic lattice paths form continuous 3D spirals on cylinder</text>
-	</g>
+		<!-- Periodic Boundary Markers -->
+		<line x1="25" y1="30" x2="25" y2="245" stroke="#db2777" stroke-width="2" stroke-dasharray="4,4"/>
+		<line x1="455" y1="30" x2="455" y2="245" stroke="#db2777" stroke-width="2" stroke-dasharray="4,4"/>
+		<text x="25" y="24" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#db2777" text-anchor="middle">x = 0</text>
+		<text x="455" y="24" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#db2777" text-anchor="middle">x = C (Periodic)</text>
+
+		<!-- Reference Rhombus Annotations (i=2, j=1) -->
 	`)
 
-	sb.WriteString(`</svg>`)
+	refA_x := ox + 2.0*ux + 1.0*vx
+	refA_y := oy + 2.0*uy + 1.0*vy
+	refB_x := refA_x + ux
+	refB_y := refA_y + uy
+	refC_x := refA_x + ux + vx
+	refC_y := refA_y + uy + vy
+	refD_x := refA_x + vx
+	refD_y := refA_y + vy
+
+	// Draw highlighted rhombus on top
+	sb.WriteString(fmt.Sprintf(`<polygon points="%.1f,%.1f %.1f,%.1f %.1f,%.1f %.1f,%.1f" fill="#e0f2fe" fill-opacity="0.85" stroke="#0284c7" stroke-width="2.5"/>`,
+		refA_x, refA_y, refB_x, refB_y, refC_x, refC_y, refD_x, refD_y))
+
+	sb.WriteString(fmt.Sprintf(`
+		<!-- Side Length L along diagonal blue edge -->
+		<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#0369a1">Side Length (L)</text>
+		<!-- Inside Angle α at bottom corner -->
+		<path d="M %.1f %.1f A 16 16 0 0 1 %.1f %.1f" fill="none" stroke="#dc2626" stroke-width="2"/>
+		<text x="%.1f" y="%.1f" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">α (Inside Angle)</text>
+
+		<!-- Growth Vector Arrow (Stem Axis) -->
+		<line x1="380" y1="210" x2="380" y2="85" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+		<polygon points="380,75 374,88 386,88" fill="#059669"/>
+		<text x="390" y="145" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#059669">Growth Vector G</text>
+
+		<!-- Spiral direction labels -->
+		<text x="130" y="60" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#2563eb">Blue Parastichy (N)</text>
+		<text x="30" y="110" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" fill="#ea580c">Orange Parastichy (M)</text>
+
+		<!-- Circumference bottom dimension -->
+		<line x1="25" y1="260" x2="455" y2="260" stroke="#475569" stroke-width="1.5"/>
+		<text x="240" y="278" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">Stem Circumference C = 2πR (Periodic Width)</text>
+	`,
+		(refA_x+refB_x)/2.0-10, (refA_y+refB_y)/2.0+16,
+		refA_x+14, refA_y-8, refA_x-10, refA_y-13,
+		refA_x+5, refA_y+20,
+	))
+
+	sb.WriteString(`
+	</g>
+	</svg>`)
 
 	(&markdown.SvgImage{
 		Name:    "cylinder_to_lattice",

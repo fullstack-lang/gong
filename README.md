@@ -1,18 +1,29 @@
-# 1. Try Domain Specific Modelling (DSM) in your browser
+# 1. Try some Domain Specific Models (DSM) in your browser
 
-## System Engineering
+## For System Engineering
 
-- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip)): capture stakeholder needs, operational concerns, high-level requirements & analysis concepts
-- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip)): model system architectures, hierarchical component breakdowns, ports, data & control flows
+- Start by designing hierarchies for your system. [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)) helps you define product breakdown structures (PBS), work breakdown structures (WBS), resources for performing the tasks & execution plans.
+
+- What are the architecture views needed for your project ? [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip)) helps you capture stakeholder needs, operational concerns, high-level requirements, analysis concepts and needed architecture views, as prescribed by ISO 42010 concepts. A reference of all ISO 15288 process modeling needs is provided as an example.
+
+- A system engineering best practice is to model stakeholders processes. [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/process-app-portable.zip)) helps you define operational processes, participant swimlanes, tasks, data flows & control flows, inspired by Business Process Modelling Notation (BPMN) diagrams.
+
+- System Engineering is key for managing interfaces. [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip)) helps you model system architectures, hierarchical component breakdowns, ports, data & control flows (inspired by SysML Block Diagrams)
+
+- When developping software intensive applications, you need to specify the states of your business objets. [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip)) helps specify discrete state machines, composite states, transitions, events & actions (like UML State Machine diagram)
+
+- If you exchange requirements with your partners, there is a chance that you will use the Requirement Interface Format (ReqIF). [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip)) is a tool for inspecting files ReqIF files (see paper ...)
+
+## For Prospective analysis
+
 - [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip)): explore operational scenarios, actor state evolutions, timeline trajectories & parameter trade-offs
-- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/process-app-portable.zip)): define operational processes, participant swimlanes, tasks, data flows & control flows
-- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip)): specify discrete state machines, composite states, transitions, events & actions
-- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)): define product breakdown structures (PBS), work breakdown structures (WBS), resource allocation & planning
-- [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip)): view, edit and exchange requirements using the Requirements Interchange Format (ReqIF) standard
 
-## Technical
 
-- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip)): interactively render, edit and manipulate Scalable Vector Graphics (SVG) elements
+## For Debugging you DSM
+
+Diagrams are rendered using Scalable Vector Graphics (SVG). Gong provides a go file format (go stage) for rendering SVG.
+
+- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip)): analysis of SVG go stages.
 
 ## For fun
 
