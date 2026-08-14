@@ -21,13 +21,6 @@ func (stager *Stager) enforceDiagramShapes() bool {
 		if diagram.TiledFloor3DShape == nil { diagram.TiledFloor3DShape = (&TiledFloor3DShape{Name: diagram.Name + "-TiledFloor3DShape"}).Stage(stage); modified = true }
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase2DDiagram](stage) {
-		if diagram.GrowthCurve2DRibbon == nil { diagram.GrowthCurve2DRibbon = (&GrowthCurve2DRibbon{Name: diagram.Name + "-GrowthCurve2DRibbon"}).Stage(stage); modified = true }
-		if diagram.ShiftedRightGrowthCurve2DRibbon == nil { diagram.ShiftedRightGrowthCurve2DRibbon = (&ShiftedRightGrowthCurve2DRibbon{Name: diagram.Name + "-ShiftedRightGrowthCurve2DRibbon"}).Stage(stage); modified = true }
-		if diagram.ShiftedLeftGrowthCurve2DRibbon == nil { diagram.ShiftedLeftGrowthCurve2DRibbon = (&ShiftedLeftGrowthCurve2DRibbon{Name: diagram.Name + "-ShiftedLeftGrowthCurve2DRibbon"}).Stage(stage); modified = true }
-		if diagram.ShiftedLeftPartiallyGrowthCurve2DRibbon == nil { diagram.ShiftedLeftPartiallyGrowthCurve2DRibbon = (&ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: diagram.Name + "-ShiftedLeftPartiallyGrowthCurve2DRibbon"}).Stage(stage); modified = true }
-	}
-
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stage) {
 		if diagram.Rendered3DShape == nil { diagram.Rendered3DShape = (&Rendered3DShape{Name: diagram.Name + "-Rendered3DShape"}).Stage(stage); modified = true }
 		if diagram.SeatTopCurveShape == nil { diagram.SeatTopCurveShape = (&SeatTopCurveShape{Name: diagram.Name + "-SeatTopCurveShape"}).Stage(stage); modified = true }

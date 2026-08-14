@@ -42,11 +42,6 @@ type Vase2DDiagram struct {
 	IsHiddenChosenP1P2PairShape                     bool
 	IsHiddenKeyHoleShape                            bool
 
-	GrowthCurve2DRibbon                     *GrowthCurve2DRibbon
-	ShiftedRightGrowthCurve2DRibbon         *ShiftedRightGrowthCurve2DRibbon
-	ShiftedLeftGrowthCurve2DRibbon          *ShiftedLeftGrowthCurve2DRibbon
-	ShiftedLeftPartiallyGrowthCurve2DRibbon *ShiftedLeftPartiallyGrowthCurve2DRibbon
-
 	IsChecked bool
 	AbstractTypeFields
 }

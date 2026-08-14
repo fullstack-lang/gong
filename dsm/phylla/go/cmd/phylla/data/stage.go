@@ -283,7 +283,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.PlantType = models.Plant
 	__PlantAbstract__00000001_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000001_.ComputedPrefix = ``
-	__PlantAbstract__00000001_.IsExpanded = false
+	__PlantAbstract__00000001_.IsExpanded = true
 	__PlantAbstract__00000001_.IsSelected = false
 	__PlantAbstract__00000001_.IsPlant2DDiagramsNodeExpanded = true
 	__PlantAbstract__00000001_.IsVase2DDiagramsNodeExpanded = false
@@ -302,13 +302,13 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000002_.PlantType = models.Stool
 	__PlantAbstract__00000002_.CurrentView = models.VIEW_PLANT_2D
 	__PlantAbstract__00000002_.ComputedPrefix = ``
-	__PlantAbstract__00000002_.IsExpanded = false
+	__PlantAbstract__00000002_.IsExpanded = true
 	__PlantAbstract__00000002_.IsSelected = false
 	__PlantAbstract__00000002_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsVase2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsVase3DDiagramsNodeExpanded = false
-	__PlantAbstract__00000002_.IsStool2DDiagramsNodeExpanded = true
-	__PlantAbstract__00000002_.IsStool3DDiagramsNodeExpanded = true
+	__PlantAbstract__00000002_.IsStool2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000002_.IsStool3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsClock2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000002_.IsClock3DDiagramsNodeExpanded = false
 
@@ -332,11 +332,11 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000003_.IsClock3DDiagramsNodeExpanded = true
 
 	__Rendered3DShape__00000000_.Name = `Plant 1-Rendered3DShape`
-	__Rendered3DShape__00000000_.ViewX = 1575.754047
-	__Rendered3DShape__00000000_.ViewY = 824.029150
-	__Rendered3DShape__00000000_.ViewZ = 1575.754047
+	__Rendered3DShape__00000000_.ViewX = 1494.245894
+	__Rendered3DShape__00000000_.ViewY = 781.405053
+	__Rendered3DShape__00000000_.ViewZ = 1494.245894
 	__Rendered3DShape__00000000_.TargetX = 0.000000
-	__Rendered3DShape__00000000_.TargetY = 193.727531
+	__Rendered3DShape__00000000_.TargetY = 183.706695
 	__Rendered3DShape__00000000_.TargetZ = 0.000000
 	__Rendered3DShape__00000000_.Fov = 50.000000
 
@@ -406,7 +406,7 @@ func _(stage *models.Stage) {
 	__StoolAbstract__00000000_.RelativeEyeCornerControlVectorStrength = 0.230000
 
 	__Vase2DDiagram__00000000_.Name = `Plant 1-Vase2DDiagram`
-	__Vase2DDiagram__00000000_.Zoom = 1.000000
+	__Vase2DDiagram__00000000_.Zoom = 0.450000
 	__Vase2DDiagram__00000000_.IsVaseArcNodesExpanded = false
 	__Vase2DDiagram__00000000_.IsVaseClampingNodesExpanded = false
 	__Vase2DDiagram__00000000_.IsHiddenBottomStartArcShapeGrid = false

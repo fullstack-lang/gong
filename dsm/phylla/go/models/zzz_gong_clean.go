@@ -1085,10 +1085,6 @@ func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) 
 func (vase2ddiagram *Vase2DDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &vase2ddiagram.GrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &vase2ddiagram.ShiftedRightGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &vase2ddiagram.ShiftedLeftGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &vase2ddiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
 	return
 }
 

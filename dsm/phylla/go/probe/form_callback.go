@@ -16210,14 +16210,6 @@ func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenChosenP1P2PairShape), formDiv)
 		case "IsHiddenKeyHoleShape":
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenKeyHoleShape), formDiv)
-		case "GrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vase2ddiagram_.GrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vase2ddiagram_.ShiftedRightGrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vase2ddiagram_.ShiftedLeftGrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vase2ddiagram_.ShiftedLeftPartiallyGrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(vase2ddiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":

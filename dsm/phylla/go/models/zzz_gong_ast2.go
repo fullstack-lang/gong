@@ -5852,14 +5852,6 @@ func (u *Vase2DDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.IsHiddenChosenP1P2PairShape = GongExtractBool(valueExpr)
 	case "IsHiddenKeyHoleShape":
 		instance.IsHiddenKeyHoleShape = GongExtractBool(valueExpr)
-	case "GrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.GrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedRightGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedRightGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftGrowthCurve2DRibbon, valueExpr, identifierMap)
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		GongUnmarshallPointer(&instance.ShiftedLeftPartiallyGrowthCurve2DRibbon, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
