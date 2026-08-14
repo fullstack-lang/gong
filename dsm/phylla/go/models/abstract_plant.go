@@ -61,8 +61,26 @@ type PlantAbstract struct {
 
 	IsSelected bool
 
-	IsPlantDiagramsNodeExpanded bool
-	PlantDiagrams               []*PlantDiagram
+	IsPlant2DDiagramsNodeExpanded bool
+	Plant2DDiagrams               []*Plant2DDiagram
+
+	IsVase2DDiagramsNodeExpanded bool
+	Vase2DDiagrams               []*Vase2DDiagram
+
+	IsVase3DDiagramsNodeExpanded bool
+	Vase3DDiagrams               []*Vase3DDiagram
+
+	IsStool2DDiagramsNodeExpanded bool
+	Stool2DDiagrams               []*Stool2DDiagram
+
+	IsStool3DDiagramsNodeExpanded bool
+	Stool3DDiagrams               []*Stool3DDiagram
+
+	IsClock2DDiagramsNodeExpanded bool
+	Clock2DDiagrams               []*Clock2DDiagram
+
+	IsClock3DDiagramsNodeExpanded bool
+	Clock3DDiagrams               []*Clock3DDiagram
 
 	AxesShape *AxesShape
 

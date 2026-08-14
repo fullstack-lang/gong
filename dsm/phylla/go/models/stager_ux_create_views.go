@@ -45,6 +45,45 @@ func (stager *Stager) createViews() {
 	isStool := (plant != nil && plant.PlantType == Stool)
 	isClock := (plant != nil && plant.PlantType == Clock)
 
+	var isPlant2DChecked, isVase2DChecked, isVase3DChecked, isStool2DChecked, isStool3DChecked, isClock2DChecked, isClock3DChecked bool
+	if plant != nil {
+		for _, d := range plant.Plant2DDiagrams {
+			if d.IsChecked {
+				isPlant2DChecked = true
+			}
+		}
+		for _, d := range plant.Vase2DDiagrams {
+			if d.IsChecked {
+				isVase2DChecked = true
+			}
+		}
+		for _, d := range plant.Vase3DDiagrams {
+			if d.IsChecked {
+				isVase3DChecked = true
+			}
+		}
+		for _, d := range plant.Stool2DDiagrams {
+			if d.IsChecked {
+				isStool2DChecked = true
+			}
+		}
+		for _, d := range plant.Stool3DDiagrams {
+			if d.IsChecked {
+				isStool3DChecked = true
+			}
+		}
+		for _, d := range plant.Clock2DDiagrams {
+			if d.IsChecked {
+				isClock2DChecked = true
+			}
+		}
+		for _, d := range plant.Clock3DDiagrams {
+			if d.IsChecked {
+				isClock3DChecked = true
+			}
+		}
+	}
+
 	if plant != nil {
 		if plant.PlantType == Plant && plant.CurrentView != VIEW_PLANT_2D && plant.CurrentView != VIEW_ABOUT_SPIRAL_PLANTS {
 			plant.CurrentView = VIEW_PLANT_2D
@@ -156,7 +195,9 @@ func (stager *Stager) createViews() {
 			},
 		},
 	}
-	split.StageBranch(stager.splitStage, v0)
+	if isPlant2DChecked || isStool2DChecked || isClock2DChecked || (!isVase2DChecked && !isVase3DChecked && !isStool3DChecked && !isClock3DChecked) {
+		split.StageBranch(stager.splitStage, v0)
+	}
 	v0.OnClick = func() {
 		plant := stager.GetCurrentPlant()
 		if plant != nil && plant.CurrentView != VIEW_PLANT_2D {
@@ -226,7 +267,9 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, v1)
+		if isVase2DChecked {
+			split.StageBranch(stager.splitStage, v1)
+		}
 		v1.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_VASE_FORM {
@@ -295,7 +338,9 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, v2)
+		if isVase2DChecked {
+			split.StageBranch(stager.splitStage, v2)
+		}
 		v2.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_VASE_2D {
@@ -364,7 +409,9 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, v3)
+		if isVase3DChecked {
+			split.StageBranch(stager.splitStage, v3)
+		}
 		v3.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_VASE_3D {
@@ -436,7 +483,9 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, vStool)
+		if isStool3DChecked {
+			split.StageBranch(stager.splitStage, vStool)
+		}
 		vStool.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_STOOL_3D {
@@ -508,7 +557,9 @@ func (stager *Stager) createViews() {
 				},
 			},
 		}
-		split.StageBranch(stager.splitStage, vClock)
+		if isClock3DChecked {
+			split.StageBranch(stager.splitStage, vClock)
+		}
 		vClock.OnClick = func() {
 			plant := stager.GetCurrentPlant()
 			if plant != nil && plant.CurrentView != VIEW_CLOCK_3D {

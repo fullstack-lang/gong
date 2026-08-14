@@ -63,17 +63,23 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.circlegridshape, probe)
 			}
+		case *Clock2DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Clock2DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.clock2ddiagram, probe)
+			}
+		case *Clock3DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Clock3DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.clock3ddiagram, probe)
+			}
 		case *ClockAbstractFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ClockAbstract", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.clockabstract, probe)
-			}
-		case *ClockDiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ClockDiagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.clockdiagram, probe)
 			}
 		case *ClockTopCurveShapeFormCallback:
 			if onSave.CreationMode {
@@ -357,6 +363,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.perpendicularvectorhalfway, probe)
 			}
+		case *Plant2DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Plant2DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.plant2ddiagram, probe)
+			}
 		case *PlantAbstractFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PlantAbstract", true)
@@ -368,12 +380,6 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "PlantCircumferenceShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.plantcircumferenceshape, probe)
-			}
-		case *PlantDiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "PlantDiagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.plantdiagram, probe)
 			}
 		case *PointsAndLines3DShapeFormCallback:
 			if onSave.CreationMode {
@@ -663,17 +669,23 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.starthalfwayarcshapegrid, probe)
 			}
+		case *Stool2DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Stool2DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stool2ddiagram, probe)
+			}
+		case *Stool3DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Stool3DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.stool3ddiagram, probe)
+			}
 		case *StoolAbstractFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "StoolAbstract", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.stoolabstract, probe)
-			}
-		case *StoolDiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "StoolDiagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.stooldiagram, probe)
 			}
 		case *TiledFloor3DShapeFormCallback:
 			if onSave.CreationMode {
@@ -801,17 +813,23 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.torusstackshape, probe)
 			}
+		case *Vase2DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Vase2DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.vase2ddiagram, probe)
+			}
+		case *Vase3DDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Vase3DDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.vase3ddiagram, probe)
+			}
 		case *VaseAbstractFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "VaseAbstract", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.vaseabstract, probe)
-			}
-		case *VaseDiagramFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "VaseDiagram", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.vasediagram, probe)
 			}
 		case *VerticalTorusStackShapeFormCallback:
 			if onSave.CreationMode {
@@ -951,6 +969,32 @@ func FillUpFormFromGongstructName(
 		circlegridshape := new(models.CircleGridShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(circlegridshape, formGroup, probe)
+	case "Clock2DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Clock2DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Clock2DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		clock2ddiagram := new(models.Clock2DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(clock2ddiagram, formGroup, probe)
+	case "Clock3DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Clock3DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Clock3DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		clock3ddiagram := new(models.Clock3DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(clock3ddiagram, formGroup, probe)
 	case "ClockAbstract":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -964,19 +1008,6 @@ func FillUpFormFromGongstructName(
 		clockabstract := new(models.ClockAbstract)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(clockabstract, formGroup, probe)
-	case "ClockDiagram":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ClockDiagram Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ClockDiagramFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		clockdiagram := new(models.ClockDiagram)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(clockdiagram, formGroup, probe)
 	case "ClockTopCurveShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1588,6 +1619,19 @@ func FillUpFormFromGongstructName(
 		perpendicularvectorhalfway := new(models.PerpendicularVectorHalfway)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(perpendicularvectorhalfway, formGroup, probe)
+	case "Plant2DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Plant2DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Plant2DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		plant2ddiagram := new(models.Plant2DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(plant2ddiagram, formGroup, probe)
 	case "PlantAbstract":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -1614,19 +1658,6 @@ func FillUpFormFromGongstructName(
 		plantcircumferenceshape := new(models.PlantCircumferenceShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(plantcircumferenceshape, formGroup, probe)
-	case "PlantDiagram":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "PlantDiagram Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PlantDiagramFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		plantdiagram := new(models.PlantDiagram)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(plantdiagram, formGroup, probe)
 	case "PointsAndLines3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2251,6 +2282,32 @@ func FillUpFormFromGongstructName(
 		starthalfwayarcshapegrid := new(models.StartHalfwayArcShapeGrid)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(starthalfwayarcshapegrid, formGroup, probe)
+	case "Stool2DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Stool2DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Stool2DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stool2ddiagram := new(models.Stool2DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stool2ddiagram, formGroup, probe)
+	case "Stool3DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Stool3DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Stool3DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		stool3ddiagram := new(models.Stool3DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(stool3ddiagram, formGroup, probe)
 	case "StoolAbstract":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2264,19 +2321,6 @@ func FillUpFormFromGongstructName(
 		stoolabstract := new(models.StoolAbstract)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(stoolabstract, formGroup, probe)
-	case "StoolDiagram":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "StoolDiagram Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StoolDiagramFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		stooldiagram := new(models.StoolDiagram)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(stooldiagram, formGroup, probe)
 	case "TiledFloor3DShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2550,6 +2594,32 @@ func FillUpFormFromGongstructName(
 		torusstackshape := new(models.TorusStackShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(torusstackshape, formGroup, probe)
+	case "Vase2DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Vase2DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Vase2DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		vase2ddiagram := new(models.Vase2DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(vase2ddiagram, formGroup, probe)
+	case "Vase3DDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Vase3DDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Vase3DDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		vase3ddiagram := new(models.Vase3DDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(vase3ddiagram, formGroup, probe)
 	case "VaseAbstract":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -2563,19 +2633,6 @@ func FillUpFormFromGongstructName(
 		vaseabstract := new(models.VaseAbstract)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(vaseabstract, formGroup, probe)
-	case "VaseDiagram":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "VaseDiagram Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__VaseDiagramFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		vasediagram := new(models.VaseDiagram)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(vasediagram, formGroup, probe)
 	case "VerticalTorusStackShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

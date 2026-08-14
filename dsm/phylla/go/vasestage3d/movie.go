@@ -12,7 +12,7 @@ import (
 	threejs "github.com/fullstack-lang/gong/lib/threejs/go/models"
 )
 
-func (u *ThreeJSStageUpdater) startMovieRecording(stager *models.Stager, plant *models.PlantAbstract, plantDiagram *models.PlantDiagram) {
+func (u *ThreeJSStageUpdater) startMovieRecording(stager *models.Stager, plant *models.PlantAbstract, diagram *models.Vase3DDiagram) {
 	if plant == nil {
 		plant = stager.GetCurrentPlant()
 	}

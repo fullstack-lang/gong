@@ -18,8 +18,8 @@ func (u *Clock3DStageUpdater) ux_3d_clock(stager *models.Stager) {
 		return
 	}
 
-	var checkedDiagram *models.PlantDiagram
-	for _, d := range plant.PlantDiagrams {
+	var checkedDiagram *models.Clock3DDiagram
+	for _, d := range plant.Clock3DDiagrams {
 		if d.IsChecked {
 			checkedDiagram = d
 			break
@@ -39,16 +39,16 @@ func (u *Clock3DStageUpdater) ux_3d_clock(stager *models.Stager) {
 		HasRotatedShapes:      false,
 	}
 
-	if checkedDiagram != nil && checkedDiagram.ClockDiagram != nil {
-		params.Rendered3DShape = checkedDiagram.ClockDiagram.Rendered3DShape
-		params.IsHiddenTorus3DShape = checkedDiagram.ClockDiagram.IsHiddenTorus3DShape
-		params.IsHiddenTopCurveShape = checkedDiagram.ClockDiagram.IsHiddenClockTopCurveShape
-		params.IsHiddenSampledPoints3DShape = checkedDiagram.ClockDiagram.IsHiddenSampledPoints3DShape
+	if checkedDiagram != nil && checkedDiagram != nil {
+		params.Rendered3DShape = checkedDiagram.Rendered3DShape
+		params.IsHiddenTorus3DShape = checkedDiagram.IsHiddenTorus3DShape
+		params.IsHiddenTopCurveShape = checkedDiagram.IsHiddenClockTopCurveShape
+		params.IsHiddenSampledPoints3DShape = checkedDiagram.IsHiddenSampledPoints3DShape
 	}
 
 	base := cylinderstage3d.RenderCylinder3DBase(clock3dStage, stager, plant, params)
 	if base != nil && base.Canvas != nil {
-		if checkedDiagram == nil || checkedDiagram.ClockDiagram == nil || !checkedDiagram.ClockDiagram.IsHiddenTiledFloor3DShape {
+		if checkedDiagram == nil || checkedDiagram == nil || !checkedDiagram.IsHiddenTiledFloor3DShape {
 			cylinderstage3d.AddFloorTiles(clock3dStage, base.Canvas, base.GlobalR, base.FloorMinY)
 		}
 	}

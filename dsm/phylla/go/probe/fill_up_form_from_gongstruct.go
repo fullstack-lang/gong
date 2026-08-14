@@ -123,6 +123,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Clock2DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Clock2DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Clock2DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Clock3DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Clock3DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Clock3DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ClockAbstract:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -130,19 +156,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "ClockAbstract",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ClockAbstractFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.ClockDiagram:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "ClockDiagram",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ClockDiagramFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -760,6 +773,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Plant2DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Plant2DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Plant2DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PlantAbstract:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -780,19 +806,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "PlantCircumferenceShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PlantCircumferenceShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.PlantDiagram:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "PlantDiagram",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PlantDiagramFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -1423,6 +1436,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Stool2DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Stool2DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Stool2DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Stool3DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Stool3DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Stool3DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.StoolAbstract:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -1430,19 +1469,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "StoolAbstract",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__StoolAbstractFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.StoolDiagram:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "StoolDiagram",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__StoolDiagramFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -1722,6 +1748,32 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Vase2DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Vase2DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Vase2DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Vase3DDiagram:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Vase3DDiagram",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__Vase3DDiagramFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.VaseAbstract:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -1729,19 +1781,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "VaseAbstract",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__VaseAbstractFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.VaseDiagram:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "VaseDiagram",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__VaseDiagramFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

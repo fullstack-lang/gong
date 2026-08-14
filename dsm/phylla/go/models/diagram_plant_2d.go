@@ -1,14 +1,10 @@
 package models
 
-type PlantDiagram struct {
+type Plant2DDiagram struct {
 	Name string
 
 	OriginX float64
 	OriginY float64
-
-	VaseDiagram  *VaseDiagram
-	StoolDiagram *StoolDiagram
-	ClockDiagram *ClockDiagram
 
 	IsRhombusNodesExpanded bool
 	IsArcNodesExpanded     bool

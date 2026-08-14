@@ -23,8 +23,8 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		return
 	}
 
-	var checkedDiagram *models.PlantDiagram
-	for _, d := range plant.PlantDiagrams {
+	var checkedDiagram *models.Stool3DDiagram
+	for _, d := range plant.Stool3DDiagrams {
 		if d.IsChecked {
 			checkedDiagram = d
 			break
@@ -44,14 +44,14 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		HasRotatedShapes:                    true,
 	}
 
-	if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil {
-		params.Rendered3DShape = checkedDiagram.StoolDiagram.Rendered3DShape
-		params.IsHiddenTorus3DShape = checkedDiagram.StoolDiagram.IsHiddenTorus3DShape
-		params.IsHiddenRotatedTorusShape = checkedDiagram.StoolDiagram.IsHiddenRotatedTorusShape
-		params.IsHiddenTopCurveShape = checkedDiagram.StoolDiagram.IsHiddenSeatTopCurveShape
-		params.IsHiddenRotatedTopCurveShape = checkedDiagram.StoolDiagram.IsHiddenRotatedSeatTopCurveShape
-		params.IsHiddenSampledPoints3DShape = checkedDiagram.StoolDiagram.IsHiddenSampledPoints3DShape
-		params.IsHiddenRotatedSampledPoints3DShape = checkedDiagram.StoolDiagram.IsHiddenRotatedSampledPoints3DShape
+	if checkedDiagram != nil && checkedDiagram != nil {
+		params.Rendered3DShape = checkedDiagram.Rendered3DShape
+		params.IsHiddenTorus3DShape = checkedDiagram.IsHiddenTorus3DShape
+		params.IsHiddenRotatedTorusShape = checkedDiagram.IsHiddenRotatedTorusShape
+		params.IsHiddenTopCurveShape = checkedDiagram.IsHiddenSeatTopCurveShape
+		params.IsHiddenRotatedTopCurveShape = checkedDiagram.IsHiddenRotatedSeatTopCurveShape
+		params.IsHiddenSampledPoints3DShape = checkedDiagram.IsHiddenSampledPoints3DShape
+		params.IsHiddenRotatedSampledPoints3DShape = checkedDiagram.IsHiddenRotatedSampledPoints3DShape
 	}
 
 	base := cylinderstage3d.RenderCylinder3DBase(stool3dStage, stager, plant, params)
@@ -110,7 +110,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 10. Seat Bottom 2D Projected Curve on the horizontal stool seat bottom plane (from Base Torus)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenSeatBottomCurveShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenSeatBottomCurveShape {
 			seatBottomCurve := (&threejs.Curve{
 				Name: "Stool Seat Bottom Curve",
 			}).Stage(stool3dStage)
@@ -166,7 +166,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 11. Rotated Seat Bottom 2D Projected Curve (from Partially Rotated Torus)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatBottomCurveShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenRotatedSeatBottomCurveShape {
 			rotSeatBottomCurve := (&threejs.Curve{
 				Name:   "Stool Rotated Seat Bottom Curve",
 				Points: rotSeatBottomPoints,
@@ -202,7 +202,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 11b. 3D Seat Volume Mesh between Rotated Seat Top and Rotated Seat Bottom
-		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenSeat3DShape {
+		if checkedDiagram == nil || checkedDiagram == nil || !checkedDiagram.IsHiddenSeat3DShape {
 			if len(rotSeatTopPoints) >= 3 && len(rotSeatTopPoints) == len(rotSeatBottomPoints) {
 				N := len(rotSeatTopPoints)
 				seatGeom := (&threejs.BufferGeometry{
@@ -519,7 +519,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 14. Add 3D Eye Sampled Points visualization for first repetition if toggled on
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSampledPoints3DShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenEyeSampledPoints3DShape {
 			var eyePoints []*threejs.Vector3
 			for i, inE := range inEye {
 				if inE {
@@ -546,7 +546,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 15. Render 3D Eye Corners Sampled Points
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeCornersSampledPoints3DShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenEyeCornersSampledPoints3DShape {
 			var cornerPoints []*threejs.Vector3
 			cornerPoints = append(cornerPoints, leftCornerPts...)
 			cornerPoints = append(cornerPoints, rightCornerPts...)
@@ -589,7 +589,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 16. Add 3D Eye (Continuous interpolated closed tube)
-		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenEye3DShape {
+		if checkedDiagram == nil || checkedDiagram == nil || !checkedDiagram.IsHiddenEye3DShape {
 			if len(eye3DPoints) > 0 {
 				eyeLoopCurve := (&threejs.Curve{
 					Name:   "Stool Eye Continuous Loop Curve",
@@ -658,7 +658,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 17. Seat Bottom Eye 2D Projected Curve on horizontal seat bottom plane
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeSeatBottomCurveShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenEyeSeatBottomCurveShape {
 			if len(projSeatBottomEyePoints) > 0 {
 				numSegments := len(projSeatBottomEyePoints)
 				if numSegments < 2 {
@@ -712,7 +712,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 18. Stool Bottom Eye 2D Projected Curve on horizontal stool bottom / floor plane (Y = 0)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenEyeStoolBottomCurveShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenEyeStoolBottomCurveShape {
 			if len(projStoolBottomEyePoints) > 0 {
 				numSegments := len(projStoolBottomEyePoints)
 				if numSegments < 2 {
@@ -766,7 +766,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 19. 3D Eye Volume Mesh between Seat Bottom Eye Curve and Stool Bottom Eye Curve (repeated across radialRepetitions)
-		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenEyeVolume3DShape {
+		if checkedDiagram == nil || checkedDiagram == nil || !checkedDiagram.IsHiddenEyeVolume3DShape {
 			if len(projSeatBottomEyePoints) >= 3 && len(projSeatBottomEyePoints) == len(projStoolBottomEyePoints) {
 				M := len(projSeatBottomEyePoints)
 
@@ -1121,7 +1121,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 20. 3D Seat and Legs (Union of seat and all legs)
-		if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenSeatAndLegs3DShape {
+		if checkedDiagram == nil || checkedDiagram == nil || !checkedDiagram.IsHiddenSeatAndLegs3DShape {
 			seatAndLegsGeom := buildSeatAndLegsGeom("Stool Seat and Legs", 0.0, 0.0)
 			if len(seatAndLegsGeom.Faces) > 0 {
 				seatAndLegsMesh := (&threejs.Mesh{
@@ -1141,7 +1141,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 
 		// 21. 3D Rotated Seat and Legs (Transformed by growthVector)
-		if checkedDiagram != nil && checkedDiagram.StoolDiagram != nil && !checkedDiagram.StoolDiagram.IsHiddenRotatedSeatAndLegs3DShape {
+		if checkedDiagram != nil && checkedDiagram != nil && !checkedDiagram.IsHiddenRotatedSeatAndLegs3DShape {
 			rotSeatAndLegsGeom := buildSeatAndLegsGeom("Stool Rotated Seat and Legs", growthVectorX/globalR, growthVectorY)
 			if len(rotSeatAndLegsGeom.Faces) > 0 {
 				rotSeatAndLegsMesh := (&threejs.Mesh{
@@ -1161,7 +1161,7 @@ func (u *Stool3DStageUpdater) ux_3d_stool(stager *models.Stager) {
 		}
 	}
 
-	if checkedDiagram == nil || checkedDiagram.StoolDiagram == nil || !checkedDiagram.StoolDiagram.IsHiddenTiledFloor3DShape {
+	if checkedDiagram == nil || checkedDiagram == nil || !checkedDiagram.IsHiddenTiledFloor3DShape {
 		cylinderstage3d.AddFloorTiles(stool3dStage, canvas, globalR, floorMinY)
 	}
 

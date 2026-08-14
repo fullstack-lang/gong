@@ -40,10 +40,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ChosenP1P2PairShape](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
+	case "Clock2DDiagram":
+		updateProbeTable[*models.Clock2DDiagram](probe)
+	case "Clock3DDiagram":
+		updateProbeTable[*models.Clock3DDiagram](probe)
 	case "ClockAbstract":
 		updateProbeTable[*models.ClockAbstract](probe)
-	case "ClockDiagram":
-		updateProbeTable[*models.ClockDiagram](probe)
 	case "ClockTopCurveShape":
 		updateProbeTable[*models.ClockTopCurveShape](probe)
 	case "EndArcShape":
@@ -138,12 +140,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PerpendicularVectorGridHalfway](probe)
 	case "PerpendicularVectorHalfway":
 		updateProbeTable[*models.PerpendicularVectorHalfway](probe)
+	case "Plant2DDiagram":
+		updateProbeTable[*models.Plant2DDiagram](probe)
 	case "PlantAbstract":
 		updateProbeTable[*models.PlantAbstract](probe)
 	case "PlantCircumferenceShape":
 		updateProbeTable[*models.PlantCircumferenceShape](probe)
-	case "PlantDiagram":
-		updateProbeTable[*models.PlantDiagram](probe)
 	case "PointsAndLines3DShape":
 		updateProbeTable[*models.PointsAndLines3DShape](probe)
 	case "PxShape":
@@ -240,10 +242,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StartHalfwayArcShape](probe)
 	case "StartHalfwayArcShapeGrid":
 		updateProbeTable[*models.StartHalfwayArcShapeGrid](probe)
+	case "Stool2DDiagram":
+		updateProbeTable[*models.Stool2DDiagram](probe)
+	case "Stool3DDiagram":
+		updateProbeTable[*models.Stool3DDiagram](probe)
 	case "StoolAbstract":
 		updateProbeTable[*models.StoolAbstract](probe)
-	case "StoolDiagram":
-		updateProbeTable[*models.StoolDiagram](probe)
 	case "TiledFloor3DShape":
 		updateProbeTable[*models.TiledFloor3DShape](probe)
 	case "TopEndArcShape":
@@ -286,10 +290,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
+	case "Vase2DDiagram":
+		updateProbeTable[*models.Vase2DDiagram](probe)
+	case "Vase3DDiagram":
+		updateProbeTable[*models.Vase3DDiagram](probe)
 	case "VaseAbstract":
 		updateProbeTable[*models.VaseAbstract](probe)
-	case "VaseDiagram":
-		updateProbeTable[*models.VaseDiagram](probe)
 	case "VerticalTorusStackShape":
 		updateProbeTable[*models.VerticalTorusStackShape](probe)
 	case "VolumeKey3DShape":

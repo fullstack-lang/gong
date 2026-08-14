@@ -837,6 +837,282 @@ func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
 
 	circlegridshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__Clock2DDiagramFormCallback(
+	clock2ddiagram *models.Clock2DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (clock2ddiagramFormCallback *Clock2DDiagramFormCallback) {
+	clock2ddiagramFormCallback = new(Clock2DDiagramFormCallback)
+	clock2ddiagramFormCallback.probe = probe
+	clock2ddiagramFormCallback.clock2ddiagram = clock2ddiagram
+	clock2ddiagramFormCallback.formGroup = formGroup
+
+	clock2ddiagramFormCallback.CreationMode = (clock2ddiagram == nil)
+
+	return
+}
+
+type Clock2DDiagramFormCallback struct {
+	clock2ddiagram *models.Clock2DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (clock2ddiagramFormCallback *Clock2DDiagramFormCallback) OnSave() {
+	clock2ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer clock2ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Clock2DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	clock2ddiagramFormCallback.probe.formStage.Checkout()
+
+	if clock2ddiagramFormCallback.clock2ddiagram == nil {
+		clock2ddiagramFormCallback.clock2ddiagram = new(models.Clock2DDiagram).Stage(clock2ddiagramFormCallback.probe.stageOfInterest)
+	}
+	clock2ddiagram_ := clock2ddiagramFormCallback.clock2ddiagram
+	_ = clock2ddiagram_
+
+	for _, formDiv := range clock2ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(clock2ddiagram_.Name), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(clock2ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(clock2ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(clock2ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Clock2DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](clock2ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Clock2DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](clock2ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(clock2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure clock2ddiagram_ is in _plantabstract.Clock2DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Clock2DDiagrams {
+						if _b == clock2ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Clock2DDiagrams = append(_plantabstract.Clock2DDiagrams, clock2ddiagram_)
+						clock2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Clock2DDiagrams", &_plantabstract.Clock2DDiagrams)
+					}
+				} else {
+					// ensure clock2ddiagram_ is NOT in _plantabstract.Clock2DDiagrams
+					idx := slices.Index(_plantabstract.Clock2DDiagrams, clock2ddiagram_)
+					if idx != -1 {
+						_plantabstract.Clock2DDiagrams = slices.Delete(_plantabstract.Clock2DDiagrams, idx, idx+1)
+						clock2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Clock2DDiagrams", &_plantabstract.Clock2DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if clock2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clock2ddiagram_.Unstage(clock2ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	clock2ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Clock2DDiagram](
+		clock2ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if clock2ddiagramFormCallback.CreationMode || clock2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clock2ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(clock2ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Clock2DDiagramFormCallback(
+			nil,
+			clock2ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		clock2ddiagram := new(models.Clock2DDiagram)
+		FillUpForm(clock2ddiagram, newFormGroup, clock2ddiagramFormCallback.probe)
+		clock2ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	clock2ddiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__Clock3DDiagramFormCallback(
+	clock3ddiagram *models.Clock3DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (clock3ddiagramFormCallback *Clock3DDiagramFormCallback) {
+	clock3ddiagramFormCallback = new(Clock3DDiagramFormCallback)
+	clock3ddiagramFormCallback.probe = probe
+	clock3ddiagramFormCallback.clock3ddiagram = clock3ddiagram
+	clock3ddiagramFormCallback.formGroup = formGroup
+
+	clock3ddiagramFormCallback.CreationMode = (clock3ddiagram == nil)
+
+	return
+}
+
+type Clock3DDiagramFormCallback struct {
+	clock3ddiagram *models.Clock3DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (clock3ddiagramFormCallback *Clock3DDiagramFormCallback) OnSave() {
+	clock3ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer clock3ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Clock3DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	clock3ddiagramFormCallback.probe.formStage.Checkout()
+
+	if clock3ddiagramFormCallback.clock3ddiagram == nil {
+		clock3ddiagramFormCallback.clock3ddiagram = new(models.Clock3DDiagram).Stage(clock3ddiagramFormCallback.probe.stageOfInterest)
+	}
+	clock3ddiagram_ := clock3ddiagramFormCallback.clock3ddiagram
+	_ = clock3ddiagram_
+
+	for _, formDiv := range clock3ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(clock3ddiagram_.Name), formDiv)
+		case "IsHiddenClockTopCurveShape":
+			FormDivBasicFieldToField(&(clock3ddiagram_.IsHiddenClockTopCurveShape), formDiv)
+		case "ClockTopCurveShape":
+			FormDivSelectFieldToField(&(clock3ddiagram_.ClockTopCurveShape), clock3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTorus3DShape":
+			FormDivBasicFieldToField(&(clock3ddiagram_.IsHiddenTorus3DShape), formDiv)
+		case "Torus3DShape":
+			FormDivSelectFieldToField(&(clock3ddiagram_.Torus3DShape), clock3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(clock3ddiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(clock3ddiagram_.SampledPoints3DShape), clock3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(clock3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(clock3ddiagram_.TiledFloor3DShape), clock3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(clock3ddiagram_.Rendered3DShape), clock3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(clock3ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(clock3ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(clock3ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Clock3DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](clock3ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Clock3DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](clock3ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(clock3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure clock3ddiagram_ is in _plantabstract.Clock3DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Clock3DDiagrams {
+						if _b == clock3ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Clock3DDiagrams = append(_plantabstract.Clock3DDiagrams, clock3ddiagram_)
+						clock3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Clock3DDiagrams", &_plantabstract.Clock3DDiagrams)
+					}
+				} else {
+					// ensure clock3ddiagram_ is NOT in _plantabstract.Clock3DDiagrams
+					idx := slices.Index(_plantabstract.Clock3DDiagrams, clock3ddiagram_)
+					if idx != -1 {
+						_plantabstract.Clock3DDiagrams = slices.Delete(_plantabstract.Clock3DDiagrams, idx, idx+1)
+						clock3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Clock3DDiagrams", &_plantabstract.Clock3DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if clock3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clock3ddiagram_.Unstage(clock3ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	clock3ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Clock3DDiagram](
+		clock3ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if clock3ddiagramFormCallback.CreationMode || clock3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		clock3ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(clock3ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Clock3DDiagramFormCallback(
+			nil,
+			clock3ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		clock3ddiagram := new(models.Clock3DDiagram)
+		FillUpForm(clock3ddiagram, newFormGroup, clock3ddiagramFormCallback.probe)
+		clock3ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	clock3ddiagramFormCallback.probe.ux_tree()
+}
 func __gong__New__ClockAbstractFormCallback(
 	clockabstract *models.ClockAbstract,
 	probe *Probe,
@@ -928,102 +1204,6 @@ func (clockabstractFormCallback *ClockAbstractFormCallback) OnSave() {
 	}
 
 	clockabstractFormCallback.probe.ux_tree()
-}
-func __gong__New__ClockDiagramFormCallback(
-	clockdiagram *models.ClockDiagram,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (clockdiagramFormCallback *ClockDiagramFormCallback) {
-	clockdiagramFormCallback = new(ClockDiagramFormCallback)
-	clockdiagramFormCallback.probe = probe
-	clockdiagramFormCallback.clockdiagram = clockdiagram
-	clockdiagramFormCallback.formGroup = formGroup
-
-	clockdiagramFormCallback.CreationMode = (clockdiagram == nil)
-
-	return
-}
-
-type ClockDiagramFormCallback struct {
-	clockdiagram *models.ClockDiagram
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (clockdiagramFormCallback *ClockDiagramFormCallback) OnSave() {
-	clockdiagramFormCallback.probe.stageOfInterest.Lock()
-	defer clockdiagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ClockDiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	clockdiagramFormCallback.probe.formStage.Checkout()
-
-	if clockdiagramFormCallback.clockdiagram == nil {
-		clockdiagramFormCallback.clockdiagram = new(models.ClockDiagram).Stage(clockdiagramFormCallback.probe.stageOfInterest)
-	}
-	clockdiagram_ := clockdiagramFormCallback.clockdiagram
-	_ = clockdiagram_
-
-	for _, formDiv := range clockdiagramFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(clockdiagram_.Name), formDiv)
-		case "IsHiddenClockTopCurveShape":
-			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenClockTopCurveShape), formDiv)
-		case "ClockTopCurveShape":
-			FormDivSelectFieldToField(&(clockdiagram_.ClockTopCurveShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenTorus3DShape":
-			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenTorus3DShape), formDiv)
-		case "Torus3DShape":
-			FormDivSelectFieldToField(&(clockdiagram_.Torus3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenSampledPoints3DShape":
-			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenSampledPoints3DShape), formDiv)
-		case "SampledPoints3DShape":
-			FormDivSelectFieldToField(&(clockdiagram_.SampledPoints3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenTiledFloor3DShape":
-			FormDivBasicFieldToField(&(clockdiagram_.IsHiddenTiledFloor3DShape), formDiv)
-		case "TiledFloor3DShape":
-			FormDivSelectFieldToField(&(clockdiagram_.TiledFloor3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Rendered3DShape":
-			FormDivSelectFieldToField(&(clockdiagram_.Rendered3DShape), clockdiagramFormCallback.probe.stageOfInterest, formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if clockdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		clockdiagram_.Unstage(clockdiagramFormCallback.probe.stageOfInterest)
-	}
-
-	clockdiagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ClockDiagram](
-		clockdiagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if clockdiagramFormCallback.CreationMode || clockdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		clockdiagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(clockdiagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ClockDiagramFormCallback(
-			nil,
-			clockdiagramFormCallback.probe,
-			newFormGroup,
-		)
-		clockdiagram := new(models.ClockDiagram)
-		FillUpForm(clockdiagram, newFormGroup, clockdiagramFormCallback.probe)
-		clockdiagramFormCallback.probe.formStage.Commit()
-	}
-
-	clockdiagramFormCallback.probe.ux_tree()
 }
 func __gong__New__ClockTopCurveShapeFormCallback(
 	clocktopcurveshape *models.ClockTopCurveShape,
@@ -6387,6 +6567,183 @@ func (perpendicularvectorhalfwayFormCallback *PerpendicularVectorHalfwayFormCall
 
 	perpendicularvectorhalfwayFormCallback.probe.ux_tree()
 }
+func __gong__New__Plant2DDiagramFormCallback(
+	plant2ddiagram *models.Plant2DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (plant2ddiagramFormCallback *Plant2DDiagramFormCallback) {
+	plant2ddiagramFormCallback = new(Plant2DDiagramFormCallback)
+	plant2ddiagramFormCallback.probe = probe
+	plant2ddiagramFormCallback.plant2ddiagram = plant2ddiagram
+	plant2ddiagramFormCallback.formGroup = formGroup
+
+	plant2ddiagramFormCallback.CreationMode = (plant2ddiagram == nil)
+
+	return
+}
+
+type Plant2DDiagramFormCallback struct {
+	plant2ddiagram *models.Plant2DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (plant2ddiagramFormCallback *Plant2DDiagramFormCallback) OnSave() {
+	plant2ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer plant2ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Plant2DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	plant2ddiagramFormCallback.probe.formStage.Checkout()
+
+	if plant2ddiagramFormCallback.plant2ddiagram == nil {
+		plant2ddiagramFormCallback.plant2ddiagram = new(models.Plant2DDiagram).Stage(plant2ddiagramFormCallback.probe.stageOfInterest)
+	}
+	plant2ddiagram_ := plant2ddiagramFormCallback.plant2ddiagram
+	_ = plant2ddiagram_
+
+	for _, formDiv := range plant2ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(plant2ddiagram_.Name), formDiv)
+		case "OriginX":
+			FormDivBasicFieldToField(&(plant2ddiagram_.OriginX), formDiv)
+		case "OriginY":
+			FormDivBasicFieldToField(&(plant2ddiagram_.OriginY), formDiv)
+		case "IsRhombusNodesExpanded":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsRhombusNodesExpanded), formDiv)
+		case "IsArcNodesExpanded":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsArcNodesExpanded), formDiv)
+		case "IsHiddenAxesShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenAxesShape), formDiv)
+		case "IsHiddenReferenceRhombus":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenReferenceRhombus), formDiv)
+		case "IsHiddenPlantCircumferenceShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenPlantCircumferenceShape), formDiv)
+		case "IsHiddenGridPathShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenGridPathShape), formDiv)
+		case "IsHiddenRhombusGridShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenRhombusGridShape), formDiv)
+		case "IsHiddenExplanationTextShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenExplanationTextShape), formDiv)
+		case "IsHiddenRotatedReferenceRhombus":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenRotatedReferenceRhombus), formDiv)
+		case "IsHiddenRotatedPlantCircumferenceShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenRotatedPlantCircumferenceShape), formDiv)
+		case "IsHiddenRotatedGridPathShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenRotatedGridPathShape), formDiv)
+		case "IsHiddenRotatedRhombusGridShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenRotatedRhombusGridShape), formDiv)
+		case "IsHiddenGrowthPathRhombusGridShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenGrowthPathRhombusGridShape), formDiv)
+		case "IsHiddenGrowthVectorShape":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenGrowthVectorShape), formDiv)
+		case "IsHiddenPerpendicularVectorGrid":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenPerpendicularVectorGrid), formDiv)
+		case "IsHiddenBaseVectorShapeGrid":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenBaseVectorShapeGrid), formDiv)
+		case "IsHiddenArcNormalVectorShapeGrid":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenArcNormalVectorShapeGrid), formDiv)
+		case "IsHiddenStartArcShapeGrid":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenStartArcShapeGrid), formDiv)
+		case "IsHiddenMidArcVectorShapeGrid":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
+		case "IsHiddenEndArcShapeGrid":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenEndArcShapeGrid), formDiv)
+		case "IsHiddenGrowthCurve2D":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenGrowthCurve2D), formDiv)
+		case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsHiddenStackOfGrowthCurve2DByGrowthVector), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(plant2ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(plant2ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Plant2DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](plant2ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Plant2DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](plant2ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(plant2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure plant2ddiagram_ is in _plantabstract.Plant2DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Plant2DDiagrams {
+						if _b == plant2ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Plant2DDiagrams = append(_plantabstract.Plant2DDiagrams, plant2ddiagram_)
+						plant2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Plant2DDiagrams", &_plantabstract.Plant2DDiagrams)
+					}
+				} else {
+					// ensure plant2ddiagram_ is NOT in _plantabstract.Plant2DDiagrams
+					idx := slices.Index(_plantabstract.Plant2DDiagrams, plant2ddiagram_)
+					if idx != -1 {
+						_plantabstract.Plant2DDiagrams = slices.Delete(_plantabstract.Plant2DDiagrams, idx, idx+1)
+						plant2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Plant2DDiagrams", &_plantabstract.Plant2DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if plant2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plant2ddiagram_.Unstage(plant2ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	plant2ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Plant2DDiagram](
+		plant2ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if plant2ddiagramFormCallback.CreationMode || plant2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plant2ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(plant2ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Plant2DDiagramFormCallback(
+			nil,
+			plant2ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		plant2ddiagram := new(models.Plant2DDiagram)
+		FillUpForm(plant2ddiagram, newFormGroup, plant2ddiagramFormCallback.probe)
+		plant2ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	plant2ddiagramFormCallback.probe.ux_tree()
+}
 func __gong__New__PlantAbstractFormCallback(
 	plantabstract *models.PlantAbstract,
 	probe *Probe,
@@ -6460,14 +6817,14 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantabstract_.IsExpanded), formDiv)
 		case "IsSelected":
 			FormDivBasicFieldToField(&(plantabstract_.IsSelected), formDiv)
-		case "IsPlantDiagramsNodeExpanded":
-			FormDivBasicFieldToField(&(plantabstract_.IsPlantDiagramsNodeExpanded), formDiv)
-		case "PlantDiagrams":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantabstractFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.PlantDiagram, 0)
+		case "IsPlant2DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsPlant2DDiagramsNodeExpanded), formDiv)
+		case "Plant2DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Plant2DDiagram, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.PlantDiagram)
+			map_id_instances := make(map[uint]*models.Plant2DDiagram)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -6482,7 +6839,7 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.PlantDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Plant2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -6491,8 +6848,212 @@ func (plantabstractFormCallback *PlantAbstractFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			plantabstract_.PlantDiagrams = instanceSlice
-			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "PlantDiagrams", &plantabstract_.PlantDiagrams)
+			plantabstract_.Plant2DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Plant2DDiagrams", &plantabstract_.Plant2DDiagrams)
+
+		case "IsVase2DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsVase2DDiagramsNodeExpanded), formDiv)
+		case "Vase2DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vase2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Vase2DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Vase2DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Vase2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Vase2DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Vase2DDiagrams", &plantabstract_.Vase2DDiagrams)
+
+		case "IsVase3DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsVase3DDiagramsNodeExpanded), formDiv)
+		case "Vase3DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Vase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Vase3DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Vase3DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Vase3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Vase3DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Vase3DDiagrams", &plantabstract_.Vase3DDiagrams)
+
+		case "IsStool2DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsStool2DDiagramsNodeExpanded), formDiv)
+		case "Stool2DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Stool2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Stool2DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Stool2DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Stool2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Stool2DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Stool2DDiagrams", &plantabstract_.Stool2DDiagrams)
+
+		case "IsStool3DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsStool3DDiagramsNodeExpanded), formDiv)
+		case "Stool3DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Stool3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Stool3DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Stool3DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Stool3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Stool3DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Stool3DDiagrams", &plantabstract_.Stool3DDiagrams)
+
+		case "IsClock2DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsClock2DDiagramsNodeExpanded), formDiv)
+		case "Clock2DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Clock2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Clock2DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Clock2DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Clock2DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Clock2DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Clock2DDiagrams", &plantabstract_.Clock2DDiagrams)
+
+		case "IsClock3DDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plantabstract_.IsClock3DDiagramsNodeExpanded), formDiv)
+		case "Clock3DDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Clock3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Clock3DDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Clock3DDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantabstractFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Clock3DDiagram](plantabstractFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plantabstract_.Clock3DDiagrams = instanceSlice
+			plantabstractFormCallback.probe.UpdateSliceOfPointersCallback(plantabstract_, "Clock3DDiagrams", &plantabstract_.Clock3DDiagrams)
 
 		case "AxesShape":
 			FormDivSelectFieldToField(&(plantabstract_.AxesShape), plantabstractFormCallback.probe.stageOfInterest, formDiv)
@@ -6673,189 +7234,6 @@ func (plantcircumferenceshapeFormCallback *PlantCircumferenceShapeFormCallback) 
 	}
 
 	plantcircumferenceshapeFormCallback.probe.ux_tree()
-}
-func __gong__New__PlantDiagramFormCallback(
-	plantdiagram *models.PlantDiagram,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (plantdiagramFormCallback *PlantDiagramFormCallback) {
-	plantdiagramFormCallback = new(PlantDiagramFormCallback)
-	plantdiagramFormCallback.probe = probe
-	plantdiagramFormCallback.plantdiagram = plantdiagram
-	plantdiagramFormCallback.formGroup = formGroup
-
-	plantdiagramFormCallback.CreationMode = (plantdiagram == nil)
-
-	return
-}
-
-type PlantDiagramFormCallback struct {
-	plantdiagram *models.PlantDiagram
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
-	plantdiagramFormCallback.probe.stageOfInterest.Lock()
-	defer plantdiagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("PlantDiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	plantdiagramFormCallback.probe.formStage.Checkout()
-
-	if plantdiagramFormCallback.plantdiagram == nil {
-		plantdiagramFormCallback.plantdiagram = new(models.PlantDiagram).Stage(plantdiagramFormCallback.probe.stageOfInterest)
-	}
-	plantdiagram_ := plantdiagramFormCallback.plantdiagram
-	_ = plantdiagram_
-
-	for _, formDiv := range plantdiagramFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(plantdiagram_.Name), formDiv)
-		case "OriginX":
-			FormDivBasicFieldToField(&(plantdiagram_.OriginX), formDiv)
-		case "OriginY":
-			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
-		case "VaseDiagram":
-			FormDivSelectFieldToField(&(plantdiagram_.VaseDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "StoolDiagram":
-			FormDivSelectFieldToField(&(plantdiagram_.StoolDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ClockDiagram":
-			FormDivSelectFieldToField(&(plantdiagram_.ClockDiagram), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsRhombusNodesExpanded":
-			FormDivBasicFieldToField(&(plantdiagram_.IsRhombusNodesExpanded), formDiv)
-		case "IsArcNodesExpanded":
-			FormDivBasicFieldToField(&(plantdiagram_.IsArcNodesExpanded), formDiv)
-		case "IsHiddenAxesShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenAxesShape), formDiv)
-		case "IsHiddenReferenceRhombus":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenReferenceRhombus), formDiv)
-		case "IsHiddenPlantCircumferenceShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPlantCircumferenceShape), formDiv)
-		case "IsHiddenGridPathShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGridPathShape), formDiv)
-		case "IsHiddenRhombusGridShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRhombusGridShape), formDiv)
-		case "IsHiddenExplanationTextShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenExplanationTextShape), formDiv)
-		case "IsHiddenRotatedReferenceRhombus":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedReferenceRhombus), formDiv)
-		case "IsHiddenRotatedPlantCircumferenceShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedPlantCircumferenceShape), formDiv)
-		case "IsHiddenRotatedGridPathShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedGridPathShape), formDiv)
-		case "IsHiddenRotatedRhombusGridShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenRotatedRhombusGridShape), formDiv)
-		case "IsHiddenGrowthPathRhombusGridShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthPathRhombusGridShape), formDiv)
-		case "IsHiddenGrowthVectorShape":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthVectorShape), formDiv)
-		case "IsHiddenPerpendicularVectorGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenPerpendicularVectorGrid), formDiv)
-		case "IsHiddenBaseVectorShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenBaseVectorShapeGrid), formDiv)
-		case "IsHiddenArcNormalVectorShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenArcNormalVectorShapeGrid), formDiv)
-		case "IsHiddenStartArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStartArcShapeGrid), formDiv)
-		case "IsHiddenMidArcVectorShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenMidArcVectorShapeGrid), formDiv)
-		case "IsHiddenEndArcShapeGrid":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenEndArcShapeGrid), formDiv)
-		case "IsHiddenGrowthCurve2D":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenGrowthCurve2D), formDiv)
-		case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
-			FormDivBasicFieldToField(&(plantdiagram_.IsHiddenStackOfGrowthCurve2DByGrowthVector), formDiv)
-		case "IsChecked":
-			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
-		case "PlantAbstract:PlantDiagrams":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target PlantAbstract instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](plantdiagramFormCallback.probe.stageOfInterest)
-			targetPlantAbstractIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetPlantAbstractIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all PlantAbstract instances and update their PlantDiagrams slice
-			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](plantdiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plantdiagramFormCallback.probe.stageOfInterest, _plantabstract)
-				
-				// if PlantAbstract is selected
-				if targetPlantAbstractIDs[id] {
-					// ensure plantdiagram_ is in _plantabstract.PlantDiagrams
-					found := false
-					for _, _b := range _plantabstract.PlantDiagrams {
-						if _b == plantdiagram_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_plantabstract.PlantDiagrams = append(_plantabstract.PlantDiagrams, plantdiagram_)
-						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "PlantDiagrams", &_plantabstract.PlantDiagrams)
-					}
-				} else {
-					// ensure plantdiagram_ is NOT in _plantabstract.PlantDiagrams
-					idx := slices.Index(_plantabstract.PlantDiagrams, plantdiagram_)
-					if idx != -1 {
-						_plantabstract.PlantDiagrams = slices.Delete(_plantabstract.PlantDiagrams, idx, idx+1)
-						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "PlantDiagrams", &_plantabstract.PlantDiagrams)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if plantdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		plantdiagram_.Unstage(plantdiagramFormCallback.probe.stageOfInterest)
-	}
-
-	plantdiagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.PlantDiagram](
-		plantdiagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if plantdiagramFormCallback.CreationMode || plantdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		plantdiagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(plantdiagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__PlantDiagramFormCallback(
-			nil,
-			plantdiagramFormCallback.probe,
-			newFormGroup,
-		)
-		plantdiagram := new(models.PlantDiagram)
-		FillUpForm(plantdiagram, newFormGroup, plantdiagramFormCallback.probe)
-		plantdiagramFormCallback.probe.formStage.Commit()
-	}
-
-	plantdiagramFormCallback.probe.ux_tree()
 }
 func __gong__New__PointsAndLines3DShapeFormCallback(
 	pointsandlines3dshape *models.PointsAndLines3DShape,
@@ -12794,6 +13172,338 @@ func (starthalfwayarcshapegridFormCallback *StartHalfwayArcShapeGridFormCallback
 
 	starthalfwayarcshapegridFormCallback.probe.ux_tree()
 }
+func __gong__New__Stool2DDiagramFormCallback(
+	stool2ddiagram *models.Stool2DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stool2ddiagramFormCallback *Stool2DDiagramFormCallback) {
+	stool2ddiagramFormCallback = new(Stool2DDiagramFormCallback)
+	stool2ddiagramFormCallback.probe = probe
+	stool2ddiagramFormCallback.stool2ddiagram = stool2ddiagram
+	stool2ddiagramFormCallback.formGroup = formGroup
+
+	stool2ddiagramFormCallback.CreationMode = (stool2ddiagram == nil)
+
+	return
+}
+
+type Stool2DDiagramFormCallback struct {
+	stool2ddiagram *models.Stool2DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stool2ddiagramFormCallback *Stool2DDiagramFormCallback) OnSave() {
+	stool2ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer stool2ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Stool2DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stool2ddiagramFormCallback.probe.formStage.Checkout()
+
+	if stool2ddiagramFormCallback.stool2ddiagram == nil {
+		stool2ddiagramFormCallback.stool2ddiagram = new(models.Stool2DDiagram).Stage(stool2ddiagramFormCallback.probe.stageOfInterest)
+	}
+	stool2ddiagram_ := stool2ddiagramFormCallback.stool2ddiagram
+	_ = stool2ddiagram_
+
+	for _, formDiv := range stool2ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stool2ddiagram_.Name), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(stool2ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(stool2ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(stool2ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Stool2DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](stool2ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Stool2DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](stool2ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(stool2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure stool2ddiagram_ is in _plantabstract.Stool2DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Stool2DDiagrams {
+						if _b == stool2ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Stool2DDiagrams = append(_plantabstract.Stool2DDiagrams, stool2ddiagram_)
+						stool2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Stool2DDiagrams", &_plantabstract.Stool2DDiagrams)
+					}
+				} else {
+					// ensure stool2ddiagram_ is NOT in _plantabstract.Stool2DDiagrams
+					idx := slices.Index(_plantabstract.Stool2DDiagrams, stool2ddiagram_)
+					if idx != -1 {
+						_plantabstract.Stool2DDiagrams = slices.Delete(_plantabstract.Stool2DDiagrams, idx, idx+1)
+						stool2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Stool2DDiagrams", &_plantabstract.Stool2DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if stool2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stool2ddiagram_.Unstage(stool2ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	stool2ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Stool2DDiagram](
+		stool2ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stool2ddiagramFormCallback.CreationMode || stool2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stool2ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stool2ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Stool2DDiagramFormCallback(
+			nil,
+			stool2ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		stool2ddiagram := new(models.Stool2DDiagram)
+		FillUpForm(stool2ddiagram, newFormGroup, stool2ddiagramFormCallback.probe)
+		stool2ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	stool2ddiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__Stool3DDiagramFormCallback(
+	stool3ddiagram *models.Stool3DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (stool3ddiagramFormCallback *Stool3DDiagramFormCallback) {
+	stool3ddiagramFormCallback = new(Stool3DDiagramFormCallback)
+	stool3ddiagramFormCallback.probe = probe
+	stool3ddiagramFormCallback.stool3ddiagram = stool3ddiagram
+	stool3ddiagramFormCallback.formGroup = formGroup
+
+	stool3ddiagramFormCallback.CreationMode = (stool3ddiagram == nil)
+
+	return
+}
+
+type Stool3DDiagramFormCallback struct {
+	stool3ddiagram *models.Stool3DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (stool3ddiagramFormCallback *Stool3DDiagramFormCallback) OnSave() {
+	stool3ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer stool3ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Stool3DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	stool3ddiagramFormCallback.probe.formStage.Checkout()
+
+	if stool3ddiagramFormCallback.stool3ddiagram == nil {
+		stool3ddiagramFormCallback.stool3ddiagram = new(models.Stool3DDiagram).Stage(stool3ddiagramFormCallback.probe.stageOfInterest)
+	}
+	stool3ddiagram_ := stool3ddiagramFormCallback.stool3ddiagram
+	_ = stool3ddiagram_
+
+	for _, formDiv := range stool3ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(stool3ddiagram_.Name), formDiv)
+		case "IsHiddenSeatTopCurveShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenSeatTopCurveShape), formDiv)
+		case "SeatTopCurveShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.SeatTopCurveShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSeatTopCurveShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenRotatedSeatTopCurveShape), formDiv)
+		case "RotatedSeatTopCurveShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.RotatedSeatTopCurveShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSeatBottomCurveShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenSeatBottomCurveShape), formDiv)
+		case "SeatBottomCurveShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.SeatBottomCurveShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSeatBottomCurveShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenRotatedSeatBottomCurveShape), formDiv)
+		case "RotatedSeatBottomCurveShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.RotatedSeatBottomCurveShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTorus3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenTorus3DShape), formDiv)
+		case "Torus3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.Torus3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedTorusShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenRotatedTorusShape), formDiv)
+		case "RotatedTorusShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.RotatedTorusShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.SampledPoints3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenRotatedSampledPoints3DShape), formDiv)
+		case "RotatedSampledPoints3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.RotatedSampledPoints3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenEyeSampledPoints3DShape), formDiv)
+		case "EyeSampledPoints3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.EyeSampledPoints3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeCornersSampledPoints3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenEyeCornersSampledPoints3DShape), formDiv)
+		case "EyeCornersSampledPoints3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.EyeCornersSampledPoints3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEye3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenEye3DShape), formDiv)
+		case "Eye3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.Eye3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeSeatBottomCurveShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenEyeSeatBottomCurveShape), formDiv)
+		case "EyeSeatBottomCurveShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.EyeSeatBottomCurveShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeStoolBottomCurveShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenEyeStoolBottomCurveShape), formDiv)
+		case "EyeStoolBottomCurveShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.EyeStoolBottomCurveShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSeat3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenSeat3DShape), formDiv)
+		case "Seat3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.Seat3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenEyeVolume3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenEyeVolume3DShape), formDiv)
+		case "EyeVolume3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.EyeVolume3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenSeatAndLegs3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenSeatAndLegs3DShape), formDiv)
+		case "SeatAndLegs3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.SeatAndLegs3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenRotatedSeatAndLegs3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenRotatedSeatAndLegs3DShape), formDiv)
+		case "RotatedSeatAndLegs3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.RotatedSeatAndLegs3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.TiledFloor3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(stool3ddiagram_.Rendered3DShape), stool3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(stool3ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(stool3ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Stool3DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](stool3ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Stool3DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](stool3ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(stool3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure stool3ddiagram_ is in _plantabstract.Stool3DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Stool3DDiagrams {
+						if _b == stool3ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Stool3DDiagrams = append(_plantabstract.Stool3DDiagrams, stool3ddiagram_)
+						stool3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Stool3DDiagrams", &_plantabstract.Stool3DDiagrams)
+					}
+				} else {
+					// ensure stool3ddiagram_ is NOT in _plantabstract.Stool3DDiagrams
+					idx := slices.Index(_plantabstract.Stool3DDiagrams, stool3ddiagram_)
+					if idx != -1 {
+						_plantabstract.Stool3DDiagrams = slices.Delete(_plantabstract.Stool3DDiagrams, idx, idx+1)
+						stool3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Stool3DDiagrams", &_plantabstract.Stool3DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if stool3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stool3ddiagram_.Unstage(stool3ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	stool3ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Stool3DDiagram](
+		stool3ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if stool3ddiagramFormCallback.CreationMode || stool3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		stool3ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(stool3ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Stool3DDiagramFormCallback(
+			nil,
+			stool3ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		stool3ddiagram := new(models.Stool3DDiagram)
+		FillUpForm(stool3ddiagram, newFormGroup, stool3ddiagramFormCallback.probe)
+		stool3ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	stool3ddiagramFormCallback.probe.ux_tree()
+}
 func __gong__New__StoolAbstractFormCallback(
 	stoolabstract *models.StoolAbstract,
 	probe *Probe,
@@ -12891,158 +13601,6 @@ func (stoolabstractFormCallback *StoolAbstractFormCallback) OnSave() {
 	}
 
 	stoolabstractFormCallback.probe.ux_tree()
-}
-func __gong__New__StoolDiagramFormCallback(
-	stooldiagram *models.StoolDiagram,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (stooldiagramFormCallback *StoolDiagramFormCallback) {
-	stooldiagramFormCallback = new(StoolDiagramFormCallback)
-	stooldiagramFormCallback.probe = probe
-	stooldiagramFormCallback.stooldiagram = stooldiagram
-	stooldiagramFormCallback.formGroup = formGroup
-
-	stooldiagramFormCallback.CreationMode = (stooldiagram == nil)
-
-	return
-}
-
-type StoolDiagramFormCallback struct {
-	stooldiagram *models.StoolDiagram
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (stooldiagramFormCallback *StoolDiagramFormCallback) OnSave() {
-	stooldiagramFormCallback.probe.stageOfInterest.Lock()
-	defer stooldiagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("StoolDiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	stooldiagramFormCallback.probe.formStage.Checkout()
-
-	if stooldiagramFormCallback.stooldiagram == nil {
-		stooldiagramFormCallback.stooldiagram = new(models.StoolDiagram).Stage(stooldiagramFormCallback.probe.stageOfInterest)
-	}
-	stooldiagram_ := stooldiagramFormCallback.stooldiagram
-	_ = stooldiagram_
-
-	for _, formDiv := range stooldiagramFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(stooldiagram_.Name), formDiv)
-		case "IsHiddenSeatTopCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatTopCurveShape), formDiv)
-		case "SeatTopCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.SeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenRotatedSeatTopCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatTopCurveShape), formDiv)
-		case "RotatedSeatTopCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatTopCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenSeatBottomCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatBottomCurveShape), formDiv)
-		case "SeatBottomCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.SeatBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenRotatedSeatBottomCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatBottomCurveShape), formDiv)
-		case "RotatedSeatBottomCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenTorus3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTorus3DShape), formDiv)
-		case "Torus3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.Torus3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenRotatedTorusShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedTorusShape), formDiv)
-		case "RotatedTorusShape":
-			FormDivSelectFieldToField(&(stooldiagram_.RotatedTorusShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenSampledPoints3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSampledPoints3DShape), formDiv)
-		case "SampledPoints3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.SampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenRotatedSampledPoints3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSampledPoints3DShape), formDiv)
-		case "RotatedSampledPoints3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.RotatedSampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenEyeSampledPoints3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeSampledPoints3DShape), formDiv)
-		case "EyeSampledPoints3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.EyeSampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenEyeCornersSampledPoints3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeCornersSampledPoints3DShape), formDiv)
-		case "EyeCornersSampledPoints3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.EyeCornersSampledPoints3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenEye3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEye3DShape), formDiv)
-		case "Eye3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.Eye3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenEyeSeatBottomCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeSeatBottomCurveShape), formDiv)
-		case "EyeSeatBottomCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.EyeSeatBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenEyeStoolBottomCurveShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeStoolBottomCurveShape), formDiv)
-		case "EyeStoolBottomCurveShape":
-			FormDivSelectFieldToField(&(stooldiagram_.EyeStoolBottomCurveShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenSeat3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeat3DShape), formDiv)
-		case "Seat3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.Seat3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenEyeVolume3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenEyeVolume3DShape), formDiv)
-		case "EyeVolume3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.EyeVolume3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenSeatAndLegs3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenSeatAndLegs3DShape), formDiv)
-		case "SeatAndLegs3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.SeatAndLegs3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenRotatedSeatAndLegs3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenRotatedSeatAndLegs3DShape), formDiv)
-		case "RotatedSeatAndLegs3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.RotatedSeatAndLegs3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "IsHiddenTiledFloor3DShape":
-			FormDivBasicFieldToField(&(stooldiagram_.IsHiddenTiledFloor3DShape), formDiv)
-		case "TiledFloor3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.TiledFloor3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Rendered3DShape":
-			FormDivSelectFieldToField(&(stooldiagram_.Rendered3DShape), stooldiagramFormCallback.probe.stageOfInterest, formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if stooldiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		stooldiagram_.Unstage(stooldiagramFormCallback.probe.stageOfInterest)
-	}
-
-	stooldiagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.StoolDiagram](
-		stooldiagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if stooldiagramFormCallback.CreationMode || stooldiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		stooldiagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(stooldiagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__StoolDiagramFormCallback(
-			nil,
-			stooldiagramFormCallback.probe,
-			newFormGroup,
-		)
-		stooldiagram := new(models.StoolDiagram)
-		FillUpForm(stooldiagram, newFormGroup, stooldiagramFormCallback.probe)
-		stooldiagramFormCallback.probe.formStage.Commit()
-	}
-
-	stooldiagramFormCallback.probe.ux_tree()
 }
 func __gong__New__TiledFloor3DShapeFormCallback(
 	tiledfloor3dshape *models.TiledFloor3DShape,
@@ -15531,6 +16089,394 @@ func (torusstackshapeFormCallback *TorusStackShapeFormCallback) OnSave() {
 
 	torusstackshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__Vase2DDiagramFormCallback(
+	vase2ddiagram *models.Vase2DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) {
+	vase2ddiagramFormCallback = new(Vase2DDiagramFormCallback)
+	vase2ddiagramFormCallback.probe = probe
+	vase2ddiagramFormCallback.vase2ddiagram = vase2ddiagram
+	vase2ddiagramFormCallback.formGroup = formGroup
+
+	vase2ddiagramFormCallback.CreationMode = (vase2ddiagram == nil)
+
+	return
+}
+
+type Vase2DDiagramFormCallback struct {
+	vase2ddiagram *models.Vase2DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (vase2ddiagramFormCallback *Vase2DDiagramFormCallback) OnSave() {
+	vase2ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer vase2ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Vase2DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	vase2ddiagramFormCallback.probe.formStage.Checkout()
+
+	if vase2ddiagramFormCallback.vase2ddiagram == nil {
+		vase2ddiagramFormCallback.vase2ddiagram = new(models.Vase2DDiagram).Stage(vase2ddiagramFormCallback.probe.stageOfInterest)
+	}
+	vase2ddiagram_ := vase2ddiagramFormCallback.vase2ddiagram
+	_ = vase2ddiagram_
+
+	for _, formDiv := range vase2ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(vase2ddiagram_.Name), formDiv)
+		case "IsVaseArcNodesExpanded":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsVaseArcNodesExpanded), formDiv)
+		case "IsVaseClampingNodesExpanded":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsVaseClampingNodesExpanded), formDiv)
+		case "IsHiddenBottomStartArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenBottomStartArcShapeGrid), formDiv)
+		case "IsHiddenBottomEndArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenBottomEndArcShapeGrid), formDiv)
+		case "IsHiddenBottomStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
+		case "IsHiddenShiftedLeftStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenShiftedLeftStackOfGrowthCurve), formDiv)
+		case "IsHiddenShiftedLeftStackOfNormalVector":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
+		case "IsHiddenPerpendicularVectorGridHalfway":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
+		case "IsHiddenTopStartArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopStartArcShapeGrid), formDiv)
+		case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenShiftedBottomTopStartArcShapeGrid), formDiv)
+		case "IsHiddenTopMidArcVectorShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
+		case "IsHiddenStartHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenStartHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopStartHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopStartHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenEndHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenEndHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopEndHalfwayArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopEndHalfwayArcShapeGrid), formDiv)
+		case "IsHiddenTopEndArcShapeGrid":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopEndArcShapeGrid), formDiv)
+		case "IsHiddenStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenStackOfGrowthCurve), formDiv)
+		case "IsHiddenTopStackOfGrowthCurve":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopStackOfGrowthCurve), formDiv)
+		case "IsHiddenTopGrowthCurve2D":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopGrowthCurve2D), formDiv)
+		case "IsHiddenStackOfGrowthCurve2D":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenStackOfGrowthCurve2D), formDiv)
+		case "IsHiddenTopStackOfGrowthCurve2D":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenTopStackOfGrowthCurve2D), formDiv)
+		case "IsHiddenGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenShiftedRightGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenShiftedLeftGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenStackOfGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenStackOfGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenStackOfRotatedGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenPartiallyGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenPartiallyGrowthCurve2DTrajectory), formDiv)
+		case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
+		case "IsHiddenPxShape":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenPxShape), formDiv)
+		case "IsHiddenChosenP1P2PairShape":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenChosenP1P2PairShape), formDiv)
+		case "IsHiddenKeyHoleShape":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsHiddenKeyHoleShape), formDiv)
+		case "GrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vase2ddiagram_.GrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedRightGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vase2ddiagram_.ShiftedRightGrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vase2ddiagram_.ShiftedLeftGrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+			FormDivSelectFieldToField(&(vase2ddiagram_.ShiftedLeftPartiallyGrowthCurve2DRibbon), vase2ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(vase2ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(vase2ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Vase2DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](vase2ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Vase2DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](vase2ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(vase2ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure vase2ddiagram_ is in _plantabstract.Vase2DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Vase2DDiagrams {
+						if _b == vase2ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Vase2DDiagrams = append(_plantabstract.Vase2DDiagrams, vase2ddiagram_)
+						vase2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Vase2DDiagrams", &_plantabstract.Vase2DDiagrams)
+					}
+				} else {
+					// ensure vase2ddiagram_ is NOT in _plantabstract.Vase2DDiagrams
+					idx := slices.Index(_plantabstract.Vase2DDiagrams, vase2ddiagram_)
+					if idx != -1 {
+						_plantabstract.Vase2DDiagrams = slices.Delete(_plantabstract.Vase2DDiagrams, idx, idx+1)
+						vase2ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Vase2DDiagrams", &_plantabstract.Vase2DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if vase2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vase2ddiagram_.Unstage(vase2ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	vase2ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Vase2DDiagram](
+		vase2ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if vase2ddiagramFormCallback.CreationMode || vase2ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vase2ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(vase2ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Vase2DDiagramFormCallback(
+			nil,
+			vase2ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		vase2ddiagram := new(models.Vase2DDiagram)
+		FillUpForm(vase2ddiagram, newFormGroup, vase2ddiagramFormCallback.probe)
+		vase2ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	vase2ddiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__Vase3DDiagramFormCallback(
+	vase3ddiagram *models.Vase3DDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (vase3ddiagramFormCallback *Vase3DDiagramFormCallback) {
+	vase3ddiagramFormCallback = new(Vase3DDiagramFormCallback)
+	vase3ddiagramFormCallback.probe = probe
+	vase3ddiagramFormCallback.vase3ddiagram = vase3ddiagram
+	vase3ddiagramFormCallback.formGroup = formGroup
+
+	vase3ddiagramFormCallback.CreationMode = (vase3ddiagram == nil)
+
+	return
+}
+
+type Vase3DDiagramFormCallback struct {
+	vase3ddiagram *models.Vase3DDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (vase3ddiagramFormCallback *Vase3DDiagramFormCallback) OnSave() {
+	vase3ddiagramFormCallback.probe.stageOfInterest.Lock()
+	defer vase3ddiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("Vase3DDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	vase3ddiagramFormCallback.probe.formStage.Checkout()
+
+	if vase3ddiagramFormCallback.vase3ddiagram == nil {
+		vase3ddiagramFormCallback.vase3ddiagram = new(models.Vase3DDiagram).Stage(vase3ddiagramFormCallback.probe.stageOfInterest)
+	}
+	vase3ddiagram_ := vase3ddiagramFormCallback.vase3ddiagram
+	_ = vase3ddiagram_
+
+	for _, formDiv := range vase3ddiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(vase3ddiagram_.Name), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
+		case "IsHiddenTorusStackShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenTorusStackShape), formDiv)
+		case "IsHiddenVerticalTorusStackShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenVerticalTorusStackShape), formDiv)
+		case "IsHiddenPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenStackOfPartiallyRotatedTorusShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
+		case "IsHiddenPointsAndLines3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenPointsAndLines3DShape), formDiv)
+		case "IsHiddenKeyHole3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenKeyHole3DShape), formDiv)
+		case "IsHiddenKey3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenKey3DShape), formDiv)
+		case "IsHiddenVolumeKey3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenVolumeKey3DShape), formDiv)
+		case "IsHiddenTorusEdge3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenTorusEdge3DShape), formDiv)
+		case "IsHiddenSampledPoints3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenSampledPoints3DShape), formDiv)
+		case "IsHiddenOriginalPoints3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenOriginalPoints3DShape), formDiv)
+		case "IsHiddenAngle0Shape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenAngle0Shape), formDiv)
+		case "IsHiddenTiledFloor3DShape":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsHiddenTiledFloor3DShape), formDiv)
+		case "Rendered3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.Rendered3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusStackShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.TorusStackShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VerticalTorusStackShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.VerticalTorusStackShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.PartiallyRotatedTorusShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "StackOfPartiallyRotatedTorusShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.StackOfPartiallyRotatedTorusShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PointsAndLines3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.PointsAndLines3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "SampledPoints3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.SampledPoints3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "OriginalPoints3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.OriginalPoints3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Angle0Shape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.Angle0Shape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "KeyHole3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.KeyHole3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "Key3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.Key3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "VolumeKey3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.VolumeKey3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TorusEdge3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.TorusEdge3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "TiledFloor3DShape":
+			FormDivSelectFieldToField(&(vase3ddiagram_.TiledFloor3DShape), vase3ddiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(vase3ddiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(vase3ddiagram_.IsExpanded), formDiv)
+		case "PlantAbstract:Vase3DDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the PlantAbstract instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target PlantAbstract instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantAbstract](vase3ddiagramFormCallback.probe.stageOfInterest)
+			targetPlantAbstractIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantAbstractIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all PlantAbstract instances and update their Vase3DDiagrams slice
+			for _plantabstract := range *models.GetGongstructInstancesSetFromPointerType[*models.PlantAbstract](vase3ddiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(vase3ddiagramFormCallback.probe.stageOfInterest, _plantabstract)
+				
+				// if PlantAbstract is selected
+				if targetPlantAbstractIDs[id] {
+					// ensure vase3ddiagram_ is in _plantabstract.Vase3DDiagrams
+					found := false
+					for _, _b := range _plantabstract.Vase3DDiagrams {
+						if _b == vase3ddiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plantabstract.Vase3DDiagrams = append(_plantabstract.Vase3DDiagrams, vase3ddiagram_)
+						vase3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Vase3DDiagrams", &_plantabstract.Vase3DDiagrams)
+					}
+				} else {
+					// ensure vase3ddiagram_ is NOT in _plantabstract.Vase3DDiagrams
+					idx := slices.Index(_plantabstract.Vase3DDiagrams, vase3ddiagram_)
+					if idx != -1 {
+						_plantabstract.Vase3DDiagrams = slices.Delete(_plantabstract.Vase3DDiagrams, idx, idx+1)
+						vase3ddiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plantabstract, "Vase3DDiagrams", &_plantabstract.Vase3DDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if vase3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vase3ddiagram_.Unstage(vase3ddiagramFormCallback.probe.stageOfInterest)
+	}
+
+	vase3ddiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Vase3DDiagram](
+		vase3ddiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if vase3ddiagramFormCallback.CreationMode || vase3ddiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		vase3ddiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(vase3ddiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__Vase3DDiagramFormCallback(
+			nil,
+			vase3ddiagramFormCallback.probe,
+			newFormGroup,
+		)
+		vase3ddiagram := new(models.Vase3DDiagram)
+		FillUpForm(vase3ddiagram, newFormGroup, vase3ddiagramFormCallback.probe)
+		vase3ddiagramFormCallback.probe.formStage.Commit()
+	}
+
+	vase3ddiagramFormCallback.probe.ux_tree()
+}
 func __gong__New__VaseAbstractFormCallback(
 	vaseabstract *models.VaseAbstract,
 	probe *Probe,
@@ -15698,214 +16644,6 @@ func (vaseabstractFormCallback *VaseAbstractFormCallback) OnSave() {
 	}
 
 	vaseabstractFormCallback.probe.ux_tree()
-}
-func __gong__New__VaseDiagramFormCallback(
-	vasediagram *models.VaseDiagram,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (vasediagramFormCallback *VaseDiagramFormCallback) {
-	vasediagramFormCallback = new(VaseDiagramFormCallback)
-	vasediagramFormCallback.probe = probe
-	vasediagramFormCallback.vasediagram = vasediagram
-	vasediagramFormCallback.formGroup = formGroup
-
-	vasediagramFormCallback.CreationMode = (vasediagram == nil)
-
-	return
-}
-
-type VaseDiagramFormCallback struct {
-	vasediagram *models.VaseDiagram
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (vasediagramFormCallback *VaseDiagramFormCallback) OnSave() {
-	vasediagramFormCallback.probe.stageOfInterest.Lock()
-	defer vasediagramFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("VaseDiagramFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	vasediagramFormCallback.probe.formStage.Checkout()
-
-	if vasediagramFormCallback.vasediagram == nil {
-		vasediagramFormCallback.vasediagram = new(models.VaseDiagram).Stage(vasediagramFormCallback.probe.stageOfInterest)
-	}
-	vasediagram_ := vasediagramFormCallback.vasediagram
-	_ = vasediagram_
-
-	for _, formDiv := range vasediagramFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(vasediagram_.Name), formDiv)
-		case "IsVaseArcNodesExpanded":
-			FormDivBasicFieldToField(&(vasediagram_.IsVaseArcNodesExpanded), formDiv)
-		case "IsVaseClampingNodesExpanded":
-			FormDivBasicFieldToField(&(vasediagram_.IsVaseClampingNodesExpanded), formDiv)
-		case "IsHiddenBottomStartArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenBottomStartArcShapeGrid), formDiv)
-		case "IsHiddenBottomEndArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenBottomEndArcShapeGrid), formDiv)
-		case "IsHiddenBottomStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenBottomStackOfGrowthCurve), formDiv)
-		case "IsHiddenShiftedLeftStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftStackOfGrowthCurve), formDiv)
-		case "IsHiddenShiftedLeftStackOfNormalVector":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftStackOfNormalVector), formDiv)
-		case "IsHiddenPerpendicularVectorGridHalfway":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPerpendicularVectorGridHalfway), formDiv)
-		case "IsHiddenTopStartArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStartArcShapeGrid), formDiv)
-		case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedBottomTopStartArcShapeGrid), formDiv)
-		case "IsHiddenTopMidArcVectorShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopMidArcVectorShapeGrid), formDiv)
-		case "IsHiddenStartHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStartHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenTopStartHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStartHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenEndHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenEndHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenTopEndHalfwayArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopEndHalfwayArcShapeGrid), formDiv)
-		case "IsHiddenTopEndArcShapeGrid":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopEndArcShapeGrid), formDiv)
-		case "IsHiddenStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfGrowthCurve), formDiv)
-		case "IsHiddenTopStackOfGrowthCurve":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStackOfGrowthCurve), formDiv)
-		case "IsHiddenTopGrowthCurve2D":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopGrowthCurve2D), formDiv)
-		case "IsHiddenStackOfGrowthCurve2D":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfGrowthCurve2D), formDiv)
-		case "IsHiddenTopStackOfGrowthCurve2D":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTopStackOfGrowthCurve2D), formDiv)
-		case "IsHiddenGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedRightGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenStackOfGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfRotatedGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenPartiallyGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyGrowthCurve2DTrajectory), formDiv)
-		case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2), formDiv)
-		case "IsHiddenPxShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPxShape), formDiv)
-		case "IsHiddenChosenP1P2PairShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenChosenP1P2PairShape), formDiv)
-		case "IsHiddenKeyHoleShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKeyHoleShape), formDiv)
-		case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon), formDiv)
-		case "IsHiddenTorusStackShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTorusStackShape), formDiv)
-		case "IsHiddenVerticalTorusStackShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenVerticalTorusStackShape), formDiv)
-		case "IsHiddenPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPartiallyRotatedTorusShape), formDiv)
-		case "IsHiddenStackOfPartiallyRotatedTorusShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenStackOfPartiallyRotatedTorusShape), formDiv)
-		case "IsHiddenPointsAndLines3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenPointsAndLines3DShape), formDiv)
-		case "IsHiddenKeyHole3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKeyHole3DShape), formDiv)
-		case "IsHiddenKey3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenKey3DShape), formDiv)
-		case "IsHiddenVolumeKey3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenVolumeKey3DShape), formDiv)
-		case "IsHiddenTorusEdge3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTorusEdge3DShape), formDiv)
-		case "IsHiddenSampledPoints3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenSampledPoints3DShape), formDiv)
-		case "IsHiddenOriginalPoints3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenOriginalPoints3DShape), formDiv)
-		case "IsHiddenAngle0Shape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenAngle0Shape), formDiv)
-		case "IsHiddenTiledFloor3DShape":
-			FormDivBasicFieldToField(&(vasediagram_.IsHiddenTiledFloor3DShape), formDiv)
-		case "Rendered3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.Rendered3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vasediagram_.GrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vasediagram_.ShiftedRightGrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vasediagram_.ShiftedLeftGrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			FormDivSelectFieldToField(&(vasediagram_.ShiftedLeftPartiallyGrowthCurve2DRibbon), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TorusStackShape":
-			FormDivSelectFieldToField(&(vasediagram_.TorusStackShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "VerticalTorusStackShape":
-			FormDivSelectFieldToField(&(vasediagram_.VerticalTorusStackShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(vasediagram_.PartiallyRotatedTorusShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "StackOfPartiallyRotatedTorusShape":
-			FormDivSelectFieldToField(&(vasediagram_.StackOfPartiallyRotatedTorusShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "PointsAndLines3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.PointsAndLines3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "SampledPoints3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.SampledPoints3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "OriginalPoints3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.OriginalPoints3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Angle0Shape":
-			FormDivSelectFieldToField(&(vasediagram_.Angle0Shape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "KeyHole3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.KeyHole3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "Key3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.Key3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "VolumeKey3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.VolumeKey3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TorusEdge3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.TorusEdge3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		case "TiledFloor3DShape":
-			FormDivSelectFieldToField(&(vasediagram_.TiledFloor3DShape), vasediagramFormCallback.probe.stageOfInterest, formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if vasediagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vasediagram_.Unstage(vasediagramFormCallback.probe.stageOfInterest)
-	}
-
-	vasediagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.VaseDiagram](
-		vasediagramFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if vasediagramFormCallback.CreationMode || vasediagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vasediagramFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(vasediagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__VaseDiagramFormCallback(
-			nil,
-			vasediagramFormCallback.probe,
-			newFormGroup,
-		)
-		vasediagram := new(models.VaseDiagram)
-		FillUpForm(vasediagram, newFormGroup, vasediagramFormCallback.probe)
-		vasediagramFormCallback.probe.formStage.Commit()
-	}
-
-	vasediagramFormCallback.probe.ux_tree()
 }
 func __gong__New__VerticalTorusStackShapeFormCallback(
 	verticaltorusstackshape *models.VerticalTorusStackShape,
