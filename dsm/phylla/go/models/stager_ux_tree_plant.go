@@ -95,6 +95,11 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 		},
 	}
 
+	diagramTypeStr := "Plant"
+	if plant.PlantType != "" {
+		diagramTypeStr = string(plant.PlantType)
+	}
+
 	confPlants := ItemButtonConfiguration[
 		PlantDiagram, *PlantDiagram, // AT, PAT (Added Element)
 		PlantAbstract, *PlantAbstract, // ParentAT, PParentAT (Parent Element)
@@ -108,11 +113,19 @@ func (stager *Stager) treePlant(plant *PlantAbstract, parentNodes *[]*tree.Node,
 	}
 	addCreateItemButton(stager, confPlants)
 
+	if len(plantNode.Menu.Buttons) > 0 {
+		addDiagramBtn := plantNode.Menu.Buttons[0]
+		addDiagramBtn.Name = fmt.Sprintf("Add %s Diagram", diagramTypeStr)
+		addDiagramBtn.ToolTipText = fmt.Sprintf("Add a %s Diagram to \"%s\"", diagramTypeStr, plantNode.Name)
+	}
+
 	plantNode.Menu.Buttons = append(plantNode.Menu.Buttons, downloadBtn)
 
 	// Add Plant Diagram Button
+	diagramsNodeName := fmt.Sprintf("%s Diagrams", diagramTypeStr)
+
 	diagramsNode := &tree.Node{
-		Name:            "Plant Diagrams",
+		Name:            diagramsNodeName,
 		FontStyle:       tree.ITALIC,
 		IsExpanded:      plant.IsPlantDiagramsNodeExpanded,
 		IsNodeClickable: true,
