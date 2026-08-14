@@ -102,7 +102,7 @@ func (stager *Stager) enforcePlantCircumferenceShapeName() (needCommit bool) {
 func (stager *Stager) enforcePlantHasAxes() (needCommit bool) {
 	return enforcePlantHasShape[*AxesShape](
 		stager,
-		func() *AxesShape { return new(AxesShape) },
+		func() *AxesShape { return &AxesShape{LengthX: 200.0, LengthY: 200.0} },
 		func(p *PlantAbstract) *AxesShape { return p.AxesShape },
 		func(p *PlantAbstract, shape *AxesShape) { p.AxesShape = shape },
 		func(p *PlantAbstract, shape *AxesShape) bool { return p.AxesShape == shape },

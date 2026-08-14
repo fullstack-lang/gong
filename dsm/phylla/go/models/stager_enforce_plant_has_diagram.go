@@ -13,6 +13,9 @@ func (stager *Stager) enforcePlantHasDiagram() (needCommit bool) {
 		if len(plant.Plant2DDiagrams) == 0 {
 			plantDiagram := new(Plant2DDiagram).Stage(stage)
 			plantDiagram.Name = plant.Name + " - Diagram"
+			plantDiagram.OriginX = 280.0
+			plantDiagram.OriginY = 950.0
+			plantDiagram.Zoom = 1.0
 			hasAnyChecked := false
 			for d := range *GetGongstructInstancesSetFromPointerType[*Plant2DDiagram](stage) {
 				if d.IsChecked {
