@@ -11922,6 +11922,9 @@ func (clock2ddiagram *Clock2DDiagram) GongDiff(stage *Stage, clock2ddiagramOther
 	if clock2ddiagram.Name != clock2ddiagramOther.Name {
 		diffs = append(diffs, clock2ddiagram.GongMarshallField(stage, "Name"))
 	}
+	if clock2ddiagram.Zoom != clock2ddiagramOther.Zoom {
+		diffs = append(diffs, clock2ddiagram.GongMarshallField(stage, "Zoom"))
+	}
 	if clock2ddiagram.IsChecked != clock2ddiagramOther.IsChecked {
 		diffs = append(diffs, clock2ddiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -12995,6 +12998,9 @@ func (plant2ddiagram *Plant2DDiagram) GongDiff(stage *Stage, plant2ddiagramOther
 	}
 	if plant2ddiagram.OriginY != plant2ddiagramOther.OriginY {
 		diffs = append(diffs, plant2ddiagram.GongMarshallField(stage, "OriginY"))
+	}
+	if plant2ddiagram.Zoom != plant2ddiagramOther.Zoom {
+		diffs = append(diffs, plant2ddiagram.GongMarshallField(stage, "Zoom"))
 	}
 	if plant2ddiagram.IsRhombusNodesExpanded != plant2ddiagramOther.IsRhombusNodesExpanded {
 		diffs = append(diffs, plant2ddiagram.GongMarshallField(stage, "IsRhombusNodesExpanded"))
@@ -14691,6 +14697,9 @@ func (stool2ddiagram *Stool2DDiagram) GongDiff(stage *Stage, stool2ddiagramOther
 	if stool2ddiagram.Name != stool2ddiagramOther.Name {
 		diffs = append(diffs, stool2ddiagram.GongMarshallField(stage, "Name"))
 	}
+	if stool2ddiagram.Zoom != stool2ddiagramOther.Zoom {
+		diffs = append(diffs, stool2ddiagram.GongMarshallField(stage, "Zoom"))
+	}
 	if stool2ddiagram.IsChecked != stool2ddiagramOther.IsChecked {
 		diffs = append(diffs, stool2ddiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -15298,6 +15307,9 @@ func (vase2ddiagram *Vase2DDiagram) GongDiff(stage *Stage, vase2ddiagramOther *V
 	// insertion point for field diffs
 	if vase2ddiagram.Name != vase2ddiagramOther.Name {
 		diffs = append(diffs, vase2ddiagram.GongMarshallField(stage, "Name"))
+	}
+	if vase2ddiagram.Zoom != vase2ddiagramOther.Zoom {
+		diffs = append(diffs, vase2ddiagram.GongMarshallField(stage, "Zoom"))
 	}
 	if vase2ddiagram.IsVaseArcNodesExpanded != vase2ddiagramOther.IsVaseArcNodesExpanded {
 		diffs = append(diffs, vase2ddiagram.GongMarshallField(stage, "IsVaseArcNodesExpanded"))

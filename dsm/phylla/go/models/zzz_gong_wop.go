@@ -162,6 +162,8 @@ type Clock2DDiagram_WOP struct {
 
 	Name string
 
+	Zoom float64
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -172,6 +174,7 @@ type Clock2DDiagram_WOP struct {
 func (from *Clock2DDiagram) CopyBasicFields(to *Clock2DDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.Zoom = from.Zoom
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -1178,6 +1181,8 @@ type Plant2DDiagram_WOP struct {
 
 	OriginY float64
 
+	Zoom float64
+
 	IsRhombusNodesExpanded bool
 
 	IsArcNodesExpanded bool
@@ -1234,6 +1239,7 @@ func (from *Plant2DDiagram) CopyBasicFields(to *Plant2DDiagram) {
 	to.Name = from.Name
 	to.OriginX = from.OriginX
 	to.OriginY = from.OriginY
+	to.Zoom = from.Zoom
 	to.IsRhombusNodesExpanded = from.IsRhombusNodesExpanded
 	to.IsArcNodesExpanded = from.IsArcNodesExpanded
 	to.IsHiddenAxesShape = from.IsHiddenAxesShape
@@ -2707,6 +2713,8 @@ type Stool2DDiagram_WOP struct {
 
 	Name string
 
+	Zoom float64
+
 	IsChecked bool
 
 	ComputedPrefix string
@@ -2717,6 +2725,7 @@ type Stool2DDiagram_WOP struct {
 func (from *Stool2DDiagram) CopyBasicFields(to *Stool2DDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.Zoom = from.Zoom
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
@@ -3301,6 +3310,8 @@ type Vase2DDiagram_WOP struct {
 
 	Name string
 
+	Zoom float64
+
 	IsVaseArcNodesExpanded bool
 
 	IsVaseClampingNodesExpanded bool
@@ -3377,6 +3388,7 @@ type Vase2DDiagram_WOP struct {
 func (from *Vase2DDiagram) CopyBasicFields(to *Vase2DDiagram) {
 	// insertion point
 	to.Name = from.Name
+	to.Zoom = from.Zoom
 	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
 	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
 	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid

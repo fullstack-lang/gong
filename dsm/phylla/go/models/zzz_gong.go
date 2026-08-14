@@ -31274,6 +31274,10 @@ func (clock2ddiagram *Clock2DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -32575,6 +32579,10 @@ func (plant2ddiagram *Plant2DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 		},
 		{
 			Name:               "OriginY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Zoom",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -34689,6 +34697,10 @@ func (stool2ddiagram *Stool2DDiagram) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -35543,6 +35555,10 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "IsVaseArcNodesExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -36330,6 +36346,10 @@ func (clock2ddiagram *Clock2DDiagram) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = clock2ddiagram.Name
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", clock2ddiagram.Zoom)
+		res.valueFloat = clock2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", clock2ddiagram.IsChecked)
 		res.valueBool = clock2ddiagram.IsChecked
@@ -37627,6 +37647,10 @@ func (plant2ddiagram *Plant2DDiagram) GongGetFieldValue(fieldName string, stage 
 	case "OriginY":
 		res.valueString = fmt.Sprintf("%f", plant2ddiagram.OriginY)
 		res.valueFloat = plant2ddiagram.OriginY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", plant2ddiagram.Zoom)
+		res.valueFloat = plant2ddiagram.Zoom
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsRhombusNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsRhombusNodesExpanded)
@@ -39793,6 +39817,10 @@ func (stool2ddiagram *Stool2DDiagram) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = stool2ddiagram.Name
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", stool2ddiagram.Zoom)
+		res.valueFloat = stool2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", stool2ddiagram.IsChecked)
 		res.valueBool = stool2ddiagram.IsChecked
@@ -40661,6 +40689,10 @@ func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *S
 	// string value of fields
 	case "Name":
 		res.valueString = vase2ddiagram.Name
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", vase2ddiagram.Zoom)
+		res.valueFloat = vase2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsVaseArcNodesExpanded":
 		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsVaseArcNodesExpanded)
 		res.valueBool = vase2ddiagram.IsVaseArcNodesExpanded
@@ -41416,6 +41448,8 @@ func (clock2ddiagram *Clock2DDiagram) GongSetFieldValue(fieldName string, value 
 	// insertion point for per field code
 	case "Name":
 		clock2ddiagram.Name = value.GetValueString()
+	case "Zoom":
+		clock2ddiagram.Zoom = value.GetValueFloat()
 	case "IsChecked":
 		clock2ddiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -42621,6 +42655,8 @@ func (plant2ddiagram *Plant2DDiagram) GongSetFieldValue(fieldName string, value 
 		plant2ddiagram.OriginX = value.GetValueFloat()
 	case "OriginY":
 		plant2ddiagram.OriginY = value.GetValueFloat()
+	case "Zoom":
+		plant2ddiagram.Zoom = value.GetValueFloat()
 	case "IsRhombusNodesExpanded":
 		plant2ddiagram.IsRhombusNodesExpanded = value.GetValueBool()
 	case "IsArcNodesExpanded":
@@ -44482,6 +44518,8 @@ func (stool2ddiagram *Stool2DDiagram) GongSetFieldValue(fieldName string, value 
 	// insertion point for per field code
 	case "Name":
 		stool2ddiagram.Name = value.GetValueString()
+	case "Zoom":
+		stool2ddiagram.Zoom = value.GetValueFloat()
 	case "IsChecked":
 		stool2ddiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -45323,6 +45361,8 @@ func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value Go
 	// insertion point for per field code
 	case "Name":
 		vase2ddiagram.Name = value.GetValueString()
+	case "Zoom":
+		vase2ddiagram.Zoom = value.GetValueFloat()
 	case "IsVaseArcNodesExpanded":
 		vase2ddiagram.IsVaseArcNodesExpanded = value.GetValueBool()
 	case "IsVaseClampingNodesExpanded":

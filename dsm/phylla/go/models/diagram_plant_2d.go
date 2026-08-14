@@ -5,6 +5,7 @@ type Plant2DDiagram struct {
 
 	OriginX float64
 	OriginY float64
+	Zoom    float64
 
 	IsRhombusNodesExpanded bool
 	IsArcNodesExpanded     bool

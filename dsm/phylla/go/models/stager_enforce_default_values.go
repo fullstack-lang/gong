@@ -125,6 +125,28 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant2DDiagram.OriginY = 950.000000
 		}
+		if plant2DDiagram.Zoom == 0.0 {
+			needCommit = true
+			plant2DDiagram.Zoom = 1.0
+		}
+	}
+	for _, vase2DDiagram := range GetGongstrucsSorted[*Vase2DDiagram](stager.stage) {
+		if vase2DDiagram.Zoom == 0.0 {
+			needCommit = true
+			vase2DDiagram.Zoom = 1.0
+		}
+	}
+	for _, stool2DDiagram := range GetGongstrucsSorted[*Stool2DDiagram](stager.stage) {
+		if stool2DDiagram.Zoom == 0.0 {
+			needCommit = true
+			stool2DDiagram.Zoom = 1.0
+		}
+	}
+	for _, clock2DDiagram := range GetGongstrucsSorted[*Clock2DDiagram](stager.stage) {
+		if clock2DDiagram.Zoom == 0.0 {
+			needCommit = true
+			clock2DDiagram.Zoom = 1.0
+		}
 	}
 	for _, axesShape := range GetGongstrucsSorted[*AxesShape](stager.stage) {
 		if axesShape.LengthX == 0.0 {
