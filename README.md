@@ -98,3 +98,13 @@ cd ../../..
 # 5. Project Status
 
 Gong is currently in active development.
+
+# 6. License and Copyright
+
+The source code in this repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+**Exceptions:**
+* The data in `dsm/barrgraph/go/cmd/barrgraph/data/cubism and abstract art.go` and the diagrams it generates are copyrighted by MoMA & Alfred Barr's estate.
+* The data in `dsm/phylla/go/cmd/phylla/data/stage.go` and the design objects it generates are copyrighted by Valerie Rostaing & Thomas Peugeot.
+
+Please refer to the [NOTICE](NOTICE) file for more information.
