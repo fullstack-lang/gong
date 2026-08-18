@@ -19,6 +19,7 @@ type Note struct {
 }
 
 type Task struct {
+	//gong:text width:300 height:300
 	Name string
 
 	//gong:text width:300 height:300
@@ -142,6 +143,7 @@ type TaskGroup struct {
 const NoteSemantic = ""
 
 type Product struct {
+	//gong:text width:300 height:300
 	Name string
 
 	//gong:text width:300 height:300
@@ -174,6 +176,7 @@ type Product struct {
 }
 
 type Resource struct {
+	//gong:text width:300 height:300
 	Name string
 
 	//gong:text width:300 height:300
