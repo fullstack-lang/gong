@@ -950,12 +950,16 @@ func (stager *Stager) button() {
 
 	group1 := new(button.Group)
 	group1.Percentage = 100
+	group1.NbColumns = 3
 	layout.Groups = append(layout.Groups, group1)
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Stop",
-		Icon:  string(buttons.BUTTON_stop_circle),
-		Label: "Stop",
+		Name:            "Stop",
+		Icon:            string(buttons.BUTTON_stop_circle),
+		Label:           "Stop",
+		ToolTipText:     "Stop application",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
 		OnClick: func() {
 			log.Println("Stop")
 			os.Exit(0)
@@ -963,16 +967,22 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:    "Web",
-		Icon:    string(buttons.BUTTON_web),
-		Label:   "Web",
-		OnClick: stager.exportWebsite,
+		Name:            "Web",
+		Icon:            string(buttons.BUTTON_web),
+		Label:           "Web",
+		ToolTipText:     "Export documentation website",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
+		OnClick:         stager.exportWebsite,
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Go",
-		Icon:  string(buttons.BUTTON_file_download),
-		Label: "Go",
+		Name:            "Go",
+		Icon:            string(buttons.BUTTON_file_download),
+		Label:           "Go",
+		ToolTipText:     "Export stage as Go file (to Downloads)",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
 		OnClick: func() {
 			log.Println("Exporting stage as Go file")
 
@@ -1010,9 +1020,12 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Go (Choose Dir)",
-		Icon:  string(buttons.BUTTON_file_download),
-		Label: "Go (Choose Dir)",
+		Name:            "Go (Dir)",
+		Icon:            string(buttons.BUTTON_file_download),
+		Label:           "Go (Dir)",
+		ToolTipText:     "Export stage as Go file (choose directory)",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
 		OnClick: func() {
 			log.Println("Exporting stage as Go file (Choose Dir)")
 
@@ -1063,9 +1076,12 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Export launcher HTML",
-		Icon:  string(buttons.BUTTON_launch),
-		Label: "Export launcher HTML",
+		Name:            "HTML",
+		Icon:            string(buttons.BUTTON_launch),
+		Label:           "HTML",
+		ToolTipText:     "Export launcher HTML (to Downloads)",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
 		OnClick: func() {
 			log.Println("Exporting launcher HTML")
 
@@ -1163,9 +1179,12 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Export launcher HTML (Choose Dir)",
-		Icon:  string(buttons.BUTTON_launch),
-		Label: "Export launcher HTML (Choose Dir)",
+		Name:            "HTML (Dir)",
+		Icon:            string(buttons.BUTTON_launch),
+		Label:           "HTML (Dir)",
+		ToolTipText:     "Export launcher HTML (choose directory)",
+		ToolTipPosition: button.Above,
+		HasToolTip:      true,
 		OnClick: func() {
 			log.Println("Exporting launcher HTML (Choose Dir)")
 

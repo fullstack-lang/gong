@@ -19,19 +19,19 @@ func (stager *Stager) createViews() {
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Size: 80,
+										Size: 70,
 										Tree: (&split.Tree{
 											StackName: stager.treeStage.GetName(),
 										}),
 									},
 									{
-										Size: 10,
+										Size: 12,
 										Load: &split.Load{
 											StackName: stager.loadStage.GetName(),
 										},
 									},
 									{
-										Size: 10,
+										Size: 18,
 										Button: &split.Button{
 											StackName: stager.buttonStage.GetName(),
 										},
