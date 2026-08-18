@@ -127,9 +127,29 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
         throw new Error("Your browser does not support the File System Access API. Downloading file directly instead.");
       }
       console.log("Calling showSaveFilePicker with name:", this.saveAsName);
-      const handle = await (window as any).showSaveFilePicker({
+      const pickerOptions: any = {
         suggestedName: this.saveAsName,
-      });
+        id: 'gong-save-file-picker',
+      };
+
+      if (this.saveAsName.endsWith('.go')) {
+        pickerOptions.types = [
+          {
+            description: 'Go Source File (*.go)',
+            accept: { 'text/plain': ['.go'] },
+          },
+        ];
+      } else if (this.saveAsName.endsWith('.html')) {
+        pickerOptions.types = [
+          {
+            description: 'HTML Document (*.html)',
+            accept: { 'text/html': ['.html'] },
+          },
+        ];
+      }
+
+      const handle = await (window as any).showSaveFilePicker(pickerOptions);
+
       const writable = await handle.createWritable();
       await writable.write(this.saveAsBlob);
       await writable.close();
