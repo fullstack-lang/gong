@@ -1,9 +1,12 @@
 <div class="file-upload-container">
   @if (saveAsReady()) {
-    <div class="drop-zone" style="cursor: pointer;" (click)="saveAs()">
-      <div class="drop-zone-content">
-        <mat-icon class="upload-icon">save_alt</mat-icon>
-        <p class="upload-text">Click to Save As: <strong>{{ saveAsName }}</strong></p>
+    <div class="drop-zone save-as-zone" (click)="saveAs()" title="Click to choose directory and save file">
+      <div class="drop-zone-content compact">
+        <mat-icon class="upload-icon save-icon">save_alt</mat-icon>
+        <div class="text-content">
+          <div class="save-title">Click to Save As</div>
+          <div class="save-filename" [title]="saveAsName">{{ saveAsName }}</div>
+        </div>
       </div>
     </div>
   } @else if (this.fileToUpload != undefined) {
@@ -11,7 +14,7 @@
     (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
     (click)="fileInput.click()">
 
-    <div class="drop-zone-content">
+    <div class="drop-zone-content compact">
       @if (isUploading()) {
       <div class="upload-spinner"></div>
       <p class="upload-text">Uploading...</p>
@@ -21,9 +24,9 @@
         @if (this.message != undefined) {
           <span>{{ message.Name }}</span>
         } @else {
-          <span>Drop your file here or</span>
+          <span>Drop file here or</span>
         }
-        <span class="click-text">&nbsp;click to browse</span>
+        <span class="click-text">&nbsp;browse</span>
       </p>
       }
     </div>
