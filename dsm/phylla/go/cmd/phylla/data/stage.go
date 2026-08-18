@@ -263,13 +263,13 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000000_.RhombusInsideAngle = 104.000000
 	__PlantAbstract__00000000_.RhombusSideLength = 350.000000
 	__PlantAbstract__00000000_.PlantType = models.Vase
-	__PlantAbstract__00000000_.CurrentView = models.VIEW_VASE_2D
+	__PlantAbstract__00000000_.CurrentView = models.VIEW_ABOUT_SPIRAL_PLANTS
 	__PlantAbstract__00000000_.ComputedPrefix = ``
 	__PlantAbstract__00000000_.IsExpanded = true
 	__PlantAbstract__00000000_.IsSelected = true
-	__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = true
-	__PlantAbstract__00000000_.IsVase2DDiagramsNodeExpanded = true
-	__PlantAbstract__00000000_.IsVase3DDiagramsNodeExpanded = true
+	__PlantAbstract__00000000_.IsPlant2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000000_.IsVase2DDiagramsNodeExpanded = false
+	__PlantAbstract__00000000_.IsVase3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsStool2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsStool3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000000_.IsClock2DDiagramsNodeExpanded = false
@@ -286,7 +286,7 @@ func _(stage *models.Stage) {
 	__PlantAbstract__00000001_.ComputedPrefix = ``
 	__PlantAbstract__00000001_.IsExpanded = true
 	__PlantAbstract__00000001_.IsSelected = false
-	__PlantAbstract__00000001_.IsPlant2DDiagramsNodeExpanded = true
+	__PlantAbstract__00000001_.IsPlant2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000001_.IsVase2DDiagramsNodeExpanded = false
 	__PlantAbstract__00000001_.IsVase3DDiagramsNodeExpanded = false
 	__PlantAbstract__00000001_.IsStool2DDiagramsNodeExpanded = false
