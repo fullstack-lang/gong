@@ -71,7 +71,7 @@
 }
 
 .save-title {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: #1565c0;
   text-transform: uppercase;
@@ -79,7 +79,7 @@
 }
 
 .save-filename {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: #0d47a1;
   max-width: 100%;
@@ -89,9 +89,9 @@
 }
 
 .upload-icon {
-  font-size: 22px;
-  width: 22px;
-  height: 22px;
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
   color: rgba(0, 0, 0, 0.45);
   flex-shrink: 0;
 }
@@ -101,7 +101,7 @@
 }
 
 .upload-text {
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(0, 0, 0, 0.65);
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
