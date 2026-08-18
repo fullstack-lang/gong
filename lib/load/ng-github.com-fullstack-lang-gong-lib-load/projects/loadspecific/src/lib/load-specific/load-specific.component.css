@@ -1,13 +1,18 @@
 .file-upload-container {
   width: 100%;
-  padding: 16px;
+  height: 100%;
+  padding: 6px 8px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .drop-zone {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  padding: 32px 16px;
+  border: 1.5px dashed rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 4px 8px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -15,12 +20,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  min-height: 0;
 }
 
 .drop-zone:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.24);
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+.drop-zone.save-as-zone {
+  border: 1.5px solid #1976d2;
+  background-color: #e3f2fd;
+}
+
+.drop-zone.save-as-zone:hover {
+  background-color: #bbdefb;
+  border-color: #1565c0;
 }
 
 .drop-zone.drag-over {
@@ -36,32 +54,67 @@
 
 .drop-zone-content {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.text-content {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.save-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1565c0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.save-filename {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0d47a1;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .upload-icon {
-  font-size: 36px;
-  width: 36px;
-  height: 36px;
-  color: rgba(0, 0, 0, 0.38);
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+  color: rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+
+.save-icon {
+  color: #1976d2;
 }
 
 .upload-text {
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.65);
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .click-text {
-  color: #3f51b5;
+  color: #1976d2;
   text-decoration: none;
   font-weight: 500;
 }
@@ -75,12 +128,13 @@
 }
 
 .upload-spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid #e5e7eb;
-  border-top: 3px solid #3b82f6;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #3b82f6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  flex-shrink: 0;
 }
 
 @keyframes spin {
@@ -89,33 +143,21 @@
 }
 
 .status-message {
-  margin-top: 16px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
+  margin-top: 2px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
   font-weight: 500;
   background-color: #fef3c7;
   color: #d97706;
   border: 1px solid #fbbf24;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .status-message.success {
   background-color: #d1fae5;
   color: #065f46;
   border-color: #10b981;
-}
-
-/* Responsive design */
-@media (max-width: 640px) {
-  .drop-zone {
-    padding: 16px 12px;
-  }
-  
-  .upload-icon {
-    font-size: 20px;
-  }
-  
-  .upload-text {
-    font-size: 13px;
-  }
 }

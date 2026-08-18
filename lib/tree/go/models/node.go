@@ -86,18 +86,22 @@ func (node *Node) OnAfterUpdate(stage *Stage, _, frontNode *Node) {
 	node.ClientOnY = frontNode.ClientOnY
 
 	if frontNode.IsExpanded != node.IsExpanded && node.OnIsExpandedChange != nil {
+		node.IsExpanded = frontNode.IsExpanded // update staged node to avoid stale comparisons on next update
 		node.OnIsExpandedChange(frontNode.IsExpanded)
 		return
 	}
 	if frontNode.IsChecked != node.IsChecked && node.OnIsCheckedChanged != nil {
+		node.IsChecked = frontNode.IsChecked // update staged node to avoid stale comparisons on next update
 		node.OnIsCheckedChanged(frontNode.IsChecked)
 		return
 	}
 	if frontNode.IsSecondCheckboxChecked != node.IsSecondCheckboxChecked && node.OnIsSecondCheckboxCheckedChanged != nil {
+		node.IsSecondCheckboxChecked = frontNode.IsSecondCheckboxChecked // update staged node to avoid stale comparisons on next update
 		node.OnIsSecondCheckboxCheckedChanged(frontNode.IsSecondCheckboxChecked)
 		return
 	}
 	if frontNode.Name != node.Name && node.OnNameChange != nil {
+		node.Name = frontNode.Name // update staged node to avoid stale comparisons on next update
 		node.OnNameChange(frontNode.Name)
 		return
 	}

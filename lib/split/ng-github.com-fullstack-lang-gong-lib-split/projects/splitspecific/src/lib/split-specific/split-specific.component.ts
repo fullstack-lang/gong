@@ -64,11 +64,26 @@ export class SplitSpecificComponent implements OnInit {
 
   constructor(
     private frontRepoService: split.FrontRepoService,
+    private viewService: split.ViewService,
     private titleService: Title,
     private renderer: Renderer2,
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: Document
   ) { }
+
+  selectView(selectedView: split.View) {
+    this.view = selectedView;
+    if (this.frontRepo && this.frontRepo.array_Views) {
+      for (let v of this.frontRepo.array_Views) {
+        v.IsSelectedView = (v === selectedView);
+      }
+    }
+    this.viewService.updateFront(selectedView, this.Name).subscribe(
+      () => {
+        // front update sent to backend
+      }
+    );
+  }
 
   ngOnInit(): void {
     // console.log(`[lib-split-specific] Initializing for Name: "${this.Name}"`);

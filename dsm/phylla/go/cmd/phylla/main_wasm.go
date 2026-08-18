@@ -6,8 +6,11 @@ import (
 	"embed"
 	"log"
 
+	"github.com/fullstack-lang/gong/dsm/phylla/go/clockstage3d"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/stoolstage3d"
+	"github.com/fullstack-lang/gong/dsm/phylla/go/vasestage3d"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
@@ -43,6 +46,10 @@ func main() {
 		stack.R,
 		stack.Stage,
 		stack.Probe,
+		marshallOnCommit,
+		vasestage3d.NewThreeJSStageUpdater(),
+		stoolstage3d.NewStool3DStageUpdater(),
+		clockstage3d.NewClock3DStageUpdater(),
 	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend

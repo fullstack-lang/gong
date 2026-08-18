@@ -51,6 +51,7 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refShiftedLeftStackGrowthCurveStartArcShape := make(map[*ShiftedLeftStackGrowthCurveStartArcShape]bool)
 	refShiftedLeftStackGrowthCurveEndArcShape := make(map[*ShiftedLeftStackGrowthCurveEndArcShape]bool)
 	refRendered3DShape := make(map[*Rendered3DShape]bool)
+	refTiledFloor3DShape := make(map[*TiledFloor3DShape]bool)
 	refArcNormalVectorShape := make(map[*ArcNormalVectorShape]bool)
 	refStartArcShapeV2 := make(map[*StartArcShape]bool)
 	refTopStartArcShapeV2 := make(map[*TopStartArcShape]bool)
@@ -93,10 +94,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refChosenP1P2PairShape := make(map[*ChosenP1P2PairShape]bool)
 	refKeyHoleShape := make(map[*KeyHoleShape]bool)
 
-
-
-
-
 	refGrowthCurve2DRibbon := make(map[*GrowthCurve2DRibbon]bool)
 	refGrowthCurve2DRibbonStartShape := make(map[*GrowthCurve2DRibbonStartShape]bool)
 	refGrowthCurve2DRibbonEndShape := make(map[*GrowthCurve2DRibbonEndShape]bool)
@@ -109,8 +106,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refShiftedLeftGrowthCurve2DRibbonStartShape := make(map[*ShiftedLeftGrowthCurve2DRibbonStartShape]bool)
 	refShiftedLeftGrowthCurve2DRibbonEndShape := make(map[*ShiftedLeftGrowthCurve2DRibbonEndShape]bool)
 
-
-
 	refTorusStackShape := make(map[*TorusStackShape]bool)
 	refVerticalTorusStackShape := make(map[*VerticalTorusStackShape]bool)
 	refPartiallyRotatedTorusShape := make(map[*PartiallyRotatedTorusShape]bool)
@@ -120,10 +115,28 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	refKey3DShape := make(map[*Key3DShape]bool)
 	refVolumeKey3DShape := make(map[*VolumeKey3DShape]bool)
 	refTorusEdge3DShape := make(map[*TorusEdge3DShape]bool)
-
+	refSampledPoints3DShape := make(map[*SampledPoints3DShape]bool)
+	refRotatedSampledPoints3DShape := make(map[*RotatedSampledPoints3DShape]bool)
+	refEyeSampledPoints3DShape := make(map[*EyeSampledPoints3DShape]bool)
+	refEyeCornersSampledPoints3DShape := make(map[*EyeCornersSampledPoints3DShape]bool)
+	refOriginalPoints3DShape := make(map[*OriginalPoints3DShape]bool)
+	refAngle0Shape := make(map[*Angle0Shape]bool)
+	refEye3DShape := make(map[*Eye3DShape]bool)
+	refEyeSeatBottomCurveShape := make(map[*EyeSeatBottomCurveShape]bool)
+	refEyeStoolBottomCurveShape := make(map[*EyeStoolBottomCurveShape]bool)
+	refSeat3DShape := make(map[*Seat3DShape]bool)
+	refEyeVolume3DShape := make(map[*EyeVolume3DShape]bool)
+	refSeatAndLegs3DShape := make(map[*SeatAndLegs3DShape]bool)
+	refRotatedSeatAndLegs3DShape := make(map[*RotatedSeatAndLegs3DShape]bool)
+	refClockTopCurveShape := make(map[*ClockTopCurveShape]bool)
+	refSeatTopCurveShape := make(map[*SeatTopCurveShape]bool)
+	refPartiallyRotatedSeatTopCurveShape := make(map[*PartiallyRotatedSeatTopCurveShape]bool)
+	refSeatBottomCurveShape := make(map[*SeatBottomCurveShape]bool)
+	refPartiallyRotatedSeatBottomCurveShape := make(map[*PartiallyRotatedSeatBottomCurveShape]bool)
+	refTorus3DShape := make(map[*Torus3DShape]bool)
 
 	// Collect referenced shapes from all plants
-	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		if plant.AxesShape != nil {
 			refAxes[plant.AxesShape] = true
 		}
@@ -191,15 +204,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.PerpendicularVectorGridHalfway != nil {
-			refPerpendicularVectorGridHalfway[plant.PerpendicularVectorGridHalfway] = true
-			for _, vec := range plant.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
-				if vec != nil {
-					refPerpendicularVectorHalfway[vec] = true
-				}
-			}
-		}
-
 		if plant.BaseVectorShapeGrid != nil {
 			refBaseVectorShapeGrid[plant.BaseVectorShapeGrid] = true
 			for _, shape := range plant.BaseVectorShapeGrid.BaseVectorShapes {
@@ -227,15 +231,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.TopStartArcShapeGrid != nil {
-			refTopStartArcShapeV2Grid[plant.TopStartArcShapeGrid] = true
-			for _, shape := range plant.TopStartArcShapeGrid.TopStartArcShapes {
-				if shape != nil {
-					refTopStartArcShapeV2[shape] = true
-				}
-			}
-		}
-
 		if plant.EndArcShapeGrid != nil {
 			refEndArcShapeV2Grid[plant.EndArcShapeGrid] = true
 			for _, shape := range plant.EndArcShapeGrid.EndArcShapes {
@@ -245,187 +240,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 			}
 		}
 
-		if plant.TopEndArcShapeGrid != nil {
-			refTopEndArcShapeV2Grid[plant.TopEndArcShapeGrid] = true
-			for _, shape := range plant.TopEndArcShapeGrid.TopEndArcShapes {
-				if shape != nil {
-					refTopEndArcShapeV2[shape] = true
-				}
-			}
-		}
-
-		if plant.StackOfRotatedGrowthCurve2D != nil {
-			refStackOfGrowthCurveV2[plant.StackOfRotatedGrowthCurve2D] = true
-			for _, shape := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
-				if shape != nil {
-					refStackGrowthCurveStartArcShapeV2[shape] = true
-				}
-			}
-			for _, shape := range plant.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
-				if shape != nil {
-					refStackGrowthCurveEndArcShapeV2[shape] = true
-				}
-			}
-		}
-		if plant.TopStackOfRotatedGrowthCurve2D != nil {
-			refTopStackOfGrowthCurveV2[plant.TopStackOfRotatedGrowthCurve2D] = true
-			for _, shape := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
-				if shape != nil {
-					refTopStackGrowthCurveStartArcShapeV2[shape] = true
-				}
-			}
-			for _, shape := range plant.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
-				if shape != nil {
-					refTopStackGrowthCurveEndArcShapeV2[shape] = true
-				}
-			}
-		}
-
-		if plant.StackOfGrowthCurve2D != nil {
-			refStackOfGrowthCurve2D[plant.StackOfGrowthCurve2D] = true
-			for _, shape := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
-				if shape != nil {
-					refStackGrowthCurve2DStartHalfwayArcShape[shape] = true
-				}
-			}
-			for _, shape := range plant.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
-				if shape != nil {
-					refStackGrowthCurve2DEndHalfwayArcShape[shape] = true
-				}
-			}
-		}
-
-		if plant.TopStackOfGrowthCurve2D != nil {
-			refTopStackOfGrowthCurve2D[plant.TopStackOfGrowthCurve2D] = true
-			for _, start := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
-				refTopStackGrowthCurve2DStartHalfwayArcShape[start] = true
-			}
-			for _, end := range plant.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
-				refTopStackGrowthCurve2DEndHalfwayArcShape[end] = true
-			}
-		}
-
-		if plant.StackOfGrowthCurve2DRibbon != nil {
-			refStackOfGrowthCurve2DRibbon[plant.StackOfGrowthCurve2DRibbon] = true
-			for _, start := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
-				refStackGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
-				refStackGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-			refStackOfRotatedGrowthCurve2DRibbon[plant.StackOfRotatedGrowthCurve2DRibbon] = true
-			for _, start := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
-				refStackRotatedGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
-				refStackRotatedGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.PartiallyGrowthCurve2DRibbon != nil {
-			refPartiallyGrowthCurve2DRibbon[plant.PartiallyGrowthCurve2DRibbon] = true
-			for _, start := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
-				refPartiallyGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
-				refPartiallyGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			refShiftedLeftPartiallyGrowthCurve2DRibbon[plant.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
-			for _, start := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
-				refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
-				refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.PartiallyGrowthCurve2DTrajectory != nil {
-			refPartiallyGrowthCurve2DTrajectory[plant.PartiallyGrowthCurve2DTrajectory] = true
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
-				refPartiallyGrowthCurve2DTrajectoryShape[shape] = true
-			}
-		}
-
-		if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-			refPartiallyGrowthCurve2DTrajectoryP1P2[plant.PartiallyGrowthCurve2DTrajectoryP1P2] = true
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1PointShapes {
-				refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P2PointShapes {
-				refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1CurveShapes {
-				refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P2CurveShapes {
-				refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] = true
-			}
-			for _, shape := range plant.PartiallyGrowthCurve2DTrajectoryP1P2.P1P2PairLineShapes {
-				refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] = true
-			}
-		}
-
-		if plant.PxShape != nil {
-			refPxShape[plant.PxShape] = true
-		}
-
-		if plant.ChosenP1P2PairShape != nil {
-			refChosenP1P2PairShape[plant.ChosenP1P2PairShape] = true
-		}
-
-		if plant.KeyHoleShape != nil {
-			refKeyHoleShape[plant.KeyHoleShape] = true
-		}
-
-
-
-
-		if plant.GrowthCurve2DRibbon != nil {
-			refGrowthCurve2DRibbon[plant.GrowthCurve2DRibbon] = true
-			for _, start := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
-				refGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
-				refGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-			refShiftedRightGrowthCurve2DRibbon[plant.ShiftedRightGrowthCurve2DRibbon] = true
-			for _, start := range plant.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
-				refShiftedRightGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
-				refShiftedRightGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-		if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-			refShiftedLeftGrowthCurve2DRibbon[plant.ShiftedLeftGrowthCurve2DRibbon] = true
-			for _, start := range plant.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
-				refShiftedLeftGrowthCurve2DRibbonStartShape[start] = true
-			}
-			for _, end := range plant.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
-				refShiftedLeftGrowthCurve2DRibbonEndShape[end] = true
-			}
-		}
-
-
-
-		if plant.ShiftedBottomTopStartArcShapeGrid != nil {
-			refShiftedBottomTopStartArcShapeGrid[plant.ShiftedBottomTopStartArcShapeGrid] = true
-			for _, shape := range plant.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
-				if shape != nil {
-					refShiftedBottomTopStartArcShape[shape] = true
-				}
-			}
-		}
 		if plant.MidArcVectorShapeGrid != nil {
 			refMidArcVectorShapeGrid[plant.MidArcVectorShapeGrid] = true
 			for _, shape := range plant.MidArcVectorShapeGrid.MidArcVectorShapes {
@@ -434,17 +248,214 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 				}
 			}
 		}
-		if plant.TopMidArcVectorShapeGrid != nil {
-			refTopMidArcVectorShapeGrid[plant.TopMidArcVectorShapeGrid] = true
-			for _, shape := range plant.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
-				if shape != nil {
-					refTopMidArcVectorShape[shape] = true
+
+		if vase := plant.VaseAbstract; vase != nil {
+			if vase.PerpendicularVectorGridHalfway != nil {
+				refPerpendicularVectorGridHalfway[vase.PerpendicularVectorGridHalfway] = true
+				for _, vec := range vase.PerpendicularVectorGridHalfway.PerpendicularVectorHalfways {
+					if vec != nil {
+						refPerpendicularVectorHalfway[vec] = true
+					}
+				}
+			}
+
+			if vase.TopStartArcShapeGrid != nil {
+				refTopStartArcShapeV2Grid[vase.TopStartArcShapeGrid] = true
+				for _, shape := range vase.TopStartArcShapeGrid.TopStartArcShapes {
+					if shape != nil {
+						refTopStartArcShapeV2[shape] = true
+					}
+				}
+			}
+
+			if vase.TopEndArcShapeGrid != nil {
+				refTopEndArcShapeV2Grid[vase.TopEndArcShapeGrid] = true
+				for _, shape := range vase.TopEndArcShapeGrid.TopEndArcShapes {
+					if shape != nil {
+						refTopEndArcShapeV2[shape] = true
+					}
+				}
+			}
+
+			if vase.StackOfRotatedGrowthCurve2D != nil {
+				refStackOfGrowthCurveV2[vase.StackOfRotatedGrowthCurve2D] = true
+				for _, shape := range vase.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DStartArcShapes {
+					if shape != nil {
+						refStackGrowthCurveStartArcShapeV2[shape] = true
+					}
+				}
+				for _, shape := range vase.StackOfRotatedGrowthCurve2D.StackRotatedGrowthCurve2DEndArcShapes {
+					if shape != nil {
+						refStackGrowthCurveEndArcShapeV2[shape] = true
+					}
+				}
+			}
+			if vase.TopStackOfRotatedGrowthCurve2D != nil {
+				refTopStackOfGrowthCurveV2[vase.TopStackOfRotatedGrowthCurve2D] = true
+				for _, shape := range vase.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DStartArcShapes {
+					if shape != nil {
+						refTopStackGrowthCurveStartArcShapeV2[shape] = true
+					}
+				}
+				for _, shape := range vase.TopStackOfRotatedGrowthCurve2D.TopStackOfRotatedGrowthCurve2DEndArcShapes {
+					if shape != nil {
+						refTopStackGrowthCurveEndArcShapeV2[shape] = true
+					}
+				}
+			}
+
+			if vase.StackOfGrowthCurve2D != nil {
+				refStackOfGrowthCurve2D[vase.StackOfGrowthCurve2D] = true
+				for _, shape := range vase.StackOfGrowthCurve2D.StackGrowthCurve2DStartHalfwayArcShapes {
+					if shape != nil {
+						refStackGrowthCurve2DStartHalfwayArcShape[shape] = true
+					}
+				}
+				for _, shape := range vase.StackOfGrowthCurve2D.StackGrowthCurve2DEndHalfwayArcShapes {
+					if shape != nil {
+						refStackGrowthCurve2DEndHalfwayArcShape[shape] = true
+					}
+				}
+			}
+
+			if vase.TopStackOfGrowthCurve2D != nil {
+				refTopStackOfGrowthCurve2D[vase.TopStackOfGrowthCurve2D] = true
+				for _, start := range vase.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DStartHalfwayArcShapes {
+					refTopStackGrowthCurve2DStartHalfwayArcShape[start] = true
+				}
+				for _, end := range vase.TopStackOfGrowthCurve2D.TopStackGrowthCurve2DEndHalfwayArcShapes {
+					refTopStackGrowthCurve2DEndHalfwayArcShape[end] = true
+				}
+			}
+
+			if vase.StackOfGrowthCurve2DRibbon != nil {
+				refStackOfGrowthCurve2DRibbon[vase.StackOfGrowthCurve2DRibbon] = true
+				for _, start := range vase.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonStartShapes {
+					refStackGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.StackOfGrowthCurve2DRibbon.StackGrowthCurve2DRibbonEndShapes {
+					refStackGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.StackOfRotatedGrowthCurve2DRibbon != nil {
+				refStackOfRotatedGrowthCurve2DRibbon[vase.StackOfRotatedGrowthCurve2DRibbon] = true
+				for _, start := range vase.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonStartShapes {
+					refStackRotatedGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.StackOfRotatedGrowthCurve2DRibbon.StackRotatedGrowthCurve2DRibbonEndShapes {
+					refStackRotatedGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.PartiallyGrowthCurve2DRibbon != nil {
+				refPartiallyGrowthCurve2DRibbon[vase.PartiallyGrowthCurve2DRibbon] = true
+				for _, start := range vase.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonStartShapes {
+					refPartiallyGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.PartiallyGrowthCurve2DRibbon.PartiallyGrowthCurve2DRibbonEndShapes {
+					refPartiallyGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+				refShiftedLeftPartiallyGrowthCurve2DRibbon[vase.ShiftedLeftPartiallyGrowthCurve2DRibbon] = true
+				for _, start := range vase.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonStartShapes {
+					refShiftedLeftPartiallyGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.ShiftedLeftPartiallyGrowthCurve2DRibbon.ShiftedLeftPartiallyGrowthCurve2DRibbonEndShapes {
+					refShiftedLeftPartiallyGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.PartiallyGrowthCurve2DTrajectory != nil {
+				refPartiallyGrowthCurve2DTrajectory[vase.PartiallyGrowthCurve2DTrajectory] = true
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectory.PartiallyGrowthCurve2DTrajectoryShapes {
+					refPartiallyGrowthCurve2DTrajectoryShape[shape] = true
+				}
+			}
+
+			if vase.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+				refPartiallyGrowthCurve2DTrajectoryP1P2[vase.PartiallyGrowthCurve2DTrajectoryP1P2] = true
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P1PointShapes {
+					refPartiallyGrowthCurve2DTrajectoryP1PointShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P2PointShapes {
+					refPartiallyGrowthCurve2DTrajectoryP2PointShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P1CurveShapes {
+					refPartiallyGrowthCurve2DTrajectoryP1CurveShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P2CurveShapes {
+					refPartiallyGrowthCurve2DTrajectoryP2CurveShape[shape] = true
+				}
+				for _, shape := range vase.PartiallyGrowthCurve2DTrajectoryP1P2.P1P2PairLineShapes {
+					refPartiallyGrowthCurve2DTrajectoryP1P2PairLineShape[shape] = true
+				}
+			}
+
+			if vase.PxShape != nil {
+				refPxShape[vase.PxShape] = true
+			}
+
+			if vase.ChosenP1P2PairShape != nil {
+				refChosenP1P2PairShape[vase.ChosenP1P2PairShape] = true
+			}
+
+			if vase.KeyHoleShape != nil {
+				refKeyHoleShape[vase.KeyHoleShape] = true
+			}
+
+			if vase.GrowthCurve2DRibbon != nil {
+				refGrowthCurve2DRibbon[vase.GrowthCurve2DRibbon] = true
+				for _, start := range vase.GrowthCurve2DRibbon.GrowthCurve2DRibbonStartShapes {
+					refGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.GrowthCurve2DRibbon.GrowthCurve2DRibbonEndShapes {
+					refGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedRightGrowthCurve2DRibbon != nil {
+				refShiftedRightGrowthCurve2DRibbon[vase.ShiftedRightGrowthCurve2DRibbon] = true
+				for _, start := range vase.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonStartShapes {
+					refShiftedRightGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.ShiftedRightGrowthCurve2DRibbon.ShiftedRightGrowthCurve2DRibbonEndShapes {
+					refShiftedRightGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedLeftGrowthCurve2DRibbon != nil {
+				refShiftedLeftGrowthCurve2DRibbon[vase.ShiftedLeftGrowthCurve2DRibbon] = true
+				for _, start := range vase.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonStartShapes {
+					refShiftedLeftGrowthCurve2DRibbonStartShape[start] = true
+				}
+				for _, end := range vase.ShiftedLeftGrowthCurve2DRibbon.ShiftedLeftGrowthCurve2DRibbonEndShapes {
+					refShiftedLeftGrowthCurve2DRibbonEndShape[end] = true
+				}
+			}
+
+			if vase.ShiftedBottomTopStartArcShapeGrid != nil {
+				refShiftedBottomTopStartArcShapeGrid[vase.ShiftedBottomTopStartArcShapeGrid] = true
+				for _, shape := range vase.ShiftedBottomTopStartArcShapeGrid.ShiftedBottomTopStartArcShapes {
+					if shape != nil {
+						refShiftedBottomTopStartArcShape[shape] = true
+					}
+				}
+			}
+			if vase.TopMidArcVectorShapeGrid != nil {
+				refTopMidArcVectorShapeGrid[vase.TopMidArcVectorShapeGrid] = true
+				for _, shape := range vase.TopMidArcVectorShapeGrid.TopMidArcVectorShapes {
+					if shape != nil {
+						refTopMidArcVectorShape[shape] = true
+					}
 				}
 			}
 		}
 	}
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Vase3DDiagram](stage) {
 		if diagram.Rendered3DShape != nil {
 			refRendered3DShape[diagram.Rendered3DShape] = true
 		}
@@ -463,6 +474,15 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.PointsAndLines3DShape != nil {
 			refPointsAndLines3DShape[diagram.PointsAndLines3DShape] = true
 		}
+		if diagram.SampledPoints3DShape != nil {
+			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
+		}
+		if diagram.OriginalPoints3DShape != nil {
+			refOriginalPoints3DShape[diagram.OriginalPoints3DShape] = true
+		}
+		if diagram.Angle0Shape != nil {
+			refAngle0Shape[diagram.Angle0Shape] = true
+		}
 		if diagram.KeyHole3DShape != nil {
 			refKeyHole3DShape[diagram.KeyHole3DShape] = true
 		}
@@ -475,8 +495,86 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		if diagram.TorusEdge3DShape != nil {
 			refTorusEdge3DShape[diagram.TorusEdge3DShape] = true
 		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
 	}
-
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Stool3DDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
+		}
+		if diagram.Torus3DShape != nil {
+			refTorus3DShape[diagram.Torus3DShape] = true
+		}
+		if diagram.RotatedTorusShape != nil {
+			refPartiallyRotatedTorusShape[diagram.RotatedTorusShape] = true
+		}
+		if diagram.SampledPoints3DShape != nil {
+			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
+		}
+		if diagram.RotatedSampledPoints3DShape != nil {
+			refRotatedSampledPoints3DShape[diagram.RotatedSampledPoints3DShape] = true
+		}
+		if diagram.EyeSampledPoints3DShape != nil {
+			refEyeSampledPoints3DShape[diagram.EyeSampledPoints3DShape] = true
+		}
+		if diagram.EyeCornersSampledPoints3DShape != nil {
+			refEyeCornersSampledPoints3DShape[diagram.EyeCornersSampledPoints3DShape] = true
+		}
+		if diagram.Eye3DShape != nil {
+			refEye3DShape[diagram.Eye3DShape] = true
+		}
+		if diagram.SeatTopCurveShape != nil {
+			refSeatTopCurveShape[diagram.SeatTopCurveShape] = true
+		}
+		if diagram.RotatedSeatTopCurveShape != nil {
+			refPartiallyRotatedSeatTopCurveShape[diagram.RotatedSeatTopCurveShape] = true
+		}
+		if diagram.SeatBottomCurveShape != nil {
+			refSeatBottomCurveShape[diagram.SeatBottomCurveShape] = true
+		}
+		if diagram.RotatedSeatBottomCurveShape != nil {
+			refPartiallyRotatedSeatBottomCurveShape[diagram.RotatedSeatBottomCurveShape] = true
+		}
+		if diagram.EyeSeatBottomCurveShape != nil {
+			refEyeSeatBottomCurveShape[diagram.EyeSeatBottomCurveShape] = true
+		}
+		if diagram.EyeStoolBottomCurveShape != nil {
+			refEyeStoolBottomCurveShape[diagram.EyeStoolBottomCurveShape] = true
+		}
+		if diagram.Seat3DShape != nil {
+			refSeat3DShape[diagram.Seat3DShape] = true
+		}
+		if diagram.EyeVolume3DShape != nil {
+			refEyeVolume3DShape[diagram.EyeVolume3DShape] = true
+		}
+		if diagram.SeatAndLegs3DShape != nil {
+			refSeatAndLegs3DShape[diagram.SeatAndLegs3DShape] = true
+		}
+		if diagram.RotatedSeatAndLegs3DShape != nil {
+			refRotatedSeatAndLegs3DShape[diagram.RotatedSeatAndLegs3DShape] = true
+		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
+	}
+	for diagram := range *GetGongstructInstancesSetFromPointerType[*Clock3DDiagram](stage) {
+		if diagram.Rendered3DShape != nil {
+			refRendered3DShape[diagram.Rendered3DShape] = true
+		}
+		if diagram.Torus3DShape != nil {
+			refTorus3DShape[diagram.Torus3DShape] = true
+		}
+		if diagram.SampledPoints3DShape != nil {
+			refSampledPoints3DShape[diagram.SampledPoints3DShape] = true
+		}
+		if diagram.ClockTopCurveShape != nil {
+			refClockTopCurveShape[diagram.ClockTopCurveShape] = true
+		}
+		if diagram.TiledFloor3DShape != nil {
+			refTiledFloor3DShape[diagram.TiledFloor3DShape] = true
+		}
+	}
 
 	// Unstage unreferenced shapes
 	for shape := range *GetGongstructInstancesSetFromPointerType[*AxesShape](stage) {
@@ -691,6 +789,24 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 	}
 	for shape := range *GetGongstructInstancesSetFromPointerType[*Rendered3DShape](stage) {
 		if !refRendered3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*TiledFloor3DShape](stage) {
+		if !refTiledFloor3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*OriginalPoints3DShape](stage) {
+		if !refOriginalPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Angle0Shape](stage) {
+		if !refAngle0Shape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}
@@ -980,10 +1096,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-
-
-
-
 	for shape := range *GetGongstructInstancesSetFromPointerType[*GrowthCurve2DRibbon](stage) {
 		if !refGrowthCurve2DRibbon[shape] {
 			shape.Unstage(stage)
@@ -1047,8 +1159,6 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 		}
 	}
 
-
-
 	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusStackShape](stage) {
 		if !refTorusStackShape[shape] {
 			shape.Unstage(stage)
@@ -1099,6 +1209,125 @@ func (stager *Stager) enforceOrphanShapeRemove() (needCommit bool) {
 
 	for shape := range *GetGongstructInstancesSetFromPointerType[*TorusEdge3DShape](stage) {
 		if !refTorusEdge3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*SampledPoints3DShape](stage) {
+		if !refSampledPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*ClockTopCurveShape](stage) {
+		if !refClockTopCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatTopCurveShape](stage) {
+		if !refSeatTopCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyRotatedSeatTopCurveShape](stage) {
+		if !refPartiallyRotatedSeatTopCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatBottomCurveShape](stage) {
+		if !refSeatBottomCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*PartiallyRotatedSeatBottomCurveShape](stage) {
+		if !refPartiallyRotatedSeatBottomCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Torus3DShape](stage) {
+		if !refTorus3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*RotatedSampledPoints3DShape](stage) {
+		if !refRotatedSampledPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeSampledPoints3DShape](stage) {
+		if !refEyeSampledPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeCornersSampledPoints3DShape](stage) {
+		if !refEyeCornersSampledPoints3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Eye3DShape](stage) {
+		if !refEye3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeSeatBottomCurveShape](stage) {
+		if !refEyeSeatBottomCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeStoolBottomCurveShape](stage) {
+		if !refEyeStoolBottomCurveShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*Seat3DShape](stage) {
+		if !refSeat3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*EyeVolume3DShape](stage) {
+		if !refEyeVolume3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*SeatAndLegs3DShape](stage) {
+		if !refSeatAndLegs3DShape[shape] {
+			shape.Unstage(stage)
+			needCommit = true
+		}
+	}
+
+	for shape := range *GetGongstructInstancesSetFromPointerType[*RotatedSeatAndLegs3DShape](stage) {
+		if !refRotatedSeatAndLegs3DShape[shape] {
 			shape.Unstage(stage)
 			needCommit = true
 		}

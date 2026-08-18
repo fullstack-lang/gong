@@ -16,13 +16,13 @@
                 @if (!view_.IsSecondaryView) {
                     @if (view === view_) {
                         <button mat-flat-button color="primary"
-                            (click)="view = view_" 
+                            (click)="selectView(view_)" 
                             style="margin-right: 16px; white-space: nowrap;">
                             {{view_.Name}}
                         </button>
                     } @else {
                         <button mat-button 
-                            (click)="view = view_" 
+                            (click)="selectView(view_)" 
                             style="margin-right: 16px; white-space: nowrap;">
                             {{view_.Name}}
                         </button>
@@ -44,7 +44,7 @@
             <mat-menu #otherViewsMenu="matMenu">
                 @for (view_ of frontRepo?.array_Views; track view_) {
                 @if (view_.IsSecondaryView) {
-                <button mat-menu-item (click)="view = view_" [class.active-view]="view === view_">
+                <button mat-menu-item (click)="selectView(view_)" [class.active-view]="view === view_">
                     <span [style]="view === view_ ? 'color: var(--mat-primary-text, #3f51b5); font-weight: bold;' : ''">{{view_.Name}}</span>
                 </button>
                 }

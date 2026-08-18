@@ -7,7 +7,7 @@ import (
 
 func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.StartArcShapes) > 0 {
+		if grid != nil && len(grid.StartArcShapes) > 0 {
 			grid.StartArcShapes = nil
 			return true
 		}
@@ -159,7 +159,7 @@ func enforceStartArcShapeV2GridHasShapes(stage *Stage, grid *StartArcShapeGrid, 
 
 func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.TopStartArcShapes) > 0 {
+		if grid != nil && len(grid.TopStartArcShapes) > 0 {
 			grid.TopStartArcShapes = nil
 			return true
 		}
@@ -235,7 +235,7 @@ func enforceTopStartArcShapeV2GridHasShapes(stage *Stage, grid *TopStartArcShape
 
 func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeGrid, pGrid *PerpendicularVectorGrid) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.EndArcShapes) > 0 {
+		if grid != nil && len(grid.EndArcShapes) > 0 {
 			grid.EndArcShapes = nil
 			return true
 		}
@@ -384,7 +384,7 @@ func enforceEndArcShapeV2GridHasShapes(stage *Stage, grid *EndArcShapeGrid, pGri
 
 func enforceTopEndArcShapeV2GridHasShapes(stage *Stage, grid *TopEndArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.TopEndArcShapes) > 0 {
+		if grid != nil && len(grid.TopEndArcShapes) > 0 {
 			grid.TopEndArcShapes = nil
 			return true
 		}
@@ -533,7 +533,7 @@ func computeArcV2Geometry(v1, v2 *PerpendicularVector, offset float64, isEndArc 
 
 func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *ShiftedBottomTopStartArcShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.ShiftedBottomTopStartArcShapes) > 0 {
+		if grid != nil && len(grid.ShiftedBottomTopStartArcShapes) > 0 {
 			grid.ShiftedBottomTopStartArcShapes = nil
 			return true
 		}
@@ -622,7 +622,7 @@ func enforceShiftedBottomTopStartArcShapeV2GridHasShapes(stage *Stage, grid *Shi
 
 func enforceMidArcVectorShapeGridHasShapes(stage *Stage, grid *MidArcVectorShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.MidArcVectorShapes) > 0 {
+		if grid != nil && len(grid.MidArcVectorShapes) > 0 {
 			grid.MidArcVectorShapes = nil
 			return true
 		}
@@ -702,7 +702,7 @@ func enforceMidArcVectorShapeGridHasShapes(stage *Stage, grid *MidArcVectorShape
 
 func enforceTopMidArcVectorShapeGridHasShapes(stage *Stage, grid *TopMidArcVectorShapeGrid, pGrid *PerpendicularVectorGrid, thickness float64) (needCommit bool) {
 	if pGrid == nil || grid == nil || len(pGrid.PerpendicularVectors) < 2 {
-		if len(grid.TopMidArcVectorShapes) > 0 {
+		if grid != nil && len(grid.TopMidArcVectorShapes) > 0 {
 			grid.TopMidArcVectorShapes = nil
 			return true
 		}

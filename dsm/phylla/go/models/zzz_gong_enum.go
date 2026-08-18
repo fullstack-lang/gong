@@ -160,6 +160,241 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for PlantType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (planttype PlantType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch planttype {
+	// insertion code per enum code
+	case Plant:
+		res = "Plant"
+	case Vase:
+		res = "Vase"
+	case Stool:
+		res = "Stool"
+	case Clock:
+		res = "Clock"
+	}
+	return
+}
+
+func (planttype *PlantType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Plant":
+		*planttype = Plant
+		return
+	case "Vase":
+		*planttype = Vase
+		return
+	case "Stool":
+		*planttype = Stool
+		return
+	case "Clock":
+		*planttype = Clock
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (planttype *PlantType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Plant":
+		*planttype = Plant
+	case "Vase":
+		*planttype = Vase
+	case "Stool":
+		*planttype = Stool
+	case "Clock":
+		*planttype = Clock
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (planttype *PlantType) ToCodeString() (res string) {
+
+	switch *planttype {
+	// insertion code per enum code
+	case Plant:
+		res = "Plant"
+	case Vase:
+		res = "Vase"
+	case Stool:
+		res = "Stool"
+	case Clock:
+		res = "Clock"
+	}
+	return
+}
+
+func (planttype PlantType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Plant")
+	res = append(res, "Vase")
+	res = append(res, "Stool")
+	res = append(res, "Clock")
+
+	return
+}
+
+func (planttype PlantType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Plant")
+	res = append(res, "Vase")
+	res = append(res, "Stool")
+	res = append(res, "Clock")
+
+	return
+}
+
+// Utility function for ViewType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (viewtype ViewType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch viewtype {
+	// insertion code per enum code
+	case VIEW_PLANT_2D:
+		res = "Plant 2D"
+	case VIEW_VASE_FORM:
+		res = "Vase Form"
+	case VIEW_VASE_2D:
+		res = "Vase 2D"
+	case VIEW_VASE_3D:
+		res = "Vase 3D"
+	case VIEW_STOOL_3D:
+		res = "Stool 3D"
+	case VIEW_CLOCK_3D:
+		res = "Clock 3D"
+	case VIEW_ABOUT_SPIRAL_PLANTS:
+		res = "About Spiral Plants"
+	}
+	return
+}
+
+func (viewtype *ViewType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Plant 2D":
+		*viewtype = VIEW_PLANT_2D
+		return
+	case "Vase Form":
+		*viewtype = VIEW_VASE_FORM
+		return
+	case "Vase 2D":
+		*viewtype = VIEW_VASE_2D
+		return
+	case "Vase 3D":
+		*viewtype = VIEW_VASE_3D
+		return
+	case "Stool 3D":
+		*viewtype = VIEW_STOOL_3D
+		return
+	case "Clock 3D":
+		*viewtype = VIEW_CLOCK_3D
+		return
+	case "About Spiral Plants":
+		*viewtype = VIEW_ABOUT_SPIRAL_PLANTS
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (viewtype *ViewType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "VIEW_PLANT_2D":
+		*viewtype = VIEW_PLANT_2D
+	case "VIEW_VASE_FORM":
+		*viewtype = VIEW_VASE_FORM
+	case "VIEW_VASE_2D":
+		*viewtype = VIEW_VASE_2D
+	case "VIEW_VASE_3D":
+		*viewtype = VIEW_VASE_3D
+	case "VIEW_STOOL_3D":
+		*viewtype = VIEW_STOOL_3D
+	case "VIEW_CLOCK_3D":
+		*viewtype = VIEW_CLOCK_3D
+	case "VIEW_ABOUT_SPIRAL_PLANTS":
+		*viewtype = VIEW_ABOUT_SPIRAL_PLANTS
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (viewtype *ViewType) ToCodeString() (res string) {
+
+	switch *viewtype {
+	// insertion code per enum code
+	case VIEW_PLANT_2D:
+		res = "VIEW_PLANT_2D"
+	case VIEW_VASE_FORM:
+		res = "VIEW_VASE_FORM"
+	case VIEW_VASE_2D:
+		res = "VIEW_VASE_2D"
+	case VIEW_VASE_3D:
+		res = "VIEW_VASE_3D"
+	case VIEW_STOOL_3D:
+		res = "VIEW_STOOL_3D"
+	case VIEW_CLOCK_3D:
+		res = "VIEW_CLOCK_3D"
+	case VIEW_ABOUT_SPIRAL_PLANTS:
+		res = "VIEW_ABOUT_SPIRAL_PLANTS"
+	}
+	return
+}
+
+func (viewtype ViewType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "VIEW_PLANT_2D")
+	res = append(res, "VIEW_VASE_FORM")
+	res = append(res, "VIEW_VASE_2D")
+	res = append(res, "VIEW_VASE_3D")
+	res = append(res, "VIEW_STOOL_3D")
+	res = append(res, "VIEW_CLOCK_3D")
+	res = append(res, "VIEW_ABOUT_SPIRAL_PLANTS")
+
+	return
+}
+
+func (viewtype ViewType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Plant 2D")
+	res = append(res, "Vase Form")
+	res = append(res, "Vase 2D")
+	res = append(res, "Vase 3D")
+	res = append(res, "Stool 3D")
+	res = append(res, "Clock 3D")
+	res = append(res, "About Spiral Plants")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {

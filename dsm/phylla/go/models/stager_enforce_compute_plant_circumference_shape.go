@@ -9,7 +9,7 @@ import (
 func (stager *Stager) enforceComputePlantCircumferenceShape() (needCommit bool) {
 	stage := stager.stage
 
-	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+	for plant := range *GetGongstructInstancesSetFromPointerType[*PlantAbstract](stage) {
 		// The lattice of the plant surface is formed by rhombuses.
 		// There are two main grid directions (parastichies):
 		// 1. Up and to the right

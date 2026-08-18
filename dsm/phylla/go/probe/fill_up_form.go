@@ -161,6 +161,111 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.Clock2DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Zoom", instanceWithInferedType.Zoom, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenAxesShape", instanceWithInferedType.IsHiddenAxesShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Clock2DDiagram](
+				"PlantAbstract",
+				"Clock2DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Clock2DDiagram {
+					return owner.Clock2DDiagrams
+				})
+		}
+
+	case *models.Clock3DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenClockTopCurveShape", instanceWithInferedType.IsHiddenClockTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("ClockTopCurveShape", instanceWithInferedType.ClockTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTorus3DShape", instanceWithInferedType.IsHiddenTorus3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Torus3DShape", instanceWithInferedType.Torus3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
+		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Clock3DDiagram](
+				"PlantAbstract",
+				"Clock3DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Clock3DDiagram {
+					return owner.Clock3DDiagrams
+				})
+		}
+
+	case *models.ClockAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeTubeDiameter", instanceWithInferedType.RelativeTubeDiameter, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ClockTorusVerticalScale", instanceWithInferedType.ClockTorusVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.ClockTopCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.EndArcShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -262,6 +367,66 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.ExplanationTextShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Eye3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.EyeCornersSampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.EyeSampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.EyeSeatBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.EyeStoolBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.EyeVolume3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -944,6 +1109,26 @@ func FillUpForm(
 				})
 		}
 
+	case *models.PartiallyRotatedSeatBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.PartiallyRotatedSeatTopCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.PartiallyRotatedTorusShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1034,141 +1219,15 @@ func FillUpForm(
 				})
 		}
 
-	case *models.Plant:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("N", instanceWithInferedType.N, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("M", instanceWithInferedType.M, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("StackHeight", instanceWithInferedType.StackHeight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RhombusInsideAngle", instanceWithInferedType.RhombusInsideAngle, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeVerticalThickness", instanceWithInferedType.RelativeVerticalThickness, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeRadialThickness", instanceWithInferedType.RelativeRadialThickness, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RhombusSideLength", instanceWithInferedType.RhombusSideLength, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeCuttedStackFloorHeight", instanceWithInferedType.RelativeCuttedStackFloorHeight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeRotatedTorusSeparation", instanceWithInferedType.RelativeRotatedTorusSeparation, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RotationRatio", instanceWithInferedType.RotationRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("HasAlternatingRingColors", instanceWithInferedType.HasAlternatingRingColors, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeTrajectoryOffsetX", instanceWithInferedType.RelativeTrajectoryOffsetX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeTrajectoryOffsetY", instanceWithInferedType.RelativeTrajectoryOffsetY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("NbStepP1P2", instanceWithInferedType.NbStepP1P2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ChosenStep", instanceWithInferedType.ChosenStep, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeHorizontalRingsHeight", instanceWithInferedType.RelativeHorizontalRingsHeight, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("OffsetKeyX", instanceWithInferedType.OffsetKeyX, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("OffsetKeyY", instanceWithInferedType.OffsetKeyY, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("HeightKey", instanceWithInferedType.HeightKey, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("WidthKey", instanceWithInferedType.WidthKey, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("RelativeKeySize", instanceWithInferedType.RelativeKeySize, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("MovieNbFrames", instanceWithInferedType.MovieNbFrames, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsPlantDiagramsNodeExpanded", instanceWithInferedType.IsPlantDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		AssociationSliceToForm("PlantDiagrams", instanceWithInferedType, &instanceWithInferedType.PlantDiagrams, formGroup, probe)
-		AssociationFieldToForm("AxesShape", instanceWithInferedType.AxesShape, formGroup, probe)
-		AssociationFieldToForm("RhombusStuff", instanceWithInferedType.RhombusStuff, formGroup, probe)
-		AssociationFieldToForm("GrowthVectorShape", instanceWithInferedType.GrowthVectorShape, formGroup, probe)
-		AssociationFieldToForm("PerpendicularVectorGrid", instanceWithInferedType.PerpendicularVectorGrid, formGroup, probe)
-		AssociationFieldToForm("PerpendicularVectorGridHalfway", instanceWithInferedType.PerpendicularVectorGridHalfway, formGroup, probe)
-		AssociationFieldToForm("BaseVectorShapeGrid", instanceWithInferedType.BaseVectorShapeGrid, formGroup, probe)
-		AssociationFieldToForm("ArcNormalVectorShapeGrid", instanceWithInferedType.ArcNormalVectorShapeGrid, formGroup, probe)
-		AssociationFieldToForm("StartArcShapeGrid", instanceWithInferedType.StartArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("TopStartArcShapeGrid", instanceWithInferedType.TopStartArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("EndArcShapeGrid", instanceWithInferedType.EndArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("TopEndArcShapeGrid", instanceWithInferedType.TopEndArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("ShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.ShiftedBottomTopStartArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("MidArcVectorShapeGrid", instanceWithInferedType.MidArcVectorShapeGrid, formGroup, probe)
-		AssociationFieldToForm("TopMidArcVectorShapeGrid", instanceWithInferedType.TopMidArcVectorShapeGrid, formGroup, probe)
-		AssociationFieldToForm("StartHalfwayArcShapeGrid", instanceWithInferedType.StartHalfwayArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("TopStartHalfwayArcShapeGrid", instanceWithInferedType.TopStartHalfwayArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("EndHalfwayArcShapeGrid", instanceWithInferedType.EndHalfwayArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("TopEndHalfwayArcShapeGrid", instanceWithInferedType.TopEndHalfwayArcShapeGrid, formGroup, probe)
-		AssociationFieldToForm("StackOfRotatedGrowthCurve2D", instanceWithInferedType.StackOfRotatedGrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("TopStackOfRotatedGrowthCurve2D", instanceWithInferedType.TopStackOfRotatedGrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("GrowthCurve2D", instanceWithInferedType.GrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("TopGrowthCurve2D", instanceWithInferedType.TopGrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("StackOfGrowthCurve2D", instanceWithInferedType.StackOfGrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("TopStackOfGrowthCurve2D", instanceWithInferedType.TopStackOfGrowthCurve2D, formGroup, probe)
-		AssociationFieldToForm("StackOfGrowthCurve2DRibbon", instanceWithInferedType.StackOfGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("StackOfRotatedGrowthCurve2DRibbon", instanceWithInferedType.StackOfRotatedGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("GrowthCurve2DRibbon", instanceWithInferedType.GrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.ShiftedRightGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("PartiallyGrowthCurve2DRibbon", instanceWithInferedType.PartiallyGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftPartiallyGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftPartiallyGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectory", instanceWithInferedType.PartiallyGrowthCurve2DTrajectory, formGroup, probe)
-		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.PartiallyGrowthCurve2DTrajectoryP1P2, formGroup, probe)
-		AssociationFieldToForm("PxShape", instanceWithInferedType.PxShape, formGroup, probe)
-		AssociationFieldToForm("ChosenP1P2PairShape", instanceWithInferedType.ChosenP1P2PairShape, formGroup, probe)
-		AssociationFieldToForm("KeyHoleShape", instanceWithInferedType.KeyHoleShape, formGroup, probe)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Library, *models.Plant](
-				"Library",
-				"Plants",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Library) []*models.Plant {
-					return owner.Plants
-				})
-		}
-
-	case *models.PlantCircumferenceShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("AngleDegree", instanceWithInferedType.AngleDegree, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Length", instanceWithInferedType.Length, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		formDivDivider := (&form.FormDiv{
-			Name:       "",
-			IsADivider: true,
-		}).Stage(probe.formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-
-	case *models.PlantDiagram:
+	case *models.Plant2DDiagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OriginX", instanceWithInferedType.OriginX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OriginY", instanceWithInferedType.OriginY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Zoom", instanceWithInferedType.Zoom, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsRhombusNodesExpanded", instanceWithInferedType.IsRhombusNodesExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1200,105 +1259,19 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenPerpendicularVectorGrid", instanceWithInferedType.IsHiddenPerpendicularVectorGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPerpendicularVectorGridHalfway", instanceWithInferedType.IsHiddenPerpendicularVectorGridHalfway, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenBaseVectorShapeGrid", instanceWithInferedType.IsHiddenBaseVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenArcNormalVectorShapeGrid", instanceWithInferedType.IsHiddenArcNormalVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenStartArcShapeGrid", instanceWithInferedType.IsHiddenStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopStartArcShapeGrid", instanceWithInferedType.IsHiddenTopStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.IsHiddenShiftedBottomTopStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenMidArcVectorShapeGrid", instanceWithInferedType.IsHiddenMidArcVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopMidArcVectorShapeGrid", instanceWithInferedType.IsHiddenTopMidArcVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStartHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenStartHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopStartHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenTopStartHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenEndHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenEndHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopEndHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenTopEndHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenEndArcShapeGrid", instanceWithInferedType.IsHiddenEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopEndArcShapeGrid", instanceWithInferedType.IsHiddenTopEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenBottomStartArcShapeGrid", instanceWithInferedType.IsHiddenBottomStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenBottomEndArcShapeGrid", instanceWithInferedType.IsHiddenBottomEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfGrowthCurve", instanceWithInferedType.IsHiddenStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopStackOfGrowthCurve", instanceWithInferedType.IsHiddenTopStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenBottomStackOfGrowthCurve", instanceWithInferedType.IsHiddenBottomStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenShiftedLeftStackOfGrowthCurve", instanceWithInferedType.IsHiddenShiftedLeftStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenShiftedLeftStackOfNormalVector", instanceWithInferedType.IsHiddenShiftedLeftStackOfNormalVector, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHiddenGrowthCurve2D", instanceWithInferedType.IsHiddenGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopGrowthCurve2D", instanceWithInferedType.IsHiddenTopGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfGrowthCurve2D", instanceWithInferedType.IsHiddenStackOfGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTopStackOfGrowthCurve2D", instanceWithInferedType.IsHiddenTopStackOfGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenShiftedRightGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenShiftedLeftGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenShiftedLeftGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfRotatedGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfRotatedGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectory", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectory, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPxShape", instanceWithInferedType.IsHiddenPxShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenChosenP1P2PairShape", instanceWithInferedType.IsHiddenChosenP1P2PairShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenKeyHoleShape", instanceWithInferedType.IsHiddenKeyHoleShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTorusStackShape", instanceWithInferedType.IsHiddenTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenVerticalTorusStackShape", instanceWithInferedType.IsHiddenVerticalTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenStackOfPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenStackOfPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenPointsAndLines3DShape", instanceWithInferedType.IsHiddenPointsAndLines3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenKeyHole3DShape", instanceWithInferedType.IsHiddenKeyHole3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenKey3DShape", instanceWithInferedType.IsHiddenKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenVolumeKey3DShape", instanceWithInferedType.IsHiddenVolumeKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenTorusEdge3DShape", instanceWithInferedType.IsHiddenTorusEdge3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenOriginalPoints3DShape", instanceWithInferedType.IsHiddenOriginalPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsHiddenAngle0Shape", instanceWithInferedType.IsHiddenAngle0Shape, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsHiddenStackOfGrowthCurve2DByGrowthVector", instanceWithInferedType.IsHiddenStackOfGrowthCurve2DByGrowthVector, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -1306,39 +1279,110 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
-		AssociationFieldToForm("GrowthCurve2DRibbon", instanceWithInferedType.GrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.ShiftedRightGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("ShiftedLeftPartiallyGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftPartiallyGrowthCurve2DRibbon, formGroup, probe)
-		AssociationFieldToForm("TorusStackShape", instanceWithInferedType.TorusStackShape, formGroup, probe)
-		AssociationFieldToForm("VerticalTorusStackShape", instanceWithInferedType.VerticalTorusStackShape, formGroup, probe)
-		AssociationFieldToForm("PartiallyRotatedTorusShape", instanceWithInferedType.PartiallyRotatedTorusShape, formGroup, probe)
-		AssociationFieldToForm("StackOfPartiallyRotatedTorusShape", instanceWithInferedType.StackOfPartiallyRotatedTorusShape, formGroup, probe)
-		AssociationFieldToForm("PointsAndLines3DShape", instanceWithInferedType.PointsAndLines3DShape, formGroup, probe)
-		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)
-		AssociationFieldToForm("OriginalPoints3DShape", instanceWithInferedType.OriginalPoints3DShape, formGroup, probe)
-		AssociationFieldToForm("Angle0Shape", instanceWithInferedType.Angle0Shape, formGroup, probe)
-		AssociationFieldToForm("KeyHole3DShape", instanceWithInferedType.KeyHole3DShape, formGroup, probe)
-		AssociationFieldToForm("Key3DShape", instanceWithInferedType.Key3DShape, formGroup, probe)
-		AssociationFieldToForm("VolumeKey3DShape", instanceWithInferedType.VolumeKey3DShape, formGroup, probe)
-		AssociationFieldToForm("TorusEdge3DShape", instanceWithInferedType.TorusEdge3DShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			AssociationReverseSliceToForm[*models.Plant, *models.PlantDiagram](
-				"Plant",
-				"PlantDiagrams",
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Plant2DDiagram](
+				"PlantAbstract",
+				"Plant2DDiagrams",
 				instanceWithInferedType,
 				formGroup,
 				probe,
-				func(owner *models.Plant) []*models.PlantDiagram {
-					return owner.PlantDiagrams
+				func(owner *models.PlantAbstract) []*models.Plant2DDiagram {
+					return owner.Plant2DDiagrams
 				})
 		}
+
+	case *models.PlantAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("N", instanceWithInferedType.N, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("M", instanceWithInferedType.M, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StackHeight", instanceWithInferedType.StackHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RhombusInsideAngle", instanceWithInferedType.RhombusInsideAngle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RhombusSideLength", instanceWithInferedType.RhombusSideLength, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("PlantType", instanceWithInferedType.PlantType, instanceWithInferedType, probe.formStage, formGroup)
+		AssociationFieldToForm("VaseAbstract", instanceWithInferedType.VaseAbstract, formGroup, probe)
+		AssociationFieldToForm("StoolAbstract", instanceWithInferedType.StoolAbstract, formGroup, probe)
+		AssociationFieldToForm("ClockAbstract", instanceWithInferedType.ClockAbstract, formGroup, probe)
+		EnumTypeStringToForm("CurrentView", instanceWithInferedType.CurrentView, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsPlant2DDiagramsNodeExpanded", instanceWithInferedType.IsPlant2DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Plant2DDiagrams", instanceWithInferedType, &instanceWithInferedType.Plant2DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsVase2DDiagramsNodeExpanded", instanceWithInferedType.IsVase2DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Vase2DDiagrams", instanceWithInferedType, &instanceWithInferedType.Vase2DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsVase3DDiagramsNodeExpanded", instanceWithInferedType.IsVase3DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Vase3DDiagrams", instanceWithInferedType, &instanceWithInferedType.Vase3DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsStool2DDiagramsNodeExpanded", instanceWithInferedType.IsStool2DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Stool2DDiagrams", instanceWithInferedType, &instanceWithInferedType.Stool2DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsStool3DDiagramsNodeExpanded", instanceWithInferedType.IsStool3DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Stool3DDiagrams", instanceWithInferedType, &instanceWithInferedType.Stool3DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsClock2DDiagramsNodeExpanded", instanceWithInferedType.IsClock2DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Clock2DDiagrams", instanceWithInferedType, &instanceWithInferedType.Clock2DDiagrams, formGroup, probe)
+		BasicFieldtoForm("IsClock3DDiagramsNodeExpanded", instanceWithInferedType.IsClock3DDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Clock3DDiagrams", instanceWithInferedType, &instanceWithInferedType.Clock3DDiagrams, formGroup, probe)
+		AssociationFieldToForm("AxesShape", instanceWithInferedType.AxesShape, formGroup, probe)
+		AssociationFieldToForm("RhombusStuff", instanceWithInferedType.RhombusStuff, formGroup, probe)
+		AssociationFieldToForm("GrowthVectorShape", instanceWithInferedType.GrowthVectorShape, formGroup, probe)
+		AssociationFieldToForm("PerpendicularVectorGrid", instanceWithInferedType.PerpendicularVectorGrid, formGroup, probe)
+		AssociationFieldToForm("BaseVectorShapeGrid", instanceWithInferedType.BaseVectorShapeGrid, formGroup, probe)
+		AssociationFieldToForm("ArcNormalVectorShapeGrid", instanceWithInferedType.ArcNormalVectorShapeGrid, formGroup, probe)
+		AssociationFieldToForm("StartArcShapeGrid", instanceWithInferedType.StartArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("MidArcVectorShapeGrid", instanceWithInferedType.MidArcVectorShapeGrid, formGroup, probe)
+		AssociationFieldToForm("EndArcShapeGrid", instanceWithInferedType.EndArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("GrowthCurve2D", instanceWithInferedType.GrowthCurve2D, formGroup, probe)
+		AssociationFieldToForm("StackOfGrowthCurve2DByGrowthVector", instanceWithInferedType.StackOfGrowthCurve2DByGrowthVector, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.PlantAbstract](
+				"Library",
+				"Plants",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.PlantAbstract {
+					return owner.Plants
+				})
+		}
+
+	case *models.PlantCircumferenceShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("AngleDegree", instanceWithInferedType.AngleDegree, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Length", instanceWithInferedType.Length, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.PointsAndLines3DShape:
 		// insertion point
@@ -1458,7 +1502,67 @@ func FillUpForm(
 				})
 		}
 
+	case *models.RotatedSampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.RotatedSeatAndLegs3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.SampledPoints3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Seat3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.SeatAndLegs3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.SeatBottomCurveShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.SeatTopCurveShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -2230,6 +2334,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.StackOfGrowthCurve2DByGrowthVector:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.StackOfGrowthCurve2DRibbon:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -2562,6 +2676,159 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("StartHalfwayArcShapes", instanceWithInferedType, &instanceWithInferedType.StartHalfwayArcShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Stool2DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Zoom", instanceWithInferedType.Zoom, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenAxesShape", instanceWithInferedType.IsHiddenAxesShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Stool2DDiagram](
+				"PlantAbstract",
+				"Stool2DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Stool2DDiagram {
+					return owner.Stool2DDiagrams
+				})
+		}
+
+	case *models.Stool3DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenSeatTopCurveShape", instanceWithInferedType.IsHiddenSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SeatTopCurveShape", instanceWithInferedType.SeatTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedSeatTopCurveShape", instanceWithInferedType.IsHiddenRotatedSeatTopCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedSeatTopCurveShape", instanceWithInferedType.RotatedSeatTopCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSeatBottomCurveShape", instanceWithInferedType.IsHiddenSeatBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SeatBottomCurveShape", instanceWithInferedType.SeatBottomCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedSeatBottomCurveShape", instanceWithInferedType.IsHiddenRotatedSeatBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedSeatBottomCurveShape", instanceWithInferedType.RotatedSeatBottomCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTorus3DShape", instanceWithInferedType.IsHiddenTorus3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Torus3DShape", instanceWithInferedType.Torus3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedTorusShape", instanceWithInferedType.IsHiddenRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedTorusShape", instanceWithInferedType.RotatedTorusShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedSampledPoints3DShape", instanceWithInferedType.IsHiddenRotatedSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedSampledPoints3DShape", instanceWithInferedType.RotatedSampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeSampledPoints3DShape", instanceWithInferedType.IsHiddenEyeSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeSampledPoints3DShape", instanceWithInferedType.EyeSampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeCornersSampledPoints3DShape", instanceWithInferedType.IsHiddenEyeCornersSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeCornersSampledPoints3DShape", instanceWithInferedType.EyeCornersSampledPoints3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEye3DShape", instanceWithInferedType.IsHiddenEye3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Eye3DShape", instanceWithInferedType.Eye3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeSeatBottomCurveShape", instanceWithInferedType.IsHiddenEyeSeatBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeSeatBottomCurveShape", instanceWithInferedType.EyeSeatBottomCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeStoolBottomCurveShape", instanceWithInferedType.IsHiddenEyeStoolBottomCurveShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeStoolBottomCurveShape", instanceWithInferedType.EyeStoolBottomCurveShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSeat3DShape", instanceWithInferedType.IsHiddenSeat3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Seat3DShape", instanceWithInferedType.Seat3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenEyeVolume3DShape", instanceWithInferedType.IsHiddenEyeVolume3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("EyeVolume3DShape", instanceWithInferedType.EyeVolume3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenSeatAndLegs3DShape", instanceWithInferedType.IsHiddenSeatAndLegs3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("SeatAndLegs3DShape", instanceWithInferedType.SeatAndLegs3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenRotatedSeatAndLegs3DShape", instanceWithInferedType.IsHiddenRotatedSeatAndLegs3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("RotatedSeatAndLegs3DShape", instanceWithInferedType.RotatedSeatAndLegs3DShape, formGroup, probe)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
+		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Stool3DDiagram](
+				"PlantAbstract",
+				"Stool3DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Stool3DDiagram {
+					return owner.Stool3DDiagrams
+				})
+		}
+
+	case *models.StoolAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeTubeDiameter", instanceWithInferedType.RelativeTubeDiameter, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight3DTorus", instanceWithInferedType.RelativeHeight3DTorus, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StoolTorusVerticalScale", instanceWithInferedType.StoolTorusVerticalScale, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHeight", instanceWithInferedType.RelativeHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeSeatThickness", instanceWithInferedType.RelativeSeatThickness, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ProjectionAngle", instanceWithInferedType.ProjectionAngle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeEyeSeparationCriteria", instanceWithInferedType.RelativeEyeSeparationCriteria, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeEyeCornerControlVectorStrength", instanceWithInferedType.RelativeEyeCornerControlVectorStrength, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.TiledFloor3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -3000,6 +3267,16 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.Torus3DShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.TorusEdge3DShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -3014,6 +3291,246 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Vase2DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Zoom", instanceWithInferedType.Zoom, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsVaseArcNodesExpanded", instanceWithInferedType.IsVaseArcNodesExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsVaseClampingNodesExpanded", instanceWithInferedType.IsVaseClampingNodesExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenAxesShape", instanceWithInferedType.IsHiddenAxesShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenBottomStartArcShapeGrid", instanceWithInferedType.IsHiddenBottomStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenBottomEndArcShapeGrid", instanceWithInferedType.IsHiddenBottomEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenBottomStackOfGrowthCurve", instanceWithInferedType.IsHiddenBottomStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedLeftStackOfGrowthCurve", instanceWithInferedType.IsHiddenShiftedLeftStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedLeftStackOfNormalVector", instanceWithInferedType.IsHiddenShiftedLeftStackOfNormalVector, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPerpendicularVectorGridHalfway", instanceWithInferedType.IsHiddenPerpendicularVectorGridHalfway, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopStartArcShapeGrid", instanceWithInferedType.IsHiddenTopStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.IsHiddenShiftedBottomTopStartArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopMidArcVectorShapeGrid", instanceWithInferedType.IsHiddenTopMidArcVectorShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStartHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenStartHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopStartHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenTopStartHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenEndHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenEndHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopEndHalfwayArcShapeGrid", instanceWithInferedType.IsHiddenTopEndHalfwayArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopEndArcShapeGrid", instanceWithInferedType.IsHiddenTopEndArcShapeGrid, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfGrowthCurve", instanceWithInferedType.IsHiddenStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopStackOfGrowthCurve", instanceWithInferedType.IsHiddenTopStackOfGrowthCurve, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopGrowthCurve2D", instanceWithInferedType.IsHiddenTopGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfGrowthCurve2D", instanceWithInferedType.IsHiddenStackOfGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTopStackOfGrowthCurve2D", instanceWithInferedType.IsHiddenTopStackOfGrowthCurve2D, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenShiftedRightGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedLeftGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenShiftedLeftGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfRotatedGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfRotatedGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectory", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectory, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPxShape", instanceWithInferedType.IsHiddenPxShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenChosenP1P2PairShape", instanceWithInferedType.IsHiddenChosenP1P2PairShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenKeyHoleShape", instanceWithInferedType.IsHiddenKeyHoleShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Vase2DDiagram](
+				"PlantAbstract",
+				"Vase2DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Vase2DDiagram {
+					return owner.Vase2DDiagrams
+				})
+		}
+
+	case *models.Vase3DDiagram:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon", instanceWithInferedType.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTorusStackShape", instanceWithInferedType.IsHiddenTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenVerticalTorusStackShape", instanceWithInferedType.IsHiddenVerticalTorusStackShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenStackOfPartiallyRotatedTorusShape", instanceWithInferedType.IsHiddenStackOfPartiallyRotatedTorusShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenPointsAndLines3DShape", instanceWithInferedType.IsHiddenPointsAndLines3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenKeyHole3DShape", instanceWithInferedType.IsHiddenKeyHole3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenKey3DShape", instanceWithInferedType.IsHiddenKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenVolumeKey3DShape", instanceWithInferedType.IsHiddenVolumeKey3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTorusEdge3DShape", instanceWithInferedType.IsHiddenTorusEdge3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenSampledPoints3DShape", instanceWithInferedType.IsHiddenSampledPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenOriginalPoints3DShape", instanceWithInferedType.IsHiddenOriginalPoints3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenAngle0Shape", instanceWithInferedType.IsHiddenAngle0Shape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHiddenTiledFloor3DShape", instanceWithInferedType.IsHiddenTiledFloor3DShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Rendered3DShape", instanceWithInferedType.Rendered3DShape, formGroup, probe)
+		AssociationFieldToForm("TorusStackShape", instanceWithInferedType.TorusStackShape, formGroup, probe)
+		AssociationFieldToForm("VerticalTorusStackShape", instanceWithInferedType.VerticalTorusStackShape, formGroup, probe)
+		AssociationFieldToForm("PartiallyRotatedTorusShape", instanceWithInferedType.PartiallyRotatedTorusShape, formGroup, probe)
+		AssociationFieldToForm("StackOfPartiallyRotatedTorusShape", instanceWithInferedType.StackOfPartiallyRotatedTorusShape, formGroup, probe)
+		AssociationFieldToForm("PointsAndLines3DShape", instanceWithInferedType.PointsAndLines3DShape, formGroup, probe)
+		AssociationFieldToForm("SampledPoints3DShape", instanceWithInferedType.SampledPoints3DShape, formGroup, probe)
+		AssociationFieldToForm("OriginalPoints3DShape", instanceWithInferedType.OriginalPoints3DShape, formGroup, probe)
+		AssociationFieldToForm("Angle0Shape", instanceWithInferedType.Angle0Shape, formGroup, probe)
+		AssociationFieldToForm("KeyHole3DShape", instanceWithInferedType.KeyHole3DShape, formGroup, probe)
+		AssociationFieldToForm("Key3DShape", instanceWithInferedType.Key3DShape, formGroup, probe)
+		AssociationFieldToForm("VolumeKey3DShape", instanceWithInferedType.VolumeKey3DShape, formGroup, probe)
+		AssociationFieldToForm("TorusEdge3DShape", instanceWithInferedType.TorusEdge3DShape, formGroup, probe)
+		AssociationFieldToForm("TiledFloor3DShape", instanceWithInferedType.TiledFloor3DShape, formGroup, probe)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.PlantAbstract, *models.Vase3DDiagram](
+				"PlantAbstract",
+				"Vase3DDiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.PlantAbstract) []*models.Vase3DDiagram {
+					return owner.Vase3DDiagrams
+				})
+		}
+
+	case *models.VaseAbstract:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeVerticalThickness", instanceWithInferedType.RelativeVerticalThickness, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeRadialThickness", instanceWithInferedType.RelativeRadialThickness, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeCuttedStackFloorHeight", instanceWithInferedType.RelativeCuttedStackFloorHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeRotatedTorusSeparation", instanceWithInferedType.RelativeRotatedTorusSeparation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RotationRatio", instanceWithInferedType.RotationRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RadialRepetitions", instanceWithInferedType.RadialRepetitions, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Transparency", instanceWithInferedType.Transparency, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HasAlternatingRingColors", instanceWithInferedType.HasAlternatingRingColors, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeTrajectoryOffsetX", instanceWithInferedType.RelativeTrajectoryOffsetX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeTrajectoryOffsetY", instanceWithInferedType.RelativeTrajectoryOffsetY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("NbStepP1P2", instanceWithInferedType.NbStepP1P2, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ChosenStep", instanceWithInferedType.ChosenStep, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeHorizontalRingsHeight", instanceWithInferedType.RelativeHorizontalRingsHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("OffsetKeyX", instanceWithInferedType.OffsetKeyX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("OffsetKeyY", instanceWithInferedType.OffsetKeyY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("HeightKey", instanceWithInferedType.HeightKey, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("WidthKey", instanceWithInferedType.WidthKey, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("RelativeKeySize", instanceWithInferedType.RelativeKeySize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("MovieNbFrames", instanceWithInferedType.MovieNbFrames, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("PerpendicularVectorGridHalfway", instanceWithInferedType.PerpendicularVectorGridHalfway, formGroup, probe)
+		AssociationFieldToForm("TopStartArcShapeGrid", instanceWithInferedType.TopStartArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopEndArcShapeGrid", instanceWithInferedType.TopEndArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("ShiftedBottomTopStartArcShapeGrid", instanceWithInferedType.ShiftedBottomTopStartArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopMidArcVectorShapeGrid", instanceWithInferedType.TopMidArcVectorShapeGrid, formGroup, probe)
+		AssociationFieldToForm("StartHalfwayArcShapeGrid", instanceWithInferedType.StartHalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopStartHalfwayArcShapeGrid", instanceWithInferedType.TopStartHalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("EndHalfwayArcShapeGrid", instanceWithInferedType.EndHalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("TopEndHalfwayArcShapeGrid", instanceWithInferedType.TopEndHalfwayArcShapeGrid, formGroup, probe)
+		AssociationFieldToForm("StackOfRotatedGrowthCurve2D", instanceWithInferedType.StackOfRotatedGrowthCurve2D, formGroup, probe)
+		AssociationFieldToForm("TopStackOfRotatedGrowthCurve2D", instanceWithInferedType.TopStackOfRotatedGrowthCurve2D, formGroup, probe)
+		AssociationFieldToForm("TopGrowthCurve2D", instanceWithInferedType.TopGrowthCurve2D, formGroup, probe)
+		AssociationFieldToForm("StackOfGrowthCurve2D", instanceWithInferedType.StackOfGrowthCurve2D, formGroup, probe)
+		AssociationFieldToForm("TopStackOfGrowthCurve2D", instanceWithInferedType.TopStackOfGrowthCurve2D, formGroup, probe)
+		AssociationFieldToForm("StackOfGrowthCurve2DRibbon", instanceWithInferedType.StackOfGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("StackOfRotatedGrowthCurve2DRibbon", instanceWithInferedType.StackOfRotatedGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("GrowthCurve2DRibbon", instanceWithInferedType.GrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("ShiftedRightGrowthCurve2DRibbon", instanceWithInferedType.ShiftedRightGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("ShiftedLeftGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("PartiallyGrowthCurve2DRibbon", instanceWithInferedType.PartiallyGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("ShiftedLeftPartiallyGrowthCurve2DRibbon", instanceWithInferedType.ShiftedLeftPartiallyGrowthCurve2DRibbon, formGroup, probe)
+		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectory", instanceWithInferedType.PartiallyGrowthCurve2DTrajectory, formGroup, probe)
+		AssociationFieldToForm("PartiallyGrowthCurve2DTrajectoryP1P2", instanceWithInferedType.PartiallyGrowthCurve2DTrajectoryP1P2, formGroup, probe)
+		AssociationFieldToForm("PxShape", instanceWithInferedType.PxShape, formGroup, probe)
+		AssociationFieldToForm("ChosenP1P2PairShape", instanceWithInferedType.ChosenP1P2PairShape, formGroup, probe)
+		AssociationFieldToForm("KeyHoleShape", instanceWithInferedType.KeyHoleShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

@@ -44,7 +44,7 @@ func (stager *Stager) treeLibrary(
 	addCreateItemButton(stager, confSubLibraries)
 
 	confPlants := ItemButtonConfiguration[
-		Plant, *Plant, // AT, PAT (Added Element)
+		PlantAbstract, *PlantAbstract, // AT, PAT (Added Element)
 		Library, *Library, // ParentAT, PParentAT (Parent Element)
 	]{
 		parentNode:                         libraryNode,
