@@ -149,7 +149,7 @@ func FillUpForm(
 	case *models.Concern:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			true, false, 0, false, 0, false)
 		BasicFieldtoForm("IDAirbus", instanceWithInferedType.IDAirbus, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		EnumTypeStringToForm("Priority", instanceWithInferedType.Priority, instanceWithInferedType, probe.formStage, formGroup)
@@ -539,7 +539,7 @@ func FillUpForm(
 	case *models.Deliverable:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			true, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -1163,7 +1163,7 @@ func FillUpForm(
 	case *models.Stakeholder:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			true, false, 0, false, 0, false)
 		BasicFieldtoForm("IDAirbus", instanceWithInferedType.IDAirbus, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
