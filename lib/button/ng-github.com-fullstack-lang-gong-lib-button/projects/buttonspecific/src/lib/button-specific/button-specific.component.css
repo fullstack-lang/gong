@@ -2,19 +2,19 @@
 
 .button-grid {
     display: grid;
-    grid-auto-rows: minmax(36px, auto);
-    gap: 6px;
-    padding: 6px;
+    grid-auto-rows: minmax(40px, auto);
+    gap: 8px;
+    padding: 8px;
     box-sizing: border-box;
 }
 
 .group-header {
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     color: #606060;
     margin: 0;
-    padding: 4px 6px 0 6px;
+    padding: 4px 8px 0 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -22,15 +22,15 @@
 /* Base style for buttons to ensure they fill grid cells */
 button {
     width: 100%;
-    min-height: 36px;
+    min-height: 40px;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 0 6px !important;
+    gap: 6px;
+    padding: 0 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -38,9 +38,9 @@ button {
 }
 
 button mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
     margin-right: 2px;
 }
