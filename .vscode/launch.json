@@ -266,7 +266,7 @@
             ]
         },
         {
-            "name": "dsm - phylla: go run vase.go",
+            "name": "dsm - phylla: go edit stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -275,18 +275,6 @@
                 "edit",
                 "--embedded-diagrams=false",
                 "data/stage.go"
-            ]
-        },
-        {
-            "name": "dsm - phylla: go run plant.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/phylla/go/cmd/phylla",
-            "args": [
-                "edit",
-                "--embedded-diagrams=false",
-                "data/plant.go"
             ]
         },
         {
