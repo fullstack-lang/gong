@@ -49,6 +49,7 @@ const (
 )
 
 type Concern struct {
+	//gong:text width:300 height:300
 	Name string
 
 	IDAirbus string
@@ -109,6 +110,7 @@ const (
 const NoteSemantic = ""
 
 type Deliverable struct {
+	//gong:text width:300 height:300
 	Name string
 
 	LibraryAbstractFields
@@ -139,6 +141,7 @@ type Deliverable struct {
 }
 
 type Stakeholder struct {
+	//gong:text width:300 height:300
 	Name string
 
 	IDAirbus string

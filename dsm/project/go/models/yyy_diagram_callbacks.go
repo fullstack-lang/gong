@@ -385,6 +385,7 @@ func svgRect[CT interface {
 	rect.RX = 15
 
 	// rect is editable if diagram is not null
+	rect.OnSelect = onSelectRectElement(stager, abstractElement)
 
 	if diagram.IsEditable() {
 		rect.CanHaveBottomHandle = true
@@ -395,7 +396,6 @@ func svgRect[CT interface {
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
 
-		rect.OnSelect = onSelectRectElement(stager, abstractElement)
 		rect.OnMove = onMoveRectElement(stager, shape, true)
 		rect.OnResize = onResizeRectElement(stager, shape)
 		// for allowing later Stage() on the rect shape

@@ -157,6 +157,107 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.Name = from.Name
 }
 
+type Clock2DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	Zoom float64
+
+	IsHiddenAxesShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Clock2DDiagram) CopyBasicFields(to *Clock2DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.Zoom = from.Zoom
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type Clock3DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenClockTopCurveShape bool
+
+	IsHiddenTorus3DShape bool
+
+	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenTiledFloor3DShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Clock3DDiagram) CopyBasicFields(to *Clock3DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenClockTopCurveShape = from.IsHiddenClockTopCurveShape
+	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type ClockAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RadialRepetitions int
+
+	Transparency float64
+
+	RelativeTubeDiameter float64
+
+	RelativeHeight3DTorus float64
+
+	ClockTorusVerticalScale float64
+
+	RelativeHeight float64
+
+	ProjectionAngle float64
+}
+
+func (from *ClockAbstract) CopyBasicFields(to *ClockAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.RelativeTubeDiameter = from.RelativeTubeDiameter
+	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
+	to.ClockTorusVerticalScale = from.ClockTorusVerticalScale
+	to.RelativeHeight = from.RelativeHeight
+	to.ProjectionAngle = from.ProjectionAngle
+}
+
+type ClockTopCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ClockTopCurveShape) CopyBasicFields(to *ClockTopCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type EndArcShape_WOP struct {
 	// insertion point
 
@@ -262,6 +363,72 @@ type ExplanationTextShape_WOP struct {
 }
 
 func (from *ExplanationTextShape) CopyBasicFields(to *ExplanationTextShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type Eye3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Eye3DShape) CopyBasicFields(to *Eye3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type EyeCornersSampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeCornersSampledPoints3DShape) CopyBasicFields(to *EyeCornersSampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type EyeSampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeSampledPoints3DShape) CopyBasicFields(to *EyeSampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type EyeSeatBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeSeatBottomCurveShape) CopyBasicFields(to *EyeSeatBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type EyeStoolBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeStoolBottomCurveShape) CopyBasicFields(to *EyeStoolBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type EyeVolume3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *EyeVolume3DShape) CopyBasicFields(to *EyeVolume3DShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -907,6 +1074,28 @@ func (from *PartiallyGrowthCurve2DTrajectoryShape) CopyBasicFields(to *Partially
 	to.EndY = from.EndY
 }
 
+type PartiallyRotatedSeatBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyRotatedSeatBottomCurveShape) CopyBasicFields(to *PartiallyRotatedSeatBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type PartiallyRotatedSeatTopCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *PartiallyRotatedSeatTopCurveShape) CopyBasicFields(to *PartiallyRotatedSeatTopCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type PartiallyRotatedTorusShape_WOP struct {
 	// insertion point
 
@@ -986,119 +1175,7 @@ func (from *PerpendicularVectorHalfway) CopyBasicFields(to *PerpendicularVectorH
 	to.EndY = from.EndY
 }
 
-type Plant_WOP struct {
-	// insertion point
-
-	Name string
-
-	N int
-
-	M int
-
-	StackHeight int
-
-	RhombusInsideAngle float64
-
-	RelativeVerticalThickness float64
-
-	RelativeRadialThickness float64
-
-	RhombusSideLength float64
-
-	RelativeCuttedStackFloorHeight float64
-
-	RelativeRotatedTorusSeparation float64
-
-	RotationRatio float64
-
-	RadialRepetitions int
-
-	Transparency float64
-
-	HasAlternatingRingColors bool
-
-	RelativeTrajectoryOffsetX float64
-
-	RelativeTrajectoryOffsetY float64
-
-	NbStepP1P2 int
-
-	ChosenStep int
-
-	RelativeHorizontalRingsHeight float64
-
-	OffsetKeyX float64
-
-	OffsetKeyY float64
-
-	HeightKey float64
-
-	WidthKey float64
-
-	RelativeKeySize float64
-
-	MovieNbFrames int
-
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	IsSelected bool
-
-	IsPlantDiagramsNodeExpanded bool
-}
-
-func (from *Plant) CopyBasicFields(to *Plant) {
-	// insertion point
-	to.Name = from.Name
-	to.N = from.N
-	to.M = from.M
-	to.StackHeight = from.StackHeight
-	to.RhombusInsideAngle = from.RhombusInsideAngle
-	to.RelativeVerticalThickness = from.RelativeVerticalThickness
-	to.RelativeRadialThickness = from.RelativeRadialThickness
-	to.RhombusSideLength = from.RhombusSideLength
-	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
-	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
-	to.RotationRatio = from.RotationRatio
-	to.RadialRepetitions = from.RadialRepetitions
-	to.Transparency = from.Transparency
-	to.HasAlternatingRingColors = from.HasAlternatingRingColors
-	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
-	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
-	to.NbStepP1P2 = from.NbStepP1P2
-	to.ChosenStep = from.ChosenStep
-	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
-	to.OffsetKeyX = from.OffsetKeyX
-	to.OffsetKeyY = from.OffsetKeyY
-	to.HeightKey = from.HeightKey
-	to.WidthKey = from.WidthKey
-	to.RelativeKeySize = from.RelativeKeySize
-	to.MovieNbFrames = from.MovieNbFrames
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.IsSelected = from.IsSelected
-	to.IsPlantDiagramsNodeExpanded = from.IsPlantDiagramsNodeExpanded
-}
-
-type PlantCircumferenceShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	AngleDegree float64
-
-	Length float64
-}
-
-func (from *PlantCircumferenceShape) CopyBasicFields(to *PlantCircumferenceShape) {
-	// insertion point
-	to.Name = from.Name
-	to.AngleDegree = from.AngleDegree
-	to.Length = from.Length
-}
-
-type PlantDiagram_WOP struct {
+type Plant2DDiagram_WOP struct {
 	// insertion point
 
 	Name string
@@ -1106,6 +1183,8 @@ type PlantDiagram_WOP struct {
 	OriginX float64
 
 	OriginY float64
+
+	Zoom float64
 
 	IsRhombusNodesExpanded bool
 
@@ -1137,105 +1216,19 @@ type PlantDiagram_WOP struct {
 
 	IsHiddenPerpendicularVectorGrid bool
 
-	IsHiddenPerpendicularVectorGridHalfway bool
-
 	IsHiddenBaseVectorShapeGrid bool
 
 	IsHiddenArcNormalVectorShapeGrid bool
 
 	IsHiddenStartArcShapeGrid bool
 
-	IsHiddenTopStartArcShapeGrid bool
-
-	IsHiddenShiftedBottomTopStartArcShapeGrid bool
-
 	IsHiddenMidArcVectorShapeGrid bool
-
-	IsHiddenTopMidArcVectorShapeGrid bool
-
-	IsHiddenStartHalfwayArcShapeGrid bool
-
-	IsHiddenTopStartHalfwayArcShapeGrid bool
-
-	IsHiddenEndHalfwayArcShapeGrid bool
-
-	IsHiddenTopEndHalfwayArcShapeGrid bool
 
 	IsHiddenEndArcShapeGrid bool
 
-	IsHiddenTopEndArcShapeGrid bool
-
-	IsHiddenBottomStartArcShapeGrid bool
-
-	IsHiddenBottomEndArcShapeGrid bool
-
-	IsHiddenStackOfGrowthCurve bool
-
-	IsHiddenTopStackOfGrowthCurve bool
-
-	IsHiddenBottomStackOfGrowthCurve bool
-
-	IsHiddenShiftedLeftStackOfGrowthCurve bool
-
-	IsHiddenShiftedLeftStackOfNormalVector bool
-
 	IsHiddenGrowthCurve2D bool
 
-	IsHiddenTopGrowthCurve2D bool
-
-	IsHiddenStackOfGrowthCurve2D bool
-
-	IsHiddenTopStackOfGrowthCurve2D bool
-
-	IsHiddenGrowthCurve2DRibbon bool
-
-	IsHiddenShiftedRightGrowthCurve2DRibbon bool
-
-	IsHiddenShiftedLeftGrowthCurve2DRibbon bool
-
-	IsHiddenStackOfGrowthCurve2DRibbon bool
-
-	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
-
-	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
-
-	IsHiddenPartiallyGrowthCurve2DRibbon bool
-
-	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon bool
-
-	IsHiddenPartiallyGrowthCurve2DTrajectory bool
-
-	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
-
-	IsHiddenPxShape bool
-
-	IsHiddenChosenP1P2PairShape bool
-
-	IsHiddenKeyHoleShape bool
-
-	IsHiddenTorusStackShape bool
-
-	IsHiddenVerticalTorusStackShape bool
-
-	IsHiddenPartiallyRotatedTorusShape bool
-
-	IsHiddenStackOfPartiallyRotatedTorusShape bool
-
-	IsHiddenPointsAndLines3DShape bool
-
-	IsHiddenKeyHole3DShape bool
-
-	IsHiddenKey3DShape bool
-
-	IsHiddenVolumeKey3DShape bool
-
-	IsHiddenTorusEdge3DShape bool
-
-	IsHiddenSampledPoints3DShape bool
-
-	IsHiddenOriginalPoints3DShape bool
-
-	IsHiddenAngle0Shape bool
+	IsHiddenStackOfGrowthCurve2DByGrowthVector bool
 
 	IsChecked bool
 
@@ -1244,11 +1237,12 @@ type PlantDiagram_WOP struct {
 	IsExpanded bool
 }
 
-func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
+func (from *Plant2DDiagram) CopyBasicFields(to *Plant2DDiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.OriginX = from.OriginX
 	to.OriginY = from.OriginY
+	to.Zoom = from.Zoom
 	to.IsRhombusNodesExpanded = from.IsRhombusNodesExpanded
 	to.IsArcNodesExpanded = from.IsArcNodesExpanded
 	to.IsHiddenAxesShape = from.IsHiddenAxesShape
@@ -1264,59 +1258,95 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsHiddenGrowthPathRhombusGridShape = from.IsHiddenGrowthPathRhombusGridShape
 	to.IsHiddenGrowthVectorShape = from.IsHiddenGrowthVectorShape
 	to.IsHiddenPerpendicularVectorGrid = from.IsHiddenPerpendicularVectorGrid
-	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
 	to.IsHiddenBaseVectorShapeGrid = from.IsHiddenBaseVectorShapeGrid
 	to.IsHiddenArcNormalVectorShapeGrid = from.IsHiddenArcNormalVectorShapeGrid
 	to.IsHiddenStartArcShapeGrid = from.IsHiddenStartArcShapeGrid
-	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
-	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
 	to.IsHiddenMidArcVectorShapeGrid = from.IsHiddenMidArcVectorShapeGrid
-	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
-	to.IsHiddenStartHalfwayArcShapeGrid = from.IsHiddenStartHalfwayArcShapeGrid
-	to.IsHiddenTopStartHalfwayArcShapeGrid = from.IsHiddenTopStartHalfwayArcShapeGrid
-	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
-	to.IsHiddenTopEndHalfwayArcShapeGrid = from.IsHiddenTopEndHalfwayArcShapeGrid
 	to.IsHiddenEndArcShapeGrid = from.IsHiddenEndArcShapeGrid
-	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
-	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
-	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
-	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
-	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
-	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
-	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
-	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
 	to.IsHiddenGrowthCurve2D = from.IsHiddenGrowthCurve2D
-	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
-	to.IsHiddenStackOfGrowthCurve2D = from.IsHiddenStackOfGrowthCurve2D
-	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
-	to.IsHiddenGrowthCurve2DRibbon = from.IsHiddenGrowthCurve2DRibbon
-	to.IsHiddenShiftedRightGrowthCurve2DRibbon = from.IsHiddenShiftedRightGrowthCurve2DRibbon
-	to.IsHiddenShiftedLeftGrowthCurve2DRibbon = from.IsHiddenShiftedLeftGrowthCurve2DRibbon
-	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
-	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
-	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
-	to.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = from.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
-	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
-	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
-	to.IsHiddenPxShape = from.IsHiddenPxShape
-	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
-	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
-	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
-	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
-	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
-	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
-	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
-	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
-	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
-	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
-	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
-	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
-	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
-	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
+	to.IsHiddenStackOfGrowthCurve2DByGrowthVector = from.IsHiddenStackOfGrowthCurve2DByGrowthVector
 	to.IsChecked = from.IsChecked
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+}
+
+type PlantAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	N int
+
+	M int
+
+	StackHeight int
+
+	RhombusInsideAngle float64
+
+	RhombusSideLength float64
+
+	PlantType PlantType
+
+	CurrentView ViewType
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	IsSelected bool
+
+	IsPlant2DDiagramsNodeExpanded bool
+
+	IsVase2DDiagramsNodeExpanded bool
+
+	IsVase3DDiagramsNodeExpanded bool
+
+	IsStool2DDiagramsNodeExpanded bool
+
+	IsStool3DDiagramsNodeExpanded bool
+
+	IsClock2DDiagramsNodeExpanded bool
+
+	IsClock3DDiagramsNodeExpanded bool
+}
+
+func (from *PlantAbstract) CopyBasicFields(to *PlantAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.N = from.N
+	to.M = from.M
+	to.StackHeight = from.StackHeight
+	to.RhombusInsideAngle = from.RhombusInsideAngle
+	to.RhombusSideLength = from.RhombusSideLength
+	to.PlantType = from.PlantType
+	to.CurrentView = from.CurrentView
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.IsSelected = from.IsSelected
+	to.IsPlant2DDiagramsNodeExpanded = from.IsPlant2DDiagramsNodeExpanded
+	to.IsVase2DDiagramsNodeExpanded = from.IsVase2DDiagramsNodeExpanded
+	to.IsVase3DDiagramsNodeExpanded = from.IsVase3DDiagramsNodeExpanded
+	to.IsStool2DDiagramsNodeExpanded = from.IsStool2DDiagramsNodeExpanded
+	to.IsStool3DDiagramsNodeExpanded = from.IsStool3DDiagramsNodeExpanded
+	to.IsClock2DDiagramsNodeExpanded = from.IsClock2DDiagramsNodeExpanded
+	to.IsClock3DDiagramsNodeExpanded = from.IsClock3DDiagramsNodeExpanded
+}
+
+type PlantCircumferenceShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	AngleDegree float64
+
+	Length float64
+}
+
+func (from *PlantCircumferenceShape) CopyBasicFields(to *PlantCircumferenceShape) {
+	// insertion point
+	to.Name = from.Name
+	to.AngleDegree = from.AngleDegree
+	to.Length = from.Length
 }
 
 type PointsAndLines3DShape_WOP struct {
@@ -1435,6 +1465,28 @@ func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	to.Y = from.Y
 }
 
+type RotatedSampledPoints3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *RotatedSampledPoints3DShape) CopyBasicFields(to *RotatedSampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type RotatedSeatAndLegs3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *RotatedSeatAndLegs3DShape) CopyBasicFields(to *RotatedSeatAndLegs3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type SampledPoints3DShape_WOP struct {
 	// insertion point
 
@@ -1442,6 +1494,50 @@ type SampledPoints3DShape_WOP struct {
 }
 
 func (from *SampledPoints3DShape) CopyBasicFields(to *SampledPoints3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type Seat3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Seat3DShape) CopyBasicFields(to *Seat3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type SeatAndLegs3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SeatAndLegs3DShape) CopyBasicFields(to *SeatAndLegs3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type SeatBottomCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SeatBottomCurveShape) CopyBasicFields(to *SeatBottomCurveShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type SeatTopCurveShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *SeatTopCurveShape) CopyBasicFields(to *SeatTopCurveShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -2256,6 +2352,17 @@ func (from *StackOfGrowthCurve2D) CopyBasicFields(to *StackOfGrowthCurve2D) {
 	to.Name = from.Name
 }
 
+type StackOfGrowthCurve2DByGrowthVector_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *StackOfGrowthCurve2DByGrowthVector) CopyBasicFields(to *StackOfGrowthCurve2DByGrowthVector) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type StackOfGrowthCurve2DRibbon_WOP struct {
 	// insertion point
 
@@ -2600,6 +2707,158 @@ type StartHalfwayArcShapeGrid_WOP struct {
 }
 
 func (from *StartHalfwayArcShapeGrid) CopyBasicFields(to *StartHalfwayArcShapeGrid) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type Stool2DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	Zoom float64
+
+	IsHiddenAxesShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Stool2DDiagram) CopyBasicFields(to *Stool2DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.Zoom = from.Zoom
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type Stool3DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenSeatTopCurveShape bool
+
+	IsHiddenRotatedSeatTopCurveShape bool
+
+	IsHiddenSeatBottomCurveShape bool
+
+	IsHiddenRotatedSeatBottomCurveShape bool
+
+	IsHiddenTorus3DShape bool
+
+	IsHiddenRotatedTorusShape bool
+
+	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenRotatedSampledPoints3DShape bool
+
+	IsHiddenEyeSampledPoints3DShape bool
+
+	IsHiddenEyeCornersSampledPoints3DShape bool
+
+	IsHiddenEye3DShape bool
+
+	IsHiddenEyeSeatBottomCurveShape bool
+
+	IsHiddenEyeStoolBottomCurveShape bool
+
+	IsHiddenSeat3DShape bool
+
+	IsHiddenEyeVolume3DShape bool
+
+	IsHiddenSeatAndLegs3DShape bool
+
+	IsHiddenRotatedSeatAndLegs3DShape bool
+
+	IsHiddenTiledFloor3DShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Stool3DDiagram) CopyBasicFields(to *Stool3DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenSeatTopCurveShape = from.IsHiddenSeatTopCurveShape
+	to.IsHiddenRotatedSeatTopCurveShape = from.IsHiddenRotatedSeatTopCurveShape
+	to.IsHiddenSeatBottomCurveShape = from.IsHiddenSeatBottomCurveShape
+	to.IsHiddenRotatedSeatBottomCurveShape = from.IsHiddenRotatedSeatBottomCurveShape
+	to.IsHiddenTorus3DShape = from.IsHiddenTorus3DShape
+	to.IsHiddenRotatedTorusShape = from.IsHiddenRotatedTorusShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenRotatedSampledPoints3DShape = from.IsHiddenRotatedSampledPoints3DShape
+	to.IsHiddenEyeSampledPoints3DShape = from.IsHiddenEyeSampledPoints3DShape
+	to.IsHiddenEyeCornersSampledPoints3DShape = from.IsHiddenEyeCornersSampledPoints3DShape
+	to.IsHiddenEye3DShape = from.IsHiddenEye3DShape
+	to.IsHiddenEyeSeatBottomCurveShape = from.IsHiddenEyeSeatBottomCurveShape
+	to.IsHiddenEyeStoolBottomCurveShape = from.IsHiddenEyeStoolBottomCurveShape
+	to.IsHiddenSeat3DShape = from.IsHiddenSeat3DShape
+	to.IsHiddenEyeVolume3DShape = from.IsHiddenEyeVolume3DShape
+	to.IsHiddenSeatAndLegs3DShape = from.IsHiddenSeatAndLegs3DShape
+	to.IsHiddenRotatedSeatAndLegs3DShape = from.IsHiddenRotatedSeatAndLegs3DShape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type StoolAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RadialRepetitions int
+
+	Transparency float64
+
+	RelativeTubeDiameter float64
+
+	RelativeHeight3DTorus float64
+
+	StoolTorusVerticalScale float64
+
+	RelativeHeight float64
+
+	RelativeSeatThickness float64
+
+	ProjectionAngle float64
+
+	RelativeEyeSeparationCriteria float64
+
+	RelativeEyeCornerControlVectorStrength float64
+}
+
+func (from *StoolAbstract) CopyBasicFields(to *StoolAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.RelativeTubeDiameter = from.RelativeTubeDiameter
+	to.RelativeHeight3DTorus = from.RelativeHeight3DTorus
+	to.StoolTorusVerticalScale = from.StoolTorusVerticalScale
+	to.RelativeHeight = from.RelativeHeight
+	to.RelativeSeatThickness = from.RelativeSeatThickness
+	to.ProjectionAngle = from.ProjectionAngle
+	to.RelativeEyeSeparationCriteria = from.RelativeEyeSeparationCriteria
+	to.RelativeEyeCornerControlVectorStrength = from.RelativeEyeCornerControlVectorStrength
+}
+
+type TiledFloor3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TiledFloor3DShape) CopyBasicFields(to *TiledFloor3DShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -3019,6 +3278,17 @@ func (from *TopStartHalfwayArcShapeGrid) CopyBasicFields(to *TopStartHalfwayArcS
 	to.Name = from.Name
 }
 
+type Torus3DShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Torus3DShape) CopyBasicFields(to *Torus3DShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type TorusEdge3DShape_WOP struct {
 	// insertion point
 
@@ -3039,6 +3309,261 @@ type TorusStackShape_WOP struct {
 func (from *TorusStackShape) CopyBasicFields(to *TorusStackShape) {
 	// insertion point
 	to.Name = from.Name
+}
+
+type Vase2DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	Zoom float64
+
+	IsVaseArcNodesExpanded bool
+
+	IsVaseClampingNodesExpanded bool
+
+	IsHiddenAxesShape bool
+
+	IsHiddenBottomStartArcShapeGrid bool
+
+	IsHiddenBottomEndArcShapeGrid bool
+
+	IsHiddenBottomStackOfGrowthCurve bool
+
+	IsHiddenShiftedLeftStackOfGrowthCurve bool
+
+	IsHiddenShiftedLeftStackOfNormalVector bool
+
+	IsHiddenPerpendicularVectorGridHalfway bool
+
+	IsHiddenTopStartArcShapeGrid bool
+
+	IsHiddenShiftedBottomTopStartArcShapeGrid bool
+
+	IsHiddenTopMidArcVectorShapeGrid bool
+
+	IsHiddenStartHalfwayArcShapeGrid bool
+
+	IsHiddenTopStartHalfwayArcShapeGrid bool
+
+	IsHiddenEndHalfwayArcShapeGrid bool
+
+	IsHiddenTopEndHalfwayArcShapeGrid bool
+
+	IsHiddenTopEndArcShapeGrid bool
+
+	IsHiddenStackOfGrowthCurve bool
+
+	IsHiddenTopStackOfGrowthCurve bool
+
+	IsHiddenTopGrowthCurve2D bool
+
+	IsHiddenStackOfGrowthCurve2D bool
+
+	IsHiddenTopStackOfGrowthCurve2D bool
+
+	IsHiddenGrowthCurve2DRibbon bool
+
+	IsHiddenShiftedRightGrowthCurve2DRibbon bool
+
+	IsHiddenShiftedLeftGrowthCurve2DRibbon bool
+
+	IsHiddenStackOfGrowthCurve2DRibbon bool
+
+	IsHiddenStackOfRotatedGrowthCurve2DRibbon bool
+
+	IsHiddenPartiallyGrowthCurve2DRibbon bool
+
+	IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon bool
+
+	IsHiddenPartiallyGrowthCurve2DTrajectory bool
+
+	IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 bool
+
+	IsHiddenPxShape bool
+
+	IsHiddenChosenP1P2PairShape bool
+
+	IsHiddenKeyHoleShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Vase2DDiagram) CopyBasicFields(to *Vase2DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.Zoom = from.Zoom
+	to.IsVaseArcNodesExpanded = from.IsVaseArcNodesExpanded
+	to.IsVaseClampingNodesExpanded = from.IsVaseClampingNodesExpanded
+	to.IsHiddenAxesShape = from.IsHiddenAxesShape
+	to.IsHiddenBottomStartArcShapeGrid = from.IsHiddenBottomStartArcShapeGrid
+	to.IsHiddenBottomEndArcShapeGrid = from.IsHiddenBottomEndArcShapeGrid
+	to.IsHiddenBottomStackOfGrowthCurve = from.IsHiddenBottomStackOfGrowthCurve
+	to.IsHiddenShiftedLeftStackOfGrowthCurve = from.IsHiddenShiftedLeftStackOfGrowthCurve
+	to.IsHiddenShiftedLeftStackOfNormalVector = from.IsHiddenShiftedLeftStackOfNormalVector
+	to.IsHiddenPerpendicularVectorGridHalfway = from.IsHiddenPerpendicularVectorGridHalfway
+	to.IsHiddenTopStartArcShapeGrid = from.IsHiddenTopStartArcShapeGrid
+	to.IsHiddenShiftedBottomTopStartArcShapeGrid = from.IsHiddenShiftedBottomTopStartArcShapeGrid
+	to.IsHiddenTopMidArcVectorShapeGrid = from.IsHiddenTopMidArcVectorShapeGrid
+	to.IsHiddenStartHalfwayArcShapeGrid = from.IsHiddenStartHalfwayArcShapeGrid
+	to.IsHiddenTopStartHalfwayArcShapeGrid = from.IsHiddenTopStartHalfwayArcShapeGrid
+	to.IsHiddenEndHalfwayArcShapeGrid = from.IsHiddenEndHalfwayArcShapeGrid
+	to.IsHiddenTopEndHalfwayArcShapeGrid = from.IsHiddenTopEndHalfwayArcShapeGrid
+	to.IsHiddenTopEndArcShapeGrid = from.IsHiddenTopEndArcShapeGrid
+	to.IsHiddenStackOfGrowthCurve = from.IsHiddenStackOfGrowthCurve
+	to.IsHiddenTopStackOfGrowthCurve = from.IsHiddenTopStackOfGrowthCurve
+	to.IsHiddenTopGrowthCurve2D = from.IsHiddenTopGrowthCurve2D
+	to.IsHiddenStackOfGrowthCurve2D = from.IsHiddenStackOfGrowthCurve2D
+	to.IsHiddenTopStackOfGrowthCurve2D = from.IsHiddenTopStackOfGrowthCurve2D
+	to.IsHiddenGrowthCurve2DRibbon = from.IsHiddenGrowthCurve2DRibbon
+	to.IsHiddenShiftedRightGrowthCurve2DRibbon = from.IsHiddenShiftedRightGrowthCurve2DRibbon
+	to.IsHiddenShiftedLeftGrowthCurve2DRibbon = from.IsHiddenShiftedLeftGrowthCurve2DRibbon
+	to.IsHiddenStackOfGrowthCurve2DRibbon = from.IsHiddenStackOfGrowthCurve2DRibbon
+	to.IsHiddenStackOfRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfRotatedGrowthCurve2DRibbon
+	to.IsHiddenPartiallyGrowthCurve2DRibbon = from.IsHiddenPartiallyGrowthCurve2DRibbon
+	to.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = from.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
+	to.IsHiddenPartiallyGrowthCurve2DTrajectory = from.IsHiddenPartiallyGrowthCurve2DTrajectory
+	to.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = from.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
+	to.IsHiddenPxShape = from.IsHiddenPxShape
+	to.IsHiddenChosenP1P2PairShape = from.IsHiddenChosenP1P2PairShape
+	to.IsHiddenKeyHoleShape = from.IsHiddenKeyHoleShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type Vase3DDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon bool
+
+	IsHiddenTorusStackShape bool
+
+	IsHiddenVerticalTorusStackShape bool
+
+	IsHiddenPartiallyRotatedTorusShape bool
+
+	IsHiddenStackOfPartiallyRotatedTorusShape bool
+
+	IsHiddenPointsAndLines3DShape bool
+
+	IsHiddenKeyHole3DShape bool
+
+	IsHiddenKey3DShape bool
+
+	IsHiddenVolumeKey3DShape bool
+
+	IsHiddenTorusEdge3DShape bool
+
+	IsHiddenSampledPoints3DShape bool
+
+	IsHiddenOriginalPoints3DShape bool
+
+	IsHiddenAngle0Shape bool
+
+	IsHiddenTiledFloor3DShape bool
+
+	IsChecked bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *Vase3DDiagram) CopyBasicFields(to *Vase3DDiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = from.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
+	to.IsHiddenTorusStackShape = from.IsHiddenTorusStackShape
+	to.IsHiddenVerticalTorusStackShape = from.IsHiddenVerticalTorusStackShape
+	to.IsHiddenPartiallyRotatedTorusShape = from.IsHiddenPartiallyRotatedTorusShape
+	to.IsHiddenStackOfPartiallyRotatedTorusShape = from.IsHiddenStackOfPartiallyRotatedTorusShape
+	to.IsHiddenPointsAndLines3DShape = from.IsHiddenPointsAndLines3DShape
+	to.IsHiddenKeyHole3DShape = from.IsHiddenKeyHole3DShape
+	to.IsHiddenKey3DShape = from.IsHiddenKey3DShape
+	to.IsHiddenVolumeKey3DShape = from.IsHiddenVolumeKey3DShape
+	to.IsHiddenTorusEdge3DShape = from.IsHiddenTorusEdge3DShape
+	to.IsHiddenSampledPoints3DShape = from.IsHiddenSampledPoints3DShape
+	to.IsHiddenOriginalPoints3DShape = from.IsHiddenOriginalPoints3DShape
+	to.IsHiddenAngle0Shape = from.IsHiddenAngle0Shape
+	to.IsHiddenTiledFloor3DShape = from.IsHiddenTiledFloor3DShape
+	to.IsChecked = from.IsChecked
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+}
+
+type VaseAbstract_WOP struct {
+	// insertion point
+
+	Name string
+
+	RelativeVerticalThickness float64
+
+	RelativeRadialThickness float64
+
+	RelativeCuttedStackFloorHeight float64
+
+	RelativeRotatedTorusSeparation float64
+
+	RotationRatio float64
+
+	RadialRepetitions int
+
+	Transparency float64
+
+	HasAlternatingRingColors bool
+
+	RelativeTrajectoryOffsetX float64
+
+	RelativeTrajectoryOffsetY float64
+
+	NbStepP1P2 int
+
+	ChosenStep int
+
+	RelativeHorizontalRingsHeight float64
+
+	OffsetKeyX float64
+
+	OffsetKeyY float64
+
+	HeightKey float64
+
+	WidthKey float64
+
+	RelativeKeySize float64
+
+	MovieNbFrames int
+}
+
+func (from *VaseAbstract) CopyBasicFields(to *VaseAbstract) {
+	// insertion point
+	to.Name = from.Name
+	to.RelativeVerticalThickness = from.RelativeVerticalThickness
+	to.RelativeRadialThickness = from.RelativeRadialThickness
+	to.RelativeCuttedStackFloorHeight = from.RelativeCuttedStackFloorHeight
+	to.RelativeRotatedTorusSeparation = from.RelativeRotatedTorusSeparation
+	to.RotationRatio = from.RotationRatio
+	to.RadialRepetitions = from.RadialRepetitions
+	to.Transparency = from.Transparency
+	to.HasAlternatingRingColors = from.HasAlternatingRingColors
+	to.RelativeTrajectoryOffsetX = from.RelativeTrajectoryOffsetX
+	to.RelativeTrajectoryOffsetY = from.RelativeTrajectoryOffsetY
+	to.NbStepP1P2 = from.NbStepP1P2
+	to.ChosenStep = from.ChosenStep
+	to.RelativeHorizontalRingsHeight = from.RelativeHorizontalRingsHeight
+	to.OffsetKeyX = from.OffsetKeyX
+	to.OffsetKeyY = from.OffsetKeyY
+	to.HeightKey = from.HeightKey
+	to.WidthKey = from.WidthKey
+	to.RelativeKeySize = from.RelativeKeySize
+	to.MovieNbFrames = from.MovieNbFrames
 }
 
 type VerticalTorusStackShape_WOP struct {

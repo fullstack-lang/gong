@@ -98,6 +98,39 @@ func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Clock2DDiagram
+func (clock2ddiagram *Clock2DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Clock3DDiagram
+func (clock3ddiagram *Clock3DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &clock3ddiagram.ClockTopCurveShape) || modified
+	modified = GongCleanPointer(stage, &clock3ddiagram.Torus3DShape) || modified
+	modified = GongCleanPointer(stage, &clock3ddiagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &clock3ddiagram.TiledFloor3DShape) || modified
+	modified = GongCleanPointer(stage, &clock3ddiagram.Rendered3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ClockAbstract
+func (clockabstract *ClockAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ClockTopCurveShape
+func (clocktopcurveshape *ClockTopCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by EndArcShape
 func (endarcshape *EndArcShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -130,6 +163,48 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongClean(stage *Stage) (m
 
 // Clean garbage collect unstaged instances that are referenced by ExplanationTextShape
 func (explanationtextshape *ExplanationTextShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Eye3DShape
+func (eye3dshape *Eye3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EyeCornersSampledPoints3DShape
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EyeSampledPoints3DShape
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EyeSeatBottomCurveShape
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EyeStoolBottomCurveShape
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by EyeVolume3DShape
+func (eyevolume3dshape *EyeVolume3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return
@@ -348,6 +423,20 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by PartiallyRotatedSeatBottomCurveShape
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartiallyRotatedSeatTopCurveShape
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by PartiallyRotatedTorusShape
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -385,47 +474,38 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongClean(stage *S
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Plant
-func (plant *Plant) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by Plant2DDiagram
+func (plant2ddiagram *Plant2DDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &plant.PlantDiagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &plant.AxesShape) || modified
-	modified = GongCleanPointer(stage, &plant.RhombusStuff) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthVectorShape) || modified
-	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGrid) || modified
-	modified = GongCleanPointer(stage, &plant.PerpendicularVectorGridHalfway) || modified
-	modified = GongCleanPointer(stage, &plant.BaseVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.ArcNormalVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.StartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopStartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.EndArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopEndArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedBottomTopStartArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.MidArcVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopMidArcVectorShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.StartHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopStartHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.EndHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.TopEndHalfwayArcShapeGrid) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.TopStackOfRotatedGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.TopGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.TopStackOfGrowthCurve2D) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.StackOfRotatedGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedRightGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedLeftGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectory) || modified
-	modified = GongCleanPointer(stage, &plant.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
-	modified = GongCleanPointer(stage, &plant.PxShape) || modified
-	modified = GongCleanPointer(stage, &plant.ChosenP1P2PairShape) || modified
-	modified = GongCleanPointer(stage, &plant.KeyHoleShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PlantAbstract
+func (plantabstract *PlantAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &plantabstract.Plant2DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Vase2DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Vase3DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Stool2DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Stool3DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Clock2DDiagrams) || modified
+	modified = GongCleanSlice(stage, &plantabstract.Clock3DDiagrams) || modified
+	// insertion point per field
+	modified = GongCleanPointer(stage, &plantabstract.VaseAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StoolAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ClockAbstract) || modified
+	modified = GongCleanPointer(stage, &plantabstract.AxesShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.RhombusStuff) || modified
+	modified = GongCleanPointer(stage, &plantabstract.GrowthVectorShape) || modified
+	modified = GongCleanPointer(stage, &plantabstract.PerpendicularVectorGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.BaseVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.ArcNormalVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.MidArcVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.EndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &plantabstract.GrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &plantabstract.StackOfGrowthCurve2DByGrowthVector) || modified
 	return
 }
 
@@ -433,30 +513,6 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 func (plantcircumferenceshape *PlantCircumferenceShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by PlantDiagram
-func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &plantdiagram.Rendered3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.GrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ShiftedRightGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ShiftedLeftGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.TorusStackShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.VerticalTorusStackShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.PartiallyRotatedTorusShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.StackOfPartiallyRotatedTorusShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.PointsAndLines3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.SampledPoints3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.OriginalPoints3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.Angle0Shape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.KeyHole3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.Key3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.VolumeKey3DShape) || modified
-	modified = GongCleanPointer(stage, &plantdiagram.TorusEdge3DShape) || modified
 	return
 }
 
@@ -520,8 +576,50 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongClean(stage *Stage) (modifie
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by RotatedSampledPoints3DShape
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RotatedSeatAndLegs3DShape
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by SampledPoints3DShape
 func (sampledpoints3dshape *SampledPoints3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Seat3DShape
+func (seat3dshape *Seat3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by SeatAndLegs3DShape
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by SeatBottomCurveShape
+func (seatbottomcurveshape *SeatBottomCurveShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by SeatTopCurveShape
+func (seattopcurveshape *SeatTopCurveShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return
@@ -686,6 +784,13 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongClean(stage *Stage) (modif
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by StackOfGrowthCurve2DByGrowthVector
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by StackOfGrowthCurve2DRibbon
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -774,6 +879,53 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongClean(stage *Stage) (modif
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &starthalfwayarcshapegrid.StartHalfwayArcShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Stool2DDiagram
+func (stool2ddiagram *Stool2DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Stool3DDiagram
+func (stool3ddiagram *Stool3DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &stool3ddiagram.SeatTopCurveShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.RotatedSeatTopCurveShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.SeatBottomCurveShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.RotatedSeatBottomCurveShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.Torus3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.RotatedTorusShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.RotatedSampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.EyeSampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.EyeCornersSampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.Eye3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.EyeSeatBottomCurveShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.EyeStoolBottomCurveShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.Seat3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.EyeVolume3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.SeatAndLegs3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.RotatedSeatAndLegs3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.TiledFloor3DShape) || modified
+	modified = GongCleanPointer(stage, &stool3ddiagram.Rendered3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by StoolAbstract
+func (stoolabstract *StoolAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TiledFloor3DShape
+func (tiledfloor3dshape *TiledFloor3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -908,6 +1060,13 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongClean(stage 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Torus3DShape
+func (torus3dshape *Torus3DShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by TorusEdge3DShape
 func (torusedge3dshape *TorusEdge3DShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -919,6 +1078,67 @@ func (torusedge3dshape *TorusEdge3DShape) GongClean(stage *Stage) (modified bool
 func (torusstackshape *TorusStackShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Vase2DDiagram
+func (vase2ddiagram *Vase2DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Vase3DDiagram
+func (vase3ddiagram *Vase3DDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &vase3ddiagram.Rendered3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.TorusStackShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.VerticalTorusStackShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.PartiallyRotatedTorusShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.StackOfPartiallyRotatedTorusShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.PointsAndLines3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.SampledPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.OriginalPoints3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.Angle0Shape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.KeyHole3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.Key3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.VolumeKey3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.TorusEdge3DShape) || modified
+	modified = GongCleanPointer(stage, &vase3ddiagram.TiledFloor3DShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by VaseAbstract
+func (vaseabstract *VaseAbstract) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &vaseabstract.PerpendicularVectorGridHalfway) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopStartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopEndArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.ShiftedBottomTopStartArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopMidArcVectorShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.StartHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopStartHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.EndHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopEndHalfwayArcShapeGrid) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.StackOfRotatedGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopStackOfRotatedGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.StackOfGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.TopStackOfGrowthCurve2D) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.StackOfGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.StackOfRotatedGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.GrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.ShiftedRightGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.ShiftedLeftGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.PartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.PartiallyGrowthCurve2DTrajectory) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.PxShape) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.ChosenP1P2PairShape) || modified
+	modified = GongCleanPointer(stage, &vaseabstract.KeyHoleShape) || modified
 	return
 }
 

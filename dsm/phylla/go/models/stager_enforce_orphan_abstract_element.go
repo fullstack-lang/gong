@@ -3,18 +3,18 @@ package models
 func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	needCommit = reattachToLibraryRoots(
 		stager,
-		func() []*Plant {
-			roots := make([]*Plant, 0)
+		func() []*PlantAbstract {
+			roots := make([]*PlantAbstract, 0)
 			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
 				roots = append(roots, library.Plants...)
 			}
 			return roots
 		},
-		func(plant *Plant) {
+		func(plant *PlantAbstract) {
 			plant.GetOwningLibrary().Plants = append(plant.GetOwningLibrary().Plants, plant)
 		},
-		func(plant *Plant) []*Plant {
-			return []*Plant{}
+		func(plant *PlantAbstract) []*PlantAbstract {
+			return []*PlantAbstract{}
 		},
 	)
 

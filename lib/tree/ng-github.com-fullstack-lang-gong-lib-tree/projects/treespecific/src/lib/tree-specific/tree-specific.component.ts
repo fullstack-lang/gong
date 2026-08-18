@@ -161,22 +161,39 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
         // if search string is not empty, filter the tree
         if (this.searchString) {
           this.onSearchChange()
+        } else {
+          this.syncTreeExpansion()
         }
 
-        // expand nodes that were expanded before
         this.treeControl.dataNodes?.forEach(
           node => {
             if (node.gongNode && node.gongNode.IsInEditMode) {
               this.currentEditingNode = node;
             }
-
-            if (node.gongNode.IsExpanded) {
-              this.treeControl.expand(node)
-            }
           }
         )
       }
     )
+  }
+
+  private syncTreeExpansion(): void {
+    let changed = true;
+    while (changed) {
+      changed = false;
+      if (this.treeControl.dataNodes) {
+        for (const node of this.treeControl.dataNodes) {
+          if (node.gongNode?.IsExpanded && !this.treeControl.isExpanded(node)) {
+            this.treeControl.expand(node);
+            changed = true;
+            break;
+          } else if (!node.gongNode?.IsExpanded && this.treeControl.isExpanded(node)) {
+            this.treeControl.collapse(node);
+            changed = true;
+            break;
+          }
+        }
+      }
+    }
   }
 
   // Focus on input field when a node enters edit mode
@@ -242,17 +259,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
       this.treeControl.expandAll();
     } else {
       this.dataSource.data = this.originalRootNodes;
-
-      // Expand nodes based on their original state
-      this.treeControl.dataNodes?.forEach(
-        node => {
-          if (node.gongNode.IsExpanded) {
-            this.treeControl.expand(node)
-          } else {
-            this.treeControl.collapse(node)
-          }
-        }
-      )
+      this.syncTreeExpansion();
     }
   }
 

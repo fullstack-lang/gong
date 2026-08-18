@@ -7,6 +7,9 @@ import (
 func (stager *Stager) ux_slider() {
 
 	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
 
 	stager.sliderStage.Reset()
 
@@ -66,6 +69,20 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
+		if zoom := stager.getActive2DDiagramZoom(plant); zoom != nil {
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Zoom",
+					0.05,
+					5.0,
+					0.05,
+					zoom,
+				),
+			)
+		}
+
 		group1.Sliders = append(
 			group1.Sliders,
 			m.NewSlider(
@@ -90,327 +107,465 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Thickness",
-				0.01,
-				0.3,
-				0.01,
-				&plant.RelativeVerticalThickness,
-			),
-		)
+		if plant.CurrentView != VIEW_PLANT_2D && plant.PlantType == Vase {
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"2D Separation",
-				0.0,
-				0.1,
-				0.002,
-				&plant.RelativeCuttedStackFloorHeight,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Thickness",
+					0.01,
+					0.3,
+					0.01,
+					&plant.VaseAbstract.RelativeVerticalThickness,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"3D Separation",
-				0.0,
-				1.0,
-				0.01,
-				&plant.RelativeRotatedTorusSeparation,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"2D Separation",
+					0.0,
+					0.1,
+					0.002,
+					&plant.VaseAbstract.RelativeCuttedStackFloorHeight,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Radial Thickness",
-				0.01,
-				0.5,
-				0.01,
-				&plant.RelativeRadialThickness,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"3D Separation",
+					0.0,
+					1.0,
+					0.01,
+					&plant.VaseAbstract.RelativeRotatedTorusSeparation,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Rot Ratio",
-				0.0,
-				1.0,
-				0.005,
-				&plant.RotationRatio,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Radial Thickness",
+					0.01,
+					0.5,
+					0.01,
+					&plant.VaseAbstract.RelativeRadialThickness,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Radial Repetition",
-				1,
-				4,
-				1,
-				&plant.RadialRepetitions,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Rot Ratio",
+					0.0,
+					1.0,
+					0.005,
+					&plant.VaseAbstract.RotationRatio,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Transparency",
-				0.0,
-				1.0,
-				0.05,
-				&plant.Transparency,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Radial Repetition",
+					1,
+					4,
+					1,
+					&plant.VaseAbstract.RadialRepetitions,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			NewBoolSlider(
-				stager,
-				"Alternating Ring Colors",
-				&plant.HasAlternatingRingColors,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Transparency",
+					0.0,
+					1.0,
+					0.05,
+					&plant.VaseAbstract.Transparency,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Traj offset X",
-				-0.15,
-				0.15,
-				0.001,
-				&plant.RelativeTrajectoryOffsetX,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				NewBoolSlider(
+					stager,
+					"Alternating Ring Colors",
+					&plant.VaseAbstract.HasAlternatingRingColors,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Traj offset Y",
-				-0.15,
-				0.15,
-				0.001,
-				&plant.RelativeTrajectoryOffsetY,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Traj offset X",
+					-0.15,
+					0.15,
+					0.001,
+					&plant.VaseAbstract.RelativeTrajectoryOffsetX,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Nb Step P1 P2",
-				1,
-				30,
-				1,
-				&plant.NbStepP1P2,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Traj offset Y",
+					-0.15,
+					0.15,
+					0.001,
+					&plant.VaseAbstract.RelativeTrajectoryOffsetY,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Chosen Step",
-				1,
-				plant.NbStepP1P2,
-				1,
-				&plant.ChosenStep,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Nb Step P1 P2",
+					1,
+					30,
+					1,
+					&plant.VaseAbstract.NbStepP1P2,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Horiz Ring Height",
-				0.0,
-				1.0,
-				0.005,
-				&plant.RelativeHorizontalRingsHeight,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Chosen Step",
+					1,
+					plant.VaseAbstract.NbStepP1P2,
+					1,
+					&plant.VaseAbstract.ChosenStep,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Offset Key X",
-				-500,
-				500,
-				1,
-				&plant.OffsetKeyX,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Horiz Ring Height",
+					0.0,
+					1.0,
+					0.005,
+					&plant.VaseAbstract.RelativeHorizontalRingsHeight,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Offset Key Y",
-				-500,
-				500,
-				1,
-				&plant.OffsetKeyY,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Offset Key X",
+					-500,
+					500,
+					1,
+					&plant.VaseAbstract.OffsetKeyX,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Width Key",
-				0,
-				500,
-				1,
-				&plant.WidthKey,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Offset Key Y",
+					-500,
+					500,
+					1,
+					&plant.VaseAbstract.OffsetKeyY,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Height Key",
-				0,
-				500,
-				1,
-				&plant.HeightKey,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Width Key",
+					0,
+					500,
+					1,
+					&plant.VaseAbstract.WidthKey,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Key Size Reduction",
-				0.0,
-				1.0,
-				0.01,
-				&plant.RelativeKeySize,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Height Key",
+					0,
+					500,
+					1,
+					&plant.VaseAbstract.HeightKey,
+				),
+			)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Movie Nb Frames",
-				0,
-				1000,
-				1,
-				&plant.MovieNbFrames,
-			),
-		)
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Key Size Reduction",
+					0.0,
+					1.0,
+					0.01,
+					&plant.VaseAbstract.RelativeKeySize,
+				),
+			)
 
-	}
-
-	// Add sliders for PlantDiagram 3D view
-	var checkedDiagram *PlantDiagram
-	for _, diagram := range plant.PlantDiagrams {
-		if diagram.IsChecked {
-			checkedDiagram = diagram
-			break
+			group1.Sliders = append(
+				group1.Sliders,
+				m.NewSlider(
+					stager,
+					"Movie Nb Frames",
+					0,
+					1000,
+					1,
+					&plant.VaseAbstract.MovieNbFrames,
+				),
+			)
 		}
-	}
 
-	if checkedDiagram != nil && checkedDiagram.Rendered3DShape != nil {
-		group2 := new(m.Group).Stage(stager.sliderStage)
-		group2.Percentage = 35
-		layout.Groups = append(layout.Groups, group2)
-
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"View X",
-				-500,
-				500,
-				1,
-				&checkedDiagram.Rendered3DShape.ViewX,
-			),
-		)
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"View Y",
-				-500,
-				500,
-				1,
-				&checkedDiagram.Rendered3DShape.ViewY,
-			),
-		)
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"View Z",
-				-500,
-				500,
-				1,
-				&checkedDiagram.Rendered3DShape.ViewZ,
-			),
-		)
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"Target X",
-				-500,
-				500,
-				1,
-				&checkedDiagram.Rendered3DShape.TargetX,
-			),
-		)
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"Target Y",
-				-500,
-				500,
-				1,
-				&checkedDiagram.Rendered3DShape.TargetY,
-			),
-		)
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"Target Z",
-				-500,
-				500,
-				1,
-				&checkedDiagram.Rendered3DShape.TargetZ,
-			),
-		)
-		group2.Sliders = append(
-			group2.Sliders,
-			m.NewSlider(
-				stager,
-				"Field of View",
-				10,
-				120,
-				1,
-				&checkedDiagram.Rendered3DShape.Fov,
-			),
-		)
 	}
 
 	stager.sliderStage.Commit()
+}
+
+type SliderStageTarget struct {
+	stager      *Stager
+	sliderStage *m.Stage
+}
+
+func (t *SliderStageTarget) GetSliderStage() *m.Stage {
+	return t.sliderStage
+}
+
+func (t *SliderStageTarget) OnAfterUpdateSliderElement() {
+	t.stager.OnAfterUpdateSliderElement()
+}
+
+func appendCommonCylinderSliders(
+	target m.Target,
+	group *m.Group,
+	plant *PlantAbstract,
+	radialReps *int,
+	transparency *float64,
+	relTubeDiam *float64,
+	relHeight3DTorus *float64,
+	torusVertScale *float64,
+	relHeight *float64,
+	projAngle *float64,
+) {
+	group.Sliders = append(
+		group.Sliders,
+		m.NewSlider(
+			target,
+			"N",
+			1,
+			20,
+			1,
+			&plant.N,
+		),
+		m.NewSlider(
+			target,
+			"M",
+			1,
+			20,
+			1,
+			&plant.M,
+		),
+		m.NewSlider(
+			target,
+			"Side Length",
+			5,
+			600,
+			5,
+			&plant.RhombusSideLength,
+		),
+		m.NewSlider(
+			target,
+			"Inside Angle",
+			0,
+			180,
+			1,
+			&plant.RhombusInsideAngle,
+		),
+		m.NewSlider(
+			target,
+			"Stack Height",
+			0,
+			20,
+			1,
+			&plant.StackHeight,
+		),
+		m.NewSlider(
+			target,
+			"Radial Repetition",
+			1,
+			10,
+			1,
+			radialReps,
+		),
+		m.NewSlider(
+			target,
+			"Transparency",
+			0.0,
+			1.0,
+			0.05,
+			transparency,
+		),
+		m.NewSlider(
+			target,
+			"Tube Rel Diameter",
+			0.005,
+			0.1,
+			0.001,
+			relTubeDiam,
+		),
+		m.NewSlider(
+			target,
+			"Rel Height 3D Torus",
+			0.0,
+			6.0,
+			0.01,
+			relHeight3DTorus,
+		),
+		m.NewSlider(
+			target,
+			"Torus Vert Scale",
+			0.0,
+			5.0,
+			0.01,
+			torusVertScale,
+		),
+		m.NewSlider(
+			target,
+			"Rel Height",
+			0.0,
+			6.0,
+			0.01,
+			relHeight,
+		),
+		m.NewSlider(
+			target,
+			"Projection Angle",
+			0.0,
+			45,
+			0.1,
+			projAngle,
+		),
+	)
+}
+
+func (stager *Stager) ux_slider_stool() {
+	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
+
+	stager.sliderStoolStage.Reset()
+
+	if plant == nil || plant.PlantType != Stool || plant.StoolAbstract == nil {
+		stager.sliderStoolStage.Commit()
+		return
+	}
+
+	layout := new(m.Layout).Stage(stager.sliderStoolStage)
+
+	group1 := new(m.Group).Stage(stager.sliderStoolStage)
+	group1.Percentage = 65
+	layout.Groups = append(layout.Groups, group1)
+
+	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderStoolStage}
+
+	appendCommonCylinderSliders(
+		target,
+		group1,
+		plant,
+		&plant.StoolAbstract.RadialRepetitions,
+		&plant.StoolAbstract.Transparency,
+		&plant.StoolAbstract.RelativeTubeDiameter,
+		&plant.StoolAbstract.RelativeHeight3DTorus,
+		&plant.StoolAbstract.StoolTorusVerticalScale,
+		&plant.StoolAbstract.RelativeHeight,
+		&plant.StoolAbstract.ProjectionAngle,
+	)
+
+	group1.Sliders = append(
+		group1.Sliders,
+		m.NewSlider(
+			target,
+			"Rel Seat Thickness",
+			0.01,
+			1.0,
+			0.01,
+			&plant.StoolAbstract.RelativeSeatThickness,
+		),
+		m.NewSlider(
+			target,
+			"Rel Eye Separation",
+			0.0,
+			0.5,
+			0.005,
+			&plant.StoolAbstract.RelativeEyeSeparationCriteria,
+		),
+		m.NewSlider(
+			target,
+			"Rel Eye Corner Strength",
+			0.0,
+			2.0,
+			0.01,
+			&plant.StoolAbstract.RelativeEyeCornerControlVectorStrength,
+		),
+	)
+
+	stager.sliderStoolStage.Commit()
+}
+
+func (stager *Stager) ux_slider_clock() {
+	plant := stager.selectedPlant
+	if plant == nil {
+		plant = stager.GetCurrentPlant()
+	}
+
+	stager.sliderClockStage.Reset()
+
+	if plant == nil || plant.PlantType != Clock || plant.ClockAbstract == nil {
+		stager.sliderClockStage.Commit()
+		return
+	}
+
+	layout := new(m.Layout).Stage(stager.sliderClockStage)
+
+	group1 := new(m.Group).Stage(stager.sliderClockStage)
+	group1.Percentage = 65
+	layout.Groups = append(layout.Groups, group1)
+
+	target := &SliderStageTarget{stager: stager, sliderStage: stager.sliderClockStage}
+
+	appendCommonCylinderSliders(
+		target,
+		group1,
+		plant,
+		&plant.ClockAbstract.RadialRepetitions,
+		&plant.ClockAbstract.Transparency,
+		&plant.ClockAbstract.RelativeTubeDiameter,
+		&plant.ClockAbstract.RelativeHeight3DTorus,
+		&plant.ClockAbstract.ClockTorusVerticalScale,
+		&plant.ClockAbstract.RelativeHeight,
+		&plant.ClockAbstract.ProjectionAngle,
+	)
+
+	stager.sliderClockStage.Commit()
 }
 
 func (stager *Stager) OnAfterUpdateSliderElement() {
@@ -418,7 +573,9 @@ func (stager *Stager) OnAfterUpdateSliderElement() {
 	stager.enforceSemantic()
 	stager.ux_tree()
 	stager.ux_svg_plant_diagram()
-	stager.ux_3d_plant_diagram()
+	stager.UpdateThreeJSStage()
+	stager.UpdateStool3DStage()
+	stager.UpdateClock3DStage()
 
 	stager.stage.CommitWithSuspendedCallbacks()
 }
@@ -459,4 +616,76 @@ func NewBoolSlider(
 
 	slider.Proxy = proxy
 	return slider
+}
+
+func getActive2DDiagramZoom(plant *PlantAbstract) *float64 {
+	if plant == nil {
+		return nil
+	}
+
+	if plant.CurrentView == VIEW_VASE_2D {
+		for _, d := range plant.Vase2DDiagrams {
+			if d.IsChecked {
+				return &d.Zoom
+			}
+		}
+		if len(plant.Vase2DDiagrams) > 0 {
+			return &plant.Vase2DDiagrams[0].Zoom
+		}
+	}
+
+	if plant.PlantType == Stool {
+		for _, d := range plant.Stool2DDiagrams {
+			if d.IsChecked {
+				return &d.Zoom
+			}
+		}
+	}
+
+	if plant.PlantType == Clock {
+		for _, d := range plant.Clock2DDiagrams {
+			if d.IsChecked {
+				return &d.Zoom
+			}
+		}
+	}
+
+	for _, d := range plant.Plant2DDiagrams {
+		if d.IsChecked {
+			return &d.Zoom
+		}
+	}
+	if len(plant.Plant2DDiagrams) > 0 {
+		return &plant.Plant2DDiagrams[0].Zoom
+	}
+	if len(plant.Vase2DDiagrams) > 0 {
+		return &plant.Vase2DDiagrams[0].Zoom
+	}
+	if len(plant.Stool2DDiagrams) > 0 {
+		return &plant.Stool2DDiagrams[0].Zoom
+	}
+	if len(plant.Clock2DDiagrams) > 0 {
+		return &plant.Clock2DDiagrams[0].Zoom
+	}
+
+	return nil
+}
+
+func (stager *Stager) getActive2DDiagramZoom(plant *PlantAbstract) *float64 {
+	return getActive2DDiagramZoom(plant)
+}
+
+func GetPlant2DZoom(plant *PlantAbstract) float64 {
+	if plant == nil {
+		return 1.0
+	}
+	zPtr := getActive2DDiagramZoom(plant)
+	if zPtr != nil && *zPtr > 0 {
+		return *zPtr
+	}
+	return 1.0
+}
+
+func (stager *Stager) GetPlant2DZoom(plant *PlantAbstract) float64 {
+	return GetPlant2DZoom(plant)
 }

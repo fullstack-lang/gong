@@ -1,46 +1,55 @@
-# 1. Try in your browser
+# 1. Domain-Specific Modeling (DSM) in the Browser
 
-## System Engineering DSM
+## Systems Engineering
 
-- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip))
-- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip))
-- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip))
-- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/process-app-portable.zip))
-- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip))
-- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/project-app-portable.zip))
-- [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip))
+- **System hierarchy definition**: [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/project-app-portable.zip)) supports the definition of Product Breakdown Structures (PBS), Work Breakdown Structures (WBS), task resource allocation, and execution planning.
 
-## Technical DSM
+- **Architecture viewpoints and stakeholder needs**: [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip)) enables capturing stakeholder needs, operational concerns, high-level requirements, analysis concepts, and required architecture views in accordance with ISO 42010. A reference model of ISO 15288 process modeling requirements is provided as an example.
 
-- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip))
+- **Stakeholder process modeling**: [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/process-app-portable.zip)) facilitates the modeling of operational processes, participant swimlanes, tasks, data flows, and control flows, based on Business Process Model and Notation (BPMN) concepts.
 
-## For fun
+- **System architecture and interface management**: [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip)) provides modeling capabilities for system architectures, hierarchical component breakdowns, ports, and data/control flows (inspired by SysML Block Definition Diagrams).
 
-- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/barrgraph-app-portable.zip))
-- [Phylla](https://fullstack-lang.github.io/gong/phylla-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/phylla-app-portable.zip))
+- **State specification for software-intensive systems**: [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip)) supports specifying discrete state machines, composite states, transitions, events, and actions (analogous to UML State Machine diagrams).
 
-# 2. Why Gong ?
+- **Requirements interchange format inspection**: [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip)) provides an inspection tool for files conforming to the Requirements Interchange Format (ReqIF).
 
-Gong is a framework for lowering the effort for developping Domain Specific Modelling (DSM).
+## Prospective Analysis
 
-A DSM is an application that allows a users to edit data and diagrams.
-The data is based on the abstract syntax of the Domain Specific Language (DSL). The diagrams are based on the concrete syntax of the DSL.
+- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip)): exploration of operational scenarios, actor state evolutions, timeline trajectories, and parameter trade-offs.
 
-General Purpose Modeling Languages (GPML) like UML or SysML are standards with hundreds of elements in their abstract and concrete syntax. However, tailoring them to a specific domain often involves subsetting—ignoring the majority of the standard to focus on a narrow slice — and profiling (stereotypes) to bend generic concepts to specific needs.
+## Stage Inspection and Diagnostics
 
-Gong allows you to grow your DSM from a General Purpose Programming Language (GPPL), e.g. go. You start with an empty metamodel or an existing small metamodel close to your need and progressively introduce abstract and concrete syntax elements only as your understanding of the domain matures. 
+Diagrams are rendered using Scalable Vector Graphics (SVG). Gong provides a Go-based representation (Go stage) for SVG rendering.
 
-Developing a robust DSM remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
+- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip)): inspection and analysis of SVG Go stages.
 
-# 3. A "hello world" Domain Specific Modeling (DSM) application
+## Illustrative Demonstrations
 
-## 3.1. Prerequisite
+- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/barrgraph-app-portable.zip)): visualization and editing of Alfred Barr's genealogical chart of modern art movements and artistic influences.
+- [Phylla](https://fullstack-lang.github.io/gong/phylla-app-portable.html) ([zip](https://fullstack-lang.github.io/gong/phylla-app-portable.zip)): exploration of botanical phyllotaxis spiral patterns, 2D/3D plant geometries, and generative designs.
 
-- go 1.26 (see https://go.dev/doc/install)
+# 2. Rationale
 
-## 3.2. Generating & running the code with the `gong` command
+Gong is a framework designed to significantly reduce the effort required to develop Domain-Specific Modeling (DSM) tools and applications.
 
-In a terminal, execute the following commands:
+A DSM application enables users to manage and visualize domain data through interactive diagrams. The underlying data model implements the abstract syntax of a Domain-Specific Language (DSL), while the diagrams represent its concrete visual syntax.
+
+Domain-Specific Modeling can be conducted using General Purpose Modeling Languages (GPML) such as UML or SysML, which are comprehensive standards encompassing hundreds of abstract and concrete syntax elements. However, adapting GPMLs to a specialized domain typically necessitates extensive subsetting—restricting usage to a narrow portion of the standard—as well as profiling (stereotypes) to adapt generic concepts to domain-specific needs.
+
+Gong enables the construction and evolution of a DSM directly from a General Purpose Programming Language (GPPL), such as Go. Development can begin from a baseline domain model (such as Structure or Project), with abstract and concrete syntax elements introduced incrementally as domain requirements mature.
+
+While developing a robust DSM requires familiarity with standard modeling patterns, Gong aims to streamline and democratize the engineering effort involved in the development process.
+
+# 3. "Hello World" Web Application Example
+
+## 3.1. Prerequisites
+
+- Go 1.26 or later (refer to https://go.dev/doc/install)
+
+## 3.2. Code Generation and Execution
+
+Execute the following commands in a terminal:
 
 ```bash
 go install github.com/fullstack-lang/gong/go/cmd/gong@main
@@ -72,11 +81,11 @@ cd ../../../..
 rm -rf helloworld
 ```
 
-Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
+Once running, navigate to [http://localhost:8080](http://localhost:8080) to inspect and edit the model instances:
 
 ![helloworld.png](docs/images/helloworld.png)
 
-# 4. Installing and compiling the gong repo
+# 4. Building from Source
 
 ```bash
 git clone https://github.com/fullstack-lang/gong
@@ -86,6 +95,16 @@ cd ../../..
 ./scripts/run_gong_conditionally.sh
 ```
 
-# 5. Status
+# 5. Project Status
 
-Gong is a work in progress.
+Gong is currently in active development.
+
+# 6. License and Copyright
+
+The source code in this repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+**Exceptions:**
+* The data in `dsm/barrgraph/go/cmd/barrgraph/data/cubism and abstract art.go` and the diagrams it generates are copyrighted by MoMA & Alfred Barr's estate.
+* The data in `dsm/phylla/go/cmd/phylla/data/stage.go` and the design objects it generates are copyrighted by Valerie Rostaing & Thomas Peugeot.
+
+Please refer to the [NOTICE](NOTICE) file for more information.

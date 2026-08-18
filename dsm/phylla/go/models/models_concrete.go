@@ -108,6 +108,13 @@ type GrowthVectorShape struct {
 	X, Y float64
 }
 
+// StackOfGrowthCurve2DByGrowthVector of a plant,
+// draws StackHeight copies of GrowthCurve2D, each shifted by the growth vector.
+// gong:omit
+type StackOfGrowthCurve2DByGrowthVector struct {
+	Name string
+}
+
 // InitialRhombusGridShape of a plant,
 // gong:omit
 type InitialRhombusGridShape struct {
@@ -574,6 +581,102 @@ type PartiallyRotatedTorusShape struct {
 	Name string
 }
 
+// ClockTopCurveShape of a plant,
+// gong:omit
+type ClockTopCurveShape struct {
+	Name string
+}
+
+// SeatTopCurveShape of a plant,
+// gong:omit
+type SeatTopCurveShape struct {
+	Name string
+}
+
+// PartiallyRotatedSeatTopCurveShape of a plant,
+// gong:omit
+type PartiallyRotatedSeatTopCurveShape struct {
+	Name string
+}
+
+// SeatBottomCurveShape of a plant,
+// gong:omit
+type SeatBottomCurveShape struct {
+	Name string
+}
+
+// PartiallyRotatedSeatBottomCurveShape of a plant,
+// gong:omit
+type PartiallyRotatedSeatBottomCurveShape struct {
+	Name string
+}
+
+// Torus3DShape of a plant,
+// gong:omit
+type Torus3DShape struct {
+	Name string
+}
+
+// RotatedSampledPoints3DShape of a plant,
+// gong:omit
+type RotatedSampledPoints3DShape struct {
+	Name string
+}
+
+// EyeSampledPoints3DShape of a plant,
+// gong:omit
+type EyeSampledPoints3DShape struct {
+	Name string
+}
+
+// EyeCornersSampledPoints3DShape of a plant,
+// gong:omit
+type EyeCornersSampledPoints3DShape struct {
+	Name string
+}
+
+// Eye3DShape of a plant,
+// gong:omit
+type Eye3DShape struct {
+	Name string
+}
+
+// EyeSeatBottomCurveShape of a plant,
+// gong:omit
+type EyeSeatBottomCurveShape struct {
+	Name string
+}
+
+// EyeStoolBottomCurveShape of a plant,
+// gong:omit
+type EyeStoolBottomCurveShape struct {
+	Name string
+}
+
+// Seat3DShape of a plant,
+// gong:omit
+type Seat3DShape struct {
+	Name string
+}
+
+// EyeVolume3DShape of a plant,
+// gong:omit
+type EyeVolume3DShape struct {
+	Name string
+}
+
+// SeatAndLegs3DShape of a plant,
+// gong:omit
+type SeatAndLegs3DShape struct {
+	Name string
+}
+
+// RotatedSeatAndLegs3DShape of a plant,
+// gong:omit
+type RotatedSeatAndLegs3DShape struct {
+	Name string
+}
+
 // StackOfPartiallyRotatedTorusShape of a plant,
 // gong:omit
 type StackOfPartiallyRotatedTorusShape struct {
@@ -607,6 +710,12 @@ type VolumeKey3DShape struct {
 // TorusEdge3DShape of a plant,
 // gong:omit
 type TorusEdge3DShape struct {
+	Name string
+}
+
+// TiledFloor3DShape of a plant,
+// gong:omit
+type TiledFloor3DShape struct {
 	Name string
 }
 

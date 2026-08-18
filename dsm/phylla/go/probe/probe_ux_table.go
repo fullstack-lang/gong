@@ -40,6 +40,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ChosenP1P2PairShape](probe)
 	case "CircleGridShape":
 		updateProbeTable[*models.CircleGridShape](probe)
+	case "Clock2DDiagram":
+		updateProbeTable[*models.Clock2DDiagram](probe)
+	case "Clock3DDiagram":
+		updateProbeTable[*models.Clock3DDiagram](probe)
+	case "ClockAbstract":
+		updateProbeTable[*models.ClockAbstract](probe)
+	case "ClockTopCurveShape":
+		updateProbeTable[*models.ClockTopCurveShape](probe)
 	case "EndArcShape":
 		updateProbeTable[*models.EndArcShape](probe)
 	case "EndArcShapeGrid":
@@ -50,6 +58,18 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.EndHalfwayArcShapeGrid](probe)
 	case "ExplanationTextShape":
 		updateProbeTable[*models.ExplanationTextShape](probe)
+	case "Eye3DShape":
+		updateProbeTable[*models.Eye3DShape](probe)
+	case "EyeCornersSampledPoints3DShape":
+		updateProbeTable[*models.EyeCornersSampledPoints3DShape](probe)
+	case "EyeSampledPoints3DShape":
+		updateProbeTable[*models.EyeSampledPoints3DShape](probe)
+	case "EyeSeatBottomCurveShape":
+		updateProbeTable[*models.EyeSeatBottomCurveShape](probe)
+	case "EyeStoolBottomCurveShape":
+		updateProbeTable[*models.EyeStoolBottomCurveShape](probe)
+	case "EyeVolume3DShape":
+		updateProbeTable[*models.EyeVolume3DShape](probe)
 	case "GridPathShape":
 		updateProbeTable[*models.GridPathShape](probe)
 	case "GrowthCurve2D":
@@ -106,6 +126,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryP2PointShape](probe)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		updateProbeTable[*models.PartiallyGrowthCurve2DTrajectoryShape](probe)
+	case "PartiallyRotatedSeatBottomCurveShape":
+		updateProbeTable[*models.PartiallyRotatedSeatBottomCurveShape](probe)
+	case "PartiallyRotatedSeatTopCurveShape":
+		updateProbeTable[*models.PartiallyRotatedSeatTopCurveShape](probe)
 	case "PartiallyRotatedTorusShape":
 		updateProbeTable[*models.PartiallyRotatedTorusShape](probe)
 	case "PerpendicularVector":
@@ -116,12 +140,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PerpendicularVectorGridHalfway](probe)
 	case "PerpendicularVectorHalfway":
 		updateProbeTable[*models.PerpendicularVectorHalfway](probe)
-	case "Plant":
-		updateProbeTable[*models.Plant](probe)
+	case "Plant2DDiagram":
+		updateProbeTable[*models.Plant2DDiagram](probe)
+	case "PlantAbstract":
+		updateProbeTable[*models.PlantAbstract](probe)
 	case "PlantCircumferenceShape":
 		updateProbeTable[*models.PlantCircumferenceShape](probe)
-	case "PlantDiagram":
-		updateProbeTable[*models.PlantDiagram](probe)
 	case "PointsAndLines3DShape":
 		updateProbeTable[*models.PointsAndLines3DShape](probe)
 	case "PxShape":
@@ -136,8 +160,20 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.RotatedRhombusGridShape](probe)
 	case "RotatedRhombusShape":
 		updateProbeTable[*models.RotatedRhombusShape](probe)
+	case "RotatedSampledPoints3DShape":
+		updateProbeTable[*models.RotatedSampledPoints3DShape](probe)
+	case "RotatedSeatAndLegs3DShape":
+		updateProbeTable[*models.RotatedSeatAndLegs3DShape](probe)
 	case "SampledPoints3DShape":
 		updateProbeTable[*models.SampledPoints3DShape](probe)
+	case "Seat3DShape":
+		updateProbeTable[*models.Seat3DShape](probe)
+	case "SeatAndLegs3DShape":
+		updateProbeTable[*models.SeatAndLegs3DShape](probe)
+	case "SeatBottomCurveShape":
+		updateProbeTable[*models.SeatBottomCurveShape](probe)
+	case "SeatTopCurveShape":
+		updateProbeTable[*models.SeatTopCurveShape](probe)
 	case "ShiftedBottomTopStartArcShape":
 		updateProbeTable[*models.ShiftedBottomTopStartArcShape](probe)
 	case "ShiftedBottomTopStartArcShapeGrid":
@@ -180,6 +216,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StackGrowthCurve2DStartHalfwayArcShape](probe)
 	case "StackOfGrowthCurve2D":
 		updateProbeTable[*models.StackOfGrowthCurve2D](probe)
+	case "StackOfGrowthCurve2DByGrowthVector":
+		updateProbeTable[*models.StackOfGrowthCurve2DByGrowthVector](probe)
 	case "StackOfGrowthCurve2DRibbon":
 		updateProbeTable[*models.StackOfGrowthCurve2DRibbon](probe)
 	case "StackOfPartiallyRotatedTorusShape":
@@ -204,6 +242,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.StartHalfwayArcShape](probe)
 	case "StartHalfwayArcShapeGrid":
 		updateProbeTable[*models.StartHalfwayArcShapeGrid](probe)
+	case "Stool2DDiagram":
+		updateProbeTable[*models.Stool2DDiagram](probe)
+	case "Stool3DDiagram":
+		updateProbeTable[*models.Stool3DDiagram](probe)
+	case "StoolAbstract":
+		updateProbeTable[*models.StoolAbstract](probe)
+	case "TiledFloor3DShape":
+		updateProbeTable[*models.TiledFloor3DShape](probe)
 	case "TopEndArcShape":
 		updateProbeTable[*models.TopEndArcShape](probe)
 	case "TopEndArcShapeGrid":
@@ -238,10 +284,18 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TopStartHalfwayArcShape](probe)
 	case "TopStartHalfwayArcShapeGrid":
 		updateProbeTable[*models.TopStartHalfwayArcShapeGrid](probe)
+	case "Torus3DShape":
+		updateProbeTable[*models.Torus3DShape](probe)
 	case "TorusEdge3DShape":
 		updateProbeTable[*models.TorusEdge3DShape](probe)
 	case "TorusStackShape":
 		updateProbeTable[*models.TorusStackShape](probe)
+	case "Vase2DDiagram":
+		updateProbeTable[*models.Vase2DDiagram](probe)
+	case "Vase3DDiagram":
+		updateProbeTable[*models.Vase3DDiagram](probe)
+	case "VaseAbstract":
+		updateProbeTable[*models.VaseAbstract](probe)
 	case "VerticalTorusStackShape":
 		updateProbeTable[*models.VerticalTorusStackShape](probe)
 	case "VolumeKey3DShape":

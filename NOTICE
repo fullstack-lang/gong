@@ -1,0 +1,7 @@
+This repository is licensed under the MIT License, with the following exceptions regarding specific data files and the diagrams/design objects they generate:
+
+1. Barrgraph Data & Diagrams
+The file `dsm/barrgraph/go/cmd/barrgraph/data/cubism and abstract art.go` and the diagrams generated from it are copyrighted by MoMA & Alfred Barr's estate. They are not distributed under the MIT license.
+
+2. Phylla Data & Design Objects
+The file `dsm/phylla/go/cmd/phylla/data/stage.go` and the design objects generated from it are copyrighted by Valerie Rostaing & Thomas Peugeot. They are not distributed under the MIT license.

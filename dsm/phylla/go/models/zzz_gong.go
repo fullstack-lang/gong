@@ -255,6 +255,66 @@ type Stage struct {
 	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
 	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
 
+	Clock2DDiagrams                map[*Clock2DDiagram]struct{}
+	Clock2DDiagrams_instance       map[*Clock2DDiagram]*Clock2DDiagram
+	Clock2DDiagrams_mapString      map[string]*Clock2DDiagram
+	Clock2DDiagramOrder            uint
+	Clock2DDiagram_stagedOrder     map[*Clock2DDiagram]uint
+	Clock2DDiagram_orderStaged     map[uint]*Clock2DDiagram
+	Clock2DDiagrams_reference      map[*Clock2DDiagram]*Clock2DDiagram
+	Clock2DDiagrams_referenceOrder map[*Clock2DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClock2DDiagramCreateCallback OnAfterCreateInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramUpdateCallback OnAfterUpdateInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramDeleteCallback OnAfterDeleteInterface[Clock2DDiagram]
+	OnAfterClock2DDiagramReadCallback   OnAfterReadInterface[Clock2DDiagram]
+
+	Clock3DDiagrams                map[*Clock3DDiagram]struct{}
+	Clock3DDiagrams_instance       map[*Clock3DDiagram]*Clock3DDiagram
+	Clock3DDiagrams_mapString      map[string]*Clock3DDiagram
+	Clock3DDiagramOrder            uint
+	Clock3DDiagram_stagedOrder     map[*Clock3DDiagram]uint
+	Clock3DDiagram_orderStaged     map[uint]*Clock3DDiagram
+	Clock3DDiagrams_reference      map[*Clock3DDiagram]*Clock3DDiagram
+	Clock3DDiagrams_referenceOrder map[*Clock3DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClock3DDiagramCreateCallback OnAfterCreateInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramUpdateCallback OnAfterUpdateInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramDeleteCallback OnAfterDeleteInterface[Clock3DDiagram]
+	OnAfterClock3DDiagramReadCallback   OnAfterReadInterface[Clock3DDiagram]
+
+	ClockAbstracts                map[*ClockAbstract]struct{}
+	ClockAbstracts_instance       map[*ClockAbstract]*ClockAbstract
+	ClockAbstracts_mapString      map[string]*ClockAbstract
+	ClockAbstractOrder            uint
+	ClockAbstract_stagedOrder     map[*ClockAbstract]uint
+	ClockAbstract_orderStaged     map[uint]*ClockAbstract
+	ClockAbstracts_reference      map[*ClockAbstract]*ClockAbstract
+	ClockAbstracts_referenceOrder map[*ClockAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClockAbstractCreateCallback OnAfterCreateInterface[ClockAbstract]
+	OnAfterClockAbstractUpdateCallback OnAfterUpdateInterface[ClockAbstract]
+	OnAfterClockAbstractDeleteCallback OnAfterDeleteInterface[ClockAbstract]
+	OnAfterClockAbstractReadCallback   OnAfterReadInterface[ClockAbstract]
+
+	ClockTopCurveShapes                map[*ClockTopCurveShape]struct{}
+	ClockTopCurveShapes_instance       map[*ClockTopCurveShape]*ClockTopCurveShape
+	ClockTopCurveShapes_mapString      map[string]*ClockTopCurveShape
+	ClockTopCurveShapeOrder            uint
+	ClockTopCurveShape_stagedOrder     map[*ClockTopCurveShape]uint
+	ClockTopCurveShape_orderStaged     map[uint]*ClockTopCurveShape
+	ClockTopCurveShapes_reference      map[*ClockTopCurveShape]*ClockTopCurveShape
+	ClockTopCurveShapes_referenceOrder map[*ClockTopCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterClockTopCurveShapeCreateCallback OnAfterCreateInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeUpdateCallback OnAfterUpdateInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeDeleteCallback OnAfterDeleteInterface[ClockTopCurveShape]
+	OnAfterClockTopCurveShapeReadCallback   OnAfterReadInterface[ClockTopCurveShape]
+
 	EndArcShapes                map[*EndArcShape]struct{}
 	EndArcShapes_instance       map[*EndArcShape]*EndArcShape
 	EndArcShapes_mapString      map[string]*EndArcShape
@@ -333,6 +393,96 @@ type Stage struct {
 	OnAfterExplanationTextShapeUpdateCallback OnAfterUpdateInterface[ExplanationTextShape]
 	OnAfterExplanationTextShapeDeleteCallback OnAfterDeleteInterface[ExplanationTextShape]
 	OnAfterExplanationTextShapeReadCallback   OnAfterReadInterface[ExplanationTextShape]
+
+	Eye3DShapes                map[*Eye3DShape]struct{}
+	Eye3DShapes_instance       map[*Eye3DShape]*Eye3DShape
+	Eye3DShapes_mapString      map[string]*Eye3DShape
+	Eye3DShapeOrder            uint
+	Eye3DShape_stagedOrder     map[*Eye3DShape]uint
+	Eye3DShape_orderStaged     map[uint]*Eye3DShape
+	Eye3DShapes_reference      map[*Eye3DShape]*Eye3DShape
+	Eye3DShapes_referenceOrder map[*Eye3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEye3DShapeCreateCallback OnAfterCreateInterface[Eye3DShape]
+	OnAfterEye3DShapeUpdateCallback OnAfterUpdateInterface[Eye3DShape]
+	OnAfterEye3DShapeDeleteCallback OnAfterDeleteInterface[Eye3DShape]
+	OnAfterEye3DShapeReadCallback   OnAfterReadInterface[Eye3DShape]
+
+	EyeCornersSampledPoints3DShapes                map[*EyeCornersSampledPoints3DShape]struct{}
+	EyeCornersSampledPoints3DShapes_instance       map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapes_mapString      map[string]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapeOrder            uint
+	EyeCornersSampledPoints3DShape_stagedOrder     map[*EyeCornersSampledPoints3DShape]uint
+	EyeCornersSampledPoints3DShape_orderStaged     map[uint]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapes_reference      map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape
+	EyeCornersSampledPoints3DShapes_referenceOrder map[*EyeCornersSampledPoints3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeCornersSampledPoints3DShapeCreateCallback OnAfterCreateInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[EyeCornersSampledPoints3DShape]
+	OnAfterEyeCornersSampledPoints3DShapeReadCallback   OnAfterReadInterface[EyeCornersSampledPoints3DShape]
+
+	EyeSampledPoints3DShapes                map[*EyeSampledPoints3DShape]struct{}
+	EyeSampledPoints3DShapes_instance       map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape
+	EyeSampledPoints3DShapes_mapString      map[string]*EyeSampledPoints3DShape
+	EyeSampledPoints3DShapeOrder            uint
+	EyeSampledPoints3DShape_stagedOrder     map[*EyeSampledPoints3DShape]uint
+	EyeSampledPoints3DShape_orderStaged     map[uint]*EyeSampledPoints3DShape
+	EyeSampledPoints3DShapes_reference      map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape
+	EyeSampledPoints3DShapes_referenceOrder map[*EyeSampledPoints3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeSampledPoints3DShapeCreateCallback OnAfterCreateInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[EyeSampledPoints3DShape]
+	OnAfterEyeSampledPoints3DShapeReadCallback   OnAfterReadInterface[EyeSampledPoints3DShape]
+
+	EyeSeatBottomCurveShapes                map[*EyeSeatBottomCurveShape]struct{}
+	EyeSeatBottomCurveShapes_instance       map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapes_mapString      map[string]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapeOrder            uint
+	EyeSeatBottomCurveShape_stagedOrder     map[*EyeSeatBottomCurveShape]uint
+	EyeSeatBottomCurveShape_orderStaged     map[uint]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapes_reference      map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape
+	EyeSeatBottomCurveShapes_referenceOrder map[*EyeSeatBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[EyeSeatBottomCurveShape]
+	OnAfterEyeSeatBottomCurveShapeReadCallback   OnAfterReadInterface[EyeSeatBottomCurveShape]
+
+	EyeStoolBottomCurveShapes                map[*EyeStoolBottomCurveShape]struct{}
+	EyeStoolBottomCurveShapes_instance       map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapes_mapString      map[string]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapeOrder            uint
+	EyeStoolBottomCurveShape_stagedOrder     map[*EyeStoolBottomCurveShape]uint
+	EyeStoolBottomCurveShape_orderStaged     map[uint]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapes_reference      map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape
+	EyeStoolBottomCurveShapes_referenceOrder map[*EyeStoolBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeStoolBottomCurveShapeCreateCallback OnAfterCreateInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeUpdateCallback OnAfterUpdateInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeDeleteCallback OnAfterDeleteInterface[EyeStoolBottomCurveShape]
+	OnAfterEyeStoolBottomCurveShapeReadCallback   OnAfterReadInterface[EyeStoolBottomCurveShape]
+
+	EyeVolume3DShapes                map[*EyeVolume3DShape]struct{}
+	EyeVolume3DShapes_instance       map[*EyeVolume3DShape]*EyeVolume3DShape
+	EyeVolume3DShapes_mapString      map[string]*EyeVolume3DShape
+	EyeVolume3DShapeOrder            uint
+	EyeVolume3DShape_stagedOrder     map[*EyeVolume3DShape]uint
+	EyeVolume3DShape_orderStaged     map[uint]*EyeVolume3DShape
+	EyeVolume3DShapes_reference      map[*EyeVolume3DShape]*EyeVolume3DShape
+	EyeVolume3DShapes_referenceOrder map[*EyeVolume3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEyeVolume3DShapeCreateCallback OnAfterCreateInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeUpdateCallback OnAfterUpdateInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeDeleteCallback OnAfterDeleteInterface[EyeVolume3DShape]
+	OnAfterEyeVolume3DShapeReadCallback   OnAfterReadInterface[EyeVolume3DShape]
 
 	GridPathShapes                map[*GridPathShape]struct{}
 	GridPathShapes_instance       map[*GridPathShape]*GridPathShape
@@ -549,7 +699,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
-	Library_Plants_reverseMap map[*Plant]*Library
+	Library_Plants_reverseMap map[*PlantAbstract]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -784,6 +934,36 @@ type Stage struct {
 	OnAfterPartiallyGrowthCurve2DTrajectoryShapeDeleteCallback OnAfterDeleteInterface[PartiallyGrowthCurve2DTrajectoryShape]
 	OnAfterPartiallyGrowthCurve2DTrajectoryShapeReadCallback   OnAfterReadInterface[PartiallyGrowthCurve2DTrajectoryShape]
 
+	PartiallyRotatedSeatBottomCurveShapes                map[*PartiallyRotatedSeatBottomCurveShape]struct{}
+	PartiallyRotatedSeatBottomCurveShapes_instance       map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapes_mapString      map[string]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapeOrder            uint
+	PartiallyRotatedSeatBottomCurveShape_stagedOrder     map[*PartiallyRotatedSeatBottomCurveShape]uint
+	PartiallyRotatedSeatBottomCurveShape_orderStaged     map[uint]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapes_reference      map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape
+	PartiallyRotatedSeatBottomCurveShapes_referenceOrder map[*PartiallyRotatedSeatBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyRotatedSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyRotatedSeatBottomCurveShape]
+	OnAfterPartiallyRotatedSeatBottomCurveShapeReadCallback   OnAfterReadInterface[PartiallyRotatedSeatBottomCurveShape]
+
+	PartiallyRotatedSeatTopCurveShapes                map[*PartiallyRotatedSeatTopCurveShape]struct{}
+	PartiallyRotatedSeatTopCurveShapes_instance       map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape
+	PartiallyRotatedSeatTopCurveShapes_mapString      map[string]*PartiallyRotatedSeatTopCurveShape
+	PartiallyRotatedSeatTopCurveShapeOrder            uint
+	PartiallyRotatedSeatTopCurveShape_stagedOrder     map[*PartiallyRotatedSeatTopCurveShape]uint
+	PartiallyRotatedSeatTopCurveShape_orderStaged     map[uint]*PartiallyRotatedSeatTopCurveShape
+	PartiallyRotatedSeatTopCurveShapes_reference      map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape
+	PartiallyRotatedSeatTopCurveShapes_referenceOrder map[*PartiallyRotatedSeatTopCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartiallyRotatedSeatTopCurveShapeCreateCallback OnAfterCreateInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeUpdateCallback OnAfterUpdateInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeDeleteCallback OnAfterDeleteInterface[PartiallyRotatedSeatTopCurveShape]
+	OnAfterPartiallyRotatedSeatTopCurveShapeReadCallback   OnAfterReadInterface[PartiallyRotatedSeatTopCurveShape]
+
 	PartiallyRotatedTorusShapes                map[*PartiallyRotatedTorusShape]struct{}
 	PartiallyRotatedTorusShapes_instance       map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape
 	PartiallyRotatedTorusShapes_mapString      map[string]*PartiallyRotatedTorusShape
@@ -863,22 +1043,49 @@ type Stage struct {
 	OnAfterPerpendicularVectorHalfwayDeleteCallback OnAfterDeleteInterface[PerpendicularVectorHalfway]
 	OnAfterPerpendicularVectorHalfwayReadCallback   OnAfterReadInterface[PerpendicularVectorHalfway]
 
-	Plants                map[*Plant]struct{}
-	Plants_instance       map[*Plant]*Plant
-	Plants_mapString      map[string]*Plant
-	PlantOrder            uint
-	Plant_stagedOrder     map[*Plant]uint
-	Plant_orderStaged     map[uint]*Plant
-	Plants_reference      map[*Plant]*Plant
-	Plants_referenceOrder map[*Plant]uint
+	Plant2DDiagrams                map[*Plant2DDiagram]struct{}
+	Plant2DDiagrams_instance       map[*Plant2DDiagram]*Plant2DDiagram
+	Plant2DDiagrams_mapString      map[string]*Plant2DDiagram
+	Plant2DDiagramOrder            uint
+	Plant2DDiagram_stagedOrder     map[*Plant2DDiagram]uint
+	Plant2DDiagram_orderStaged     map[uint]*Plant2DDiagram
+	Plant2DDiagrams_reference      map[*Plant2DDiagram]*Plant2DDiagram
+	Plant2DDiagrams_referenceOrder map[*Plant2DDiagram]uint
 
 	// insertion point for slice of pointers maps
-	Plant_PlantDiagrams_reverseMap map[*PlantDiagram]*Plant
+	OnAfterPlant2DDiagramCreateCallback OnAfterCreateInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramUpdateCallback OnAfterUpdateInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramDeleteCallback OnAfterDeleteInterface[Plant2DDiagram]
+	OnAfterPlant2DDiagramReadCallback   OnAfterReadInterface[Plant2DDiagram]
 
-	OnAfterPlantCreateCallback OnAfterCreateInterface[Plant]
-	OnAfterPlantUpdateCallback OnAfterUpdateInterface[Plant]
-	OnAfterPlantDeleteCallback OnAfterDeleteInterface[Plant]
-	OnAfterPlantReadCallback   OnAfterReadInterface[Plant]
+	PlantAbstracts                map[*PlantAbstract]struct{}
+	PlantAbstracts_instance       map[*PlantAbstract]*PlantAbstract
+	PlantAbstracts_mapString      map[string]*PlantAbstract
+	PlantAbstractOrder            uint
+	PlantAbstract_stagedOrder     map[*PlantAbstract]uint
+	PlantAbstract_orderStaged     map[uint]*PlantAbstract
+	PlantAbstracts_reference      map[*PlantAbstract]*PlantAbstract
+	PlantAbstracts_referenceOrder map[*PlantAbstract]uint
+
+	// insertion point for slice of pointers maps
+	PlantAbstract_Plant2DDiagrams_reverseMap map[*Plant2DDiagram]*PlantAbstract
+
+	PlantAbstract_Vase2DDiagrams_reverseMap map[*Vase2DDiagram]*PlantAbstract
+
+	PlantAbstract_Vase3DDiagrams_reverseMap map[*Vase3DDiagram]*PlantAbstract
+
+	PlantAbstract_Stool2DDiagrams_reverseMap map[*Stool2DDiagram]*PlantAbstract
+
+	PlantAbstract_Stool3DDiagrams_reverseMap map[*Stool3DDiagram]*PlantAbstract
+
+	PlantAbstract_Clock2DDiagrams_reverseMap map[*Clock2DDiagram]*PlantAbstract
+
+	PlantAbstract_Clock3DDiagrams_reverseMap map[*Clock3DDiagram]*PlantAbstract
+
+	OnAfterPlantAbstractCreateCallback OnAfterCreateInterface[PlantAbstract]
+	OnAfterPlantAbstractUpdateCallback OnAfterUpdateInterface[PlantAbstract]
+	OnAfterPlantAbstractDeleteCallback OnAfterDeleteInterface[PlantAbstract]
+	OnAfterPlantAbstractReadCallback   OnAfterReadInterface[PlantAbstract]
 
 	PlantCircumferenceShapes                map[*PlantCircumferenceShape]struct{}
 	PlantCircumferenceShapes_instance       map[*PlantCircumferenceShape]*PlantCircumferenceShape
@@ -894,21 +1101,6 @@ type Stage struct {
 	OnAfterPlantCircumferenceShapeUpdateCallback OnAfterUpdateInterface[PlantCircumferenceShape]
 	OnAfterPlantCircumferenceShapeDeleteCallback OnAfterDeleteInterface[PlantCircumferenceShape]
 	OnAfterPlantCircumferenceShapeReadCallback   OnAfterReadInterface[PlantCircumferenceShape]
-
-	PlantDiagrams                map[*PlantDiagram]struct{}
-	PlantDiagrams_instance       map[*PlantDiagram]*PlantDiagram
-	PlantDiagrams_mapString      map[string]*PlantDiagram
-	PlantDiagramOrder            uint
-	PlantDiagram_stagedOrder     map[*PlantDiagram]uint
-	PlantDiagram_orderStaged     map[uint]*PlantDiagram
-	PlantDiagrams_reference      map[*PlantDiagram]*PlantDiagram
-	PlantDiagrams_referenceOrder map[*PlantDiagram]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterPlantDiagramCreateCallback OnAfterCreateInterface[PlantDiagram]
-	OnAfterPlantDiagramUpdateCallback OnAfterUpdateInterface[PlantDiagram]
-	OnAfterPlantDiagramDeleteCallback OnAfterDeleteInterface[PlantDiagram]
-	OnAfterPlantDiagramReadCallback   OnAfterReadInterface[PlantDiagram]
 
 	PointsAndLines3DShapes                map[*PointsAndLines3DShape]struct{}
 	PointsAndLines3DShapes_instance       map[*PointsAndLines3DShape]*PointsAndLines3DShape
@@ -1017,6 +1209,36 @@ type Stage struct {
 	OnAfterRotatedRhombusShapeDeleteCallback OnAfterDeleteInterface[RotatedRhombusShape]
 	OnAfterRotatedRhombusShapeReadCallback   OnAfterReadInterface[RotatedRhombusShape]
 
+	RotatedSampledPoints3DShapes                map[*RotatedSampledPoints3DShape]struct{}
+	RotatedSampledPoints3DShapes_instance       map[*RotatedSampledPoints3DShape]*RotatedSampledPoints3DShape
+	RotatedSampledPoints3DShapes_mapString      map[string]*RotatedSampledPoints3DShape
+	RotatedSampledPoints3DShapeOrder            uint
+	RotatedSampledPoints3DShape_stagedOrder     map[*RotatedSampledPoints3DShape]uint
+	RotatedSampledPoints3DShape_orderStaged     map[uint]*RotatedSampledPoints3DShape
+	RotatedSampledPoints3DShapes_reference      map[*RotatedSampledPoints3DShape]*RotatedSampledPoints3DShape
+	RotatedSampledPoints3DShapes_referenceOrder map[*RotatedSampledPoints3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterRotatedSampledPoints3DShapeCreateCallback OnAfterCreateInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[RotatedSampledPoints3DShape]
+	OnAfterRotatedSampledPoints3DShapeReadCallback   OnAfterReadInterface[RotatedSampledPoints3DShape]
+
+	RotatedSeatAndLegs3DShapes                map[*RotatedSeatAndLegs3DShape]struct{}
+	RotatedSeatAndLegs3DShapes_instance       map[*RotatedSeatAndLegs3DShape]*RotatedSeatAndLegs3DShape
+	RotatedSeatAndLegs3DShapes_mapString      map[string]*RotatedSeatAndLegs3DShape
+	RotatedSeatAndLegs3DShapeOrder            uint
+	RotatedSeatAndLegs3DShape_stagedOrder     map[*RotatedSeatAndLegs3DShape]uint
+	RotatedSeatAndLegs3DShape_orderStaged     map[uint]*RotatedSeatAndLegs3DShape
+	RotatedSeatAndLegs3DShapes_reference      map[*RotatedSeatAndLegs3DShape]*RotatedSeatAndLegs3DShape
+	RotatedSeatAndLegs3DShapes_referenceOrder map[*RotatedSeatAndLegs3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterRotatedSeatAndLegs3DShapeCreateCallback OnAfterCreateInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeUpdateCallback OnAfterUpdateInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeDeleteCallback OnAfterDeleteInterface[RotatedSeatAndLegs3DShape]
+	OnAfterRotatedSeatAndLegs3DShapeReadCallback   OnAfterReadInterface[RotatedSeatAndLegs3DShape]
+
 	SampledPoints3DShapes                map[*SampledPoints3DShape]struct{}
 	SampledPoints3DShapes_instance       map[*SampledPoints3DShape]*SampledPoints3DShape
 	SampledPoints3DShapes_mapString      map[string]*SampledPoints3DShape
@@ -1031,6 +1253,66 @@ type Stage struct {
 	OnAfterSampledPoints3DShapeUpdateCallback OnAfterUpdateInterface[SampledPoints3DShape]
 	OnAfterSampledPoints3DShapeDeleteCallback OnAfterDeleteInterface[SampledPoints3DShape]
 	OnAfterSampledPoints3DShapeReadCallback   OnAfterReadInterface[SampledPoints3DShape]
+
+	Seat3DShapes                map[*Seat3DShape]struct{}
+	Seat3DShapes_instance       map[*Seat3DShape]*Seat3DShape
+	Seat3DShapes_mapString      map[string]*Seat3DShape
+	Seat3DShapeOrder            uint
+	Seat3DShape_stagedOrder     map[*Seat3DShape]uint
+	Seat3DShape_orderStaged     map[uint]*Seat3DShape
+	Seat3DShapes_reference      map[*Seat3DShape]*Seat3DShape
+	Seat3DShapes_referenceOrder map[*Seat3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSeat3DShapeCreateCallback OnAfterCreateInterface[Seat3DShape]
+	OnAfterSeat3DShapeUpdateCallback OnAfterUpdateInterface[Seat3DShape]
+	OnAfterSeat3DShapeDeleteCallback OnAfterDeleteInterface[Seat3DShape]
+	OnAfterSeat3DShapeReadCallback   OnAfterReadInterface[Seat3DShape]
+
+	SeatAndLegs3DShapes                map[*SeatAndLegs3DShape]struct{}
+	SeatAndLegs3DShapes_instance       map[*SeatAndLegs3DShape]*SeatAndLegs3DShape
+	SeatAndLegs3DShapes_mapString      map[string]*SeatAndLegs3DShape
+	SeatAndLegs3DShapeOrder            uint
+	SeatAndLegs3DShape_stagedOrder     map[*SeatAndLegs3DShape]uint
+	SeatAndLegs3DShape_orderStaged     map[uint]*SeatAndLegs3DShape
+	SeatAndLegs3DShapes_reference      map[*SeatAndLegs3DShape]*SeatAndLegs3DShape
+	SeatAndLegs3DShapes_referenceOrder map[*SeatAndLegs3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSeatAndLegs3DShapeCreateCallback OnAfterCreateInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeUpdateCallback OnAfterUpdateInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeDeleteCallback OnAfterDeleteInterface[SeatAndLegs3DShape]
+	OnAfterSeatAndLegs3DShapeReadCallback   OnAfterReadInterface[SeatAndLegs3DShape]
+
+	SeatBottomCurveShapes                map[*SeatBottomCurveShape]struct{}
+	SeatBottomCurveShapes_instance       map[*SeatBottomCurveShape]*SeatBottomCurveShape
+	SeatBottomCurveShapes_mapString      map[string]*SeatBottomCurveShape
+	SeatBottomCurveShapeOrder            uint
+	SeatBottomCurveShape_stagedOrder     map[*SeatBottomCurveShape]uint
+	SeatBottomCurveShape_orderStaged     map[uint]*SeatBottomCurveShape
+	SeatBottomCurveShapes_reference      map[*SeatBottomCurveShape]*SeatBottomCurveShape
+	SeatBottomCurveShapes_referenceOrder map[*SeatBottomCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSeatBottomCurveShapeCreateCallback OnAfterCreateInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeUpdateCallback OnAfterUpdateInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeDeleteCallback OnAfterDeleteInterface[SeatBottomCurveShape]
+	OnAfterSeatBottomCurveShapeReadCallback   OnAfterReadInterface[SeatBottomCurveShape]
+
+	SeatTopCurveShapes                map[*SeatTopCurveShape]struct{}
+	SeatTopCurveShapes_instance       map[*SeatTopCurveShape]*SeatTopCurveShape
+	SeatTopCurveShapes_mapString      map[string]*SeatTopCurveShape
+	SeatTopCurveShapeOrder            uint
+	SeatTopCurveShape_stagedOrder     map[*SeatTopCurveShape]uint
+	SeatTopCurveShape_orderStaged     map[uint]*SeatTopCurveShape
+	SeatTopCurveShapes_reference      map[*SeatTopCurveShape]*SeatTopCurveShape
+	SeatTopCurveShapes_referenceOrder map[*SeatTopCurveShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSeatTopCurveShapeCreateCallback OnAfterCreateInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeUpdateCallback OnAfterUpdateInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeDeleteCallback OnAfterDeleteInterface[SeatTopCurveShape]
+	OnAfterSeatTopCurveShapeReadCallback   OnAfterReadInterface[SeatTopCurveShape]
 
 	ShiftedBottomTopStartArcShapes                map[*ShiftedBottomTopStartArcShape]struct{}
 	ShiftedBottomTopStartArcShapes_instance       map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape
@@ -1371,6 +1653,21 @@ type Stage struct {
 	OnAfterStackOfGrowthCurve2DDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2D]
 	OnAfterStackOfGrowthCurve2DReadCallback   OnAfterReadInterface[StackOfGrowthCurve2D]
 
+	StackOfGrowthCurve2DByGrowthVectors                map[*StackOfGrowthCurve2DByGrowthVector]struct{}
+	StackOfGrowthCurve2DByGrowthVectors_instance       map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector
+	StackOfGrowthCurve2DByGrowthVectors_mapString      map[string]*StackOfGrowthCurve2DByGrowthVector
+	StackOfGrowthCurve2DByGrowthVectorOrder            uint
+	StackOfGrowthCurve2DByGrowthVector_stagedOrder     map[*StackOfGrowthCurve2DByGrowthVector]uint
+	StackOfGrowthCurve2DByGrowthVector_orderStaged     map[uint]*StackOfGrowthCurve2DByGrowthVector
+	StackOfGrowthCurve2DByGrowthVectors_reference      map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector
+	StackOfGrowthCurve2DByGrowthVectors_referenceOrder map[*StackOfGrowthCurve2DByGrowthVector]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStackOfGrowthCurve2DByGrowthVectorCreateCallback OnAfterCreateInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorUpdateCallback OnAfterUpdateInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorDeleteCallback OnAfterDeleteInterface[StackOfGrowthCurve2DByGrowthVector]
+	OnAfterStackOfGrowthCurve2DByGrowthVectorReadCallback   OnAfterReadInterface[StackOfGrowthCurve2DByGrowthVector]
+
 	StackOfGrowthCurve2DRibbons                map[*StackOfGrowthCurve2DRibbon]struct{}
 	StackOfGrowthCurve2DRibbons_instance       map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon
 	StackOfGrowthCurve2DRibbons_mapString      map[string]*StackOfGrowthCurve2DRibbon
@@ -1566,6 +1863,66 @@ type Stage struct {
 	OnAfterStartHalfwayArcShapeGridUpdateCallback OnAfterUpdateInterface[StartHalfwayArcShapeGrid]
 	OnAfterStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[StartHalfwayArcShapeGrid]
 	OnAfterStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[StartHalfwayArcShapeGrid]
+
+	Stool2DDiagrams                map[*Stool2DDiagram]struct{}
+	Stool2DDiagrams_instance       map[*Stool2DDiagram]*Stool2DDiagram
+	Stool2DDiagrams_mapString      map[string]*Stool2DDiagram
+	Stool2DDiagramOrder            uint
+	Stool2DDiagram_stagedOrder     map[*Stool2DDiagram]uint
+	Stool2DDiagram_orderStaged     map[uint]*Stool2DDiagram
+	Stool2DDiagrams_reference      map[*Stool2DDiagram]*Stool2DDiagram
+	Stool2DDiagrams_referenceOrder map[*Stool2DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStool2DDiagramCreateCallback OnAfterCreateInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramUpdateCallback OnAfterUpdateInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramDeleteCallback OnAfterDeleteInterface[Stool2DDiagram]
+	OnAfterStool2DDiagramReadCallback   OnAfterReadInterface[Stool2DDiagram]
+
+	Stool3DDiagrams                map[*Stool3DDiagram]struct{}
+	Stool3DDiagrams_instance       map[*Stool3DDiagram]*Stool3DDiagram
+	Stool3DDiagrams_mapString      map[string]*Stool3DDiagram
+	Stool3DDiagramOrder            uint
+	Stool3DDiagram_stagedOrder     map[*Stool3DDiagram]uint
+	Stool3DDiagram_orderStaged     map[uint]*Stool3DDiagram
+	Stool3DDiagrams_reference      map[*Stool3DDiagram]*Stool3DDiagram
+	Stool3DDiagrams_referenceOrder map[*Stool3DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStool3DDiagramCreateCallback OnAfterCreateInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramUpdateCallback OnAfterUpdateInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramDeleteCallback OnAfterDeleteInterface[Stool3DDiagram]
+	OnAfterStool3DDiagramReadCallback   OnAfterReadInterface[Stool3DDiagram]
+
+	StoolAbstracts                map[*StoolAbstract]struct{}
+	StoolAbstracts_instance       map[*StoolAbstract]*StoolAbstract
+	StoolAbstracts_mapString      map[string]*StoolAbstract
+	StoolAbstractOrder            uint
+	StoolAbstract_stagedOrder     map[*StoolAbstract]uint
+	StoolAbstract_orderStaged     map[uint]*StoolAbstract
+	StoolAbstracts_reference      map[*StoolAbstract]*StoolAbstract
+	StoolAbstracts_referenceOrder map[*StoolAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterStoolAbstractCreateCallback OnAfterCreateInterface[StoolAbstract]
+	OnAfterStoolAbstractUpdateCallback OnAfterUpdateInterface[StoolAbstract]
+	OnAfterStoolAbstractDeleteCallback OnAfterDeleteInterface[StoolAbstract]
+	OnAfterStoolAbstractReadCallback   OnAfterReadInterface[StoolAbstract]
+
+	TiledFloor3DShapes                map[*TiledFloor3DShape]struct{}
+	TiledFloor3DShapes_instance       map[*TiledFloor3DShape]*TiledFloor3DShape
+	TiledFloor3DShapes_mapString      map[string]*TiledFloor3DShape
+	TiledFloor3DShapeOrder            uint
+	TiledFloor3DShape_stagedOrder     map[*TiledFloor3DShape]uint
+	TiledFloor3DShape_orderStaged     map[uint]*TiledFloor3DShape
+	TiledFloor3DShapes_reference      map[*TiledFloor3DShape]*TiledFloor3DShape
+	TiledFloor3DShapes_referenceOrder map[*TiledFloor3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTiledFloor3DShapeCreateCallback OnAfterCreateInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeUpdateCallback OnAfterUpdateInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeDeleteCallback OnAfterDeleteInterface[TiledFloor3DShape]
+	OnAfterTiledFloor3DShapeReadCallback   OnAfterReadInterface[TiledFloor3DShape]
 
 	TopEndArcShapes                map[*TopEndArcShape]struct{}
 	TopEndArcShapes_instance       map[*TopEndArcShape]*TopEndArcShape
@@ -1840,6 +2197,21 @@ type Stage struct {
 	OnAfterTopStartHalfwayArcShapeGridDeleteCallback OnAfterDeleteInterface[TopStartHalfwayArcShapeGrid]
 	OnAfterTopStartHalfwayArcShapeGridReadCallback   OnAfterReadInterface[TopStartHalfwayArcShapeGrid]
 
+	Torus3DShapes                map[*Torus3DShape]struct{}
+	Torus3DShapes_instance       map[*Torus3DShape]*Torus3DShape
+	Torus3DShapes_mapString      map[string]*Torus3DShape
+	Torus3DShapeOrder            uint
+	Torus3DShape_stagedOrder     map[*Torus3DShape]uint
+	Torus3DShape_orderStaged     map[uint]*Torus3DShape
+	Torus3DShapes_reference      map[*Torus3DShape]*Torus3DShape
+	Torus3DShapes_referenceOrder map[*Torus3DShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterTorus3DShapeCreateCallback OnAfterCreateInterface[Torus3DShape]
+	OnAfterTorus3DShapeUpdateCallback OnAfterUpdateInterface[Torus3DShape]
+	OnAfterTorus3DShapeDeleteCallback OnAfterDeleteInterface[Torus3DShape]
+	OnAfterTorus3DShapeReadCallback   OnAfterReadInterface[Torus3DShape]
+
 	TorusEdge3DShapes                map[*TorusEdge3DShape]struct{}
 	TorusEdge3DShapes_instance       map[*TorusEdge3DShape]*TorusEdge3DShape
 	TorusEdge3DShapes_mapString      map[string]*TorusEdge3DShape
@@ -1869,6 +2241,51 @@ type Stage struct {
 	OnAfterTorusStackShapeUpdateCallback OnAfterUpdateInterface[TorusStackShape]
 	OnAfterTorusStackShapeDeleteCallback OnAfterDeleteInterface[TorusStackShape]
 	OnAfterTorusStackShapeReadCallback   OnAfterReadInterface[TorusStackShape]
+
+	Vase2DDiagrams                map[*Vase2DDiagram]struct{}
+	Vase2DDiagrams_instance       map[*Vase2DDiagram]*Vase2DDiagram
+	Vase2DDiagrams_mapString      map[string]*Vase2DDiagram
+	Vase2DDiagramOrder            uint
+	Vase2DDiagram_stagedOrder     map[*Vase2DDiagram]uint
+	Vase2DDiagram_orderStaged     map[uint]*Vase2DDiagram
+	Vase2DDiagrams_reference      map[*Vase2DDiagram]*Vase2DDiagram
+	Vase2DDiagrams_referenceOrder map[*Vase2DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVase2DDiagramCreateCallback OnAfterCreateInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramUpdateCallback OnAfterUpdateInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramDeleteCallback OnAfterDeleteInterface[Vase2DDiagram]
+	OnAfterVase2DDiagramReadCallback   OnAfterReadInterface[Vase2DDiagram]
+
+	Vase3DDiagrams                map[*Vase3DDiagram]struct{}
+	Vase3DDiagrams_instance       map[*Vase3DDiagram]*Vase3DDiagram
+	Vase3DDiagrams_mapString      map[string]*Vase3DDiagram
+	Vase3DDiagramOrder            uint
+	Vase3DDiagram_stagedOrder     map[*Vase3DDiagram]uint
+	Vase3DDiagram_orderStaged     map[uint]*Vase3DDiagram
+	Vase3DDiagrams_reference      map[*Vase3DDiagram]*Vase3DDiagram
+	Vase3DDiagrams_referenceOrder map[*Vase3DDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVase3DDiagramCreateCallback OnAfterCreateInterface[Vase3DDiagram]
+	OnAfterVase3DDiagramUpdateCallback OnAfterUpdateInterface[Vase3DDiagram]
+	OnAfterVase3DDiagramDeleteCallback OnAfterDeleteInterface[Vase3DDiagram]
+	OnAfterVase3DDiagramReadCallback   OnAfterReadInterface[Vase3DDiagram]
+
+	VaseAbstracts                map[*VaseAbstract]struct{}
+	VaseAbstracts_instance       map[*VaseAbstract]*VaseAbstract
+	VaseAbstracts_mapString      map[string]*VaseAbstract
+	VaseAbstractOrder            uint
+	VaseAbstract_stagedOrder     map[*VaseAbstract]uint
+	VaseAbstract_orderStaged     map[uint]*VaseAbstract
+	VaseAbstracts_reference      map[*VaseAbstract]*VaseAbstract
+	VaseAbstracts_referenceOrder map[*VaseAbstract]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterVaseAbstractCreateCallback OnAfterCreateInterface[VaseAbstract]
+	OnAfterVaseAbstractUpdateCallback OnAfterUpdateInterface[VaseAbstract]
+	OnAfterVaseAbstractDeleteCallback OnAfterDeleteInterface[VaseAbstract]
+	OnAfterVaseAbstractReadCallback   OnAfterReadInterface[VaseAbstract]
 
 	VerticalTorusStackShapes                map[*VerticalTorusStackShape]struct{}
 	VerticalTorusStackShapes_instance       map[*VerticalTorusStackShape]*VerticalTorusStackShape
@@ -2168,6 +2585,22 @@ func (stage *Stage) Squash() {
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
 
+	stage.Clock2DDiagrams_reference = make(map[*Clock2DDiagram]*Clock2DDiagram)
+	stage.Clock2DDiagrams_instance = make(map[*Clock2DDiagram]*Clock2DDiagram)
+	stage.Clock2DDiagrams_referenceOrder = make(map[*Clock2DDiagram]uint)
+
+	stage.Clock3DDiagrams_reference = make(map[*Clock3DDiagram]*Clock3DDiagram)
+	stage.Clock3DDiagrams_instance = make(map[*Clock3DDiagram]*Clock3DDiagram)
+	stage.Clock3DDiagrams_referenceOrder = make(map[*Clock3DDiagram]uint)
+
+	stage.ClockAbstracts_reference = make(map[*ClockAbstract]*ClockAbstract)
+	stage.ClockAbstracts_instance = make(map[*ClockAbstract]*ClockAbstract)
+	stage.ClockAbstracts_referenceOrder = make(map[*ClockAbstract]uint)
+
+	stage.ClockTopCurveShapes_reference = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
+	stage.ClockTopCurveShapes_instance = make(map[*ClockTopCurveShape]*ClockTopCurveShape)
+	stage.ClockTopCurveShapes_referenceOrder = make(map[*ClockTopCurveShape]uint)
+
 	stage.EndArcShapes_reference = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_instance = make(map[*EndArcShape]*EndArcShape)
 	stage.EndArcShapes_referenceOrder = make(map[*EndArcShape]uint)
@@ -2187,6 +2620,30 @@ func (stage *Stage) Squash() {
 	stage.ExplanationTextShapes_reference = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_instance = make(map[*ExplanationTextShape]*ExplanationTextShape)
 	stage.ExplanationTextShapes_referenceOrder = make(map[*ExplanationTextShape]uint)
+
+	stage.Eye3DShapes_reference = make(map[*Eye3DShape]*Eye3DShape)
+	stage.Eye3DShapes_instance = make(map[*Eye3DShape]*Eye3DShape)
+	stage.Eye3DShapes_referenceOrder = make(map[*Eye3DShape]uint)
+
+	stage.EyeCornersSampledPoints3DShapes_reference = make(map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape)
+	stage.EyeCornersSampledPoints3DShapes_instance = make(map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape)
+	stage.EyeCornersSampledPoints3DShapes_referenceOrder = make(map[*EyeCornersSampledPoints3DShape]uint)
+
+	stage.EyeSampledPoints3DShapes_reference = make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape)
+	stage.EyeSampledPoints3DShapes_instance = make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape)
+	stage.EyeSampledPoints3DShapes_referenceOrder = make(map[*EyeSampledPoints3DShape]uint)
+
+	stage.EyeSeatBottomCurveShapes_reference = make(map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape)
+	stage.EyeSeatBottomCurveShapes_instance = make(map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape)
+	stage.EyeSeatBottomCurveShapes_referenceOrder = make(map[*EyeSeatBottomCurveShape]uint)
+
+	stage.EyeStoolBottomCurveShapes_reference = make(map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape)
+	stage.EyeStoolBottomCurveShapes_instance = make(map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape)
+	stage.EyeStoolBottomCurveShapes_referenceOrder = make(map[*EyeStoolBottomCurveShape]uint)
+
+	stage.EyeVolume3DShapes_reference = make(map[*EyeVolume3DShape]*EyeVolume3DShape)
+	stage.EyeVolume3DShapes_instance = make(map[*EyeVolume3DShape]*EyeVolume3DShape)
+	stage.EyeVolume3DShapes_referenceOrder = make(map[*EyeVolume3DShape]uint)
 
 	stage.GridPathShapes_reference = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_instance = make(map[*GridPathShape]*GridPathShape)
@@ -2300,6 +2757,14 @@ func (stage *Stage) Squash() {
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_instance = make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape)
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_referenceOrder = make(map[*PartiallyGrowthCurve2DTrajectoryShape]uint)
 
+	stage.PartiallyRotatedSeatBottomCurveShapes_reference = make(map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape)
+	stage.PartiallyRotatedSeatBottomCurveShapes_instance = make(map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape)
+	stage.PartiallyRotatedSeatBottomCurveShapes_referenceOrder = make(map[*PartiallyRotatedSeatBottomCurveShape]uint)
+
+	stage.PartiallyRotatedSeatTopCurveShapes_reference = make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape)
+	stage.PartiallyRotatedSeatTopCurveShapes_instance = make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape)
+	stage.PartiallyRotatedSeatTopCurveShapes_referenceOrder = make(map[*PartiallyRotatedSeatTopCurveShape]uint)
+
 	stage.PartiallyRotatedTorusShapes_reference = make(map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape)
 	stage.PartiallyRotatedTorusShapes_instance = make(map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape)
 	stage.PartiallyRotatedTorusShapes_referenceOrder = make(map[*PartiallyRotatedTorusShape]uint)
@@ -2320,17 +2785,17 @@ func (stage *Stage) Squash() {
 	stage.PerpendicularVectorHalfways_instance = make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway)
 	stage.PerpendicularVectorHalfways_referenceOrder = make(map[*PerpendicularVectorHalfway]uint)
 
-	stage.Plants_reference = make(map[*Plant]*Plant)
-	stage.Plants_instance = make(map[*Plant]*Plant)
-	stage.Plants_referenceOrder = make(map[*Plant]uint)
+	stage.Plant2DDiagrams_reference = make(map[*Plant2DDiagram]*Plant2DDiagram)
+	stage.Plant2DDiagrams_instance = make(map[*Plant2DDiagram]*Plant2DDiagram)
+	stage.Plant2DDiagrams_referenceOrder = make(map[*Plant2DDiagram]uint)
+
+	stage.PlantAbstracts_reference = make(map[*PlantAbstract]*PlantAbstract)
+	stage.PlantAbstracts_instance = make(map[*PlantAbstract]*PlantAbstract)
+	stage.PlantAbstracts_referenceOrder = make(map[*PlantAbstract]uint)
 
 	stage.PlantCircumferenceShapes_reference = make(map[*PlantCircumferenceShape]*PlantCircumferenceShape)
 	stage.PlantCircumferenceShapes_instance = make(map[*PlantCircumferenceShape]*PlantCircumferenceShape)
 	stage.PlantCircumferenceShapes_referenceOrder = make(map[*PlantCircumferenceShape]uint)
-
-	stage.PlantDiagrams_reference = make(map[*PlantDiagram]*PlantDiagram)
-	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
-	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
 
 	stage.PointsAndLines3DShapes_reference = make(map[*PointsAndLines3DShape]*PointsAndLines3DShape)
 	stage.PointsAndLines3DShapes_instance = make(map[*PointsAndLines3DShape]*PointsAndLines3DShape)
@@ -2360,9 +2825,33 @@ func (stage *Stage) Squash() {
 	stage.RotatedRhombusShapes_instance = make(map[*RotatedRhombusShape]*RotatedRhombusShape)
 	stage.RotatedRhombusShapes_referenceOrder = make(map[*RotatedRhombusShape]uint)
 
+	stage.RotatedSampledPoints3DShapes_reference = make(map[*RotatedSampledPoints3DShape]*RotatedSampledPoints3DShape)
+	stage.RotatedSampledPoints3DShapes_instance = make(map[*RotatedSampledPoints3DShape]*RotatedSampledPoints3DShape)
+	stage.RotatedSampledPoints3DShapes_referenceOrder = make(map[*RotatedSampledPoints3DShape]uint)
+
+	stage.RotatedSeatAndLegs3DShapes_reference = make(map[*RotatedSeatAndLegs3DShape]*RotatedSeatAndLegs3DShape)
+	stage.RotatedSeatAndLegs3DShapes_instance = make(map[*RotatedSeatAndLegs3DShape]*RotatedSeatAndLegs3DShape)
+	stage.RotatedSeatAndLegs3DShapes_referenceOrder = make(map[*RotatedSeatAndLegs3DShape]uint)
+
 	stage.SampledPoints3DShapes_reference = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
 	stage.SampledPoints3DShapes_instance = make(map[*SampledPoints3DShape]*SampledPoints3DShape)
 	stage.SampledPoints3DShapes_referenceOrder = make(map[*SampledPoints3DShape]uint)
+
+	stage.Seat3DShapes_reference = make(map[*Seat3DShape]*Seat3DShape)
+	stage.Seat3DShapes_instance = make(map[*Seat3DShape]*Seat3DShape)
+	stage.Seat3DShapes_referenceOrder = make(map[*Seat3DShape]uint)
+
+	stage.SeatAndLegs3DShapes_reference = make(map[*SeatAndLegs3DShape]*SeatAndLegs3DShape)
+	stage.SeatAndLegs3DShapes_instance = make(map[*SeatAndLegs3DShape]*SeatAndLegs3DShape)
+	stage.SeatAndLegs3DShapes_referenceOrder = make(map[*SeatAndLegs3DShape]uint)
+
+	stage.SeatBottomCurveShapes_reference = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
+	stage.SeatBottomCurveShapes_instance = make(map[*SeatBottomCurveShape]*SeatBottomCurveShape)
+	stage.SeatBottomCurveShapes_referenceOrder = make(map[*SeatBottomCurveShape]uint)
+
+	stage.SeatTopCurveShapes_reference = make(map[*SeatTopCurveShape]*SeatTopCurveShape)
+	stage.SeatTopCurveShapes_instance = make(map[*SeatTopCurveShape]*SeatTopCurveShape)
+	stage.SeatTopCurveShapes_referenceOrder = make(map[*SeatTopCurveShape]uint)
 
 	stage.ShiftedBottomTopStartArcShapes_reference = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
 	stage.ShiftedBottomTopStartArcShapes_instance = make(map[*ShiftedBottomTopStartArcShape]*ShiftedBottomTopStartArcShape)
@@ -2448,6 +2937,10 @@ func (stage *Stage) Squash() {
 	stage.StackOfGrowthCurve2Ds_instance = make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D)
 	stage.StackOfGrowthCurve2Ds_referenceOrder = make(map[*StackOfGrowthCurve2D]uint)
 
+	stage.StackOfGrowthCurve2DByGrowthVectors_reference = make(map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector)
+	stage.StackOfGrowthCurve2DByGrowthVectors_instance = make(map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector)
+	stage.StackOfGrowthCurve2DByGrowthVectors_referenceOrder = make(map[*StackOfGrowthCurve2DByGrowthVector]uint)
+
 	stage.StackOfGrowthCurve2DRibbons_reference = make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon)
 	stage.StackOfGrowthCurve2DRibbons_instance = make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon)
 	stage.StackOfGrowthCurve2DRibbons_referenceOrder = make(map[*StackOfGrowthCurve2DRibbon]uint)
@@ -2495,6 +2988,22 @@ func (stage *Stage) Squash() {
 	stage.StartHalfwayArcShapeGrids_reference = make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid)
 	stage.StartHalfwayArcShapeGrids_instance = make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid)
 	stage.StartHalfwayArcShapeGrids_referenceOrder = make(map[*StartHalfwayArcShapeGrid]uint)
+
+	stage.Stool2DDiagrams_reference = make(map[*Stool2DDiagram]*Stool2DDiagram)
+	stage.Stool2DDiagrams_instance = make(map[*Stool2DDiagram]*Stool2DDiagram)
+	stage.Stool2DDiagrams_referenceOrder = make(map[*Stool2DDiagram]uint)
+
+	stage.Stool3DDiagrams_reference = make(map[*Stool3DDiagram]*Stool3DDiagram)
+	stage.Stool3DDiagrams_instance = make(map[*Stool3DDiagram]*Stool3DDiagram)
+	stage.Stool3DDiagrams_referenceOrder = make(map[*Stool3DDiagram]uint)
+
+	stage.StoolAbstracts_reference = make(map[*StoolAbstract]*StoolAbstract)
+	stage.StoolAbstracts_instance = make(map[*StoolAbstract]*StoolAbstract)
+	stage.StoolAbstracts_referenceOrder = make(map[*StoolAbstract]uint)
+
+	stage.TiledFloor3DShapes_reference = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
+	stage.TiledFloor3DShapes_instance = make(map[*TiledFloor3DShape]*TiledFloor3DShape)
+	stage.TiledFloor3DShapes_referenceOrder = make(map[*TiledFloor3DShape]uint)
 
 	stage.TopEndArcShapes_reference = make(map[*TopEndArcShape]*TopEndArcShape)
 	stage.TopEndArcShapes_instance = make(map[*TopEndArcShape]*TopEndArcShape)
@@ -2564,6 +3073,10 @@ func (stage *Stage) Squash() {
 	stage.TopStartHalfwayArcShapeGrids_instance = make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid)
 	stage.TopStartHalfwayArcShapeGrids_referenceOrder = make(map[*TopStartHalfwayArcShapeGrid]uint)
 
+	stage.Torus3DShapes_reference = make(map[*Torus3DShape]*Torus3DShape)
+	stage.Torus3DShapes_instance = make(map[*Torus3DShape]*Torus3DShape)
+	stage.Torus3DShapes_referenceOrder = make(map[*Torus3DShape]uint)
+
 	stage.TorusEdge3DShapes_reference = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
 	stage.TorusEdge3DShapes_instance = make(map[*TorusEdge3DShape]*TorusEdge3DShape)
 	stage.TorusEdge3DShapes_referenceOrder = make(map[*TorusEdge3DShape]uint)
@@ -2571,6 +3084,18 @@ func (stage *Stage) Squash() {
 	stage.TorusStackShapes_reference = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_instance = make(map[*TorusStackShape]*TorusStackShape)
 	stage.TorusStackShapes_referenceOrder = make(map[*TorusStackShape]uint)
+
+	stage.Vase2DDiagrams_reference = make(map[*Vase2DDiagram]*Vase2DDiagram)
+	stage.Vase2DDiagrams_instance = make(map[*Vase2DDiagram]*Vase2DDiagram)
+	stage.Vase2DDiagrams_referenceOrder = make(map[*Vase2DDiagram]uint)
+
+	stage.Vase3DDiagrams_reference = make(map[*Vase3DDiagram]*Vase3DDiagram)
+	stage.Vase3DDiagrams_instance = make(map[*Vase3DDiagram]*Vase3DDiagram)
+	stage.Vase3DDiagrams_referenceOrder = make(map[*Vase3DDiagram]uint)
+
+	stage.VaseAbstracts_reference = make(map[*VaseAbstract]*VaseAbstract)
+	stage.VaseAbstracts_instance = make(map[*VaseAbstract]*VaseAbstract)
+	stage.VaseAbstracts_referenceOrder = make(map[*VaseAbstract]uint)
 
 	stage.VerticalTorusStackShapes_reference = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
 	stage.VerticalTorusStackShapes_instance = make(map[*VerticalTorusStackShape]*VerticalTorusStackShape)
@@ -2719,6 +3244,62 @@ func (stage *Stage) recomputeOrders() {
 		stage.CircleGridShapeOrder = 0
 	}
 
+	var maxClock2DDiagramOrder uint
+	var foundClock2DDiagram bool
+	for _, order := range stage.Clock2DDiagram_stagedOrder {
+		if !foundClock2DDiagram || order > maxClock2DDiagramOrder {
+			maxClock2DDiagramOrder = order
+			foundClock2DDiagram = true
+		}
+	}
+	if foundClock2DDiagram {
+		stage.Clock2DDiagramOrder = maxClock2DDiagramOrder + 1
+	} else {
+		stage.Clock2DDiagramOrder = 0
+	}
+
+	var maxClock3DDiagramOrder uint
+	var foundClock3DDiagram bool
+	for _, order := range stage.Clock3DDiagram_stagedOrder {
+		if !foundClock3DDiagram || order > maxClock3DDiagramOrder {
+			maxClock3DDiagramOrder = order
+			foundClock3DDiagram = true
+		}
+	}
+	if foundClock3DDiagram {
+		stage.Clock3DDiagramOrder = maxClock3DDiagramOrder + 1
+	} else {
+		stage.Clock3DDiagramOrder = 0
+	}
+
+	var maxClockAbstractOrder uint
+	var foundClockAbstract bool
+	for _, order := range stage.ClockAbstract_stagedOrder {
+		if !foundClockAbstract || order > maxClockAbstractOrder {
+			maxClockAbstractOrder = order
+			foundClockAbstract = true
+		}
+	}
+	if foundClockAbstract {
+		stage.ClockAbstractOrder = maxClockAbstractOrder + 1
+	} else {
+		stage.ClockAbstractOrder = 0
+	}
+
+	var maxClockTopCurveShapeOrder uint
+	var foundClockTopCurveShape bool
+	for _, order := range stage.ClockTopCurveShape_stagedOrder {
+		if !foundClockTopCurveShape || order > maxClockTopCurveShapeOrder {
+			maxClockTopCurveShapeOrder = order
+			foundClockTopCurveShape = true
+		}
+	}
+	if foundClockTopCurveShape {
+		stage.ClockTopCurveShapeOrder = maxClockTopCurveShapeOrder + 1
+	} else {
+		stage.ClockTopCurveShapeOrder = 0
+	}
+
 	var maxEndArcShapeOrder uint
 	var foundEndArcShape bool
 	for _, order := range stage.EndArcShape_stagedOrder {
@@ -2787,6 +3368,90 @@ func (stage *Stage) recomputeOrders() {
 		stage.ExplanationTextShapeOrder = maxExplanationTextShapeOrder + 1
 	} else {
 		stage.ExplanationTextShapeOrder = 0
+	}
+
+	var maxEye3DShapeOrder uint
+	var foundEye3DShape bool
+	for _, order := range stage.Eye3DShape_stagedOrder {
+		if !foundEye3DShape || order > maxEye3DShapeOrder {
+			maxEye3DShapeOrder = order
+			foundEye3DShape = true
+		}
+	}
+	if foundEye3DShape {
+		stage.Eye3DShapeOrder = maxEye3DShapeOrder + 1
+	} else {
+		stage.Eye3DShapeOrder = 0
+	}
+
+	var maxEyeCornersSampledPoints3DShapeOrder uint
+	var foundEyeCornersSampledPoints3DShape bool
+	for _, order := range stage.EyeCornersSampledPoints3DShape_stagedOrder {
+		if !foundEyeCornersSampledPoints3DShape || order > maxEyeCornersSampledPoints3DShapeOrder {
+			maxEyeCornersSampledPoints3DShapeOrder = order
+			foundEyeCornersSampledPoints3DShape = true
+		}
+	}
+	if foundEyeCornersSampledPoints3DShape {
+		stage.EyeCornersSampledPoints3DShapeOrder = maxEyeCornersSampledPoints3DShapeOrder + 1
+	} else {
+		stage.EyeCornersSampledPoints3DShapeOrder = 0
+	}
+
+	var maxEyeSampledPoints3DShapeOrder uint
+	var foundEyeSampledPoints3DShape bool
+	for _, order := range stage.EyeSampledPoints3DShape_stagedOrder {
+		if !foundEyeSampledPoints3DShape || order > maxEyeSampledPoints3DShapeOrder {
+			maxEyeSampledPoints3DShapeOrder = order
+			foundEyeSampledPoints3DShape = true
+		}
+	}
+	if foundEyeSampledPoints3DShape {
+		stage.EyeSampledPoints3DShapeOrder = maxEyeSampledPoints3DShapeOrder + 1
+	} else {
+		stage.EyeSampledPoints3DShapeOrder = 0
+	}
+
+	var maxEyeSeatBottomCurveShapeOrder uint
+	var foundEyeSeatBottomCurveShape bool
+	for _, order := range stage.EyeSeatBottomCurveShape_stagedOrder {
+		if !foundEyeSeatBottomCurveShape || order > maxEyeSeatBottomCurveShapeOrder {
+			maxEyeSeatBottomCurveShapeOrder = order
+			foundEyeSeatBottomCurveShape = true
+		}
+	}
+	if foundEyeSeatBottomCurveShape {
+		stage.EyeSeatBottomCurveShapeOrder = maxEyeSeatBottomCurveShapeOrder + 1
+	} else {
+		stage.EyeSeatBottomCurveShapeOrder = 0
+	}
+
+	var maxEyeStoolBottomCurveShapeOrder uint
+	var foundEyeStoolBottomCurveShape bool
+	for _, order := range stage.EyeStoolBottomCurveShape_stagedOrder {
+		if !foundEyeStoolBottomCurveShape || order > maxEyeStoolBottomCurveShapeOrder {
+			maxEyeStoolBottomCurveShapeOrder = order
+			foundEyeStoolBottomCurveShape = true
+		}
+	}
+	if foundEyeStoolBottomCurveShape {
+		stage.EyeStoolBottomCurveShapeOrder = maxEyeStoolBottomCurveShapeOrder + 1
+	} else {
+		stage.EyeStoolBottomCurveShapeOrder = 0
+	}
+
+	var maxEyeVolume3DShapeOrder uint
+	var foundEyeVolume3DShape bool
+	for _, order := range stage.EyeVolume3DShape_stagedOrder {
+		if !foundEyeVolume3DShape || order > maxEyeVolume3DShapeOrder {
+			maxEyeVolume3DShapeOrder = order
+			foundEyeVolume3DShape = true
+		}
+	}
+	if foundEyeVolume3DShape {
+		stage.EyeVolume3DShapeOrder = maxEyeVolume3DShapeOrder + 1
+	} else {
+		stage.EyeVolume3DShapeOrder = 0
 	}
 
 	var maxGridPathShapeOrder uint
@@ -3181,6 +3846,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.PartiallyGrowthCurve2DTrajectoryShapeOrder = 0
 	}
 
+	var maxPartiallyRotatedSeatBottomCurveShapeOrder uint
+	var foundPartiallyRotatedSeatBottomCurveShape bool
+	for _, order := range stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder {
+		if !foundPartiallyRotatedSeatBottomCurveShape || order > maxPartiallyRotatedSeatBottomCurveShapeOrder {
+			maxPartiallyRotatedSeatBottomCurveShapeOrder = order
+			foundPartiallyRotatedSeatBottomCurveShape = true
+		}
+	}
+	if foundPartiallyRotatedSeatBottomCurveShape {
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder = maxPartiallyRotatedSeatBottomCurveShapeOrder + 1
+	} else {
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder = 0
+	}
+
+	var maxPartiallyRotatedSeatTopCurveShapeOrder uint
+	var foundPartiallyRotatedSeatTopCurveShape bool
+	for _, order := range stage.PartiallyRotatedSeatTopCurveShape_stagedOrder {
+		if !foundPartiallyRotatedSeatTopCurveShape || order > maxPartiallyRotatedSeatTopCurveShapeOrder {
+			maxPartiallyRotatedSeatTopCurveShapeOrder = order
+			foundPartiallyRotatedSeatTopCurveShape = true
+		}
+	}
+	if foundPartiallyRotatedSeatTopCurveShape {
+		stage.PartiallyRotatedSeatTopCurveShapeOrder = maxPartiallyRotatedSeatTopCurveShapeOrder + 1
+	} else {
+		stage.PartiallyRotatedSeatTopCurveShapeOrder = 0
+	}
+
 	var maxPartiallyRotatedTorusShapeOrder uint
 	var foundPartiallyRotatedTorusShape bool
 	for _, order := range stage.PartiallyRotatedTorusShape_stagedOrder {
@@ -3251,18 +3944,32 @@ func (stage *Stage) recomputeOrders() {
 		stage.PerpendicularVectorHalfwayOrder = 0
 	}
 
-	var maxPlantOrder uint
-	var foundPlant bool
-	for _, order := range stage.Plant_stagedOrder {
-		if !foundPlant || order > maxPlantOrder {
-			maxPlantOrder = order
-			foundPlant = true
+	var maxPlant2DDiagramOrder uint
+	var foundPlant2DDiagram bool
+	for _, order := range stage.Plant2DDiagram_stagedOrder {
+		if !foundPlant2DDiagram || order > maxPlant2DDiagramOrder {
+			maxPlant2DDiagramOrder = order
+			foundPlant2DDiagram = true
 		}
 	}
-	if foundPlant {
-		stage.PlantOrder = maxPlantOrder + 1
+	if foundPlant2DDiagram {
+		stage.Plant2DDiagramOrder = maxPlant2DDiagramOrder + 1
 	} else {
-		stage.PlantOrder = 0
+		stage.Plant2DDiagramOrder = 0
+	}
+
+	var maxPlantAbstractOrder uint
+	var foundPlantAbstract bool
+	for _, order := range stage.PlantAbstract_stagedOrder {
+		if !foundPlantAbstract || order > maxPlantAbstractOrder {
+			maxPlantAbstractOrder = order
+			foundPlantAbstract = true
+		}
+	}
+	if foundPlantAbstract {
+		stage.PlantAbstractOrder = maxPlantAbstractOrder + 1
+	} else {
+		stage.PlantAbstractOrder = 0
 	}
 
 	var maxPlantCircumferenceShapeOrder uint
@@ -3277,20 +3984,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.PlantCircumferenceShapeOrder = maxPlantCircumferenceShapeOrder + 1
 	} else {
 		stage.PlantCircumferenceShapeOrder = 0
-	}
-
-	var maxPlantDiagramOrder uint
-	var foundPlantDiagram bool
-	for _, order := range stage.PlantDiagram_stagedOrder {
-		if !foundPlantDiagram || order > maxPlantDiagramOrder {
-			maxPlantDiagramOrder = order
-			foundPlantDiagram = true
-		}
-	}
-	if foundPlantDiagram {
-		stage.PlantDiagramOrder = maxPlantDiagramOrder + 1
-	} else {
-		stage.PlantDiagramOrder = 0
 	}
 
 	var maxPointsAndLines3DShapeOrder uint
@@ -3391,6 +4084,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.RotatedRhombusShapeOrder = 0
 	}
 
+	var maxRotatedSampledPoints3DShapeOrder uint
+	var foundRotatedSampledPoints3DShape bool
+	for _, order := range stage.RotatedSampledPoints3DShape_stagedOrder {
+		if !foundRotatedSampledPoints3DShape || order > maxRotatedSampledPoints3DShapeOrder {
+			maxRotatedSampledPoints3DShapeOrder = order
+			foundRotatedSampledPoints3DShape = true
+		}
+	}
+	if foundRotatedSampledPoints3DShape {
+		stage.RotatedSampledPoints3DShapeOrder = maxRotatedSampledPoints3DShapeOrder + 1
+	} else {
+		stage.RotatedSampledPoints3DShapeOrder = 0
+	}
+
+	var maxRotatedSeatAndLegs3DShapeOrder uint
+	var foundRotatedSeatAndLegs3DShape bool
+	for _, order := range stage.RotatedSeatAndLegs3DShape_stagedOrder {
+		if !foundRotatedSeatAndLegs3DShape || order > maxRotatedSeatAndLegs3DShapeOrder {
+			maxRotatedSeatAndLegs3DShapeOrder = order
+			foundRotatedSeatAndLegs3DShape = true
+		}
+	}
+	if foundRotatedSeatAndLegs3DShape {
+		stage.RotatedSeatAndLegs3DShapeOrder = maxRotatedSeatAndLegs3DShapeOrder + 1
+	} else {
+		stage.RotatedSeatAndLegs3DShapeOrder = 0
+	}
+
 	var maxSampledPoints3DShapeOrder uint
 	var foundSampledPoints3DShape bool
 	for _, order := range stage.SampledPoints3DShape_stagedOrder {
@@ -3403,6 +4124,62 @@ func (stage *Stage) recomputeOrders() {
 		stage.SampledPoints3DShapeOrder = maxSampledPoints3DShapeOrder + 1
 	} else {
 		stage.SampledPoints3DShapeOrder = 0
+	}
+
+	var maxSeat3DShapeOrder uint
+	var foundSeat3DShape bool
+	for _, order := range stage.Seat3DShape_stagedOrder {
+		if !foundSeat3DShape || order > maxSeat3DShapeOrder {
+			maxSeat3DShapeOrder = order
+			foundSeat3DShape = true
+		}
+	}
+	if foundSeat3DShape {
+		stage.Seat3DShapeOrder = maxSeat3DShapeOrder + 1
+	} else {
+		stage.Seat3DShapeOrder = 0
+	}
+
+	var maxSeatAndLegs3DShapeOrder uint
+	var foundSeatAndLegs3DShape bool
+	for _, order := range stage.SeatAndLegs3DShape_stagedOrder {
+		if !foundSeatAndLegs3DShape || order > maxSeatAndLegs3DShapeOrder {
+			maxSeatAndLegs3DShapeOrder = order
+			foundSeatAndLegs3DShape = true
+		}
+	}
+	if foundSeatAndLegs3DShape {
+		stage.SeatAndLegs3DShapeOrder = maxSeatAndLegs3DShapeOrder + 1
+	} else {
+		stage.SeatAndLegs3DShapeOrder = 0
+	}
+
+	var maxSeatBottomCurveShapeOrder uint
+	var foundSeatBottomCurveShape bool
+	for _, order := range stage.SeatBottomCurveShape_stagedOrder {
+		if !foundSeatBottomCurveShape || order > maxSeatBottomCurveShapeOrder {
+			maxSeatBottomCurveShapeOrder = order
+			foundSeatBottomCurveShape = true
+		}
+	}
+	if foundSeatBottomCurveShape {
+		stage.SeatBottomCurveShapeOrder = maxSeatBottomCurveShapeOrder + 1
+	} else {
+		stage.SeatBottomCurveShapeOrder = 0
+	}
+
+	var maxSeatTopCurveShapeOrder uint
+	var foundSeatTopCurveShape bool
+	for _, order := range stage.SeatTopCurveShape_stagedOrder {
+		if !foundSeatTopCurveShape || order > maxSeatTopCurveShapeOrder {
+			maxSeatTopCurveShapeOrder = order
+			foundSeatTopCurveShape = true
+		}
+	}
+	if foundSeatTopCurveShape {
+		stage.SeatTopCurveShapeOrder = maxSeatTopCurveShapeOrder + 1
+	} else {
+		stage.SeatTopCurveShapeOrder = 0
 	}
 
 	var maxShiftedBottomTopStartArcShapeOrder uint
@@ -3699,6 +4476,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.StackOfGrowthCurve2DOrder = 0
 	}
 
+	var maxStackOfGrowthCurve2DByGrowthVectorOrder uint
+	var foundStackOfGrowthCurve2DByGrowthVector bool
+	for _, order := range stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder {
+		if !foundStackOfGrowthCurve2DByGrowthVector || order > maxStackOfGrowthCurve2DByGrowthVectorOrder {
+			maxStackOfGrowthCurve2DByGrowthVectorOrder = order
+			foundStackOfGrowthCurve2DByGrowthVector = true
+		}
+	}
+	if foundStackOfGrowthCurve2DByGrowthVector {
+		stage.StackOfGrowthCurve2DByGrowthVectorOrder = maxStackOfGrowthCurve2DByGrowthVectorOrder + 1
+	} else {
+		stage.StackOfGrowthCurve2DByGrowthVectorOrder = 0
+	}
+
 	var maxStackOfGrowthCurve2DRibbonOrder uint
 	var foundStackOfGrowthCurve2DRibbon bool
 	for _, order := range stage.StackOfGrowthCurve2DRibbon_stagedOrder {
@@ -3865,6 +4656,62 @@ func (stage *Stage) recomputeOrders() {
 		stage.StartHalfwayArcShapeGridOrder = maxStartHalfwayArcShapeGridOrder + 1
 	} else {
 		stage.StartHalfwayArcShapeGridOrder = 0
+	}
+
+	var maxStool2DDiagramOrder uint
+	var foundStool2DDiagram bool
+	for _, order := range stage.Stool2DDiagram_stagedOrder {
+		if !foundStool2DDiagram || order > maxStool2DDiagramOrder {
+			maxStool2DDiagramOrder = order
+			foundStool2DDiagram = true
+		}
+	}
+	if foundStool2DDiagram {
+		stage.Stool2DDiagramOrder = maxStool2DDiagramOrder + 1
+	} else {
+		stage.Stool2DDiagramOrder = 0
+	}
+
+	var maxStool3DDiagramOrder uint
+	var foundStool3DDiagram bool
+	for _, order := range stage.Stool3DDiagram_stagedOrder {
+		if !foundStool3DDiagram || order > maxStool3DDiagramOrder {
+			maxStool3DDiagramOrder = order
+			foundStool3DDiagram = true
+		}
+	}
+	if foundStool3DDiagram {
+		stage.Stool3DDiagramOrder = maxStool3DDiagramOrder + 1
+	} else {
+		stage.Stool3DDiagramOrder = 0
+	}
+
+	var maxStoolAbstractOrder uint
+	var foundStoolAbstract bool
+	for _, order := range stage.StoolAbstract_stagedOrder {
+		if !foundStoolAbstract || order > maxStoolAbstractOrder {
+			maxStoolAbstractOrder = order
+			foundStoolAbstract = true
+		}
+	}
+	if foundStoolAbstract {
+		stage.StoolAbstractOrder = maxStoolAbstractOrder + 1
+	} else {
+		stage.StoolAbstractOrder = 0
+	}
+
+	var maxTiledFloor3DShapeOrder uint
+	var foundTiledFloor3DShape bool
+	for _, order := range stage.TiledFloor3DShape_stagedOrder {
+		if !foundTiledFloor3DShape || order > maxTiledFloor3DShapeOrder {
+			maxTiledFloor3DShapeOrder = order
+			foundTiledFloor3DShape = true
+		}
+	}
+	if foundTiledFloor3DShape {
+		stage.TiledFloor3DShapeOrder = maxTiledFloor3DShapeOrder + 1
+	} else {
+		stage.TiledFloor3DShapeOrder = 0
 	}
 
 	var maxTopEndArcShapeOrder uint
@@ -4105,6 +4952,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.TopStartHalfwayArcShapeGridOrder = 0
 	}
 
+	var maxTorus3DShapeOrder uint
+	var foundTorus3DShape bool
+	for _, order := range stage.Torus3DShape_stagedOrder {
+		if !foundTorus3DShape || order > maxTorus3DShapeOrder {
+			maxTorus3DShapeOrder = order
+			foundTorus3DShape = true
+		}
+	}
+	if foundTorus3DShape {
+		stage.Torus3DShapeOrder = maxTorus3DShapeOrder + 1
+	} else {
+		stage.Torus3DShapeOrder = 0
+	}
+
 	var maxTorusEdge3DShapeOrder uint
 	var foundTorusEdge3DShape bool
 	for _, order := range stage.TorusEdge3DShape_stagedOrder {
@@ -4131,6 +4992,48 @@ func (stage *Stage) recomputeOrders() {
 		stage.TorusStackShapeOrder = maxTorusStackShapeOrder + 1
 	} else {
 		stage.TorusStackShapeOrder = 0
+	}
+
+	var maxVase2DDiagramOrder uint
+	var foundVase2DDiagram bool
+	for _, order := range stage.Vase2DDiagram_stagedOrder {
+		if !foundVase2DDiagram || order > maxVase2DDiagramOrder {
+			maxVase2DDiagramOrder = order
+			foundVase2DDiagram = true
+		}
+	}
+	if foundVase2DDiagram {
+		stage.Vase2DDiagramOrder = maxVase2DDiagramOrder + 1
+	} else {
+		stage.Vase2DDiagramOrder = 0
+	}
+
+	var maxVase3DDiagramOrder uint
+	var foundVase3DDiagram bool
+	for _, order := range stage.Vase3DDiagram_stagedOrder {
+		if !foundVase3DDiagram || order > maxVase3DDiagramOrder {
+			maxVase3DDiagramOrder = order
+			foundVase3DDiagram = true
+		}
+	}
+	if foundVase3DDiagram {
+		stage.Vase3DDiagramOrder = maxVase3DDiagramOrder + 1
+	} else {
+		stage.Vase3DDiagramOrder = 0
+	}
+
+	var maxVaseAbstractOrder uint
+	var foundVaseAbstract bool
+	for _, order := range stage.VaseAbstract_stagedOrder {
+		if !foundVaseAbstract || order > maxVaseAbstractOrder {
+			maxVaseAbstractOrder = order
+			foundVaseAbstract = true
+		}
+	}
+	if foundVaseAbstract {
+		stage.VaseAbstractOrder = maxVaseAbstractOrder + 1
+	} else {
+		stage.VaseAbstractOrder = 0
 	}
 
 	var maxVerticalTorusStackShapeOrder uint
@@ -4334,6 +5237,62 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Clock2DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Clock2DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Clock3DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Clock3DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ClockAbstract:
+		tmp := GetStructInstancesByOrder(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ClockAbstract implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ClockTopCurveShape:
+		tmp := GetStructInstancesByOrder(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ClockTopCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *EndArcShape:
 		tmp := GetStructInstancesByOrder(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 
@@ -4401,6 +5360,90 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *ExplanationTextShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Eye3DShape:
+		tmp := GetStructInstancesByOrder(stage.Eye3DShapes, stage.Eye3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Eye3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EyeCornersSampledPoints3DShape:
+		tmp := GetStructInstancesByOrder(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeCornersSampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EyeSampledPoints3DShape:
+		tmp := GetStructInstancesByOrder(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeSampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EyeSeatBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeSeatBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EyeStoolBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeStoolBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *EyeVolume3DShape:
+		tmp := GetStructInstancesByOrder(stage.EyeVolume3DShapes, stage.EyeVolume3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *EyeVolume3DShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -4796,6 +5839,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PartiallyRotatedSeatBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyRotatedSeatBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PartiallyRotatedSeatTopCurveShape:
+		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartiallyRotatedSeatTopCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PartiallyRotatedTorusShape:
 		tmp := GetStructInstancesByOrder(stage.PartiallyRotatedTorusShapes, stage.PartiallyRotatedTorusShape_stagedOrder)
 
@@ -4866,8 +5937,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Plant:
-		tmp := GetStructInstancesByOrder(stage.Plants, stage.Plant_stagedOrder)
+	case *Plant2DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -4876,7 +5947,21 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Plant implements.
+			// is an interface that *Plant2DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PlantAbstract:
+		tmp := GetStructInstancesByOrder(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PlantAbstract implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -4891,20 +5976,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *PlantCircumferenceShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *PlantDiagram:
-		tmp := GetStructInstancesByOrder(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *PlantDiagram implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -5006,6 +6077,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *RotatedSampledPoints3DShape:
+		tmp := GetStructInstancesByOrder(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *RotatedSampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *RotatedSeatAndLegs3DShape:
+		tmp := GetStructInstancesByOrder(stage.RotatedSeatAndLegs3DShapes, stage.RotatedSeatAndLegs3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *RotatedSeatAndLegs3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *SampledPoints3DShape:
 		tmp := GetStructInstancesByOrder(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
 
@@ -5017,6 +6116,62 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *SampledPoints3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Seat3DShape:
+		tmp := GetStructInstancesByOrder(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Seat3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *SeatAndLegs3DShape:
+		tmp := GetStructInstancesByOrder(stage.SeatAndLegs3DShapes, stage.SeatAndLegs3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SeatAndLegs3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *SeatBottomCurveShape:
+		tmp := GetStructInstancesByOrder(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SeatBottomCurveShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *SeatTopCurveShape:
+		tmp := GetStructInstancesByOrder(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SeatTopCurveShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -5314,6 +6469,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *StackOfGrowthCurve2DByGrowthVector:
+		tmp := GetStructInstancesByOrder(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StackOfGrowthCurve2DByGrowthVector implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *StackOfGrowthCurve2DRibbon:
 		tmp := GetStructInstancesByOrder(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
 
@@ -5479,6 +6648,62 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *StartHalfwayArcShapeGrid implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Stool2DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Stool2DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Stool3DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Stool3DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *StoolAbstract:
+		tmp := GetStructInstancesByOrder(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *StoolAbstract implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *TiledFloor3DShape:
+		tmp := GetStructInstancesByOrder(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TiledFloor3DShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -5720,6 +6945,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Torus3DShape:
+		tmp := GetStructInstancesByOrder(stage.Torus3DShapes, stage.Torus3DShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Torus3DShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TorusEdge3DShape:
 		tmp := GetStructInstancesByOrder(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
 
@@ -5745,6 +6984,48 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *TorusStackShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Vase2DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Vase2DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Vase3DDiagram:
+		tmp := GetStructInstancesByOrder(stage.Vase3DDiagrams, stage.Vase3DDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Vase3DDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *VaseAbstract:
+		tmp := GetStructInstancesByOrder(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *VaseAbstract implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -5821,6 +7102,14 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ChosenP1P2PairShapes, stage.ChosenP1P2PairShape_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+	case "Clock2DDiagram":
+		res = GetNamedStructInstances(stage.Clock2DDiagrams, stage.Clock2DDiagram_stagedOrder)
+	case "Clock3DDiagram":
+		res = GetNamedStructInstances(stage.Clock3DDiagrams, stage.Clock3DDiagram_stagedOrder)
+	case "ClockAbstract":
+		res = GetNamedStructInstances(stage.ClockAbstracts, stage.ClockAbstract_stagedOrder)
+	case "ClockTopCurveShape":
+		res = GetNamedStructInstances(stage.ClockTopCurveShapes, stage.ClockTopCurveShape_stagedOrder)
 	case "EndArcShape":
 		res = GetNamedStructInstances(stage.EndArcShapes, stage.EndArcShape_stagedOrder)
 	case "EndArcShapeGrid":
@@ -5831,6 +7120,18 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.EndHalfwayArcShapeGrids, stage.EndHalfwayArcShapeGrid_stagedOrder)
 	case "ExplanationTextShape":
 		res = GetNamedStructInstances(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
+	case "Eye3DShape":
+		res = GetNamedStructInstances(stage.Eye3DShapes, stage.Eye3DShape_stagedOrder)
+	case "EyeCornersSampledPoints3DShape":
+		res = GetNamedStructInstances(stage.EyeCornersSampledPoints3DShapes, stage.EyeCornersSampledPoints3DShape_stagedOrder)
+	case "EyeSampledPoints3DShape":
+		res = GetNamedStructInstances(stage.EyeSampledPoints3DShapes, stage.EyeSampledPoints3DShape_stagedOrder)
+	case "EyeSeatBottomCurveShape":
+		res = GetNamedStructInstances(stage.EyeSeatBottomCurveShapes, stage.EyeSeatBottomCurveShape_stagedOrder)
+	case "EyeStoolBottomCurveShape":
+		res = GetNamedStructInstances(stage.EyeStoolBottomCurveShapes, stage.EyeStoolBottomCurveShape_stagedOrder)
+	case "EyeVolume3DShape":
+		res = GetNamedStructInstances(stage.EyeVolume3DShapes, stage.EyeVolume3DShape_stagedOrder)
 	case "GridPathShape":
 		res = GetNamedStructInstances(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 	case "GrowthCurve2D":
@@ -5887,6 +7188,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes, stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder)
 	case "PartiallyGrowthCurve2DTrajectoryShape":
 		res = GetNamedStructInstances(stage.PartiallyGrowthCurve2DTrajectoryShapes, stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder)
+	case "PartiallyRotatedSeatBottomCurveShape":
+		res = GetNamedStructInstances(stage.PartiallyRotatedSeatBottomCurveShapes, stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder)
+	case "PartiallyRotatedSeatTopCurveShape":
+		res = GetNamedStructInstances(stage.PartiallyRotatedSeatTopCurveShapes, stage.PartiallyRotatedSeatTopCurveShape_stagedOrder)
 	case "PartiallyRotatedTorusShape":
 		res = GetNamedStructInstances(stage.PartiallyRotatedTorusShapes, stage.PartiallyRotatedTorusShape_stagedOrder)
 	case "PerpendicularVector":
@@ -5897,12 +7202,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PerpendicularVectorGridHalfways, stage.PerpendicularVectorGridHalfway_stagedOrder)
 	case "PerpendicularVectorHalfway":
 		res = GetNamedStructInstances(stage.PerpendicularVectorHalfways, stage.PerpendicularVectorHalfway_stagedOrder)
-	case "Plant":
-		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
+	case "Plant2DDiagram":
+		res = GetNamedStructInstances(stage.Plant2DDiagrams, stage.Plant2DDiagram_stagedOrder)
+	case "PlantAbstract":
+		res = GetNamedStructInstances(stage.PlantAbstracts, stage.PlantAbstract_stagedOrder)
 	case "PlantCircumferenceShape":
 		res = GetNamedStructInstances(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
-	case "PlantDiagram":
-		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
 	case "PointsAndLines3DShape":
 		res = GetNamedStructInstances(stage.PointsAndLines3DShapes, stage.PointsAndLines3DShape_stagedOrder)
 	case "PxShape":
@@ -5917,8 +7222,20 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.RotatedRhombusGridShapes, stage.RotatedRhombusGridShape_stagedOrder)
 	case "RotatedRhombusShape":
 		res = GetNamedStructInstances(stage.RotatedRhombusShapes, stage.RotatedRhombusShape_stagedOrder)
+	case "RotatedSampledPoints3DShape":
+		res = GetNamedStructInstances(stage.RotatedSampledPoints3DShapes, stage.RotatedSampledPoints3DShape_stagedOrder)
+	case "RotatedSeatAndLegs3DShape":
+		res = GetNamedStructInstances(stage.RotatedSeatAndLegs3DShapes, stage.RotatedSeatAndLegs3DShape_stagedOrder)
 	case "SampledPoints3DShape":
 		res = GetNamedStructInstances(stage.SampledPoints3DShapes, stage.SampledPoints3DShape_stagedOrder)
+	case "Seat3DShape":
+		res = GetNamedStructInstances(stage.Seat3DShapes, stage.Seat3DShape_stagedOrder)
+	case "SeatAndLegs3DShape":
+		res = GetNamedStructInstances(stage.SeatAndLegs3DShapes, stage.SeatAndLegs3DShape_stagedOrder)
+	case "SeatBottomCurveShape":
+		res = GetNamedStructInstances(stage.SeatBottomCurveShapes, stage.SeatBottomCurveShape_stagedOrder)
+	case "SeatTopCurveShape":
+		res = GetNamedStructInstances(stage.SeatTopCurveShapes, stage.SeatTopCurveShape_stagedOrder)
 	case "ShiftedBottomTopStartArcShape":
 		res = GetNamedStructInstances(stage.ShiftedBottomTopStartArcShapes, stage.ShiftedBottomTopStartArcShape_stagedOrder)
 	case "ShiftedBottomTopStartArcShapeGrid":
@@ -5961,6 +7278,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StackGrowthCurve2DStartHalfwayArcShapes, stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder)
 	case "StackOfGrowthCurve2D":
 		res = GetNamedStructInstances(stage.StackOfGrowthCurve2Ds, stage.StackOfGrowthCurve2D_stagedOrder)
+	case "StackOfGrowthCurve2DByGrowthVector":
+		res = GetNamedStructInstances(stage.StackOfGrowthCurve2DByGrowthVectors, stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder)
 	case "StackOfGrowthCurve2DRibbon":
 		res = GetNamedStructInstances(stage.StackOfGrowthCurve2DRibbons, stage.StackOfGrowthCurve2DRibbon_stagedOrder)
 	case "StackOfPartiallyRotatedTorusShape":
@@ -5985,6 +7304,14 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.StartHalfwayArcShapes, stage.StartHalfwayArcShape_stagedOrder)
 	case "StartHalfwayArcShapeGrid":
 		res = GetNamedStructInstances(stage.StartHalfwayArcShapeGrids, stage.StartHalfwayArcShapeGrid_stagedOrder)
+	case "Stool2DDiagram":
+		res = GetNamedStructInstances(stage.Stool2DDiagrams, stage.Stool2DDiagram_stagedOrder)
+	case "Stool3DDiagram":
+		res = GetNamedStructInstances(stage.Stool3DDiagrams, stage.Stool3DDiagram_stagedOrder)
+	case "StoolAbstract":
+		res = GetNamedStructInstances(stage.StoolAbstracts, stage.StoolAbstract_stagedOrder)
+	case "TiledFloor3DShape":
+		res = GetNamedStructInstances(stage.TiledFloor3DShapes, stage.TiledFloor3DShape_stagedOrder)
 	case "TopEndArcShape":
 		res = GetNamedStructInstances(stage.TopEndArcShapes, stage.TopEndArcShape_stagedOrder)
 	case "TopEndArcShapeGrid":
@@ -6019,10 +7346,18 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.TopStartHalfwayArcShapes, stage.TopStartHalfwayArcShape_stagedOrder)
 	case "TopStartHalfwayArcShapeGrid":
 		res = GetNamedStructInstances(stage.TopStartHalfwayArcShapeGrids, stage.TopStartHalfwayArcShapeGrid_stagedOrder)
+	case "Torus3DShape":
+		res = GetNamedStructInstances(stage.Torus3DShapes, stage.Torus3DShape_stagedOrder)
 	case "TorusEdge3DShape":
 		res = GetNamedStructInstances(stage.TorusEdge3DShapes, stage.TorusEdge3DShape_stagedOrder)
 	case "TorusStackShape":
 		res = GetNamedStructInstances(stage.TorusStackShapes, stage.TorusStackShape_stagedOrder)
+	case "Vase2DDiagram":
+		res = GetNamedStructInstances(stage.Vase2DDiagrams, stage.Vase2DDiagram_stagedOrder)
+	case "Vase3DDiagram":
+		res = GetNamedStructInstances(stage.Vase3DDiagrams, stage.Vase3DDiagram_stagedOrder)
+	case "VaseAbstract":
+		res = GetNamedStructInstances(stage.VaseAbstracts, stage.VaseAbstract_stagedOrder)
 	case "VerticalTorusStackShape":
 		res = GetNamedStructInstances(stage.VerticalTorusStackShapes, stage.VerticalTorusStackShape_stagedOrder)
 	case "VolumeKey3DShape":
@@ -6112,6 +7447,14 @@ type BackRepoInterface interface {
 	CheckoutChosenP1P2PairShape(chosenp1p2pairshape *ChosenP1P2PairShape)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
+	CommitClock2DDiagram(clock2ddiagram *Clock2DDiagram)
+	CheckoutClock2DDiagram(clock2ddiagram *Clock2DDiagram)
+	CommitClock3DDiagram(clock3ddiagram *Clock3DDiagram)
+	CheckoutClock3DDiagram(clock3ddiagram *Clock3DDiagram)
+	CommitClockAbstract(clockabstract *ClockAbstract)
+	CheckoutClockAbstract(clockabstract *ClockAbstract)
+	CommitClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
+	CheckoutClockTopCurveShape(clocktopcurveshape *ClockTopCurveShape)
 	CommitEndArcShape(endarcshape *EndArcShape)
 	CheckoutEndArcShape(endarcshape *EndArcShape)
 	CommitEndArcShapeGrid(endarcshapegrid *EndArcShapeGrid)
@@ -6122,6 +7465,18 @@ type BackRepoInterface interface {
 	CheckoutEndHalfwayArcShapeGrid(endhalfwayarcshapegrid *EndHalfwayArcShapeGrid)
 	CommitExplanationTextShape(explanationtextshape *ExplanationTextShape)
 	CheckoutExplanationTextShape(explanationtextshape *ExplanationTextShape)
+	CommitEye3DShape(eye3dshape *Eye3DShape)
+	CheckoutEye3DShape(eye3dshape *Eye3DShape)
+	CommitEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape)
+	CheckoutEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape)
+	CommitEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape)
+	CheckoutEyeSampledPoints3DShape(eyesampledpoints3dshape *EyeSampledPoints3DShape)
+	CommitEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape)
+	CheckoutEyeSeatBottomCurveShape(eyeseatbottomcurveshape *EyeSeatBottomCurveShape)
+	CommitEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape)
+	CheckoutEyeStoolBottomCurveShape(eyestoolbottomcurveshape *EyeStoolBottomCurveShape)
+	CommitEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape)
+	CheckoutEyeVolume3DShape(eyevolume3dshape *EyeVolume3DShape)
 	CommitGridPathShape(gridpathshape *GridPathShape)
 	CheckoutGridPathShape(gridpathshape *GridPathShape)
 	CommitGrowthCurve2D(growthcurve2d *GrowthCurve2D)
@@ -6178,6 +7533,10 @@ type BackRepoInterface interface {
 	CheckoutPartiallyGrowthCurve2DTrajectoryP2PointShape(partiallygrowthcurve2dtrajectoryp2pointshape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	CommitPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape)
 	CheckoutPartiallyGrowthCurve2DTrajectoryShape(partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectoryShape)
+	CommitPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape)
+	CheckoutPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape)
+	CommitPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape)
+	CheckoutPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape)
 	CommitPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape)
 	CheckoutPartiallyRotatedTorusShape(partiallyrotatedtorusshape *PartiallyRotatedTorusShape)
 	CommitPerpendicularVector(perpendicularvector *PerpendicularVector)
@@ -6188,12 +7547,12 @@ type BackRepoInterface interface {
 	CheckoutPerpendicularVectorGridHalfway(perpendicularvectorgridhalfway *PerpendicularVectorGridHalfway)
 	CommitPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
 	CheckoutPerpendicularVectorHalfway(perpendicularvectorhalfway *PerpendicularVectorHalfway)
-	CommitPlant(plant *Plant)
-	CheckoutPlant(plant *Plant)
+	CommitPlant2DDiagram(plant2ddiagram *Plant2DDiagram)
+	CheckoutPlant2DDiagram(plant2ddiagram *Plant2DDiagram)
+	CommitPlantAbstract(plantabstract *PlantAbstract)
+	CheckoutPlantAbstract(plantabstract *PlantAbstract)
 	CommitPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
 	CheckoutPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
-	CommitPlantDiagram(plantdiagram *PlantDiagram)
-	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
 	CommitPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape)
 	CheckoutPointsAndLines3DShape(pointsandlines3dshape *PointsAndLines3DShape)
 	CommitPxShape(pxshape *PxShape)
@@ -6208,8 +7567,20 @@ type BackRepoInterface interface {
 	CheckoutRotatedRhombusGridShape(rotatedrhombusgridshape *RotatedRhombusGridShape)
 	CommitRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
 	CheckoutRotatedRhombusShape(rotatedrhombusshape *RotatedRhombusShape)
+	CommitRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape)
+	CheckoutRotatedSampledPoints3DShape(rotatedsampledpoints3dshape *RotatedSampledPoints3DShape)
+	CommitRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape)
+	CheckoutRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape)
 	CommitSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
 	CheckoutSampledPoints3DShape(sampledpoints3dshape *SampledPoints3DShape)
+	CommitSeat3DShape(seat3dshape *Seat3DShape)
+	CheckoutSeat3DShape(seat3dshape *Seat3DShape)
+	CommitSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape)
+	CheckoutSeatAndLegs3DShape(seatandlegs3dshape *SeatAndLegs3DShape)
+	CommitSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape)
+	CheckoutSeatBottomCurveShape(seatbottomcurveshape *SeatBottomCurveShape)
+	CommitSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape)
+	CheckoutSeatTopCurveShape(seattopcurveshape *SeatTopCurveShape)
 	CommitShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
 	CheckoutShiftedBottomTopStartArcShape(shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape)
 	CommitShiftedBottomTopStartArcShapeGrid(shiftedbottomtopstartarcshapegrid *ShiftedBottomTopStartArcShapeGrid)
@@ -6252,6 +7623,8 @@ type BackRepoInterface interface {
 	CheckoutStackGrowthCurve2DStartHalfwayArcShape(stackgrowthcurve2dstarthalfwayarcshape *StackGrowthCurve2DStartHalfwayArcShape)
 	CommitStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D)
 	CheckoutStackOfGrowthCurve2D(stackofgrowthcurve2d *StackOfGrowthCurve2D)
+	CommitStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector)
+	CheckoutStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector)
 	CommitStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon)
 	CheckoutStackOfGrowthCurve2DRibbon(stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon)
 	CommitStackOfPartiallyRotatedTorusShape(stackofpartiallyrotatedtorusshape *StackOfPartiallyRotatedTorusShape)
@@ -6276,6 +7649,14 @@ type BackRepoInterface interface {
 	CheckoutStartHalfwayArcShape(starthalfwayarcshape *StartHalfwayArcShape)
 	CommitStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid)
 	CheckoutStartHalfwayArcShapeGrid(starthalfwayarcshapegrid *StartHalfwayArcShapeGrid)
+	CommitStool2DDiagram(stool2ddiagram *Stool2DDiagram)
+	CheckoutStool2DDiagram(stool2ddiagram *Stool2DDiagram)
+	CommitStool3DDiagram(stool3ddiagram *Stool3DDiagram)
+	CheckoutStool3DDiagram(stool3ddiagram *Stool3DDiagram)
+	CommitStoolAbstract(stoolabstract *StoolAbstract)
+	CheckoutStoolAbstract(stoolabstract *StoolAbstract)
+	CommitTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
+	CheckoutTiledFloor3DShape(tiledfloor3dshape *TiledFloor3DShape)
 	CommitTopEndArcShape(topendarcshape *TopEndArcShape)
 	CheckoutTopEndArcShape(topendarcshape *TopEndArcShape)
 	CommitTopEndArcShapeGrid(topendarcshapegrid *TopEndArcShapeGrid)
@@ -6310,10 +7691,18 @@ type BackRepoInterface interface {
 	CheckoutTopStartHalfwayArcShape(topstarthalfwayarcshape *TopStartHalfwayArcShape)
 	CommitTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid)
 	CheckoutTopStartHalfwayArcShapeGrid(topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid)
+	CommitTorus3DShape(torus3dshape *Torus3DShape)
+	CheckoutTorus3DShape(torus3dshape *Torus3DShape)
 	CommitTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
 	CheckoutTorusEdge3DShape(torusedge3dshape *TorusEdge3DShape)
 	CommitTorusStackShape(torusstackshape *TorusStackShape)
 	CheckoutTorusStackShape(torusstackshape *TorusStackShape)
+	CommitVase2DDiagram(vase2ddiagram *Vase2DDiagram)
+	CheckoutVase2DDiagram(vase2ddiagram *Vase2DDiagram)
+	CommitVase3DDiagram(vase3ddiagram *Vase3DDiagram)
+	CheckoutVase3DDiagram(vase3ddiagram *Vase3DDiagram)
+	CommitVaseAbstract(vaseabstract *VaseAbstract)
+	CheckoutVaseAbstract(vaseabstract *VaseAbstract)
 	CommitVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CheckoutVerticalTorusStackShape(verticaltorusstackshape *VerticalTorusStackShape)
 	CommitVolumeKey3DShape(volumekey3dshape *VolumeKey3DShape)
@@ -6348,6 +7737,18 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
 
+		Clock2DDiagrams:           make(map[*Clock2DDiagram]struct{}),
+		Clock2DDiagrams_mapString: make(map[string]*Clock2DDiagram),
+
+		Clock3DDiagrams:           make(map[*Clock3DDiagram]struct{}),
+		Clock3DDiagrams_mapString: make(map[string]*Clock3DDiagram),
+
+		ClockAbstracts:           make(map[*ClockAbstract]struct{}),
+		ClockAbstracts_mapString: make(map[string]*ClockAbstract),
+
+		ClockTopCurveShapes:           make(map[*ClockTopCurveShape]struct{}),
+		ClockTopCurveShapes_mapString: make(map[string]*ClockTopCurveShape),
+
 		EndArcShapes:           make(map[*EndArcShape]struct{}),
 		EndArcShapes_mapString: make(map[string]*EndArcShape),
 
@@ -6362,6 +7763,24 @@ func NewStage(name string) (stage *Stage) {
 
 		ExplanationTextShapes:           make(map[*ExplanationTextShape]struct{}),
 		ExplanationTextShapes_mapString: make(map[string]*ExplanationTextShape),
+
+		Eye3DShapes:           make(map[*Eye3DShape]struct{}),
+		Eye3DShapes_mapString: make(map[string]*Eye3DShape),
+
+		EyeCornersSampledPoints3DShapes:           make(map[*EyeCornersSampledPoints3DShape]struct{}),
+		EyeCornersSampledPoints3DShapes_mapString: make(map[string]*EyeCornersSampledPoints3DShape),
+
+		EyeSampledPoints3DShapes:           make(map[*EyeSampledPoints3DShape]struct{}),
+		EyeSampledPoints3DShapes_mapString: make(map[string]*EyeSampledPoints3DShape),
+
+		EyeSeatBottomCurveShapes:           make(map[*EyeSeatBottomCurveShape]struct{}),
+		EyeSeatBottomCurveShapes_mapString: make(map[string]*EyeSeatBottomCurveShape),
+
+		EyeStoolBottomCurveShapes:           make(map[*EyeStoolBottomCurveShape]struct{}),
+		EyeStoolBottomCurveShapes_mapString: make(map[string]*EyeStoolBottomCurveShape),
+
+		EyeVolume3DShapes:           make(map[*EyeVolume3DShape]struct{}),
+		EyeVolume3DShapes_mapString: make(map[string]*EyeVolume3DShape),
 
 		GridPathShapes:           make(map[*GridPathShape]struct{}),
 		GridPathShapes_mapString: make(map[string]*GridPathShape),
@@ -6447,6 +7866,12 @@ func NewStage(name string) (stage *Stage) {
 		PartiallyGrowthCurve2DTrajectoryShapes:           make(map[*PartiallyGrowthCurve2DTrajectoryShape]struct{}),
 		PartiallyGrowthCurve2DTrajectoryShapes_mapString: make(map[string]*PartiallyGrowthCurve2DTrajectoryShape),
 
+		PartiallyRotatedSeatBottomCurveShapes:           make(map[*PartiallyRotatedSeatBottomCurveShape]struct{}),
+		PartiallyRotatedSeatBottomCurveShapes_mapString: make(map[string]*PartiallyRotatedSeatBottomCurveShape),
+
+		PartiallyRotatedSeatTopCurveShapes:           make(map[*PartiallyRotatedSeatTopCurveShape]struct{}),
+		PartiallyRotatedSeatTopCurveShapes_mapString: make(map[string]*PartiallyRotatedSeatTopCurveShape),
+
 		PartiallyRotatedTorusShapes:           make(map[*PartiallyRotatedTorusShape]struct{}),
 		PartiallyRotatedTorusShapes_mapString: make(map[string]*PartiallyRotatedTorusShape),
 
@@ -6462,14 +7887,14 @@ func NewStage(name string) (stage *Stage) {
 		PerpendicularVectorHalfways:           make(map[*PerpendicularVectorHalfway]struct{}),
 		PerpendicularVectorHalfways_mapString: make(map[string]*PerpendicularVectorHalfway),
 
-		Plants:           make(map[*Plant]struct{}),
-		Plants_mapString: make(map[string]*Plant),
+		Plant2DDiagrams:           make(map[*Plant2DDiagram]struct{}),
+		Plant2DDiagrams_mapString: make(map[string]*Plant2DDiagram),
+
+		PlantAbstracts:           make(map[*PlantAbstract]struct{}),
+		PlantAbstracts_mapString: make(map[string]*PlantAbstract),
 
 		PlantCircumferenceShapes:           make(map[*PlantCircumferenceShape]struct{}),
 		PlantCircumferenceShapes_mapString: make(map[string]*PlantCircumferenceShape),
-
-		PlantDiagrams:           make(map[*PlantDiagram]struct{}),
-		PlantDiagrams_mapString: make(map[string]*PlantDiagram),
 
 		PointsAndLines3DShapes:           make(map[*PointsAndLines3DShape]struct{}),
 		PointsAndLines3DShapes_mapString: make(map[string]*PointsAndLines3DShape),
@@ -6492,8 +7917,26 @@ func NewStage(name string) (stage *Stage) {
 		RotatedRhombusShapes:           make(map[*RotatedRhombusShape]struct{}),
 		RotatedRhombusShapes_mapString: make(map[string]*RotatedRhombusShape),
 
+		RotatedSampledPoints3DShapes:           make(map[*RotatedSampledPoints3DShape]struct{}),
+		RotatedSampledPoints3DShapes_mapString: make(map[string]*RotatedSampledPoints3DShape),
+
+		RotatedSeatAndLegs3DShapes:           make(map[*RotatedSeatAndLegs3DShape]struct{}),
+		RotatedSeatAndLegs3DShapes_mapString: make(map[string]*RotatedSeatAndLegs3DShape),
+
 		SampledPoints3DShapes:           make(map[*SampledPoints3DShape]struct{}),
 		SampledPoints3DShapes_mapString: make(map[string]*SampledPoints3DShape),
+
+		Seat3DShapes:           make(map[*Seat3DShape]struct{}),
+		Seat3DShapes_mapString: make(map[string]*Seat3DShape),
+
+		SeatAndLegs3DShapes:           make(map[*SeatAndLegs3DShape]struct{}),
+		SeatAndLegs3DShapes_mapString: make(map[string]*SeatAndLegs3DShape),
+
+		SeatBottomCurveShapes:           make(map[*SeatBottomCurveShape]struct{}),
+		SeatBottomCurveShapes_mapString: make(map[string]*SeatBottomCurveShape),
+
+		SeatTopCurveShapes:           make(map[*SeatTopCurveShape]struct{}),
+		SeatTopCurveShapes_mapString: make(map[string]*SeatTopCurveShape),
 
 		ShiftedBottomTopStartArcShapes:           make(map[*ShiftedBottomTopStartArcShape]struct{}),
 		ShiftedBottomTopStartArcShapes_mapString: make(map[string]*ShiftedBottomTopStartArcShape),
@@ -6558,6 +8001,9 @@ func NewStage(name string) (stage *Stage) {
 		StackOfGrowthCurve2Ds:           make(map[*StackOfGrowthCurve2D]struct{}),
 		StackOfGrowthCurve2Ds_mapString: make(map[string]*StackOfGrowthCurve2D),
 
+		StackOfGrowthCurve2DByGrowthVectors:           make(map[*StackOfGrowthCurve2DByGrowthVector]struct{}),
+		StackOfGrowthCurve2DByGrowthVectors_mapString: make(map[string]*StackOfGrowthCurve2DByGrowthVector),
+
 		StackOfGrowthCurve2DRibbons:           make(map[*StackOfGrowthCurve2DRibbon]struct{}),
 		StackOfGrowthCurve2DRibbons_mapString: make(map[string]*StackOfGrowthCurve2DRibbon),
 
@@ -6593,6 +8039,18 @@ func NewStage(name string) (stage *Stage) {
 
 		StartHalfwayArcShapeGrids:           make(map[*StartHalfwayArcShapeGrid]struct{}),
 		StartHalfwayArcShapeGrids_mapString: make(map[string]*StartHalfwayArcShapeGrid),
+
+		Stool2DDiagrams:           make(map[*Stool2DDiagram]struct{}),
+		Stool2DDiagrams_mapString: make(map[string]*Stool2DDiagram),
+
+		Stool3DDiagrams:           make(map[*Stool3DDiagram]struct{}),
+		Stool3DDiagrams_mapString: make(map[string]*Stool3DDiagram),
+
+		StoolAbstracts:           make(map[*StoolAbstract]struct{}),
+		StoolAbstracts_mapString: make(map[string]*StoolAbstract),
+
+		TiledFloor3DShapes:           make(map[*TiledFloor3DShape]struct{}),
+		TiledFloor3DShapes_mapString: make(map[string]*TiledFloor3DShape),
 
 		TopEndArcShapes:           make(map[*TopEndArcShape]struct{}),
 		TopEndArcShapes_mapString: make(map[string]*TopEndArcShape),
@@ -6645,11 +8103,23 @@ func NewStage(name string) (stage *Stage) {
 		TopStartHalfwayArcShapeGrids:           make(map[*TopStartHalfwayArcShapeGrid]struct{}),
 		TopStartHalfwayArcShapeGrids_mapString: make(map[string]*TopStartHalfwayArcShapeGrid),
 
+		Torus3DShapes:           make(map[*Torus3DShape]struct{}),
+		Torus3DShapes_mapString: make(map[string]*Torus3DShape),
+
 		TorusEdge3DShapes:           make(map[*TorusEdge3DShape]struct{}),
 		TorusEdge3DShapes_mapString: make(map[string]*TorusEdge3DShape),
 
 		TorusStackShapes:           make(map[*TorusStackShape]struct{}),
 		TorusStackShapes_mapString: make(map[string]*TorusStackShape),
+
+		Vase2DDiagrams:           make(map[*Vase2DDiagram]struct{}),
+		Vase2DDiagrams_mapString: make(map[string]*Vase2DDiagram),
+
+		Vase3DDiagrams:           make(map[*Vase3DDiagram]struct{}),
+		Vase3DDiagrams_mapString: make(map[string]*Vase3DDiagram),
+
+		VaseAbstracts:           make(map[*VaseAbstract]struct{}),
+		VaseAbstracts_mapString: make(map[string]*VaseAbstract),
 
 		VerticalTorusStackShapes:           make(map[*VerticalTorusStackShape]struct{}),
 		VerticalTorusStackShapes_mapString: make(map[string]*VerticalTorusStackShape),
@@ -6699,6 +8169,22 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
 		CircleGridShapes_reference:  make(map[*CircleGridShape]*CircleGridShape),
 
+		Clock2DDiagram_stagedOrder: make(map[*Clock2DDiagram]uint),
+		Clock2DDiagram_orderStaged: make(map[uint]*Clock2DDiagram),
+		Clock2DDiagrams_reference:  make(map[*Clock2DDiagram]*Clock2DDiagram),
+
+		Clock3DDiagram_stagedOrder: make(map[*Clock3DDiagram]uint),
+		Clock3DDiagram_orderStaged: make(map[uint]*Clock3DDiagram),
+		Clock3DDiagrams_reference:  make(map[*Clock3DDiagram]*Clock3DDiagram),
+
+		ClockAbstract_stagedOrder: make(map[*ClockAbstract]uint),
+		ClockAbstract_orderStaged: make(map[uint]*ClockAbstract),
+		ClockAbstracts_reference:  make(map[*ClockAbstract]*ClockAbstract),
+
+		ClockTopCurveShape_stagedOrder: make(map[*ClockTopCurveShape]uint),
+		ClockTopCurveShape_orderStaged: make(map[uint]*ClockTopCurveShape),
+		ClockTopCurveShapes_reference:  make(map[*ClockTopCurveShape]*ClockTopCurveShape),
+
 		EndArcShape_stagedOrder: make(map[*EndArcShape]uint),
 		EndArcShape_orderStaged: make(map[uint]*EndArcShape),
 		EndArcShapes_reference:  make(map[*EndArcShape]*EndArcShape),
@@ -6718,6 +8204,30 @@ func NewStage(name string) (stage *Stage) {
 		ExplanationTextShape_stagedOrder: make(map[*ExplanationTextShape]uint),
 		ExplanationTextShape_orderStaged: make(map[uint]*ExplanationTextShape),
 		ExplanationTextShapes_reference:  make(map[*ExplanationTextShape]*ExplanationTextShape),
+
+		Eye3DShape_stagedOrder: make(map[*Eye3DShape]uint),
+		Eye3DShape_orderStaged: make(map[uint]*Eye3DShape),
+		Eye3DShapes_reference:  make(map[*Eye3DShape]*Eye3DShape),
+
+		EyeCornersSampledPoints3DShape_stagedOrder: make(map[*EyeCornersSampledPoints3DShape]uint),
+		EyeCornersSampledPoints3DShape_orderStaged: make(map[uint]*EyeCornersSampledPoints3DShape),
+		EyeCornersSampledPoints3DShapes_reference:  make(map[*EyeCornersSampledPoints3DShape]*EyeCornersSampledPoints3DShape),
+
+		EyeSampledPoints3DShape_stagedOrder: make(map[*EyeSampledPoints3DShape]uint),
+		EyeSampledPoints3DShape_orderStaged: make(map[uint]*EyeSampledPoints3DShape),
+		EyeSampledPoints3DShapes_reference:  make(map[*EyeSampledPoints3DShape]*EyeSampledPoints3DShape),
+
+		EyeSeatBottomCurveShape_stagedOrder: make(map[*EyeSeatBottomCurveShape]uint),
+		EyeSeatBottomCurveShape_orderStaged: make(map[uint]*EyeSeatBottomCurveShape),
+		EyeSeatBottomCurveShapes_reference:  make(map[*EyeSeatBottomCurveShape]*EyeSeatBottomCurveShape),
+
+		EyeStoolBottomCurveShape_stagedOrder: make(map[*EyeStoolBottomCurveShape]uint),
+		EyeStoolBottomCurveShape_orderStaged: make(map[uint]*EyeStoolBottomCurveShape),
+		EyeStoolBottomCurveShapes_reference:  make(map[*EyeStoolBottomCurveShape]*EyeStoolBottomCurveShape),
+
+		EyeVolume3DShape_stagedOrder: make(map[*EyeVolume3DShape]uint),
+		EyeVolume3DShape_orderStaged: make(map[uint]*EyeVolume3DShape),
+		EyeVolume3DShapes_reference:  make(map[*EyeVolume3DShape]*EyeVolume3DShape),
 
 		GridPathShape_stagedOrder: make(map[*GridPathShape]uint),
 		GridPathShape_orderStaged: make(map[uint]*GridPathShape),
@@ -6831,6 +8341,14 @@ func NewStage(name string) (stage *Stage) {
 		PartiallyGrowthCurve2DTrajectoryShape_orderStaged: make(map[uint]*PartiallyGrowthCurve2DTrajectoryShape),
 		PartiallyGrowthCurve2DTrajectoryShapes_reference:  make(map[*PartiallyGrowthCurve2DTrajectoryShape]*PartiallyGrowthCurve2DTrajectoryShape),
 
+		PartiallyRotatedSeatBottomCurveShape_stagedOrder: make(map[*PartiallyRotatedSeatBottomCurveShape]uint),
+		PartiallyRotatedSeatBottomCurveShape_orderStaged: make(map[uint]*PartiallyRotatedSeatBottomCurveShape),
+		PartiallyRotatedSeatBottomCurveShapes_reference:  make(map[*PartiallyRotatedSeatBottomCurveShape]*PartiallyRotatedSeatBottomCurveShape),
+
+		PartiallyRotatedSeatTopCurveShape_stagedOrder: make(map[*PartiallyRotatedSeatTopCurveShape]uint),
+		PartiallyRotatedSeatTopCurveShape_orderStaged: make(map[uint]*PartiallyRotatedSeatTopCurveShape),
+		PartiallyRotatedSeatTopCurveShapes_reference:  make(map[*PartiallyRotatedSeatTopCurveShape]*PartiallyRotatedSeatTopCurveShape),
+
 		PartiallyRotatedTorusShape_stagedOrder: make(map[*PartiallyRotatedTorusShape]uint),
 		PartiallyRotatedTorusShape_orderStaged: make(map[uint]*PartiallyRotatedTorusShape),
 		PartiallyRotatedTorusShapes_reference:  make(map[*PartiallyRotatedTorusShape]*PartiallyRotatedTorusShape),
@@ -6851,17 +8369,17 @@ func NewStage(name string) (stage *Stage) {
 		PerpendicularVectorHalfway_orderStaged: make(map[uint]*PerpendicularVectorHalfway),
 		PerpendicularVectorHalfways_reference:  make(map[*PerpendicularVectorHalfway]*PerpendicularVectorHalfway),
 
-		Plant_stagedOrder: make(map[*Plant]uint),
-		Plant_orderStaged: make(map[uint]*Plant),
-		Plants_reference:  make(map[*Plant]*Plant),
+		Plant2DDiagram_stagedOrder: make(map[*Plant2DDiagram]uint),
+		Plant2DDiagram_orderStaged: make(map[uint]*Plant2DDiagram),
+		Plant2DDiagrams_reference:  make(map[*Plant2DDiagram]*Plant2DDiagram),
+
+		PlantAbstract_stagedOrder: make(map[*PlantAbstract]uint),
+		PlantAbstract_orderStaged: make(map[uint]*PlantAbstract),
+		PlantAbstracts_reference:  make(map[*PlantAbstract]*PlantAbstract),
 
 		PlantCircumferenceShape_stagedOrder: make(map[*PlantCircumferenceShape]uint),
 		PlantCircumferenceShape_orderStaged: make(map[uint]*PlantCircumferenceShape),
 		PlantCircumferenceShapes_reference:  make(map[*PlantCircumferenceShape]*PlantCircumferenceShape),
-
-		PlantDiagram_stagedOrder: make(map[*PlantDiagram]uint),
-		PlantDiagram_orderStaged: make(map[uint]*PlantDiagram),
-		PlantDiagrams_reference:  make(map[*PlantDiagram]*PlantDiagram),
 
 		PointsAndLines3DShape_stagedOrder: make(map[*PointsAndLines3DShape]uint),
 		PointsAndLines3DShape_orderStaged: make(map[uint]*PointsAndLines3DShape),
@@ -6891,9 +8409,33 @@ func NewStage(name string) (stage *Stage) {
 		RotatedRhombusShape_orderStaged: make(map[uint]*RotatedRhombusShape),
 		RotatedRhombusShapes_reference:  make(map[*RotatedRhombusShape]*RotatedRhombusShape),
 
+		RotatedSampledPoints3DShape_stagedOrder: make(map[*RotatedSampledPoints3DShape]uint),
+		RotatedSampledPoints3DShape_orderStaged: make(map[uint]*RotatedSampledPoints3DShape),
+		RotatedSampledPoints3DShapes_reference:  make(map[*RotatedSampledPoints3DShape]*RotatedSampledPoints3DShape),
+
+		RotatedSeatAndLegs3DShape_stagedOrder: make(map[*RotatedSeatAndLegs3DShape]uint),
+		RotatedSeatAndLegs3DShape_orderStaged: make(map[uint]*RotatedSeatAndLegs3DShape),
+		RotatedSeatAndLegs3DShapes_reference:  make(map[*RotatedSeatAndLegs3DShape]*RotatedSeatAndLegs3DShape),
+
 		SampledPoints3DShape_stagedOrder: make(map[*SampledPoints3DShape]uint),
 		SampledPoints3DShape_orderStaged: make(map[uint]*SampledPoints3DShape),
 		SampledPoints3DShapes_reference:  make(map[*SampledPoints3DShape]*SampledPoints3DShape),
+
+		Seat3DShape_stagedOrder: make(map[*Seat3DShape]uint),
+		Seat3DShape_orderStaged: make(map[uint]*Seat3DShape),
+		Seat3DShapes_reference:  make(map[*Seat3DShape]*Seat3DShape),
+
+		SeatAndLegs3DShape_stagedOrder: make(map[*SeatAndLegs3DShape]uint),
+		SeatAndLegs3DShape_orderStaged: make(map[uint]*SeatAndLegs3DShape),
+		SeatAndLegs3DShapes_reference:  make(map[*SeatAndLegs3DShape]*SeatAndLegs3DShape),
+
+		SeatBottomCurveShape_stagedOrder: make(map[*SeatBottomCurveShape]uint),
+		SeatBottomCurveShape_orderStaged: make(map[uint]*SeatBottomCurveShape),
+		SeatBottomCurveShapes_reference:  make(map[*SeatBottomCurveShape]*SeatBottomCurveShape),
+
+		SeatTopCurveShape_stagedOrder: make(map[*SeatTopCurveShape]uint),
+		SeatTopCurveShape_orderStaged: make(map[uint]*SeatTopCurveShape),
+		SeatTopCurveShapes_reference:  make(map[*SeatTopCurveShape]*SeatTopCurveShape),
 
 		ShiftedBottomTopStartArcShape_stagedOrder: make(map[*ShiftedBottomTopStartArcShape]uint),
 		ShiftedBottomTopStartArcShape_orderStaged: make(map[uint]*ShiftedBottomTopStartArcShape),
@@ -6979,6 +8521,10 @@ func NewStage(name string) (stage *Stage) {
 		StackOfGrowthCurve2D_orderStaged: make(map[uint]*StackOfGrowthCurve2D),
 		StackOfGrowthCurve2Ds_reference:  make(map[*StackOfGrowthCurve2D]*StackOfGrowthCurve2D),
 
+		StackOfGrowthCurve2DByGrowthVector_stagedOrder: make(map[*StackOfGrowthCurve2DByGrowthVector]uint),
+		StackOfGrowthCurve2DByGrowthVector_orderStaged: make(map[uint]*StackOfGrowthCurve2DByGrowthVector),
+		StackOfGrowthCurve2DByGrowthVectors_reference:  make(map[*StackOfGrowthCurve2DByGrowthVector]*StackOfGrowthCurve2DByGrowthVector),
+
 		StackOfGrowthCurve2DRibbon_stagedOrder: make(map[*StackOfGrowthCurve2DRibbon]uint),
 		StackOfGrowthCurve2DRibbon_orderStaged: make(map[uint]*StackOfGrowthCurve2DRibbon),
 		StackOfGrowthCurve2DRibbons_reference:  make(map[*StackOfGrowthCurve2DRibbon]*StackOfGrowthCurve2DRibbon),
@@ -7026,6 +8572,22 @@ func NewStage(name string) (stage *Stage) {
 		StartHalfwayArcShapeGrid_stagedOrder: make(map[*StartHalfwayArcShapeGrid]uint),
 		StartHalfwayArcShapeGrid_orderStaged: make(map[uint]*StartHalfwayArcShapeGrid),
 		StartHalfwayArcShapeGrids_reference:  make(map[*StartHalfwayArcShapeGrid]*StartHalfwayArcShapeGrid),
+
+		Stool2DDiagram_stagedOrder: make(map[*Stool2DDiagram]uint),
+		Stool2DDiagram_orderStaged: make(map[uint]*Stool2DDiagram),
+		Stool2DDiagrams_reference:  make(map[*Stool2DDiagram]*Stool2DDiagram),
+
+		Stool3DDiagram_stagedOrder: make(map[*Stool3DDiagram]uint),
+		Stool3DDiagram_orderStaged: make(map[uint]*Stool3DDiagram),
+		Stool3DDiagrams_reference:  make(map[*Stool3DDiagram]*Stool3DDiagram),
+
+		StoolAbstract_stagedOrder: make(map[*StoolAbstract]uint),
+		StoolAbstract_orderStaged: make(map[uint]*StoolAbstract),
+		StoolAbstracts_reference:  make(map[*StoolAbstract]*StoolAbstract),
+
+		TiledFloor3DShape_stagedOrder: make(map[*TiledFloor3DShape]uint),
+		TiledFloor3DShape_orderStaged: make(map[uint]*TiledFloor3DShape),
+		TiledFloor3DShapes_reference:  make(map[*TiledFloor3DShape]*TiledFloor3DShape),
 
 		TopEndArcShape_stagedOrder: make(map[*TopEndArcShape]uint),
 		TopEndArcShape_orderStaged: make(map[uint]*TopEndArcShape),
@@ -7095,6 +8657,10 @@ func NewStage(name string) (stage *Stage) {
 		TopStartHalfwayArcShapeGrid_orderStaged: make(map[uint]*TopStartHalfwayArcShapeGrid),
 		TopStartHalfwayArcShapeGrids_reference:  make(map[*TopStartHalfwayArcShapeGrid]*TopStartHalfwayArcShapeGrid),
 
+		Torus3DShape_stagedOrder: make(map[*Torus3DShape]uint),
+		Torus3DShape_orderStaged: make(map[uint]*Torus3DShape),
+		Torus3DShapes_reference:  make(map[*Torus3DShape]*Torus3DShape),
+
 		TorusEdge3DShape_stagedOrder: make(map[*TorusEdge3DShape]uint),
 		TorusEdge3DShape_orderStaged: make(map[uint]*TorusEdge3DShape),
 		TorusEdge3DShapes_reference:  make(map[*TorusEdge3DShape]*TorusEdge3DShape),
@@ -7102,6 +8668,18 @@ func NewStage(name string) (stage *Stage) {
 		TorusStackShape_stagedOrder: make(map[*TorusStackShape]uint),
 		TorusStackShape_orderStaged: make(map[uint]*TorusStackShape),
 		TorusStackShapes_reference:  make(map[*TorusStackShape]*TorusStackShape),
+
+		Vase2DDiagram_stagedOrder: make(map[*Vase2DDiagram]uint),
+		Vase2DDiagram_orderStaged: make(map[uint]*Vase2DDiagram),
+		Vase2DDiagrams_reference:  make(map[*Vase2DDiagram]*Vase2DDiagram),
+
+		Vase3DDiagram_stagedOrder: make(map[*Vase3DDiagram]uint),
+		Vase3DDiagram_orderStaged: make(map[uint]*Vase3DDiagram),
+		Vase3DDiagrams_reference:  make(map[*Vase3DDiagram]*Vase3DDiagram),
+
+		VaseAbstract_stagedOrder: make(map[*VaseAbstract]uint),
+		VaseAbstract_orderStaged: make(map[uint]*VaseAbstract),
+		VaseAbstracts_reference:  make(map[*VaseAbstract]*VaseAbstract),
 
 		VerticalTorusStackShape_stagedOrder: make(map[*VerticalTorusStackShape]uint),
 		VerticalTorusStackShape_orderStaged: make(map[uint]*VerticalTorusStackShape),
@@ -7129,6 +8707,14 @@ func NewStage(name string) (stage *Stage) {
 
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
+			"Clock2DDiagram": &Clock2DDiagramUnmarshaller{},
+
+			"Clock3DDiagram": &Clock3DDiagramUnmarshaller{},
+
+			"ClockAbstract": &ClockAbstractUnmarshaller{},
+
+			"ClockTopCurveShape": &ClockTopCurveShapeUnmarshaller{},
+
 			"EndArcShape": &EndArcShapeUnmarshaller{},
 
 			"EndArcShapeGrid": &EndArcShapeGridUnmarshaller{},
@@ -7138,6 +8724,18 @@ func NewStage(name string) (stage *Stage) {
 			"EndHalfwayArcShapeGrid": &EndHalfwayArcShapeGridUnmarshaller{},
 
 			"ExplanationTextShape": &ExplanationTextShapeUnmarshaller{},
+
+			"Eye3DShape": &Eye3DShapeUnmarshaller{},
+
+			"EyeCornersSampledPoints3DShape": &EyeCornersSampledPoints3DShapeUnmarshaller{},
+
+			"EyeSampledPoints3DShape": &EyeSampledPoints3DShapeUnmarshaller{},
+
+			"EyeSeatBottomCurveShape": &EyeSeatBottomCurveShapeUnmarshaller{},
+
+			"EyeStoolBottomCurveShape": &EyeStoolBottomCurveShapeUnmarshaller{},
+
+			"EyeVolume3DShape": &EyeVolume3DShapeUnmarshaller{},
 
 			"GridPathShape": &GridPathShapeUnmarshaller{},
 
@@ -7195,6 +8793,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"PartiallyGrowthCurve2DTrajectoryShape": &PartiallyGrowthCurve2DTrajectoryShapeUnmarshaller{},
 
+			"PartiallyRotatedSeatBottomCurveShape": &PartiallyRotatedSeatBottomCurveShapeUnmarshaller{},
+
+			"PartiallyRotatedSeatTopCurveShape": &PartiallyRotatedSeatTopCurveShapeUnmarshaller{},
+
 			"PartiallyRotatedTorusShape": &PartiallyRotatedTorusShapeUnmarshaller{},
 
 			"PerpendicularVector": &PerpendicularVectorUnmarshaller{},
@@ -7205,11 +8807,11 @@ func NewStage(name string) (stage *Stage) {
 
 			"PerpendicularVectorHalfway": &PerpendicularVectorHalfwayUnmarshaller{},
 
-			"Plant": &PlantUnmarshaller{},
+			"Plant2DDiagram": &Plant2DDiagramUnmarshaller{},
+
+			"PlantAbstract": &PlantAbstractUnmarshaller{},
 
 			"PlantCircumferenceShape": &PlantCircumferenceShapeUnmarshaller{},
-
-			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
 			"PointsAndLines3DShape": &PointsAndLines3DShapeUnmarshaller{},
 
@@ -7225,7 +8827,19 @@ func NewStage(name string) (stage *Stage) {
 
 			"RotatedRhombusShape": &RotatedRhombusShapeUnmarshaller{},
 
+			"RotatedSampledPoints3DShape": &RotatedSampledPoints3DShapeUnmarshaller{},
+
+			"RotatedSeatAndLegs3DShape": &RotatedSeatAndLegs3DShapeUnmarshaller{},
+
 			"SampledPoints3DShape": &SampledPoints3DShapeUnmarshaller{},
+
+			"Seat3DShape": &Seat3DShapeUnmarshaller{},
+
+			"SeatAndLegs3DShape": &SeatAndLegs3DShapeUnmarshaller{},
+
+			"SeatBottomCurveShape": &SeatBottomCurveShapeUnmarshaller{},
+
+			"SeatTopCurveShape": &SeatTopCurveShapeUnmarshaller{},
 
 			"ShiftedBottomTopStartArcShape": &ShiftedBottomTopStartArcShapeUnmarshaller{},
 
@@ -7269,6 +8883,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"StackOfGrowthCurve2D": &StackOfGrowthCurve2DUnmarshaller{},
 
+			"StackOfGrowthCurve2DByGrowthVector": &StackOfGrowthCurve2DByGrowthVectorUnmarshaller{},
+
 			"StackOfGrowthCurve2DRibbon": &StackOfGrowthCurve2DRibbonUnmarshaller{},
 
 			"StackOfPartiallyRotatedTorusShape": &StackOfPartiallyRotatedTorusShapeUnmarshaller{},
@@ -7292,6 +8908,14 @@ func NewStage(name string) (stage *Stage) {
 			"StartHalfwayArcShape": &StartHalfwayArcShapeUnmarshaller{},
 
 			"StartHalfwayArcShapeGrid": &StartHalfwayArcShapeGridUnmarshaller{},
+
+			"Stool2DDiagram": &Stool2DDiagramUnmarshaller{},
+
+			"Stool3DDiagram": &Stool3DDiagramUnmarshaller{},
+
+			"StoolAbstract": &StoolAbstractUnmarshaller{},
+
+			"TiledFloor3DShape": &TiledFloor3DShapeUnmarshaller{},
 
 			"TopEndArcShape": &TopEndArcShapeUnmarshaller{},
 
@@ -7327,9 +8951,17 @@ func NewStage(name string) (stage *Stage) {
 
 			"TopStartHalfwayArcShapeGrid": &TopStartHalfwayArcShapeGridUnmarshaller{},
 
+			"Torus3DShape": &Torus3DShapeUnmarshaller{},
+
 			"TorusEdge3DShape": &TorusEdge3DShapeUnmarshaller{},
 
 			"TorusStackShape": &TorusStackShapeUnmarshaller{},
+
+			"Vase2DDiagram": &Vase2DDiagramUnmarshaller{},
+
+			"Vase3DDiagram": &Vase3DDiagramUnmarshaller{},
+
+			"VaseAbstract": &VaseAbstractUnmarshaller{},
 
 			"VerticalTorusStackShape": &VerticalTorusStackShapeUnmarshaller{},
 
@@ -7347,11 +8979,21 @@ func NewStage(name string) (stage *Stage) {
 			{name: "BaseVectorShapeGrid"},
 			{name: "ChosenP1P2PairShape"},
 			{name: "CircleGridShape"},
+			{name: "Clock2DDiagram"},
+			{name: "Clock3DDiagram"},
+			{name: "ClockAbstract"},
+			{name: "ClockTopCurveShape"},
 			{name: "EndArcShape"},
 			{name: "EndArcShapeGrid"},
 			{name: "EndHalfwayArcShape"},
 			{name: "EndHalfwayArcShapeGrid"},
 			{name: "ExplanationTextShape"},
+			{name: "Eye3DShape"},
+			{name: "EyeCornersSampledPoints3DShape"},
+			{name: "EyeSampledPoints3DShape"},
+			{name: "EyeSeatBottomCurveShape"},
+			{name: "EyeStoolBottomCurveShape"},
+			{name: "EyeVolume3DShape"},
 			{name: "GridPathShape"},
 			{name: "GrowthCurve2D"},
 			{name: "GrowthCurve2DRibbon"},
@@ -7380,14 +9022,16 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PartiallyGrowthCurve2DTrajectoryP2CurveShape"},
 			{name: "PartiallyGrowthCurve2DTrajectoryP2PointShape"},
 			{name: "PartiallyGrowthCurve2DTrajectoryShape"},
+			{name: "PartiallyRotatedSeatBottomCurveShape"},
+			{name: "PartiallyRotatedSeatTopCurveShape"},
 			{name: "PartiallyRotatedTorusShape"},
 			{name: "PerpendicularVector"},
 			{name: "PerpendicularVectorGrid"},
 			{name: "PerpendicularVectorGridHalfway"},
 			{name: "PerpendicularVectorHalfway"},
-			{name: "Plant"},
+			{name: "Plant2DDiagram"},
+			{name: "PlantAbstract"},
 			{name: "PlantCircumferenceShape"},
-			{name: "PlantDiagram"},
 			{name: "PointsAndLines3DShape"},
 			{name: "PxShape"},
 			{name: "Rendered3DShape"},
@@ -7395,7 +9039,13 @@ func NewStage(name string) (stage *Stage) {
 			{name: "RhombusStuff"},
 			{name: "RotatedRhombusGridShape"},
 			{name: "RotatedRhombusShape"},
+			{name: "RotatedSampledPoints3DShape"},
+			{name: "RotatedSeatAndLegs3DShape"},
 			{name: "SampledPoints3DShape"},
+			{name: "Seat3DShape"},
+			{name: "SeatAndLegs3DShape"},
+			{name: "SeatBottomCurveShape"},
+			{name: "SeatTopCurveShape"},
 			{name: "ShiftedBottomTopStartArcShape"},
 			{name: "ShiftedBottomTopStartArcShapeGrid"},
 			{name: "ShiftedLeftGrowthCurve2DRibbon"},
@@ -7417,6 +9067,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StackGrowthCurve2DRibbonStartShape"},
 			{name: "StackGrowthCurve2DStartHalfwayArcShape"},
 			{name: "StackOfGrowthCurve2D"},
+			{name: "StackOfGrowthCurve2DByGrowthVector"},
 			{name: "StackOfGrowthCurve2DRibbon"},
 			{name: "StackOfPartiallyRotatedTorusShape"},
 			{name: "StackOfRotatedGrowthCurve2D"},
@@ -7429,6 +9080,10 @@ func NewStage(name string) (stage *Stage) {
 			{name: "StartArcShapeGrid"},
 			{name: "StartHalfwayArcShape"},
 			{name: "StartHalfwayArcShapeGrid"},
+			{name: "Stool2DDiagram"},
+			{name: "Stool3DDiagram"},
+			{name: "StoolAbstract"},
+			{name: "TiledFloor3DShape"},
 			{name: "TopEndArcShape"},
 			{name: "TopEndArcShapeGrid"},
 			{name: "TopEndHalfwayArcShape"},
@@ -7446,8 +9101,12 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TopStartArcShapeGrid"},
 			{name: "TopStartHalfwayArcShape"},
 			{name: "TopStartHalfwayArcShapeGrid"},
+			{name: "Torus3DShape"},
 			{name: "TorusEdge3DShape"},
 			{name: "TorusStackShape"},
+			{name: "Vase2DDiagram"},
+			{name: "Vase3DDiagram"},
+			{name: "VaseAbstract"},
 			{name: "VerticalTorusStackShape"},
 			{name: "VolumeKey3DShape"},
 		}, // end of insertion point
@@ -7477,6 +9136,14 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *Clock2DDiagram:
+		return stage.Clock2DDiagram_stagedOrder[instance]
+	case *Clock3DDiagram:
+		return stage.Clock3DDiagram_stagedOrder[instance]
+	case *ClockAbstract:
+		return stage.ClockAbstract_stagedOrder[instance]
+	case *ClockTopCurveShape:
+		return stage.ClockTopCurveShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -7487,6 +9154,18 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.EndHalfwayArcShapeGrid_stagedOrder[instance]
 	case *ExplanationTextShape:
 		return stage.ExplanationTextShape_stagedOrder[instance]
+	case *Eye3DShape:
+		return stage.Eye3DShape_stagedOrder[instance]
+	case *EyeCornersSampledPoints3DShape:
+		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
+	case *EyeSampledPoints3DShape:
+		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
+	case *EyeSeatBottomCurveShape:
+		return stage.EyeSeatBottomCurveShape_stagedOrder[instance]
+	case *EyeStoolBottomCurveShape:
+		return stage.EyeStoolBottomCurveShape_stagedOrder[instance]
+	case *EyeVolume3DShape:
+		return stage.EyeVolume3DShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
 	case *GrowthCurve2D:
@@ -7543,6 +9222,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[instance]
+	case *PartiallyRotatedSeatTopCurveShape:
+		return stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[instance]
 	case *PartiallyRotatedTorusShape:
 		return stage.PartiallyRotatedTorusShape_stagedOrder[instance]
 	case *PerpendicularVector:
@@ -7553,12 +9236,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
 	case *PerpendicularVectorHalfway:
 		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
-	case *Plant:
-		return stage.Plant_stagedOrder[instance]
+	case *Plant2DDiagram:
+		return stage.Plant2DDiagram_stagedOrder[instance]
+	case *PlantAbstract:
+		return stage.PlantAbstract_stagedOrder[instance]
 	case *PlantCircumferenceShape:
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
-	case *PlantDiagram:
-		return stage.PlantDiagram_stagedOrder[instance]
 	case *PointsAndLines3DShape:
 		return stage.PointsAndLines3DShape_stagedOrder[instance]
 	case *PxShape:
@@ -7573,8 +9256,20 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.RotatedRhombusGridShape_stagedOrder[instance]
 	case *RotatedRhombusShape:
 		return stage.RotatedRhombusShape_stagedOrder[instance]
+	case *RotatedSampledPoints3DShape:
+		return stage.RotatedSampledPoints3DShape_stagedOrder[instance]
+	case *RotatedSeatAndLegs3DShape:
+		return stage.RotatedSeatAndLegs3DShape_stagedOrder[instance]
 	case *SampledPoints3DShape:
 		return stage.SampledPoints3DShape_stagedOrder[instance]
+	case *Seat3DShape:
+		return stage.Seat3DShape_stagedOrder[instance]
+	case *SeatAndLegs3DShape:
+		return stage.SeatAndLegs3DShape_stagedOrder[instance]
+	case *SeatBottomCurveShape:
+		return stage.SeatBottomCurveShape_stagedOrder[instance]
+	case *SeatTopCurveShape:
+		return stage.SeatTopCurveShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShape:
 		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -7617,6 +9312,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[instance]
 	case *StackOfGrowthCurve2D:
 		return stage.StackOfGrowthCurve2D_stagedOrder[instance]
+	case *StackOfGrowthCurve2DByGrowthVector:
+		return stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[instance]
 	case *StackOfGrowthCurve2DRibbon:
 		return stage.StackOfGrowthCurve2DRibbon_stagedOrder[instance]
 	case *StackOfPartiallyRotatedTorusShape:
@@ -7641,6 +9338,14 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.StartHalfwayArcShape_stagedOrder[instance]
 	case *StartHalfwayArcShapeGrid:
 		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *Stool2DDiagram:
+		return stage.Stool2DDiagram_stagedOrder[instance]
+	case *Stool3DDiagram:
+		return stage.Stool3DDiagram_stagedOrder[instance]
+	case *StoolAbstract:
+		return stage.StoolAbstract_stagedOrder[instance]
+	case *TiledFloor3DShape:
+		return stage.TiledFloor3DShape_stagedOrder[instance]
 	case *TopEndArcShape:
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
@@ -7675,10 +9380,18 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
 	case *TopStartHalfwayArcShapeGrid:
 		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *Torus3DShape:
+		return stage.Torus3DShape_stagedOrder[instance]
 	case *TorusEdge3DShape:
 		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
+	case *Vase2DDiagram:
+		return stage.Vase2DDiagram_stagedOrder[instance]
+	case *Vase3DDiagram:
+		return stage.Vase3DDiagram_stagedOrder[instance]
+	case *VaseAbstract:
+		return stage.VaseAbstract_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -7708,6 +9421,14 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ChosenP1P2PairShape_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
+	case *Clock2DDiagram:
+		return any(stage.Clock2DDiagram_orderStaged[order]).(Type)
+	case *Clock3DDiagram:
+		return any(stage.Clock3DDiagram_orderStaged[order]).(Type)
+	case *ClockAbstract:
+		return any(stage.ClockAbstract_orderStaged[order]).(Type)
+	case *ClockTopCurveShape:
+		return any(stage.ClockTopCurveShape_orderStaged[order]).(Type)
 	case *EndArcShape:
 		return any(stage.EndArcShape_orderStaged[order]).(Type)
 	case *EndArcShapeGrid:
@@ -7718,6 +9439,18 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.EndHalfwayArcShapeGrid_orderStaged[order]).(Type)
 	case *ExplanationTextShape:
 		return any(stage.ExplanationTextShape_orderStaged[order]).(Type)
+	case *Eye3DShape:
+		return any(stage.Eye3DShape_orderStaged[order]).(Type)
+	case *EyeCornersSampledPoints3DShape:
+		return any(stage.EyeCornersSampledPoints3DShape_orderStaged[order]).(Type)
+	case *EyeSampledPoints3DShape:
+		return any(stage.EyeSampledPoints3DShape_orderStaged[order]).(Type)
+	case *EyeSeatBottomCurveShape:
+		return any(stage.EyeSeatBottomCurveShape_orderStaged[order]).(Type)
+	case *EyeStoolBottomCurveShape:
+		return any(stage.EyeStoolBottomCurveShape_orderStaged[order]).(Type)
+	case *EyeVolume3DShape:
+		return any(stage.EyeVolume3DShape_orderStaged[order]).(Type)
 	case *GridPathShape:
 		return any(stage.GridPathShape_orderStaged[order]).(Type)
 	case *GrowthCurve2D:
@@ -7774,6 +9507,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_orderStaged[order]).(Type)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(stage.PartiallyGrowthCurve2DTrajectoryShape_orderStaged[order]).(Type)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return any(stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[order]).(Type)
+	case *PartiallyRotatedSeatTopCurveShape:
+		return any(stage.PartiallyRotatedSeatTopCurveShape_orderStaged[order]).(Type)
 	case *PartiallyRotatedTorusShape:
 		return any(stage.PartiallyRotatedTorusShape_orderStaged[order]).(Type)
 	case *PerpendicularVector:
@@ -7784,12 +9521,12 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PerpendicularVectorGridHalfway_orderStaged[order]).(Type)
 	case *PerpendicularVectorHalfway:
 		return any(stage.PerpendicularVectorHalfway_orderStaged[order]).(Type)
-	case *Plant:
-		return any(stage.Plant_orderStaged[order]).(Type)
+	case *Plant2DDiagram:
+		return any(stage.Plant2DDiagram_orderStaged[order]).(Type)
+	case *PlantAbstract:
+		return any(stage.PlantAbstract_orderStaged[order]).(Type)
 	case *PlantCircumferenceShape:
 		return any(stage.PlantCircumferenceShape_orderStaged[order]).(Type)
-	case *PlantDiagram:
-		return any(stage.PlantDiagram_orderStaged[order]).(Type)
 	case *PointsAndLines3DShape:
 		return any(stage.PointsAndLines3DShape_orderStaged[order]).(Type)
 	case *PxShape:
@@ -7804,8 +9541,20 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.RotatedRhombusGridShape_orderStaged[order]).(Type)
 	case *RotatedRhombusShape:
 		return any(stage.RotatedRhombusShape_orderStaged[order]).(Type)
+	case *RotatedSampledPoints3DShape:
+		return any(stage.RotatedSampledPoints3DShape_orderStaged[order]).(Type)
+	case *RotatedSeatAndLegs3DShape:
+		return any(stage.RotatedSeatAndLegs3DShape_orderStaged[order]).(Type)
 	case *SampledPoints3DShape:
 		return any(stage.SampledPoints3DShape_orderStaged[order]).(Type)
+	case *Seat3DShape:
+		return any(stage.Seat3DShape_orderStaged[order]).(Type)
+	case *SeatAndLegs3DShape:
+		return any(stage.SeatAndLegs3DShape_orderStaged[order]).(Type)
+	case *SeatBottomCurveShape:
+		return any(stage.SeatBottomCurveShape_orderStaged[order]).(Type)
+	case *SeatTopCurveShape:
+		return any(stage.SeatTopCurveShape_orderStaged[order]).(Type)
 	case *ShiftedBottomTopStartArcShape:
 		return any(stage.ShiftedBottomTopStartArcShape_orderStaged[order]).(Type)
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -7848,6 +9597,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StackGrowthCurve2DStartHalfwayArcShape_orderStaged[order]).(Type)
 	case *StackOfGrowthCurve2D:
 		return any(stage.StackOfGrowthCurve2D_orderStaged[order]).(Type)
+	case *StackOfGrowthCurve2DByGrowthVector:
+		return any(stage.StackOfGrowthCurve2DByGrowthVector_orderStaged[order]).(Type)
 	case *StackOfGrowthCurve2DRibbon:
 		return any(stage.StackOfGrowthCurve2DRibbon_orderStaged[order]).(Type)
 	case *StackOfPartiallyRotatedTorusShape:
@@ -7872,6 +9623,14 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.StartHalfwayArcShape_orderStaged[order]).(Type)
 	case *StartHalfwayArcShapeGrid:
 		return any(stage.StartHalfwayArcShapeGrid_orderStaged[order]).(Type)
+	case *Stool2DDiagram:
+		return any(stage.Stool2DDiagram_orderStaged[order]).(Type)
+	case *Stool3DDiagram:
+		return any(stage.Stool3DDiagram_orderStaged[order]).(Type)
+	case *StoolAbstract:
+		return any(stage.StoolAbstract_orderStaged[order]).(Type)
+	case *TiledFloor3DShape:
+		return any(stage.TiledFloor3DShape_orderStaged[order]).(Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShape_orderStaged[order]).(Type)
 	case *TopEndArcShapeGrid:
@@ -7906,10 +9665,18 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.TopStartHalfwayArcShape_orderStaged[order]).(Type)
 	case *TopStartHalfwayArcShapeGrid:
 		return any(stage.TopStartHalfwayArcShapeGrid_orderStaged[order]).(Type)
+	case *Torus3DShape:
+		return any(stage.Torus3DShape_orderStaged[order]).(Type)
 	case *TorusEdge3DShape:
 		return any(stage.TorusEdge3DShape_orderStaged[order]).(Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShape_orderStaged[order]).(Type)
+	case *Vase2DDiagram:
+		return any(stage.Vase2DDiagram_orderStaged[order]).(Type)
+	case *Vase3DDiagram:
+		return any(stage.Vase3DDiagram_orderStaged[order]).(Type)
+	case *VaseAbstract:
+		return any(stage.VaseAbstract_orderStaged[order]).(Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShape_orderStaged[order]).(Type)
 	case *VolumeKey3DShape:
@@ -7938,6 +9705,14 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ChosenP1P2PairShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *Clock2DDiagram:
+		return stage.Clock2DDiagram_stagedOrder[instance]
+	case *Clock3DDiagram:
+		return stage.Clock3DDiagram_stagedOrder[instance]
+	case *ClockAbstract:
+		return stage.ClockAbstract_stagedOrder[instance]
+	case *ClockTopCurveShape:
+		return stage.ClockTopCurveShape_stagedOrder[instance]
 	case *EndArcShape:
 		return stage.EndArcShape_stagedOrder[instance]
 	case *EndArcShapeGrid:
@@ -7948,6 +9723,18 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.EndHalfwayArcShapeGrid_stagedOrder[instance]
 	case *ExplanationTextShape:
 		return stage.ExplanationTextShape_stagedOrder[instance]
+	case *Eye3DShape:
+		return stage.Eye3DShape_stagedOrder[instance]
+	case *EyeCornersSampledPoints3DShape:
+		return stage.EyeCornersSampledPoints3DShape_stagedOrder[instance]
+	case *EyeSampledPoints3DShape:
+		return stage.EyeSampledPoints3DShape_stagedOrder[instance]
+	case *EyeSeatBottomCurveShape:
+		return stage.EyeSeatBottomCurveShape_stagedOrder[instance]
+	case *EyeStoolBottomCurveShape:
+		return stage.EyeStoolBottomCurveShape_stagedOrder[instance]
+	case *EyeVolume3DShape:
+		return stage.EyeVolume3DShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
 	case *GrowthCurve2D:
@@ -8004,6 +9791,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PartiallyGrowthCurve2DTrajectoryP2PointShape_stagedOrder[instance]
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder[instance]
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[instance]
+	case *PartiallyRotatedSeatTopCurveShape:
+		return stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[instance]
 	case *PartiallyRotatedTorusShape:
 		return stage.PartiallyRotatedTorusShape_stagedOrder[instance]
 	case *PerpendicularVector:
@@ -8014,12 +9805,12 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PerpendicularVectorGridHalfway_stagedOrder[instance]
 	case *PerpendicularVectorHalfway:
 		return stage.PerpendicularVectorHalfway_stagedOrder[instance]
-	case *Plant:
-		return stage.Plant_stagedOrder[instance]
+	case *Plant2DDiagram:
+		return stage.Plant2DDiagram_stagedOrder[instance]
+	case *PlantAbstract:
+		return stage.PlantAbstract_stagedOrder[instance]
 	case *PlantCircumferenceShape:
 		return stage.PlantCircumferenceShape_stagedOrder[instance]
-	case *PlantDiagram:
-		return stage.PlantDiagram_stagedOrder[instance]
 	case *PointsAndLines3DShape:
 		return stage.PointsAndLines3DShape_stagedOrder[instance]
 	case *PxShape:
@@ -8034,8 +9825,20 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.RotatedRhombusGridShape_stagedOrder[instance]
 	case *RotatedRhombusShape:
 		return stage.RotatedRhombusShape_stagedOrder[instance]
+	case *RotatedSampledPoints3DShape:
+		return stage.RotatedSampledPoints3DShape_stagedOrder[instance]
+	case *RotatedSeatAndLegs3DShape:
+		return stage.RotatedSeatAndLegs3DShape_stagedOrder[instance]
 	case *SampledPoints3DShape:
 		return stage.SampledPoints3DShape_stagedOrder[instance]
+	case *Seat3DShape:
+		return stage.Seat3DShape_stagedOrder[instance]
+	case *SeatAndLegs3DShape:
+		return stage.SeatAndLegs3DShape_stagedOrder[instance]
+	case *SeatBottomCurveShape:
+		return stage.SeatBottomCurveShape_stagedOrder[instance]
+	case *SeatTopCurveShape:
+		return stage.SeatTopCurveShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShape:
 		return stage.ShiftedBottomTopStartArcShape_stagedOrder[instance]
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -8078,6 +9881,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StackGrowthCurve2DStartHalfwayArcShape_stagedOrder[instance]
 	case *StackOfGrowthCurve2D:
 		return stage.StackOfGrowthCurve2D_stagedOrder[instance]
+	case *StackOfGrowthCurve2DByGrowthVector:
+		return stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[instance]
 	case *StackOfGrowthCurve2DRibbon:
 		return stage.StackOfGrowthCurve2DRibbon_stagedOrder[instance]
 	case *StackOfPartiallyRotatedTorusShape:
@@ -8102,6 +9907,14 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.StartHalfwayArcShape_stagedOrder[instance]
 	case *StartHalfwayArcShapeGrid:
 		return stage.StartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *Stool2DDiagram:
+		return stage.Stool2DDiagram_stagedOrder[instance]
+	case *Stool3DDiagram:
+		return stage.Stool3DDiagram_stagedOrder[instance]
+	case *StoolAbstract:
+		return stage.StoolAbstract_stagedOrder[instance]
+	case *TiledFloor3DShape:
+		return stage.TiledFloor3DShape_stagedOrder[instance]
 	case *TopEndArcShape:
 		return stage.TopEndArcShape_stagedOrder[instance]
 	case *TopEndArcShapeGrid:
@@ -8136,10 +9949,18 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TopStartHalfwayArcShape_stagedOrder[instance]
 	case *TopStartHalfwayArcShapeGrid:
 		return stage.TopStartHalfwayArcShapeGrid_stagedOrder[instance]
+	case *Torus3DShape:
+		return stage.Torus3DShape_stagedOrder[instance]
 	case *TorusEdge3DShape:
 		return stage.TorusEdge3DShape_stagedOrder[instance]
 	case *TorusStackShape:
 		return stage.TorusStackShape_stagedOrder[instance]
+	case *Vase2DDiagram:
+		return stage.Vase2DDiagram_stagedOrder[instance]
+	case *Vase3DDiagram:
+		return stage.Vase3DDiagram_stagedOrder[instance]
+	case *VaseAbstract:
+		return stage.VaseAbstract_stagedOrder[instance]
 	case *VerticalTorusStackShape:
 		return stage.VerticalTorusStackShape_stagedOrder[instance]
 	case *VolumeKey3DShape:
@@ -8217,11 +10038,21 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["BaseVectorShapeGrid"] = len(stage.BaseVectorShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ChosenP1P2PairShape"] = len(stage.ChosenP1P2PairShapes)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
+	stage.Map_GongStructName_InstancesNb["Clock2DDiagram"] = len(stage.Clock2DDiagrams)
+	stage.Map_GongStructName_InstancesNb["Clock3DDiagram"] = len(stage.Clock3DDiagrams)
+	stage.Map_GongStructName_InstancesNb["ClockAbstract"] = len(stage.ClockAbstracts)
+	stage.Map_GongStructName_InstancesNb["ClockTopCurveShape"] = len(stage.ClockTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShape"] = len(stage.EndArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndArcShapeGrid"] = len(stage.EndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShape"] = len(stage.EndHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["EndHalfwayArcShapeGrid"] = len(stage.EndHalfwayArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ExplanationTextShape"] = len(stage.ExplanationTextShapes)
+	stage.Map_GongStructName_InstancesNb["Eye3DShape"] = len(stage.Eye3DShapes)
+	stage.Map_GongStructName_InstancesNb["EyeCornersSampledPoints3DShape"] = len(stage.EyeCornersSampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["EyeSampledPoints3DShape"] = len(stage.EyeSampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["EyeSeatBottomCurveShape"] = len(stage.EyeSeatBottomCurveShapes)
+	stage.Map_GongStructName_InstancesNb["EyeStoolBottomCurveShape"] = len(stage.EyeStoolBottomCurveShapes)
+	stage.Map_GongStructName_InstancesNb["EyeVolume3DShape"] = len(stage.EyeVolume3DShapes)
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthCurve2D"] = len(stage.GrowthCurve2Ds)
 	stage.Map_GongStructName_InstancesNb["GrowthCurve2DRibbon"] = len(stage.GrowthCurve2DRibbons)
@@ -8250,14 +10081,16 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP2CurveShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP2CurveShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryP2PointShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyGrowthCurve2DTrajectoryShape"] = len(stage.PartiallyGrowthCurve2DTrajectoryShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyRotatedSeatBottomCurveShape"] = len(stage.PartiallyRotatedSeatBottomCurveShapes)
+	stage.Map_GongStructName_InstancesNb["PartiallyRotatedSeatTopCurveShape"] = len(stage.PartiallyRotatedSeatTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["PartiallyRotatedTorusShape"] = len(stage.PartiallyRotatedTorusShapes)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVector"] = len(stage.PerpendicularVectors)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGrid"] = len(stage.PerpendicularVectorGrids)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorGridHalfway"] = len(stage.PerpendicularVectorGridHalfways)
 	stage.Map_GongStructName_InstancesNb["PerpendicularVectorHalfway"] = len(stage.PerpendicularVectorHalfways)
-	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
+	stage.Map_GongStructName_InstancesNb["Plant2DDiagram"] = len(stage.Plant2DDiagrams)
+	stage.Map_GongStructName_InstancesNb["PlantAbstract"] = len(stage.PlantAbstracts)
 	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
-	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
 	stage.Map_GongStructName_InstancesNb["PointsAndLines3DShape"] = len(stage.PointsAndLines3DShapes)
 	stage.Map_GongStructName_InstancesNb["PxShape"] = len(stage.PxShapes)
 	stage.Map_GongStructName_InstancesNb["Rendered3DShape"] = len(stage.Rendered3DShapes)
@@ -8265,7 +10098,13 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["RhombusStuff"] = len(stage.RhombusStuffs)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusGridShape"] = len(stage.RotatedRhombusGridShapes)
 	stage.Map_GongStructName_InstancesNb["RotatedRhombusShape"] = len(stage.RotatedRhombusShapes)
+	stage.Map_GongStructName_InstancesNb["RotatedSampledPoints3DShape"] = len(stage.RotatedSampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["RotatedSeatAndLegs3DShape"] = len(stage.RotatedSeatAndLegs3DShapes)
 	stage.Map_GongStructName_InstancesNb["SampledPoints3DShape"] = len(stage.SampledPoints3DShapes)
+	stage.Map_GongStructName_InstancesNb["Seat3DShape"] = len(stage.Seat3DShapes)
+	stage.Map_GongStructName_InstancesNb["SeatAndLegs3DShape"] = len(stage.SeatAndLegs3DShapes)
+	stage.Map_GongStructName_InstancesNb["SeatBottomCurveShape"] = len(stage.SeatBottomCurveShapes)
+	stage.Map_GongStructName_InstancesNb["SeatTopCurveShape"] = len(stage.SeatTopCurveShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShape"] = len(stage.ShiftedBottomTopStartArcShapes)
 	stage.Map_GongStructName_InstancesNb["ShiftedBottomTopStartArcShapeGrid"] = len(stage.ShiftedBottomTopStartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["ShiftedLeftGrowthCurve2DRibbon"] = len(stage.ShiftedLeftGrowthCurve2DRibbons)
@@ -8287,6 +10126,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurve2DRibbonStartShape"] = len(stage.StackGrowthCurve2DRibbonStartShapes)
 	stage.Map_GongStructName_InstancesNb["StackGrowthCurve2DStartHalfwayArcShape"] = len(stage.StackGrowthCurve2DStartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve2D"] = len(stage.StackOfGrowthCurve2Ds)
+	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve2DByGrowthVector"] = len(stage.StackOfGrowthCurve2DByGrowthVectors)
 	stage.Map_GongStructName_InstancesNb["StackOfGrowthCurve2DRibbon"] = len(stage.StackOfGrowthCurve2DRibbons)
 	stage.Map_GongStructName_InstancesNb["StackOfPartiallyRotatedTorusShape"] = len(stage.StackOfPartiallyRotatedTorusShapes)
 	stage.Map_GongStructName_InstancesNb["StackOfRotatedGrowthCurve2D"] = len(stage.StackOfRotatedGrowthCurve2Ds)
@@ -8299,6 +10139,10 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["StartArcShapeGrid"] = len(stage.StartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShape"] = len(stage.StartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["StartHalfwayArcShapeGrid"] = len(stage.StartHalfwayArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["Stool2DDiagram"] = len(stage.Stool2DDiagrams)
+	stage.Map_GongStructName_InstancesNb["Stool3DDiagram"] = len(stage.Stool3DDiagrams)
+	stage.Map_GongStructName_InstancesNb["StoolAbstract"] = len(stage.StoolAbstracts)
+	stage.Map_GongStructName_InstancesNb["TiledFloor3DShape"] = len(stage.TiledFloor3DShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShape"] = len(stage.TopEndArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopEndArcShapeGrid"] = len(stage.TopEndArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopEndHalfwayArcShape"] = len(stage.TopEndHalfwayArcShapes)
@@ -8316,8 +10160,12 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["TopStartArcShapeGrid"] = len(stage.TopStartArcShapeGrids)
 	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShape"] = len(stage.TopStartHalfwayArcShapes)
 	stage.Map_GongStructName_InstancesNb["TopStartHalfwayArcShapeGrid"] = len(stage.TopStartHalfwayArcShapeGrids)
+	stage.Map_GongStructName_InstancesNb["Torus3DShape"] = len(stage.Torus3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusEdge3DShape"] = len(stage.TorusEdge3DShapes)
 	stage.Map_GongStructName_InstancesNb["TorusStackShape"] = len(stage.TorusStackShapes)
+	stage.Map_GongStructName_InstancesNb["Vase2DDiagram"] = len(stage.Vase2DDiagrams)
+	stage.Map_GongStructName_InstancesNb["Vase3DDiagram"] = len(stage.Vase3DDiagrams)
+	stage.Map_GongStructName_InstancesNb["VaseAbstract"] = len(stage.VaseAbstracts)
 	stage.Map_GongStructName_InstancesNb["VerticalTorusStackShape"] = len(stage.VerticalTorusStackShapes)
 	stage.Map_GongStructName_InstancesNb["VolumeKey3DShape"] = len(stage.VolumeKey3DShapes)
 }
@@ -9064,6 +10912,358 @@ func (circlegridshape *CircleGridShape) SetName(name string) {
 	circlegridshape.Name = name
 }
 
+// Stage puts clock2ddiagram to the model stage
+func (clock2ddiagram *Clock2DDiagram) Stage(stage *Stage) *Clock2DDiagram {
+	if _, ok := stage.Clock2DDiagrams[clock2ddiagram]; !ok {
+		stage.Clock2DDiagrams[clock2ddiagram] = struct{}{}
+		stage.Clock2DDiagram_stagedOrder[clock2ddiagram] = stage.Clock2DDiagramOrder
+		stage.Clock2DDiagram_orderStaged[stage.Clock2DDiagramOrder] = clock2ddiagram
+		stage.Clock2DDiagramOrder++
+	}
+	stage.Clock2DDiagrams_mapString[clock2ddiagram.Name] = clock2ddiagram
+
+	return clock2ddiagram
+}
+
+// StagePreserveOrder puts clock2ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Clock2DDiagramOrder
+// - update stage.Clock2DDiagramOrder accordingly
+func (clock2ddiagram *Clock2DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Clock2DDiagrams[clock2ddiagram]; !ok {
+		stage.Clock2DDiagrams[clock2ddiagram] = struct{}{}
+
+		if order > stage.Clock2DDiagramOrder {
+			stage.Clock2DDiagramOrder = order
+		}
+		stage.Clock2DDiagram_stagedOrder[clock2ddiagram] = order
+		stage.Clock2DDiagram_orderStaged[order] = clock2ddiagram
+		stage.Clock2DDiagramOrder++
+	}
+	stage.Clock2DDiagrams_mapString[clock2ddiagram.Name] = clock2ddiagram
+}
+
+// Unstage removes clock2ddiagram off the model stage
+func (clock2ddiagram *Clock2DDiagram) Unstage(stage *Stage) *Clock2DDiagram {
+	delete(stage.Clock2DDiagrams, clock2ddiagram)
+	// issue1150
+	// delete(stage.Clock2DDiagram_stagedOrder, clock2ddiagram)
+	delete(stage.Clock2DDiagrams_mapString, clock2ddiagram.Name)
+
+	return clock2ddiagram
+}
+
+// UnstageVoid removes clock2ddiagram off the model stage
+func (clock2ddiagram *Clock2DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Clock2DDiagrams, clock2ddiagram)
+	// issue1150
+	// delete(stage.Clock2DDiagram_stagedOrder, clock2ddiagram)
+	delete(stage.Clock2DDiagrams_mapString, clock2ddiagram.Name)
+}
+
+// commit clock2ddiagram to the back repo (if it is already staged)
+func (clock2ddiagram *Clock2DDiagram) Commit(stage *Stage) *Clock2DDiagram {
+	if _, ok := stage.Clock2DDiagrams[clock2ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClock2DDiagram(clock2ddiagram)
+		}
+	}
+	return clock2ddiagram
+}
+
+func (clock2ddiagram *Clock2DDiagram) CommitVoid(stage *Stage) {
+	clock2ddiagram.Commit(stage)
+}
+
+func (clock2ddiagram *Clock2DDiagram) StageVoid(stage *Stage) {
+	clock2ddiagram.Stage(stage)
+}
+
+// Checkout clock2ddiagram to the back repo (if it is already staged)
+func (clock2ddiagram *Clock2DDiagram) Checkout(stage *Stage) *Clock2DDiagram {
+	if _, ok := stage.Clock2DDiagrams[clock2ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClock2DDiagram(clock2ddiagram)
+		}
+	}
+	return clock2ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (clock2ddiagram *Clock2DDiagram) GetName() (res string) {
+	return clock2ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clock2ddiagram *Clock2DDiagram) SetName(name string) {
+	clock2ddiagram.Name = name
+}
+
+// Stage puts clock3ddiagram to the model stage
+func (clock3ddiagram *Clock3DDiagram) Stage(stage *Stage) *Clock3DDiagram {
+	if _, ok := stage.Clock3DDiagrams[clock3ddiagram]; !ok {
+		stage.Clock3DDiagrams[clock3ddiagram] = struct{}{}
+		stage.Clock3DDiagram_stagedOrder[clock3ddiagram] = stage.Clock3DDiagramOrder
+		stage.Clock3DDiagram_orderStaged[stage.Clock3DDiagramOrder] = clock3ddiagram
+		stage.Clock3DDiagramOrder++
+	}
+	stage.Clock3DDiagrams_mapString[clock3ddiagram.Name] = clock3ddiagram
+
+	return clock3ddiagram
+}
+
+// StagePreserveOrder puts clock3ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Clock3DDiagramOrder
+// - update stage.Clock3DDiagramOrder accordingly
+func (clock3ddiagram *Clock3DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Clock3DDiagrams[clock3ddiagram]; !ok {
+		stage.Clock3DDiagrams[clock3ddiagram] = struct{}{}
+
+		if order > stage.Clock3DDiagramOrder {
+			stage.Clock3DDiagramOrder = order
+		}
+		stage.Clock3DDiagram_stagedOrder[clock3ddiagram] = order
+		stage.Clock3DDiagram_orderStaged[order] = clock3ddiagram
+		stage.Clock3DDiagramOrder++
+	}
+	stage.Clock3DDiagrams_mapString[clock3ddiagram.Name] = clock3ddiagram
+}
+
+// Unstage removes clock3ddiagram off the model stage
+func (clock3ddiagram *Clock3DDiagram) Unstage(stage *Stage) *Clock3DDiagram {
+	delete(stage.Clock3DDiagrams, clock3ddiagram)
+	// issue1150
+	// delete(stage.Clock3DDiagram_stagedOrder, clock3ddiagram)
+	delete(stage.Clock3DDiagrams_mapString, clock3ddiagram.Name)
+
+	return clock3ddiagram
+}
+
+// UnstageVoid removes clock3ddiagram off the model stage
+func (clock3ddiagram *Clock3DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Clock3DDiagrams, clock3ddiagram)
+	// issue1150
+	// delete(stage.Clock3DDiagram_stagedOrder, clock3ddiagram)
+	delete(stage.Clock3DDiagrams_mapString, clock3ddiagram.Name)
+}
+
+// commit clock3ddiagram to the back repo (if it is already staged)
+func (clock3ddiagram *Clock3DDiagram) Commit(stage *Stage) *Clock3DDiagram {
+	if _, ok := stage.Clock3DDiagrams[clock3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClock3DDiagram(clock3ddiagram)
+		}
+	}
+	return clock3ddiagram
+}
+
+func (clock3ddiagram *Clock3DDiagram) CommitVoid(stage *Stage) {
+	clock3ddiagram.Commit(stage)
+}
+
+func (clock3ddiagram *Clock3DDiagram) StageVoid(stage *Stage) {
+	clock3ddiagram.Stage(stage)
+}
+
+// Checkout clock3ddiagram to the back repo (if it is already staged)
+func (clock3ddiagram *Clock3DDiagram) Checkout(stage *Stage) *Clock3DDiagram {
+	if _, ok := stage.Clock3DDiagrams[clock3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClock3DDiagram(clock3ddiagram)
+		}
+	}
+	return clock3ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (clock3ddiagram *Clock3DDiagram) GetName() (res string) {
+	return clock3ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clock3ddiagram *Clock3DDiagram) SetName(name string) {
+	clock3ddiagram.Name = name
+}
+
+// Stage puts clockabstract to the model stage
+func (clockabstract *ClockAbstract) Stage(stage *Stage) *ClockAbstract {
+	if _, ok := stage.ClockAbstracts[clockabstract]; !ok {
+		stage.ClockAbstracts[clockabstract] = struct{}{}
+		stage.ClockAbstract_stagedOrder[clockabstract] = stage.ClockAbstractOrder
+		stage.ClockAbstract_orderStaged[stage.ClockAbstractOrder] = clockabstract
+		stage.ClockAbstractOrder++
+	}
+	stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
+
+	return clockabstract
+}
+
+// StagePreserveOrder puts clockabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClockAbstractOrder
+// - update stage.ClockAbstractOrder accordingly
+func (clockabstract *ClockAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ClockAbstracts[clockabstract]; !ok {
+		stage.ClockAbstracts[clockabstract] = struct{}{}
+
+		if order > stage.ClockAbstractOrder {
+			stage.ClockAbstractOrder = order
+		}
+		stage.ClockAbstract_stagedOrder[clockabstract] = order
+		stage.ClockAbstract_orderStaged[order] = clockabstract
+		stage.ClockAbstractOrder++
+	}
+	stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
+}
+
+// Unstage removes clockabstract off the model stage
+func (clockabstract *ClockAbstract) Unstage(stage *Stage) *ClockAbstract {
+	delete(stage.ClockAbstracts, clockabstract)
+	// issue1150
+	// delete(stage.ClockAbstract_stagedOrder, clockabstract)
+	delete(stage.ClockAbstracts_mapString, clockabstract.Name)
+
+	return clockabstract
+}
+
+// UnstageVoid removes clockabstract off the model stage
+func (clockabstract *ClockAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.ClockAbstracts, clockabstract)
+	// issue1150
+	// delete(stage.ClockAbstract_stagedOrder, clockabstract)
+	delete(stage.ClockAbstracts_mapString, clockabstract.Name)
+}
+
+// commit clockabstract to the back repo (if it is already staged)
+func (clockabstract *ClockAbstract) Commit(stage *Stage) *ClockAbstract {
+	if _, ok := stage.ClockAbstracts[clockabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClockAbstract(clockabstract)
+		}
+	}
+	return clockabstract
+}
+
+func (clockabstract *ClockAbstract) CommitVoid(stage *Stage) {
+	clockabstract.Commit(stage)
+}
+
+func (clockabstract *ClockAbstract) StageVoid(stage *Stage) {
+	clockabstract.Stage(stage)
+}
+
+// Checkout clockabstract to the back repo (if it is already staged)
+func (clockabstract *ClockAbstract) Checkout(stage *Stage) *ClockAbstract {
+	if _, ok := stage.ClockAbstracts[clockabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClockAbstract(clockabstract)
+		}
+	}
+	return clockabstract
+}
+
+// for satisfaction of GongStruct interface
+func (clockabstract *ClockAbstract) GetName() (res string) {
+	return clockabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clockabstract *ClockAbstract) SetName(name string) {
+	clockabstract.Name = name
+}
+
+// Stage puts clocktopcurveshape to the model stage
+func (clocktopcurveshape *ClockTopCurveShape) Stage(stage *Stage) *ClockTopCurveShape {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; !ok {
+		stage.ClockTopCurveShapes[clocktopcurveshape] = struct{}{}
+		stage.ClockTopCurveShape_stagedOrder[clocktopcurveshape] = stage.ClockTopCurveShapeOrder
+		stage.ClockTopCurveShape_orderStaged[stage.ClockTopCurveShapeOrder] = clocktopcurveshape
+		stage.ClockTopCurveShapeOrder++
+	}
+	stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
+
+	return clocktopcurveshape
+}
+
+// StagePreserveOrder puts clocktopcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClockTopCurveShapeOrder
+// - update stage.ClockTopCurveShapeOrder accordingly
+func (clocktopcurveshape *ClockTopCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; !ok {
+		stage.ClockTopCurveShapes[clocktopcurveshape] = struct{}{}
+
+		if order > stage.ClockTopCurveShapeOrder {
+			stage.ClockTopCurveShapeOrder = order
+		}
+		stage.ClockTopCurveShape_stagedOrder[clocktopcurveshape] = order
+		stage.ClockTopCurveShape_orderStaged[order] = clocktopcurveshape
+		stage.ClockTopCurveShapeOrder++
+	}
+	stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
+}
+
+// Unstage removes clocktopcurveshape off the model stage
+func (clocktopcurveshape *ClockTopCurveShape) Unstage(stage *Stage) *ClockTopCurveShape {
+	delete(stage.ClockTopCurveShapes, clocktopcurveshape)
+	// issue1150
+	// delete(stage.ClockTopCurveShape_stagedOrder, clocktopcurveshape)
+	delete(stage.ClockTopCurveShapes_mapString, clocktopcurveshape.Name)
+
+	return clocktopcurveshape
+}
+
+// UnstageVoid removes clocktopcurveshape off the model stage
+func (clocktopcurveshape *ClockTopCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.ClockTopCurveShapes, clocktopcurveshape)
+	// issue1150
+	// delete(stage.ClockTopCurveShape_stagedOrder, clocktopcurveshape)
+	delete(stage.ClockTopCurveShapes_mapString, clocktopcurveshape.Name)
+}
+
+// commit clocktopcurveshape to the back repo (if it is already staged)
+func (clocktopcurveshape *ClockTopCurveShape) Commit(stage *Stage) *ClockTopCurveShape {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitClockTopCurveShape(clocktopcurveshape)
+		}
+	}
+	return clocktopcurveshape
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) CommitVoid(stage *Stage) {
+	clocktopcurveshape.Commit(stage)
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) StageVoid(stage *Stage) {
+	clocktopcurveshape.Stage(stage)
+}
+
+// Checkout clocktopcurveshape to the back repo (if it is already staged)
+func (clocktopcurveshape *ClockTopCurveShape) Checkout(stage *Stage) *ClockTopCurveShape {
+	if _, ok := stage.ClockTopCurveShapes[clocktopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutClockTopCurveShape(clocktopcurveshape)
+		}
+	}
+	return clocktopcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (clocktopcurveshape *ClockTopCurveShape) GetName() (res string) {
+	return clocktopcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (clocktopcurveshape *ClockTopCurveShape) SetName(name string) {
+	clocktopcurveshape.Name = name
+}
+
 // Stage puts endarcshape to the model stage
 func (endarcshape *EndArcShape) Stage(stage *Stage) *EndArcShape {
 	if _, ok := stage.EndArcShapes[endarcshape]; !ok {
@@ -9502,6 +11702,534 @@ func (explanationtextshape *ExplanationTextShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (explanationtextshape *ExplanationTextShape) SetName(name string) {
 	explanationtextshape.Name = name
+}
+
+// Stage puts eye3dshape to the model stage
+func (eye3dshape *Eye3DShape) Stage(stage *Stage) *Eye3DShape {
+	if _, ok := stage.Eye3DShapes[eye3dshape]; !ok {
+		stage.Eye3DShapes[eye3dshape] = struct{}{}
+		stage.Eye3DShape_stagedOrder[eye3dshape] = stage.Eye3DShapeOrder
+		stage.Eye3DShape_orderStaged[stage.Eye3DShapeOrder] = eye3dshape
+		stage.Eye3DShapeOrder++
+	}
+	stage.Eye3DShapes_mapString[eye3dshape.Name] = eye3dshape
+
+	return eye3dshape
+}
+
+// StagePreserveOrder puts eye3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Eye3DShapeOrder
+// - update stage.Eye3DShapeOrder accordingly
+func (eye3dshape *Eye3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Eye3DShapes[eye3dshape]; !ok {
+		stage.Eye3DShapes[eye3dshape] = struct{}{}
+
+		if order > stage.Eye3DShapeOrder {
+			stage.Eye3DShapeOrder = order
+		}
+		stage.Eye3DShape_stagedOrder[eye3dshape] = order
+		stage.Eye3DShape_orderStaged[order] = eye3dshape
+		stage.Eye3DShapeOrder++
+	}
+	stage.Eye3DShapes_mapString[eye3dshape.Name] = eye3dshape
+}
+
+// Unstage removes eye3dshape off the model stage
+func (eye3dshape *Eye3DShape) Unstage(stage *Stage) *Eye3DShape {
+	delete(stage.Eye3DShapes, eye3dshape)
+	// issue1150
+	// delete(stage.Eye3DShape_stagedOrder, eye3dshape)
+	delete(stage.Eye3DShapes_mapString, eye3dshape.Name)
+
+	return eye3dshape
+}
+
+// UnstageVoid removes eye3dshape off the model stage
+func (eye3dshape *Eye3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Eye3DShapes, eye3dshape)
+	// issue1150
+	// delete(stage.Eye3DShape_stagedOrder, eye3dshape)
+	delete(stage.Eye3DShapes_mapString, eye3dshape.Name)
+}
+
+// commit eye3dshape to the back repo (if it is already staged)
+func (eye3dshape *Eye3DShape) Commit(stage *Stage) *Eye3DShape {
+	if _, ok := stage.Eye3DShapes[eye3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEye3DShape(eye3dshape)
+		}
+	}
+	return eye3dshape
+}
+
+func (eye3dshape *Eye3DShape) CommitVoid(stage *Stage) {
+	eye3dshape.Commit(stage)
+}
+
+func (eye3dshape *Eye3DShape) StageVoid(stage *Stage) {
+	eye3dshape.Stage(stage)
+}
+
+// Checkout eye3dshape to the back repo (if it is already staged)
+func (eye3dshape *Eye3DShape) Checkout(stage *Stage) *Eye3DShape {
+	if _, ok := stage.Eye3DShapes[eye3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEye3DShape(eye3dshape)
+		}
+	}
+	return eye3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (eye3dshape *Eye3DShape) GetName() (res string) {
+	return eye3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eye3dshape *Eye3DShape) SetName(name string) {
+	eye3dshape.Name = name
+}
+
+// Stage puts eyecornerssampledpoints3dshape to the model stage
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Stage(stage *Stage) *EyeCornersSampledPoints3DShape {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; !ok {
+		stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape] = struct{}{}
+		stage.EyeCornersSampledPoints3DShape_stagedOrder[eyecornerssampledpoints3dshape] = stage.EyeCornersSampledPoints3DShapeOrder
+		stage.EyeCornersSampledPoints3DShape_orderStaged[stage.EyeCornersSampledPoints3DShapeOrder] = eyecornerssampledpoints3dshape
+		stage.EyeCornersSampledPoints3DShapeOrder++
+	}
+	stage.EyeCornersSampledPoints3DShapes_mapString[eyecornerssampledpoints3dshape.Name] = eyecornerssampledpoints3dshape
+
+	return eyecornerssampledpoints3dshape
+}
+
+// StagePreserveOrder puts eyecornerssampledpoints3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeCornersSampledPoints3DShapeOrder
+// - update stage.EyeCornersSampledPoints3DShapeOrder accordingly
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; !ok {
+		stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape] = struct{}{}
+
+		if order > stage.EyeCornersSampledPoints3DShapeOrder {
+			stage.EyeCornersSampledPoints3DShapeOrder = order
+		}
+		stage.EyeCornersSampledPoints3DShape_stagedOrder[eyecornerssampledpoints3dshape] = order
+		stage.EyeCornersSampledPoints3DShape_orderStaged[order] = eyecornerssampledpoints3dshape
+		stage.EyeCornersSampledPoints3DShapeOrder++
+	}
+	stage.EyeCornersSampledPoints3DShapes_mapString[eyecornerssampledpoints3dshape.Name] = eyecornerssampledpoints3dshape
+}
+
+// Unstage removes eyecornerssampledpoints3dshape off the model stage
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Unstage(stage *Stage) *EyeCornersSampledPoints3DShape {
+	delete(stage.EyeCornersSampledPoints3DShapes, eyecornerssampledpoints3dshape)
+	// issue1150
+	// delete(stage.EyeCornersSampledPoints3DShape_stagedOrder, eyecornerssampledpoints3dshape)
+	delete(stage.EyeCornersSampledPoints3DShapes_mapString, eyecornerssampledpoints3dshape.Name)
+
+	return eyecornerssampledpoints3dshape
+}
+
+// UnstageVoid removes eyecornerssampledpoints3dshape off the model stage
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeCornersSampledPoints3DShapes, eyecornerssampledpoints3dshape)
+	// issue1150
+	// delete(stage.EyeCornersSampledPoints3DShape_stagedOrder, eyecornerssampledpoints3dshape)
+	delete(stage.EyeCornersSampledPoints3DShapes_mapString, eyecornerssampledpoints3dshape.Name)
+}
+
+// commit eyecornerssampledpoints3dshape to the back repo (if it is already staged)
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Commit(stage *Stage) *EyeCornersSampledPoints3DShape {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape)
+		}
+	}
+	return eyecornerssampledpoints3dshape
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) CommitVoid(stage *Stage) {
+	eyecornerssampledpoints3dshape.Commit(stage)
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) StageVoid(stage *Stage) {
+	eyecornerssampledpoints3dshape.Stage(stage)
+}
+
+// Checkout eyecornerssampledpoints3dshape to the back repo (if it is already staged)
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) Checkout(stage *Stage) *EyeCornersSampledPoints3DShape {
+	if _, ok := stage.EyeCornersSampledPoints3DShapes[eyecornerssampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeCornersSampledPoints3DShape(eyecornerssampledpoints3dshape)
+		}
+	}
+	return eyecornerssampledpoints3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GetName() (res string) {
+	return eyecornerssampledpoints3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) SetName(name string) {
+	eyecornerssampledpoints3dshape.Name = name
+}
+
+// Stage puts eyesampledpoints3dshape to the model stage
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) Stage(stage *Stage) *EyeSampledPoints3DShape {
+	if _, ok := stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape]; !ok {
+		stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape] = struct{}{}
+		stage.EyeSampledPoints3DShape_stagedOrder[eyesampledpoints3dshape] = stage.EyeSampledPoints3DShapeOrder
+		stage.EyeSampledPoints3DShape_orderStaged[stage.EyeSampledPoints3DShapeOrder] = eyesampledpoints3dshape
+		stage.EyeSampledPoints3DShapeOrder++
+	}
+	stage.EyeSampledPoints3DShapes_mapString[eyesampledpoints3dshape.Name] = eyesampledpoints3dshape
+
+	return eyesampledpoints3dshape
+}
+
+// StagePreserveOrder puts eyesampledpoints3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeSampledPoints3DShapeOrder
+// - update stage.EyeSampledPoints3DShapeOrder accordingly
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape]; !ok {
+		stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape] = struct{}{}
+
+		if order > stage.EyeSampledPoints3DShapeOrder {
+			stage.EyeSampledPoints3DShapeOrder = order
+		}
+		stage.EyeSampledPoints3DShape_stagedOrder[eyesampledpoints3dshape] = order
+		stage.EyeSampledPoints3DShape_orderStaged[order] = eyesampledpoints3dshape
+		stage.EyeSampledPoints3DShapeOrder++
+	}
+	stage.EyeSampledPoints3DShapes_mapString[eyesampledpoints3dshape.Name] = eyesampledpoints3dshape
+}
+
+// Unstage removes eyesampledpoints3dshape off the model stage
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) Unstage(stage *Stage) *EyeSampledPoints3DShape {
+	delete(stage.EyeSampledPoints3DShapes, eyesampledpoints3dshape)
+	// issue1150
+	// delete(stage.EyeSampledPoints3DShape_stagedOrder, eyesampledpoints3dshape)
+	delete(stage.EyeSampledPoints3DShapes_mapString, eyesampledpoints3dshape.Name)
+
+	return eyesampledpoints3dshape
+}
+
+// UnstageVoid removes eyesampledpoints3dshape off the model stage
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeSampledPoints3DShapes, eyesampledpoints3dshape)
+	// issue1150
+	// delete(stage.EyeSampledPoints3DShape_stagedOrder, eyesampledpoints3dshape)
+	delete(stage.EyeSampledPoints3DShapes_mapString, eyesampledpoints3dshape.Name)
+}
+
+// commit eyesampledpoints3dshape to the back repo (if it is already staged)
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) Commit(stage *Stage) *EyeSampledPoints3DShape {
+	if _, ok := stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeSampledPoints3DShape(eyesampledpoints3dshape)
+		}
+	}
+	return eyesampledpoints3dshape
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) CommitVoid(stage *Stage) {
+	eyesampledpoints3dshape.Commit(stage)
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) StageVoid(stage *Stage) {
+	eyesampledpoints3dshape.Stage(stage)
+}
+
+// Checkout eyesampledpoints3dshape to the back repo (if it is already staged)
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) Checkout(stage *Stage) *EyeSampledPoints3DShape {
+	if _, ok := stage.EyeSampledPoints3DShapes[eyesampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeSampledPoints3DShape(eyesampledpoints3dshape)
+		}
+	}
+	return eyesampledpoints3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GetName() (res string) {
+	return eyesampledpoints3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) SetName(name string) {
+	eyesampledpoints3dshape.Name = name
+}
+
+// Stage puts eyeseatbottomcurveshape to the model stage
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Stage(stage *Stage) *EyeSeatBottomCurveShape {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; !ok {
+		stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape] = struct{}{}
+		stage.EyeSeatBottomCurveShape_stagedOrder[eyeseatbottomcurveshape] = stage.EyeSeatBottomCurveShapeOrder
+		stage.EyeSeatBottomCurveShape_orderStaged[stage.EyeSeatBottomCurveShapeOrder] = eyeseatbottomcurveshape
+		stage.EyeSeatBottomCurveShapeOrder++
+	}
+	stage.EyeSeatBottomCurveShapes_mapString[eyeseatbottomcurveshape.Name] = eyeseatbottomcurveshape
+
+	return eyeseatbottomcurveshape
+}
+
+// StagePreserveOrder puts eyeseatbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeSeatBottomCurveShapeOrder
+// - update stage.EyeSeatBottomCurveShapeOrder accordingly
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; !ok {
+		stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape] = struct{}{}
+
+		if order > stage.EyeSeatBottomCurveShapeOrder {
+			stage.EyeSeatBottomCurveShapeOrder = order
+		}
+		stage.EyeSeatBottomCurveShape_stagedOrder[eyeseatbottomcurveshape] = order
+		stage.EyeSeatBottomCurveShape_orderStaged[order] = eyeseatbottomcurveshape
+		stage.EyeSeatBottomCurveShapeOrder++
+	}
+	stage.EyeSeatBottomCurveShapes_mapString[eyeseatbottomcurveshape.Name] = eyeseatbottomcurveshape
+}
+
+// Unstage removes eyeseatbottomcurveshape off the model stage
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Unstage(stage *Stage) *EyeSeatBottomCurveShape {
+	delete(stage.EyeSeatBottomCurveShapes, eyeseatbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeSeatBottomCurveShape_stagedOrder, eyeseatbottomcurveshape)
+	delete(stage.EyeSeatBottomCurveShapes_mapString, eyeseatbottomcurveshape.Name)
+
+	return eyeseatbottomcurveshape
+}
+
+// UnstageVoid removes eyeseatbottomcurveshape off the model stage
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeSeatBottomCurveShapes, eyeseatbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeSeatBottomCurveShape_stagedOrder, eyeseatbottomcurveshape)
+	delete(stage.EyeSeatBottomCurveShapes_mapString, eyeseatbottomcurveshape.Name)
+}
+
+// commit eyeseatbottomcurveshape to the back repo (if it is already staged)
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Commit(stage *Stage) *EyeSeatBottomCurveShape {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeSeatBottomCurveShape(eyeseatbottomcurveshape)
+		}
+	}
+	return eyeseatbottomcurveshape
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) CommitVoid(stage *Stage) {
+	eyeseatbottomcurveshape.Commit(stage)
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) StageVoid(stage *Stage) {
+	eyeseatbottomcurveshape.Stage(stage)
+}
+
+// Checkout eyeseatbottomcurveshape to the back repo (if it is already staged)
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) Checkout(stage *Stage) *EyeSeatBottomCurveShape {
+	if _, ok := stage.EyeSeatBottomCurveShapes[eyeseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeSeatBottomCurveShape(eyeseatbottomcurveshape)
+		}
+	}
+	return eyeseatbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GetName() (res string) {
+	return eyeseatbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) SetName(name string) {
+	eyeseatbottomcurveshape.Name = name
+}
+
+// Stage puts eyestoolbottomcurveshape to the model stage
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Stage(stage *Stage) *EyeStoolBottomCurveShape {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; !ok {
+		stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape] = struct{}{}
+		stage.EyeStoolBottomCurveShape_stagedOrder[eyestoolbottomcurveshape] = stage.EyeStoolBottomCurveShapeOrder
+		stage.EyeStoolBottomCurveShape_orderStaged[stage.EyeStoolBottomCurveShapeOrder] = eyestoolbottomcurveshape
+		stage.EyeStoolBottomCurveShapeOrder++
+	}
+	stage.EyeStoolBottomCurveShapes_mapString[eyestoolbottomcurveshape.Name] = eyestoolbottomcurveshape
+
+	return eyestoolbottomcurveshape
+}
+
+// StagePreserveOrder puts eyestoolbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeStoolBottomCurveShapeOrder
+// - update stage.EyeStoolBottomCurveShapeOrder accordingly
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; !ok {
+		stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape] = struct{}{}
+
+		if order > stage.EyeStoolBottomCurveShapeOrder {
+			stage.EyeStoolBottomCurveShapeOrder = order
+		}
+		stage.EyeStoolBottomCurveShape_stagedOrder[eyestoolbottomcurveshape] = order
+		stage.EyeStoolBottomCurveShape_orderStaged[order] = eyestoolbottomcurveshape
+		stage.EyeStoolBottomCurveShapeOrder++
+	}
+	stage.EyeStoolBottomCurveShapes_mapString[eyestoolbottomcurveshape.Name] = eyestoolbottomcurveshape
+}
+
+// Unstage removes eyestoolbottomcurveshape off the model stage
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Unstage(stage *Stage) *EyeStoolBottomCurveShape {
+	delete(stage.EyeStoolBottomCurveShapes, eyestoolbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeStoolBottomCurveShape_stagedOrder, eyestoolbottomcurveshape)
+	delete(stage.EyeStoolBottomCurveShapes_mapString, eyestoolbottomcurveshape.Name)
+
+	return eyestoolbottomcurveshape
+}
+
+// UnstageVoid removes eyestoolbottomcurveshape off the model stage
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeStoolBottomCurveShapes, eyestoolbottomcurveshape)
+	// issue1150
+	// delete(stage.EyeStoolBottomCurveShape_stagedOrder, eyestoolbottomcurveshape)
+	delete(stage.EyeStoolBottomCurveShapes_mapString, eyestoolbottomcurveshape.Name)
+}
+
+// commit eyestoolbottomcurveshape to the back repo (if it is already staged)
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Commit(stage *Stage) *EyeStoolBottomCurveShape {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeStoolBottomCurveShape(eyestoolbottomcurveshape)
+		}
+	}
+	return eyestoolbottomcurveshape
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) CommitVoid(stage *Stage) {
+	eyestoolbottomcurveshape.Commit(stage)
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) StageVoid(stage *Stage) {
+	eyestoolbottomcurveshape.Stage(stage)
+}
+
+// Checkout eyestoolbottomcurveshape to the back repo (if it is already staged)
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) Checkout(stage *Stage) *EyeStoolBottomCurveShape {
+	if _, ok := stage.EyeStoolBottomCurveShapes[eyestoolbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeStoolBottomCurveShape(eyestoolbottomcurveshape)
+		}
+	}
+	return eyestoolbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GetName() (res string) {
+	return eyestoolbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) SetName(name string) {
+	eyestoolbottomcurveshape.Name = name
+}
+
+// Stage puts eyevolume3dshape to the model stage
+func (eyevolume3dshape *EyeVolume3DShape) Stage(stage *Stage) *EyeVolume3DShape {
+	if _, ok := stage.EyeVolume3DShapes[eyevolume3dshape]; !ok {
+		stage.EyeVolume3DShapes[eyevolume3dshape] = struct{}{}
+		stage.EyeVolume3DShape_stagedOrder[eyevolume3dshape] = stage.EyeVolume3DShapeOrder
+		stage.EyeVolume3DShape_orderStaged[stage.EyeVolume3DShapeOrder] = eyevolume3dshape
+		stage.EyeVolume3DShapeOrder++
+	}
+	stage.EyeVolume3DShapes_mapString[eyevolume3dshape.Name] = eyevolume3dshape
+
+	return eyevolume3dshape
+}
+
+// StagePreserveOrder puts eyevolume3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EyeVolume3DShapeOrder
+// - update stage.EyeVolume3DShapeOrder accordingly
+func (eyevolume3dshape *EyeVolume3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.EyeVolume3DShapes[eyevolume3dshape]; !ok {
+		stage.EyeVolume3DShapes[eyevolume3dshape] = struct{}{}
+
+		if order > stage.EyeVolume3DShapeOrder {
+			stage.EyeVolume3DShapeOrder = order
+		}
+		stage.EyeVolume3DShape_stagedOrder[eyevolume3dshape] = order
+		stage.EyeVolume3DShape_orderStaged[order] = eyevolume3dshape
+		stage.EyeVolume3DShapeOrder++
+	}
+	stage.EyeVolume3DShapes_mapString[eyevolume3dshape.Name] = eyevolume3dshape
+}
+
+// Unstage removes eyevolume3dshape off the model stage
+func (eyevolume3dshape *EyeVolume3DShape) Unstage(stage *Stage) *EyeVolume3DShape {
+	delete(stage.EyeVolume3DShapes, eyevolume3dshape)
+	// issue1150
+	// delete(stage.EyeVolume3DShape_stagedOrder, eyevolume3dshape)
+	delete(stage.EyeVolume3DShapes_mapString, eyevolume3dshape.Name)
+
+	return eyevolume3dshape
+}
+
+// UnstageVoid removes eyevolume3dshape off the model stage
+func (eyevolume3dshape *EyeVolume3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.EyeVolume3DShapes, eyevolume3dshape)
+	// issue1150
+	// delete(stage.EyeVolume3DShape_stagedOrder, eyevolume3dshape)
+	delete(stage.EyeVolume3DShapes_mapString, eyevolume3dshape.Name)
+}
+
+// commit eyevolume3dshape to the back repo (if it is already staged)
+func (eyevolume3dshape *EyeVolume3DShape) Commit(stage *Stage) *EyeVolume3DShape {
+	if _, ok := stage.EyeVolume3DShapes[eyevolume3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEyeVolume3DShape(eyevolume3dshape)
+		}
+	}
+	return eyevolume3dshape
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) CommitVoid(stage *Stage) {
+	eyevolume3dshape.Commit(stage)
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) StageVoid(stage *Stage) {
+	eyevolume3dshape.Stage(stage)
+}
+
+// Checkout eyevolume3dshape to the back repo (if it is already staged)
+func (eyevolume3dshape *EyeVolume3DShape) Checkout(stage *Stage) *EyeVolume3DShape {
+	if _, ok := stage.EyeVolume3DShapes[eyevolume3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEyeVolume3DShape(eyevolume3dshape)
+		}
+	}
+	return eyevolume3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (eyevolume3dshape *EyeVolume3DShape) GetName() (res string) {
+	return eyevolume3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (eyevolume3dshape *EyeVolume3DShape) SetName(name string) {
+	eyevolume3dshape.Name = name
 }
 
 // Stage puts gridpathshape to the model stage
@@ -11968,6 +14696,182 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	partiallygrowthcurve2dtrajectoryshape.Name = name
 }
 
+// Stage puts partiallyrotatedseatbottomcurveshape to the model stage
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Stage(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; !ok {
+		stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape] = struct{}{}
+		stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[partiallyrotatedseatbottomcurveshape] = stage.PartiallyRotatedSeatBottomCurveShapeOrder
+		stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[stage.PartiallyRotatedSeatBottomCurveShapeOrder] = partiallyrotatedseatbottomcurveshape
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder++
+	}
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString[partiallyrotatedseatbottomcurveshape.Name] = partiallyrotatedseatbottomcurveshape
+
+	return partiallyrotatedseatbottomcurveshape
+}
+
+// StagePreserveOrder puts partiallyrotatedseatbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyRotatedSeatBottomCurveShapeOrder
+// - update stage.PartiallyRotatedSeatBottomCurveShapeOrder accordingly
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; !ok {
+		stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape] = struct{}{}
+
+		if order > stage.PartiallyRotatedSeatBottomCurveShapeOrder {
+			stage.PartiallyRotatedSeatBottomCurveShapeOrder = order
+		}
+		stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[partiallyrotatedseatbottomcurveshape] = order
+		stage.PartiallyRotatedSeatBottomCurveShape_orderStaged[order] = partiallyrotatedseatbottomcurveshape
+		stage.PartiallyRotatedSeatBottomCurveShapeOrder++
+	}
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString[partiallyrotatedseatbottomcurveshape.Name] = partiallyrotatedseatbottomcurveshape
+}
+
+// Unstage removes partiallyrotatedseatbottomcurveshape off the model stage
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Unstage(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes, partiallyrotatedseatbottomcurveshape)
+	// issue1150
+	// delete(stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder, partiallyrotatedseatbottomcurveshape)
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes_mapString, partiallyrotatedseatbottomcurveshape.Name)
+
+	return partiallyrotatedseatbottomcurveshape
+}
+
+// UnstageVoid removes partiallyrotatedseatbottomcurveshape off the model stage
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes, partiallyrotatedseatbottomcurveshape)
+	// issue1150
+	// delete(stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder, partiallyrotatedseatbottomcurveshape)
+	delete(stage.PartiallyRotatedSeatBottomCurveShapes_mapString, partiallyrotatedseatbottomcurveshape.Name)
+}
+
+// commit partiallyrotatedseatbottomcurveshape to the back repo (if it is already staged)
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Commit(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape)
+		}
+	}
+	return partiallyrotatedseatbottomcurveshape
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) CommitVoid(stage *Stage) {
+	partiallyrotatedseatbottomcurveshape.Commit(stage)
+}
+
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) StageVoid(stage *Stage) {
+	partiallyrotatedseatbottomcurveshape.Stage(stage)
+}
+
+// Checkout partiallyrotatedseatbottomcurveshape to the back repo (if it is already staged)
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) Checkout(stage *Stage) *PartiallyRotatedSeatBottomCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatBottomCurveShapes[partiallyrotatedseatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyRotatedSeatBottomCurveShape(partiallyrotatedseatbottomcurveshape)
+		}
+	}
+	return partiallyrotatedseatbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GetName() (res string) {
+	return partiallyrotatedseatbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) SetName(name string) {
+	partiallyrotatedseatbottomcurveshape.Name = name
+}
+
+// Stage puts partiallyrotatedseattopcurveshape to the model stage
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Stage(stage *Stage) *PartiallyRotatedSeatTopCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]; !ok {
+		stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape] = struct{}{}
+		stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[partiallyrotatedseattopcurveshape] = stage.PartiallyRotatedSeatTopCurveShapeOrder
+		stage.PartiallyRotatedSeatTopCurveShape_orderStaged[stage.PartiallyRotatedSeatTopCurveShapeOrder] = partiallyrotatedseattopcurveshape
+		stage.PartiallyRotatedSeatTopCurveShapeOrder++
+	}
+	stage.PartiallyRotatedSeatTopCurveShapes_mapString[partiallyrotatedseattopcurveshape.Name] = partiallyrotatedseattopcurveshape
+
+	return partiallyrotatedseattopcurveshape
+}
+
+// StagePreserveOrder puts partiallyrotatedseattopcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartiallyRotatedSeatTopCurveShapeOrder
+// - update stage.PartiallyRotatedSeatTopCurveShapeOrder accordingly
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]; !ok {
+		stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape] = struct{}{}
+
+		if order > stage.PartiallyRotatedSeatTopCurveShapeOrder {
+			stage.PartiallyRotatedSeatTopCurveShapeOrder = order
+		}
+		stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[partiallyrotatedseattopcurveshape] = order
+		stage.PartiallyRotatedSeatTopCurveShape_orderStaged[order] = partiallyrotatedseattopcurveshape
+		stage.PartiallyRotatedSeatTopCurveShapeOrder++
+	}
+	stage.PartiallyRotatedSeatTopCurveShapes_mapString[partiallyrotatedseattopcurveshape.Name] = partiallyrotatedseattopcurveshape
+}
+
+// Unstage removes partiallyrotatedseattopcurveshape off the model stage
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Unstage(stage *Stage) *PartiallyRotatedSeatTopCurveShape {
+	delete(stage.PartiallyRotatedSeatTopCurveShapes, partiallyrotatedseattopcurveshape)
+	// issue1150
+	// delete(stage.PartiallyRotatedSeatTopCurveShape_stagedOrder, partiallyrotatedseattopcurveshape)
+	delete(stage.PartiallyRotatedSeatTopCurveShapes_mapString, partiallyrotatedseattopcurveshape.Name)
+
+	return partiallyrotatedseattopcurveshape
+}
+
+// UnstageVoid removes partiallyrotatedseattopcurveshape off the model stage
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartiallyRotatedSeatTopCurveShapes, partiallyrotatedseattopcurveshape)
+	// issue1150
+	// delete(stage.PartiallyRotatedSeatTopCurveShape_stagedOrder, partiallyrotatedseattopcurveshape)
+	delete(stage.PartiallyRotatedSeatTopCurveShapes_mapString, partiallyrotatedseattopcurveshape.Name)
+}
+
+// commit partiallyrotatedseattopcurveshape to the back repo (if it is already staged)
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Commit(stage *Stage) *PartiallyRotatedSeatTopCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape)
+		}
+	}
+	return partiallyrotatedseattopcurveshape
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) CommitVoid(stage *Stage) {
+	partiallyrotatedseattopcurveshape.Commit(stage)
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) StageVoid(stage *Stage) {
+	partiallyrotatedseattopcurveshape.Stage(stage)
+}
+
+// Checkout partiallyrotatedseattopcurveshape to the back repo (if it is already staged)
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) Checkout(stage *Stage) *PartiallyRotatedSeatTopCurveShape {
+	if _, ok := stage.PartiallyRotatedSeatTopCurveShapes[partiallyrotatedseattopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartiallyRotatedSeatTopCurveShape(partiallyrotatedseattopcurveshape)
+		}
+	}
+	return partiallyrotatedseattopcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GetName() (res string) {
+	return partiallyrotatedseattopcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) SetName(name string) {
+	partiallyrotatedseattopcurveshape.Name = name
+}
+
 // Stage puts partiallyrotatedtorusshape to the model stage
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) Stage(stage *Stage) *PartiallyRotatedTorusShape {
 	if _, ok := stage.PartiallyRotatedTorusShapes[partiallyrotatedtorusshape]; !ok {
@@ -12408,92 +15312,180 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) SetName(name strin
 	perpendicularvectorhalfway.Name = name
 }
 
-// Stage puts plant to the model stage
-func (plant *Plant) Stage(stage *Stage) *Plant {
-	if _, ok := stage.Plants[plant]; !ok {
-		stage.Plants[plant] = struct{}{}
-		stage.Plant_stagedOrder[plant] = stage.PlantOrder
-		stage.Plant_orderStaged[stage.PlantOrder] = plant
-		stage.PlantOrder++
+// Stage puts plant2ddiagram to the model stage
+func (plant2ddiagram *Plant2DDiagram) Stage(stage *Stage) *Plant2DDiagram {
+	if _, ok := stage.Plant2DDiagrams[plant2ddiagram]; !ok {
+		stage.Plant2DDiagrams[plant2ddiagram] = struct{}{}
+		stage.Plant2DDiagram_stagedOrder[plant2ddiagram] = stage.Plant2DDiagramOrder
+		stage.Plant2DDiagram_orderStaged[stage.Plant2DDiagramOrder] = plant2ddiagram
+		stage.Plant2DDiagramOrder++
 	}
-	stage.Plants_mapString[plant.Name] = plant
+	stage.Plant2DDiagrams_mapString[plant2ddiagram.Name] = plant2ddiagram
 
-	return plant
+	return plant2ddiagram
 }
 
-// StagePreserveOrder puts plant to the model stage, and if the astrtuct
+// StagePreserveOrder puts plant2ddiagram to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.PlantOrder
-// - update stage.PlantOrder accordingly
-func (plant *Plant) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Plants[plant]; !ok {
-		stage.Plants[plant] = struct{}{}
+// - force the order if the order is equal or greater than the stage.Plant2DDiagramOrder
+// - update stage.Plant2DDiagramOrder accordingly
+func (plant2ddiagram *Plant2DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Plant2DDiagrams[plant2ddiagram]; !ok {
+		stage.Plant2DDiagrams[plant2ddiagram] = struct{}{}
 
-		if order > stage.PlantOrder {
-			stage.PlantOrder = order
+		if order > stage.Plant2DDiagramOrder {
+			stage.Plant2DDiagramOrder = order
 		}
-		stage.Plant_stagedOrder[plant] = order
-		stage.Plant_orderStaged[order] = plant
-		stage.PlantOrder++
+		stage.Plant2DDiagram_stagedOrder[plant2ddiagram] = order
+		stage.Plant2DDiagram_orderStaged[order] = plant2ddiagram
+		stage.Plant2DDiagramOrder++
 	}
-	stage.Plants_mapString[plant.Name] = plant
+	stage.Plant2DDiagrams_mapString[plant2ddiagram.Name] = plant2ddiagram
 }
 
-// Unstage removes plant off the model stage
-func (plant *Plant) Unstage(stage *Stage) *Plant {
-	delete(stage.Plants, plant)
+// Unstage removes plant2ddiagram off the model stage
+func (plant2ddiagram *Plant2DDiagram) Unstage(stage *Stage) *Plant2DDiagram {
+	delete(stage.Plant2DDiagrams, plant2ddiagram)
 	// issue1150
-	// delete(stage.Plant_stagedOrder, plant)
-	delete(stage.Plants_mapString, plant.Name)
+	// delete(stage.Plant2DDiagram_stagedOrder, plant2ddiagram)
+	delete(stage.Plant2DDiagrams_mapString, plant2ddiagram.Name)
 
-	return plant
+	return plant2ddiagram
 }
 
-// UnstageVoid removes plant off the model stage
-func (plant *Plant) UnstageVoid(stage *Stage) {
-	delete(stage.Plants, plant)
+// UnstageVoid removes plant2ddiagram off the model stage
+func (plant2ddiagram *Plant2DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Plant2DDiagrams, plant2ddiagram)
 	// issue1150
-	// delete(stage.Plant_stagedOrder, plant)
-	delete(stage.Plants_mapString, plant.Name)
+	// delete(stage.Plant2DDiagram_stagedOrder, plant2ddiagram)
+	delete(stage.Plant2DDiagrams_mapString, plant2ddiagram.Name)
 }
 
-// commit plant to the back repo (if it is already staged)
-func (plant *Plant) Commit(stage *Stage) *Plant {
-	if _, ok := stage.Plants[plant]; ok {
+// commit plant2ddiagram to the back repo (if it is already staged)
+func (plant2ddiagram *Plant2DDiagram) Commit(stage *Stage) *Plant2DDiagram {
+	if _, ok := stage.Plant2DDiagrams[plant2ddiagram]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPlant(plant)
+			stage.BackRepo.CommitPlant2DDiagram(plant2ddiagram)
 		}
 	}
-	return plant
+	return plant2ddiagram
 }
 
-func (plant *Plant) CommitVoid(stage *Stage) {
-	plant.Commit(stage)
+func (plant2ddiagram *Plant2DDiagram) CommitVoid(stage *Stage) {
+	plant2ddiagram.Commit(stage)
 }
 
-func (plant *Plant) StageVoid(stage *Stage) {
-	plant.Stage(stage)
+func (plant2ddiagram *Plant2DDiagram) StageVoid(stage *Stage) {
+	plant2ddiagram.Stage(stage)
 }
 
-// Checkout plant to the back repo (if it is already staged)
-func (plant *Plant) Checkout(stage *Stage) *Plant {
-	if _, ok := stage.Plants[plant]; ok {
+// Checkout plant2ddiagram to the back repo (if it is already staged)
+func (plant2ddiagram *Plant2DDiagram) Checkout(stage *Stage) *Plant2DDiagram {
+	if _, ok := stage.Plant2DDiagrams[plant2ddiagram]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPlant(plant)
+			stage.BackRepo.CheckoutPlant2DDiagram(plant2ddiagram)
 		}
 	}
-	return plant
+	return plant2ddiagram
 }
 
 // for satisfaction of GongStruct interface
-func (plant *Plant) GetName() (res string) {
-	return plant.Name
+func (plant2ddiagram *Plant2DDiagram) GetName() (res string) {
+	return plant2ddiagram.Name
 }
 
 // for satisfaction of GongStruct interface
-func (plant *Plant) SetName(name string) {
-	plant.Name = name
+func (plant2ddiagram *Plant2DDiagram) SetName(name string) {
+	plant2ddiagram.Name = name
+}
+
+// Stage puts plantabstract to the model stage
+func (plantabstract *PlantAbstract) Stage(stage *Stage) *PlantAbstract {
+	if _, ok := stage.PlantAbstracts[plantabstract]; !ok {
+		stage.PlantAbstracts[plantabstract] = struct{}{}
+		stage.PlantAbstract_stagedOrder[plantabstract] = stage.PlantAbstractOrder
+		stage.PlantAbstract_orderStaged[stage.PlantAbstractOrder] = plantabstract
+		stage.PlantAbstractOrder++
+	}
+	stage.PlantAbstracts_mapString[plantabstract.Name] = plantabstract
+
+	return plantabstract
+}
+
+// StagePreserveOrder puts plantabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PlantAbstractOrder
+// - update stage.PlantAbstractOrder accordingly
+func (plantabstract *PlantAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PlantAbstracts[plantabstract]; !ok {
+		stage.PlantAbstracts[plantabstract] = struct{}{}
+
+		if order > stage.PlantAbstractOrder {
+			stage.PlantAbstractOrder = order
+		}
+		stage.PlantAbstract_stagedOrder[plantabstract] = order
+		stage.PlantAbstract_orderStaged[order] = plantabstract
+		stage.PlantAbstractOrder++
+	}
+	stage.PlantAbstracts_mapString[plantabstract.Name] = plantabstract
+}
+
+// Unstage removes plantabstract off the model stage
+func (plantabstract *PlantAbstract) Unstage(stage *Stage) *PlantAbstract {
+	delete(stage.PlantAbstracts, plantabstract)
+	// issue1150
+	// delete(stage.PlantAbstract_stagedOrder, plantabstract)
+	delete(stage.PlantAbstracts_mapString, plantabstract.Name)
+
+	return plantabstract
+}
+
+// UnstageVoid removes plantabstract off the model stage
+func (plantabstract *PlantAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.PlantAbstracts, plantabstract)
+	// issue1150
+	// delete(stage.PlantAbstract_stagedOrder, plantabstract)
+	delete(stage.PlantAbstracts_mapString, plantabstract.Name)
+}
+
+// commit plantabstract to the back repo (if it is already staged)
+func (plantabstract *PlantAbstract) Commit(stage *Stage) *PlantAbstract {
+	if _, ok := stage.PlantAbstracts[plantabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPlantAbstract(plantabstract)
+		}
+	}
+	return plantabstract
+}
+
+func (plantabstract *PlantAbstract) CommitVoid(stage *Stage) {
+	plantabstract.Commit(stage)
+}
+
+func (plantabstract *PlantAbstract) StageVoid(stage *Stage) {
+	plantabstract.Stage(stage)
+}
+
+// Checkout plantabstract to the back repo (if it is already staged)
+func (plantabstract *PlantAbstract) Checkout(stage *Stage) *PlantAbstract {
+	if _, ok := stage.PlantAbstracts[plantabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPlantAbstract(plantabstract)
+		}
+	}
+	return plantabstract
+}
+
+// for satisfaction of GongStruct interface
+func (plantabstract *PlantAbstract) GetName() (res string) {
+	return plantabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (plantabstract *PlantAbstract) SetName(name string) {
+	plantabstract.Name = name
 }
 
 // Stage puts plantcircumferenceshape to the model stage
@@ -12582,94 +15574,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (plantcircumferenceshape *PlantCircumferenceShape) SetName(name string) {
 	plantcircumferenceshape.Name = name
-}
-
-// Stage puts plantdiagram to the model stage
-func (plantdiagram *PlantDiagram) Stage(stage *Stage) *PlantDiagram {
-	if _, ok := stage.PlantDiagrams[plantdiagram]; !ok {
-		stage.PlantDiagrams[plantdiagram] = struct{}{}
-		stage.PlantDiagram_stagedOrder[plantdiagram] = stage.PlantDiagramOrder
-		stage.PlantDiagram_orderStaged[stage.PlantDiagramOrder] = plantdiagram
-		stage.PlantDiagramOrder++
-	}
-	stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
-
-	return plantdiagram
-}
-
-// StagePreserveOrder puts plantdiagram to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.PlantDiagramOrder
-// - update stage.PlantDiagramOrder accordingly
-func (plantdiagram *PlantDiagram) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.PlantDiagrams[plantdiagram]; !ok {
-		stage.PlantDiagrams[plantdiagram] = struct{}{}
-
-		if order > stage.PlantDiagramOrder {
-			stage.PlantDiagramOrder = order
-		}
-		stage.PlantDiagram_stagedOrder[plantdiagram] = order
-		stage.PlantDiagram_orderStaged[order] = plantdiagram
-		stage.PlantDiagramOrder++
-	}
-	stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
-}
-
-// Unstage removes plantdiagram off the model stage
-func (plantdiagram *PlantDiagram) Unstage(stage *Stage) *PlantDiagram {
-	delete(stage.PlantDiagrams, plantdiagram)
-	// issue1150
-	// delete(stage.PlantDiagram_stagedOrder, plantdiagram)
-	delete(stage.PlantDiagrams_mapString, plantdiagram.Name)
-
-	return plantdiagram
-}
-
-// UnstageVoid removes plantdiagram off the model stage
-func (plantdiagram *PlantDiagram) UnstageVoid(stage *Stage) {
-	delete(stage.PlantDiagrams, plantdiagram)
-	// issue1150
-	// delete(stage.PlantDiagram_stagedOrder, plantdiagram)
-	delete(stage.PlantDiagrams_mapString, plantdiagram.Name)
-}
-
-// commit plantdiagram to the back repo (if it is already staged)
-func (plantdiagram *PlantDiagram) Commit(stage *Stage) *PlantDiagram {
-	if _, ok := stage.PlantDiagrams[plantdiagram]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPlantDiagram(plantdiagram)
-		}
-	}
-	return plantdiagram
-}
-
-func (plantdiagram *PlantDiagram) CommitVoid(stage *Stage) {
-	plantdiagram.Commit(stage)
-}
-
-func (plantdiagram *PlantDiagram) StageVoid(stage *Stage) {
-	plantdiagram.Stage(stage)
-}
-
-// Checkout plantdiagram to the back repo (if it is already staged)
-func (plantdiagram *PlantDiagram) Checkout(stage *Stage) *PlantDiagram {
-	if _, ok := stage.PlantDiagrams[plantdiagram]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPlantDiagram(plantdiagram)
-		}
-	}
-	return plantdiagram
-}
-
-// for satisfaction of GongStruct interface
-func (plantdiagram *PlantDiagram) GetName() (res string) {
-	return plantdiagram.Name
-}
-
-// for satisfaction of GongStruct interface
-func (plantdiagram *PlantDiagram) SetName(name string) {
-	plantdiagram.Name = name
 }
 
 // Stage puts pointsandlines3dshape to the model stage
@@ -13288,6 +16192,182 @@ func (rotatedrhombusshape *RotatedRhombusShape) SetName(name string) {
 	rotatedrhombusshape.Name = name
 }
 
+// Stage puts rotatedsampledpoints3dshape to the model stage
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) Stage(stage *Stage) *RotatedSampledPoints3DShape {
+	if _, ok := stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape]; !ok {
+		stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape] = struct{}{}
+		stage.RotatedSampledPoints3DShape_stagedOrder[rotatedsampledpoints3dshape] = stage.RotatedSampledPoints3DShapeOrder
+		stage.RotatedSampledPoints3DShape_orderStaged[stage.RotatedSampledPoints3DShapeOrder] = rotatedsampledpoints3dshape
+		stage.RotatedSampledPoints3DShapeOrder++
+	}
+	stage.RotatedSampledPoints3DShapes_mapString[rotatedsampledpoints3dshape.Name] = rotatedsampledpoints3dshape
+
+	return rotatedsampledpoints3dshape
+}
+
+// StagePreserveOrder puts rotatedsampledpoints3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RotatedSampledPoints3DShapeOrder
+// - update stage.RotatedSampledPoints3DShapeOrder accordingly
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape]; !ok {
+		stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape] = struct{}{}
+
+		if order > stage.RotatedSampledPoints3DShapeOrder {
+			stage.RotatedSampledPoints3DShapeOrder = order
+		}
+		stage.RotatedSampledPoints3DShape_stagedOrder[rotatedsampledpoints3dshape] = order
+		stage.RotatedSampledPoints3DShape_orderStaged[order] = rotatedsampledpoints3dshape
+		stage.RotatedSampledPoints3DShapeOrder++
+	}
+	stage.RotatedSampledPoints3DShapes_mapString[rotatedsampledpoints3dshape.Name] = rotatedsampledpoints3dshape
+}
+
+// Unstage removes rotatedsampledpoints3dshape off the model stage
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) Unstage(stage *Stage) *RotatedSampledPoints3DShape {
+	delete(stage.RotatedSampledPoints3DShapes, rotatedsampledpoints3dshape)
+	// issue1150
+	// delete(stage.RotatedSampledPoints3DShape_stagedOrder, rotatedsampledpoints3dshape)
+	delete(stage.RotatedSampledPoints3DShapes_mapString, rotatedsampledpoints3dshape.Name)
+
+	return rotatedsampledpoints3dshape
+}
+
+// UnstageVoid removes rotatedsampledpoints3dshape off the model stage
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.RotatedSampledPoints3DShapes, rotatedsampledpoints3dshape)
+	// issue1150
+	// delete(stage.RotatedSampledPoints3DShape_stagedOrder, rotatedsampledpoints3dshape)
+	delete(stage.RotatedSampledPoints3DShapes_mapString, rotatedsampledpoints3dshape.Name)
+}
+
+// commit rotatedsampledpoints3dshape to the back repo (if it is already staged)
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) Commit(stage *Stage) *RotatedSampledPoints3DShape {
+	if _, ok := stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitRotatedSampledPoints3DShape(rotatedsampledpoints3dshape)
+		}
+	}
+	return rotatedsampledpoints3dshape
+}
+
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) CommitVoid(stage *Stage) {
+	rotatedsampledpoints3dshape.Commit(stage)
+}
+
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) StageVoid(stage *Stage) {
+	rotatedsampledpoints3dshape.Stage(stage)
+}
+
+// Checkout rotatedsampledpoints3dshape to the back repo (if it is already staged)
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) Checkout(stage *Stage) *RotatedSampledPoints3DShape {
+	if _, ok := stage.RotatedSampledPoints3DShapes[rotatedsampledpoints3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutRotatedSampledPoints3DShape(rotatedsampledpoints3dshape)
+		}
+	}
+	return rotatedsampledpoints3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GetName() (res string) {
+	return rotatedsampledpoints3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) SetName(name string) {
+	rotatedsampledpoints3dshape.Name = name
+}
+
+// Stage puts rotatedseatandlegs3dshape to the model stage
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) Stage(stage *Stage) *RotatedSeatAndLegs3DShape {
+	if _, ok := stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape]; !ok {
+		stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape] = struct{}{}
+		stage.RotatedSeatAndLegs3DShape_stagedOrder[rotatedseatandlegs3dshape] = stage.RotatedSeatAndLegs3DShapeOrder
+		stage.RotatedSeatAndLegs3DShape_orderStaged[stage.RotatedSeatAndLegs3DShapeOrder] = rotatedseatandlegs3dshape
+		stage.RotatedSeatAndLegs3DShapeOrder++
+	}
+	stage.RotatedSeatAndLegs3DShapes_mapString[rotatedseatandlegs3dshape.Name] = rotatedseatandlegs3dshape
+
+	return rotatedseatandlegs3dshape
+}
+
+// StagePreserveOrder puts rotatedseatandlegs3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RotatedSeatAndLegs3DShapeOrder
+// - update stage.RotatedSeatAndLegs3DShapeOrder accordingly
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape]; !ok {
+		stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape] = struct{}{}
+
+		if order > stage.RotatedSeatAndLegs3DShapeOrder {
+			stage.RotatedSeatAndLegs3DShapeOrder = order
+		}
+		stage.RotatedSeatAndLegs3DShape_stagedOrder[rotatedseatandlegs3dshape] = order
+		stage.RotatedSeatAndLegs3DShape_orderStaged[order] = rotatedseatandlegs3dshape
+		stage.RotatedSeatAndLegs3DShapeOrder++
+	}
+	stage.RotatedSeatAndLegs3DShapes_mapString[rotatedseatandlegs3dshape.Name] = rotatedseatandlegs3dshape
+}
+
+// Unstage removes rotatedseatandlegs3dshape off the model stage
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) Unstage(stage *Stage) *RotatedSeatAndLegs3DShape {
+	delete(stage.RotatedSeatAndLegs3DShapes, rotatedseatandlegs3dshape)
+	// issue1150
+	// delete(stage.RotatedSeatAndLegs3DShape_stagedOrder, rotatedseatandlegs3dshape)
+	delete(stage.RotatedSeatAndLegs3DShapes_mapString, rotatedseatandlegs3dshape.Name)
+
+	return rotatedseatandlegs3dshape
+}
+
+// UnstageVoid removes rotatedseatandlegs3dshape off the model stage
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.RotatedSeatAndLegs3DShapes, rotatedseatandlegs3dshape)
+	// issue1150
+	// delete(stage.RotatedSeatAndLegs3DShape_stagedOrder, rotatedseatandlegs3dshape)
+	delete(stage.RotatedSeatAndLegs3DShapes_mapString, rotatedseatandlegs3dshape.Name)
+}
+
+// commit rotatedseatandlegs3dshape to the back repo (if it is already staged)
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) Commit(stage *Stage) *RotatedSeatAndLegs3DShape {
+	if _, ok := stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape)
+		}
+	}
+	return rotatedseatandlegs3dshape
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) CommitVoid(stage *Stage) {
+	rotatedseatandlegs3dshape.Commit(stage)
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) StageVoid(stage *Stage) {
+	rotatedseatandlegs3dshape.Stage(stage)
+}
+
+// Checkout rotatedseatandlegs3dshape to the back repo (if it is already staged)
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) Checkout(stage *Stage) *RotatedSeatAndLegs3DShape {
+	if _, ok := stage.RotatedSeatAndLegs3DShapes[rotatedseatandlegs3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutRotatedSeatAndLegs3DShape(rotatedseatandlegs3dshape)
+		}
+	}
+	return rotatedseatandlegs3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GetName() (res string) {
+	return rotatedseatandlegs3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) SetName(name string) {
+	rotatedseatandlegs3dshape.Name = name
+}
+
 // Stage puts sampledpoints3dshape to the model stage
 func (sampledpoints3dshape *SampledPoints3DShape) Stage(stage *Stage) *SampledPoints3DShape {
 	if _, ok := stage.SampledPoints3DShapes[sampledpoints3dshape]; !ok {
@@ -13374,6 +16454,358 @@ func (sampledpoints3dshape *SampledPoints3DShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (sampledpoints3dshape *SampledPoints3DShape) SetName(name string) {
 	sampledpoints3dshape.Name = name
+}
+
+// Stage puts seat3dshape to the model stage
+func (seat3dshape *Seat3DShape) Stage(stage *Stage) *Seat3DShape {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; !ok {
+		stage.Seat3DShapes[seat3dshape] = struct{}{}
+		stage.Seat3DShape_stagedOrder[seat3dshape] = stage.Seat3DShapeOrder
+		stage.Seat3DShape_orderStaged[stage.Seat3DShapeOrder] = seat3dshape
+		stage.Seat3DShapeOrder++
+	}
+	stage.Seat3DShapes_mapString[seat3dshape.Name] = seat3dshape
+
+	return seat3dshape
+}
+
+// StagePreserveOrder puts seat3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Seat3DShapeOrder
+// - update stage.Seat3DShapeOrder accordingly
+func (seat3dshape *Seat3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; !ok {
+		stage.Seat3DShapes[seat3dshape] = struct{}{}
+
+		if order > stage.Seat3DShapeOrder {
+			stage.Seat3DShapeOrder = order
+		}
+		stage.Seat3DShape_stagedOrder[seat3dshape] = order
+		stage.Seat3DShape_orderStaged[order] = seat3dshape
+		stage.Seat3DShapeOrder++
+	}
+	stage.Seat3DShapes_mapString[seat3dshape.Name] = seat3dshape
+}
+
+// Unstage removes seat3dshape off the model stage
+func (seat3dshape *Seat3DShape) Unstage(stage *Stage) *Seat3DShape {
+	delete(stage.Seat3DShapes, seat3dshape)
+	// issue1150
+	// delete(stage.Seat3DShape_stagedOrder, seat3dshape)
+	delete(stage.Seat3DShapes_mapString, seat3dshape.Name)
+
+	return seat3dshape
+}
+
+// UnstageVoid removes seat3dshape off the model stage
+func (seat3dshape *Seat3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Seat3DShapes, seat3dshape)
+	// issue1150
+	// delete(stage.Seat3DShape_stagedOrder, seat3dshape)
+	delete(stage.Seat3DShapes_mapString, seat3dshape.Name)
+}
+
+// commit seat3dshape to the back repo (if it is already staged)
+func (seat3dshape *Seat3DShape) Commit(stage *Stage) *Seat3DShape {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSeat3DShape(seat3dshape)
+		}
+	}
+	return seat3dshape
+}
+
+func (seat3dshape *Seat3DShape) CommitVoid(stage *Stage) {
+	seat3dshape.Commit(stage)
+}
+
+func (seat3dshape *Seat3DShape) StageVoid(stage *Stage) {
+	seat3dshape.Stage(stage)
+}
+
+// Checkout seat3dshape to the back repo (if it is already staged)
+func (seat3dshape *Seat3DShape) Checkout(stage *Stage) *Seat3DShape {
+	if _, ok := stage.Seat3DShapes[seat3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSeat3DShape(seat3dshape)
+		}
+	}
+	return seat3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (seat3dshape *Seat3DShape) GetName() (res string) {
+	return seat3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (seat3dshape *Seat3DShape) SetName(name string) {
+	seat3dshape.Name = name
+}
+
+// Stage puts seatandlegs3dshape to the model stage
+func (seatandlegs3dshape *SeatAndLegs3DShape) Stage(stage *Stage) *SeatAndLegs3DShape {
+	if _, ok := stage.SeatAndLegs3DShapes[seatandlegs3dshape]; !ok {
+		stage.SeatAndLegs3DShapes[seatandlegs3dshape] = struct{}{}
+		stage.SeatAndLegs3DShape_stagedOrder[seatandlegs3dshape] = stage.SeatAndLegs3DShapeOrder
+		stage.SeatAndLegs3DShape_orderStaged[stage.SeatAndLegs3DShapeOrder] = seatandlegs3dshape
+		stage.SeatAndLegs3DShapeOrder++
+	}
+	stage.SeatAndLegs3DShapes_mapString[seatandlegs3dshape.Name] = seatandlegs3dshape
+
+	return seatandlegs3dshape
+}
+
+// StagePreserveOrder puts seatandlegs3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SeatAndLegs3DShapeOrder
+// - update stage.SeatAndLegs3DShapeOrder accordingly
+func (seatandlegs3dshape *SeatAndLegs3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SeatAndLegs3DShapes[seatandlegs3dshape]; !ok {
+		stage.SeatAndLegs3DShapes[seatandlegs3dshape] = struct{}{}
+
+		if order > stage.SeatAndLegs3DShapeOrder {
+			stage.SeatAndLegs3DShapeOrder = order
+		}
+		stage.SeatAndLegs3DShape_stagedOrder[seatandlegs3dshape] = order
+		stage.SeatAndLegs3DShape_orderStaged[order] = seatandlegs3dshape
+		stage.SeatAndLegs3DShapeOrder++
+	}
+	stage.SeatAndLegs3DShapes_mapString[seatandlegs3dshape.Name] = seatandlegs3dshape
+}
+
+// Unstage removes seatandlegs3dshape off the model stage
+func (seatandlegs3dshape *SeatAndLegs3DShape) Unstage(stage *Stage) *SeatAndLegs3DShape {
+	delete(stage.SeatAndLegs3DShapes, seatandlegs3dshape)
+	// issue1150
+	// delete(stage.SeatAndLegs3DShape_stagedOrder, seatandlegs3dshape)
+	delete(stage.SeatAndLegs3DShapes_mapString, seatandlegs3dshape.Name)
+
+	return seatandlegs3dshape
+}
+
+// UnstageVoid removes seatandlegs3dshape off the model stage
+func (seatandlegs3dshape *SeatAndLegs3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.SeatAndLegs3DShapes, seatandlegs3dshape)
+	// issue1150
+	// delete(stage.SeatAndLegs3DShape_stagedOrder, seatandlegs3dshape)
+	delete(stage.SeatAndLegs3DShapes_mapString, seatandlegs3dshape.Name)
+}
+
+// commit seatandlegs3dshape to the back repo (if it is already staged)
+func (seatandlegs3dshape *SeatAndLegs3DShape) Commit(stage *Stage) *SeatAndLegs3DShape {
+	if _, ok := stage.SeatAndLegs3DShapes[seatandlegs3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSeatAndLegs3DShape(seatandlegs3dshape)
+		}
+	}
+	return seatandlegs3dshape
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) CommitVoid(stage *Stage) {
+	seatandlegs3dshape.Commit(stage)
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) StageVoid(stage *Stage) {
+	seatandlegs3dshape.Stage(stage)
+}
+
+// Checkout seatandlegs3dshape to the back repo (if it is already staged)
+func (seatandlegs3dshape *SeatAndLegs3DShape) Checkout(stage *Stage) *SeatAndLegs3DShape {
+	if _, ok := stage.SeatAndLegs3DShapes[seatandlegs3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSeatAndLegs3DShape(seatandlegs3dshape)
+		}
+	}
+	return seatandlegs3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (seatandlegs3dshape *SeatAndLegs3DShape) GetName() (res string) {
+	return seatandlegs3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (seatandlegs3dshape *SeatAndLegs3DShape) SetName(name string) {
+	seatandlegs3dshape.Name = name
+}
+
+// Stage puts seatbottomcurveshape to the model stage
+func (seatbottomcurveshape *SeatBottomCurveShape) Stage(stage *Stage) *SeatBottomCurveShape {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; !ok {
+		stage.SeatBottomCurveShapes[seatbottomcurveshape] = struct{}{}
+		stage.SeatBottomCurveShape_stagedOrder[seatbottomcurveshape] = stage.SeatBottomCurveShapeOrder
+		stage.SeatBottomCurveShape_orderStaged[stage.SeatBottomCurveShapeOrder] = seatbottomcurveshape
+		stage.SeatBottomCurveShapeOrder++
+	}
+	stage.SeatBottomCurveShapes_mapString[seatbottomcurveshape.Name] = seatbottomcurveshape
+
+	return seatbottomcurveshape
+}
+
+// StagePreserveOrder puts seatbottomcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SeatBottomCurveShapeOrder
+// - update stage.SeatBottomCurveShapeOrder accordingly
+func (seatbottomcurveshape *SeatBottomCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; !ok {
+		stage.SeatBottomCurveShapes[seatbottomcurveshape] = struct{}{}
+
+		if order > stage.SeatBottomCurveShapeOrder {
+			stage.SeatBottomCurveShapeOrder = order
+		}
+		stage.SeatBottomCurveShape_stagedOrder[seatbottomcurveshape] = order
+		stage.SeatBottomCurveShape_orderStaged[order] = seatbottomcurveshape
+		stage.SeatBottomCurveShapeOrder++
+	}
+	stage.SeatBottomCurveShapes_mapString[seatbottomcurveshape.Name] = seatbottomcurveshape
+}
+
+// Unstage removes seatbottomcurveshape off the model stage
+func (seatbottomcurveshape *SeatBottomCurveShape) Unstage(stage *Stage) *SeatBottomCurveShape {
+	delete(stage.SeatBottomCurveShapes, seatbottomcurveshape)
+	// issue1150
+	// delete(stage.SeatBottomCurveShape_stagedOrder, seatbottomcurveshape)
+	delete(stage.SeatBottomCurveShapes_mapString, seatbottomcurveshape.Name)
+
+	return seatbottomcurveshape
+}
+
+// UnstageVoid removes seatbottomcurveshape off the model stage
+func (seatbottomcurveshape *SeatBottomCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.SeatBottomCurveShapes, seatbottomcurveshape)
+	// issue1150
+	// delete(stage.SeatBottomCurveShape_stagedOrder, seatbottomcurveshape)
+	delete(stage.SeatBottomCurveShapes_mapString, seatbottomcurveshape.Name)
+}
+
+// commit seatbottomcurveshape to the back repo (if it is already staged)
+func (seatbottomcurveshape *SeatBottomCurveShape) Commit(stage *Stage) *SeatBottomCurveShape {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSeatBottomCurveShape(seatbottomcurveshape)
+		}
+	}
+	return seatbottomcurveshape
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) CommitVoid(stage *Stage) {
+	seatbottomcurveshape.Commit(stage)
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) StageVoid(stage *Stage) {
+	seatbottomcurveshape.Stage(stage)
+}
+
+// Checkout seatbottomcurveshape to the back repo (if it is already staged)
+func (seatbottomcurveshape *SeatBottomCurveShape) Checkout(stage *Stage) *SeatBottomCurveShape {
+	if _, ok := stage.SeatBottomCurveShapes[seatbottomcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSeatBottomCurveShape(seatbottomcurveshape)
+		}
+	}
+	return seatbottomcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (seatbottomcurveshape *SeatBottomCurveShape) GetName() (res string) {
+	return seatbottomcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (seatbottomcurveshape *SeatBottomCurveShape) SetName(name string) {
+	seatbottomcurveshape.Name = name
+}
+
+// Stage puts seattopcurveshape to the model stage
+func (seattopcurveshape *SeatTopCurveShape) Stage(stage *Stage) *SeatTopCurveShape {
+	if _, ok := stage.SeatTopCurveShapes[seattopcurveshape]; !ok {
+		stage.SeatTopCurveShapes[seattopcurveshape] = struct{}{}
+		stage.SeatTopCurveShape_stagedOrder[seattopcurveshape] = stage.SeatTopCurveShapeOrder
+		stage.SeatTopCurveShape_orderStaged[stage.SeatTopCurveShapeOrder] = seattopcurveshape
+		stage.SeatTopCurveShapeOrder++
+	}
+	stage.SeatTopCurveShapes_mapString[seattopcurveshape.Name] = seattopcurveshape
+
+	return seattopcurveshape
+}
+
+// StagePreserveOrder puts seattopcurveshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SeatTopCurveShapeOrder
+// - update stage.SeatTopCurveShapeOrder accordingly
+func (seattopcurveshape *SeatTopCurveShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SeatTopCurveShapes[seattopcurveshape]; !ok {
+		stage.SeatTopCurveShapes[seattopcurveshape] = struct{}{}
+
+		if order > stage.SeatTopCurveShapeOrder {
+			stage.SeatTopCurveShapeOrder = order
+		}
+		stage.SeatTopCurveShape_stagedOrder[seattopcurveshape] = order
+		stage.SeatTopCurveShape_orderStaged[order] = seattopcurveshape
+		stage.SeatTopCurveShapeOrder++
+	}
+	stage.SeatTopCurveShapes_mapString[seattopcurveshape.Name] = seattopcurveshape
+}
+
+// Unstage removes seattopcurveshape off the model stage
+func (seattopcurveshape *SeatTopCurveShape) Unstage(stage *Stage) *SeatTopCurveShape {
+	delete(stage.SeatTopCurveShapes, seattopcurveshape)
+	// issue1150
+	// delete(stage.SeatTopCurveShape_stagedOrder, seattopcurveshape)
+	delete(stage.SeatTopCurveShapes_mapString, seattopcurveshape.Name)
+
+	return seattopcurveshape
+}
+
+// UnstageVoid removes seattopcurveshape off the model stage
+func (seattopcurveshape *SeatTopCurveShape) UnstageVoid(stage *Stage) {
+	delete(stage.SeatTopCurveShapes, seattopcurveshape)
+	// issue1150
+	// delete(stage.SeatTopCurveShape_stagedOrder, seattopcurveshape)
+	delete(stage.SeatTopCurveShapes_mapString, seattopcurveshape.Name)
+}
+
+// commit seattopcurveshape to the back repo (if it is already staged)
+func (seattopcurveshape *SeatTopCurveShape) Commit(stage *Stage) *SeatTopCurveShape {
+	if _, ok := stage.SeatTopCurveShapes[seattopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSeatTopCurveShape(seattopcurveshape)
+		}
+	}
+	return seattopcurveshape
+}
+
+func (seattopcurveshape *SeatTopCurveShape) CommitVoid(stage *Stage) {
+	seattopcurveshape.Commit(stage)
+}
+
+func (seattopcurveshape *SeatTopCurveShape) StageVoid(stage *Stage) {
+	seattopcurveshape.Stage(stage)
+}
+
+// Checkout seattopcurveshape to the back repo (if it is already staged)
+func (seattopcurveshape *SeatTopCurveShape) Checkout(stage *Stage) *SeatTopCurveShape {
+	if _, ok := stage.SeatTopCurveShapes[seattopcurveshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSeatTopCurveShape(seattopcurveshape)
+		}
+	}
+	return seattopcurveshape
+}
+
+// for satisfaction of GongStruct interface
+func (seattopcurveshape *SeatTopCurveShape) GetName() (res string) {
+	return seattopcurveshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (seattopcurveshape *SeatTopCurveShape) SetName(name string) {
+	seattopcurveshape.Name = name
 }
 
 // Stage puts shiftedbottomtopstartarcshape to the model stage
@@ -15224,6 +18656,94 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) SetName(name string) {
 	stackofgrowthcurve2d.Name = name
 }
 
+// Stage puts stackofgrowthcurve2dbygrowthvector to the model stage
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Stage(stage *Stage) *StackOfGrowthCurve2DByGrowthVector {
+	if _, ok := stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector]; !ok {
+		stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector] = struct{}{}
+		stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[stackofgrowthcurve2dbygrowthvector] = stage.StackOfGrowthCurve2DByGrowthVectorOrder
+		stage.StackOfGrowthCurve2DByGrowthVector_orderStaged[stage.StackOfGrowthCurve2DByGrowthVectorOrder] = stackofgrowthcurve2dbygrowthvector
+		stage.StackOfGrowthCurve2DByGrowthVectorOrder++
+	}
+	stage.StackOfGrowthCurve2DByGrowthVectors_mapString[stackofgrowthcurve2dbygrowthvector.Name] = stackofgrowthcurve2dbygrowthvector
+
+	return stackofgrowthcurve2dbygrowthvector
+}
+
+// StagePreserveOrder puts stackofgrowthcurve2dbygrowthvector to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StackOfGrowthCurve2DByGrowthVectorOrder
+// - update stage.StackOfGrowthCurve2DByGrowthVectorOrder accordingly
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector]; !ok {
+		stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector] = struct{}{}
+
+		if order > stage.StackOfGrowthCurve2DByGrowthVectorOrder {
+			stage.StackOfGrowthCurve2DByGrowthVectorOrder = order
+		}
+		stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[stackofgrowthcurve2dbygrowthvector] = order
+		stage.StackOfGrowthCurve2DByGrowthVector_orderStaged[order] = stackofgrowthcurve2dbygrowthvector
+		stage.StackOfGrowthCurve2DByGrowthVectorOrder++
+	}
+	stage.StackOfGrowthCurve2DByGrowthVectors_mapString[stackofgrowthcurve2dbygrowthvector.Name] = stackofgrowthcurve2dbygrowthvector
+}
+
+// Unstage removes stackofgrowthcurve2dbygrowthvector off the model stage
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Unstage(stage *Stage) *StackOfGrowthCurve2DByGrowthVector {
+	delete(stage.StackOfGrowthCurve2DByGrowthVectors, stackofgrowthcurve2dbygrowthvector)
+	// issue1150
+	// delete(stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder, stackofgrowthcurve2dbygrowthvector)
+	delete(stage.StackOfGrowthCurve2DByGrowthVectors_mapString, stackofgrowthcurve2dbygrowthvector.Name)
+
+	return stackofgrowthcurve2dbygrowthvector
+}
+
+// UnstageVoid removes stackofgrowthcurve2dbygrowthvector off the model stage
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) UnstageVoid(stage *Stage) {
+	delete(stage.StackOfGrowthCurve2DByGrowthVectors, stackofgrowthcurve2dbygrowthvector)
+	// issue1150
+	// delete(stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder, stackofgrowthcurve2dbygrowthvector)
+	delete(stage.StackOfGrowthCurve2DByGrowthVectors_mapString, stackofgrowthcurve2dbygrowthvector.Name)
+}
+
+// commit stackofgrowthcurve2dbygrowthvector to the back repo (if it is already staged)
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Commit(stage *Stage) *StackOfGrowthCurve2DByGrowthVector {
+	if _, ok := stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector)
+		}
+	}
+	return stackofgrowthcurve2dbygrowthvector
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) CommitVoid(stage *Stage) {
+	stackofgrowthcurve2dbygrowthvector.Commit(stage)
+}
+
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) StageVoid(stage *Stage) {
+	stackofgrowthcurve2dbygrowthvector.Stage(stage)
+}
+
+// Checkout stackofgrowthcurve2dbygrowthvector to the back repo (if it is already staged)
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) Checkout(stage *Stage) *StackOfGrowthCurve2DByGrowthVector {
+	if _, ok := stage.StackOfGrowthCurve2DByGrowthVectors[stackofgrowthcurve2dbygrowthvector]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStackOfGrowthCurve2DByGrowthVector(stackofgrowthcurve2dbygrowthvector)
+		}
+	}
+	return stackofgrowthcurve2dbygrowthvector
+}
+
+// for satisfaction of GongStruct interface
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GetName() (res string) {
+	return stackofgrowthcurve2dbygrowthvector.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) SetName(name string) {
+	stackofgrowthcurve2dbygrowthvector.Name = name
+}
+
 // Stage puts stackofgrowthcurve2dribbon to the model stage
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) Stage(stage *Stage) *StackOfGrowthCurve2DRibbon {
 	if _, ok := stage.StackOfGrowthCurve2DRibbons[stackofgrowthcurve2dribbon]; !ok {
@@ -16278,6 +19798,358 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GetName() (res string)
 // for satisfaction of GongStruct interface
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) SetName(name string) {
 	starthalfwayarcshapegrid.Name = name
+}
+
+// Stage puts stool2ddiagram to the model stage
+func (stool2ddiagram *Stool2DDiagram) Stage(stage *Stage) *Stool2DDiagram {
+	if _, ok := stage.Stool2DDiagrams[stool2ddiagram]; !ok {
+		stage.Stool2DDiagrams[stool2ddiagram] = struct{}{}
+		stage.Stool2DDiagram_stagedOrder[stool2ddiagram] = stage.Stool2DDiagramOrder
+		stage.Stool2DDiagram_orderStaged[stage.Stool2DDiagramOrder] = stool2ddiagram
+		stage.Stool2DDiagramOrder++
+	}
+	stage.Stool2DDiagrams_mapString[stool2ddiagram.Name] = stool2ddiagram
+
+	return stool2ddiagram
+}
+
+// StagePreserveOrder puts stool2ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Stool2DDiagramOrder
+// - update stage.Stool2DDiagramOrder accordingly
+func (stool2ddiagram *Stool2DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Stool2DDiagrams[stool2ddiagram]; !ok {
+		stage.Stool2DDiagrams[stool2ddiagram] = struct{}{}
+
+		if order > stage.Stool2DDiagramOrder {
+			stage.Stool2DDiagramOrder = order
+		}
+		stage.Stool2DDiagram_stagedOrder[stool2ddiagram] = order
+		stage.Stool2DDiagram_orderStaged[order] = stool2ddiagram
+		stage.Stool2DDiagramOrder++
+	}
+	stage.Stool2DDiagrams_mapString[stool2ddiagram.Name] = stool2ddiagram
+}
+
+// Unstage removes stool2ddiagram off the model stage
+func (stool2ddiagram *Stool2DDiagram) Unstage(stage *Stage) *Stool2DDiagram {
+	delete(stage.Stool2DDiagrams, stool2ddiagram)
+	// issue1150
+	// delete(stage.Stool2DDiagram_stagedOrder, stool2ddiagram)
+	delete(stage.Stool2DDiagrams_mapString, stool2ddiagram.Name)
+
+	return stool2ddiagram
+}
+
+// UnstageVoid removes stool2ddiagram off the model stage
+func (stool2ddiagram *Stool2DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Stool2DDiagrams, stool2ddiagram)
+	// issue1150
+	// delete(stage.Stool2DDiagram_stagedOrder, stool2ddiagram)
+	delete(stage.Stool2DDiagrams_mapString, stool2ddiagram.Name)
+}
+
+// commit stool2ddiagram to the back repo (if it is already staged)
+func (stool2ddiagram *Stool2DDiagram) Commit(stage *Stage) *Stool2DDiagram {
+	if _, ok := stage.Stool2DDiagrams[stool2ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStool2DDiagram(stool2ddiagram)
+		}
+	}
+	return stool2ddiagram
+}
+
+func (stool2ddiagram *Stool2DDiagram) CommitVoid(stage *Stage) {
+	stool2ddiagram.Commit(stage)
+}
+
+func (stool2ddiagram *Stool2DDiagram) StageVoid(stage *Stage) {
+	stool2ddiagram.Stage(stage)
+}
+
+// Checkout stool2ddiagram to the back repo (if it is already staged)
+func (stool2ddiagram *Stool2DDiagram) Checkout(stage *Stage) *Stool2DDiagram {
+	if _, ok := stage.Stool2DDiagrams[stool2ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStool2DDiagram(stool2ddiagram)
+		}
+	}
+	return stool2ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (stool2ddiagram *Stool2DDiagram) GetName() (res string) {
+	return stool2ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stool2ddiagram *Stool2DDiagram) SetName(name string) {
+	stool2ddiagram.Name = name
+}
+
+// Stage puts stool3ddiagram to the model stage
+func (stool3ddiagram *Stool3DDiagram) Stage(stage *Stage) *Stool3DDiagram {
+	if _, ok := stage.Stool3DDiagrams[stool3ddiagram]; !ok {
+		stage.Stool3DDiagrams[stool3ddiagram] = struct{}{}
+		stage.Stool3DDiagram_stagedOrder[stool3ddiagram] = stage.Stool3DDiagramOrder
+		stage.Stool3DDiagram_orderStaged[stage.Stool3DDiagramOrder] = stool3ddiagram
+		stage.Stool3DDiagramOrder++
+	}
+	stage.Stool3DDiagrams_mapString[stool3ddiagram.Name] = stool3ddiagram
+
+	return stool3ddiagram
+}
+
+// StagePreserveOrder puts stool3ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Stool3DDiagramOrder
+// - update stage.Stool3DDiagramOrder accordingly
+func (stool3ddiagram *Stool3DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Stool3DDiagrams[stool3ddiagram]; !ok {
+		stage.Stool3DDiagrams[stool3ddiagram] = struct{}{}
+
+		if order > stage.Stool3DDiagramOrder {
+			stage.Stool3DDiagramOrder = order
+		}
+		stage.Stool3DDiagram_stagedOrder[stool3ddiagram] = order
+		stage.Stool3DDiagram_orderStaged[order] = stool3ddiagram
+		stage.Stool3DDiagramOrder++
+	}
+	stage.Stool3DDiagrams_mapString[stool3ddiagram.Name] = stool3ddiagram
+}
+
+// Unstage removes stool3ddiagram off the model stage
+func (stool3ddiagram *Stool3DDiagram) Unstage(stage *Stage) *Stool3DDiagram {
+	delete(stage.Stool3DDiagrams, stool3ddiagram)
+	// issue1150
+	// delete(stage.Stool3DDiagram_stagedOrder, stool3ddiagram)
+	delete(stage.Stool3DDiagrams_mapString, stool3ddiagram.Name)
+
+	return stool3ddiagram
+}
+
+// UnstageVoid removes stool3ddiagram off the model stage
+func (stool3ddiagram *Stool3DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Stool3DDiagrams, stool3ddiagram)
+	// issue1150
+	// delete(stage.Stool3DDiagram_stagedOrder, stool3ddiagram)
+	delete(stage.Stool3DDiagrams_mapString, stool3ddiagram.Name)
+}
+
+// commit stool3ddiagram to the back repo (if it is already staged)
+func (stool3ddiagram *Stool3DDiagram) Commit(stage *Stage) *Stool3DDiagram {
+	if _, ok := stage.Stool3DDiagrams[stool3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStool3DDiagram(stool3ddiagram)
+		}
+	}
+	return stool3ddiagram
+}
+
+func (stool3ddiagram *Stool3DDiagram) CommitVoid(stage *Stage) {
+	stool3ddiagram.Commit(stage)
+}
+
+func (stool3ddiagram *Stool3DDiagram) StageVoid(stage *Stage) {
+	stool3ddiagram.Stage(stage)
+}
+
+// Checkout stool3ddiagram to the back repo (if it is already staged)
+func (stool3ddiagram *Stool3DDiagram) Checkout(stage *Stage) *Stool3DDiagram {
+	if _, ok := stage.Stool3DDiagrams[stool3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStool3DDiagram(stool3ddiagram)
+		}
+	}
+	return stool3ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (stool3ddiagram *Stool3DDiagram) GetName() (res string) {
+	return stool3ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stool3ddiagram *Stool3DDiagram) SetName(name string) {
+	stool3ddiagram.Name = name
+}
+
+// Stage puts stoolabstract to the model stage
+func (stoolabstract *StoolAbstract) Stage(stage *Stage) *StoolAbstract {
+	if _, ok := stage.StoolAbstracts[stoolabstract]; !ok {
+		stage.StoolAbstracts[stoolabstract] = struct{}{}
+		stage.StoolAbstract_stagedOrder[stoolabstract] = stage.StoolAbstractOrder
+		stage.StoolAbstract_orderStaged[stage.StoolAbstractOrder] = stoolabstract
+		stage.StoolAbstractOrder++
+	}
+	stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
+
+	return stoolabstract
+}
+
+// StagePreserveOrder puts stoolabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StoolAbstractOrder
+// - update stage.StoolAbstractOrder accordingly
+func (stoolabstract *StoolAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.StoolAbstracts[stoolabstract]; !ok {
+		stage.StoolAbstracts[stoolabstract] = struct{}{}
+
+		if order > stage.StoolAbstractOrder {
+			stage.StoolAbstractOrder = order
+		}
+		stage.StoolAbstract_stagedOrder[stoolabstract] = order
+		stage.StoolAbstract_orderStaged[order] = stoolabstract
+		stage.StoolAbstractOrder++
+	}
+	stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
+}
+
+// Unstage removes stoolabstract off the model stage
+func (stoolabstract *StoolAbstract) Unstage(stage *Stage) *StoolAbstract {
+	delete(stage.StoolAbstracts, stoolabstract)
+	// issue1150
+	// delete(stage.StoolAbstract_stagedOrder, stoolabstract)
+	delete(stage.StoolAbstracts_mapString, stoolabstract.Name)
+
+	return stoolabstract
+}
+
+// UnstageVoid removes stoolabstract off the model stage
+func (stoolabstract *StoolAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.StoolAbstracts, stoolabstract)
+	// issue1150
+	// delete(stage.StoolAbstract_stagedOrder, stoolabstract)
+	delete(stage.StoolAbstracts_mapString, stoolabstract.Name)
+}
+
+// commit stoolabstract to the back repo (if it is already staged)
+func (stoolabstract *StoolAbstract) Commit(stage *Stage) *StoolAbstract {
+	if _, ok := stage.StoolAbstracts[stoolabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitStoolAbstract(stoolabstract)
+		}
+	}
+	return stoolabstract
+}
+
+func (stoolabstract *StoolAbstract) CommitVoid(stage *Stage) {
+	stoolabstract.Commit(stage)
+}
+
+func (stoolabstract *StoolAbstract) StageVoid(stage *Stage) {
+	stoolabstract.Stage(stage)
+}
+
+// Checkout stoolabstract to the back repo (if it is already staged)
+func (stoolabstract *StoolAbstract) Checkout(stage *Stage) *StoolAbstract {
+	if _, ok := stage.StoolAbstracts[stoolabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutStoolAbstract(stoolabstract)
+		}
+	}
+	return stoolabstract
+}
+
+// for satisfaction of GongStruct interface
+func (stoolabstract *StoolAbstract) GetName() (res string) {
+	return stoolabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stoolabstract *StoolAbstract) SetName(name string) {
+	stoolabstract.Name = name
+}
+
+// Stage puts tiledfloor3dshape to the model stage
+func (tiledfloor3dshape *TiledFloor3DShape) Stage(stage *Stage) *TiledFloor3DShape {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; !ok {
+		stage.TiledFloor3DShapes[tiledfloor3dshape] = struct{}{}
+		stage.TiledFloor3DShape_stagedOrder[tiledfloor3dshape] = stage.TiledFloor3DShapeOrder
+		stage.TiledFloor3DShape_orderStaged[stage.TiledFloor3DShapeOrder] = tiledfloor3dshape
+		stage.TiledFloor3DShapeOrder++
+	}
+	stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
+
+	return tiledfloor3dshape
+}
+
+// StagePreserveOrder puts tiledfloor3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TiledFloor3DShapeOrder
+// - update stage.TiledFloor3DShapeOrder accordingly
+func (tiledfloor3dshape *TiledFloor3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; !ok {
+		stage.TiledFloor3DShapes[tiledfloor3dshape] = struct{}{}
+
+		if order > stage.TiledFloor3DShapeOrder {
+			stage.TiledFloor3DShapeOrder = order
+		}
+		stage.TiledFloor3DShape_stagedOrder[tiledfloor3dshape] = order
+		stage.TiledFloor3DShape_orderStaged[order] = tiledfloor3dshape
+		stage.TiledFloor3DShapeOrder++
+	}
+	stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
+}
+
+// Unstage removes tiledfloor3dshape off the model stage
+func (tiledfloor3dshape *TiledFloor3DShape) Unstage(stage *Stage) *TiledFloor3DShape {
+	delete(stage.TiledFloor3DShapes, tiledfloor3dshape)
+	// issue1150
+	// delete(stage.TiledFloor3DShape_stagedOrder, tiledfloor3dshape)
+	delete(stage.TiledFloor3DShapes_mapString, tiledfloor3dshape.Name)
+
+	return tiledfloor3dshape
+}
+
+// UnstageVoid removes tiledfloor3dshape off the model stage
+func (tiledfloor3dshape *TiledFloor3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.TiledFloor3DShapes, tiledfloor3dshape)
+	// issue1150
+	// delete(stage.TiledFloor3DShape_stagedOrder, tiledfloor3dshape)
+	delete(stage.TiledFloor3DShapes_mapString, tiledfloor3dshape.Name)
+}
+
+// commit tiledfloor3dshape to the back repo (if it is already staged)
+func (tiledfloor3dshape *TiledFloor3DShape) Commit(stage *Stage) *TiledFloor3DShape {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTiledFloor3DShape(tiledfloor3dshape)
+		}
+	}
+	return tiledfloor3dshape
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) CommitVoid(stage *Stage) {
+	tiledfloor3dshape.Commit(stage)
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) StageVoid(stage *Stage) {
+	tiledfloor3dshape.Stage(stage)
+}
+
+// Checkout tiledfloor3dshape to the back repo (if it is already staged)
+func (tiledfloor3dshape *TiledFloor3DShape) Checkout(stage *Stage) *TiledFloor3DShape {
+	if _, ok := stage.TiledFloor3DShapes[tiledfloor3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTiledFloor3DShape(tiledfloor3dshape)
+		}
+	}
+	return tiledfloor3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (tiledfloor3dshape *TiledFloor3DShape) GetName() (res string) {
+	return tiledfloor3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (tiledfloor3dshape *TiledFloor3DShape) SetName(name string) {
+	tiledfloor3dshape.Name = name
 }
 
 // Stage puts topendarcshape to the model stage
@@ -17776,6 +21648,94 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) SetName(name str
 	topstarthalfwayarcshapegrid.Name = name
 }
 
+// Stage puts torus3dshape to the model stage
+func (torus3dshape *Torus3DShape) Stage(stage *Stage) *Torus3DShape {
+	if _, ok := stage.Torus3DShapes[torus3dshape]; !ok {
+		stage.Torus3DShapes[torus3dshape] = struct{}{}
+		stage.Torus3DShape_stagedOrder[torus3dshape] = stage.Torus3DShapeOrder
+		stage.Torus3DShape_orderStaged[stage.Torus3DShapeOrder] = torus3dshape
+		stage.Torus3DShapeOrder++
+	}
+	stage.Torus3DShapes_mapString[torus3dshape.Name] = torus3dshape
+
+	return torus3dshape
+}
+
+// StagePreserveOrder puts torus3dshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Torus3DShapeOrder
+// - update stage.Torus3DShapeOrder accordingly
+func (torus3dshape *Torus3DShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Torus3DShapes[torus3dshape]; !ok {
+		stage.Torus3DShapes[torus3dshape] = struct{}{}
+
+		if order > stage.Torus3DShapeOrder {
+			stage.Torus3DShapeOrder = order
+		}
+		stage.Torus3DShape_stagedOrder[torus3dshape] = order
+		stage.Torus3DShape_orderStaged[order] = torus3dshape
+		stage.Torus3DShapeOrder++
+	}
+	stage.Torus3DShapes_mapString[torus3dshape.Name] = torus3dshape
+}
+
+// Unstage removes torus3dshape off the model stage
+func (torus3dshape *Torus3DShape) Unstage(stage *Stage) *Torus3DShape {
+	delete(stage.Torus3DShapes, torus3dshape)
+	// issue1150
+	// delete(stage.Torus3DShape_stagedOrder, torus3dshape)
+	delete(stage.Torus3DShapes_mapString, torus3dshape.Name)
+
+	return torus3dshape
+}
+
+// UnstageVoid removes torus3dshape off the model stage
+func (torus3dshape *Torus3DShape) UnstageVoid(stage *Stage) {
+	delete(stage.Torus3DShapes, torus3dshape)
+	// issue1150
+	// delete(stage.Torus3DShape_stagedOrder, torus3dshape)
+	delete(stage.Torus3DShapes_mapString, torus3dshape.Name)
+}
+
+// commit torus3dshape to the back repo (if it is already staged)
+func (torus3dshape *Torus3DShape) Commit(stage *Stage) *Torus3DShape {
+	if _, ok := stage.Torus3DShapes[torus3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTorus3DShape(torus3dshape)
+		}
+	}
+	return torus3dshape
+}
+
+func (torus3dshape *Torus3DShape) CommitVoid(stage *Stage) {
+	torus3dshape.Commit(stage)
+}
+
+func (torus3dshape *Torus3DShape) StageVoid(stage *Stage) {
+	torus3dshape.Stage(stage)
+}
+
+// Checkout torus3dshape to the back repo (if it is already staged)
+func (torus3dshape *Torus3DShape) Checkout(stage *Stage) *Torus3DShape {
+	if _, ok := stage.Torus3DShapes[torus3dshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTorus3DShape(torus3dshape)
+		}
+	}
+	return torus3dshape
+}
+
+// for satisfaction of GongStruct interface
+func (torus3dshape *Torus3DShape) GetName() (res string) {
+	return torus3dshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (torus3dshape *Torus3DShape) SetName(name string) {
+	torus3dshape.Name = name
+}
+
 // Stage puts torusedge3dshape to the model stage
 func (torusedge3dshape *TorusEdge3DShape) Stage(stage *Stage) *TorusEdge3DShape {
 	if _, ok := stage.TorusEdge3DShapes[torusedge3dshape]; !ok {
@@ -17950,6 +21910,270 @@ func (torusstackshape *TorusStackShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (torusstackshape *TorusStackShape) SetName(name string) {
 	torusstackshape.Name = name
+}
+
+// Stage puts vase2ddiagram to the model stage
+func (vase2ddiagram *Vase2DDiagram) Stage(stage *Stage) *Vase2DDiagram {
+	if _, ok := stage.Vase2DDiagrams[vase2ddiagram]; !ok {
+		stage.Vase2DDiagrams[vase2ddiagram] = struct{}{}
+		stage.Vase2DDiagram_stagedOrder[vase2ddiagram] = stage.Vase2DDiagramOrder
+		stage.Vase2DDiagram_orderStaged[stage.Vase2DDiagramOrder] = vase2ddiagram
+		stage.Vase2DDiagramOrder++
+	}
+	stage.Vase2DDiagrams_mapString[vase2ddiagram.Name] = vase2ddiagram
+
+	return vase2ddiagram
+}
+
+// StagePreserveOrder puts vase2ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Vase2DDiagramOrder
+// - update stage.Vase2DDiagramOrder accordingly
+func (vase2ddiagram *Vase2DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Vase2DDiagrams[vase2ddiagram]; !ok {
+		stage.Vase2DDiagrams[vase2ddiagram] = struct{}{}
+
+		if order > stage.Vase2DDiagramOrder {
+			stage.Vase2DDiagramOrder = order
+		}
+		stage.Vase2DDiagram_stagedOrder[vase2ddiagram] = order
+		stage.Vase2DDiagram_orderStaged[order] = vase2ddiagram
+		stage.Vase2DDiagramOrder++
+	}
+	stage.Vase2DDiagrams_mapString[vase2ddiagram.Name] = vase2ddiagram
+}
+
+// Unstage removes vase2ddiagram off the model stage
+func (vase2ddiagram *Vase2DDiagram) Unstage(stage *Stage) *Vase2DDiagram {
+	delete(stage.Vase2DDiagrams, vase2ddiagram)
+	// issue1150
+	// delete(stage.Vase2DDiagram_stagedOrder, vase2ddiagram)
+	delete(stage.Vase2DDiagrams_mapString, vase2ddiagram.Name)
+
+	return vase2ddiagram
+}
+
+// UnstageVoid removes vase2ddiagram off the model stage
+func (vase2ddiagram *Vase2DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Vase2DDiagrams, vase2ddiagram)
+	// issue1150
+	// delete(stage.Vase2DDiagram_stagedOrder, vase2ddiagram)
+	delete(stage.Vase2DDiagrams_mapString, vase2ddiagram.Name)
+}
+
+// commit vase2ddiagram to the back repo (if it is already staged)
+func (vase2ddiagram *Vase2DDiagram) Commit(stage *Stage) *Vase2DDiagram {
+	if _, ok := stage.Vase2DDiagrams[vase2ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitVase2DDiagram(vase2ddiagram)
+		}
+	}
+	return vase2ddiagram
+}
+
+func (vase2ddiagram *Vase2DDiagram) CommitVoid(stage *Stage) {
+	vase2ddiagram.Commit(stage)
+}
+
+func (vase2ddiagram *Vase2DDiagram) StageVoid(stage *Stage) {
+	vase2ddiagram.Stage(stage)
+}
+
+// Checkout vase2ddiagram to the back repo (if it is already staged)
+func (vase2ddiagram *Vase2DDiagram) Checkout(stage *Stage) *Vase2DDiagram {
+	if _, ok := stage.Vase2DDiagrams[vase2ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutVase2DDiagram(vase2ddiagram)
+		}
+	}
+	return vase2ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (vase2ddiagram *Vase2DDiagram) GetName() (res string) {
+	return vase2ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (vase2ddiagram *Vase2DDiagram) SetName(name string) {
+	vase2ddiagram.Name = name
+}
+
+// Stage puts vase3ddiagram to the model stage
+func (vase3ddiagram *Vase3DDiagram) Stage(stage *Stage) *Vase3DDiagram {
+	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; !ok {
+		stage.Vase3DDiagrams[vase3ddiagram] = struct{}{}
+		stage.Vase3DDiagram_stagedOrder[vase3ddiagram] = stage.Vase3DDiagramOrder
+		stage.Vase3DDiagram_orderStaged[stage.Vase3DDiagramOrder] = vase3ddiagram
+		stage.Vase3DDiagramOrder++
+	}
+	stage.Vase3DDiagrams_mapString[vase3ddiagram.Name] = vase3ddiagram
+
+	return vase3ddiagram
+}
+
+// StagePreserveOrder puts vase3ddiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Vase3DDiagramOrder
+// - update stage.Vase3DDiagramOrder accordingly
+func (vase3ddiagram *Vase3DDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; !ok {
+		stage.Vase3DDiagrams[vase3ddiagram] = struct{}{}
+
+		if order > stage.Vase3DDiagramOrder {
+			stage.Vase3DDiagramOrder = order
+		}
+		stage.Vase3DDiagram_stagedOrder[vase3ddiagram] = order
+		stage.Vase3DDiagram_orderStaged[order] = vase3ddiagram
+		stage.Vase3DDiagramOrder++
+	}
+	stage.Vase3DDiagrams_mapString[vase3ddiagram.Name] = vase3ddiagram
+}
+
+// Unstage removes vase3ddiagram off the model stage
+func (vase3ddiagram *Vase3DDiagram) Unstage(stage *Stage) *Vase3DDiagram {
+	delete(stage.Vase3DDiagrams, vase3ddiagram)
+	// issue1150
+	// delete(stage.Vase3DDiagram_stagedOrder, vase3ddiagram)
+	delete(stage.Vase3DDiagrams_mapString, vase3ddiagram.Name)
+
+	return vase3ddiagram
+}
+
+// UnstageVoid removes vase3ddiagram off the model stage
+func (vase3ddiagram *Vase3DDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.Vase3DDiagrams, vase3ddiagram)
+	// issue1150
+	// delete(stage.Vase3DDiagram_stagedOrder, vase3ddiagram)
+	delete(stage.Vase3DDiagrams_mapString, vase3ddiagram.Name)
+}
+
+// commit vase3ddiagram to the back repo (if it is already staged)
+func (vase3ddiagram *Vase3DDiagram) Commit(stage *Stage) *Vase3DDiagram {
+	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitVase3DDiagram(vase3ddiagram)
+		}
+	}
+	return vase3ddiagram
+}
+
+func (vase3ddiagram *Vase3DDiagram) CommitVoid(stage *Stage) {
+	vase3ddiagram.Commit(stage)
+}
+
+func (vase3ddiagram *Vase3DDiagram) StageVoid(stage *Stage) {
+	vase3ddiagram.Stage(stage)
+}
+
+// Checkout vase3ddiagram to the back repo (if it is already staged)
+func (vase3ddiagram *Vase3DDiagram) Checkout(stage *Stage) *Vase3DDiagram {
+	if _, ok := stage.Vase3DDiagrams[vase3ddiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutVase3DDiagram(vase3ddiagram)
+		}
+	}
+	return vase3ddiagram
+}
+
+// for satisfaction of GongStruct interface
+func (vase3ddiagram *Vase3DDiagram) GetName() (res string) {
+	return vase3ddiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (vase3ddiagram *Vase3DDiagram) SetName(name string) {
+	vase3ddiagram.Name = name
+}
+
+// Stage puts vaseabstract to the model stage
+func (vaseabstract *VaseAbstract) Stage(stage *Stage) *VaseAbstract {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; !ok {
+		stage.VaseAbstracts[vaseabstract] = struct{}{}
+		stage.VaseAbstract_stagedOrder[vaseabstract] = stage.VaseAbstractOrder
+		stage.VaseAbstract_orderStaged[stage.VaseAbstractOrder] = vaseabstract
+		stage.VaseAbstractOrder++
+	}
+	stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
+
+	return vaseabstract
+}
+
+// StagePreserveOrder puts vaseabstract to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.VaseAbstractOrder
+// - update stage.VaseAbstractOrder accordingly
+func (vaseabstract *VaseAbstract) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; !ok {
+		stage.VaseAbstracts[vaseabstract] = struct{}{}
+
+		if order > stage.VaseAbstractOrder {
+			stage.VaseAbstractOrder = order
+		}
+		stage.VaseAbstract_stagedOrder[vaseabstract] = order
+		stage.VaseAbstract_orderStaged[order] = vaseabstract
+		stage.VaseAbstractOrder++
+	}
+	stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
+}
+
+// Unstage removes vaseabstract off the model stage
+func (vaseabstract *VaseAbstract) Unstage(stage *Stage) *VaseAbstract {
+	delete(stage.VaseAbstracts, vaseabstract)
+	// issue1150
+	// delete(stage.VaseAbstract_stagedOrder, vaseabstract)
+	delete(stage.VaseAbstracts_mapString, vaseabstract.Name)
+
+	return vaseabstract
+}
+
+// UnstageVoid removes vaseabstract off the model stage
+func (vaseabstract *VaseAbstract) UnstageVoid(stage *Stage) {
+	delete(stage.VaseAbstracts, vaseabstract)
+	// issue1150
+	// delete(stage.VaseAbstract_stagedOrder, vaseabstract)
+	delete(stage.VaseAbstracts_mapString, vaseabstract.Name)
+}
+
+// commit vaseabstract to the back repo (if it is already staged)
+func (vaseabstract *VaseAbstract) Commit(stage *Stage) *VaseAbstract {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitVaseAbstract(vaseabstract)
+		}
+	}
+	return vaseabstract
+}
+
+func (vaseabstract *VaseAbstract) CommitVoid(stage *Stage) {
+	vaseabstract.Commit(stage)
+}
+
+func (vaseabstract *VaseAbstract) StageVoid(stage *Stage) {
+	vaseabstract.Stage(stage)
+}
+
+// Checkout vaseabstract to the back repo (if it is already staged)
+func (vaseabstract *VaseAbstract) Checkout(stage *Stage) *VaseAbstract {
+	if _, ok := stage.VaseAbstracts[vaseabstract]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutVaseAbstract(vaseabstract)
+		}
+	}
+	return vaseabstract
+}
+
+// for satisfaction of GongStruct interface
+func (vaseabstract *VaseAbstract) GetName() (res string) {
+	return vaseabstract.Name
+}
+
+// for satisfaction of GongStruct interface
+func (vaseabstract *VaseAbstract) SetName(name string) {
+	vaseabstract.Name = name
 }
 
 // Stage puts verticaltorusstackshape to the model stage
@@ -18138,11 +22362,21 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	CreateORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
+	CreateORMClock2DDiagram(Clock2DDiagram *Clock2DDiagram)
+	CreateORMClock3DDiagram(Clock3DDiagram *Clock3DDiagram)
+	CreateORMClockAbstract(ClockAbstract *ClockAbstract)
+	CreateORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
 	CreateORMEndArcShape(EndArcShape *EndArcShape)
 	CreateORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	CreateORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
 	CreateORMEndHalfwayArcShapeGrid(EndHalfwayArcShapeGrid *EndHalfwayArcShapeGrid)
 	CreateORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
+	CreateORMEye3DShape(Eye3DShape *Eye3DShape)
+	CreateORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
+	CreateORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
+	CreateORMEyeSeatBottomCurveShape(EyeSeatBottomCurveShape *EyeSeatBottomCurveShape)
+	CreateORMEyeStoolBottomCurveShape(EyeStoolBottomCurveShape *EyeStoolBottomCurveShape)
+	CreateORMEyeVolume3DShape(EyeVolume3DShape *EyeVolume3DShape)
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
 	CreateORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
 	CreateORMGrowthCurve2DRibbon(GrowthCurve2DRibbon *GrowthCurve2DRibbon)
@@ -18171,14 +22405,16 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
 	CreateORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	CreateORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
+	CreateORMPartiallyRotatedSeatBottomCurveShape(PartiallyRotatedSeatBottomCurveShape *PartiallyRotatedSeatBottomCurveShape)
+	CreateORMPartiallyRotatedSeatTopCurveShape(PartiallyRotatedSeatTopCurveShape *PartiallyRotatedSeatTopCurveShape)
 	CreateORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
 	CreateORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	CreateORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	CreateORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
 	CreateORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
-	CreateORMPlant(Plant *Plant)
+	CreateORMPlant2DDiagram(Plant2DDiagram *Plant2DDiagram)
+	CreateORMPlantAbstract(PlantAbstract *PlantAbstract)
 	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
-	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
 	CreateORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
 	CreateORMPxShape(PxShape *PxShape)
 	CreateORMRendered3DShape(Rendered3DShape *Rendered3DShape)
@@ -18186,7 +22422,13 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRhombusStuff(RhombusStuff *RhombusStuff)
 	CreateORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	CreateORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
+	CreateORMRotatedSampledPoints3DShape(RotatedSampledPoints3DShape *RotatedSampledPoints3DShape)
+	CreateORMRotatedSeatAndLegs3DShape(RotatedSeatAndLegs3DShape *RotatedSeatAndLegs3DShape)
 	CreateORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
+	CreateORMSeat3DShape(Seat3DShape *Seat3DShape)
+	CreateORMSeatAndLegs3DShape(SeatAndLegs3DShape *SeatAndLegs3DShape)
+	CreateORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
+	CreateORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
 	CreateORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
 	CreateORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
 	CreateORMShiftedLeftGrowthCurve2DRibbon(ShiftedLeftGrowthCurve2DRibbon *ShiftedLeftGrowthCurve2DRibbon)
@@ -18208,6 +22450,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStackGrowthCurve2DRibbonStartShape(StackGrowthCurve2DRibbonStartShape *StackGrowthCurve2DRibbonStartShape)
 	CreateORMStackGrowthCurve2DStartHalfwayArcShape(StackGrowthCurve2DStartHalfwayArcShape *StackGrowthCurve2DStartHalfwayArcShape)
 	CreateORMStackOfGrowthCurve2D(StackOfGrowthCurve2D *StackOfGrowthCurve2D)
+	CreateORMStackOfGrowthCurve2DByGrowthVector(StackOfGrowthCurve2DByGrowthVector *StackOfGrowthCurve2DByGrowthVector)
 	CreateORMStackOfGrowthCurve2DRibbon(StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon)
 	CreateORMStackOfPartiallyRotatedTorusShape(StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape)
 	CreateORMStackOfRotatedGrowthCurve2D(StackOfRotatedGrowthCurve2D *StackOfRotatedGrowthCurve2D)
@@ -18220,6 +22463,10 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	CreateORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
 	CreateORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
+	CreateORMStool2DDiagram(Stool2DDiagram *Stool2DDiagram)
+	CreateORMStool3DDiagram(Stool3DDiagram *Stool3DDiagram)
+	CreateORMStoolAbstract(StoolAbstract *StoolAbstract)
+	CreateORMTiledFloor3DShape(TiledFloor3DShape *TiledFloor3DShape)
 	CreateORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	CreateORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	CreateORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
@@ -18237,8 +22484,12 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
 	CreateORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
 	CreateORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
+	CreateORMTorus3DShape(Torus3DShape *Torus3DShape)
 	CreateORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	CreateORMTorusStackShape(TorusStackShape *TorusStackShape)
+	CreateORMVase2DDiagram(Vase2DDiagram *Vase2DDiagram)
+	CreateORMVase3DDiagram(Vase3DDiagram *Vase3DDiagram)
+	CreateORMVaseAbstract(VaseAbstract *VaseAbstract)
 	CreateORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	CreateORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -18252,11 +22503,21 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMBaseVectorShapeGrid(BaseVectorShapeGrid *BaseVectorShapeGrid)
 	DeleteORMChosenP1P2PairShape(ChosenP1P2PairShape *ChosenP1P2PairShape)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
+	DeleteORMClock2DDiagram(Clock2DDiagram *Clock2DDiagram)
+	DeleteORMClock3DDiagram(Clock3DDiagram *Clock3DDiagram)
+	DeleteORMClockAbstract(ClockAbstract *ClockAbstract)
+	DeleteORMClockTopCurveShape(ClockTopCurveShape *ClockTopCurveShape)
 	DeleteORMEndArcShape(EndArcShape *EndArcShape)
 	DeleteORMEndArcShapeGrid(EndArcShapeGrid *EndArcShapeGrid)
 	DeleteORMEndHalfwayArcShape(EndHalfwayArcShape *EndHalfwayArcShape)
 	DeleteORMEndHalfwayArcShapeGrid(EndHalfwayArcShapeGrid *EndHalfwayArcShapeGrid)
 	DeleteORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
+	DeleteORMEye3DShape(Eye3DShape *Eye3DShape)
+	DeleteORMEyeCornersSampledPoints3DShape(EyeCornersSampledPoints3DShape *EyeCornersSampledPoints3DShape)
+	DeleteORMEyeSampledPoints3DShape(EyeSampledPoints3DShape *EyeSampledPoints3DShape)
+	DeleteORMEyeSeatBottomCurveShape(EyeSeatBottomCurveShape *EyeSeatBottomCurveShape)
+	DeleteORMEyeStoolBottomCurveShape(EyeStoolBottomCurveShape *EyeStoolBottomCurveShape)
+	DeleteORMEyeVolume3DShape(EyeVolume3DShape *EyeVolume3DShape)
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
 	DeleteORMGrowthCurve2D(GrowthCurve2D *GrowthCurve2D)
 	DeleteORMGrowthCurve2DRibbon(GrowthCurve2DRibbon *GrowthCurve2DRibbon)
@@ -18285,14 +22546,16 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPartiallyGrowthCurve2DTrajectoryP2CurveShape(PartiallyGrowthCurve2DTrajectoryP2CurveShape *PartiallyGrowthCurve2DTrajectoryP2CurveShape)
 	DeleteORMPartiallyGrowthCurve2DTrajectoryP2PointShape(PartiallyGrowthCurve2DTrajectoryP2PointShape *PartiallyGrowthCurve2DTrajectoryP2PointShape)
 	DeleteORMPartiallyGrowthCurve2DTrajectoryShape(PartiallyGrowthCurve2DTrajectoryShape *PartiallyGrowthCurve2DTrajectoryShape)
+	DeleteORMPartiallyRotatedSeatBottomCurveShape(PartiallyRotatedSeatBottomCurveShape *PartiallyRotatedSeatBottomCurveShape)
+	DeleteORMPartiallyRotatedSeatTopCurveShape(PartiallyRotatedSeatTopCurveShape *PartiallyRotatedSeatTopCurveShape)
 	DeleteORMPartiallyRotatedTorusShape(PartiallyRotatedTorusShape *PartiallyRotatedTorusShape)
 	DeleteORMPerpendicularVector(PerpendicularVector *PerpendicularVector)
 	DeleteORMPerpendicularVectorGrid(PerpendicularVectorGrid *PerpendicularVectorGrid)
 	DeleteORMPerpendicularVectorGridHalfway(PerpendicularVectorGridHalfway *PerpendicularVectorGridHalfway)
 	DeleteORMPerpendicularVectorHalfway(PerpendicularVectorHalfway *PerpendicularVectorHalfway)
-	DeleteORMPlant(Plant *Plant)
+	DeleteORMPlant2DDiagram(Plant2DDiagram *Plant2DDiagram)
+	DeleteORMPlantAbstract(PlantAbstract *PlantAbstract)
 	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
-	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
 	DeleteORMPointsAndLines3DShape(PointsAndLines3DShape *PointsAndLines3DShape)
 	DeleteORMPxShape(PxShape *PxShape)
 	DeleteORMRendered3DShape(Rendered3DShape *Rendered3DShape)
@@ -18300,7 +22563,13 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRhombusStuff(RhombusStuff *RhombusStuff)
 	DeleteORMRotatedRhombusGridShape(RotatedRhombusGridShape *RotatedRhombusGridShape)
 	DeleteORMRotatedRhombusShape(RotatedRhombusShape *RotatedRhombusShape)
+	DeleteORMRotatedSampledPoints3DShape(RotatedSampledPoints3DShape *RotatedSampledPoints3DShape)
+	DeleteORMRotatedSeatAndLegs3DShape(RotatedSeatAndLegs3DShape *RotatedSeatAndLegs3DShape)
 	DeleteORMSampledPoints3DShape(SampledPoints3DShape *SampledPoints3DShape)
+	DeleteORMSeat3DShape(Seat3DShape *Seat3DShape)
+	DeleteORMSeatAndLegs3DShape(SeatAndLegs3DShape *SeatAndLegs3DShape)
+	DeleteORMSeatBottomCurveShape(SeatBottomCurveShape *SeatBottomCurveShape)
+	DeleteORMSeatTopCurveShape(SeatTopCurveShape *SeatTopCurveShape)
 	DeleteORMShiftedBottomTopStartArcShape(ShiftedBottomTopStartArcShape *ShiftedBottomTopStartArcShape)
 	DeleteORMShiftedBottomTopStartArcShapeGrid(ShiftedBottomTopStartArcShapeGrid *ShiftedBottomTopStartArcShapeGrid)
 	DeleteORMShiftedLeftGrowthCurve2DRibbon(ShiftedLeftGrowthCurve2DRibbon *ShiftedLeftGrowthCurve2DRibbon)
@@ -18322,6 +22591,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStackGrowthCurve2DRibbonStartShape(StackGrowthCurve2DRibbonStartShape *StackGrowthCurve2DRibbonStartShape)
 	DeleteORMStackGrowthCurve2DStartHalfwayArcShape(StackGrowthCurve2DStartHalfwayArcShape *StackGrowthCurve2DStartHalfwayArcShape)
 	DeleteORMStackOfGrowthCurve2D(StackOfGrowthCurve2D *StackOfGrowthCurve2D)
+	DeleteORMStackOfGrowthCurve2DByGrowthVector(StackOfGrowthCurve2DByGrowthVector *StackOfGrowthCurve2DByGrowthVector)
 	DeleteORMStackOfGrowthCurve2DRibbon(StackOfGrowthCurve2DRibbon *StackOfGrowthCurve2DRibbon)
 	DeleteORMStackOfPartiallyRotatedTorusShape(StackOfPartiallyRotatedTorusShape *StackOfPartiallyRotatedTorusShape)
 	DeleteORMStackOfRotatedGrowthCurve2D(StackOfRotatedGrowthCurve2D *StackOfRotatedGrowthCurve2D)
@@ -18334,6 +22604,10 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMStartArcShapeGrid(StartArcShapeGrid *StartArcShapeGrid)
 	DeleteORMStartHalfwayArcShape(StartHalfwayArcShape *StartHalfwayArcShape)
 	DeleteORMStartHalfwayArcShapeGrid(StartHalfwayArcShapeGrid *StartHalfwayArcShapeGrid)
+	DeleteORMStool2DDiagram(Stool2DDiagram *Stool2DDiagram)
+	DeleteORMStool3DDiagram(Stool3DDiagram *Stool3DDiagram)
+	DeleteORMStoolAbstract(StoolAbstract *StoolAbstract)
+	DeleteORMTiledFloor3DShape(TiledFloor3DShape *TiledFloor3DShape)
 	DeleteORMTopEndArcShape(TopEndArcShape *TopEndArcShape)
 	DeleteORMTopEndArcShapeGrid(TopEndArcShapeGrid *TopEndArcShapeGrid)
 	DeleteORMTopEndHalfwayArcShape(TopEndHalfwayArcShape *TopEndHalfwayArcShape)
@@ -18351,8 +22625,12 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTopStartArcShapeGrid(TopStartArcShapeGrid *TopStartArcShapeGrid)
 	DeleteORMTopStartHalfwayArcShape(TopStartHalfwayArcShape *TopStartHalfwayArcShape)
 	DeleteORMTopStartHalfwayArcShapeGrid(TopStartHalfwayArcShapeGrid *TopStartHalfwayArcShapeGrid)
+	DeleteORMTorus3DShape(Torus3DShape *Torus3DShape)
 	DeleteORMTorusEdge3DShape(TorusEdge3DShape *TorusEdge3DShape)
 	DeleteORMTorusStackShape(TorusStackShape *TorusStackShape)
+	DeleteORMVase2DDiagram(Vase2DDiagram *Vase2DDiagram)
+	DeleteORMVase3DDiagram(Vase3DDiagram *Vase3DDiagram)
+	DeleteORMVaseAbstract(VaseAbstract *VaseAbstract)
 	DeleteORMVerticalTorusStackShape(VerticalTorusStackShape *VerticalTorusStackShape)
 	DeleteORMVolumeKey3DShape(VolumeKey3DShape *VolumeKey3DShape)
 }
@@ -18398,6 +22676,26 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CircleGridShape_stagedOrder = make(map[*CircleGridShape]uint)
 	stage.CircleGridShapeOrder = 0
 
+	stage.Clock2DDiagrams = make(map[*Clock2DDiagram]struct{})
+	stage.Clock2DDiagrams_mapString = make(map[string]*Clock2DDiagram)
+	stage.Clock2DDiagram_stagedOrder = make(map[*Clock2DDiagram]uint)
+	stage.Clock2DDiagramOrder = 0
+
+	stage.Clock3DDiagrams = make(map[*Clock3DDiagram]struct{})
+	stage.Clock3DDiagrams_mapString = make(map[string]*Clock3DDiagram)
+	stage.Clock3DDiagram_stagedOrder = make(map[*Clock3DDiagram]uint)
+	stage.Clock3DDiagramOrder = 0
+
+	stage.ClockAbstracts = make(map[*ClockAbstract]struct{})
+	stage.ClockAbstracts_mapString = make(map[string]*ClockAbstract)
+	stage.ClockAbstract_stagedOrder = make(map[*ClockAbstract]uint)
+	stage.ClockAbstractOrder = 0
+
+	stage.ClockTopCurveShapes = make(map[*ClockTopCurveShape]struct{})
+	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
+	stage.ClockTopCurveShape_stagedOrder = make(map[*ClockTopCurveShape]uint)
+	stage.ClockTopCurveShapeOrder = 0
+
 	stage.EndArcShapes = make(map[*EndArcShape]struct{})
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)
 	stage.EndArcShape_stagedOrder = make(map[*EndArcShape]uint)
@@ -18422,6 +22720,36 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
 	stage.ExplanationTextShape_stagedOrder = make(map[*ExplanationTextShape]uint)
 	stage.ExplanationTextShapeOrder = 0
+
+	stage.Eye3DShapes = make(map[*Eye3DShape]struct{})
+	stage.Eye3DShapes_mapString = make(map[string]*Eye3DShape)
+	stage.Eye3DShape_stagedOrder = make(map[*Eye3DShape]uint)
+	stage.Eye3DShapeOrder = 0
+
+	stage.EyeCornersSampledPoints3DShapes = make(map[*EyeCornersSampledPoints3DShape]struct{})
+	stage.EyeCornersSampledPoints3DShapes_mapString = make(map[string]*EyeCornersSampledPoints3DShape)
+	stage.EyeCornersSampledPoints3DShape_stagedOrder = make(map[*EyeCornersSampledPoints3DShape]uint)
+	stage.EyeCornersSampledPoints3DShapeOrder = 0
+
+	stage.EyeSampledPoints3DShapes = make(map[*EyeSampledPoints3DShape]struct{})
+	stage.EyeSampledPoints3DShapes_mapString = make(map[string]*EyeSampledPoints3DShape)
+	stage.EyeSampledPoints3DShape_stagedOrder = make(map[*EyeSampledPoints3DShape]uint)
+	stage.EyeSampledPoints3DShapeOrder = 0
+
+	stage.EyeSeatBottomCurveShapes = make(map[*EyeSeatBottomCurveShape]struct{})
+	stage.EyeSeatBottomCurveShapes_mapString = make(map[string]*EyeSeatBottomCurveShape)
+	stage.EyeSeatBottomCurveShape_stagedOrder = make(map[*EyeSeatBottomCurveShape]uint)
+	stage.EyeSeatBottomCurveShapeOrder = 0
+
+	stage.EyeStoolBottomCurveShapes = make(map[*EyeStoolBottomCurveShape]struct{})
+	stage.EyeStoolBottomCurveShapes_mapString = make(map[string]*EyeStoolBottomCurveShape)
+	stage.EyeStoolBottomCurveShape_stagedOrder = make(map[*EyeStoolBottomCurveShape]uint)
+	stage.EyeStoolBottomCurveShapeOrder = 0
+
+	stage.EyeVolume3DShapes = make(map[*EyeVolume3DShape]struct{})
+	stage.EyeVolume3DShapes_mapString = make(map[string]*EyeVolume3DShape)
+	stage.EyeVolume3DShape_stagedOrder = make(map[*EyeVolume3DShape]uint)
+	stage.EyeVolume3DShapeOrder = 0
 
 	stage.GridPathShapes = make(map[*GridPathShape]struct{})
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
@@ -18563,6 +22891,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PartiallyGrowthCurve2DTrajectoryShape_stagedOrder = make(map[*PartiallyGrowthCurve2DTrajectoryShape]uint)
 	stage.PartiallyGrowthCurve2DTrajectoryShapeOrder = 0
 
+	stage.PartiallyRotatedSeatBottomCurveShapes = make(map[*PartiallyRotatedSeatBottomCurveShape]struct{})
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatBottomCurveShape)
+	stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder = make(map[*PartiallyRotatedSeatBottomCurveShape]uint)
+	stage.PartiallyRotatedSeatBottomCurveShapeOrder = 0
+
+	stage.PartiallyRotatedSeatTopCurveShapes = make(map[*PartiallyRotatedSeatTopCurveShape]struct{})
+	stage.PartiallyRotatedSeatTopCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatTopCurveShape)
+	stage.PartiallyRotatedSeatTopCurveShape_stagedOrder = make(map[*PartiallyRotatedSeatTopCurveShape]uint)
+	stage.PartiallyRotatedSeatTopCurveShapeOrder = 0
+
 	stage.PartiallyRotatedTorusShapes = make(map[*PartiallyRotatedTorusShape]struct{})
 	stage.PartiallyRotatedTorusShapes_mapString = make(map[string]*PartiallyRotatedTorusShape)
 	stage.PartiallyRotatedTorusShape_stagedOrder = make(map[*PartiallyRotatedTorusShape]uint)
@@ -18588,20 +22926,20 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PerpendicularVectorHalfway_stagedOrder = make(map[*PerpendicularVectorHalfway]uint)
 	stage.PerpendicularVectorHalfwayOrder = 0
 
-	stage.Plants = make(map[*Plant]struct{})
-	stage.Plants_mapString = make(map[string]*Plant)
-	stage.Plant_stagedOrder = make(map[*Plant]uint)
-	stage.PlantOrder = 0
+	stage.Plant2DDiagrams = make(map[*Plant2DDiagram]struct{})
+	stage.Plant2DDiagrams_mapString = make(map[string]*Plant2DDiagram)
+	stage.Plant2DDiagram_stagedOrder = make(map[*Plant2DDiagram]uint)
+	stage.Plant2DDiagramOrder = 0
+
+	stage.PlantAbstracts = make(map[*PlantAbstract]struct{})
+	stage.PlantAbstracts_mapString = make(map[string]*PlantAbstract)
+	stage.PlantAbstract_stagedOrder = make(map[*PlantAbstract]uint)
+	stage.PlantAbstractOrder = 0
 
 	stage.PlantCircumferenceShapes = make(map[*PlantCircumferenceShape]struct{})
 	stage.PlantCircumferenceShapes_mapString = make(map[string]*PlantCircumferenceShape)
 	stage.PlantCircumferenceShape_stagedOrder = make(map[*PlantCircumferenceShape]uint)
 	stage.PlantCircumferenceShapeOrder = 0
-
-	stage.PlantDiagrams = make(map[*PlantDiagram]struct{})
-	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
-	stage.PlantDiagram_stagedOrder = make(map[*PlantDiagram]uint)
-	stage.PlantDiagramOrder = 0
 
 	stage.PointsAndLines3DShapes = make(map[*PointsAndLines3DShape]struct{})
 	stage.PointsAndLines3DShapes_mapString = make(map[string]*PointsAndLines3DShape)
@@ -18638,10 +22976,40 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.RotatedRhombusShape_stagedOrder = make(map[*RotatedRhombusShape]uint)
 	stage.RotatedRhombusShapeOrder = 0
 
+	stage.RotatedSampledPoints3DShapes = make(map[*RotatedSampledPoints3DShape]struct{})
+	stage.RotatedSampledPoints3DShapes_mapString = make(map[string]*RotatedSampledPoints3DShape)
+	stage.RotatedSampledPoints3DShape_stagedOrder = make(map[*RotatedSampledPoints3DShape]uint)
+	stage.RotatedSampledPoints3DShapeOrder = 0
+
+	stage.RotatedSeatAndLegs3DShapes = make(map[*RotatedSeatAndLegs3DShape]struct{})
+	stage.RotatedSeatAndLegs3DShapes_mapString = make(map[string]*RotatedSeatAndLegs3DShape)
+	stage.RotatedSeatAndLegs3DShape_stagedOrder = make(map[*RotatedSeatAndLegs3DShape]uint)
+	stage.RotatedSeatAndLegs3DShapeOrder = 0
+
 	stage.SampledPoints3DShapes = make(map[*SampledPoints3DShape]struct{})
 	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
 	stage.SampledPoints3DShape_stagedOrder = make(map[*SampledPoints3DShape]uint)
 	stage.SampledPoints3DShapeOrder = 0
+
+	stage.Seat3DShapes = make(map[*Seat3DShape]struct{})
+	stage.Seat3DShapes_mapString = make(map[string]*Seat3DShape)
+	stage.Seat3DShape_stagedOrder = make(map[*Seat3DShape]uint)
+	stage.Seat3DShapeOrder = 0
+
+	stage.SeatAndLegs3DShapes = make(map[*SeatAndLegs3DShape]struct{})
+	stage.SeatAndLegs3DShapes_mapString = make(map[string]*SeatAndLegs3DShape)
+	stage.SeatAndLegs3DShape_stagedOrder = make(map[*SeatAndLegs3DShape]uint)
+	stage.SeatAndLegs3DShapeOrder = 0
+
+	stage.SeatBottomCurveShapes = make(map[*SeatBottomCurveShape]struct{})
+	stage.SeatBottomCurveShapes_mapString = make(map[string]*SeatBottomCurveShape)
+	stage.SeatBottomCurveShape_stagedOrder = make(map[*SeatBottomCurveShape]uint)
+	stage.SeatBottomCurveShapeOrder = 0
+
+	stage.SeatTopCurveShapes = make(map[*SeatTopCurveShape]struct{})
+	stage.SeatTopCurveShapes_mapString = make(map[string]*SeatTopCurveShape)
+	stage.SeatTopCurveShape_stagedOrder = make(map[*SeatTopCurveShape]uint)
+	stage.SeatTopCurveShapeOrder = 0
 
 	stage.ShiftedBottomTopStartArcShapes = make(map[*ShiftedBottomTopStartArcShape]struct{})
 	stage.ShiftedBottomTopStartArcShapes_mapString = make(map[string]*ShiftedBottomTopStartArcShape)
@@ -18748,6 +23116,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StackOfGrowthCurve2D_stagedOrder = make(map[*StackOfGrowthCurve2D]uint)
 	stage.StackOfGrowthCurve2DOrder = 0
 
+	stage.StackOfGrowthCurve2DByGrowthVectors = make(map[*StackOfGrowthCurve2DByGrowthVector]struct{})
+	stage.StackOfGrowthCurve2DByGrowthVectors_mapString = make(map[string]*StackOfGrowthCurve2DByGrowthVector)
+	stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder = make(map[*StackOfGrowthCurve2DByGrowthVector]uint)
+	stage.StackOfGrowthCurve2DByGrowthVectorOrder = 0
+
 	stage.StackOfGrowthCurve2DRibbons = make(map[*StackOfGrowthCurve2DRibbon]struct{})
 	stage.StackOfGrowthCurve2DRibbons_mapString = make(map[string]*StackOfGrowthCurve2DRibbon)
 	stage.StackOfGrowthCurve2DRibbon_stagedOrder = make(map[*StackOfGrowthCurve2DRibbon]uint)
@@ -18807,6 +23180,26 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.StartHalfwayArcShapeGrids_mapString = make(map[string]*StartHalfwayArcShapeGrid)
 	stage.StartHalfwayArcShapeGrid_stagedOrder = make(map[*StartHalfwayArcShapeGrid]uint)
 	stage.StartHalfwayArcShapeGridOrder = 0
+
+	stage.Stool2DDiagrams = make(map[*Stool2DDiagram]struct{})
+	stage.Stool2DDiagrams_mapString = make(map[string]*Stool2DDiagram)
+	stage.Stool2DDiagram_stagedOrder = make(map[*Stool2DDiagram]uint)
+	stage.Stool2DDiagramOrder = 0
+
+	stage.Stool3DDiagrams = make(map[*Stool3DDiagram]struct{})
+	stage.Stool3DDiagrams_mapString = make(map[string]*Stool3DDiagram)
+	stage.Stool3DDiagram_stagedOrder = make(map[*Stool3DDiagram]uint)
+	stage.Stool3DDiagramOrder = 0
+
+	stage.StoolAbstracts = make(map[*StoolAbstract]struct{})
+	stage.StoolAbstracts_mapString = make(map[string]*StoolAbstract)
+	stage.StoolAbstract_stagedOrder = make(map[*StoolAbstract]uint)
+	stage.StoolAbstractOrder = 0
+
+	stage.TiledFloor3DShapes = make(map[*TiledFloor3DShape]struct{})
+	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)
+	stage.TiledFloor3DShape_stagedOrder = make(map[*TiledFloor3DShape]uint)
+	stage.TiledFloor3DShapeOrder = 0
 
 	stage.TopEndArcShapes = make(map[*TopEndArcShape]struct{})
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)
@@ -18893,6 +23286,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TopStartHalfwayArcShapeGrid_stagedOrder = make(map[*TopStartHalfwayArcShapeGrid]uint)
 	stage.TopStartHalfwayArcShapeGridOrder = 0
 
+	stage.Torus3DShapes = make(map[*Torus3DShape]struct{})
+	stage.Torus3DShapes_mapString = make(map[string]*Torus3DShape)
+	stage.Torus3DShape_stagedOrder = make(map[*Torus3DShape]uint)
+	stage.Torus3DShapeOrder = 0
+
 	stage.TorusEdge3DShapes = make(map[*TorusEdge3DShape]struct{})
 	stage.TorusEdge3DShapes_mapString = make(map[string]*TorusEdge3DShape)
 	stage.TorusEdge3DShape_stagedOrder = make(map[*TorusEdge3DShape]uint)
@@ -18902,6 +23300,21 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TorusStackShapes_mapString = make(map[string]*TorusStackShape)
 	stage.TorusStackShape_stagedOrder = make(map[*TorusStackShape]uint)
 	stage.TorusStackShapeOrder = 0
+
+	stage.Vase2DDiagrams = make(map[*Vase2DDiagram]struct{})
+	stage.Vase2DDiagrams_mapString = make(map[string]*Vase2DDiagram)
+	stage.Vase2DDiagram_stagedOrder = make(map[*Vase2DDiagram]uint)
+	stage.Vase2DDiagramOrder = 0
+
+	stage.Vase3DDiagrams = make(map[*Vase3DDiagram]struct{})
+	stage.Vase3DDiagrams_mapString = make(map[string]*Vase3DDiagram)
+	stage.Vase3DDiagram_stagedOrder = make(map[*Vase3DDiagram]uint)
+	stage.Vase3DDiagramOrder = 0
+
+	stage.VaseAbstracts = make(map[*VaseAbstract]struct{})
+	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
+	stage.VaseAbstract_stagedOrder = make(map[*VaseAbstract]uint)
+	stage.VaseAbstractOrder = 0
 
 	stage.VerticalTorusStackShapes = make(map[*VerticalTorusStackShape]struct{})
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)
@@ -18946,6 +23359,18 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
+	stage.Clock2DDiagrams = nil
+	stage.Clock2DDiagrams_mapString = nil
+
+	stage.Clock3DDiagrams = nil
+	stage.Clock3DDiagrams_mapString = nil
+
+	stage.ClockAbstracts = nil
+	stage.ClockAbstracts_mapString = nil
+
+	stage.ClockTopCurveShapes = nil
+	stage.ClockTopCurveShapes_mapString = nil
+
 	stage.EndArcShapes = nil
 	stage.EndArcShapes_mapString = nil
 
@@ -18960,6 +23385,24 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.ExplanationTextShapes = nil
 	stage.ExplanationTextShapes_mapString = nil
+
+	stage.Eye3DShapes = nil
+	stage.Eye3DShapes_mapString = nil
+
+	stage.EyeCornersSampledPoints3DShapes = nil
+	stage.EyeCornersSampledPoints3DShapes_mapString = nil
+
+	stage.EyeSampledPoints3DShapes = nil
+	stage.EyeSampledPoints3DShapes_mapString = nil
+
+	stage.EyeSeatBottomCurveShapes = nil
+	stage.EyeSeatBottomCurveShapes_mapString = nil
+
+	stage.EyeStoolBottomCurveShapes = nil
+	stage.EyeStoolBottomCurveShapes_mapString = nil
+
+	stage.EyeVolume3DShapes = nil
+	stage.EyeVolume3DShapes_mapString = nil
 
 	stage.GridPathShapes = nil
 	stage.GridPathShapes_mapString = nil
@@ -19045,6 +23488,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PartiallyGrowthCurve2DTrajectoryShapes = nil
 	stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString = nil
 
+	stage.PartiallyRotatedSeatBottomCurveShapes = nil
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = nil
+
+	stage.PartiallyRotatedSeatTopCurveShapes = nil
+	stage.PartiallyRotatedSeatTopCurveShapes_mapString = nil
+
 	stage.PartiallyRotatedTorusShapes = nil
 	stage.PartiallyRotatedTorusShapes_mapString = nil
 
@@ -19060,14 +23509,14 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PerpendicularVectorHalfways = nil
 	stage.PerpendicularVectorHalfways_mapString = nil
 
-	stage.Plants = nil
-	stage.Plants_mapString = nil
+	stage.Plant2DDiagrams = nil
+	stage.Plant2DDiagrams_mapString = nil
+
+	stage.PlantAbstracts = nil
+	stage.PlantAbstracts_mapString = nil
 
 	stage.PlantCircumferenceShapes = nil
 	stage.PlantCircumferenceShapes_mapString = nil
-
-	stage.PlantDiagrams = nil
-	stage.PlantDiagrams_mapString = nil
 
 	stage.PointsAndLines3DShapes = nil
 	stage.PointsAndLines3DShapes_mapString = nil
@@ -19090,8 +23539,26 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.RotatedRhombusShapes = nil
 	stage.RotatedRhombusShapes_mapString = nil
 
+	stage.RotatedSampledPoints3DShapes = nil
+	stage.RotatedSampledPoints3DShapes_mapString = nil
+
+	stage.RotatedSeatAndLegs3DShapes = nil
+	stage.RotatedSeatAndLegs3DShapes_mapString = nil
+
 	stage.SampledPoints3DShapes = nil
 	stage.SampledPoints3DShapes_mapString = nil
+
+	stage.Seat3DShapes = nil
+	stage.Seat3DShapes_mapString = nil
+
+	stage.SeatAndLegs3DShapes = nil
+	stage.SeatAndLegs3DShapes_mapString = nil
+
+	stage.SeatBottomCurveShapes = nil
+	stage.SeatBottomCurveShapes_mapString = nil
+
+	stage.SeatTopCurveShapes = nil
+	stage.SeatTopCurveShapes_mapString = nil
 
 	stage.ShiftedBottomTopStartArcShapes = nil
 	stage.ShiftedBottomTopStartArcShapes_mapString = nil
@@ -19156,6 +23623,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.StackOfGrowthCurve2Ds = nil
 	stage.StackOfGrowthCurve2Ds_mapString = nil
 
+	stage.StackOfGrowthCurve2DByGrowthVectors = nil
+	stage.StackOfGrowthCurve2DByGrowthVectors_mapString = nil
+
 	stage.StackOfGrowthCurve2DRibbons = nil
 	stage.StackOfGrowthCurve2DRibbons_mapString = nil
 
@@ -19191,6 +23661,18 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.StartHalfwayArcShapeGrids = nil
 	stage.StartHalfwayArcShapeGrids_mapString = nil
+
+	stage.Stool2DDiagrams = nil
+	stage.Stool2DDiagrams_mapString = nil
+
+	stage.Stool3DDiagrams = nil
+	stage.Stool3DDiagrams_mapString = nil
+
+	stage.StoolAbstracts = nil
+	stage.StoolAbstracts_mapString = nil
+
+	stage.TiledFloor3DShapes = nil
+	stage.TiledFloor3DShapes_mapString = nil
 
 	stage.TopEndArcShapes = nil
 	stage.TopEndArcShapes_mapString = nil
@@ -19243,11 +23725,23 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.TopStartHalfwayArcShapeGrids = nil
 	stage.TopStartHalfwayArcShapeGrids_mapString = nil
 
+	stage.Torus3DShapes = nil
+	stage.Torus3DShapes_mapString = nil
+
 	stage.TorusEdge3DShapes = nil
 	stage.TorusEdge3DShapes_mapString = nil
 
 	stage.TorusStackShapes = nil
 	stage.TorusStackShapes_mapString = nil
+
+	stage.Vase2DDiagrams = nil
+	stage.Vase2DDiagrams_mapString = nil
+
+	stage.Vase3DDiagrams = nil
+	stage.Vase3DDiagrams_mapString = nil
+
+	stage.VaseAbstracts = nil
+	stage.VaseAbstracts_mapString = nil
 
 	stage.VerticalTorusStackShapes = nil
 	stage.VerticalTorusStackShapes_mapString = nil
@@ -19291,6 +23785,22 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		circlegridshape.Unstage(stage)
 	}
 
+	for clock2ddiagram := range stage.Clock2DDiagrams {
+		clock2ddiagram.Unstage(stage)
+	}
+
+	for clock3ddiagram := range stage.Clock3DDiagrams {
+		clock3ddiagram.Unstage(stage)
+	}
+
+	for clockabstract := range stage.ClockAbstracts {
+		clockabstract.Unstage(stage)
+	}
+
+	for clocktopcurveshape := range stage.ClockTopCurveShapes {
+		clocktopcurveshape.Unstage(stage)
+	}
+
 	for endarcshape := range stage.EndArcShapes {
 		endarcshape.Unstage(stage)
 	}
@@ -19309,6 +23819,30 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for explanationtextshape := range stage.ExplanationTextShapes {
 		explanationtextshape.Unstage(stage)
+	}
+
+	for eye3dshape := range stage.Eye3DShapes {
+		eye3dshape.Unstage(stage)
+	}
+
+	for eyecornerssampledpoints3dshape := range stage.EyeCornersSampledPoints3DShapes {
+		eyecornerssampledpoints3dshape.Unstage(stage)
+	}
+
+	for eyesampledpoints3dshape := range stage.EyeSampledPoints3DShapes {
+		eyesampledpoints3dshape.Unstage(stage)
+	}
+
+	for eyeseatbottomcurveshape := range stage.EyeSeatBottomCurveShapes {
+		eyeseatbottomcurveshape.Unstage(stage)
+	}
+
+	for eyestoolbottomcurveshape := range stage.EyeStoolBottomCurveShapes {
+		eyestoolbottomcurveshape.Unstage(stage)
+	}
+
+	for eyevolume3dshape := range stage.EyeVolume3DShapes {
+		eyevolume3dshape.Unstage(stage)
 	}
 
 	for gridpathshape := range stage.GridPathShapes {
@@ -19423,6 +23957,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		partiallygrowthcurve2dtrajectoryshape.Unstage(stage)
 	}
 
+	for partiallyrotatedseatbottomcurveshape := range stage.PartiallyRotatedSeatBottomCurveShapes {
+		partiallyrotatedseatbottomcurveshape.Unstage(stage)
+	}
+
+	for partiallyrotatedseattopcurveshape := range stage.PartiallyRotatedSeatTopCurveShapes {
+		partiallyrotatedseattopcurveshape.Unstage(stage)
+	}
+
 	for partiallyrotatedtorusshape := range stage.PartiallyRotatedTorusShapes {
 		partiallyrotatedtorusshape.Unstage(stage)
 	}
@@ -19443,16 +23985,16 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		perpendicularvectorhalfway.Unstage(stage)
 	}
 
-	for plant := range stage.Plants {
-		plant.Unstage(stage)
+	for plant2ddiagram := range stage.Plant2DDiagrams {
+		plant2ddiagram.Unstage(stage)
+	}
+
+	for plantabstract := range stage.PlantAbstracts {
+		plantabstract.Unstage(stage)
 	}
 
 	for plantcircumferenceshape := range stage.PlantCircumferenceShapes {
 		plantcircumferenceshape.Unstage(stage)
-	}
-
-	for plantdiagram := range stage.PlantDiagrams {
-		plantdiagram.Unstage(stage)
 	}
 
 	for pointsandlines3dshape := range stage.PointsAndLines3DShapes {
@@ -19483,8 +24025,32 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		rotatedrhombusshape.Unstage(stage)
 	}
 
+	for rotatedsampledpoints3dshape := range stage.RotatedSampledPoints3DShapes {
+		rotatedsampledpoints3dshape.Unstage(stage)
+	}
+
+	for rotatedseatandlegs3dshape := range stage.RotatedSeatAndLegs3DShapes {
+		rotatedseatandlegs3dshape.Unstage(stage)
+	}
+
 	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
 		sampledpoints3dshape.Unstage(stage)
+	}
+
+	for seat3dshape := range stage.Seat3DShapes {
+		seat3dshape.Unstage(stage)
+	}
+
+	for seatandlegs3dshape := range stage.SeatAndLegs3DShapes {
+		seatandlegs3dshape.Unstage(stage)
+	}
+
+	for seatbottomcurveshape := range stage.SeatBottomCurveShapes {
+		seatbottomcurveshape.Unstage(stage)
+	}
+
+	for seattopcurveshape := range stage.SeatTopCurveShapes {
+		seattopcurveshape.Unstage(stage)
 	}
 
 	for shiftedbottomtopstartarcshape := range stage.ShiftedBottomTopStartArcShapes {
@@ -19571,6 +24137,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		stackofgrowthcurve2d.Unstage(stage)
 	}
 
+	for stackofgrowthcurve2dbygrowthvector := range stage.StackOfGrowthCurve2DByGrowthVectors {
+		stackofgrowthcurve2dbygrowthvector.Unstage(stage)
+	}
+
 	for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
 		stackofgrowthcurve2dribbon.Unstage(stage)
 	}
@@ -19617,6 +24187,22 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
 		starthalfwayarcshapegrid.Unstage(stage)
+	}
+
+	for stool2ddiagram := range stage.Stool2DDiagrams {
+		stool2ddiagram.Unstage(stage)
+	}
+
+	for stool3ddiagram := range stage.Stool3DDiagrams {
+		stool3ddiagram.Unstage(stage)
+	}
+
+	for stoolabstract := range stage.StoolAbstracts {
+		stoolabstract.Unstage(stage)
+	}
+
+	for tiledfloor3dshape := range stage.TiledFloor3DShapes {
+		tiledfloor3dshape.Unstage(stage)
 	}
 
 	for topendarcshape := range stage.TopEndArcShapes {
@@ -19687,12 +24273,28 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		topstarthalfwayarcshapegrid.Unstage(stage)
 	}
 
+	for torus3dshape := range stage.Torus3DShapes {
+		torus3dshape.Unstage(stage)
+	}
+
 	for torusedge3dshape := range stage.TorusEdge3DShapes {
 		torusedge3dshape.Unstage(stage)
 	}
 
 	for torusstackshape := range stage.TorusStackShapes {
 		torusstackshape.Unstage(stage)
+	}
+
+	for vase2ddiagram := range stage.Vase2DDiagrams {
+		vase2ddiagram.Unstage(stage)
+	}
+
+	for vase3ddiagram := range stage.Vase3DDiagrams {
+		vase3ddiagram.Unstage(stage)
+	}
+
+	for vaseabstract := range stage.VaseAbstracts {
+		vaseabstract.Unstage(stage)
 	}
 
 	for verticaltorusstackshape := range stage.VerticalTorusStackShapes {
@@ -19795,6 +24397,14 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ChosenP1P2PairShapes).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
+	case map[*Clock2DDiagram]any:
+		return any(&stage.Clock2DDiagrams).(*Type)
+	case map[*Clock3DDiagram]any:
+		return any(&stage.Clock3DDiagrams).(*Type)
+	case map[*ClockAbstract]any:
+		return any(&stage.ClockAbstracts).(*Type)
+	case map[*ClockTopCurveShape]any:
+		return any(&stage.ClockTopCurveShapes).(*Type)
 	case map[*EndArcShape]any:
 		return any(&stage.EndArcShapes).(*Type)
 	case map[*EndArcShapeGrid]any:
@@ -19805,6 +24415,18 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.EndHalfwayArcShapeGrids).(*Type)
 	case map[*ExplanationTextShape]any:
 		return any(&stage.ExplanationTextShapes).(*Type)
+	case map[*Eye3DShape]any:
+		return any(&stage.Eye3DShapes).(*Type)
+	case map[*EyeCornersSampledPoints3DShape]any:
+		return any(&stage.EyeCornersSampledPoints3DShapes).(*Type)
+	case map[*EyeSampledPoints3DShape]any:
+		return any(&stage.EyeSampledPoints3DShapes).(*Type)
+	case map[*EyeSeatBottomCurveShape]any:
+		return any(&stage.EyeSeatBottomCurveShapes).(*Type)
+	case map[*EyeStoolBottomCurveShape]any:
+		return any(&stage.EyeStoolBottomCurveShapes).(*Type)
+	case map[*EyeVolume3DShape]any:
+		return any(&stage.EyeVolume3DShapes).(*Type)
 	case map[*GridPathShape]any:
 		return any(&stage.GridPathShapes).(*Type)
 	case map[*GrowthCurve2D]any:
@@ -19861,6 +24483,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*Type)
 	case map[*PartiallyGrowthCurve2DTrajectoryShape]any:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*Type)
+	case map[*PartiallyRotatedSeatBottomCurveShape]any:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*Type)
+	case map[*PartiallyRotatedSeatTopCurveShape]any:
+		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*Type)
 	case map[*PartiallyRotatedTorusShape]any:
 		return any(&stage.PartiallyRotatedTorusShapes).(*Type)
 	case map[*PerpendicularVector]any:
@@ -19871,12 +24497,12 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PerpendicularVectorGridHalfways).(*Type)
 	case map[*PerpendicularVectorHalfway]any:
 		return any(&stage.PerpendicularVectorHalfways).(*Type)
-	case map[*Plant]any:
-		return any(&stage.Plants).(*Type)
+	case map[*Plant2DDiagram]any:
+		return any(&stage.Plant2DDiagrams).(*Type)
+	case map[*PlantAbstract]any:
+		return any(&stage.PlantAbstracts).(*Type)
 	case map[*PlantCircumferenceShape]any:
 		return any(&stage.PlantCircumferenceShapes).(*Type)
-	case map[*PlantDiagram]any:
-		return any(&stage.PlantDiagrams).(*Type)
 	case map[*PointsAndLines3DShape]any:
 		return any(&stage.PointsAndLines3DShapes).(*Type)
 	case map[*PxShape]any:
@@ -19891,8 +24517,20 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.RotatedRhombusGridShapes).(*Type)
 	case map[*RotatedRhombusShape]any:
 		return any(&stage.RotatedRhombusShapes).(*Type)
+	case map[*RotatedSampledPoints3DShape]any:
+		return any(&stage.RotatedSampledPoints3DShapes).(*Type)
+	case map[*RotatedSeatAndLegs3DShape]any:
+		return any(&stage.RotatedSeatAndLegs3DShapes).(*Type)
 	case map[*SampledPoints3DShape]any:
 		return any(&stage.SampledPoints3DShapes).(*Type)
+	case map[*Seat3DShape]any:
+		return any(&stage.Seat3DShapes).(*Type)
+	case map[*SeatAndLegs3DShape]any:
+		return any(&stage.SeatAndLegs3DShapes).(*Type)
+	case map[*SeatBottomCurveShape]any:
+		return any(&stage.SeatBottomCurveShapes).(*Type)
+	case map[*SeatTopCurveShape]any:
+		return any(&stage.SeatTopCurveShapes).(*Type)
 	case map[*ShiftedBottomTopStartArcShape]any:
 		return any(&stage.ShiftedBottomTopStartArcShapes).(*Type)
 	case map[*ShiftedBottomTopStartArcShapeGrid]any:
@@ -19935,6 +24573,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*Type)
 	case map[*StackOfGrowthCurve2D]any:
 		return any(&stage.StackOfGrowthCurve2Ds).(*Type)
+	case map[*StackOfGrowthCurve2DByGrowthVector]any:
+		return any(&stage.StackOfGrowthCurve2DByGrowthVectors).(*Type)
 	case map[*StackOfGrowthCurve2DRibbon]any:
 		return any(&stage.StackOfGrowthCurve2DRibbons).(*Type)
 	case map[*StackOfPartiallyRotatedTorusShape]any:
@@ -19959,6 +24599,14 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.StartHalfwayArcShapes).(*Type)
 	case map[*StartHalfwayArcShapeGrid]any:
 		return any(&stage.StartHalfwayArcShapeGrids).(*Type)
+	case map[*Stool2DDiagram]any:
+		return any(&stage.Stool2DDiagrams).(*Type)
+	case map[*Stool3DDiagram]any:
+		return any(&stage.Stool3DDiagrams).(*Type)
+	case map[*StoolAbstract]any:
+		return any(&stage.StoolAbstracts).(*Type)
+	case map[*TiledFloor3DShape]any:
+		return any(&stage.TiledFloor3DShapes).(*Type)
 	case map[*TopEndArcShape]any:
 		return any(&stage.TopEndArcShapes).(*Type)
 	case map[*TopEndArcShapeGrid]any:
@@ -19993,10 +24641,18 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.TopStartHalfwayArcShapes).(*Type)
 	case map[*TopStartHalfwayArcShapeGrid]any:
 		return any(&stage.TopStartHalfwayArcShapeGrids).(*Type)
+	case map[*Torus3DShape]any:
+		return any(&stage.Torus3DShapes).(*Type)
 	case map[*TorusEdge3DShape]any:
 		return any(&stage.TorusEdge3DShapes).(*Type)
 	case map[*TorusStackShape]any:
 		return any(&stage.TorusStackShapes).(*Type)
+	case map[*Vase2DDiagram]any:
+		return any(&stage.Vase2DDiagrams).(*Type)
+	case map[*Vase3DDiagram]any:
+		return any(&stage.Vase3DDiagrams).(*Type)
+	case map[*VaseAbstract]any:
+		return any(&stage.VaseAbstracts).(*Type)
 	case map[*VerticalTorusStackShape]any:
 		return any(&stage.VerticalTorusStackShapes).(*Type)
 	case map[*VolumeKey3DShape]any:
@@ -20029,6 +24685,14 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ChosenP1P2PairShapes_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
+	case *Clock2DDiagram:
+		return any(stage.Clock2DDiagrams_mapString).(map[string]Type)
+	case *Clock3DDiagram:
+		return any(stage.Clock3DDiagrams_mapString).(map[string]Type)
+	case *ClockAbstract:
+		return any(stage.ClockAbstracts_mapString).(map[string]Type)
+	case *ClockTopCurveShape:
+		return any(stage.ClockTopCurveShapes_mapString).(map[string]Type)
 	case *EndArcShape:
 		return any(stage.EndArcShapes_mapString).(map[string]Type)
 	case *EndArcShapeGrid:
@@ -20039,6 +24703,18 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.EndHalfwayArcShapeGrids_mapString).(map[string]Type)
 	case *ExplanationTextShape:
 		return any(stage.ExplanationTextShapes_mapString).(map[string]Type)
+	case *Eye3DShape:
+		return any(stage.Eye3DShapes_mapString).(map[string]Type)
+	case *EyeCornersSampledPoints3DShape:
+		return any(stage.EyeCornersSampledPoints3DShapes_mapString).(map[string]Type)
+	case *EyeSampledPoints3DShape:
+		return any(stage.EyeSampledPoints3DShapes_mapString).(map[string]Type)
+	case *EyeSeatBottomCurveShape:
+		return any(stage.EyeSeatBottomCurveShapes_mapString).(map[string]Type)
+	case *EyeStoolBottomCurveShape:
+		return any(stage.EyeStoolBottomCurveShapes_mapString).(map[string]Type)
+	case *EyeVolume3DShape:
+		return any(stage.EyeVolume3DShapes_mapString).(map[string]Type)
 	case *GridPathShape:
 		return any(stage.GridPathShapes_mapString).(map[string]Type)
 	case *GrowthCurve2D:
@@ -20095,6 +24771,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(map[string]Type)
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(map[string]Type)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return any(stage.PartiallyRotatedSeatBottomCurveShapes_mapString).(map[string]Type)
+	case *PartiallyRotatedSeatTopCurveShape:
+		return any(stage.PartiallyRotatedSeatTopCurveShapes_mapString).(map[string]Type)
 	case *PartiallyRotatedTorusShape:
 		return any(stage.PartiallyRotatedTorusShapes_mapString).(map[string]Type)
 	case *PerpendicularVector:
@@ -20105,12 +24785,12 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PerpendicularVectorGridHalfways_mapString).(map[string]Type)
 	case *PerpendicularVectorHalfway:
 		return any(stage.PerpendicularVectorHalfways_mapString).(map[string]Type)
-	case *Plant:
-		return any(stage.Plants_mapString).(map[string]Type)
+	case *Plant2DDiagram:
+		return any(stage.Plant2DDiagrams_mapString).(map[string]Type)
+	case *PlantAbstract:
+		return any(stage.PlantAbstracts_mapString).(map[string]Type)
 	case *PlantCircumferenceShape:
 		return any(stage.PlantCircumferenceShapes_mapString).(map[string]Type)
-	case *PlantDiagram:
-		return any(stage.PlantDiagrams_mapString).(map[string]Type)
 	case *PointsAndLines3DShape:
 		return any(stage.PointsAndLines3DShapes_mapString).(map[string]Type)
 	case *PxShape:
@@ -20125,8 +24805,20 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.RotatedRhombusGridShapes_mapString).(map[string]Type)
 	case *RotatedRhombusShape:
 		return any(stage.RotatedRhombusShapes_mapString).(map[string]Type)
+	case *RotatedSampledPoints3DShape:
+		return any(stage.RotatedSampledPoints3DShapes_mapString).(map[string]Type)
+	case *RotatedSeatAndLegs3DShape:
+		return any(stage.RotatedSeatAndLegs3DShapes_mapString).(map[string]Type)
 	case *SampledPoints3DShape:
 		return any(stage.SampledPoints3DShapes_mapString).(map[string]Type)
+	case *Seat3DShape:
+		return any(stage.Seat3DShapes_mapString).(map[string]Type)
+	case *SeatAndLegs3DShape:
+		return any(stage.SeatAndLegs3DShapes_mapString).(map[string]Type)
+	case *SeatBottomCurveShape:
+		return any(stage.SeatBottomCurveShapes_mapString).(map[string]Type)
+	case *SeatTopCurveShape:
+		return any(stage.SeatTopCurveShapes_mapString).(map[string]Type)
 	case *ShiftedBottomTopStartArcShape:
 		return any(stage.ShiftedBottomTopStartArcShapes_mapString).(map[string]Type)
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -20169,6 +24861,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString).(map[string]Type)
 	case *StackOfGrowthCurve2D:
 		return any(stage.StackOfGrowthCurve2Ds_mapString).(map[string]Type)
+	case *StackOfGrowthCurve2DByGrowthVector:
+		return any(stage.StackOfGrowthCurve2DByGrowthVectors_mapString).(map[string]Type)
 	case *StackOfGrowthCurve2DRibbon:
 		return any(stage.StackOfGrowthCurve2DRibbons_mapString).(map[string]Type)
 	case *StackOfPartiallyRotatedTorusShape:
@@ -20193,6 +24887,14 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.StartHalfwayArcShapes_mapString).(map[string]Type)
 	case *StartHalfwayArcShapeGrid:
 		return any(stage.StartHalfwayArcShapeGrids_mapString).(map[string]Type)
+	case *Stool2DDiagram:
+		return any(stage.Stool2DDiagrams_mapString).(map[string]Type)
+	case *Stool3DDiagram:
+		return any(stage.Stool3DDiagrams_mapString).(map[string]Type)
+	case *StoolAbstract:
+		return any(stage.StoolAbstracts_mapString).(map[string]Type)
+	case *TiledFloor3DShape:
+		return any(stage.TiledFloor3DShapes_mapString).(map[string]Type)
 	case *TopEndArcShape:
 		return any(stage.TopEndArcShapes_mapString).(map[string]Type)
 	case *TopEndArcShapeGrid:
@@ -20227,10 +24929,18 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.TopStartHalfwayArcShapes_mapString).(map[string]Type)
 	case *TopStartHalfwayArcShapeGrid:
 		return any(stage.TopStartHalfwayArcShapeGrids_mapString).(map[string]Type)
+	case *Torus3DShape:
+		return any(stage.Torus3DShapes_mapString).(map[string]Type)
 	case *TorusEdge3DShape:
 		return any(stage.TorusEdge3DShapes_mapString).(map[string]Type)
 	case *TorusStackShape:
 		return any(stage.TorusStackShapes_mapString).(map[string]Type)
+	case *Vase2DDiagram:
+		return any(stage.Vase2DDiagrams_mapString).(map[string]Type)
+	case *Vase3DDiagram:
+		return any(stage.Vase3DDiagrams_mapString).(map[string]Type)
+	case *VaseAbstract:
+		return any(stage.VaseAbstracts_mapString).(map[string]Type)
 	case *VerticalTorusStackShape:
 		return any(stage.VerticalTorusStackShapes_mapString).(map[string]Type)
 	case *VolumeKey3DShape:
@@ -20263,6 +24973,14 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ChosenP1P2PairShapes).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
+	case Clock2DDiagram:
+		return any(&stage.Clock2DDiagrams).(*map[*Type]struct{})
+	case Clock3DDiagram:
+		return any(&stage.Clock3DDiagrams).(*map[*Type]struct{})
+	case ClockAbstract:
+		return any(&stage.ClockAbstracts).(*map[*Type]struct{})
+	case ClockTopCurveShape:
+		return any(&stage.ClockTopCurveShapes).(*map[*Type]struct{})
 	case EndArcShape:
 		return any(&stage.EndArcShapes).(*map[*Type]struct{})
 	case EndArcShapeGrid:
@@ -20273,6 +24991,18 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.EndHalfwayArcShapeGrids).(*map[*Type]struct{})
 	case ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes).(*map[*Type]struct{})
+	case Eye3DShape:
+		return any(&stage.Eye3DShapes).(*map[*Type]struct{})
+	case EyeCornersSampledPoints3DShape:
+		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[*Type]struct{})
+	case EyeSampledPoints3DShape:
+		return any(&stage.EyeSampledPoints3DShapes).(*map[*Type]struct{})
+	case EyeSeatBottomCurveShape:
+		return any(&stage.EyeSeatBottomCurveShapes).(*map[*Type]struct{})
+	case EyeStoolBottomCurveShape:
+		return any(&stage.EyeStoolBottomCurveShapes).(*map[*Type]struct{})
+	case EyeVolume3DShape:
+		return any(&stage.EyeVolume3DShapes).(*map[*Type]struct{})
 	case GridPathShape:
 		return any(&stage.GridPathShapes).(*map[*Type]struct{})
 	case GrowthCurve2D:
@@ -20329,6 +25059,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[*Type]struct{})
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[*Type]struct{})
+	case PartiallyRotatedSeatBottomCurveShape:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*map[*Type]struct{})
+	case PartiallyRotatedSeatTopCurveShape:
+		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*map[*Type]struct{})
 	case PartiallyRotatedTorusShape:
 		return any(&stage.PartiallyRotatedTorusShapes).(*map[*Type]struct{})
 	case PerpendicularVector:
@@ -20339,12 +25073,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PerpendicularVectorGridHalfways).(*map[*Type]struct{})
 	case PerpendicularVectorHalfway:
 		return any(&stage.PerpendicularVectorHalfways).(*map[*Type]struct{})
-	case Plant:
-		return any(&stage.Plants).(*map[*Type]struct{})
+	case Plant2DDiagram:
+		return any(&stage.Plant2DDiagrams).(*map[*Type]struct{})
+	case PlantAbstract:
+		return any(&stage.PlantAbstracts).(*map[*Type]struct{})
 	case PlantCircumferenceShape:
 		return any(&stage.PlantCircumferenceShapes).(*map[*Type]struct{})
-	case PlantDiagram:
-		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
 	case PointsAndLines3DShape:
 		return any(&stage.PointsAndLines3DShapes).(*map[*Type]struct{})
 	case PxShape:
@@ -20359,8 +25093,20 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.RotatedRhombusGridShapes).(*map[*Type]struct{})
 	case RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes).(*map[*Type]struct{})
+	case RotatedSampledPoints3DShape:
+		return any(&stage.RotatedSampledPoints3DShapes).(*map[*Type]struct{})
+	case RotatedSeatAndLegs3DShape:
+		return any(&stage.RotatedSeatAndLegs3DShapes).(*map[*Type]struct{})
 	case SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes).(*map[*Type]struct{})
+	case Seat3DShape:
+		return any(&stage.Seat3DShapes).(*map[*Type]struct{})
+	case SeatAndLegs3DShape:
+		return any(&stage.SeatAndLegs3DShapes).(*map[*Type]struct{})
+	case SeatBottomCurveShape:
+		return any(&stage.SeatBottomCurveShapes).(*map[*Type]struct{})
+	case SeatTopCurveShape:
+		return any(&stage.SeatTopCurveShapes).(*map[*Type]struct{})
 	case ShiftedBottomTopStartArcShape:
 		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[*Type]struct{})
 	case ShiftedBottomTopStartArcShapeGrid:
@@ -20403,6 +25149,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*map[*Type]struct{})
 	case StackOfGrowthCurve2D:
 		return any(&stage.StackOfGrowthCurve2Ds).(*map[*Type]struct{})
+	case StackOfGrowthCurve2DByGrowthVector:
+		return any(&stage.StackOfGrowthCurve2DByGrowthVectors).(*map[*Type]struct{})
 	case StackOfGrowthCurve2DRibbon:
 		return any(&stage.StackOfGrowthCurve2DRibbons).(*map[*Type]struct{})
 	case StackOfPartiallyRotatedTorusShape:
@@ -20427,6 +25175,14 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.StartHalfwayArcShapes).(*map[*Type]struct{})
 	case StartHalfwayArcShapeGrid:
 		return any(&stage.StartHalfwayArcShapeGrids).(*map[*Type]struct{})
+	case Stool2DDiagram:
+		return any(&stage.Stool2DDiagrams).(*map[*Type]struct{})
+	case Stool3DDiagram:
+		return any(&stage.Stool3DDiagrams).(*map[*Type]struct{})
+	case StoolAbstract:
+		return any(&stage.StoolAbstracts).(*map[*Type]struct{})
+	case TiledFloor3DShape:
+		return any(&stage.TiledFloor3DShapes).(*map[*Type]struct{})
 	case TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[*Type]struct{})
 	case TopEndArcShapeGrid:
@@ -20461,10 +25217,18 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.TopStartHalfwayArcShapes).(*map[*Type]struct{})
 	case TopStartHalfwayArcShapeGrid:
 		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[*Type]struct{})
+	case Torus3DShape:
+		return any(&stage.Torus3DShapes).(*map[*Type]struct{})
 	case TorusEdge3DShape:
 		return any(&stage.TorusEdge3DShapes).(*map[*Type]struct{})
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[*Type]struct{})
+	case Vase2DDiagram:
+		return any(&stage.Vase2DDiagrams).(*map[*Type]struct{})
+	case Vase3DDiagram:
+		return any(&stage.Vase3DDiagrams).(*map[*Type]struct{})
+	case VaseAbstract:
+		return any(&stage.VaseAbstracts).(*map[*Type]struct{})
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[*Type]struct{})
 	case VolumeKey3DShape:
@@ -20497,6 +25261,14 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ChosenP1P2PairShapes).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
+	case *Clock2DDiagram:
+		return any(&stage.Clock2DDiagrams).(*map[Type]struct{})
+	case *Clock3DDiagram:
+		return any(&stage.Clock3DDiagrams).(*map[Type]struct{})
+	case *ClockAbstract:
+		return any(&stage.ClockAbstracts).(*map[Type]struct{})
+	case *ClockTopCurveShape:
+		return any(&stage.ClockTopCurveShapes).(*map[Type]struct{})
 	case *EndArcShape:
 		return any(&stage.EndArcShapes).(*map[Type]struct{})
 	case *EndArcShapeGrid:
@@ -20507,6 +25279,18 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.EndHalfwayArcShapeGrids).(*map[Type]struct{})
 	case *ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes).(*map[Type]struct{})
+	case *Eye3DShape:
+		return any(&stage.Eye3DShapes).(*map[Type]struct{})
+	case *EyeCornersSampledPoints3DShape:
+		return any(&stage.EyeCornersSampledPoints3DShapes).(*map[Type]struct{})
+	case *EyeSampledPoints3DShape:
+		return any(&stage.EyeSampledPoints3DShapes).(*map[Type]struct{})
+	case *EyeSeatBottomCurveShape:
+		return any(&stage.EyeSeatBottomCurveShapes).(*map[Type]struct{})
+	case *EyeStoolBottomCurveShape:
+		return any(&stage.EyeStoolBottomCurveShapes).(*map[Type]struct{})
+	case *EyeVolume3DShape:
+		return any(&stage.EyeVolume3DShapes).(*map[Type]struct{})
 	case *GridPathShape:
 		return any(&stage.GridPathShapes).(*map[Type]struct{})
 	case *GrowthCurve2D:
@@ -20563,6 +25347,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes).(*map[Type]struct{})
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes).(*map[Type]struct{})
+	case *PartiallyRotatedSeatBottomCurveShape:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes).(*map[Type]struct{})
+	case *PartiallyRotatedSeatTopCurveShape:
+		return any(&stage.PartiallyRotatedSeatTopCurveShapes).(*map[Type]struct{})
 	case *PartiallyRotatedTorusShape:
 		return any(&stage.PartiallyRotatedTorusShapes).(*map[Type]struct{})
 	case *PerpendicularVector:
@@ -20573,12 +25361,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PerpendicularVectorGridHalfways).(*map[Type]struct{})
 	case *PerpendicularVectorHalfway:
 		return any(&stage.PerpendicularVectorHalfways).(*map[Type]struct{})
-	case *Plant:
-		return any(&stage.Plants).(*map[Type]struct{})
+	case *Plant2DDiagram:
+		return any(&stage.Plant2DDiagrams).(*map[Type]struct{})
+	case *PlantAbstract:
+		return any(&stage.PlantAbstracts).(*map[Type]struct{})
 	case *PlantCircumferenceShape:
 		return any(&stage.PlantCircumferenceShapes).(*map[Type]struct{})
-	case *PlantDiagram:
-		return any(&stage.PlantDiagrams).(*map[Type]struct{})
 	case *PointsAndLines3DShape:
 		return any(&stage.PointsAndLines3DShapes).(*map[Type]struct{})
 	case *PxShape:
@@ -20593,8 +25381,20 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.RotatedRhombusGridShapes).(*map[Type]struct{})
 	case *RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes).(*map[Type]struct{})
+	case *RotatedSampledPoints3DShape:
+		return any(&stage.RotatedSampledPoints3DShapes).(*map[Type]struct{})
+	case *RotatedSeatAndLegs3DShape:
+		return any(&stage.RotatedSeatAndLegs3DShapes).(*map[Type]struct{})
 	case *SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes).(*map[Type]struct{})
+	case *Seat3DShape:
+		return any(&stage.Seat3DShapes).(*map[Type]struct{})
+	case *SeatAndLegs3DShape:
+		return any(&stage.SeatAndLegs3DShapes).(*map[Type]struct{})
+	case *SeatBottomCurveShape:
+		return any(&stage.SeatBottomCurveShapes).(*map[Type]struct{})
+	case *SeatTopCurveShape:
+		return any(&stage.SeatTopCurveShapes).(*map[Type]struct{})
 	case *ShiftedBottomTopStartArcShape:
 		return any(&stage.ShiftedBottomTopStartArcShapes).(*map[Type]struct{})
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -20637,6 +25437,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes).(*map[Type]struct{})
 	case *StackOfGrowthCurve2D:
 		return any(&stage.StackOfGrowthCurve2Ds).(*map[Type]struct{})
+	case *StackOfGrowthCurve2DByGrowthVector:
+		return any(&stage.StackOfGrowthCurve2DByGrowthVectors).(*map[Type]struct{})
 	case *StackOfGrowthCurve2DRibbon:
 		return any(&stage.StackOfGrowthCurve2DRibbons).(*map[Type]struct{})
 	case *StackOfPartiallyRotatedTorusShape:
@@ -20661,6 +25463,14 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.StartHalfwayArcShapes).(*map[Type]struct{})
 	case *StartHalfwayArcShapeGrid:
 		return any(&stage.StartHalfwayArcShapeGrids).(*map[Type]struct{})
+	case *Stool2DDiagram:
+		return any(&stage.Stool2DDiagrams).(*map[Type]struct{})
+	case *Stool3DDiagram:
+		return any(&stage.Stool3DDiagrams).(*map[Type]struct{})
+	case *StoolAbstract:
+		return any(&stage.StoolAbstracts).(*map[Type]struct{})
+	case *TiledFloor3DShape:
+		return any(&stage.TiledFloor3DShapes).(*map[Type]struct{})
 	case *TopEndArcShape:
 		return any(&stage.TopEndArcShapes).(*map[Type]struct{})
 	case *TopEndArcShapeGrid:
@@ -20695,10 +25505,18 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.TopStartHalfwayArcShapes).(*map[Type]struct{})
 	case *TopStartHalfwayArcShapeGrid:
 		return any(&stage.TopStartHalfwayArcShapeGrids).(*map[Type]struct{})
+	case *Torus3DShape:
+		return any(&stage.Torus3DShapes).(*map[Type]struct{})
 	case *TorusEdge3DShape:
 		return any(&stage.TorusEdge3DShapes).(*map[Type]struct{})
 	case *TorusStackShape:
 		return any(&stage.TorusStackShapes).(*map[Type]struct{})
+	case *Vase2DDiagram:
+		return any(&stage.Vase2DDiagrams).(*map[Type]struct{})
+	case *Vase3DDiagram:
+		return any(&stage.Vase3DDiagrams).(*map[Type]struct{})
+	case *VaseAbstract:
+		return any(&stage.VaseAbstracts).(*map[Type]struct{})
 	case *VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes).(*map[Type]struct{})
 	case *VolumeKey3DShape:
@@ -20731,6 +25549,14 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ChosenP1P2PairShapes_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
+	case Clock2DDiagram:
+		return any(&stage.Clock2DDiagrams_mapString).(*map[string]*Type)
+	case Clock3DDiagram:
+		return any(&stage.Clock3DDiagrams_mapString).(*map[string]*Type)
+	case ClockAbstract:
+		return any(&stage.ClockAbstracts_mapString).(*map[string]*Type)
+	case ClockTopCurveShape:
+		return any(&stage.ClockTopCurveShapes_mapString).(*map[string]*Type)
 	case EndArcShape:
 		return any(&stage.EndArcShapes_mapString).(*map[string]*Type)
 	case EndArcShapeGrid:
@@ -20741,6 +25567,18 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.EndHalfwayArcShapeGrids_mapString).(*map[string]*Type)
 	case ExplanationTextShape:
 		return any(&stage.ExplanationTextShapes_mapString).(*map[string]*Type)
+	case Eye3DShape:
+		return any(&stage.Eye3DShapes_mapString).(*map[string]*Type)
+	case EyeCornersSampledPoints3DShape:
+		return any(&stage.EyeCornersSampledPoints3DShapes_mapString).(*map[string]*Type)
+	case EyeSampledPoints3DShape:
+		return any(&stage.EyeSampledPoints3DShapes_mapString).(*map[string]*Type)
+	case EyeSeatBottomCurveShape:
+		return any(&stage.EyeSeatBottomCurveShapes_mapString).(*map[string]*Type)
+	case EyeStoolBottomCurveShape:
+		return any(&stage.EyeStoolBottomCurveShapes_mapString).(*map[string]*Type)
+	case EyeVolume3DShape:
+		return any(&stage.EyeVolume3DShapes_mapString).(*map[string]*Type)
 	case GridPathShape:
 		return any(&stage.GridPathShapes_mapString).(*map[string]*Type)
 	case GrowthCurve2D:
@@ -20797,6 +25635,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryP2PointShapes_mapString).(*map[string]*Type)
 	case PartiallyGrowthCurve2DTrajectoryShape:
 		return any(&stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString).(*map[string]*Type)
+	case PartiallyRotatedSeatBottomCurveShape:
+		return any(&stage.PartiallyRotatedSeatBottomCurveShapes_mapString).(*map[string]*Type)
+	case PartiallyRotatedSeatTopCurveShape:
+		return any(&stage.PartiallyRotatedSeatTopCurveShapes_mapString).(*map[string]*Type)
 	case PartiallyRotatedTorusShape:
 		return any(&stage.PartiallyRotatedTorusShapes_mapString).(*map[string]*Type)
 	case PerpendicularVector:
@@ -20807,12 +25649,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PerpendicularVectorGridHalfways_mapString).(*map[string]*Type)
 	case PerpendicularVectorHalfway:
 		return any(&stage.PerpendicularVectorHalfways_mapString).(*map[string]*Type)
-	case Plant:
-		return any(&stage.Plants_mapString).(*map[string]*Type)
+	case Plant2DDiagram:
+		return any(&stage.Plant2DDiagrams_mapString).(*map[string]*Type)
+	case PlantAbstract:
+		return any(&stage.PlantAbstracts_mapString).(*map[string]*Type)
 	case PlantCircumferenceShape:
 		return any(&stage.PlantCircumferenceShapes_mapString).(*map[string]*Type)
-	case PlantDiagram:
-		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
 	case PointsAndLines3DShape:
 		return any(&stage.PointsAndLines3DShapes_mapString).(*map[string]*Type)
 	case PxShape:
@@ -20827,8 +25669,20 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.RotatedRhombusGridShapes_mapString).(*map[string]*Type)
 	case RotatedRhombusShape:
 		return any(&stage.RotatedRhombusShapes_mapString).(*map[string]*Type)
+	case RotatedSampledPoints3DShape:
+		return any(&stage.RotatedSampledPoints3DShapes_mapString).(*map[string]*Type)
+	case RotatedSeatAndLegs3DShape:
+		return any(&stage.RotatedSeatAndLegs3DShapes_mapString).(*map[string]*Type)
 	case SampledPoints3DShape:
 		return any(&stage.SampledPoints3DShapes_mapString).(*map[string]*Type)
+	case Seat3DShape:
+		return any(&stage.Seat3DShapes_mapString).(*map[string]*Type)
+	case SeatAndLegs3DShape:
+		return any(&stage.SeatAndLegs3DShapes_mapString).(*map[string]*Type)
+	case SeatBottomCurveShape:
+		return any(&stage.SeatBottomCurveShapes_mapString).(*map[string]*Type)
+	case SeatTopCurveShape:
+		return any(&stage.SeatTopCurveShapes_mapString).(*map[string]*Type)
 	case ShiftedBottomTopStartArcShape:
 		return any(&stage.ShiftedBottomTopStartArcShapes_mapString).(*map[string]*Type)
 	case ShiftedBottomTopStartArcShapeGrid:
@@ -20871,6 +25725,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StackGrowthCurve2DStartHalfwayArcShapes_mapString).(*map[string]*Type)
 	case StackOfGrowthCurve2D:
 		return any(&stage.StackOfGrowthCurve2Ds_mapString).(*map[string]*Type)
+	case StackOfGrowthCurve2DByGrowthVector:
+		return any(&stage.StackOfGrowthCurve2DByGrowthVectors_mapString).(*map[string]*Type)
 	case StackOfGrowthCurve2DRibbon:
 		return any(&stage.StackOfGrowthCurve2DRibbons_mapString).(*map[string]*Type)
 	case StackOfPartiallyRotatedTorusShape:
@@ -20895,6 +25751,14 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.StartHalfwayArcShapes_mapString).(*map[string]*Type)
 	case StartHalfwayArcShapeGrid:
 		return any(&stage.StartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
+	case Stool2DDiagram:
+		return any(&stage.Stool2DDiagrams_mapString).(*map[string]*Type)
+	case Stool3DDiagram:
+		return any(&stage.Stool3DDiagrams_mapString).(*map[string]*Type)
+	case StoolAbstract:
+		return any(&stage.StoolAbstracts_mapString).(*map[string]*Type)
+	case TiledFloor3DShape:
+		return any(&stage.TiledFloor3DShapes_mapString).(*map[string]*Type)
 	case TopEndArcShape:
 		return any(&stage.TopEndArcShapes_mapString).(*map[string]*Type)
 	case TopEndArcShapeGrid:
@@ -20929,10 +25793,18 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.TopStartHalfwayArcShapes_mapString).(*map[string]*Type)
 	case TopStartHalfwayArcShapeGrid:
 		return any(&stage.TopStartHalfwayArcShapeGrids_mapString).(*map[string]*Type)
+	case Torus3DShape:
+		return any(&stage.Torus3DShapes_mapString).(*map[string]*Type)
 	case TorusEdge3DShape:
 		return any(&stage.TorusEdge3DShapes_mapString).(*map[string]*Type)
 	case TorusStackShape:
 		return any(&stage.TorusStackShapes_mapString).(*map[string]*Type)
+	case Vase2DDiagram:
+		return any(&stage.Vase2DDiagrams_mapString).(*map[string]*Type)
+	case Vase3DDiagram:
+		return any(&stage.Vase3DDiagrams_mapString).(*map[string]*Type)
+	case VaseAbstract:
+		return any(&stage.VaseAbstracts_mapString).(*map[string]*Type)
 	case VerticalTorusStackShape:
 		return any(&stage.VerticalTorusStackShapes_mapString).(*map[string]*Type)
 	case VolumeKey3DShape:
@@ -20987,6 +25859,32 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&CircleGridShape{
 			// Initialisation of associations
 		}).(*Type)
+	case Clock2DDiagram:
+		return any(&Clock2DDiagram{
+			// Initialisation of associations
+		}).(*Type)
+	case Clock3DDiagram:
+		return any(&Clock3DDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of ClockTopCurveShape with the name of the field
+			ClockTopCurveShape: &ClockTopCurveShape{Name: "ClockTopCurveShape"},
+			// field is initialized with an instance of Torus3DShape with the name of the field
+			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
+			// field is initialized with an instance of SampledPoints3DShape with the name of the field
+			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+		}).(*Type)
+	case ClockAbstract:
+		return any(&ClockAbstract{
+			// Initialisation of associations
+		}).(*Type)
+	case ClockTopCurveShape:
+		return any(&ClockTopCurveShape{
+			// Initialisation of associations
+		}).(*Type)
 	case EndArcShape:
 		return any(&EndArcShape{
 			// Initialisation of associations
@@ -21009,6 +25907,30 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case ExplanationTextShape:
 		return any(&ExplanationTextShape{
+			// Initialisation of associations
+		}).(*Type)
+	case Eye3DShape:
+		return any(&Eye3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeCornersSampledPoints3DShape:
+		return any(&EyeCornersSampledPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeSampledPoints3DShape:
+		return any(&EyeSampledPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeSeatBottomCurveShape:
+		return any(&EyeSeatBottomCurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeStoolBottomCurveShape:
+		return any(&EyeStoolBottomCurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case EyeVolume3DShape:
+		return any(&EyeVolume3DShape{
 			// Initialisation of associations
 		}).(*Type)
 	case GridPathShape:
@@ -21080,8 +26002,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
-			// field is initialized with an instance of Plant with the name of the field
-			Plants: []*Plant{{Name: "Plants"}},
+			// field is initialized with an instance of PlantAbstract with the name of the field
+			Plants: []*PlantAbstract{{Name: "Plants"}},
 		}).(*Type)
 	case MidArcVectorShape:
 		return any(&MidArcVectorShape{
@@ -21157,6 +26079,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&PartiallyGrowthCurve2DTrajectoryShape{
 			// Initialisation of associations
 		}).(*Type)
+	case PartiallyRotatedSeatBottomCurveShape:
+		return any(&PartiallyRotatedSeatBottomCurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case PartiallyRotatedSeatTopCurveShape:
+		return any(&PartiallyRotatedSeatTopCurveShape{
+			// Initialisation of associations
+		}).(*Type)
 	case PartiallyRotatedTorusShape:
 		return any(&PartiallyRotatedTorusShape{
 			// Initialisation of associations
@@ -21181,11 +26111,33 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&PerpendicularVectorHalfway{
 			// Initialisation of associations
 		}).(*Type)
-	case Plant:
-		return any(&Plant{
+	case Plant2DDiagram:
+		return any(&Plant2DDiagram{
 			// Initialisation of associations
-			// field is initialized with an instance of PlantDiagram with the name of the field
-			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
+		}).(*Type)
+	case PlantAbstract:
+		return any(&PlantAbstract{
+			// Initialisation of associations
+			// field is initialized with an instance of VaseAbstract with the name of the field
+			VaseAbstract: &VaseAbstract{Name: "VaseAbstract"},
+			// field is initialized with an instance of StoolAbstract with the name of the field
+			StoolAbstract: &StoolAbstract{Name: "StoolAbstract"},
+			// field is initialized with an instance of ClockAbstract with the name of the field
+			ClockAbstract: &ClockAbstract{Name: "ClockAbstract"},
+			// field is initialized with an instance of Plant2DDiagram with the name of the field
+			Plant2DDiagrams: []*Plant2DDiagram{{Name: "Plant2DDiagrams"}},
+			// field is initialized with an instance of Vase2DDiagram with the name of the field
+			Vase2DDiagrams: []*Vase2DDiagram{{Name: "Vase2DDiagrams"}},
+			// field is initialized with an instance of Vase3DDiagram with the name of the field
+			Vase3DDiagrams: []*Vase3DDiagram{{Name: "Vase3DDiagrams"}},
+			// field is initialized with an instance of Stool2DDiagram with the name of the field
+			Stool2DDiagrams: []*Stool2DDiagram{{Name: "Stool2DDiagrams"}},
+			// field is initialized with an instance of Stool3DDiagram with the name of the field
+			Stool3DDiagrams: []*Stool3DDiagram{{Name: "Stool3DDiagrams"}},
+			// field is initialized with an instance of Clock2DDiagram with the name of the field
+			Clock2DDiagrams: []*Clock2DDiagram{{Name: "Clock2DDiagrams"}},
+			// field is initialized with an instance of Clock3DDiagram with the name of the field
+			Clock3DDiagrams: []*Clock3DDiagram{{Name: "Clock3DDiagrams"}},
 			// field is initialized with an instance of AxesShape with the name of the field
 			AxesShape: &AxesShape{Name: "AxesShape"},
 			// field is initialized with an instance of RhombusStuff with the name of the field
@@ -21194,112 +26146,24 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 			// field is initialized with an instance of PerpendicularVectorGrid with the name of the field
 			PerpendicularVectorGrid: &PerpendicularVectorGrid{Name: "PerpendicularVectorGrid"},
-			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
-			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
 			// field is initialized with an instance of BaseVectorShapeGrid with the name of the field
 			BaseVectorShapeGrid: &BaseVectorShapeGrid{Name: "BaseVectorShapeGrid"},
 			// field is initialized with an instance of ArcNormalVectorShapeGrid with the name of the field
 			ArcNormalVectorShapeGrid: &ArcNormalVectorShapeGrid{Name: "ArcNormalVectorShapeGrid"},
 			// field is initialized with an instance of StartArcShapeGrid with the name of the field
 			StartArcShapeGrid: &StartArcShapeGrid{Name: "StartArcShapeGrid"},
-			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
-			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
-			// field is initialized with an instance of EndArcShapeGrid with the name of the field
-			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
-			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
-			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
-			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
-			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
 			// field is initialized with an instance of MidArcVectorShapeGrid with the name of the field
 			MidArcVectorShapeGrid: &MidArcVectorShapeGrid{Name: "MidArcVectorShapeGrid"},
-			// field is initialized with an instance of TopMidArcVectorShapeGrid with the name of the field
-			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
-			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
-			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
-			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
-			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
-			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
-			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
-			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
-			// field is initialized with an instance of StackOfRotatedGrowthCurve2D with the name of the field
-			StackOfRotatedGrowthCurve2D: &StackOfRotatedGrowthCurve2D{Name: "StackOfRotatedGrowthCurve2D"},
-			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2D with the name of the field
-			TopStackOfRotatedGrowthCurve2D: &TopStackOfRotatedGrowthCurve2D{Name: "TopStackOfRotatedGrowthCurve2D"},
+			// field is initialized with an instance of EndArcShapeGrid with the name of the field
+			EndArcShapeGrid: &EndArcShapeGrid{Name: "EndArcShapeGrid"},
 			// field is initialized with an instance of GrowthCurve2D with the name of the field
 			GrowthCurve2D: &GrowthCurve2D{Name: "GrowthCurve2D"},
-			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
-			TopGrowthCurve2D: &TopGrowthCurve2D{Name: "TopGrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2D with the name of the field
-			StackOfGrowthCurve2D: &StackOfGrowthCurve2D{Name: "StackOfGrowthCurve2D"},
-			// field is initialized with an instance of TopStackOfGrowthCurve2D with the name of the field
-			TopStackOfGrowthCurve2D: &TopStackOfGrowthCurve2D{Name: "TopStackOfGrowthCurve2D"},
-			// field is initialized with an instance of StackOfGrowthCurve2DRibbon with the name of the field
-			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
-			// field is initialized with an instance of StackOfRotatedGrowthCurve2DRibbon with the name of the field
-			StackOfRotatedGrowthCurve2DRibbon: &StackOfRotatedGrowthCurve2DRibbon{Name: "StackOfRotatedGrowthCurve2DRibbon"},
-			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
-			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
-			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
-			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
-			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
-			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
-			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
-			// field is initialized with an instance of PxShape with the name of the field
-			PxShape: &PxShape{Name: "PxShape"},
-			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
-			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
-			// field is initialized with an instance of KeyHoleShape with the name of the field
-			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
+			// field is initialized with an instance of StackOfGrowthCurve2DByGrowthVector with the name of the field
+			StackOfGrowthCurve2DByGrowthVector: &StackOfGrowthCurve2DByGrowthVector{Name: "StackOfGrowthCurve2DByGrowthVector"},
 		}).(*Type)
 	case PlantCircumferenceShape:
 		return any(&PlantCircumferenceShape{
 			// Initialisation of associations
-		}).(*Type)
-	case PlantDiagram:
-		return any(&PlantDiagram{
-			// Initialisation of associations
-			// field is initialized with an instance of Rendered3DShape with the name of the field
-			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
-			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
-			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
-			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
-			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
-			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
-			// field is initialized with an instance of TorusStackShape with the name of the field
-			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
-			// field is initialized with an instance of VerticalTorusStackShape with the name of the field
-			VerticalTorusStackShape: &VerticalTorusStackShape{Name: "VerticalTorusStackShape"},
-			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
-			PartiallyRotatedTorusShape: &PartiallyRotatedTorusShape{Name: "PartiallyRotatedTorusShape"},
-			// field is initialized with an instance of StackOfPartiallyRotatedTorusShape with the name of the field
-			StackOfPartiallyRotatedTorusShape: &StackOfPartiallyRotatedTorusShape{Name: "StackOfPartiallyRotatedTorusShape"},
-			// field is initialized with an instance of PointsAndLines3DShape with the name of the field
-			PointsAndLines3DShape: &PointsAndLines3DShape{Name: "PointsAndLines3DShape"},
-			// field is initialized with an instance of SampledPoints3DShape with the name of the field
-			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
-			// field is initialized with an instance of OriginalPoints3DShape with the name of the field
-			OriginalPoints3DShape: &OriginalPoints3DShape{Name: "OriginalPoints3DShape"},
-			// field is initialized with an instance of Angle0Shape with the name of the field
-			Angle0Shape: &Angle0Shape{Name: "Angle0Shape"},
-			// field is initialized with an instance of KeyHole3DShape with the name of the field
-			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
-			// field is initialized with an instance of Key3DShape with the name of the field
-			Key3DShape: &Key3DShape{Name: "Key3DShape"},
-			// field is initialized with an instance of VolumeKey3DShape with the name of the field
-			VolumeKey3DShape: &VolumeKey3DShape{Name: "VolumeKey3DShape"},
-			// field is initialized with an instance of TorusEdge3DShape with the name of the field
-			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
 		}).(*Type)
 	case PointsAndLines3DShape:
 		return any(&PointsAndLines3DShape{
@@ -21351,8 +26215,32 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&RotatedRhombusShape{
 			// Initialisation of associations
 		}).(*Type)
+	case RotatedSampledPoints3DShape:
+		return any(&RotatedSampledPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case RotatedSeatAndLegs3DShape:
+		return any(&RotatedSeatAndLegs3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case SampledPoints3DShape:
 		return any(&SampledPoints3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case Seat3DShape:
+		return any(&Seat3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case SeatAndLegs3DShape:
+		return any(&SeatAndLegs3DShape{
+			// Initialisation of associations
+		}).(*Type)
+	case SeatBottomCurveShape:
+		return any(&SeatBottomCurveShape{
+			// Initialisation of associations
+		}).(*Type)
+	case SeatTopCurveShape:
+		return any(&SeatTopCurveShape{
 			// Initialisation of associations
 		}).(*Type)
 	case ShiftedBottomTopStartArcShape:
@@ -21463,6 +26351,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of StackGrowthCurve2DEndHalfwayArcShape with the name of the field
 			StackGrowthCurve2DEndHalfwayArcShapes: []*StackGrowthCurve2DEndHalfwayArcShape{{Name: "StackGrowthCurve2DEndHalfwayArcShapes"}},
 		}).(*Type)
+	case StackOfGrowthCurve2DByGrowthVector:
+		return any(&StackOfGrowthCurve2DByGrowthVector{
+			// Initialisation of associations
+		}).(*Type)
 	case StackOfGrowthCurve2DRibbon:
 		return any(&StackOfGrowthCurve2DRibbon{
 			// Initialisation of associations
@@ -21526,6 +26418,60 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of StartHalfwayArcShape with the name of the field
 			StartHalfwayArcShapes: []*StartHalfwayArcShape{{Name: "StartHalfwayArcShapes"}},
+		}).(*Type)
+	case Stool2DDiagram:
+		return any(&Stool2DDiagram{
+			// Initialisation of associations
+		}).(*Type)
+	case Stool3DDiagram:
+		return any(&Stool3DDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of SeatTopCurveShape with the name of the field
+			SeatTopCurveShape: &SeatTopCurveShape{Name: "SeatTopCurveShape"},
+			// field is initialized with an instance of PartiallyRotatedSeatTopCurveShape with the name of the field
+			RotatedSeatTopCurveShape: &PartiallyRotatedSeatTopCurveShape{Name: "RotatedSeatTopCurveShape"},
+			// field is initialized with an instance of SeatBottomCurveShape with the name of the field
+			SeatBottomCurveShape: &SeatBottomCurveShape{Name: "SeatBottomCurveShape"},
+			// field is initialized with an instance of PartiallyRotatedSeatBottomCurveShape with the name of the field
+			RotatedSeatBottomCurveShape: &PartiallyRotatedSeatBottomCurveShape{Name: "RotatedSeatBottomCurveShape"},
+			// field is initialized with an instance of Torus3DShape with the name of the field
+			Torus3DShape: &Torus3DShape{Name: "Torus3DShape"},
+			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
+			RotatedTorusShape: &PartiallyRotatedTorusShape{Name: "RotatedTorusShape"},
+			// field is initialized with an instance of SampledPoints3DShape with the name of the field
+			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
+			// field is initialized with an instance of RotatedSampledPoints3DShape with the name of the field
+			RotatedSampledPoints3DShape: &RotatedSampledPoints3DShape{Name: "RotatedSampledPoints3DShape"},
+			// field is initialized with an instance of EyeSampledPoints3DShape with the name of the field
+			EyeSampledPoints3DShape: &EyeSampledPoints3DShape{Name: "EyeSampledPoints3DShape"},
+			// field is initialized with an instance of EyeCornersSampledPoints3DShape with the name of the field
+			EyeCornersSampledPoints3DShape: &EyeCornersSampledPoints3DShape{Name: "EyeCornersSampledPoints3DShape"},
+			// field is initialized with an instance of Eye3DShape with the name of the field
+			Eye3DShape: &Eye3DShape{Name: "Eye3DShape"},
+			// field is initialized with an instance of EyeSeatBottomCurveShape with the name of the field
+			EyeSeatBottomCurveShape: &EyeSeatBottomCurveShape{Name: "EyeSeatBottomCurveShape"},
+			// field is initialized with an instance of EyeStoolBottomCurveShape with the name of the field
+			EyeStoolBottomCurveShape: &EyeStoolBottomCurveShape{Name: "EyeStoolBottomCurveShape"},
+			// field is initialized with an instance of Seat3DShape with the name of the field
+			Seat3DShape: &Seat3DShape{Name: "Seat3DShape"},
+			// field is initialized with an instance of EyeVolume3DShape with the name of the field
+			EyeVolume3DShape: &EyeVolume3DShape{Name: "EyeVolume3DShape"},
+			// field is initialized with an instance of SeatAndLegs3DShape with the name of the field
+			SeatAndLegs3DShape: &SeatAndLegs3DShape{Name: "SeatAndLegs3DShape"},
+			// field is initialized with an instance of RotatedSeatAndLegs3DShape with the name of the field
+			RotatedSeatAndLegs3DShape: &RotatedSeatAndLegs3DShape{Name: "RotatedSeatAndLegs3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+		}).(*Type)
+	case StoolAbstract:
+		return any(&StoolAbstract{
+			// Initialisation of associations
+		}).(*Type)
+	case TiledFloor3DShape:
+		return any(&TiledFloor3DShape{
+			// Initialisation of associations
 		}).(*Type)
 	case TopEndArcShape:
 		return any(&TopEndArcShape{
@@ -21617,6 +26563,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of TopStartHalfwayArcShape with the name of the field
 			TopStartHalfwayArcShapes: []*TopStartHalfwayArcShape{{Name: "TopStartHalfwayArcShapes"}},
 		}).(*Type)
+	case Torus3DShape:
+		return any(&Torus3DShape{
+			// Initialisation of associations
+		}).(*Type)
 	case TorusEdge3DShape:
 		return any(&TorusEdge3DShape{
 			// Initialisation of associations
@@ -21624,6 +26574,98 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case TorusStackShape:
 		return any(&TorusStackShape{
 			// Initialisation of associations
+		}).(*Type)
+	case Vase2DDiagram:
+		return any(&Vase2DDiagram{
+			// Initialisation of associations
+		}).(*Type)
+	case Vase3DDiagram:
+		return any(&Vase3DDiagram{
+			// Initialisation of associations
+			// field is initialized with an instance of Rendered3DShape with the name of the field
+			Rendered3DShape: &Rendered3DShape{Name: "Rendered3DShape"},
+			// field is initialized with an instance of TorusStackShape with the name of the field
+			TorusStackShape: &TorusStackShape{Name: "TorusStackShape"},
+			// field is initialized with an instance of VerticalTorusStackShape with the name of the field
+			VerticalTorusStackShape: &VerticalTorusStackShape{Name: "VerticalTorusStackShape"},
+			// field is initialized with an instance of PartiallyRotatedTorusShape with the name of the field
+			PartiallyRotatedTorusShape: &PartiallyRotatedTorusShape{Name: "PartiallyRotatedTorusShape"},
+			// field is initialized with an instance of StackOfPartiallyRotatedTorusShape with the name of the field
+			StackOfPartiallyRotatedTorusShape: &StackOfPartiallyRotatedTorusShape{Name: "StackOfPartiallyRotatedTorusShape"},
+			// field is initialized with an instance of PointsAndLines3DShape with the name of the field
+			PointsAndLines3DShape: &PointsAndLines3DShape{Name: "PointsAndLines3DShape"},
+			// field is initialized with an instance of SampledPoints3DShape with the name of the field
+			SampledPoints3DShape: &SampledPoints3DShape{Name: "SampledPoints3DShape"},
+			// field is initialized with an instance of OriginalPoints3DShape with the name of the field
+			OriginalPoints3DShape: &OriginalPoints3DShape{Name: "OriginalPoints3DShape"},
+			// field is initialized with an instance of Angle0Shape with the name of the field
+			Angle0Shape: &Angle0Shape{Name: "Angle0Shape"},
+			// field is initialized with an instance of KeyHole3DShape with the name of the field
+			KeyHole3DShape: &KeyHole3DShape{Name: "KeyHole3DShape"},
+			// field is initialized with an instance of Key3DShape with the name of the field
+			Key3DShape: &Key3DShape{Name: "Key3DShape"},
+			// field is initialized with an instance of VolumeKey3DShape with the name of the field
+			VolumeKey3DShape: &VolumeKey3DShape{Name: "VolumeKey3DShape"},
+			// field is initialized with an instance of TorusEdge3DShape with the name of the field
+			TorusEdge3DShape: &TorusEdge3DShape{Name: "TorusEdge3DShape"},
+			// field is initialized with an instance of TiledFloor3DShape with the name of the field
+			TiledFloor3DShape: &TiledFloor3DShape{Name: "TiledFloor3DShape"},
+		}).(*Type)
+	case VaseAbstract:
+		return any(&VaseAbstract{
+			// Initialisation of associations
+			// field is initialized with an instance of PerpendicularVectorGridHalfway with the name of the field
+			PerpendicularVectorGridHalfway: &PerpendicularVectorGridHalfway{Name: "PerpendicularVectorGridHalfway"},
+			// field is initialized with an instance of TopStartArcShapeGrid with the name of the field
+			TopStartArcShapeGrid: &TopStartArcShapeGrid{Name: "TopStartArcShapeGrid"},
+			// field is initialized with an instance of TopEndArcShapeGrid with the name of the field
+			TopEndArcShapeGrid: &TopEndArcShapeGrid{Name: "TopEndArcShapeGrid"},
+			// field is initialized with an instance of ShiftedBottomTopStartArcShapeGrid with the name of the field
+			ShiftedBottomTopStartArcShapeGrid: &ShiftedBottomTopStartArcShapeGrid{Name: "ShiftedBottomTopStartArcShapeGrid"},
+			// field is initialized with an instance of TopMidArcVectorShapeGrid with the name of the field
+			TopMidArcVectorShapeGrid: &TopMidArcVectorShapeGrid{Name: "TopMidArcVectorShapeGrid"},
+			// field is initialized with an instance of StartHalfwayArcShapeGrid with the name of the field
+			StartHalfwayArcShapeGrid: &StartHalfwayArcShapeGrid{Name: "StartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopStartHalfwayArcShapeGrid with the name of the field
+			TopStartHalfwayArcShapeGrid: &TopStartHalfwayArcShapeGrid{Name: "TopStartHalfwayArcShapeGrid"},
+			// field is initialized with an instance of EndHalfwayArcShapeGrid with the name of the field
+			EndHalfwayArcShapeGrid: &EndHalfwayArcShapeGrid{Name: "EndHalfwayArcShapeGrid"},
+			// field is initialized with an instance of TopEndHalfwayArcShapeGrid with the name of the field
+			TopEndHalfwayArcShapeGrid: &TopEndHalfwayArcShapeGrid{Name: "TopEndHalfwayArcShapeGrid"},
+			// field is initialized with an instance of StackOfRotatedGrowthCurve2D with the name of the field
+			StackOfRotatedGrowthCurve2D: &StackOfRotatedGrowthCurve2D{Name: "StackOfRotatedGrowthCurve2D"},
+			// field is initialized with an instance of TopStackOfRotatedGrowthCurve2D with the name of the field
+			TopStackOfRotatedGrowthCurve2D: &TopStackOfRotatedGrowthCurve2D{Name: "TopStackOfRotatedGrowthCurve2D"},
+			// field is initialized with an instance of TopGrowthCurve2D with the name of the field
+			TopGrowthCurve2D: &TopGrowthCurve2D{Name: "TopGrowthCurve2D"},
+			// field is initialized with an instance of StackOfGrowthCurve2D with the name of the field
+			StackOfGrowthCurve2D: &StackOfGrowthCurve2D{Name: "StackOfGrowthCurve2D"},
+			// field is initialized with an instance of TopStackOfGrowthCurve2D with the name of the field
+			TopStackOfGrowthCurve2D: &TopStackOfGrowthCurve2D{Name: "TopStackOfGrowthCurve2D"},
+			// field is initialized with an instance of StackOfGrowthCurve2DRibbon with the name of the field
+			StackOfGrowthCurve2DRibbon: &StackOfGrowthCurve2DRibbon{Name: "StackOfGrowthCurve2DRibbon"},
+			// field is initialized with an instance of StackOfRotatedGrowthCurve2DRibbon with the name of the field
+			StackOfRotatedGrowthCurve2DRibbon: &StackOfRotatedGrowthCurve2DRibbon{Name: "StackOfRotatedGrowthCurve2DRibbon"},
+			// field is initialized with an instance of GrowthCurve2DRibbon with the name of the field
+			GrowthCurve2DRibbon: &GrowthCurve2DRibbon{Name: "GrowthCurve2DRibbon"},
+			// field is initialized with an instance of ShiftedRightGrowthCurve2DRibbon with the name of the field
+			ShiftedRightGrowthCurve2DRibbon: &ShiftedRightGrowthCurve2DRibbon{Name: "ShiftedRightGrowthCurve2DRibbon"},
+			// field is initialized with an instance of ShiftedLeftGrowthCurve2DRibbon with the name of the field
+			ShiftedLeftGrowthCurve2DRibbon: &ShiftedLeftGrowthCurve2DRibbon{Name: "ShiftedLeftGrowthCurve2DRibbon"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DRibbon with the name of the field
+			PartiallyGrowthCurve2DRibbon: &PartiallyGrowthCurve2DRibbon{Name: "PartiallyGrowthCurve2DRibbon"},
+			// field is initialized with an instance of ShiftedLeftPartiallyGrowthCurve2DRibbon with the name of the field
+			ShiftedLeftPartiallyGrowthCurve2DRibbon: &ShiftedLeftPartiallyGrowthCurve2DRibbon{Name: "ShiftedLeftPartiallyGrowthCurve2DRibbon"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectory with the name of the field
+			PartiallyGrowthCurve2DTrajectory: &PartiallyGrowthCurve2DTrajectory{Name: "PartiallyGrowthCurve2DTrajectory"},
+			// field is initialized with an instance of PartiallyGrowthCurve2DTrajectoryP1P2 with the name of the field
+			PartiallyGrowthCurve2DTrajectoryP1P2: &PartiallyGrowthCurve2DTrajectoryP1P2{Name: "PartiallyGrowthCurve2DTrajectoryP1P2"},
+			// field is initialized with an instance of PxShape with the name of the field
+			PxShape: &PxShape{Name: "PxShape"},
+			// field is initialized with an instance of ChosenP1P2PairShape with the name of the field
+			ChosenP1P2PairShape: &ChosenP1P2PairShape{Name: "ChosenP1P2PairShape"},
+			// field is initialized with an instance of KeyHoleShape with the name of the field
+			KeyHoleShape: &KeyHoleShape{Name: "KeyHoleShape"},
 		}).(*Type)
 	case VerticalTorusStackShape:
 		return any(&VerticalTorusStackShape{
@@ -21690,6 +26732,111 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Clock2DDiagram
+	case Clock2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Clock3DDiagram
+	case Clock3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ClockTopCurveShape":
+			res := make(map[*ClockTopCurveShape][]*Clock3DDiagram)
+			for clock3ddiagram := range stage.Clock3DDiagrams {
+				if clock3ddiagram.ClockTopCurveShape != nil {
+					clocktopcurveshape_ := clock3ddiagram.ClockTopCurveShape
+					var clock3ddiagrams []*Clock3DDiagram
+					_, ok := res[clocktopcurveshape_]
+					if ok {
+						clock3ddiagrams = res[clocktopcurveshape_]
+					} else {
+						clock3ddiagrams = make([]*Clock3DDiagram, 0)
+					}
+					clock3ddiagrams = append(clock3ddiagrams, clock3ddiagram)
+					res[clocktopcurveshape_] = clock3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Torus3DShape":
+			res := make(map[*Torus3DShape][]*Clock3DDiagram)
+			for clock3ddiagram := range stage.Clock3DDiagrams {
+				if clock3ddiagram.Torus3DShape != nil {
+					torus3dshape_ := clock3ddiagram.Torus3DShape
+					var clock3ddiagrams []*Clock3DDiagram
+					_, ok := res[torus3dshape_]
+					if ok {
+						clock3ddiagrams = res[torus3dshape_]
+					} else {
+						clock3ddiagrams = make([]*Clock3DDiagram, 0)
+					}
+					clock3ddiagrams = append(clock3ddiagrams, clock3ddiagram)
+					res[torus3dshape_] = clock3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SampledPoints3DShape":
+			res := make(map[*SampledPoints3DShape][]*Clock3DDiagram)
+			for clock3ddiagram := range stage.Clock3DDiagrams {
+				if clock3ddiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := clock3ddiagram.SampledPoints3DShape
+					var clock3ddiagrams []*Clock3DDiagram
+					_, ok := res[sampledpoints3dshape_]
+					if ok {
+						clock3ddiagrams = res[sampledpoints3dshape_]
+					} else {
+						clock3ddiagrams = make([]*Clock3DDiagram, 0)
+					}
+					clock3ddiagrams = append(clock3ddiagrams, clock3ddiagram)
+					res[sampledpoints3dshape_] = clock3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*Clock3DDiagram)
+			for clock3ddiagram := range stage.Clock3DDiagrams {
+				if clock3ddiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := clock3ddiagram.TiledFloor3DShape
+					var clock3ddiagrams []*Clock3DDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						clock3ddiagrams = res[tiledfloor3dshape_]
+					} else {
+						clock3ddiagrams = make([]*Clock3DDiagram, 0)
+					}
+					clock3ddiagrams = append(clock3ddiagrams, clock3ddiagram)
+					res[tiledfloor3dshape_] = clock3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*Clock3DDiagram)
+			for clock3ddiagram := range stage.Clock3DDiagrams {
+				if clock3ddiagram.Rendered3DShape != nil {
+					rendered3dshape_ := clock3ddiagram.Rendered3DShape
+					var clock3ddiagrams []*Clock3DDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						clock3ddiagrams = res[rendered3dshape_]
+					} else {
+						clock3ddiagrams = make([]*Clock3DDiagram, 0)
+					}
+					clock3ddiagrams = append(clock3ddiagrams, clock3ddiagram)
+					res[rendered3dshape_] = clock3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ClockAbstract
+	case ClockAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ClockTopCurveShape
+	case ClockTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of EndArcShape
 	case EndArcShape:
 		switch fieldname {
@@ -21712,6 +26859,36 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of ExplanationTextShape
 	case ExplanationTextShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Eye3DShape
+	case Eye3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeCornersSampledPoints3DShape
+	case EyeCornersSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeSampledPoints3DShape
+	case EyeSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeSeatBottomCurveShape
+	case EyeSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeStoolBottomCurveShape
+	case EyeStoolBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeVolume3DShape
+	case EyeVolume3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -21889,6 +27066,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of PartiallyRotatedSeatBottomCurveShape
+	case PartiallyRotatedSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyRotatedSeatTopCurveShape
+	case PartiallyRotatedSeatTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyRotatedTorusShape
 	case PartiallyRotatedTorusShape:
 		switch fieldname {
@@ -21914,619 +27101,250 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Plant
-	case Plant:
+	// reverse maps of direct associations of Plant2DDiagram
+	case Plant2DDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PlantAbstract
+	case PlantAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "VaseAbstract":
+			res := make(map[*VaseAbstract][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.VaseAbstract != nil {
+					vaseabstract_ := plantabstract.VaseAbstract
+					var plantabstracts []*PlantAbstract
+					_, ok := res[vaseabstract_]
+					if ok {
+						plantabstracts = res[vaseabstract_]
+					} else {
+						plantabstracts = make([]*PlantAbstract, 0)
+					}
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[vaseabstract_] = plantabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StoolAbstract":
+			res := make(map[*StoolAbstract][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StoolAbstract != nil {
+					stoolabstract_ := plantabstract.StoolAbstract
+					var plantabstracts []*PlantAbstract
+					_, ok := res[stoolabstract_]
+					if ok {
+						plantabstracts = res[stoolabstract_]
+					} else {
+						plantabstracts = make([]*PlantAbstract, 0)
+					}
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[stoolabstract_] = plantabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ClockAbstract":
+			res := make(map[*ClockAbstract][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ClockAbstract != nil {
+					clockabstract_ := plantabstract.ClockAbstract
+					var plantabstracts []*PlantAbstract
+					_, ok := res[clockabstract_]
+					if ok {
+						plantabstracts = res[clockabstract_]
+					} else {
+						plantabstracts = make([]*PlantAbstract, 0)
+					}
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[clockabstract_] = plantabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "AxesShape":
-			res := make(map[*AxesShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.AxesShape != nil {
-					axesshape_ := plant.AxesShape
-					var plants []*Plant
+			res := make(map[*AxesShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.AxesShape != nil {
+					axesshape_ := plantabstract.AxesShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[axesshape_]
 					if ok {
-						plants = res[axesshape_]
+						plantabstracts = res[axesshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[axesshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[axesshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "RhombusStuff":
-			res := make(map[*RhombusStuff][]*Plant)
-			for plant := range stage.Plants {
-				if plant.RhombusStuff != nil {
-					rhombusstuff_ := plant.RhombusStuff
-					var plants []*Plant
+			res := make(map[*RhombusStuff][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.RhombusStuff != nil {
+					rhombusstuff_ := plantabstract.RhombusStuff
+					var plantabstracts []*PlantAbstract
 					_, ok := res[rhombusstuff_]
 					if ok {
-						plants = res[rhombusstuff_]
+						plantabstracts = res[rhombusstuff_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[rhombusstuff_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[rhombusstuff_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "GrowthVectorShape":
-			res := make(map[*GrowthVectorShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.GrowthVectorShape != nil {
-					growthvectorshape_ := plant.GrowthVectorShape
-					var plants []*Plant
+			res := make(map[*GrowthVectorShape][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.GrowthVectorShape != nil {
+					growthvectorshape_ := plantabstract.GrowthVectorShape
+					var plantabstracts []*PlantAbstract
 					_, ok := res[growthvectorshape_]
 					if ok {
-						plants = res[growthvectorshape_]
+						plantabstracts = res[growthvectorshape_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[growthvectorshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[growthvectorshape_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "PerpendicularVectorGrid":
-			res := make(map[*PerpendicularVectorGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PerpendicularVectorGrid != nil {
-					perpendicularvectorgrid_ := plant.PerpendicularVectorGrid
-					var plants []*Plant
+			res := make(map[*PerpendicularVectorGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.PerpendicularVectorGrid != nil {
+					perpendicularvectorgrid_ := plantabstract.PerpendicularVectorGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[perpendicularvectorgrid_]
 					if ok {
-						plants = res[perpendicularvectorgrid_]
+						plantabstracts = res[perpendicularvectorgrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[perpendicularvectorgrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PerpendicularVectorGridHalfway":
-			res := make(map[*PerpendicularVectorGridHalfway][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PerpendicularVectorGridHalfway != nil {
-					perpendicularvectorgridhalfway_ := plant.PerpendicularVectorGridHalfway
-					var plants []*Plant
-					_, ok := res[perpendicularvectorgridhalfway_]
-					if ok {
-						plants = res[perpendicularvectorgridhalfway_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[perpendicularvectorgridhalfway_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[perpendicularvectorgrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "BaseVectorShapeGrid":
-			res := make(map[*BaseVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.BaseVectorShapeGrid != nil {
-					basevectorshapegrid_ := plant.BaseVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*BaseVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.BaseVectorShapeGrid != nil {
+					basevectorshapegrid_ := plantabstract.BaseVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[basevectorshapegrid_]
 					if ok {
-						plants = res[basevectorshapegrid_]
+						plantabstracts = res[basevectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[basevectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[basevectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ArcNormalVectorShapeGrid":
-			res := make(map[*ArcNormalVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ArcNormalVectorShapeGrid != nil {
-					arcnormalvectorshapegrid_ := plant.ArcNormalVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*ArcNormalVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.ArcNormalVectorShapeGrid != nil {
+					arcnormalvectorshapegrid_ := plantabstract.ArcNormalVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[arcnormalvectorshapegrid_]
 					if ok {
-						plants = res[arcnormalvectorshapegrid_]
+						plantabstracts = res[arcnormalvectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[arcnormalvectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[arcnormalvectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "StartArcShapeGrid":
-			res := make(map[*StartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StartArcShapeGrid != nil {
-					startarcshapegrid_ := plant.StartArcShapeGrid
-					var plants []*Plant
+			res := make(map[*StartArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StartArcShapeGrid != nil {
+					startarcshapegrid_ := plantabstract.StartArcShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[startarcshapegrid_]
 					if ok {
-						plants = res[startarcshapegrid_]
+						plantabstracts = res[startarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[startarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStartArcShapeGrid":
-			res := make(map[*TopStartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStartArcShapeGrid != nil {
-					topstartarcshapegrid_ := plant.TopStartArcShapeGrid
-					var plants []*Plant
-					_, ok := res[topstartarcshapegrid_]
-					if ok {
-						plants = res[topstartarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[topstartarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "EndArcShapeGrid":
-			res := make(map[*EndArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.EndArcShapeGrid != nil {
-					endarcshapegrid_ := plant.EndArcShapeGrid
-					var plants []*Plant
-					_, ok := res[endarcshapegrid_]
-					if ok {
-						plants = res[endarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[endarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopEndArcShapeGrid":
-			res := make(map[*TopEndArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopEndArcShapeGrid != nil {
-					topendarcshapegrid_ := plant.TopEndArcShapeGrid
-					var plants []*Plant
-					_, ok := res[topendarcshapegrid_]
-					if ok {
-						plants = res[topendarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[topendarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedBottomTopStartArcShapeGrid":
-			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedBottomTopStartArcShapeGrid != nil {
-					shiftedbottomtopstartarcshapegrid_ := plant.ShiftedBottomTopStartArcShapeGrid
-					var plants []*Plant
-					_, ok := res[shiftedbottomtopstartarcshapegrid_]
-					if ok {
-						plants = res[shiftedbottomtopstartarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[shiftedbottomtopstartarcshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[startarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "MidArcVectorShapeGrid":
-			res := make(map[*MidArcVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.MidArcVectorShapeGrid != nil {
-					midarcvectorshapegrid_ := plant.MidArcVectorShapeGrid
-					var plants []*Plant
+			res := make(map[*MidArcVectorShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.MidArcVectorShapeGrid != nil {
+					midarcvectorshapegrid_ := plantabstract.MidArcVectorShapeGrid
+					var plantabstracts []*PlantAbstract
 					_, ok := res[midarcvectorshapegrid_]
 					if ok {
-						plants = res[midarcvectorshapegrid_]
+						plantabstracts = res[midarcvectorshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[midarcvectorshapegrid_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[midarcvectorshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TopMidArcVectorShapeGrid":
-			res := make(map[*TopMidArcVectorShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopMidArcVectorShapeGrid != nil {
-					topmidarcvectorshapegrid_ := plant.TopMidArcVectorShapeGrid
-					var plants []*Plant
-					_, ok := res[topmidarcvectorshapegrid_]
+		case "EndArcShapeGrid":
+			res := make(map[*EndArcShapeGrid][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.EndArcShapeGrid != nil {
+					endarcshapegrid_ := plantabstract.EndArcShapeGrid
+					var plantabstracts []*PlantAbstract
+					_, ok := res[endarcshapegrid_]
 					if ok {
-						plants = res[topmidarcvectorshapegrid_]
+						plantabstracts = res[endarcshapegrid_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topmidarcvectorshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StartHalfwayArcShapeGrid":
-			res := make(map[*StartHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StartHalfwayArcShapeGrid != nil {
-					starthalfwayarcshapegrid_ := plant.StartHalfwayArcShapeGrid
-					var plants []*Plant
-					_, ok := res[starthalfwayarcshapegrid_]
-					if ok {
-						plants = res[starthalfwayarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[starthalfwayarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStartHalfwayArcShapeGrid":
-			res := make(map[*TopStartHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStartHalfwayArcShapeGrid != nil {
-					topstarthalfwayarcshapegrid_ := plant.TopStartHalfwayArcShapeGrid
-					var plants []*Plant
-					_, ok := res[topstarthalfwayarcshapegrid_]
-					if ok {
-						plants = res[topstarthalfwayarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[topstarthalfwayarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "EndHalfwayArcShapeGrid":
-			res := make(map[*EndHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.EndHalfwayArcShapeGrid != nil {
-					endhalfwayarcshapegrid_ := plant.EndHalfwayArcShapeGrid
-					var plants []*Plant
-					_, ok := res[endhalfwayarcshapegrid_]
-					if ok {
-						plants = res[endhalfwayarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[endhalfwayarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopEndHalfwayArcShapeGrid":
-			res := make(map[*TopEndHalfwayArcShapeGrid][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopEndHalfwayArcShapeGrid != nil {
-					topendhalfwayarcshapegrid_ := plant.TopEndHalfwayArcShapeGrid
-					var plants []*Plant
-					_, ok := res[topendhalfwayarcshapegrid_]
-					if ok {
-						plants = res[topendhalfwayarcshapegrid_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[topendhalfwayarcshapegrid_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfRotatedGrowthCurve2D":
-			res := make(map[*StackOfRotatedGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfRotatedGrowthCurve2D != nil {
-					stackofrotatedgrowthcurve2d_ := plant.StackOfRotatedGrowthCurve2D
-					var plants []*Plant
-					_, ok := res[stackofrotatedgrowthcurve2d_]
-					if ok {
-						plants = res[stackofrotatedgrowthcurve2d_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[stackofrotatedgrowthcurve2d_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStackOfRotatedGrowthCurve2D":
-			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStackOfRotatedGrowthCurve2D != nil {
-					topstackofrotatedgrowthcurve2d_ := plant.TopStackOfRotatedGrowthCurve2D
-					var plants []*Plant
-					_, ok := res[topstackofrotatedgrowthcurve2d_]
-					if ok {
-						plants = res[topstackofrotatedgrowthcurve2d_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[topstackofrotatedgrowthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[endarcshapegrid_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "GrowthCurve2D":
-			res := make(map[*GrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.GrowthCurve2D != nil {
-					growthcurve2d_ := plant.GrowthCurve2D
-					var plants []*Plant
+			res := make(map[*GrowthCurve2D][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.GrowthCurve2D != nil {
+					growthcurve2d_ := plantabstract.GrowthCurve2D
+					var plantabstracts []*PlantAbstract
 					_, ok := res[growthcurve2d_]
 					if ok {
-						plants = res[growthcurve2d_]
+						plantabstracts = res[growthcurve2d_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[growthcurve2d_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[growthcurve2d_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TopGrowthCurve2D":
-			res := make(map[*TopGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopGrowthCurve2D != nil {
-					topgrowthcurve2d_ := plant.TopGrowthCurve2D
-					var plants []*Plant
-					_, ok := res[topgrowthcurve2d_]
+		case "StackOfGrowthCurve2DByGrowthVector":
+			res := make(map[*StackOfGrowthCurve2DByGrowthVector][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				if plantabstract.StackOfGrowthCurve2DByGrowthVector != nil {
+					stackofgrowthcurve2dbygrowthvector_ := plantabstract.StackOfGrowthCurve2DByGrowthVector
+					var plantabstracts []*PlantAbstract
+					_, ok := res[stackofgrowthcurve2dbygrowthvector_]
 					if ok {
-						plants = res[topgrowthcurve2d_]
+						plantabstracts = res[stackofgrowthcurve2dbygrowthvector_]
 					} else {
-						plants = make([]*Plant, 0)
+						plantabstracts = make([]*PlantAbstract, 0)
 					}
-					plants = append(plants, plant)
-					res[topgrowthcurve2d_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfGrowthCurve2D":
-			res := make(map[*StackOfGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfGrowthCurve2D != nil {
-					stackofgrowthcurve2d_ := plant.StackOfGrowthCurve2D
-					var plants []*Plant
-					_, ok := res[stackofgrowthcurve2d_]
-					if ok {
-						plants = res[stackofgrowthcurve2d_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[stackofgrowthcurve2d_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TopStackOfGrowthCurve2D":
-			res := make(map[*TopStackOfGrowthCurve2D][]*Plant)
-			for plant := range stage.Plants {
-				if plant.TopStackOfGrowthCurve2D != nil {
-					topstackofgrowthcurve2d_ := plant.TopStackOfGrowthCurve2D
-					var plants []*Plant
-					_, ok := res[topstackofgrowthcurve2d_]
-					if ok {
-						plants = res[topstackofgrowthcurve2d_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[topstackofgrowthcurve2d_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfGrowthCurve2DRibbon":
-			res := make(map[*StackOfGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfGrowthCurve2DRibbon != nil {
-					stackofgrowthcurve2dribbon_ := plant.StackOfGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[stackofgrowthcurve2dribbon_]
-					if ok {
-						plants = res[stackofgrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[stackofgrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfRotatedGrowthCurve2DRibbon":
-			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-					stackofrotatedgrowthcurve2dribbon_ := plant.StackOfRotatedGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[stackofrotatedgrowthcurve2dribbon_]
-					if ok {
-						plants = res[stackofrotatedgrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[stackofrotatedgrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "GrowthCurve2DRibbon":
-			res := make(map[*GrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.GrowthCurve2DRibbon != nil {
-					growthcurve2dribbon_ := plant.GrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[growthcurve2dribbon_]
-					if ok {
-						plants = res[growthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[growthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-					shiftedrightgrowthcurve2dribbon_ := plant.ShiftedRightGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[shiftedrightgrowthcurve2dribbon_]
-					if ok {
-						plants = res[shiftedrightgrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[shiftedrightgrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-					shiftedleftgrowthcurve2dribbon_ := plant.ShiftedLeftGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[shiftedleftgrowthcurve2dribbon_]
-					if ok {
-						plants = res[shiftedleftgrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[shiftedleftgrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DRibbon":
-			res := make(map[*PartiallyGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DRibbon != nil {
-					partiallygrowthcurve2dribbon_ := plant.PartiallyGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[partiallygrowthcurve2dribbon_]
-					if ok {
-						plants = res[partiallygrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-					shiftedleftpartiallygrowthcurve2dribbon_ := plant.ShiftedLeftPartiallyGrowthCurve2DRibbon
-					var plants []*Plant
-					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
-					if ok {
-						plants = res[shiftedleftpartiallygrowthcurve2dribbon_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[shiftedleftpartiallygrowthcurve2dribbon_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DTrajectory":
-			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DTrajectory != nil {
-					partiallygrowthcurve2dtrajectory_ := plant.PartiallyGrowthCurve2DTrajectory
-					var plants []*Plant
-					_, ok := res[partiallygrowthcurve2dtrajectory_]
-					if ok {
-						plants = res[partiallygrowthcurve2dtrajectory_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dtrajectory_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyGrowthCurve2DTrajectoryP1P2":
-			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-					partiallygrowthcurve2dtrajectoryp1p2_ := plant.PartiallyGrowthCurve2DTrajectoryP1P2
-					var plants []*Plant
-					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
-					if ok {
-						plants = res[partiallygrowthcurve2dtrajectoryp1p2_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[partiallygrowthcurve2dtrajectoryp1p2_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PxShape":
-			res := make(map[*PxShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.PxShape != nil {
-					pxshape_ := plant.PxShape
-					var plants []*Plant
-					_, ok := res[pxshape_]
-					if ok {
-						plants = res[pxshape_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[pxshape_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ChosenP1P2PairShape":
-			res := make(map[*ChosenP1P2PairShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.ChosenP1P2PairShape != nil {
-					chosenp1p2pairshape_ := plant.ChosenP1P2PairShape
-					var plants []*Plant
-					_, ok := res[chosenp1p2pairshape_]
-					if ok {
-						plants = res[chosenp1p2pairshape_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[chosenp1p2pairshape_] = plants
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "KeyHoleShape":
-			res := make(map[*KeyHoleShape][]*Plant)
-			for plant := range stage.Plants {
-				if plant.KeyHoleShape != nil {
-					keyholeshape_ := plant.KeyHoleShape
-					var plants []*Plant
-					_, ok := res[keyholeshape_]
-					if ok {
-						plants = res[keyholeshape_]
-					} else {
-						plants = make([]*Plant, 0)
-					}
-					plants = append(plants, plant)
-					res[keyholeshape_] = plants
+					plantabstracts = append(plantabstracts, plantabstract)
+					res[stackofgrowthcurve2dbygrowthvector_] = plantabstracts
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -22535,300 +27353,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case PlantCircumferenceShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of PlantDiagram
-	case PlantDiagram:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Rendered3DShape":
-			res := make(map[*Rendered3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.Rendered3DShape != nil {
-					rendered3dshape_ := plantdiagram.Rendered3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rendered3dshape_]
-					if ok {
-						plantdiagrams = res[rendered3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rendered3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "GrowthCurve2DRibbon":
-			res := make(map[*GrowthCurve2DRibbon][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.GrowthCurve2DRibbon != nil {
-					growthcurve2dribbon_ := plantdiagram.GrowthCurve2DRibbon
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[growthcurve2dribbon_]
-					if ok {
-						plantdiagrams = res[growthcurve2dribbon_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[growthcurve2dribbon_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedRightGrowthCurve2DRibbon":
-			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.ShiftedRightGrowthCurve2DRibbon != nil {
-					shiftedrightgrowthcurve2dribbon_ := plantdiagram.ShiftedRightGrowthCurve2DRibbon
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[shiftedrightgrowthcurve2dribbon_]
-					if ok {
-						plantdiagrams = res[shiftedrightgrowthcurve2dribbon_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[shiftedrightgrowthcurve2dribbon_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.ShiftedLeftGrowthCurve2DRibbon != nil {
-					shiftedleftgrowthcurve2dribbon_ := plantdiagram.ShiftedLeftGrowthCurve2DRibbon
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[shiftedleftgrowthcurve2dribbon_]
-					if ok {
-						plantdiagrams = res[shiftedleftgrowthcurve2dribbon_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[shiftedleftgrowthcurve2dribbon_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-					shiftedleftpartiallygrowthcurve2dribbon_ := plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
-					if ok {
-						plantdiagrams = res[shiftedleftpartiallygrowthcurve2dribbon_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[shiftedleftpartiallygrowthcurve2dribbon_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TorusStackShape":
-			res := make(map[*TorusStackShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.TorusStackShape != nil {
-					torusstackshape_ := plantdiagram.TorusStackShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[torusstackshape_]
-					if ok {
-						plantdiagrams = res[torusstackshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[torusstackshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "VerticalTorusStackShape":
-			res := make(map[*VerticalTorusStackShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.VerticalTorusStackShape != nil {
-					verticaltorusstackshape_ := plantdiagram.VerticalTorusStackShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[verticaltorusstackshape_]
-					if ok {
-						plantdiagrams = res[verticaltorusstackshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[verticaltorusstackshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PartiallyRotatedTorusShape":
-			res := make(map[*PartiallyRotatedTorusShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.PartiallyRotatedTorusShape != nil {
-					partiallyrotatedtorusshape_ := plantdiagram.PartiallyRotatedTorusShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[partiallyrotatedtorusshape_]
-					if ok {
-						plantdiagrams = res[partiallyrotatedtorusshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[partiallyrotatedtorusshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "StackOfPartiallyRotatedTorusShape":
-			res := make(map[*StackOfPartiallyRotatedTorusShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.StackOfPartiallyRotatedTorusShape != nil {
-					stackofpartiallyrotatedtorusshape_ := plantdiagram.StackOfPartiallyRotatedTorusShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[stackofpartiallyrotatedtorusshape_]
-					if ok {
-						plantdiagrams = res[stackofpartiallyrotatedtorusshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[stackofpartiallyrotatedtorusshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PointsAndLines3DShape":
-			res := make(map[*PointsAndLines3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.PointsAndLines3DShape != nil {
-					pointsandlines3dshape_ := plantdiagram.PointsAndLines3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[pointsandlines3dshape_]
-					if ok {
-						plantdiagrams = res[pointsandlines3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[pointsandlines3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "SampledPoints3DShape":
-			res := make(map[*SampledPoints3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.SampledPoints3DShape != nil {
-					sampledpoints3dshape_ := plantdiagram.SampledPoints3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[sampledpoints3dshape_]
-					if ok {
-						plantdiagrams = res[sampledpoints3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[sampledpoints3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "OriginalPoints3DShape":
-			res := make(map[*OriginalPoints3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.OriginalPoints3DShape != nil {
-					originalpoints3dshape_ := plantdiagram.OriginalPoints3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[originalpoints3dshape_]
-					if ok {
-						plantdiagrams = res[originalpoints3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[originalpoints3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Angle0Shape":
-			res := make(map[*Angle0Shape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.Angle0Shape != nil {
-					angle0shape_ := plantdiagram.Angle0Shape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[angle0shape_]
-					if ok {
-						plantdiagrams = res[angle0shape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[angle0shape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "KeyHole3DShape":
-			res := make(map[*KeyHole3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.KeyHole3DShape != nil {
-					keyhole3dshape_ := plantdiagram.KeyHole3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[keyhole3dshape_]
-					if ok {
-						plantdiagrams = res[keyhole3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[keyhole3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Key3DShape":
-			res := make(map[*Key3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.Key3DShape != nil {
-					key3dshape_ := plantdiagram.Key3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[key3dshape_]
-					if ok {
-						plantdiagrams = res[key3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[key3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "VolumeKey3DShape":
-			res := make(map[*VolumeKey3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.VolumeKey3DShape != nil {
-					volumekey3dshape_ := plantdiagram.VolumeKey3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[volumekey3dshape_]
-					if ok {
-						plantdiagrams = res[volumekey3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[volumekey3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "TorusEdge3DShape":
-			res := make(map[*TorusEdge3DShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.TorusEdge3DShape != nil {
-					torusedge3dshape_ := plantdiagram.TorusEdge3DShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[torusedge3dshape_]
-					if ok {
-						plantdiagrams = res[torusedge3dshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[torusedge3dshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PointsAndLines3DShape
 	case PointsAndLines3DShape:
@@ -23035,8 +27559,38 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of RotatedSampledPoints3DShape
+	case RotatedSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of RotatedSeatAndLegs3DShape
+	case RotatedSeatAndLegs3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of SampledPoints3DShape
 	case SampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Seat3DShape
+	case Seat3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatAndLegs3DShape
+	case SeatAndLegs3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatBottomCurveShape
+	case SeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatTopCurveShape
+	case SeatTopCurveShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -23145,6 +27699,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of StackOfGrowthCurve2DByGrowthVector
+	case StackOfGrowthCurve2DByGrowthVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of StackOfGrowthCurve2DRibbon
 	case StackOfGrowthCurve2DRibbon:
 		switch fieldname {
@@ -23202,6 +27761,349 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of StartHalfwayArcShapeGrid
 	case StartHalfwayArcShapeGrid:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Stool2DDiagram
+	case Stool2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Stool3DDiagram
+	case Stool3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "SeatTopCurveShape":
+			res := make(map[*SeatTopCurveShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.SeatTopCurveShape != nil {
+					seattopcurveshape_ := stool3ddiagram.SeatTopCurveShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[seattopcurveshape_]
+					if ok {
+						stool3ddiagrams = res[seattopcurveshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[seattopcurveshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedSeatTopCurveShape":
+			res := make(map[*PartiallyRotatedSeatTopCurveShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.RotatedSeatTopCurveShape != nil {
+					partiallyrotatedseattopcurveshape_ := stool3ddiagram.RotatedSeatTopCurveShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[partiallyrotatedseattopcurveshape_]
+					if ok {
+						stool3ddiagrams = res[partiallyrotatedseattopcurveshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[partiallyrotatedseattopcurveshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SeatBottomCurveShape":
+			res := make(map[*SeatBottomCurveShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.SeatBottomCurveShape != nil {
+					seatbottomcurveshape_ := stool3ddiagram.SeatBottomCurveShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[seatbottomcurveshape_]
+					if ok {
+						stool3ddiagrams = res[seatbottomcurveshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[seatbottomcurveshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedSeatBottomCurveShape":
+			res := make(map[*PartiallyRotatedSeatBottomCurveShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.RotatedSeatBottomCurveShape != nil {
+					partiallyrotatedseatbottomcurveshape_ := stool3ddiagram.RotatedSeatBottomCurveShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[partiallyrotatedseatbottomcurveshape_]
+					if ok {
+						stool3ddiagrams = res[partiallyrotatedseatbottomcurveshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[partiallyrotatedseatbottomcurveshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Torus3DShape":
+			res := make(map[*Torus3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.Torus3DShape != nil {
+					torus3dshape_ := stool3ddiagram.Torus3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[torus3dshape_]
+					if ok {
+						stool3ddiagrams = res[torus3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[torus3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedTorusShape":
+			res := make(map[*PartiallyRotatedTorusShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.RotatedTorusShape != nil {
+					partiallyrotatedtorusshape_ := stool3ddiagram.RotatedTorusShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[partiallyrotatedtorusshape_]
+					if ok {
+						stool3ddiagrams = res[partiallyrotatedtorusshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[partiallyrotatedtorusshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SampledPoints3DShape":
+			res := make(map[*SampledPoints3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := stool3ddiagram.SampledPoints3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[sampledpoints3dshape_]
+					if ok {
+						stool3ddiagrams = res[sampledpoints3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[sampledpoints3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedSampledPoints3DShape":
+			res := make(map[*RotatedSampledPoints3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.RotatedSampledPoints3DShape != nil {
+					rotatedsampledpoints3dshape_ := stool3ddiagram.RotatedSampledPoints3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[rotatedsampledpoints3dshape_]
+					if ok {
+						stool3ddiagrams = res[rotatedsampledpoints3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[rotatedsampledpoints3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EyeSampledPoints3DShape":
+			res := make(map[*EyeSampledPoints3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.EyeSampledPoints3DShape != nil {
+					eyesampledpoints3dshape_ := stool3ddiagram.EyeSampledPoints3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[eyesampledpoints3dshape_]
+					if ok {
+						stool3ddiagrams = res[eyesampledpoints3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[eyesampledpoints3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EyeCornersSampledPoints3DShape":
+			res := make(map[*EyeCornersSampledPoints3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.EyeCornersSampledPoints3DShape != nil {
+					eyecornerssampledpoints3dshape_ := stool3ddiagram.EyeCornersSampledPoints3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[eyecornerssampledpoints3dshape_]
+					if ok {
+						stool3ddiagrams = res[eyecornerssampledpoints3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[eyecornerssampledpoints3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Eye3DShape":
+			res := make(map[*Eye3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.Eye3DShape != nil {
+					eye3dshape_ := stool3ddiagram.Eye3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[eye3dshape_]
+					if ok {
+						stool3ddiagrams = res[eye3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[eye3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EyeSeatBottomCurveShape":
+			res := make(map[*EyeSeatBottomCurveShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.EyeSeatBottomCurveShape != nil {
+					eyeseatbottomcurveshape_ := stool3ddiagram.EyeSeatBottomCurveShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[eyeseatbottomcurveshape_]
+					if ok {
+						stool3ddiagrams = res[eyeseatbottomcurveshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[eyeseatbottomcurveshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EyeStoolBottomCurveShape":
+			res := make(map[*EyeStoolBottomCurveShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.EyeStoolBottomCurveShape != nil {
+					eyestoolbottomcurveshape_ := stool3ddiagram.EyeStoolBottomCurveShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[eyestoolbottomcurveshape_]
+					if ok {
+						stool3ddiagrams = res[eyestoolbottomcurveshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[eyestoolbottomcurveshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Seat3DShape":
+			res := make(map[*Seat3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.Seat3DShape != nil {
+					seat3dshape_ := stool3ddiagram.Seat3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[seat3dshape_]
+					if ok {
+						stool3ddiagrams = res[seat3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[seat3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EyeVolume3DShape":
+			res := make(map[*EyeVolume3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.EyeVolume3DShape != nil {
+					eyevolume3dshape_ := stool3ddiagram.EyeVolume3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[eyevolume3dshape_]
+					if ok {
+						stool3ddiagrams = res[eyevolume3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[eyevolume3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SeatAndLegs3DShape":
+			res := make(map[*SeatAndLegs3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.SeatAndLegs3DShape != nil {
+					seatandlegs3dshape_ := stool3ddiagram.SeatAndLegs3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[seatandlegs3dshape_]
+					if ok {
+						stool3ddiagrams = res[seatandlegs3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[seatandlegs3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedSeatAndLegs3DShape":
+			res := make(map[*RotatedSeatAndLegs3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.RotatedSeatAndLegs3DShape != nil {
+					rotatedseatandlegs3dshape_ := stool3ddiagram.RotatedSeatAndLegs3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[rotatedseatandlegs3dshape_]
+					if ok {
+						stool3ddiagrams = res[rotatedseatandlegs3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[rotatedseatandlegs3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := stool3ddiagram.TiledFloor3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						stool3ddiagrams = res[tiledfloor3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[tiledfloor3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*Stool3DDiagram)
+			for stool3ddiagram := range stage.Stool3DDiagrams {
+				if stool3ddiagram.Rendered3DShape != nil {
+					rendered3dshape_ := stool3ddiagram.Rendered3DShape
+					var stool3ddiagrams []*Stool3DDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						stool3ddiagrams = res[rendered3dshape_]
+					} else {
+						stool3ddiagrams = make([]*Stool3DDiagram, 0)
+					}
+					stool3ddiagrams = append(stool3ddiagrams, stool3ddiagram)
+					res[rendered3dshape_] = stool3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of StoolAbstract
+	case StoolAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TiledFloor3DShape
+	case TiledFloor3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -23324,6 +28226,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Torus3DShape
+	case Torus3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TorusEdge3DShape
 	case TorusEdge3DShape:
 		switch fieldname {
@@ -23333,6 +28240,701 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case TorusStackShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Vase2DDiagram
+	case Vase2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Vase3DDiagram
+	case Vase3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Rendered3DShape":
+			res := make(map[*Rendered3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.Rendered3DShape != nil {
+					rendered3dshape_ := vase3ddiagram.Rendered3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[rendered3dshape_]
+					if ok {
+						vase3ddiagrams = res[rendered3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[rendered3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TorusStackShape":
+			res := make(map[*TorusStackShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.TorusStackShape != nil {
+					torusstackshape_ := vase3ddiagram.TorusStackShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[torusstackshape_]
+					if ok {
+						vase3ddiagrams = res[torusstackshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[torusstackshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "VerticalTorusStackShape":
+			res := make(map[*VerticalTorusStackShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.VerticalTorusStackShape != nil {
+					verticaltorusstackshape_ := vase3ddiagram.VerticalTorusStackShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[verticaltorusstackshape_]
+					if ok {
+						vase3ddiagrams = res[verticaltorusstackshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[verticaltorusstackshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyRotatedTorusShape":
+			res := make(map[*PartiallyRotatedTorusShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.PartiallyRotatedTorusShape != nil {
+					partiallyrotatedtorusshape_ := vase3ddiagram.PartiallyRotatedTorusShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[partiallyrotatedtorusshape_]
+					if ok {
+						vase3ddiagrams = res[partiallyrotatedtorusshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[partiallyrotatedtorusshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfPartiallyRotatedTorusShape":
+			res := make(map[*StackOfPartiallyRotatedTorusShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
+					stackofpartiallyrotatedtorusshape_ := vase3ddiagram.StackOfPartiallyRotatedTorusShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[stackofpartiallyrotatedtorusshape_]
+					if ok {
+						vase3ddiagrams = res[stackofpartiallyrotatedtorusshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[stackofpartiallyrotatedtorusshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PointsAndLines3DShape":
+			res := make(map[*PointsAndLines3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.PointsAndLines3DShape != nil {
+					pointsandlines3dshape_ := vase3ddiagram.PointsAndLines3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[pointsandlines3dshape_]
+					if ok {
+						vase3ddiagrams = res[pointsandlines3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[pointsandlines3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SampledPoints3DShape":
+			res := make(map[*SampledPoints3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.SampledPoints3DShape != nil {
+					sampledpoints3dshape_ := vase3ddiagram.SampledPoints3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[sampledpoints3dshape_]
+					if ok {
+						vase3ddiagrams = res[sampledpoints3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[sampledpoints3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "OriginalPoints3DShape":
+			res := make(map[*OriginalPoints3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.OriginalPoints3DShape != nil {
+					originalpoints3dshape_ := vase3ddiagram.OriginalPoints3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[originalpoints3dshape_]
+					if ok {
+						vase3ddiagrams = res[originalpoints3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[originalpoints3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Angle0Shape":
+			res := make(map[*Angle0Shape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.Angle0Shape != nil {
+					angle0shape_ := vase3ddiagram.Angle0Shape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[angle0shape_]
+					if ok {
+						vase3ddiagrams = res[angle0shape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[angle0shape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "KeyHole3DShape":
+			res := make(map[*KeyHole3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.KeyHole3DShape != nil {
+					keyhole3dshape_ := vase3ddiagram.KeyHole3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[keyhole3dshape_]
+					if ok {
+						vase3ddiagrams = res[keyhole3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[keyhole3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Key3DShape":
+			res := make(map[*Key3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.Key3DShape != nil {
+					key3dshape_ := vase3ddiagram.Key3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[key3dshape_]
+					if ok {
+						vase3ddiagrams = res[key3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[key3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "VolumeKey3DShape":
+			res := make(map[*VolumeKey3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.VolumeKey3DShape != nil {
+					volumekey3dshape_ := vase3ddiagram.VolumeKey3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[volumekey3dshape_]
+					if ok {
+						vase3ddiagrams = res[volumekey3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[volumekey3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TorusEdge3DShape":
+			res := make(map[*TorusEdge3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.TorusEdge3DShape != nil {
+					torusedge3dshape_ := vase3ddiagram.TorusEdge3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[torusedge3dshape_]
+					if ok {
+						vase3ddiagrams = res[torusedge3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[torusedge3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TiledFloor3DShape":
+			res := make(map[*TiledFloor3DShape][]*Vase3DDiagram)
+			for vase3ddiagram := range stage.Vase3DDiagrams {
+				if vase3ddiagram.TiledFloor3DShape != nil {
+					tiledfloor3dshape_ := vase3ddiagram.TiledFloor3DShape
+					var vase3ddiagrams []*Vase3DDiagram
+					_, ok := res[tiledfloor3dshape_]
+					if ok {
+						vase3ddiagrams = res[tiledfloor3dshape_]
+					} else {
+						vase3ddiagrams = make([]*Vase3DDiagram, 0)
+					}
+					vase3ddiagrams = append(vase3ddiagrams, vase3ddiagram)
+					res[tiledfloor3dshape_] = vase3ddiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of VaseAbstract
+	case VaseAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "PerpendicularVectorGridHalfway":
+			res := make(map[*PerpendicularVectorGridHalfway][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PerpendicularVectorGridHalfway != nil {
+					perpendicularvectorgridhalfway_ := vaseabstract.PerpendicularVectorGridHalfway
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[perpendicularvectorgridhalfway_]
+					if ok {
+						vaseabstracts = res[perpendicularvectorgridhalfway_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[perpendicularvectorgridhalfway_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStartArcShapeGrid":
+			res := make(map[*TopStartArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStartArcShapeGrid != nil {
+					topstartarcshapegrid_ := vaseabstract.TopStartArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstartarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topstartarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstartarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopEndArcShapeGrid":
+			res := make(map[*TopEndArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopEndArcShapeGrid != nil {
+					topendarcshapegrid_ := vaseabstract.TopEndArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topendarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topendarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topendarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedBottomTopStartArcShapeGrid":
+			res := make(map[*ShiftedBottomTopStartArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+					shiftedbottomtopstartarcshapegrid_ := vaseabstract.ShiftedBottomTopStartArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedbottomtopstartarcshapegrid_]
+					if ok {
+						vaseabstracts = res[shiftedbottomtopstartarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedbottomtopstartarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopMidArcVectorShapeGrid":
+			res := make(map[*TopMidArcVectorShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopMidArcVectorShapeGrid != nil {
+					topmidarcvectorshapegrid_ := vaseabstract.TopMidArcVectorShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topmidarcvectorshapegrid_]
+					if ok {
+						vaseabstracts = res[topmidarcvectorshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topmidarcvectorshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StartHalfwayArcShapeGrid":
+			res := make(map[*StartHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StartHalfwayArcShapeGrid != nil {
+					starthalfwayarcshapegrid_ := vaseabstract.StartHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[starthalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[starthalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[starthalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStartHalfwayArcShapeGrid":
+			res := make(map[*TopStartHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStartHalfwayArcShapeGrid != nil {
+					topstarthalfwayarcshapegrid_ := vaseabstract.TopStartHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstarthalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topstarthalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstarthalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EndHalfwayArcShapeGrid":
+			res := make(map[*EndHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.EndHalfwayArcShapeGrid != nil {
+					endhalfwayarcshapegrid_ := vaseabstract.EndHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[endhalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[endhalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[endhalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopEndHalfwayArcShapeGrid":
+			res := make(map[*TopEndHalfwayArcShapeGrid][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopEndHalfwayArcShapeGrid != nil {
+					topendhalfwayarcshapegrid_ := vaseabstract.TopEndHalfwayArcShapeGrid
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topendhalfwayarcshapegrid_]
+					if ok {
+						vaseabstracts = res[topendhalfwayarcshapegrid_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topendhalfwayarcshapegrid_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfRotatedGrowthCurve2D":
+			res := make(map[*StackOfRotatedGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfRotatedGrowthCurve2D != nil {
+					stackofrotatedgrowthcurve2d_ := vaseabstract.StackOfRotatedGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofrotatedgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[stackofrotatedgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofrotatedgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStackOfRotatedGrowthCurve2D":
+			res := make(map[*TopStackOfRotatedGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
+					topstackofrotatedgrowthcurve2d_ := vaseabstract.TopStackOfRotatedGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstackofrotatedgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[topstackofrotatedgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstackofrotatedgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopGrowthCurve2D":
+			res := make(map[*TopGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopGrowthCurve2D != nil {
+					topgrowthcurve2d_ := vaseabstract.TopGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[topgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfGrowthCurve2D":
+			res := make(map[*StackOfGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfGrowthCurve2D != nil {
+					stackofgrowthcurve2d_ := vaseabstract.StackOfGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[stackofgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TopStackOfGrowthCurve2D":
+			res := make(map[*TopStackOfGrowthCurve2D][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.TopStackOfGrowthCurve2D != nil {
+					topstackofgrowthcurve2d_ := vaseabstract.TopStackOfGrowthCurve2D
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[topstackofgrowthcurve2d_]
+					if ok {
+						vaseabstracts = res[topstackofgrowthcurve2d_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[topstackofgrowthcurve2d_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfGrowthCurve2DRibbon":
+			res := make(map[*StackOfGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfGrowthCurve2DRibbon != nil {
+					stackofgrowthcurve2dribbon_ := vaseabstract.StackOfGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[stackofgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StackOfRotatedGrowthCurve2DRibbon":
+			res := make(map[*StackOfRotatedGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+					stackofrotatedgrowthcurve2dribbon_ := vaseabstract.StackOfRotatedGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[stackofrotatedgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[stackofrotatedgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[stackofrotatedgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "GrowthCurve2DRibbon":
+			res := make(map[*GrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.GrowthCurve2DRibbon != nil {
+					growthcurve2dribbon_ := vaseabstract.GrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[growthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[growthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[growthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedRightGrowthCurve2DRibbon":
+			res := make(map[*ShiftedRightGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+					shiftedrightgrowthcurve2dribbon_ := vaseabstract.ShiftedRightGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedrightgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[shiftedrightgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedrightgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedLeftGrowthCurve2DRibbon":
+			res := make(map[*ShiftedLeftGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+					shiftedleftgrowthcurve2dribbon_ := vaseabstract.ShiftedLeftGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedleftgrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[shiftedleftgrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedleftgrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DRibbon":
+			res := make(map[*PartiallyGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PartiallyGrowthCurve2DRibbon != nil {
+					partiallygrowthcurve2dribbon_ := vaseabstract.PartiallyGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[partiallygrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[partiallygrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[partiallygrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+			res := make(map[*ShiftedLeftPartiallyGrowthCurve2DRibbon][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+					shiftedleftpartiallygrowthcurve2dribbon_ := vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[shiftedleftpartiallygrowthcurve2dribbon_]
+					if ok {
+						vaseabstracts = res[shiftedleftpartiallygrowthcurve2dribbon_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[shiftedleftpartiallygrowthcurve2dribbon_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DTrajectory":
+			res := make(map[*PartiallyGrowthCurve2DTrajectory][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
+					partiallygrowthcurve2dtrajectory_ := vaseabstract.PartiallyGrowthCurve2DTrajectory
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[partiallygrowthcurve2dtrajectory_]
+					if ok {
+						vaseabstracts = res[partiallygrowthcurve2dtrajectory_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[partiallygrowthcurve2dtrajectory_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartiallyGrowthCurve2DTrajectoryP1P2":
+			res := make(map[*PartiallyGrowthCurve2DTrajectoryP1P2][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+					partiallygrowthcurve2dtrajectoryp1p2_ := vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[partiallygrowthcurve2dtrajectoryp1p2_]
+					if ok {
+						vaseabstracts = res[partiallygrowthcurve2dtrajectoryp1p2_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[partiallygrowthcurve2dtrajectoryp1p2_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PxShape":
+			res := make(map[*PxShape][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.PxShape != nil {
+					pxshape_ := vaseabstract.PxShape
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[pxshape_]
+					if ok {
+						vaseabstracts = res[pxshape_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[pxshape_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ChosenP1P2PairShape":
+			res := make(map[*ChosenP1P2PairShape][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.ChosenP1P2PairShape != nil {
+					chosenp1p2pairshape_ := vaseabstract.ChosenP1P2PairShape
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[chosenp1p2pairshape_]
+					if ok {
+						vaseabstracts = res[chosenp1p2pairshape_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[chosenp1p2pairshape_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "KeyHoleShape":
+			res := make(map[*KeyHoleShape][]*VaseAbstract)
+			for vaseabstract := range stage.VaseAbstracts {
+				if vaseabstract.KeyHoleShape != nil {
+					keyholeshape_ := vaseabstract.KeyHoleShape
+					var vaseabstracts []*VaseAbstract
+					_, ok := res[keyholeshape_]
+					if ok {
+						vaseabstracts = res[keyholeshape_]
+					} else {
+						vaseabstracts = make([]*VaseAbstract, 0)
+					}
+					vaseabstracts = append(vaseabstracts, vaseabstract)
+					res[keyholeshape_] = vaseabstracts
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of VerticalTorusStackShape
 	case VerticalTorusStackShape:
@@ -23415,6 +29017,26 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Clock2DDiagram
+	case Clock2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Clock3DDiagram
+	case Clock3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ClockAbstract
+	case ClockAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ClockTopCurveShape
+	case ClockTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of EndArcShape
 	case EndArcShape:
 		switch fieldname {
@@ -23453,6 +29075,36 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of ExplanationTextShape
 	case ExplanationTextShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Eye3DShape
+	case Eye3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeCornersSampledPoints3DShape
+	case EyeCornersSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeSampledPoints3DShape
+	case EyeSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeSeatBottomCurveShape
+	case EyeSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeStoolBottomCurveShape
+	case EyeStoolBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of EyeVolume3DShape
+	case EyeVolume3DShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -23566,10 +29218,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		case "Plants":
-			res := make(map[*Plant][]*Library)
+			res := make(map[*PlantAbstract][]*Library)
 			for library := range stage.Librarys {
-				for _, plant_ := range library.Plants {
-					res[plant_] = append(res[plant_], library)
+				for _, plantabstract_ := range library.Plants {
+					res[plantabstract_] = append(res[plantabstract_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -23716,6 +29368,16 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of PartiallyRotatedSeatBottomCurveShape
+	case PartiallyRotatedSeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartiallyRotatedSeatTopCurveShape
+	case PartiallyRotatedSeatTopCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PartiallyRotatedTorusShape
 	case PartiallyRotatedTorusShape:
 		switch fieldname {
@@ -23757,26 +29419,74 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Plant
-	case Plant:
+	// reverse maps of direct associations of Plant2DDiagram
+	case Plant2DDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "PlantDiagrams":
-			res := make(map[*PlantDiagram][]*Plant)
-			for plant := range stage.Plants {
-				for _, plantdiagram_ := range plant.PlantDiagrams {
-					res[plantdiagram_] = append(res[plantdiagram_], plant)
+		}
+	// reverse maps of direct associations of PlantAbstract
+	case PlantAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Plant2DDiagrams":
+			res := make(map[*Plant2DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, plant2ddiagram_ := range plantabstract.Plant2DDiagrams {
+					res[plant2ddiagram_] = append(res[plant2ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Vase2DDiagrams":
+			res := make(map[*Vase2DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, vase2ddiagram_ := range plantabstract.Vase2DDiagrams {
+					res[vase2ddiagram_] = append(res[vase2ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Vase3DDiagrams":
+			res := make(map[*Vase3DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, vase3ddiagram_ := range plantabstract.Vase3DDiagrams {
+					res[vase3ddiagram_] = append(res[vase3ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Stool2DDiagrams":
+			res := make(map[*Stool2DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, stool2ddiagram_ := range plantabstract.Stool2DDiagrams {
+					res[stool2ddiagram_] = append(res[stool2ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Stool3DDiagrams":
+			res := make(map[*Stool3DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, stool3ddiagram_ := range plantabstract.Stool3DDiagrams {
+					res[stool3ddiagram_] = append(res[stool3ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Clock2DDiagrams":
+			res := make(map[*Clock2DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, clock2ddiagram_ := range plantabstract.Clock2DDiagrams {
+					res[clock2ddiagram_] = append(res[clock2ddiagram_], plantabstract)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Clock3DDiagrams":
+			res := make(map[*Clock3DDiagram][]*PlantAbstract)
+			for plantabstract := range stage.PlantAbstracts {
+				for _, clock3ddiagram_ := range plantabstract.Clock3DDiagrams {
+					res[clock3ddiagram_] = append(res[clock3ddiagram_], plantabstract)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantCircumferenceShape
 	case PlantCircumferenceShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of PlantDiagram
-	case PlantDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -23823,8 +29533,38 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of RotatedSampledPoints3DShape
+	case RotatedSampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of RotatedSeatAndLegs3DShape
+	case RotatedSeatAndLegs3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of SampledPoints3DShape
 	case SampledPoints3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Seat3DShape
+	case Seat3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatAndLegs3DShape
+	case SeatAndLegs3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatBottomCurveShape
+	case SeatBottomCurveShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SeatTopCurveShape
+	case SeatTopCurveShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -24029,6 +29769,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of StackOfGrowthCurve2DByGrowthVector
+	case StackOfGrowthCurve2DByGrowthVector:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of StackOfGrowthCurve2DRibbon
 	case StackOfGrowthCurve2DRibbon:
 		switch fieldname {
@@ -24152,6 +29897,26 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Stool2DDiagram
+	case Stool2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Stool3DDiagram
+	case Stool3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of StoolAbstract
+	case StoolAbstract:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of TiledFloor3DShape
+	case TiledFloor3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of TopEndArcShape
 	case TopEndArcShape:
@@ -24310,6 +30075,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Torus3DShape
+	case Torus3DShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TorusEdge3DShape
 	case TorusEdge3DShape:
 		switch fieldname {
@@ -24317,6 +30087,21 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of TorusStackShape
 	case TorusStackShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Vase2DDiagram
+	case Vase2DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Vase3DDiagram
+	case Vase3DDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of VaseAbstract
+	case VaseAbstract:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -24357,6 +30142,14 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ChosenP1P2PairShape"
 	case *CircleGridShape:
 		res = "CircleGridShape"
+	case *Clock2DDiagram:
+		res = "Clock2DDiagram"
+	case *Clock3DDiagram:
+		res = "Clock3DDiagram"
+	case *ClockAbstract:
+		res = "ClockAbstract"
+	case *ClockTopCurveShape:
+		res = "ClockTopCurveShape"
 	case *EndArcShape:
 		res = "EndArcShape"
 	case *EndArcShapeGrid:
@@ -24367,6 +30160,18 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "EndHalfwayArcShapeGrid"
 	case *ExplanationTextShape:
 		res = "ExplanationTextShape"
+	case *Eye3DShape:
+		res = "Eye3DShape"
+	case *EyeCornersSampledPoints3DShape:
+		res = "EyeCornersSampledPoints3DShape"
+	case *EyeSampledPoints3DShape:
+		res = "EyeSampledPoints3DShape"
+	case *EyeSeatBottomCurveShape:
+		res = "EyeSeatBottomCurveShape"
+	case *EyeStoolBottomCurveShape:
+		res = "EyeStoolBottomCurveShape"
+	case *EyeVolume3DShape:
+		res = "EyeVolume3DShape"
 	case *GridPathShape:
 		res = "GridPathShape"
 	case *GrowthCurve2D:
@@ -24423,6 +30228,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PartiallyGrowthCurve2DTrajectoryP2PointShape"
 	case *PartiallyGrowthCurve2DTrajectoryShape:
 		res = "PartiallyGrowthCurve2DTrajectoryShape"
+	case *PartiallyRotatedSeatBottomCurveShape:
+		res = "PartiallyRotatedSeatBottomCurveShape"
+	case *PartiallyRotatedSeatTopCurveShape:
+		res = "PartiallyRotatedSeatTopCurveShape"
 	case *PartiallyRotatedTorusShape:
 		res = "PartiallyRotatedTorusShape"
 	case *PerpendicularVector:
@@ -24433,12 +30242,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PerpendicularVectorGridHalfway"
 	case *PerpendicularVectorHalfway:
 		res = "PerpendicularVectorHalfway"
-	case *Plant:
-		res = "Plant"
+	case *Plant2DDiagram:
+		res = "Plant2DDiagram"
+	case *PlantAbstract:
+		res = "PlantAbstract"
 	case *PlantCircumferenceShape:
 		res = "PlantCircumferenceShape"
-	case *PlantDiagram:
-		res = "PlantDiagram"
 	case *PointsAndLines3DShape:
 		res = "PointsAndLines3DShape"
 	case *PxShape:
@@ -24453,8 +30262,20 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "RotatedRhombusGridShape"
 	case *RotatedRhombusShape:
 		res = "RotatedRhombusShape"
+	case *RotatedSampledPoints3DShape:
+		res = "RotatedSampledPoints3DShape"
+	case *RotatedSeatAndLegs3DShape:
+		res = "RotatedSeatAndLegs3DShape"
 	case *SampledPoints3DShape:
 		res = "SampledPoints3DShape"
+	case *Seat3DShape:
+		res = "Seat3DShape"
+	case *SeatAndLegs3DShape:
+		res = "SeatAndLegs3DShape"
+	case *SeatBottomCurveShape:
+		res = "SeatBottomCurveShape"
+	case *SeatTopCurveShape:
+		res = "SeatTopCurveShape"
 	case *ShiftedBottomTopStartArcShape:
 		res = "ShiftedBottomTopStartArcShape"
 	case *ShiftedBottomTopStartArcShapeGrid:
@@ -24497,6 +30318,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StackGrowthCurve2DStartHalfwayArcShape"
 	case *StackOfGrowthCurve2D:
 		res = "StackOfGrowthCurve2D"
+	case *StackOfGrowthCurve2DByGrowthVector:
+		res = "StackOfGrowthCurve2DByGrowthVector"
 	case *StackOfGrowthCurve2DRibbon:
 		res = "StackOfGrowthCurve2DRibbon"
 	case *StackOfPartiallyRotatedTorusShape:
@@ -24521,6 +30344,14 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "StartHalfwayArcShape"
 	case *StartHalfwayArcShapeGrid:
 		res = "StartHalfwayArcShapeGrid"
+	case *Stool2DDiagram:
+		res = "Stool2DDiagram"
+	case *Stool3DDiagram:
+		res = "Stool3DDiagram"
+	case *StoolAbstract:
+		res = "StoolAbstract"
+	case *TiledFloor3DShape:
+		res = "TiledFloor3DShape"
 	case *TopEndArcShape:
 		res = "TopEndArcShape"
 	case *TopEndArcShapeGrid:
@@ -24555,10 +30386,18 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "TopStartHalfwayArcShape"
 	case *TopStartHalfwayArcShapeGrid:
 		res = "TopStartHalfwayArcShapeGrid"
+	case *Torus3DShape:
+		res = "Torus3DShape"
 	case *TorusEdge3DShape:
 		res = "TorusEdge3DShape"
 	case *TorusStackShape:
 		res = "TorusStackShape"
+	case *Vase2DDiagram:
+		res = "Vase2DDiagram"
+	case *Vase3DDiagram:
+		res = "Vase3DDiagram"
+	case *VaseAbstract:
+		res = "VaseAbstract"
 	case *VerticalTorusStackShape:
 		res = "VerticalTorusStackShape"
 	case *VolumeKey3DShape:
@@ -24610,6 +30449,24 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *CircleGridShape:
 		var rf ReverseField
 		_ = rf
+	case *Clock2DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Clock2DDiagrams"
+		res = append(res, rf)
+	case *Clock3DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Clock3DDiagrams"
+		res = append(res, rf)
+	case *ClockAbstract:
+		var rf ReverseField
+		_ = rf
+	case *ClockTopCurveShape:
+		var rf ReverseField
+		_ = rf
 	case *EndArcShape:
 		var rf ReverseField
 		_ = rf
@@ -24629,6 +30486,24 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *ExplanationTextShape:
+		var rf ReverseField
+		_ = rf
+	case *Eye3DShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeCornersSampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeSampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeSeatBottomCurveShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeStoolBottomCurveShape:
+		var rf ReverseField
+		_ = rf
+	case *EyeVolume3DShape:
 		var rf ReverseField
 		_ = rf
 	case *GridPathShape:
@@ -24757,6 +30632,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "PartiallyGrowthCurve2DTrajectory"
 		rf.Fieldname = "PartiallyGrowthCurve2DTrajectoryShapes"
 		res = append(res, rf)
+	case *PartiallyRotatedSeatBottomCurveShape:
+		var rf ReverseField
+		_ = rf
+	case *PartiallyRotatedSeatTopCurveShape:
+		var rf ReverseField
+		_ = rf
 	case *PartiallyRotatedTorusShape:
 		var rf ReverseField
 		_ = rf
@@ -24778,7 +30659,13 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "PerpendicularVectorGridHalfway"
 		rf.Fieldname = "PerpendicularVectorHalfways"
 		res = append(res, rf)
-	case *Plant:
+	case *Plant2DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Plant2DDiagrams"
+		res = append(res, rf)
+	case *PlantAbstract:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Library"
@@ -24787,12 +30674,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *PlantCircumferenceShape:
 		var rf ReverseField
 		_ = rf
-	case *PlantDiagram:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Plant"
-		rf.Fieldname = "PlantDiagrams"
-		res = append(res, rf)
 	case *PointsAndLines3DShape:
 		var rf ReverseField
 		_ = rf
@@ -24817,7 +30698,25 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "RotatedRhombusGridShape"
 		rf.Fieldname = "RotatedRhombusShapes"
 		res = append(res, rf)
+	case *RotatedSampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *RotatedSeatAndLegs3DShape:
+		var rf ReverseField
+		_ = rf
 	case *SampledPoints3DShape:
+		var rf ReverseField
+		_ = rf
+	case *Seat3DShape:
+		var rf ReverseField
+		_ = rf
+	case *SeatAndLegs3DShape:
+		var rf ReverseField
+		_ = rf
+	case *SeatBottomCurveShape:
+		var rf ReverseField
+		_ = rf
+	case *SeatTopCurveShape:
 		var rf ReverseField
 		_ = rf
 	case *ShiftedBottomTopStartArcShape:
@@ -24925,6 +30824,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *StackOfGrowthCurve2D:
 		var rf ReverseField
 		_ = rf
+	case *StackOfGrowthCurve2DByGrowthVector:
+		var rf ReverseField
+		_ = rf
 	case *StackOfGrowthCurve2DRibbon:
 		var rf ReverseField
 		_ = rf
@@ -24977,6 +30879,24 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "StartHalfwayArcShapes"
 		res = append(res, rf)
 	case *StartHalfwayArcShapeGrid:
+		var rf ReverseField
+		_ = rf
+	case *Stool2DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Stool2DDiagrams"
+		res = append(res, rf)
+	case *Stool3DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Stool3DDiagrams"
+		res = append(res, rf)
+	case *StoolAbstract:
+		var rf ReverseField
+		_ = rf
+	case *TiledFloor3DShape:
 		var rf ReverseField
 		_ = rf
 	case *TopEndArcShape:
@@ -25057,10 +30977,28 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *TopStartHalfwayArcShapeGrid:
 		var rf ReverseField
 		_ = rf
+	case *Torus3DShape:
+		var rf ReverseField
+		_ = rf
 	case *TorusEdge3DShape:
 		var rf ReverseField
 		_ = rf
 	case *TorusStackShape:
+		var rf ReverseField
+		_ = rf
+	case *Vase2DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Vase2DDiagrams"
+		res = append(res, rf)
+	case *Vase3DDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "PlantAbstract"
+		rf.Fieldname = "Vase3DDiagrams"
+		res = append(res, rf)
+	case *VaseAbstract:
 		var rf ReverseField
 		_ = rf
 	case *VerticalTorusStackShape:
@@ -25252,6 +31190,151 @@ func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenClockTopCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ClockTopCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ClockTopCurveShape",
+		},
+		{
+			Name:               "IsHiddenTorus3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Torus3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Torus3DShape",
+		},
+		{
+			Name:               "IsHiddenSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SampledPoints3DShape",
+		},
+		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (clockabstract *ClockAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RadialRepetitions",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTubeDiameter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeHeight3DTorus",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ClockTorusVerticalScale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ProjectionAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (endarcshape *EndArcShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -25379,6 +31462,72 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongGetFieldHeaders() (res
 }
 
 func (explanationtextshape *ExplanationTextShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eye3dshape *Eye3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -25781,7 +31930,7 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:                 "Plants",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Plant",
+			TargetGongstructName: "PlantAbstract",
 		},
 	}
 	return
@@ -26226,6 +32375,28 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -26323,334 +32494,7 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetFieldHeader
 	return
 }
 
-func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "N",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "M",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "StackHeight",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "RhombusInsideAngle",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeVerticalThickness",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeRadialThickness",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RhombusSideLength",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeCuttedStackFloorHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeRotatedTorusSeparation",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RotationRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RadialRepetitions",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "Transparency",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "HasAlternatingRingColors",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "RelativeTrajectoryOffsetX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeTrajectoryOffsetY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "NbStepP1P2",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "ChosenStep",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "RelativeHorizontalRingsHeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "OffsetKeyX",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "OffsetKeyY",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "HeightKey",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "WidthKey",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "RelativeKeySize",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "MovieNbFrames",
-			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsSelected",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsPlantDiagramsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "PlantDiagrams",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "PlantDiagram",
-		},
-		{
-			Name:                 "AxesShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "AxesShape",
-		},
-		{
-			Name:                 "RhombusStuff",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "RhombusStuff",
-		},
-		{
-			Name:                 "GrowthVectorShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthVectorShape",
-		},
-		{
-			Name:                 "PerpendicularVectorGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PerpendicularVectorGrid",
-		},
-		{
-			Name:                 "PerpendicularVectorGridHalfway",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PerpendicularVectorGridHalfway",
-		},
-		{
-			Name:                 "BaseVectorShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "BaseVectorShapeGrid",
-		},
-		{
-			Name:                 "ArcNormalVectorShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ArcNormalVectorShapeGrid",
-		},
-		{
-			Name:                 "StartArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StartArcShapeGrid",
-		},
-		{
-			Name:                 "TopStartArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStartArcShapeGrid",
-		},
-		{
-			Name:                 "EndArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "EndArcShapeGrid",
-		},
-		{
-			Name:                 "TopEndArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopEndArcShapeGrid",
-		},
-		{
-			Name:                 "ShiftedBottomTopStartArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedBottomTopStartArcShapeGrid",
-		},
-		{
-			Name:                 "MidArcVectorShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "MidArcVectorShapeGrid",
-		},
-		{
-			Name:                 "TopMidArcVectorShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopMidArcVectorShapeGrid",
-		},
-		{
-			Name:                 "StartHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StartHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "TopStartHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStartHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "EndHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "EndHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "TopEndHalfwayArcShapeGrid",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopEndHalfwayArcShapeGrid",
-		},
-		{
-			Name:                 "StackOfRotatedGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfRotatedGrowthCurve2D",
-		},
-		{
-			Name:                 "TopStackOfRotatedGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStackOfRotatedGrowthCurve2D",
-		},
-		{
-			Name:                 "GrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthCurve2D",
-		},
-		{
-			Name:                 "TopGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopGrowthCurve2D",
-		},
-		{
-			Name:                 "StackOfGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfGrowthCurve2D",
-		},
-		{
-			Name:                 "TopStackOfGrowthCurve2D",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TopStackOfGrowthCurve2D",
-		},
-		{
-			Name:                 "StackOfGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "StackOfRotatedGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfRotatedGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "GrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DTrajectory",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
-		},
-		{
-			Name:                 "PartiallyGrowthCurve2DTrajectoryP1P2",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
-		},
-		{
-			Name:                 "PxShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PxShape",
-		},
-		{
-			Name:                 "ChosenP1P2PairShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ChosenP1P2PairShape",
-		},
-		{
-			Name:                 "KeyHoleShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "KeyHoleShape",
-		},
-	}
-	return
-}
-
-func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "AngleDegree",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Length",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-	}
-	return
-}
-
-func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (plant2ddiagram *Plant2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -26663,6 +32507,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "OriginY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Zoom",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -26726,10 +32574,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenPerpendicularVectorGridHalfway",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenBaseVectorShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -26742,35 +32586,7 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenTopStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenMidArcVectorShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopMidArcVectorShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStartHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenEndHalfwayArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -26778,151 +32594,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenTopEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomStartArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomEndArcShapeGrid",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenBottomStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsHiddenGrowthCurve2D",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsHiddenTopGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTopStackOfGrowthCurve2D",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfRotatedGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPxShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenChosenP1P2PairShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenKeyHoleShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTorusStackShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenVerticalTorusStackShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPartiallyRotatedTorusShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenStackOfPartiallyRotatedTorusShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenPointsAndLines3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenKeyHole3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenKey3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenVolumeKey3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenTorusEdge3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenSampledPoints3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenOriginalPoints3DShape",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsHiddenAngle0Shape",
+			Name:               "IsHiddenStackOfGrowthCurve2DByGrowthVector",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -26937,90 +32613,210 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+	}
+	return
+}
+
+func (plantabstract *PlantAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
 		{
-			Name:                 "Rendered3DShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Rendered3DShape",
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "GrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthCurve2DRibbon",
+			Name:               "N",
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:                 "ShiftedRightGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
+			Name:               "M",
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:                 "ShiftedLeftGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftGrowthCurve2DRibbon",
+			Name:               "StackHeight",
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:                 "ShiftedLeftPartiallyGrowthCurve2DRibbon",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			Name:               "RhombusInsideAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "TorusStackShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TorusStackShape",
+			Name:               "RhombusSideLength",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "VerticalTorusStackShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "VerticalTorusStackShape",
+			Name:                 "PlantType",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "PlantType",
 		},
 		{
-			Name:                 "PartiallyRotatedTorusShape",
+			Name:                 "VaseAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PartiallyRotatedTorusShape",
+			TargetGongstructName: "VaseAbstract",
 		},
 		{
-			Name:                 "StackOfPartiallyRotatedTorusShape",
+			Name:                 "StoolAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "StackOfPartiallyRotatedTorusShape",
+			TargetGongstructName: "StoolAbstract",
 		},
 		{
-			Name:                 "PointsAndLines3DShape",
+			Name:                 "ClockAbstract",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "PointsAndLines3DShape",
+			TargetGongstructName: "ClockAbstract",
 		},
 		{
-			Name:                 "SampledPoints3DShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "SampledPoints3DShape",
+			Name:                 "CurrentView",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "ViewType",
 		},
 		{
-			Name:                 "OriginalPoints3DShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "OriginalPoints3DShape",
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Angle0Shape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Angle0Shape",
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "KeyHole3DShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "KeyHole3DShape",
+			Name:               "IsSelected",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Key3DShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Key3DShape",
+			Name:               "IsPlant2DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "VolumeKey3DShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "VolumeKey3DShape",
+			Name:                 "Plant2DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Plant2DDiagram",
 		},
 		{
-			Name:                 "TorusEdge3DShape",
+			Name:               "IsVase2DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Vase2DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Vase2DDiagram",
+		},
+		{
+			Name:               "IsVase3DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Vase3DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Vase3DDiagram",
+		},
+		{
+			Name:               "IsStool2DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Stool2DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Stool2DDiagram",
+		},
+		{
+			Name:               "IsStool3DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Stool3DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Stool3DDiagram",
+		},
+		{
+			Name:               "IsClock2DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Clock2DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Clock2DDiagram",
+		},
+		{
+			Name:               "IsClock3DDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Clock3DDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Clock3DDiagram",
+		},
+		{
+			Name:                 "AxesShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "TorusEdge3DShape",
+			TargetGongstructName: "AxesShape",
+		},
+		{
+			Name:                 "RhombusStuff",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "RhombusStuff",
+		},
+		{
+			Name:                 "GrowthVectorShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthVectorShape",
+		},
+		{
+			Name:                 "PerpendicularVectorGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PerpendicularVectorGrid",
+		},
+		{
+			Name:                 "BaseVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "BaseVectorShapeGrid",
+		},
+		{
+			Name:                 "ArcNormalVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ArcNormalVectorShapeGrid",
+		},
+		{
+			Name:                 "StartArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StartArcShapeGrid",
+		},
+		{
+			Name:                 "MidArcVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "MidArcVectorShapeGrid",
+		},
+		{
+			Name:                 "EndArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EndArcShapeGrid",
+		},
+		{
+			Name:                 "GrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthCurve2D",
+		},
+		{
+			Name:                 "StackOfGrowthCurve2DByGrowthVector",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfGrowthCurve2DByGrowthVector",
+		},
+	}
+	return
+}
+
+func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "AngleDegree",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Length",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -27210,7 +33006,73 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldHeaders() (res []Gon
 	return
 }
 
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (seat3dshape *Seat3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (seattopcurveshape *SeatTopCurveShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -28284,6 +34146,17 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetFieldHeaders() (res []G
 	return
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -28739,6 +34612,289 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetFieldHeaders() 
 			Name:                 "StartHalfwayArcShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StartHalfwayArcShape",
+		},
+	}
+	return
+}
+
+func (stool2ddiagram *Stool2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenSeatTopCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SeatTopCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SeatTopCurveShape",
+		},
+		{
+			Name:               "IsHiddenRotatedSeatTopCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "RotatedSeatTopCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyRotatedSeatTopCurveShape",
+		},
+		{
+			Name:               "IsHiddenSeatBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SeatBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SeatBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenRotatedSeatBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "RotatedSeatBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyRotatedSeatBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenTorus3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Torus3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Torus3DShape",
+		},
+		{
+			Name:               "IsHiddenRotatedTorusShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "RotatedTorusShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyRotatedTorusShape",
+		},
+		{
+			Name:               "IsHiddenSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SampledPoints3DShape",
+		},
+		{
+			Name:               "IsHiddenRotatedSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "RotatedSampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "RotatedSampledPoints3DShape",
+		},
+		{
+			Name:               "IsHiddenEyeSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeSampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeSampledPoints3DShape",
+		},
+		{
+			Name:               "IsHiddenEyeCornersSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeCornersSampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeCornersSampledPoints3DShape",
+		},
+		{
+			Name:               "IsHiddenEye3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Eye3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Eye3DShape",
+		},
+		{
+			Name:               "IsHiddenEyeSeatBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeSeatBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeSeatBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenEyeStoolBottomCurveShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeStoolBottomCurveShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeStoolBottomCurveShape",
+		},
+		{
+			Name:               "IsHiddenSeat3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Seat3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Seat3DShape",
+		},
+		{
+			Name:               "IsHiddenEyeVolume3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EyeVolume3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EyeVolume3DShape",
+		},
+		{
+			Name:               "IsHiddenSeatAndLegs3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SeatAndLegs3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SeatAndLegs3DShape",
+		},
+		{
+			Name:               "IsHiddenRotatedSeatAndLegs3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "RotatedSeatAndLegs3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "RotatedSeatAndLegs3DShape",
+		},
+		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (stoolabstract *StoolAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RadialRepetitions",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTubeDiameter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeHeight3DTorus",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StoolTorusVerticalScale",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeSeatThickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ProjectionAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeEyeSeparationCriteria",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeEyeCornerControlVectorStrength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -29290,6 +35446,17 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetFieldHead
 	return
 }
 
+func (torus3dshape *Torus3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -29307,6 +35474,535 @@ func (torusstackshape *TorusStackShape) GongGetFieldHeaders() (res []GongFieldHe
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsVaseArcNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsVaseClampingNodesExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenAxesShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenBottomStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftStackOfNormalVector",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPerpendicularVectorGridHalfway",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopMidArcVectorShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStartHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndHalfwayArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopEndArcShapeGrid",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStackOfGrowthCurve",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTopStackOfGrowthCurve2D",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedRightGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfRotatedGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPxShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenChosenP1P2PairShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenKeyHoleShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTorusStackShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenVerticalTorusStackShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPartiallyRotatedTorusShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenStackOfPartiallyRotatedTorusShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenPointsAndLines3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenKeyHole3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenKey3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenVolumeKey3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTorusEdge3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenSampledPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenOriginalPoints3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenAngle0Shape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsHiddenTiledFloor3DShape",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Rendered3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rendered3DShape",
+		},
+		{
+			Name:                 "TorusStackShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TorusStackShape",
+		},
+		{
+			Name:                 "VerticalTorusStackShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "VerticalTorusStackShape",
+		},
+		{
+			Name:                 "PartiallyRotatedTorusShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyRotatedTorusShape",
+		},
+		{
+			Name:                 "StackOfPartiallyRotatedTorusShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfPartiallyRotatedTorusShape",
+		},
+		{
+			Name:                 "PointsAndLines3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PointsAndLines3DShape",
+		},
+		{
+			Name:                 "SampledPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SampledPoints3DShape",
+		},
+		{
+			Name:                 "OriginalPoints3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "OriginalPoints3DShape",
+		},
+		{
+			Name:                 "Angle0Shape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Angle0Shape",
+		},
+		{
+			Name:                 "KeyHole3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "KeyHole3DShape",
+		},
+		{
+			Name:                 "Key3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Key3DShape",
+		},
+		{
+			Name:                 "VolumeKey3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "VolumeKey3DShape",
+		},
+		{
+			Name:                 "TorusEdge3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TorusEdge3DShape",
+		},
+		{
+			Name:                 "TiledFloor3DShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TiledFloor3DShape",
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (vaseabstract *VaseAbstract) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "RelativeVerticalThickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeRadialThickness",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeCuttedStackFloorHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeRotatedTorusSeparation",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RotationRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RadialRepetitions",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Transparency",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HasAlternatingRingColors",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "RelativeTrajectoryOffsetX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeTrajectoryOffsetY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "NbStepP1P2",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "ChosenStep",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "RelativeHorizontalRingsHeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OffsetKeyX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OffsetKeyY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "HeightKey",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "WidthKey",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RelativeKeySize",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "MovieNbFrames",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:                 "PerpendicularVectorGridHalfway",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PerpendicularVectorGridHalfway",
+		},
+		{
+			Name:                 "TopStartArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStartArcShapeGrid",
+		},
+		{
+			Name:                 "TopEndArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopEndArcShapeGrid",
+		},
+		{
+			Name:                 "ShiftedBottomTopStartArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedBottomTopStartArcShapeGrid",
+		},
+		{
+			Name:                 "TopMidArcVectorShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopMidArcVectorShapeGrid",
+		},
+		{
+			Name:                 "StartHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StartHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "TopStartHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStartHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "EndHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "EndHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "TopEndHalfwayArcShapeGrid",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopEndHalfwayArcShapeGrid",
+		},
+		{
+			Name:                 "StackOfRotatedGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfRotatedGrowthCurve2D",
+		},
+		{
+			Name:                 "TopStackOfRotatedGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStackOfRotatedGrowthCurve2D",
+		},
+		{
+			Name:                 "TopGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopGrowthCurve2D",
+		},
+		{
+			Name:                 "StackOfGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfGrowthCurve2D",
+		},
+		{
+			Name:                 "TopStackOfGrowthCurve2D",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "TopStackOfGrowthCurve2D",
+		},
+		{
+			Name:                 "StackOfGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "StackOfRotatedGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "StackOfRotatedGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "GrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "ShiftedRightGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedRightGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "ShiftedLeftGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedLeftGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ShiftedLeftPartiallyGrowthCurve2DRibbon",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DTrajectory",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectory",
+		},
+		{
+			Name:                 "PartiallyGrowthCurve2DTrajectoryP1P2",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PartiallyGrowthCurve2DTrajectoryP1P2",
+		},
+		{
+			Name:                 "PxShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "PxShape",
+		},
+		{
+			Name:                 "ChosenP1P2PairShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ChosenP1P2PairShape",
+		},
+		{
+			Name:                 "KeyHoleShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "KeyHoleShape",
 		},
 	}
 	return
@@ -29561,6 +36257,144 @@ func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clock2ddiagram.Name
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", clock2ddiagram.Zoom)
+		res.valueFloat = clock2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", clock2ddiagram.IsHiddenAxesShape)
+		res.valueBool = clock2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", clock2ddiagram.IsChecked)
+		res.valueBool = clock2ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = clock2ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", clock2ddiagram.IsExpanded)
+		res.valueBool = clock2ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clock3ddiagram.Name
+	case "IsHiddenClockTopCurveShape":
+		res.valueString = fmt.Sprintf("%t", clock3ddiagram.IsHiddenClockTopCurveShape)
+		res.valueBool = clock3ddiagram.IsHiddenClockTopCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ClockTopCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clock3ddiagram.ClockTopCurveShape != nil {
+			res.valueString = clock3ddiagram.ClockTopCurveShape.Name
+			res.ids = clock3ddiagram.ClockTopCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTorus3DShape":
+		res.valueString = fmt.Sprintf("%t", clock3ddiagram.IsHiddenTorus3DShape)
+		res.valueBool = clock3ddiagram.IsHiddenTorus3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Torus3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clock3ddiagram.Torus3DShape != nil {
+			res.valueString = clock3ddiagram.Torus3DShape.Name
+			res.ids = clock3ddiagram.Torus3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", clock3ddiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = clock3ddiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clock3ddiagram.SampledPoints3DShape != nil {
+			res.valueString = clock3ddiagram.SampledPoints3DShape.Name
+			res.ids = clock3ddiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", clock3ddiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = clock3ddiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clock3ddiagram.TiledFloor3DShape != nil {
+			res.valueString = clock3ddiagram.TiledFloor3DShape.Name
+			res.ids = clock3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if clock3ddiagram.Rendered3DShape != nil {
+			res.valueString = clock3ddiagram.Rendered3DShape.Name
+			res.ids = clock3ddiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", clock3ddiagram.IsChecked)
+		res.valueBool = clock3ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = clock3ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", clock3ddiagram.IsExpanded)
+		res.valueBool = clock3ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (clockabstract *ClockAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clockabstract.Name
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", clockabstract.RadialRepetitions)
+		res.valueInt = clockabstract.RadialRepetitions
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", clockabstract.Transparency)
+		res.valueFloat = clockabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTubeDiameter":
+		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeTubeDiameter)
+		res.valueFloat = clockabstract.RelativeTubeDiameter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight3DTorus":
+		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeHeight3DTorus)
+		res.valueFloat = clockabstract.RelativeHeight3DTorus
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ClockTorusVerticalScale":
+		res.valueString = fmt.Sprintf("%f", clockabstract.ClockTorusVerticalScale)
+		res.valueFloat = clockabstract.ClockTorusVerticalScale
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight":
+		res.valueString = fmt.Sprintf("%f", clockabstract.RelativeHeight)
+		res.valueFloat = clockabstract.RelativeHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ProjectionAngle":
+		res.valueString = fmt.Sprintf("%f", clockabstract.ProjectionAngle)
+		res.valueFloat = clockabstract.ProjectionAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = clocktopcurveshape.Name
+	}
+	return
+}
+
 func (endarcshape *EndArcShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -29694,6 +36528,60 @@ func (explanationtextshape *ExplanationTextShape) GongGetFieldValue(fieldName st
 	// string value of fields
 	case "Name":
 		res.valueString = explanationtextshape.Name
+	}
+	return
+}
+
+func (eye3dshape *Eye3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eye3dshape.Name
+	}
+	return
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyecornerssampledpoints3dshape.Name
+	}
+	return
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyesampledpoints3dshape.Name
+	}
+	return
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyeseatbottomcurveshape.Name
+	}
+	return
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyestoolbottomcurveshape.Name
+	}
+	return
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = eyevolume3dshape.Name
 	}
 	return
 }
@@ -30552,6 +37440,24 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallyrotatedseatbottomcurveshape.Name
+	}
+	return
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partiallyrotatedseattopcurveshape.Name
+	}
+	return
+}
+
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -30649,124 +37555,275 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetFieldValue(
 	return
 }
 
-func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (plant2ddiagram *Plant2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = plant.Name
+		res.valueString = plant2ddiagram.Name
+	case "OriginX":
+		res.valueString = fmt.Sprintf("%f", plant2ddiagram.OriginX)
+		res.valueFloat = plant2ddiagram.OriginX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OriginY":
+		res.valueString = fmt.Sprintf("%f", plant2ddiagram.OriginY)
+		res.valueFloat = plant2ddiagram.OriginY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", plant2ddiagram.Zoom)
+		res.valueFloat = plant2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsRhombusNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsRhombusNodesExpanded)
+		res.valueBool = plant2ddiagram.IsRhombusNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsArcNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsArcNodesExpanded)
+		res.valueBool = plant2ddiagram.IsArcNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenAxesShape)
+		res.valueBool = plant2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenReferenceRhombus":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenReferenceRhombus)
+		res.valueBool = plant2ddiagram.IsHiddenReferenceRhombus
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPlantCircumferenceShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenPlantCircumferenceShape)
+		res.valueBool = plant2ddiagram.IsHiddenPlantCircumferenceShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGridPathShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenGridPathShape)
+		res.valueBool = plant2ddiagram.IsHiddenGridPathShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRhombusGridShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenRhombusGridShape)
+		res.valueBool = plant2ddiagram.IsHiddenRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenExplanationTextShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenExplanationTextShape)
+		res.valueBool = plant2ddiagram.IsHiddenExplanationTextShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedReferenceRhombus":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenRotatedReferenceRhombus)
+		res.valueBool = plant2ddiagram.IsHiddenRotatedReferenceRhombus
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedPlantCircumferenceShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenRotatedPlantCircumferenceShape)
+		res.valueBool = plant2ddiagram.IsHiddenRotatedPlantCircumferenceShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedGridPathShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenRotatedGridPathShape)
+		res.valueBool = plant2ddiagram.IsHiddenRotatedGridPathShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenRotatedRhombusGridShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenRotatedRhombusGridShape)
+		res.valueBool = plant2ddiagram.IsHiddenRotatedRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthPathRhombusGridShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenGrowthPathRhombusGridShape)
+		res.valueBool = plant2ddiagram.IsHiddenGrowthPathRhombusGridShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthVectorShape":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenGrowthVectorShape)
+		res.valueBool = plant2ddiagram.IsHiddenGrowthVectorShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPerpendicularVectorGrid":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenPerpendicularVectorGrid)
+		res.valueBool = plant2ddiagram.IsHiddenPerpendicularVectorGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBaseVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenBaseVectorShapeGrid)
+		res.valueBool = plant2ddiagram.IsHiddenBaseVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenArcNormalVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenArcNormalVectorShapeGrid)
+		res.valueBool = plant2ddiagram.IsHiddenArcNormalVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenStartArcShapeGrid)
+		res.valueBool = plant2ddiagram.IsHiddenStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenMidArcVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenMidArcVectorShapeGrid)
+		res.valueBool = plant2ddiagram.IsHiddenMidArcVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenEndArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenEndArcShapeGrid)
+		res.valueBool = plant2ddiagram.IsHiddenEndArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenGrowthCurve2D)
+		res.valueBool = plant2ddiagram.IsHiddenGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector)
+		res.valueBool = plant2ddiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsChecked)
+		res.valueBool = plant2ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = plant2ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", plant2ddiagram.IsExpanded)
+		res.valueBool = plant2ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (plantabstract *PlantAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = plantabstract.Name
 	case "N":
-		res.valueString = fmt.Sprintf("%d", plant.N)
-		res.valueInt = plant.N
+		res.valueString = fmt.Sprintf("%d", plantabstract.N)
+		res.valueInt = plantabstract.N
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "M":
-		res.valueString = fmt.Sprintf("%d", plant.M)
-		res.valueInt = plant.M
+		res.valueString = fmt.Sprintf("%d", plantabstract.M)
+		res.valueInt = plantabstract.M
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "StackHeight":
-		res.valueString = fmt.Sprintf("%d", plant.StackHeight)
-		res.valueInt = plant.StackHeight
+		res.valueString = fmt.Sprintf("%d", plantabstract.StackHeight)
+		res.valueInt = plantabstract.StackHeight
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "RhombusInsideAngle":
-		res.valueString = fmt.Sprintf("%f", plant.RhombusInsideAngle)
-		res.valueFloat = plant.RhombusInsideAngle
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeVerticalThickness":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeVerticalThickness)
-		res.valueFloat = plant.RelativeVerticalThickness
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeRadialThickness":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeRadialThickness)
-		res.valueFloat = plant.RelativeRadialThickness
+		res.valueString = fmt.Sprintf("%f", plantabstract.RhombusInsideAngle)
+		res.valueFloat = plantabstract.RhombusInsideAngle
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RhombusSideLength":
-		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
-		res.valueFloat = plant.RhombusSideLength
+		res.valueString = fmt.Sprintf("%f", plantabstract.RhombusSideLength)
+		res.valueFloat = plantabstract.RhombusSideLength
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeCuttedStackFloorHeight":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeCuttedStackFloorHeight)
-		res.valueFloat = plant.RelativeCuttedStackFloorHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeRotatedTorusSeparation":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeRotatedTorusSeparation)
-		res.valueFloat = plant.RelativeRotatedTorusSeparation
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RotationRatio":
-		res.valueString = fmt.Sprintf("%f", plant.RotationRatio)
-		res.valueFloat = plant.RotationRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RadialRepetitions":
-		res.valueString = fmt.Sprintf("%d", plant.RadialRepetitions)
-		res.valueInt = plant.RadialRepetitions
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "Transparency":
-		res.valueString = fmt.Sprintf("%f", plant.Transparency)
-		res.valueFloat = plant.Transparency
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HasAlternatingRingColors":
-		res.valueString = fmt.Sprintf("%t", plant.HasAlternatingRingColors)
-		res.valueBool = plant.HasAlternatingRingColors
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RelativeTrajectoryOffsetX":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetX)
-		res.valueFloat = plant.RelativeTrajectoryOffsetX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeTrajectoryOffsetY":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeTrajectoryOffsetY)
-		res.valueFloat = plant.RelativeTrajectoryOffsetY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NbStepP1P2":
-		res.valueString = fmt.Sprintf("%d", plant.NbStepP1P2)
-		res.valueInt = plant.NbStepP1P2
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "ChosenStep":
-		res.valueString = fmt.Sprintf("%d", plant.ChosenStep)
-		res.valueInt = plant.ChosenStep
-		res.GongFieldValueType = GongFieldValueTypeInt
-	case "RelativeHorizontalRingsHeight":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeHorizontalRingsHeight)
-		res.valueFloat = plant.RelativeHorizontalRingsHeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OffsetKeyX":
-		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyX)
-		res.valueFloat = plant.OffsetKeyX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OffsetKeyY":
-		res.valueString = fmt.Sprintf("%f", plant.OffsetKeyY)
-		res.valueFloat = plant.OffsetKeyY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "HeightKey":
-		res.valueString = fmt.Sprintf("%f", plant.HeightKey)
-		res.valueFloat = plant.HeightKey
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "WidthKey":
-		res.valueString = fmt.Sprintf("%f", plant.WidthKey)
-		res.valueFloat = plant.WidthKey
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "RelativeKeySize":
-		res.valueString = fmt.Sprintf("%f", plant.RelativeKeySize)
-		res.valueFloat = plant.RelativeKeySize
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "MovieNbFrames":
-		res.valueString = fmt.Sprintf("%d", plant.MovieNbFrames)
-		res.valueInt = plant.MovieNbFrames
-		res.GongFieldValueType = GongFieldValueTypeInt
+	case "PlantType":
+		enum := plantabstract.PlantType
+		res.valueString = enum.ToCodeString()
+	case "VaseAbstract":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantabstract.VaseAbstract != nil {
+			res.valueString = plantabstract.VaseAbstract.Name
+			res.ids = plantabstract.VaseAbstract.GongGetUUID(stage)
+		}
+	case "StoolAbstract":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantabstract.StoolAbstract != nil {
+			res.valueString = plantabstract.StoolAbstract.Name
+			res.ids = plantabstract.StoolAbstract.GongGetUUID(stage)
+		}
+	case "ClockAbstract":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantabstract.ClockAbstract != nil {
+			res.valueString = plantabstract.ClockAbstract.Name
+			res.ids = plantabstract.ClockAbstract.GongGetUUID(stage)
+		}
+	case "CurrentView":
+		enum := plantabstract.CurrentView
+		res.valueString = enum.ToCodeString()
 	case "ComputedPrefix":
-		res.valueString = plant.ComputedPrefix
+		res.valueString = plantabstract.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", plant.IsExpanded)
-		res.valueBool = plant.IsExpanded
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsExpanded)
+		res.valueBool = plantabstract.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsSelected":
-		res.valueString = fmt.Sprintf("%t", plant.IsSelected)
-		res.valueBool = plant.IsSelected
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsSelected)
+		res.valueBool = plantabstract.IsSelected
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsPlantDiagramsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded)
-		res.valueBool = plant.IsPlantDiagramsNodeExpanded
+	case "IsPlant2DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsPlant2DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsPlant2DDiagramsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "PlantDiagrams":
+	case "Plant2DDiagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range plant.PlantDiagrams {
+		for idx, __instance__ := range plantabstract.Plant2DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsVase2DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsVase2DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsVase2DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Vase2DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Vase2DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsVase3DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsVase3DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsVase3DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Vase3DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Vase3DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsStool2DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsStool2DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsStool2DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stool2DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Stool2DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsStool3DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsStool3DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsStool3DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Stool3DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Stool3DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsClock2DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsClock2DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsClock2DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Clock2DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Clock2DDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsClock3DDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plantabstract.IsClock3DDiagramsNodeExpanded)
+		res.valueBool = plantabstract.IsClock3DDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Clock3DDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plantabstract.Clock3DDiagrams {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -30776,219 +37833,69 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		}
 	case "AxesShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.AxesShape != nil {
-			res.valueString = plant.AxesShape.Name
-			res.ids = plant.AxesShape.GongGetUUID(stage)
+		if plantabstract.AxesShape != nil {
+			res.valueString = plantabstract.AxesShape.Name
+			res.ids = plantabstract.AxesShape.GongGetUUID(stage)
 		}
 	case "RhombusStuff":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.RhombusStuff != nil {
-			res.valueString = plant.RhombusStuff.Name
-			res.ids = plant.RhombusStuff.GongGetUUID(stage)
+		if plantabstract.RhombusStuff != nil {
+			res.valueString = plantabstract.RhombusStuff.Name
+			res.ids = plantabstract.RhombusStuff.GongGetUUID(stage)
 		}
 	case "GrowthVectorShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.GrowthVectorShape != nil {
-			res.valueString = plant.GrowthVectorShape.Name
-			res.ids = plant.GrowthVectorShape.GongGetUUID(stage)
+		if plantabstract.GrowthVectorShape != nil {
+			res.valueString = plantabstract.GrowthVectorShape.Name
+			res.ids = plantabstract.GrowthVectorShape.GongGetUUID(stage)
 		}
 	case "PerpendicularVectorGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PerpendicularVectorGrid != nil {
-			res.valueString = plant.PerpendicularVectorGrid.Name
-			res.ids = plant.PerpendicularVectorGrid.GongGetUUID(stage)
-		}
-	case "PerpendicularVectorGridHalfway":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PerpendicularVectorGridHalfway != nil {
-			res.valueString = plant.PerpendicularVectorGridHalfway.Name
-			res.ids = plant.PerpendicularVectorGridHalfway.GongGetUUID(stage)
+		if plantabstract.PerpendicularVectorGrid != nil {
+			res.valueString = plantabstract.PerpendicularVectorGrid.Name
+			res.ids = plantabstract.PerpendicularVectorGrid.GongGetUUID(stage)
 		}
 	case "BaseVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.BaseVectorShapeGrid != nil {
-			res.valueString = plant.BaseVectorShapeGrid.Name
-			res.ids = plant.BaseVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.BaseVectorShapeGrid != nil {
+			res.valueString = plantabstract.BaseVectorShapeGrid.Name
+			res.ids = plantabstract.BaseVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "ArcNormalVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ArcNormalVectorShapeGrid != nil {
-			res.valueString = plant.ArcNormalVectorShapeGrid.Name
-			res.ids = plant.ArcNormalVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.ArcNormalVectorShapeGrid != nil {
+			res.valueString = plantabstract.ArcNormalVectorShapeGrid.Name
+			res.ids = plantabstract.ArcNormalVectorShapeGrid.GongGetUUID(stage)
 		}
 	case "StartArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StartArcShapeGrid != nil {
-			res.valueString = plant.StartArcShapeGrid.Name
-			res.ids = plant.StartArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopStartArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStartArcShapeGrid != nil {
-			res.valueString = plant.TopStartArcShapeGrid.Name
-			res.ids = plant.TopStartArcShapeGrid.GongGetUUID(stage)
-		}
-	case "EndArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.EndArcShapeGrid != nil {
-			res.valueString = plant.EndArcShapeGrid.Name
-			res.ids = plant.EndArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopEndArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopEndArcShapeGrid != nil {
-			res.valueString = plant.TopEndArcShapeGrid.Name
-			res.ids = plant.TopEndArcShapeGrid.GongGetUUID(stage)
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedBottomTopStartArcShapeGrid != nil {
-			res.valueString = plant.ShiftedBottomTopStartArcShapeGrid.Name
-			res.ids = plant.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
+		if plantabstract.StartArcShapeGrid != nil {
+			res.valueString = plantabstract.StartArcShapeGrid.Name
+			res.ids = plantabstract.StartArcShapeGrid.GongGetUUID(stage)
 		}
 	case "MidArcVectorShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.MidArcVectorShapeGrid != nil {
-			res.valueString = plant.MidArcVectorShapeGrid.Name
-			res.ids = plant.MidArcVectorShapeGrid.GongGetUUID(stage)
+		if plantabstract.MidArcVectorShapeGrid != nil {
+			res.valueString = plantabstract.MidArcVectorShapeGrid.Name
+			res.ids = plantabstract.MidArcVectorShapeGrid.GongGetUUID(stage)
 		}
-	case "TopMidArcVectorShapeGrid":
+	case "EndArcShapeGrid":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopMidArcVectorShapeGrid != nil {
-			res.valueString = plant.TopMidArcVectorShapeGrid.Name
-			res.ids = plant.TopMidArcVectorShapeGrid.GongGetUUID(stage)
-		}
-	case "StartHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StartHalfwayArcShapeGrid != nil {
-			res.valueString = plant.StartHalfwayArcShapeGrid.Name
-			res.ids = plant.StartHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStartHalfwayArcShapeGrid != nil {
-			res.valueString = plant.TopStartHalfwayArcShapeGrid.Name
-			res.ids = plant.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "EndHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.EndHalfwayArcShapeGrid != nil {
-			res.valueString = plant.EndHalfwayArcShapeGrid.Name
-			res.ids = plant.EndHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopEndHalfwayArcShapeGrid != nil {
-			res.valueString = plant.TopEndHalfwayArcShapeGrid.Name
-			res.ids = plant.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfRotatedGrowthCurve2D != nil {
-			res.valueString = plant.StackOfRotatedGrowthCurve2D.Name
-			res.ids = plant.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStackOfRotatedGrowthCurve2D != nil {
-			res.valueString = plant.TopStackOfRotatedGrowthCurve2D.Name
-			res.ids = plant.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.EndArcShapeGrid != nil {
+			res.valueString = plantabstract.EndArcShapeGrid.Name
+			res.ids = plantabstract.EndArcShapeGrid.GongGetUUID(stage)
 		}
 	case "GrowthCurve2D":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.GrowthCurve2D != nil {
-			res.valueString = plant.GrowthCurve2D.Name
-			res.ids = plant.GrowthCurve2D.GongGetUUID(stage)
+		if plantabstract.GrowthCurve2D != nil {
+			res.valueString = plantabstract.GrowthCurve2D.Name
+			res.ids = plantabstract.GrowthCurve2D.GongGetUUID(stage)
 		}
-	case "TopGrowthCurve2D":
+	case "StackOfGrowthCurve2DByGrowthVector":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopGrowthCurve2D != nil {
-			res.valueString = plant.TopGrowthCurve2D.Name
-			res.ids = plant.TopGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "StackOfGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfGrowthCurve2D != nil {
-			res.valueString = plant.StackOfGrowthCurve2D.Name
-			res.ids = plant.StackOfGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "TopStackOfGrowthCurve2D":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.TopStackOfGrowthCurve2D != nil {
-			res.valueString = plant.TopStackOfGrowthCurve2D.Name
-			res.ids = plant.TopStackOfGrowthCurve2D.GongGetUUID(stage)
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfGrowthCurve2DRibbon != nil {
-			res.valueString = plant.StackOfGrowthCurve2DRibbon.Name
-			res.ids = plant.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.StackOfRotatedGrowthCurve2DRibbon != nil {
-			res.valueString = plant.StackOfRotatedGrowthCurve2DRibbon.Name
-			res.ids = plant.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "GrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.GrowthCurve2DRibbon != nil {
-			res.valueString = plant.GrowthCurve2DRibbon.Name
-			res.ids = plant.GrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedRightGrowthCurve2DRibbon != nil {
-			res.valueString = plant.ShiftedRightGrowthCurve2DRibbon.Name
-			res.ids = plant.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedLeftGrowthCurve2DRibbon != nil {
-			res.valueString = plant.ShiftedLeftGrowthCurve2DRibbon.Name
-			res.ids = plant.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DRibbon.Name
-			res.ids = plant.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
-			res.ids = plant.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DTrajectory != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DTrajectory.Name
-			res.ids = plant.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
-			res.valueString = plant.PartiallyGrowthCurve2DTrajectoryP1P2.Name
-			res.ids = plant.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
-		}
-	case "PxShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.PxShape != nil {
-			res.valueString = plant.PxShape.Name
-			res.ids = plant.PxShape.GongGetUUID(stage)
-		}
-	case "ChosenP1P2PairShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.ChosenP1P2PairShape != nil {
-			res.valueString = plant.ChosenP1P2PairShape.Name
-			res.ids = plant.ChosenP1P2PairShape.GongGetUUID(stage)
-		}
-	case "KeyHoleShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plant.KeyHoleShape != nil {
-			res.valueString = plant.KeyHoleShape.Name
-			res.ids = plant.KeyHoleShape.GongGetUUID(stage)
+		if plantabstract.StackOfGrowthCurve2DByGrowthVector != nil {
+			res.valueString = plantabstract.StackOfGrowthCurve2DByGrowthVector.Name
+			res.ids = plantabstract.StackOfGrowthCurve2DByGrowthVector.GongGetUUID(stage)
 		}
 	}
 	return
@@ -31007,395 +37914,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldValue(fieldN
 		res.valueString = fmt.Sprintf("%f", plantcircumferenceshape.Length)
 		res.valueFloat = plantcircumferenceshape.Length
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
-func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = plantdiagram.Name
-	case "OriginX":
-		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginX)
-		res.valueFloat = plantdiagram.OriginX
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "OriginY":
-		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginY)
-		res.valueFloat = plantdiagram.OriginY
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsRhombusNodesExpanded":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsRhombusNodesExpanded)
-		res.valueBool = plantdiagram.IsRhombusNodesExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsArcNodesExpanded":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsArcNodesExpanded)
-		res.valueBool = plantdiagram.IsArcNodesExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenAxesShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenAxesShape)
-		res.valueBool = plantdiagram.IsHiddenAxesShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenReferenceRhombus":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenReferenceRhombus)
-		res.valueBool = plantdiagram.IsHiddenReferenceRhombus
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPlantCircumferenceShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPlantCircumferenceShape)
-		res.valueBool = plantdiagram.IsHiddenPlantCircumferenceShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenGridPathShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGridPathShape)
-		res.valueBool = plantdiagram.IsHiddenGridPathShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenRhombusGridShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRhombusGridShape)
-		res.valueBool = plantdiagram.IsHiddenRhombusGridShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenExplanationTextShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenExplanationTextShape)
-		res.valueBool = plantdiagram.IsHiddenExplanationTextShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenRotatedReferenceRhombus":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedReferenceRhombus)
-		res.valueBool = plantdiagram.IsHiddenRotatedReferenceRhombus
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenRotatedPlantCircumferenceShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedPlantCircumferenceShape)
-		res.valueBool = plantdiagram.IsHiddenRotatedPlantCircumferenceShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenRotatedGridPathShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedGridPathShape)
-		res.valueBool = plantdiagram.IsHiddenRotatedGridPathShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenRotatedRhombusGridShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenRotatedRhombusGridShape)
-		res.valueBool = plantdiagram.IsHiddenRotatedRhombusGridShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenGrowthPathRhombusGridShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthPathRhombusGridShape)
-		res.valueBool = plantdiagram.IsHiddenGrowthPathRhombusGridShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenGrowthVectorShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthVectorShape)
-		res.valueBool = plantdiagram.IsHiddenGrowthVectorShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPerpendicularVectorGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGrid)
-		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPerpendicularVectorGridHalfway":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPerpendicularVectorGridHalfway)
-		res.valueBool = plantdiagram.IsHiddenPerpendicularVectorGridHalfway
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBaseVectorShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBaseVectorShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenBaseVectorShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenArcNormalVectorShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenArcNormalVectorShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenArcNormalVectorShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenMidArcVectorShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenMidArcVectorShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenMidArcVectorShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopMidArcVectorShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopMidArcVectorShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopMidArcVectorShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStartHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStartHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenStartHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStartHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenEndHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenEndHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopEndHalfwayArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenEndArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenEndArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopEndArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopEndArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenTopEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBottomStartArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStartArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenBottomStartArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBottomEndArcShapeGrid":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomEndArcShapeGrid)
-		res.valueBool = plantdiagram.IsHiddenBottomEndArcShapeGrid
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenTopStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenBottomStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenBottomStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenBottomStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftStackOfNormalVector)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftStackOfNormalVector
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenTopGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTopStackOfGrowthCurve2D":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTopStackOfGrowthCurve2D)
-		res.valueBool = plantdiagram.IsHiddenTopStackOfGrowthCurve2D
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
-		res.valueBool = plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
-		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
-		res.valueBool = plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPxShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPxShape)
-		res.valueBool = plantdiagram.IsHiddenPxShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenChosenP1P2PairShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenChosenP1P2PairShape)
-		res.valueBool = plantdiagram.IsHiddenChosenP1P2PairShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenKeyHoleShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKeyHoleShape)
-		res.valueBool = plantdiagram.IsHiddenKeyHoleShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTorusStackShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusStackShape)
-		res.valueBool = plantdiagram.IsHiddenTorusStackShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenVerticalTorusStackShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenVerticalTorusStackShape)
-		res.valueBool = plantdiagram.IsHiddenVerticalTorusStackShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPartiallyRotatedTorusShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPartiallyRotatedTorusShape)
-		res.valueBool = plantdiagram.IsHiddenPartiallyRotatedTorusShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
-		res.valueBool = plantdiagram.IsHiddenStackOfPartiallyRotatedTorusShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenPointsAndLines3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenPointsAndLines3DShape)
-		res.valueBool = plantdiagram.IsHiddenPointsAndLines3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenKeyHole3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKeyHole3DShape)
-		res.valueBool = plantdiagram.IsHiddenKeyHole3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenKey3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenKey3DShape)
-		res.valueBool = plantdiagram.IsHiddenKey3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenVolumeKey3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenVolumeKey3DShape)
-		res.valueBool = plantdiagram.IsHiddenVolumeKey3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenTorusEdge3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenTorusEdge3DShape)
-		res.valueBool = plantdiagram.IsHiddenTorusEdge3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenSampledPoints3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenSampledPoints3DShape)
-		res.valueBool = plantdiagram.IsHiddenSampledPoints3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenOriginalPoints3DShape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenOriginalPoints3DShape)
-		res.valueBool = plantdiagram.IsHiddenOriginalPoints3DShape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsHiddenAngle0Shape":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsHiddenAngle0Shape)
-		res.valueBool = plantdiagram.IsHiddenAngle0Shape
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
-		res.valueBool = plantdiagram.IsChecked
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ComputedPrefix":
-		res.valueString = plantdiagram.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
-		res.valueBool = plantdiagram.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Rendered3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.Rendered3DShape != nil {
-			res.valueString = plantdiagram.Rendered3DShape.Name
-			res.ids = plantdiagram.Rendered3DShape.GongGetUUID(stage)
-		}
-	case "GrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.GrowthCurve2DRibbon != nil {
-			res.valueString = plantdiagram.GrowthCurve2DRibbon.Name
-			res.ids = plantdiagram.GrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.ShiftedRightGrowthCurve2DRibbon != nil {
-			res.valueString = plantdiagram.ShiftedRightGrowthCurve2DRibbon.Name
-			res.ids = plantdiagram.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.ShiftedLeftGrowthCurve2DRibbon != nil {
-			res.valueString = plantdiagram.ShiftedLeftGrowthCurve2DRibbon.Name
-			res.ids = plantdiagram.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
-			res.valueString = plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
-			res.ids = plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
-		}
-	case "TorusStackShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.TorusStackShape != nil {
-			res.valueString = plantdiagram.TorusStackShape.Name
-			res.ids = plantdiagram.TorusStackShape.GongGetUUID(stage)
-		}
-	case "VerticalTorusStackShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.VerticalTorusStackShape != nil {
-			res.valueString = plantdiagram.VerticalTorusStackShape.Name
-			res.ids = plantdiagram.VerticalTorusStackShape.GongGetUUID(stage)
-		}
-	case "PartiallyRotatedTorusShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.PartiallyRotatedTorusShape != nil {
-			res.valueString = plantdiagram.PartiallyRotatedTorusShape.Name
-			res.ids = plantdiagram.PartiallyRotatedTorusShape.GongGetUUID(stage)
-		}
-	case "StackOfPartiallyRotatedTorusShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.StackOfPartiallyRotatedTorusShape != nil {
-			res.valueString = plantdiagram.StackOfPartiallyRotatedTorusShape.Name
-			res.ids = plantdiagram.StackOfPartiallyRotatedTorusShape.GongGetUUID(stage)
-		}
-	case "PointsAndLines3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.PointsAndLines3DShape != nil {
-			res.valueString = plantdiagram.PointsAndLines3DShape.Name
-			res.ids = plantdiagram.PointsAndLines3DShape.GongGetUUID(stage)
-		}
-	case "SampledPoints3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.SampledPoints3DShape != nil {
-			res.valueString = plantdiagram.SampledPoints3DShape.Name
-			res.ids = plantdiagram.SampledPoints3DShape.GongGetUUID(stage)
-		}
-	case "OriginalPoints3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.OriginalPoints3DShape != nil {
-			res.valueString = plantdiagram.OriginalPoints3DShape.Name
-			res.ids = plantdiagram.OriginalPoints3DShape.GongGetUUID(stage)
-		}
-	case "Angle0Shape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.Angle0Shape != nil {
-			res.valueString = plantdiagram.Angle0Shape.Name
-			res.ids = plantdiagram.Angle0Shape.GongGetUUID(stage)
-		}
-	case "KeyHole3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.KeyHole3DShape != nil {
-			res.valueString = plantdiagram.KeyHole3DShape.Name
-			res.ids = plantdiagram.KeyHole3DShape.GongGetUUID(stage)
-		}
-	case "Key3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.Key3DShape != nil {
-			res.valueString = plantdiagram.Key3DShape.Name
-			res.ids = plantdiagram.Key3DShape.GongGetUUID(stage)
-		}
-	case "VolumeKey3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.VolumeKey3DShape != nil {
-			res.valueString = plantdiagram.VolumeKey3DShape.Name
-			res.ids = plantdiagram.VolumeKey3DShape.GongGetUUID(stage)
-		}
-	case "TorusEdge3DShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.TorusEdge3DShape != nil {
-			res.valueString = plantdiagram.TorusEdge3DShape.Name
-			res.ids = plantdiagram.TorusEdge3DShape.GongGetUUID(stage)
-		}
 	}
 	return
 }
@@ -31585,11 +38103,65 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetFieldValue(fieldName stri
 	return
 }
 
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = rotatedsampledpoints3dshape.Name
+	}
+	return
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = rotatedseatandlegs3dshape.Name
+	}
+	return
+}
+
 func (sampledpoints3dshape *SampledPoints3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
 		res.valueString = sampledpoints3dshape.Name
+	}
+	return
+}
+
+func (seat3dshape *Seat3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = seat3dshape.Name
+	}
+	return
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = seatandlegs3dshape.Name
+	}
+	return
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = seatbottomcurveshape.Name
+	}
+	return
+}
+
+func (seattopcurveshape *SeatTopCurveShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = seattopcurveshape.Name
 	}
 	return
 }
@@ -32675,6 +39247,15 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetFieldValue(fieldName st
 	return
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stackofgrowthcurve2dbygrowthvector.Name
+	}
+	return
+}
+
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -33147,6 +39728,296 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetFieldValue(fiel
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (stool2ddiagram *Stool2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stool2ddiagram.Name
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", stool2ddiagram.Zoom)
+		res.valueFloat = stool2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", stool2ddiagram.IsHiddenAxesShape)
+		res.valueBool = stool2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", stool2ddiagram.IsChecked)
+		res.valueBool = stool2ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = stool2ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", stool2ddiagram.IsExpanded)
+		res.valueBool = stool2ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stool3ddiagram.Name
+	case "IsHiddenSeatTopCurveShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenSeatTopCurveShape)
+		res.valueBool = stool3ddiagram.IsHiddenSeatTopCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SeatTopCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.SeatTopCurveShape != nil {
+			res.valueString = stool3ddiagram.SeatTopCurveShape.Name
+			res.ids = stool3ddiagram.SeatTopCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenRotatedSeatTopCurveShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenRotatedSeatTopCurveShape)
+		res.valueBool = stool3ddiagram.IsHiddenRotatedSeatTopCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RotatedSeatTopCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.RotatedSeatTopCurveShape != nil {
+			res.valueString = stool3ddiagram.RotatedSeatTopCurveShape.Name
+			res.ids = stool3ddiagram.RotatedSeatTopCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSeatBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenSeatBottomCurveShape)
+		res.valueBool = stool3ddiagram.IsHiddenSeatBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SeatBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.SeatBottomCurveShape != nil {
+			res.valueString = stool3ddiagram.SeatBottomCurveShape.Name
+			res.ids = stool3ddiagram.SeatBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenRotatedSeatBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenRotatedSeatBottomCurveShape)
+		res.valueBool = stool3ddiagram.IsHiddenRotatedSeatBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RotatedSeatBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.RotatedSeatBottomCurveShape != nil {
+			res.valueString = stool3ddiagram.RotatedSeatBottomCurveShape.Name
+			res.ids = stool3ddiagram.RotatedSeatBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTorus3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenTorus3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenTorus3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Torus3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.Torus3DShape != nil {
+			res.valueString = stool3ddiagram.Torus3DShape.Name
+			res.ids = stool3ddiagram.Torus3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenRotatedTorusShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenRotatedTorusShape)
+		res.valueBool = stool3ddiagram.IsHiddenRotatedTorusShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RotatedTorusShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.RotatedTorusShape != nil {
+			res.valueString = stool3ddiagram.RotatedTorusShape.Name
+			res.ids = stool3ddiagram.RotatedTorusShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.SampledPoints3DShape != nil {
+			res.valueString = stool3ddiagram.SampledPoints3DShape.Name
+			res.ids = stool3ddiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenRotatedSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenRotatedSampledPoints3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenRotatedSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RotatedSampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.RotatedSampledPoints3DShape != nil {
+			res.valueString = stool3ddiagram.RotatedSampledPoints3DShape.Name
+			res.ids = stool3ddiagram.RotatedSampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEyeSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenEyeSampledPoints3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenEyeSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeSampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.EyeSampledPoints3DShape != nil {
+			res.valueString = stool3ddiagram.EyeSampledPoints3DShape.Name
+			res.ids = stool3ddiagram.EyeSampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEyeCornersSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenEyeCornersSampledPoints3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenEyeCornersSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeCornersSampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.EyeCornersSampledPoints3DShape != nil {
+			res.valueString = stool3ddiagram.EyeCornersSampledPoints3DShape.Name
+			res.ids = stool3ddiagram.EyeCornersSampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEye3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenEye3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenEye3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Eye3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.Eye3DShape != nil {
+			res.valueString = stool3ddiagram.Eye3DShape.Name
+			res.ids = stool3ddiagram.Eye3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEyeSeatBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenEyeSeatBottomCurveShape)
+		res.valueBool = stool3ddiagram.IsHiddenEyeSeatBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeSeatBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.EyeSeatBottomCurveShape != nil {
+			res.valueString = stool3ddiagram.EyeSeatBottomCurveShape.Name
+			res.ids = stool3ddiagram.EyeSeatBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEyeStoolBottomCurveShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenEyeStoolBottomCurveShape)
+		res.valueBool = stool3ddiagram.IsHiddenEyeStoolBottomCurveShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeStoolBottomCurveShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.EyeStoolBottomCurveShape != nil {
+			res.valueString = stool3ddiagram.EyeStoolBottomCurveShape.Name
+			res.ids = stool3ddiagram.EyeStoolBottomCurveShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSeat3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenSeat3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenSeat3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Seat3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.Seat3DShape != nil {
+			res.valueString = stool3ddiagram.Seat3DShape.Name
+			res.ids = stool3ddiagram.Seat3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenEyeVolume3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenEyeVolume3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenEyeVolume3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EyeVolume3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.EyeVolume3DShape != nil {
+			res.valueString = stool3ddiagram.EyeVolume3DShape.Name
+			res.ids = stool3ddiagram.EyeVolume3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenSeatAndLegs3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenSeatAndLegs3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenSeatAndLegs3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SeatAndLegs3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.SeatAndLegs3DShape != nil {
+			res.valueString = stool3ddiagram.SeatAndLegs3DShape.Name
+			res.ids = stool3ddiagram.SeatAndLegs3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenRotatedSeatAndLegs3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenRotatedSeatAndLegs3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenRotatedSeatAndLegs3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RotatedSeatAndLegs3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.RotatedSeatAndLegs3DShape != nil {
+			res.valueString = stool3ddiagram.RotatedSeatAndLegs3DShape.Name
+			res.ids = stool3ddiagram.RotatedSeatAndLegs3DShape.GongGetUUID(stage)
+		}
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = stool3ddiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.TiledFloor3DShape != nil {
+			res.valueString = stool3ddiagram.TiledFloor3DShape.Name
+			res.ids = stool3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stool3ddiagram.Rendered3DShape != nil {
+			res.valueString = stool3ddiagram.Rendered3DShape.Name
+			res.ids = stool3ddiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsChecked)
+		res.valueBool = stool3ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = stool3ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", stool3ddiagram.IsExpanded)
+		res.valueBool = stool3ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (stoolabstract *StoolAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = stoolabstract.Name
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", stoolabstract.RadialRepetitions)
+		res.valueInt = stoolabstract.RadialRepetitions
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.Transparency)
+		res.valueFloat = stoolabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTubeDiameter":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeTubeDiameter)
+		res.valueFloat = stoolabstract.RelativeTubeDiameter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight3DTorus":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight3DTorus)
+		res.valueFloat = stoolabstract.RelativeHeight3DTorus
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StoolTorusVerticalScale":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.StoolTorusVerticalScale)
+		res.valueFloat = stoolabstract.StoolTorusVerticalScale
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeHeight":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeHeight)
+		res.valueFloat = stoolabstract.RelativeHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeSeatThickness":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeSeatThickness)
+		res.valueFloat = stoolabstract.RelativeSeatThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ProjectionAngle":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.ProjectionAngle)
+		res.valueFloat = stoolabstract.ProjectionAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeEyeSeparationCriteria":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeSeparationCriteria)
+		res.valueFloat = stoolabstract.RelativeEyeSeparationCriteria
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeEyeCornerControlVectorStrength":
+		res.valueString = fmt.Sprintf("%f", stoolabstract.RelativeEyeCornerControlVectorStrength)
+		res.valueFloat = stoolabstract.RelativeEyeCornerControlVectorStrength
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = tiledfloor3dshape.Name
 	}
 	return
 }
@@ -33710,6 +40581,15 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetFieldValu
 	return
 }
 
+func (torus3dshape *Torus3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = torus3dshape.Name
+	}
+	return
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -33724,6 +40604,565 @@ func (torusstackshape *TorusStackShape) GongGetFieldValue(fieldName string, stag
 	// string value of fields
 	case "Name":
 		res.valueString = torusstackshape.Name
+	}
+	return
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = vase2ddiagram.Name
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", vase2ddiagram.Zoom)
+		res.valueFloat = vase2ddiagram.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsVaseArcNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsVaseArcNodesExpanded)
+		res.valueBool = vase2ddiagram.IsVaseArcNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsVaseClampingNodesExpanded":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsVaseClampingNodesExpanded)
+		res.valueBool = vase2ddiagram.IsVaseClampingNodesExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenAxesShape":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenAxesShape)
+		res.valueBool = vase2ddiagram.IsHiddenAxesShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenBottomStartArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenBottomStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomEndArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenBottomEndArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenBottomEndArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenBottomStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenBottomStackOfGrowthCurve)
+		res.valueBool = vase2ddiagram.IsHiddenBottomStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenShiftedLeftStackOfGrowthCurve)
+		res.valueBool = vase2ddiagram.IsHiddenShiftedLeftStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenShiftedLeftStackOfNormalVector)
+		res.valueBool = vase2ddiagram.IsHiddenShiftedLeftStackOfNormalVector
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPerpendicularVectorGridHalfway":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenPerpendicularVectorGridHalfway)
+		res.valueBool = vase2ddiagram.IsHiddenPerpendicularVectorGridHalfway
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopStartArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenTopStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenShiftedBottomTopStartArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenShiftedBottomTopStartArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopMidArcVectorShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopMidArcVectorShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenTopMidArcVectorShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenStartHalfwayArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenStartHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopStartHalfwayArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenTopStartHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenEndHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenEndHalfwayArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenEndHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopEndHalfwayArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenTopEndHalfwayArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopEndArcShapeGrid":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopEndArcShapeGrid)
+		res.valueBool = vase2ddiagram.IsHiddenTopEndArcShapeGrid
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenStackOfGrowthCurve)
+		res.valueBool = vase2ddiagram.IsHiddenStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStackOfGrowthCurve":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopStackOfGrowthCurve)
+		res.valueBool = vase2ddiagram.IsHiddenTopStackOfGrowthCurve
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopGrowthCurve2D)
+		res.valueBool = vase2ddiagram.IsHiddenTopGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenStackOfGrowthCurve2D)
+		res.valueBool = vase2ddiagram.IsHiddenStackOfGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTopStackOfGrowthCurve2D":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenTopStackOfGrowthCurve2D)
+		res.valueBool = vase2ddiagram.IsHiddenTopStackOfGrowthCurve2D
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenShiftedRightGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenShiftedRightGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenStackOfGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenStackOfGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenPartiallyGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenPartiallyGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon)
+		res.valueBool = vase2ddiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectory)
+		res.valueBool = vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectory
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2)
+		res.valueBool = vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPxShape":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenPxShape)
+		res.valueBool = vase2ddiagram.IsHiddenPxShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenChosenP1P2PairShape":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenChosenP1P2PairShape)
+		res.valueBool = vase2ddiagram.IsHiddenChosenP1P2PairShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKeyHoleShape":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsHiddenKeyHoleShape)
+		res.valueBool = vase2ddiagram.IsHiddenKeyHoleShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsChecked)
+		res.valueBool = vase2ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = vase2ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", vase2ddiagram.IsExpanded)
+		res.valueBool = vase2ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = vase3ddiagram.Name
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon)
+		res.valueBool = vase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTorusStackShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenTorusStackShape)
+		res.valueBool = vase3ddiagram.IsHiddenTorusStackShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenVerticalTorusStackShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenVerticalTorusStackShape)
+		res.valueBool = vase3ddiagram.IsHiddenVerticalTorusStackShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPartiallyRotatedTorusShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenPartiallyRotatedTorusShape)
+		res.valueBool = vase3ddiagram.IsHiddenPartiallyRotatedTorusShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape)
+		res.valueBool = vase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenPointsAndLines3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenPointsAndLines3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenPointsAndLines3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKeyHole3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenKeyHole3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenKeyHole3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenKey3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenKey3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenKey3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenVolumeKey3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenVolumeKey3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenVolumeKey3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTorusEdge3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenTorusEdge3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenTorusEdge3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenSampledPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenSampledPoints3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenSampledPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenOriginalPoints3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenOriginalPoints3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenOriginalPoints3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenAngle0Shape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenAngle0Shape)
+		res.valueBool = vase3ddiagram.IsHiddenAngle0Shape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsHiddenTiledFloor3DShape":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsHiddenTiledFloor3DShape)
+		res.valueBool = vase3ddiagram.IsHiddenTiledFloor3DShape
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Rendered3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.Rendered3DShape != nil {
+			res.valueString = vase3ddiagram.Rendered3DShape.Name
+			res.ids = vase3ddiagram.Rendered3DShape.GongGetUUID(stage)
+		}
+	case "TorusStackShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.TorusStackShape != nil {
+			res.valueString = vase3ddiagram.TorusStackShape.Name
+			res.ids = vase3ddiagram.TorusStackShape.GongGetUUID(stage)
+		}
+	case "VerticalTorusStackShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.VerticalTorusStackShape != nil {
+			res.valueString = vase3ddiagram.VerticalTorusStackShape.Name
+			res.ids = vase3ddiagram.VerticalTorusStackShape.GongGetUUID(stage)
+		}
+	case "PartiallyRotatedTorusShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.PartiallyRotatedTorusShape != nil {
+			res.valueString = vase3ddiagram.PartiallyRotatedTorusShape.Name
+			res.ids = vase3ddiagram.PartiallyRotatedTorusShape.GongGetUUID(stage)
+		}
+	case "StackOfPartiallyRotatedTorusShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.StackOfPartiallyRotatedTorusShape != nil {
+			res.valueString = vase3ddiagram.StackOfPartiallyRotatedTorusShape.Name
+			res.ids = vase3ddiagram.StackOfPartiallyRotatedTorusShape.GongGetUUID(stage)
+		}
+	case "PointsAndLines3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.PointsAndLines3DShape != nil {
+			res.valueString = vase3ddiagram.PointsAndLines3DShape.Name
+			res.ids = vase3ddiagram.PointsAndLines3DShape.GongGetUUID(stage)
+		}
+	case "SampledPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.SampledPoints3DShape != nil {
+			res.valueString = vase3ddiagram.SampledPoints3DShape.Name
+			res.ids = vase3ddiagram.SampledPoints3DShape.GongGetUUID(stage)
+		}
+	case "OriginalPoints3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.OriginalPoints3DShape != nil {
+			res.valueString = vase3ddiagram.OriginalPoints3DShape.Name
+			res.ids = vase3ddiagram.OriginalPoints3DShape.GongGetUUID(stage)
+		}
+	case "Angle0Shape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.Angle0Shape != nil {
+			res.valueString = vase3ddiagram.Angle0Shape.Name
+			res.ids = vase3ddiagram.Angle0Shape.GongGetUUID(stage)
+		}
+	case "KeyHole3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.KeyHole3DShape != nil {
+			res.valueString = vase3ddiagram.KeyHole3DShape.Name
+			res.ids = vase3ddiagram.KeyHole3DShape.GongGetUUID(stage)
+		}
+	case "Key3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.Key3DShape != nil {
+			res.valueString = vase3ddiagram.Key3DShape.Name
+			res.ids = vase3ddiagram.Key3DShape.GongGetUUID(stage)
+		}
+	case "VolumeKey3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.VolumeKey3DShape != nil {
+			res.valueString = vase3ddiagram.VolumeKey3DShape.Name
+			res.ids = vase3ddiagram.VolumeKey3DShape.GongGetUUID(stage)
+		}
+	case "TorusEdge3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.TorusEdge3DShape != nil {
+			res.valueString = vase3ddiagram.TorusEdge3DShape.Name
+			res.ids = vase3ddiagram.TorusEdge3DShape.GongGetUUID(stage)
+		}
+	case "TiledFloor3DShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vase3ddiagram.TiledFloor3DShape != nil {
+			res.valueString = vase3ddiagram.TiledFloor3DShape.Name
+			res.ids = vase3ddiagram.TiledFloor3DShape.GongGetUUID(stage)
+		}
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsChecked)
+		res.valueBool = vase3ddiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = vase3ddiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", vase3ddiagram.IsExpanded)
+		res.valueBool = vase3ddiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (vaseabstract *VaseAbstract) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = vaseabstract.Name
+	case "RelativeVerticalThickness":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeVerticalThickness)
+		res.valueFloat = vaseabstract.RelativeVerticalThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRadialThickness":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRadialThickness)
+		res.valueFloat = vaseabstract.RelativeRadialThickness
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeCuttedStackFloorHeight":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeCuttedStackFloorHeight)
+		res.valueFloat = vaseabstract.RelativeCuttedStackFloorHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeRotatedTorusSeparation":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeRotatedTorusSeparation)
+		res.valueFloat = vaseabstract.RelativeRotatedTorusSeparation
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RotationRatio":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RotationRatio)
+		res.valueFloat = vaseabstract.RotationRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RadialRepetitions":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.RadialRepetitions)
+		res.valueInt = vaseabstract.RadialRepetitions
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Transparency":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.Transparency)
+		res.valueFloat = vaseabstract.Transparency
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HasAlternatingRingColors":
+		res.valueString = fmt.Sprintf("%t", vaseabstract.HasAlternatingRingColors)
+		res.valueBool = vaseabstract.HasAlternatingRingColors
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RelativeTrajectoryOffsetX":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetX)
+		res.valueFloat = vaseabstract.RelativeTrajectoryOffsetX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeTrajectoryOffsetY":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeTrajectoryOffsetY)
+		res.valueFloat = vaseabstract.RelativeTrajectoryOffsetY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbStepP1P2":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.NbStepP1P2)
+		res.valueInt = vaseabstract.NbStepP1P2
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "ChosenStep":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.ChosenStep)
+		res.valueInt = vaseabstract.ChosenStep
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "RelativeHorizontalRingsHeight":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeHorizontalRingsHeight)
+		res.valueFloat = vaseabstract.RelativeHorizontalRingsHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyX":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.OffsetKeyX)
+		res.valueFloat = vaseabstract.OffsetKeyX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OffsetKeyY":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.OffsetKeyY)
+		res.valueFloat = vaseabstract.OffsetKeyY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "HeightKey":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.HeightKey)
+		res.valueFloat = vaseabstract.HeightKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "WidthKey":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.WidthKey)
+		res.valueFloat = vaseabstract.WidthKey
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RelativeKeySize":
+		res.valueString = fmt.Sprintf("%f", vaseabstract.RelativeKeySize)
+		res.valueFloat = vaseabstract.RelativeKeySize
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "MovieNbFrames":
+		res.valueString = fmt.Sprintf("%d", vaseabstract.MovieNbFrames)
+		res.valueInt = vaseabstract.MovieNbFrames
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "PerpendicularVectorGridHalfway":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PerpendicularVectorGridHalfway != nil {
+			res.valueString = vaseabstract.PerpendicularVectorGridHalfway.Name
+			res.ids = vaseabstract.PerpendicularVectorGridHalfway.GongGetUUID(stage)
+		}
+	case "TopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStartArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopStartArcShapeGrid.Name
+			res.ids = vaseabstract.TopStartArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopEndArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopEndArcShapeGrid.Name
+			res.ids = vaseabstract.TopEndArcShapeGrid.GongGetUUID(stage)
+		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedBottomTopStartArcShapeGrid != nil {
+			res.valueString = vaseabstract.ShiftedBottomTopStartArcShapeGrid.Name
+			res.ids = vaseabstract.ShiftedBottomTopStartArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopMidArcVectorShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopMidArcVectorShapeGrid != nil {
+			res.valueString = vaseabstract.TopMidArcVectorShapeGrid.Name
+			res.ids = vaseabstract.TopMidArcVectorShapeGrid.GongGetUUID(stage)
+		}
+	case "StartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StartHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.StartHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.StartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopStartHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStartHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopStartHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.TopStartHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "EndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.EndHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.EndHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.EndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopEndHalfwayArcShapeGrid != nil {
+			res.valueString = vaseabstract.TopEndHalfwayArcShapeGrid.Name
+			res.ids = vaseabstract.TopEndHalfwayArcShapeGrid.GongGetUUID(stage)
+		}
+	case "StackOfRotatedGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfRotatedGrowthCurve2D != nil {
+			res.valueString = vaseabstract.StackOfRotatedGrowthCurve2D.Name
+			res.ids = vaseabstract.StackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopStackOfRotatedGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStackOfRotatedGrowthCurve2D != nil {
+			res.valueString = vaseabstract.TopStackOfRotatedGrowthCurve2D.Name
+			res.ids = vaseabstract.TopStackOfRotatedGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopGrowthCurve2D != nil {
+			res.valueString = vaseabstract.TopGrowthCurve2D.Name
+			res.ids = vaseabstract.TopGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "StackOfGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfGrowthCurve2D != nil {
+			res.valueString = vaseabstract.StackOfGrowthCurve2D.Name
+			res.ids = vaseabstract.StackOfGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "TopStackOfGrowthCurve2D":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.TopStackOfGrowthCurve2D != nil {
+			res.valueString = vaseabstract.TopStackOfGrowthCurve2D.Name
+			res.ids = vaseabstract.TopStackOfGrowthCurve2D.GongGetUUID(stage)
+		}
+	case "StackOfGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.StackOfGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.StackOfGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.StackOfRotatedGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.StackOfRotatedGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.StackOfRotatedGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "GrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.GrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.GrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.GrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedRightGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedRightGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.ShiftedRightGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.ShiftedRightGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedLeftGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.ShiftedLeftGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.ShiftedLeftGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.PartiallyGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.PartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon != nil {
+			res.valueString = vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.Name
+			res.ids = vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PartiallyGrowthCurve2DTrajectory != nil {
+			res.valueString = vaseabstract.PartiallyGrowthCurve2DTrajectory.Name
+			res.ids = vaseabstract.PartiallyGrowthCurve2DTrajectory.GongGetUUID(stage)
+		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 != nil {
+			res.valueString = vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.Name
+			res.ids = vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2.GongGetUUID(stage)
+		}
+	case "PxShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.PxShape != nil {
+			res.valueString = vaseabstract.PxShape.Name
+			res.ids = vaseabstract.PxShape.GongGetUUID(stage)
+		}
+	case "ChosenP1P2PairShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.ChosenP1P2PairShape != nil {
+			res.valueString = vaseabstract.ChosenP1P2PairShape.Name
+			res.ids = vaseabstract.ChosenP1P2PairShape.GongGetUUID(stage)
+		}
+	case "KeyHoleShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if vaseabstract.KeyHoleShape != nil {
+			res.valueString = vaseabstract.KeyHoleShape.Name
+			res.ids = vaseabstract.KeyHoleShape.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -33908,6 +41347,143 @@ func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clock2ddiagram.Name = value.GetValueString()
+	case "Zoom":
+		clock2ddiagram.Zoom = value.GetValueFloat()
+	case "IsHiddenAxesShape":
+		clock2ddiagram.IsHiddenAxesShape = value.GetValueBool()
+	case "IsChecked":
+		clock2ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		clock2ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		clock2ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clock3ddiagram.Name = value.GetValueString()
+	case "IsHiddenClockTopCurveShape":
+		clock3ddiagram.IsHiddenClockTopCurveShape = value.GetValueBool()
+	case "ClockTopCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clock3ddiagram.ClockTopCurveShape = nil
+			for __instance__ := range stage.ClockTopCurveShapes {
+				if stage.ClockTopCurveShape_stagedOrder[__instance__] == uint(id) {
+					clock3ddiagram.ClockTopCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTorus3DShape":
+		clock3ddiagram.IsHiddenTorus3DShape = value.GetValueBool()
+	case "Torus3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clock3ddiagram.Torus3DShape = nil
+			for __instance__ := range stage.Torus3DShapes {
+				if stage.Torus3DShape_stagedOrder[__instance__] == uint(id) {
+					clock3ddiagram.Torus3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSampledPoints3DShape":
+		clock3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clock3ddiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					clock3ddiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTiledFloor3DShape":
+		clock3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clock3ddiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					clock3ddiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			clock3ddiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					clock3ddiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsChecked":
+		clock3ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		clock3ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		clock3ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (clockabstract *ClockAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clockabstract.Name = value.GetValueString()
+	case "RadialRepetitions":
+		clockabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		clockabstract.Transparency = value.GetValueFloat()
+	case "RelativeTubeDiameter":
+		clockabstract.RelativeTubeDiameter = value.GetValueFloat()
+	case "RelativeHeight3DTorus":
+		clockabstract.RelativeHeight3DTorus = value.GetValueFloat()
+	case "ClockTorusVerticalScale":
+		clockabstract.ClockTorusVerticalScale = value.GetValueFloat()
+	case "RelativeHeight":
+		clockabstract.RelativeHeight = value.GetValueFloat()
+	case "ProjectionAngle":
+		clockabstract.ProjectionAngle = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		clocktopcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (endarcshape *EndArcShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -34021,6 +41597,72 @@ func (explanationtextshape *ExplanationTextShape) GongSetFieldValue(fieldName st
 	// insertion point for per field code
 	case "Name":
 		explanationtextshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eye3dshape *Eye3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eye3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyecornerssampledpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyesampledpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyeseatbottomcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyestoolbottomcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		eyevolume3dshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -34370,13 +42012,13 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "Plants":
-		library.Plants = make([]*Plant, 0)
+		library.Plants = make([]*PlantAbstract, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Plants {
-					if stage.Plant_stagedOrder[__instance__] == uint(id) {
+				for __instance__ := range stage.PlantAbstracts {
+					if stage.PlantAbstract_stagedOrder[__instance__] == uint(id) {
 						library.Plants = append(library.Plants, __instance__)
 						break
 					}
@@ -34789,6 +42431,28 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return nil
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallyrotatedseatbottomcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partiallyrotatedseattopcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -34888,76 +42552,238 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongSetFieldValue(
 	return nil
 }
 
-func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (plant2ddiagram *Plant2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		plant.Name = value.GetValueString()
-	case "N":
-		plant.N = int(value.GetValueInt())
-	case "M":
-		plant.M = int(value.GetValueInt())
-	case "StackHeight":
-		plant.StackHeight = int(value.GetValueInt())
-	case "RhombusInsideAngle":
-		plant.RhombusInsideAngle = value.GetValueFloat()
-	case "RelativeVerticalThickness":
-		plant.RelativeVerticalThickness = value.GetValueFloat()
-	case "RelativeRadialThickness":
-		plant.RelativeRadialThickness = value.GetValueFloat()
-	case "RhombusSideLength":
-		plant.RhombusSideLength = value.GetValueFloat()
-	case "RelativeCuttedStackFloorHeight":
-		plant.RelativeCuttedStackFloorHeight = value.GetValueFloat()
-	case "RelativeRotatedTorusSeparation":
-		plant.RelativeRotatedTorusSeparation = value.GetValueFloat()
-	case "RotationRatio":
-		plant.RotationRatio = value.GetValueFloat()
-	case "RadialRepetitions":
-		plant.RadialRepetitions = int(value.GetValueInt())
-	case "Transparency":
-		plant.Transparency = value.GetValueFloat()
-	case "HasAlternatingRingColors":
-		plant.HasAlternatingRingColors = value.GetValueBool()
-	case "RelativeTrajectoryOffsetX":
-		plant.RelativeTrajectoryOffsetX = value.GetValueFloat()
-	case "RelativeTrajectoryOffsetY":
-		plant.RelativeTrajectoryOffsetY = value.GetValueFloat()
-	case "NbStepP1P2":
-		plant.NbStepP1P2 = int(value.GetValueInt())
-	case "ChosenStep":
-		plant.ChosenStep = int(value.GetValueInt())
-	case "RelativeHorizontalRingsHeight":
-		plant.RelativeHorizontalRingsHeight = value.GetValueFloat()
-	case "OffsetKeyX":
-		plant.OffsetKeyX = value.GetValueFloat()
-	case "OffsetKeyY":
-		plant.OffsetKeyY = value.GetValueFloat()
-	case "HeightKey":
-		plant.HeightKey = value.GetValueFloat()
-	case "WidthKey":
-		plant.WidthKey = value.GetValueFloat()
-	case "RelativeKeySize":
-		plant.RelativeKeySize = value.GetValueFloat()
-	case "MovieNbFrames":
-		plant.MovieNbFrames = int(value.GetValueInt())
+		plant2ddiagram.Name = value.GetValueString()
+	case "OriginX":
+		plant2ddiagram.OriginX = value.GetValueFloat()
+	case "OriginY":
+		plant2ddiagram.OriginY = value.GetValueFloat()
+	case "Zoom":
+		plant2ddiagram.Zoom = value.GetValueFloat()
+	case "IsRhombusNodesExpanded":
+		plant2ddiagram.IsRhombusNodesExpanded = value.GetValueBool()
+	case "IsArcNodesExpanded":
+		plant2ddiagram.IsArcNodesExpanded = value.GetValueBool()
+	case "IsHiddenAxesShape":
+		plant2ddiagram.IsHiddenAxesShape = value.GetValueBool()
+	case "IsHiddenReferenceRhombus":
+		plant2ddiagram.IsHiddenReferenceRhombus = value.GetValueBool()
+	case "IsHiddenPlantCircumferenceShape":
+		plant2ddiagram.IsHiddenPlantCircumferenceShape = value.GetValueBool()
+	case "IsHiddenGridPathShape":
+		plant2ddiagram.IsHiddenGridPathShape = value.GetValueBool()
+	case "IsHiddenRhombusGridShape":
+		plant2ddiagram.IsHiddenRhombusGridShape = value.GetValueBool()
+	case "IsHiddenExplanationTextShape":
+		plant2ddiagram.IsHiddenExplanationTextShape = value.GetValueBool()
+	case "IsHiddenRotatedReferenceRhombus":
+		plant2ddiagram.IsHiddenRotatedReferenceRhombus = value.GetValueBool()
+	case "IsHiddenRotatedPlantCircumferenceShape":
+		plant2ddiagram.IsHiddenRotatedPlantCircumferenceShape = value.GetValueBool()
+	case "IsHiddenRotatedGridPathShape":
+		plant2ddiagram.IsHiddenRotatedGridPathShape = value.GetValueBool()
+	case "IsHiddenRotatedRhombusGridShape":
+		plant2ddiagram.IsHiddenRotatedRhombusGridShape = value.GetValueBool()
+	case "IsHiddenGrowthPathRhombusGridShape":
+		plant2ddiagram.IsHiddenGrowthPathRhombusGridShape = value.GetValueBool()
+	case "IsHiddenGrowthVectorShape":
+		plant2ddiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
+	case "IsHiddenPerpendicularVectorGrid":
+		plant2ddiagram.IsHiddenPerpendicularVectorGrid = value.GetValueBool()
+	case "IsHiddenBaseVectorShapeGrid":
+		plant2ddiagram.IsHiddenBaseVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenArcNormalVectorShapeGrid":
+		plant2ddiagram.IsHiddenArcNormalVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenStartArcShapeGrid":
+		plant2ddiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenMidArcVectorShapeGrid":
+		plant2ddiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenEndArcShapeGrid":
+		plant2ddiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
+	case "IsHiddenGrowthCurve2D":
+		plant2ddiagram.IsHiddenGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve2DByGrowthVector":
+		plant2ddiagram.IsHiddenStackOfGrowthCurve2DByGrowthVector = value.GetValueBool()
+	case "IsChecked":
+		plant2ddiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
-		plant.ComputedPrefix = value.GetValueString()
+		plant2ddiagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		plant.IsExpanded = value.GetValueBool()
+		plant2ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (plantabstract *PlantAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		plantabstract.Name = value.GetValueString()
+	case "N":
+		plantabstract.N = int(value.GetValueInt())
+	case "M":
+		plantabstract.M = int(value.GetValueInt())
+	case "StackHeight":
+		plantabstract.StackHeight = int(value.GetValueInt())
+	case "RhombusInsideAngle":
+		plantabstract.RhombusInsideAngle = value.GetValueFloat()
+	case "RhombusSideLength":
+		plantabstract.RhombusSideLength = value.GetValueFloat()
+	case "PlantType":
+		plantabstract.PlantType.FromCodeString(value.GetValueString())
+	case "VaseAbstract":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantabstract.VaseAbstract = nil
+			for __instance__ := range stage.VaseAbstracts {
+				if stage.VaseAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.VaseAbstract = __instance__
+					break
+				}
+			}
+		}
+	case "StoolAbstract":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantabstract.StoolAbstract = nil
+			for __instance__ := range stage.StoolAbstracts {
+				if stage.StoolAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.StoolAbstract = __instance__
+					break
+				}
+			}
+		}
+	case "ClockAbstract":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantabstract.ClockAbstract = nil
+			for __instance__ := range stage.ClockAbstracts {
+				if stage.ClockAbstract_stagedOrder[__instance__] == uint(id) {
+					plantabstract.ClockAbstract = __instance__
+					break
+				}
+			}
+		}
+	case "CurrentView":
+		plantabstract.CurrentView.FromCodeString(value.GetValueString())
+	case "ComputedPrefix":
+		plantabstract.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		plantabstract.IsExpanded = value.GetValueBool()
 	case "IsSelected":
-		plant.IsSelected = value.GetValueBool()
-	case "IsPlantDiagramsNodeExpanded":
-		plant.IsPlantDiagramsNodeExpanded = value.GetValueBool()
-	case "PlantDiagrams":
-		plant.PlantDiagrams = make([]*PlantDiagram, 0)
+		plantabstract.IsSelected = value.GetValueBool()
+	case "IsPlant2DDiagramsNodeExpanded":
+		plantabstract.IsPlant2DDiagramsNodeExpanded = value.GetValueBool()
+	case "Plant2DDiagrams":
+		plantabstract.Plant2DDiagrams = make([]*Plant2DDiagram, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PlantDiagrams {
-					if stage.PlantDiagram_stagedOrder[__instance__] == uint(id) {
-						plant.PlantDiagrams = append(plant.PlantDiagrams, __instance__)
+				for __instance__ := range stage.Plant2DDiagrams {
+					if stage.Plant2DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Plant2DDiagrams = append(plantabstract.Plant2DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsVase2DDiagramsNodeExpanded":
+		plantabstract.IsVase2DDiagramsNodeExpanded = value.GetValueBool()
+	case "Vase2DDiagrams":
+		plantabstract.Vase2DDiagrams = make([]*Vase2DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Vase2DDiagrams {
+					if stage.Vase2DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Vase2DDiagrams = append(plantabstract.Vase2DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsVase3DDiagramsNodeExpanded":
+		plantabstract.IsVase3DDiagramsNodeExpanded = value.GetValueBool()
+	case "Vase3DDiagrams":
+		plantabstract.Vase3DDiagrams = make([]*Vase3DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Vase3DDiagrams {
+					if stage.Vase3DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Vase3DDiagrams = append(plantabstract.Vase3DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsStool2DDiagramsNodeExpanded":
+		plantabstract.IsStool2DDiagramsNodeExpanded = value.GetValueBool()
+	case "Stool2DDiagrams":
+		plantabstract.Stool2DDiagrams = make([]*Stool2DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Stool2DDiagrams {
+					if stage.Stool2DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Stool2DDiagrams = append(plantabstract.Stool2DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsStool3DDiagramsNodeExpanded":
+		plantabstract.IsStool3DDiagramsNodeExpanded = value.GetValueBool()
+	case "Stool3DDiagrams":
+		plantabstract.Stool3DDiagrams = make([]*Stool3DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Stool3DDiagrams {
+					if stage.Stool3DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Stool3DDiagrams = append(plantabstract.Stool3DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsClock2DDiagramsNodeExpanded":
+		plantabstract.IsClock2DDiagramsNodeExpanded = value.GetValueBool()
+	case "Clock2DDiagrams":
+		plantabstract.Clock2DDiagrams = make([]*Clock2DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Clock2DDiagrams {
+					if stage.Clock2DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Clock2DDiagrams = append(plantabstract.Clock2DDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsClock3DDiagramsNodeExpanded":
+		plantabstract.IsClock3DDiagramsNodeExpanded = value.GetValueBool()
+	case "Clock3DDiagrams":
+		plantabstract.Clock3DDiagrams = make([]*Clock3DDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Clock3DDiagrams {
+					if stage.Clock3DDiagram_stagedOrder[__instance__] == uint(id) {
+						plantabstract.Clock3DDiagrams = append(plantabstract.Clock3DDiagrams, __instance__)
 						break
 					}
 				}
@@ -34966,10 +42792,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "AxesShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.AxesShape = nil
+			plantabstract.AxesShape = nil
 			for __instance__ := range stage.AxesShapes {
 				if stage.AxesShape_stagedOrder[__instance__] == uint(id) {
-					plant.AxesShape = __instance__
+					plantabstract.AxesShape = __instance__
 					break
 				}
 			}
@@ -34977,10 +42803,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "RhombusStuff":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.RhombusStuff = nil
+			plantabstract.RhombusStuff = nil
 			for __instance__ := range stage.RhombusStuffs {
 				if stage.RhombusStuff_stagedOrder[__instance__] == uint(id) {
-					plant.RhombusStuff = __instance__
+					plantabstract.RhombusStuff = __instance__
 					break
 				}
 			}
@@ -34988,10 +42814,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "GrowthVectorShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.GrowthVectorShape = nil
+			plantabstract.GrowthVectorShape = nil
 			for __instance__ := range stage.GrowthVectorShapes {
 				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
-					plant.GrowthVectorShape = __instance__
+					plantabstract.GrowthVectorShape = __instance__
 					break
 				}
 			}
@@ -34999,21 +42825,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "PerpendicularVectorGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PerpendicularVectorGrid = nil
+			plantabstract.PerpendicularVectorGrid = nil
 			for __instance__ := range stage.PerpendicularVectorGrids {
 				if stage.PerpendicularVectorGrid_stagedOrder[__instance__] == uint(id) {
-					plant.PerpendicularVectorGrid = __instance__
-					break
-				}
-			}
-		}
-	case "PerpendicularVectorGridHalfway":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PerpendicularVectorGridHalfway = nil
-			for __instance__ := range stage.PerpendicularVectorGridHalfways {
-				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
-					plant.PerpendicularVectorGridHalfway = __instance__
+					plantabstract.PerpendicularVectorGrid = __instance__
 					break
 				}
 			}
@@ -35021,10 +42836,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "BaseVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.BaseVectorShapeGrid = nil
+			plantabstract.BaseVectorShapeGrid = nil
 			for __instance__ := range stage.BaseVectorShapeGrids {
 				if stage.BaseVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.BaseVectorShapeGrid = __instance__
+					plantabstract.BaseVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35032,10 +42847,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "ArcNormalVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ArcNormalVectorShapeGrid = nil
+			plantabstract.ArcNormalVectorShapeGrid = nil
 			for __instance__ := range stage.ArcNormalVectorShapeGrids {
 				if stage.ArcNormalVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.ArcNormalVectorShapeGrid = __instance__
+					plantabstract.ArcNormalVectorShapeGrid = __instance__
 					break
 				}
 			}
@@ -35043,54 +42858,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "StartArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StartArcShapeGrid = nil
+			plantabstract.StartArcShapeGrid = nil
 			for __instance__ := range stage.StartArcShapeGrids {
 				if stage.StartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.StartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStartArcShapeGrid = nil
-			for __instance__ := range stage.TopStartArcShapeGrids {
-				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopStartArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.EndArcShapeGrid = nil
-			for __instance__ := range stage.EndArcShapeGrids {
-				if stage.EndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.EndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopEndArcShapeGrid = nil
-			for __instance__ := range stage.TopEndArcShapeGrids {
-				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopEndArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedBottomTopStartArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedBottomTopStartArcShapeGrid = nil
-			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
-				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedBottomTopStartArcShapeGrid = __instance__
+					plantabstract.StartArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35098,87 +42869,21 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "MidArcVectorShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.MidArcVectorShapeGrid = nil
+			plantabstract.MidArcVectorShapeGrid = nil
 			for __instance__ := range stage.MidArcVectorShapeGrids {
 				if stage.MidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.MidArcVectorShapeGrid = __instance__
+					plantabstract.MidArcVectorShapeGrid = __instance__
 					break
 				}
 			}
 		}
-	case "TopMidArcVectorShapeGrid":
+	case "EndArcShapeGrid":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopMidArcVectorShapeGrid = nil
-			for __instance__ := range stage.TopMidArcVectorShapeGrids {
-				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopMidArcVectorShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.StartHalfwayArcShapeGrids {
-				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.StartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopStartHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStartHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
-				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopStartHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "EndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.EndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.EndHalfwayArcShapeGrids {
-				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.EndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "TopEndHalfwayArcShapeGrid":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopEndHalfwayArcShapeGrid = nil
-			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
-				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
-					plant.TopEndHalfwayArcShapeGrid = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
-				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfRotatedGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfRotatedGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStackOfRotatedGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
-				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.TopStackOfRotatedGrowthCurve2D = __instance__
+			plantabstract.EndArcShapeGrid = nil
+			for __instance__ := range stage.EndArcShapeGrids {
+				if stage.EndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					plantabstract.EndArcShapeGrid = __instance__
 					break
 				}
 			}
@@ -35186,175 +42891,21 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	case "GrowthCurve2D":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.GrowthCurve2D = nil
+			plantabstract.GrowthCurve2D = nil
 			for __instance__ := range stage.GrowthCurve2Ds {
 				if stage.GrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.GrowthCurve2D = __instance__
+					plantabstract.GrowthCurve2D = __instance__
 					break
 				}
 			}
 		}
-	case "TopGrowthCurve2D":
+	case "StackOfGrowthCurve2DByGrowthVector":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopGrowthCurve2D = nil
-			for __instance__ := range stage.TopGrowthCurve2Ds {
-				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.TopGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfGrowthCurve2D = nil
-			for __instance__ := range stage.StackOfGrowthCurve2Ds {
-				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "TopStackOfGrowthCurve2D":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.TopStackOfGrowthCurve2D = nil
-			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
-				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
-					plant.TopStackOfGrowthCurve2D = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
-				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfRotatedGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.StackOfRotatedGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
-				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.StackOfRotatedGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.GrowthCurve2DRibbon = nil
-			for __instance__ := range stage.GrowthCurve2DRibbons {
-				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.GrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedRightGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
-				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedRightGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedLeftGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
-				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedLeftGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
-				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plant.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectory":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DTrajectory = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
-				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DTrajectory = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyGrowthCurve2DTrajectoryP1P2":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
-			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
-				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
-					plant.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
-					break
-				}
-			}
-		}
-	case "PxShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.PxShape = nil
-			for __instance__ := range stage.PxShapes {
-				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
-					plant.PxShape = __instance__
-					break
-				}
-			}
-		}
-	case "ChosenP1P2PairShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.ChosenP1P2PairShape = nil
-			for __instance__ := range stage.ChosenP1P2PairShapes {
-				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
-					plant.ChosenP1P2PairShape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHoleShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plant.KeyHoleShape = nil
-			for __instance__ := range stage.KeyHoleShapes {
-				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
-					plant.KeyHoleShape = __instance__
+			plantabstract.StackOfGrowthCurve2DByGrowthVector = nil
+			for __instance__ := range stage.StackOfGrowthCurve2DByGrowthVectors {
+				if stage.StackOfGrowthCurve2DByGrowthVector_stagedOrder[__instance__] == uint(id) {
+					plantabstract.StackOfGrowthCurve2DByGrowthVector = __instance__
 					break
 				}
 			}
@@ -35374,344 +42925,6 @@ func (plantcircumferenceshape *PlantCircumferenceShape) GongSetFieldValue(fieldN
 		plantcircumferenceshape.AngleDegree = value.GetValueFloat()
 	case "Length":
 		plantcircumferenceshape.Length = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		plantdiagram.Name = value.GetValueString()
-	case "OriginX":
-		plantdiagram.OriginX = value.GetValueFloat()
-	case "OriginY":
-		plantdiagram.OriginY = value.GetValueFloat()
-	case "IsRhombusNodesExpanded":
-		plantdiagram.IsRhombusNodesExpanded = value.GetValueBool()
-	case "IsArcNodesExpanded":
-		plantdiagram.IsArcNodesExpanded = value.GetValueBool()
-	case "IsHiddenAxesShape":
-		plantdiagram.IsHiddenAxesShape = value.GetValueBool()
-	case "IsHiddenReferenceRhombus":
-		plantdiagram.IsHiddenReferenceRhombus = value.GetValueBool()
-	case "IsHiddenPlantCircumferenceShape":
-		plantdiagram.IsHiddenPlantCircumferenceShape = value.GetValueBool()
-	case "IsHiddenGridPathShape":
-		plantdiagram.IsHiddenGridPathShape = value.GetValueBool()
-	case "IsHiddenRhombusGridShape":
-		plantdiagram.IsHiddenRhombusGridShape = value.GetValueBool()
-	case "IsHiddenExplanationTextShape":
-		plantdiagram.IsHiddenExplanationTextShape = value.GetValueBool()
-	case "IsHiddenRotatedReferenceRhombus":
-		plantdiagram.IsHiddenRotatedReferenceRhombus = value.GetValueBool()
-	case "IsHiddenRotatedPlantCircumferenceShape":
-		plantdiagram.IsHiddenRotatedPlantCircumferenceShape = value.GetValueBool()
-	case "IsHiddenRotatedGridPathShape":
-		plantdiagram.IsHiddenRotatedGridPathShape = value.GetValueBool()
-	case "IsHiddenRotatedRhombusGridShape":
-		plantdiagram.IsHiddenRotatedRhombusGridShape = value.GetValueBool()
-	case "IsHiddenGrowthPathRhombusGridShape":
-		plantdiagram.IsHiddenGrowthPathRhombusGridShape = value.GetValueBool()
-	case "IsHiddenGrowthVectorShape":
-		plantdiagram.IsHiddenGrowthVectorShape = value.GetValueBool()
-	case "IsHiddenPerpendicularVectorGrid":
-		plantdiagram.IsHiddenPerpendicularVectorGrid = value.GetValueBool()
-	case "IsHiddenPerpendicularVectorGridHalfway":
-		plantdiagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
-	case "IsHiddenBaseVectorShapeGrid":
-		plantdiagram.IsHiddenBaseVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenArcNormalVectorShapeGrid":
-		plantdiagram.IsHiddenArcNormalVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenStartArcShapeGrid":
-		plantdiagram.IsHiddenStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopStartArcShapeGrid":
-		plantdiagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
-		plantdiagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenMidArcVectorShapeGrid":
-		plantdiagram.IsHiddenMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenTopMidArcVectorShapeGrid":
-		plantdiagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
-	case "IsHiddenStartHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenStartHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopStartHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenTopStartHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenEndHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenEndHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopEndHalfwayArcShapeGrid":
-		plantdiagram.IsHiddenTopEndHalfwayArcShapeGrid = value.GetValueBool()
-	case "IsHiddenEndArcShapeGrid":
-		plantdiagram.IsHiddenEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenTopEndArcShapeGrid":
-		plantdiagram.IsHiddenTopEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomStartArcShapeGrid":
-		plantdiagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
-	case "IsHiddenBottomEndArcShapeGrid":
-		plantdiagram.IsHiddenBottomEndArcShapeGrid = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve":
-		plantdiagram.IsHiddenStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenTopStackOfGrowthCurve":
-		plantdiagram.IsHiddenTopStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenBottomStackOfGrowthCurve":
-		plantdiagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenShiftedLeftStackOfGrowthCurve":
-		plantdiagram.IsHiddenShiftedLeftStackOfGrowthCurve = value.GetValueBool()
-	case "IsHiddenShiftedLeftStackOfNormalVector":
-		plantdiagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
-	case "IsHiddenGrowthCurve2D":
-		plantdiagram.IsHiddenGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenTopGrowthCurve2D":
-		plantdiagram.IsHiddenTopGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2D":
-		plantdiagram.IsHiddenStackOfGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenTopStackOfGrowthCurve2D":
-		plantdiagram.IsHiddenTopStackOfGrowthCurve2D = value.GetValueBool()
-	case "IsHiddenGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenShiftedRightGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenPartiallyGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
-		plantdiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
-		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
-	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
-		plantdiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
-	case "IsHiddenPxShape":
-		plantdiagram.IsHiddenPxShape = value.GetValueBool()
-	case "IsHiddenChosenP1P2PairShape":
-		plantdiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
-	case "IsHiddenKeyHoleShape":
-		plantdiagram.IsHiddenKeyHoleShape = value.GetValueBool()
-	case "IsHiddenTorusStackShape":
-		plantdiagram.IsHiddenTorusStackShape = value.GetValueBool()
-	case "IsHiddenVerticalTorusStackShape":
-		plantdiagram.IsHiddenVerticalTorusStackShape = value.GetValueBool()
-	case "IsHiddenPartiallyRotatedTorusShape":
-		plantdiagram.IsHiddenPartiallyRotatedTorusShape = value.GetValueBool()
-	case "IsHiddenStackOfPartiallyRotatedTorusShape":
-		plantdiagram.IsHiddenStackOfPartiallyRotatedTorusShape = value.GetValueBool()
-	case "IsHiddenPointsAndLines3DShape":
-		plantdiagram.IsHiddenPointsAndLines3DShape = value.GetValueBool()
-	case "IsHiddenKeyHole3DShape":
-		plantdiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
-	case "IsHiddenKey3DShape":
-		plantdiagram.IsHiddenKey3DShape = value.GetValueBool()
-	case "IsHiddenVolumeKey3DShape":
-		plantdiagram.IsHiddenVolumeKey3DShape = value.GetValueBool()
-	case "IsHiddenTorusEdge3DShape":
-		plantdiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
-	case "IsHiddenSampledPoints3DShape":
-		plantdiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
-	case "IsHiddenOriginalPoints3DShape":
-		plantdiagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
-	case "IsHiddenAngle0Shape":
-		plantdiagram.IsHiddenAngle0Shape = value.GetValueBool()
-	case "IsChecked":
-		plantdiagram.IsChecked = value.GetValueBool()
-	case "ComputedPrefix":
-		plantdiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		plantdiagram.IsExpanded = value.GetValueBool()
-	case "Rendered3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.Rendered3DShape = nil
-			for __instance__ := range stage.Rendered3DShapes {
-				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.Rendered3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "GrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.GrowthCurve2DRibbon = nil
-			for __instance__ := range stage.GrowthCurve2DRibbons {
-				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.GrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedRightGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.ShiftedRightGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
-				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.ShiftedRightGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.ShiftedLeftGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
-				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.ShiftedLeftGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
-			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
-				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
-					break
-				}
-			}
-		}
-	case "TorusStackShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.TorusStackShape = nil
-			for __instance__ := range stage.TorusStackShapes {
-				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.TorusStackShape = __instance__
-					break
-				}
-			}
-		}
-	case "VerticalTorusStackShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.VerticalTorusStackShape = nil
-			for __instance__ := range stage.VerticalTorusStackShapes {
-				if stage.VerticalTorusStackShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.VerticalTorusStackShape = __instance__
-					break
-				}
-			}
-		}
-	case "PartiallyRotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.PartiallyRotatedTorusShape = nil
-			for __instance__ := range stage.PartiallyRotatedTorusShapes {
-				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.PartiallyRotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "StackOfPartiallyRotatedTorusShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.StackOfPartiallyRotatedTorusShape = nil
-			for __instance__ := range stage.StackOfPartiallyRotatedTorusShapes {
-				if stage.StackOfPartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.StackOfPartiallyRotatedTorusShape = __instance__
-					break
-				}
-			}
-		}
-	case "PointsAndLines3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.PointsAndLines3DShape = nil
-			for __instance__ := range stage.PointsAndLines3DShapes {
-				if stage.PointsAndLines3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.PointsAndLines3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "SampledPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.SampledPoints3DShape = nil
-			for __instance__ := range stage.SampledPoints3DShapes {
-				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.SampledPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "OriginalPoints3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.OriginalPoints3DShape = nil
-			for __instance__ := range stage.OriginalPoints3DShapes {
-				if stage.OriginalPoints3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.OriginalPoints3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Angle0Shape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.Angle0Shape = nil
-			for __instance__ := range stage.Angle0Shapes {
-				if stage.Angle0Shape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.Angle0Shape = __instance__
-					break
-				}
-			}
-		}
-	case "KeyHole3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.KeyHole3DShape = nil
-			for __instance__ := range stage.KeyHole3DShapes {
-				if stage.KeyHole3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.KeyHole3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "Key3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.Key3DShape = nil
-			for __instance__ := range stage.Key3DShapes {
-				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.Key3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "VolumeKey3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.VolumeKey3DShape = nil
-			for __instance__ := range stage.VolumeKey3DShapes {
-				if stage.VolumeKey3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.VolumeKey3DShape = __instance__
-					break
-				}
-			}
-		}
-	case "TorusEdge3DShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.TorusEdge3DShape = nil
-			for __instance__ := range stage.TorusEdge3DShapes {
-				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.TorusEdge3DShape = __instance__
-					break
-				}
-			}
-		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -35945,11 +43158,77 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongSetFieldValue(fieldName stri
 	return nil
 }
 
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		rotatedsampledpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		rotatedseatandlegs3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (sampledpoints3dshape *SampledPoints3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
 		sampledpoints3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (seat3dshape *Seat3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		seat3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		seatandlegs3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		seatbottomcurveshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (seattopcurveshape *SeatTopCurveShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		seattopcurveshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -36741,6 +44020,17 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongSetFieldValue(fieldName st
 	return nil
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stackofgrowthcurve2dbygrowthvector.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -37123,6 +44413,331 @@ func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongSetFieldValue(fiel
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stool2ddiagram *Stool2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stool2ddiagram.Name = value.GetValueString()
+	case "Zoom":
+		stool2ddiagram.Zoom = value.GetValueFloat()
+	case "IsHiddenAxesShape":
+		stool2ddiagram.IsHiddenAxesShape = value.GetValueBool()
+	case "IsChecked":
+		stool2ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		stool2ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		stool2ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stool3ddiagram.Name = value.GetValueString()
+	case "IsHiddenSeatTopCurveShape":
+		stool3ddiagram.IsHiddenSeatTopCurveShape = value.GetValueBool()
+	case "SeatTopCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.SeatTopCurveShape = nil
+			for __instance__ := range stage.SeatTopCurveShapes {
+				if stage.SeatTopCurveShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.SeatTopCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenRotatedSeatTopCurveShape":
+		stool3ddiagram.IsHiddenRotatedSeatTopCurveShape = value.GetValueBool()
+	case "RotatedSeatTopCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.RotatedSeatTopCurveShape = nil
+			for __instance__ := range stage.PartiallyRotatedSeatTopCurveShapes {
+				if stage.PartiallyRotatedSeatTopCurveShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.RotatedSeatTopCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSeatBottomCurveShape":
+		stool3ddiagram.IsHiddenSeatBottomCurveShape = value.GetValueBool()
+	case "SeatBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.SeatBottomCurveShape = nil
+			for __instance__ := range stage.SeatBottomCurveShapes {
+				if stage.SeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.SeatBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenRotatedSeatBottomCurveShape":
+		stool3ddiagram.IsHiddenRotatedSeatBottomCurveShape = value.GetValueBool()
+	case "RotatedSeatBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.RotatedSeatBottomCurveShape = nil
+			for __instance__ := range stage.PartiallyRotatedSeatBottomCurveShapes {
+				if stage.PartiallyRotatedSeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.RotatedSeatBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTorus3DShape":
+		stool3ddiagram.IsHiddenTorus3DShape = value.GetValueBool()
+	case "Torus3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.Torus3DShape = nil
+			for __instance__ := range stage.Torus3DShapes {
+				if stage.Torus3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.Torus3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenRotatedTorusShape":
+		stool3ddiagram.IsHiddenRotatedTorusShape = value.GetValueBool()
+	case "RotatedTorusShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.RotatedTorusShape = nil
+			for __instance__ := range stage.PartiallyRotatedTorusShapes {
+				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.RotatedTorusShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSampledPoints3DShape":
+		stool3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenRotatedSampledPoints3DShape":
+		stool3ddiagram.IsHiddenRotatedSampledPoints3DShape = value.GetValueBool()
+	case "RotatedSampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.RotatedSampledPoints3DShape = nil
+			for __instance__ := range stage.RotatedSampledPoints3DShapes {
+				if stage.RotatedSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.RotatedSampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEyeSampledPoints3DShape":
+		stool3ddiagram.IsHiddenEyeSampledPoints3DShape = value.GetValueBool()
+	case "EyeSampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.EyeSampledPoints3DShape = nil
+			for __instance__ := range stage.EyeSampledPoints3DShapes {
+				if stage.EyeSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.EyeSampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEyeCornersSampledPoints3DShape":
+		stool3ddiagram.IsHiddenEyeCornersSampledPoints3DShape = value.GetValueBool()
+	case "EyeCornersSampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.EyeCornersSampledPoints3DShape = nil
+			for __instance__ := range stage.EyeCornersSampledPoints3DShapes {
+				if stage.EyeCornersSampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.EyeCornersSampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEye3DShape":
+		stool3ddiagram.IsHiddenEye3DShape = value.GetValueBool()
+	case "Eye3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.Eye3DShape = nil
+			for __instance__ := range stage.Eye3DShapes {
+				if stage.Eye3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.Eye3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEyeSeatBottomCurveShape":
+		stool3ddiagram.IsHiddenEyeSeatBottomCurveShape = value.GetValueBool()
+	case "EyeSeatBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.EyeSeatBottomCurveShape = nil
+			for __instance__ := range stage.EyeSeatBottomCurveShapes {
+				if stage.EyeSeatBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.EyeSeatBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEyeStoolBottomCurveShape":
+		stool3ddiagram.IsHiddenEyeStoolBottomCurveShape = value.GetValueBool()
+	case "EyeStoolBottomCurveShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.EyeStoolBottomCurveShape = nil
+			for __instance__ := range stage.EyeStoolBottomCurveShapes {
+				if stage.EyeStoolBottomCurveShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.EyeStoolBottomCurveShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSeat3DShape":
+		stool3ddiagram.IsHiddenSeat3DShape = value.GetValueBool()
+	case "Seat3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.Seat3DShape = nil
+			for __instance__ := range stage.Seat3DShapes {
+				if stage.Seat3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.Seat3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenEyeVolume3DShape":
+		stool3ddiagram.IsHiddenEyeVolume3DShape = value.GetValueBool()
+	case "EyeVolume3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.EyeVolume3DShape = nil
+			for __instance__ := range stage.EyeVolume3DShapes {
+				if stage.EyeVolume3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.EyeVolume3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenSeatAndLegs3DShape":
+		stool3ddiagram.IsHiddenSeatAndLegs3DShape = value.GetValueBool()
+	case "SeatAndLegs3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.SeatAndLegs3DShape = nil
+			for __instance__ := range stage.SeatAndLegs3DShapes {
+				if stage.SeatAndLegs3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.SeatAndLegs3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenRotatedSeatAndLegs3DShape":
+		stool3ddiagram.IsHiddenRotatedSeatAndLegs3DShape = value.GetValueBool()
+	case "RotatedSeatAndLegs3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.RotatedSeatAndLegs3DShape = nil
+			for __instance__ := range stage.RotatedSeatAndLegs3DShapes {
+				if stage.RotatedSeatAndLegs3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.RotatedSeatAndLegs3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsHiddenTiledFloor3DShape":
+		stool3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stool3ddiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					stool3ddiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsChecked":
+		stool3ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		stool3ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		stool3ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stoolabstract *StoolAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stoolabstract.Name = value.GetValueString()
+	case "RadialRepetitions":
+		stoolabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		stoolabstract.Transparency = value.GetValueFloat()
+	case "RelativeTubeDiameter":
+		stoolabstract.RelativeTubeDiameter = value.GetValueFloat()
+	case "RelativeHeight3DTorus":
+		stoolabstract.RelativeHeight3DTorus = value.GetValueFloat()
+	case "StoolTorusVerticalScale":
+		stoolabstract.StoolTorusVerticalScale = value.GetValueFloat()
+	case "RelativeHeight":
+		stoolabstract.RelativeHeight = value.GetValueFloat()
+	case "RelativeSeatThickness":
+		stoolabstract.RelativeSeatThickness = value.GetValueFloat()
+	case "ProjectionAngle":
+		stoolabstract.ProjectionAngle = value.GetValueFloat()
+	case "RelativeEyeSeparationCriteria":
+		stoolabstract.RelativeEyeSeparationCriteria = value.GetValueFloat()
+	case "RelativeEyeCornerControlVectorStrength":
+		stoolabstract.RelativeEyeCornerControlVectorStrength = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		tiledfloor3dshape.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -37616,6 +45231,17 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongSetFieldValu
 	return nil
 }
 
+func (torus3dshape *Torus3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		torus3dshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -37632,6 +45258,627 @@ func (torusstackshape *TorusStackShape) GongSetFieldValue(fieldName string, valu
 	// insertion point for per field code
 	case "Name":
 		torusstackshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		vase2ddiagram.Name = value.GetValueString()
+	case "Zoom":
+		vase2ddiagram.Zoom = value.GetValueFloat()
+	case "IsVaseArcNodesExpanded":
+		vase2ddiagram.IsVaseArcNodesExpanded = value.GetValueBool()
+	case "IsVaseClampingNodesExpanded":
+		vase2ddiagram.IsVaseClampingNodesExpanded = value.GetValueBool()
+	case "IsHiddenAxesShape":
+		vase2ddiagram.IsHiddenAxesShape = value.GetValueBool()
+	case "IsHiddenBottomStartArcShapeGrid":
+		vase2ddiagram.IsHiddenBottomStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenBottomEndArcShapeGrid":
+		vase2ddiagram.IsHiddenBottomEndArcShapeGrid = value.GetValueBool()
+	case "IsHiddenBottomStackOfGrowthCurve":
+		vase2ddiagram.IsHiddenBottomStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenShiftedLeftStackOfGrowthCurve":
+		vase2ddiagram.IsHiddenShiftedLeftStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenShiftedLeftStackOfNormalVector":
+		vase2ddiagram.IsHiddenShiftedLeftStackOfNormalVector = value.GetValueBool()
+	case "IsHiddenPerpendicularVectorGridHalfway":
+		vase2ddiagram.IsHiddenPerpendicularVectorGridHalfway = value.GetValueBool()
+	case "IsHiddenTopStartArcShapeGrid":
+		vase2ddiagram.IsHiddenTopStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenShiftedBottomTopStartArcShapeGrid":
+		vase2ddiagram.IsHiddenShiftedBottomTopStartArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopMidArcVectorShapeGrid":
+		vase2ddiagram.IsHiddenTopMidArcVectorShapeGrid = value.GetValueBool()
+	case "IsHiddenStartHalfwayArcShapeGrid":
+		vase2ddiagram.IsHiddenStartHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopStartHalfwayArcShapeGrid":
+		vase2ddiagram.IsHiddenTopStartHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenEndHalfwayArcShapeGrid":
+		vase2ddiagram.IsHiddenEndHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopEndHalfwayArcShapeGrid":
+		vase2ddiagram.IsHiddenTopEndHalfwayArcShapeGrid = value.GetValueBool()
+	case "IsHiddenTopEndArcShapeGrid":
+		vase2ddiagram.IsHiddenTopEndArcShapeGrid = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve":
+		vase2ddiagram.IsHiddenStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenTopStackOfGrowthCurve":
+		vase2ddiagram.IsHiddenTopStackOfGrowthCurve = value.GetValueBool()
+	case "IsHiddenTopGrowthCurve2D":
+		vase2ddiagram.IsHiddenTopGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve2D":
+		vase2ddiagram.IsHiddenStackOfGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenTopStackOfGrowthCurve2D":
+		vase2ddiagram.IsHiddenTopStackOfGrowthCurve2D = value.GetValueBool()
+	case "IsHiddenGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenShiftedRightGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenShiftedRightGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenShiftedLeftGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenShiftedLeftGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenStackOfGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenStackOfGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenStackOfRotatedGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenStackOfRotatedGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenPartiallyGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon":
+		vase2ddiagram.IsHiddenShiftedLeftPartiallyGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DTrajectory":
+		vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectory = value.GetValueBool()
+	case "IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2":
+		vase2ddiagram.IsHiddenPartiallyGrowthCurve2DTrajectoryP1P2 = value.GetValueBool()
+	case "IsHiddenPxShape":
+		vase2ddiagram.IsHiddenPxShape = value.GetValueBool()
+	case "IsHiddenChosenP1P2PairShape":
+		vase2ddiagram.IsHiddenChosenP1P2PairShape = value.GetValueBool()
+	case "IsHiddenKeyHoleShape":
+		vase2ddiagram.IsHiddenKeyHoleShape = value.GetValueBool()
+	case "IsChecked":
+		vase2ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		vase2ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		vase2ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		vase3ddiagram.Name = value.GetValueString()
+	case "IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon":
+		vase3ddiagram.IsHiddenStackOfPartiallyRotatedGrowthCurve2DRibbon = value.GetValueBool()
+	case "IsHiddenTorusStackShape":
+		vase3ddiagram.IsHiddenTorusStackShape = value.GetValueBool()
+	case "IsHiddenVerticalTorusStackShape":
+		vase3ddiagram.IsHiddenVerticalTorusStackShape = value.GetValueBool()
+	case "IsHiddenPartiallyRotatedTorusShape":
+		vase3ddiagram.IsHiddenPartiallyRotatedTorusShape = value.GetValueBool()
+	case "IsHiddenStackOfPartiallyRotatedTorusShape":
+		vase3ddiagram.IsHiddenStackOfPartiallyRotatedTorusShape = value.GetValueBool()
+	case "IsHiddenPointsAndLines3DShape":
+		vase3ddiagram.IsHiddenPointsAndLines3DShape = value.GetValueBool()
+	case "IsHiddenKeyHole3DShape":
+		vase3ddiagram.IsHiddenKeyHole3DShape = value.GetValueBool()
+	case "IsHiddenKey3DShape":
+		vase3ddiagram.IsHiddenKey3DShape = value.GetValueBool()
+	case "IsHiddenVolumeKey3DShape":
+		vase3ddiagram.IsHiddenVolumeKey3DShape = value.GetValueBool()
+	case "IsHiddenTorusEdge3DShape":
+		vase3ddiagram.IsHiddenTorusEdge3DShape = value.GetValueBool()
+	case "IsHiddenSampledPoints3DShape":
+		vase3ddiagram.IsHiddenSampledPoints3DShape = value.GetValueBool()
+	case "IsHiddenOriginalPoints3DShape":
+		vase3ddiagram.IsHiddenOriginalPoints3DShape = value.GetValueBool()
+	case "IsHiddenAngle0Shape":
+		vase3ddiagram.IsHiddenAngle0Shape = value.GetValueBool()
+	case "IsHiddenTiledFloor3DShape":
+		vase3ddiagram.IsHiddenTiledFloor3DShape = value.GetValueBool()
+	case "Rendered3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.Rendered3DShape = nil
+			for __instance__ := range stage.Rendered3DShapes {
+				if stage.Rendered3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.Rendered3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TorusStackShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.TorusStackShape = nil
+			for __instance__ := range stage.TorusStackShapes {
+				if stage.TorusStackShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.TorusStackShape = __instance__
+					break
+				}
+			}
+		}
+	case "VerticalTorusStackShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.VerticalTorusStackShape = nil
+			for __instance__ := range stage.VerticalTorusStackShapes {
+				if stage.VerticalTorusStackShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.VerticalTorusStackShape = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyRotatedTorusShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.PartiallyRotatedTorusShape = nil
+			for __instance__ := range stage.PartiallyRotatedTorusShapes {
+				if stage.PartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.PartiallyRotatedTorusShape = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfPartiallyRotatedTorusShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.StackOfPartiallyRotatedTorusShape = nil
+			for __instance__ := range stage.StackOfPartiallyRotatedTorusShapes {
+				if stage.StackOfPartiallyRotatedTorusShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.StackOfPartiallyRotatedTorusShape = __instance__
+					break
+				}
+			}
+		}
+	case "PointsAndLines3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.PointsAndLines3DShape = nil
+			for __instance__ := range stage.PointsAndLines3DShapes {
+				if stage.PointsAndLines3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.PointsAndLines3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "SampledPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.SampledPoints3DShape = nil
+			for __instance__ := range stage.SampledPoints3DShapes {
+				if stage.SampledPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.SampledPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "OriginalPoints3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.OriginalPoints3DShape = nil
+			for __instance__ := range stage.OriginalPoints3DShapes {
+				if stage.OriginalPoints3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.OriginalPoints3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Angle0Shape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.Angle0Shape = nil
+			for __instance__ := range stage.Angle0Shapes {
+				if stage.Angle0Shape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.Angle0Shape = __instance__
+					break
+				}
+			}
+		}
+	case "KeyHole3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.KeyHole3DShape = nil
+			for __instance__ := range stage.KeyHole3DShapes {
+				if stage.KeyHole3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.KeyHole3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "Key3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.Key3DShape = nil
+			for __instance__ := range stage.Key3DShapes {
+				if stage.Key3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.Key3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "VolumeKey3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.VolumeKey3DShape = nil
+			for __instance__ := range stage.VolumeKey3DShapes {
+				if stage.VolumeKey3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.VolumeKey3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TorusEdge3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.TorusEdge3DShape = nil
+			for __instance__ := range stage.TorusEdge3DShapes {
+				if stage.TorusEdge3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.TorusEdge3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "TiledFloor3DShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vase3ddiagram.TiledFloor3DShape = nil
+			for __instance__ := range stage.TiledFloor3DShapes {
+				if stage.TiledFloor3DShape_stagedOrder[__instance__] == uint(id) {
+					vase3ddiagram.TiledFloor3DShape = __instance__
+					break
+				}
+			}
+		}
+	case "IsChecked":
+		vase3ddiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		vase3ddiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		vase3ddiagram.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (vaseabstract *VaseAbstract) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		vaseabstract.Name = value.GetValueString()
+	case "RelativeVerticalThickness":
+		vaseabstract.RelativeVerticalThickness = value.GetValueFloat()
+	case "RelativeRadialThickness":
+		vaseabstract.RelativeRadialThickness = value.GetValueFloat()
+	case "RelativeCuttedStackFloorHeight":
+		vaseabstract.RelativeCuttedStackFloorHeight = value.GetValueFloat()
+	case "RelativeRotatedTorusSeparation":
+		vaseabstract.RelativeRotatedTorusSeparation = value.GetValueFloat()
+	case "RotationRatio":
+		vaseabstract.RotationRatio = value.GetValueFloat()
+	case "RadialRepetitions":
+		vaseabstract.RadialRepetitions = int(value.GetValueInt())
+	case "Transparency":
+		vaseabstract.Transparency = value.GetValueFloat()
+	case "HasAlternatingRingColors":
+		vaseabstract.HasAlternatingRingColors = value.GetValueBool()
+	case "RelativeTrajectoryOffsetX":
+		vaseabstract.RelativeTrajectoryOffsetX = value.GetValueFloat()
+	case "RelativeTrajectoryOffsetY":
+		vaseabstract.RelativeTrajectoryOffsetY = value.GetValueFloat()
+	case "NbStepP1P2":
+		vaseabstract.NbStepP1P2 = int(value.GetValueInt())
+	case "ChosenStep":
+		vaseabstract.ChosenStep = int(value.GetValueInt())
+	case "RelativeHorizontalRingsHeight":
+		vaseabstract.RelativeHorizontalRingsHeight = value.GetValueFloat()
+	case "OffsetKeyX":
+		vaseabstract.OffsetKeyX = value.GetValueFloat()
+	case "OffsetKeyY":
+		vaseabstract.OffsetKeyY = value.GetValueFloat()
+	case "HeightKey":
+		vaseabstract.HeightKey = value.GetValueFloat()
+	case "WidthKey":
+		vaseabstract.WidthKey = value.GetValueFloat()
+	case "RelativeKeySize":
+		vaseabstract.RelativeKeySize = value.GetValueFloat()
+	case "MovieNbFrames":
+		vaseabstract.MovieNbFrames = int(value.GetValueInt())
+	case "PerpendicularVectorGridHalfway":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PerpendicularVectorGridHalfway = nil
+			for __instance__ := range stage.PerpendicularVectorGridHalfways {
+				if stage.PerpendicularVectorGridHalfway_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PerpendicularVectorGridHalfway = __instance__
+					break
+				}
+			}
+		}
+	case "TopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStartArcShapeGrid = nil
+			for __instance__ := range stage.TopStartArcShapeGrids {
+				if stage.TopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopEndArcShapeGrid = nil
+			for __instance__ := range stage.TopEndArcShapeGrids {
+				if stage.TopEndArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopEndArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedBottomTopStartArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedBottomTopStartArcShapeGrid = nil
+			for __instance__ := range stage.ShiftedBottomTopStartArcShapeGrids {
+				if stage.ShiftedBottomTopStartArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedBottomTopStartArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopMidArcVectorShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopMidArcVectorShapeGrid = nil
+			for __instance__ := range stage.TopMidArcVectorShapeGrids {
+				if stage.TopMidArcVectorShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopMidArcVectorShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "StartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.StartHalfwayArcShapeGrids {
+				if stage.StartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopStartHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStartHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopStartHalfwayArcShapeGrids {
+				if stage.TopStartHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStartHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "EndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.EndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.EndHalfwayArcShapeGrids {
+				if stage.EndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.EndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "TopEndHalfwayArcShapeGrid":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopEndHalfwayArcShapeGrid = nil
+			for __instance__ := range stage.TopEndHalfwayArcShapeGrids {
+				if stage.TopEndHalfwayArcShapeGrid_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopEndHalfwayArcShapeGrid = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfRotatedGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfRotatedGrowthCurve2D = nil
+			for __instance__ := range stage.StackOfRotatedGrowthCurve2Ds {
+				if stage.StackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfRotatedGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopStackOfRotatedGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStackOfRotatedGrowthCurve2D = nil
+			for __instance__ := range stage.TopStackOfRotatedGrowthCurve2Ds {
+				if stage.TopStackOfRotatedGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStackOfRotatedGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopGrowthCurve2D = nil
+			for __instance__ := range stage.TopGrowthCurve2Ds {
+				if stage.TopGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfGrowthCurve2D = nil
+			for __instance__ := range stage.StackOfGrowthCurve2Ds {
+				if stage.StackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "TopStackOfGrowthCurve2D":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.TopStackOfGrowthCurve2D = nil
+			for __instance__ := range stage.TopStackOfGrowthCurve2Ds {
+				if stage.TopStackOfGrowthCurve2D_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.TopStackOfGrowthCurve2D = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfGrowthCurve2DRibbons {
+				if stage.StackOfGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "StackOfRotatedGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.StackOfRotatedGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.StackOfRotatedGrowthCurve2DRibbons {
+				if stage.StackOfRotatedGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.StackOfRotatedGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "GrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.GrowthCurve2DRibbon = nil
+			for __instance__ := range stage.GrowthCurve2DRibbons {
+				if stage.GrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.GrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedRightGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedRightGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedRightGrowthCurve2DRibbons {
+				if stage.ShiftedRightGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedRightGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedLeftGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedLeftGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedLeftGrowthCurve2DRibbons {
+				if stage.ShiftedLeftGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedLeftGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DRibbons {
+				if stage.PartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "ShiftedLeftPartiallyGrowthCurve2DRibbon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = nil
+			for __instance__ := range stage.ShiftedLeftPartiallyGrowthCurve2DRibbons {
+				if stage.ShiftedLeftPartiallyGrowthCurve2DRibbon_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ShiftedLeftPartiallyGrowthCurve2DRibbon = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectory":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PartiallyGrowthCurve2DTrajectory = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectorys {
+				if stage.PartiallyGrowthCurve2DTrajectory_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PartiallyGrowthCurve2DTrajectory = __instance__
+					break
+				}
+			}
+		}
+	case "PartiallyGrowthCurve2DTrajectoryP1P2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = nil
+			for __instance__ := range stage.PartiallyGrowthCurve2DTrajectoryP1P2s {
+				if stage.PartiallyGrowthCurve2DTrajectoryP1P2_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PartiallyGrowthCurve2DTrajectoryP1P2 = __instance__
+					break
+				}
+			}
+		}
+	case "PxShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.PxShape = nil
+			for __instance__ := range stage.PxShapes {
+				if stage.PxShape_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.PxShape = __instance__
+					break
+				}
+			}
+		}
+	case "ChosenP1P2PairShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.ChosenP1P2PairShape = nil
+			for __instance__ := range stage.ChosenP1P2PairShapes {
+				if stage.ChosenP1P2PairShape_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.ChosenP1P2PairShape = __instance__
+					break
+				}
+			}
+		}
+	case "KeyHoleShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			vaseabstract.KeyHoleShape = nil
+			for __instance__ := range stage.KeyHoleShapes {
+				if stage.KeyHoleShape_stagedOrder[__instance__] == uint(id) {
+					vaseabstract.KeyHoleShape = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -37697,6 +45944,22 @@ func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
 
+func (clock2ddiagram *Clock2DDiagram) GongGetGongstructName() string {
+	return "Clock2DDiagram"
+}
+
+func (clock3ddiagram *Clock3DDiagram) GongGetGongstructName() string {
+	return "Clock3DDiagram"
+}
+
+func (clockabstract *ClockAbstract) GongGetGongstructName() string {
+	return "ClockAbstract"
+}
+
+func (clocktopcurveshape *ClockTopCurveShape) GongGetGongstructName() string {
+	return "ClockTopCurveShape"
+}
+
 func (endarcshape *EndArcShape) GongGetGongstructName() string {
 	return "EndArcShape"
 }
@@ -37715,6 +45978,30 @@ func (endhalfwayarcshapegrid *EndHalfwayArcShapeGrid) GongGetGongstructName() st
 
 func (explanationtextshape *ExplanationTextShape) GongGetGongstructName() string {
 	return "ExplanationTextShape"
+}
+
+func (eye3dshape *Eye3DShape) GongGetGongstructName() string {
+	return "Eye3DShape"
+}
+
+func (eyecornerssampledpoints3dshape *EyeCornersSampledPoints3DShape) GongGetGongstructName() string {
+	return "EyeCornersSampledPoints3DShape"
+}
+
+func (eyesampledpoints3dshape *EyeSampledPoints3DShape) GongGetGongstructName() string {
+	return "EyeSampledPoints3DShape"
+}
+
+func (eyeseatbottomcurveshape *EyeSeatBottomCurveShape) GongGetGongstructName() string {
+	return "EyeSeatBottomCurveShape"
+}
+
+func (eyestoolbottomcurveshape *EyeStoolBottomCurveShape) GongGetGongstructName() string {
+	return "EyeStoolBottomCurveShape"
+}
+
+func (eyevolume3dshape *EyeVolume3DShape) GongGetGongstructName() string {
+	return "EyeVolume3DShape"
 }
 
 func (gridpathshape *GridPathShape) GongGetGongstructName() string {
@@ -37829,6 +46116,14 @@ func (partiallygrowthcurve2dtrajectoryshape *PartiallyGrowthCurve2DTrajectorySha
 	return "PartiallyGrowthCurve2DTrajectoryShape"
 }
 
+func (partiallyrotatedseatbottomcurveshape *PartiallyRotatedSeatBottomCurveShape) GongGetGongstructName() string {
+	return "PartiallyRotatedSeatBottomCurveShape"
+}
+
+func (partiallyrotatedseattopcurveshape *PartiallyRotatedSeatTopCurveShape) GongGetGongstructName() string {
+	return "PartiallyRotatedSeatTopCurveShape"
+}
+
 func (partiallyrotatedtorusshape *PartiallyRotatedTorusShape) GongGetGongstructName() string {
 	return "PartiallyRotatedTorusShape"
 }
@@ -37849,16 +46144,16 @@ func (perpendicularvectorhalfway *PerpendicularVectorHalfway) GongGetGongstructN
 	return "PerpendicularVectorHalfway"
 }
 
-func (plant *Plant) GongGetGongstructName() string {
-	return "Plant"
+func (plant2ddiagram *Plant2DDiagram) GongGetGongstructName() string {
+	return "Plant2DDiagram"
+}
+
+func (plantabstract *PlantAbstract) GongGetGongstructName() string {
+	return "PlantAbstract"
 }
 
 func (plantcircumferenceshape *PlantCircumferenceShape) GongGetGongstructName() string {
 	return "PlantCircumferenceShape"
-}
-
-func (plantdiagram *PlantDiagram) GongGetGongstructName() string {
-	return "PlantDiagram"
 }
 
 func (pointsandlines3dshape *PointsAndLines3DShape) GongGetGongstructName() string {
@@ -37889,8 +46184,32 @@ func (rotatedrhombusshape *RotatedRhombusShape) GongGetGongstructName() string {
 	return "RotatedRhombusShape"
 }
 
+func (rotatedsampledpoints3dshape *RotatedSampledPoints3DShape) GongGetGongstructName() string {
+	return "RotatedSampledPoints3DShape"
+}
+
+func (rotatedseatandlegs3dshape *RotatedSeatAndLegs3DShape) GongGetGongstructName() string {
+	return "RotatedSeatAndLegs3DShape"
+}
+
 func (sampledpoints3dshape *SampledPoints3DShape) GongGetGongstructName() string {
 	return "SampledPoints3DShape"
+}
+
+func (seat3dshape *Seat3DShape) GongGetGongstructName() string {
+	return "Seat3DShape"
+}
+
+func (seatandlegs3dshape *SeatAndLegs3DShape) GongGetGongstructName() string {
+	return "SeatAndLegs3DShape"
+}
+
+func (seatbottomcurveshape *SeatBottomCurveShape) GongGetGongstructName() string {
+	return "SeatBottomCurveShape"
+}
+
+func (seattopcurveshape *SeatTopCurveShape) GongGetGongstructName() string {
+	return "SeatTopCurveShape"
 }
 
 func (shiftedbottomtopstartarcshape *ShiftedBottomTopStartArcShape) GongGetGongstructName() string {
@@ -37977,6 +46296,10 @@ func (stackofgrowthcurve2d *StackOfGrowthCurve2D) GongGetGongstructName() string
 	return "StackOfGrowthCurve2D"
 }
 
+func (stackofgrowthcurve2dbygrowthvector *StackOfGrowthCurve2DByGrowthVector) GongGetGongstructName() string {
+	return "StackOfGrowthCurve2DByGrowthVector"
+}
+
 func (stackofgrowthcurve2dribbon *StackOfGrowthCurve2DRibbon) GongGetGongstructName() string {
 	return "StackOfGrowthCurve2DRibbon"
 }
@@ -38023,6 +46346,22 @@ func (starthalfwayarcshape *StartHalfwayArcShape) GongGetGongstructName() string
 
 func (starthalfwayarcshapegrid *StartHalfwayArcShapeGrid) GongGetGongstructName() string {
 	return "StartHalfwayArcShapeGrid"
+}
+
+func (stool2ddiagram *Stool2DDiagram) GongGetGongstructName() string {
+	return "Stool2DDiagram"
+}
+
+func (stool3ddiagram *Stool3DDiagram) GongGetGongstructName() string {
+	return "Stool3DDiagram"
+}
+
+func (stoolabstract *StoolAbstract) GongGetGongstructName() string {
+	return "StoolAbstract"
+}
+
+func (tiledfloor3dshape *TiledFloor3DShape) GongGetGongstructName() string {
+	return "TiledFloor3DShape"
 }
 
 func (topendarcshape *TopEndArcShape) GongGetGongstructName() string {
@@ -38093,12 +46432,28 @@ func (topstarthalfwayarcshapegrid *TopStartHalfwayArcShapeGrid) GongGetGongstruc
 	return "TopStartHalfwayArcShapeGrid"
 }
 
+func (torus3dshape *Torus3DShape) GongGetGongstructName() string {
+	return "Torus3DShape"
+}
+
 func (torusedge3dshape *TorusEdge3DShape) GongGetGongstructName() string {
 	return "TorusEdge3DShape"
 }
 
 func (torusstackshape *TorusStackShape) GongGetGongstructName() string {
 	return "TorusStackShape"
+}
+
+func (vase2ddiagram *Vase2DDiagram) GongGetGongstructName() string {
+	return "Vase2DDiagram"
+}
+
+func (vase3ddiagram *Vase3DDiagram) GongGetGongstructName() string {
+	return "Vase3DDiagram"
+}
+
+func (vaseabstract *VaseAbstract) GongGetGongstructName() string {
+	return "VaseAbstract"
 }
 
 func (verticaltorusstackshape *VerticalTorusStackShape) GongGetGongstructName() string {
@@ -38156,6 +46511,26 @@ func (stage *Stage) ResetMapStrings() {
 		stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
 	}
 
+	stage.Clock2DDiagrams_mapString = make(map[string]*Clock2DDiagram)
+	for clock2ddiagram := range stage.Clock2DDiagrams {
+		stage.Clock2DDiagrams_mapString[clock2ddiagram.Name] = clock2ddiagram
+	}
+
+	stage.Clock3DDiagrams_mapString = make(map[string]*Clock3DDiagram)
+	for clock3ddiagram := range stage.Clock3DDiagrams {
+		stage.Clock3DDiagrams_mapString[clock3ddiagram.Name] = clock3ddiagram
+	}
+
+	stage.ClockAbstracts_mapString = make(map[string]*ClockAbstract)
+	for clockabstract := range stage.ClockAbstracts {
+		stage.ClockAbstracts_mapString[clockabstract.Name] = clockabstract
+	}
+
+	stage.ClockTopCurveShapes_mapString = make(map[string]*ClockTopCurveShape)
+	for clocktopcurveshape := range stage.ClockTopCurveShapes {
+		stage.ClockTopCurveShapes_mapString[clocktopcurveshape.Name] = clocktopcurveshape
+	}
+
 	stage.EndArcShapes_mapString = make(map[string]*EndArcShape)
 	for endarcshape := range stage.EndArcShapes {
 		stage.EndArcShapes_mapString[endarcshape.Name] = endarcshape
@@ -38179,6 +46554,36 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
 	for explanationtextshape := range stage.ExplanationTextShapes {
 		stage.ExplanationTextShapes_mapString[explanationtextshape.Name] = explanationtextshape
+	}
+
+	stage.Eye3DShapes_mapString = make(map[string]*Eye3DShape)
+	for eye3dshape := range stage.Eye3DShapes {
+		stage.Eye3DShapes_mapString[eye3dshape.Name] = eye3dshape
+	}
+
+	stage.EyeCornersSampledPoints3DShapes_mapString = make(map[string]*EyeCornersSampledPoints3DShape)
+	for eyecornerssampledpoints3dshape := range stage.EyeCornersSampledPoints3DShapes {
+		stage.EyeCornersSampledPoints3DShapes_mapString[eyecornerssampledpoints3dshape.Name] = eyecornerssampledpoints3dshape
+	}
+
+	stage.EyeSampledPoints3DShapes_mapString = make(map[string]*EyeSampledPoints3DShape)
+	for eyesampledpoints3dshape := range stage.EyeSampledPoints3DShapes {
+		stage.EyeSampledPoints3DShapes_mapString[eyesampledpoints3dshape.Name] = eyesampledpoints3dshape
+	}
+
+	stage.EyeSeatBottomCurveShapes_mapString = make(map[string]*EyeSeatBottomCurveShape)
+	for eyeseatbottomcurveshape := range stage.EyeSeatBottomCurveShapes {
+		stage.EyeSeatBottomCurveShapes_mapString[eyeseatbottomcurveshape.Name] = eyeseatbottomcurveshape
+	}
+
+	stage.EyeStoolBottomCurveShapes_mapString = make(map[string]*EyeStoolBottomCurveShape)
+	for eyestoolbottomcurveshape := range stage.EyeStoolBottomCurveShapes {
+		stage.EyeStoolBottomCurveShapes_mapString[eyestoolbottomcurveshape.Name] = eyestoolbottomcurveshape
+	}
+
+	stage.EyeVolume3DShapes_mapString = make(map[string]*EyeVolume3DShape)
+	for eyevolume3dshape := range stage.EyeVolume3DShapes {
+		stage.EyeVolume3DShapes_mapString[eyevolume3dshape.Name] = eyevolume3dshape
 	}
 
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
@@ -38321,6 +46726,16 @@ func (stage *Stage) ResetMapStrings() {
 		stage.PartiallyGrowthCurve2DTrajectoryShapes_mapString[partiallygrowthcurve2dtrajectoryshape.Name] = partiallygrowthcurve2dtrajectoryshape
 	}
 
+	stage.PartiallyRotatedSeatBottomCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatBottomCurveShape)
+	for partiallyrotatedseatbottomcurveshape := range stage.PartiallyRotatedSeatBottomCurveShapes {
+		stage.PartiallyRotatedSeatBottomCurveShapes_mapString[partiallyrotatedseatbottomcurveshape.Name] = partiallyrotatedseatbottomcurveshape
+	}
+
+	stage.PartiallyRotatedSeatTopCurveShapes_mapString = make(map[string]*PartiallyRotatedSeatTopCurveShape)
+	for partiallyrotatedseattopcurveshape := range stage.PartiallyRotatedSeatTopCurveShapes {
+		stage.PartiallyRotatedSeatTopCurveShapes_mapString[partiallyrotatedseattopcurveshape.Name] = partiallyrotatedseattopcurveshape
+	}
+
 	stage.PartiallyRotatedTorusShapes_mapString = make(map[string]*PartiallyRotatedTorusShape)
 	for partiallyrotatedtorusshape := range stage.PartiallyRotatedTorusShapes {
 		stage.PartiallyRotatedTorusShapes_mapString[partiallyrotatedtorusshape.Name] = partiallyrotatedtorusshape
@@ -38346,19 +46761,19 @@ func (stage *Stage) ResetMapStrings() {
 		stage.PerpendicularVectorHalfways_mapString[perpendicularvectorhalfway.Name] = perpendicularvectorhalfway
 	}
 
-	stage.Plants_mapString = make(map[string]*Plant)
-	for plant := range stage.Plants {
-		stage.Plants_mapString[plant.Name] = plant
+	stage.Plant2DDiagrams_mapString = make(map[string]*Plant2DDiagram)
+	for plant2ddiagram := range stage.Plant2DDiagrams {
+		stage.Plant2DDiagrams_mapString[plant2ddiagram.Name] = plant2ddiagram
+	}
+
+	stage.PlantAbstracts_mapString = make(map[string]*PlantAbstract)
+	for plantabstract := range stage.PlantAbstracts {
+		stage.PlantAbstracts_mapString[plantabstract.Name] = plantabstract
 	}
 
 	stage.PlantCircumferenceShapes_mapString = make(map[string]*PlantCircumferenceShape)
 	for plantcircumferenceshape := range stage.PlantCircumferenceShapes {
 		stage.PlantCircumferenceShapes_mapString[plantcircumferenceshape.Name] = plantcircumferenceshape
-	}
-
-	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
-	for plantdiagram := range stage.PlantDiagrams {
-		stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
 	}
 
 	stage.PointsAndLines3DShapes_mapString = make(map[string]*PointsAndLines3DShape)
@@ -38396,9 +46811,39 @@ func (stage *Stage) ResetMapStrings() {
 		stage.RotatedRhombusShapes_mapString[rotatedrhombusshape.Name] = rotatedrhombusshape
 	}
 
+	stage.RotatedSampledPoints3DShapes_mapString = make(map[string]*RotatedSampledPoints3DShape)
+	for rotatedsampledpoints3dshape := range stage.RotatedSampledPoints3DShapes {
+		stage.RotatedSampledPoints3DShapes_mapString[rotatedsampledpoints3dshape.Name] = rotatedsampledpoints3dshape
+	}
+
+	stage.RotatedSeatAndLegs3DShapes_mapString = make(map[string]*RotatedSeatAndLegs3DShape)
+	for rotatedseatandlegs3dshape := range stage.RotatedSeatAndLegs3DShapes {
+		stage.RotatedSeatAndLegs3DShapes_mapString[rotatedseatandlegs3dshape.Name] = rotatedseatandlegs3dshape
+	}
+
 	stage.SampledPoints3DShapes_mapString = make(map[string]*SampledPoints3DShape)
 	for sampledpoints3dshape := range stage.SampledPoints3DShapes {
 		stage.SampledPoints3DShapes_mapString[sampledpoints3dshape.Name] = sampledpoints3dshape
+	}
+
+	stage.Seat3DShapes_mapString = make(map[string]*Seat3DShape)
+	for seat3dshape := range stage.Seat3DShapes {
+		stage.Seat3DShapes_mapString[seat3dshape.Name] = seat3dshape
+	}
+
+	stage.SeatAndLegs3DShapes_mapString = make(map[string]*SeatAndLegs3DShape)
+	for seatandlegs3dshape := range stage.SeatAndLegs3DShapes {
+		stage.SeatAndLegs3DShapes_mapString[seatandlegs3dshape.Name] = seatandlegs3dshape
+	}
+
+	stage.SeatBottomCurveShapes_mapString = make(map[string]*SeatBottomCurveShape)
+	for seatbottomcurveshape := range stage.SeatBottomCurveShapes {
+		stage.SeatBottomCurveShapes_mapString[seatbottomcurveshape.Name] = seatbottomcurveshape
+	}
+
+	stage.SeatTopCurveShapes_mapString = make(map[string]*SeatTopCurveShape)
+	for seattopcurveshape := range stage.SeatTopCurveShapes {
+		stage.SeatTopCurveShapes_mapString[seattopcurveshape.Name] = seattopcurveshape
 	}
 
 	stage.ShiftedBottomTopStartArcShapes_mapString = make(map[string]*ShiftedBottomTopStartArcShape)
@@ -38506,6 +46951,11 @@ func (stage *Stage) ResetMapStrings() {
 		stage.StackOfGrowthCurve2Ds_mapString[stackofgrowthcurve2d.Name] = stackofgrowthcurve2d
 	}
 
+	stage.StackOfGrowthCurve2DByGrowthVectors_mapString = make(map[string]*StackOfGrowthCurve2DByGrowthVector)
+	for stackofgrowthcurve2dbygrowthvector := range stage.StackOfGrowthCurve2DByGrowthVectors {
+		stage.StackOfGrowthCurve2DByGrowthVectors_mapString[stackofgrowthcurve2dbygrowthvector.Name] = stackofgrowthcurve2dbygrowthvector
+	}
+
 	stage.StackOfGrowthCurve2DRibbons_mapString = make(map[string]*StackOfGrowthCurve2DRibbon)
 	for stackofgrowthcurve2dribbon := range stage.StackOfGrowthCurve2DRibbons {
 		stage.StackOfGrowthCurve2DRibbons_mapString[stackofgrowthcurve2dribbon.Name] = stackofgrowthcurve2dribbon
@@ -38564,6 +47014,26 @@ func (stage *Stage) ResetMapStrings() {
 	stage.StartHalfwayArcShapeGrids_mapString = make(map[string]*StartHalfwayArcShapeGrid)
 	for starthalfwayarcshapegrid := range stage.StartHalfwayArcShapeGrids {
 		stage.StartHalfwayArcShapeGrids_mapString[starthalfwayarcshapegrid.Name] = starthalfwayarcshapegrid
+	}
+
+	stage.Stool2DDiagrams_mapString = make(map[string]*Stool2DDiagram)
+	for stool2ddiagram := range stage.Stool2DDiagrams {
+		stage.Stool2DDiagrams_mapString[stool2ddiagram.Name] = stool2ddiagram
+	}
+
+	stage.Stool3DDiagrams_mapString = make(map[string]*Stool3DDiagram)
+	for stool3ddiagram := range stage.Stool3DDiagrams {
+		stage.Stool3DDiagrams_mapString[stool3ddiagram.Name] = stool3ddiagram
+	}
+
+	stage.StoolAbstracts_mapString = make(map[string]*StoolAbstract)
+	for stoolabstract := range stage.StoolAbstracts {
+		stage.StoolAbstracts_mapString[stoolabstract.Name] = stoolabstract
+	}
+
+	stage.TiledFloor3DShapes_mapString = make(map[string]*TiledFloor3DShape)
+	for tiledfloor3dshape := range stage.TiledFloor3DShapes {
+		stage.TiledFloor3DShapes_mapString[tiledfloor3dshape.Name] = tiledfloor3dshape
 	}
 
 	stage.TopEndArcShapes_mapString = make(map[string]*TopEndArcShape)
@@ -38651,6 +47121,11 @@ func (stage *Stage) ResetMapStrings() {
 		stage.TopStartHalfwayArcShapeGrids_mapString[topstarthalfwayarcshapegrid.Name] = topstarthalfwayarcshapegrid
 	}
 
+	stage.Torus3DShapes_mapString = make(map[string]*Torus3DShape)
+	for torus3dshape := range stage.Torus3DShapes {
+		stage.Torus3DShapes_mapString[torus3dshape.Name] = torus3dshape
+	}
+
 	stage.TorusEdge3DShapes_mapString = make(map[string]*TorusEdge3DShape)
 	for torusedge3dshape := range stage.TorusEdge3DShapes {
 		stage.TorusEdge3DShapes_mapString[torusedge3dshape.Name] = torusedge3dshape
@@ -38659,6 +47134,21 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TorusStackShapes_mapString = make(map[string]*TorusStackShape)
 	for torusstackshape := range stage.TorusStackShapes {
 		stage.TorusStackShapes_mapString[torusstackshape.Name] = torusstackshape
+	}
+
+	stage.Vase2DDiagrams_mapString = make(map[string]*Vase2DDiagram)
+	for vase2ddiagram := range stage.Vase2DDiagrams {
+		stage.Vase2DDiagrams_mapString[vase2ddiagram.Name] = vase2ddiagram
+	}
+
+	stage.Vase3DDiagrams_mapString = make(map[string]*Vase3DDiagram)
+	for vase3ddiagram := range stage.Vase3DDiagrams {
+		stage.Vase3DDiagrams_mapString[vase3ddiagram.Name] = vase3ddiagram
+	}
+
+	stage.VaseAbstracts_mapString = make(map[string]*VaseAbstract)
+	for vaseabstract := range stage.VaseAbstracts {
+		stage.VaseAbstracts_mapString[vaseabstract.Name] = vaseabstract
 	}
 
 	stage.VerticalTorusStackShapes_mapString = make(map[string]*VerticalTorusStackShape)
