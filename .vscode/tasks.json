@@ -121,7 +121,23 @@
             "args": [
                 "run",
                 ".",
-                "edit"
+                "edit",
+                ""
+            ],
+            "group": "build"
+        },
+        {
+            "label": "dsm - barrgraph: go run . edit data/cubism and abstract art.go",
+            "type": "shell",
+            "options": {
+                "cwd": "dsm/barrgraph/go/cmd/barrgraph"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/cubism and abstract art.go"
             ],
             "group": "build"
         },
