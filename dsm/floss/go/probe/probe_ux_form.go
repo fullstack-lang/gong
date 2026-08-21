@@ -39,6 +39,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.diagramfloss, probe)
 			}
+		case *DiagramFlossEquationFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DiagramFlossEquation", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagramflossequation, probe)
+			}
 		case *EffortFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Effort", true)
@@ -56,6 +62,36 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "Library", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.library, probe)
+			}
+		case *NoteFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Note", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.note, probe)
+			}
+		case *NoteComplexityShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteComplexityShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.notecomplexityshape, probe)
+			}
+		case *NoteEffortShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteEffortShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteeffortshape, probe)
+			}
+		case *NotePerformanceShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NotePerformanceShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteperformanceshape, probe)
+			}
+		case *NoteShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteshape, probe)
 			}
 		case *PerformanceFormCallback:
 			if onSave.CreationMode {
@@ -155,6 +191,19 @@ func FillUpFormFromGongstructName(
 		diagramfloss := new(models.DiagramFloss)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagramfloss, formGroup, probe)
+	case "DiagramFlossEquation":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DiagramFlossEquation Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DiagramFlossEquationFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		diagramflossequation := new(models.DiagramFlossEquation)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(diagramflossequation, formGroup, probe)
 	case "Effort":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -194,6 +243,71 @@ func FillUpFormFromGongstructName(
 		library := new(models.Library)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(library, formGroup, probe)
+	case "Note":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Note Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		note := new(models.Note)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(note, formGroup, probe)
+	case "NoteComplexityShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteComplexityShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteComplexityShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		notecomplexityshape := new(models.NoteComplexityShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(notecomplexityshape, formGroup, probe)
+	case "NoteEffortShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteEffortShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteEffortShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		noteeffortshape := new(models.NoteEffortShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(noteeffortshape, formGroup, probe)
+	case "NotePerformanceShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NotePerformanceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NotePerformanceShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		noteperformanceshape := new(models.NotePerformanceShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(noteperformanceshape, formGroup, probe)
+	case "NoteShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		noteshape := new(models.NoteShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(noteshape, formGroup, probe)
 	case "Performance":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

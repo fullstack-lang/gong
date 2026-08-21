@@ -11,12 +11,27 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableComplexityShapes := make(map[*ComplexityShape]struct{})
 	reachablePerformanceShapes := make(map[*PerformanceShape]struct{})
 	reachableEffortShapes := make(map[*EffortShape]struct{})
+	reachableNoteShapes := make(map[*NoteShape]struct{})
+	reachableNoteComplexityShapes := make(map[*NoteComplexityShape]struct{})
+	reachableNotePerformanceShapes := make(map[*NotePerformanceShape]struct{})
+	reachableNoteEffortShapes := make(map[*NoteEffortShape]struct{})
 
 	for _, diagram := range GetGongstrucsSorted[*DiagramFloss](stager.stage) {
 		collectShapes(diagram.System_Shapes, reachableSystemShapes)
 		collectShapes(diagram.Complexity_Shapes, reachableComplexityShapes)
 		collectShapes(diagram.Performance_Shapes, reachablePerformanceShapes)
 		collectShapes(diagram.Effort_Shapes, reachableEffortShapes)
+		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
+		collectShapes(diagram.NoteComplexityShapes, reachableNoteComplexityShapes)
+		collectShapes(diagram.NotePerformanceShapes, reachableNotePerformanceShapes)
+		collectShapes(diagram.NoteEffortShapes, reachableNoteEffortShapes)
+	}
+
+	for _, diagram := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
+		collectShapes(diagram.NoteComplexityShapes, reachableNoteComplexityShapes)
+		collectShapes(diagram.NotePerformanceShapes, reachableNotePerformanceShapes)
+		collectShapes(diagram.NoteEffortShapes, reachableNoteEffortShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
@@ -24,6 +39,10 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableComplexityShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachablePerformanceShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableEffortShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteComplexityShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNotePerformanceShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteEffortShapes) || needCommit
 
 	return
 }
@@ -39,8 +58,10 @@ func unstageUnreachableOrphans[T PointerToGongstruct](stager *Stager, reachable 
 		if _, ok := reachable[object]; !ok {
 			object.UnstageVoid(stager.stage)
 			needCommit = true
-			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape object \"%s\" of type \"%s\"",
-				object.GetName(), object.GongGetGongstructName()))
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape object \"%s\" of type \"%s\"",
+					object.GetName(), object.GongGetGongstructName()))
+			}
 		}
 	}
 	return

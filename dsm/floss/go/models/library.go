@@ -15,6 +15,8 @@ type Library struct {
 	RootPerformances    []*Performance
 	RootEfforts         []*Effort
 	RootCompareAnalysis []*CompareAnalysis
+	RootNotes           []*Note
+
 
 	/*
 	 technical fields further
@@ -51,7 +53,10 @@ type Library struct {
 	IsCompareAnalysisNodeExpanded      bool
 	CompareAnalysisWhoseNodeIsExpanded []*CompareAnalysis
 
+	IsNotesNodeExpanded      bool
+	NotesWhoseNodeIsExpanded []*Note
 
 	// temporary persistance of the library expand status.
+
 	IsExpandedTmp bool
 }

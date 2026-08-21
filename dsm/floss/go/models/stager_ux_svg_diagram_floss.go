@@ -2,34 +2,40 @@ package models
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 func (stager *Stager) svg() {
-	log.Println("svg")
 	stager.systemDiagramSvgStage.Reset()
 
 	var diagramFloss *DiagramFloss
-	{
-		for diagramsystem_ := range *GetGongstructInstancesSet[DiagramFloss](stager.stage) {
-			if diagramsystem_.IsChecked {
-				diagramFloss = diagramsystem_
-			}
+	for diagramsystem_ := range *GetGongstructInstancesSet[DiagramFloss](stager.stage) {
+		if diagramsystem_.IsChecked {
+			diagramFloss = diagramsystem_
+			break
 		}
 	}
 
-	if diagramFloss == nil {
-		stager.systemDiagramSvgStage.Commit()
-		return
+	var diagramFlossEquation *DiagramFlossEquation
+	for diagram_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+		if diagram_.IsChecked {
+			diagramFlossEquation = diagram_
+			break
+		}
 	}
-	svgObject := stager.generateSvgObject(diagramFloss)
 
-	svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
-	stager.svgObjectDiagramFloss = svgObject
-	stager.svgObjectDiagramFloss.OnUpdate = stager.onUpdateSVG
+	if diagramFloss != nil {
+		svgObject := stager.generateSvgObject(diagramFloss)
+		svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
+		stager.svgObjectDiagramFloss = svgObject
+		stager.svgObjectDiagramFloss.OnUpdate = stager.onUpdateSVG
+	} else if diagramFlossEquation != nil {
+		svgObject := stager.generateSvgObjectFlossEquation(diagramFlossEquation)
+		svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
+		stager.svgObjectDiagramFloss = svgObject
+	}
 
 	stager.systemDiagramSvgStage.Commit()
 }
@@ -54,9 +60,14 @@ func (stager *Stager) generateSvgObject(diagramFloss *DiagramFloss) *svg.SVG {
 	stager.drawComplexityShapes(diagramFloss, layer)
 	stager.drawPerformanceShapes(diagramFloss, layer)
 	stager.drawEffortShapes(diagramFloss, layer)
+	stager.drawNoteShapes(diagramFloss, layer)
+	stager.drawNoteComplexityShapes(diagramFloss, layer)
+	stager.drawNotePerformanceShapes(diagramFloss, layer)
+	stager.drawNoteEffortShapes(diagramFloss, layer)
 
 	return svgObject
 }
+
 
 func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
 	diagramFloss.map_System_Rect = make(map[*System]*svg.Rect)
@@ -65,31 +76,48 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 			continue
 		}
 
-		rect := svgRect(
-			stager,
-			diagramFloss,
-			systemShape,
-			layer)
-		rect.RX = 8
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
 
-		if len(rect.RectAnchoredTexts) > 0 {
-			title := rect.RectAnchoredTexts[0]
-			title.RectAnchorType = svg.RECT_TOP
-			title.Y_Offset = +30
-			title.FontWeight = "600"
-			title.FontSize = "18px"
-			title.Color = "#263238"
-			title.Stroke = "#263238"
-			title.StrokeWidth = 0
-			title.StrokeOpacity = 1.0
-			title.FillOpacity = 1.0
+		rect.Name = systemShape.GetName()
+		rect.X = systemShape.GetX()
+		rect.Y = systemShape.GetY()
+		rect.Width = systemShape.GetWidth()
+		rect.Height = systemShape.GetHeight()
 
+		rect.Color = "#FAFAFB"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#B0BEC5"
+		rect.StrokeWidth = 2.0
+		rect.StrokeOpacity = 1.0
+
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
+
+		title := new(svg.RectAnchoredText)
+		title.Name = systemShape.System.Name
+		title.Color = "black"
+		title.FillOpacity = 1.0
+		title.Stroke = "black"
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 1.0
+		title.FontSize = "18px"
+		title.FontWeight = "bold"
+		title.RectAnchorType = svg.RECT_TOP
+		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		title.Y_Offset = 28
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+
+
+		if systemShape.System != nil {
+			content := systemShape.System.Name
 			root := stager.getRootLibrary()
 			nbPixPerChar := root.NbPixPerCharacter
 			if nbPixPerChar <= 0 {
 				nbPixPerChar = 8.0
 			}
-			content := systemShape.System.Name
 			if diagramFloss.IsShowPrefix {
 				content = systemShape.System.ComputedPrefix + " " + content
 			}
@@ -98,12 +126,6 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 			}
 			title.Content = content
 		}
-
-		rect.Color = "#FAFAFB"
-		rect.FillOpacity = 1.0
-		rect.Stroke = "#B0BEC5"
-		rect.StrokeWidth = 2.0
-		rect.StrokeOpacity = 1.0
 
 		rect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
@@ -338,3 +360,140 @@ func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.La
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 	}
 }
+
+func (stager *Stager) drawNoteShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	diagramFloss.map_Note_Rect = make(map[*Note]*svg.Rect)
+	for _, noteShape := range diagramFloss.Note_Shapes {
+		if noteShape.IsHidden || noteShape.Note == nil {
+			continue
+		}
+
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+		diagramFloss.map_Note_Rect[noteShape.Note] = rect
+
+		rect.Name = noteShape.GetName()
+		rect.X = noteShape.GetX()
+		rect.Y = noteShape.GetY()
+		rect.Width = noteShape.GetWidth()
+		rect.Height = noteShape.GetHeight()
+
+		rect.Color = "#FFF9C4"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#FBC02D"
+		rect.StrokeWidth = 1.5
+		rect.StrokeOpacity = 1.0
+		rect.RX = 2
+
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
+
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(noteShape.Note, GetPointerToGongstructName[*Note]())
+		}
+		rect.OnMove = onMoveRectElement(stager, noteShape, true)
+		rect.OnResize = onResizeRectElement(stager, noteShape)
+
+		title := new(svg.RectAnchoredText)
+		title.Name = noteShape.Note.Name
+		content := "📝 " + noteShape.Note.Name
+		if noteShape.Note.Description != "" {
+			content += "\n" + noteShape.Note.Description
+		}
+
+		root := stager.getRootLibrary()
+		nbPixPerChar := root.NbPixPerCharacter
+		if nbPixPerChar <= 0 {
+			nbPixPerChar = 8.0
+		}
+		if rect.Width > 0 {
+			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width-20, nbPixPerChar, 14.0, 16.0)
+		}
+
+		title.Content = content
+		title.Color = "#5D4037"
+		title.FillOpacity = 1.0
+		title.Stroke = "#5D4037"
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 1.0
+		title.FontSize = "13px"
+		title.FontStyle = "italic"
+		title.FontWeight = "normal"
+		title.RectAnchorType = svg.RECT_TOP_LEFT
+		title.TextAnchorType = svg.TEXT_ANCHOR_START
+		title.X_Offset = 10
+		title.Y_Offset = 18
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+	}
+}
+
+func (stager *Stager) drawNoteComplexityShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	for _, shape := range diagramFloss.NoteComplexityShapes {
+		if shape.IsHidden || shape.Note == nil || shape.Complexity == nil {
+			continue
+		}
+		startRect := diagramFloss.map_Note_Rect[shape.Note]
+		endRect := diagramFloss.map_Complexity_Rect[shape.Complexity]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := new(svg.Link)
+		layer.Links = append(layer.Links, link)
+		link.Start = startRect
+		link.End = endRect
+		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+		link.Stroke = "#FBC02D"
+		link.StrokeWidth = 1.5
+		link.StrokeDashArray = "4,4"
+		link.StrokeOpacity = 0.9
+	}
+}
+
+func (stager *Stager) drawNotePerformanceShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	for _, shape := range diagramFloss.NotePerformanceShapes {
+		if shape.IsHidden || shape.Note == nil || shape.Performance == nil {
+			continue
+		}
+		startRect := diagramFloss.map_Note_Rect[shape.Note]
+		endRect := diagramFloss.map_Performance_Rect[shape.Performance]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := new(svg.Link)
+		layer.Links = append(layer.Links, link)
+		link.Start = startRect
+		link.End = endRect
+		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+		link.Stroke = "#2E7D32"
+		link.StrokeWidth = 1.5
+		link.StrokeDashArray = "4,4"
+		link.StrokeOpacity = 0.9
+	}
+}
+
+func (stager *Stager) drawNoteEffortShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	for _, shape := range diagramFloss.NoteEffortShapes {
+		if shape.IsHidden || shape.Note == nil || shape.Effort == nil {
+			continue
+		}
+		startRect := diagramFloss.map_Note_Rect[shape.Note]
+		endRect := diagramFloss.map_Effort_Rect[shape.Effort]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := new(svg.Link)
+		layer.Links = append(layer.Links, link)
+		link.Start = startRect
+		link.End = endRect
+		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+		link.Stroke = "#1976D2"
+		link.StrokeWidth = 1.5
+		link.StrokeDashArray = "4,4"
+		link.StrokeOpacity = 0.9
+	}
+}
+

@@ -34,6 +34,9 @@ func (stager *Stager) treeDiagramFloss(
 			for diagramFloss_ := range *GetGongstructInstancesSet[DiagramFloss](stager.stage) {
 				diagramFloss_.IsChecked = false
 			}
+			for diagramEquation_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+				diagramEquation_.IsChecked = false
+			}
 
 			diagramFloss.IsChecked = true
 			stager.stage.Commit()
@@ -44,6 +47,7 @@ func (stager *Stager) treeDiagramFloss(
 			return
 		}
 	}
+
 	node.OnClick = onNodeClicked(stager, diagramFloss)
 	node.OnNameChange = stager.onNameChange(diagramFloss)
 	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, diagramFloss, &system.DiagramFlossWhoseNodeIsExpanded)
@@ -163,4 +167,60 @@ func (stager *Stager) treeDiagramFloss(
 		}
 		addCreateItemButton(stager, confEffort)
 	}
+
+	//
+	// Notes
+	//
+	{
+		notesNode := &tree.Node{
+			Name:            "Notes",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramFloss.IsNotesNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, notesNode)
+		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramFloss.IsNotesNodeExpanded)
+
+		library := system.GetOwningLibrary()
+		if library == nil {
+			library = stager.getRootLibrary()
+		}
+
+		if library != nil {
+			for _, note := range library.RootNotes {
+				stager.treeNoteWithinDiagramFloss(diagramFloss, note, notesNode)
+			}
+
+			confNote := ItemButtonConfiguration[
+				Note, *Note,
+				Library, *Library,
+			]{
+				parentNode:                         notesNode,
+				sliceForNewAddedItem:               &library.RootNotes,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagramFloss.IsNotesNodeExpanded,
+				parentElement:                      library,
+			}
+			adder := addCreateItemButton(stager, confNote)
+			adder.OnBeforeCommit = func() {
+				newNote := adder.createdItem
+				if newNote != nil {
+					noteShape := (&NoteShape{
+						Name: newNote.GetName() + " shape",
+						Note: newNote,
+						RectShape: RectShape{
+							X:      100,
+							Y:      100 + float64(len(diagramFloss.Note_Shapes))*60,
+							Width:  diagramFloss.GetDefaultBoxWidth(),
+							Height: diagramFloss.GetDefaultBoxHeigth(),
+						},
+					}).Stage(stager.stage)
+					diagramFloss.Note_Shapes = append(diagramFloss.Note_Shapes, noteShape)
+				}
+			}
+		}
+	}
 }
+
+

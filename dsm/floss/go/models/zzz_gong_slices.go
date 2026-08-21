@@ -22,6 +22,20 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct CompareAnalysis
 	// insertion point per field
+	stage.CompareAnalysis_DiagramFlossEquations_reverseMap = make(map[*DiagramFlossEquation]*CompareAnalysis)
+	for compareanalysis := range stage.CompareAnalysiss {
+		_ = compareanalysis
+		for _, _diagramflossequation := range compareanalysis.DiagramFlossEquations {
+			stage.CompareAnalysis_DiagramFlossEquations_reverseMap[_diagramflossequation] = compareanalysis
+		}
+	}
+	stage.CompareAnalysis_DiagramFlossEquationsWhoseNodeIsExpanded_reverseMap = make(map[*DiagramFlossEquation]*CompareAnalysis)
+	for compareanalysis := range stage.CompareAnalysiss {
+		_ = compareanalysis
+		for _, _diagramflossequation := range compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded {
+			stage.CompareAnalysis_DiagramFlossEquationsWhoseNodeIsExpanded_reverseMap[_diagramflossequation] = compareanalysis
+		}
+	}
 
 	// Compute reverse map for named struct Complexity
 	// insertion point per field
@@ -87,6 +101,79 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramFloss_EffortsWhoseNodeIsExpanded_reverseMap[_effort] = diagramfloss
 		}
 	}
+	stage.DiagramFloss_Note_Shapes_reverseMap = make(map[*NoteShape]*DiagramFloss)
+	for diagramfloss := range stage.DiagramFlosss {
+		_ = diagramfloss
+		for _, _noteshape := range diagramfloss.Note_Shapes {
+			stage.DiagramFloss_Note_Shapes_reverseMap[_noteshape] = diagramfloss
+		}
+	}
+	stage.DiagramFloss_NoteComplexityShapes_reverseMap = make(map[*NoteComplexityShape]*DiagramFloss)
+	for diagramfloss := range stage.DiagramFlosss {
+		_ = diagramfloss
+		for _, _notecomplexityshape := range diagramfloss.NoteComplexityShapes {
+			stage.DiagramFloss_NoteComplexityShapes_reverseMap[_notecomplexityshape] = diagramfloss
+		}
+	}
+	stage.DiagramFloss_NotePerformanceShapes_reverseMap = make(map[*NotePerformanceShape]*DiagramFloss)
+	for diagramfloss := range stage.DiagramFlosss {
+		_ = diagramfloss
+		for _, _noteperformanceshape := range diagramfloss.NotePerformanceShapes {
+			stage.DiagramFloss_NotePerformanceShapes_reverseMap[_noteperformanceshape] = diagramfloss
+		}
+	}
+	stage.DiagramFloss_NoteEffortShapes_reverseMap = make(map[*NoteEffortShape]*DiagramFloss)
+	for diagramfloss := range stage.DiagramFlosss {
+		_ = diagramfloss
+		for _, _noteeffortshape := range diagramfloss.NoteEffortShapes {
+			stage.DiagramFloss_NoteEffortShapes_reverseMap[_noteeffortshape] = diagramfloss
+		}
+	}
+	stage.DiagramFloss_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*DiagramFloss)
+	for diagramfloss := range stage.DiagramFlosss {
+		_ = diagramfloss
+		for _, _note := range diagramfloss.NotesWhoseNodeIsExpanded {
+			stage.DiagramFloss_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagramfloss
+		}
+	}
+
+	// Compute reverse map for named struct DiagramFlossEquation
+	// insertion point per field
+	stage.DiagramFlossEquation_Note_Shapes_reverseMap = make(map[*NoteShape]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _noteshape := range diagramflossequation.Note_Shapes {
+			stage.DiagramFlossEquation_Note_Shapes_reverseMap[_noteshape] = diagramflossequation
+		}
+	}
+	stage.DiagramFlossEquation_NoteComplexityShapes_reverseMap = make(map[*NoteComplexityShape]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _notecomplexityshape := range diagramflossequation.NoteComplexityShapes {
+			stage.DiagramFlossEquation_NoteComplexityShapes_reverseMap[_notecomplexityshape] = diagramflossequation
+		}
+	}
+	stage.DiagramFlossEquation_NotePerformanceShapes_reverseMap = make(map[*NotePerformanceShape]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _noteperformanceshape := range diagramflossequation.NotePerformanceShapes {
+			stage.DiagramFlossEquation_NotePerformanceShapes_reverseMap[_noteperformanceshape] = diagramflossequation
+		}
+	}
+	stage.DiagramFlossEquation_NoteEffortShapes_reverseMap = make(map[*NoteEffortShape]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _noteeffortshape := range diagramflossequation.NoteEffortShapes {
+			stage.DiagramFlossEquation_NoteEffortShapes_reverseMap[_noteeffortshape] = diagramflossequation
+		}
+	}
+	stage.DiagramFlossEquation_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*DiagramFlossEquation)
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		_ = diagramflossequation
+		for _, _note := range diagramflossequation.NotesWhoseNodeIsExpanded {
+			stage.DiagramFlossEquation_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagramflossequation
+		}
+	}
 
 	// Compute reverse map for named struct Effort
 	// insertion point per field
@@ -138,6 +225,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_RootCompareAnalysis_reverseMap[_compareanalysis] = library
 		}
 	}
+	stage.Library_RootNotes_reverseMap = make(map[*Note]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _note := range library.RootNotes {
+			stage.Library_RootNotes_reverseMap[_note] = library
+		}
+	}
 	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -180,6 +274,49 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_CompareAnalysisWhoseNodeIsExpanded_reverseMap[_compareanalysis] = library
 		}
 	}
+	stage.Library_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _note := range library.NotesWhoseNodeIsExpanded {
+			stage.Library_NotesWhoseNodeIsExpanded_reverseMap[_note] = library
+		}
+	}
+
+	// Compute reverse map for named struct Note
+	// insertion point per field
+	stage.Note_Complexities_reverseMap = make(map[*Complexity]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _complexity := range note.Complexities {
+			stage.Note_Complexities_reverseMap[_complexity] = note
+		}
+	}
+	stage.Note_Performances_reverseMap = make(map[*Performance]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _performance := range note.Performances {
+			stage.Note_Performances_reverseMap[_performance] = note
+		}
+	}
+	stage.Note_Efforts_reverseMap = make(map[*Effort]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _effort := range note.Efforts {
+			stage.Note_Efforts_reverseMap[_effort] = note
+		}
+	}
+
+	// Compute reverse map for named struct NoteComplexityShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NoteEffortShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NotePerformanceShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NoteShape
+	// insertion point per field
 
 	// Compute reverse map for named struct Performance
 	// insertion point per field
@@ -277,6 +414,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DiagramFlossEquations {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Efforts {
 		res = append(res, instance)
 	}
@@ -286,6 +427,26 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Librarys {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Notes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteComplexityShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteEffortShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NotePerformanceShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteShapes {
 		res = append(res, instance)
 	}
 
@@ -333,6 +494,12 @@ func (diagramfloss *DiagramFloss) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (diagramflossequation *DiagramFlossEquation) GongCopy() GongstructIF {
+	newInstance := new(DiagramFlossEquation)
+	diagramflossequation.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (effort *Effort) GongCopy() GongstructIF {
 	newInstance := new(Effort)
 	effort.CopyBasicFields(newInstance)
@@ -348,6 +515,36 @@ func (effortshape *EffortShape) GongCopy() GongstructIF {
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
 	library.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (note *Note) GongCopy() GongstructIF {
+	newInstance := new(Note)
+	note.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongCopy() GongstructIF {
+	newInstance := new(NoteComplexityShape)
+	notecomplexityshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (noteeffortshape *NoteEffortShape) GongCopy() GongstructIF {
+	newInstance := new(NoteEffortShape)
+	noteeffortshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongCopy() GongstructIF {
+	newInstance := new(NotePerformanceShape)
+	noteperformanceshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (noteshape *NoteShape) GongCopy() GongstructIF {
+	newInstance := new(NoteShape)
+	noteshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -416,6 +613,16 @@ func (diagramfloss *DiagramFloss) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
+func (diagramflossequation *DiagramFlossEquation) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(diagramflossequation).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagramflossequation), uint64(GetOrderPointerGongstruct(stage, diagramflossequation)))
+	return
+}
+
 func (effort *Effort) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(effort).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -443,6 +650,56 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(GetOrderPointerGongstruct(stage, library)))
+	return
+}
+
+func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(note).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note), uint64(GetOrderPointerGongstruct(stage, note)))
+	return
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(notecomplexityshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notecomplexityshape), uint64(GetOrderPointerGongstruct(stage, notecomplexityshape)))
+	return
+}
+
+func (noteeffortshape *NoteEffortShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(noteeffortshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteeffortshape), uint64(GetOrderPointerGongstruct(stage, noteeffortshape)))
+	return
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(noteperformanceshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteperformanceshape), uint64(GetOrderPointerGongstruct(stage, noteperformanceshape)))
+	return
+}
+
+func (noteshape *NoteShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(noteshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteshape), uint64(GetOrderPointerGongstruct(stage, noteshape)))
 	return
 }
 
@@ -724,6 +981,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(diagramflosss_newInstances)
 	lenDeletedInstances += len(diagramflosss_deletedInstances)
+	var diagramflossequations_newInstances []*DiagramFlossEquation
+	var diagramflossequations_deletedInstances []*DiagramFlossEquation
+
+	// parse all staged instances and check if they have a reference
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		if ref, ok := stage.DiagramFlossEquations_reference[diagramflossequation]; !ok {
+			diagramflossequations_newInstances = append(diagramflossequations_newInstances, diagramflossequation)
+			newInstancesSlice = append(newInstancesSlice, diagramflossequation.GongMarshallIdentifier(stage))
+			if stage.DiagramFlossEquations_referenceOrder == nil {
+				stage.DiagramFlossEquations_referenceOrder = make(map[*DiagramFlossEquation]uint)
+			}
+			stage.DiagramFlossEquations_referenceOrder[diagramflossequation] = stage.DiagramFlossEquation_stagedOrder[diagramflossequation]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagramflossequation.GongMarshallUnstaging(stage))
+			// delete(stage.DiagramFlossEquations_referenceOrder, diagramflossequation)
+			fieldInitializers, pointersInitializations := diagramflossequation.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DiagramFlossEquation_stagedOrder[ref] = stage.DiagramFlossEquation_stagedOrder[diagramflossequation]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := diagramflossequation.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, diagramflossequation)
+			// delete(stage.DiagramFlossEquation_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if diagramflossequation.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagramflossequation.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DiagramFlossEquations_reference {
+		instance := stage.DiagramFlossEquations_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramFlossEquations[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			diagramflossequations_deletedInstances = append(diagramflossequations_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(diagramflossequations_newInstances)
+	lenDeletedInstances += len(diagramflossequations_deletedInstances)
 	var efforts_newInstances []*Effort
 	var efforts_deletedInstances []*Effort
 
@@ -889,6 +1201,281 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var notes_newInstances []*Note
+	var notes_deletedInstances []*Note
+
+	// parse all staged instances and check if they have a reference
+	for note := range stage.Notes {
+		if ref, ok := stage.Notes_reference[note]; !ok {
+			notes_newInstances = append(notes_newInstances, note)
+			newInstancesSlice = append(newInstancesSlice, note.GongMarshallIdentifier(stage))
+			if stage.Notes_referenceOrder == nil {
+				stage.Notes_referenceOrder = make(map[*Note]uint)
+			}
+			stage.Notes_referenceOrder[note] = stage.Note_stagedOrder[note]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, note.GongMarshallUnstaging(stage))
+			// delete(stage.Notes_referenceOrder, note)
+			fieldInitializers, pointersInitializations := note.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Note_stagedOrder[ref] = stage.Note_stagedOrder[note]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := note.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, note)
+			// delete(stage.Note_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if note.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Notes_reference {
+		instance := stage.Notes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Notes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notes_deletedInstances = append(notes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(notes_newInstances)
+	lenDeletedInstances += len(notes_deletedInstances)
+	var notecomplexityshapes_newInstances []*NoteComplexityShape
+	var notecomplexityshapes_deletedInstances []*NoteComplexityShape
+
+	// parse all staged instances and check if they have a reference
+	for notecomplexityshape := range stage.NoteComplexityShapes {
+		if ref, ok := stage.NoteComplexityShapes_reference[notecomplexityshape]; !ok {
+			notecomplexityshapes_newInstances = append(notecomplexityshapes_newInstances, notecomplexityshape)
+			newInstancesSlice = append(newInstancesSlice, notecomplexityshape.GongMarshallIdentifier(stage))
+			if stage.NoteComplexityShapes_referenceOrder == nil {
+				stage.NoteComplexityShapes_referenceOrder = make(map[*NoteComplexityShape]uint)
+			}
+			stage.NoteComplexityShapes_referenceOrder[notecomplexityshape] = stage.NoteComplexityShape_stagedOrder[notecomplexityshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, notecomplexityshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteComplexityShapes_referenceOrder, notecomplexityshape)
+			fieldInitializers, pointersInitializations := notecomplexityshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteComplexityShape_stagedOrder[ref] = stage.NoteComplexityShape_stagedOrder[notecomplexityshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := notecomplexityshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, notecomplexityshape)
+			// delete(stage.NoteComplexityShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if notecomplexityshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", notecomplexityshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteComplexityShapes_reference {
+		instance := stage.NoteComplexityShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteComplexityShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notecomplexityshapes_deletedInstances = append(notecomplexityshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(notecomplexityshapes_newInstances)
+	lenDeletedInstances += len(notecomplexityshapes_deletedInstances)
+	var noteeffortshapes_newInstances []*NoteEffortShape
+	var noteeffortshapes_deletedInstances []*NoteEffortShape
+
+	// parse all staged instances and check if they have a reference
+	for noteeffortshape := range stage.NoteEffortShapes {
+		if ref, ok := stage.NoteEffortShapes_reference[noteeffortshape]; !ok {
+			noteeffortshapes_newInstances = append(noteeffortshapes_newInstances, noteeffortshape)
+			newInstancesSlice = append(newInstancesSlice, noteeffortshape.GongMarshallIdentifier(stage))
+			if stage.NoteEffortShapes_referenceOrder == nil {
+				stage.NoteEffortShapes_referenceOrder = make(map[*NoteEffortShape]uint)
+			}
+			stage.NoteEffortShapes_referenceOrder[noteeffortshape] = stage.NoteEffortShape_stagedOrder[noteeffortshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, noteeffortshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteEffortShapes_referenceOrder, noteeffortshape)
+			fieldInitializers, pointersInitializations := noteeffortshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteEffortShape_stagedOrder[ref] = stage.NoteEffortShape_stagedOrder[noteeffortshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := noteeffortshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, noteeffortshape)
+			// delete(stage.NoteEffortShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if noteeffortshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteeffortshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteEffortShapes_reference {
+		instance := stage.NoteEffortShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteEffortShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			noteeffortshapes_deletedInstances = append(noteeffortshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(noteeffortshapes_newInstances)
+	lenDeletedInstances += len(noteeffortshapes_deletedInstances)
+	var noteperformanceshapes_newInstances []*NotePerformanceShape
+	var noteperformanceshapes_deletedInstances []*NotePerformanceShape
+
+	// parse all staged instances and check if they have a reference
+	for noteperformanceshape := range stage.NotePerformanceShapes {
+		if ref, ok := stage.NotePerformanceShapes_reference[noteperformanceshape]; !ok {
+			noteperformanceshapes_newInstances = append(noteperformanceshapes_newInstances, noteperformanceshape)
+			newInstancesSlice = append(newInstancesSlice, noteperformanceshape.GongMarshallIdentifier(stage))
+			if stage.NotePerformanceShapes_referenceOrder == nil {
+				stage.NotePerformanceShapes_referenceOrder = make(map[*NotePerformanceShape]uint)
+			}
+			stage.NotePerformanceShapes_referenceOrder[noteperformanceshape] = stage.NotePerformanceShape_stagedOrder[noteperformanceshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, noteperformanceshape.GongMarshallUnstaging(stage))
+			// delete(stage.NotePerformanceShapes_referenceOrder, noteperformanceshape)
+			fieldInitializers, pointersInitializations := noteperformanceshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NotePerformanceShape_stagedOrder[ref] = stage.NotePerformanceShape_stagedOrder[noteperformanceshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := noteperformanceshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, noteperformanceshape)
+			// delete(stage.NotePerformanceShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if noteperformanceshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteperformanceshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NotePerformanceShapes_reference {
+		instance := stage.NotePerformanceShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NotePerformanceShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			noteperformanceshapes_deletedInstances = append(noteperformanceshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(noteperformanceshapes_newInstances)
+	lenDeletedInstances += len(noteperformanceshapes_deletedInstances)
+	var noteshapes_newInstances []*NoteShape
+	var noteshapes_deletedInstances []*NoteShape
+
+	// parse all staged instances and check if they have a reference
+	for noteshape := range stage.NoteShapes {
+		if ref, ok := stage.NoteShapes_reference[noteshape]; !ok {
+			noteshapes_newInstances = append(noteshapes_newInstances, noteshape)
+			newInstancesSlice = append(newInstancesSlice, noteshape.GongMarshallIdentifier(stage))
+			if stage.NoteShapes_referenceOrder == nil {
+				stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint)
+			}
+			stage.NoteShapes_referenceOrder[noteshape] = stage.NoteShape_stagedOrder[noteshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, noteshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteShapes_referenceOrder, noteshape)
+			fieldInitializers, pointersInitializations := noteshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteShape_stagedOrder[ref] = stage.NoteShape_stagedOrder[noteshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := noteshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, noteshape)
+			// delete(stage.NoteShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if noteshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteShapes_reference {
+		instance := stage.NoteShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			noteshapes_deletedInstances = append(noteshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(noteshapes_newInstances)
+	lenDeletedInstances += len(noteshapes_deletedInstances)
 	var performances_newInstances []*Performance
 	var performances_deletedInstances []*Performance
 
@@ -1184,6 +1771,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.DiagramFlosss_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DiagramFlossEquations_reference = make(map[*DiagramFlossEquation]*DiagramFlossEquation)
+	stage.DiagramFlossEquations_referenceOrder = make(map[*DiagramFlossEquation]uint) // diff Unstage needs the reference order
+	stage.DiagramFlossEquations_instance = make(map[*DiagramFlossEquation]*DiagramFlossEquation)
+	for instance := range stage.DiagramFlossEquations {
+		_copy := instance.GongCopy().(*DiagramFlossEquation)
+		stage.DiagramFlossEquations_reference[instance] = _copy
+		stage.DiagramFlossEquations_instance[_copy] = instance
+		stage.DiagramFlossEquations_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Efforts_reference = make(map[*Effort]*Effort)
 	stage.Efforts_referenceOrder = make(map[*Effort]uint) // diff Unstage needs the reference order
 	stage.Efforts_instance = make(map[*Effort]*Effort)
@@ -1212,6 +1809,56 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Librarys_reference[instance] = _copy
 		stage.Librarys_instance[_copy] = instance
 		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Notes_reference = make(map[*Note]*Note)
+	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
+	stage.Notes_instance = make(map[*Note]*Note)
+	for instance := range stage.Notes {
+		_copy := instance.GongCopy().(*Note)
+		stage.Notes_reference[instance] = _copy
+		stage.Notes_instance[_copy] = instance
+		stage.Notes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NoteComplexityShapes_reference = make(map[*NoteComplexityShape]*NoteComplexityShape)
+	stage.NoteComplexityShapes_referenceOrder = make(map[*NoteComplexityShape]uint) // diff Unstage needs the reference order
+	stage.NoteComplexityShapes_instance = make(map[*NoteComplexityShape]*NoteComplexityShape)
+	for instance := range stage.NoteComplexityShapes {
+		_copy := instance.GongCopy().(*NoteComplexityShape)
+		stage.NoteComplexityShapes_reference[instance] = _copy
+		stage.NoteComplexityShapes_instance[_copy] = instance
+		stage.NoteComplexityShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NoteEffortShapes_reference = make(map[*NoteEffortShape]*NoteEffortShape)
+	stage.NoteEffortShapes_referenceOrder = make(map[*NoteEffortShape]uint) // diff Unstage needs the reference order
+	stage.NoteEffortShapes_instance = make(map[*NoteEffortShape]*NoteEffortShape)
+	for instance := range stage.NoteEffortShapes {
+		_copy := instance.GongCopy().(*NoteEffortShape)
+		stage.NoteEffortShapes_reference[instance] = _copy
+		stage.NoteEffortShapes_instance[_copy] = instance
+		stage.NoteEffortShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NotePerformanceShapes_reference = make(map[*NotePerformanceShape]*NotePerformanceShape)
+	stage.NotePerformanceShapes_referenceOrder = make(map[*NotePerformanceShape]uint) // diff Unstage needs the reference order
+	stage.NotePerformanceShapes_instance = make(map[*NotePerformanceShape]*NotePerformanceShape)
+	for instance := range stage.NotePerformanceShapes {
+		_copy := instance.GongCopy().(*NotePerformanceShape)
+		stage.NotePerformanceShapes_reference[instance] = _copy
+		stage.NotePerformanceShapes_instance[_copy] = instance
+		stage.NotePerformanceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
+	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint) // diff Unstage needs the reference order
+	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
+	for instance := range stage.NoteShapes {
+		_copy := instance.GongCopy().(*NoteShape)
+		stage.NoteShapes_reference[instance] = _copy
+		stage.NoteShapes_instance[_copy] = instance
+		stage.NoteShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Performances_reference = make(map[*Performance]*Performance)
@@ -1275,6 +1922,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.DiagramFlossEquations {
+		reference := stage.DiagramFlossEquations_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Efforts {
 		reference := stage.Efforts_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1287,6 +1939,31 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Librarys {
 		reference := stage.Librarys_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Notes {
+		reference := stage.Notes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteComplexityShapes {
+		reference := stage.NoteComplexityShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteEffortShapes {
+		reference := stage.NoteEffortShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NotePerformanceShapes {
+		reference := stage.NotePerformanceShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteShapes {
+		reference := stage.NoteShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1368,6 +2045,18 @@ func (diagramfloss *DiagramFloss) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (diagramflossequation *DiagramFlossEquation) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiagramFlossEquation_stagedOrder[diagramflossequation]; ok {
+		return order
+	}
+	if order, ok := stage.DiagramFlossEquations_referenceOrder[diagramflossequation]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DiagramFlossEquation was not staged and does not have a reference order", diagramflossequation)
+		return 0
+	}
+}
+
 func (effort *Effort) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Effort_stagedOrder[effort]; ok {
 		return order
@@ -1400,6 +2089,66 @@ func (library *Library) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
+		return 0
+	}
+}
+
+func (note *Note) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Note_stagedOrder[note]; ok {
+		return order
+	}
+	if order, ok := stage.Notes_referenceOrder[note]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Note was not staged and does not have a reference order", note)
+		return 0
+	}
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteComplexityShape_stagedOrder[notecomplexityshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteComplexityShapes_referenceOrder[notecomplexityshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteComplexityShape was not staged and does not have a reference order", notecomplexityshape)
+		return 0
+	}
+}
+
+func (noteeffortshape *NoteEffortShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteEffortShape_stagedOrder[noteeffortshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteEffortShapes_referenceOrder[noteeffortshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteEffortShape was not staged and does not have a reference order", noteeffortshape)
+		return 0
+	}
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NotePerformanceShape_stagedOrder[noteperformanceshape]; ok {
+		return order
+	}
+	if order, ok := stage.NotePerformanceShapes_referenceOrder[noteperformanceshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NotePerformanceShape was not staged and does not have a reference order", noteperformanceshape)
+		return 0
+	}
+}
+
+func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteShape_stagedOrder[noteshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteShapes_referenceOrder[noteshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteShape was not staged and does not have a reference order", noteshape)
 		return 0
 	}
 }
@@ -1493,6 +2242,15 @@ func (diagramfloss *DiagramFloss) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", diagramfloss.GongGetGongstructName(), diagramfloss.GongGetOrder(stage))
 }
 
+func (diagramflossequation *DiagramFlossEquation) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramflossequation.GongGetGongstructName(), diagramflossequation.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (diagramflossequation *DiagramFlossEquation) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramflossequation.GongGetGongstructName(), diagramflossequation.GongGetOrder(stage))
+}
+
 func (effort *Effort) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", effort.GongGetGongstructName(), effort.GongGetOrder(stage))
 }
@@ -1518,6 +2276,51 @@ func (library *Library) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
+func (note *Note) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notecomplexityshape.GongGetGongstructName(), notecomplexityshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (notecomplexityshape *NoteComplexityShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notecomplexityshape.GongGetGongstructName(), notecomplexityshape.GongGetOrder(stage))
+}
+
+func (noteeffortshape *NoteEffortShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteeffortshape.GongGetGongstructName(), noteeffortshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (noteeffortshape *NoteEffortShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteeffortshape.GongGetGongstructName(), noteeffortshape.GongGetOrder(stage))
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteperformanceshape.GongGetGongstructName(), noteperformanceshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (noteperformanceshape *NotePerformanceShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteperformanceshape.GongGetGongstructName(), noteperformanceshape.GongGetOrder(stage))
+}
+
+func (noteshape *NoteShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (noteshape *NoteShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
 }
 
 func (performance *Performance) GongGetIdentifier(stage *Stage) string {
@@ -1591,6 +2394,14 @@ func (diagramfloss *DiagramFloss) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (diagramflossequation *DiagramFlossEquation) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramFlossEquation")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramflossequation.Name))
+	return
+}
+
 func (effort *Effort) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", effort.GongGetIdentifier(stage))
@@ -1612,6 +2423,46 @@ func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	return
+}
+
+func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
+	return
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteComplexityShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notecomplexityshape.Name))
+	return
+}
+
+func (noteeffortshape *NoteEffortShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteEffortShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteeffortshape.Name))
+	return
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NotePerformanceShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteperformanceshape.Name))
+	return
+}
+
+func (noteshape *NoteShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteshape.Name))
 	return
 }
 
@@ -1672,6 +2523,12 @@ func (diagramfloss *DiagramFloss) GongMarshallUnstaging(stage *Stage) (decl stri
 	return
 }
 
+func (diagramflossequation *DiagramFlossEquation) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramflossequation.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (effort *Effort) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", effort.GongGetReferenceIdentifier(stage))
@@ -1687,6 +2544,36 @@ func (effortshape *EffortShape) GongMarshallUnstaging(stage *Stage) (decl string
 func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notecomplexityshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (noteeffortshape *NoteEffortShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteeffortshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteperformanceshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (noteshape *NoteShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

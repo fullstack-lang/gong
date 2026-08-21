@@ -41,5 +41,29 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			}
 		}
 	}
+
+	for _, diagramEquation := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+		if diagramEquation.Width == 0 {
+			diagramEquation.Width = 1000.0
+			needCommit = true
+		}
+		if diagramEquation.Height == 0 {
+			diagramEquation.Height = 750.0
+			needCommit = true
+		}
+		if diagramEquation.Scale == 0 {
+			diagramEquation.Scale = 5.0
+			needCommit = true
+		}
+		if diagramEquation.DefaultBoxHeigth == 0 {
+			diagramEquation.DefaultBoxHeigth = defaultBoxHeigth
+			needCommit = true
+		}
+		if diagramEquation.DefaultBoxWidth == 0 {
+			diagramEquation.DefaultBoxWidth = defaultBoxWidth
+			needCommit = true
+		}
+	}
 	return
 }
+

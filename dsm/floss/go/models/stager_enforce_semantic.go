@@ -68,7 +68,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce diagram size", stager.enforceDiagramSize},
+		{"Enforce floss equation", stager.enforceFlossEquation},
 	}
+
 
 	for _, method := range methods {
 		modified := method.fn()
