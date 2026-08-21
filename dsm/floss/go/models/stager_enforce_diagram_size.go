@@ -35,22 +35,46 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		maxVal := 50.0
 		if compareAnalysis != nil && compareAnalysis.FromSystem != nil && compareAnalysis.ToSystem != nil {
 			var cTo, cFrom, pTo, pFrom, eTo, eFrom float64
-			for _, c := range compareAnalysis.FromSystem.Complexities {
+			var fromComplexities, toComplexities []*Complexity
+			var fromPerformances, toPerformances []*Performance
+			var fromEfforts, toEfforts []*Effort
+
+			if diagramEq.AreSubsystemsVisible && compareAnalysis.FromSystem.AreCPEsCompoundedFromSubSystems {
+				fromComplexities, _ = compareAnalysis.FromSystem.GetEffectiveComplexities()
+				fromPerformances, _ = compareAnalysis.FromSystem.GetEffectivePerformances()
+				fromEfforts, _ = compareAnalysis.FromSystem.GetEffectiveEfforts()
+			} else {
+				fromComplexities = compareAnalysis.FromSystem.Complexities
+				fromPerformances = compareAnalysis.FromSystem.Performances
+				fromEfforts = compareAnalysis.FromSystem.Efforts
+			}
+
+			if diagramEq.AreSubsystemsVisible && compareAnalysis.ToSystem.AreCPEsCompoundedFromSubSystems {
+				toComplexities, _ = compareAnalysis.ToSystem.GetEffectiveComplexities()
+				toPerformances, _ = compareAnalysis.ToSystem.GetEffectivePerformances()
+				toEfforts, _ = compareAnalysis.ToSystem.GetEffectiveEfforts()
+			} else {
+				toComplexities = compareAnalysis.ToSystem.Complexities
+				toPerformances = compareAnalysis.ToSystem.Performances
+				toEfforts = compareAnalysis.ToSystem.Efforts
+			}
+
+			for _, c := range fromComplexities {
 				cFrom += c.Strength
 			}
-			for _, c := range compareAnalysis.ToSystem.Complexities {
+			for _, c := range toComplexities {
 				cTo += c.Strength
 			}
-			for _, p := range compareAnalysis.FromSystem.Performances {
+			for _, p := range fromPerformances {
 				pFrom += p.Strength
 			}
-			for _, p := range compareAnalysis.ToSystem.Performances {
+			for _, p := range toPerformances {
 				pTo += p.Strength
 			}
-			for _, e := range compareAnalysis.FromSystem.Efforts {
+			for _, e := range fromEfforts {
 				eFrom += e.Strength
 			}
-			for _, e := range compareAnalysis.ToSystem.Efforts {
+			for _, e := range toEfforts {
 				eTo += e.Strength
 			}
 
@@ -68,10 +92,19 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 			maxVal = math.Max(math.Abs(alpha*deltaP), math.Abs(deltaC))
 		} else if owningSystem != nil {
 			var cTo, pTo float64
-			for _, c := range owningSystem.Complexities {
+			var toComplexities []*Complexity
+			var toPerformances []*Performance
+			if diagramEq.AreSubsystemsVisible && owningSystem.AreCPEsCompoundedFromSubSystems {
+				toComplexities, _ = owningSystem.GetEffectiveComplexities()
+				toPerformances, _ = owningSystem.GetEffectivePerformances()
+			} else {
+				toComplexities = owningSystem.Complexities
+				toPerformances = owningSystem.Performances
+			}
+			for _, c := range toComplexities {
 				cTo += c.Strength
 			}
-			for _, p := range owningSystem.Performances {
+			for _, p := range toPerformances {
 				pTo += p.Strength
 			}
 			maxVal = math.Max(pTo, cTo)

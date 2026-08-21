@@ -1,3 +1,4 @@
+// generated code - do not edit
 // insertion point for imports
 
 // usefull for managing pointer ID values that can be nullable
@@ -21,6 +22,7 @@ export class SliderAPI {
 	MaxFloat64: number = 0
 	StepFloat64: number = 0
 	ValueFloat64: number = 0
+	IsDisabled: boolean = false
 
 	// insertion point for other decls
 

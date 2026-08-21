@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	m "github.com/fullstack-lang/gong/lib/slider/go/models"
 )
 
@@ -28,8 +30,10 @@ func (stager *Stager) ux_slider() {
 	// Find active DiagramFlossEquation & its CompareAnalysis or System
 	var activeCompareAnalysis *CompareAnalysis
 	var activeSystem *System
+	var activeDiagram *DiagramFlossEquation
 	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
 		if d.IsChecked {
+			activeDiagram = d
 			activeCompareAnalysis = d.GetOwningCompareAnalysis()
 			activeSystem = d.GetOwningSystem()
 			if activeCompareAnalysis == nil && activeSystem == nil {
@@ -61,47 +65,97 @@ func (stager *Stager) ux_slider() {
 		return
 	}
 
-	// 1. Complexities category (preserves slice order)
+	showSubsystems := activeDiagram == nil || activeDiagram.AreSubsystemsVisible
+
+	// 1. Complexities category (preserves slice order and compounds subsystems)
 	complexityMap := make(map[*Complexity]struct{})
 	var complexities []*Complexity
+	cSysMap := make(map[*Complexity]*System)
+
 	if activeCompareAnalysis != nil {
 		if activeCompareAnalysis.ToSystem != nil {
-			for _, c := range activeCompareAnalysis.ToSystem.Complexities {
+			var comps []*Complexity
+			var sm map[*Complexity]*System
+			if showSubsystems {
+				comps, sm = activeCompareAnalysis.ToSystem.GetEffectiveComplexities()
+			} else {
+				comps = activeCompareAnalysis.ToSystem.Complexities
+				sm = make(map[*Complexity]*System)
+			}
+			for _, c := range comps {
 				if _, exists := complexityMap[c]; !exists {
 					complexityMap[c] = struct{}{}
 					complexities = append(complexities, c)
+					cSysMap[c] = sm[c]
 				}
 			}
 		}
 		if activeCompareAnalysis.FromSystem != nil {
-			for _, c := range activeCompareAnalysis.FromSystem.Complexities {
+			var comps []*Complexity
+			var sm map[*Complexity]*System
+			if showSubsystems {
+				comps, sm = activeCompareAnalysis.FromSystem.GetEffectiveComplexities()
+			} else {
+				comps = activeCompareAnalysis.FromSystem.Complexities
+				sm = make(map[*Complexity]*System)
+			}
+			for _, c := range comps {
 				if _, exists := complexityMap[c]; !exists {
 					complexityMap[c] = struct{}{}
 					complexities = append(complexities, c)
+					cSysMap[c] = sm[c]
 				}
 			}
 		}
 	} else if activeSystem != nil {
-		for _, c := range activeSystem.Complexities {
+		var comps []*Complexity
+		var sm map[*Complexity]*System
+		if showSubsystems {
+			comps, sm = activeSystem.GetEffectiveComplexities()
+		} else {
+			comps = activeSystem.Complexities
+			sm = make(map[*Complexity]*System)
+		}
+		for _, c := range comps {
 			if _, exists := complexityMap[c]; !exists {
 				complexityMap[c] = struct{}{}
 				complexities = append(complexities, c)
+				cSysMap[c] = sm[c]
 			}
 		}
 	}
 
+	isElementDisabled := func(sysOwner *System) bool {
+		if showSubsystems {
+			return false
+		}
+		if sysOwner != nil && sysOwner.AreCPEsCompoundedFromSubSystems && len(sysOwner.SubSystemes) > 0 {
+			return true
+		}
+		return false
+	}
+
 	for _, c := range complexities {
-		groupComplexities.Sliders = append(
-			groupComplexities.Sliders,
-			m.NewSlider(
-				stager,
-				c.Name,
-				0.0,
-				100.0,
-				0.5,
-				&c.Strength,
-			),
+		sysOwner := cSysMap[c]
+		if sysOwner == nil && activeSystem != nil {
+			sysOwner = activeSystem
+		}
+		label := c.Name
+		if sysOwner != nil && activeSystem != nil && sysOwner != activeSystem {
+			label = fmt.Sprintf("[%s] %s", sysOwner.Name, c.Name)
+		}
+		slider := m.NewSlider(
+			stager,
+			label,
+			0.0,
+			100.0,
+			0.5,
+			&c.Strength,
 		)
+		if isElementDisabled(sysOwner) {
+			slider.IsDisabled = true
+		}
+		groupComplexities.Sliders = append(groupComplexities.Sliders, slider)
 	}
 
 	// 2. Performances category (Alpha + performance elements in slice order)
@@ -121,44 +175,82 @@ func (stager *Stager) ux_slider() {
 
 	performanceMap := make(map[*Performance]struct{})
 	var performances []*Performance
+	pSysMap := make(map[*Performance]*System)
+
 	if activeCompareAnalysis != nil {
 		if activeCompareAnalysis.ToSystem != nil {
-			for _, p := range activeCompareAnalysis.ToSystem.Performances {
+			var perfs []*Performance
+			var sm map[*Performance]*System
+			if showSubsystems {
+				perfs, sm = activeCompareAnalysis.ToSystem.GetEffectivePerformances()
+			} else {
+				perfs = activeCompareAnalysis.ToSystem.Performances
+				sm = make(map[*Performance]*System)
+			}
+			for _, p := range perfs {
 				if _, exists := performanceMap[p]; !exists {
 					performanceMap[p] = struct{}{}
 					performances = append(performances, p)
+					pSysMap[p] = sm[p]
 				}
 			}
 		}
 		if activeCompareAnalysis.FromSystem != nil {
-			for _, p := range activeCompareAnalysis.FromSystem.Performances {
+			var perfs []*Performance
+			var sm map[*Performance]*System
+			if showSubsystems {
+				perfs, sm = activeCompareAnalysis.FromSystem.GetEffectivePerformances()
+			} else {
+				perfs = activeCompareAnalysis.FromSystem.Performances
+				sm = make(map[*Performance]*System)
+			}
+			for _, p := range perfs {
 				if _, exists := performanceMap[p]; !exists {
 					performanceMap[p] = struct{}{}
 					performances = append(performances, p)
+					pSysMap[p] = sm[p]
 				}
 			}
 		}
 	} else if activeSystem != nil {
-		for _, p := range activeSystem.Performances {
+		var perfs []*Performance
+		var sm map[*Performance]*System
+		if showSubsystems {
+			perfs, sm = activeSystem.GetEffectivePerformances()
+		} else {
+			perfs = activeSystem.Performances
+			sm = make(map[*Performance]*System)
+		}
+		for _, p := range perfs {
 			if _, exists := performanceMap[p]; !exists {
 				performanceMap[p] = struct{}{}
 				performances = append(performances, p)
+				pSysMap[p] = sm[p]
 			}
 		}
 	}
 
 	for _, p := range performances {
-		groupPerformances.Sliders = append(
-			groupPerformances.Sliders,
-			m.NewSlider(
-				stager,
-				p.Name,
-				0.0,
-				100.0,
-				0.5,
-				&p.Strength,
-			),
+		sysOwner := pSysMap[p]
+		if sysOwner == nil && activeSystem != nil {
+			sysOwner = activeSystem
+		}
+		label := p.Name
+		if sysOwner != nil && activeSystem != nil && sysOwner != activeSystem {
+			label = fmt.Sprintf("[%s] %s", sysOwner.Name, p.Name)
+		}
+		slider := m.NewSlider(
+			stager,
+			label,
+			0.0,
+			100.0,
+			0.5,
+			&p.Strength,
 		)
+		if isElementDisabled(sysOwner) {
+			slider.IsDisabled = true
+		}
+		groupPerformances.Sliders = append(groupPerformances.Sliders, slider)
 	}
 
 	// 3. Efforts category (Beta + effort elements in slice order)
@@ -178,44 +270,82 @@ func (stager *Stager) ux_slider() {
 
 	effortMap := make(map[*Effort]struct{})
 	var efforts []*Effort
+	eSysMap := make(map[*Effort]*System)
+
 	if activeCompareAnalysis != nil {
 		if activeCompareAnalysis.ToSystem != nil {
-			for _, e := range activeCompareAnalysis.ToSystem.Efforts {
+			var effs []*Effort
+			var sm map[*Effort]*System
+			if showSubsystems {
+				effs, sm = activeCompareAnalysis.ToSystem.GetEffectiveEfforts()
+			} else {
+				effs = activeCompareAnalysis.ToSystem.Efforts
+				sm = make(map[*Effort]*System)
+			}
+			for _, e := range effs {
 				if _, exists := effortMap[e]; !exists {
 					effortMap[e] = struct{}{}
 					efforts = append(efforts, e)
+					eSysMap[e] = sm[e]
 				}
 			}
 		}
 		if activeCompareAnalysis.FromSystem != nil {
-			for _, e := range activeCompareAnalysis.FromSystem.Efforts {
+			var effs []*Effort
+			var sm map[*Effort]*System
+			if showSubsystems {
+				effs, sm = activeCompareAnalysis.FromSystem.GetEffectiveEfforts()
+			} else {
+				effs = activeCompareAnalysis.FromSystem.Efforts
+				sm = make(map[*Effort]*System)
+			}
+			for _, e := range effs {
 				if _, exists := effortMap[e]; !exists {
 					effortMap[e] = struct{}{}
 					efforts = append(efforts, e)
+					eSysMap[e] = sm[e]
 				}
 			}
 		}
 	} else if activeSystem != nil {
-		for _, e := range activeSystem.Efforts {
+		var effs []*Effort
+		var sm map[*Effort]*System
+		if showSubsystems {
+			effs, sm = activeSystem.GetEffectiveEfforts()
+		} else {
+			effs = activeSystem.Efforts
+			sm = make(map[*Effort]*System)
+		}
+		for _, e := range effs {
 			if _, exists := effortMap[e]; !exists {
 				effortMap[e] = struct{}{}
 				efforts = append(efforts, e)
+				eSysMap[e] = sm[e]
 			}
 		}
 	}
 
 	for _, e := range efforts {
-		groupEfforts.Sliders = append(
-			groupEfforts.Sliders,
-			m.NewSlider(
-				stager,
-				e.Name,
-				0.0,
-				100.0,
-				0.5,
-				&e.Strength,
-			),
+		sysOwner := eSysMap[e]
+		if sysOwner == nil && activeSystem != nil {
+			sysOwner = activeSystem
+		}
+		label := e.Name
+		if sysOwner != nil && activeSystem != nil && sysOwner != activeSystem {
+			label = fmt.Sprintf("[%s] %s", sysOwner.Name, e.Name)
+		}
+		slider := m.NewSlider(
+			stager,
+			label,
+			0.0,
+			100.0,
+			0.5,
+			&e.Strength,
 		)
+		if isElementDisabled(sysOwner) {
+			slider.IsDisabled = true
+		}
+		groupEfforts.Sliders = append(groupEfforts.Sliders, slider)
 	}
 
 	stager.sliderStage.Commit()

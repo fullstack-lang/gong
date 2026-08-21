@@ -676,6 +676,8 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.IsEditable_), formDiv)
 		case "AreQuantitativeElementsVisible":
 			FormDivBasicFieldToField(&(diagramflossequation_.AreQuantitativeElementsVisible), formDiv)
+		case "AreSubsystemsVisible":
+			FormDivBasicFieldToField(&(diagramflossequation_.AreSubsystemsVisible), formDiv)
 		case "Width":
 			FormDivBasicFieldToField(&(diagramflossequation_.Width), formDiv)
 		case "Height":
@@ -3531,6 +3533,8 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			system_.Efforts = instanceSlice
 			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Efforts", &system_.Efforts)
 
+		case "AreCPEsCompoundedFromSubSystems":
+			FormDivBasicFieldToField(&(system_.AreCPEsCompoundedFromSubSystems), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(system_.ComputedPrefix), formDiv)
 		case "IsExpanded":

@@ -131,25 +131,67 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		return svgObject
 	}
 
-	var cFrom, cTo, pFrom, pTo, eFrom, eTo float64
-	if fromSys != nil {
-		for _, c := range fromSys.Complexities {
-			cFrom += c.Strength
+	var toComplexities []*Complexity
+	var toComplexitiesSysMap map[*Complexity]*System
+	var toPerformances []*Performance
+	var toPerformancesSysMap map[*Performance]*System
+	var toEfforts []*Effort
+	var toEffortsSysMap map[*Effort]*System
+
+	if diagram.AreSubsystemsVisible && toSys.AreCPEsCompoundedFromSubSystems {
+		toComplexities, toComplexitiesSysMap = toSys.GetEffectiveComplexities()
+		toPerformances, toPerformancesSysMap = toSys.GetEffectivePerformances()
+		toEfforts, toEffortsSysMap = toSys.GetEffectiveEfforts()
+	} else {
+		toComplexities = toSys.Complexities
+		toComplexitiesSysMap = make(map[*Complexity]*System)
+		for _, c := range toSys.Complexities {
+			toComplexitiesSysMap[c] = toSys
 		}
-		for _, p := range fromSys.Performances {
-			pFrom += p.Strength
+		toPerformances = toSys.Performances
+		toPerformancesSysMap = make(map[*Performance]*System)
+		for _, p := range toSys.Performances {
+			toPerformancesSysMap[p] = toSys
 		}
-		for _, e := range fromSys.Efforts {
-			eFrom += e.Strength
+		toEfforts = toSys.Efforts
+		toEffortsSysMap = make(map[*Effort]*System)
+		for _, e := range toSys.Efforts {
+			toEffortsSysMap[e] = toSys
 		}
 	}
-	for _, c := range toSys.Complexities {
+
+	var fromComplexities []*Complexity
+	var fromPerformances []*Performance
+	var fromEfforts []*Effort
+	if fromSys != nil {
+		if diagram.AreSubsystemsVisible && fromSys.AreCPEsCompoundedFromSubSystems {
+			fromComplexities, _ = fromSys.GetEffectiveComplexities()
+			fromPerformances, _ = fromSys.GetEffectivePerformances()
+			fromEfforts, _ = fromSys.GetEffectiveEfforts()
+		} else {
+			fromComplexities = fromSys.Complexities
+			fromPerformances = fromSys.Performances
+			fromEfforts = fromSys.Efforts
+		}
+	}
+
+	var cFrom, cTo, pFrom, pTo, eFrom, eTo float64
+	for _, c := range fromComplexities {
+		cFrom += c.Strength
+	}
+	for _, p := range fromPerformances {
+		pFrom += p.Strength
+	}
+	for _, e := range fromEfforts {
+		eFrom += e.Strength
+	}
+	for _, c := range toComplexities {
 		cTo += c.Strength
 	}
-	for _, p := range toSys.Performances {
+	for _, p := range toPerformances {
 		pTo += p.Strength
 	}
-	for _, e := range toSys.Efforts {
+	for _, e := range toEfforts {
 		eTo += e.Strength
 	}
 
@@ -210,10 +252,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	layer.Rects = append(layer.Rects, headerRect)
 
 	// Compare Analysis or System Title
+	isCompoundedBreakdown := diagram.AreSubsystemsVisible && toSys.AreCPEsCompoundedFromSubSystems
 	headerTitle := new(svg.RectAnchoredText)
 	headerTitle.Name = "Header Title"
 	if compareAnalysis != nil {
 		headerTitle.Content = compareAnalysis.Name
+	} else if isCompoundedBreakdown {
+		headerTitle.Content = fmt.Sprintf("%s (Subsystems Breakdown)", toSys.Name)
 	} else {
 		headerTitle.Content = toSys.Name
 	}
@@ -234,7 +279,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerFormula := new(svg.RectAnchoredText)
 	headerFormula.Name = "Header Formula"
 	if fromSys == nil {
-		headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s", toSys.Name)
+		if isCompoundedBreakdown {
+			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s [Subsystems Breakdown]", toSys.Name)
+		} else {
+			headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α·P - β·E   |   System: %s", toSys.Name)
+		}
 	} else {
 		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α·ΔP - β·ΔE   (From: %s  →  To: %s)", fromSys.Name, toSys.Name)
 	}
@@ -318,9 +367,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	heightC := math.Max(math.Abs(deltaC)*scale, 24.0)
 
 	col1BaseY := yGround - heightC
-	if len(toSys.Complexities) > 0 {
+	if len(toComplexities) > 0 {
 		currY := col1BaseY
-		for idx, c := range toSys.Complexities {
+		for idx, c := range toComplexities {
 			itemH := (c.Strength / math.Max(cTo, 1.0)) * heightC
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("C_%d", idx),
@@ -348,8 +397,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveTopHandle = true
 
 			content := c.Name
+			if sysOwner := toComplexitiesSysMap[c]; sysOwner != nil && sysOwner != toSys {
+				content = fmt.Sprintf("[%s] %s", sysOwner.Name, c.Name)
+			}
 			if diagram.AreQuantitativeElementsVisible {
-				content = fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
+				if sysOwner := toComplexitiesSysMap[c]; sysOwner != nil && sysOwner != toSys {
+					content = fmt.Sprintf("[%s] %s (%.1f)", sysOwner.Name, c.Name, c.Strength)
+				} else {
+					content = fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
+				}
 			}
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
@@ -424,9 +480,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	yTip2 := yGround - heightP
 
 	col2BaseY := yTip2
-	if len(toSys.Performances) > 0 {
+	if len(toPerformances) > 0 {
 		currY := col2BaseY
-		for idx, p := range toSys.Performances {
+		for idx, p := range toPerformances {
 			itemH := (p.Strength / math.Max(pTo, 1.0)) * heightP
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("P_%d", idx),
@@ -454,8 +510,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveTopHandle = true
 
 			content := p.Name
+			if sysOwner := toPerformancesSysMap[p]; sysOwner != nil && sysOwner != toSys {
+				content = fmt.Sprintf("[%s] %s", sysOwner.Name, p.Name)
+			}
 			if diagram.AreQuantitativeElementsVisible {
-				content = fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
+				if sysOwner := toPerformancesSysMap[p]; sysOwner != nil && sysOwner != toSys {
+					content = fmt.Sprintf("[%s] %s (%.1f · α=%.1f)", sysOwner.Name, p.Name, p.Strength, p.Strength*alpha)
+				} else {
+					content = fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
+				}
 			}
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
@@ -530,9 +593,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	yTop3 := yTip2
 	yBottom3 := yTop3 + heightE
 
-	if len(toSys.Efforts) > 0 {
+	if len(toEfforts) > 0 {
 		currY := yTop3
-		for idx, e := range toSys.Efforts {
+		for idx, e := range toEfforts {
 			itemH := (e.Strength / math.Max(eTo, 1.0)) * heightE
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("E_%d", idx),
@@ -560,8 +623,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveTopHandle = true
 
 			content := e.Name
+			if sysOwner := toEffortsSysMap[e]; sysOwner != nil && sysOwner != toSys {
+				content = fmt.Sprintf("[%s] %s", sysOwner.Name, e.Name)
+			}
 			if diagram.AreQuantitativeElementsVisible {
-				content = fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
+				if sysOwner := toEffortsSysMap[e]; sysOwner != nil && sysOwner != toSys {
+					content = fmt.Sprintf("[%s] %s (%.1f · β=%.1f)", sysOwner.Name, e.Name, e.Strength, e.Strength*beta)
+				} else {
+					content = fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
+				}
 			}
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 

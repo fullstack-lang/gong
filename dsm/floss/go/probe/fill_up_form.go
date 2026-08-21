@@ -159,6 +159,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("AreQuantitativeElementsVisible", instanceWithInferedType.AreQuantitativeElementsVisible, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("AreSubsystemsVisible", instanceWithInferedType.AreSubsystemsVisible, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
@@ -671,6 +673,8 @@ func FillUpForm(
 		AssociationSliceToForm("Complexities", instanceWithInferedType, &instanceWithInferedType.Complexities, formGroup, probe)
 		AssociationSliceToForm("Performances", instanceWithInferedType, &instanceWithInferedType.Performances, formGroup, probe)
 		AssociationSliceToForm("Efforts", instanceWithInferedType, &instanceWithInferedType.Efforts, formGroup, probe)
+		BasicFieldtoForm("AreCPEsCompoundedFromSubSystems", instanceWithInferedType.AreCPEsCompoundedFromSubSystems, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,

@@ -518,6 +518,8 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(slider_.StepFloat64), formDiv)
 		case "ValueFloat64":
 			FormDivBasicFieldToField(&(slider_.ValueFloat64), formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(slider_.IsDisabled), formDiv)
 		case "Group:Sliders":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

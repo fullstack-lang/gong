@@ -176,12 +176,12 @@ func _(stage *models.Stage) {
 	__Complexity__00000014_.IsExpanded = false
 
 	__Complexity__00000015_.Name = `C1`
-	__Complexity__00000015_.Strength = 42.000000
+	__Complexity__00000015_.Strength = 64.500000
 	__Complexity__00000015_.ComputedPrefix = ``
 	__Complexity__00000015_.IsExpanded = false
 
 	__Complexity__00000016_.Name = `C1.1.a`
-	__Complexity__00000016_.Strength = 39.500000
+	__Complexity__00000016_.Strength = 21.000000
 	__Complexity__00000016_.ComputedPrefix = ``
 	__Complexity__00000016_.IsExpanded = false
 
@@ -202,6 +202,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000000_.IsChecked = false
 	__DiagramFlossEquation__00000000_.IsEditable_ = true
 	__DiagramFlossEquation__00000000_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000000_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000000_.Width = 1170.000000
 	__DiagramFlossEquation__00000000_.Height = 750.000000
 	__DiagramFlossEquation__00000000_.Scale = 5.000000
@@ -219,6 +220,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000001_.IsChecked = false
 	__DiagramFlossEquation__00000001_.IsEditable_ = true
 	__DiagramFlossEquation__00000001_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000001_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000001_.Width = 1170.000000
 	__DiagramFlossEquation__00000001_.Height = 750.000000
 	__DiagramFlossEquation__00000001_.Scale = 5.000000
@@ -236,6 +238,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000002_.IsChecked = false
 	__DiagramFlossEquation__00000002_.IsEditable_ = true
 	__DiagramFlossEquation__00000002_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000002_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000002_.Width = 1170.000000
 	__DiagramFlossEquation__00000002_.Height = 750.000000
 	__DiagramFlossEquation__00000002_.Scale = 5.000000
@@ -253,6 +256,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000003_.IsChecked = false
 	__DiagramFlossEquation__00000003_.IsEditable_ = true
 	__DiagramFlossEquation__00000003_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000003_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000003_.Width = 1170.000000
 	__DiagramFlossEquation__00000003_.Height = 750.000000
 	__DiagramFlossEquation__00000003_.Scale = 5.000000
@@ -270,6 +274,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000004_.IsChecked = false
 	__DiagramFlossEquation__00000004_.IsEditable_ = true
 	__DiagramFlossEquation__00000004_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000004_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000004_.Width = 1170.000000
 	__DiagramFlossEquation__00000004_.Height = 750.000000
 	__DiagramFlossEquation__00000004_.Scale = 5.000000
@@ -287,6 +292,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000005_.IsChecked = false
 	__DiagramFlossEquation__00000005_.IsEditable_ = true
 	__DiagramFlossEquation__00000005_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000005_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000005_.Width = 1170.000000
 	__DiagramFlossEquation__00000005_.Height = 750.000000
 	__DiagramFlossEquation__00000005_.Scale = 5.000000
@@ -304,6 +310,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000006_.IsChecked = false
 	__DiagramFlossEquation__00000006_.IsEditable_ = true
 	__DiagramFlossEquation__00000006_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000006_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000006_.Width = 1170.000000
 	__DiagramFlossEquation__00000006_.Height = 750.000000
 	__DiagramFlossEquation__00000006_.Scale = 5.000000
@@ -321,6 +328,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000007_.IsChecked = false
 	__DiagramFlossEquation__00000007_.IsEditable_ = true
 	__DiagramFlossEquation__00000007_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000007_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000007_.Width = 1170.000000
 	__DiagramFlossEquation__00000007_.Height = 750.000000
 	__DiagramFlossEquation__00000007_.Scale = 5.000000
@@ -338,6 +346,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000008_.IsChecked = false
 	__DiagramFlossEquation__00000008_.IsEditable_ = true
 	__DiagramFlossEquation__00000008_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000008_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000008_.Width = 1170.000000
 	__DiagramFlossEquation__00000008_.Height = 750.000000
 	__DiagramFlossEquation__00000008_.Scale = 5.000000
@@ -355,6 +364,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000009_.IsChecked = false
 	__DiagramFlossEquation__00000009_.IsEditable_ = true
 	__DiagramFlossEquation__00000009_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000009_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000009_.Width = 1170.000000
 	__DiagramFlossEquation__00000009_.Height = 750.000000
 	__DiagramFlossEquation__00000009_.Scale = 5.000000
@@ -372,6 +382,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000010_.IsChecked = false
 	__DiagramFlossEquation__00000010_.IsEditable_ = true
 	__DiagramFlossEquation__00000010_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000010_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000010_.Width = 1170.000000
 	__DiagramFlossEquation__00000010_.Height = 750.000000
 	__DiagramFlossEquation__00000010_.Scale = 5.000000
@@ -389,6 +400,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000011_.IsChecked = false
 	__DiagramFlossEquation__00000011_.IsEditable_ = true
 	__DiagramFlossEquation__00000011_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000011_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000011_.Width = 1170.000000
 	__DiagramFlossEquation__00000011_.Height = 750.000000
 	__DiagramFlossEquation__00000011_.Scale = 5.000000
@@ -406,6 +418,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000012_.IsChecked = false
 	__DiagramFlossEquation__00000012_.IsEditable_ = true
 	__DiagramFlossEquation__00000012_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000012_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000012_.Width = 1170.000000
 	__DiagramFlossEquation__00000012_.Height = 750.000000
 	__DiagramFlossEquation__00000012_.Scale = 5.000000
@@ -420,9 +433,10 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.Description = ``
 	__DiagramFlossEquation__00000013_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000013_.IsExpanded = false
-	__DiagramFlossEquation__00000013_.IsChecked = false
+	__DiagramFlossEquation__00000013_.IsChecked = true
 	__DiagramFlossEquation__00000013_.IsEditable_ = true
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000013_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000013_.Width = 1170.000000
 	__DiagramFlossEquation__00000013_.Height = 750.000000
 	__DiagramFlossEquation__00000013_.Scale = 5.000000
@@ -440,6 +454,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000014_.IsChecked = false
 	__DiagramFlossEquation__00000014_.IsEditable_ = true
 	__DiagramFlossEquation__00000014_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000014_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000014_.Width = 1170.000000
 	__DiagramFlossEquation__00000014_.Height = 750.000000
 	__DiagramFlossEquation__00000014_.Scale = 5.000000
@@ -454,9 +469,10 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000015_.Description = ``
 	__DiagramFlossEquation__00000015_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000015_.IsExpanded = false
-	__DiagramFlossEquation__00000015_.IsChecked = true
+	__DiagramFlossEquation__00000015_.IsChecked = false
 	__DiagramFlossEquation__00000015_.IsEditable_ = true
 	__DiagramFlossEquation__00000015_.AreQuantitativeElementsVisible = false
+	__DiagramFlossEquation__00000015_.AreSubsystemsVisible = false
 	__DiagramFlossEquation__00000015_.Width = 1170.000000
 	__DiagramFlossEquation__00000015_.Height = 750.000000
 	__DiagramFlossEquation__00000015_.Scale = 5.000000
@@ -513,7 +529,7 @@ func _(stage *models.Stage) {
 	__Effort__00000009_.IsExpanded = false
 
 	__Effort__00000010_.Name = `E1`
-	__Effort__00000010_.Strength = 26.500000
+	__Effort__00000010_.Strength = 36.000000
 	__Effort__00000010_.ComputedPrefix = ``
 	__Effort__00000010_.IsExpanded = false
 
@@ -641,22 +657,23 @@ func _(stage *models.Stage) {
 	__Performance__00000007_.IsExpanded = false
 
 	__Performance__00000008_.Name = `P1`
-	__Performance__00000008_.Strength = 67.500000
+	__Performance__00000008_.Strength = 83.500000
 	__Performance__00000008_.ComputedPrefix = ``
 	__Performance__00000008_.IsExpanded = false
 
 	__Performance__00000009_.Name = `P1.1.a`
-	__Performance__00000009_.Strength = 73.500000
+	__Performance__00000009_.Strength = 45.500000
 	__Performance__00000009_.ComputedPrefix = ``
 	__Performance__00000009_.IsExpanded = false
 
 	__Performance__00000010_.Name = `P1.2`
-	__Performance__00000010_.Strength = 46.500000
+	__Performance__00000010_.Strength = 38.000000
 	__Performance__00000010_.ComputedPrefix = ``
 	__Performance__00000010_.IsExpanded = false
 
 	__System__00000003_.Name = `SysML V1 Extensibility`
 	__System__00000003_.Description = ``
+	__System__00000003_.AreCPEsCompoundedFromSubSystems = false
 	__System__00000003_.ComputedPrefix = ``
 	__System__00000003_.IsExpanded = false
 	__System__00000003_.SVG_Path = ``
@@ -668,6 +685,7 @@ func _(stage *models.Stage) {
 
 	__System__00000005_.Name = `SysML V2 Extensibility`
 	__System__00000005_.Description = ``
+	__System__00000005_.AreCPEsCompoundedFromSubSystems = false
 	__System__00000005_.ComputedPrefix = ``
 	__System__00000005_.IsExpanded = false
 	__System__00000005_.SVG_Path = ``
@@ -679,6 +697,7 @@ func _(stage *models.Stage) {
 
 	__System__00000006_.Name = `SysML V1 Models Interoperability`
 	__System__00000006_.Description = ``
+	__System__00000006_.AreCPEsCompoundedFromSubSystems = false
 	__System__00000006_.ComputedPrefix = ``
 	__System__00000006_.IsExpanded = false
 	__System__00000006_.SVG_Path = ``
@@ -690,6 +709,7 @@ func _(stage *models.Stage) {
 
 	__System__00000007_.Name = `S1`
 	__System__00000007_.Description = ``
+	__System__00000007_.AreCPEsCompoundedFromSubSystems = true
 	__System__00000007_.ComputedPrefix = ``
 	__System__00000007_.IsExpanded = false
 	__System__00000007_.SVG_Path = ``
@@ -701,6 +721,7 @@ func _(stage *models.Stage) {
 
 	__System__00000008_.Name = `S1.1`
 	__System__00000008_.Description = ``
+	__System__00000008_.AreCPEsCompoundedFromSubSystems = false
 	__System__00000008_.ComputedPrefix = ``
 	__System__00000008_.IsExpanded = false
 	__System__00000008_.SVG_Path = ``
@@ -712,6 +733,7 @@ func _(stage *models.Stage) {
 
 	__System__00000009_.Name = `S1.2`
 	__System__00000009_.Description = ``
+	__System__00000009_.AreCPEsCompoundedFromSubSystems = false
 	__System__00000009_.ComputedPrefix = ``
 	__System__00000009_.IsExpanded = false
 	__System__00000009_.SVG_Path = ``

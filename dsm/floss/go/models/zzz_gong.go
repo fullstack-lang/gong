@@ -4133,6 +4133,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "AreSubsystemsVisible",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Width",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -4649,6 +4653,10 @@ func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Effort",
 		},
 		{
+			Name:               "AreCPEsCompoundedFromSubSystems",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -4867,6 +4875,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "AreQuantitativeElementsVisible":
 		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreQuantitativeElementsVisible)
 		res.valueBool = diagramflossequation.AreQuantitativeElementsVisible
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AreSubsystemsVisible":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreSubsystemsVisible)
+		res.valueBool = diagramflossequation.AreSubsystemsVisible
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.Width)
@@ -5485,6 +5497,10 @@ func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "AreCPEsCompoundedFromSubSystems":
+		res.valueString = fmt.Sprintf("%t", system.AreCPEsCompoundedFromSubSystems)
+		res.valueBool = system.AreCPEsCompoundedFromSubSystems
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = system.ComputedPrefix
 	case "IsExpanded":
@@ -5686,6 +5702,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.IsEditable_ = value.GetValueBool()
 	case "AreQuantitativeElementsVisible":
 		diagramflossequation.AreQuantitativeElementsVisible = value.GetValueBool()
+	case "AreSubsystemsVisible":
+		diagramflossequation.AreSubsystemsVisible = value.GetValueBool()
 	case "Width":
 		diagramflossequation.Width = value.GetValueFloat()
 	case "Height":
@@ -6372,6 +6390,8 @@ func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, 
 				}
 			}
 		}
+	case "AreCPEsCompoundedFromSubSystems":
+		system.AreCPEsCompoundedFromSubSystems = value.GetValueBool()
 	case "ComputedPrefix":
 		system.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

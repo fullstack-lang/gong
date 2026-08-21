@@ -577,6 +577,8 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.IsEditable_ = GongExtractBool(valueExpr)
 	case "AreQuantitativeElementsVisible":
 		instance.AreQuantitativeElementsVisible = GongExtractBool(valueExpr)
+	case "AreSubsystemsVisible":
+		instance.AreSubsystemsVisible = GongExtractBool(valueExpr)
 	case "Width":
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
@@ -1026,6 +1028,8 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallSliceOfPointers(&instance.Performances, valueExpr, identifierMap)
 	case "Efforts":
 		GongUnmarshallSliceOfPointers(&instance.Efforts, valueExpr, identifierMap)
+	case "AreCPEsCompoundedFromSubSystems":
+		instance.AreCPEsCompoundedFromSubSystems = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
