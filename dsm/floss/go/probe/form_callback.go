@@ -312,6 +312,8 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(complexity_.Name), formDiv)
 		case "Strength":
 			FormDivBasicFieldToField(&(complexity_.Strength), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(complexity_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(complexity_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -1212,6 +1214,8 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(effort_.Name), formDiv)
 		case "Strength":
 			FormDivBasicFieldToField(&(effort_.Strength), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(effort_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(effort_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -3083,6 +3087,8 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(performance_.Name), formDiv)
 		case "Strength":
 			FormDivBasicFieldToField(&(performance_.Strength), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(performance_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(performance_.ComputedPrefix), formDiv)
 		case "IsExpanded":

@@ -56,6 +56,9 @@ type Complexity struct {
 
 	Strength float64
 
+	//gong:text width:300 height:300
+	Description string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 }
@@ -67,6 +70,9 @@ type Performance struct {
 
 	Strength float64
 
+	//gong:text width:300 height:300
+	Description string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 }
@@ -77,6 +83,9 @@ type Effort struct {
 	Name string
 
 	Strength float64
+
+	//gong:text width:300 height:300
+	Description string
 
 	LibraryAbstractFields
 	AbstractTypeFields

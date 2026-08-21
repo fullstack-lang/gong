@@ -253,7 +253,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000003_.Description = ``
 	__DiagramFlossEquation__00000003_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000003_.IsExpanded = false
-	__DiagramFlossEquation__00000003_.IsChecked = false
+	__DiagramFlossEquation__00000003_.IsChecked = true
 	__DiagramFlossEquation__00000003_.IsEditable_ = true
 	__DiagramFlossEquation__00000003_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000003_.AreSubsystemsVisible = false
@@ -433,10 +433,10 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000013_.Description = ``
 	__DiagramFlossEquation__00000013_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000013_.IsExpanded = false
-	__DiagramFlossEquation__00000013_.IsChecked = true
+	__DiagramFlossEquation__00000013_.IsChecked = false
 	__DiagramFlossEquation__00000013_.IsEditable_ = true
 	__DiagramFlossEquation__00000013_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000013_.AreSubsystemsVisible = false
+	__DiagramFlossEquation__00000013_.AreSubsystemsVisible = true
 	__DiagramFlossEquation__00000013_.Width = 1170.000000
 	__DiagramFlossEquation__00000013_.Height = 750.000000
 	__DiagramFlossEquation__00000013_.Scale = 5.000000
@@ -548,10 +548,10 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
 	__Library__00000000_.IsRootLibrary = true
-	__Library__00000000_.IsSubLibrariesNodeExpanded = false
+	__Library__00000000_.IsSubLibrariesNodeExpanded = true
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsSystemsNodeExpanded = true
+	__Library__00000000_.IsSystemsNodeExpanded = false
 	__Library__00000000_.IsComplexitysNodeExpanded = false
 	__Library__00000000_.IsPerformancesNodeExpanded = false
 	__Library__00000000_.IsEffortsNodeExpanded = false
@@ -714,7 +714,7 @@ func _(stage *models.Stage) {
 	__System__00000007_.IsExpanded = false
 	__System__00000007_.SVG_Path = ``
 	__System__00000007_.InverseAppliedScaling = 0.000000
-	__System__00000007_.IsSubSystemNodeExpanded = true
+	__System__00000007_.IsSubSystemNodeExpanded = false
 	__System__00000007_.IsComplexitysNodeExpanded = false
 	__System__00000007_.IsPerformancesNodeExpanded = false
 	__System__00000007_.IsEffortsNodeExpanded = false
@@ -798,8 +798,7 @@ func _(stage *models.Stage) {
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000003_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000005_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000006_)
-	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000006_)
-	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000005_)
+	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000003_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__NoteShape__00000000_.Note = __Note__00000002_

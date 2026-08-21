@@ -370,7 +370,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if len(toComplexities) > 0 {
 		currY := col1BaseY
 		for idx, c := range toComplexities {
-			itemH := (c.Strength / math.Max(cTo, 1.0)) * heightC
+			var itemH float64
+			if cTo > 0.000001 {
+				itemH = (c.Strength / cTo) * heightC
+			} else {
+				itemH = heightC / float64(len(toComplexities))
+			}
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("C_%d", idx),
 				X:      xCol1,
@@ -483,7 +488,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if len(toPerformances) > 0 {
 		currY := col2BaseY
 		for idx, p := range toPerformances {
-			itemH := (p.Strength / math.Max(pTo, 1.0)) * heightP
+			var itemH float64
+			if pTo > 0.000001 {
+				itemH = (p.Strength / pTo) * heightP
+			} else {
+				itemH = heightP / float64(len(toPerformances))
+			}
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("P_%d", idx),
 				X:      xCol2,
@@ -596,7 +606,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if len(toEfforts) > 0 {
 		currY := yTop3
 		for idx, e := range toEfforts {
-			itemH := (e.Strength / math.Max(eTo, 1.0)) * heightE
+			var itemH float64
+			if eTo > 0.000001 {
+				itemH = (e.Strength / eTo) * heightE
+			} else {
+				itemH = heightE / float64(len(toEfforts))
+			}
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("E_%d", idx),
 				X:      xCol3,

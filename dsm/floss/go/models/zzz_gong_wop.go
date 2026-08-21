@@ -39,6 +39,8 @@ type Complexity_WOP struct {
 
 	Strength float64
 
+	Description string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -48,6 +50,7 @@ func (from *Complexity) CopyBasicFields(to *Complexity) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }
@@ -118,6 +121,8 @@ type Effort_WOP struct {
 
 	Strength float64
 
+	Description string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -127,6 +132,7 @@ func (from *Effort) CopyBasicFields(to *Effort) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }
@@ -333,6 +339,8 @@ type Performance_WOP struct {
 
 	Strength float64
 
+	Description string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -342,6 +350,7 @@ func (from *Performance) CopyBasicFields(to *Performance) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }

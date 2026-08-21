@@ -221,6 +221,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - floss: go run . edit data/sysml.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/floss/go/cmd/floss"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/sysml.go"
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - floss: gong portable",
             "type": "shell",
             "options": {
