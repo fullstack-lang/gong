@@ -1,8 +1,6 @@
 package models
 
 import (
-	"slices"
-
 	m "github.com/fullstack-lang/gong/lib/slider/go/models"
 )
 
@@ -63,20 +61,20 @@ func (stager *Stager) ux_slider() {
 		return
 	}
 
-	// 1. Complexities category
+	// 1. Complexities category (preserves slice order)
 	complexityMap := make(map[*Complexity]struct{})
 	var complexities []*Complexity
 	if activeCompareAnalysis != nil {
-		if activeCompareAnalysis.FromSystem != nil {
-			for _, c := range activeCompareAnalysis.FromSystem.Complexities {
+		if activeCompareAnalysis.ToSystem != nil {
+			for _, c := range activeCompareAnalysis.ToSystem.Complexities {
 				if _, exists := complexityMap[c]; !exists {
 					complexityMap[c] = struct{}{}
 					complexities = append(complexities, c)
 				}
 			}
 		}
-		if activeCompareAnalysis.ToSystem != nil {
-			for _, c := range activeCompareAnalysis.ToSystem.Complexities {
+		if activeCompareAnalysis.FromSystem != nil {
+			for _, c := range activeCompareAnalysis.FromSystem.Complexities {
 				if _, exists := complexityMap[c]; !exists {
 					complexityMap[c] = struct{}{}
 					complexities = append(complexities, c)
@@ -91,14 +89,6 @@ func (stager *Stager) ux_slider() {
 			}
 		}
 	}
-	slices.SortFunc(complexities, func(a, b *Complexity) int {
-		if a.Name < b.Name {
-			return -1
-		} else if a.Name > b.Name {
-			return 1
-		}
-		return 0
-	})
 
 	for _, c := range complexities {
 		groupComplexities.Sliders = append(
@@ -114,7 +104,7 @@ func (stager *Stager) ux_slider() {
 		)
 	}
 
-	// 2. Performances category (Alpha + performance elements)
+	// 2. Performances category (Alpha + performance elements in slice order)
 	if activeCompareAnalysis != nil {
 		groupPerformances.Sliders = append(
 			groupPerformances.Sliders,
@@ -132,16 +122,16 @@ func (stager *Stager) ux_slider() {
 	performanceMap := make(map[*Performance]struct{})
 	var performances []*Performance
 	if activeCompareAnalysis != nil {
-		if activeCompareAnalysis.FromSystem != nil {
-			for _, p := range activeCompareAnalysis.FromSystem.Performances {
+		if activeCompareAnalysis.ToSystem != nil {
+			for _, p := range activeCompareAnalysis.ToSystem.Performances {
 				if _, exists := performanceMap[p]; !exists {
 					performanceMap[p] = struct{}{}
 					performances = append(performances, p)
 				}
 			}
 		}
-		if activeCompareAnalysis.ToSystem != nil {
-			for _, p := range activeCompareAnalysis.ToSystem.Performances {
+		if activeCompareAnalysis.FromSystem != nil {
+			for _, p := range activeCompareAnalysis.FromSystem.Performances {
 				if _, exists := performanceMap[p]; !exists {
 					performanceMap[p] = struct{}{}
 					performances = append(performances, p)
@@ -156,14 +146,6 @@ func (stager *Stager) ux_slider() {
 			}
 		}
 	}
-	slices.SortFunc(performances, func(a, b *Performance) int {
-		if a.Name < b.Name {
-			return -1
-		} else if a.Name > b.Name {
-			return 1
-		}
-		return 0
-	})
 
 	for _, p := range performances {
 		groupPerformances.Sliders = append(
@@ -179,7 +161,7 @@ func (stager *Stager) ux_slider() {
 		)
 	}
 
-	// 3. Efforts category (Beta + effort elements)
+	// 3. Efforts category (Beta + effort elements in slice order)
 	if activeCompareAnalysis != nil {
 		groupEfforts.Sliders = append(
 			groupEfforts.Sliders,
@@ -197,16 +179,16 @@ func (stager *Stager) ux_slider() {
 	effortMap := make(map[*Effort]struct{})
 	var efforts []*Effort
 	if activeCompareAnalysis != nil {
-		if activeCompareAnalysis.FromSystem != nil {
-			for _, e := range activeCompareAnalysis.FromSystem.Efforts {
+		if activeCompareAnalysis.ToSystem != nil {
+			for _, e := range activeCompareAnalysis.ToSystem.Efforts {
 				if _, exists := effortMap[e]; !exists {
 					effortMap[e] = struct{}{}
 					efforts = append(efforts, e)
 				}
 			}
 		}
-		if activeCompareAnalysis.ToSystem != nil {
-			for _, e := range activeCompareAnalysis.ToSystem.Efforts {
+		if activeCompareAnalysis.FromSystem != nil {
+			for _, e := range activeCompareAnalysis.FromSystem.Efforts {
 				if _, exists := effortMap[e]; !exists {
 					effortMap[e] = struct{}{}
 					efforts = append(efforts, e)
@@ -221,14 +203,6 @@ func (stager *Stager) ux_slider() {
 			}
 		}
 	}
-	slices.SortFunc(efforts, func(a, b *Effort) int {
-		if a.Name < b.Name {
-			return -1
-		} else if a.Name > b.Name {
-			return 1
-		}
-		return 0
-	})
 
 	for _, e := range efforts {
 		groupEfforts.Sliders = append(

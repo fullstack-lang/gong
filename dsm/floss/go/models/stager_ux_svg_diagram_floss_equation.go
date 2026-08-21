@@ -317,7 +317,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	//
 	heightC := math.Max(math.Abs(deltaC)*scale, 24.0)
 
-	col1BaseY := yGround
+	col1BaseY := yGround - heightC
 	if len(toSys.Complexities) > 0 {
 		currY := col1BaseY
 		for idx, c := range toSys.Complexities {
@@ -325,7 +325,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("C_%d", idx),
 				X:      xCol1,
-				Y:      currY - itemH,
+				Y:      currY,
 				Width:  colWidth,
 				Height: itemH,
 				RX:     4,
@@ -372,7 +372,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 			itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
 
-			currY -= itemH
+			currY += itemH
 		}
 	} else {
 		col1Rect := &svg.Rect{
@@ -418,12 +418,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	layer.Texts = append(layer.Texts, col1Label)
 
 	//
-	// Column 2: alpha * Delta P (Emerald / Green) - Bottom on ground
+	// Column 2: alpha * Delta P (Emerald / Green) - Top-down from yTip2
 	//
 	heightP := math.Max(math.Abs(alpha*deltaP)*scale, 24.0)
 	yTip2 := yGround - heightP
 
-	col2BaseY := yGround
+	col2BaseY := yTip2
 	if len(toSys.Performances) > 0 {
 		currY := col2BaseY
 		for idx, p := range toSys.Performances {
@@ -431,7 +431,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("P_%d", idx),
 				X:      xCol2,
-				Y:      currY - itemH,
+				Y:      currY,
 				Width:  colWidth,
 				Height: itemH,
 				RX:     4,
@@ -478,7 +478,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 			itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
 
-			currY -= itemH
+			currY += itemH
 		}
 	} else {
 		col2Rect := &svg.Rect{
