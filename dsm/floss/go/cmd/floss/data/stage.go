@@ -41,7 +41,8 @@ func _(stage *models.Stage) {
 	__Complexity__00000014_ := (&models.Complexity{Name: `TB`}).Stage(stage)
 	__Complexity__00000015_ := (&models.Complexity{Name: `C1`}).Stage(stage)
 	__Complexity__00000016_ := (&models.Complexity{Name: `C1.1.a`}).Stage(stage)
-	__Complexity__00000017_ := (&models.Complexity{Name: `C1.2.`}).Stage(stage)
+	__Complexity__00000017_ := (&models.Complexity{Name: `C1.2.a`}).Stage(stage)
+	__Complexity__00000018_ := (&models.Complexity{Name: `C1.2.b`}).Stage(stage)
 
 	__DiagramFlossEquation__00000000_ := (&models.DiagramFlossEquation{Name: `SysML V1's C/P/E for the tool manager Equation Diagram`}).Stage(stage)
 	__DiagramFlossEquation__00000001_ := (&models.DiagramFlossEquation{Name: `SysML V2 Equation Diagram`}).Stage(stage)
@@ -79,8 +80,10 @@ func _(stage *models.Stage) {
 	__Note__00000000_ := (&models.Note{Name: `Hypthesis`}).Stage(stage)
 	__Note__00000001_ := (&models.Note{Name: `Hyp2`}).Stage(stage)
 	__Note__00000002_ := (&models.Note{Name: `h`}).Stage(stage)
+	__Note__00000003_ := (&models.Note{Name: `h2`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
+	__NoteShape__00000001_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
 
 	__Performance__00000000_ := (&models.Performance{Name: `Parametric Models`}).Stage(stage)
 	__Performance__00000001_ := (&models.Performance{Name: `Programmable Semantic`}).Stage(stage)
@@ -182,10 +185,15 @@ func _(stage *models.Stage) {
 	__Complexity__00000016_.ComputedPrefix = ``
 	__Complexity__00000016_.IsExpanded = false
 
-	__Complexity__00000017_.Name = `C1.2.`
-	__Complexity__00000017_.Strength = 0.000000
+	__Complexity__00000017_.Name = `C1.2.a`
+	__Complexity__00000017_.Strength = 17.500000
 	__Complexity__00000017_.ComputedPrefix = ``
 	__Complexity__00000017_.IsExpanded = false
+
+	__Complexity__00000018_.Name = `C1.2.b`
+	__Complexity__00000018_.Strength = 26.000000
+	__Complexity__00000018_.ComputedPrefix = ``
+	__Complexity__00000018_.IsExpanded = false
 
 	__DiagramFlossEquation__00000000_.Name = `SysML V1's C/P/E for the tool manager Equation Diagram`
 	__DiagramFlossEquation__00000000_.Description = ``
@@ -454,7 +462,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000015_.Scale = 5.000000
 	__DiagramFlossEquation__00000015_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000015_.DefaultBoxHeigth = 70.000000
-	__DiagramFlossEquation__00000015_.IsNotesNodeExpanded = false
+	__DiagramFlossEquation__00000015_.IsNotesNodeExpanded = true
 	__DiagramFlossEquation__00000015_.IsComplexitysNodeExpanded = true
 	__DiagramFlossEquation__00000015_.IsPerformancesNodeExpanded = true
 	__DiagramFlossEquation__00000015_.IsEffortsNodeExpanded = true
@@ -515,7 +523,7 @@ func _(stage *models.Stage) {
 	__Effort__00000011_.IsExpanded = false
 
 	__Effort__00000012_.Name = `E1.3`
-	__Effort__00000012_.Strength = 0.000000
+	__Effort__00000012_.Strength = 17.500000
 	__Effort__00000012_.ComputedPrefix = ``
 	__Effort__00000012_.IsExpanded = false
 
@@ -575,12 +583,27 @@ func _(stage *models.Stage) {
 	__Note__00000002_.IsPerformancesNodeExpanded = false
 	__Note__00000002_.IsEffortsNodeExpanded = false
 
+	__Note__00000003_.Name = `h2`
+	__Note__00000003_.Description = ``
+	__Note__00000003_.ComputedPrefix = ``
+	__Note__00000003_.IsExpanded = false
+	__Note__00000003_.IsComplexitysNodeExpanded = false
+	__Note__00000003_.IsPerformancesNodeExpanded = false
+	__Note__00000003_.IsEffortsNodeExpanded = false
+
 	__NoteShape__00000000_.Name = ` shape`
 	__NoteShape__00000000_.X = 127.000000
 	__NoteShape__00000000_.Y = 177.000000
 	__NoteShape__00000000_.Width = 250.000000
 	__NoteShape__00000000_.Height = 70.000000
 	__NoteShape__00000000_.IsHidden = false
+
+	__NoteShape__00000001_.Name = ` shape`
+	__NoteShape__00000001_.X = 100.000000
+	__NoteShape__00000001_.Y = 100.000000
+	__NoteShape__00000001_.Width = 250.000000
+	__NoteShape__00000001_.Height = 70.000000
+	__NoteShape__00000001_.IsHidden = false
 
 	__Performance__00000000_.Name = `Parametric Models`
 	__Performance__00000000_.Strength = 37.000000
@@ -628,7 +651,7 @@ func _(stage *models.Stage) {
 	__Performance__00000009_.IsExpanded = false
 
 	__Performance__00000010_.Name = `P1.2`
-	__Performance__00000010_.Strength = 0.000000
+	__Performance__00000010_.Strength = 46.500000
 	__Performance__00000010_.ComputedPrefix = ``
 	__Performance__00000010_.IsExpanded = false
 
@@ -700,6 +723,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__DiagramFlossEquation__00000014_.Note_Shapes = append(__DiagramFlossEquation__00000014_.Note_Shapes, __NoteShape__00000000_)
+	__DiagramFlossEquation__00000015_.Note_Shapes = append(__DiagramFlossEquation__00000015_.Note_Shapes, __NoteShape__00000001_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000007_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000000_)
@@ -719,6 +743,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000015_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000016_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000017_)
+	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000018_)
 	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000000_)
 	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000001_)
 	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000002_)
@@ -744,6 +769,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000001_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000002_)
+	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000003_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000007_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000008_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000009_)
@@ -755,6 +781,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__NoteShape__00000000_.Note = __Note__00000002_
+	__NoteShape__00000001_.Note = __Note__00000003_
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000008_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000009_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000007_)
@@ -786,6 +813,7 @@ func _(stage *models.Stage) {
 	__System__00000008_.Efforts = append(__System__00000008_.Efforts, __Effort__00000011_)
 	__System__00000008_.DiagramFlossEquations = append(__System__00000008_.DiagramFlossEquations, __DiagramFlossEquation__00000014_)
 	__System__00000009_.Complexities = append(__System__00000009_.Complexities, __Complexity__00000017_)
+	__System__00000009_.Complexities = append(__System__00000009_.Complexities, __Complexity__00000018_)
 	__System__00000009_.Performances = append(__System__00000009_.Performances, __Performance__00000010_)
 	__System__00000009_.Efforts = append(__System__00000009_.Efforts, __Effort__00000012_)
 	__System__00000009_.DiagramFlossEquations = append(__System__00000009_.DiagramFlossEquations, __DiagramFlossEquation__00000015_)

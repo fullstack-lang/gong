@@ -121,7 +121,22 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     private gongtreeNodeService: tree.NodeService,
     private gongtreeButtonService: tree.ButtonService,
     private iconService: IconService,
+    private elementRef: ElementRef,
   ) {
+  }
+
+  private findScrollContainer(): HTMLElement | null {
+    let current: HTMLElement | null = this.elementRef.nativeElement;
+    while (current) {
+      if (current.scrollHeight > current.clientHeight) {
+        const overflowY = window.getComputedStyle(current).overflowY;
+        if (overflowY === 'auto' || overflowY === 'scroll') {
+          return current;
+        }
+      }
+      current = current.parentElement;
+    }
+    return this.elementRef.nativeElement.parentElement || null;
   }
 
   ngOnInit(): void {
@@ -155,6 +170,9 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
           }
         }
 
+        const scrollContainer = this.findScrollContainer();
+        const savedScrollTop = scrollContainer ? scrollContainer.scrollTop : 0;
+
         this.originalRootNodes = rootNodes
         this.dataSource.data = rootNodes
 
@@ -163,6 +181,12 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
           this.onSearchChange()
         } else {
           this.syncTreeExpansion()
+        }
+
+        if (scrollContainer && savedScrollTop > 0) {
+          setTimeout(() => {
+            scrollContainer.scrollTop = savedScrollTop;
+          }, 0);
         }
 
         this.treeControl.dataNodes?.forEach(
