@@ -16,6 +16,8 @@ type CompareAnalysis_WOP struct {
 
 	Alpha float64
 
+	Beta float64
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -25,6 +27,7 @@ func (from *CompareAnalysis) CopyBasicFields(to *CompareAnalysis) {
 	// insertion point
 	to.Name = from.Name
 	to.Alpha = from.Alpha
+	to.Beta = from.Beta
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }

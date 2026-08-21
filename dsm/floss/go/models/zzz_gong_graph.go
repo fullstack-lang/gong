@@ -2645,6 +2645,9 @@ func (compareanalysis *CompareAnalysis) GongDiff(stage *Stage, compareanalysisOt
 	if compareanalysis.Alpha != compareanalysisOther.Alpha {
 		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Alpha"))
 	}
+	if compareanalysis.Beta != compareanalysisOther.Beta {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Beta"))
+	}
 	DiagramFlossEquationsDifferent := false
 	if len(compareanalysis.DiagramFlossEquations) != len(compareanalysisOther.DiagramFlossEquations) {
 		DiagramFlossEquationsDifferent = true

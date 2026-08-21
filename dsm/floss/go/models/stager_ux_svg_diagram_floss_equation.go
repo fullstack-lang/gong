@@ -119,10 +119,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	deltaP := pTo - pFrom
 	deltaE := eTo - eFrom
 
-	beta := 0.0
-	if deltaE != 0 {
-		beta = (alpha*deltaP - deltaC) / deltaE
-	}
+	beta := compareAnalysis.Beta
 
 	scale := diagram.Scale
 	if scale <= 0 {
@@ -134,7 +131,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	colWidth := 250.0
 	xCol1 := 70.0  // Delta C
 	xCol2 := 390.0 // Alpha * Delta P
-	xCol3 := 710.0 // Beta * Delta E
+	xCol3 := 710.0 // Beta * Delta E (starts at top of Col 2, extends down)
 
 	root := stager.getRootLibrary()
 	nbPixPerChar := root.NbPixPerCharacter
@@ -164,7 +161,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		Name:    "Header Title",
 		X:       60,
 		Y:       50,
-		Content: fmt.Sprintf("FLOSS Equation: ΔC = α · ΔP - β · ΔE  ⟺  ΔC + β · ΔE = α · ΔP (%s → %s)", fromSys.Name, toSys.Name),
+		Content: fmt.Sprintf("FLOSS Equation: ΔC = α · ΔP - β · ΔE  ⟺  α · ΔP - β · ΔE = ΔC (%s → %s)", fromSys.Name, toSys.Name),
 		Presentation: svg.Presentation{
 			Color:       "#1A237E",
 			FillOpacity: 1.0,
@@ -173,11 +170,12 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Texts = append(layer.Texts, headerTitle)
 
+	balanceDiff := (alpha*deltaP - beta*deltaE) - deltaC
 	headerCalc := &svg.Text{
 		Name:    "Header Calculation",
 		X:       60,
 		Y:       80,
-		Content: fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f, ΔP = %.2f) | β·ΔE = %.2f (β = %.2f, ΔE = %.2f)", deltaC, alpha*deltaP, alpha, deltaP, beta*deltaE, beta, deltaE),
+		Content: fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff),
 		Presentation: svg.Presentation{
 			Color:       "#37474F",
 			FillOpacity: 1.0,
@@ -255,7 +253,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveLeftHandle = true
 			itemRect.CanHaveRightHandle = true
 			itemRect.CanHaveTopHandle = true
-
 
 			content := fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
@@ -348,7 +345,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveRightHandle = true
 			itemRect.CanHaveTopHandle = true
 
-
 			content := fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
@@ -406,20 +402,20 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	layer.Texts = append(layer.Texts, col2Label)
 
 	//
-	// Column 3: beta * Delta E (Slate / Blue) - Bottom is on the tip of the first column
+	// Column 3: beta * Delta E (Slate / Blue) - Top starts at the top of Column 2 (Performance)
 	//
 	heightE := math.Max(math.Abs(beta*deltaE)*scale, 24.0)
-	col3BaseY := yTip1
-	yTip3 := col3BaseY - heightE
+	yTop3 := yTip2 // Top aligns with top of Column 2
+	yBottom3 := yTop3 + heightE
 
 	if len(toSys.Efforts) > 0 {
-		currY := col3BaseY
+		currY := yTop3
 		for idx, e := range toSys.Efforts {
 			itemH := (e.Strength / math.Max(eTo, 1.0)) * heightE
 			itemRect := &svg.Rect{
 				Name:   fmt.Sprintf("E_%d", idx),
 				X:      xCol3,
-				Y:      currY - itemH,
+				Y:      currY,
 				Width:  colWidth,
 				Height: itemH,
 				RX:     4,
@@ -439,7 +435,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveLeftHandle = true
 			itemRect.CanHaveRightHandle = true
 			itemRect.CanHaveTopHandle = true
-
 
 			content := fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
@@ -463,13 +458,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 			itemRect.RectAnchoredTexts = append(itemRect.RectAnchoredTexts, title)
 
-			currY -= itemH
+			currY += itemH
 		}
 	} else {
 		col3Rect := &svg.Rect{
 			Name:   "Col 3 Rect",
 			X:      xCol3,
-			Y:      yTip3,
+			Y:      yTop3,
 			Width:  colWidth,
 			Height: heightE,
 			RX:     4,
@@ -484,10 +479,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Rects = append(layer.Rects, col3Rect)
 	}
 
+	col3LabelY := math.Max(yBottom3, yGround) + 20
+	if col3LabelY < yBottom3+20 {
+		col3LabelY = yBottom3 + 20
+	}
 	col3Label := &svg.Text{
 		Name:    "Col 3 Label",
 		X:       xCol3 + 25,
-		Y:       col3BaseY + 20,
+		Y:       col3LabelY,
 		Content: fmt.Sprintf("β · ΔE = %.2f (β=%.2f)", beta*deltaE, beta),
 		Presentation: svg.Presentation{
 			Color:       "#1565C0",
@@ -497,29 +496,13 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Texts = append(layer.Texts, col3Label)
 
-	// Step line from tip of Col 1 to bottom of Col 3
-	stepLine := &svg.Line{
-		Name: "Col 1 Tip to Col 3 Base Guide",
-		X1:   xCol1 + colWidth,
-		Y1:   yTip1,
-		X2:   xCol3,
-		Y2:   col3BaseY,
-		Presentation: svg.Presentation{
-			Stroke:          "#90A4AE",
-			StrokeWidth:     1.5,
-			StrokeDashArray: "4,4",
-			StrokeOpacity:   0.8,
-		},
-	}
-	layer.Lines = append(layer.Lines, stepLine)
-
-	// Equality alignment line from top of Col 2 to top of Col 3
-	equalityLine := &svg.Line{
-		Name: "Equality Alignment Guide",
+	// Top alignment guide line from top of Col 2 to top of Col 3
+	topLine := &svg.Line{
+		Name: "Col 2 to Col 3 Top Alignment Guide",
 		X1:   xCol2 + colWidth,
 		Y1:   yTip2,
 		X2:   xCol3,
-		Y2:   yTip3,
+		Y2:   yTop3,
 		Presentation: svg.Presentation{
 			Stroke:          "#00897B",
 			StrokeWidth:     2.0,
@@ -527,20 +510,50 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			StrokeOpacity:   0.9,
 		},
 	}
-	layer.Lines = append(layer.Lines, equalityLine)
+	layer.Lines = append(layer.Lines, topLine)
 
-	equalityText := &svg.Text{
-		Name:    "Equality Label",
-		X:       (xCol2 + colWidth + xCol3) / 2 - 40,
-		Y:       (yTip2+yTip3)/2 - 8,
-		Content: "ΔC + β·ΔE ≡ α·ΔP",
+	topLabel := &svg.Text{
+		Name:    "Top Alignment Label",
+		X:       (xCol2 + colWidth + xCol3) / 2 - 30,
+		Y:       yTip2 - 8,
+		Content: "α·ΔP peak",
 		Presentation: svg.Presentation{
 			Color:       "#00695C",
 			FillOpacity: 1.0,
 			Stroke:      "transparent",
 		},
 	}
-	layer.Texts = append(layer.Texts, equalityText)
+	layer.Texts = append(layer.Texts, topLabel)
+
+	// Equilibrium balance line from top of Col 1 to bottom of Col 3
+	equilibriumLine := &svg.Line{
+		Name: "Equilibrium Balance Guide",
+		X1:   xCol1 + colWidth,
+		Y1:   yTip1,
+		X2:   xCol3,
+		Y2:   yBottom3,
+		Presentation: svg.Presentation{
+			Stroke:          "#D81B60",
+			StrokeWidth:     1.8,
+			StrokeDashArray: "4,4",
+			StrokeOpacity:   0.85,
+		},
+	}
+	layer.Lines = append(layer.Lines, equilibriumLine)
+
+	equilibriumText := &svg.Text{
+		Name:    "Equilibrium Label",
+		X:       (xCol1 + colWidth + xCol3) / 2 - 50,
+		Y:       (yTip1+yBottom3)/2 - 8,
+		Content: "ΔC ≗ α·ΔP - β·ΔE",
+		Presentation: svg.Presentation{
+			Color:       "#AD1457",
+			FillOpacity: 1.0,
+			Stroke:      "transparent",
+		},
+	}
+	layer.Texts = append(layer.Texts, equilibriumText)
+
 
 	//
 	// Notes & Link Shapes on Equation Diagram

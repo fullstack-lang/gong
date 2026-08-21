@@ -25,6 +25,8 @@ func FillUpForm(
 		AssociationFieldToForm("ToSystem", instanceWithInferedType.ToSystem, formGroup, probe)
 		BasicFieldtoForm("Alpha", instanceWithInferedType.Alpha, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Beta", instanceWithInferedType.Beta, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("DiagramFlossEquations", instanceWithInferedType, &instanceWithInferedType.DiagramFlossEquations, formGroup, probe)
 		AssociationSliceToForm("DiagramFlossEquationsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DiagramFlossEquationsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,

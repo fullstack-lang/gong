@@ -104,11 +104,13 @@ func _(stage *models.Stage) {
 
 	__CompareAnalysis__00000000_.Name = `SysML V1 to V2`
 	__CompareAnalysis__00000000_.Alpha = 1.200000
+	__CompareAnalysis__00000000_.Beta = 1.000000
 	__CompareAnalysis__00000000_.ComputedPrefix = ``
 	__CompareAnalysis__00000000_.IsExpanded = false
 
 	__CompareAnalysis__00000001_.Name = `SysML V1 to Go SysML`
 	__CompareAnalysis__00000001_.Alpha = 1.000000
+	__CompareAnalysis__00000001_.Beta = 1.000000
 	__CompareAnalysis__00000001_.ComputedPrefix = ``
 	__CompareAnalysis__00000001_.IsExpanded = false
 
@@ -256,7 +258,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000000_.IsChecked = true
 	__DiagramFlossEquation__00000000_.IsEditable_ = false
 	__DiagramFlossEquation__00000000_.Width = 1050.000000
-	__DiagramFlossEquation__00000000_.Height = 918.000000
+	__DiagramFlossEquation__00000000_.Height = 938.000000
 	__DiagramFlossEquation__00000000_.Scale = 5.000000
 	__DiagramFlossEquation__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000000_.DefaultBoxHeigth = 70.000000
@@ -269,7 +271,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000001_.IsChecked = false
 	__DiagramFlossEquation__00000001_.IsEditable_ = false
 	__DiagramFlossEquation__00000001_.Width = 1050.000000
-	__DiagramFlossEquation__00000001_.Height = 975.000000
+	__DiagramFlossEquation__00000001_.Height = 995.000000
 	__DiagramFlossEquation__00000001_.Scale = 5.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxHeigth = 70.000000

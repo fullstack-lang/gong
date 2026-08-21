@@ -72,6 +72,8 @@ func (compareanalysisFormCallback *CompareAnalysisFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(compareanalysis_.ToSystem), compareanalysisFormCallback.probe.stageOfInterest, formDiv)
 		case "Alpha":
 			FormDivBasicFieldToField(&(compareanalysis_.Alpha), formDiv)
+		case "Beta":
+			FormDivBasicFieldToField(&(compareanalysis_.Beta), formDiv)
 		case "DiagramFlossEquations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](compareanalysisFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DiagramFlossEquation, 0)
