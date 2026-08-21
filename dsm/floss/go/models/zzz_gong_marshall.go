@@ -485,20 +485,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootSystems"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootSystems"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSystemsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SystemsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ComplexitysWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "PerformancesWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
@@ -1198,32 +1198,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "SubLibrariesWhoseNodeIsExpanded":
-		var sb strings.Builder
-		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibrariesWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	case "RootSystems":
 		var sb strings.Builder
 		for _, _system := range library.RootSystems {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootSystems")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _system.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	case "SystemsWhoseNodeIsExpanded":
-		var sb strings.Builder
-		for _, _system := range library.SystemsWhoseNodeIsExpanded {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SystemsWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _system.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1238,32 +1218,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "ComplexitysWhoseNodeIsExpanded":
-		var sb strings.Builder
-		for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ComplexitysWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _complexity.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	case "RootPerformances":
 		var sb strings.Builder
 		for _, _performance := range library.RootPerformances {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootPerformances")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _performance.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	case "PerformancesWhoseNodeIsExpanded":
-		var sb strings.Builder
-		for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PerformancesWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _performance.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1275,6 +1235,46 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootEfforts")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _effort.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "SubLibrariesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibrariesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "SystemsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _system := range library.SystemsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SystemsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _system.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ComplexitysWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ComplexitysWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _complexity.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "PerformancesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PerformancesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _performance.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1699,20 +1699,20 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootSystems"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootSystems"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSystemsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SystemsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootComplexitys"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ComplexitysWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "PerformancesWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))

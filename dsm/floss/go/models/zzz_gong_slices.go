@@ -100,25 +100,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_SubLibraries_reverseMap[_library] = library
 		}
 	}
-	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
-	for library := range stage.Librarys {
-		_ = library
-		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
-			stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[_library] = library
-		}
-	}
 	stage.Library_RootSystems_reverseMap = make(map[*System]*Library)
 	for library := range stage.Librarys {
 		_ = library
 		for _, _system := range library.RootSystems {
 			stage.Library_RootSystems_reverseMap[_system] = library
-		}
-	}
-	stage.Library_SystemsWhoseNodeIsExpanded_reverseMap = make(map[*System]*Library)
-	for library := range stage.Librarys {
-		_ = library
-		for _, _system := range library.SystemsWhoseNodeIsExpanded {
-			stage.Library_SystemsWhoseNodeIsExpanded_reverseMap[_system] = library
 		}
 	}
 	stage.Library_RootComplexitys_reverseMap = make(map[*Complexity]*Library)
@@ -128,13 +114,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_RootComplexitys_reverseMap[_complexity] = library
 		}
 	}
-	stage.Library_ComplexitysWhoseNodeIsExpanded_reverseMap = make(map[*Complexity]*Library)
-	for library := range stage.Librarys {
-		_ = library
-		for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
-			stage.Library_ComplexitysWhoseNodeIsExpanded_reverseMap[_complexity] = library
-		}
-	}
 	stage.Library_RootPerformances_reverseMap = make(map[*Performance]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -142,18 +121,39 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_RootPerformances_reverseMap[_performance] = library
 		}
 	}
-	stage.Library_PerformancesWhoseNodeIsExpanded_reverseMap = make(map[*Performance]*Library)
-	for library := range stage.Librarys {
-		_ = library
-		for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
-			stage.Library_PerformancesWhoseNodeIsExpanded_reverseMap[_performance] = library
-		}
-	}
 	stage.Library_RootEfforts_reverseMap = make(map[*Effort]*Library)
 	for library := range stage.Librarys {
 		_ = library
 		for _, _effort := range library.RootEfforts {
 			stage.Library_RootEfforts_reverseMap[_effort] = library
+		}
+	}
+	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+			stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[_library] = library
+		}
+	}
+	stage.Library_SystemsWhoseNodeIsExpanded_reverseMap = make(map[*System]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _system := range library.SystemsWhoseNodeIsExpanded {
+			stage.Library_SystemsWhoseNodeIsExpanded_reverseMap[_system] = library
+		}
+	}
+	stage.Library_ComplexitysWhoseNodeIsExpanded_reverseMap = make(map[*Complexity]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
+			stage.Library_ComplexitysWhoseNodeIsExpanded_reverseMap[_complexity] = library
+		}
+	}
+	stage.Library_PerformancesWhoseNodeIsExpanded_reverseMap = make(map[*Performance]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
+			stage.Library_PerformancesWhoseNodeIsExpanded_reverseMap[_performance] = library
 		}
 	}
 	stage.Library_EffortsWhoseNodeIsExpanded_reverseMap = make(map[*Effort]*Library)
