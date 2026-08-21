@@ -131,6 +131,21 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	CompareAnalysiss                map[*CompareAnalysis]struct{}
+	CompareAnalysiss_instance       map[*CompareAnalysis]*CompareAnalysis
+	CompareAnalysiss_mapString      map[string]*CompareAnalysis
+	CompareAnalysisOrder            uint
+	CompareAnalysis_stagedOrder     map[*CompareAnalysis]uint
+	CompareAnalysis_orderStaged     map[uint]*CompareAnalysis
+	CompareAnalysiss_reference      map[*CompareAnalysis]*CompareAnalysis
+	CompareAnalysiss_referenceOrder map[*CompareAnalysis]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCompareAnalysisCreateCallback OnAfterCreateInterface[CompareAnalysis]
+	OnAfterCompareAnalysisUpdateCallback OnAfterUpdateInterface[CompareAnalysis]
+	OnAfterCompareAnalysisDeleteCallback OnAfterDeleteInterface[CompareAnalysis]
+	OnAfterCompareAnalysisReadCallback   OnAfterReadInterface[CompareAnalysis]
+
 	Complexitys                map[*Complexity]struct{}
 	Complexitys_instance       map[*Complexity]*Complexity
 	Complexitys_mapString      map[string]*Complexity
@@ -571,6 +586,10 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.CompareAnalysiss_reference = make(map[*CompareAnalysis]*CompareAnalysis)
+	stage.CompareAnalysiss_instance = make(map[*CompareAnalysis]*CompareAnalysis)
+	stage.CompareAnalysiss_referenceOrder = make(map[*CompareAnalysis]uint)
+
 	stage.Complexitys_reference = make(map[*Complexity]*Complexity)
 	stage.Complexitys_instance = make(map[*Complexity]*Complexity)
 	stage.Complexitys_referenceOrder = make(map[*Complexity]uint)
@@ -638,6 +657,20 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxCompareAnalysisOrder uint
+	var foundCompareAnalysis bool
+	for _, order := range stage.CompareAnalysis_stagedOrder {
+		if !foundCompareAnalysis || order > maxCompareAnalysisOrder {
+			maxCompareAnalysisOrder = order
+			foundCompareAnalysis = true
+		}
+	}
+	if foundCompareAnalysis {
+		stage.CompareAnalysisOrder = maxCompareAnalysisOrder + 1
+	} else {
+		stage.CompareAnalysisOrder = 0
+	}
+
 	var maxComplexityOrder uint
 	var foundComplexity bool
 	for _, order := range stage.Complexity_stagedOrder {
@@ -839,6 +872,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *CompareAnalysis:
+		tmp := GetStructInstancesByOrder(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *CompareAnalysis implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Complexity:
 		tmp := GetStructInstancesByOrder(stage.Complexitys, stage.Complexity_stagedOrder)
 
@@ -1008,6 +1055,8 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "CompareAnalysis":
+		res = GetNamedStructInstances(stage.CompareAnalysiss, stage.CompareAnalysis_stagedOrder)
 	case "Complexity":
 		res = GetNamedStructInstances(stage.Complexitys, stage.Complexity_stagedOrder)
 	case "ComplexityShape":
@@ -1097,6 +1146,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitCompareAnalysis(compareanalysis *CompareAnalysis)
+	CheckoutCompareAnalysis(compareanalysis *CompareAnalysis)
 	CommitComplexity(complexity *Complexity)
 	CheckoutComplexity(complexity *Complexity)
 	CommitComplexityShape(complexityshape *ComplexityShape)
@@ -1123,6 +1174,9 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		CompareAnalysiss:           make(map[*CompareAnalysis]struct{}),
+		CompareAnalysiss_mapString: make(map[string]*CompareAnalysis),
+
 		Complexitys:           make(map[*Complexity]struct{}),
 		Complexitys_mapString: make(map[string]*Complexity),
 
@@ -1163,6 +1217,10 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		CompareAnalysis_stagedOrder: make(map[*CompareAnalysis]uint),
+		CompareAnalysis_orderStaged: make(map[uint]*CompareAnalysis),
+		CompareAnalysiss_reference:  make(map[*CompareAnalysis]*CompareAnalysis),
+
 		Complexity_stagedOrder: make(map[*Complexity]uint),
 		Complexity_orderStaged: make(map[uint]*Complexity),
 		Complexitys_reference:  make(map[*Complexity]*Complexity),
@@ -1205,6 +1263,8 @@ func NewStage(name string) (stage *Stage) {
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"CompareAnalysis": &CompareAnalysisUnmarshaller{},
+
 			"Complexity": &ComplexityUnmarshaller{},
 
 			"ComplexityShape": &ComplexityShapeUnmarshaller{},
@@ -1229,6 +1289,7 @@ func NewStage(name string) (stage *Stage) {
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "CompareAnalysis"},
 			{name: "Complexity"},
 			{name: "ComplexityShape"},
 			{name: "DiagramFloss"},
@@ -1250,6 +1311,8 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *CompareAnalysis:
+		return stage.CompareAnalysis_stagedOrder[instance]
 	case *Complexity:
 		return stage.Complexity_stagedOrder[instance]
 	case *ComplexityShape:
@@ -1279,6 +1342,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
+	case *CompareAnalysis:
+		return any(stage.CompareAnalysis_orderStaged[order]).(Type)
 	case *Complexity:
 		return any(stage.Complexity_orderStaged[order]).(Type)
 	case *ComplexityShape:
@@ -1307,6 +1372,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *CompareAnalysis:
+		return stage.CompareAnalysis_stagedOrder[instance]
 	case *Complexity:
 		return stage.Complexity_stagedOrder[instance]
 	case *ComplexityShape:
@@ -1392,6 +1459,7 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["CompareAnalysis"] = len(stage.CompareAnalysiss)
 	stage.Map_GongStructName_InstancesNb["Complexity"] = len(stage.Complexitys)
 	stage.Map_GongStructName_InstancesNb["ComplexityShape"] = len(stage.ComplexityShapes)
 	stage.Map_GongStructName_InstancesNb["DiagramFloss"] = len(stage.DiagramFlosss)
@@ -1442,6 +1510,94 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts compareanalysis to the model stage
+func (compareanalysis *CompareAnalysis) Stage(stage *Stage) *CompareAnalysis {
+	if _, ok := stage.CompareAnalysiss[compareanalysis]; !ok {
+		stage.CompareAnalysiss[compareanalysis] = struct{}{}
+		stage.CompareAnalysis_stagedOrder[compareanalysis] = stage.CompareAnalysisOrder
+		stage.CompareAnalysis_orderStaged[stage.CompareAnalysisOrder] = compareanalysis
+		stage.CompareAnalysisOrder++
+	}
+	stage.CompareAnalysiss_mapString[compareanalysis.Name] = compareanalysis
+
+	return compareanalysis
+}
+
+// StagePreserveOrder puts compareanalysis to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CompareAnalysisOrder
+// - update stage.CompareAnalysisOrder accordingly
+func (compareanalysis *CompareAnalysis) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.CompareAnalysiss[compareanalysis]; !ok {
+		stage.CompareAnalysiss[compareanalysis] = struct{}{}
+
+		if order > stage.CompareAnalysisOrder {
+			stage.CompareAnalysisOrder = order
+		}
+		stage.CompareAnalysis_stagedOrder[compareanalysis] = order
+		stage.CompareAnalysis_orderStaged[order] = compareanalysis
+		stage.CompareAnalysisOrder++
+	}
+	stage.CompareAnalysiss_mapString[compareanalysis.Name] = compareanalysis
+}
+
+// Unstage removes compareanalysis off the model stage
+func (compareanalysis *CompareAnalysis) Unstage(stage *Stage) *CompareAnalysis {
+	delete(stage.CompareAnalysiss, compareanalysis)
+	// issue1150
+	// delete(stage.CompareAnalysis_stagedOrder, compareanalysis)
+	delete(stage.CompareAnalysiss_mapString, compareanalysis.Name)
+
+	return compareanalysis
+}
+
+// UnstageVoid removes compareanalysis off the model stage
+func (compareanalysis *CompareAnalysis) UnstageVoid(stage *Stage) {
+	delete(stage.CompareAnalysiss, compareanalysis)
+	// issue1150
+	// delete(stage.CompareAnalysis_stagedOrder, compareanalysis)
+	delete(stage.CompareAnalysiss_mapString, compareanalysis.Name)
+}
+
+// commit compareanalysis to the back repo (if it is already staged)
+func (compareanalysis *CompareAnalysis) Commit(stage *Stage) *CompareAnalysis {
+	if _, ok := stage.CompareAnalysiss[compareanalysis]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCompareAnalysis(compareanalysis)
+		}
+	}
+	return compareanalysis
+}
+
+func (compareanalysis *CompareAnalysis) CommitVoid(stage *Stage) {
+	compareanalysis.Commit(stage)
+}
+
+func (compareanalysis *CompareAnalysis) StageVoid(stage *Stage) {
+	compareanalysis.Stage(stage)
+}
+
+// Checkout compareanalysis to the back repo (if it is already staged)
+func (compareanalysis *CompareAnalysis) Checkout(stage *Stage) *CompareAnalysis {
+	if _, ok := stage.CompareAnalysiss[compareanalysis]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCompareAnalysis(compareanalysis)
+		}
+	}
+	return compareanalysis
+}
+
+// for satisfaction of GongStruct interface
+func (compareanalysis *CompareAnalysis) GetName() (res string) {
+	return compareanalysis.Name
+}
+
+// for satisfaction of GongStruct interface
+func (compareanalysis *CompareAnalysis) SetName(name string) {
+	compareanalysis.Name = name
+}
+
 // Stage puts complexity to the model stage
 func (complexity *Complexity) Stage(stage *Stage) *Complexity {
 	if _, ok := stage.Complexitys[complexity]; !ok {
@@ -2324,6 +2480,7 @@ func (systemshape *SystemShape) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMCompareAnalysis(CompareAnalysis *CompareAnalysis)
 	CreateORMComplexity(Complexity *Complexity)
 	CreateORMComplexityShape(ComplexityShape *ComplexityShape)
 	CreateORMDiagramFloss(DiagramFloss *DiagramFloss)
@@ -2337,6 +2494,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMCompareAnalysis(CompareAnalysis *CompareAnalysis)
 	DeleteORMComplexity(Complexity *Complexity)
 	DeleteORMComplexityShape(ComplexityShape *ComplexityShape)
 	DeleteORMDiagramFloss(DiagramFloss *DiagramFloss)
@@ -2350,6 +2508,11 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.CompareAnalysiss = make(map[*CompareAnalysis]struct{})
+	stage.CompareAnalysiss_mapString = make(map[string]*CompareAnalysis)
+	stage.CompareAnalysis_stagedOrder = make(map[*CompareAnalysis]uint)
+	stage.CompareAnalysisOrder = 0
+
 	stage.Complexitys = make(map[*Complexity]struct{})
 	stage.Complexitys_mapString = make(map[string]*Complexity)
 	stage.Complexity_stagedOrder = make(map[*Complexity]uint)
@@ -2409,6 +2572,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.CompareAnalysiss = nil
+	stage.CompareAnalysiss_mapString = nil
+
 	stage.Complexitys = nil
 	stage.Complexitys_mapString = nil
 
@@ -2443,6 +2609,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for compareanalysis := range stage.CompareAnalysiss {
+		compareanalysis.Unstage(stage)
+	}
+
 	for complexity := range stage.Complexitys {
 		complexity.Unstage(stage)
 	}
@@ -2559,6 +2729,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*CompareAnalysis]any:
+		return any(&stage.CompareAnalysiss).(*Type)
 	case map[*Complexity]any:
 		return any(&stage.Complexitys).(*Type)
 	case map[*ComplexityShape]any:
@@ -2591,6 +2763,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *CompareAnalysis:
+		return any(stage.CompareAnalysiss_mapString).(map[string]Type)
 	case *Complexity:
 		return any(stage.Complexitys_mapString).(map[string]Type)
 	case *ComplexityShape:
@@ -2623,6 +2797,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case CompareAnalysis:
+		return any(&stage.CompareAnalysiss).(*map[*Type]struct{})
 	case Complexity:
 		return any(&stage.Complexitys).(*map[*Type]struct{})
 	case ComplexityShape:
@@ -2655,6 +2831,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *CompareAnalysis:
+		return any(&stage.CompareAnalysiss).(*map[Type]struct{})
 	case *Complexity:
 		return any(&stage.Complexitys).(*map[Type]struct{})
 	case *ComplexityShape:
@@ -2687,6 +2865,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case CompareAnalysis:
+		return any(&stage.CompareAnalysiss_mapString).(*map[string]*Type)
 	case Complexity:
 		return any(&stage.Complexitys_mapString).(*map[string]*Type)
 	case ComplexityShape:
@@ -2721,6 +2901,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case CompareAnalysis:
+		return any(&CompareAnalysis{
+			// Initialisation of associations
+			// field is initialized with an instance of System with the name of the field
+			FromSystem: &System{Name: "FromSystem"},
+			// field is initialized with an instance of System with the name of the field
+			ToSystem: &System{Name: "ToSystem"},
+		}).(*Type)
 	case Complexity:
 		return any(&Complexity{
 			// Initialisation of associations
@@ -2840,6 +3028,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of CompareAnalysis
+	case CompareAnalysis:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "FromSystem":
+			res := make(map[*System][]*CompareAnalysis)
+			for compareanalysis := range stage.CompareAnalysiss {
+				if compareanalysis.FromSystem != nil {
+					system_ := compareanalysis.FromSystem
+					var compareanalysiss []*CompareAnalysis
+					_, ok := res[system_]
+					if ok {
+						compareanalysiss = res[system_]
+					} else {
+						compareanalysiss = make([]*CompareAnalysis, 0)
+					}
+					compareanalysiss = append(compareanalysiss, compareanalysis)
+					res[system_] = compareanalysiss
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ToSystem":
+			res := make(map[*System][]*CompareAnalysis)
+			for compareanalysis := range stage.CompareAnalysiss {
+				if compareanalysis.ToSystem != nil {
+					system_ := compareanalysis.ToSystem
+					var compareanalysiss []*CompareAnalysis
+					_, ok := res[system_]
+					if ok {
+						compareanalysiss = res[system_]
+					} else {
+						compareanalysiss = make([]*CompareAnalysis, 0)
+					}
+					compareanalysiss = append(compareanalysiss, compareanalysis)
+					res[system_] = compareanalysiss
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Complexity
 	case Complexity:
 		switch fieldname {
@@ -2973,6 +3200,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of CompareAnalysis
+	case CompareAnalysis:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Complexity
 	case Complexity:
 		switch fieldname {
@@ -3250,6 +3482,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *CompareAnalysis:
+		res = "CompareAnalysis"
 	case *Complexity:
 		res = "Complexity"
 	case *ComplexityShape:
@@ -3287,6 +3521,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *CompareAnalysis:
+		var rf ReverseField
+		_ = rf
 	case *Complexity:
 		var rf ReverseField
 		_ = rf
@@ -3403,6 +3640,27 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (compareanalysis *CompareAnalysis) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "FromSystem",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "System",
+		},
+		{
+			Name:                 "ToSystem",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "System",
+		},
+	}
+	return
+}
+
 func (complexity *Complexity) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -3656,10 +3914,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsRootLibrary",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "SubLibraries",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Library",
@@ -3683,6 +3937,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "RootEfforts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Effort",
+		},
+		{
+			Name:               "IsRootLibrary",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsSubLibrariesNodeExpanded",
@@ -3995,6 +4253,27 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (compareanalysis *CompareAnalysis) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = compareanalysis.Name
+	case "FromSystem":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if compareanalysis.FromSystem != nil {
+			res.valueString = compareanalysis.FromSystem.Name
+			res.ids = compareanalysis.FromSystem.GongGetUUID(stage)
+		}
+	case "ToSystem":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if compareanalysis.ToSystem != nil {
+			res.valueString = compareanalysis.ToSystem.Name
+			res.ids = compareanalysis.ToSystem.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (complexity *Complexity) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -4265,10 +4544,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsRootLibrary":
-		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
-		res.valueBool = library.IsRootLibrary
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "SubLibraries":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.SubLibraries {
@@ -4319,6 +4594,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsRootLibrary":
+		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
+		res.valueBool = library.IsRootLibrary
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsSubLibrariesNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded)
 		res.valueBool = library.IsSubLibrariesNodeExpanded
@@ -4635,6 +4914,39 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (compareanalysis *CompareAnalysis) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		compareanalysis.Name = value.GetValueString()
+	case "FromSystem":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			compareanalysis.FromSystem = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					compareanalysis.FromSystem = __instance__
+					break
+				}
+			}
+		}
+	case "ToSystem":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			compareanalysis.ToSystem = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					compareanalysis.ToSystem = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (complexity *Complexity) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -4899,8 +5211,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "IsRootLibrary":
-		library.IsRootLibrary = value.GetValueBool()
 	case "SubLibraries":
 		library.SubLibraries = make([]*Library, 0)
 		ids := strings.Split(value.ids, ";")
@@ -4971,6 +5281,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsRootLibrary":
+		library.IsRootLibrary = value.GetValueBool()
 	case "IsSubLibrariesNodeExpanded":
 		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
 	case "SubLibrariesWhoseNodeIsExpanded":
@@ -5308,6 +5620,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (compareanalysis *CompareAnalysis) GongGetGongstructName() string {
+	return "CompareAnalysis"
+}
+
 func (complexity *Complexity) GongGetGongstructName() string {
 	return "Complexity"
 }
@@ -5355,6 +5671,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.CompareAnalysiss_mapString = make(map[string]*CompareAnalysis)
+	for compareanalysis := range stage.CompareAnalysiss {
+		stage.CompareAnalysiss_mapString[compareanalysis.Name] = compareanalysis
+	}
+
 	stage.Complexitys_mapString = make(map[string]*Complexity)
 	for complexity := range stage.Complexitys {
 		stage.Complexitys_mapString[complexity.Name] = complexity

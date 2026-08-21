@@ -24,6 +24,8 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
+	case "CompareAnalysis":
+		updateProbeTable[*models.CompareAnalysis](probe)
 	case "Complexity":
 		updateProbeTable[*models.Complexity](probe)
 	case "ComplexityShape":

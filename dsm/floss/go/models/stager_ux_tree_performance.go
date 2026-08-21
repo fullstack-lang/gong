@@ -110,6 +110,27 @@ func (stager *Stager) treePerformanceWithinDiagramFloss(
 
 	addRenameButton(performance, node, stager)
 
+	deleteButton := &tree.Button{
+		Name:            "Delete",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Delete",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			system.Performances = slices.DeleteFunc(system.Performances, func(p *Performance) bool { return p == performance })
+			performance.Unstage(stager.stage)
+			if shape, ok := diagramFloss.map_Performance_PerformanceShape[performance]; ok {
+				shape.UnstageVoid(stager.stage)
+				diagramFloss.Performance_Shapes = slices.DeleteFunc(diagramFloss.Performance_Shapes, func(s *PerformanceShape) bool { return s == shape })
+			}
+			stager.stage.Commit()
+		},
+	}
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+	node.Menu.Buttons = append(node.Menu.Buttons, deleteButton)
+
 	if ok {
 		visibilityButton := &tree.Button{
 			Name:            diagramFloss.GetName(),

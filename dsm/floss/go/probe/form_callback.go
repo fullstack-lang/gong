@@ -19,6 +19,88 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__CompareAnalysisFormCallback(
+	compareanalysis *models.CompareAnalysis,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (compareanalysisFormCallback *CompareAnalysisFormCallback) {
+	compareanalysisFormCallback = new(CompareAnalysisFormCallback)
+	compareanalysisFormCallback.probe = probe
+	compareanalysisFormCallback.compareanalysis = compareanalysis
+	compareanalysisFormCallback.formGroup = formGroup
+
+	compareanalysisFormCallback.CreationMode = (compareanalysis == nil)
+
+	return
+}
+
+type CompareAnalysisFormCallback struct {
+	compareanalysis *models.CompareAnalysis
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (compareanalysisFormCallback *CompareAnalysisFormCallback) OnSave() {
+	compareanalysisFormCallback.probe.stageOfInterest.Lock()
+	defer compareanalysisFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("CompareAnalysisFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	compareanalysisFormCallback.probe.formStage.Checkout()
+
+	if compareanalysisFormCallback.compareanalysis == nil {
+		compareanalysisFormCallback.compareanalysis = new(models.CompareAnalysis).Stage(compareanalysisFormCallback.probe.stageOfInterest)
+	}
+	compareanalysis_ := compareanalysisFormCallback.compareanalysis
+	_ = compareanalysis_
+
+	for _, formDiv := range compareanalysisFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(compareanalysis_.Name), formDiv)
+		case "FromSystem":
+			FormDivSelectFieldToField(&(compareanalysis_.FromSystem), compareanalysisFormCallback.probe.stageOfInterest, formDiv)
+		case "ToSystem":
+			FormDivSelectFieldToField(&(compareanalysis_.ToSystem), compareanalysisFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if compareanalysisFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		compareanalysis_.Unstage(compareanalysisFormCallback.probe.stageOfInterest)
+	}
+
+	compareanalysisFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.CompareAnalysis](
+		compareanalysisFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if compareanalysisFormCallback.CreationMode || compareanalysisFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		compareanalysisFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(compareanalysisFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__CompareAnalysisFormCallback(
+			nil,
+			compareanalysisFormCallback.probe,
+			newFormGroup,
+		)
+		compareanalysis := new(models.CompareAnalysis)
+		FillUpForm(compareanalysis, newFormGroup, compareanalysisFormCallback.probe)
+		compareanalysisFormCallback.probe.formStage.Commit()
+	}
+
+	compareanalysisFormCallback.probe.ux_tree()
+}
 func __gong__New__ComplexityFormCallback(
 	complexity *models.Complexity,
 	probe *Probe,
@@ -1416,8 +1498,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "IsRootLibrary":
-			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "SubLibraries":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Library, 0)
@@ -1578,6 +1658,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			library_.RootEfforts = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootEfforts", &library_.RootEfforts)
 
+		case "IsRootLibrary":
+			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "IsSubLibrariesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsSubLibrariesNodeExpanded), formDiv)
 		case "SubLibrariesWhoseNodeIsExpanded":

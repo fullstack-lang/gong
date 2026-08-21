@@ -460,6 +460,39 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type CompareAnalysisUnmarshaller struct{}
+
+func (u *CompareAnalysisUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(CompareAnalysis)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *CompareAnalysisUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*CompareAnalysis)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "FromSystem":
+		GongUnmarshallPointer(&instance.FromSystem, valueExpr, identifierMap)
+	case "ToSystem":
+		GongUnmarshallPointer(&instance.ToSystem, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type ComplexityUnmarshaller struct{}
 
 func (u *ComplexityUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -720,8 +753,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "IsRootLibrary":
-		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "RootSystems":
@@ -732,6 +763,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootPerformances, valueExpr, identifierMap)
 	case "RootEfforts":
 		GongUnmarshallSliceOfPointers(&instance.RootEfforts, valueExpr, identifierMap)
+	case "IsRootLibrary":
+		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "IsSubLibrariesNodeExpanded":
 		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
 	case "SubLibrariesWhoseNodeIsExpanded":
