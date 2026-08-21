@@ -21,7 +21,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	libraryNode.OnClick = onNodeClicked(stager, library)
 
 	//
-	// Systemes
+	// Systems
 	//
 	systemesNode := &tree.Node{
 		Name:            "Systems",
@@ -80,6 +80,96 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 
 	//
+	// Complexities
+	//
+	complexitiesNode := &tree.Node{
+		Name:            "Complexities",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsComplexitysNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, complexitiesNode)
+	complexitiesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsComplexitysNodeExpanded)
+	complexitiesNode.OnClick = onNodeClicked(stager, library)
+
+	confComplexities := ItemButtonConfiguration[
+		Complexity, *Complexity,
+		Library, *Library,
+	]{
+		parentNode:                         complexitiesNode,
+		sliceForNewAddedItem:               &library.RootComplexitys,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsComplexitysNodeExpanded,
+		parentElement:                      library,
+	}
+	addCreateItemButton(stager, confComplexities)
+
+	for _, complexity := range library.RootComplexitys {
+		stager.treeComplexityWithinLibrary(library, complexity, complexitiesNode)
+	}
+
+	//
+	// Performances
+	//
+	performancesNode := &tree.Node{
+		Name:            "Performances",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsPerformancesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, performancesNode)
+	performancesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsPerformancesNodeExpanded)
+	performancesNode.OnClick = onNodeClicked(stager, library)
+
+	confPerformances := ItemButtonConfiguration[
+		Performance, *Performance,
+		Library, *Library,
+	]{
+		parentNode:                         performancesNode,
+		sliceForNewAddedItem:               &library.RootPerformances,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsPerformancesNodeExpanded,
+		parentElement:                      library,
+	}
+	addCreateItemButton(stager, confPerformances)
+
+	for _, performance := range library.RootPerformances {
+		stager.treePerformanceWithinLibrary(library, performance, performancesNode)
+	}
+
+	//
+	// Efforts
+	//
+	effortsNode := &tree.Node{
+		Name:            "Efforts",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsEffortsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, effortsNode)
+	effortsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsEffortsNodeExpanded)
+	effortsNode.OnClick = onNodeClicked(stager, library)
+
+	confEfforts := ItemButtonConfiguration[
+		Effort, *Effort,
+		Library, *Library,
+	]{
+		parentNode:                         effortsNode,
+		sliceForNewAddedItem:               &library.RootEfforts,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsEffortsNodeExpanded,
+		parentElement:                      library,
+	}
+	addCreateItemButton(stager, confEfforts)
+
+	for _, effort := range library.RootEfforts {
+		stager.treeEffortWithinLibrary(library, effort, effortsNode)
+	}
+
+	//
 	// Notes
 	//
 	notesNode := &tree.Node{
@@ -101,6 +191,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 		parentNodeExpansionBooleanValue:    &library.IsNotesNodeExpanded,
+		parentElement:                      library,
 	}
 	addCreateItemButton(stager, confNotes)
 
@@ -136,6 +227,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 		parentNodeExpansionBooleanValue:    &library.IsSubLibrariesNodeExpanded,
+		parentElement:                      library,
 	}
 	addCreateItemButton(stager, confSubLibraries)
 }
