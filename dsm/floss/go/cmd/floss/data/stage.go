@@ -48,11 +48,15 @@ func _(stage *models.Stage) {
 	__Effort__00000001_ := (&models.Effort{Name: `Angular environment`}).Stage(stage)
 	__Effort__00000002_ := (&models.Effort{Name: `Gong Framework`}).Stage(stage)
 	__Effort__00000003_ := (&models.Effort{Name: `Reference DSMs`}).Stage(stage)
+	__Effort__00000004_ := (&models.Effort{Name: `Developping a SysML Tool`}).Stage(stage)
+	__Effort__00000005_ := (&models.Effort{Name: `Tayloring SysML Tool`}).Stage(stage)
 
 	__EffortShape__00000000_ := (&models.EffortShape{Name: `Go environment-DiagramFloss`}).Stage(stage)
 	__EffortShape__00000001_ := (&models.EffortShape{Name: `Angular environment-DiagramFloss`}).Stage(stage)
 	__EffortShape__00000002_ := (&models.EffortShape{Name: `Gong Framework-DiagramFloss`}).Stage(stage)
 	__EffortShape__00000003_ := (&models.EffortShape{Name: `Reference DSMs-DiagramFloss`}).Stage(stage)
+	__EffortShape__00000004_ := (&models.EffortShape{Name: `Developping a SysML Tool-System 1 Diagram`}).Stage(stage)
+	__EffortShape__00000005_ := (&models.EffortShape{Name: `Tayloring SysML Tool-System 1 Diagram`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Floss Library`}).Stage(stage)
 
@@ -172,7 +176,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000000_.Description = ``
 	__DiagramFloss__00000000_.ComputedPrefix = ``
 	__DiagramFloss__00000000_.IsExpanded = false
-	__DiagramFloss__00000000_.IsChecked = false
+	__DiagramFloss__00000000_.IsChecked = true
 	__DiagramFloss__00000000_.IsEditable_ = true
 	__DiagramFloss__00000000_.IsShowPrefix = false
 	__DiagramFloss__00000000_.DefaultBoxWidth = 250.000000
@@ -182,7 +186,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000000_.IsSystemsNodeExpanded = false
 	__DiagramFloss__00000000_.IsComplexitysNodeExpanded = true
 	__DiagramFloss__00000000_.IsPerformancesNodeExpanded = true
-	__DiagramFloss__00000000_.IsEffortsNodeExpanded = false
+	__DiagramFloss__00000000_.IsEffortsNodeExpanded = true
 
 	__DiagramFloss__00000001_.Name = `DiagramFloss`
 	__DiagramFloss__00000001_.Description = ``
@@ -204,7 +208,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000002_.Description = ``
 	__DiagramFloss__00000002_.ComputedPrefix = ``
 	__DiagramFloss__00000002_.IsExpanded = false
-	__DiagramFloss__00000002_.IsChecked = true
+	__DiagramFloss__00000002_.IsChecked = false
 	__DiagramFloss__00000002_.IsEditable_ = true
 	__DiagramFloss__00000002_.IsShowPrefix = false
 	__DiagramFloss__00000002_.DefaultBoxWidth = 250.000000
@@ -235,6 +239,16 @@ func _(stage *models.Stage) {
 	__Effort__00000003_.Strength = 0.000000
 	__Effort__00000003_.ComputedPrefix = ``
 	__Effort__00000003_.IsExpanded = false
+
+	__Effort__00000004_.Name = `Developping a SysML Tool`
+	__Effort__00000004_.Strength = 0.000000
+	__Effort__00000004_.ComputedPrefix = ``
+	__Effort__00000004_.IsExpanded = false
+
+	__Effort__00000005_.Name = `Tayloring SysML Tool`
+	__Effort__00000005_.Strength = 0.000000
+	__Effort__00000005_.ComputedPrefix = ``
+	__Effort__00000005_.IsExpanded = false
 
 	__EffortShape__00000000_.Name = `Go environment-DiagramFloss`
 	__EffortShape__00000000_.IsExpanded = false
@@ -267,6 +281,22 @@ func _(stage *models.Stage) {
 	__EffortShape__00000003_.Width = 180.000000
 	__EffortShape__00000003_.Height = 40.000000
 	__EffortShape__00000003_.IsHidden = false
+
+	__EffortShape__00000004_.Name = `Developping a SysML Tool-System 1 Diagram`
+	__EffortShape__00000004_.IsExpanded = false
+	__EffortShape__00000004_.X = 84.000000
+	__EffortShape__00000004_.Y = 128.000000
+	__EffortShape__00000004_.Width = 180.000000
+	__EffortShape__00000004_.Height = 40.000000
+	__EffortShape__00000004_.IsHidden = false
+
+	__EffortShape__00000005_.Name = `Tayloring SysML Tool-System 1 Diagram`
+	__EffortShape__00000005_.IsExpanded = false
+	__EffortShape__00000005_.X = 309.000000
+	__EffortShape__00000005_.Y = 127.000000
+	__EffortShape__00000005_.Width = 180.000000
+	__EffortShape__00000005_.Height = 40.000000
+	__EffortShape__00000005_.IsHidden = false
 
 	__Library__00000000_.Name = `Floss Library`
 	__Library__00000000_.Description = ``
@@ -341,8 +371,8 @@ func _(stage *models.Stage) {
 
 	__PerformanceShape__00000004_.Name = `Modelling Systems with Diagramming-System 1 Diagram`
 	__PerformanceShape__00000004_.IsExpanded = false
-	__PerformanceShape__00000004_.X = 133.000000
-	__PerformanceShape__00000004_.Y = 231.000000
+	__PerformanceShape__00000004_.X = 88.000000
+	__PerformanceShape__00000004_.Y = 219.000000
 	__PerformanceShape__00000004_.Width = 141.000000
 	__PerformanceShape__00000004_.Height = 93.000000
 	__PerformanceShape__00000004_.IsHidden = false
@@ -388,7 +418,7 @@ func _(stage *models.Stage) {
 	__System__00000000_.IsSubSystemNodeExpanded = false
 	__System__00000000_.IsComplexitysNodeExpanded = true
 	__System__00000000_.IsPerformancesNodeExpanded = true
-	__System__00000000_.IsEffortsNodeExpanded = false
+	__System__00000000_.IsEffortsNodeExpanded = true
 
 	__System__00000001_.Name = `SysML V2`
 	__System__00000001_.Description = ``
@@ -415,7 +445,7 @@ func _(stage *models.Stage) {
 	__SystemShape__00000000_.Name = `System 1-System 1 Diagram`
 	__SystemShape__00000000_.IsExpanded = false
 	__SystemShape__00000000_.X = 54.000000
-	__SystemShape__00000000_.Y = 58.000000
+	__SystemShape__00000000_.Y = 60.000000
 	__SystemShape__00000000_.Width = 871.000000
 	__SystemShape__00000000_.Height = 600.000000
 	__SystemShape__00000000_.IsHidden = false
@@ -447,6 +477,8 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000000_.System_Shapes = append(__DiagramFloss__00000000_.System_Shapes, __SystemShape__00000000_)
 	__DiagramFloss__00000000_.Complexity_Shapes = append(__DiagramFloss__00000000_.Complexity_Shapes, __ComplexityShape__00000000_)
 	__DiagramFloss__00000000_.Performance_Shapes = append(__DiagramFloss__00000000_.Performance_Shapes, __PerformanceShape__00000004_)
+	__DiagramFloss__00000000_.Effort_Shapes = append(__DiagramFloss__00000000_.Effort_Shapes, __EffortShape__00000004_)
+	__DiagramFloss__00000000_.Effort_Shapes = append(__DiagramFloss__00000000_.Effort_Shapes, __EffortShape__00000005_)
 	__DiagramFloss__00000001_.System_Shapes = append(__DiagramFloss__00000001_.System_Shapes, __SystemShape__00000001_)
 	__DiagramFloss__00000001_.Complexity_Shapes = append(__DiagramFloss__00000001_.Complexity_Shapes, __ComplexityShape__00000001_)
 	__DiagramFloss__00000001_.Complexity_Shapes = append(__DiagramFloss__00000001_.Complexity_Shapes, __ComplexityShape__00000003_)
@@ -471,12 +503,11 @@ func _(stage *models.Stage) {
 	__EffortShape__00000001_.Effort = __Effort__00000001_
 	__EffortShape__00000002_.Effort = __Effort__00000002_
 	__EffortShape__00000003_.Effort = __Effort__00000003_
+	__EffortShape__00000004_.Effort = __Effort__00000004_
+	__EffortShape__00000005_.Effort = __Effort__00000005_
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000000_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000001_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000002_)
-	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
-	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000001_)
-	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000002_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000000_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000001_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000002_)
@@ -492,6 +523,10 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000001_)
 	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000002_)
 	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000003_)
+	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000004_)
+	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000005_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000001_)
 	__PerformanceShape__00000000_.Performance = __Performance__00000000_
 	__PerformanceShape__00000001_.Performance = __Performance__00000001_
 	__PerformanceShape__00000002_.Performance = __Performance__00000003_
@@ -502,7 +537,9 @@ func _(stage *models.Stage) {
 	__PerformanceShape__00000007_.Performance = __Performance__00000001_
 	__PerformanceShape__00000008_.Performance = __Performance__00000002_
 	__System__00000000_.Complexities = append(__System__00000000_.Complexities, __Complexity__00000000_)
-	__System__00000000_.Performances = append(__System__00000000_.Performances, __Performance__00000000_)
+	__System__00000000_.Performances = append(__System__00000000_.Performances, __Performance__00000004_)
+	__System__00000000_.Efforts = append(__System__00000000_.Efforts, __Effort__00000004_)
+	__System__00000000_.Efforts = append(__System__00000000_.Efforts, __Effort__00000005_)
 	__System__00000000_.DiagramFlosses = append(__System__00000000_.DiagramFlosses, __DiagramFloss__00000000_)
 	__System__00000000_.DiagramFlossWhoseNodeIsExpanded = append(__System__00000000_.DiagramFlossWhoseNodeIsExpanded, __DiagramFloss__00000000_)
 	__System__00000001_.Complexities = append(__System__00000001_.Complexities, __Complexity__00000000_)
@@ -513,7 +550,6 @@ func _(stage *models.Stage) {
 	__System__00000001_.Performances = append(__System__00000001_.Performances, __Performance__00000001_)
 	__System__00000001_.Performances = append(__System__00000001_.Performances, __Performance__00000002_)
 	__System__00000001_.DiagramFlosses = append(__System__00000001_.DiagramFlosses, __DiagramFloss__00000001_)
-	__System__00000001_.DiagramFlossWhoseNodeIsExpanded = append(__System__00000001_.DiagramFlossWhoseNodeIsExpanded, __DiagramFloss__00000001_)
 	__System__00000002_.Complexities = append(__System__00000002_.Complexities, __Complexity__00000002_)
 	__System__00000002_.Complexities = append(__System__00000002_.Complexities, __Complexity__00000004_)
 	__System__00000002_.Complexities = append(__System__00000002_.Complexities, __Complexity__00000005_)
@@ -527,7 +563,6 @@ func _(stage *models.Stage) {
 	__System__00000002_.Efforts = append(__System__00000002_.Efforts, __Effort__00000002_)
 	__System__00000002_.Efforts = append(__System__00000002_.Efforts, __Effort__00000003_)
 	__System__00000002_.DiagramFlosses = append(__System__00000002_.DiagramFlosses, __DiagramFloss__00000002_)
-	__System__00000002_.DiagramFlossWhoseNodeIsExpanded = append(__System__00000002_.DiagramFlossWhoseNodeIsExpanded, __DiagramFloss__00000002_)
 	__SystemShape__00000000_.System = __System__00000000_
 	__SystemShape__00000001_.System = __System__00000001_
 	__SystemShape__00000002_.System = __System__00000002_

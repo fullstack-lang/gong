@@ -234,21 +234,21 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
-	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
-
 	Library_RootSystems_reverseMap map[*System]*Library
-
-	Library_SystemsWhoseNodeIsExpanded_reverseMap map[*System]*Library
 
 	Library_RootComplexitys_reverseMap map[*Complexity]*Library
 
-	Library_ComplexitysWhoseNodeIsExpanded_reverseMap map[*Complexity]*Library
-
 	Library_RootPerformances_reverseMap map[*Performance]*Library
 
-	Library_PerformancesWhoseNodeIsExpanded_reverseMap map[*Performance]*Library
-
 	Library_RootEfforts_reverseMap map[*Effort]*Library
+
+	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
+
+	Library_SystemsWhoseNodeIsExpanded_reverseMap map[*System]*Library
+
+	Library_ComplexitysWhoseNodeIsExpanded_reverseMap map[*Complexity]*Library
+
+	Library_PerformancesWhoseNodeIsExpanded_reverseMap map[*Performance]*Library
 
 	Library_EffortsWhoseNodeIsExpanded_reverseMap map[*Effort]*Library
 
@@ -2766,22 +2766,22 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
+			// field is initialized with an instance of System with the name of the field
+			RootSystems: []*System{{Name: "RootSystems"}},
+			// field is initialized with an instance of Complexity with the name of the field
+			RootComplexitys: []*Complexity{{Name: "RootComplexitys"}},
+			// field is initialized with an instance of Performance with the name of the field
+			RootPerformances: []*Performance{{Name: "RootPerformances"}},
+			// field is initialized with an instance of Effort with the name of the field
+			RootEfforts: []*Effort{{Name: "RootEfforts"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of System with the name of the field
-			RootSystems: []*System{{Name: "RootSystems"}},
-			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Complexity with the name of the field
-			RootComplexitys: []*Complexity{{Name: "RootComplexitys"}},
 			// field is initialized with an instance of Complexity with the name of the field
 			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Performance with the name of the field
-			RootPerformances: []*Performance{{Name: "RootPerformances"}},
-			// field is initialized with an instance of Performance with the name of the field
 			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Effort with the name of the field
-			RootEfforts: []*Effort{{Name: "RootEfforts"}},
 			// field is initialized with an instance of Effort with the name of the field
 			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
 		}).(*Type)
@@ -3074,26 +3074,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "SubLibrariesWhoseNodeIsExpanded":
-			res := make(map[*Library][]*Library)
-			for library := range stage.Librarys {
-				for _, library_ := range library.SubLibrariesWhoseNodeIsExpanded {
-					res[library_] = append(res[library_], library)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "RootSystems":
 			res := make(map[*System][]*Library)
 			for library := range stage.Librarys {
 				for _, system_ := range library.RootSystems {
-					res[system_] = append(res[system_], library)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "SystemsWhoseNodeIsExpanded":
-			res := make(map[*System][]*Library)
-			for library := range stage.Librarys {
-				for _, system_ := range library.SystemsWhoseNodeIsExpanded {
 					res[system_] = append(res[system_], library)
 				}
 			}
@@ -3106,26 +3090,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ComplexitysWhoseNodeIsExpanded":
-			res := make(map[*Complexity][]*Library)
-			for library := range stage.Librarys {
-				for _, complexity_ := range library.ComplexitysWhoseNodeIsExpanded {
-					res[complexity_] = append(res[complexity_], library)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "RootPerformances":
 			res := make(map[*Performance][]*Library)
 			for library := range stage.Librarys {
 				for _, performance_ := range library.RootPerformances {
-					res[performance_] = append(res[performance_], library)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "PerformancesWhoseNodeIsExpanded":
-			res := make(map[*Performance][]*Library)
-			for library := range stage.Librarys {
-				for _, performance_ := range library.PerformancesWhoseNodeIsExpanded {
 					res[performance_] = append(res[performance_], library)
 				}
 			}
@@ -3135,6 +3103,38 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for library := range stage.Librarys {
 				for _, effort_ := range library.RootEfforts {
 					res[effort_] = append(res[effort_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SubLibrariesWhoseNodeIsExpanded":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibrariesWhoseNodeIsExpanded {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SystemsWhoseNodeIsExpanded":
+			res := make(map[*System][]*Library)
+			for library := range stage.Librarys {
+				for _, system_ := range library.SystemsWhoseNodeIsExpanded {
+					res[system_] = append(res[system_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ComplexitysWhoseNodeIsExpanded":
+			res := make(map[*Complexity][]*Library)
+			for library := range stage.Librarys {
+				for _, complexity_ := range library.ComplexitysWhoseNodeIsExpanded {
+					res[complexity_] = append(res[complexity_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PerformancesWhoseNodeIsExpanded":
+			res := make(map[*Performance][]*Library)
+			for library := range stage.Librarys {
+				for _, performance_ := range library.PerformancesWhoseNodeIsExpanded {
+					res[performance_] = append(res[performance_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3665,6 +3665,26 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Library",
 		},
 		{
+			Name:                 "RootSystems",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "System",
+		},
+		{
+			Name:                 "RootComplexitys",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:                 "RootPerformances",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:                 "RootEfforts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
+		},
+		{
 			Name:               "IsSubLibrariesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3682,11 +3702,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "RootSystems",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "System",
-		},
-		{
 			Name:               "IsSystemsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3694,11 +3709,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "SystemsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "System",
-		},
-		{
-			Name:                 "RootComplexitys",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Complexity",
 		},
 		{
 			Name:               "IsComplexitysNodeExpanded",
@@ -3710,11 +3720,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Complexity",
 		},
 		{
-			Name:                 "RootPerformances",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Performance",
-		},
-		{
 			Name:               "IsPerformancesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3722,11 +3727,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "PerformancesWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Performance",
-		},
-		{
-			Name:                 "RootEfforts",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Effort",
 		},
 		{
 			Name:               "IsEffortsNodeExpanded",
@@ -4279,6 +4279,46 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RootSystems":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootSystems {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootComplexitys":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootComplexitys {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootPerformances":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootPerformances {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootEfforts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootEfforts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsSubLibrariesNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded)
 		res.valueBool = library.IsSubLibrariesNodeExpanded
@@ -4299,16 +4339,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "LogoSVGFile":
 		res.valueString = library.LogoSVGFile
-	case "RootSystems":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.RootSystems {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "IsSystemsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", library.IsSystemsNodeExpanded)
 		res.valueBool = library.IsSystemsNodeExpanded
@@ -4316,16 +4346,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "SystemsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.SystemsWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "RootComplexitys":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.RootComplexitys {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4347,16 +4367,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "RootPerformances":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.RootPerformances {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "IsPerformancesNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", library.IsPerformancesNodeExpanded)
 		res.valueBool = library.IsPerformancesNodeExpanded
@@ -4364,16 +4374,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "PerformancesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.PerformancesWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "RootEfforts":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.RootEfforts {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4915,6 +4915,62 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootSystems":
+		library.RootSystems = make([]*System, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						library.RootSystems = append(library.RootSystems, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootComplexitys":
+		library.RootComplexitys = make([]*Complexity, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Complexitys {
+					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
+						library.RootComplexitys = append(library.RootComplexitys, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootPerformances":
+		library.RootPerformances = make([]*Performance, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Performances {
+					if stage.Performance_stagedOrder[__instance__] == uint(id) {
+						library.RootPerformances = append(library.RootPerformances, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootEfforts":
+		library.RootEfforts = make([]*Effort, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Efforts {
+					if stage.Effort_stagedOrder[__instance__] == uint(id) {
+						library.RootEfforts = append(library.RootEfforts, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsSubLibrariesNodeExpanded":
 		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
 	case "SubLibrariesWhoseNodeIsExpanded":
@@ -4935,20 +4991,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.NbPixPerCharacter = value.GetValueFloat()
 	case "LogoSVGFile":
 		library.LogoSVGFile = value.GetValueString()
-	case "RootSystems":
-		library.RootSystems = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						library.RootSystems = append(library.RootSystems, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "IsSystemsNodeExpanded":
 		library.IsSystemsNodeExpanded = value.GetValueBool()
 	case "SystemsWhoseNodeIsExpanded":
@@ -4960,20 +5002,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Systems {
 					if stage.System_stagedOrder[__instance__] == uint(id) {
 						library.SystemsWhoseNodeIsExpanded = append(library.SystemsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootComplexitys":
-		library.RootComplexitys = make([]*Complexity, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Complexitys {
-					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
-						library.RootComplexitys = append(library.RootComplexitys, __instance__)
 						break
 					}
 				}
@@ -4995,20 +5023,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "RootPerformances":
-		library.RootPerformances = make([]*Performance, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Performances {
-					if stage.Performance_stagedOrder[__instance__] == uint(id) {
-						library.RootPerformances = append(library.RootPerformances, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "IsPerformancesNodeExpanded":
 		library.IsPerformancesNodeExpanded = value.GetValueBool()
 	case "PerformancesWhoseNodeIsExpanded":
@@ -5020,20 +5034,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Performances {
 					if stage.Performance_stagedOrder[__instance__] == uint(id) {
 						library.PerformancesWhoseNodeIsExpanded = append(library.PerformancesWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "RootEfforts":
-		library.RootEfforts = make([]*Effort, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Efforts {
-					if stage.Effort_stagedOrder[__instance__] == uint(id) {
-						library.RootEfforts = append(library.RootEfforts, __instance__)
 						break
 					}
 				}

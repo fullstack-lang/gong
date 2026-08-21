@@ -89,14 +89,14 @@ func (effortshape *EffortShape) GongClean(stage *Stage) (modified bool) {
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
-	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootSystems) || modified
-	modified = GongCleanSlice(stage, &library.SystemsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootComplexitys) || modified
-	modified = GongCleanSlice(stage, &library.ComplexitysWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootPerformances) || modified
-	modified = GongCleanSlice(stage, &library.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootEfforts) || modified
+	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.SystemsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.ComplexitysWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.EffortsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return

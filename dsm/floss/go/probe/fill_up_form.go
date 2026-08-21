@@ -308,6 +308,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("SubLibraries", instanceWithInferedType, &instanceWithInferedType.SubLibraries, formGroup, probe)
+		AssociationSliceToForm("RootSystems", instanceWithInferedType, &instanceWithInferedType.RootSystems, formGroup, probe)
+		AssociationSliceToForm("RootComplexitys", instanceWithInferedType, &instanceWithInferedType.RootComplexitys, formGroup, probe)
+		AssociationSliceToForm("RootPerformances", instanceWithInferedType, &instanceWithInferedType.RootPerformances, formGroup, probe)
+		AssociationSliceToForm("RootEfforts", instanceWithInferedType, &instanceWithInferedType.RootEfforts, formGroup, probe)
 		BasicFieldtoForm("IsSubLibrariesNodeExpanded", instanceWithInferedType.IsSubLibrariesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("SubLibrariesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.SubLibrariesWhoseNodeIsExpanded, formGroup, probe)
@@ -315,19 +319,15 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("LogoSVGFile", instanceWithInferedType.LogoSVGFile, instanceWithInferedType, probe.formStage, formGroup,
 			false, true, 600, true, 300, false)
-		AssociationSliceToForm("RootSystems", instanceWithInferedType, &instanceWithInferedType.RootSystems, formGroup, probe)
 		BasicFieldtoForm("IsSystemsNodeExpanded", instanceWithInferedType.IsSystemsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("SystemsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.SystemsWhoseNodeIsExpanded, formGroup, probe)
-		AssociationSliceToForm("RootComplexitys", instanceWithInferedType, &instanceWithInferedType.RootComplexitys, formGroup, probe)
 		BasicFieldtoForm("IsComplexitysNodeExpanded", instanceWithInferedType.IsComplexitysNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("ComplexitysWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ComplexitysWhoseNodeIsExpanded, formGroup, probe)
-		AssociationSliceToForm("RootPerformances", instanceWithInferedType, &instanceWithInferedType.RootPerformances, formGroup, probe)
 		BasicFieldtoForm("IsPerformancesNodeExpanded", instanceWithInferedType.IsPerformancesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("PerformancesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PerformancesWhoseNodeIsExpanded, formGroup, probe)
-		AssociationSliceToForm("RootEfforts", instanceWithInferedType, &instanceWithInferedType.RootEfforts, formGroup, probe)
 		BasicFieldtoForm("IsEffortsNodeExpanded", instanceWithInferedType.IsEffortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("EffortsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.EffortsWhoseNodeIsExpanded, formGroup, probe)

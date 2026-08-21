@@ -9,10 +9,18 @@ type Library struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	SubLibraries     []*Library
+	RootSystems      []*System
+	RootComplexitys  []*Complexity
+	RootPerformances []*Performance
+	RootEfforts      []*Effort
+
+	/*
+	 technical fields further
+	*/
+
 	// There is one and only one root library per stage.
 	IsRootLibrary bool
-
-	SubLibraries []*Library
 
 	// DSM specifc
 	objects []AbstractType
@@ -26,19 +34,16 @@ type Library struct {
 	LogoSVGFile string // the content of the logo file, used for the static site generation
 
 	// DSM specific fields
-	RootSystems                []*System
+
 	IsSystemsNodeExpanded      bool
 	SystemsWhoseNodeIsExpanded []*System
 
-	RootComplexitys                []*Complexity
 	IsComplexitysNodeExpanded      bool
 	ComplexitysWhoseNodeIsExpanded []*Complexity
 
-	RootPerformances                []*Performance
 	IsPerformancesNodeExpanded      bool
 	PerformancesWhoseNodeIsExpanded []*Performance
 
-	RootEfforts                []*Effort
 	IsEffortsNodeExpanded      bool
 	EffortsWhoseNodeIsExpanded []*Effort
 

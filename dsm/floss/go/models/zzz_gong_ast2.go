@@ -724,6 +724,14 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
+	case "RootSystems":
+		GongUnmarshallSliceOfPointers(&instance.RootSystems, valueExpr, identifierMap)
+	case "RootComplexitys":
+		GongUnmarshallSliceOfPointers(&instance.RootComplexitys, valueExpr, identifierMap)
+	case "RootPerformances":
+		GongUnmarshallSliceOfPointers(&instance.RootPerformances, valueExpr, identifierMap)
+	case "RootEfforts":
+		GongUnmarshallSliceOfPointers(&instance.RootEfforts, valueExpr, identifierMap)
 	case "IsSubLibrariesNodeExpanded":
 		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
 	case "SubLibrariesWhoseNodeIsExpanded":
@@ -732,26 +740,18 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
 	case "LogoSVGFile":
 		instance.LogoSVGFile = GongExtractString(valueExpr)
-	case "RootSystems":
-		GongUnmarshallSliceOfPointers(&instance.RootSystems, valueExpr, identifierMap)
 	case "IsSystemsNodeExpanded":
 		instance.IsSystemsNodeExpanded = GongExtractBool(valueExpr)
 	case "SystemsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.SystemsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "RootComplexitys":
-		GongUnmarshallSliceOfPointers(&instance.RootComplexitys, valueExpr, identifierMap)
 	case "IsComplexitysNodeExpanded":
 		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
 	case "ComplexitysWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ComplexitysWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "RootPerformances":
-		GongUnmarshallSliceOfPointers(&instance.RootPerformances, valueExpr, identifierMap)
 	case "IsPerformancesNodeExpanded":
 		instance.IsPerformancesNodeExpanded = GongExtractBool(valueExpr)
 	case "PerformancesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.PerformancesWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "RootEfforts":
-		GongUnmarshallSliceOfPointers(&instance.RootEfforts, valueExpr, identifierMap)
 	case "IsEffortsNodeExpanded":
 		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
 	case "EffortsWhoseNodeIsExpanded":
