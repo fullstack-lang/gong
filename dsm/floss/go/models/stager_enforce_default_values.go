@@ -24,6 +24,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 	}
 
 	for _, diagramsystem := range GetGongstrucsSorted[*DiagramFloss](stager.stage) {
+		if !diagramsystem.IsEditable_ {
+			diagramsystem.IsEditable_ = true
+			needCommit = true
+		}
 		if diagramsystem.DefaultBoxHeigth == 0 {
 			diagramsystem.DefaultBoxHeigth = defaultBoxHeigth
 			needCommit = true
@@ -43,6 +47,10 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 	}
 
 	for _, diagramEquation := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+		if !diagramEquation.IsEditable_ {
+			diagramEquation.IsEditable_ = true
+			needCommit = true
+		}
 		if diagramEquation.Width == 0 {
 			diagramEquation.Width = 1000.0
 			needCommit = true
@@ -64,6 +72,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 		}
 	}
+
 	return
 }
 

@@ -19,9 +19,11 @@ func (stager *Stager) enforceFlossEquation() (needCommit bool) {
 			diagram := new(DiagramFlossEquation).Stage(stager.stage)
 			diagram.Name = compareAnalysis.Name + " Equation Diagram"
 			diagram.Scale = 5.0
+			diagram.IsEditable_ = true
 			compareAnalysis.DiagramFlossEquations = append(compareAnalysis.DiagramFlossEquations, diagram)
 			needCommit = true
 		}
+
 
 		for _, diagram := range compareAnalysis.DiagramFlossEquations {
 			diagram.SetOwningCompareAnalysis(compareAnalysis)
