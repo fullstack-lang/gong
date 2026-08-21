@@ -91,9 +91,13 @@ type CompareAnalysis struct {
 	Alpha float64
 	Beta  *float64
 
+	DiagramFlossEquations                  []*DiagramFlossEquation
+	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation
+
 	LibraryAbstractFields
 	AbstractTypeFields
 }
 
 var _ AbstractType = (*CompareAnalysis)(nil)
+
 

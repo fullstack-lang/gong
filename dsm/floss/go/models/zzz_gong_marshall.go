@@ -311,6 +311,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquations"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -423,6 +425,54 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "Effort_Shapes"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "Note_Shapes"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NoteComplexityShapes"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NotePerformanceShapes"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NoteEffortShapes"))
+		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+	}
+
+	diagramflossequationOrdered := []*DiagramFlossEquation{}
+	for diagramflossequation := range stage.DiagramFlossEquations {
+		diagramflossequationOrdered = append(diagramflossequationOrdered, diagramflossequation)
+	}
+	sort.Slice(diagramflossequationOrdered[:], func(i, j int) bool {
+		diagramflossequationi := diagramflossequationOrdered[i]
+		diagramflossequationj := diagramflossequationOrdered[j]
+		diagramflossequationi_order, oki := stage.DiagramFlossEquation_stagedOrder[diagramflossequationi]
+		diagramflossequationj_order, okj := stage.DiagramFlossEquation_stagedOrder[diagramflossequationj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return diagramflossequationi_order < diagramflossequationj_order
+	})
+	if len(diagramflossequationOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, diagramflossequation := range diagramflossequationOrdered {
+
+		identifiersDecl.WriteString(diagramflossequation.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxHeigth"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Note_Shapes"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NoteComplexityShapes"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NotePerformanceShapes"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NoteEffortShapes"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 	}
 
 	effortOrdered := []*Effort{}
@@ -520,6 +570,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootCompareAnalysis"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootNotes"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
@@ -535,7 +586,178 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsCompareAnalysisNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "CompareAnalysisWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
+
+	noteOrdered := []*Note{}
+	for note := range stage.Notes {
+		noteOrdered = append(noteOrdered, note)
+	}
+	sort.Slice(noteOrdered[:], func(i, j int) bool {
+		notei := noteOrdered[i]
+		notej := noteOrdered[j]
+		notei_order, oki := stage.Note_stagedOrder[notei]
+		notej_order, okj := stage.Note_stagedOrder[notej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return notei_order < notej_order
+	})
+	if len(noteOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, note := range noteOrdered {
+
+		identifiersDecl.WriteString(note.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Complexities"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Performances"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Efforts"))
+	}
+
+	notecomplexityshapeOrdered := []*NoteComplexityShape{}
+	for notecomplexityshape := range stage.NoteComplexityShapes {
+		notecomplexityshapeOrdered = append(notecomplexityshapeOrdered, notecomplexityshape)
+	}
+	sort.Slice(notecomplexityshapeOrdered[:], func(i, j int) bool {
+		notecomplexityshapei := notecomplexityshapeOrdered[i]
+		notecomplexityshapej := notecomplexityshapeOrdered[j]
+		notecomplexityshapei_order, oki := stage.NoteComplexityShape_stagedOrder[notecomplexityshapei]
+		notecomplexityshapej_order, okj := stage.NoteComplexityShape_stagedOrder[notecomplexityshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return notecomplexityshapei_order < notecomplexityshapej_order
+	})
+	if len(notecomplexityshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, notecomplexityshape := range notecomplexityshapeOrdered {
+
+		identifiersDecl.WriteString(notecomplexityshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Complexity"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	noteeffortshapeOrdered := []*NoteEffortShape{}
+	for noteeffortshape := range stage.NoteEffortShapes {
+		noteeffortshapeOrdered = append(noteeffortshapeOrdered, noteeffortshape)
+	}
+	sort.Slice(noteeffortshapeOrdered[:], func(i, j int) bool {
+		noteeffortshapei := noteeffortshapeOrdered[i]
+		noteeffortshapej := noteeffortshapeOrdered[j]
+		noteeffortshapei_order, oki := stage.NoteEffortShape_stagedOrder[noteeffortshapei]
+		noteeffortshapej_order, okj := stage.NoteEffortShape_stagedOrder[noteeffortshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return noteeffortshapei_order < noteeffortshapej_order
+	})
+	if len(noteeffortshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, noteeffortshape := range noteeffortshapeOrdered {
+
+		identifiersDecl.WriteString(noteeffortshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Effort"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	noteperformanceshapeOrdered := []*NotePerformanceShape{}
+	for noteperformanceshape := range stage.NotePerformanceShapes {
+		noteperformanceshapeOrdered = append(noteperformanceshapeOrdered, noteperformanceshape)
+	}
+	sort.Slice(noteperformanceshapeOrdered[:], func(i, j int) bool {
+		noteperformanceshapei := noteperformanceshapeOrdered[i]
+		noteperformanceshapej := noteperformanceshapeOrdered[j]
+		noteperformanceshapei_order, oki := stage.NotePerformanceShape_stagedOrder[noteperformanceshapei]
+		noteperformanceshapej_order, okj := stage.NotePerformanceShape_stagedOrder[noteperformanceshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return noteperformanceshapei_order < noteperformanceshapej_order
+	})
+	if len(noteperformanceshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, noteperformanceshape := range noteperformanceshapeOrdered {
+
+		identifiersDecl.WriteString(noteperformanceshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Performance"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	noteshapeOrdered := []*NoteShape{}
+	for noteshape := range stage.NoteShapes {
+		noteshapeOrdered = append(noteshapeOrdered, noteshape)
+	}
+	sort.Slice(noteshapeOrdered[:], func(i, j int) bool {
+		noteshapei := noteshapeOrdered[i]
+		noteshapej := noteshapeOrdered[j]
+		noteshapei_order, oki := stage.NoteShape_stagedOrder[noteshapei]
+		noteshapej_order, okj := stage.NoteShape_stagedOrder[noteshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return noteshapei_order < noteshapej_order
+	})
+	if len(noteshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, noteshape := range noteshapeOrdered {
+
+		identifiersDecl.WriteString(noteshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	performanceOrdered := []*Performance{}
@@ -710,6 +932,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, diagramflossequation := range diagramflossequationOrdered {
+		_ = diagramflossequation
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, effort := range effortOrdered {
 		_ = effort
 		var setPointerField string
@@ -728,6 +958,46 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, library := range libraryOrdered {
 		_ = library
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, note := range noteOrdered {
+		_ = note
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, notecomplexityshape := range notecomplexityshapeOrdered {
+		_ = notecomplexityshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, noteeffortshape := range noteeffortshapeOrdered {
+		_ = noteeffortshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, noteperformanceshape := range noteperformanceshapeOrdered {
+		_ = noteperformanceshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, noteshape := range noteshapeOrdered {
+		_ = noteshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -870,6 +1140,26 @@ func (compareanalysis *CompareAnalysis) GongMarshallField(stage *Stage, fieldNam
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToSystem")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "DiagramFlossEquations":
+		var sb strings.Builder
+		for _, _diagramflossequation := range compareanalysis.DiagramFlossEquations {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramFlossEquations")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramflossequation.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "DiagramFlossEquationsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _diagramflossequation := range compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", compareanalysis.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramFlossEquationsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramflossequation.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CompareAnalysis", fieldName)
 	}
@@ -1042,6 +1332,11 @@ func (diagramfloss *DiagramFloss) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEffortsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramfloss.IsEffortsNodeExpanded))
+	case "IsNotesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNotesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramfloss.IsNotesNodeExpanded))
 
 	case "System_Shapes":
 		var sb strings.Builder
@@ -1123,8 +1418,178 @@ func (diagramfloss *DiagramFloss) GongMarshallField(stage *Stage, fieldName stri
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Note_Shapes":
+		var sb strings.Builder
+		for _, _noteshape := range diagramfloss.Note_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Note_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NoteComplexityShapes":
+		var sb strings.Builder
+		for _, _notecomplexityshape := range diagramfloss.NoteComplexityShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteComplexityShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _notecomplexityshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NotePerformanceShapes":
+		var sb strings.Builder
+		for _, _noteperformanceshape := range diagramfloss.NotePerformanceShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotePerformanceShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteperformanceshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NoteEffortShapes":
+		var sb strings.Builder
+		for _, _noteeffortshape := range diagramfloss.NoteEffortShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteEffortShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteeffortshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NotesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _note := range diagramfloss.NotesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramFloss", fieldName)
+	}
+	return
+}
+
+func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramflossequation.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramflossequation.Description))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramflossequation.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsExpanded))
+	case "IsChecked":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsChecked))
+	case "IsEditable_":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsEditable_))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Height))
+	case "Scale":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Scale")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.Scale))
+	case "DefaultBoxWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.DefaultBoxWidth))
+	case "DefaultBoxHeigth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxHeigth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramflossequation.DefaultBoxHeigth))
+	case "IsNotesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNotesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsNotesNodeExpanded))
+
+	case "Note_Shapes":
+		var sb strings.Builder
+		for _, _noteshape := range diagramflossequation.Note_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Note_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NoteComplexityShapes":
+		var sb strings.Builder
+		for _, _notecomplexityshape := range diagramflossequation.NoteComplexityShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteComplexityShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _notecomplexityshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NotePerformanceShapes":
+		var sb strings.Builder
+		for _, _noteperformanceshape := range diagramflossequation.NotePerformanceShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotePerformanceShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteperformanceshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NoteEffortShapes":
+		var sb strings.Builder
+		for _, _noteeffortshape := range diagramflossequation.NoteEffortShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteEffortShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteeffortshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "NotesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _note := range diagramflossequation.NotesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DiagramFlossEquation", fieldName)
 	}
 	return
 }
@@ -1285,6 +1750,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsCompareAnalysisNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsCompareAnalysisNodeExpanded))
+	case "IsNotesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNotesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsNotesNodeExpanded))
 	case "IsExpandedTmp":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -1351,6 +1821,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "RootNotes":
+		var sb strings.Builder
+		for _, _note := range library.RootNotes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootNotes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "SubLibrariesWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
@@ -1411,8 +1891,407 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "NotesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _note := range library.NotesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
+	}
+	return
+}
+
+func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Description))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsExpanded))
+	case "IsComplexitysNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsComplexitysNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsComplexitysNodeExpanded))
+	case "IsPerformancesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPerformancesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsPerformancesNodeExpanded))
+	case "IsEffortsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEffortsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsEffortsNodeExpanded))
+
+	case "Complexities":
+		var sb strings.Builder
+		for _, _complexity := range note.Complexities {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Complexities")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _complexity.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Performances":
+		var sb strings.Builder
+		for _, _performance := range note.Performances {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Performances")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _performance.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Efforts":
+		var sb strings.Builder
+		for _, _effort := range note.Efforts {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Efforts")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _effort.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Note", fieldName)
+	}
+	return
+}
+
+func (notecomplexityshape *NoteComplexityShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notecomplexityshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notecomplexityshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notecomplexityshape.EndRatio))
+	case "StartOrientation":
+		if notecomplexityshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+notecomplexityshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if notecomplexityshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+notecomplexityshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notecomplexityshape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", notecomplexityshape.IsHidden))
+
+	case "Note":
+		if notecomplexityshape.Note != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", notecomplexityshape.Note.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Complexity":
+		if notecomplexityshape.Complexity != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Complexity")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", notecomplexityshape.Complexity.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notecomplexityshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Complexity")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NoteComplexityShape", fieldName)
+	}
+	return
+}
+
+func (noteeffortshape *NoteEffortShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteeffortshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteeffortshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteeffortshape.EndRatio))
+	case "StartOrientation":
+		if noteeffortshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteeffortshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if noteeffortshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteeffortshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteeffortshape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteeffortshape.IsHidden))
+
+	case "Note":
+		if noteeffortshape.Note != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteeffortshape.Note.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Effort":
+		if noteeffortshape.Effort != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Effort")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteeffortshape.Effort.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteeffortshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Effort")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NoteEffortShape", fieldName)
+	}
+	return
+}
+
+func (noteperformanceshape *NotePerformanceShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteperformanceshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteperformanceshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteperformanceshape.EndRatio))
+	case "StartOrientation":
+		if noteperformanceshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteperformanceshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if noteperformanceshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteperformanceshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteperformanceshape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteperformanceshape.IsHidden))
+
+	case "Note":
+		if noteperformanceshape.Note != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteperformanceshape.Note.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Performance":
+		if noteperformanceshape.Performance != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Performance")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteperformanceshape.Performance.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteperformanceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Performance")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NotePerformanceShape", fieldName)
+	}
+	return
+}
+
+func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.IsHidden))
+
+	case "Note":
+		if noteshape.Note != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteshape.Note.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NoteShape", fieldName)
 	}
 	return
 }
@@ -1723,6 +2602,8 @@ func (compareanalysis *CompareAnalysis) GongMarshallAllFields(stage *Stage) (ini
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "FromSystem"))
 		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "ToSystem"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "Alpha"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquations"))
+		pointersInitializesStatements.WriteString(compareanalysis.GongMarshallField(stage, "DiagramFlossEquationsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(compareanalysis.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -1790,6 +2671,39 @@ func (diagramfloss *DiagramFloss) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "Effort_Shapes"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsEffortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "Note_Shapes"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NoteComplexityShapes"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NotePerformanceShapes"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NoteEffortShapes"))
+		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxWidth"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "DefaultBoxHeigth"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Note_Shapes"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NoteComplexityShapes"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NotePerformanceShapes"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NoteEffortShapes"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1842,6 +2756,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPerformances"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootEfforts"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootCompareAnalysis"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootNotes"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
@@ -1857,7 +2772,103 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsCompareAnalysisNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "CompareAnalysisWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Complexities"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Performances"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Efforts"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (notecomplexityshape *NoteComplexityShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "Complexity"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(notecomplexityshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (noteeffortshape *NoteEffortShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(noteeffortshape.GongMarshallField(stage, "Effort"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(noteeffortshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (noteperformanceshape *NotePerformanceShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "Performance"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(noteperformanceshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

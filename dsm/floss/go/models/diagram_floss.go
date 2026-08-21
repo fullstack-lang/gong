@@ -58,8 +58,22 @@ type DiagramFloss struct {
 	IsEffortsNodeExpanded      bool
 	EffortsWhoseNodeIsExpanded []*Effort
 
+	// Note
+	Note_Shapes                   []*NoteShape
+	NoteComplexityShapes          []*NoteComplexityShape
+	NotePerformanceShapes         []*NotePerformanceShape
+	NoteEffortShapes              []*NoteEffortShape
+	map_Note_NoteShape            map[*Note]*NoteShape
+	map_Note_Rect                 map[*Note]*svg.Rect
+	map_Note_NoteComplexityShape  map[noteComplexityKey]*NoteComplexityShape
+	map_Note_NotePerformanceShape map[notePerformanceKey]*NotePerformanceShape
+	map_Note_NoteEffortShape      map[noteEffortKey]*NoteEffortShape
+	IsNotesNodeExpanded           bool
+	NotesWhoseNodeIsExpanded      []*Note
+
 	owningSystem *System
 }
+
 
 
 func (d *DiagramFloss) IsEditable() bool {

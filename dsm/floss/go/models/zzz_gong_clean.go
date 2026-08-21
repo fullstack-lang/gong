@@ -43,6 +43,8 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 // Clean garbage collect unstaged instances that are referenced by CompareAnalysis
 func (compareanalysis *CompareAnalysis) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &compareanalysis.DiagramFlossEquations) || modified
+	modified = GongCleanSlice(stage, &compareanalysis.DiagramFlossEquationsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &compareanalysis.FromSystem) || modified
 	modified = GongCleanPointer(stage, &compareanalysis.ToSystem) || modified
@@ -75,6 +77,23 @@ func (diagramfloss *DiagramFloss) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramfloss.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramfloss.Effort_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramfloss.EffortsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.Note_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.NoteComplexityShapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.NotePerformanceShapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.NoteEffortShapes) || modified
+	modified = GongCleanSlice(stage, &diagramfloss.NotesWhoseNodeIsExpanded) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DiagramFlossEquation
+func (diagramflossequation *DiagramFlossEquation) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &diagramflossequation.Note_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.NoteComplexityShapes) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.NotePerformanceShapes) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.NoteEffortShapes) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.NotesWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -103,13 +122,60 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.RootPerformances) || modified
 	modified = GongCleanSlice(stage, &library.RootEfforts) || modified
 	modified = GongCleanSlice(stage, &library.RootCompareAnalysis) || modified
+	modified = GongCleanSlice(stage, &library.RootNotes) || modified
 	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.SystemsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.ComplexitysWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.EffortsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.CompareAnalysisWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.NotesWhoseNodeIsExpanded) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Note
+func (note *Note) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &note.Complexities) || modified
+	modified = GongCleanSlice(stage, &note.Performances) || modified
+	modified = GongCleanSlice(stage, &note.Efforts) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteComplexityShape
+func (notecomplexityshape *NoteComplexityShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &notecomplexityshape.Note) || modified
+	modified = GongCleanPointer(stage, &notecomplexityshape.Complexity) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteEffortShape
+func (noteeffortshape *NoteEffortShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &noteeffortshape.Note) || modified
+	modified = GongCleanPointer(stage, &noteeffortshape.Effort) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NotePerformanceShape
+func (noteperformanceshape *NotePerformanceShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &noteperformanceshape.Note) || modified
+	modified = GongCleanPointer(stage, &noteperformanceshape.Performance) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteShape
+func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &noteshape.Note) || modified
 	return
 }
 

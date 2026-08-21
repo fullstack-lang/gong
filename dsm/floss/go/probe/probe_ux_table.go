@@ -32,12 +32,24 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ComplexityShape](probe)
 	case "DiagramFloss":
 		updateProbeTable[*models.DiagramFloss](probe)
+	case "DiagramFlossEquation":
+		updateProbeTable[*models.DiagramFlossEquation](probe)
 	case "Effort":
 		updateProbeTable[*models.Effort](probe)
 	case "EffortShape":
 		updateProbeTable[*models.EffortShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
+	case "Note":
+		updateProbeTable[*models.Note](probe)
+	case "NoteComplexityShape":
+		updateProbeTable[*models.NoteComplexityShape](probe)
+	case "NoteEffortShape":
+		updateProbeTable[*models.NoteEffortShape](probe)
+	case "NotePerformanceShape":
+		updateProbeTable[*models.NotePerformanceShape](probe)
+	case "NoteShape":
+		updateProbeTable[*models.NoteShape](probe)
 	case "Performance":
 		updateProbeTable[*models.Performance](probe)
 	case "PerformanceShape":

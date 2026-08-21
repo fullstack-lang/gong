@@ -45,6 +45,13 @@ func (inst *Complexity) GongGetReverseFieldOwnerName(stage *Stage, reverseField 
 				res = _library.Name
 			}
 		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Complexities":
+			if _note, ok := stage.Note_Complexities_reverseMap[inst]; ok {
+				res = _note.Name
+			}
+		}
 	case "System":
 		switch reverseField.Fieldname {
 		case "Complexities":
@@ -96,6 +103,26 @@ func (inst *DiagramFloss) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
+func (inst *DiagramFlossEquation) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "CompareAnalysis":
+		switch reverseField.Fieldname {
+		case "DiagramFlossEquations":
+			if _compareanalysis, ok := stage.CompareAnalysis_DiagramFlossEquations_reverseMap[inst]; ok {
+				res = _compareanalysis.Name
+			}
+		case "DiagramFlossEquationsWhoseNodeIsExpanded":
+			if _compareanalysis, ok := stage.CompareAnalysis_DiagramFlossEquationsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _compareanalysis.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Effort) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -117,6 +144,13 @@ func (inst *Effort) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 		case "EffortsWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_EffortsWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Efforts":
+			if _note, ok := stage.Note_Efforts_reverseMap[inst]; ok {
+				res = _note.Name
 			}
 		}
 	case "System":
@@ -170,6 +204,132 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
+func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NotesWhoseNodeIsExpanded":
+			if _diagramfloss, ok := stage.DiagramFloss_NotesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramfloss.Name
+			}
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NotesWhoseNodeIsExpanded":
+			if _diagramflossequation, ok := stage.DiagramFlossEquation_NotesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramflossequation.Name
+			}
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootNotes":
+			if _library, ok := stage.Library_RootNotes_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "NotesWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_NotesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *NoteComplexityShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NoteComplexityShapes":
+			if _diagramfloss, ok := stage.DiagramFloss_NoteComplexityShapes_reverseMap[inst]; ok {
+				res = _diagramfloss.Name
+			}
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NoteComplexityShapes":
+			if _diagramflossequation, ok := stage.DiagramFlossEquation_NoteComplexityShapes_reverseMap[inst]; ok {
+				res = _diagramflossequation.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *NoteEffortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NoteEffortShapes":
+			if _diagramfloss, ok := stage.DiagramFloss_NoteEffortShapes_reverseMap[inst]; ok {
+				res = _diagramfloss.Name
+			}
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NoteEffortShapes":
+			if _diagramflossequation, ok := stage.DiagramFlossEquation_NoteEffortShapes_reverseMap[inst]; ok {
+				res = _diagramflossequation.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *NotePerformanceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NotePerformanceShapes":
+			if _diagramfloss, ok := stage.DiagramFloss_NotePerformanceShapes_reverseMap[inst]; ok {
+				res = _diagramfloss.Name
+			}
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NotePerformanceShapes":
+			if _diagramflossequation, ok := stage.DiagramFlossEquation_NotePerformanceShapes_reverseMap[inst]; ok {
+				res = _diagramflossequation.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "Note_Shapes":
+			if _diagramfloss, ok := stage.DiagramFloss_Note_Shapes_reverseMap[inst]; ok {
+				res = _diagramfloss.Name
+			}
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "Note_Shapes":
+			if _diagramflossequation, ok := stage.DiagramFlossEquation_Note_Shapes_reverseMap[inst]; ok {
+				res = _diagramflossequation.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Performance) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -191,6 +351,13 @@ func (inst *Performance) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 		case "PerformancesWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_PerformancesWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Performances":
+			if _note, ok := stage.Note_Performances_reverseMap[inst]; ok {
+				res = _note.Name
 			}
 		}
 	case "System":
@@ -308,6 +475,11 @@ func (inst *Complexity) GongGetReverseFieldOwner(stage *Stage, reverseField *Rev
 		case "ComplexitysWhoseNodeIsExpanded":
 			res = stage.Library_ComplexitysWhoseNodeIsExpanded_reverseMap[inst]
 		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Complexities":
+			res = stage.Note_Complexities_reverseMap[inst]
+		}
 	case "System":
 		switch reverseField.Fieldname {
 		case "Complexities":
@@ -349,6 +521,22 @@ func (inst *DiagramFloss) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	return res
 }
 
+func (inst *DiagramFlossEquation) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "CompareAnalysis":
+		switch reverseField.Fieldname {
+		case "DiagramFlossEquations":
+			res = stage.CompareAnalysis_DiagramFlossEquations_reverseMap[inst]
+		case "DiagramFlossEquationsWhoseNodeIsExpanded":
+			res = stage.CompareAnalysis_DiagramFlossEquationsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *Effort) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -365,6 +553,11 @@ func (inst *Effort) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 			res = stage.Library_RootEfforts_reverseMap[inst]
 		case "EffortsWhoseNodeIsExpanded":
 			res = stage.Library_EffortsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Efforts":
+			res = stage.Note_Efforts_reverseMap[inst]
 		}
 	case "System":
 		switch reverseField.Fieldname {
@@ -407,6 +600,108 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	return res
 }
 
+func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NotesWhoseNodeIsExpanded":
+			res = stage.DiagramFloss_NotesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NotesWhoseNodeIsExpanded":
+			res = stage.DiagramFlossEquation_NotesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootNotes":
+			res = stage.Library_RootNotes_reverseMap[inst]
+		case "NotesWhoseNodeIsExpanded":
+			res = stage.Library_NotesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *NoteComplexityShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NoteComplexityShapes":
+			res = stage.DiagramFloss_NoteComplexityShapes_reverseMap[inst]
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NoteComplexityShapes":
+			res = stage.DiagramFlossEquation_NoteComplexityShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *NoteEffortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NoteEffortShapes":
+			res = stage.DiagramFloss_NoteEffortShapes_reverseMap[inst]
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NoteEffortShapes":
+			res = stage.DiagramFlossEquation_NoteEffortShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *NotePerformanceShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "NotePerformanceShapes":
+			res = stage.DiagramFloss_NotePerformanceShapes_reverseMap[inst]
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "NotePerformanceShapes":
+			res = stage.DiagramFlossEquation_NotePerformanceShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramFloss":
+		switch reverseField.Fieldname {
+		case "Note_Shapes":
+			res = stage.DiagramFloss_Note_Shapes_reverseMap[inst]
+		}
+	case "DiagramFlossEquation":
+		switch reverseField.Fieldname {
+		case "Note_Shapes":
+			res = stage.DiagramFlossEquation_Note_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *Performance) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -423,6 +718,11 @@ func (inst *Performance) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 			res = stage.Library_RootPerformances_reverseMap[inst]
 		case "PerformancesWhoseNodeIsExpanded":
 			res = stage.Library_PerformancesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Performances":
+			res = stage.Note_Performances_reverseMap[inst]
 		}
 	case "System":
 		switch reverseField.Fieldname {

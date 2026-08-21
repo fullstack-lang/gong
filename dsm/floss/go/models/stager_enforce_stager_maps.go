@@ -12,8 +12,71 @@ func (stager *Stager) enforceStagerMaps() {
 		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Complexity_Shapes, &diagramFloss.map_Complexity_ComplexityShape)
 		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Performance_Shapes, &diagramFloss.map_Performance_PerformanceShape)
 		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Effort_Shapes, &diagramFloss.map_Effort_EffortShape)
+		updateMapElementDiagrams(stager, diagramFloss, diagramFloss.Note_Shapes, &diagramFloss.map_Note_NoteShape)
+
+		diagramFloss.map_Note_NoteComplexityShape = make(map[noteComplexityKey]*NoteComplexityShape)
+		for _, shape := range diagramFloss.NoteComplexityShapes {
+			key := noteComplexityKey{
+				Note:       shape.Note,
+				Complexity: shape.Complexity,
+			}
+			diagramFloss.map_Note_NoteComplexityShape[key] = shape
+		}
+
+		diagramFloss.map_Note_NotePerformanceShape = make(map[notePerformanceKey]*NotePerformanceShape)
+		for _, shape := range diagramFloss.NotePerformanceShapes {
+			key := notePerformanceKey{
+				Note:        shape.Note,
+				Performance: shape.Performance,
+			}
+			diagramFloss.map_Note_NotePerformanceShape[key] = shape
+		}
+
+		diagramFloss.map_Note_NoteEffortShape = make(map[noteEffortKey]*NoteEffortShape)
+		for _, shape := range diagramFloss.NoteEffortShapes {
+			key := noteEffortKey{
+				Note:   shape.Note,
+				Effort: shape.Effort,
+			}
+			diagramFloss.map_Note_NoteEffortShape[key] = shape
+		}
 	}
 
+	for _, diagramEquation := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
+		diagramEquation.map_Note_NoteShape = make(map[*Note]*NoteShape)
+		for _, shape := range diagramEquation.Note_Shapes {
+			if shape.Note != nil {
+				diagramEquation.map_Note_NoteShape[shape.Note] = shape
+			}
+		}
+
+		diagramEquation.map_Note_NoteComplexityShape = make(map[noteComplexityKey]*NoteComplexityShape)
+		for _, shape := range diagramEquation.NoteComplexityShapes {
+			key := noteComplexityKey{
+				Note:       shape.Note,
+				Complexity: shape.Complexity,
+			}
+			diagramEquation.map_Note_NoteComplexityShape[key] = shape
+		}
+
+		diagramEquation.map_Note_NotePerformanceShape = make(map[notePerformanceKey]*NotePerformanceShape)
+		for _, shape := range diagramEquation.NotePerformanceShapes {
+			key := notePerformanceKey{
+				Note:        shape.Note,
+				Performance: shape.Performance,
+			}
+			diagramEquation.map_Note_NotePerformanceShape[key] = shape
+		}
+
+		diagramEquation.map_Note_NoteEffortShape = make(map[noteEffortKey]*NoteEffortShape)
+		for _, shape := range diagramEquation.NoteEffortShapes {
+			key := noteEffortKey{
+				Note:   shape.Note,
+				Effort: shape.Effort,
+			}
+			diagramEquation.map_Note_NoteEffortShape[key] = shape
+		}
+	}
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

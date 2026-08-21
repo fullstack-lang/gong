@@ -79,6 +79,36 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		stager.treeCompareAnalysisWithinLibrary(library, compareAnalysis, compareAnalysisNode)
 	}
 
+	//
+	// Notes
+	//
+	notesNode := &tree.Node{
+		Name:            "Notes",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsNotesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, notesNode)
+	notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsNotesNodeExpanded)
+	notesNode.OnClick = onNodeClicked(stager, library)
+
+	confNotes := ItemButtonConfiguration[
+		Note, *Note,
+		Library, *Library,
+	]{
+		parentNode:                         notesNode,
+		sliceForNewAddedItem:               &library.RootNotes,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsNotesNodeExpanded,
+	}
+	addCreateItemButton(stager, confNotes)
+
+	for _, note := range library.RootNotes {
+		stager.treeNote(library, note, notesNode)
+	}
+
+
 
 	//
 	// SubLibraries

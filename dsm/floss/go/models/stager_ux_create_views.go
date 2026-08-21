@@ -6,21 +6,31 @@ func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
 	stage := stager.stage
+
+	var equationChecked bool
+	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
+		if d.IsChecked {
+			equationChecked = true
+			break
+		}
+	}
+
+	// View 1: System Diagram (Tree, SVG, Form ONLY - no sliders)
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Edit",
+		Name:           "System Diagram",
 		Direction:      split.Horizontal,
-		IsSelectedView: true,
+		IsSelectedView: !equationChecked,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
-				Name:             "Sidebar with both trees",
+				Name:             "Sidebar with tree and SVG",
 				ShowNameInHeader: false,
-				Size:             82,
+				Size:             75,
 				AsSplit: &split.AsSplit{
 					Name:      "as split",
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 36,
+							Size: 32,
 							AsSplit: &split.AsSplit{
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
@@ -47,7 +57,7 @@ func (stager *Stager) createViews() {
 							},
 						},
 						{
-							Size: 64,
+							Size: 68,
 							Svg: &split.Svg{
 								StackName: stager.systemDiagramSvgStage.GetName(),
 							},
@@ -56,7 +66,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 			{
-				Size: 18,
+				Size: 25,
 				Form: &split.Form{
 					StackName: stager.probeForm.GetFormStage().GetName(),
 				},
@@ -64,6 +74,80 @@ func (stager *Stager) createViews() {
 		},
 	})
 
+	// View 2: FLOSS Equation Diagram (Tree, SVG, Sliders + Form)
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:           "FLOSS Equation",
+		Direction:      split.Horizontal,
+		IsSelectedView: equationChecked,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with tree and SVG",
+				ShowNameInHeader: false,
+				Size:             75,
+				AsSplit: &split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 32,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Size:             86,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage.GetName(),
+										},
+									},
+									{
+										Size: 7,
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
+										},
+									},
+									{
+										Size: 7,
+										Button: &split.Button{
+											StackName: stager.buttonStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							Size: 68,
+							Svg: &split.Svg{
+								StackName: stager.systemDiagramSvgStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 25,
+				AsSplit: &split.AsSplit{
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 55,
+							Slider: &split.Slider{
+								StackName: stager.sliderStage.GetName(),
+							},
+						},
+						{
+							Size: 45,
+							Form: &split.Form{
+								StackName: stager.probeForm.GetFormStage().GetName(),
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+
+	// View 3: Edit without SVG
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:      "Edit without SVG",
 		Direction: split.Horizontal,
@@ -109,6 +193,7 @@ func (stager *Stager) createViews() {
 		},
 	})
 
+	// View 4: Probe
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
