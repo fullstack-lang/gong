@@ -90,4 +90,10 @@ type CompareAnalysis struct {
 
 	Alpha float64
 	Beta  *float64
+
+	LibraryAbstractFields
+	AbstractTypeFields
 }
+
+var _ AbstractType = (*CompareAnalysis)(nil)
+

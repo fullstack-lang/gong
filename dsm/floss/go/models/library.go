@@ -9,11 +9,12 @@ type Library struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	SubLibraries     []*Library
-	RootSystems      []*System
-	RootComplexitys  []*Complexity
-	RootPerformances []*Performance
-	RootEfforts      []*Effort
+	SubLibraries        []*Library
+	RootSystems         []*System
+	RootComplexitys     []*Complexity
+	RootPerformances    []*Performance
+	RootEfforts         []*Effort
+	RootCompareAnalysis []*CompareAnalysis
 
 	/*
 	 technical fields further
@@ -46,6 +47,10 @@ type Library struct {
 
 	IsEffortsNodeExpanded      bool
 	EffortsWhoseNodeIsExpanded []*Effort
+
+	IsCompareAnalysisNodeExpanded      bool
+	CompareAnalysisWhoseNodeIsExpanded []*CompareAnalysis
+
 
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool

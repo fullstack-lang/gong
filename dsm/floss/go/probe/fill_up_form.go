@@ -23,11 +23,39 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("FromSystem", instanceWithInferedType.FromSystem, formGroup, probe)
 		AssociationFieldToForm("ToSystem", instanceWithInferedType.ToSystem, formGroup, probe)
+		BasicFieldtoForm("Alpha", instanceWithInferedType.Alpha, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.CompareAnalysis](
+				"Library",
+				"RootCompareAnalysis",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.CompareAnalysis {
+					return owner.RootCompareAnalysis
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.CompareAnalysis](
+				"Library",
+				"CompareAnalysisWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.CompareAnalysis {
+					return owner.CompareAnalysisWhoseNodeIsExpanded
+				})
+		}
 
 	case *models.Complexity:
 		// insertion point
@@ -322,6 +350,7 @@ func FillUpForm(
 		AssociationSliceToForm("RootComplexitys", instanceWithInferedType, &instanceWithInferedType.RootComplexitys, formGroup, probe)
 		AssociationSliceToForm("RootPerformances", instanceWithInferedType, &instanceWithInferedType.RootPerformances, formGroup, probe)
 		AssociationSliceToForm("RootEfforts", instanceWithInferedType, &instanceWithInferedType.RootEfforts, formGroup, probe)
+		AssociationSliceToForm("RootCompareAnalysis", instanceWithInferedType, &instanceWithInferedType.RootCompareAnalysis, formGroup, probe)
 		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsSubLibrariesNodeExpanded", instanceWithInferedType.IsSubLibrariesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -343,6 +372,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsEffortsNodeExpanded", instanceWithInferedType.IsEffortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("EffortsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.EffortsWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsCompareAnalysisNodeExpanded", instanceWithInferedType.IsCompareAnalysisNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("CompareAnalysisWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.CompareAnalysisWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsExpandedTmp", instanceWithInferedType.IsExpandedTmp, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{

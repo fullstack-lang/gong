@@ -102,11 +102,13 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.RootComplexitys) || modified
 	modified = GongCleanSlice(stage, &library.RootPerformances) || modified
 	modified = GongCleanSlice(stage, &library.RootEfforts) || modified
+	modified = GongCleanSlice(stage, &library.RootCompareAnalysis) || modified
 	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.SystemsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.ComplexitysWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.EffortsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.CompareAnalysisWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }

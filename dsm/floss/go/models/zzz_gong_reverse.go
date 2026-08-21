@@ -7,6 +7,17 @@ func (inst *CompareAnalysis) GongGetReverseFieldOwnerName(stage *Stage, reverseF
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootCompareAnalysis":
+			if _library, ok := stage.Library_RootCompareAnalysis_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "CompareAnalysisWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_CompareAnalysisWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
 	}
 	return
 }
@@ -269,6 +280,13 @@ func (inst *CompareAnalysis) GongGetReverseFieldOwner(stage *Stage, reverseField
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootCompareAnalysis":
+			res = stage.Library_RootCompareAnalysis_reverseMap[inst]
+		case "CompareAnalysisWhoseNodeIsExpanded":
+			res = stage.Library_CompareAnalysisWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	}
 	return res
 }

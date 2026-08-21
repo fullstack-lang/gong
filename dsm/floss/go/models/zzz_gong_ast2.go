@@ -489,6 +489,12 @@ func (u *CompareAnalysisUnmarshaller) UnmarshallField(stage *Stage, i Gongstruct
 		GongUnmarshallPointer(&instance.FromSystem, valueExpr, identifierMap)
 	case "ToSystem":
 		GongUnmarshallPointer(&instance.ToSystem, valueExpr, identifierMap)
+	case "Alpha":
+		instance.Alpha = GongExtractFloat(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -763,6 +769,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootPerformances, valueExpr, identifierMap)
 	case "RootEfforts":
 		GongUnmarshallSliceOfPointers(&instance.RootEfforts, valueExpr, identifierMap)
+	case "RootCompareAnalysis":
+		GongUnmarshallSliceOfPointers(&instance.RootCompareAnalysis, valueExpr, identifierMap)
 	case "IsRootLibrary":
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "IsSubLibrariesNodeExpanded":
@@ -789,6 +797,10 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
 	case "EffortsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.EffortsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsCompareAnalysisNodeExpanded":
+		instance.IsCompareAnalysisNodeExpanded = GongExtractBool(valueExpr)
+	case "CompareAnalysisWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.CompareAnalysisWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsExpandedTmp":
 		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	}

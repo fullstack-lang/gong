@@ -367,6 +367,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _effort := range library.RootEfforts {
 		StageBranch(stage, _effort)
 	}
+	for _, _compareanalysis := range library.RootCompareAnalysis {
+		StageBranch(stage, _compareanalysis)
+	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 		StageBranch(stage, _library)
 	}
@@ -381,6 +384,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	}
 	for _, _effort := range library.EffortsWhoseNodeIsExpanded {
 		StageBranch(stage, _effort)
+	}
+	for _, _compareanalysis := range library.CompareAnalysisWhoseNodeIsExpanded {
+		StageBranch(stage, _compareanalysis)
 	}
 
 }
@@ -720,6 +726,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _effort := range libraryFrom.RootEfforts {
 		libraryTo.RootEfforts = append(libraryTo.RootEfforts, CopyBranchEffort(mapOrigCopy, _effort))
 	}
+	for _, _compareanalysis := range libraryFrom.RootCompareAnalysis {
+		libraryTo.RootCompareAnalysis = append(libraryTo.RootCompareAnalysis, CopyBranchCompareAnalysis(mapOrigCopy, _compareanalysis))
+	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
 		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
 	}
@@ -734,6 +743,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _effort := range libraryFrom.EffortsWhoseNodeIsExpanded {
 		libraryTo.EffortsWhoseNodeIsExpanded = append(libraryTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
+	}
+	for _, _compareanalysis := range libraryFrom.CompareAnalysisWhoseNodeIsExpanded {
+		libraryTo.CompareAnalysisWhoseNodeIsExpanded = append(libraryTo.CompareAnalysisWhoseNodeIsExpanded, CopyBranchCompareAnalysis(mapOrigCopy, _compareanalysis))
 	}
 
 	return
@@ -1048,6 +1060,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _effort := range library.RootEfforts {
 		UnstageBranch(stage, _effort)
 	}
+	for _, _compareanalysis := range library.RootCompareAnalysis {
+		UnstageBranch(stage, _compareanalysis)
+	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _library)
 	}
@@ -1062,6 +1077,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	}
 	for _, _effort := range library.EffortsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _effort)
+	}
+	for _, _compareanalysis := range library.CompareAnalysisWhoseNodeIsExpanded {
+		UnstageBranch(stage, _compareanalysis)
 	}
 
 }
@@ -1257,6 +1275,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.RootEfforts {
 		reference.RootEfforts = append(reference.RootEfforts, stage.Efforts_reference[_b])
 	}
+	reference.RootCompareAnalysis = reference.RootCompareAnalysis[:0]
+	for _, _b := range instance.RootCompareAnalysis {
+		reference.RootCompareAnalysis = append(reference.RootCompareAnalysis, stage.CompareAnalysiss_reference[_b])
+	}
 	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
 		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
@@ -1276,6 +1298,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.EffortsWhoseNodeIsExpanded = reference.EffortsWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.EffortsWhoseNodeIsExpanded {
 		reference.EffortsWhoseNodeIsExpanded = append(reference.EffortsWhoseNodeIsExpanded, stage.Efforts_reference[_b])
+	}
+	reference.CompareAnalysisWhoseNodeIsExpanded = reference.CompareAnalysisWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.CompareAnalysisWhoseNodeIsExpanded {
+		reference.CompareAnalysisWhoseNodeIsExpanded = append(reference.CompareAnalysisWhoseNodeIsExpanded, stage.CompareAnalysiss_reference[_b])
 	}
 }
 
@@ -1490,6 +1516,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.RootEfforts = _RootEfforts
+	var _RootCompareAnalysis []*CompareAnalysis
+	for _, _reference := range reference.RootCompareAnalysis {
+		if _instance, ok := stage.CompareAnalysiss_instance[_reference]; ok {
+			_RootCompareAnalysis = append(_RootCompareAnalysis, _instance)
+		}
+	}
+	reference.RootCompareAnalysis = _RootCompareAnalysis
 	var _SubLibrariesWhoseNodeIsExpanded []*Library
 	for _, _reference := range reference.SubLibrariesWhoseNodeIsExpanded {
 		if _instance, ok := stage.Librarys_instance[_reference]; ok {
@@ -1525,6 +1558,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.EffortsWhoseNodeIsExpanded = _EffortsWhoseNodeIsExpanded
+	var _CompareAnalysisWhoseNodeIsExpanded []*CompareAnalysis
+	for _, _reference := range reference.CompareAnalysisWhoseNodeIsExpanded {
+		if _instance, ok := stage.CompareAnalysiss_instance[_reference]; ok {
+			_CompareAnalysisWhoseNodeIsExpanded = append(_CompareAnalysisWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.CompareAnalysisWhoseNodeIsExpanded = _CompareAnalysisWhoseNodeIsExpanded
 }
 
 func (reference *Performance) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1643,6 +1683,15 @@ func (compareanalysis *CompareAnalysis) GongDiff(stage *Stage, compareanalysisOt
 		if compareanalysis.ToSystem != compareanalysisOther.ToSystem {
 			diffs = append(diffs, compareanalysis.GongMarshallField(stage, "ToSystem"))
 		}
+	}
+	if compareanalysis.Alpha != compareanalysisOther.Alpha {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "Alpha"))
+	}
+	if compareanalysis.ComputedPrefix != compareanalysisOther.ComputedPrefix {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if compareanalysis.IsExpanded != compareanalysisOther.IsExpanded {
+		diffs = append(diffs, compareanalysis.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -2102,6 +2151,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "RootEfforts", libraryOther.RootEfforts, library.RootEfforts)
 		diffs = append(diffs, ops)
 	}
+	RootCompareAnalysisDifferent := false
+	if len(library.RootCompareAnalysis) != len(libraryOther.RootCompareAnalysis) {
+		RootCompareAnalysisDifferent = true
+	} else {
+		for i := range library.RootCompareAnalysis {
+			if (library.RootCompareAnalysis[i] == nil) != (libraryOther.RootCompareAnalysis[i] == nil) {
+				RootCompareAnalysisDifferent = true
+				break
+			} else if library.RootCompareAnalysis[i] != nil && libraryOther.RootCompareAnalysis[i] != nil {
+				// this is a pointer comparaison
+				if library.RootCompareAnalysis[i] != libraryOther.RootCompareAnalysis[i] {
+					RootCompareAnalysisDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootCompareAnalysisDifferent {
+		ops := Diff(stage, library, libraryOther, "RootCompareAnalysis", libraryOther.RootCompareAnalysis, library.RootCompareAnalysis)
+		diffs = append(diffs, ops)
+	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
@@ -2229,6 +2299,30 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if EffortsWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, library, libraryOther, "EffortsWhoseNodeIsExpanded", libraryOther.EffortsWhoseNodeIsExpanded, library.EffortsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if library.IsCompareAnalysisNodeExpanded != libraryOther.IsCompareAnalysisNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsCompareAnalysisNodeExpanded"))
+	}
+	CompareAnalysisWhoseNodeIsExpandedDifferent := false
+	if len(library.CompareAnalysisWhoseNodeIsExpanded) != len(libraryOther.CompareAnalysisWhoseNodeIsExpanded) {
+		CompareAnalysisWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.CompareAnalysisWhoseNodeIsExpanded {
+			if (library.CompareAnalysisWhoseNodeIsExpanded[i] == nil) != (libraryOther.CompareAnalysisWhoseNodeIsExpanded[i] == nil) {
+				CompareAnalysisWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.CompareAnalysisWhoseNodeIsExpanded[i] != nil && libraryOther.CompareAnalysisWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.CompareAnalysisWhoseNodeIsExpanded[i] != libraryOther.CompareAnalysisWhoseNodeIsExpanded[i] {
+					CompareAnalysisWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if CompareAnalysisWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "CompareAnalysisWhoseNodeIsExpanded", libraryOther.CompareAnalysisWhoseNodeIsExpanded, library.CompareAnalysisWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {

@@ -77,6 +77,26 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	if reattachToLibraryRoots(
 		stager,
+		func() []*CompareAnalysis {
+			roots := make([]*CompareAnalysis, 0)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootCompareAnalysis...)
+			}
+			return roots
+		},
+		func(compareAnalysis *CompareAnalysis) {
+			compareAnalysis.GetOwningLibrary().RootCompareAnalysis = append(compareAnalysis.GetOwningLibrary().RootCompareAnalysis, compareAnalysis)
+		},
+		func(compareAnalysis *CompareAnalysis) []*CompareAnalysis {
+			return []*CompareAnalysis{}
+		},
+	) {
+		needCommit = true
+	}
+
+
+	if reattachToLibraryRoots(
+		stager,
 		func() []*Library {
 			return stager.getRootLibrary().SubLibraries
 		},
