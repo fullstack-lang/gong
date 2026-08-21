@@ -161,7 +161,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000000_.IsChecked = false
 	__DiagramFlossEquation__00000000_.IsEditable_ = true
 	__DiagramFlossEquation__00000000_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000000_.Width = 1050.000000
+	__DiagramFlossEquation__00000000_.Width = 1170.000000
 	__DiagramFlossEquation__00000000_.Height = 750.000000
 	__DiagramFlossEquation__00000000_.Scale = 5.000000
 	__DiagramFlossEquation__00000000_.DefaultBoxWidth = 250.000000
@@ -175,7 +175,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000001_.IsChecked = false
 	__DiagramFlossEquation__00000001_.IsEditable_ = true
 	__DiagramFlossEquation__00000001_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000001_.Width = 1050.000000
+	__DiagramFlossEquation__00000001_.Width = 1170.000000
 	__DiagramFlossEquation__00000001_.Height = 750.000000
 	__DiagramFlossEquation__00000001_.Scale = 5.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxWidth = 250.000000
@@ -189,7 +189,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000002_.IsChecked = false
 	__DiagramFlossEquation__00000002_.IsEditable_ = true
 	__DiagramFlossEquation__00000002_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000002_.Width = 1050.000000
+	__DiagramFlossEquation__00000002_.Width = 1170.000000
 	__DiagramFlossEquation__00000002_.Height = 750.000000
 	__DiagramFlossEquation__00000002_.Scale = 5.000000
 	__DiagramFlossEquation__00000002_.DefaultBoxWidth = 250.000000
@@ -200,10 +200,10 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000003_.Description = ``
 	__DiagramFlossEquation__00000003_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000003_.IsExpanded = false
-	__DiagramFlossEquation__00000003_.IsChecked = false
+	__DiagramFlossEquation__00000003_.IsChecked = true
 	__DiagramFlossEquation__00000003_.IsEditable_ = true
 	__DiagramFlossEquation__00000003_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000003_.Width = 1050.000000
+	__DiagramFlossEquation__00000003_.Width = 1170.000000
 	__DiagramFlossEquation__00000003_.Height = 750.000000
 	__DiagramFlossEquation__00000003_.Scale = 5.000000
 	__DiagramFlossEquation__00000003_.DefaultBoxWidth = 250.000000
@@ -217,7 +217,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000004_.IsChecked = false
 	__DiagramFlossEquation__00000004_.IsEditable_ = true
 	__DiagramFlossEquation__00000004_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000004_.Width = 1050.000000
+	__DiagramFlossEquation__00000004_.Width = 1170.000000
 	__DiagramFlossEquation__00000004_.Height = 750.000000
 	__DiagramFlossEquation__00000004_.Scale = 5.000000
 	__DiagramFlossEquation__00000004_.DefaultBoxWidth = 250.000000
@@ -231,7 +231,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000005_.IsChecked = false
 	__DiagramFlossEquation__00000005_.IsEditable_ = true
 	__DiagramFlossEquation__00000005_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000005_.Width = 1050.000000
+	__DiagramFlossEquation__00000005_.Width = 1170.000000
 	__DiagramFlossEquation__00000005_.Height = 750.000000
 	__DiagramFlossEquation__00000005_.Scale = 5.000000
 	__DiagramFlossEquation__00000005_.DefaultBoxWidth = 250.000000
@@ -242,10 +242,10 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000006_.Description = ``
 	__DiagramFlossEquation__00000006_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000006_.IsExpanded = false
-	__DiagramFlossEquation__00000006_.IsChecked = true
+	__DiagramFlossEquation__00000006_.IsChecked = false
 	__DiagramFlossEquation__00000006_.IsEditable_ = true
 	__DiagramFlossEquation__00000006_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000006_.Width = 1050.000000
+	__DiagramFlossEquation__00000006_.Width = 1170.000000
 	__DiagramFlossEquation__00000006_.Height = 750.000000
 	__DiagramFlossEquation__00000006_.Scale = 5.000000
 	__DiagramFlossEquation__00000006_.DefaultBoxWidth = 250.000000
@@ -259,7 +259,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000007_.IsChecked = false
 	__DiagramFlossEquation__00000007_.IsEditable_ = true
 	__DiagramFlossEquation__00000007_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000007_.Width = 1050.000000
+	__DiagramFlossEquation__00000007_.Width = 1170.000000
 	__DiagramFlossEquation__00000007_.Height = 750.000000
 	__DiagramFlossEquation__00000007_.Scale = 5.000000
 	__DiagramFlossEquation__00000007_.DefaultBoxWidth = 250.000000
@@ -273,7 +273,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000008_.IsChecked = false
 	__DiagramFlossEquation__00000008_.IsEditable_ = true
 	__DiagramFlossEquation__00000008_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000008_.Width = 1050.000000
+	__DiagramFlossEquation__00000008_.Width = 1170.000000
 	__DiagramFlossEquation__00000008_.Height = 750.000000
 	__DiagramFlossEquation__00000008_.Scale = 5.000000
 	__DiagramFlossEquation__00000008_.DefaultBoxWidth = 250.000000
@@ -287,7 +287,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000009_.IsChecked = false
 	__DiagramFlossEquation__00000009_.IsEditable_ = true
 	__DiagramFlossEquation__00000009_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000009_.Width = 1050.000000
+	__DiagramFlossEquation__00000009_.Width = 1170.000000
 	__DiagramFlossEquation__00000009_.Height = 750.000000
 	__DiagramFlossEquation__00000009_.Scale = 5.000000
 	__DiagramFlossEquation__00000009_.DefaultBoxWidth = 250.000000
@@ -301,7 +301,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000010_.IsChecked = false
 	__DiagramFlossEquation__00000010_.IsEditable_ = true
 	__DiagramFlossEquation__00000010_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000010_.Width = 1050.000000
+	__DiagramFlossEquation__00000010_.Width = 1170.000000
 	__DiagramFlossEquation__00000010_.Height = 750.000000
 	__DiagramFlossEquation__00000010_.Scale = 5.000000
 	__DiagramFlossEquation__00000010_.DefaultBoxWidth = 250.000000
@@ -315,7 +315,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000011_.IsChecked = false
 	__DiagramFlossEquation__00000011_.IsEditable_ = true
 	__DiagramFlossEquation__00000011_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000011_.Width = 1050.000000
+	__DiagramFlossEquation__00000011_.Width = 1170.000000
 	__DiagramFlossEquation__00000011_.Height = 750.000000
 	__DiagramFlossEquation__00000011_.Scale = 5.000000
 	__DiagramFlossEquation__00000011_.DefaultBoxWidth = 250.000000
@@ -329,7 +329,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000012_.IsChecked = false
 	__DiagramFlossEquation__00000012_.IsEditable_ = true
 	__DiagramFlossEquation__00000012_.AreQuantitativeElementsVisible = false
-	__DiagramFlossEquation__00000012_.Width = 1050.000000
+	__DiagramFlossEquation__00000012_.Width = 1170.000000
 	__DiagramFlossEquation__00000012_.Height = 750.000000
 	__DiagramFlossEquation__00000012_.Scale = 5.000000
 	__DiagramFlossEquation__00000012_.DefaultBoxWidth = 250.000000
@@ -534,6 +534,7 @@ func _(stage *models.Stage) {
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000003_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000005_)
 	__Library__00000001_.RootSystems = append(__Library__00000001_.RootSystems, __System__00000006_)
+	__Library__00000001_.SystemsWhoseNodeIsExpanded = append(__Library__00000001_.SystemsWhoseNodeIsExpanded, __System__00000003_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
 	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__System__00000003_.Complexities = append(__System__00000003_.Complexities, __Complexity__00000008_)
@@ -543,6 +544,7 @@ func _(stage *models.Stage) {
 	__System__00000003_.Efforts = append(__System__00000003_.Efforts, __Effort__00000006_)
 	__System__00000003_.Efforts = append(__System__00000003_.Efforts, __Effort__00000007_)
 	__System__00000003_.DiagramFlossEquations = append(__System__00000003_.DiagramFlossEquations, __DiagramFlossEquation__00000003_)
+	__System__00000003_.DiagramFlossEquationsWhoseNodeIsExpanded = append(__System__00000003_.DiagramFlossEquationsWhoseNodeIsExpanded, __DiagramFlossEquation__00000003_)
 	__System__00000005_.Complexities = append(__System__00000005_.Complexities, __Complexity__00000011_)
 	__System__00000005_.Complexities = append(__System__00000005_.Complexities, __Complexity__00000012_)
 	__System__00000005_.Complexities = append(__System__00000005_.Complexities, __Complexity__00000013_)
