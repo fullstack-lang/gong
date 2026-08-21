@@ -26,11 +26,11 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	systemesNode := &tree.Node{
 		Name:            "Systemes",
 		FontStyle:       tree.ITALIC,
-		IsExpanded:      library.IsSystemesNodeExpanded,
+		IsExpanded:      library.IsSystemsNodeExpanded,
 		IsNodeClickable: true,
 	}
 	libraryNode.Children = append(libraryNode.Children, systemesNode)
-	systemesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSystemesNodeExpanded)
+	systemesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSystemsNodeExpanded)
 	systemesNode.OnClick = onNodeClicked(stager, library)
 
 	// add a system to the library button
@@ -39,14 +39,14 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		Library, *Library,
 	]{
 		parentNode:                         systemesNode,
-		sliceForNewAddedItem:               &library.RootSystemes,
+		sliceForNewAddedItem:               &library.RootSystems,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsSystemesNodeExpanded,
+		parentNodeExpansionBooleanValue:    &library.IsSystemsNodeExpanded,
 	}
 	addCreateItemButton(stager, confRootSystemes)
 
-	for _, system := range library.RootSystemes {
+	for _, system := range library.RootSystems {
 		stager.treeSystemes(system, systemesNode, &library.SystemsWhoseNodeIsExpanded)
 	}
 
@@ -54,7 +54,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	// Complexitys
 	//
 	complexitysNode := &tree.Node{
-		Name:            "Complexitys",
+		Name:            "Complexities",
 		FontStyle:       tree.ITALIC,
 		IsExpanded:      library.IsComplexitysNodeExpanded,
 		IsNodeClickable: true,
@@ -136,7 +136,6 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	for _, effort := range library.RootEfforts {
 		stager.treeEffortWithinLibrary(library, effort, effortsNode)
 	}
-
 
 	//
 	// SubLibraries

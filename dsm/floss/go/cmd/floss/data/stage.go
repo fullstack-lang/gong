@@ -29,11 +29,37 @@ func _(stage *models.Stage) {
 	__Complexity__00000001_ := (&models.Complexity{Name: `Learning SysML V2`}).Stage(stage)
 	__Complexity__00000002_ := (&models.Complexity{Name: `Learning SysML (Partical Guide)`}).Stage(stage)
 
+	__ComplexityShape__00000000_ := (&models.ComplexityShape{Name: `Learning KerML-System 1 Diagram`}).Stage(stage)
+	__ComplexityShape__00000001_ := (&models.ComplexityShape{Name: `Learning KerML-DiagramFloss`}).Stage(stage)
+	__ComplexityShape__00000003_ := (&models.ComplexityShape{Name: `Learning SysML V2-DiagramFloss`}).Stage(stage)
+	__ComplexityShape__00000004_ := (&models.ComplexityShape{Name: `Learning SysML (Partical Guide)-DiagramFloss`}).Stage(stage)
+	__ComplexityShape__00000005_ := (&models.ComplexityShape{Name: `Learning SysML (Partical Guide)-DiagramFloss`}).Stage(stage)
+
 	__DiagramFloss__00000000_ := (&models.DiagramFloss{Name: `System 1 Diagram`}).Stage(stage)
 	__DiagramFloss__00000001_ := (&models.DiagramFloss{Name: `DiagramFloss`}).Stage(stage)
 	__DiagramFloss__00000002_ := (&models.DiagramFloss{Name: `DiagramFloss`}).Stage(stage)
 
+	__Effort__00000000_ := (&models.Effort{Name: `Go environment`}).Stage(stage)
+	__Effort__00000001_ := (&models.Effort{Name: `Angular environment`}).Stage(stage)
+	__Effort__00000002_ := (&models.Effort{Name: `Gong Framework`}).Stage(stage)
+	__Effort__00000003_ := (&models.Effort{Name: `Reference DSMs`}).Stage(stage)
+
+	__EffortShape__00000000_ := (&models.EffortShape{Name: `Go environment-DiagramFloss`}).Stage(stage)
+	__EffortShape__00000001_ := (&models.EffortShape{Name: `Angular environment-DiagramFloss`}).Stage(stage)
+	__EffortShape__00000002_ := (&models.EffortShape{Name: `Gong Framework-DiagramFloss`}).Stage(stage)
+	__EffortShape__00000003_ := (&models.EffortShape{Name: `Reference DSMs-DiagramFloss`}).Stage(stage)
+
 	__Library__00000000_ := (&models.Library{Name: `Floss Library`}).Stage(stage)
+
+	__Performance__00000000_ := (&models.Performance{Name: `Parametric Models`}).Stage(stage)
+	__Performance__00000001_ := (&models.Performance{Name: `Programmable Semantic`}).Stage(stage)
+	__Performance__00000002_ := (&models.Performance{Name: `Interopable abstract models`}).Stage(stage)
+	__Performance__00000003_ := (&models.Performance{Name: `Interoperable diagram models`}).Stage(stage)
+
+	__PerformanceShape__00000000_ := (&models.PerformanceShape{Name: `Parametric Models-DiagramFloss`}).Stage(stage)
+	__PerformanceShape__00000001_ := (&models.PerformanceShape{Name: `Programmable Semantic-DiagramFloss`}).Stage(stage)
+	__PerformanceShape__00000002_ := (&models.PerformanceShape{Name: `Interoperable diagram models-DiagramFloss`}).Stage(stage)
+	__PerformanceShape__00000003_ := (&models.PerformanceShape{Name: `Interopable abstract model-DiagramFloss`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `SysML V1`}).Stage(stage)
 	__System__00000001_ := (&models.System{Name: `SysML V2`}).Stage(stage)
@@ -60,18 +86,61 @@ func _(stage *models.Stage) {
 	__Complexity__00000002_.ComputedPrefix = ``
 	__Complexity__00000002_.IsExpanded = false
 
+	__ComplexityShape__00000000_.Name = `Learning KerML-System 1 Diagram`
+	__ComplexityShape__00000000_.IsExpanded = false
+	__ComplexityShape__00000000_.X = 130.000000
+	__ComplexityShape__00000000_.Y = 120.000000
+	__ComplexityShape__00000000_.Width = 180.000000
+	__ComplexityShape__00000000_.Height = 40.000000
+	__ComplexityShape__00000000_.IsHidden = false
+
+	__ComplexityShape__00000001_.Name = `Learning KerML-DiagramFloss`
+	__ComplexityShape__00000001_.IsExpanded = false
+	__ComplexityShape__00000001_.X = 450.000000
+	__ComplexityShape__00000001_.Y = 187.000000
+	__ComplexityShape__00000001_.Width = 180.000000
+	__ComplexityShape__00000001_.Height = 40.000000
+	__ComplexityShape__00000001_.IsHidden = false
+
+	__ComplexityShape__00000003_.Name = `Learning SysML V2-DiagramFloss`
+	__ComplexityShape__00000003_.IsExpanded = false
+	__ComplexityShape__00000003_.X = 677.000000
+	__ComplexityShape__00000003_.Y = 187.000000
+	__ComplexityShape__00000003_.Width = 180.000000
+	__ComplexityShape__00000003_.Height = 40.000000
+	__ComplexityShape__00000003_.IsHidden = false
+
+	__ComplexityShape__00000004_.Name = `Learning SysML (Partical Guide)-DiagramFloss`
+	__ComplexityShape__00000004_.IsExpanded = false
+	__ComplexityShape__00000004_.X = 123.000000
+	__ComplexityShape__00000004_.Y = 189.000000
+	__ComplexityShape__00000004_.Width = 282.000000
+	__ComplexityShape__00000004_.Height = 40.000000
+	__ComplexityShape__00000004_.IsHidden = false
+
+	__ComplexityShape__00000005_.Name = `Learning SysML (Partical Guide)-DiagramFloss`
+	__ComplexityShape__00000005_.IsExpanded = false
+	__ComplexityShape__00000005_.X = 130.000000
+	__ComplexityShape__00000005_.Y = 120.000000
+	__ComplexityShape__00000005_.Width = 266.000000
+	__ComplexityShape__00000005_.Height = 40.000000
+	__ComplexityShape__00000005_.IsHidden = false
+
 	__DiagramFloss__00000000_.Name = `System 1 Diagram`
 	__DiagramFloss__00000000_.Description = ``
 	__DiagramFloss__00000000_.ComputedPrefix = ``
 	__DiagramFloss__00000000_.IsExpanded = false
-	__DiagramFloss__00000000_.IsChecked = true
+	__DiagramFloss__00000000_.IsChecked = false
 	__DiagramFloss__00000000_.IsEditable_ = true
 	__DiagramFloss__00000000_.IsShowPrefix = false
 	__DiagramFloss__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramFloss__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramFloss__00000000_.Width = 900.000000
+	__DiagramFloss__00000000_.Width = 1271.000000
 	__DiagramFloss__00000000_.Height = 950.000000
 	__DiagramFloss__00000000_.IsSystemsNodeExpanded = false
+	__DiagramFloss__00000000_.IsComplexitysNodeExpanded = true
+	__DiagramFloss__00000000_.IsPerformancesNodeExpanded = false
+	__DiagramFloss__00000000_.IsEffortsNodeExpanded = false
 
 	__DiagramFloss__00000001_.Name = `DiagramFloss`
 	__DiagramFloss__00000001_.Description = ``
@@ -82,22 +151,80 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000001_.IsShowPrefix = false
 	__DiagramFloss__00000001_.DefaultBoxWidth = 250.000000
 	__DiagramFloss__00000001_.DefaultBoxHeigth = 70.000000
-	__DiagramFloss__00000001_.Width = 900.000000
+	__DiagramFloss__00000001_.Width = 1223.000000
 	__DiagramFloss__00000001_.Height = 1350.000000
 	__DiagramFloss__00000001_.IsSystemsNodeExpanded = false
+	__DiagramFloss__00000001_.IsComplexitysNodeExpanded = false
+	__DiagramFloss__00000001_.IsPerformancesNodeExpanded = false
+	__DiagramFloss__00000001_.IsEffortsNodeExpanded = false
 
 	__DiagramFloss__00000002_.Name = `DiagramFloss`
 	__DiagramFloss__00000002_.Description = ``
 	__DiagramFloss__00000002_.ComputedPrefix = ``
 	__DiagramFloss__00000002_.IsExpanded = false
-	__DiagramFloss__00000002_.IsChecked = false
+	__DiagramFloss__00000002_.IsChecked = true
 	__DiagramFloss__00000002_.IsEditable_ = true
 	__DiagramFloss__00000002_.IsShowPrefix = false
 	__DiagramFloss__00000002_.DefaultBoxWidth = 250.000000
 	__DiagramFloss__00000002_.DefaultBoxHeigth = 70.000000
-	__DiagramFloss__00000002_.Width = 900.000000
+	__DiagramFloss__00000002_.Width = 1259.000000
 	__DiagramFloss__00000002_.Height = 1350.000000
 	__DiagramFloss__00000002_.IsSystemsNodeExpanded = false
+	__DiagramFloss__00000002_.IsComplexitysNodeExpanded = true
+	__DiagramFloss__00000002_.IsPerformancesNodeExpanded = true
+	__DiagramFloss__00000002_.IsEffortsNodeExpanded = true
+
+	__Effort__00000000_.Name = `Go environment`
+	__Effort__00000000_.Strength = 0.000000
+	__Effort__00000000_.ComputedPrefix = ``
+	__Effort__00000000_.IsExpanded = false
+
+	__Effort__00000001_.Name = `Angular environment`
+	__Effort__00000001_.Strength = 0.000000
+	__Effort__00000001_.ComputedPrefix = ``
+	__Effort__00000001_.IsExpanded = false
+
+	__Effort__00000002_.Name = `Gong Framework`
+	__Effort__00000002_.Strength = 0.000000
+	__Effort__00000002_.ComputedPrefix = ``
+	__Effort__00000002_.IsExpanded = false
+
+	__Effort__00000003_.Name = `Reference DSMs`
+	__Effort__00000003_.Strength = 0.000000
+	__Effort__00000003_.ComputedPrefix = ``
+	__Effort__00000003_.IsExpanded = false
+
+	__EffortShape__00000000_.Name = `Go environment-DiagramFloss`
+	__EffortShape__00000000_.IsExpanded = false
+	__EffortShape__00000000_.X = 128.000000
+	__EffortShape__00000000_.Y = 449.000000
+	__EffortShape__00000000_.Width = 180.000000
+	__EffortShape__00000000_.Height = 40.000000
+	__EffortShape__00000000_.IsHidden = false
+
+	__EffortShape__00000001_.Name = `Angular environment-DiagramFloss`
+	__EffortShape__00000001_.IsExpanded = false
+	__EffortShape__00000001_.X = 343.000000
+	__EffortShape__00000001_.Y = 451.000000
+	__EffortShape__00000001_.Width = 180.000000
+	__EffortShape__00000001_.Height = 40.000000
+	__EffortShape__00000001_.IsHidden = false
+
+	__EffortShape__00000002_.Name = `Gong Framework-DiagramFloss`
+	__EffortShape__00000002_.IsExpanded = false
+	__EffortShape__00000002_.X = 562.000000
+	__EffortShape__00000002_.Y = 450.000000
+	__EffortShape__00000002_.Width = 180.000000
+	__EffortShape__00000002_.Height = 40.000000
+	__EffortShape__00000002_.IsHidden = false
+
+	__EffortShape__00000003_.Name = `Reference DSMs-DiagramFloss`
+	__EffortShape__00000003_.IsExpanded = false
+	__EffortShape__00000003_.X = 764.000000
+	__EffortShape__00000003_.Y = 452.000000
+	__EffortShape__00000003_.Width = 180.000000
+	__EffortShape__00000003_.Height = 40.000000
+	__EffortShape__00000003_.IsHidden = false
 
 	__Library__00000000_.Name = `Floss Library`
 	__Library__00000000_.Description = ``
@@ -107,11 +234,63 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsSystemesNodeExpanded = false
+	__Library__00000000_.IsSystemsNodeExpanded = true
 	__Library__00000000_.IsComplexitysNodeExpanded = false
 	__Library__00000000_.IsPerformancesNodeExpanded = false
 	__Library__00000000_.IsEffortsNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
+
+	__Performance__00000000_.Name = `Parametric Models`
+	__Performance__00000000_.Strength = 0.000000
+	__Performance__00000000_.ComputedPrefix = ``
+	__Performance__00000000_.IsExpanded = false
+
+	__Performance__00000001_.Name = `Programmable Semantic`
+	__Performance__00000001_.Strength = 0.000000
+	__Performance__00000001_.ComputedPrefix = ``
+	__Performance__00000001_.IsExpanded = false
+
+	__Performance__00000002_.Name = `Interopable abstract models`
+	__Performance__00000002_.Strength = 0.000000
+	__Performance__00000002_.ComputedPrefix = ``
+	__Performance__00000002_.IsExpanded = false
+
+	__Performance__00000003_.Name = `Interoperable diagram models`
+	__Performance__00000003_.Strength = 0.000000
+	__Performance__00000003_.ComputedPrefix = ``
+	__Performance__00000003_.IsExpanded = false
+
+	__PerformanceShape__00000000_.Name = `Parametric Models-DiagramFloss`
+	__PerformanceShape__00000000_.IsExpanded = false
+	__PerformanceShape__00000000_.X = 131.000000
+	__PerformanceShape__00000000_.Y = 266.000000
+	__PerformanceShape__00000000_.Width = 180.000000
+	__PerformanceShape__00000000_.Height = 40.000000
+	__PerformanceShape__00000000_.IsHidden = false
+
+	__PerformanceShape__00000001_.Name = `Programmable Semantic-DiagramFloss`
+	__PerformanceShape__00000001_.IsExpanded = false
+	__PerformanceShape__00000001_.X = 352.000000
+	__PerformanceShape__00000001_.Y = 267.000000
+	__PerformanceShape__00000001_.Width = 180.000000
+	__PerformanceShape__00000001_.Height = 40.000000
+	__PerformanceShape__00000001_.IsHidden = false
+
+	__PerformanceShape__00000002_.Name = `Interoperable diagram models-DiagramFloss`
+	__PerformanceShape__00000002_.IsExpanded = false
+	__PerformanceShape__00000002_.X = 130.000000
+	__PerformanceShape__00000002_.Y = 335.000000
+	__PerformanceShape__00000002_.Width = 262.000000
+	__PerformanceShape__00000002_.Height = 40.000000
+	__PerformanceShape__00000002_.IsHidden = false
+
+	__PerformanceShape__00000003_.Name = `Interopable abstract model-DiagramFloss`
+	__PerformanceShape__00000003_.IsExpanded = false
+	__PerformanceShape__00000003_.X = 585.000000
+	__PerformanceShape__00000003_.Y = 266.000000
+	__PerformanceShape__00000003_.Width = 241.000000
+	__PerformanceShape__00000003_.Height = 40.000000
+	__PerformanceShape__00000003_.IsHidden = false
 
 	__System__00000000_.Name = `SysML V1`
 	__System__00000000_.Description = ``
@@ -143,14 +322,14 @@ func _(stage *models.Stage) {
 	__System__00000002_.InverseAppliedScaling = 0.000000
 	__System__00000002_.IsSubSystemNodeExpanded = false
 	__System__00000002_.IsComplexitysNodeExpanded = false
-	__System__00000002_.IsPerformancesNodeExpanded = false
-	__System__00000002_.IsEffortsNodeExpanded = false
+	__System__00000002_.IsPerformancesNodeExpanded = true
+	__System__00000002_.IsEffortsNodeExpanded = true
 
 	__SystemShape__00000000_.Name = `System 1-System 1 Diagram`
 	__SystemShape__00000000_.IsExpanded = false
 	__SystemShape__00000000_.X = 100.000000
 	__SystemShape__00000000_.Y = 50.000000
-	__SystemShape__00000000_.Width = 500.000000
+	__SystemShape__00000000_.Width = 871.000000
 	__SystemShape__00000000_.Height = 600.000000
 	__SystemShape__00000000_.IsHidden = false
 
@@ -158,7 +337,7 @@ func _(stage *models.Stage) {
 	__SystemShape__00000001_.IsExpanded = false
 	__SystemShape__00000001_.X = 100.000000
 	__SystemShape__00000001_.Y = 50.000000
-	__SystemShape__00000001_.Width = 500.000000
+	__SystemShape__00000001_.Width = 823.000000
 	__SystemShape__00000001_.Height = 1000.000000
 	__SystemShape__00000001_.IsHidden = false
 
@@ -166,23 +345,75 @@ func _(stage *models.Stage) {
 	__SystemShape__00000002_.IsExpanded = false
 	__SystemShape__00000002_.X = 100.000000
 	__SystemShape__00000002_.Y = 50.000000
-	__SystemShape__00000002_.Width = 500.000000
+	__SystemShape__00000002_.Width = 859.000000
 	__SystemShape__00000002_.Height = 1000.000000
 	__SystemShape__00000002_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__ComplexityShape__00000000_.Complexity = __Complexity__00000000_
+	__ComplexityShape__00000001_.Complexity = __Complexity__00000000_
+	__ComplexityShape__00000003_.Complexity = __Complexity__00000001_
+	__ComplexityShape__00000004_.Complexity = __Complexity__00000002_
+	__ComplexityShape__00000005_.Complexity = __Complexity__00000002_
 	__DiagramFloss__00000000_.System_Shapes = append(__DiagramFloss__00000000_.System_Shapes, __SystemShape__00000000_)
+	__DiagramFloss__00000000_.Complexity_Shapes = append(__DiagramFloss__00000000_.Complexity_Shapes, __ComplexityShape__00000000_)
 	__DiagramFloss__00000001_.System_Shapes = append(__DiagramFloss__00000001_.System_Shapes, __SystemShape__00000001_)
+	__DiagramFloss__00000001_.Complexity_Shapes = append(__DiagramFloss__00000001_.Complexity_Shapes, __ComplexityShape__00000001_)
+	__DiagramFloss__00000001_.Complexity_Shapes = append(__DiagramFloss__00000001_.Complexity_Shapes, __ComplexityShape__00000003_)
+	__DiagramFloss__00000001_.Complexity_Shapes = append(__DiagramFloss__00000001_.Complexity_Shapes, __ComplexityShape__00000004_)
 	__DiagramFloss__00000002_.System_Shapes = append(__DiagramFloss__00000002_.System_Shapes, __SystemShape__00000002_)
-	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
-	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000001_)
-	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000002_)
+	__DiagramFloss__00000002_.Complexity_Shapes = append(__DiagramFloss__00000002_.Complexity_Shapes, __ComplexityShape__00000005_)
+	__DiagramFloss__00000002_.Performance_Shapes = append(__DiagramFloss__00000002_.Performance_Shapes, __PerformanceShape__00000000_)
+	__DiagramFloss__00000002_.Performance_Shapes = append(__DiagramFloss__00000002_.Performance_Shapes, __PerformanceShape__00000001_)
+	__DiagramFloss__00000002_.Performance_Shapes = append(__DiagramFloss__00000002_.Performance_Shapes, __PerformanceShape__00000002_)
+	__DiagramFloss__00000002_.Performance_Shapes = append(__DiagramFloss__00000002_.Performance_Shapes, __PerformanceShape__00000003_)
+	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000000_)
+	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000001_)
+	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000002_)
+	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000003_)
+	__EffortShape__00000000_.Effort = __Effort__00000000_
+	__EffortShape__00000001_.Effort = __Effort__00000001_
+	__EffortShape__00000002_.Effort = __Effort__00000002_
+	__EffortShape__00000003_.Effort = __Effort__00000003_
+	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000002_)
+	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000000_)
+	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000001_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000001_)
+	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000002_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000000_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000001_)
 	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000002_)
+	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000000_)
+	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000001_)
+	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000002_)
+	__Library__00000000_.RootPerformances = append(__Library__00000000_.RootPerformances, __Performance__00000003_)
+	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000000_)
+	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000001_)
+	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000002_)
+	__Library__00000000_.RootEfforts = append(__Library__00000000_.RootEfforts, __Effort__00000003_)
+	__PerformanceShape__00000000_.Performance = __Performance__00000000_
+	__PerformanceShape__00000001_.Performance = __Performance__00000001_
+	__PerformanceShape__00000002_.Performance = __Performance__00000003_
+	__PerformanceShape__00000003_.Performance = __Performance__00000002_
+	__System__00000000_.Complexities = append(__System__00000000_.Complexities, __Complexity__00000000_)
 	__System__00000000_.DiagramFlosses = append(__System__00000000_.DiagramFlosses, __DiagramFloss__00000000_)
+	__System__00000001_.Complexities = append(__System__00000001_.Complexities, __Complexity__00000000_)
+	__System__00000001_.Complexities = append(__System__00000001_.Complexities, __Complexity__00000001_)
+	__System__00000001_.Complexities = append(__System__00000001_.Complexities, __Complexity__00000002_)
 	__System__00000001_.DiagramFlosses = append(__System__00000001_.DiagramFlosses, __DiagramFloss__00000001_)
+	__System__00000001_.DiagramFlossWhoseNodeIsExpanded = append(__System__00000001_.DiagramFlossWhoseNodeIsExpanded, __DiagramFloss__00000001_)
+	__System__00000002_.Complexities = append(__System__00000002_.Complexities, __Complexity__00000002_)
+	__System__00000002_.Performances = append(__System__00000002_.Performances, __Performance__00000000_)
+	__System__00000002_.Performances = append(__System__00000002_.Performances, __Performance__00000001_)
+	__System__00000002_.Performances = append(__System__00000002_.Performances, __Performance__00000002_)
+	__System__00000002_.Performances = append(__System__00000002_.Performances, __Performance__00000003_)
+	__System__00000002_.Efforts = append(__System__00000002_.Efforts, __Effort__00000000_)
+	__System__00000002_.Efforts = append(__System__00000002_.Efforts, __Effort__00000001_)
+	__System__00000002_.Efforts = append(__System__00000002_.Efforts, __Effort__00000002_)
+	__System__00000002_.Efforts = append(__System__00000002_.Efforts, __Effort__00000003_)
 	__System__00000002_.DiagramFlosses = append(__System__00000002_.DiagramFlosses, __DiagramFloss__00000002_)
+	__System__00000002_.DiagramFlossWhoseNodeIsExpanded = append(__System__00000002_.DiagramFlossWhoseNodeIsExpanded, __DiagramFloss__00000002_)
 	__SystemShape__00000000_.System = __System__00000000_
 	__SystemShape__00000001_.System = __System__00000001_
 	__SystemShape__00000002_.System = __System__00000002_

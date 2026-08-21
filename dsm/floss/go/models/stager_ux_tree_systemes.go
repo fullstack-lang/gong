@@ -83,7 +83,7 @@ func (stager *Stager) treeSystemes(
 	// Complexitys
 	//
 	complexitysNode := &tree.Node{
-		Name:            "Complexitys",
+		Name:            "Complexities",
 		FontStyle:       tree.ITALIC,
 		IsExpanded:      system.IsComplexitysNodeExpanded,
 		IsNodeClickable: true,
@@ -97,7 +97,7 @@ func (stager *Stager) treeSystemes(
 		System, *System,
 	]{
 		parentNode:                         complexitysNode,
-		sliceForNewAddedItem:               &system.Complexitys,
+		sliceForNewAddedItem:               &system.Complexities,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 		parentNodeExpansionBooleanValue:    &system.IsComplexitysNodeExpanded,
@@ -105,7 +105,7 @@ func (stager *Stager) treeSystemes(
 	}
 	addCreateItemButton(stager, confComplexitys)
 
-	for _, complexity := range system.Complexitys {
+	for _, complexity := range system.Complexities {
 		stager.treeComplexityWithinSystem(system, complexity, complexitysNode)
 	}
 
@@ -169,4 +169,3 @@ func (stager *Stager) treeSystemes(
 		stager.treeEffortWithinSystem(system, effort, effortsNode)
 	}
 }
-

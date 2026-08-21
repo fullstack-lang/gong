@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterComplexityCreateCallback != nil {
 			stage.OnAfterComplexityCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ComplexityShape:
+		if stage.OnAfterComplexityShapeCreateCallback != nil {
+			stage.OnAfterComplexityShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *DiagramFloss:
 		if stage.OnAfterDiagramFlossCreateCallback != nil {
 			stage.OnAfterDiagramFlossCreateCallback.OnAfterCreate(stage, target)
@@ -18,6 +22,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEffortCreateCallback != nil {
 			stage.OnAfterEffortCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *EffortShape:
+		if stage.OnAfterEffortShapeCreateCallback != nil {
+			stage.OnAfterEffortShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
@@ -25,6 +33,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Performance:
 		if stage.OnAfterPerformanceCreateCallback != nil {
 			stage.OnAfterPerformanceCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *PerformanceShape:
+		if stage.OnAfterPerformanceShapeCreateCallback != nil {
+			stage.OnAfterPerformanceShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *System:
 		if stage.OnAfterSystemCreateCallback != nil {
@@ -53,6 +65,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterComplexityUpdateCallback != nil {
 			stage.OnAfterComplexityUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *ComplexityShape:
+		newTarget := any(new).(*ComplexityShape)
+		if stage.OnAfterComplexityShapeUpdateCallback != nil {
+			stage.OnAfterComplexityShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *DiagramFloss:
 		newTarget := any(new).(*DiagramFloss)
 		if stage.OnAfterDiagramFlossUpdateCallback != nil {
@@ -63,6 +80,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterEffortUpdateCallback != nil {
 			stage.OnAfterEffortUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *EffortShape:
+		newTarget := any(new).(*EffortShape)
+		if stage.OnAfterEffortShapeUpdateCallback != nil {
+			stage.OnAfterEffortShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Library:
 		newTarget := any(new).(*Library)
 		if stage.OnAfterLibraryUpdateCallback != nil {
@@ -72,6 +94,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Performance)
 		if stage.OnAfterPerformanceUpdateCallback != nil {
 			stage.OnAfterPerformanceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PerformanceShape:
+		newTarget := any(new).(*PerformanceShape)
+		if stage.OnAfterPerformanceShapeUpdateCallback != nil {
+			stage.OnAfterPerformanceShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *System:
 		newTarget := any(new).(*System)
@@ -98,6 +125,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Complexity)
 			stage.OnAfterComplexityDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ComplexityShape:
+		if stage.OnAfterComplexityShapeDeleteCallback != nil {
+			staged := any(staged).(*ComplexityShape)
+			stage.OnAfterComplexityShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *DiagramFloss:
 		if stage.OnAfterDiagramFlossDeleteCallback != nil {
 			staged := any(staged).(*DiagramFloss)
@@ -108,6 +140,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Effort)
 			stage.OnAfterEffortDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *EffortShape:
+		if stage.OnAfterEffortShapeDeleteCallback != nil {
+			staged := any(staged).(*EffortShape)
+			stage.OnAfterEffortShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
 			staged := any(staged).(*Library)
@@ -117,6 +154,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterPerformanceDeleteCallback != nil {
 			staged := any(staged).(*Performance)
 			stage.OnAfterPerformanceDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PerformanceShape:
+		if stage.OnAfterPerformanceShapeDeleteCallback != nil {
+			staged := any(staged).(*PerformanceShape)
+			stage.OnAfterPerformanceShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *System:
 		if stage.OnAfterSystemDeleteCallback != nil {
@@ -142,6 +184,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterComplexityReadCallback != nil {
 			stage.OnAfterComplexityReadCallback.OnAfterRead(stage, target)
 		}
+	case *ComplexityShape:
+		if stage.OnAfterComplexityShapeReadCallback != nil {
+			stage.OnAfterComplexityShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *DiagramFloss:
 		if stage.OnAfterDiagramFlossReadCallback != nil {
 			stage.OnAfterDiagramFlossReadCallback.OnAfterRead(stage, target)
@@ -150,6 +196,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEffortReadCallback != nil {
 			stage.OnAfterEffortReadCallback.OnAfterRead(stage, target)
 		}
+	case *EffortShape:
+		if stage.OnAfterEffortShapeReadCallback != nil {
+			stage.OnAfterEffortShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
 			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
@@ -157,6 +207,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Performance:
 		if stage.OnAfterPerformanceReadCallback != nil {
 			stage.OnAfterPerformanceReadCallback.OnAfterRead(stage, target)
+		}
+	case *PerformanceShape:
+		if stage.OnAfterPerformanceShapeReadCallback != nil {
+			stage.OnAfterPerformanceShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *System:
 		if stage.OnAfterSystemReadCallback != nil {
@@ -179,14 +233,20 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Complexity:
 		stage.OnAfterComplexityUpdateCallback = any(callback).(OnAfterUpdateInterface[Complexity])
+	case *ComplexityShape:
+		stage.OnAfterComplexityShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ComplexityShape])
 	case *DiagramFloss:
 		stage.OnAfterDiagramFlossUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramFloss])
 	case *Effort:
 		stage.OnAfterEffortUpdateCallback = any(callback).(OnAfterUpdateInterface[Effort])
+	case *EffortShape:
+		stage.OnAfterEffortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[EffortShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Performance:
 		stage.OnAfterPerformanceUpdateCallback = any(callback).(OnAfterUpdateInterface[Performance])
+	case *PerformanceShape:
+		stage.OnAfterPerformanceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PerformanceShape])
 	case *System:
 		stage.OnAfterSystemUpdateCallback = any(callback).(OnAfterUpdateInterface[System])
 	case *SystemShape:
@@ -200,14 +260,20 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Complexity:
 		stage.OnAfterComplexityCreateCallback = any(callback).(OnAfterCreateInterface[Complexity])
+	case *ComplexityShape:
+		stage.OnAfterComplexityShapeCreateCallback = any(callback).(OnAfterCreateInterface[ComplexityShape])
 	case *DiagramFloss:
 		stage.OnAfterDiagramFlossCreateCallback = any(callback).(OnAfterCreateInterface[DiagramFloss])
 	case *Effort:
 		stage.OnAfterEffortCreateCallback = any(callback).(OnAfterCreateInterface[Effort])
+	case *EffortShape:
+		stage.OnAfterEffortShapeCreateCallback = any(callback).(OnAfterCreateInterface[EffortShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Performance:
 		stage.OnAfterPerformanceCreateCallback = any(callback).(OnAfterCreateInterface[Performance])
+	case *PerformanceShape:
+		stage.OnAfterPerformanceShapeCreateCallback = any(callback).(OnAfterCreateInterface[PerformanceShape])
 	case *System:
 		stage.OnAfterSystemCreateCallback = any(callback).(OnAfterCreateInterface[System])
 	case *SystemShape:
@@ -221,14 +287,20 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Complexity:
 		stage.OnAfterComplexityDeleteCallback = any(callback).(OnAfterDeleteInterface[Complexity])
+	case *ComplexityShape:
+		stage.OnAfterComplexityShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ComplexityShape])
 	case *DiagramFloss:
 		stage.OnAfterDiagramFlossDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramFloss])
 	case *Effort:
 		stage.OnAfterEffortDeleteCallback = any(callback).(OnAfterDeleteInterface[Effort])
+	case *EffortShape:
+		stage.OnAfterEffortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[EffortShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Performance:
 		stage.OnAfterPerformanceDeleteCallback = any(callback).(OnAfterDeleteInterface[Performance])
+	case *PerformanceShape:
+		stage.OnAfterPerformanceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PerformanceShape])
 	case *System:
 		stage.OnAfterSystemDeleteCallback = any(callback).(OnAfterDeleteInterface[System])
 	case *SystemShape:
@@ -242,14 +314,20 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	// insertion point
 	case *Complexity:
 		stage.OnAfterComplexityReadCallback = any(callback).(OnAfterReadInterface[Complexity])
+	case *ComplexityShape:
+		stage.OnAfterComplexityShapeReadCallback = any(callback).(OnAfterReadInterface[ComplexityShape])
 	case *DiagramFloss:
 		stage.OnAfterDiagramFlossReadCallback = any(callback).(OnAfterReadInterface[DiagramFloss])
 	case *Effort:
 		stage.OnAfterEffortReadCallback = any(callback).(OnAfterReadInterface[Effort])
+	case *EffortShape:
+		stage.OnAfterEffortShapeReadCallback = any(callback).(OnAfterReadInterface[EffortShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Performance:
 		stage.OnAfterPerformanceReadCallback = any(callback).(OnAfterReadInterface[Performance])
+	case *PerformanceShape:
+		stage.OnAfterPerformanceShapeReadCallback = any(callback).(OnAfterReadInterface[PerformanceShape])
 	case *System:
 		stage.OnAfterSystemReadCallback = any(callback).(OnAfterReadInterface[System])
 	case *SystemShape:

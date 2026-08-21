@@ -6,7 +6,7 @@ type System struct {
 	//gong:text width:300 height:300
 	Description string
 
-	Complexitys  []*Complexity
+	Complexities []*Complexity
 	Performances []*Performance
 	Efforts      []*Effort
 
@@ -80,5 +80,3 @@ type Effort struct {
 }
 
 var _ AbstractType = (*Effort)(nil)
-
-

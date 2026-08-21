@@ -26,8 +26,8 @@ type Library struct {
 	LogoSVGFile string // the content of the logo file, used for the static site generation
 
 	// DSM specific fields
-	RootSystemes               []*System
-	IsSystemesNodeExpanded     bool
+	RootSystems                []*System
+	IsSystemsNodeExpanded      bool
 	SystemsWhoseNodeIsExpanded []*System
 
 	RootComplexitys                []*Complexity
@@ -45,4 +45,3 @@ type Library struct {
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 }
-

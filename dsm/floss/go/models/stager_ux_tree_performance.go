@@ -79,3 +79,74 @@ func (stager *Stager) treePerformanceWithinSystem(
 	performanceNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, performance, &system.PerformancesWhoseNodeIsExpanded)
 	performanceNode.OnClick = onNodeClicked(stager, performance)
 }
+
+func (stager *Stager) treePerformanceWithinDiagramFloss(
+	diagramFloss *DiagramFloss,
+	system *System,
+	performance *Performance,
+	parentNode *tree.Node,
+) {
+	shape, ok := diagramFloss.map_Performance_PerformanceShape[performance]
+	node := &tree.Node{
+		Name:                    performance.GetName(),
+		IsExpanded:              slices.Contains(diagramFloss.PerformancesWhoseNodeIsExpanded, performance),
+		IsNodeClickable:         true,
+		IsInEditMode:            performance.GetIsInRenameMode(),
+		HasCheckboxButton:       true,
+		IsChecked:               ok,
+		CheckboxHasToolTip:      true,
+		CheckboxToolTipPosition: tree.Left,
+		CheckboxToolTipText: func() string {
+			if ok {
+				return "Click to remove performance shape from diagram"
+			}
+			return "Click to add performance shape to diagram"
+		}(),
+	}
+	parentNode.Children = append(parentNode.Children, node)
+	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, performance, &diagramFloss.PerformancesWhoseNodeIsExpanded)
+	node.OnNameChange = stager.onNameChange(performance)
+	node.OnClick = onNodeClicked(stager, performance)
+
+	addRenameButton(performance, node, stager)
+
+	if ok {
+		visibilityButton := &tree.Button{
+			Name:            diagramFloss.GetName(),
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				shape.SetIsHidden(!shape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if shape.GetIsHidden() {
+			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, visibilityButton)
+	}
+
+	node.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked {
+			newShape := newShapeToDiagram(performance, diagramFloss, &diagramFloss.Performance_Shapes, stager, node.ClientOnY)
+			newShape.Performance = performance
+			newShape.Width = 180
+			newShape.Height = 40
+
+			if systemShape, found := diagramFloss.map_System_SystemShape[system]; found {
+				newShape.X = systemShape.X + 30
+				newShape.Y = systemShape.Y + 70 + float64(len(diagramFloss.Performance_Shapes)-1)*50
+			}
+			stager.stage.Commit()
+		} else {
+			if shape, found := diagramFloss.map_Performance_PerformanceShape[performance]; found {
+				shape.UnstageVoid(stager.stage)
+				diagramFloss.Performance_Shapes = slices.DeleteFunc(diagramFloss.Performance_Shapes, func(s *PerformanceShape) bool { return s == shape })
+				stager.stage.Commit()
+			}
+		}
+	}
+}

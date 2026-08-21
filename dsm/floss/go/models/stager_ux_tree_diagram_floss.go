@@ -70,4 +70,59 @@ func (stager *Stager) treeDiagramFloss(
 		}
 		diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 	}
+
+	//
+	// Complexities
+	//
+	{
+		complexitiesNode := &tree.Node{
+			Name:            "Complexities",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramFloss.IsComplexitysNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, complexitiesNode)
+		complexitiesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramFloss.IsComplexitysNodeExpanded)
+
+		for _, complexity := range system.Complexities {
+			stager.treeComplexityWithinDiagramFloss(diagramFloss, system, complexity, complexitiesNode)
+		}
+	}
+
+	//
+	// Performances
+	//
+	{
+		performancesNode := &tree.Node{
+			Name:            "Performances",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramFloss.IsPerformancesNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, performancesNode)
+		performancesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramFloss.IsPerformancesNodeExpanded)
+
+		for _, performance := range system.Performances {
+			stager.treePerformanceWithinDiagramFloss(diagramFloss, system, performance, performancesNode)
+		}
+	}
+
+	//
+	// Efforts
+	//
+	{
+		effortsNode := &tree.Node{
+			Name:            "Efforts",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramFloss.IsEffortsNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, effortsNode)
+		effortsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramFloss.IsEffortsNodeExpanded)
+
+		for _, effort := range system.Efforts {
+			stager.treeEffortWithinDiagramFloss(diagramFloss, system, effort, effortsNode)
+		}
+	}
 }
+

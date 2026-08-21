@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -49,6 +50,9 @@ func (stager *Stager) generateSvgObject(diagramFloss *DiagramFloss) *svg.SVG {
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	stager.drawSystemShapes(diagramFloss, layer)
+	stager.drawComplexityShapes(diagramFloss, layer)
+	stager.drawPerformanceShapes(diagramFloss, layer)
+	stager.drawEffortShapes(diagramFloss, layer)
 
 	return svgObject
 }
@@ -65,20 +69,26 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 			diagramFloss,
 			systemShape,
 			layer)
-		rect.RX = 3
+		rect.RX = 8
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			title := rect.RectAnchoredTexts[0]
 			title.RectAnchorType = svg.RECT_TOP
 			title.Y_Offset = +30
-			title.FontWeight = "500"
+			title.FontWeight = "600"
 			title.FontSize = "18px"
+			title.Color = "#263238"
+			title.Stroke = "#263238"
+			title.StrokeWidth = 0
+			title.StrokeOpacity = 1.0
+			title.FillOpacity = 1.0
 		}
 
-		rect.Color = "#F8F9FA"
+		rect.Color = "#FAFAFB"
 		rect.FillOpacity = 1.0
-		rect.Stroke = "#E0E0E0"
-		rect.StrokeWidth = 1.5
+		rect.Stroke = "#B0BEC5"
+		rect.StrokeWidth = 2.0
+		rect.StrokeOpacity = 1.0
 
 		rect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
@@ -86,5 +96,197 @@ func (stager *Stager) drawSystemShapes(diagramFloss *DiagramFloss, layer *svg.La
 		rect.OnMove = onMoveRectElement(stager, systemShape, false)
 		rect.OnResize = onResizeRectElement(stager, systemShape)
 		diagramFloss.map_System_Rect[systemShape.System] = rect
+	}
+}
+
+func (stager *Stager) drawComplexityShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	diagramFloss.map_Complexity_Rect = make(map[*Complexity]*svg.Rect)
+	for _, complexityShape := range diagramFloss.Complexity_Shapes {
+		if complexityShape.IsHidden {
+			continue
+		}
+
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+		diagramFloss.map_Complexity_Rect[complexityShape.Complexity] = rect
+
+		if diagramFloss.owningSystem != nil {
+			if systemRect, ok := diagramFloss.map_System_Rect[diagramFloss.owningSystem]; ok {
+				rect.EnclosingRect = systemRect
+				systemRect.Peers = append(systemRect.Peers, rect)
+			}
+		}
+
+		rect.Name = complexityShape.GetName()
+		rect.X = complexityShape.GetX()
+		rect.Y = complexityShape.GetY()
+		rect.Width = complexityShape.GetWidth()
+		rect.Height = complexityShape.GetHeight()
+
+		// Amber / warm theme for Complexity
+		rect.Color = "#FFF8E1"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#FFA000"
+		rect.StrokeWidth = 1.5
+		rect.StrokeOpacity = 1.0
+		rect.RX = 6
+
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
+
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(complexityShape.Complexity, GetPointerToGongstructName[*Complexity]())
+		}
+		rect.OnMove = onMoveRectElement(stager, complexityShape, true)
+		rect.OnResize = onResizeRectElement(stager, complexityShape)
+
+		title := new(svg.RectAnchoredText)
+		title.Name = complexityShape.Complexity.Name
+		title.Content = complexityShape.Complexity.Name
+		if complexityShape.Complexity.Strength != 0 {
+			title.Content = fmt.Sprintf("%s (%.1f)", complexityShape.Complexity.Name, complexityShape.Complexity.Strength)
+		}
+		title.Color = "#E65100"
+		title.FillOpacity = 1.0
+		title.Stroke = "#E65100"
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 1.0
+		title.FontSize = "14px"
+		title.FontWeight = "600"
+		title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+	}
+}
+
+func (stager *Stager) drawPerformanceShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	diagramFloss.map_Performance_Rect = make(map[*Performance]*svg.Rect)
+	for _, performanceShape := range diagramFloss.Performance_Shapes {
+		if performanceShape.IsHidden {
+			continue
+		}
+
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+		diagramFloss.map_Performance_Rect[performanceShape.Performance] = rect
+
+		if diagramFloss.owningSystem != nil {
+			if systemRect, ok := diagramFloss.map_System_Rect[diagramFloss.owningSystem]; ok {
+				rect.EnclosingRect = systemRect
+				systemRect.Peers = append(systemRect.Peers, rect)
+			}
+		}
+
+		rect.Name = performanceShape.GetName()
+		rect.X = performanceShape.GetX()
+		rect.Y = performanceShape.GetY()
+		rect.Width = performanceShape.GetWidth()
+		rect.Height = performanceShape.GetHeight()
+
+		// Emerald green capsule theme for Performance
+		rect.Color = "#E8F5E9"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#2E7D32"
+		rect.StrokeWidth = 1.5
+		rect.StrokeOpacity = 1.0
+		rect.RX = 14
+
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
+
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(performanceShape.Performance, GetPointerToGongstructName[*Performance]())
+		}
+		rect.OnMove = onMoveRectElement(stager, performanceShape, true)
+		rect.OnResize = onResizeRectElement(stager, performanceShape)
+
+		title := new(svg.RectAnchoredText)
+		title.Name = performanceShape.Performance.Name
+		title.Content = performanceShape.Performance.Name
+		if performanceShape.Performance.Strength != 0 {
+			title.Content = fmt.Sprintf("%s (%.1f)", performanceShape.Performance.Name, performanceShape.Performance.Strength)
+		}
+		title.Color = "#1B5E20"
+		title.FillOpacity = 1.0
+		title.Stroke = "#1B5E20"
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 1.0
+		title.FontSize = "14px"
+		title.FontWeight = "600"
+		title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+	}
+}
+
+func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
+	diagramFloss.map_Effort_Rect = make(map[*Effort]*svg.Rect)
+	for _, effortShape := range diagramFloss.Effort_Shapes {
+		if effortShape.IsHidden {
+			continue
+		}
+
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+		diagramFloss.map_Effort_Rect[effortShape.Effort] = rect
+
+		if diagramFloss.owningSystem != nil {
+			if systemRect, ok := diagramFloss.map_System_Rect[diagramFloss.owningSystem]; ok {
+				rect.EnclosingRect = systemRect
+				systemRect.Peers = append(systemRect.Peers, rect)
+			}
+		}
+
+		rect.Name = effortShape.GetName()
+		rect.X = effortShape.GetX()
+		rect.Y = effortShape.GetY()
+		rect.Width = effortShape.GetWidth()
+		rect.Height = effortShape.GetHeight()
+
+		// Crisp slate blue theme for Effort
+		rect.Color = "#E3F2FD"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#1976D2"
+		rect.StrokeWidth = 1.5
+		rect.StrokeOpacity = 1.0
+		rect.RX = 2
+
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
+
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(effortShape.Effort, GetPointerToGongstructName[*Effort]())
+		}
+		rect.OnMove = onMoveRectElement(stager, effortShape, true)
+		rect.OnResize = onResizeRectElement(stager, effortShape)
+
+		title := new(svg.RectAnchoredText)
+		title.Name = effortShape.Effort.Name
+		title.Content = effortShape.Effort.Name
+		if effortShape.Effort.Strength != 0 {
+			title.Content = fmt.Sprintf("%s (%.1f)", effortShape.Effort.Name, effortShape.Effort.Strength)
+		}
+		title.Color = "#0D47A1"
+		title.FillOpacity = 1.0
+		title.Stroke = "#0D47A1"
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 1.0
+		title.FontSize = "14px"
+		title.FontWeight = "600"
+		title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 	}
 }
