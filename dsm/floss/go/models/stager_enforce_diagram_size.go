@@ -71,7 +71,9 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 
 			deltaC := cTo - cFrom
 			deltaP := pTo - pFrom
-			deltaE := eTo - eFrom
+			deltaE := eTo
+			_ = eFrom
+
 			alpha := compareAnalysis.Alpha
 			if alpha == 0 {
 				alpha = 1.0

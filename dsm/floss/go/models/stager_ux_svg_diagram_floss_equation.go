@@ -118,7 +118,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 	deltaC := cTo - cFrom
 	deltaP := pTo - pFrom
-	deltaE := eTo - eFrom
+	deltaE := eTo
+	_ = eFrom
+
 
 	beta := compareAnalysis.Beta
 
