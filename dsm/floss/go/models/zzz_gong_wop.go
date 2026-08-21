@@ -80,6 +80,12 @@ type DiagramFlossEquation_WOP struct {
 	DefaultBoxHeigth float64
 
 	IsNotesNodeExpanded bool
+
+	IsComplexitysNodeExpanded bool
+
+	IsPerformancesNodeExpanded bool
+
+	IsEffortsNodeExpanded bool
 }
 
 func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
@@ -97,6 +103,9 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
+	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
+	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
+	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
 }
 
 type Effort_WOP struct {

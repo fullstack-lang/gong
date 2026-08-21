@@ -316,6 +316,51 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(complexity_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(complexity_.IsExpanded), formDiv)
+		case "DiagramFlossEquation:ComplexitysWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFlossEquation instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFlossEquation instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFlossEquation](complexityFormCallback.probe.stageOfInterest)
+			targetDiagramFlossEquationIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossEquationIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFlossEquation instances and update their ComplexitysWhoseNodeIsExpanded slice
+			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](complexityFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _diagramflossequation)
+				
+				// if DiagramFlossEquation is selected
+				if targetDiagramFlossEquationIDs[id] {
+					// ensure complexity_ is in _diagramflossequation.ComplexitysWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+						if _b == complexity_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramflossequation.ComplexitysWhoseNodeIsExpanded = append(_diagramflossequation.ComplexitysWhoseNodeIsExpanded, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_diagramflossequation, "ComplexitysWhoseNodeIsExpanded", &_diagramflossequation.ComplexitysWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure complexity_ is NOT in _diagramflossequation.ComplexitysWhoseNodeIsExpanded
+					idx := slices.Index(_diagramflossequation.ComplexitysWhoseNodeIsExpanded, complexity_)
+					if idx != -1 {
+						_diagramflossequation.ComplexitysWhoseNodeIsExpanded = slices.Delete(_diagramflossequation.ComplexitysWhoseNodeIsExpanded, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_diagramflossequation, "ComplexitysWhoseNodeIsExpanded", &_diagramflossequation.ComplexitysWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootComplexitys":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -803,6 +848,108 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			diagramflossequation_.NotesWhoseNodeIsExpanded = instanceSlice
 			diagramflossequationFormCallback.probe.UpdateSliceOfPointersCallback(diagramflossequation_, "NotesWhoseNodeIsExpanded", &diagramflossequation_.NotesWhoseNodeIsExpanded)
 
+		case "IsComplexitysNodeExpanded":
+			FormDivBasicFieldToField(&(diagramflossequation_.IsComplexitysNodeExpanded), formDiv)
+		case "ComplexitysWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](diagramflossequationFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Complexity, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Complexity)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossequationFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Complexity](diagramflossequationFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramflossequation_.ComplexitysWhoseNodeIsExpanded = instanceSlice
+			diagramflossequationFormCallback.probe.UpdateSliceOfPointersCallback(diagramflossequation_, "ComplexitysWhoseNodeIsExpanded", &diagramflossequation_.ComplexitysWhoseNodeIsExpanded)
+
+		case "IsPerformancesNodeExpanded":
+			FormDivBasicFieldToField(&(diagramflossequation_.IsPerformancesNodeExpanded), formDiv)
+		case "PerformancesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](diagramflossequationFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Performance, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Performance)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossequationFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Performance](diagramflossequationFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramflossequation_.PerformancesWhoseNodeIsExpanded = instanceSlice
+			diagramflossequationFormCallback.probe.UpdateSliceOfPointersCallback(diagramflossequation_, "PerformancesWhoseNodeIsExpanded", &diagramflossequation_.PerformancesWhoseNodeIsExpanded)
+
+		case "IsEffortsNodeExpanded":
+			FormDivBasicFieldToField(&(diagramflossequation_.IsEffortsNodeExpanded), formDiv)
+		case "EffortsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](diagramflossequationFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Effort, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Effort)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramflossequationFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Effort](diagramflossequationFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramflossequation_.EffortsWhoseNodeIsExpanded = instanceSlice
+			diagramflossequationFormCallback.probe.UpdateSliceOfPointersCallback(diagramflossequation_, "EffortsWhoseNodeIsExpanded", &diagramflossequation_.EffortsWhoseNodeIsExpanded)
+
 		case "CompareAnalysis:DiagramFlossEquations":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the CompareAnalysis instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1067,6 +1214,51 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(effort_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(effort_.IsExpanded), formDiv)
+		case "DiagramFlossEquation:EffortsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFlossEquation instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFlossEquation instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFlossEquation](effortFormCallback.probe.stageOfInterest)
+			targetDiagramFlossEquationIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossEquationIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFlossEquation instances and update their EffortsWhoseNodeIsExpanded slice
+			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](effortFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _diagramflossequation)
+				
+				// if DiagramFlossEquation is selected
+				if targetDiagramFlossEquationIDs[id] {
+					// ensure effort_ is in _diagramflossequation.EffortsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagramflossequation.EffortsWhoseNodeIsExpanded {
+						if _b == effort_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramflossequation.EffortsWhoseNodeIsExpanded = append(_diagramflossequation.EffortsWhoseNodeIsExpanded, effort_)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_diagramflossequation, "EffortsWhoseNodeIsExpanded", &_diagramflossequation.EffortsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure effort_ is NOT in _diagramflossequation.EffortsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramflossequation.EffortsWhoseNodeIsExpanded, effort_)
+					if idx != -1 {
+						_diagramflossequation.EffortsWhoseNodeIsExpanded = slices.Delete(_diagramflossequation.EffortsWhoseNodeIsExpanded, idx, idx+1)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_diagramflossequation, "EffortsWhoseNodeIsExpanded", &_diagramflossequation.EffortsWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootEfforts":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2893,6 +3085,51 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(performance_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(performance_.IsExpanded), formDiv)
+		case "DiagramFlossEquation:PerformancesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFlossEquation instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramFlossEquation instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramFlossEquation](performanceFormCallback.probe.stageOfInterest)
+			targetDiagramFlossEquationIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramFlossEquationIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramFlossEquation instances and update their PerformancesWhoseNodeIsExpanded slice
+			for _diagramflossequation := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramFlossEquation](performanceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _diagramflossequation)
+				
+				// if DiagramFlossEquation is selected
+				if targetDiagramFlossEquationIDs[id] {
+					// ensure performance_ is in _diagramflossequation.PerformancesWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagramflossequation.PerformancesWhoseNodeIsExpanded {
+						if _b == performance_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramflossequation.PerformancesWhoseNodeIsExpanded = append(_diagramflossequation.PerformancesWhoseNodeIsExpanded, performance_)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramflossequation, "PerformancesWhoseNodeIsExpanded", &_diagramflossequation.PerformancesWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure performance_ is NOT in _diagramflossequation.PerformancesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramflossequation.PerformancesWhoseNodeIsExpanded, performance_)
+					if idx != -1 {
+						_diagramflossequation.PerformancesWhoseNodeIsExpanded = slices.Delete(_diagramflossequation.PerformancesWhoseNodeIsExpanded, idx, idx+1)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramflossequation, "PerformancesWhoseNodeIsExpanded", &_diagramflossequation.PerformancesWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootPerformances":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

@@ -185,6 +185,12 @@ type Stage struct {
 
 	DiagramFlossEquation_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*DiagramFlossEquation
 
+	DiagramFlossEquation_ComplexitysWhoseNodeIsExpanded_reverseMap map[*Complexity]*DiagramFlossEquation
+
+	DiagramFlossEquation_PerformancesWhoseNodeIsExpanded_reverseMap map[*Performance]*DiagramFlossEquation
+
+	DiagramFlossEquation_EffortsWhoseNodeIsExpanded_reverseMap map[*Effort]*DiagramFlossEquation
+
 	OnAfterDiagramFlossEquationCreateCallback OnAfterCreateInterface[DiagramFlossEquation]
 	OnAfterDiagramFlossEquationUpdateCallback OnAfterUpdateInterface[DiagramFlossEquation]
 	OnAfterDiagramFlossEquationDeleteCallback OnAfterDeleteInterface[DiagramFlossEquation]
@@ -3122,6 +3128,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			NoteEffortShapes: []*NoteEffortShape{{Name: "NoteEffortShapes"}},
 			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Complexity with the name of the field
+			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Performance with the name of the field
+			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Effort with the name of the field
+			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Effort:
 		return any(&Effort{
@@ -3540,6 +3552,30 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ComplexitysWhoseNodeIsExpanded":
+			res := make(map[*Complexity][]*DiagramFlossEquation)
+			for diagramflossequation := range stage.DiagramFlossEquations {
+				for _, complexity_ := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+					res[complexity_] = append(res[complexity_], diagramflossequation)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PerformancesWhoseNodeIsExpanded":
+			res := make(map[*Performance][]*DiagramFlossEquation)
+			for diagramflossequation := range stage.DiagramFlossEquations {
+				for _, performance_ := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+					res[performance_] = append(res[performance_], diagramflossequation)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EffortsWhoseNodeIsExpanded":
+			res := make(map[*Effort][]*DiagramFlossEquation)
+			for diagramflossequation := range stage.DiagramFlossEquations {
+				for _, effort_ := range diagramflossequation.EffortsWhoseNodeIsExpanded {
+					res[effort_] = append(res[effort_], diagramflossequation)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Effort
 	case Effort:
@@ -3858,6 +3894,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Complexity:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "DiagramFlossEquation"
+		rf.Fieldname = "ComplexitysWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootComplexitys"
 		res = append(res, rf)
@@ -3891,6 +3930,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Effort:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "DiagramFlossEquation"
+		rf.Fieldname = "EffortsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootEfforts"
 		res = append(res, rf)
@@ -3954,6 +3996,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Performance:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "DiagramFlossEquation"
+		rf.Fieldname = "PerformancesWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootPerformances"
 		res = append(res, rf)
@@ -4135,6 +4180,33 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 			Name:                 "NotesWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Note",
+		},
+		{
+			Name:               "IsComplexitysNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ComplexitysWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:               "IsPerformancesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "PerformancesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:               "IsEffortsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EffortsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
 		},
 	}
 	return
@@ -4863,6 +4935,48 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "NotesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramflossequation.NotesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsComplexitysNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.IsComplexitysNodeExpanded)
+		res.valueBool = diagramflossequation.IsComplexitysNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComplexitysWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsPerformancesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.IsPerformancesNodeExpanded)
+		res.valueBool = diagramflossequation.IsPerformancesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "PerformancesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsEffortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.IsEffortsNodeExpanded)
+		res.valueBool = diagramflossequation.IsEffortsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EffortsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramflossequation.EffortsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -5649,6 +5763,54 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 				for __instance__ := range stage.Notes {
 					if stage.Note_stagedOrder[__instance__] == uint(id) {
 						diagramflossequation.NotesWhoseNodeIsExpanded = append(diagramflossequation.NotesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsComplexitysNodeExpanded":
+		diagramflossequation.IsComplexitysNodeExpanded = value.GetValueBool()
+	case "ComplexitysWhoseNodeIsExpanded":
+		diagramflossequation.ComplexitysWhoseNodeIsExpanded = make([]*Complexity, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Complexitys {
+					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
+						diagramflossequation.ComplexitysWhoseNodeIsExpanded = append(diagramflossequation.ComplexitysWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsPerformancesNodeExpanded":
+		diagramflossequation.IsPerformancesNodeExpanded = value.GetValueBool()
+	case "PerformancesWhoseNodeIsExpanded":
+		diagramflossequation.PerformancesWhoseNodeIsExpanded = make([]*Performance, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Performances {
+					if stage.Performance_stagedOrder[__instance__] == uint(id) {
+						diagramflossequation.PerformancesWhoseNodeIsExpanded = append(diagramflossequation.PerformancesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsEffortsNodeExpanded":
+		diagramflossequation.IsEffortsNodeExpanded = value.GetValueBool()
+	case "EffortsWhoseNodeIsExpanded":
+		diagramflossequation.EffortsWhoseNodeIsExpanded = make([]*Effort, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Efforts {
+					if stage.Effort_stagedOrder[__instance__] == uint(id) {
+						diagramflossequation.EffortsWhoseNodeIsExpanded = append(diagramflossequation.EffortsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}

@@ -599,6 +599,18 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
 	case "NotesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsComplexitysNodeExpanded":
+		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
+	case "ComplexitysWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ComplexitysWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsPerformancesNodeExpanded":
+		instance.IsPerformancesNodeExpanded = GongExtractBool(valueExpr)
+	case "PerformancesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.PerformancesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsEffortsNodeExpanded":
+		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
+	case "EffortsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.EffortsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -388,6 +388,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NoteEffortShapes"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComplexitysWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "PerformancesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
 	}
 
 	effortOrdered := []*Effort{}
@@ -1045,6 +1051,21 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNotesNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsNotesNodeExpanded))
+	case "IsComplexitysNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsComplexitysNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsComplexitysNodeExpanded))
+	case "IsPerformancesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPerformancesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsPerformancesNodeExpanded))
+	case "IsEffortsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEffortsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsEffortsNodeExpanded))
 
 	case "Note_Shapes":
 		var sb strings.Builder
@@ -1093,6 +1114,36 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotesWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ComplexitysWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _complexity := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ComplexitysWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _complexity.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "PerformancesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _performance := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PerformancesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _performance.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "EffortsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _effort := range diagramflossequation.EffortsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "EffortsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _effort.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1983,6 +2034,12 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NoteEffortShapes"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "ComplexitysWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "PerformancesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramflossequation.GongMarshallField(stage, "EffortsWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

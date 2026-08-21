@@ -299,6 +299,15 @@ func (stage *Stage) StageBranchDiagramFlossEquation(diagramflossequation *Diagra
 	for _, _note := range diagramflossequation.NotesWhoseNodeIsExpanded {
 		StageBranch(stage, _note)
 	}
+	for _, _complexity := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+		StageBranch(stage, _complexity)
+	}
+	for _, _performance := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+		StageBranch(stage, _performance)
+	}
+	for _, _effort := range diagramflossequation.EffortsWhoseNodeIsExpanded {
+		StageBranch(stage, _effort)
+	}
 
 }
 
@@ -681,6 +690,15 @@ func CopyBranchDiagramFlossEquation(mapOrigCopy map[any]any, diagramflossequatio
 	}
 	for _, _note := range diagramflossequationFrom.NotesWhoseNodeIsExpanded {
 		diagramflossequationTo.NotesWhoseNodeIsExpanded = append(diagramflossequationTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+	}
+	for _, _complexity := range diagramflossequationFrom.ComplexitysWhoseNodeIsExpanded {
+		diagramflossequationTo.ComplexitysWhoseNodeIsExpanded = append(diagramflossequationTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
+	}
+	for _, _performance := range diagramflossequationFrom.PerformancesWhoseNodeIsExpanded {
+		diagramflossequationTo.PerformancesWhoseNodeIsExpanded = append(diagramflossequationTo.PerformancesWhoseNodeIsExpanded, CopyBranchPerformance(mapOrigCopy, _performance))
+	}
+	for _, _effort := range diagramflossequationFrom.EffortsWhoseNodeIsExpanded {
+		diagramflossequationTo.EffortsWhoseNodeIsExpanded = append(diagramflossequationTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
 	}
 
 	return
@@ -1075,6 +1093,15 @@ func (stage *Stage) UnstageBranchDiagramFlossEquation(diagramflossequation *Diag
 	for _, _note := range diagramflossequation.NotesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _note)
 	}
+	for _, _complexity := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+		UnstageBranch(stage, _complexity)
+	}
+	for _, _performance := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _performance)
+	}
+	for _, _effort := range diagramflossequation.EffortsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _effort)
+	}
 
 }
 
@@ -1360,6 +1387,18 @@ func (reference *DiagramFlossEquation) GongReconstructPointersFromReferences(sta
 	for _, _b := range instance.NotesWhoseNodeIsExpanded {
 		reference.NotesWhoseNodeIsExpanded = append(reference.NotesWhoseNodeIsExpanded, stage.Notes_reference[_b])
 	}
+	reference.ComplexitysWhoseNodeIsExpanded = reference.ComplexitysWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ComplexitysWhoseNodeIsExpanded {
+		reference.ComplexitysWhoseNodeIsExpanded = append(reference.ComplexitysWhoseNodeIsExpanded, stage.Complexitys_reference[_b])
+	}
+	reference.PerformancesWhoseNodeIsExpanded = reference.PerformancesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.PerformancesWhoseNodeIsExpanded {
+		reference.PerformancesWhoseNodeIsExpanded = append(reference.PerformancesWhoseNodeIsExpanded, stage.Performances_reference[_b])
+	}
+	reference.EffortsWhoseNodeIsExpanded = reference.EffortsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.EffortsWhoseNodeIsExpanded {
+		reference.EffortsWhoseNodeIsExpanded = append(reference.EffortsWhoseNodeIsExpanded, stage.Efforts_reference[_b])
+	}
 }
 
 func (reference *Effort) GongReconstructPointersFromReferences(stage *Stage, instance *Effort) {
@@ -1607,6 +1646,27 @@ func (reference *DiagramFlossEquation) GongReconstructPointersFromInstances(stag
 		}
 	}
 	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
+	var _ComplexitysWhoseNodeIsExpanded []*Complexity
+	for _, _reference := range reference.ComplexitysWhoseNodeIsExpanded {
+		if _instance, ok := stage.Complexitys_instance[_reference]; ok {
+			_ComplexitysWhoseNodeIsExpanded = append(_ComplexitysWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ComplexitysWhoseNodeIsExpanded = _ComplexitysWhoseNodeIsExpanded
+	var _PerformancesWhoseNodeIsExpanded []*Performance
+	for _, _reference := range reference.PerformancesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Performances_instance[_reference]; ok {
+			_PerformancesWhoseNodeIsExpanded = append(_PerformancesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.PerformancesWhoseNodeIsExpanded = _PerformancesWhoseNodeIsExpanded
+	var _EffortsWhoseNodeIsExpanded []*Effort
+	for _, _reference := range reference.EffortsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Efforts_instance[_reference]; ok {
+			_EffortsWhoseNodeIsExpanded = append(_EffortsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.EffortsWhoseNodeIsExpanded = _EffortsWhoseNodeIsExpanded
 }
 
 func (reference *Effort) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2124,6 +2184,78 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "NotesWhoseNodeIsExpanded", diagramflossequationOther.NotesWhoseNodeIsExpanded, diagramflossequation.NotesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if diagramflossequation.IsComplexitysNodeExpanded != diagramflossequationOther.IsComplexitysNodeExpanded {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+	}
+	ComplexitysWhoseNodeIsExpandedDifferent := false
+	if len(diagramflossequation.ComplexitysWhoseNodeIsExpanded) != len(diagramflossequationOther.ComplexitysWhoseNodeIsExpanded) {
+		ComplexitysWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramflossequation.ComplexitysWhoseNodeIsExpanded {
+			if (diagramflossequation.ComplexitysWhoseNodeIsExpanded[i] == nil) != (diagramflossequationOther.ComplexitysWhoseNodeIsExpanded[i] == nil) {
+				ComplexitysWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramflossequation.ComplexitysWhoseNodeIsExpanded[i] != nil && diagramflossequationOther.ComplexitysWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramflossequation.ComplexitysWhoseNodeIsExpanded[i] != diagramflossequationOther.ComplexitysWhoseNodeIsExpanded[i] {
+					ComplexitysWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ComplexitysWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "ComplexitysWhoseNodeIsExpanded", diagramflossequationOther.ComplexitysWhoseNodeIsExpanded, diagramflossequation.ComplexitysWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if diagramflossequation.IsPerformancesNodeExpanded != diagramflossequationOther.IsPerformancesNodeExpanded {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+	}
+	PerformancesWhoseNodeIsExpandedDifferent := false
+	if len(diagramflossequation.PerformancesWhoseNodeIsExpanded) != len(diagramflossequationOther.PerformancesWhoseNodeIsExpanded) {
+		PerformancesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramflossequation.PerformancesWhoseNodeIsExpanded {
+			if (diagramflossequation.PerformancesWhoseNodeIsExpanded[i] == nil) != (diagramflossequationOther.PerformancesWhoseNodeIsExpanded[i] == nil) {
+				PerformancesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramflossequation.PerformancesWhoseNodeIsExpanded[i] != nil && diagramflossequationOther.PerformancesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramflossequation.PerformancesWhoseNodeIsExpanded[i] != diagramflossequationOther.PerformancesWhoseNodeIsExpanded[i] {
+					PerformancesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PerformancesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "PerformancesWhoseNodeIsExpanded", diagramflossequationOther.PerformancesWhoseNodeIsExpanded, diagramflossequation.PerformancesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if diagramflossequation.IsEffortsNodeExpanded != diagramflossequationOther.IsEffortsNodeExpanded {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+	}
+	EffortsWhoseNodeIsExpandedDifferent := false
+	if len(diagramflossequation.EffortsWhoseNodeIsExpanded) != len(diagramflossequationOther.EffortsWhoseNodeIsExpanded) {
+		EffortsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramflossequation.EffortsWhoseNodeIsExpanded {
+			if (diagramflossequation.EffortsWhoseNodeIsExpanded[i] == nil) != (diagramflossequationOther.EffortsWhoseNodeIsExpanded[i] == nil) {
+				EffortsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramflossequation.EffortsWhoseNodeIsExpanded[i] != nil && diagramflossequationOther.EffortsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramflossequation.EffortsWhoseNodeIsExpanded[i] != diagramflossequationOther.EffortsWhoseNodeIsExpanded[i] {
+					EffortsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if EffortsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramflossequation, diagramflossequationOther, "EffortsWhoseNodeIsExpanded", diagramflossequationOther.EffortsWhoseNodeIsExpanded, diagramflossequation.EffortsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 

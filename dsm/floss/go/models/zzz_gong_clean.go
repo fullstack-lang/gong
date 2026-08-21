@@ -66,6 +66,9 @@ func (diagramflossequation *DiagramFlossEquation) GongClean(stage *Stage) (modif
 	modified = GongCleanSlice(stage, &diagramflossequation.NotePerformanceShapes) || modified
 	modified = GongCleanSlice(stage, &diagramflossequation.NoteEffortShapes) || modified
 	modified = GongCleanSlice(stage, &diagramflossequation.NotesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.ComplexitysWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.PerformancesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramflossequation.EffortsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
