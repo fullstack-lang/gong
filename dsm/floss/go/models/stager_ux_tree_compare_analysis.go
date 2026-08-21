@@ -66,9 +66,6 @@ func (stager *Stager) treeCompareAnalysisWithinLibrary(
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
 		newDiagram.Scale = 5.0
-		for d_ := range *GetGongstructInstancesSet[DiagramFloss](stager.stage) {
-			d_.IsChecked = false
-		}
 		for d_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
 			d_.IsChecked = false
 		}
@@ -119,9 +116,6 @@ func (stager *Stager) treeDiagramFlossEquation(
 
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			for d_ := range *GetGongstructInstancesSet[DiagramFloss](stager.stage) {
-				d_.IsChecked = false
-			}
 			for d_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
 				d_.IsChecked = false
 			}

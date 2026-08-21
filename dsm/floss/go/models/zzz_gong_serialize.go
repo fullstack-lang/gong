@@ -26,11 +26,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*CompareAnalysis](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Complexity](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ComplexityShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*DiagramFloss](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DiagramFlossEquation](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Effort](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*EffortShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Note](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*NoteComplexityShape](stage, f, addIDs)
@@ -38,9 +35,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*NotePerformanceShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*NoteShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Performance](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*PerformanceShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*System](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*SystemShape](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

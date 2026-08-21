@@ -3,40 +3,25 @@ package models
 import "math"
 
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*DiagramFloss](stager.stage) {
-
-		width := 0.0
-		height := 0.0
-
-		updateDiagramSize(diagram.System_Shapes, &width, &height)
-		updateDiagramSize(diagram.Complexity_Shapes, &width, &height)
-		updateDiagramSize(diagram.Performance_Shapes, &width, &height)
-		updateDiagramSize(diagram.Effort_Shapes, &width, &height)
-		updateDiagramSize(diagram.Note_Shapes, &width, &height)
-
-		margin := 300.0
-		width += margin
-		height += margin
-
-		if width != diagram.Width {
-			diagram.Width = width
-			needCommit = true
-		}
-
-		if height != diagram.Height {
-			diagram.Height = height
-			needCommit = true
-		}
-	}
-
 	for _, diagramEq := range GetGongstrucsSorted[*DiagramFlossEquation](stager.stage) {
 		compareAnalysis := diagramEq.GetOwningCompareAnalysis()
-		if compareAnalysis == nil {
+		owningSystem := diagramEq.GetOwningSystem()
+		if compareAnalysis == nil && owningSystem == nil {
 			for ca := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
 				for _, d := range ca.DiagramFlossEquations {
 					if d == diagramEq {
 						compareAnalysis = ca
 						break
+					}
+				}
+			}
+			if compareAnalysis == nil {
+				for sys := range *GetGongstructInstancesSet[System](stager.stage) {
+					for _, d := range sys.DiagramFlossEquations {
+						if d == diagramEq {
+							owningSystem = sys
+							break
+						}
 					}
 				}
 			}
@@ -73,23 +58,29 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 			deltaP := pTo - pFrom
 			deltaE := eTo
 			_ = eFrom
+			_ = deltaE
 
 			alpha := compareAnalysis.Alpha
 			if alpha == 0 {
 				alpha = 1.0
 			}
-			beta := compareAnalysis.Beta
-			_ = deltaE
-			_ = beta
 
 			maxVal = math.Max(math.Abs(alpha*deltaP), math.Abs(deltaC))
+		} else if owningSystem != nil {
+			var cTo, pTo float64
+			for _, c := range owningSystem.Complexities {
+				cTo += c.Strength
+			}
+			for _, p := range owningSystem.Performances {
+				pTo += p.Strength
+			}
+			maxVal = math.Max(pTo, cTo)
 		}
 
 		neededHeight := 180.0 + maxVal*scale + 140.0
 		if neededHeight < 750.0 {
 			neededHeight = 750.0
 		}
-
 
 		neededWidth := 1050.0
 		updateDiagramSize(diagramEq.Note_Shapes, &neededWidth, &neededHeight)

@@ -28,16 +28,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.CompareAnalysis](probe)
 	case "Complexity":
 		updateProbeTable[*models.Complexity](probe)
-	case "ComplexityShape":
-		updateProbeTable[*models.ComplexityShape](probe)
-	case "DiagramFloss":
-		updateProbeTable[*models.DiagramFloss](probe)
 	case "DiagramFlossEquation":
 		updateProbeTable[*models.DiagramFlossEquation](probe)
 	case "Effort":
 		updateProbeTable[*models.Effort](probe)
-	case "EffortShape":
-		updateProbeTable[*models.EffortShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Note":
@@ -52,12 +46,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.NoteShape](probe)
 	case "Performance":
 		updateProbeTable[*models.Performance](probe)
-	case "PerformanceShape":
-		updateProbeTable[*models.PerformanceShape](probe)
 	case "System":
 		updateProbeTable[*models.System](probe)
-	case "SystemShape":
-		updateProbeTable[*models.SystemShape](probe)
 	}
 }
 

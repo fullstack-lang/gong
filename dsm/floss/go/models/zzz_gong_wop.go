@@ -52,94 +52,6 @@ func (from *Complexity) CopyBasicFields(to *Complexity) {
 	to.IsExpanded = from.IsExpanded
 }
 
-type ComplexityShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsExpanded bool
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-
-	IsHidden bool
-}
-
-func (from *ComplexityShape) CopyBasicFields(to *ComplexityShape) {
-	// insertion point
-	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.IsHidden = from.IsHidden
-}
-
-type DiagramFloss_WOP struct {
-	// insertion point
-
-	Name string
-
-	Description string
-
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	IsChecked bool
-
-	IsEditable_ bool
-
-	AreQuantitativeElementsVisible bool
-
-	IsShowPrefix bool
-
-	DefaultBoxWidth float64
-
-	DefaultBoxHeigth float64
-
-	Width float64
-
-	Height float64
-
-	IsSystemsNodeExpanded bool
-
-	IsComplexitysNodeExpanded bool
-
-	IsPerformancesNodeExpanded bool
-
-	IsEffortsNodeExpanded bool
-
-	IsNotesNodeExpanded bool
-}
-
-func (from *DiagramFloss) CopyBasicFields(to *DiagramFloss) {
-	// insertion point
-	to.Name = from.Name
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.IsChecked = from.IsChecked
-	to.IsEditable_ = from.IsEditable_
-	to.AreQuantitativeElementsVisible = from.AreQuantitativeElementsVisible
-	to.IsShowPrefix = from.IsShowPrefix
-	to.DefaultBoxWidth = from.DefaultBoxWidth
-	to.DefaultBoxHeigth = from.DefaultBoxHeigth
-	to.Width = from.Width
-	to.Height = from.Height
-	to.IsSystemsNodeExpanded = from.IsSystemsNodeExpanded
-	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
-	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
-	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
-	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
-}
-
 type DiagramFlossEquation_WOP struct {
 	// insertion point
 
@@ -205,35 +117,6 @@ func (from *Effort) CopyBasicFields(to *Effort) {
 	to.Strength = from.Strength
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-}
-
-type EffortShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsExpanded bool
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-
-	IsHidden bool
-}
-
-func (from *EffortShape) CopyBasicFields(to *EffortShape) {
-	// insertion point
-	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.IsHidden = from.IsHidden
 }
 
 type Library_WOP struct {
@@ -451,35 +334,6 @@ func (from *Performance) CopyBasicFields(to *Performance) {
 	to.IsExpanded = from.IsExpanded
 }
 
-type PerformanceShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsExpanded bool
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-
-	IsHidden bool
-}
-
-func (from *PerformanceShape) CopyBasicFields(to *PerformanceShape) {
-	// insertion point
-	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.IsHidden = from.IsHidden
-}
-
 type System_WOP struct {
 	// insertion point
 
@@ -516,35 +370,6 @@ func (from *System) CopyBasicFields(to *System) {
 	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
 	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
 	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
-}
-
-type SystemShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsExpanded bool
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-
-	IsHidden bool
-}
-
-func (from *SystemShape) CopyBasicFields(to *SystemShape) {
-	// insertion point
-	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.IsHidden = from.IsHidden
 }
 
 // end of insertion point

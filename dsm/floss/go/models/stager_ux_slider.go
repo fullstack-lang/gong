@@ -27,12 +27,14 @@ func (stager *Stager) ux_slider() {
 	groupEfforts.Percentage = 33.4
 	layout.Groups = append(layout.Groups, groupEfforts)
 
-	// Find active DiagramFlossEquation & its CompareAnalysis
+	// Find active DiagramFlossEquation & its CompareAnalysis or System
 	var activeCompareAnalysis *CompareAnalysis
+	var activeSystem *System
 	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
 		if d.IsChecked {
 			activeCompareAnalysis = d.GetOwningCompareAnalysis()
-			if activeCompareAnalysis == nil {
+			activeSystem = d.GetOwningSystem()
+			if activeCompareAnalysis == nil && activeSystem == nil {
 				for ca := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
 					for _, eqD := range ca.DiagramFlossEquations {
 						if eqD == d {
@@ -41,12 +43,22 @@ func (stager *Stager) ux_slider() {
 						}
 					}
 				}
+				if activeCompareAnalysis == nil {
+					for sys := range *GetGongstructInstancesSet[System](stager.stage) {
+						for _, eqD := range sys.DiagramFlossEquations {
+							if eqD == d {
+								activeSystem = sys
+								break
+							}
+						}
+					}
+				}
 			}
 			break
 		}
 	}
 
-	if activeCompareAnalysis == nil {
+	if activeCompareAnalysis == nil && activeSystem == nil {
 		stager.sliderStage.Commit()
 		return
 	}
@@ -54,16 +66,25 @@ func (stager *Stager) ux_slider() {
 	// 1. Complexities category
 	complexityMap := make(map[*Complexity]struct{})
 	var complexities []*Complexity
-	if activeCompareAnalysis.FromSystem != nil {
-		for _, c := range activeCompareAnalysis.FromSystem.Complexities {
-			if _, exists := complexityMap[c]; !exists {
-				complexityMap[c] = struct{}{}
-				complexities = append(complexities, c)
+	if activeCompareAnalysis != nil {
+		if activeCompareAnalysis.FromSystem != nil {
+			for _, c := range activeCompareAnalysis.FromSystem.Complexities {
+				if _, exists := complexityMap[c]; !exists {
+					complexityMap[c] = struct{}{}
+					complexities = append(complexities, c)
+				}
 			}
 		}
-	}
-	if activeCompareAnalysis.ToSystem != nil {
-		for _, c := range activeCompareAnalysis.ToSystem.Complexities {
+		if activeCompareAnalysis.ToSystem != nil {
+			for _, c := range activeCompareAnalysis.ToSystem.Complexities {
+				if _, exists := complexityMap[c]; !exists {
+					complexityMap[c] = struct{}{}
+					complexities = append(complexities, c)
+				}
+			}
+		}
+	} else if activeSystem != nil {
+		for _, c := range activeSystem.Complexities {
 			if _, exists := complexityMap[c]; !exists {
 				complexityMap[c] = struct{}{}
 				complexities = append(complexities, c)
@@ -94,30 +115,41 @@ func (stager *Stager) ux_slider() {
 	}
 
 	// 2. Performances category (Alpha + performance elements)
-	groupPerformances.Sliders = append(
-		groupPerformances.Sliders,
-		m.NewSlider(
-			stager,
-			"Alpha (α)",
-			0.1,
-			5.0,
-			0.01,
-			&activeCompareAnalysis.Alpha,
-		),
-	)
+	if activeCompareAnalysis != nil {
+		groupPerformances.Sliders = append(
+			groupPerformances.Sliders,
+			m.NewSlider(
+				stager,
+				"Alpha (α)",
+				0.1,
+				5.0,
+				0.01,
+				&activeCompareAnalysis.Alpha,
+			),
+		)
+	}
 
 	performanceMap := make(map[*Performance]struct{})
 	var performances []*Performance
-	if activeCompareAnalysis.FromSystem != nil {
-		for _, p := range activeCompareAnalysis.FromSystem.Performances {
-			if _, exists := performanceMap[p]; !exists {
-				performanceMap[p] = struct{}{}
-				performances = append(performances, p)
+	if activeCompareAnalysis != nil {
+		if activeCompareAnalysis.FromSystem != nil {
+			for _, p := range activeCompareAnalysis.FromSystem.Performances {
+				if _, exists := performanceMap[p]; !exists {
+					performanceMap[p] = struct{}{}
+					performances = append(performances, p)
+				}
 			}
 		}
-	}
-	if activeCompareAnalysis.ToSystem != nil {
-		for _, p := range activeCompareAnalysis.ToSystem.Performances {
+		if activeCompareAnalysis.ToSystem != nil {
+			for _, p := range activeCompareAnalysis.ToSystem.Performances {
+				if _, exists := performanceMap[p]; !exists {
+					performanceMap[p] = struct{}{}
+					performances = append(performances, p)
+				}
+			}
+		}
+	} else if activeSystem != nil {
+		for _, p := range activeSystem.Performances {
 			if _, exists := performanceMap[p]; !exists {
 				performanceMap[p] = struct{}{}
 				performances = append(performances, p)
@@ -148,30 +180,41 @@ func (stager *Stager) ux_slider() {
 	}
 
 	// 3. Efforts category (Beta + effort elements)
-	groupEfforts.Sliders = append(
-		groupEfforts.Sliders,
-		m.NewSlider(
-			stager,
-			"Beta (β)",
-			0.0,
-			5.0,
-			0.01,
-			&activeCompareAnalysis.Beta,
-		),
-	)
+	if activeCompareAnalysis != nil {
+		groupEfforts.Sliders = append(
+			groupEfforts.Sliders,
+			m.NewSlider(
+				stager,
+				"Beta (β)",
+				0.0,
+				5.0,
+				0.01,
+				&activeCompareAnalysis.Beta,
+			),
+		)
+	}
 
 	effortMap := make(map[*Effort]struct{})
 	var efforts []*Effort
-	if activeCompareAnalysis.FromSystem != nil {
-		for _, e := range activeCompareAnalysis.FromSystem.Efforts {
-			if _, exists := effortMap[e]; !exists {
-				effortMap[e] = struct{}{}
-				efforts = append(efforts, e)
+	if activeCompareAnalysis != nil {
+		if activeCompareAnalysis.FromSystem != nil {
+			for _, e := range activeCompareAnalysis.FromSystem.Efforts {
+				if _, exists := effortMap[e]; !exists {
+					effortMap[e] = struct{}{}
+					efforts = append(efforts, e)
+				}
 			}
 		}
-	}
-	if activeCompareAnalysis.ToSystem != nil {
-		for _, e := range activeCompareAnalysis.ToSystem.Efforts {
+		if activeCompareAnalysis.ToSystem != nil {
+			for _, e := range activeCompareAnalysis.ToSystem.Efforts {
+				if _, exists := effortMap[e]; !exists {
+					effortMap[e] = struct{}{}
+					efforts = append(efforts, e)
+				}
+			}
+		}
+	} else if activeSystem != nil {
+		for _, e := range activeSystem.Efforts {
 			if _, exists := effortMap[e]; !exists {
 				effortMap[e] = struct{}{}
 				efforts = append(efforts, e)

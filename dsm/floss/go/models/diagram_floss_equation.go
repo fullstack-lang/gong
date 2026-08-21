@@ -44,6 +44,7 @@ type DiagramFlossEquation struct {
 	map_SvgRect_Effort      map[*svg.Rect]*Effort
 
 	owningCompareAnalysis *CompareAnalysis
+	owningSystem          *System
 }
 
 
@@ -77,4 +78,12 @@ func (d *DiagramFlossEquation) GetOwningCompareAnalysis() *CompareAnalysis {
 
 func (d *DiagramFlossEquation) SetOwningCompareAnalysis(ca *CompareAnalysis) {
 	d.owningCompareAnalysis = ca
+}
+
+func (d *DiagramFlossEquation) GetOwningSystem() *System {
+	return d.owningSystem
+}
+
+func (d *DiagramFlossEquation) SetOwningSystem(s *System) {
+	d.owningSystem = s
 }

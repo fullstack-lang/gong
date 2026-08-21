@@ -43,11 +43,8 @@ type Stager struct {
 	buttonStage           *button.Stage
 
 	svgObjectDiagramFloss *svg.SVG
-	diagramFloss          *DiagramFloss // diagram is the current diagram being displayed
 
-	// present in all "dsm" applications
-	// map to navigate from abstract elements to all diagrams where they are displayed
-	map_Element_Diagrams map[AbstractType][]*DiagramFloss
+	map_Element_Diagrams map[AbstractType][]*DiagramFlossEquation
 }
 
 func NewStager(

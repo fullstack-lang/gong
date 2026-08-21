@@ -58,34 +58,6 @@ func (complexity *Complexity) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by ComplexityShape
-func (complexityshape *ComplexityShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &complexityshape.Complexity) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by DiagramFloss
-func (diagramfloss *DiagramFloss) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	modified = GongCleanSlice(stage, &diagramfloss.System_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.SystemsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.Complexity_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.ComplexitysWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.Performance_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.PerformancesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.Effort_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.EffortsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.Note_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.NoteComplexityShapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.NotePerformanceShapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.NoteEffortShapes) || modified
-	modified = GongCleanSlice(stage, &diagramfloss.NotesWhoseNodeIsExpanded) || modified
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by DiagramFlossEquation
 func (diagramflossequation *DiagramFlossEquation) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -102,14 +74,6 @@ func (diagramflossequation *DiagramFlossEquation) GongClean(stage *Stage) (modif
 func (effort *Effort) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by EffortShape
-func (effortshape *EffortShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &effortshape.Effort) || modified
 	return
 }
 
@@ -186,35 +150,19 @@ func (performance *Performance) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by PerformanceShape
-func (performanceshape *PerformanceShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &performanceshape.Performance) || modified
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by System
 func (system *System) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &system.Complexities) || modified
 	modified = GongCleanSlice(stage, &system.Performances) || modified
 	modified = GongCleanSlice(stage, &system.Efforts) || modified
-	modified = GongCleanSlice(stage, &system.DiagramFlosses) || modified
-	modified = GongCleanSlice(stage, &system.DiagramFlossWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &system.DiagramFlossEquations) || modified
+	modified = GongCleanSlice(stage, &system.DiagramFlossEquationsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &system.SubSystemes) || modified
 	modified = GongCleanSlice(stage, &system.ComplexitysWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &system.PerformancesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &system.EffortsWhoseNodeIsExpanded) || modified
 	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by SystemShape
-func (systemshape *SystemShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &systemshape.System) || modified
 	return
 }
 

@@ -5,26 +5,22 @@ func (stager *Stager) enforceAtLeastOneDiagramPerSystem() (needCommit bool) {
 
 	// enforce that there is at least one diagram per system
 	for system := range *GetGongstructInstancesSetFromPointerType[*System](stage) {
-		if len(system.DiagramFlosses) == 0 {
-			diagramFloss := (&DiagramFloss{
-				Name:        "DiagramFloss",
+		if len(system.DiagramFlossEquations) == 0 {
+			diagram := (&DiagramFlossEquation{
+				Name:        system.Name + " Equation Diagram",
 				IsEditable_: true,
+				Scale:       5.0,
 			}).Stage(stage)
-			system.DiagramFlosses = append(system.DiagramFlosses, diagramFloss)
-
-			systemShape := (&SystemShape{
-				Name:   "SystemShape",
-				System: system,
-				RectShape: RectShape{
-					X:      100,
-					Y:      50,
-					Width:  500,
-					Height: 1000,
-				},
-			}).Stage(stage)
-			diagramFloss.System_Shapes = append(diagramFloss.System_Shapes, systemShape)
-
+			system.DiagramFlossEquations = append(system.DiagramFlossEquations, diagram)
 			needCommit = true
+		}
+
+		for _, diagram := range system.DiagramFlossEquations {
+			diagram.SetOwningSystem(system)
+			if diagram.Scale == 0 {
+				diagram.Scale = 5.0
+				needCommit = true
+			}
 		}
 	}
 

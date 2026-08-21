@@ -22,8 +22,8 @@ type System struct {
 
 	parentSystem *System
 
-	DiagramFlosses                  []*DiagramFloss
-	DiagramFlossWhoseNodeIsExpanded []*DiagramFloss
+	DiagramFlossEquations                  []*DiagramFlossEquation
+	DiagramFlossEquationsWhoseNodeIsExpanded []*DiagramFlossEquation
 
 	IsSubSystemNodeExpanded bool
 	SubSystemes             []*System
