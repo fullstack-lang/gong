@@ -73,6 +73,8 @@ func _(stage *models.Stage) {
 
 	__NoteComplexityShape__00000000_ := (&models.NoteComplexityShape{Name: `Learning KerML shape`}).Stage(stage)
 
+	__NotePerformanceShape__00000001_ := (&models.NotePerformanceShape{Name: `Hyp2 to Programmable Semantic`}).Stage(stage)
+
 	__NoteShape__00000000_ := (&models.NoteShape{Name: ` shape`}).Stage(stage)
 	__NoteShape__00000003_ := (&models.NoteShape{Name: `Hyp2 shape`}).Stage(stage)
 
@@ -405,7 +407,7 @@ func _(stage *models.Stage) {
 	__Note__00000001_.ComputedPrefix = ``
 	__Note__00000001_.IsExpanded = false
 	__Note__00000001_.IsComplexitysNodeExpanded = false
-	__Note__00000001_.IsPerformancesNodeExpanded = false
+	__Note__00000001_.IsPerformancesNodeExpanded = true
 	__Note__00000001_.IsEffortsNodeExpanded = false
 
 	__NoteComplexityShape__00000000_.Name = `Learning KerML shape`
@@ -416,6 +418,14 @@ func _(stage *models.Stage) {
 	__NoteComplexityShape__00000000_.CornerOffsetRatio = -0.386799
 	__NoteComplexityShape__00000000_.IsHidden = false
 
+	__NotePerformanceShape__00000001_.Name = `Hyp2 to Programmable Semantic`
+	__NotePerformanceShape__00000001_.StartRatio = 0.500000
+	__NotePerformanceShape__00000001_.EndRatio = 0.500000
+	__NotePerformanceShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NotePerformanceShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NotePerformanceShape__00000001_.CornerOffsetRatio = 1.680000
+	__NotePerformanceShape__00000001_.IsHidden = false
+
 	__NoteShape__00000000_.Name = ` shape`
 	__NoteShape__00000000_.X = 465.999969
 	__NoteShape__00000000_.Y = 189.000000
@@ -424,8 +434,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `Hyp2 shape`
-	__NoteShape__00000003_.X = 137.432255
-	__NoteShape__00000003_.Y = 163.988116
+	__NoteShape__00000003_.X = 22.432255
+	__NoteShape__00000003_.Y = 240.988116
 	__NoteShape__00000003_.Width = 250.000000
 	__NoteShape__00000003_.Height = 70.000000
 	__NoteShape__00000003_.IsHidden = false
@@ -630,6 +640,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000002_)
 	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000003_)
 	__DiagramFlossEquation__00000000_.Note_Shapes = append(__DiagramFlossEquation__00000000_.Note_Shapes, __NoteShape__00000003_)
+	__DiagramFlossEquation__00000000_.NotePerformanceShapes = append(__DiagramFlossEquation__00000000_.NotePerformanceShapes, __NotePerformanceShape__00000001_)
 	__DiagramFlossEquation__00000000_.NotesWhoseNodeIsExpanded = append(__DiagramFlossEquation__00000000_.NotesWhoseNodeIsExpanded, __Note__00000001_)
 	__EffortShape__00000000_.Effort = __Effort__00000000_
 	__EffortShape__00000001_.Effort = __Effort__00000001_
@@ -666,8 +677,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000000_)
 	__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000001_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)
+	__Note__00000001_.Performances = append(__Note__00000001_.Performances, __Performance__00000001_)
 	__NoteComplexityShape__00000000_.Note = __Note__00000000_
 	__NoteComplexityShape__00000000_.Complexity = __Complexity__00000000_
+	__NotePerformanceShape__00000001_.Note = __Note__00000001_
+	__NotePerformanceShape__00000001_.Performance = __Performance__00000001_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteShape__00000003_.Note = __Note__00000001_
 	__PerformanceShape__00000000_.Performance = __Performance__00000000_
