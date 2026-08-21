@@ -1,6 +1,7 @@
 package golang
 
-const RootFileDocsTemplate = `// Package embeddedgo backend API
+const RootFileDocsTemplate = `// generated code - do not edit
+// Package embeddedgo backend API
 //
 // {{PkgName}} exposes types of a package.
 //

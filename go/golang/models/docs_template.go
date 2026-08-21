@@ -1,6 +1,7 @@
 package models
 
-const DefaultModelDocsTemplate = `// Default generated models package docs
+const DefaultModelDocsTemplate = `// generated code - do not edit
+// Default generated models package docs
 // (at least one file is necessary in a models package)
 package models
 `

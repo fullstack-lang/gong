@@ -1,6 +1,7 @@
 package golang
 
-const GoProjectsGo = `package ng
+const GoProjectsGo = `// generated code - do not edit
+package ng
 
 import "embed"
 

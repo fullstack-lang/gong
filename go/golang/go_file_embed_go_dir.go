@@ -1,6 +1,7 @@
 package golang
 
-const EmebedGoDirTemplate = `package embeddedgo
+const EmebedGoDirTemplate = `// generated code - do not edit
+package embeddedgo
 
 import "embed"
 

@@ -40,11 +40,25 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Complexity
+func (complexity *Complexity) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by DiagramFloss
 func (diagramfloss *DiagramFloss) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &diagramfloss.System_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramfloss.SystemsWhoseNodeIsExpanded) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Effort
+func (effort *Effort) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -60,9 +74,19 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Performance
+func (performance *Performance) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by System
 func (system *System) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &system.Complexitys) || modified
+	modified = GongCleanSlice(stage, &system.Performances) || modified
+	modified = GongCleanSlice(stage, &system.Efforts) || modified
 	modified = GongCleanSlice(stage, &system.DiagramFlosses) || modified
 	modified = GongCleanSlice(stage, &system.DiagramFlossWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &system.SubSystemes) || modified

@@ -1,6 +1,7 @@
 package angular
 
-const NgLibModuleTemplate = `import { NgModule } from '@angular/core';
+const NgLibModuleTemplate = `// generated code - do not edit
+import { NgModule } from '@angular/core';
 
 @NgModule({
 	declarations: [

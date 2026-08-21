@@ -284,6 +284,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	complexityOrdered := []*Complexity{}
+	for complexity := range stage.Complexitys {
+		complexityOrdered = append(complexityOrdered, complexity)
+	}
+	sort.Slice(complexityOrdered[:], func(i, j int) bool {
+		complexityi := complexityOrdered[i]
+		complexityj := complexityOrdered[j]
+		complexityi_order, oki := stage.Complexity_stagedOrder[complexityi]
+		complexityj_order, okj := stage.Complexity_stagedOrder[complexityj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return complexityi_order < complexityj_order
+	})
+	if len(complexityOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, complexity := range complexityOrdered {
+
+		identifiersDecl.WriteString(complexity.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Strength"))
+	}
+
 	diagramflossOrdered := []*DiagramFloss{}
 	for diagramfloss := range stage.DiagramFlosss {
 		diagramflossOrdered = append(diagramflossOrdered, diagramfloss)
@@ -321,6 +348,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "System_Shapes"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsSystemsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "SystemsWhoseNodeIsExpanded"))
+	}
+
+	effortOrdered := []*Effort{}
+	for effort := range stage.Efforts {
+		effortOrdered = append(effortOrdered, effort)
+	}
+	sort.Slice(effortOrdered[:], func(i, j int) bool {
+		efforti := effortOrdered[i]
+		effortj := effortOrdered[j]
+		efforti_order, oki := stage.Effort_stagedOrder[efforti]
+		effortj_order, okj := stage.Effort_stagedOrder[effortj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return efforti_order < effortj_order
+	})
+	if len(effortOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, effort := range effortOrdered {
+
+		identifiersDecl.WriteString(effort.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(effort.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(effort.GongMarshallField(stage, "Strength"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -362,6 +416,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 
+	performanceOrdered := []*Performance{}
+	for performance := range stage.Performances {
+		performanceOrdered = append(performanceOrdered, performance)
+	}
+	sort.Slice(performanceOrdered[:], func(i, j int) bool {
+		performancei := performanceOrdered[i]
+		performancej := performanceOrdered[j]
+		performancei_order, oki := stage.Performance_stagedOrder[performancei]
+		performancej_order, okj := stage.Performance_stagedOrder[performancej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return performancei_order < performancej_order
+	})
+	if len(performanceOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, performance := range performanceOrdered {
+
+		identifiersDecl.WriteString(performance.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(performance.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(performance.GongMarshallField(stage, "Strength"))
+	}
+
 	systemOrdered := []*System{}
 	for system := range stage.Systems {
 		systemOrdered = append(systemOrdered, system)
@@ -387,6 +468,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(system.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Complexitys"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Performances"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Efforts"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "SVG_Path"))
@@ -431,6 +515,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	for _, complexity := range complexityOrdered {
+		_ = complexity
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, diagramfloss := range diagramflossOrdered {
 		_ = diagramfloss
 		var setPointerField string
@@ -439,8 +531,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, effort := range effortOrdered {
+		_ = effort
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, library := range libraryOrdered {
 		_ = library
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, performance := range performanceOrdered {
+		_ = performance
 		var setPointerField string
 		_ = setPointerField
 
@@ -517,6 +625,26 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
+func (complexity *Complexity) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", complexity.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(complexity.Name))
+	case "Strength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", complexity.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Strength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", complexity.Strength))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Complexity", fieldName)
+	}
+	return
+}
+
 func (diagramfloss *DiagramFloss) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -603,6 +731,26 @@ func (diagramfloss *DiagramFloss) GongMarshallField(stage *Stage, fieldName stri
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramFloss", fieldName)
+	}
+	return
+}
+
+func (effort *Effort) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", effort.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effort.Name))
+	case "Strength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", effort.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Strength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", effort.Strength))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Effort", fieldName)
 	}
 	return
 }
@@ -707,6 +855,26 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 	return
 }
 
+func (performance *Performance) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", performance.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(performance.Name))
+	case "Strength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", performance.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Strength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", performance.Strength))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Performance", fieldName)
+	}
+	return
+}
+
 func (system *System) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -746,6 +914,36 @@ func (system *System) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSubSystemNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", system.IsSubSystemNodeExpanded))
 
+	case "Complexitys":
+		var sb strings.Builder
+		for _, _complexity := range system.Complexitys {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", system.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Complexitys")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _complexity.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Performances":
+		var sb strings.Builder
+		for _, _performance := range system.Performances {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", system.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Performances")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _performance.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Efforts":
+		var sb strings.Builder
+		for _, _effort := range system.Efforts {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", system.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Efforts")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _effort.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "DiagramFlosses":
 		var sb strings.Builder
 		for _, _diagramfloss := range system.DiagramFlosses {
@@ -841,6 +1039,18 @@ func (systemshape *SystemShape) GongMarshallField(stage *Stage, fieldName string
 }
 
 // insertion point for marshall all fields methods
+func (complexity *Complexity) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Strength"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (diagramfloss *DiagramFloss) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -860,6 +1070,18 @@ func (diagramfloss *DiagramFloss) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "System_Shapes"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsSystemsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramfloss.GongMarshallField(stage, "SystemsWhoseNodeIsExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (effort *Effort) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(effort.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(effort.GongMarshallField(stage, "Strength"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -889,6 +1111,18 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (performance *Performance) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(performance.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(performance.GongMarshallField(stage, "Strength"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -896,6 +1130,9 @@ func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(system.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Complexitys"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Performances"))
+		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "Efforts"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "SVG_Path"))

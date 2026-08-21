@@ -20,6 +20,9 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Complexity
+	// insertion point per field
+
 	// Compute reverse map for named struct DiagramFloss
 	// insertion point per field
 	stage.DiagramFloss_System_Shapes_reverseMap = make(map[*SystemShape]*DiagramFloss)
@@ -36,6 +39,9 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramFloss_SystemsWhoseNodeIsExpanded_reverseMap[_system] = diagramfloss
 		}
 	}
+
+	// Compute reverse map for named struct Effort
+	// insertion point per field
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -68,8 +74,32 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Performance
+	// insertion point per field
+
 	// Compute reverse map for named struct System
 	// insertion point per field
+	stage.System_Complexitys_reverseMap = make(map[*Complexity]*System)
+	for system := range stage.Systems {
+		_ = system
+		for _, _complexity := range system.Complexitys {
+			stage.System_Complexitys_reverseMap[_complexity] = system
+		}
+	}
+	stage.System_Performances_reverseMap = make(map[*Performance]*System)
+	for system := range stage.Systems {
+		_ = system
+		for _, _performance := range system.Performances {
+			stage.System_Performances_reverseMap[_performance] = system
+		}
+	}
+	stage.System_Efforts_reverseMap = make(map[*Effort]*System)
+	for system := range stage.Systems {
+		_ = system
+		for _, _effort := range system.Efforts {
+			stage.System_Efforts_reverseMap[_effort] = system
+		}
+	}
 	stage.System_DiagramFlosses_reverseMap = make(map[*DiagramFloss]*System)
 	for system := range stage.Systems {
 		_ = system
@@ -100,11 +130,23 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.Complexitys {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.DiagramFlosss {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Efforts {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Librarys {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Performances {
 		res = append(res, instance)
 	}
 
@@ -120,15 +162,33 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (complexity *Complexity) GongCopy() GongstructIF {
+	newInstance := new(Complexity)
+	complexity.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (diagramfloss *DiagramFloss) GongCopy() GongstructIF {
 	newInstance := new(DiagramFloss)
 	diagramfloss.CopyBasicFields(newInstance)
 	return newInstance
 }
 
+func (effort *Effort) GongCopy() GongstructIF {
+	newInstance := new(Effort)
+	effort.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
 	library.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (performance *Performance) GongCopy() GongstructIF {
+	newInstance := new(Performance)
+	performance.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -145,6 +205,16 @@ func (systemshape *SystemShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
+func (complexity *Complexity) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(complexity).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complexity), uint64(GetOrderPointerGongstruct(stage, complexity)))
+	return
+}
+
 func (diagramfloss *DiagramFloss) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(diagramfloss).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -155,6 +225,16 @@ func (diagramfloss *DiagramFloss) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
+func (effort *Effort) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(effort).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(effort), uint64(GetOrderPointerGongstruct(stage, effort)))
+	return
+}
+
 func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(library).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -162,6 +242,16 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(GetOrderPointerGongstruct(stage, library)))
+	return
+}
+
+func (performance *Performance) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(performance).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(performance), uint64(GetOrderPointerGongstruct(stage, performance)))
 	return
 }
 
@@ -203,6 +293,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var complexitys_newInstances []*Complexity
+	var complexitys_deletedInstances []*Complexity
+
+	// parse all staged instances and check if they have a reference
+	for complexity := range stage.Complexitys {
+		if ref, ok := stage.Complexitys_reference[complexity]; !ok {
+			complexitys_newInstances = append(complexitys_newInstances, complexity)
+			newInstancesSlice = append(newInstancesSlice, complexity.GongMarshallIdentifier(stage))
+			if stage.Complexitys_referenceOrder == nil {
+				stage.Complexitys_referenceOrder = make(map[*Complexity]uint)
+			}
+			stage.Complexitys_referenceOrder[complexity] = stage.Complexity_stagedOrder[complexity]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, complexity.GongMarshallUnstaging(stage))
+			// delete(stage.Complexitys_referenceOrder, complexity)
+			fieldInitializers, pointersInitializations := complexity.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Complexity_stagedOrder[ref] = stage.Complexity_stagedOrder[complexity]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := complexity.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, complexity)
+			// delete(stage.Complexity_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if complexity.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", complexity.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Complexitys_reference {
+		instance := stage.Complexitys_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Complexitys[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			complexitys_deletedInstances = append(complexitys_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(complexitys_newInstances)
+	lenDeletedInstances += len(complexitys_deletedInstances)
 	var diagramflosss_newInstances []*DiagramFloss
 	var diagramflosss_deletedInstances []*DiagramFloss
 
@@ -258,6 +403,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(diagramflosss_newInstances)
 	lenDeletedInstances += len(diagramflosss_deletedInstances)
+	var efforts_newInstances []*Effort
+	var efforts_deletedInstances []*Effort
+
+	// parse all staged instances and check if they have a reference
+	for effort := range stage.Efforts {
+		if ref, ok := stage.Efforts_reference[effort]; !ok {
+			efforts_newInstances = append(efforts_newInstances, effort)
+			newInstancesSlice = append(newInstancesSlice, effort.GongMarshallIdentifier(stage))
+			if stage.Efforts_referenceOrder == nil {
+				stage.Efforts_referenceOrder = make(map[*Effort]uint)
+			}
+			stage.Efforts_referenceOrder[effort] = stage.Effort_stagedOrder[effort]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, effort.GongMarshallUnstaging(stage))
+			// delete(stage.Efforts_referenceOrder, effort)
+			fieldInitializers, pointersInitializations := effort.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Effort_stagedOrder[ref] = stage.Effort_stagedOrder[effort]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := effort.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, effort)
+			// delete(stage.Effort_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if effort.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", effort.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Efforts_reference {
+		instance := stage.Efforts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Efforts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			efforts_deletedInstances = append(efforts_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(efforts_newInstances)
+	lenDeletedInstances += len(efforts_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -313,6 +513,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var performances_newInstances []*Performance
+	var performances_deletedInstances []*Performance
+
+	// parse all staged instances and check if they have a reference
+	for performance := range stage.Performances {
+		if ref, ok := stage.Performances_reference[performance]; !ok {
+			performances_newInstances = append(performances_newInstances, performance)
+			newInstancesSlice = append(newInstancesSlice, performance.GongMarshallIdentifier(stage))
+			if stage.Performances_referenceOrder == nil {
+				stage.Performances_referenceOrder = make(map[*Performance]uint)
+			}
+			stage.Performances_referenceOrder[performance] = stage.Performance_stagedOrder[performance]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, performance.GongMarshallUnstaging(stage))
+			// delete(stage.Performances_referenceOrder, performance)
+			fieldInitializers, pointersInitializations := performance.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Performance_stagedOrder[ref] = stage.Performance_stagedOrder[performance]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := performance.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, performance)
+			// delete(stage.Performance_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if performance.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", performance.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Performances_reference {
+		instance := stage.Performances_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Performances[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			performances_deletedInstances = append(performances_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(performances_newInstances)
+	lenDeletedInstances += len(performances_deletedInstances)
 	var systems_newInstances []*System
 	var systems_deletedInstances []*System
 
@@ -458,6 +713,16 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.Complexitys_reference = make(map[*Complexity]*Complexity)
+	stage.Complexitys_referenceOrder = make(map[*Complexity]uint) // diff Unstage needs the reference order
+	stage.Complexitys_instance = make(map[*Complexity]*Complexity)
+	for instance := range stage.Complexitys {
+		_copy := instance.GongCopy().(*Complexity)
+		stage.Complexitys_reference[instance] = _copy
+		stage.Complexitys_instance[_copy] = instance
+		stage.Complexitys_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.DiagramFlosss_reference = make(map[*DiagramFloss]*DiagramFloss)
 	stage.DiagramFlosss_referenceOrder = make(map[*DiagramFloss]uint) // diff Unstage needs the reference order
 	stage.DiagramFlosss_instance = make(map[*DiagramFloss]*DiagramFloss)
@@ -468,6 +733,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.DiagramFlosss_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Efforts_reference = make(map[*Effort]*Effort)
+	stage.Efforts_referenceOrder = make(map[*Effort]uint) // diff Unstage needs the reference order
+	stage.Efforts_instance = make(map[*Effort]*Effort)
+	for instance := range stage.Efforts {
+		_copy := instance.GongCopy().(*Effort)
+		stage.Efforts_reference[instance] = _copy
+		stage.Efforts_instance[_copy] = instance
+		stage.Efforts_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -476,6 +751,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Librarys_reference[instance] = _copy
 		stage.Librarys_instance[_copy] = instance
 		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Performances_reference = make(map[*Performance]*Performance)
+	stage.Performances_referenceOrder = make(map[*Performance]uint) // diff Unstage needs the reference order
+	stage.Performances_instance = make(map[*Performance]*Performance)
+	for instance := range stage.Performances {
+		_copy := instance.GongCopy().(*Performance)
+		stage.Performances_reference[instance] = _copy
+		stage.Performances_instance[_copy] = instance
+		stage.Performances_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Systems_reference = make(map[*System]*System)
@@ -499,13 +784,28 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.Complexitys {
+		reference := stage.Complexitys_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.DiagramFlosss {
 		reference := stage.DiagramFlosss_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Efforts {
+		reference := stage.Efforts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Librarys {
 		reference := stage.Librarys_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Performances {
+		reference := stage.Performances_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -529,6 +829,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (complexity *Complexity) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Complexity_stagedOrder[complexity]; ok {
+		return order
+	}
+	if order, ok := stage.Complexitys_referenceOrder[complexity]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Complexity was not staged and does not have a reference order", complexity)
+		return 0
+	}
+}
+
 func (diagramfloss *DiagramFloss) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.DiagramFloss_stagedOrder[diagramfloss]; ok {
 		return order
@@ -541,6 +853,18 @@ func (diagramfloss *DiagramFloss) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (effort *Effort) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Effort_stagedOrder[effort]; ok {
+		return order
+	}
+	if order, ok := stage.Efforts_referenceOrder[effort]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Effort was not staged and does not have a reference order", effort)
+		return 0
+	}
+}
+
 func (library *Library) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Library_stagedOrder[library]; ok {
 		return order
@@ -549,6 +873,18 @@ func (library *Library) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
+		return 0
+	}
+}
+
+func (performance *Performance) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Performance_stagedOrder[performance]; ok {
+		return order
+	}
+	if order, ok := stage.Performances_referenceOrder[performance]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Performance was not staged and does not have a reference order", performance)
 		return 0
 	}
 }
@@ -582,6 +918,15 @@ func (systemshape *SystemShape) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (complexity *Complexity) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", complexity.GongGetGongstructName(), complexity.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (complexity *Complexity) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", complexity.GongGetGongstructName(), complexity.GongGetOrder(stage))
+}
+
 func (diagramfloss *DiagramFloss) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagramfloss.GongGetGongstructName(), diagramfloss.GongGetOrder(stage))
 }
@@ -591,6 +936,15 @@ func (diagramfloss *DiagramFloss) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", diagramfloss.GongGetGongstructName(), diagramfloss.GongGetOrder(stage))
 }
 
+func (effort *Effort) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", effort.GongGetGongstructName(), effort.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (effort *Effort) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", effort.GongGetGongstructName(), effort.GongGetOrder(stage))
+}
+
 func (library *Library) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
 }
@@ -598,6 +952,15 @@ func (library *Library) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
+func (performance *Performance) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", performance.GongGetGongstructName(), performance.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (performance *Performance) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", performance.GongGetGongstructName(), performance.GongGetOrder(stage))
 }
 
 func (system *System) GongGetIdentifier(stage *Stage) string {
@@ -621,6 +984,14 @@ func (systemshape *SystemShape) GongGetReferenceIdentifier(stage *Stage) string 
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (complexity *Complexity) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", complexity.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Complexity")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(complexity.Name))
+	return
+}
+
 func (diagramfloss *DiagramFloss) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
@@ -629,11 +1000,27 @@ func (diagramfloss *DiagramFloss) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (effort *Effort) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", effort.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Effort")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effort.Name))
+	return
+}
+
 func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	return
+}
+
+func (performance *Performance) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", performance.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Performance")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(performance.Name))
 	return
 }
 
@@ -654,15 +1041,33 @@ func (systemshape *SystemShape) GongMarshallIdentifier(stage *Stage) (decl strin
 }
 
 // insertion point for unstaging
+func (complexity *Complexity) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", complexity.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (diagramfloss *DiagramFloss) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramfloss.GongGetReferenceIdentifier(stage))
 	return
 }
 
+func (effort *Effort) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", effort.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (performance *Performance) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", performance.GongGetReferenceIdentifier(stage))
 	return
 }
 

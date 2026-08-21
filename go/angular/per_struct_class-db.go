@@ -12,7 +12,8 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-const NgClassAPITmpl = `// insertion point for imports{{` + string(rune(NgClassAPITsInsertionPerStructImports)) + `}}
+const NgClassAPITmpl = `// generated code - do not edit
+// insertion point for imports{{` + string(rune(NgClassAPITsInsertionPerStructImports)) + `}}
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'

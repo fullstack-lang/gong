@@ -6,6 +6,10 @@ type System struct {
 	//gong:text width:300 height:300
 	Description string
 
+	Complexitys  []*Complexity
+	Performances []*Performance
+	Efforts      []*Effort
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -18,7 +22,7 @@ type System struct {
 
 	parentSystem *System
 
-	DiagramFlosses                   []*DiagramFloss
+	DiagramFlosses                  []*DiagramFloss
 	DiagramFlossWhoseNodeIsExpanded []*DiagramFloss
 
 	IsSubSystemNodeExpanded bool
@@ -26,3 +30,30 @@ type System struct {
 }
 
 var _ AbstractType = (*System)(nil)
+
+type ComplexityType string
+
+const (
+	ComponentComplexity   ComplexityType = "Component Complexity"
+	InterfaceComplexity   ComplexityType = "Interface Complexity"
+	TopologicalComplexity ComplexityType = "Topological Complexity"
+)
+
+type Complexity struct {
+	Name string
+
+	Strength float64
+}
+
+type Performance struct {
+	Name string
+
+	Strength float64
+}
+
+type Effort struct {
+	Name string
+
+	Strength float64
+}
+
