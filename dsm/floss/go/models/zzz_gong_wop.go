@@ -96,6 +96,8 @@ type DiagramFloss_WOP struct {
 
 	IsEditable_ bool
 
+	AreQuantitativeElementsVisible bool
+
 	IsShowPrefix bool
 
 	DefaultBoxWidth float64
@@ -125,6 +127,7 @@ func (from *DiagramFloss) CopyBasicFields(to *DiagramFloss) {
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
+	to.AreQuantitativeElementsVisible = from.AreQuantitativeElementsVisible
 	to.IsShowPrefix = from.IsShowPrefix
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
@@ -152,6 +155,8 @@ type DiagramFlossEquation_WOP struct {
 
 	IsEditable_ bool
 
+	AreQuantitativeElementsVisible bool
+
 	Width float64
 
 	Height float64
@@ -173,6 +178,7 @@ func (from *DiagramFlossEquation) CopyBasicFields(to *DiagramFlossEquation) {
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
+	to.AreQuantitativeElementsVisible = from.AreQuantitativeElementsVisible
 	to.Width = from.Width
 	to.Height = from.Height
 	to.Scale = from.Scale

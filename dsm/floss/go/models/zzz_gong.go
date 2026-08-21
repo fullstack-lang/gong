@@ -5390,6 +5390,10 @@ func (diagramfloss *DiagramFloss) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "AreQuantitativeElementsVisible",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsShowPrefix",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -5523,6 +5527,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldHeaders() (res []G
 		},
 		{
 			Name:               "IsEditable_",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "AreQuantitativeElementsVisible",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -6389,6 +6397,10 @@ func (diagramfloss *DiagramFloss) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", diagramfloss.IsEditable_)
 		res.valueBool = diagramfloss.IsEditable_
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AreQuantitativeElementsVisible":
+		res.valueString = fmt.Sprintf("%t", diagramfloss.AreQuantitativeElementsVisible)
+		res.valueBool = diagramfloss.AreQuantitativeElementsVisible
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsShowPrefix":
 		res.valueString = fmt.Sprintf("%t", diagramfloss.IsShowPrefix)
 		res.valueBool = diagramfloss.IsShowPrefix
@@ -6583,6 +6595,10 @@ func (diagramflossequation *DiagramFlossEquation) GongGetFieldValue(fieldName st
 	case "IsEditable_":
 		res.valueString = fmt.Sprintf("%t", diagramflossequation.IsEditable_)
 		res.valueBool = diagramflossequation.IsEditable_
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AreQuantitativeElementsVisible":
+		res.valueString = fmt.Sprintf("%t", diagramflossequation.AreQuantitativeElementsVisible)
+		res.valueBool = diagramflossequation.AreQuantitativeElementsVisible
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", diagramflossequation.Width)
@@ -7509,6 +7525,8 @@ func (diagramfloss *DiagramFloss) GongSetFieldValue(fieldName string, value Gong
 		diagramfloss.IsChecked = value.GetValueBool()
 	case "IsEditable_":
 		diagramfloss.IsEditable_ = value.GetValueBool()
+	case "AreQuantitativeElementsVisible":
+		diagramfloss.AreQuantitativeElementsVisible = value.GetValueBool()
 	case "IsShowPrefix":
 		diagramfloss.IsShowPrefix = value.GetValueBool()
 	case "DefaultBoxWidth":
@@ -7732,6 +7750,8 @@ func (diagramflossequation *DiagramFlossEquation) GongSetFieldValue(fieldName st
 		diagramflossequation.IsChecked = value.GetValueBool()
 	case "IsEditable_":
 		diagramflossequation.IsEditable_ = value.GetValueBool()
+	case "AreQuantitativeElementsVisible":
+		diagramflossequation.AreQuantitativeElementsVisible = value.GetValueBool()
 	case "Width":
 		diagramflossequation.Width = value.GetValueFloat()
 	case "Height":

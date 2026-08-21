@@ -14,7 +14,10 @@ type DiagramFloss struct {
 	IsChecked   bool
 	IsEditable_ bool
 
+	AreQuantitativeElementsVisible bool
+
 	IsShowPrefix bool // display shapes with their prefix
+
 
 	DefaultBoxWidth  float64
 	DefaultBoxHeigth float64

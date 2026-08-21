@@ -75,6 +75,30 @@ func (stager *Stager) treeDiagramFloss(
 		diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 	}
 
+	// Button for visibility management of quantitative elements
+	{
+		quantButton := &tree.Button{
+			Name:            diagramFloss.GetName() + " Quantitative Visibility",
+			Icon:            string(buttons.BUTTON_123),
+			ToolTipText:     "Show quantitative values",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagramFloss.AreQuantitativeElementsVisible = !diagramFloss.AreQuantitativeElementsVisible
+				stager.stage.Commit()
+			},
+		}
+		if diagramFloss.AreQuantitativeElementsVisible {
+			quantButton.Icon = string(buttons.BUTTON_123)
+			quantButton.ToolTipText = "Hide quantitative values"
+		} else {
+			quantButton.Icon = string(buttons.BUTTON_visibility_off)
+			quantButton.ToolTipText = "Show quantitative values"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, quantButton)
+	}
+
+
 	//
 	// Complexities
 	//

@@ -109,7 +109,7 @@ func _(stage *models.Stage) {
 	__CompareAnalysis__00000000_.IsExpanded = false
 
 	__CompareAnalysis__00000001_.Name = `SysML V1 to Go SysML`
-	__CompareAnalysis__00000001_.Alpha = 1.000000
+	__CompareAnalysis__00000001_.Alpha = 0.800000
 	__CompareAnalysis__00000001_.Beta = 0.300000
 	__CompareAnalysis__00000001_.ComputedPrefix = ``
 	__CompareAnalysis__00000001_.IsExpanded = false
@@ -206,6 +206,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000000_.IsExpanded = false
 	__DiagramFloss__00000000_.IsChecked = false
 	__DiagramFloss__00000000_.IsEditable_ = true
+	__DiagramFloss__00000000_.AreQuantitativeElementsVisible = false
 	__DiagramFloss__00000000_.IsShowPrefix = false
 	__DiagramFloss__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramFloss__00000000_.DefaultBoxHeigth = 70.000000
@@ -223,6 +224,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000001_.IsExpanded = false
 	__DiagramFloss__00000001_.IsChecked = false
 	__DiagramFloss__00000001_.IsEditable_ = true
+	__DiagramFloss__00000001_.AreQuantitativeElementsVisible = false
 	__DiagramFloss__00000001_.IsShowPrefix = false
 	__DiagramFloss__00000001_.DefaultBoxWidth = 250.000000
 	__DiagramFloss__00000001_.DefaultBoxHeigth = 70.000000
@@ -240,6 +242,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000002_.IsExpanded = false
 	__DiagramFloss__00000002_.IsChecked = false
 	__DiagramFloss__00000002_.IsEditable_ = true
+	__DiagramFloss__00000002_.AreQuantitativeElementsVisible = false
 	__DiagramFloss__00000002_.IsShowPrefix = false
 	__DiagramFloss__00000002_.DefaultBoxWidth = 250.000000
 	__DiagramFloss__00000002_.DefaultBoxHeigth = 70.000000
@@ -255,8 +258,9 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000000_.Description = ``
 	__DiagramFlossEquation__00000000_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000000_.IsExpanded = false
-	__DiagramFlossEquation__00000000_.IsChecked = false
+	__DiagramFlossEquation__00000000_.IsChecked = true
 	__DiagramFlossEquation__00000000_.IsEditable_ = true
+	__DiagramFlossEquation__00000000_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000000_.Width = 1050.000000
 	__DiagramFlossEquation__00000000_.Height = 875.000000
 	__DiagramFlossEquation__00000000_.Scale = 5.000000
@@ -268,10 +272,11 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000001_.Description = ``
 	__DiagramFlossEquation__00000001_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000001_.IsExpanded = false
-	__DiagramFlossEquation__00000001_.IsChecked = true
+	__DiagramFlossEquation__00000001_.IsChecked = false
 	__DiagramFlossEquation__00000001_.IsEditable_ = true
+	__DiagramFlossEquation__00000001_.AreQuantitativeElementsVisible = false
 	__DiagramFlossEquation__00000001_.Width = 1050.000000
-	__DiagramFlossEquation__00000001_.Height = 942.500000
+	__DiagramFlossEquation__00000001_.Height = 818.000000
 	__DiagramFlossEquation__00000001_.Scale = 5.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxWidth = 250.000000
 	__DiagramFlossEquation__00000001_.DefaultBoxHeigth = 70.000000
@@ -419,8 +424,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `Hyp2 shape`
-	__NoteShape__00000003_.X = 65.432255
-	__NoteShape__00000003_.Y = 236.988116
+	__NoteShape__00000003_.X = 137.432255
+	__NoteShape__00000003_.Y = 163.988116
 	__NoteShape__00000003_.Width = 250.000000
 	__NoteShape__00000003_.Height = 70.000000
 	__NoteShape__00000003_.IsHidden = false
@@ -625,6 +630,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000002_)
 	__DiagramFloss__00000002_.Effort_Shapes = append(__DiagramFloss__00000002_.Effort_Shapes, __EffortShape__00000003_)
 	__DiagramFlossEquation__00000000_.Note_Shapes = append(__DiagramFlossEquation__00000000_.Note_Shapes, __NoteShape__00000003_)
+	__DiagramFlossEquation__00000000_.NotesWhoseNodeIsExpanded = append(__DiagramFlossEquation__00000000_.NotesWhoseNodeIsExpanded, __Note__00000001_)
 	__EffortShape__00000000_.Effort = __Effort__00000000_
 	__EffortShape__00000001_.Effort = __Effort__00000001_
 	__EffortShape__00000002_.Effort = __Effort__00000002_

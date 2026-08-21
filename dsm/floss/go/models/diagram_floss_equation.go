@@ -14,7 +14,10 @@ type DiagramFlossEquation struct {
 	IsChecked   bool
 	IsEditable_ bool
 
+	AreQuantitativeElementsVisible bool
+
 	Width  float64
+
 	Height float64
 
 	Scale float64 // pixels per unit

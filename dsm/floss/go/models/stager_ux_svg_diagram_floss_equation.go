@@ -194,22 +194,25 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	headerFormula.Y_Offset = 50
 	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerFormula)
 
-	balanceDiff := (alpha*deltaP - beta*deltaE) - deltaC
-	headerCalc := new(svg.RectAnchoredText)
-	headerCalc.Name = "Header Calculation"
-	headerCalc.Content = fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff)
-	headerCalc.FontSize = "12px"
-	headerCalc.FontWeight = "normal"
-	headerCalc.Color = "#546E7A"
-	headerCalc.FillOpacity = 1.0
-	headerCalc.Stroke = "#546E7A"
-	headerCalc.StrokeWidth = 0
-	headerCalc.StrokeOpacity = 1.0
-	headerCalc.RectAnchorType = svg.RECT_TOP_LEFT
-	headerCalc.TextAnchorType = svg.TEXT_ANCHOR_START
-	headerCalc.X_Offset = 20
-	headerCalc.Y_Offset = 72
-	headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerCalc)
+	if diagram.AreQuantitativeElementsVisible {
+		balanceDiff := (alpha*deltaP - beta*deltaE) - deltaC
+
+		headerCalc := new(svg.RectAnchoredText)
+		headerCalc.Name = "Header Calculation"
+		headerCalc.Content = fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff)
+		headerCalc.FontSize = "12px"
+		headerCalc.FontWeight = "normal"
+		headerCalc.Color = "#546E7A"
+		headerCalc.FillOpacity = 1.0
+		headerCalc.Stroke = "#546E7A"
+		headerCalc.StrokeWidth = 0
+		headerCalc.StrokeOpacity = 1.0
+		headerCalc.RectAnchorType = svg.RECT_TOP_LEFT
+		headerCalc.TextAnchorType = svg.TEXT_ANCHOR_START
+		headerCalc.X_Offset = 20
+		headerCalc.Y_Offset = 72
+		headerRect.RectAnchoredTexts = append(headerRect.RectAnchoredTexts, headerCalc)
+	}
 
 	// Ground line (Abscissa)
 	groundLine := &svg.Line{
@@ -225,8 +228,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		},
 	}
 	layer.Lines = append(layer.Lines, groundLine)
-
-
 
 	groundLabel := &svg.Text{
 		Name:    "Ground Label",
@@ -284,6 +285,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveTopHandle = true
 
 			content := c.Name
+			if diagram.AreQuantitativeElementsVisible {
+				content = fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
+			}
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
 			fontSize := "13px"
@@ -326,11 +330,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Rects = append(layer.Rects, col1Rect)
 	}
 
+	col1LabelText := "ΔC"
+	if diagram.AreQuantitativeElementsVisible {
+		col1LabelText = fmt.Sprintf("ΔC = %.2f", deltaC)
+	}
 	col1Label := &svg.Text{
 		Name:    "Col 1 Label",
 		X:       xCol1 + 45,
 		Y:       yGround + 30,
-		Content: fmt.Sprintf("ΔC = %.2f", deltaC),
+		Content: col1LabelText,
 		Presentation: svg.Presentation{
 			Color:       "#E65100",
 			FillOpacity: 1.0,
@@ -375,6 +383,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveTopHandle = true
 
 			content := p.Name
+			if diagram.AreQuantitativeElementsVisible {
+				content = fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
+			}
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
 			fontSize := "13px"
@@ -417,11 +428,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		layer.Rects = append(layer.Rects, col2Rect)
 	}
 
+	col2LabelText := "α · ΔP"
+	if diagram.AreQuantitativeElementsVisible {
+		col2LabelText = fmt.Sprintf("α · ΔP = %.2f (α=%.2f)", alpha*deltaP, alpha)
+	}
 	col2Label := &svg.Text{
 		Name:    "Col 2 Label",
 		X:       xCol2 + 25,
 		Y:       yGround + 30,
-		Content: fmt.Sprintf("α · ΔP = %.2f (α=%.2f)", alpha*deltaP, alpha),
+		Content: col2LabelText,
 		Presentation: svg.Presentation{
 			Color:       "#2E7D32",
 			FillOpacity: 1.0,
@@ -466,8 +481,10 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveTopHandle = true
 
 			content := e.Name
+			if diagram.AreQuantitativeElementsVisible {
+				content = fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
+			}
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
-
 
 			fontSize := "13px"
 			if itemH < 30 {
@@ -513,11 +530,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	if col3LabelY < yBottom3+20 {
 		col3LabelY = yBottom3 + 20
 	}
+	col3LabelText := "β · ΔE"
+	if diagram.AreQuantitativeElementsVisible {
+		col3LabelText = fmt.Sprintf("β · ΔE = %.2f (β=%.2f)", beta*deltaE, beta)
+	}
 	col3Label := &svg.Text{
 		Name:    "Col 3 Label",
 		X:       xCol3 + 25,
 		Y:       col3LabelY,
-		Content: fmt.Sprintf("β · ΔE = %.2f (β=%.2f)", beta*deltaE, beta),
+		Content: col3LabelText,
 		Presentation: svg.Presentation{
 			Color:       "#1565C0",
 			FillOpacity: 1.0,
@@ -527,6 +548,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	layer.Texts = append(layer.Texts, col3Label)
 
 	// Top alignment guide line from top of Col 2 to top of Col 3
+
 	topLine := &svg.Line{
 		Name: "Col 2 to Col 3 Top Alignment Guide",
 		X1:   xCol2 + colWidth,
