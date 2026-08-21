@@ -583,6 +583,17 @@
             ]
         },
         {
+            "name": "dsm - floss: go run . edit data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/floss/go/cmd/floss",
+            "args": [
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
             "name": "dsm - structure: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
