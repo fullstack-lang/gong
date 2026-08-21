@@ -56,6 +56,10 @@ func NewStager(
 	stager.stage = stage
 	stager.probeForm = probeForm
 
+	// enable delta mode on the stage
+	// so that changes are tracked and undo/redo are possible
+	stage.SetDeltaMode(true)
+
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
