@@ -454,52 +454,19 @@ func (stager *Stager) drawNoteComplexityShapes(diagramFloss *DiagramFloss, layer
 			continue
 		}
 
-		startOrientation := shape.GetStartOrientation()
-		if startOrientation == "" {
-			startOrientation = ORIENTATION_HORIZONTAL
-		}
-		endOrientation := shape.GetEndOrientation()
-		if endOrientation == "" {
-			endOrientation = ORIENTATION_HORIZONTAL
-		}
-		startRatio := shape.GetStartRatio()
-		if startRatio == 0 {
-			startRatio = 0.5
-		}
-		endRatio := shape.GetEndRatio()
-		if endRatio == 0 {
-			endRatio = 0.5
-		}
-		cornerOffsetRatio := shape.GetCornerOffsetRatio()
-		if cornerOffsetRatio == 0 {
-			cornerOffsetRatio = 1.5
-		}
-
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
 		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
-		link.StartOrientation = svg.OrientationType(startOrientation)
-		link.StartRatio = startRatio
 		link.End = endRect
-		link.EndOrientation = svg.OrientationType(endOrientation)
-		link.EndRatio = endRatio
-		link.CornerOffsetRatio = cornerOffsetRatio
-		link.CornerRadius = 5
-		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.HasEndArrow = false
 		link.Stroke = "#FFA000"
 		link.StrokeWidth = 1.5
 		link.StrokeDashArray = "5 5"
 		link.StrokeOpacity = 1.0
-
-		link.OnChange = func(updatedLink *svg.Link) {
-			shape.SetStartRatio(updatedLink.StartRatio)
-			shape.SetEndRatio(updatedLink.EndRatio)
-			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
-			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
-			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
-			stager.stage.Commit()
-		}
 	}
 }
 
@@ -514,52 +481,19 @@ func (stager *Stager) drawNotePerformanceShapes(diagramFloss *DiagramFloss, laye
 			continue
 		}
 
-		startOrientation := shape.GetStartOrientation()
-		if startOrientation == "" {
-			startOrientation = ORIENTATION_HORIZONTAL
-		}
-		endOrientation := shape.GetEndOrientation()
-		if endOrientation == "" {
-			endOrientation = ORIENTATION_HORIZONTAL
-		}
-		startRatio := shape.GetStartRatio()
-		if startRatio == 0 {
-			startRatio = 0.5
-		}
-		endRatio := shape.GetEndRatio()
-		if endRatio == 0 {
-			endRatio = 0.5
-		}
-		cornerOffsetRatio := shape.GetCornerOffsetRatio()
-		if cornerOffsetRatio == 0 {
-			cornerOffsetRatio = 1.5
-		}
-
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
 		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
-		link.StartOrientation = svg.OrientationType(startOrientation)
-		link.StartRatio = startRatio
 		link.End = endRect
-		link.EndOrientation = svg.OrientationType(endOrientation)
-		link.EndRatio = endRatio
-		link.CornerOffsetRatio = cornerOffsetRatio
-		link.CornerRadius = 5
-		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.HasEndArrow = false
 		link.Stroke = "#2E7D32"
 		link.StrokeWidth = 1.5
 		link.StrokeDashArray = "5 5"
 		link.StrokeOpacity = 1.0
-
-		link.OnChange = func(updatedLink *svg.Link) {
-			shape.SetStartRatio(updatedLink.StartRatio)
-			shape.SetEndRatio(updatedLink.EndRatio)
-			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
-			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
-			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
-			stager.stage.Commit()
-		}
 	}
 }
 
@@ -574,53 +508,21 @@ func (stager *Stager) drawNoteEffortShapes(diagramFloss *DiagramFloss, layer *sv
 			continue
 		}
 
-		startOrientation := shape.GetStartOrientation()
-		if startOrientation == "" {
-			startOrientation = ORIENTATION_HORIZONTAL
-		}
-		endOrientation := shape.GetEndOrientation()
-		if endOrientation == "" {
-			endOrientation = ORIENTATION_HORIZONTAL
-		}
-		startRatio := shape.GetStartRatio()
-		if startRatio == 0 {
-			startRatio = 0.5
-		}
-		endRatio := shape.GetEndRatio()
-		if endRatio == 0 {
-			endRatio = 0.5
-		}
-		cornerOffsetRatio := shape.GetCornerOffsetRatio()
-		if cornerOffsetRatio == 0 {
-			cornerOffsetRatio = 1.5
-		}
-
 		link := new(svg.Link)
 		layer.Links = append(layer.Links, link)
 		link.Name = startRect.Name + " to " + endRect.Name
 		link.Start = startRect
-		link.StartOrientation = svg.OrientationType(startOrientation)
-		link.StartRatio = startRatio
 		link.End = endRect
-		link.EndOrientation = svg.OrientationType(endOrientation)
-		link.EndRatio = endRatio
-		link.CornerOffsetRatio = cornerOffsetRatio
-		link.CornerRadius = 5
-		link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.HasEndArrow = false
 		link.Stroke = "#1976D2"
 		link.StrokeWidth = 1.5
 		link.StrokeDashArray = "5 5"
 		link.StrokeOpacity = 1.0
-
-		link.OnChange = func(updatedLink *svg.Link) {
-			shape.SetStartRatio(updatedLink.StartRatio)
-			shape.SetEndRatio(updatedLink.EndRatio)
-			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
-			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
-			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
-			stager.stage.Commit()
-		}
 	}
 }
+
 
 
