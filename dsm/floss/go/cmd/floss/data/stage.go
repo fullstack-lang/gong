@@ -104,13 +104,13 @@ func _(stage *models.Stage) {
 
 	__CompareAnalysis__00000000_.Name = `SysML V1 to V2`
 	__CompareAnalysis__00000000_.Alpha = 1.200000
-	__CompareAnalysis__00000000_.Beta = 1.000000
+	__CompareAnalysis__00000000_.Beta = 1.400000
 	__CompareAnalysis__00000000_.ComputedPrefix = ``
 	__CompareAnalysis__00000000_.IsExpanded = false
 
 	__CompareAnalysis__00000001_.Name = `SysML V1 to Go SysML`
 	__CompareAnalysis__00000001_.Alpha = 1.000000
-	__CompareAnalysis__00000001_.Beta = 0.550000
+	__CompareAnalysis__00000001_.Beta = 0.800000
 	__CompareAnalysis__00000001_.ComputedPrefix = ``
 	__CompareAnalysis__00000001_.IsExpanded = false
 
@@ -204,7 +204,7 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000000_.Description = ``
 	__DiagramFloss__00000000_.ComputedPrefix = ``
 	__DiagramFloss__00000000_.IsExpanded = false
-	__DiagramFloss__00000000_.IsChecked = true
+	__DiagramFloss__00000000_.IsChecked = false
 	__DiagramFloss__00000000_.IsEditable_ = true
 	__DiagramFloss__00000000_.IsShowPrefix = false
 	__DiagramFloss__00000000_.DefaultBoxWidth = 250.000000
@@ -255,7 +255,7 @@ func _(stage *models.Stage) {
 	__DiagramFlossEquation__00000000_.Description = ``
 	__DiagramFlossEquation__00000000_.ComputedPrefix = ``
 	__DiagramFlossEquation__00000000_.IsExpanded = false
-	__DiagramFlossEquation__00000000_.IsChecked = false
+	__DiagramFlossEquation__00000000_.IsChecked = true
 	__DiagramFlossEquation__00000000_.IsEditable_ = true
 	__DiagramFlossEquation__00000000_.Width = 1050.000000
 	__DiagramFlossEquation__00000000_.Height = 938.000000
@@ -298,12 +298,12 @@ func _(stage *models.Stage) {
 	__Effort__00000003_.IsExpanded = false
 
 	__Effort__00000004_.Name = `Developping a SysML Tool`
-	__Effort__00000004_.Strength = 36.000000
+	__Effort__00000004_.Strength = 48.500000
 	__Effort__00000004_.ComputedPrefix = ``
 	__Effort__00000004_.IsExpanded = false
 
 	__Effort__00000005_.Name = `Tayloring SysML Tool`
-	__Effort__00000005_.Strength = 39.000000
+	__Effort__00000005_.Strength = 55.000000
 	__Effort__00000005_.ComputedPrefix = ``
 	__Effort__00000005_.IsExpanded = false
 
@@ -419,8 +419,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `Hyp2 shape`
-	__NoteShape__00000003_.X = 175.432255
-	__NoteShape__00000003_.Y = 106.988116
+	__NoteShape__00000003_.X = 65.432255
+	__NoteShape__00000003_.Y = 236.988116
 	__NoteShape__00000003_.Width = 250.000000
 	__NoteShape__00000003_.Height = 70.000000
 	__NoteShape__00000003_.IsHidden = false
@@ -657,7 +657,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootCompareAnalysis = append(__Library__00000000_.RootCompareAnalysis, __CompareAnalysis__00000001_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000001_)
-	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
 	__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000000_)
 	__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded = append(__Library__00000000_.CompareAnalysisWhoseNodeIsExpanded, __CompareAnalysis__00000001_)
 	__Note__00000000_.Complexities = append(__Note__00000000_.Complexities, __Complexity__00000000_)

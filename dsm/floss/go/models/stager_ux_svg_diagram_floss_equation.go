@@ -255,7 +255,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveRightHandle = true
 			itemRect.CanHaveTopHandle = true
 
-			content := fmt.Sprintf("%s (%.1f)", c.Name, c.Strength)
+			content := c.Name
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
 			fontSize := "13px"
@@ -346,7 +346,7 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveRightHandle = true
 			itemRect.CanHaveTopHandle = true
 
-			content := fmt.Sprintf("%s (%.1f · α=%.1f)", p.Name, p.Strength, p.Strength*alpha)
+			content := p.Name
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
 
 			fontSize := "13px"
@@ -437,8 +437,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 			itemRect.CanHaveRightHandle = true
 			itemRect.CanHaveTopHandle = true
 
-			content := fmt.Sprintf("%s (%.1f · β=%.1f)", e.Name, e.Strength, e.Strength*beta)
+			content := e.Name
 			content = strutils.WrapStringPreservingNewlinesScaled(content, colWidth-20, nbPixPerChar, 13.0, 15.0)
+
 
 			fontSize := "13px"
 			if itemH < 30 {
