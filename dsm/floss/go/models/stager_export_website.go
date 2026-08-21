@@ -74,9 +74,9 @@ func (system *System) GetReferencePath() string {
 func (system *System) GeneratePage(stager *Stager) *ssg.Page {
 	systemPage := &ssg.Page{Name: system.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", system.Name, system.Description)}
 
-	if len(system.DiagramFlosses) > 0 {
-		for _, diagram := range system.DiagramFlosses {
-			svgObject := stager.generateSvgObject(diagram)
+	if len(system.DiagramFlossEquations) > 0 {
+		for _, diagram := range system.DiagramFlossEquations {
+			svgObject := stager.generateSvgObjectFlossEquation(diagram)
 			svgString, maxX, maxY := svgObject.GenerateString()
 
 			// Replace 100% width/height with exact pixel values to prevent the

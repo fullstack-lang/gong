@@ -6,14 +6,8 @@ import (
 
 // SVGUpdated implements SVGImplInterface.
 func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
-	stage := stager.stage
-	diagramFloss := stager.diagramFloss
 	svgObjectDiagramFloss := stager.svgObjectDiagramFloss
-
-	if svgObjectDiagramFloss.DrawingState == frontSVG.DrawingState {
-		if diagramFloss != nil {
-			stager.probeForm.FillUpFormFromGongstruct(diagramFloss, "Diagram")
-		}
+	if svgObjectDiagramFloss != nil && svgObjectDiagramFloss.DrawingState == frontSVG.DrawingState {
 		return
 	}
 
@@ -30,52 +24,9 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		return
 	}
 
-	// Case 1: System Diagram (DiagramFloss) is active
-	if diagramFloss != nil && diagramFloss.IsChecked {
-		var note *Note
-		var complexity *Complexity
-		var performance *Performance
-		var effort *Effort
-
-		if noteShape, ok := diagramFloss.map_SvgRect_NoteShape[startRect]; ok {
-			note = noteShape.Note
-		} else if noteShape, ok := diagramFloss.map_SvgRect_NoteShape[endRect]; ok {
-			note = noteShape.Note
-		}
-
-		if compShape, ok := diagramFloss.map_SvgRect_ComplexityShape[startRect]; ok {
-			complexity = compShape.Complexity
-		} else if compShape, ok := diagramFloss.map_SvgRect_ComplexityShape[endRect]; ok {
-			complexity = compShape.Complexity
-		}
-
-		if perfShape, ok := diagramFloss.map_SvgRect_PerformanceShape[startRect]; ok {
-			performance = perfShape.Performance
-		} else if perfShape, ok := diagramFloss.map_SvgRect_PerformanceShape[endRect]; ok {
-			performance = perfShape.Performance
-		}
-
-		if effShape, ok := diagramFloss.map_SvgRect_EffortShape[startRect]; ok {
-			effort = effShape.Effort
-		} else if effShape, ok := diagramFloss.map_SvgRect_EffortShape[endRect]; ok {
-			effort = effShape.Effort
-		}
-
-		if note != nil && complexity != nil {
-			note.Complexities = append(note.Complexities, complexity)
-			addAssociationShapeToDiagram(stager, note, complexity, &diagramFloss.NoteComplexityShapes)
-		} else if note != nil && performance != nil {
-			note.Performances = append(note.Performances, performance)
-			addAssociationShapeToDiagram(stager, note, performance, &diagramFloss.NotePerformanceShapes)
-		} else if note != nil && effort != nil {
-			note.Efforts = append(note.Efforts, effort)
-			addAssociationShapeToDiagram(stager, note, effort, &diagramFloss.NoteEffortShapes)
-		}
-	}
-
-	// Case 2: Equation Diagram (DiagramFlossEquation) is active
+	// Equation Diagram (DiagramFlossEquation) is active
 	var diagramEquation *DiagramFlossEquation
-	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stage) {
+	for d := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
 		if d.IsChecked {
 			diagramEquation = d
 			break

@@ -8,8 +8,8 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) svgFlossEquation() {
-	stager.flossDiagramSvgStage.Reset()
+func (stager *Stager) svg() {
+	stager.systemDiagramSvgStage.Reset()
 
 	var diagramFlossEquation *DiagramFlossEquation
 	for diagram_ := range *GetGongstructInstancesSet[DiagramFlossEquation](stager.stage) {
@@ -19,14 +19,18 @@ func (stager *Stager) svgFlossEquation() {
 		}
 	}
 
-	if diagramFlossEquation == nil {
-		stager.flossDiagramSvgStage.Commit()
-		return
+	if diagramFlossEquation != nil {
+		svgObject := stager.generateSvgObjectFlossEquation(diagramFlossEquation)
+		svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
+		stager.svgObjectDiagramFloss = svgObject
+		stager.svgObjectDiagramFloss.OnUpdate = stager.onUpdateSVG
 	}
 
-	svgObject := stager.generateSvgObjectFlossEquation(diagramFlossEquation)
-	svg.StageBranch(stager.flossDiagramSvgStage, svgObject)
-	stager.flossDiagramSvgStage.Commit()
+	stager.systemDiagramSvgStage.Commit()
+}
+
+func (stager *Stager) svgFlossEquation() {
+	stager.svg()
 }
 
 func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquation) *svg.SVG {
@@ -45,7 +49,9 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	compareAnalysis := diagram.GetOwningCompareAnalysis()
-	if compareAnalysis == nil {
+	owningSystem := diagram.GetOwningSystem()
+
+	if compareAnalysis == nil && owningSystem == nil {
 		for ca := range *GetGongstructInstancesSet[CompareAnalysis](stager.stage) {
 			for _, d := range ca.DiagramFlossEquations {
 				if d == diagram {
@@ -54,9 +60,40 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 				}
 			}
 		}
+		if compareAnalysis == nil {
+			for sys := range *GetGongstructInstancesSet[System](stager.stage) {
+				for _, d := range sys.DiagramFlossEquations {
+					if d == diagram {
+						owningSystem = sys
+						break
+					}
+				}
+			}
+		}
 	}
 
-	if compareAnalysis == nil || compareAnalysis.FromSystem == nil || compareAnalysis.ToSystem == nil {
+	var fromSys *System
+	var toSys *System
+	alpha := 1.0
+	beta := 1.0
+
+	if compareAnalysis != nil {
+		fromSys = compareAnalysis.FromSystem
+		toSys = compareAnalysis.ToSystem
+		if compareAnalysis.Alpha != 0 {
+			alpha = compareAnalysis.Alpha
+		}
+		if compareAnalysis.Beta != 0 {
+			beta = compareAnalysis.Beta
+		}
+	} else if owningSystem != nil {
+		fromSys = nil
+		toSys = owningSystem
+		alpha = 1.0
+		beta = 1.0
+	}
+
+	if toSys == nil || (compareAnalysis != nil && fromSys == nil) {
 		infoRect := &svg.Rect{
 			Name:   "Info Background",
 			X:      100,
@@ -76,7 +113,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		infoTitle := new(svg.RectAnchoredText)
 		infoTitle.Name = "Info Text"
-		infoTitle.Content = "Please select FromSystem and ToSystem in CompareAnalysis to render the FLOSS Equation diagram."
+		if compareAnalysis != nil {
+			infoTitle.Content = "Please select FromSystem and ToSystem in CompareAnalysis to render the FLOSS Equation diagram."
+		} else {
+			infoTitle.Content = "Please select a System to render the FLOSS Equation diagram."
+		}
 		infoTitle.FontSize = "14px"
 		infoTitle.FontWeight = "500"
 		infoTitle.Color = "#424242"
@@ -90,28 +131,23 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		return svgObject
 	}
 
-	fromSys := compareAnalysis.FromSystem
-	toSys := compareAnalysis.ToSystem
-	alpha := compareAnalysis.Alpha
-	if alpha == 0 {
-		alpha = 1.0
-	}
-
 	var cFrom, cTo, pFrom, pTo, eFrom, eTo float64
-	for _, c := range fromSys.Complexities {
-		cFrom += c.Strength
+	if fromSys != nil {
+		for _, c := range fromSys.Complexities {
+			cFrom += c.Strength
+		}
+		for _, p := range fromSys.Performances {
+			pFrom += p.Strength
+		}
+		for _, e := range fromSys.Efforts {
+			eFrom += e.Strength
+		}
 	}
 	for _, c := range toSys.Complexities {
 		cTo += c.Strength
 	}
-	for _, p := range fromSys.Performances {
-		pFrom += p.Strength
-	}
 	for _, p := range toSys.Performances {
 		pTo += p.Strength
-	}
-	for _, e := range fromSys.Efforts {
-		eFrom += e.Strength
 	}
 	for _, e := range toSys.Efforts {
 		eTo += e.Strength
@@ -121,8 +157,6 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	deltaP := pTo - pFrom
 	deltaE := eTo
 	_ = eFrom
-
-	beta := compareAnalysis.Beta
 
 	scale := diagram.Scale
 	if scale <= 0 {
@@ -160,10 +194,14 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Rects = append(layer.Rects, headerRect)
 
-	// Compare Analysis Title
+	// Compare Analysis or System Title
 	headerTitle := new(svg.RectAnchoredText)
-	headerTitle.Name = "Compare Analysis Title"
-	headerTitle.Content = compareAnalysis.Name
+	headerTitle.Name = "Header Title"
+	if compareAnalysis != nil {
+		headerTitle.Content = compareAnalysis.Name
+	} else {
+		headerTitle.Content = toSys.Name
+	}
 	headerTitle.FontSize = "17px"
 	headerTitle.FontWeight = "700"
 	headerTitle.Color = "#0D47A1"
@@ -180,7 +218,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	// Formula line
 	headerFormula := new(svg.RectAnchoredText)
 	headerFormula.Name = "Header Formula"
-	headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α · ΔP - β · ΔE  ⟺  α · ΔP - β · ΔE = ΔC (%s → %s)", fromSys.Name, toSys.Name)
+	if fromSys != nil {
+		headerFormula.Content = fmt.Sprintf("FLOSS Equation: ΔC = α · ΔP - β · ΔE  ⟺  α · ΔP - β · ΔE = ΔC (%s → %s)", fromSys.Name, toSys.Name)
+	} else {
+		headerFormula.Content = fmt.Sprintf("FLOSS Equation: C = α · P - β · E  ⟺  α · P - β · E = C (System: %s)", toSys.Name)
+	}
 	headerFormula.FontSize = "13px"
 	headerFormula.FontWeight = "600"
 	headerFormula.Color = "#37474F"
@@ -199,7 +241,11 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 
 		headerCalc := new(svg.RectAnchoredText)
 		headerCalc.Name = "Header Calculation"
-		headerCalc.Content = fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff)
+		if fromSys != nil {
+			headerCalc.Content = fmt.Sprintf("Values: ΔC = %.2f | α·ΔP = %.2f (α = %.2f) | β·ΔE = %.2f (β = %.2f) | Result: α·ΔP - β·ΔE = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff)
+		} else {
+			headerCalc.Content = fmt.Sprintf("Values: C = %.2f | α·P = %.2f (α = %.2f) | β·E = %.2f (β = %.2f) | Result: α·P - β·E = %.2f (Diff = %+.2f)", deltaC, alpha*deltaP, alpha, beta*deltaE, beta, alpha*deltaP-beta*deltaE, balanceDiff)
+		}
 		headerCalc.FontSize = "12px"
 		headerCalc.FontWeight = "normal"
 		headerCalc.Color = "#546E7A"
@@ -331,8 +377,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	col1LabelText := "ΔC"
+	if fromSys == nil {
+		col1LabelText = "C"
+	}
 	if diagram.AreQuantitativeElementsVisible {
-		col1LabelText = fmt.Sprintf("ΔC = %.2f", deltaC)
+		if fromSys == nil {
+			col1LabelText = fmt.Sprintf("C = %.2f", deltaC)
+		} else {
+			col1LabelText = fmt.Sprintf("ΔC = %.2f", deltaC)
+		}
 	}
 	col1Label := &svg.Text{
 		Name:    "Col 1 Label",
@@ -429,8 +482,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 
 	col2LabelText := "α · ΔP"
+	if fromSys == nil {
+		col2LabelText = "α · P"
+	}
 	if diagram.AreQuantitativeElementsVisible {
-		col2LabelText = fmt.Sprintf("α · ΔP = %.2f (α=%.2f)", alpha*deltaP, alpha)
+		if fromSys == nil {
+			col2LabelText = fmt.Sprintf("α · P = %.2f", alpha*deltaP)
+		} else {
+			col2LabelText = fmt.Sprintf("α · ΔP = %.2f (α=%.2f)", alpha*deltaP, alpha)
+		}
 	}
 	col2Label := &svg.Text{
 		Name:    "Col 2 Label",
@@ -531,8 +591,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 		col3LabelY = yBottom3 + 20
 	}
 	col3LabelText := "β · ΔE"
+	if fromSys == nil {
+		col3LabelText = "β · E"
+	}
 	if diagram.AreQuantitativeElementsVisible {
-		col3LabelText = fmt.Sprintf("β · ΔE = %.2f (β=%.2f)", beta*deltaE, beta)
+		if fromSys == nil {
+			col3LabelText = fmt.Sprintf("β · E = %.2f", beta*deltaE)
+		} else {
+			col3LabelText = fmt.Sprintf("β · ΔE = %.2f (β=%.2f)", beta*deltaE, beta)
+		}
 	}
 	col3Label := &svg.Text{
 		Name:    "Col 3 Label",
@@ -564,11 +631,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Lines = append(layer.Lines, topLine)
 
+	topLabelContent := "α·ΔP peak"
+	if fromSys == nil {
+		topLabelContent = "α·P peak"
+	}
 	topLabel := &svg.Text{
 		Name:    "Top Alignment Label",
 		X:       (xCol2 + colWidth + xCol3) / 2 - 30,
 		Y:       yTip2 - 8,
-		Content: "α·ΔP peak",
+		Content: topLabelContent,
 		Presentation: svg.Presentation{
 			Color:       "#00695C",
 			FillOpacity: 1.0,
@@ -593,11 +664,15 @@ func (stager *Stager) generateSvgObjectFlossEquation(diagram *DiagramFlossEquati
 	}
 	layer.Lines = append(layer.Lines, equilibriumLine)
 
+	equilibriumLabelContent := "ΔC ≗ α·ΔP - β·ΔE"
+	if fromSys == nil {
+		equilibriumLabelContent = "C ≗ α·P - β·E"
+	}
 	equilibriumText := &svg.Text{
 		Name:    "Equilibrium Label",
 		X:       (xCol1 + colWidth + xCol3) / 2 - 50,
 		Y:       (yTip1+yBottom3)/2 - 8,
-		Content: "ΔC ≗ α·ΔP - β·ΔE",
+		Content: equilibriumLabelContent,
 		Presentation: svg.Presentation{
 			Color:       "#AD1457",
 			FillOpacity: 1.0,

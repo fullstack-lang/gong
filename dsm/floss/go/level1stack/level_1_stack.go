@@ -122,11 +122,8 @@ func NewLevel1StackDelta(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.CompareAnalysis](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Complexity](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ComplexityShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.DiagramFloss](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DiagramFlossEquation](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Effort](stage)
-	models.SetOrchestratorOnAfterUpdate[models.EffortShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteComplexityShape](stage)
@@ -134,9 +131,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.NotePerformanceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Performance](stage)
-	models.SetOrchestratorOnAfterUpdate[models.PerformanceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.System](stage)
-	models.SetOrchestratorOnAfterUpdate[models.SystemShape](stage)
 
 	return
 }

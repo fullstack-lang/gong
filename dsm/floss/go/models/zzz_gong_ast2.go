@@ -540,136 +540,6 @@ func (u *ComplexityUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 	return nil
 }
 
-type ComplexityShapeUnmarshaller struct{}
-
-func (u *ComplexityShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(ComplexityShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *ComplexityShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*ComplexityShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Complexity":
-		GongUnmarshallPointer(&instance.Complexity, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "X":
-		instance.X = GongExtractFloat(valueExpr)
-	case "Y":
-		instance.Y = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
-	}
-	return nil
-}
-
-type DiagramFlossUnmarshaller struct{}
-
-func (u *DiagramFlossUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(DiagramFloss)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *DiagramFlossUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*DiagramFloss)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Description":
-		instance.Description = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "IsChecked":
-		instance.IsChecked = GongExtractBool(valueExpr)
-	case "IsEditable_":
-		instance.IsEditable_ = GongExtractBool(valueExpr)
-	case "AreQuantitativeElementsVisible":
-		instance.AreQuantitativeElementsVisible = GongExtractBool(valueExpr)
-	case "IsShowPrefix":
-		instance.IsShowPrefix = GongExtractBool(valueExpr)
-	case "DefaultBoxWidth":
-		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
-	case "DefaultBoxHeigth":
-		instance.DefaultBoxHeigth = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	case "System_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.System_Shapes, valueExpr, identifierMap)
-	case "IsSystemsNodeExpanded":
-		instance.IsSystemsNodeExpanded = GongExtractBool(valueExpr)
-	case "SystemsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.SystemsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "Complexity_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Complexity_Shapes, valueExpr, identifierMap)
-	case "IsComplexitysNodeExpanded":
-		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
-	case "ComplexitysWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.ComplexitysWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "Performance_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Performance_Shapes, valueExpr, identifierMap)
-	case "IsPerformancesNodeExpanded":
-		instance.IsPerformancesNodeExpanded = GongExtractBool(valueExpr)
-	case "PerformancesWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.PerformancesWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "Effort_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Effort_Shapes, valueExpr, identifierMap)
-	case "IsEffortsNodeExpanded":
-		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
-	case "EffortsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.EffortsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "Note_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
-	case "NoteComplexityShapes":
-		GongUnmarshallSliceOfPointers(&instance.NoteComplexityShapes, valueExpr, identifierMap)
-	case "NotePerformanceShapes":
-		GongUnmarshallSliceOfPointers(&instance.NotePerformanceShapes, valueExpr, identifierMap)
-	case "NoteEffortShapes":
-		GongUnmarshallSliceOfPointers(&instance.NoteEffortShapes, valueExpr, identifierMap)
-	case "IsNotesNodeExpanded":
-		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
-	case "NotesWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
-	}
-	return nil
-}
-
 type DiagramFlossEquationUnmarshaller struct{}
 
 func (u *DiagramFlossEquationUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -764,49 +634,6 @@ func (u *EffortUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	}
-	return nil
-}
-
-type EffortShapeUnmarshaller struct{}
-
-func (u *EffortShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(EffortShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *EffortShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*EffortShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Effort":
-		GongUnmarshallPointer(&instance.Effort, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "X":
-		instance.X = GongExtractFloat(valueExpr)
-	case "Y":
-		instance.Y = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1154,49 +981,6 @@ func (u *PerformanceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	return nil
 }
 
-type PerformanceShapeUnmarshaller struct{}
-
-func (u *PerformanceShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(PerformanceShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *PerformanceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*PerformanceShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Performance":
-		GongUnmarshallPointer(&instance.Performance, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "X":
-		instance.X = GongExtractFloat(valueExpr)
-	case "Y":
-		instance.Y = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
-	}
-	return nil
-}
-
 type SystemUnmarshaller struct{}
 
 func (u *SystemUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1238,10 +1022,10 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.SVG_Path = GongExtractString(valueExpr)
 	case "InverseAppliedScaling":
 		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
-	case "DiagramFlosses":
-		GongUnmarshallSliceOfPointers(&instance.DiagramFlosses, valueExpr, identifierMap)
-	case "DiagramFlossWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.DiagramFlossWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DiagramFlossEquations":
+		GongUnmarshallSliceOfPointers(&instance.DiagramFlossEquations, valueExpr, identifierMap)
+	case "DiagramFlossEquationsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DiagramFlossEquationsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsSubSystemNodeExpanded":
 		instance.IsSubSystemNodeExpanded = GongExtractBool(valueExpr)
 	case "SubSystemes":
@@ -1258,49 +1042,6 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
 	case "EffortsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.EffortsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	}
-	return nil
-}
-
-type SystemShapeUnmarshaller struct{}
-
-func (u *SystemShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(SystemShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *SystemShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*SystemShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "System":
-		GongUnmarshallPointer(&instance.System, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "X":
-		instance.X = GongExtractFloat(valueExpr)
-	case "Y":
-		instance.Y = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	case "IsHidden":
-		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

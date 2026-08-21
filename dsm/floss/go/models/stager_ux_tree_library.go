@@ -24,7 +24,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	// Systemes
 	//
 	systemesNode := &tree.Node{
-		Name:            "Systemes",
+		Name:            "Systems",
 		FontStyle:       tree.ITALIC,
 		IsExpanded:      library.IsSystemsNodeExpanded,
 		IsNodeClickable: true,
@@ -107,8 +107,6 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	for _, note := range library.RootNotes {
 		stager.treeNote(library, note, notesNode)
 	}
-
-
 
 	//
 	// SubLibraries

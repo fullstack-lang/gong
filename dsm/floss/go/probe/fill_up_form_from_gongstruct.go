@@ -45,32 +45,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.ComplexityShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "ComplexityShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ComplexityShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.DiagramFloss:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "DiagramFloss",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiagramFlossFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.DiagramFlossEquation:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -91,19 +65,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Effort",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__EffortFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.EffortShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "EffortShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__EffortShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -201,19 +162,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.PerformanceShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "PerformanceShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PerformanceShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.System:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -221,19 +169,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "System",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SystemFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.SystemShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "SystemShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SystemShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
