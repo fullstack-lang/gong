@@ -191,6 +191,8 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("AreQuantitativeElementsVisible", instanceWithInferedType.AreQuantitativeElementsVisible, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsShowPrefix", instanceWithInferedType.IsShowPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("DefaultBoxWidth", instanceWithInferedType.DefaultBoxWidth, instanceWithInferedType, probe.formStage, formGroup,
@@ -265,6 +267,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("AreQuantitativeElementsVisible", instanceWithInferedType.AreQuantitativeElementsVisible, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

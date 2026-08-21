@@ -409,6 +409,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsShowPrefix"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "DefaultBoxHeigth"))
@@ -463,6 +464,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))
@@ -1293,6 +1295,11 @@ func (diagramfloss *DiagramFloss) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramfloss.IsEditable_))
+	case "AreQuantitativeElementsVisible":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreQuantitativeElementsVisible")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramfloss.AreQuantitativeElementsVisible))
 	case "IsShowPrefix":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramfloss.GongGetIdentifier(stage))
@@ -1513,6 +1520,11 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallField(stage *Stage
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.IsEditable_))
+	case "AreQuantitativeElementsVisible":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AreQuantitativeElementsVisible")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramflossequation.AreQuantitativeElementsVisible))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramflossequation.GongGetIdentifier(stage))
@@ -2661,6 +2673,7 @@ func (diagramfloss *DiagramFloss) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "IsShowPrefix"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramfloss.GongMarshallField(stage, "DefaultBoxHeigth"))
@@ -2700,6 +2713,7 @@ func (diagramflossequation *DiagramFlossEquation) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramflossequation.GongMarshallField(stage, "Scale"))

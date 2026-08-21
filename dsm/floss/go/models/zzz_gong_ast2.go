@@ -618,6 +618,8 @@ func (u *DiagramFlossUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
+	case "AreQuantitativeElementsVisible":
+		instance.AreQuantitativeElementsVisible = GongExtractBool(valueExpr)
 	case "IsShowPrefix":
 		instance.IsShowPrefix = GongExtractBool(valueExpr)
 	case "DefaultBoxWidth":
@@ -703,6 +705,8 @@ func (u *DiagramFlossEquationUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
+	case "AreQuantitativeElementsVisible":
+		instance.AreQuantitativeElementsVisible = GongExtractBool(valueExpr)
 	case "Width":
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":

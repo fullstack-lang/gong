@@ -811,6 +811,8 @@ func (diagramflossFormCallback *DiagramFlossFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagramfloss_.IsChecked), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagramfloss_.IsEditable_), formDiv)
+		case "AreQuantitativeElementsVisible":
+			FormDivBasicFieldToField(&(diagramfloss_.AreQuantitativeElementsVisible), formDiv)
 		case "IsShowPrefix":
 			FormDivBasicFieldToField(&(diagramfloss_.IsShowPrefix), formDiv)
 		case "DefaultBoxWidth":
@@ -1425,6 +1427,8 @@ func (diagramflossequationFormCallback *DiagramFlossEquationFormCallback) OnSave
 			FormDivBasicFieldToField(&(diagramflossequation_.IsChecked), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagramflossequation_.IsEditable_), formDiv)
+		case "AreQuantitativeElementsVisible":
+			FormDivBasicFieldToField(&(diagramflossequation_.AreQuantitativeElementsVisible), formDiv)
 		case "Width":
 			FormDivBasicFieldToField(&(diagramflossequation_.Width), formDiv)
 		case "Height":

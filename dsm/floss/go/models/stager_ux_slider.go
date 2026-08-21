@@ -101,7 +101,7 @@ func (stager *Stager) ux_slider() {
 			"Alpha (α)",
 			0.1,
 			5.0,
-			0.1,
+			0.01,
 			&activeCompareAnalysis.Alpha,
 		),
 	)
@@ -155,7 +155,7 @@ func (stager *Stager) ux_slider() {
 			"Beta (β)",
 			0.0,
 			5.0,
-			0.05,
+			0.01,
 			&activeCompareAnalysis.Beta,
 		),
 	)

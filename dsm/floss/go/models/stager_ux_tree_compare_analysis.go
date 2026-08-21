@@ -93,6 +93,30 @@ func (stager *Stager) treeDiagramFlossEquation(
 
 	addRenameButton(diagram, diagramNode, stager)
 
+	// Button for visibility management of quantitative elements
+	{
+		quantButton := &tree.Button{
+			Name:            diagram.GetName() + " Quantitative Visibility",
+			Icon:            string(buttons.BUTTON_123),
+			ToolTipText:     "Show quantitative values",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				diagram.AreQuantitativeElementsVisible = !diagram.AreQuantitativeElementsVisible
+				stager.stage.Commit()
+			},
+		}
+		if diagram.AreQuantitativeElementsVisible {
+			quantButton.Icon = string(buttons.BUTTON_123)
+			quantButton.ToolTipText = "Hide quantitative values"
+		} else {
+			quantButton.Icon = string(buttons.BUTTON_visibility_off)
+			quantButton.ToolTipText = "Show quantitative values"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, quantButton)
+	}
+
+
 	diagramNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			for d_ := range *GetGongstructInstancesSet[DiagramFloss](stager.stage) {

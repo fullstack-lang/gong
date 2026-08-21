@@ -2778,6 +2778,9 @@ func (diagramfloss *DiagramFloss) GongDiff(stage *Stage, diagramflossOther *Diag
 	if diagramfloss.IsEditable_ != diagramflossOther.IsEditable_ {
 		diffs = append(diffs, diagramfloss.GongMarshallField(stage, "IsEditable_"))
 	}
+	if diagramfloss.AreQuantitativeElementsVisible != diagramflossOther.AreQuantitativeElementsVisible {
+		diffs = append(diffs, diagramfloss.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
+	}
 	if diagramfloss.IsShowPrefix != diagramflossOther.IsShowPrefix {
 		diffs = append(diffs, diagramfloss.GongMarshallField(stage, "IsShowPrefix"))
 	}
@@ -3106,6 +3109,9 @@ func (diagramflossequation *DiagramFlossEquation) GongDiff(stage *Stage, diagram
 	}
 	if diagramflossequation.IsEditable_ != diagramflossequationOther.IsEditable_ {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "IsEditable_"))
+	}
+	if diagramflossequation.AreQuantitativeElementsVisible != diagramflossequationOther.AreQuantitativeElementsVisible {
+		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "AreQuantitativeElementsVisible"))
 	}
 	if diagramflossequation.Width != diagramflossequationOther.Width {
 		diffs = append(diffs, diagramflossequation.GongMarshallField(stage, "Width"))

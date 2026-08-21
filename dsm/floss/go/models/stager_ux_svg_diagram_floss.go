@@ -1,9 +1,12 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
+
 
 
 func (stager *Stager) svg() {
@@ -188,6 +191,9 @@ func (stager *Stager) drawComplexityShapes(diagramFloss *DiagramFloss, layer *sv
 		title := new(svg.RectAnchoredText)
 		title.Name = complexityShape.Complexity.Name
 		content := complexityShape.Complexity.Name
+		if diagramFloss.AreQuantitativeElementsVisible && complexityShape.Complexity.Strength != 0 {
+			content = fmt.Sprintf("%s (%.1f)", complexityShape.Complexity.Name, complexityShape.Complexity.Strength)
+		}
 
 		root := stager.getRootLibrary()
 		nbPixPerChar := root.NbPixPerCharacter
@@ -262,6 +268,9 @@ func (stager *Stager) drawPerformanceShapes(diagramFloss *DiagramFloss, layer *s
 		title := new(svg.RectAnchoredText)
 		title.Name = performanceShape.Performance.Name
 		content := performanceShape.Performance.Name
+		if diagramFloss.AreQuantitativeElementsVisible && performanceShape.Performance.Strength != 0 {
+			content = fmt.Sprintf("%s (%.1f)", performanceShape.Performance.Name, performanceShape.Performance.Strength)
+		}
 
 		root := stager.getRootLibrary()
 		nbPixPerChar := root.NbPixPerCharacter
@@ -336,6 +345,9 @@ func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.La
 		title := new(svg.RectAnchoredText)
 		title.Name = effortShape.Effort.Name
 		content := effortShape.Effort.Name
+		if diagramFloss.AreQuantitativeElementsVisible && effortShape.Effort.Strength != 0 {
+			content = fmt.Sprintf("%s (%.1f)", effortShape.Effort.Name, effortShape.Effort.Strength)
+		}
 
 		root := stager.getRootLibrary()
 		nbPixPerChar := root.NbPixPerCharacter
@@ -360,6 +372,7 @@ func (stager *Stager) drawEffortShapes(diagramFloss *DiagramFloss, layer *svg.La
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 	}
 }
+
 
 func (stager *Stager) drawNoteShapes(diagramFloss *DiagramFloss, layer *svg.Layer) {
 	diagramFloss.map_Note_Rect = make(map[*Note]*svg.Rect)
