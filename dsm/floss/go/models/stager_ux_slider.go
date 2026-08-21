@@ -135,6 +135,13 @@ func (stager *Stager) ux_slider() {
 		return false
 	}
 
+	getSliderBounds := func(val float64) (min, max, step float64) {
+		if val <= 2.0 {
+			return 0.0, 2.0, 0.01
+		}
+		return 0.0, 100.0, 0.5
+	}
+
 	for _, c := range complexities {
 		sysOwner := cSysMap[c]
 		if sysOwner == nil && activeSystem != nil {
@@ -144,12 +151,13 @@ func (stager *Stager) ux_slider() {
 		if sysOwner != nil && activeSystem != nil && sysOwner != activeSystem {
 			label = fmt.Sprintf("[%s] %s", sysOwner.Name, c.Name)
 		}
+		min, max, step := getSliderBounds(c.Strength)
 		slider := m.NewSlider(
 			stager,
 			label,
-			0.0,
-			100.0,
-			0.5,
+			min,
+			max,
+			step,
 			&c.Strength,
 		)
 		if isElementDisabled(sysOwner) {
@@ -239,12 +247,13 @@ func (stager *Stager) ux_slider() {
 		if sysOwner != nil && activeSystem != nil && sysOwner != activeSystem {
 			label = fmt.Sprintf("[%s] %s", sysOwner.Name, p.Name)
 		}
+		min, max, step := getSliderBounds(p.Strength)
 		slider := m.NewSlider(
 			stager,
 			label,
-			0.0,
-			100.0,
-			0.5,
+			min,
+			max,
+			step,
 			&p.Strength,
 		)
 		if isElementDisabled(sysOwner) {
@@ -334,12 +343,13 @@ func (stager *Stager) ux_slider() {
 		if sysOwner != nil && activeSystem != nil && sysOwner != activeSystem {
 			label = fmt.Sprintf("[%s] %s", sysOwner.Name, e.Name)
 		}
+		min, max, step := getSliderBounds(e.Strength)
 		slider := m.NewSlider(
 			stager,
 			label,
-			0.0,
-			100.0,
-			0.5,
+			min,
+			max,
+			step,
 			&e.Strength,
 		)
 		if isElementDisabled(sysOwner) {

@@ -4090,6 +4090,10 @@ func (complexity *Complexity) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -4226,6 +4230,10 @@ func (effort *Effort) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Strength",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -4615,6 +4623,10 @@ func (performance *Performance) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -4841,6 +4853,8 @@ func (complexity *Complexity) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueString = fmt.Sprintf("%f", complexity.Strength)
 		res.valueFloat = complexity.Strength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Description":
+		res.valueString = complexity.Description
 	case "ComputedPrefix":
 		res.valueString = complexity.ComputedPrefix
 	case "IsExpanded":
@@ -5009,6 +5023,8 @@ func (effort *Effort) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%f", effort.Strength)
 		res.valueFloat = effort.Strength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Description":
+		res.valueString = effort.Description
 	case "ComputedPrefix":
 		res.valueString = effort.ComputedPrefix
 	case "IsExpanded":
@@ -5450,6 +5466,8 @@ func (performance *Performance) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%f", performance.Strength)
 		res.valueFloat = performance.Strength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Description":
+		res.valueString = performance.Description
 	case "ComputedPrefix":
 		res.valueString = performance.ComputedPrefix
 	case "IsExpanded":
@@ -5675,6 +5693,8 @@ func (complexity *Complexity) GongSetFieldValue(fieldName string, value GongFiel
 		complexity.Name = value.GetValueString()
 	case "Strength":
 		complexity.Strength = value.GetValueFloat()
+	case "Description":
+		complexity.Description = value.GetValueString()
 	case "ComputedPrefix":
 		complexity.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -5847,6 +5867,8 @@ func (effort *Effort) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		effort.Name = value.GetValueString()
 	case "Strength":
 		effort.Strength = value.GetValueFloat()
+	case "Description":
+		effort.Description = value.GetValueString()
 	case "ComputedPrefix":
 		effort.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -6331,6 +6353,8 @@ func (performance *Performance) GongSetFieldValue(fieldName string, value GongFi
 		performance.Name = value.GetValueString()
 	case "Strength":
 		performance.Strength = value.GetValueFloat()
+	case "Description":
+		performance.Description = value.GetValueString()
 	case "ComputedPrefix":
 		performance.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

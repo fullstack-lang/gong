@@ -532,6 +532,8 @@ func (u *ComplexityUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		instance.Name = GongExtractString(valueExpr)
 	case "Strength":
 		instance.Strength = GongExtractFloat(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -644,6 +646,8 @@ func (u *EffortUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.Name = GongExtractString(valueExpr)
 	case "Strength":
 		instance.Strength = GongExtractFloat(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -987,6 +991,8 @@ func (u *PerformanceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Name = GongExtractString(valueExpr)
 	case "Strength":
 		instance.Strength = GongExtractFloat(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

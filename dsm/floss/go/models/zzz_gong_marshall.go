@@ -343,6 +343,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Strength"))
+		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -422,6 +423,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "Strength"))
+		initializerStatements.WriteString(effort.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -674,6 +676,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "Strength"))
+		initializerStatements.WriteString(performance.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -968,6 +971,11 @@ func (complexity *Complexity) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{Identifier}}", complexity.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Strength")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", complexity.Strength))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", complexity.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(complexity.Description))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", complexity.GongGetIdentifier(stage))
@@ -1173,6 +1181,11 @@ func (effort *Effort) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", effort.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Strength")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", effort.Strength))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", effort.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(effort.Description))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", effort.GongGetIdentifier(stage))
@@ -1817,6 +1830,11 @@ func (performance *Performance) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", performance.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Strength")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", performance.Strength))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", performance.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(performance.Description))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", performance.GongGetIdentifier(stage))
@@ -2016,6 +2034,7 @@ func (complexity *Complexity) GongMarshallAllFields(stage *Stage) (initRes strin
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Strength"))
+		initializerStatements.WriteString(complexity.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(complexity.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -2065,6 +2084,7 @@ func (effort *Effort) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "Strength"))
+		initializerStatements.WriteString(effort.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(effort.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -2212,6 +2232,7 @@ func (performance *Performance) GongMarshallAllFields(stage *Stage) (initRes str
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "Strength"))
+		initializerStatements.WriteString(performance.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(performance.GongMarshallField(stage, "IsExpanded"))
 	}

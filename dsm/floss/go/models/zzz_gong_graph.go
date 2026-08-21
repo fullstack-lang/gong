@@ -2028,6 +2028,9 @@ func (complexity *Complexity) GongDiff(stage *Stage, complexityOther *Complexity
 	if complexity.Strength != complexityOther.Strength {
 		diffs = append(diffs, complexity.GongMarshallField(stage, "Strength"))
 	}
+	if complexity.Description != complexityOther.Description {
+		diffs = append(diffs, complexity.GongMarshallField(stage, "Description"))
+	}
 	if complexity.ComputedPrefix != complexityOther.ComputedPrefix {
 		diffs = append(diffs, complexity.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -2274,6 +2277,9 @@ func (effort *Effort) GongDiff(stage *Stage, effortOther *Effort) (diffs []strin
 	}
 	if effort.Strength != effortOther.Strength {
 		diffs = append(diffs, effort.GongMarshallField(stage, "Strength"))
+	}
+	if effort.Description != effortOther.Description {
+		diffs = append(diffs, effort.GongMarshallField(stage, "Description"))
 	}
 	if effort.ComputedPrefix != effortOther.ComputedPrefix {
 		diffs = append(diffs, effort.GongMarshallField(stage, "ComputedPrefix"))
@@ -2895,6 +2901,9 @@ func (performance *Performance) GongDiff(stage *Stage, performanceOther *Perform
 	}
 	if performance.Strength != performanceOther.Strength {
 		diffs = append(diffs, performance.GongMarshallField(stage, "Strength"))
+	}
+	if performance.Description != performanceOther.Description {
+		diffs = append(diffs, performance.GongMarshallField(stage, "Description"))
 	}
 	if performance.ComputedPrefix != performanceOther.ComputedPrefix {
 		diffs = append(diffs, performance.GongMarshallField(stage, "ComputedPrefix"))
