@@ -68,6 +68,100 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(complexity_.Name), formDiv)
 		case "Strength":
 			FormDivBasicFieldToField(&(complexity_.Strength), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(complexity_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(complexity_.IsExpanded), formDiv)
+		case "Library:RootComplexitys":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](complexityFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootComplexitys slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](complexityFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure complexity_ is in _library.RootComplexitys
+					found := false
+					for _, _b := range _library.RootComplexitys {
+						if _b == complexity_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootComplexitys = append(_library.RootComplexitys, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootComplexitys", &_library.RootComplexitys)
+					}
+				} else {
+					// ensure complexity_ is NOT in _library.RootComplexitys
+					idx := slices.Index(_library.RootComplexitys, complexity_)
+					if idx != -1 {
+						_library.RootComplexitys = slices.Delete(_library.RootComplexitys, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootComplexitys", &_library.RootComplexitys)
+					}
+				}
+			}
+		case "Library:ComplexitysWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](complexityFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their ComplexitysWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](complexityFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure complexity_ is in _library.ComplexitysWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _library.ComplexitysWhoseNodeIsExpanded {
+						if _b == complexity_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.ComplexitysWhoseNodeIsExpanded = append(_library.ComplexitysWhoseNodeIsExpanded, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_library, "ComplexitysWhoseNodeIsExpanded", &_library.ComplexitysWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure complexity_ is NOT in _library.ComplexitysWhoseNodeIsExpanded
+					idx := slices.Index(_library.ComplexitysWhoseNodeIsExpanded, complexity_)
+					if idx != -1 {
+						_library.ComplexitysWhoseNodeIsExpanded = slices.Delete(_library.ComplexitysWhoseNodeIsExpanded, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_library, "ComplexitysWhoseNodeIsExpanded", &_library.ComplexitysWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "System:Complexitys":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -110,6 +204,51 @@ func (complexityFormCallback *ComplexityFormCallback) OnSave() {
 					if idx != -1 {
 						_system.Complexitys = slices.Delete(_system.Complexitys, idx, idx+1)
 						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexitys", &_system.Complexitys)
+					}
+				}
+			}
+		case "System:ComplexitysWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](complexityFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSystemIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all System instances and update their ComplexitysWhoseNodeIsExpanded slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](complexityFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _system)
+				
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure complexity_ is in _system.ComplexitysWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _system.ComplexitysWhoseNodeIsExpanded {
+						if _b == complexity_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_system.ComplexitysWhoseNodeIsExpanded = append(_system.ComplexitysWhoseNodeIsExpanded, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "ComplexitysWhoseNodeIsExpanded", &_system.ComplexitysWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure complexity_ is NOT in _system.ComplexitysWhoseNodeIsExpanded
+					idx := slices.Index(_system.ComplexitysWhoseNodeIsExpanded, complexity_)
+					if idx != -1 {
+						_system.ComplexitysWhoseNodeIsExpanded = slices.Delete(_system.ComplexitysWhoseNodeIsExpanded, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "ComplexitysWhoseNodeIsExpanded", &_system.ComplexitysWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -447,6 +586,100 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(effort_.Name), formDiv)
 		case "Strength":
 			FormDivBasicFieldToField(&(effort_.Strength), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(effort_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(effort_.IsExpanded), formDiv)
+		case "Library:RootEfforts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](effortFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootEfforts slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](effortFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure effort_ is in _library.RootEfforts
+					found := false
+					for _, _b := range _library.RootEfforts {
+						if _b == effort_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootEfforts = append(_library.RootEfforts, effort_)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootEfforts", &_library.RootEfforts)
+					}
+				} else {
+					// ensure effort_ is NOT in _library.RootEfforts
+					idx := slices.Index(_library.RootEfforts, effort_)
+					if idx != -1 {
+						_library.RootEfforts = slices.Delete(_library.RootEfforts, idx, idx+1)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootEfforts", &_library.RootEfforts)
+					}
+				}
+			}
+		case "Library:EffortsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](effortFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their EffortsWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](effortFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure effort_ is in _library.EffortsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _library.EffortsWhoseNodeIsExpanded {
+						if _b == effort_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.EffortsWhoseNodeIsExpanded = append(_library.EffortsWhoseNodeIsExpanded, effort_)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_library, "EffortsWhoseNodeIsExpanded", &_library.EffortsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure effort_ is NOT in _library.EffortsWhoseNodeIsExpanded
+					idx := slices.Index(_library.EffortsWhoseNodeIsExpanded, effort_)
+					if idx != -1 {
+						_library.EffortsWhoseNodeIsExpanded = slices.Delete(_library.EffortsWhoseNodeIsExpanded, idx, idx+1)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_library, "EffortsWhoseNodeIsExpanded", &_library.EffortsWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "System:Efforts":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -489,6 +722,51 @@ func (effortFormCallback *EffortFormCallback) OnSave() {
 					if idx != -1 {
 						_system.Efforts = slices.Delete(_system.Efforts, idx, idx+1)
 						effortFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Efforts", &_system.Efforts)
+					}
+				}
+			}
+		case "System:EffortsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](effortFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSystemIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all System instances and update their EffortsWhoseNodeIsExpanded slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](effortFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _system)
+				
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure effort_ is in _system.EffortsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _system.EffortsWhoseNodeIsExpanded {
+						if _b == effort_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_system.EffortsWhoseNodeIsExpanded = append(_system.EffortsWhoseNodeIsExpanded, effort_)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_system, "EffortsWhoseNodeIsExpanded", &_system.EffortsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure effort_ is NOT in _system.EffortsWhoseNodeIsExpanded
+					idx := slices.Index(_system.EffortsWhoseNodeIsExpanded, effort_)
+					if idx != -1 {
+						_system.EffortsWhoseNodeIsExpanded = slices.Delete(_system.EffortsWhoseNodeIsExpanded, idx, idx+1)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_system, "EffortsWhoseNodeIsExpanded", &_system.EffortsWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -714,6 +992,204 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			library_.SystemsWhoseNodeIsExpanded = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SystemsWhoseNodeIsExpanded", &library_.SystemsWhoseNodeIsExpanded)
 
+		case "RootComplexitys":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Complexity, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Complexity)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Complexity](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootComplexitys = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootComplexitys", &library_.RootComplexitys)
+
+		case "IsComplexitysNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsComplexitysNodeExpanded), formDiv)
+		case "ComplexitysWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Complexity, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Complexity)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Complexity](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.ComplexitysWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ComplexitysWhoseNodeIsExpanded", &library_.ComplexitysWhoseNodeIsExpanded)
+
+		case "RootPerformances":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Performance, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Performance)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Performance](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootPerformances = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootPerformances", &library_.RootPerformances)
+
+		case "IsPerformancesNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsPerformancesNodeExpanded), formDiv)
+		case "PerformancesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Performance, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Performance)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Performance](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.PerformancesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "PerformancesWhoseNodeIsExpanded", &library_.PerformancesWhoseNodeIsExpanded)
+
+		case "RootEfforts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Effort, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Effort)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Effort](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootEfforts = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootEfforts", &library_.RootEfforts)
+
+		case "IsEffortsNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsEffortsNodeExpanded), formDiv)
+		case "EffortsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Effort, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Effort)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Effort](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.EffortsWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "EffortsWhoseNodeIsExpanded", &library_.EffortsWhoseNodeIsExpanded)
+
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
 		case "Library:SubLibraries":
@@ -886,6 +1362,100 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(performance_.Name), formDiv)
 		case "Strength":
 			FormDivBasicFieldToField(&(performance_.Strength), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(performance_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(performance_.IsExpanded), formDiv)
+		case "Library:RootPerformances":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](performanceFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootPerformances slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](performanceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure performance_ is in _library.RootPerformances
+					found := false
+					for _, _b := range _library.RootPerformances {
+						if _b == performance_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootPerformances = append(_library.RootPerformances, performance_)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootPerformances", &_library.RootPerformances)
+					}
+				} else {
+					// ensure performance_ is NOT in _library.RootPerformances
+					idx := slices.Index(_library.RootPerformances, performance_)
+					if idx != -1 {
+						_library.RootPerformances = slices.Delete(_library.RootPerformances, idx, idx+1)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootPerformances", &_library.RootPerformances)
+					}
+				}
+			}
+		case "Library:PerformancesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](performanceFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their PerformancesWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](performanceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure performance_ is in _library.PerformancesWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _library.PerformancesWhoseNodeIsExpanded {
+						if _b == performance_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.PerformancesWhoseNodeIsExpanded = append(_library.PerformancesWhoseNodeIsExpanded, performance_)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_library, "PerformancesWhoseNodeIsExpanded", &_library.PerformancesWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure performance_ is NOT in _library.PerformancesWhoseNodeIsExpanded
+					idx := slices.Index(_library.PerformancesWhoseNodeIsExpanded, performance_)
+					if idx != -1 {
+						_library.PerformancesWhoseNodeIsExpanded = slices.Delete(_library.PerformancesWhoseNodeIsExpanded, idx, idx+1)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_library, "PerformancesWhoseNodeIsExpanded", &_library.PerformancesWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "System:Performances":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -928,6 +1498,51 @@ func (performanceFormCallback *PerformanceFormCallback) OnSave() {
 					if idx != -1 {
 						_system.Performances = slices.Delete(_system.Performances, idx, idx+1)
 						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Performances", &_system.Performances)
+					}
+				}
+			}
+		case "System:PerformancesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](performanceFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSystemIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all System instances and update their PerformancesWhoseNodeIsExpanded slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](performanceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _system)
+				
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure performance_ is in _system.PerformancesWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _system.PerformancesWhoseNodeIsExpanded {
+						if _b == performance_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_system.PerformancesWhoseNodeIsExpanded = append(_system.PerformancesWhoseNodeIsExpanded, performance_)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_system, "PerformancesWhoseNodeIsExpanded", &_system.PerformancesWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure performance_ is NOT in _system.PerformancesWhoseNodeIsExpanded
+					idx := slices.Index(_system.PerformancesWhoseNodeIsExpanded, performance_)
+					if idx != -1 {
+						_system.PerformancesWhoseNodeIsExpanded = slices.Delete(_system.PerformancesWhoseNodeIsExpanded, idx, idx+1)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_system, "PerformancesWhoseNodeIsExpanded", &_system.PerformancesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -1212,6 +1827,108 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			}
 			system_.SubSystemes = instanceSlice
 			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "SubSystemes", &system_.SubSystemes)
+
+		case "IsComplexitysNodeExpanded":
+			FormDivBasicFieldToField(&(system_.IsComplexitysNodeExpanded), formDiv)
+		case "ComplexitysWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Complexity, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Complexity)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Complexity](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.ComplexitysWhoseNodeIsExpanded = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "ComplexitysWhoseNodeIsExpanded", &system_.ComplexitysWhoseNodeIsExpanded)
+
+		case "IsPerformancesNodeExpanded":
+			FormDivBasicFieldToField(&(system_.IsPerformancesNodeExpanded), formDiv)
+		case "PerformancesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Performance, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Performance)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Performance](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.PerformancesWhoseNodeIsExpanded = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "PerformancesWhoseNodeIsExpanded", &system_.PerformancesWhoseNodeIsExpanded)
+
+		case "IsEffortsNodeExpanded":
+			FormDivBasicFieldToField(&(system_.IsEffortsNodeExpanded), formDiv)
+		case "EffortsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Effort, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Effort)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Effort](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.EffortsWhoseNodeIsExpanded = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "EffortsWhoseNodeIsExpanded", &system_.EffortsWhoseNodeIsExpanded)
 
 		case "DiagramFloss:SystemsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramFloss instances

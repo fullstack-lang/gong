@@ -20,6 +20,64 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	if reattachToLibraryRoots(
 		stager,
+		func() []*Complexity {
+			roots := make([]*Complexity, 0)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootComplexitys...)
+			}
+			return roots
+		},
+		func(complexity *Complexity) {
+			complexity.GetOwningLibrary().RootComplexitys = append(complexity.GetOwningLibrary().RootComplexitys, complexity)
+		},
+		func(complexity *Complexity) []*Complexity {
+			return []*Complexity{}
+		},
+	) {
+		needCommit = true
+	}
+
+	if reattachToLibraryRoots(
+		stager,
+		func() []*Performance {
+			roots := make([]*Performance, 0)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootPerformances...)
+			}
+			return roots
+		},
+		func(performance *Performance) {
+			performance.GetOwningLibrary().RootPerformances = append(performance.GetOwningLibrary().RootPerformances, performance)
+		},
+		func(performance *Performance) []*Performance {
+			return []*Performance{}
+		},
+	) {
+		needCommit = true
+	}
+
+	if reattachToLibraryRoots(
+		stager,
+		func() []*Effort {
+			roots := make([]*Effort, 0)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootEfforts...)
+			}
+			return roots
+		},
+		func(effort *Effort) {
+			effort.GetOwningLibrary().RootEfforts = append(effort.GetOwningLibrary().RootEfforts, effort)
+		},
+		func(effort *Effort) []*Effort {
+			return []*Effort{}
+		},
+	) {
+		needCommit = true
+	}
+
+
+	if reattachToLibraryRoots(
+		stager,
 		func() []*Library {
 			return stager.getRootLibrary().SubLibraries
 		},

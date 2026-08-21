@@ -487,6 +487,10 @@ func (u *ComplexityUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		instance.Name = GongExtractString(valueExpr)
 	case "Strength":
 		instance.Strength = GongExtractFloat(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -573,6 +577,10 @@ func (u *EffortUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.Name = GongExtractString(valueExpr)
 	case "Strength":
 		instance.Strength = GongExtractFloat(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -626,6 +634,24 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsSystemesNodeExpanded = GongExtractBool(valueExpr)
 	case "SystemsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.SystemsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootComplexitys":
+		GongUnmarshallSliceOfPointers(&instance.RootComplexitys, valueExpr, identifierMap)
+	case "IsComplexitysNodeExpanded":
+		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
+	case "ComplexitysWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ComplexitysWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootPerformances":
+		GongUnmarshallSliceOfPointers(&instance.RootPerformances, valueExpr, identifierMap)
+	case "IsPerformancesNodeExpanded":
+		instance.IsPerformancesNodeExpanded = GongExtractBool(valueExpr)
+	case "PerformancesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.PerformancesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootEfforts":
+		GongUnmarshallSliceOfPointers(&instance.RootEfforts, valueExpr, identifierMap)
+	case "IsEffortsNodeExpanded":
+		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
+	case "EffortsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.EffortsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsExpandedTmp":
 		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	}
@@ -659,6 +685,10 @@ func (u *PerformanceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Name = GongExtractString(valueExpr)
 	case "Strength":
 		instance.Strength = GongExtractFloat(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -712,6 +742,18 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.IsSubSystemNodeExpanded = GongExtractBool(valueExpr)
 	case "SubSystemes":
 		GongUnmarshallSliceOfPointers(&instance.SubSystemes, valueExpr, identifierMap)
+	case "IsComplexitysNodeExpanded":
+		instance.IsComplexitysNodeExpanded = GongExtractBool(valueExpr)
+	case "ComplexitysWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ComplexitysWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsPerformancesNodeExpanded":
+		instance.IsPerformancesNodeExpanded = GongExtractBool(valueExpr)
+	case "PerformancesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.PerformancesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsEffortsNodeExpanded":
+		instance.IsEffortsNodeExpanded = GongExtractBool(valueExpr)
+	case "EffortsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.EffortsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -27,6 +27,15 @@ type System struct {
 
 	IsSubSystemNodeExpanded bool
 	SubSystemes             []*System
+
+	IsComplexitysNodeExpanded      bool
+	ComplexitysWhoseNodeIsExpanded []*Complexity
+
+	IsPerformancesNodeExpanded      bool
+	PerformancesWhoseNodeIsExpanded []*Performance
+
+	IsEffortsNodeExpanded      bool
+	EffortsWhoseNodeIsExpanded []*Effort
 }
 
 var _ AbstractType = (*System)(nil)
@@ -43,17 +52,33 @@ type Complexity struct {
 	Name string
 
 	Strength float64
+
+	LibraryAbstractFields
+	AbstractTypeFields
 }
+
+var _ AbstractType = (*Complexity)(nil)
 
 type Performance struct {
 	Name string
 
 	Strength float64
+
+	LibraryAbstractFields
+	AbstractTypeFields
 }
+
+var _ AbstractType = (*Performance)(nil)
 
 type Effort struct {
 	Name string
 
 	Strength float64
+
+	LibraryAbstractFields
+	AbstractTypeFields
 }
+
+var _ AbstractType = (*Effort)(nil)
+
 

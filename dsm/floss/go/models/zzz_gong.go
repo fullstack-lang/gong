@@ -198,6 +198,18 @@ type Stage struct {
 
 	Library_SystemsWhoseNodeIsExpanded_reverseMap map[*System]*Library
 
+	Library_RootComplexitys_reverseMap map[*Complexity]*Library
+
+	Library_ComplexitysWhoseNodeIsExpanded_reverseMap map[*Complexity]*Library
+
+	Library_RootPerformances_reverseMap map[*Performance]*Library
+
+	Library_PerformancesWhoseNodeIsExpanded_reverseMap map[*Performance]*Library
+
+	Library_RootEfforts_reverseMap map[*Effort]*Library
+
+	Library_EffortsWhoseNodeIsExpanded_reverseMap map[*Effort]*Library
+
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
@@ -239,6 +251,12 @@ type Stage struct {
 	System_DiagramFlossWhoseNodeIsExpanded_reverseMap map[*DiagramFloss]*System
 
 	System_SubSystemes_reverseMap map[*System]*System
+
+	System_ComplexitysWhoseNodeIsExpanded_reverseMap map[*Complexity]*System
+
+	System_PerformancesWhoseNodeIsExpanded_reverseMap map[*Performance]*System
+
+	System_EffortsWhoseNodeIsExpanded_reverseMap map[*Effort]*System
 
 	OnAfterSystemCreateCallback OnAfterCreateInterface[System]
 	OnAfterSystemUpdateCallback OnAfterUpdateInterface[System]
@@ -2178,6 +2196,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootSystemes: []*System{{Name: "RootSystemes"}},
 			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Complexity with the name of the field
+			RootComplexitys: []*Complexity{{Name: "RootComplexitys"}},
+			// field is initialized with an instance of Complexity with the name of the field
+			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Performance with the name of the field
+			RootPerformances: []*Performance{{Name: "RootPerformances"}},
+			// field is initialized with an instance of Performance with the name of the field
+			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Effort with the name of the field
+			RootEfforts: []*Effort{{Name: "RootEfforts"}},
+			// field is initialized with an instance of Effort with the name of the field
+			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Performance:
 		return any(&Performance{
@@ -2198,6 +2228,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			DiagramFlossWhoseNodeIsExpanded: []*DiagramFloss{{Name: "DiagramFlossWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of System with the name of the field
 			SubSystemes: []*System{{Name: "SubSystemes"}},
+			// field is initialized with an instance of Complexity with the name of the field
+			ComplexitysWhoseNodeIsExpanded: []*Complexity{{Name: "ComplexitysWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Performance with the name of the field
+			PerformancesWhoseNodeIsExpanded: []*Performance{{Name: "PerformancesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Effort with the name of the field
+			EffortsWhoseNodeIsExpanded: []*Effort{{Name: "EffortsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case SystemShape:
 		return any(&SystemShape{
@@ -2356,6 +2392,54 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootComplexitys":
+			res := make(map[*Complexity][]*Library)
+			for library := range stage.Librarys {
+				for _, complexity_ := range library.RootComplexitys {
+					res[complexity_] = append(res[complexity_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ComplexitysWhoseNodeIsExpanded":
+			res := make(map[*Complexity][]*Library)
+			for library := range stage.Librarys {
+				for _, complexity_ := range library.ComplexitysWhoseNodeIsExpanded {
+					res[complexity_] = append(res[complexity_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootPerformances":
+			res := make(map[*Performance][]*Library)
+			for library := range stage.Librarys {
+				for _, performance_ := range library.RootPerformances {
+					res[performance_] = append(res[performance_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PerformancesWhoseNodeIsExpanded":
+			res := make(map[*Performance][]*Library)
+			for library := range stage.Librarys {
+				for _, performance_ := range library.PerformancesWhoseNodeIsExpanded {
+					res[performance_] = append(res[performance_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootEfforts":
+			res := make(map[*Effort][]*Library)
+			for library := range stage.Librarys {
+				for _, effort_ := range library.RootEfforts {
+					res[effort_] = append(res[effort_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EffortsWhoseNodeIsExpanded":
+			res := make(map[*Effort][]*Library)
+			for library := range stage.Librarys {
+				for _, effort_ := range library.EffortsWhoseNodeIsExpanded {
+					res[effort_] = append(res[effort_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Performance
 	case Performance:
@@ -2414,6 +2498,30 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ComplexitysWhoseNodeIsExpanded":
+			res := make(map[*Complexity][]*System)
+			for system := range stage.Systems {
+				for _, complexity_ := range system.ComplexitysWhoseNodeIsExpanded {
+					res[complexity_] = append(res[complexity_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PerformancesWhoseNodeIsExpanded":
+			res := make(map[*Performance][]*System)
+			for system := range stage.Systems {
+				for _, performance_ := range system.PerformancesWhoseNodeIsExpanded {
+					res[performance_] = append(res[performance_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EffortsWhoseNodeIsExpanded":
+			res := make(map[*Effort][]*System)
+			for system := range stage.Systems {
+				for _, effort_ := range system.EffortsWhoseNodeIsExpanded {
+					res[effort_] = append(res[effort_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of SystemShape
 	case SystemShape:
@@ -2465,8 +2573,17 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Complexity:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootComplexitys"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "ComplexitysWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "System"
 		rf.Fieldname = "Complexitys"
+		res = append(res, rf)
+		rf.GongstructName = "System"
+		rf.Fieldname = "ComplexitysWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *DiagramFloss:
 		var rf ReverseField
@@ -2480,8 +2597,17 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Effort:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootEfforts"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "EffortsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "System"
 		rf.Fieldname = "Efforts"
+		res = append(res, rf)
+		rf.GongstructName = "System"
+		rf.Fieldname = "EffortsWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
@@ -2495,8 +2621,17 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Performance:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootPerformances"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "PerformancesWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "System"
 		rf.Fieldname = "Performances"
+		res = append(res, rf)
+		rf.GongstructName = "System"
+		rf.Fieldname = "PerformancesWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *System:
 		var rf ReverseField
@@ -2534,6 +2669,14 @@ func (complexity *Complexity) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Strength",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -2615,6 +2758,14 @@ func (effort *Effort) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Strength",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2679,6 +2830,48 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "System",
 		},
 		{
+			Name:                 "RootComplexitys",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:               "IsComplexitysNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ComplexitysWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:                 "RootPerformances",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:               "IsPerformancesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "PerformancesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:                 "RootEfforts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
+		},
+		{
+			Name:               "IsEffortsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EffortsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
+		},
+		{
 			Name:               "IsExpandedTmp",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -2696,6 +2889,14 @@ func (performance *Performance) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Strength",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -2761,6 +2962,33 @@ func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "SubSystemes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "System",
+		},
+		{
+			Name:               "IsComplexitysNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ComplexitysWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:               "IsPerformancesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "PerformancesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:               "IsEffortsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "EffortsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
 		},
 	}
 	return
@@ -2870,6 +3098,12 @@ func (complexity *Complexity) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueString = fmt.Sprintf("%f", complexity.Strength)
 		res.valueFloat = complexity.Strength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ComputedPrefix":
+		res.valueString = complexity.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", complexity.IsExpanded)
+		res.valueBool = complexity.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2952,6 +3186,12 @@ func (effort *Effort) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%f", effort.Strength)
 		res.valueFloat = effort.Strength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ComputedPrefix":
+		res.valueString = effort.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", effort.IsExpanded)
+		res.valueBool = effort.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3027,6 +3267,78 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RootComplexitys":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootComplexitys {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsComplexitysNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsComplexitysNodeExpanded)
+		res.valueBool = library.IsComplexitysNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComplexitysWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.ComplexitysWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootPerformances":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootPerformances {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsPerformancesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsPerformancesNodeExpanded)
+		res.valueBool = library.IsPerformancesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "PerformancesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.PerformancesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootEfforts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootEfforts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsEffortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsEffortsNodeExpanded)
+		res.valueBool = library.IsEffortsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EffortsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.EffortsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsExpandedTmp":
 		res.valueString = fmt.Sprintf("%t", library.IsExpandedTmp)
 		res.valueBool = library.IsExpandedTmp
@@ -3044,6 +3356,12 @@ func (performance *Performance) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%f", performance.Strength)
 		res.valueFloat = performance.Strength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ComputedPrefix":
+		res.valueString = performance.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", performance.IsExpanded)
+		res.valueBool = performance.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3131,6 +3449,48 @@ func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsComplexitysNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", system.IsComplexitysNodeExpanded)
+		res.valueBool = system.IsComplexitysNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComplexitysWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.ComplexitysWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsPerformancesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", system.IsPerformancesNodeExpanded)
+		res.valueBool = system.IsPerformancesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "PerformancesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.PerformancesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsEffortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", system.IsEffortsNodeExpanded)
+		res.valueBool = system.IsEffortsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "EffortsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.EffortsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -3187,6 +3547,10 @@ func (complexity *Complexity) GongSetFieldValue(fieldName string, value GongFiel
 		complexity.Name = value.GetValueString()
 	case "Strength":
 		complexity.Strength = value.GetValueFloat()
+	case "ComputedPrefix":
+		complexity.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		complexity.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3261,6 +3625,10 @@ func (effort *Effort) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		effort.Name = value.GetValueString()
 	case "Strength":
 		effort.Strength = value.GetValueFloat()
+	case "ComputedPrefix":
+		effort.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		effort.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3344,6 +3712,96 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootComplexitys":
+		library.RootComplexitys = make([]*Complexity, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Complexitys {
+					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
+						library.RootComplexitys = append(library.RootComplexitys, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsComplexitysNodeExpanded":
+		library.IsComplexitysNodeExpanded = value.GetValueBool()
+	case "ComplexitysWhoseNodeIsExpanded":
+		library.ComplexitysWhoseNodeIsExpanded = make([]*Complexity, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Complexitys {
+					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
+						library.ComplexitysWhoseNodeIsExpanded = append(library.ComplexitysWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootPerformances":
+		library.RootPerformances = make([]*Performance, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Performances {
+					if stage.Performance_stagedOrder[__instance__] == uint(id) {
+						library.RootPerformances = append(library.RootPerformances, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsPerformancesNodeExpanded":
+		library.IsPerformancesNodeExpanded = value.GetValueBool()
+	case "PerformancesWhoseNodeIsExpanded":
+		library.PerformancesWhoseNodeIsExpanded = make([]*Performance, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Performances {
+					if stage.Performance_stagedOrder[__instance__] == uint(id) {
+						library.PerformancesWhoseNodeIsExpanded = append(library.PerformancesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootEfforts":
+		library.RootEfforts = make([]*Effort, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Efforts {
+					if stage.Effort_stagedOrder[__instance__] == uint(id) {
+						library.RootEfforts = append(library.RootEfforts, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsEffortsNodeExpanded":
+		library.IsEffortsNodeExpanded = value.GetValueBool()
+	case "EffortsWhoseNodeIsExpanded":
+		library.EffortsWhoseNodeIsExpanded = make([]*Effort, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Efforts {
+					if stage.Effort_stagedOrder[__instance__] == uint(id) {
+						library.EffortsWhoseNodeIsExpanded = append(library.EffortsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsExpandedTmp":
 		library.IsExpandedTmp = value.GetValueBool()
 	default:
@@ -3359,6 +3817,10 @@ func (performance *Performance) GongSetFieldValue(fieldName string, value GongFi
 		performance.Name = value.GetValueString()
 	case "Strength":
 		performance.Strength = value.GetValueFloat()
+	case "ComputedPrefix":
+		performance.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		performance.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3461,6 +3923,54 @@ func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, 
 				for __instance__ := range stage.Systems {
 					if stage.System_stagedOrder[__instance__] == uint(id) {
 						system.SubSystemes = append(system.SubSystemes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsComplexitysNodeExpanded":
+		system.IsComplexitysNodeExpanded = value.GetValueBool()
+	case "ComplexitysWhoseNodeIsExpanded":
+		system.ComplexitysWhoseNodeIsExpanded = make([]*Complexity, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Complexitys {
+					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
+						system.ComplexitysWhoseNodeIsExpanded = append(system.ComplexitysWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsPerformancesNodeExpanded":
+		system.IsPerformancesNodeExpanded = value.GetValueBool()
+	case "PerformancesWhoseNodeIsExpanded":
+		system.PerformancesWhoseNodeIsExpanded = make([]*Performance, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Performances {
+					if stage.Performance_stagedOrder[__instance__] == uint(id) {
+						system.PerformancesWhoseNodeIsExpanded = append(system.PerformancesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsEffortsNodeExpanded":
+		system.IsEffortsNodeExpanded = value.GetValueBool()
+	case "EffortsWhoseNodeIsExpanded":
+		system.EffortsWhoseNodeIsExpanded = make([]*Effort, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Efforts {
+					if stage.Effort_stagedOrder[__instance__] == uint(id) {
+						system.EffortsWhoseNodeIsExpanded = append(system.EffortsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}

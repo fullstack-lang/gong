@@ -15,12 +15,18 @@ type Complexity_WOP struct {
 	Name string
 
 	Strength float64
+
+	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *Complexity) CopyBasicFields(to *Complexity) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 type DiagramFloss_WOP struct {
@@ -73,12 +79,18 @@ type Effort_WOP struct {
 	Name string
 
 	Strength float64
+
+	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *Effort) CopyBasicFields(to *Effort) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 type Library_WOP struct {
@@ -102,6 +114,12 @@ type Library_WOP struct {
 
 	IsSystemesNodeExpanded bool
 
+	IsComplexitysNodeExpanded bool
+
+	IsPerformancesNodeExpanded bool
+
+	IsEffortsNodeExpanded bool
+
 	IsExpandedTmp bool
 }
 
@@ -116,6 +134,9 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
 	to.IsSystemesNodeExpanded = from.IsSystemesNodeExpanded
+	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
+	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
+	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
 
@@ -125,12 +146,18 @@ type Performance_WOP struct {
 	Name string
 
 	Strength float64
+
+	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *Performance) CopyBasicFields(to *Performance) {
 	// insertion point
 	to.Name = from.Name
 	to.Strength = from.Strength
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 type System_WOP struct {
@@ -149,6 +176,12 @@ type System_WOP struct {
 	InverseAppliedScaling float64
 
 	IsSubSystemNodeExpanded bool
+
+	IsComplexitysNodeExpanded bool
+
+	IsPerformancesNodeExpanded bool
+
+	IsEffortsNodeExpanded bool
 }
 
 func (from *System) CopyBasicFields(to *System) {
@@ -160,6 +193,9 @@ func (from *System) CopyBasicFields(to *System) {
 	to.SVG_Path = from.SVG_Path
 	to.InverseAppliedScaling = from.InverseAppliedScaling
 	to.IsSubSystemNodeExpanded = from.IsSubSystemNodeExpanded
+	to.IsComplexitysNodeExpanded = from.IsComplexitysNodeExpanded
+	to.IsPerformancesNodeExpanded = from.IsPerformancesNodeExpanded
+	to.IsEffortsNodeExpanded = from.IsEffortsNodeExpanded
 }
 
 type SystemShape_WOP struct {
