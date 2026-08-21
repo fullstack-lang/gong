@@ -15,17 +15,35 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ComplexityFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Complexity", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.complexity, probe)
+			}
 		case *DiagramFlossFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "DiagramFloss", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.diagramfloss, probe)
 			}
+		case *EffortFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Effort", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.effort, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.library, probe)
+			}
+		case *PerformanceFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Performance", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.performance, probe)
 			}
 		case *SystemFormCallback:
 			if onSave.CreationMode {
@@ -61,6 +79,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "Complexity":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Complexity Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ComplexityFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		complexity := new(models.Complexity)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(complexity, formGroup, probe)
 	case "DiagramFloss":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -74,6 +105,19 @@ func FillUpFormFromGongstructName(
 		diagramfloss := new(models.DiagramFloss)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagramfloss, formGroup, probe)
+	case "Effort":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Effort Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__EffortFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		effort := new(models.Effort)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(effort, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -87,6 +131,19 @@ func FillUpFormFromGongstructName(
 		library := new(models.Library)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(library, formGroup, probe)
+	case "Performance":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Performance Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PerformanceFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		performance := new(models.Performance)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(performance, formGroup, probe)
 	case "System":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

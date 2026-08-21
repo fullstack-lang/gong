@@ -131,6 +131,21 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	Complexitys                map[*Complexity]struct{}
+	Complexitys_instance       map[*Complexity]*Complexity
+	Complexitys_mapString      map[string]*Complexity
+	ComplexityOrder            uint
+	Complexity_stagedOrder     map[*Complexity]uint
+	Complexity_orderStaged     map[uint]*Complexity
+	Complexitys_reference      map[*Complexity]*Complexity
+	Complexitys_referenceOrder map[*Complexity]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterComplexityCreateCallback OnAfterCreateInterface[Complexity]
+	OnAfterComplexityUpdateCallback OnAfterUpdateInterface[Complexity]
+	OnAfterComplexityDeleteCallback OnAfterDeleteInterface[Complexity]
+	OnAfterComplexityReadCallback   OnAfterReadInterface[Complexity]
+
 	DiagramFlosss                map[*DiagramFloss]struct{}
 	DiagramFlosss_instance       map[*DiagramFloss]*DiagramFloss
 	DiagramFlosss_mapString      map[string]*DiagramFloss
@@ -149,6 +164,21 @@ type Stage struct {
 	OnAfterDiagramFlossUpdateCallback OnAfterUpdateInterface[DiagramFloss]
 	OnAfterDiagramFlossDeleteCallback OnAfterDeleteInterface[DiagramFloss]
 	OnAfterDiagramFlossReadCallback   OnAfterReadInterface[DiagramFloss]
+
+	Efforts                map[*Effort]struct{}
+	Efforts_instance       map[*Effort]*Effort
+	Efforts_mapString      map[string]*Effort
+	EffortOrder            uint
+	Effort_stagedOrder     map[*Effort]uint
+	Effort_orderStaged     map[uint]*Effort
+	Efforts_reference      map[*Effort]*Effort
+	Efforts_referenceOrder map[*Effort]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterEffortCreateCallback OnAfterCreateInterface[Effort]
+	OnAfterEffortUpdateCallback OnAfterUpdateInterface[Effort]
+	OnAfterEffortDeleteCallback OnAfterDeleteInterface[Effort]
+	OnAfterEffortReadCallback   OnAfterReadInterface[Effort]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -173,6 +203,21 @@ type Stage struct {
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
 	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
 
+	Performances                map[*Performance]struct{}
+	Performances_instance       map[*Performance]*Performance
+	Performances_mapString      map[string]*Performance
+	PerformanceOrder            uint
+	Performance_stagedOrder     map[*Performance]uint
+	Performance_orderStaged     map[uint]*Performance
+	Performances_reference      map[*Performance]*Performance
+	Performances_referenceOrder map[*Performance]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPerformanceCreateCallback OnAfterCreateInterface[Performance]
+	OnAfterPerformanceUpdateCallback OnAfterUpdateInterface[Performance]
+	OnAfterPerformanceDeleteCallback OnAfterDeleteInterface[Performance]
+	OnAfterPerformanceReadCallback   OnAfterReadInterface[Performance]
+
 	Systems                map[*System]struct{}
 	Systems_instance       map[*System]*System
 	Systems_mapString      map[string]*System
@@ -183,6 +228,12 @@ type Stage struct {
 	Systems_referenceOrder map[*System]uint
 
 	// insertion point for slice of pointers maps
+	System_Complexitys_reverseMap map[*Complexity]*System
+
+	System_Performances_reverseMap map[*Performance]*System
+
+	System_Efforts_reverseMap map[*Effort]*System
+
 	System_DiagramFlosses_reverseMap map[*DiagramFloss]*System
 
 	System_DiagramFlossWhoseNodeIsExpanded_reverseMap map[*DiagramFloss]*System
@@ -445,13 +496,25 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.Complexitys_reference = make(map[*Complexity]*Complexity)
+	stage.Complexitys_instance = make(map[*Complexity]*Complexity)
+	stage.Complexitys_referenceOrder = make(map[*Complexity]uint)
+
 	stage.DiagramFlosss_reference = make(map[*DiagramFloss]*DiagramFloss)
 	stage.DiagramFlosss_instance = make(map[*DiagramFloss]*DiagramFloss)
 	stage.DiagramFlosss_referenceOrder = make(map[*DiagramFloss]uint)
 
+	stage.Efforts_reference = make(map[*Effort]*Effort)
+	stage.Efforts_instance = make(map[*Effort]*Effort)
+	stage.Efforts_referenceOrder = make(map[*Effort]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
+
+	stage.Performances_reference = make(map[*Performance]*Performance)
+	stage.Performances_instance = make(map[*Performance]*Performance)
+	stage.Performances_referenceOrder = make(map[*Performance]uint)
 
 	stage.Systems_reference = make(map[*System]*System)
 	stage.Systems_instance = make(map[*System]*System)
@@ -488,6 +551,20 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxComplexityOrder uint
+	var foundComplexity bool
+	for _, order := range stage.Complexity_stagedOrder {
+		if !foundComplexity || order > maxComplexityOrder {
+			maxComplexityOrder = order
+			foundComplexity = true
+		}
+	}
+	if foundComplexity {
+		stage.ComplexityOrder = maxComplexityOrder + 1
+	} else {
+		stage.ComplexityOrder = 0
+	}
+
 	var maxDiagramFlossOrder uint
 	var foundDiagramFloss bool
 	for _, order := range stage.DiagramFloss_stagedOrder {
@@ -502,6 +579,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.DiagramFlossOrder = 0
 	}
 
+	var maxEffortOrder uint
+	var foundEffort bool
+	for _, order := range stage.Effort_stagedOrder {
+		if !foundEffort || order > maxEffortOrder {
+			maxEffortOrder = order
+			foundEffort = true
+		}
+	}
+	if foundEffort {
+		stage.EffortOrder = maxEffortOrder + 1
+	} else {
+		stage.EffortOrder = 0
+	}
+
 	var maxLibraryOrder uint
 	var foundLibrary bool
 	for _, order := range stage.Library_stagedOrder {
@@ -514,6 +605,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.LibraryOrder = maxLibraryOrder + 1
 	} else {
 		stage.LibraryOrder = 0
+	}
+
+	var maxPerformanceOrder uint
+	var foundPerformance bool
+	for _, order := range stage.Performance_stagedOrder {
+		if !foundPerformance || order > maxPerformanceOrder {
+			maxPerformanceOrder = order
+			foundPerformance = true
+		}
+	}
+	if foundPerformance {
+		stage.PerformanceOrder = maxPerformanceOrder + 1
+	} else {
+		stage.PerformanceOrder = 0
 	}
 
 	var maxSystemOrder uint
@@ -605,6 +710,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *Complexity:
+		tmp := GetStructInstancesByOrder(stage.Complexitys, stage.Complexity_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Complexity implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *DiagramFloss:
 		tmp := GetStructInstancesByOrder(stage.DiagramFlosss, stage.DiagramFloss_stagedOrder)
 
@@ -619,6 +738,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Effort:
+		tmp := GetStructInstancesByOrder(stage.Efforts, stage.Effort_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Effort implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -630,6 +763,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Library implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Performance:
+		tmp := GetStructInstancesByOrder(stage.Performances, stage.Performance_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Performance implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -690,10 +837,16 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "Complexity":
+		res = GetNamedStructInstances(stage.Complexitys, stage.Complexity_stagedOrder)
 	case "DiagramFloss":
 		res = GetNamedStructInstances(stage.DiagramFlosss, stage.DiagramFloss_stagedOrder)
+	case "Effort":
+		res = GetNamedStructInstances(stage.Efforts, stage.Effort_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
+	case "Performance":
+		res = GetNamedStructInstances(stage.Performances, stage.Performance_stagedOrder)
 	case "System":
 		res = GetNamedStructInstances(stage.Systems, stage.System_stagedOrder)
 	case "SystemShape":
@@ -767,10 +920,16 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitComplexity(complexity *Complexity)
+	CheckoutComplexity(complexity *Complexity)
 	CommitDiagramFloss(diagramfloss *DiagramFloss)
 	CheckoutDiagramFloss(diagramfloss *DiagramFloss)
+	CommitEffort(effort *Effort)
+	CheckoutEffort(effort *Effort)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
+	CommitPerformance(performance *Performance)
+	CheckoutPerformance(performance *Performance)
 	CommitSystem(system *System)
 	CheckoutSystem(system *System)
 	CommitSystemShape(systemshape *SystemShape)
@@ -781,11 +940,20 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		Complexitys:           make(map[*Complexity]struct{}),
+		Complexitys_mapString: make(map[string]*Complexity),
+
 		DiagramFlosss:           make(map[*DiagramFloss]struct{}),
 		DiagramFlosss_mapString: make(map[string]*DiagramFloss),
 
+		Efforts:           make(map[*Effort]struct{}),
+		Efforts_mapString: make(map[string]*Effort),
+
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
+
+		Performances:           make(map[*Performance]struct{}),
+		Performances_mapString: make(map[string]*Performance),
 
 		Systems:           make(map[*System]struct{}),
 		Systems_mapString: make(map[string]*System),
@@ -803,13 +971,25 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		Complexity_stagedOrder: make(map[*Complexity]uint),
+		Complexity_orderStaged: make(map[uint]*Complexity),
+		Complexitys_reference:  make(map[*Complexity]*Complexity),
+
 		DiagramFloss_stagedOrder: make(map[*DiagramFloss]uint),
 		DiagramFloss_orderStaged: make(map[uint]*DiagramFloss),
 		DiagramFlosss_reference:  make(map[*DiagramFloss]*DiagramFloss),
 
+		Effort_stagedOrder: make(map[*Effort]uint),
+		Effort_orderStaged: make(map[uint]*Effort),
+		Efforts_reference:  make(map[*Effort]*Effort),
+
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
+
+		Performance_stagedOrder: make(map[*Performance]uint),
+		Performance_orderStaged: make(map[uint]*Performance),
+		Performances_reference:  make(map[*Performance]*Performance),
 
 		System_stagedOrder: make(map[*System]uint),
 		System_orderStaged: make(map[uint]*System),
@@ -821,9 +1001,15 @@ func NewStage(name string) (stage *Stage) {
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Complexity": &ComplexityUnmarshaller{},
+
 			"DiagramFloss": &DiagramFlossUnmarshaller{},
 
+			"Effort": &EffortUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
+
+			"Performance": &PerformanceUnmarshaller{},
 
 			"System": &SystemUnmarshaller{},
 
@@ -833,8 +1019,11 @@ func NewStage(name string) (stage *Stage) {
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "Complexity"},
 			{name: "DiagramFloss"},
+			{name: "Effort"},
 			{name: "Library"},
+			{name: "Performance"},
 			{name: "System"},
 			{name: "SystemShape"},
 		}, // end of insertion point
@@ -848,10 +1037,16 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Complexity:
+		return stage.Complexity_stagedOrder[instance]
 	case *DiagramFloss:
 		return stage.DiagramFloss_stagedOrder[instance]
+	case *Effort:
+		return stage.Effort_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *Performance:
+		return stage.Performance_stagedOrder[instance]
 	case *System:
 		return stage.System_stagedOrder[instance]
 	case *SystemShape:
@@ -865,10 +1060,16 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
+	case *Complexity:
+		return any(stage.Complexity_orderStaged[order]).(Type)
 	case *DiagramFloss:
 		return any(stage.DiagramFloss_orderStaged[order]).(Type)
+	case *Effort:
+		return any(stage.Effort_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
+	case *Performance:
+		return any(stage.Performance_orderStaged[order]).(Type)
 	case *System:
 		return any(stage.System_orderStaged[order]).(Type)
 	case *SystemShape:
@@ -881,10 +1082,16 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Complexity:
+		return stage.Complexity_stagedOrder[instance]
 	case *DiagramFloss:
 		return stage.DiagramFloss_stagedOrder[instance]
+	case *Effort:
+		return stage.Effort_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *Performance:
+		return stage.Performance_stagedOrder[instance]
 	case *System:
 		return stage.System_stagedOrder[instance]
 	case *SystemShape:
@@ -954,8 +1161,11 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Complexity"] = len(stage.Complexitys)
 	stage.Map_GongStructName_InstancesNb["DiagramFloss"] = len(stage.DiagramFlosss)
+	stage.Map_GongStructName_InstancesNb["Effort"] = len(stage.Efforts)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
+	stage.Map_GongStructName_InstancesNb["Performance"] = len(stage.Performances)
 	stage.Map_GongStructName_InstancesNb["System"] = len(stage.Systems)
 	stage.Map_GongStructName_InstancesNb["SystemShape"] = len(stage.SystemShapes)
 }
@@ -998,6 +1208,94 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts complexity to the model stage
+func (complexity *Complexity) Stage(stage *Stage) *Complexity {
+	if _, ok := stage.Complexitys[complexity]; !ok {
+		stage.Complexitys[complexity] = struct{}{}
+		stage.Complexity_stagedOrder[complexity] = stage.ComplexityOrder
+		stage.Complexity_orderStaged[stage.ComplexityOrder] = complexity
+		stage.ComplexityOrder++
+	}
+	stage.Complexitys_mapString[complexity.Name] = complexity
+
+	return complexity
+}
+
+// StagePreserveOrder puts complexity to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ComplexityOrder
+// - update stage.ComplexityOrder accordingly
+func (complexity *Complexity) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Complexitys[complexity]; !ok {
+		stage.Complexitys[complexity] = struct{}{}
+
+		if order > stage.ComplexityOrder {
+			stage.ComplexityOrder = order
+		}
+		stage.Complexity_stagedOrder[complexity] = order
+		stage.Complexity_orderStaged[order] = complexity
+		stage.ComplexityOrder++
+	}
+	stage.Complexitys_mapString[complexity.Name] = complexity
+}
+
+// Unstage removes complexity off the model stage
+func (complexity *Complexity) Unstage(stage *Stage) *Complexity {
+	delete(stage.Complexitys, complexity)
+	// issue1150
+	// delete(stage.Complexity_stagedOrder, complexity)
+	delete(stage.Complexitys_mapString, complexity.Name)
+
+	return complexity
+}
+
+// UnstageVoid removes complexity off the model stage
+func (complexity *Complexity) UnstageVoid(stage *Stage) {
+	delete(stage.Complexitys, complexity)
+	// issue1150
+	// delete(stage.Complexity_stagedOrder, complexity)
+	delete(stage.Complexitys_mapString, complexity.Name)
+}
+
+// commit complexity to the back repo (if it is already staged)
+func (complexity *Complexity) Commit(stage *Stage) *Complexity {
+	if _, ok := stage.Complexitys[complexity]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitComplexity(complexity)
+		}
+	}
+	return complexity
+}
+
+func (complexity *Complexity) CommitVoid(stage *Stage) {
+	complexity.Commit(stage)
+}
+
+func (complexity *Complexity) StageVoid(stage *Stage) {
+	complexity.Stage(stage)
+}
+
+// Checkout complexity to the back repo (if it is already staged)
+func (complexity *Complexity) Checkout(stage *Stage) *Complexity {
+	if _, ok := stage.Complexitys[complexity]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutComplexity(complexity)
+		}
+	}
+	return complexity
+}
+
+// for satisfaction of GongStruct interface
+func (complexity *Complexity) GetName() (res string) {
+	return complexity.Name
+}
+
+// for satisfaction of GongStruct interface
+func (complexity *Complexity) SetName(name string) {
+	complexity.Name = name
+}
+
 // Stage puts diagramfloss to the model stage
 func (diagramfloss *DiagramFloss) Stage(stage *Stage) *DiagramFloss {
 	if _, ok := stage.DiagramFlosss[diagramfloss]; !ok {
@@ -1086,6 +1384,94 @@ func (diagramfloss *DiagramFloss) SetName(name string) {
 	diagramfloss.Name = name
 }
 
+// Stage puts effort to the model stage
+func (effort *Effort) Stage(stage *Stage) *Effort {
+	if _, ok := stage.Efforts[effort]; !ok {
+		stage.Efforts[effort] = struct{}{}
+		stage.Effort_stagedOrder[effort] = stage.EffortOrder
+		stage.Effort_orderStaged[stage.EffortOrder] = effort
+		stage.EffortOrder++
+	}
+	stage.Efforts_mapString[effort.Name] = effort
+
+	return effort
+}
+
+// StagePreserveOrder puts effort to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EffortOrder
+// - update stage.EffortOrder accordingly
+func (effort *Effort) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Efforts[effort]; !ok {
+		stage.Efforts[effort] = struct{}{}
+
+		if order > stage.EffortOrder {
+			stage.EffortOrder = order
+		}
+		stage.Effort_stagedOrder[effort] = order
+		stage.Effort_orderStaged[order] = effort
+		stage.EffortOrder++
+	}
+	stage.Efforts_mapString[effort.Name] = effort
+}
+
+// Unstage removes effort off the model stage
+func (effort *Effort) Unstage(stage *Stage) *Effort {
+	delete(stage.Efforts, effort)
+	// issue1150
+	// delete(stage.Effort_stagedOrder, effort)
+	delete(stage.Efforts_mapString, effort.Name)
+
+	return effort
+}
+
+// UnstageVoid removes effort off the model stage
+func (effort *Effort) UnstageVoid(stage *Stage) {
+	delete(stage.Efforts, effort)
+	// issue1150
+	// delete(stage.Effort_stagedOrder, effort)
+	delete(stage.Efforts_mapString, effort.Name)
+}
+
+// commit effort to the back repo (if it is already staged)
+func (effort *Effort) Commit(stage *Stage) *Effort {
+	if _, ok := stage.Efforts[effort]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitEffort(effort)
+		}
+	}
+	return effort
+}
+
+func (effort *Effort) CommitVoid(stage *Stage) {
+	effort.Commit(stage)
+}
+
+func (effort *Effort) StageVoid(stage *Stage) {
+	effort.Stage(stage)
+}
+
+// Checkout effort to the back repo (if it is already staged)
+func (effort *Effort) Checkout(stage *Stage) *Effort {
+	if _, ok := stage.Efforts[effort]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutEffort(effort)
+		}
+	}
+	return effort
+}
+
+// for satisfaction of GongStruct interface
+func (effort *Effort) GetName() (res string) {
+	return effort.Name
+}
+
+// for satisfaction of GongStruct interface
+func (effort *Effort) SetName(name string) {
+	effort.Name = name
+}
+
 // Stage puts library to the model stage
 func (library *Library) Stage(stage *Stage) *Library {
 	if _, ok := stage.Librarys[library]; !ok {
@@ -1172,6 +1558,94 @@ func (library *Library) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (library *Library) SetName(name string) {
 	library.Name = name
+}
+
+// Stage puts performance to the model stage
+func (performance *Performance) Stage(stage *Stage) *Performance {
+	if _, ok := stage.Performances[performance]; !ok {
+		stage.Performances[performance] = struct{}{}
+		stage.Performance_stagedOrder[performance] = stage.PerformanceOrder
+		stage.Performance_orderStaged[stage.PerformanceOrder] = performance
+		stage.PerformanceOrder++
+	}
+	stage.Performances_mapString[performance.Name] = performance
+
+	return performance
+}
+
+// StagePreserveOrder puts performance to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PerformanceOrder
+// - update stage.PerformanceOrder accordingly
+func (performance *Performance) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Performances[performance]; !ok {
+		stage.Performances[performance] = struct{}{}
+
+		if order > stage.PerformanceOrder {
+			stage.PerformanceOrder = order
+		}
+		stage.Performance_stagedOrder[performance] = order
+		stage.Performance_orderStaged[order] = performance
+		stage.PerformanceOrder++
+	}
+	stage.Performances_mapString[performance.Name] = performance
+}
+
+// Unstage removes performance off the model stage
+func (performance *Performance) Unstage(stage *Stage) *Performance {
+	delete(stage.Performances, performance)
+	// issue1150
+	// delete(stage.Performance_stagedOrder, performance)
+	delete(stage.Performances_mapString, performance.Name)
+
+	return performance
+}
+
+// UnstageVoid removes performance off the model stage
+func (performance *Performance) UnstageVoid(stage *Stage) {
+	delete(stage.Performances, performance)
+	// issue1150
+	// delete(stage.Performance_stagedOrder, performance)
+	delete(stage.Performances_mapString, performance.Name)
+}
+
+// commit performance to the back repo (if it is already staged)
+func (performance *Performance) Commit(stage *Stage) *Performance {
+	if _, ok := stage.Performances[performance]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPerformance(performance)
+		}
+	}
+	return performance
+}
+
+func (performance *Performance) CommitVoid(stage *Stage) {
+	performance.Commit(stage)
+}
+
+func (performance *Performance) StageVoid(stage *Stage) {
+	performance.Stage(stage)
+}
+
+// Checkout performance to the back repo (if it is already staged)
+func (performance *Performance) Checkout(stage *Stage) *Performance {
+	if _, ok := stage.Performances[performance]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPerformance(performance)
+		}
+	}
+	return performance
+}
+
+// for satisfaction of GongStruct interface
+func (performance *Performance) GetName() (res string) {
+	return performance.Name
+}
+
+// for satisfaction of GongStruct interface
+func (performance *Performance) SetName(name string) {
+	performance.Name = name
 }
 
 // Stage puts system to the model stage
@@ -1352,29 +1826,50 @@ func (systemshape *SystemShape) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMComplexity(Complexity *Complexity)
 	CreateORMDiagramFloss(DiagramFloss *DiagramFloss)
+	CreateORMEffort(Effort *Effort)
 	CreateORMLibrary(Library *Library)
+	CreateORMPerformance(Performance *Performance)
 	CreateORMSystem(System *System)
 	CreateORMSystemShape(SystemShape *SystemShape)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMComplexity(Complexity *Complexity)
 	DeleteORMDiagramFloss(DiagramFloss *DiagramFloss)
+	DeleteORMEffort(Effort *Effort)
 	DeleteORMLibrary(Library *Library)
+	DeleteORMPerformance(Performance *Performance)
 	DeleteORMSystem(System *System)
 	DeleteORMSystemShape(SystemShape *SystemShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.Complexitys = make(map[*Complexity]struct{})
+	stage.Complexitys_mapString = make(map[string]*Complexity)
+	stage.Complexity_stagedOrder = make(map[*Complexity]uint)
+	stage.ComplexityOrder = 0
+
 	stage.DiagramFlosss = make(map[*DiagramFloss]struct{})
 	stage.DiagramFlosss_mapString = make(map[string]*DiagramFloss)
 	stage.DiagramFloss_stagedOrder = make(map[*DiagramFloss]uint)
 	stage.DiagramFlossOrder = 0
 
+	stage.Efforts = make(map[*Effort]struct{})
+	stage.Efforts_mapString = make(map[string]*Effort)
+	stage.Effort_stagedOrder = make(map[*Effort]uint)
+	stage.EffortOrder = 0
+
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
 	stage.Library_stagedOrder = make(map[*Library]uint)
 	stage.LibraryOrder = 0
+
+	stage.Performances = make(map[*Performance]struct{})
+	stage.Performances_mapString = make(map[string]*Performance)
+	stage.Performance_stagedOrder = make(map[*Performance]uint)
+	stage.PerformanceOrder = 0
 
 	stage.Systems = make(map[*System]struct{})
 	stage.Systems_mapString = make(map[string]*System)
@@ -1395,11 +1890,20 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.Complexitys = nil
+	stage.Complexitys_mapString = nil
+
 	stage.DiagramFlosss = nil
 	stage.DiagramFlosss_mapString = nil
 
+	stage.Efforts = nil
+	stage.Efforts_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
+
+	stage.Performances = nil
+	stage.Performances_mapString = nil
 
 	stage.Systems = nil
 	stage.Systems_mapString = nil
@@ -1411,12 +1915,24 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for complexity := range stage.Complexitys {
+		complexity.Unstage(stage)
+	}
+
 	for diagramfloss := range stage.DiagramFlosss {
 		diagramfloss.Unstage(stage)
 	}
 
+	for effort := range stage.Efforts {
+		effort.Unstage(stage)
+	}
+
 	for library := range stage.Librarys {
 		library.Unstage(stage)
+	}
+
+	for performance := range stage.Performances {
+		performance.Unstage(stage)
 	}
 
 	for system := range stage.Systems {
@@ -1503,10 +2019,16 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*Complexity]any:
+		return any(&stage.Complexitys).(*Type)
 	case map[*DiagramFloss]any:
 		return any(&stage.DiagramFlosss).(*Type)
+	case map[*Effort]any:
+		return any(&stage.Efforts).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
+	case map[*Performance]any:
+		return any(&stage.Performances).(*Type)
 	case map[*System]any:
 		return any(&stage.Systems).(*Type)
 	case map[*SystemShape]any:
@@ -1523,10 +2045,16 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Complexity:
+		return any(stage.Complexitys_mapString).(map[string]Type)
 	case *DiagramFloss:
 		return any(stage.DiagramFlosss_mapString).(map[string]Type)
+	case *Effort:
+		return any(stage.Efforts_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
+	case *Performance:
+		return any(stage.Performances_mapString).(map[string]Type)
 	case *System:
 		return any(stage.Systems_mapString).(map[string]Type)
 	case *SystemShape:
@@ -1543,10 +2071,16 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Complexity:
+		return any(&stage.Complexitys).(*map[*Type]struct{})
 	case DiagramFloss:
 		return any(&stage.DiagramFlosss).(*map[*Type]struct{})
+	case Effort:
+		return any(&stage.Efforts).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
+	case Performance:
+		return any(&stage.Performances).(*map[*Type]struct{})
 	case System:
 		return any(&stage.Systems).(*map[*Type]struct{})
 	case SystemShape:
@@ -1563,10 +2097,16 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Complexity:
+		return any(&stage.Complexitys).(*map[Type]struct{})
 	case *DiagramFloss:
 		return any(&stage.DiagramFlosss).(*map[Type]struct{})
+	case *Effort:
+		return any(&stage.Efforts).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
+	case *Performance:
+		return any(&stage.Performances).(*map[Type]struct{})
 	case *System:
 		return any(&stage.Systems).(*map[Type]struct{})
 	case *SystemShape:
@@ -1583,10 +2123,16 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Complexity:
+		return any(&stage.Complexitys_mapString).(*map[string]*Type)
 	case DiagramFloss:
 		return any(&stage.DiagramFlosss_mapString).(*map[string]*Type)
+	case Effort:
+		return any(&stage.Efforts_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
+	case Performance:
+		return any(&stage.Performances_mapString).(*map[string]*Type)
 	case System:
 		return any(&stage.Systems_mapString).(*map[string]*Type)
 	case SystemShape:
@@ -1605,6 +2151,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case Complexity:
+		return any(&Complexity{
+			// Initialisation of associations
+		}).(*Type)
 	case DiagramFloss:
 		return any(&DiagramFloss{
 			// Initialisation of associations
@@ -1612,6 +2162,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			System_Shapes: []*SystemShape{{Name: "System_Shapes"}},
 			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
+		}).(*Type)
+	case Effort:
+		return any(&Effort{
+			// Initialisation of associations
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -1625,9 +2179,19 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of System with the name of the field
 			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
 		}).(*Type)
+	case Performance:
+		return any(&Performance{
+			// Initialisation of associations
+		}).(*Type)
 	case System:
 		return any(&System{
 			// Initialisation of associations
+			// field is initialized with an instance of Complexity with the name of the field
+			Complexitys: []*Complexity{{Name: "Complexitys"}},
+			// field is initialized with an instance of Performance with the name of the field
+			Performances: []*Performance{{Name: "Performances"}},
+			// field is initialized with an instance of Effort with the name of the field
+			Efforts: []*Effort{{Name: "Efforts"}},
 			// field is initialized with an instance of DiagramFloss with the name of the field
 			DiagramFlosses: []*DiagramFloss{{Name: "DiagramFlosses"}},
 			// field is initialized with an instance of DiagramFloss with the name of the field
@@ -1658,13 +2222,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Complexity
+	case Complexity:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of DiagramFloss
 	case DiagramFloss:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Effort
+	case Effort:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Performance
+	case Performance:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1710,6 +2289,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Complexity
+	case Complexity:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of DiagramFloss
 	case DiagramFloss:
 		switch fieldname {
@@ -1730,6 +2314,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Effort
+	case Effort:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -1768,10 +2357,39 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Performance
+	case Performance:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of System
 	case System:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Complexitys":
+			res := make(map[*Complexity][]*System)
+			for system := range stage.Systems {
+				for _, complexity_ := range system.Complexitys {
+					res[complexity_] = append(res[complexity_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Performances":
+			res := make(map[*Performance][]*System)
+			for system := range stage.Systems {
+				for _, performance_ := range system.Performances {
+					res[performance_] = append(res[performance_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Efforts":
+			res := make(map[*Effort][]*System)
+			for system := range stage.Systems {
+				for _, effort_ := range system.Efforts {
+					res[effort_] = append(res[effort_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "DiagramFlosses":
 			res := make(map[*DiagramFloss][]*System)
 			for system := range stage.Systems {
@@ -1813,10 +2431,16 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *Complexity:
+		res = "Complexity"
 	case *DiagramFloss:
 		res = "DiagramFloss"
+	case *Effort:
+		res = "Effort"
 	case *Library:
 		res = "Library"
+	case *Performance:
+		res = "Performance"
 	case *System:
 		res = "System"
 	case *SystemShape:
@@ -1838,6 +2462,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *Complexity:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "System"
+		rf.Fieldname = "Complexitys"
+		res = append(res, rf)
 	case *DiagramFloss:
 		var rf ReverseField
 		_ = rf
@@ -1847,6 +2477,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "System"
 		rf.Fieldname = "DiagramFlossWhoseNodeIsExpanded"
 		res = append(res, rf)
+	case *Effort:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "System"
+		rf.Fieldname = "Efforts"
+		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
 		_ = rf
@@ -1855,6 +2491,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
+		res = append(res, rf)
+	case *Performance:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "System"
+		rf.Fieldname = "Performances"
 		res = append(res, rf)
 	case *System:
 		var rf ReverseField
@@ -1882,6 +2524,21 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (complexity *Complexity) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Strength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (diagramfloss *DiagramFloss) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -1942,6 +2599,21 @@ func (diagramfloss *DiagramFloss) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "SystemsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "System",
+		},
+	}
+	return
+}
+
+func (effort *Effort) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Strength",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -2014,6 +2686,21 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (performance *Performance) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Strength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -2024,6 +2711,21 @@ func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Complexitys",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Complexity",
+		},
+		{
+			Name:                 "Performances",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Performance",
+		},
+		{
+			Name:                 "Efforts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Effort",
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -2159,6 +2861,19 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (complexity *Complexity) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = complexity.Name
+	case "Strength":
+		res.valueString = fmt.Sprintf("%f", complexity.Strength)
+		res.valueFloat = complexity.Strength
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (diagramfloss *DiagramFloss) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2224,6 +2939,19 @@ func (diagramfloss *DiagramFloss) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (effort *Effort) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = effort.Name
+	case "Strength":
+		res.valueString = fmt.Sprintf("%f", effort.Strength)
+		res.valueFloat = effort.Strength
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -2307,6 +3035,19 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	return
 }
 
+func (performance *Performance) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = performance.Name
+	case "Strength":
+		res.valueString = fmt.Sprintf("%f", performance.Strength)
+		res.valueFloat = performance.Strength
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2314,6 +3055,36 @@ func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = system.Name
 	case "Description":
 		res.valueString = system.Description
+	case "Complexitys":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.Complexitys {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Performances":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.Performances {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Efforts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.Efforts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "ComputedPrefix":
 		res.valueString = system.ComputedPrefix
 	case "IsExpanded":
@@ -2409,6 +3180,19 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (complexity *Complexity) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		complexity.Name = value.GetValueString()
+	case "Strength":
+		complexity.Strength = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (diagramfloss *DiagramFloss) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -2464,6 +3248,19 @@ func (diagramfloss *DiagramFloss) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (effort *Effort) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		effort.Name = value.GetValueString()
+	case "Strength":
+		effort.Strength = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2555,6 +3352,19 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
+func (performance *Performance) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		performance.Name = value.GetValueString()
+	case "Strength":
+		performance.Strength = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -2562,6 +3372,48 @@ func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		system.Name = value.GetValueString()
 	case "Description":
 		system.Description = value.GetValueString()
+	case "Complexitys":
+		system.Complexitys = make([]*Complexity, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Complexitys {
+					if stage.Complexity_stagedOrder[__instance__] == uint(id) {
+						system.Complexitys = append(system.Complexitys, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Performances":
+		system.Performances = make([]*Performance, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Performances {
+					if stage.Performance_stagedOrder[__instance__] == uint(id) {
+						system.Performances = append(system.Performances, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Efforts":
+		system.Efforts = make([]*Effort, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Efforts {
+					if stage.Effort_stagedOrder[__instance__] == uint(id) {
+						system.Efforts = append(system.Efforts, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "ComputedPrefix":
 		system.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -2659,12 +3511,24 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (complexity *Complexity) GongGetGongstructName() string {
+	return "Complexity"
+}
+
 func (diagramfloss *DiagramFloss) GongGetGongstructName() string {
 	return "DiagramFloss"
 }
 
+func (effort *Effort) GongGetGongstructName() string {
+	return "Effort"
+}
+
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
+}
+
+func (performance *Performance) GongGetGongstructName() string {
+	return "Performance"
 }
 
 func (system *System) GongGetGongstructName() string {
@@ -2682,14 +3546,29 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.Complexitys_mapString = make(map[string]*Complexity)
+	for complexity := range stage.Complexitys {
+		stage.Complexitys_mapString[complexity.Name] = complexity
+	}
+
 	stage.DiagramFlosss_mapString = make(map[string]*DiagramFloss)
 	for diagramfloss := range stage.DiagramFlosss {
 		stage.DiagramFlosss_mapString[diagramfloss.Name] = diagramfloss
 	}
 
+	stage.Efforts_mapString = make(map[string]*Effort)
+	for effort := range stage.Efforts {
+		stage.Efforts_mapString[effort.Name] = effort
+	}
+
 	stage.Librarys_mapString = make(map[string]*Library)
 	for library := range stage.Librarys {
 		stage.Librarys_mapString[library.Name] = library
+	}
+
+	stage.Performances_mapString = make(map[string]*Performance)
+	for performance := range stage.Performances {
+		stage.Performances_mapString[performance.Name] = performance
 	}
 
 	stage.Systems_mapString = make(map[string]*System)

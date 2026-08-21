@@ -1,3 +1,4 @@
+// generated code - do not edit
 // Package embeddedgo backend API
 //
 // doc exposes types of a package.

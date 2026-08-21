@@ -1,3 +1,4 @@
+// generated code - do not edit
 // Package embeddedgo backend API
 //
 // sim exposes types of a package.

@@ -9,6 +9,20 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Complexity_WOP struct {
+	// insertion point
+
+	Name string
+
+	Strength float64
+}
+
+func (from *Complexity) CopyBasicFields(to *Complexity) {
+	// insertion point
+	to.Name = from.Name
+	to.Strength = from.Strength
+}
+
 type DiagramFloss_WOP struct {
 	// insertion point
 
@@ -53,6 +67,20 @@ func (from *DiagramFloss) CopyBasicFields(to *DiagramFloss) {
 	to.IsSystemsNodeExpanded = from.IsSystemsNodeExpanded
 }
 
+type Effort_WOP struct {
+	// insertion point
+
+	Name string
+
+	Strength float64
+}
+
+func (from *Effort) CopyBasicFields(to *Effort) {
+	// insertion point
+	to.Name = from.Name
+	to.Strength = from.Strength
+}
+
 type Library_WOP struct {
 	// insertion point
 
@@ -89,6 +117,20 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.LogoSVGFile = from.LogoSVGFile
 	to.IsSystemesNodeExpanded = from.IsSystemesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
+}
+
+type Performance_WOP struct {
+	// insertion point
+
+	Name string
+
+	Strength float64
+}
+
+func (from *Performance) CopyBasicFields(to *Performance) {
+	// insertion point
+	to.Name = from.Name
+	to.Strength = from.Strength
 }
 
 type System_WOP struct {

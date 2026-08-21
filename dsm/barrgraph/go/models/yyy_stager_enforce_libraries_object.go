@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 // enforceOwningLibraryAndObjects repopulates the "objects" collection field for each library

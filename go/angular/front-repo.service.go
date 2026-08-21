@@ -12,7 +12,8 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-const NgLibFrontRepoServiceTemplate = `import { Injectable } from '@angular/core'
+const NgLibFrontRepoServiceTemplate = `// generated code - do not edit
+import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'

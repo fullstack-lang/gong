@@ -26,15 +26,76 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Abstract`}).Stage(stage)
+
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2026-08-21T02:26:25Z`}).Stage(stage)
 
+	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Library`}).Stage(stage)
+	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-System`}).Stage(stage)
+
+	__LinkShape__00000000_ := (&models.LinkShape{Name: `RootSystemes`}).Stage(stage)
+
 	// insertion point for initialization of values
+
+	__Classdiagram__00000000_.Name = `Abstract`
+	__Classdiagram__00000000_.Description = ``
+	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000000_.ShowNbInstances = false
+	__Classdiagram__00000000_.ShowMultiplicity = false
+	__Classdiagram__00000000_.ShowLinkNames = false
+	__Classdiagram__00000000_.IsInRenameMode = false
+	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true]`
+	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__00000000_.Name = `Diagram Package created the 2026-08-21T02:26:25Z`
 	__DiagramPackage__00000000_.Path = ``
 	__DiagramPackage__00000000_.GongModelPath = ``
 	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
 
+	__GongStructShape__00000001_.Name = `Default-Library`
+	__GongStructShape__00000001_.X = 36.000000
+	__GongStructShape__00000001_.Y = 48.000000
+	__GongStructShape__00000001_.IdentifierMeta = ref_models.Library{}
+	__GongStructShape__00000001_.Width = 240.000000
+	__GongStructShape__00000001_.Height = 63.000000
+	__GongStructShape__00000001_.IsSelected = false
+
+	__GongStructShape__00000002_.Name = `Default-System`
+	__GongStructShape__00000002_.X = 443.999969
+	__GongStructShape__00000002_.Y = 52.000000
+	__GongStructShape__00000002_.IdentifierMeta = ref_models.System{}
+	__GongStructShape__00000002_.Width = 240.000000
+	__GongStructShape__00000002_.Height = 63.000000
+	__GongStructShape__00000002_.IsSelected = false
+
+	__LinkShape__00000000_.Name = `RootSystemes`
+	__LinkShape__00000000_.IdentifierMeta = ref_models.Library{}.RootSystemes
+	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.System{}
+	__LinkShape__00000000_.FieldOffsetX = 0.000000
+	__LinkShape__00000000_.FieldOffsetY = 0.000000
+	__LinkShape__00000000_.TargetMultiplicity = models.MANY
+	__LinkShape__00000000_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000000_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000000_.SourceMultiplicity = models.MANY
+	__LinkShape__00000000_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000000_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000000_.X = 599.999985
+	__LinkShape__00000000_.Y = 81.500000
+	__LinkShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000000_.StartRatio = 0.500000
+	__LinkShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000000_.EndRatio = 0.500000
+	__LinkShape__00000000_.CornerOffsetRatio = 1.380000
+
 	// insertion point for setup of pointers
-	__DiagramPackage__00000000_.SelectedClassdiagram = nil
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000000_)
 }

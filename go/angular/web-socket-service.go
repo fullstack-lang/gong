@@ -1,6 +1,7 @@
 package angular
 
-const WebSocketServiceTemplate = `import { Injectable, Inject } from '@angular/core';
+const WebSocketServiceTemplate = `// generated code - do not edit
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 

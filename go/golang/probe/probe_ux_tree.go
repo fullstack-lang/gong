@@ -1,6 +1,7 @@
 package probe
 
-const FillUpTree = `package probe
+const FillUpTree = `// generated code - do not edit
+package probe
 
 import (
 	"fmt"

@@ -2,6 +2,96 @@
 package models
 
 // insertion point of enum utility functions
+// Utility function for ComplexityType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (complexitytype ComplexityType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch complexitytype {
+	// insertion code per enum code
+	case ComponentComplexity:
+		res = "Component Complexity"
+	case InterfaceComplexity:
+		res = "Interface Complexity"
+	case TopologicalComplexity:
+		res = "Topological Complexity"
+	}
+	return
+}
+
+func (complexitytype *ComplexityType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Component Complexity":
+		*complexitytype = ComponentComplexity
+		return
+	case "Interface Complexity":
+		*complexitytype = InterfaceComplexity
+		return
+	case "Topological Complexity":
+		*complexitytype = TopologicalComplexity
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (complexitytype *ComplexityType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ComponentComplexity":
+		*complexitytype = ComponentComplexity
+	case "InterfaceComplexity":
+		*complexitytype = InterfaceComplexity
+	case "TopologicalComplexity":
+		*complexitytype = TopologicalComplexity
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (complexitytype *ComplexityType) ToCodeString() (res string) {
+
+	switch *complexitytype {
+	// insertion code per enum code
+	case ComponentComplexity:
+		res = "ComponentComplexity"
+	case InterfaceComplexity:
+		res = "InterfaceComplexity"
+	case TopologicalComplexity:
+		res = "TopologicalComplexity"
+	}
+	return
+}
+
+func (complexitytype ComplexityType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "ComponentComplexity")
+	res = append(res, "InterfaceComplexity")
+	res = append(res, "TopologicalComplexity")
+
+	return
+}
+
+func (complexitytype ComplexityType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Component Complexity")
+	res = append(res, "Interface Complexity")
+	res = append(res, "Topological Complexity")
+
+	return
+}
+
 // Utility function for LayoutDirection
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

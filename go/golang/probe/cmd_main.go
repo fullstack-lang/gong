@@ -2,6 +2,7 @@ package probe
 
 const ProbeCmdMainTemplate = `//go:build !js
 
+// generated code - do not edit
 package main
 
 import (
@@ -95,6 +96,7 @@ func main() {
 
 const ProbeCmdMainTemplateFullStack = `//go:build !js
 
+// generated code - do not edit
 package main
 
 import (

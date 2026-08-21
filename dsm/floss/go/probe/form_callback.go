@@ -19,6 +19,131 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__ComplexityFormCallback(
+	complexity *models.Complexity,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (complexityFormCallback *ComplexityFormCallback) {
+	complexityFormCallback = new(ComplexityFormCallback)
+	complexityFormCallback.probe = probe
+	complexityFormCallback.complexity = complexity
+	complexityFormCallback.formGroup = formGroup
+
+	complexityFormCallback.CreationMode = (complexity == nil)
+
+	return
+}
+
+type ComplexityFormCallback struct {
+	complexity *models.Complexity
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (complexityFormCallback *ComplexityFormCallback) OnSave() {
+	complexityFormCallback.probe.stageOfInterest.Lock()
+	defer complexityFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ComplexityFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	complexityFormCallback.probe.formStage.Checkout()
+
+	if complexityFormCallback.complexity == nil {
+		complexityFormCallback.complexity = new(models.Complexity).Stage(complexityFormCallback.probe.stageOfInterest)
+	}
+	complexity_ := complexityFormCallback.complexity
+	_ = complexity_
+
+	for _, formDiv := range complexityFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(complexity_.Name), formDiv)
+		case "Strength":
+			FormDivBasicFieldToField(&(complexity_.Strength), formDiv)
+		case "System:Complexitys":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](complexityFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSystemIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all System instances and update their Complexitys slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](complexityFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(complexityFormCallback.probe.stageOfInterest, _system)
+				
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure complexity_ is in _system.Complexitys
+					found := false
+					for _, _b := range _system.Complexitys {
+						if _b == complexity_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_system.Complexitys = append(_system.Complexitys, complexity_)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexitys", &_system.Complexitys)
+					}
+				} else {
+					// ensure complexity_ is NOT in _system.Complexitys
+					idx := slices.Index(_system.Complexitys, complexity_)
+					if idx != -1 {
+						_system.Complexitys = slices.Delete(_system.Complexitys, idx, idx+1)
+						complexityFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Complexitys", &_system.Complexitys)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if complexityFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		complexity_.Unstage(complexityFormCallback.probe.stageOfInterest)
+	}
+
+	complexityFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Complexity](
+		complexityFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if complexityFormCallback.CreationMode || complexityFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		complexityFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(complexityFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ComplexityFormCallback(
+			nil,
+			complexityFormCallback.probe,
+			newFormGroup,
+		)
+		complexity := new(models.Complexity)
+		FillUpForm(complexity, newFormGroup, complexityFormCallback.probe)
+		complexityFormCallback.probe.formStage.Commit()
+	}
+
+	complexityFormCallback.probe.ux_tree()
+}
 func __gong__New__DiagramFlossFormCallback(
 	diagramfloss *models.DiagramFloss,
 	probe *Probe,
@@ -272,6 +397,131 @@ func (diagramflossFormCallback *DiagramFlossFormCallback) OnSave() {
 	}
 
 	diagramflossFormCallback.probe.ux_tree()
+}
+func __gong__New__EffortFormCallback(
+	effort *models.Effort,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (effortFormCallback *EffortFormCallback) {
+	effortFormCallback = new(EffortFormCallback)
+	effortFormCallback.probe = probe
+	effortFormCallback.effort = effort
+	effortFormCallback.formGroup = formGroup
+
+	effortFormCallback.CreationMode = (effort == nil)
+
+	return
+}
+
+type EffortFormCallback struct {
+	effort *models.Effort
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (effortFormCallback *EffortFormCallback) OnSave() {
+	effortFormCallback.probe.stageOfInterest.Lock()
+	defer effortFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("EffortFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	effortFormCallback.probe.formStage.Checkout()
+
+	if effortFormCallback.effort == nil {
+		effortFormCallback.effort = new(models.Effort).Stage(effortFormCallback.probe.stageOfInterest)
+	}
+	effort_ := effortFormCallback.effort
+	_ = effort_
+
+	for _, formDiv := range effortFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(effort_.Name), formDiv)
+		case "Strength":
+			FormDivBasicFieldToField(&(effort_.Strength), formDiv)
+		case "System:Efforts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](effortFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSystemIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all System instances and update their Efforts slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](effortFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(effortFormCallback.probe.stageOfInterest, _system)
+				
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure effort_ is in _system.Efforts
+					found := false
+					for _, _b := range _system.Efforts {
+						if _b == effort_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_system.Efforts = append(_system.Efforts, effort_)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Efforts", &_system.Efforts)
+					}
+				} else {
+					// ensure effort_ is NOT in _system.Efforts
+					idx := slices.Index(_system.Efforts, effort_)
+					if idx != -1 {
+						_system.Efforts = slices.Delete(_system.Efforts, idx, idx+1)
+						effortFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Efforts", &_system.Efforts)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if effortFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		effort_.Unstage(effortFormCallback.probe.stageOfInterest)
+	}
+
+	effortFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Effort](
+		effortFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if effortFormCallback.CreationMode || effortFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		effortFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(effortFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__EffortFormCallback(
+			nil,
+			effortFormCallback.probe,
+			newFormGroup,
+		)
+		effort := new(models.Effort)
+		FillUpForm(effort, newFormGroup, effortFormCallback.probe)
+		effortFormCallback.probe.formStage.Commit()
+	}
+
+	effortFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -587,6 +837,131 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 
 	libraryFormCallback.probe.ux_tree()
 }
+func __gong__New__PerformanceFormCallback(
+	performance *models.Performance,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (performanceFormCallback *PerformanceFormCallback) {
+	performanceFormCallback = new(PerformanceFormCallback)
+	performanceFormCallback.probe = probe
+	performanceFormCallback.performance = performance
+	performanceFormCallback.formGroup = formGroup
+
+	performanceFormCallback.CreationMode = (performance == nil)
+
+	return
+}
+
+type PerformanceFormCallback struct {
+	performance *models.Performance
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (performanceFormCallback *PerformanceFormCallback) OnSave() {
+	performanceFormCallback.probe.stageOfInterest.Lock()
+	defer performanceFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PerformanceFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	performanceFormCallback.probe.formStage.Checkout()
+
+	if performanceFormCallback.performance == nil {
+		performanceFormCallback.performance = new(models.Performance).Stage(performanceFormCallback.probe.stageOfInterest)
+	}
+	performance_ := performanceFormCallback.performance
+	_ = performance_
+
+	for _, formDiv := range performanceFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(performance_.Name), formDiv)
+		case "Strength":
+			FormDivBasicFieldToField(&(performance_.Strength), formDiv)
+		case "System:Performances":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](performanceFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetSystemIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all System instances and update their Performances slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](performanceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(performanceFormCallback.probe.stageOfInterest, _system)
+				
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure performance_ is in _system.Performances
+					found := false
+					for _, _b := range _system.Performances {
+						if _b == performance_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_system.Performances = append(_system.Performances, performance_)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Performances", &_system.Performances)
+					}
+				} else {
+					// ensure performance_ is NOT in _system.Performances
+					idx := slices.Index(_system.Performances, performance_)
+					if idx != -1 {
+						_system.Performances = slices.Delete(_system.Performances, idx, idx+1)
+						performanceFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Performances", &_system.Performances)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if performanceFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		performance_.Unstage(performanceFormCallback.probe.stageOfInterest)
+	}
+
+	performanceFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Performance](
+		performanceFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if performanceFormCallback.CreationMode || performanceFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		performanceFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(performanceFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PerformanceFormCallback(
+			nil,
+			performanceFormCallback.probe,
+			newFormGroup,
+		)
+		performance := new(models.Performance)
+		FillUpForm(performance, newFormGroup, performanceFormCallback.probe)
+		performanceFormCallback.probe.formStage.Commit()
+	}
+
+	performanceFormCallback.probe.ux_tree()
+}
 func __gong__New__SystemFormCallback(
 	system *models.System,
 	probe *Probe,
@@ -636,6 +1011,102 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(system_.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(system_.Description), formDiv)
+		case "Complexitys":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Complexity](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Complexity, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Complexity)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Complexity](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.Complexitys = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Complexitys", &system_.Complexitys)
+
+		case "Performances":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Performance](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Performance, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Performance)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Performance](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.Performances = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Performances", &system_.Performances)
+
+		case "Efforts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Effort](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Effort, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Effort)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Effort](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.Efforts = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Efforts", &system_.Efforts)
+
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(system_.ComputedPrefix), formDiv)
 		case "IsExpanded":

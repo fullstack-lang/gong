@@ -1,6 +1,7 @@
 package angular
 
-const EmebedNgDistNg = `package {{pkgname}}
+const EmebedNgDistNg = `// generated code - do not edit
+package {{pkgname}}
 
 import "embed"
 
