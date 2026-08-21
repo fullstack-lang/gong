@@ -225,6 +225,24 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _system := range library.SystemsWhoseNodeIsExpanded {
 		StageBranch(stage, _system)
 	}
+	for _, _complexity := range library.RootComplexitys {
+		StageBranch(stage, _complexity)
+	}
+	for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
+		StageBranch(stage, _complexity)
+	}
+	for _, _performance := range library.RootPerformances {
+		StageBranch(stage, _performance)
+	}
+	for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
+		StageBranch(stage, _performance)
+	}
+	for _, _effort := range library.RootEfforts {
+		StageBranch(stage, _effort)
+	}
+	for _, _effort := range library.EffortsWhoseNodeIsExpanded {
+		StageBranch(stage, _effort)
+	}
 
 }
 
@@ -272,6 +290,15 @@ func (stage *Stage) StageBranchSystem(system *System) {
 	}
 	for _, _system := range system.SubSystemes {
 		StageBranch(stage, _system)
+	}
+	for _, _complexity := range system.ComplexitysWhoseNodeIsExpanded {
+		StageBranch(stage, _complexity)
+	}
+	for _, _performance := range system.PerformancesWhoseNodeIsExpanded {
+		StageBranch(stage, _performance)
+	}
+	for _, _effort := range system.EffortsWhoseNodeIsExpanded {
+		StageBranch(stage, _effort)
 	}
 
 }
@@ -430,6 +457,24 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _system := range libraryFrom.SystemsWhoseNodeIsExpanded {
 		libraryTo.SystemsWhoseNodeIsExpanded = append(libraryTo.SystemsWhoseNodeIsExpanded, CopyBranchSystem(mapOrigCopy, _system))
 	}
+	for _, _complexity := range libraryFrom.RootComplexitys {
+		libraryTo.RootComplexitys = append(libraryTo.RootComplexitys, CopyBranchComplexity(mapOrigCopy, _complexity))
+	}
+	for _, _complexity := range libraryFrom.ComplexitysWhoseNodeIsExpanded {
+		libraryTo.ComplexitysWhoseNodeIsExpanded = append(libraryTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
+	}
+	for _, _performance := range libraryFrom.RootPerformances {
+		libraryTo.RootPerformances = append(libraryTo.RootPerformances, CopyBranchPerformance(mapOrigCopy, _performance))
+	}
+	for _, _performance := range libraryFrom.PerformancesWhoseNodeIsExpanded {
+		libraryTo.PerformancesWhoseNodeIsExpanded = append(libraryTo.PerformancesWhoseNodeIsExpanded, CopyBranchPerformance(mapOrigCopy, _performance))
+	}
+	for _, _effort := range libraryFrom.RootEfforts {
+		libraryTo.RootEfforts = append(libraryTo.RootEfforts, CopyBranchEffort(mapOrigCopy, _effort))
+	}
+	for _, _effort := range libraryFrom.EffortsWhoseNodeIsExpanded {
+		libraryTo.EffortsWhoseNodeIsExpanded = append(libraryTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
+	}
 
 	return
 }
@@ -485,6 +530,15 @@ func CopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *Sy
 	}
 	for _, _system := range systemFrom.SubSystemes {
 		systemTo.SubSystemes = append(systemTo.SubSystemes, CopyBranchSystem(mapOrigCopy, _system))
+	}
+	for _, _complexity := range systemFrom.ComplexitysWhoseNodeIsExpanded {
+		systemTo.ComplexitysWhoseNodeIsExpanded = append(systemTo.ComplexitysWhoseNodeIsExpanded, CopyBranchComplexity(mapOrigCopy, _complexity))
+	}
+	for _, _performance := range systemFrom.PerformancesWhoseNodeIsExpanded {
+		systemTo.PerformancesWhoseNodeIsExpanded = append(systemTo.PerformancesWhoseNodeIsExpanded, CopyBranchPerformance(mapOrigCopy, _performance))
+	}
+	for _, _effort := range systemFrom.EffortsWhoseNodeIsExpanded {
+		systemTo.EffortsWhoseNodeIsExpanded = append(systemTo.EffortsWhoseNodeIsExpanded, CopyBranchEffort(mapOrigCopy, _effort))
 	}
 
 	return
@@ -622,6 +676,24 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _system := range library.SystemsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _system)
 	}
+	for _, _complexity := range library.RootComplexitys {
+		UnstageBranch(stage, _complexity)
+	}
+	for _, _complexity := range library.ComplexitysWhoseNodeIsExpanded {
+		UnstageBranch(stage, _complexity)
+	}
+	for _, _performance := range library.RootPerformances {
+		UnstageBranch(stage, _performance)
+	}
+	for _, _performance := range library.PerformancesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _performance)
+	}
+	for _, _effort := range library.RootEfforts {
+		UnstageBranch(stage, _effort)
+	}
+	for _, _effort := range library.EffortsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _effort)
+	}
 
 }
 
@@ -669,6 +741,15 @@ func (stage *Stage) UnstageBranchSystem(system *System) {
 	}
 	for _, _system := range system.SubSystemes {
 		UnstageBranch(stage, _system)
+	}
+	for _, _complexity := range system.ComplexitysWhoseNodeIsExpanded {
+		UnstageBranch(stage, _complexity)
+	}
+	for _, _performance := range system.PerformancesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _performance)
+	}
+	for _, _effort := range system.EffortsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _effort)
 	}
 
 }
@@ -734,6 +815,30 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SystemsWhoseNodeIsExpanded {
 		reference.SystemsWhoseNodeIsExpanded = append(reference.SystemsWhoseNodeIsExpanded, stage.Systems_reference[_b])
 	}
+	reference.RootComplexitys = reference.RootComplexitys[:0]
+	for _, _b := range instance.RootComplexitys {
+		reference.RootComplexitys = append(reference.RootComplexitys, stage.Complexitys_reference[_b])
+	}
+	reference.ComplexitysWhoseNodeIsExpanded = reference.ComplexitysWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ComplexitysWhoseNodeIsExpanded {
+		reference.ComplexitysWhoseNodeIsExpanded = append(reference.ComplexitysWhoseNodeIsExpanded, stage.Complexitys_reference[_b])
+	}
+	reference.RootPerformances = reference.RootPerformances[:0]
+	for _, _b := range instance.RootPerformances {
+		reference.RootPerformances = append(reference.RootPerformances, stage.Performances_reference[_b])
+	}
+	reference.PerformancesWhoseNodeIsExpanded = reference.PerformancesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.PerformancesWhoseNodeIsExpanded {
+		reference.PerformancesWhoseNodeIsExpanded = append(reference.PerformancesWhoseNodeIsExpanded, stage.Performances_reference[_b])
+	}
+	reference.RootEfforts = reference.RootEfforts[:0]
+	for _, _b := range instance.RootEfforts {
+		reference.RootEfforts = append(reference.RootEfforts, stage.Efforts_reference[_b])
+	}
+	reference.EffortsWhoseNodeIsExpanded = reference.EffortsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.EffortsWhoseNodeIsExpanded {
+		reference.EffortsWhoseNodeIsExpanded = append(reference.EffortsWhoseNodeIsExpanded, stage.Efforts_reference[_b])
+	}
 }
 
 func (reference *Performance) GongReconstructPointersFromReferences(stage *Stage, instance *Performance) {
@@ -767,6 +872,18 @@ func (reference *System) GongReconstructPointersFromReferences(stage *Stage, ins
 	reference.SubSystemes = reference.SubSystemes[:0]
 	for _, _b := range instance.SubSystemes {
 		reference.SubSystemes = append(reference.SubSystemes, stage.Systems_reference[_b])
+	}
+	reference.ComplexitysWhoseNodeIsExpanded = reference.ComplexitysWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ComplexitysWhoseNodeIsExpanded {
+		reference.ComplexitysWhoseNodeIsExpanded = append(reference.ComplexitysWhoseNodeIsExpanded, stage.Complexitys_reference[_b])
+	}
+	reference.PerformancesWhoseNodeIsExpanded = reference.PerformancesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.PerformancesWhoseNodeIsExpanded {
+		reference.PerformancesWhoseNodeIsExpanded = append(reference.PerformancesWhoseNodeIsExpanded, stage.Performances_reference[_b])
+	}
+	reference.EffortsWhoseNodeIsExpanded = reference.EffortsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.EffortsWhoseNodeIsExpanded {
+		reference.EffortsWhoseNodeIsExpanded = append(reference.EffortsWhoseNodeIsExpanded, stage.Efforts_reference[_b])
 	}
 }
 
@@ -839,6 +956,48 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SystemsWhoseNodeIsExpanded = _SystemsWhoseNodeIsExpanded
+	var _RootComplexitys []*Complexity
+	for _, _reference := range reference.RootComplexitys {
+		if _instance, ok := stage.Complexitys_instance[_reference]; ok {
+			_RootComplexitys = append(_RootComplexitys, _instance)
+		}
+	}
+	reference.RootComplexitys = _RootComplexitys
+	var _ComplexitysWhoseNodeIsExpanded []*Complexity
+	for _, _reference := range reference.ComplexitysWhoseNodeIsExpanded {
+		if _instance, ok := stage.Complexitys_instance[_reference]; ok {
+			_ComplexitysWhoseNodeIsExpanded = append(_ComplexitysWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ComplexitysWhoseNodeIsExpanded = _ComplexitysWhoseNodeIsExpanded
+	var _RootPerformances []*Performance
+	for _, _reference := range reference.RootPerformances {
+		if _instance, ok := stage.Performances_instance[_reference]; ok {
+			_RootPerformances = append(_RootPerformances, _instance)
+		}
+	}
+	reference.RootPerformances = _RootPerformances
+	var _PerformancesWhoseNodeIsExpanded []*Performance
+	for _, _reference := range reference.PerformancesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Performances_instance[_reference]; ok {
+			_PerformancesWhoseNodeIsExpanded = append(_PerformancesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.PerformancesWhoseNodeIsExpanded = _PerformancesWhoseNodeIsExpanded
+	var _RootEfforts []*Effort
+	for _, _reference := range reference.RootEfforts {
+		if _instance, ok := stage.Efforts_instance[_reference]; ok {
+			_RootEfforts = append(_RootEfforts, _instance)
+		}
+	}
+	reference.RootEfforts = _RootEfforts
+	var _EffortsWhoseNodeIsExpanded []*Effort
+	for _, _reference := range reference.EffortsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Efforts_instance[_reference]; ok {
+			_EffortsWhoseNodeIsExpanded = append(_EffortsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.EffortsWhoseNodeIsExpanded = _EffortsWhoseNodeIsExpanded
 }
 
 func (reference *Performance) GongReconstructPointersFromInstances(stage *Stage) {
@@ -891,6 +1050,27 @@ func (reference *System) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubSystemes = _SubSystemes
+	var _ComplexitysWhoseNodeIsExpanded []*Complexity
+	for _, _reference := range reference.ComplexitysWhoseNodeIsExpanded {
+		if _instance, ok := stage.Complexitys_instance[_reference]; ok {
+			_ComplexitysWhoseNodeIsExpanded = append(_ComplexitysWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ComplexitysWhoseNodeIsExpanded = _ComplexitysWhoseNodeIsExpanded
+	var _PerformancesWhoseNodeIsExpanded []*Performance
+	for _, _reference := range reference.PerformancesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Performances_instance[_reference]; ok {
+			_PerformancesWhoseNodeIsExpanded = append(_PerformancesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.PerformancesWhoseNodeIsExpanded = _PerformancesWhoseNodeIsExpanded
+	var _EffortsWhoseNodeIsExpanded []*Effort
+	for _, _reference := range reference.EffortsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Efforts_instance[_reference]; ok {
+			_EffortsWhoseNodeIsExpanded = append(_EffortsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.EffortsWhoseNodeIsExpanded = _EffortsWhoseNodeIsExpanded
 }
 
 func (reference *SystemShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -914,6 +1094,12 @@ func (complexity *Complexity) GongDiff(stage *Stage, complexityOther *Complexity
 	}
 	if complexity.Strength != complexityOther.Strength {
 		diffs = append(diffs, complexity.GongMarshallField(stage, "Strength"))
+	}
+	if complexity.ComputedPrefix != complexityOther.ComputedPrefix {
+		diffs = append(diffs, complexity.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if complexity.IsExpanded != complexityOther.IsExpanded {
+		diffs = append(diffs, complexity.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -1014,6 +1200,12 @@ func (effort *Effort) GongDiff(stage *Stage, effortOther *Effort) (diffs []strin
 	}
 	if effort.Strength != effortOther.Strength {
 		diffs = append(diffs, effort.GongMarshallField(stage, "Strength"))
+	}
+	if effort.ComputedPrefix != effortOther.ComputedPrefix {
+		diffs = append(diffs, effort.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if effort.IsExpanded != effortOther.IsExpanded {
+		diffs = append(diffs, effort.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -1134,6 +1326,141 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "SystemsWhoseNodeIsExpanded", libraryOther.SystemsWhoseNodeIsExpanded, library.SystemsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	RootComplexitysDifferent := false
+	if len(library.RootComplexitys) != len(libraryOther.RootComplexitys) {
+		RootComplexitysDifferent = true
+	} else {
+		for i := range library.RootComplexitys {
+			if (library.RootComplexitys[i] == nil) != (libraryOther.RootComplexitys[i] == nil) {
+				RootComplexitysDifferent = true
+				break
+			} else if library.RootComplexitys[i] != nil && libraryOther.RootComplexitys[i] != nil {
+				// this is a pointer comparaison
+				if library.RootComplexitys[i] != libraryOther.RootComplexitys[i] {
+					RootComplexitysDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootComplexitysDifferent {
+		ops := Diff(stage, library, libraryOther, "RootComplexitys", libraryOther.RootComplexitys, library.RootComplexitys)
+		diffs = append(diffs, ops)
+	}
+	if library.IsComplexitysNodeExpanded != libraryOther.IsComplexitysNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+	}
+	ComplexitysWhoseNodeIsExpandedDifferent := false
+	if len(library.ComplexitysWhoseNodeIsExpanded) != len(libraryOther.ComplexitysWhoseNodeIsExpanded) {
+		ComplexitysWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.ComplexitysWhoseNodeIsExpanded {
+			if (library.ComplexitysWhoseNodeIsExpanded[i] == nil) != (libraryOther.ComplexitysWhoseNodeIsExpanded[i] == nil) {
+				ComplexitysWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.ComplexitysWhoseNodeIsExpanded[i] != nil && libraryOther.ComplexitysWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.ComplexitysWhoseNodeIsExpanded[i] != libraryOther.ComplexitysWhoseNodeIsExpanded[i] {
+					ComplexitysWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ComplexitysWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "ComplexitysWhoseNodeIsExpanded", libraryOther.ComplexitysWhoseNodeIsExpanded, library.ComplexitysWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	RootPerformancesDifferent := false
+	if len(library.RootPerformances) != len(libraryOther.RootPerformances) {
+		RootPerformancesDifferent = true
+	} else {
+		for i := range library.RootPerformances {
+			if (library.RootPerformances[i] == nil) != (libraryOther.RootPerformances[i] == nil) {
+				RootPerformancesDifferent = true
+				break
+			} else if library.RootPerformances[i] != nil && libraryOther.RootPerformances[i] != nil {
+				// this is a pointer comparaison
+				if library.RootPerformances[i] != libraryOther.RootPerformances[i] {
+					RootPerformancesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootPerformancesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootPerformances", libraryOther.RootPerformances, library.RootPerformances)
+		diffs = append(diffs, ops)
+	}
+	if library.IsPerformancesNodeExpanded != libraryOther.IsPerformancesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+	}
+	PerformancesWhoseNodeIsExpandedDifferent := false
+	if len(library.PerformancesWhoseNodeIsExpanded) != len(libraryOther.PerformancesWhoseNodeIsExpanded) {
+		PerformancesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.PerformancesWhoseNodeIsExpanded {
+			if (library.PerformancesWhoseNodeIsExpanded[i] == nil) != (libraryOther.PerformancesWhoseNodeIsExpanded[i] == nil) {
+				PerformancesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.PerformancesWhoseNodeIsExpanded[i] != nil && libraryOther.PerformancesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.PerformancesWhoseNodeIsExpanded[i] != libraryOther.PerformancesWhoseNodeIsExpanded[i] {
+					PerformancesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PerformancesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "PerformancesWhoseNodeIsExpanded", libraryOther.PerformancesWhoseNodeIsExpanded, library.PerformancesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	RootEffortsDifferent := false
+	if len(library.RootEfforts) != len(libraryOther.RootEfforts) {
+		RootEffortsDifferent = true
+	} else {
+		for i := range library.RootEfforts {
+			if (library.RootEfforts[i] == nil) != (libraryOther.RootEfforts[i] == nil) {
+				RootEffortsDifferent = true
+				break
+			} else if library.RootEfforts[i] != nil && libraryOther.RootEfforts[i] != nil {
+				// this is a pointer comparaison
+				if library.RootEfforts[i] != libraryOther.RootEfforts[i] {
+					RootEffortsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootEffortsDifferent {
+		ops := Diff(stage, library, libraryOther, "RootEfforts", libraryOther.RootEfforts, library.RootEfforts)
+		diffs = append(diffs, ops)
+	}
+	if library.IsEffortsNodeExpanded != libraryOther.IsEffortsNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+	}
+	EffortsWhoseNodeIsExpandedDifferent := false
+	if len(library.EffortsWhoseNodeIsExpanded) != len(libraryOther.EffortsWhoseNodeIsExpanded) {
+		EffortsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.EffortsWhoseNodeIsExpanded {
+			if (library.EffortsWhoseNodeIsExpanded[i] == nil) != (libraryOther.EffortsWhoseNodeIsExpanded[i] == nil) {
+				EffortsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.EffortsWhoseNodeIsExpanded[i] != nil && libraryOther.EffortsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.EffortsWhoseNodeIsExpanded[i] != libraryOther.EffortsWhoseNodeIsExpanded[i] {
+					EffortsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if EffortsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "EffortsWhoseNodeIsExpanded", libraryOther.EffortsWhoseNodeIsExpanded, library.EffortsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
@@ -1150,6 +1477,12 @@ func (performance *Performance) GongDiff(stage *Stage, performanceOther *Perform
 	}
 	if performance.Strength != performanceOther.Strength {
 		diffs = append(diffs, performance.GongMarshallField(stage, "Strength"))
+	}
+	if performance.ComputedPrefix != performanceOther.ComputedPrefix {
+		diffs = append(diffs, performance.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if performance.IsExpanded != performanceOther.IsExpanded {
+		diffs = append(diffs, performance.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -1304,6 +1637,78 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 	}
 	if SubSystemesDifferent {
 		ops := Diff(stage, system, systemOther, "SubSystemes", systemOther.SubSystemes, system.SubSystemes)
+		diffs = append(diffs, ops)
+	}
+	if system.IsComplexitysNodeExpanded != systemOther.IsComplexitysNodeExpanded {
+		diffs = append(diffs, system.GongMarshallField(stage, "IsComplexitysNodeExpanded"))
+	}
+	ComplexitysWhoseNodeIsExpandedDifferent := false
+	if len(system.ComplexitysWhoseNodeIsExpanded) != len(systemOther.ComplexitysWhoseNodeIsExpanded) {
+		ComplexitysWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range system.ComplexitysWhoseNodeIsExpanded {
+			if (system.ComplexitysWhoseNodeIsExpanded[i] == nil) != (systemOther.ComplexitysWhoseNodeIsExpanded[i] == nil) {
+				ComplexitysWhoseNodeIsExpandedDifferent = true
+				break
+			} else if system.ComplexitysWhoseNodeIsExpanded[i] != nil && systemOther.ComplexitysWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if system.ComplexitysWhoseNodeIsExpanded[i] != systemOther.ComplexitysWhoseNodeIsExpanded[i] {
+					ComplexitysWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ComplexitysWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, system, systemOther, "ComplexitysWhoseNodeIsExpanded", systemOther.ComplexitysWhoseNodeIsExpanded, system.ComplexitysWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if system.IsPerformancesNodeExpanded != systemOther.IsPerformancesNodeExpanded {
+		diffs = append(diffs, system.GongMarshallField(stage, "IsPerformancesNodeExpanded"))
+	}
+	PerformancesWhoseNodeIsExpandedDifferent := false
+	if len(system.PerformancesWhoseNodeIsExpanded) != len(systemOther.PerformancesWhoseNodeIsExpanded) {
+		PerformancesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range system.PerformancesWhoseNodeIsExpanded {
+			if (system.PerformancesWhoseNodeIsExpanded[i] == nil) != (systemOther.PerformancesWhoseNodeIsExpanded[i] == nil) {
+				PerformancesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if system.PerformancesWhoseNodeIsExpanded[i] != nil && systemOther.PerformancesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if system.PerformancesWhoseNodeIsExpanded[i] != systemOther.PerformancesWhoseNodeIsExpanded[i] {
+					PerformancesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PerformancesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, system, systemOther, "PerformancesWhoseNodeIsExpanded", systemOther.PerformancesWhoseNodeIsExpanded, system.PerformancesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if system.IsEffortsNodeExpanded != systemOther.IsEffortsNodeExpanded {
+		diffs = append(diffs, system.GongMarshallField(stage, "IsEffortsNodeExpanded"))
+	}
+	EffortsWhoseNodeIsExpandedDifferent := false
+	if len(system.EffortsWhoseNodeIsExpanded) != len(systemOther.EffortsWhoseNodeIsExpanded) {
+		EffortsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range system.EffortsWhoseNodeIsExpanded {
+			if (system.EffortsWhoseNodeIsExpanded[i] == nil) != (systemOther.EffortsWhoseNodeIsExpanded[i] == nil) {
+				EffortsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if system.EffortsWhoseNodeIsExpanded[i] != nil && systemOther.EffortsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if system.EffortsWhoseNodeIsExpanded[i] != systemOther.EffortsWhoseNodeIsExpanded[i] {
+					EffortsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if EffortsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, system, systemOther, "EffortsWhoseNodeIsExpanded", systemOther.EffortsWhoseNodeIsExpanded, system.EffortsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 

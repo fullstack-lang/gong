@@ -30,6 +30,19 @@ type Library struct {
 	IsSystemesNodeExpanded     bool
 	SystemsWhoseNodeIsExpanded []*System
 
+	RootComplexitys                []*Complexity
+	IsComplexitysNodeExpanded      bool
+	ComplexitysWhoseNodeIsExpanded []*Complexity
+
+	RootPerformances                []*Performance
+	IsPerformancesNodeExpanded      bool
+	PerformancesWhoseNodeIsExpanded []*Performance
+
+	RootEfforts                []*Effort
+	IsEffortsNodeExpanded      bool
+	EffortsWhoseNodeIsExpanded []*Effort
+
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 }
+

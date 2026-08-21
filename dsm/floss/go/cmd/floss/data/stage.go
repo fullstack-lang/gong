@@ -25,15 +25,40 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__Complexity__00000000_ := (&models.Complexity{Name: `Learning KerML`}).Stage(stage)
+	__Complexity__00000001_ := (&models.Complexity{Name: `Learning SysML V2`}).Stage(stage)
+	__Complexity__00000002_ := (&models.Complexity{Name: `Learning SysML (Partical Guide)`}).Stage(stage)
+
 	__DiagramFloss__00000000_ := (&models.DiagramFloss{Name: `System 1 Diagram`}).Stage(stage)
+	__DiagramFloss__00000001_ := (&models.DiagramFloss{Name: `DiagramFloss`}).Stage(stage)
+	__DiagramFloss__00000002_ := (&models.DiagramFloss{Name: `DiagramFloss`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Floss Library`}).Stage(stage)
 
-	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
+	__System__00000000_ := (&models.System{Name: `SysML V1`}).Stage(stage)
+	__System__00000001_ := (&models.System{Name: `SysML V2`}).Stage(stage)
+	__System__00000002_ := (&models.System{Name: `Go SysML`}).Stage(stage)
 
 	__SystemShape__00000000_ := (&models.SystemShape{Name: `System 1-System 1 Diagram`}).Stage(stage)
+	__SystemShape__00000001_ := (&models.SystemShape{Name: `SystemShape`}).Stage(stage)
+	__SystemShape__00000002_ := (&models.SystemShape{Name: `SystemShape`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__Complexity__00000000_.Name = `Learning KerML`
+	__Complexity__00000000_.Strength = 0.000000
+	__Complexity__00000000_.ComputedPrefix = ``
+	__Complexity__00000000_.IsExpanded = false
+
+	__Complexity__00000001_.Name = `Learning SysML V2`
+	__Complexity__00000001_.Strength = 0.000000
+	__Complexity__00000001_.ComputedPrefix = ``
+	__Complexity__00000001_.IsExpanded = false
+
+	__Complexity__00000002_.Name = `Learning SysML (Partical Guide)`
+	__Complexity__00000002_.Strength = 0.000000
+	__Complexity__00000002_.ComputedPrefix = ``
+	__Complexity__00000002_.IsExpanded = false
 
 	__DiagramFloss__00000000_.Name = `System 1 Diagram`
 	__DiagramFloss__00000000_.Description = ``
@@ -48,6 +73,32 @@ func _(stage *models.Stage) {
 	__DiagramFloss__00000000_.Height = 950.000000
 	__DiagramFloss__00000000_.IsSystemsNodeExpanded = false
 
+	__DiagramFloss__00000001_.Name = `DiagramFloss`
+	__DiagramFloss__00000001_.Description = ``
+	__DiagramFloss__00000001_.ComputedPrefix = ``
+	__DiagramFloss__00000001_.IsExpanded = false
+	__DiagramFloss__00000001_.IsChecked = false
+	__DiagramFloss__00000001_.IsEditable_ = true
+	__DiagramFloss__00000001_.IsShowPrefix = false
+	__DiagramFloss__00000001_.DefaultBoxWidth = 250.000000
+	__DiagramFloss__00000001_.DefaultBoxHeigth = 70.000000
+	__DiagramFloss__00000001_.Width = 900.000000
+	__DiagramFloss__00000001_.Height = 1350.000000
+	__DiagramFloss__00000001_.IsSystemsNodeExpanded = false
+
+	__DiagramFloss__00000002_.Name = `DiagramFloss`
+	__DiagramFloss__00000002_.Description = ``
+	__DiagramFloss__00000002_.ComputedPrefix = ``
+	__DiagramFloss__00000002_.IsExpanded = false
+	__DiagramFloss__00000002_.IsChecked = false
+	__DiagramFloss__00000002_.IsEditable_ = true
+	__DiagramFloss__00000002_.IsShowPrefix = false
+	__DiagramFloss__00000002_.DefaultBoxWidth = 250.000000
+	__DiagramFloss__00000002_.DefaultBoxHeigth = 70.000000
+	__DiagramFloss__00000002_.Width = 900.000000
+	__DiagramFloss__00000002_.Height = 1350.000000
+	__DiagramFloss__00000002_.IsSystemsNodeExpanded = false
+
 	__Library__00000000_.Name = `Floss Library`
 	__Library__00000000_.Description = ``
 	__Library__00000000_.ComputedPrefix = ``
@@ -57,15 +108,43 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsSystemesNodeExpanded = false
+	__Library__00000000_.IsComplexitysNodeExpanded = false
+	__Library__00000000_.IsPerformancesNodeExpanded = false
+	__Library__00000000_.IsEffortsNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
-	__System__00000000_.Name = `System 1`
+	__System__00000000_.Name = `SysML V1`
 	__System__00000000_.Description = ``
 	__System__00000000_.ComputedPrefix = ``
 	__System__00000000_.IsExpanded = false
 	__System__00000000_.SVG_Path = ``
 	__System__00000000_.InverseAppliedScaling = 0.000000
 	__System__00000000_.IsSubSystemNodeExpanded = false
+	__System__00000000_.IsComplexitysNodeExpanded = false
+	__System__00000000_.IsPerformancesNodeExpanded = false
+	__System__00000000_.IsEffortsNodeExpanded = false
+
+	__System__00000001_.Name = `SysML V2`
+	__System__00000001_.Description = ``
+	__System__00000001_.ComputedPrefix = ``
+	__System__00000001_.IsExpanded = false
+	__System__00000001_.SVG_Path = ``
+	__System__00000001_.InverseAppliedScaling = 0.000000
+	__System__00000001_.IsSubSystemNodeExpanded = false
+	__System__00000001_.IsComplexitysNodeExpanded = false
+	__System__00000001_.IsPerformancesNodeExpanded = false
+	__System__00000001_.IsEffortsNodeExpanded = false
+
+	__System__00000002_.Name = `Go SysML`
+	__System__00000002_.Description = ``
+	__System__00000002_.ComputedPrefix = ``
+	__System__00000002_.IsExpanded = false
+	__System__00000002_.SVG_Path = ``
+	__System__00000002_.InverseAppliedScaling = 0.000000
+	__System__00000002_.IsSubSystemNodeExpanded = false
+	__System__00000002_.IsComplexitysNodeExpanded = false
+	__System__00000002_.IsPerformancesNodeExpanded = false
+	__System__00000002_.IsEffortsNodeExpanded = false
 
 	__SystemShape__00000000_.Name = `System 1-System 1 Diagram`
 	__SystemShape__00000000_.IsExpanded = false
@@ -75,9 +154,36 @@ func _(stage *models.Stage) {
 	__SystemShape__00000000_.Height = 600.000000
 	__SystemShape__00000000_.IsHidden = false
 
+	__SystemShape__00000001_.Name = `SystemShape`
+	__SystemShape__00000001_.IsExpanded = false
+	__SystemShape__00000001_.X = 100.000000
+	__SystemShape__00000001_.Y = 50.000000
+	__SystemShape__00000001_.Width = 500.000000
+	__SystemShape__00000001_.Height = 1000.000000
+	__SystemShape__00000001_.IsHidden = false
+
+	__SystemShape__00000002_.Name = `SystemShape`
+	__SystemShape__00000002_.IsExpanded = false
+	__SystemShape__00000002_.X = 100.000000
+	__SystemShape__00000002_.Y = 50.000000
+	__SystemShape__00000002_.Width = 500.000000
+	__SystemShape__00000002_.Height = 1000.000000
+	__SystemShape__00000002_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__DiagramFloss__00000000_.System_Shapes = append(__DiagramFloss__00000000_.System_Shapes, __SystemShape__00000000_)
+	__DiagramFloss__00000001_.System_Shapes = append(__DiagramFloss__00000001_.System_Shapes, __SystemShape__00000001_)
+	__DiagramFloss__00000002_.System_Shapes = append(__DiagramFloss__00000002_.System_Shapes, __SystemShape__00000002_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
+	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000001_)
+	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000002_)
+	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000000_)
+	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000001_)
+	__Library__00000000_.RootComplexitys = append(__Library__00000000_.RootComplexitys, __Complexity__00000002_)
 	__System__00000000_.DiagramFlosses = append(__System__00000000_.DiagramFlosses, __DiagramFloss__00000000_)
+	__System__00000001_.DiagramFlosses = append(__System__00000001_.DiagramFlosses, __DiagramFloss__00000001_)
+	__System__00000002_.DiagramFlosses = append(__System__00000002_.DiagramFlosses, __DiagramFloss__00000002_)
 	__SystemShape__00000000_.System = __System__00000000_
+	__SystemShape__00000001_.System = __System__00000001_
+	__SystemShape__00000002_.System = __System__00000002_
 }

@@ -23,11 +23,37 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Strength", instanceWithInferedType.Strength, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Complexity](
+				"Library",
+				"RootComplexitys",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Complexity {
+					return owner.RootComplexitys
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Complexity](
+				"Library",
+				"ComplexitysWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Complexity {
+					return owner.ComplexitysWhoseNodeIsExpanded
+				})
+		}
 		{
 			AssociationReverseSliceToForm[*models.System, *models.Complexity](
 				"System",
@@ -37,6 +63,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.System) []*models.Complexity {
 					return owner.Complexitys
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.System, *models.Complexity](
+				"System",
+				"ComplexitysWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.System) []*models.Complexity {
+					return owner.ComplexitysWhoseNodeIsExpanded
 				})
 		}
 
@@ -102,11 +139,37 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Strength", instanceWithInferedType.Strength, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Effort](
+				"Library",
+				"RootEfforts",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Effort {
+					return owner.RootEfforts
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Effort](
+				"Library",
+				"EffortsWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Effort {
+					return owner.EffortsWhoseNodeIsExpanded
+				})
+		}
 		{
 			AssociationReverseSliceToForm[*models.System, *models.Effort](
 				"System",
@@ -116,6 +179,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.System) []*models.Effort {
 					return owner.Efforts
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.System, *models.Effort](
+				"System",
+				"EffortsWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.System) []*models.Effort {
+					return owner.EffortsWhoseNodeIsExpanded
 				})
 		}
 
@@ -143,6 +217,18 @@ func FillUpForm(
 		BasicFieldtoForm("IsSystemesNodeExpanded", instanceWithInferedType.IsSystemesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("SystemsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.SystemsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("RootComplexitys", instanceWithInferedType, &instanceWithInferedType.RootComplexitys, formGroup, probe)
+		BasicFieldtoForm("IsComplexitysNodeExpanded", instanceWithInferedType.IsComplexitysNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("ComplexitysWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ComplexitysWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("RootPerformances", instanceWithInferedType, &instanceWithInferedType.RootPerformances, formGroup, probe)
+		BasicFieldtoForm("IsPerformancesNodeExpanded", instanceWithInferedType.IsPerformancesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("PerformancesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PerformancesWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("RootEfforts", instanceWithInferedType, &instanceWithInferedType.RootEfforts, formGroup, probe)
+		BasicFieldtoForm("IsEffortsNodeExpanded", instanceWithInferedType.IsEffortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("EffortsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.EffortsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsExpandedTmp", instanceWithInferedType.IsExpandedTmp, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
@@ -179,11 +265,37 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Strength", instanceWithInferedType.Strength, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Performance](
+				"Library",
+				"RootPerformances",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Performance {
+					return owner.RootPerformances
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Performance](
+				"Library",
+				"PerformancesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Performance {
+					return owner.PerformancesWhoseNodeIsExpanded
+				})
+		}
 		{
 			AssociationReverseSliceToForm[*models.System, *models.Performance](
 				"System",
@@ -193,6 +305,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.System) []*models.Performance {
 					return owner.Performances
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.System, *models.Performance](
+				"System",
+				"PerformancesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.System) []*models.Performance {
+					return owner.PerformancesWhoseNodeIsExpanded
 				})
 		}
 
@@ -218,6 +341,15 @@ func FillUpForm(
 		BasicFieldtoForm("IsSubSystemNodeExpanded", instanceWithInferedType.IsSubSystemNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("SubSystemes", instanceWithInferedType, &instanceWithInferedType.SubSystemes, formGroup, probe)
+		BasicFieldtoForm("IsComplexitysNodeExpanded", instanceWithInferedType.IsComplexitysNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("ComplexitysWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ComplexitysWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsPerformancesNodeExpanded", instanceWithInferedType.IsPerformancesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("PerformancesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PerformancesWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsEffortsNodeExpanded", instanceWithInferedType.IsEffortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("EffortsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.EffortsWhoseNodeIsExpanded, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
